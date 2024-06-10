@@ -1,0 +1,14 @@
+
+
+$colors: (
+  "primary": (
+    start: #2DADA3,
+    end: #71DAD2,
+    light: #DAF3F1
+  ),
+);
+.btn-grad-action {
+@apply  w-[300px] md:w-[400px]  xl:w-[580px] h-[45px] font-[600] text-[20px] text-white rounded-[10px] transition-all duration-200 bg-gradient-to-b from-tamkinStart hover:from-tamkinStart/70 to-tamkinLight hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
+  }
+  
+
