@@ -31,20 +31,20 @@ definePageMeta({
 
        <div class="space-y-[24px] mt-[24px]">
         <div class="w-full relative">
-            <input type="email" placeholder="email" class="input_floating_label peer" />
+            <input type="email" placeholder="email" id="email"  class="input_floating_label peer" />
             <label for="email" class="floating_label">Email*</label>
 
         </div>
 
         <div class="w-full relative">
-            <input type="password" placeholder="password" class="input_floating_label peer" />
+            <input type="password" placeholder="password" id="password" class="input_floating_label peer" />
             <label for="password" class="floating_label">Password*</label>
 
         </div>
 
       <div class="flex items-center space-x-0 xl:space-x-[290px]">
         <div class="w-full md:space-x-0 lg:space-x-[8px]">
-            <input type="checkbox"  class="rounded-[4px] text-tamkin ring-0 focus:ring-0" name="remember_me" checked/>
+            <input type="checkbox"  class="rounded-[4px] text-tamkin ring-0 focus:ring-0" id="remember_me" checked/>
             <label for="remember_me">Remember me</label>
         </div>
         <div class="md:w-2/4 lg:w-full lg:space-x-[8px]">
