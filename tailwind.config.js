@@ -12,7 +12,8 @@ export default {
         darkGrey:'#585B5B',
         tamkinStart: '#2DADA3',
         tamkinEnd: '#71DAD2',
-        tamkinLight:'#DAF3F1'
+        tamkinLight:'#DAF3F1',
+        whiteTamkin:'#FFFEFE'
       },
       backgroundSize: {
         'size-200': '200% 200%',
@@ -24,6 +25,9 @@ export default {
       // backgroundImage: {
       //   'tamkin-gradient-btn': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
       // },
+      backgroundColor: {
+        'light-grey': '#D9D9D9', // Define the bg-light-grey class
+      },
     }
   },
   plugins: [
