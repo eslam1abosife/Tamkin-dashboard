@@ -71,13 +71,13 @@ const loginUser = async () => {
           />
         </div>
       </button>
-      <div class="relative flex items-center mx-auto mt-[24px]">
-        <div class="flex-grow border-t border-darkGrey"></div>
+      <div class="relative flex items-center mx-auto mt-[24px] w-full">
+        <div class="flex-grow border-t border-lightGrey"></div>
         <span
           class="flex-shrink mx-4 text-secondary_text text-[20px] font-[600]"
           >{{ $t("or") }}</span
         >
-        <div class="flex-grow border-t border-darkGrey"></div>
+        <div class="flex-grow border-t border-lightGrey"></div>
       </div>
 
       <div class="space-y-[24px] mt-[24px] w-full">
@@ -183,7 +183,7 @@ const loginUser = async () => {
           </div>
         </div>
       </div>
-      <div class="pt-[40px]">
+      <div class="pt-[40px] w-full">
         <button
           class="btn-grad-action"
           @click="loginUser"

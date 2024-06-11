@@ -28,7 +28,7 @@ definePageMeta({
 
        </div>
        <div class=" mt-[52px] flex flex-col items-center justify-center">
-        <button class="btn-grad-action"   @click="$router.push('/auth/login')" >{{$t('login')}}</button>
+        <button class="btn-grad-action" @click="$router.push('/auth/login')" >{{$t('login')}}</button>
     </div>
   
 </div>

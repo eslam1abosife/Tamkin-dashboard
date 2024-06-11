@@ -14,7 +14,8 @@ export default {
         tamkinEnd: '#71DAD2',
         tamkinLight:'#DAF3F1',
         whiteTamkin:'#FFFEFE',
-        error:'#EA4335'
+        error:'#EA4335',
+        tamkinLight:'#DAF3F1'
       },
       backgroundSize: {
         'size-200': '200% 200%',
