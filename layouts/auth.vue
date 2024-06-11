@@ -31,7 +31,7 @@ import AuthJson from '~/assets/animation/loader.json'
             </ul>
           </div>
         </div>
-        <div class="col-span-12 md:col-span-12 lg:col-span-6 mt-[20%]  xl:mt-3  mx-auto lg:p-0 p-3  w-full   order-1 rtl:order-1 ltr:lg:ml-[46px] rtl:lg:ml-[-46px]" >
+        <div class="col-span-12 md:col-span-12 lg:col-span-6 mt-[20%]  xl:mt-3  mx-auto lg:p-0 p-3  w-full   order-1 rtl:order-1 ltr:lg:ml-[46px]" >
           <NuxtPage/>
         </div>
       </div>
