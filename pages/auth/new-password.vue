@@ -27,15 +27,15 @@ const v$ = useVuelidate(rules, state);
 
 </div>
     <div class="pt-[6px] max-w-[580px] mx-auto text-center">
-        <h1 class="text-[32px] font-medium ">New Password</h1>
+        <h1 class="text-[32px] font-medium ">{{$t('newPassprom')}}</h1>
        
-        <h3 class="text-[20px] font-[600] text-secondary_text">Set the new password for your account so you can login and access all features.</h3>
+        <h3 class="text-[20px] font-[600] text-secondary_text">{{$t('set_new_password')}}</h3>
   
   
 
        <div class="space-y-[24px] mt-[13px]">
         <div class="w-full relative">
-            <input type="password" placeholder="password" id="password" class="input_floating_label peer" 
+            <input type="password" placeholder="{{ $t('password') }}" id="password" class="input_floating_label peer" 
             v-model="v$.password.$model"
             :class="{
               input_error:
@@ -44,43 +44,50 @@ const v$ = useVuelidate(rules, state);
 
             }"
             />
-            <label for="password" class="floating_label">Password*</label>
+            <label for="password" class="floating_label" :class="[    
+            (v$.password.$error && v$.password.required.$invalid) ? '!text-error':''
+        ,]">{{ $t('password') }}*</label>
             <div
             class="w-full lg:w-4/6 mt-2"
             v-if="
               (v$.password.$error && v$.password.required.$invalid)
             "
           >
-          <p class="font-[300] text-right text-[10px]  text-red-600 absolute bottom-[10px]  right-10">
+          <p class="error_message">
             <span v-if="v$.password.$error && v$.password.required.$invalid"
-                >Password is required</span
+                >{{ $t('password_is_required') }}</span
               >
             
             </p>
           </div>
         </div>
         <div class="w-full relative">
-            <input type="password" placeholder="password confirm"  id="password_confirm" class="input_floating_label peer" 
+            <input type="password" placeholder="{{ $t('confirm_password') }}"  id="password_confirm" class="input_floating_label peer" 
             v-model="v$.password_confirm.$model"
             :class="{
               input_error:
-                (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid),
+                (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid),
                 input_success: !v$.password_confirm.$error && !v$.password_confirm.$invalid,
 
             }"
             />
-            <label for="password_confirm" class="floating_label">Confirm Password*</label>
+            <label for="password_confirm" class="floating_label"
+            :class="[     (v$.password_confirm.$error && v$.password_confirm.required.$invalid) ||
+            (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) ? '!text-error':''
+        ,]"
+            >{{$t('confirm_password')}}*</label>
             <div
             class="w-full lg:w-4/6 mt-2"
             v-if="
-              (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid)
+              (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid)
             "
           >
-          <p class="font-[300] text-right text-[10px]  text-red-600 absolute bottom-[10px]  right-10">
-            <span v-if="v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid"
-                >password should be the same</span
+          <p class="error_message">
+            <span v-if="v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid || v$.password_confirm.$error && v$.password_confirm.required.$invalid"
+                >{{ $t('password_should_be_the_same') }}</span
               >
-            
+         
+  
             </p>
           </div>
         </div>
@@ -89,7 +96,7 @@ const v$ = useVuelidate(rules, state);
 
        </div>
        <div class=" mt-[52px] flex flex-col items-center justify-center">
-        <button class="btn-grad-action"  :disabled="v$.password.$invalid ||  v$.password_confirm.$invalid" >Continue</button>
+        <button class="btn-grad-action"  :disabled="v$.password.$invalid ||  v$.password_confirm.$invalid" >{{$t('continue')}}</button>
     </div>
     </div>
 </div>

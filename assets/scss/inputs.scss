@@ -14,7 +14,7 @@
   }
   
   .floating_label {
-    @apply cursor-text rounded-[10px] absolute left-[30px] top-[10px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[20px] text-[400] peer-focus:text-[16px];
+    @apply cursor-text rounded-[10px] absolute rtl:right-[30px] ltr:left-[30px] top-[10px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[20px] text-[400] peer-focus:text-[16px];
     transition: all 0.2s ease-in-out;
   }
   input:focus ~ .floating_label,
@@ -22,4 +22,7 @@
     @apply -translate-y-5 px-1 text-darkGrey text-[16px];
   }
   
+  .error_message {
+    @apply font-[300] text-right text-[10px]  text-red-600 absolute bottom-[10px] rtl:left-10 ltr:right-10;
+  }
 }

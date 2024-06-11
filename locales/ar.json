@@ -9,13 +9,16 @@
     "password": "كلمة المرور",
     "confirm_password": "تأكيد كلمة المرور",
     "continue": "متابعة",
+    "newPassprom":"كلمة مرور جديدة",
+    "set_new_password": "قم بتعيين كلمة مرور جديدة لحسابك حتى تتمكن من تسجيل الدخول والوصول إلى جميع الميزات.",
+
     "password_should_be_the_same": "يجب أن تكون كلمة المرور متطابقة",
     "password_is_required": "كلمة المرور مطلوبة",
     "email_address_is_required": "البريد الإلكتروني مطلوب",
     "please_enter_valid_email_address": "يرجى إدخال عنوان بريد إلكتروني صالح",
     "remember_me": "تذكرني",
     "forgot_password": "هل نسيت كلمة المرور؟",
-    "successfully": "بنجاح",
+    "successfully": "تم بنجاح",
     "password_reset_successfully": "تم إعادة تعيين كلمة المرور بنجاح",
     "forgot_password_prompt": "نسيت كلمة المرور",
     "enter_email_for_verification": "أدخل بريدك الإلكتروني للتحقق، سنرسل رمز مكون من 4 أرقام إلى بريدك الإلكتروني",
@@ -30,8 +33,8 @@
     "sign_up": "سجل",
     "verification": "التحقق",
     "enter_verification_code": "أدخل رمز التحقق المكون من 6 أرقام الذي تلقيته على بريدك الإلكتروني.",
-    "TermsLink":"شروط الاستخدام",
-    "PrivacyPolicy":"سياسة الخصوصية",
+    "didnt_receive_code": "إذا لم تستلم رمزاً!",
+    "resendCode":"اعد ارسال الرمز",
     "CookiePolicy":"سياسة ملفات التعريف"
   }
   

@@ -14,9 +14,9 @@ definePageMeta({
 </div>
     <div class=" pt-[6px] max-w-[580px] mx-auto text-center">
        <div class="flex-grow">
-        <h1 class="text-[32px] font-medium ">Successfully</h1>
+        <h1 class="text-[32px] font-medium ">{{$t('successfully')}}</h1>
        
-        <h3 class="text-[20px] font-[600] text-secondary_text">Your password has been reset successfully</h3>
+        <h3 class="text-[20px] font-[600] text-secondary_text">{{$t('password_reset_successfully')}}</h3>
 
        </div>
      
@@ -28,7 +28,7 @@ definePageMeta({
 
        </div>
        <div class=" mt-[52px] flex flex-col items-center justify-center">
-        <button class="btn-grad-action"   @click="$router.push('/auth/login')" >Login</button>
+        <button class="btn-grad-action"   @click="$router.push('/auth/login')" >{{$t('login')}}</button>
     </div>
   
 </div>

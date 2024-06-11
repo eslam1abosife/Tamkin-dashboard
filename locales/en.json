@@ -4,10 +4,13 @@
     "new_to_tamkin": "New To TAMKIN",
     "get_started": "get started",
     "or": "OR",
-    "email": "email",
-    "full_name": "full name",
+    "email": "Email",
+    "full_name": "Full Name",
     "password": "password",
     "confirm_password": "confirm password",
+    "newPassprom":"New Password",
+    "set_new_password": "Set the new password for your account so you can login and access all features.",
+
     "continue": "continue",
     "password_should_be_the_same": "password should be the same",
     "password_is_required": "password is required",
@@ -30,8 +33,10 @@
     "sign_up": "Sign Up",
     "verification": "Verification",
     "enter_verification_code": "Enter your 6 digits code that you received on your email.",
-    "TermsLink":"Terms of use",
-    "PrivacyPolicy":"Privacy Policy",
-    "CookiePolicy":"Cookie Policy"
+    "CookiePolicy":"Cookie Policy",
+    "didnt_receive_code": "If you didn’t receive a code!",
+    "resendCode":"ReSend Code"
+
+
   }
   

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 
+import { onMounted } from "vue";
 import VOtpInput from "vue3-otp-input";
 
 definePageMeta({
@@ -28,6 +29,36 @@ const fillInput = (value: string) => {
   otpInput.value?.fillInput(value);
 };
 
+const countdown = ref(5); // countdown timer in seconds
+const showResent = ref(false);
+let intervalId: number | undefined;
+
+const startCountdown = () => {
+    intervalId = setInterval(() => {
+        if (countdown.value > 0) {
+            countdown.value--;
+        } else {
+            clearInterval(intervalId);
+            showResent.value = true;
+        }
+    }, 1000);
+};
+
+// Call the function when the component is mounted
+onMounted(() => {
+    startCountdown();
+});
+
+// Clear the interval when the component is unmounted
+onUnmounted(() => {
+    clearInterval(intervalId);
+});
+
+const formattedCountdown = computed(() => {
+    const minutes = Math.floor(countdown.value / 60);
+    const seconds = countdown.value % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+});
 </script>
 
 <template>
@@ -38,10 +69,9 @@ const fillInput = (value: string) => {
 
         </div>
         <div class="pt-[60px] max-w-[580px] w-full text-center flex flex-col items-center justify-evenly mx-auto">
-            <h1 class="text-[26px] lg:text-[32px] font-medium ">Verification</h1>
+            <h1 class="text-[26px] lg:text-[32px] font-medium ">{{$t('verification')}}</h1>
 
-            <h3 class="text-[15px] lg:text-[20px] font-[600] text-secondary_text">Enter your 6 digits code that you received on your email.
-            </h3>
+            <h3 class="text-[15px] lg:text-[20px] font-[600] text-secondary_text">{{$t('enter_verification_code')}}</h3>
 
 
             <div class="space-y-[24px] mt-[24px] w-full">
@@ -49,11 +79,10 @@ const fillInput = (value: string) => {
                     <div
                       >
                         <v-otp-input
-                          class="flex flex-row items-center justify-center mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
+                          class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
                         ref="otpInput"
                         input-classes="otp_field"
                         :conditionalClass="['one', 'two', 'three', 'four']"
-                      
                         inputType="letter-numeric"
                         :num-inputs="6"
                         v-model:value="bindModal"
@@ -104,8 +133,8 @@ const fillInput = (value: string) => {
 
         </div>
         <div class=" mt-[52px] flex flex-col items-center justify-center">
-            <button class="btn-grad-action" :disabled="disableButton" >Continue</button>
-            <p class="mt-[8px]">Already have an account?? <a href="" class="text-tamkin underline">Log in</a></p>
+            <button class="btn-grad-action" :disabled="disableButton" >{{$t('continue')}}</button>
+            <p class="mt-[8px]">{{$t('didnt_receive_code')}} <span href="" class="text-error " v-if="!showResent">{{formattedCountdown}}</span> <a href="" class="text-tamkin underline " v-else>{{$t('resendCode')}}</a></p>
         </div>
 
 

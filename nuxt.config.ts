@@ -15,6 +15,7 @@ i18n: {
   // Specify the directory where the language files are stored
   langDir: './locales/',
   // Define the available locales
+  lazy:false,
   locales: [
     {
       code: 'en',
