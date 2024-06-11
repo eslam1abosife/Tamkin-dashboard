@@ -5,8 +5,34 @@ export default defineNuxtConfig({
 [
   '@nuxtjs/tailwindcss',
   '@nuxtjs/google-fonts'
+  ,    '@pinia/nuxt',
+  '@nuxtjs/i18n'
+
 
 ],
+i18n: {
+  defaultLocale: 'en',
+  // Specify the directory where the language files are stored
+  langDir: './locales/',
+  // Define the available locales
+  locales: [
+    {
+      code: 'en',
+      iso: 'en-US',
+      name: 'English',
+      file: 'en.json',
+      dir: "ltr"
+    },
+    {
+      code: 'ar',
+      iso: 'ar-SA',
+      name: 'Arabic',
+      file: 'ar.json',
+      dir: "rtl"
+    }
+  ],
+  // custom path example
+},
 googleFonts: {
   families: {
     Poppins: [100,200,300,400,500,600,700],

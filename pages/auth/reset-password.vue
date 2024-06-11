@@ -1,7 +1,29 @@
 <script lang="ts" setup>
+import { useVuelidate } from '@vuelidate/core'
+import { required, email, sameAs } from "@vuelidate/validators";
 definePageMeta({
     layout:'auth'
 })
+import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
+import { useAuthStore } from '@/stores/auth'; // import the auth store we just created
+
+
+const authStore = useAuthStore()
+const {loading} = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
+
+const state = reactive({
+    email: "",
+});
+const rules = {
+    email: { required, email },
+};
+
+const v$ = useVuelidate(rules, state);
+
+
+const resetPassword = ()=>{
+    // fucntion to call the action in authstate
+}
 
 </script>
 
@@ -19,23 +41,49 @@ definePageMeta({
   
   
 
-       <div class="space-y-[24px] mt-[24px]">
-        <div class="w-full relative">
-            <input type="email" placeholder="email" id="email"  class="input_floating_label peer" />
-            <label for="email" class="floating_label">Email*</label>
-
+   
+        <div class="space-y-[24px] mt-[13px]">
+   
+            <div class="w-full relative">
+                <input type="email" placeholder="email" id="email"  class="input_floating_label peer " 
+                
+                v-model="v$.email.$model"
+                :class="{
+                    input_error:
+                    (v$.email.$error && v$.email.required.$invalid) ||
+                    (v$.email.$error && v$.email.email.$invalid),
+                    input_success: !v$.email.$error && !v$.email.$invalid,
+                }"
+                />
+                <label for="email" class="floating_label">Email*</label>
+                <div
+                class="w-full lg:w-4/6 mt-2"
+                v-if="
+                  (v$.email.$error && v$.email.required.$invalid) ||
+                  (v$.email.$error && v$.email.email.$invalid)
+                "
+              >
+                <p class="font-[300] text-right text-[10px]  text-red-600 absolute bottom-[10px]  right-10">
+                  <span v-if="v$.email.$error && v$.email.required.$invalid"
+                    >The email address is required</span
+                  >
+                  <span
+                    v-else-if="
+                      v$.email.required.$invalid ||
+                      (v$.email.$error && v$.email.email.$invalid)
+                    "
+                    >Please Enter valid email address</span
+                  >
+                </p>
+              </div>
+            </div>
+    
+    
+    
+           </div>
+           <div class=" mt-[52px] flex flex-col items-center justify-center">
+            <button class="btn-grad-action"    :disabled="v$.email.$invalid  " >Continue</button>
         </div>
-
-       
-
-
-
-       </div>
-       <div class="mt-[335px]">
-        <button class="border-[1px] border-tamkin transition-all ease-in-out hover:text-black w-full text-[20px] font-[600] py-[16px] px-[8px]  bg-gradient-to-b from-tamkin/100 to-tamkin/70 hover:from-tamkin/50 hover:to-tamkin/50 rounded-[10px]  text-white">
-            <span class="transition-all ease-out">Continue</span>
-          </button>
-      </div>
     </div>
 </div>
 

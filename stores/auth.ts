@@ -1,10 +1,13 @@
 
 
-import { defineStore } from 'pinia';
+import { defineStore, acceptHMRUpdate } from 'pinia'
 
 interface UserPayloadInterface {
   email: string;
   password: string;
+  fullName:string;
+  token:string | null;
+  otp:string | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -51,6 +54,104 @@ export const useAuthStore = defineStore('auth', {
               fatal: true,
             });
         }
+      }
+    },
+
+    async resetPasswordOTP({ email, password,fullName }: UserPayloadInterface) {
+      try {
+        this.loading = true;
+        this.errorLogin=false
+        const response: any = await $fetch('---emailotp--', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }), // Convert object to JSON string
+        });
+
+        /// login user or redirect 
+
+     
+
+
+      } catch (error) {
+        this.loading = false;
+
+
+        
+       //show error
+        
+      }
+    },
+
+    async confirmOTP({ email, otp }: UserPayloadInterface) {
+      try {
+        this.loading = true;
+        this.errorLogin=false
+        const response: any = await $fetch('---confirmotp--', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email,otp }), // Convert object to JSON string
+        });
+
+        /// login user or redirect 
+
+     
+
+
+      } catch (error) {
+        this.loading = false;
+
+
+        
+       //show error
+        
+      }
+    },
+    async setNewPassword({ email, token,password }: UserPayloadInterface) {
+      try {
+        this.loading = true;
+        this.errorLogin=false
+        const response: any = await $fetch('---confirmotp--', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email ,token,password}), // Convert object to JSON string
+        });
+
+        /// login user or redirect 
+
+     
+
+
+      } catch (error) {
+        this.loading = false;
+
+
+        
+       //show error
+        
+      }
+    },
+    async registerUser({ email, password,fullName }: UserPayloadInterface) {
+      try {
+        this.loading = true;
+        this.errorLogin=false
+        const response: any = await $fetch('---registerUrl--', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password,fullName }), // Convert object to JSON string
+        });
+
+        /// login user or redirect 
+
+     
+
+
+      } catch (error) {
+        this.loading = false;
+
+
+        
+       //show error
+        
       }
     },
     logUserOut(confirmLog:boolean) {
@@ -104,3 +205,8 @@ export const useAuthStore = defineStore('auth', {
     },
   },
 });
+
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useAuthStore, import.meta.hot))
+}

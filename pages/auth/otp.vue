@@ -38,9 +38,9 @@ const fillInput = (value: string) => {
 
         </div>
         <div class="pt-[60px] max-w-[580px] w-full text-center flex flex-col items-center justify-evenly mx-auto">
-            <h1 class="text-[26px] lg:text-[32px] font-medium ">Sign Up</h1>
+            <h1 class="text-[26px] lg:text-[32px] font-medium ">Verification</h1>
 
-            <h3 class="text-[15px] lg:text-[20px] font-[600] text-secondary_text">Sign up to enjoy the feature of TAMKIN
+            <h3 class="text-[15px] lg:text-[20px] font-[600] text-secondary_text">Enter your 6 digits code that you received on your email.
             </h3>
 
 

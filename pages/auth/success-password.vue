@@ -27,11 +27,9 @@ definePageMeta({
 
 
        </div>
-       <div class="mt-[335px]">
-        <button class="border-[1px] border-tamkin transition-all ease-in-out hover:text-black w-full text-[20px] font-[600] py-[16px] px-[8px]  bg-gradient-to-b from-tamkin/100 to-tamkin/70 hover:from-tamkin/50 hover:to-tamkin/50 rounded-[10px]  text-white">
-            <span class="transition-all ease-out">Continue</span>
-          </button>
-      </div>
+       <div class=" mt-[52px] flex flex-col items-center justify-center">
+        <button class="btn-grad-action"   @click="$router.push('/auth/login')" >Login</button>
+    </div>
   
 </div>
 
