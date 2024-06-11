@@ -3,19 +3,26 @@
 @tailwind utilities;
 
     @import url('./buttons.scss');
+    @import url('./inputs.scss');
 
 html {
     font-family: "Poppins", sans-serif;
 
 }
-
-.input_floating_label{
-    @apply h-[55px] rounded-[10px] ml-1 py-[14px] bg-white border-lightGrey md:w-full xl:w-[580px] w-full border-[2px]  focus:border-tamkin focus:ring-[1.5]  placeholder:text-transparent;
-}
-
-.floating_label {
-    @apply cursor-text absolute left-[30px] top-[25%]  -translate-y-5 bg-white px-1 duration-100 ease-linear peer-placeholder-shown:translate-y-0 text-light  peer-focus:text-darkGrey peer-focus:-translate-y-5 peer-focus:px-1 text-[20px] text-[400] peer-focus:text-[16px];
-}
+.input_floating_label {
+    @apply h-[55px] rounded-[10px] ml-1 py-[14px] bg-white border-lightGrey md:w-full xl:w-[580px] w-full border-[2px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+  }
+  
+  .floating_label {
+    @apply cursor-text rounded-[10px] absolute left-[30px] top-[10px] -translate-y-5 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[20px] text-[400] peer-focus:text-[16px];
+    transition: all 0.2s ease-in-out;
+  }
+  
+  input:focus ~ .floating_label,
+  input:not(:placeholder-shown) ~ .floating_label {
+    @apply -translate-y-5 px-1 text-darkGrey text-[16px];
+  }
+  
 
 .otp_field {
     @apply lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 rounded-[15px] border border-lightGrey focus:outline-none focus:ring-0 focus:border-tamkin shadow-sm text-lg  bg-whiteTamkin focus:bg-gray-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;

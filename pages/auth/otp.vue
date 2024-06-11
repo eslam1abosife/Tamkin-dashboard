@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+
+import VOtpInput from "vue3-otp-input";
+
 definePageMeta({
     layout: 'auth'
 })
 
 
-import VOtpInput from "vue3-otp-input";
 const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
 const bindModal = ref("");
 const disableButton = ref(true)
