@@ -10,7 +10,7 @@
 
 
 .input_floating_label {
-    @apply  h-[40px] lg:h-[50px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full xl:w-[580px] w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    @apply  h-[40px] lg:h-[50px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full lg:w-[580px] w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
   }
   
   .floating_label {
