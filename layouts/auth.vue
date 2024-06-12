@@ -16,9 +16,9 @@ import AuthJson from '~/assets/animation/loader.json'
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
 
     <div >
-      <div class="grid grid-cols-12 min-h-screen lg:gap-20" >
+      <div class="grid grid-cols-12 min-h-screen  gap-[20px]" >
 
-        <div class="lg:block md:hidden hidden col-span-12 md:col-span-4 lg:col-span-6 w-full  relative top-0 bottom-0 right-0 overflow-y-hidden bg-gradient-to-b from-teal-500 to-teal-300  ml-auto rtl:order-2 order-2 ">
+        <div class="lg:block md:hidden hidden col-span-12 md:col-span-4 lg:col-span-6 w-full  relative top-0 bottom-0 right-0 overflow-y-hidden bg-gradient-to-b from-teal-500 to-teal-300   rtl:order-2 order-2 ">
 
           <div class="absolute bottom-0 w-full mb-4">
 
@@ -31,8 +31,8 @@ import AuthJson from '~/assets/animation/loader.json'
             </ul>
           </div>
         </div>
-        <div class="col-span-12 md:col-span-12 lg:col-span-6 mt-[20%]  xl:mt-3  mx-auto lg:p-0 p-3  w-full   order-1 rtl:order-1 ltr:lg:ml-[46px]" >
-          <NuxtPage/>
+        <div class=" mx-auto w-full  2xl:mt-0 ipad-max:mt-[0%] 3xl:mt-[10%] col-span-12 md:col-span-12 lg:col-span-6 mt-[10%] order-1 rtl:order-1 ">
+          <NuxtPage class=" "/>
         </div>
       </div>
       

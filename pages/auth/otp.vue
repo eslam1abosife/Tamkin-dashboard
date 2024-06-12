@@ -59,87 +59,46 @@ const formattedCountdown = computed(() => {
     const seconds = countdown.value % 60;
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
+
 </script>
 
 <template>
-
-    <div class="">
-        <div class="">
-            <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[82px] lg:mx-0 mx-auto lg:mb-0 mb-6 ">
-
-        </div>
-        <div class="pt-[60px] max-w-[580px] w-full text-center flex flex-col items-center justify-evenly mx-auto">
-            <h1 class="text-[26px] lg:text-[32px] font-medium ">{{$t('verification')}}</h1>
-
-            <h3 class="text-[15px] lg:text-[20px] font-[600] text-secondary_text">{{$t('enter_verification_code')}}</h3>
-
-
-            <div class="space-y-[24px] mt-[24px] w-full">
-                <div class="flex flex-col ">
-                    <div
-                      >
-                        <v-otp-input
-                          class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
-                        ref="otpInput"
-                        input-classes="otp_field"
-                        :conditionalClass="['one', 'two', 'three', 'four']"
-                        inputType="letter-numeric"
-                        :num-inputs="6"
-                        v-model:value="bindModal"
-                        :should-auto-focus="true"
-                        :should-focus-order="true"
-                        @on-change="handleOnChange"
-                        @on-complete="handleOnComplete"
-                      />
-                   
-                          
-                        <!-- <div class="w-16 h-16 ">
-                            <input
-                                class="otp_field"
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div>
-                        <div class="w-16 h-16 ">
-                            <input
-                                class="lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 outline-none rounded-[15px] border border-lightGrey focus:ring-0 shadow-sm text-lg bg-whiteTamkin focus:bg-gray-50   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div>
-                        <div class="w-16 h-16 ">
-                            <input
-                                class="lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 outline-none rounded-[15px] border border-lightGrey focus:ring-0 shadow-sm text-lg  bg-whiteTamkin focus:bg-gray-50   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div>
-                        <div class="w-16 h-16 ">
-                            <input
-                                class="lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 outline-none rounded-[15px] border border-lightGrey focus:ring-0 shadow-sm text-lg  bg-whiteTamkin focus:bg-gray-50   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  "
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div>
-                        <div class="w-16 h-16 ">
-                            <input
-                                class="lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 outline-none rounded-[15px] border border-lightGrey focus:ring-0 shadow-sm text-lg  bg-whiteTamkin focus:bg-gray-50   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div>
-                        <div class="w-16 h-16 ">
-                            <input
-                                class="lg:w-[78px] lg:h-[56px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 outline-none rounded-[15px] border border-lightGrey focus:ring-0 shadow-sm text-lg  bg-whiteTamkin focus:bg-gray-50   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                type="number" min="0" max="9" maxlength="1" name="" id="">
-                        </div> -->
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-        <div class=" mt-[52px] flex flex-col items-center justify-center">
-            <button class="btn-grad-action" :disabled="disableButton" >{{$t('continue')}}</button>
-            <p class="mt-[8px]">{{$t('didnt_receive_code')}} <span href="" class="text-error " v-if="!showResent">{{formattedCountdown}}</span> <a href="" class="text-tamkin underline " v-else>{{$t('resendCode')}}</a></p>
-        </div>
-
-
-    </div>
-
-</template>
-
+   <div class="container mx-auto">
+    <div class="flex items-start justify-center flex-col w-full">
+      <div class="mx-auto text-center mt-[24px] xl:w-auto ipad-max:w-full w-full p-3 flex-grow-0">
+          <div class="">
+              <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
+          </div>
+          <h1 class="text-[26px] lg:text-[32px]" style="line-height: 48px;">{{ $t('verification') }}</h1>
+          <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey text-center"  style="line-height: 30px;">{{ $t('enter_verification_code') }}</h3>
+  
+          <div class="space-y-[16px] w-full">
+              <div class="space-y-[16px]">
+                  <div class="space-y-[16px] mt-[24px] ">
+                    <v-otp-input
+                    class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
+                  ref="otpInput"
+                  input-classes="otp_field"
+                  :conditionalClass="['one', 'two', 'three', 'four']"
+                  inputType="letter-numeric"
+                  :num-inputs="6"
+                  v-model:value="bindModal"
+                  :should-auto-focus="true"
+                  :should-focus-order="true"
+                  @on-change="handleOnChange"
+                  @on-complete="handleOnComplete"
+                />
+                  </div>
+  
+                  <!-- Register button -->
+                  <div class="w-full">
+                    <button class="btn-grad-action" :disabled="disableButton" >{{$t('continue')}}</button>
+                    <p class="mt-[8px]">{{$t('didnt_receive_code')}} <span href="" class="text-error " v-if="!showResent">{{formattedCountdown}}</span> <a href="" class="text-tamkin underline " v-else>{{$t('resendCode')}}</a></p>                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+   </div>
+  </template>
 

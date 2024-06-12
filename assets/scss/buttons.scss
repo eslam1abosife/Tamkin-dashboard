@@ -1,20 +1,16 @@
-
-
 $colors: (
   "primary": (
-    start: #2DADA3,
-    end: #71DAD2,
-    light: #DAF3F1
+    start: #2dada3,
+    end: #71dad2,
+    light: #daf3f1,
   ),
 );
+
 .btn-grad-action {
-@apply disabled:bg-gradient-to-b disabled:from-gray-300 disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed  w-full md:w-[400px]  xl:w-[580px] h-[45px] font-[600] text-[20px] text-white rounded-[10px] transition-all duration-200 bg-gradient-to-b from-tamkinStart hover:from-tamkinLight hover:to-tamkinLight to-tamkinLight hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
-  }
-  
+  @apply h-[40px] lg:h-[50px]   disabled:bg-gradient-to-b disabled:from-gray-300 disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed  md:w-[400px] xl:w-[580px] font-[600] text-[16px] lg:text-[20px] w-full text-white rounded-[10px] transition-all duration-200 bg-gradient-to-b from-tamkinStart hover:from-tamkinLight hover:to-tamkinLight to-tamkinLight hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
+  line-height: 24px;
+}
 
-  
-
-  [type="checkbox"]
-{
-    vertical-align:middle;
+[type="checkbox"] {
+  vertical-align: middle;
 }

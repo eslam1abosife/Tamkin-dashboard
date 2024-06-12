@@ -6,14 +6,14 @@
     "or": "or",
     "email": "Email",
     "full_name": "Full Name",
-    "password": "password",
+    "password": "Password",
     "confirm_password": "confirm password",
     "newPassprom":"New Password",
     "set_new_password": "Set the new password for your account so you can login and access all features.",
 
-    "continue": "continue",
-    "password_should_be_the_same": "password should be the same",
-    "password_is_required": "password is required",
+    "continue": "Continue",
+    "password_should_be_the_same": "Password should be the same",
+    "password_is_required": "Password is required",
     "email_address_is_required": "The email address is required",
     "please_enter_valid_email_address": "Please Enter valid email address",
     "remember_me": "Remember me",
@@ -22,7 +22,7 @@
     "password_reset_successfully": "Your password has been reset successfully",
     "forgot_password_prompt": "Forgot Password",
     "enter_email_for_verification": "Enter your email for the verification we will send 4 digits code to your email",
-    "register": "register",
+    "register": "Register",
     "already_have_an_account": "Already have an account??",
     "register_with_google": "Register with Google",
     "terms_of_use": "Terms of Use",
@@ -35,8 +35,8 @@
     "enter_verification_code": "Enter your 6 digits code that you received on your email.",
     "CookiePolicy":"Cookie Policy",
     "didnt_receive_code": "If you didn’t receive a code!",
-    "resendCode":"ReSend Code"
-
-
+    "resendCode":"ReSend Code",
+    "login_button":"Login",
+    "signUpWithGoogle":"Register With Google"
   }
   

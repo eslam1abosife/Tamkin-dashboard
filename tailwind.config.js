@@ -3,6 +3,12 @@ export default {
   content: [],
   theme: {
     extend:{
+      screens: {
+        'ipad-min': '768px',
+        
+        'ipad-max': {'min': '1024px','max':'1024px'},
+        '3xl': {'min': '1900px'},
+      },
       colors: {
         
         tamkin : '#2DADA3',

@@ -10,19 +10,20 @@
 
 
 .input_floating_label {
-    @apply h-[55px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full xl:w-[580px] w-full border-[2px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    @apply  h-[40px] lg:h-[50px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full xl:w-[580px] w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
   }
   
   .floating_label {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[30px] ltr:left-[30px] top-[10px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[20px] text-[400] peer-focus:text-[16px];
+    @apply cursor-text rounded-[10px] absolute rtl:right-[15px] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[16px] lg:text-[18px] text-[400] peer-focus:text-[16px];
     transition: all 0.2s ease-in-out;
+    line-height: 24px;
   }
   input:focus ~ .floating_label,
   input:not(:placeholder-shown) ~ .floating_label {
-    @apply -translate-y-5 px-1 text-darkGrey text-[16px];
+    @apply -translate-y-6 px-1 text-darkGrey text-[16px];
   }
   
   .error_message {
-    @apply font-[300] text-right text-[10px]  text-red-600 absolute bottom-[10px] rtl:left-10 ltr:right-10;
+    @apply font-[300] text-right text-[14px]  text-red-600 absolute bottom-[10px] rtl:left-[29px] ltr:right-[29px];
   }
 }
