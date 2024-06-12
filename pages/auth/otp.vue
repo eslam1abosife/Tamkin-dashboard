@@ -65,10 +65,13 @@ const formattedCountdown = computed(() => {
 <template>
    <div class="container mx-auto">
     <div class="flex items-start justify-center flex-col w-full">
+        <div class="flex items-start justify-center flex-col w-full p-3">
+
+            <div class="lg:mx-0 mx-auto">
+                <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
+              </div>
       <div class="mx-auto text-center mt-[24px] xl:w-auto ipad-max:w-full w-full p-3 flex-grow-0">
-          <div class="">
-              <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
-          </div>
+
           <h1 class="text-[26px] lg:text-[32px]" style="line-height: 48px;">{{ $t('verification') }}</h1>
           <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey text-center"  style="line-height: 30px;">{{ $t('enter_verification_code') }}</h3>
   
@@ -97,6 +100,7 @@ const formattedCountdown = computed(() => {
               </div>
           </div>
       </div>
+    </div>
   </div>
   
    </div>

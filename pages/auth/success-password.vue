@@ -41,10 +41,13 @@ const loginUser = async () => {
 <template>
    <div class="">
     <div class="flex items-start justify-center flex-col w-full">
+        <div class="flex items-start justify-center flex-col w-full p-3">
+
+            <div class="lg:mx-0 mx-auto">
+                <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
+              </div>
         <div class="mx-auto text-center mt-[24px] xl:w-auto ipad-max:w-full w-full p-3  ">
-            <div class="">
-            <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
-          </div>
+        
           <h1 class="text-[26px] lg:text-[32px]" style="line-height: 48px;">{{ $t("successfully") }}</h1>
     
           <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey" style="line-height: 48px;">
@@ -67,5 +70,6 @@ const loginUser = async () => {
         </div>
       </div>
    </div>
+</div>
   </template>
 

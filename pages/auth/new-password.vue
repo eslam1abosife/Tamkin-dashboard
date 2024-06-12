@@ -22,10 +22,12 @@ const v$ = useVuelidate(rules, state);
 <template>
   <div class="">
     <div class="flex items-start justify-center flex-col w-full">
-        <div class="mx-auto text-center mt-[24px]  xl:w-auto ipad-max:w-full w-full p-3">
-          <div class="">
+      <div class="flex items-start justify-center flex-col w-full p-3">
+        <div class="lg:mx-0 mx-auto">
             <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
           </div>
+        <div class="mx-auto text-center mt-[24px]  xl:w-auto ipad-max:w-full w-full p-3">
+   
           <h1 class="text-[26px] lg:text-[32px]" style="line-height: 48px;">{{ $t('sign_up') }}</h1>
     
           <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey">{{ $t('sign_up_to_enjoy_features_of_tamkin') }}</h3>
@@ -111,6 +113,7 @@ const v$ = useVuelidate(rules, state);
           </div>
         </div>
       </div>
+    </div>
    </div>
   </template>
 
