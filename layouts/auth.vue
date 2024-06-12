@@ -39,7 +39,7 @@ import shapeUp from '~/assets/animation/shape_up.json'
             </ul>
           </div>
         </div>
-        <div class=" mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] 3xl:mt-[10%] col-span-12 md:col-span-12 lg:col-span-6 mt-[10%] order-1 rtl:order-1 ">
+        <div class=" mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] 3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 ">
           <NuxtPage class=" "/>
         </div>
       </div>
