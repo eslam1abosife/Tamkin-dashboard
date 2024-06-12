@@ -39,9 +39,9 @@ const loginUser = async () => {
 </script>
 
 <template>
-    <div class="max-w-[600px]">
+    <div class="max-w-[600px] w">
         <div class="flex items-center justify-center w-full ">
-        <div class="flex items-start justify-center flex-col ">
+        <div class="flex items-start justify-center flex-col w-full p-3">
             <div class="mx-auto text-center mt-[24px]  xl:w-auto ipad-max:w-full w-full">
               <div class="">
                 <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
@@ -132,3 +132,7 @@ const loginUser = async () => {
  </div>
   </template>
 
+
+  <style lang="scss">
+
+</style>

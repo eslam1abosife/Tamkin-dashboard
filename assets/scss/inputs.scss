@@ -2,7 +2,7 @@
     
 
 .input_error {
-    @apply  border-error #{!important} ;
+    @apply  border-tamkingErrorInput #{!important} ;
 }
 .input_success {
     @apply  border-tamkin #{!important} ;
@@ -10,7 +10,9 @@
 
 
 .input_floating_label {
-    @apply  h-[40px] lg:h-[50px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full lg:w-[580px] w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    @apply pl-[15px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] lg:ml-1 py-[14px] bg-white border-lightGrey md:w-full lg:w-[580px] w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+  
+   
   }
   
   .floating_label {
@@ -24,6 +26,9 @@
   }
   
   .error_message {
-    @apply font-[300] text-right text-[14px]  text-red-600 absolute bottom-[10px] rtl:left-[29px] ltr:right-[29px];
+    @apply font-[300] text-right text-[10px] lg:text-[14px]  text-error absolute bottom-[10px] rtl:left-[29px] ltr:right-[14px];
+    
   }
+
+
 }
