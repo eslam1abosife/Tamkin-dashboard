@@ -99,7 +99,7 @@ const loginUser = async () => {
         <div
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
             <button class="btn-grad-action w-full" @click="loginUser" v-if="!loading"
-                :disabled="v$.email.$invalid || v$.password.$invalid || loading">
+                :disabled="v$.email.$invalid || loading">
                 {{ $t("continue") }}
             </button>
         </div>

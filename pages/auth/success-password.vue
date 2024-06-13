@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+
+ import { Vue3Lottie } from 'vue3-lottie'
+          import SuccessAnimation from '~/assets/animation/forget_password_success.json'
 definePageMeta({
   layout: "auth",
 });
@@ -53,9 +56,14 @@ const loginUser = async () => {
             {{ $t("password_reset_successfully") }}
           </h3>
 
-
+         
 
         </div>
+        
+      <div class="mx-auto">
+        <Vue3Lottie :animationData="SuccessAnimation" :height="248" :width="248"
+        class="  " />
+      </div>
       </div>
     </div>
 

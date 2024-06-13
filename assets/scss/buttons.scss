@@ -12,7 +12,7 @@ $colors: (
 }
 
 .google_login_button{
-  @apply h-[40px] lg:h-[50px]   border-tamkin md:w-full  xl:w-[580px] font-[500] text-[16px] lg:text-[20px] lg:w-full w-full text-black rounded-[10px] transition-all duration-200 hover:bg-tamkin/15 border-[1.5px]
+  @apply h-[40px] lg:h-[50px]   border-tamkin md:w-full  xl:w-[580px] font-[400] text-[16px] lg:text-[20px] lg:w-full w-full text-black rounded-[10px] transition-all duration-200 hover:bg-tamkin/15 border-[1.5px]
   bg-transparent ;
 }
 [type="checkbox"] {

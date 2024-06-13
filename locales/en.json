@@ -7,7 +7,7 @@
     "email": "Email",
     "full_name": "Full Name",
     "password": "Password",
-    "confirm_password": "confirm password",
+    "confirm_password": "Confirm Password",
     "newPassprom":"New Password",
     "set_new_password": "Set the new password for your account so you can login and access all features.",
 

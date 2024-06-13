@@ -139,27 +139,27 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
                 {{ $t("password") }}*
               </label>
 
-              <div class="absolute bottom-[10px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80"
-                v-if="!isPasswordVisible" @click="togglePasswordVisibility">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
+              <div class="absolute bottom-[12px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80" v-if="!isPasswordVisible"
+              @click="togglePasswordVisibility">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="size-4 lg:size-6 text-light">
+               <path stroke-linecap="round" stroke-linejoin="round"
+                 d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+             </svg>
 
 
-              </div>
-              <div class="absolute bottom-[12px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80" v-else
-                @click="togglePasswordVisibility">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                </svg>
+           </div>
+             <div class="absolute bottom-[12px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80"
+             v-else  @click="togglePasswordVisibility">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+               stroke="currentColor" class="size-4 lg:size-6 text-light">
+               <path stroke-linecap="round" stroke-linejoin="round"
+                 d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+             </svg>
 
 
-              </div>
+           </div>
               <div class="w-full lg:w-4/6 mt-2" v-if="v$.password.$error && v$.password.required.$invalid">
                 <p class="error_message_password">
                   <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("password_is_required")
@@ -180,27 +180,25 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
             (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) ? '!text-error' : ''
             ,]">{{ $t('confirm_password') }}*</label>
 
-              <div class="absolute bottom-[12px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80"
-                v-if="!isconfirmPasswordVisible" @click="toggleConfirmPasswordVisibility">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
+            <div class="absolute bottom-[10px] lg:bottom-[10px] p-1 ltr:right-[10px] rtl:left-[14px] cursor-pointer hover:opacty-80"
+            v-if="!isconfirmPasswordVisible"  @click="toggleConfirmPasswordVisibility">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-4 lg:size-6 text-light">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </div>
+            <div   class="absolute bottom-[10px] lg:bottom-[10px] p-1 ltr:right-[10px] rtl:left-[14px] cursor-pointer hover:opacty-80"   v-else
+           @click="toggleConfirmPasswordVisibility">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-4 lg:size-6 text-light">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
 
 
-              </div>
-              <div class="absolute bottom-[12px] ltr:right-[14px] rtl:left-[14px] cursor-pointer hover:opacty-80" v-else
-                @click="toggleConfirmPasswordVisibility">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                </svg>
-
-
-              </div>
+          </div>
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid)
             ">
                 <p class="error_message_password">
@@ -219,18 +217,18 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
       </div>
 
     </div>
-    <div class="flex flex-col items-center justify-center mt-[32px]">
+    <div class="flex flex-col items-center justify-center mt-[18px]">
       <div class="text-[15px] font-[400] leading-5 text-secondary_text">
         <p>{{ $t('by_continuing_i_agree_to_tamkin') }}</p>
       </div>
       <div>
-        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> &
+        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400]" style="line-height:22.5px">& </span>
         <a href="" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
 
       </div>
     </div>
 
-    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
+    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[9px] inset-0  lg:p-0 p-3">
       <button class="btn-grad-action w-full" @click="loginUser" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid || loading">
         {{ $t("register") }}
@@ -242,6 +240,11 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
           <img src="/assets/imgs/google_login.png" alt="" class="w-[23px] h-[23px]" />
         </div>
       </button>
+    
+      <div class="text-center">
+        <span class="text-darkGrey text-lg font-normal font-['Poppins'] leading-[27px]">Already have an account?? </span>
+        <a class="text-lg font-normal font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer"  @click="$router.push('/auth/login')">Log in</a></div>
+    
     </div>
   </div>
 

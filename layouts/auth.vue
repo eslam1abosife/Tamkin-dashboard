@@ -17,11 +17,11 @@ const htmlAttrs = computed(() => head.value.htmlAttrs!)
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
 
-  <div class=" mx-auto h-screen">
-    <div class="grid grid-cols-12  lg:gap-[20px] h-[1300px] lg:h-screen">
+  <div class=" mx-auto h-screen ">
+    <div class="grid grid-cols-12  lg:gap-[20px] ">
 
       <div
-        class=" lg:block md:hidden hidden col-span-12 md:col-span-4 lg:col-span-6 relative top-0 bottom-0 right-0 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd  rtl:order-2 order-2 ">
+        class=" lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 right-0 z-50 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd  rtl:order-2 order-2 ">
         <Vue3Lottie :animationData="shapeDown" :height="200" :width="200"
           class="absolute 3xl:top-[85%] top-[75%] left-[85%]  " />
         <Vue3Lottie :animationData="shapeUp" :height="700" :width="500"
@@ -29,7 +29,7 @@ const htmlAttrs = computed(() => head.value.htmlAttrs!)
 
         <div class="w-full h-full">
           <Vue3Lottie :animationData="AuthJson" :height="574" :width="308"
-            class="absolute inset-0 top-[50px] 3xl:top-[200px]" />
+            class="absolute inset-0 top-[50px] 3xl:top-[200px] ipad-max:top-[0] " />
 
         </div>
         <div class="absolute bottom-0 w-full mb-4">
