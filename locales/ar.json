@@ -37,7 +37,11 @@
     "resendCode":"اعد ارسال الرمز",
     "CookiePolicy":"سياسة ملفات التعريف",
     "login_button":"تسجيل الدخول",
-    "signUpWithGoogle":"سجل عن طريق جوجل"
+    "signUpWithGoogle":"سجل عن طريق جوجل",
+    "updatePassword":"تحديث كلمة المرور",
+    "verfiy": "تأكيد",
+
+
 
 
   }

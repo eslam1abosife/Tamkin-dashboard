@@ -62,47 +62,58 @@ const formattedCountdown = computed(() => {
 
 </script>
 
+
 <template>
-   <div class="container mx-auto">
-    <div class="flex items-start justify-center flex-col w-full">
-        <div class="flex items-start justify-center flex-col w-full p-3">
-
-            <div class="lg:mx-0 mx-auto">
-                <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="lg:mx-0 mx-auto lg:mb-0 mb-3 w-[160px] h-[81.28px]" />
-              </div>
-      <div class="mx-auto text-center mt-[24px] xl:w-auto ipad-max:w-full w-full p-3 flex-grow-0">
-
-          <h1 class="text-[26px] lg:text-[32px]" style="line-height: 48px;">{{ $t('verification') }}</h1>
-          <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey text-center"  style="line-height: 30px;">{{ $t('enter_verification_code') }}</h3>
-  
-          <div class="space-y-[16px] w-full">
-              <div class="space-y-[16px]">
-                  <div class="space-y-[16px] mt-[24px] ">
-                    <v-otp-input
-                    class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
-                  ref="otpInput"
-                  input-classes="otp_field"
-                  :conditionalClass="['one', 'two', 'three', 'four']"
-                  inputType="letter-numeric"
-                  :num-inputs="6"
-                  v-model:value="bindModal"
-                  :should-auto-focus="true"
-                  :should-focus-order="true"
-                  @on-change="handleOnChange"
-                  @on-complete="handleOnComplete"
-                />
+    <div class="max-w-[600px] h-[600px] relative">
+        <div class="flex items-center justify-center w-full mt-[16px] ">
+            <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
+                <div class="flex-1 lg:mx-[-5px] mx-auto">
+                    <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
                   </div>
-  
-                  <!-- Register button -->
-                  <div class="w-full">
-                    <button class="btn-grad-action" :disabled="disableButton" >{{$t('continue')}}</button>
-                    <p class="mt-[8px]">{{$t('didnt_receive_code')}} <span href="" class="text-error " v-if="!showResent">{{formattedCountdown}}</span> <a href="" class="text-tamkin underline " v-else>{{$t('resendCode')}}</a></p>                  </div>
+                <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
+                  
+                  
+                  <h1 class="text-[26px] lg:text-[32px] mb-[6px]" style="line-height: 48px;">{{ $t("verification") }}</h1>
+            
+                  <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey  mb-[23px]" style="line-height: 30px;">
+                    {{ $t("enter_verification_code") }}
+                  </h3>
+              
+                
+                  <div class="space-y-[16px]">
+                    <div class="space-y-[16px] mt-[24px] ">
+                      <v-otp-input
+                      class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto w-full max-w-xs space-x-[8px] lg:space-x-[22px]"
+                    ref="otpInput"
+                    input-classes="otp_field"
+                    :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
+                    inputType="letter-numeric"
+                    :num-inputs="6"
+                    v-model:value="bindModal"
+                    :should-auto-focus="true"
+                    :should-focus-order="true"
+                    @on-change="handleOnChange"
+                    @on-complete="handleOnComplete"
+                  />
+                    </div>
+    
+                
+                </div>
               </div>
+           </div>
+    
+           <div class="absolute top-[500px] lg:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
+            <button class="btn-grad-action w-full"  :disabled="disableButton">
+              {{ $t("verfiy") }}
+            </button>
+
+            <p class="mt-[8px] text-center font-[500]">{{$t('didnt_receive_code')}} <span href="" class="text-error " v-if="!showResent">{{formattedCountdown}}</span> <a href="" class="text-tamkin underline " v-else>{{$t('resendCode')}}</a></p>                  </div>
+
           </div>
-      </div>
-    </div>
-  </div>
-  
-   </div>
+     </div>
   </template>
 
+
+  <style lang="scss">
+
+</style>

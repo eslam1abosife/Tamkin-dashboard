@@ -11,6 +11,10 @@ $colors: (
   line-height: 24px;
 }
 
+.google_login_button{
+  @apply h-[40px] lg:h-[50px]   border-tamkin md:w-[400px] xl:w-[580px] font-[600] text-[16px] lg:text-[20px] w-full text-black rounded-[10px] transition-all duration-200 hover:bg-tamkin/15 border-[1.5px]
+  bg-transparent ;
+}
 [type="checkbox"] {
   vertical-align: middle;
 }
