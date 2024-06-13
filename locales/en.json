@@ -39,6 +39,8 @@
     "resendCode":"Resend",
     "login_button":"Login",
     "signUpWithGoogle":"Register With Google",
-    "updatePassword":"Update Password"
+    "updatePassword":"Update Password",
+    "loginRegisterPage":"Log in"
+
   }
   

@@ -10,7 +10,7 @@
 
 
 .input_floating_label {
-    @apply text-[14px] pl-[15px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    @apply text-[12px] lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
   
    &.error_text {
     @apply text-light;
@@ -28,11 +28,11 @@
   }
   
   .error_message {
-    @apply font-[300] text-right text-[10px]   text-error absolute bottom-[9px] rtl:left-[29px] ltr:right-[14px];
+    @apply font-[300] text-right text-[10px] lg:text-[12px]   text-error absolute bottom-[9px] rtl:left-[29px] ltr:right-[14px];
     
   }
   .error_message_password {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[1px] pt-1 rtl:left-[50px] ltr:right-[20px];
+    @apply font-[300] text-right text-[10px] lg:text-[12px] text-error absolute rtl:bottom-[1px] ltr:bottom-[1px]  rtl:left-[29px] ltr:right-[14px];
     
   }
 

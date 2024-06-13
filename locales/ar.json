@@ -23,7 +23,7 @@
     "forgot_password_prompt": "نسيت كلمة المرور",
     "enter_email_for_verification": "أدخل بريدك الإلكتروني للتحقق، سنرسل رمز مكون من 4 أرقام إلى بريدك الإلكتروني",
     "register": "تسجيل",
-    "already_have_an_account": "هل لديك حساب بالفعل؟",
+    "already_have_an_account": "هل لديك حساب بالفعل؟؟",
     "register_with_google": "التسجيل عبر جوجل",
     "terms_of_use": "شروط الاستخدام",
     "privacy_statement": "بيان الخصوصية",
@@ -40,6 +40,7 @@
     "signUpWithGoogle":"سجل عن طريق جوجل",
     "updatePassword":"تحديث كلمة المرور",
     "verfiy": "تأكيد",
+    "loginRegisterPage":"سجل دخول"
 
 
 

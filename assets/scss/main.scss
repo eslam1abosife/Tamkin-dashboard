@@ -25,3 +25,9 @@ input:-webkit-autofill {
 .is-complete {
     @apply border-[1px] border-tamkin #{!important};
 }
+.password_eye {
+    @apply absolute top-[6px] lg:top-[11px] rtl:left-[30px] ltr:right-[30px] p-1  cursor-pointer hover:opacity-80;
+    .svg_eye{
+        @apply  w-[16px] h-[16px] lg:h-[20px] lg:w-[20px] text-light;
+    }
+}
