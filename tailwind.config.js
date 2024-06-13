@@ -6,7 +6,7 @@ export default {
       screens: {
         'ipad-min': '768px',
         
-        'ipad-max': {'min': '1024px','max':'1024px'},
+        'ipad-max': {'min': '1023px','max':'1024px'},
         '3xl': {'min': '1900px'},
       },
       colors: {
