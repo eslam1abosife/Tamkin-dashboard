@@ -68,9 +68,9 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[6px]" style="line-height: 48px;">{{ $t("register") }}</h1>
+          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("register") }}</h1>
 
-          <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey  mb-[23px]" style="line-height: 48px;">
+          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 48px;">
             {{ $t("sign_up_to_enjoy_features_of_tamkin") }}
 
           </h3>
@@ -228,9 +228,9 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
       </div>
     </div>
 
-    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[9px] inset-0  lg:p-0 p-3">
+    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3">
       <button class="btn-grad-action w-full" @click="loginUser" v-if="!loading"
-        :disabled="v$.email.$invalid || v$.password.$invalid || loading">
+        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.password_confirm.$invalid ">
         {{ $t("register") }}
       </button>
 
@@ -241,7 +241,7 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
         </div>
       </button>
     
-      <div class="text-center">
+      <div class="text-center pb-[20px]">
         <span class="text-darkGrey text-lg font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1">{{$t('already_have_an_account')}}</span>
         <a class="text-lg font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400]"  @click="$router.push('/auth/login')">{{$t('loginRegisterPage')}}</a></div>
     

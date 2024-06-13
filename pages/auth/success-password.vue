@@ -50,9 +50,9 @@ const loginUser = async () => {
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[6px]" style="line-height: 48px;">{{ $t("successfully") }}</h1>
+          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("successfully") }}</h1>
 
-          <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey  mb-[23px]" style="line-height: 30px;">
+          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 30px;">
             {{ $t("password_reset_successfully") }}
           </h3>
 

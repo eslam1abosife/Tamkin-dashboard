@@ -73,16 +73,16 @@ const formattedCountdown = computed(() => {
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[6px]" style="line-height: 48px;">{{ $t("verification") }}</h1>
+          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("verification") }}</h1>
 
-          <h3 class="text-[15px] lg:text-[20px] font-[600] text-darkGrey  mb-[23px]" style="line-height: 30px;">
+          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 30px;">
             {{ $t("enter_verification_code") }}
           </h3>
 
 
           <div class="space-y-[16px]">
             <div class="space-y-[16px] mt-[24px] ">
-              <v-otp-input class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto space-x-[10px]"
+              <v-otp-input class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto space-x-[10px] lg:space-x-[16px] xl:space-x-[22px]"
                 ref="otpInput" input-classes="otp_field" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
                 inputType="letter-numeric" :num-inputs="6" v-model:value="bindModal" :should-auto-focus="true"
                 :should-focus-order="true" @on-change="handleOnChange" @on-complete="handleOnComplete" />
