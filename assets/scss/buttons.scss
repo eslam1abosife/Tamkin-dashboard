@@ -23,3 +23,32 @@ $colors: (
 [type="checkbox"] {
   vertical-align: middle;
 }
+
+
+.btn-dashboard {
+  background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  border: 1px solid;
+@apply border-[1px] border-tamkin rounded-[10px] w-full h-[50px] text-white;
+  
+&:hover {
+  @apply bg-gradient-to-b from-white to-white text-darkGrey fill-darkGrey;
+  .active_icon{
+    @apply fill-darkGrey;
+  }
+}  
+
+
+}
+
+.close_sidebar_btn{
+  @apply cursor-pointer absolute flex items-center justify-center top-[36%] left-[343px] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
+  &:hover{
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+ 
+  }
+
+  .arrow_close{
+        background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+
+  }
+}

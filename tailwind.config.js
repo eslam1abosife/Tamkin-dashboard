@@ -9,6 +9,9 @@ export default {
         'ipad-max': {'min': '1023px','max':'1024px'},
         '3xl': {'min': '1900px'},
       },
+      borderImage: {
+        'gradient-to-b': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%) 1'
+      },
       colors: {
         
         tamkin : '#2DADA3',
@@ -22,7 +25,9 @@ export default {
         whiteTamkin:'#FFFEFE',
         error:'#EA4335',
         tamkinLight:'#DAF3F1',
-        tamkingErrorInput:"#EF7267"
+        tamkingErrorInput:"#EF7267",
+        lightMenuBarColor:"#F2F2F2",
+        linecolor:"#C5C5C5"
       },
       backgroundSize: {
         'size-200': '200% 200%',

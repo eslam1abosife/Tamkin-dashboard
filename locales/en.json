@@ -40,7 +40,9 @@
     "login_button":"Login",
     "signUpWithGoogle":"Register With Google",
     "updatePassword":"Update Password",
-    "loginRegisterPage":"Log in"
+    "loginRegisterPage":"Log in",
+    "Tamkin":"Tamkin",
+    "teamcount":"Team Members"
 
   }
   

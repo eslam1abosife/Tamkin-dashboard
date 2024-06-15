@@ -39,6 +39,12 @@ googleFonts: {
     Poppins: [100,200,300,400,500,600,700],
   }
   },
+  css: [
+    '/assets/scss/fontawesome.css'
+  ],
+  plugins: [
+    { src: '~/plugins/fontawsome.ts' },
+  ],
 tailwindcss: {
   cssPath: ['~/assets/scss/main.scss', { injectPosition: "first" }],
   configPath: 'tailwind.config',
