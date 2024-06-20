@@ -2,7 +2,7 @@
     .bg_dashboard {
 
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-
+@apply h-full w-full flex-grow;
     }
 
     .tamkin_team_card {
@@ -23,7 +23,10 @@
 
 
     }
-
+    .dashboard-nav-link-has-menu {
+        @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[50px] cursor-pointer text-[18px] font-[400];
+        line-height: 27px;
+    }
     .dashboard-nav-link {
         @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[50px] cursor-pointer text-[18px] font-[400];
         line-height: 27px;
@@ -41,7 +44,7 @@
         }
 
         &.has_menu {
-            @apply flex items-center relative space-x-[10px] border-0;
+            @apply flex items-center justify-start space-x-[10px] border-0;
 
             .menu_arrow {
                 @apply ltr:mr-[26px] rtl:ml-[26px];
@@ -77,4 +80,14 @@
     .active_sub_menu{
         @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text #{!important};
     }
+
+    .sub_menu_arrow{
+        @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text #{!important};
+
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
 }

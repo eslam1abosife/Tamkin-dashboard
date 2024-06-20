@@ -36,6 +36,9 @@ export default {
         'pos-0': '0% 0%',
         'pos-100': '100% 100%',
       },
+      backgroundImage: {
+        'embded-code-gradient': 'linear-gradient(90deg, #77A1D3 8.17%, #5DAEDD 25.67%, #35CCCA 42.67%, #E684AE 66.67%)',
+      },
       // backgroundImage: {
       //   'tamkin-gradient-btn': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
       // },

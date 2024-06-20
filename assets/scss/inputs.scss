@@ -45,7 +45,7 @@
   .search_input{
     @apply relative;
     .input_dashboard_search {
-      @apply placeholder:text-[#BCC0BF] text-[12px] font-[500] lg:text-[14px] pl-[20px] lg:pl-[38px] h-[40px] lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey w-full ipad-max:max-w-full  border-[1px] focus:border-tamkin focus:ring-0;
+      @apply placeholder:text-[#BCC0BF] text-[12px] font-[500] lg:text-[14px] pl-[20px] lg:pl-[38px] h-[40px] lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey  border-[1px] focus:border-tamkin focus:ring-0;
       line-height: 19.5px;
       
     }

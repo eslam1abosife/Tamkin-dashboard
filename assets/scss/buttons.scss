@@ -41,7 +41,7 @@ $colors: (
 }
 
 .close_sidebar_btn{
-  @apply cursor-pointer absolute flex items-center justify-center top-[36%] left-[343px] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
+  @apply cursor-pointer absolute flex items-center justify-center lg:top-[22.5%] lg:left-[330px] ipad-max:top-[30%] 2xl:top-[25%] 2xl:left-[330px] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
   &:hover{
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
  
