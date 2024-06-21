@@ -70,7 +70,7 @@ const clearInput = () => {
           @click="toggleSidebar"
           :class="[
             !sideBarOpen
-              ? 'left-[80px] rotate-180 lg:!top-[11%] 2xl:!top-[11.5%]'
+              ? 'left-[80px] rotate-180 lg:!top-[11%] 2xl:!top-[10%]'
               : 'lg:!top-[13.2%] 2xl:!top-[12.5%]',
           ]"
           class="close_sidebar_btn group z-[300] lg:flex hidden"
@@ -107,7 +107,7 @@ const clearInput = () => {
           style="box-shadow: 0px 4px 24px 8px #51459F14;
 
 "
-            class="absolute  top-0 flex  z-[10] flex-shrink-0 items-center justify-around lg:justify-evenly w-full bg-[#FFFEFE] space-x-[16px]"
+            class="absolute  top-0 flex  z-[10] flex-shrink-0 items-center justify-around lg:justify-evenly w-full bg-[#FFFEFE] 2xl:space-x-[16px]"
           >
             <div
               class="flex items-center justify-between space-x-[10px] lg:hidden"
