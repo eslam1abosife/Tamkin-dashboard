@@ -69,8 +69,8 @@ const clearInput = () => {
           @click="toggleSidebar"
           :class="[
             !sideBarOpen
-              ? 'left-[80px] rotate-180 lg:!top-[13.5%] 2xl:!top-[12.5%]'
-              : 'lg:!top-[16.5%] 2xl:!top-[15.5%]',
+              ? 'left-[80px] rotate-180 lg:!top-[14.2%] 2xl:!top-[13%]'
+              : 'lg:!top-[17.5%] 2xl:!top-[16.5%]',
           ]"
           class="close_sidebar_btn group z-[300] lg:flex hidden"
         >
