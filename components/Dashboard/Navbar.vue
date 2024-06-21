@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 const props = defineProps({
   sideBarOpen: Boolean,
-  mobileSidebar:Boolean
+  mobileSidebar: Boolean,
 });
 
-const emit = defineEmits(["toggleSidebar","toggleSidebarMobile"]);
+const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
 
 function toggleSidebar() {
   emit("toggleSidebar");
@@ -18,7 +18,7 @@ const openMenuSub = (id: any) => {
   //   showSubMenu.fill(false); // reset all submenus to hidden
   showSubMenu.value[id] = !showSubMenu.value[id]; // toggle the visibility of the clicked submenu
 
-//   console.log(showSubMenu.value[id]);
+  //   console.log(showSubMenu.value[id]);
 };
 const localePath = useLocalePath();
 const route = useRoute();
@@ -29,12 +29,27 @@ const isLinkActive = (path) => {
 </script>
 
 <template>
-  <div class=" flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[10px] ">
-    <div class="block lg:hidden absolute top-[35px] right-0  " @click="toggleSidebarMobile">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
-          
+  <div
+    class="flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[10px]"
+  >
+    <div
+      class="block lg:hidden absolute top-[35px] right-0"
+      @click="toggleSidebarMobile"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        />
+      </svg>
     </div>
     <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
       <img
@@ -281,7 +296,6 @@ const isLinkActive = (path) => {
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/my-site')"
-
         :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
@@ -296,7 +310,11 @@ const isLinkActive = (path) => {
             <g clip-path="url(#clip0_2978_23987)">
               <path
                 d="M23.4091 15.2727H21.2273V12C21.2273 11.7107 21.1123 11.4332 20.9078 11.2286C20.7032 11.024 20.4257 10.9091 20.1364 10.9091H13.5909V8.72727H15.7727C16.0621 8.72727 16.3395 8.61234 16.5441 8.40775C16.7487 8.20317 16.8636 7.92569 16.8636 7.63636V1.09091C16.8636 0.801582 16.7487 0.524105 16.5441 0.31952C16.3395 0.114935 16.0621 0 15.7727 0H9.22727C8.93795 0 8.66047 0.114935 8.45588 0.31952C8.2513 0.524105 8.13636 0.801582 8.13636 1.09091V7.63636C8.13636 7.92569 8.2513 8.20317 8.45588 8.40775C8.66047 8.61234 8.93795 8.72727 9.22727 8.72727H11.4091V10.9091H4.86364C4.57431 10.9091 4.29683 11.024 4.09225 11.2286C3.88766 11.4332 3.77273 11.7107 3.77273 12V15.2727H1.59091C1.30158 15.2727 1.0241 15.3877 0.81952 15.5922C0.614935 15.7968 0.5 16.0743 0.5 16.3636V22.9091C0.5 23.1984 0.614935 23.4759 0.81952 23.6805C1.0241 23.8851 1.30158 24 1.59091 24H8.13636C8.42569 24 8.70317 23.8851 8.90775 23.6805C9.11234 23.4759 9.22727 23.1984 9.22727 22.9091V16.3636C9.22727 16.0743 9.11234 15.7968 8.90775 15.5922C8.70317 15.3877 8.42569 15.2727 8.13636 15.2727H5.95455V13.0909H19.0455V15.2727H16.8636C16.5743 15.2727 16.2968 15.3877 16.0922 15.5922C15.8877 15.7968 15.7727 16.0743 15.7727 16.3636V22.9091C15.7727 23.1984 15.8877 23.4759 16.0922 23.6805C16.2968 23.8851 16.5743 24 16.8636 24H23.4091C23.6984 24 23.9759 23.8851 24.1805 23.6805C24.3851 23.4759 24.5 23.1984 24.5 22.9091V16.3636C24.5 16.0743 24.3851 15.7968 24.1805 15.5922C23.9759 15.3877 23.6984 15.2727 23.4091 15.2727ZM7.04545 17.4545V21.8182H2.68182V17.4545H7.04545ZM10.3182 6.54545V2.18182H14.6818V6.54545H10.3182ZM22.3182 21.8182H17.9545V17.4545H22.3182V21.8182Z"
-                :fill="[isLinkActive('/my-site') ? 'url(#paint0_linear_2978_23987)' : 'currentColor']"
+                :fill="[
+                  isLinkActive('/my-site')
+                    ? 'url(#paint0_linear_2978_23987)'
+                    : 'currentColor',
+                ]"
               />
             </g>
             <defs v-if="isLinkActive('/my-site')">
@@ -340,7 +358,9 @@ const isLinkActive = (path) => {
               class="pl-[16px]"
             />
           </div>
-          <div v-if="sideBarOpen || sideBarOpenMobile">Sign language Services</div>
+          <div v-if="sideBarOpen || sideBarOpenMobile">
+            Sign language Services
+          </div>
           <div v-if="sideBarOpen || sideBarOpenMobile">
             <svg
               width="7"
