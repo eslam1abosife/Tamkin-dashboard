@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import VCodeBlock from "@wdns/vue-code-block";
-
+import banner from 'assets/imgs/gradient_embded.png'
 const code = ref(`const foo = 'bar';`);
 definePageMeta({
   layout: "dashboard",
@@ -192,7 +192,13 @@ const { openShareModal } = useModalStore();
       </div>
 
       <div
-        class="max-w-full lg:max-h-[230px] w-full relative bg-gradient-to-r from-[#C3A7E5] via-[#EF8FA6] to-[#C3DDF3] rounded-lg p-8 flex items-center justify-center lg:flex-row flex-col lg:space-x-[150px]"
+    :style="{ backgroundImage: `url(${banner})`}"
+      style=" width:100%; height:100%;
+  background-size:cover;
+
+
+"
+        class="max-w-full lg:max-h-[230px] w-full relative rounded-lg p-8 flex items-center justify-center lg:flex-row flex-col lg:space-x-[150px]"
       >
         <div
           class="relative lg:top-[-20px] 2xl:top-[-18px] h-full flex items-center justify-start"
