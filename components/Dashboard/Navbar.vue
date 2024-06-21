@@ -30,7 +30,7 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[10px]"
+    class="flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[6px] z-[100]"
   >
     <div
       class="block lg:hidden absolute top-[35px] right-0"
@@ -56,7 +56,7 @@ const isLinkActive = (path) => {
         src="/assets//imgs/logo.png"
         class="min-h-[60px] w-[120px]"
         alt=""
-        v-if="sideBarOpen || sideBarOpenMobile"
+        v-if="sideBarOpen "
       />
       <img
         src="/assets//imgs/icons/tamkin_small.svg"
@@ -386,7 +386,7 @@ const isLinkActive = (path) => {
           </div>
         </div>
         <div
-          class="menu_item bg-white rounded-[10px]"
+          class="menu_item bg-[#FFFEFE] rounded-[10px]"
           :class="[
             !sideBarOpen && showSubMenu[2] ? 'absolute left-[85px] ' : ' ',
             showSubMenu[2] ? 'block' : 'hidden',
@@ -394,14 +394,14 @@ const isLinkActive = (path) => {
           style="padding: 10px 40px 10px 40px"
         >
           <div class="flex w-full">
-            <div class="bg-white relative w-full h-full left-0">
+            <div class="bg-[#FFFEFE] relative w-full h-full left-0">
               <div
-                class="absolute inset-y-0 left-0 w-1 rounded-[10px] bg-lightMenuBarColor h-full"
+                class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
               ></div>
               <ul class="mt-4 space-y-[10px]">
                 <li class="rounded-[10px] relative">
                   <div
-                    class="absolute inset-y-0 left-0 w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <a
                     href="#"

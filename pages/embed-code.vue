@@ -39,7 +39,7 @@ const { openShareModal } = useModalStore();
           <head></head> tag, and you’re all set!
         </p>
 
-        <div class="mt-[18px] w-full h-[250px] bg-whiteTamkin rounded-[10px]">
+        <div class="mt-[18px] w-full h-full bg-whiteTamkin rounded-[10px]">
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-around mt-[30px] lg:px-[15px]"
             style="padding: 30px, 16px, 20px, 15px"
@@ -276,7 +276,7 @@ const { openShareModal } = useModalStore();
               class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
             >
               <div class="overflow-hidden rounded-[10px] bg-white">
-                <!-- <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
                     <div class="flex items-center jutify-between">
@@ -344,7 +344,7 @@ const { openShareModal } = useModalStore();
                       <div class="flex items-center gap-x-6">
                         <button
                           style="line-height: 22.5px"
-                          class="space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px]"
+                          class="btn__embed_table"
                         >
                           <div>
                             <svg
@@ -414,7 +414,7 @@ const { openShareModal } = useModalStore();
                       <div class="flex items-center gap-x-6">
                         <button
                           style="line-height: 22.5px"
-                          class="space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px]"
+                          class="btn__embed_table"
                         >
                           <div>
                             <svg
@@ -484,7 +484,7 @@ const { openShareModal } = useModalStore();
                       <div class="flex items-center gap-x-6">
                         <button
                           style="line-height: 22.5px"
-                          class="space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px]"
+                          class="btn__embed_table"
                         >
                           <div>
                             <svg
@@ -517,7 +517,7 @@ const { openShareModal } = useModalStore();
                     </td>
                   </tr>
                 </tbody>
-              </table> -->
+              </table>
               </div>
             </div>
           </div>
