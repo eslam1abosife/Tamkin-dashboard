@@ -28,12 +28,12 @@ $colors: (
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-@apply border-[1px] border-tamkin rounded-[10px] w-full h-[50px] text-white;
+@apply border-[1px] border-tamkin rounded-[10px] w-full h-[45px] text-white disabled:bg-gradient-to-b  disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey  disabled:text-white disabled:cursor-not-allowed;
   
 &:hover {
-  @apply bg-gradient-to-b from-white to-white text-darkGrey fill-darkGrey;
+  @apply bg-gradient-to-b from-white to-white text-darkGrey disabled:text-white disabled:from-lightGrey disabled:to-lightGrey ;
   .active_icon{
-    @apply fill-darkGrey;
+    @apply text-darkGrey;
   }
 }  
 
@@ -41,7 +41,7 @@ $colors: (
 }
 
 .close_sidebar_btn{
-  @apply cursor-pointer absolute flex items-center justify-center lg:top-[22.5%] lg:left-[330px] ipad-max:top-[30%] 2xl:top-[25%] 2xl:left-[330px] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
+  @apply cursor-pointer absolute flex items-center justify-center   lg:left-[95%] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
   &:hover{
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
  
@@ -51,4 +51,31 @@ $colors: (
         background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
   }
+
+
 }
+.btn__icon__dashboard{
+  @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight h-[45px] rounded-[10px] p-[16px] text-white flex items-center space-x-[4px];
+}
+
+
+.gradient-border-wrapper {
+  display: inline-block;
+  border: 2px solid;
+  border-image-source: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  border-image-slice: 1;
+  border-radius: 50px;
+  padding: 4px; /* Adjust the padding as needed */
+}
+
+.gradient-border-wrapper .btn {
+  border: none; /* Remove default button border */
+  border-radius: 8px; /* Ensure this matches the wrapper's border-radius minus padding */
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: white; /* Button background color */
+  color: #000; /* Button text color */
+}
+
+// .btn__icon__dashboard__borderd {
+// @apply gradient-border p-2 text-white bg-transparent hover:bg-gray-100 transition;
+// }

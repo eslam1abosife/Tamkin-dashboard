@@ -6,10 +6,15 @@ export default defineNuxtConfig({
   '@nuxtjs/tailwindcss',
   '@nuxtjs/google-fonts'
   ,    '@pinia/nuxt',
-  '@nuxtjs/i18n'
+  '@nuxtjs/i18n',
+  '@vueuse/nuxt',
+  '@nuxtjs/device',
 
 
 ],
+device: {
+  refreshOnResize: true
+},
 i18n: {
   defaultLocale: 'en',
   // Specify the directory where the language files are stored
@@ -37,6 +42,7 @@ i18n: {
 googleFonts: {
   families: {
     Poppins: [100,200,300,400,500,600,700],
+    Lato:[100,200,300,400,500,600,700],
   }
   },
   css: [

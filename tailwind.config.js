@@ -38,7 +38,11 @@ export default {
       },
       backgroundImage: {
         'embded-code-gradient': 'linear-gradient(90deg, #77A1D3 8.17%, #5DAEDD 25.67%, #35CCCA 42.67%, #E684AE 66.67%)',
+        'custom-gradient': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
+        'bg-dashboard-gradient': 'linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%)',
+
       },
+      
       // backgroundImage: {
       //   'tamkin-gradient-btn': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
       // },

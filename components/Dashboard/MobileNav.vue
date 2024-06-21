@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 const props = defineProps({
-  sideBarOpen: Boolean,
+
   mobileSidebar:Boolean
 });
 
-const emit = defineEmits(["toggleSidebar","toggleSidebarMobile"]);
+const emit = defineEmits(["toggleSidebarMobile"]);
 
-function toggleSidebar() {
-  emit("toggleSidebar");
-}
+
 function toggleSidebarMobile() {
   emit("toggleSidebarMobile");
 }
@@ -29,19 +27,19 @@ const isLinkActive = (path) => {
 </script>
 
 <template>
-  <div class=" flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[10px] ">
+  <div class="flex flex-col items-center justify-start relative 2xl:p-0 p-3  mx-auto ">
     <div class="block lg:hidden absolute top-[35px] right-0  " @click="toggleSidebarMobile">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
           
     </div>
-    <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
+    <div class="self-start" :class="[sideBarOpenMobile ? '' : 'mx-auto']">
       <img
         src="/assets//imgs/logo.png"
         class="min-h-[60px] w-[120px]"
         alt=""
-        v-if="sideBarOpen || sideBarOpenMobile"
+        v-if="sideBarOpenMobile "
       />
       <img
         src="/assets//imgs/icons/tamkin_small.svg"
@@ -54,24 +52,24 @@ const isLinkActive = (path) => {
       src="/assets/imgs/team.png"
       class="w-[40px] h-[40px]"
       alt=""
-      :class="[!sideBarOpen ? 'block' : 'hidden']"
+      :class="[!sideBarOpenMobile ? 'block' : 'hidden']"
     />
 
     <div
       class="tamkin_team_card"
-      :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '']"
+      :class="[!sideBarOpenMobile ? 'border-none bg-transparent hidden' : '']"
     >
       <img
         src="/assets/imgs/team.png"
         class="w-[40px] h-[40px]"
         alt=""
-        :class="[!sideBarOpen ? 'block' : '']"
+        :class="[!sideBarOpenMobile ? 'block' : '']"
       />
 
       <div class="flex items-center space-x-[100px]">
         <div
           class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
-          :class="[!sideBarOpen ? 'hidden' : 'block']"
+          :class="[!sideBarOpenMobile ? 'hidden' : 'block']"
         >
           <h2 class="font-[400] text-[16px]" style="line-height: 24px">
             {{ $t("Tamkin") }}
@@ -80,7 +78,7 @@ const isLinkActive = (path) => {
             3 {{ $t("teamcount") }}
           </h3>
         </div>
-        <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
+        <div class="order-3" :class="[!sideBarOpenMobile ? 'hidden' : 'block']">
           <svg
             class="arrow_svg"
             width="7"
@@ -101,7 +99,7 @@ const isLinkActive = (path) => {
     <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
     <button
       class="btn-dashboard flex items-center justify-start"
-      v-if="sideBarOpen || sideBarOpenMobile"
+      v-if="sideBarOpenMobileMobile"
     >
       <div class="order-2 flex-1">Add site</div>
       <div class="order-1 ml-[16px]">
@@ -140,12 +138,12 @@ const isLinkActive = (path) => {
 
     <div
       class="flex flex-col items-center mt-[14.5px]"
-      :class="[!sideBarOpen ? 'justify-center' : 'justify-start']"
+      :class="[!sideBarOpenMobile ? 'justify-center' : 'justify-start']"
     >
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/dashboard')"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -236,12 +234,12 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Dashboard</span>
+        <span v-if="sideBarOpenMobileMobile">Dashboard</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/embed-code')"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -276,13 +274,13 @@ const isLinkActive = (path) => {
             />
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Embed Code</span>
+        <span v-if="sideBarOpenMobileMobile">Embed Code</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/my-site')"
 
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -322,14 +320,14 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">My Site</span>
+        <span v-if="sideBarOpenMobileMobile">My Site</span>
       </TamkinSideBarLink>
 
       <div class="relative w-full" @click="openMenuSub(2)">
         <div
           class="dashboard-nav-link-has-menu"
           :class="[
-            !sideBarOpen ? 'w-full' : 'w-full lg:w-[325px]',
+            !sideBarOpenMobile ? 'w-full' : 'w-full lg:w-[325px]',
             showSubMenu[2] === true ? 'active' : '',
           ]"
         >
@@ -340,8 +338,8 @@ const isLinkActive = (path) => {
               class="pl-[16px]"
             />
           </div>
-          <div v-if="sideBarOpen || sideBarOpenMobile">Sign language Services</div>
-          <div v-if="sideBarOpen || sideBarOpenMobile">
+          <div v-if="sideBarOpenMobileMobile">Sign language Services</div>
+          <div v-if="sideBarOpenMobileMobile">
             <svg
               width="7"
               height="12"
@@ -368,7 +366,7 @@ const isLinkActive = (path) => {
         <div
           class="menu_item bg-white rounded-[10px]"
           :class="[
-            !sideBarOpen && showSubMenu[2] ? 'absolute left-[85px] ' : ' ',
+            !sideBarOpenMobile && showSubMenu[2] ? 'absolute left-[85px] ' : ' ',
             showSubMenu[2] ? 'block' : 'hidden',
           ]"
           style="padding: 10px 40px 10px 40px"
@@ -411,7 +409,7 @@ const isLinkActive = (path) => {
 
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -440,12 +438,12 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Coin Store</span>
+        <span v-if="sideBarOpenMobileMobile">Coin Store</span>
       </div>
 
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -474,11 +472,11 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Records</span>
+        <span v-if="sideBarOpenMobileMobile">Records</span>
       </div>
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -507,11 +505,11 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Packages</span>
+        <span v-if="sideBarOpenMobileMobile">Packages</span>
       </div>
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpenMobile ? 'w-[55px]' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
@@ -540,7 +538,7 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Settings</span>
+        <span v-if="sideBarOpenMobileMobile">Settings</span>
       </div>
     </div>
   </div>

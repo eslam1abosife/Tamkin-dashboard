@@ -15,10 +15,15 @@
     "@pinia/nuxt": "^0.5.1",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
+    "@wdns/vue-code-block": "^2.3.2",
+    "highlight.js": "^11.9.0",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
+    "vue-highlight-code": "^0.2.0",
     "vue-router": "^4.3.2",
+    "vue3-highlight-component": "^0.3.4",
+    "vue3-highlightjs": "^1.0.5",
     "vue3-lottie": "^3.3.0",
     "vue3-otp-input": "^0.5.21"
   },
@@ -28,8 +33,11 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@tailwindcss/forms": "^0.5.7",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/nuxt": "^10.11.0",
     "sass": "^1.77.4"
   }
 }
