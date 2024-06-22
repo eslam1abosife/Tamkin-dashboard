@@ -1,25 +1,25 @@
 $colors: (
-  "primary": (
-    start: #2dada3,
+  "primary": (start: #2dada3,
     end: #71dad2,
     light: #daf3f1,
   ),
 );
 
 .btn-grad-action {
-  @apply h-[40px] lg:h-[50px]   disabled:bg-gradient-to-b disabled:from-gray-300 disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed  md:w-[400px] xl:w-[580px] font-[600] text-[16px] lg:text-[20px] w-full text-white rounded-[10px] transition-all duration-200   hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
+  @apply h-[40px] lg:h-[50px] disabled:bg-gradient-to-b disabled:from-gray-300 disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed md:w-[400px] xl:w-[580px] font-[600] text-[16px] lg:text-[20px] w-full text-white rounded-[10px] transition-all duration-200 hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
   line-height: 24px;
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-&:hover{
-@apply bg-gradient-to-b from-tamkinLight to-tamkinLight;
 
-}
+  &:hover {
+    @apply bg-gradient-to-b from-tamkinLight to-tamkinLight;
+
+  }
 }
 
-.google_login_button{
-  @apply h-[40px] lg:h-[50px]   border-tamkin md:w-full  xl:w-[580px] font-[400] text-[16px] lg:text-[20px] lg:w-full w-full text-black rounded-[10px] transition-all duration-200 hover:bg-tamkin/15 border-[1.5px]
-  bg-transparent ;
+.google_login_button {
+  @apply h-[40px] lg:h-[50px] border-tamkin md:w-full xl:w-[580px] font-[400] text-[16px] lg:text-[20px] lg:w-full w-full text-black rounded-[10px] transition-all duration-200 hover:bg-tamkin/15 border-[1.5px] bg-transparent;
 }
+
 [type="checkbox"] {
   vertical-align: middle;
 }
@@ -28,36 +28,51 @@ $colors: (
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-@apply border-[1px] border-tamkin rounded-[10px] w-full h-[45px] text-white disabled:bg-gradient-to-b  disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey  disabled:text-white disabled:cursor-not-allowed;
-  
-&:hover {
-  @apply bg-gradient-to-b from-white to-white text-darkGrey disabled:text-white disabled:from-lightGrey disabled:to-lightGrey ;
-  .active_icon{
-    @apply text-darkGrey;
+  @apply border-[1px] border-tamkin rounded-[10px] w-full h-[45px] text-white disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed;
+
+  &:hover {
+    @apply bg-gradient-to-b from-white to-white text-darkGrey disabled:text-white disabled:from-lightGrey disabled:to-lightGrey;
+
+    .active_icon {
+      @apply text-darkGrey;
+    }
   }
-}  
 
 
 }
 
-.close_sidebar_btn{
-  @apply cursor-pointer absolute flex items-center justify-center   lg:left-[95%] bg-white border-[1px] border-linecolor rounded-full  w-[35px] h-[35px];
-  &:hover{
+.close_sidebar_btn {
+  @apply cursor-pointer absolute flex items-center justify-center lg:left-[95%] bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px];
+
+  &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
- 
+
   }
 
-  .arrow_close{
-        background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  .arrow_close {
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
   }
 
 
 }
-.btn__icon__dashboard{
+
+.btn__icon__dashboard {
   @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight h-[45px] rounded-[10px] p-[16px] text-white flex items-center space-x-[4px];
 }
 
+.btn_bordered_dashboard {
+  @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px];
+
+  &:not(.normal_hover):hover {
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+    @apply text-white;
+  }
+  &.normal_hover:hover {
+
+    @apply text-darkGrey bg-tamkinLight #{!important};
+  }
+}
 
 .gradient-border-wrapper {
   display: inline-block;
@@ -65,27 +80,42 @@ $colors: (
   border-image-source: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border-image-slice: 1;
   border-radius: 50px;
-  padding: 4px; /* Adjust the padding as needed */
+  padding: 4px;
+  /* Adjust the padding as needed */
 }
 
 .gradient-border-wrapper .btn {
-  border: none; /* Remove default button border */
-  border-radius: 8px; /* Ensure this matches the wrapper's border-radius minus padding */
-  padding: 10px 20px; /* Adjust padding as needed */
-  background-color: white; /* Button background color */
-  color: #000; /* Button text color */
+  border: none;
+  /* Remove default button border */
+  border-radius: 8px;
+  /* Ensure this matches the wrapper's border-radius minus padding */
+  padding: 10px 20px;
+  /* Adjust padding as needed */
+  background-color: white;
+  /* Button background color */
+  color: #000;
+  /* Button text color */
 }
 
-.btn__embed_table{
+.btn__embed_table {
 
   @apply space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px];
 
-  &:hover{
+  &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
     @apply text-white;
   }
 }
 
-// .btn__icon__dashboard__borderd {
-// @apply gradient-border p-2 text-white bg-transparent hover:bg-gray-100 transition;
-// }
+.btn-borderd-normal {
+  @apply border-[1px] border-[#A7A7A7] text-darkGrey h-[45px] w-full rounded-[10px] p-[16px] flex items-center space-x-[4px];
+
+  // &:hover {
+  //   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  //   @apply text-white;
+  // }
+}
+
+.close_btn{
+  @apply cursor-pointer;
+}

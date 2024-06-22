@@ -15,7 +15,7 @@
 
         &.active {
             background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-
+            @apply text-white;
             .arrow_svg {
                 @apply text-white fill-white;
             }

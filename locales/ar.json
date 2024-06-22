@@ -11,7 +11,12 @@
     "continue": "متابعة",
     "newPassprom":"كلمة مرور جديدة",
     "set_new_password": "قم بتعيين كلمة مرور جديدة لحسابك حتى تتمكن من تسجيل الدخول والوصول إلى جميع الميزات.",
-
+"teamName":"الاسم",
+"teamName_is_required": "اسم الفريق مطلوب",
+"firstName":"الاسم الاول",
+"lastName":"الاسم الاخير",
+"last_name_required":"الاسم الاول مطلوب",
+"first_name_required":"الاسم الاخير مطلوب",
     "password_should_be_the_same": "يجب أن تكون كلمة المرور متطابقة",
     "password_is_required": "كلمة المرور مطلوبة",
     "email_address_is_required": "البريد الإلكتروني مطلوب",

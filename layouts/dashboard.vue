@@ -4,7 +4,7 @@ import { useModalStore } from "@/stores/modal";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
-const { showShareModal } = storeToRefs(modalStore);
+const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal } = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
@@ -44,19 +44,23 @@ const clearInput = () => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
     <div
-      class="bg_dashboard relative flex-1"
+      class="bg_dashboard relative flex-1 h-screen"
       :class="[
         !sideBarOpen
           ? 'lg:grid lg:grid-cols-[100px_1fr]'
           : 'lg:grid lg:grid-cols-[3fr_9fr]',
       ]"
     >
+   
+    
       <div
-        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full"
-        v-if="showShareModal"
+       v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal "
+        class="absolute z-[999] bg-black bg-opacity-70 h-screen w-full overflow-hidden"
       ></div>
+      <DashboardTeamEditPermissionsModal :showModal="editPermissionsModal"/>
       <DashboardEmbedShareModal :showModal="showShareModal" />
-
+<DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
+<DashboardTeamInviteMember :showModal="inviteMemberModal"/>
       <div
       
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"
@@ -70,8 +74,8 @@ const clearInput = () => {
           @click="toggleSidebar"
           :class="[
             !sideBarOpen
-              ? 'left-[80px] rotate-180 lg:!top-[11%] 2xl:!top-[10%]'
-              : 'lg:!top-[13.2%] 2xl:!top-[12.5%]',
+              ? 'left-[80px] rotate-180 lg:!top-[140px] 2xl:!top-[130px]'
+              : 'lg:!top-[170px] 2xl:!top-[160px]',
           ]"
           class="close_sidebar_btn group z-[300] lg:flex hidden"
         >

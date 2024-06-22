@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import VCodeBlock from "@wdns/vue-code-block";
 import banner from 'assets/imgs/gradient_embded.png'
+import { Vue3Lottie } from 'vue3-lottie'
+
+import embed from '~/assets/animation/embed.json'
+   
 const code = ref(`const foo = 'bar';`);
 definePageMeta({
   layout: "dashboard",
@@ -22,15 +26,21 @@ const { openShareModal } = useModalStore();
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->
 
       <div class="flex items-center justify-center flex-col">
-        <h1
-          class="text-center text-[24px] font-[500]"
-          style="line-height: 43.2px"
-        >
-          Here’s your
-          <span class="bg-clip-text text-transparent bg-embded-code-gradient"
-            >Embed code...</span
-          >
+     <div class="flex flex-col lg:flex-row items-center justify-between">
+      <h1
+      class="text-center text-[24px] font-[500] lg:order-1 order-2"
+      style="line-height: 43.2px"
+    >
+      Here’s your
+      <span class="bg-clip-text text-transparent bg-embded-code-gradient"
+        >Embed code...</span
+      >
+     
+    
         </h1>
+         <Vue3Lottie :animationData="embed" :height="105" :width="100"
+        class="  lg:order-2 order-1"  />
+        </div>
         <p
           class="font-[400] text-[15px] text-center"
           style="line-height: 22.5px"
@@ -41,7 +51,7 @@ const { openShareModal } = useModalStore();
 
         <div class="mt-[18px] w-full h-full bg-whiteTamkin rounded-[10px]">
           <div
-            class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-around mt-[30px] lg:px-[15px]"
+            class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
             style="padding: 30px, 16px, 20px, 15px"
           >
             <button
@@ -275,7 +285,7 @@ const { openShareModal } = useModalStore();
         </h1>
       </div>
 
-      <section class="container px-4 mx-auto pb-[13px]">
+      <section class="container w-full  mx-auto pb-[13px]">
         <div class="flex flex-col">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div

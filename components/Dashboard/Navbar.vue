@@ -74,7 +74,8 @@ const isLinkActive = (path) => {
 
     <div
       class="tamkin_team_card"
-      :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '']"
+      @click="$router.push(localePath('/team'))"
+      :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '',isLinkActive('/team') ? 'active' : '']"
     >
       <img
         src="/assets/imgs/team.png"
@@ -83,7 +84,7 @@ const isLinkActive = (path) => {
         :class="[!sideBarOpen ? 'block' : '']"
       />
 
-      <div class="flex items-center space-x-[100px]">
+      <div class="flex items-center space-x-[100px]" >
         <div
           class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
           :class="[!sideBarOpen ? 'hidden' : 'block']"
