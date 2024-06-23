@@ -1,10 +1,11 @@
 .bg_dashboard {
 
-            background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-    
-        }
+    background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
+
+}
+
 @layer components {
- 
+
 
     .tamkin_team_card {
         @apply flex items-center justify-start py-[10px] px-[16px] hover:bg-tamkinLight cursor-pointer bg-white w-[309px] h-[60px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
@@ -16,6 +17,7 @@
         &.active {
             background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
             @apply text-white;
+
             .arrow_svg {
                 @apply text-white fill-white;
             }
@@ -24,24 +26,27 @@
 
 
     }
+
     .dashboard-nav-link-has-menu {
         @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
         line-height: 27px;
     }
+
     .dashboard-nav-link {
         @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
         line-height: 27px;
 
-    &.active-link {
-            &.closedNav{
+        &.active-link {
+            &.closedNav {
                 @apply w-[55px];
             }
+
             @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text w-full;
-    
+
             .icon_active {
                 @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text;
             }
-    
+
         }
 
         &.has_menu {
@@ -53,7 +58,7 @@
         }
     }
 
-  
+
 
     .active_sub_menu {
         @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text;
@@ -80,48 +85,55 @@
 
     }
 
-    .active_sub_menu{
+    .active_sub_menu {
         @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text #{!important};
     }
 
-    .sub_menu_arrow{
+    .sub_menu_arrow {
         @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text #{!important};
 
     }
 
     .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-      }
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
 }
+
 .tooltip {
     padding: 10px;
     display: inline;
     position: relative;
-  }
-  
-  .tooltip:hover:before {
+}
+
+.tooltip:hover:before {
     background: #4C5C5A;
-    top: 60%; /* changed from 60% to 100% */
+    top: 60%;
+    /* changed from 60% to 100% */
     color: #fff;
     content: attr(title);
     position: absolute;
     z-index: 98;
     width: 234px;
     margin-top: 10px;
-    &.right{
+
+    &.right {
         @apply right-[-60%];
     }
-    &.left{
+
+    &.left {
         @apply right-[-52%];
 
     }
-    @apply text-[10px] leading-[15px] h-[50px] p-[10px] font-[500] flex items-center justify-start;
-  }
-  
 
-  
-  [title]:hover:after {
+    @apply text-[10px] leading-[15px] h-[50px] p-[10px] font-[500] flex items-center justify-start;
+}
+
+
+
+[title]:hover:after {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -129,13 +141,83 @@
     border-bottom: 10px solid #4C5C5A;
     content: ' ';
     position: absolute;
-    top: 61%; /* changed from 60% to 100% */
-    transform: translateX(-50%); /* added to center the triangle */
-    &.right{
+    top: 61%;
+    /* changed from 60% to 100% */
+    transform: translateX(-50%);
+
+    /* added to center the triangle */
+    &.right {
         @apply right-[-11px];
     }
-    &.left{
+
+    &.left {
         @apply left-[11px];
 
     }
-  }
+}
+
+.custom-border {
+    position: relative;
+    // padding: 20px 30px;
+    margin: 0px;
+    display: inline-block;
+
+
+}
+
+.custom-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 1px;
+    /* control the border thickness */
+    background: linear-gradient(90deg, #77A1D3 0%, #79CBCA 50%, #E684AE 100%);
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+.custom-border-collapse {
+    position: relative;
+    margin: 0px;
+    display: inline-block;
+}
+
+.custom-border-collapse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0 0 10px 10px; /* Remove top border-radius */
+    padding: 1px; /* control the border thickness */
+    background: linear-gradient(90deg, #77A1D3 0%, #79CBCA 50%, #E684AE 100%);
+    mask: linear-gradient(black 0 0) content-box, 
+          linear-gradient(black 0 0);
+    -webkit-mask: linear-gradient(black 0 0) content-box, 
+                  linear-gradient(black 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.custom-border-collapse::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.8px; /* same as the border thickness */
+    background: linear-gradient(90deg, #77A1D3 0%, #79CBCA 50%, #E684AE 100%);; /* same as the background color of the element */
+}
+
+
+.full-width-absolute {
+    position: absolute;
+    bottom: 0;
+    right: -10px;
+   
+}
+

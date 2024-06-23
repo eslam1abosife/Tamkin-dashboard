@@ -148,3 +148,8 @@ $colors: (
     @apply border-[#A7A7A7] text-[14px] leading-[21px] font-[400];
   }
 }
+
+input[type="radio"]:checked + label span {
+ @apply bg-tamkin;
+  box-shadow: 0px 0px 0px 2px white inset;
+}
