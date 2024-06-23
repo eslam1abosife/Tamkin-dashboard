@@ -40,6 +40,22 @@ $colors: (
 
 
 }
+.btn-dashboard-normal {
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px];
+  background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+
+  &:hover {
+    background: white !important;
+  }
+
+  &:not(.normal_hover):hover {
+    @apply text-white;
+  }
+
+  &.normal_hover:hover {
+    @apply text-tamkin bg-tamkinLight ;
+  }
+}
 
 .close_sidebar_btn {
   @apply cursor-pointer absolute flex items-center justify-center lg:left-[95%] bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px];
@@ -118,4 +134,17 @@ $colors: (
 
 .close_btn{
   @apply cursor-pointer;
+}
+
+.billing_badge{
+  @apply w-[59px] h-[26px] border-[2px]  rounded-[10px] flex items-center justify-center; 
+
+  &.pro{
+    @apply border-darkGrey  text-[14px] leading-[21px] font-[600];
+
+  }
+
+  &.free{
+    @apply border-[#A7A7A7] text-[14px] leading-[21px] font-[400];
+  }
 }

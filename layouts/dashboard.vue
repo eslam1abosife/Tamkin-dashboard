@@ -4,7 +4,7 @@ import { useModalStore } from "@/stores/modal";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
-const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal } = storeToRefs(modalStore);
+const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal} = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
@@ -44,7 +44,7 @@ const clearInput = () => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
     <div
-      class="bg_dashboard relative flex-1 h-screen"
+      class="bg_dashboard relative  min-h-screen"
       :class="[
         !sideBarOpen
           ? 'lg:grid lg:grid-cols-[100px_1fr]'
@@ -54,16 +54,17 @@ const clearInput = () => {
    
     
       <div
-       v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal "
-        class="absolute z-[999] bg-black bg-opacity-70 h-screen w-full overflow-hidden"
+       v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal "
+        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
       ></div>
       <DashboardTeamEditPermissionsModal :showModal="editPermissionsModal"/>
       <DashboardEmbedShareModal :showModal="showShareModal" />
 <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
 <DashboardTeamInviteMember :showModal="inviteMemberModal"/>
+<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/>
       <div
       
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"
+        class="flex-1 lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '

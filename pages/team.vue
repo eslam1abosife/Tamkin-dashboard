@@ -368,6 +368,23 @@ const editTeamNameMode = ref(false);
           </div>
         </div>
       </div>
+      <div class="flex justify-between items-center py-[16px]">
+        <div class="flex items-center space-x-2">
+            <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Per Page</span>
+            <button style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+            " class="px-3 py-1 rounded-md  text-white  focus:outline-none 
+    ">10</button>
+          <button class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-[#A7A7A7] hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">20</button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Page</span>
+          <button class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-[#A7A7A7] hover:text-white focus:outline-none
+           ">1</button>
+          <button style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+" class="px-3 py-1 rounded-md   hover:bg-[#A7A7A7] text-white focus:outline-none">2</button>
+          <button class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:text-white hover:bg-[#A7A7A7]  ">&gt;</button>
+        </div>
+      </div>
     </section>
   </div>
 </template>

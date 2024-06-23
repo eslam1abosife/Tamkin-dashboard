@@ -8,7 +8,8 @@ export const useModalStore = defineStore('modal', {
     showShareModal:false,
     editPictureTeamModal:false,
     editPermissionsModal:false,
-    inviteMemberModal:false
+    inviteMemberModal:false,
+    selectSiteModal:false
   }),
   actions: {
     openShareModal(){
@@ -24,6 +25,10 @@ export const useModalStore = defineStore('modal', {
     },
     controlInviteMemberModal(){
       this.inviteMemberModal = !this.inviteMemberModal
+
+    },
+    controlSelectSiteModal(){
+      this.selectSiteModal = !this.selectSiteModal
 
     },
   },
