@@ -29,13 +29,17 @@ $colors: (
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
   @apply border-[1px] border-tamkin rounded-[10px] w-full h-[45px] text-white disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed;
-
   &:hover {
-    @apply bg-gradient-to-b from-white to-white text-darkGrey disabled:text-white disabled:from-lightGrey disabled:to-lightGrey;
+    background: white !important;
+  }
 
-    .active_icon {
-      @apply text-darkGrey;
-    }
+  &:not(.normal_hover):hover {
+    @apply text-white;
+  }
+
+  &.normal_hover:hover {
+    @apply text-darkGrey bg-white #{!important};
+
   }
 
 
@@ -53,7 +57,7 @@ $colors: (
   }
 
   &.normal_hover:hover {
-    @apply text-tamkin bg-tamkinLight ;
+    @apply text-darkGrey bg-tamkinLight #{!important};
   }
 }
 

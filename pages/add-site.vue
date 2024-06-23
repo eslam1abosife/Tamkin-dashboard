@@ -59,8 +59,8 @@ const selectedPlan = ref('')
         class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
       >
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
-          style="padding: 16px, 10px, 16px, 10px"
+        class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+        style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
         >
           <div class="absolute bottom-[119px] left-[34px]">
@@ -99,7 +99,7 @@ const selectedPlan = ref('')
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
             :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
@@ -147,7 +147,7 @@ const selectedPlan = ref('')
         </div>
 
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
@@ -198,7 +198,7 @@ const selectedPlan = ref('')
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
             :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
@@ -255,8 +255,8 @@ const selectedPlan = ref('')
         class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
       >
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
-          style="padding: 16px, 10px, 16px, 10px"
+        class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+        style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
         >
@@ -296,7 +296,7 @@ const selectedPlan = ref('')
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]   w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
             :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
@@ -344,7 +344,7 @@ const selectedPlan = ref('')
         </div>
 
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relative  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
 
@@ -386,7 +386,7 @@ const selectedPlan = ref('')
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]   w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
             :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
           
             >

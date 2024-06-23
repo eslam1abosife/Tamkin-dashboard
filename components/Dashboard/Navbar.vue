@@ -13,7 +13,6 @@ function toggleSidebarMobile() {
   emit("toggleSidebarMobile");
 }
 const showSubMenu = ref(new Array(3).fill(false)); // initialize an array of booleans to track the visibility of each submenu
-
 const openMenuSub = (id: any) => {
   //   showSubMenu.fill(false); // reset all submenus to hidden
   showSubMenu.value[id] = !showSubMenu.value[id]; // toggle the visibility of the clicked submenu
@@ -116,7 +115,8 @@ const isLinkActive = (path) => {
 
     <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
     <button
-      class="btn-dashboard flex items-center justify-start"
+    @click="$router.push(localePath('/add-site'))"
+      class="btn-dashboard normal_hover flex items-center justify-start"
       v-if="sideBarOpen || sideBarOpenMobile"
     >
       <div class="order-2 flex-1">Add site</div>
@@ -148,6 +148,8 @@ const isLinkActive = (path) => {
     <button
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
       v-else
+      @click="$router.push(localePath('/team'))"
+
     >
       <img src="/assets/imgs/icons/add.svg" alt="" class="" />
 
