@@ -51,17 +51,18 @@ const clearInput = () => {
           : 'lg:grid lg:grid-cols-[3fr_9fr]',
       ]"
     >
-   
+    <!-- v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal " -->
     
       <div
-       v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal "
+     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal "
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
-      ></div>
+    </div>
       <DashboardTeamEditPermissionsModal :showModal="editPermissionsModal"/>
       <DashboardEmbedShareModal :showModal="showShareModal" />
 <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
 <DashboardTeamInviteMember :showModal="inviteMemberModal"/>
-<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/>
+<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/> 
+<!-- <DashboardMySiteUpgradeModal/> -->
       <div
       
         class="flex-1 lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"

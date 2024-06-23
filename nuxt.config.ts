@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
+
   modules:
 [
   '@nuxtjs/tailwindcss',
@@ -12,6 +13,12 @@ export default defineNuxtConfig({
 
 
 ],
+nitro: {
+  prerender: {
+    crawlLinks: true,
+    failOnError: false, 
+  },
+},
 device: {
   refreshOnResize: true
 },

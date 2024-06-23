@@ -225,3 +225,28 @@
     background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
 
 }
+
+
+.custom-border-tamkin {
+    position: relative;
+    margin: 0px;
+    display: inline-block;
+}
+
+.custom-border-tamkin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 2px;
+    /* control the border thickness */
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
