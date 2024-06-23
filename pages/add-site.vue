@@ -462,7 +462,7 @@ const selectedPlan = ref('')
     @on-tags-changed="handleChangeTag"
   />
 
- <button class="btn-dashboard-normal normal_hover mt-[16px] mx-auto lg:ml-auto">Add Sites and Continue</button>
+ <button class="btn-dashboard-normal normal_hover mt-[16px] mx-auto lg:mx-0 lg:ml-auto">Add Sites and Continue</button>
   </div>
 </template>
 
