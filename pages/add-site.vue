@@ -16,6 +16,7 @@ const switchTab = (tab: any) => {
 const handleChangeTag = (tags: any) => {
   tags.value = tags;
 }
+const selectedPlan = ref('')
 </script>
 
 <template>
@@ -32,7 +33,7 @@ const handleChangeTag = (tags: any) => {
 
     <div class="mt-[18px] flex items-center justify-between space-x-[36px]">
       <div>
-        <h2 class="text-[20px] font-[600] leading-[30px] text-[#151515]">
+        <h2 class="text-[14px] lg:text-[20px] font-[600] leading-[30px] text-[#151515]">
           Select Your package
         </h2>
       </div>
@@ -58,8 +59,9 @@ const handleChangeTag = (tags: any) => {
         class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
       >
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relative w-[538px] py-[62px] px-[10px] h-[149px] bg-whiteTamkin !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
+          :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
         >
           <div class="absolute bottom-[119px] left-[34px]">
             <img
@@ -84,7 +86,8 @@ const handleChangeTag = (tags: any) => {
                 type="radio"
                 name="radio"
                 class="hidden"
-                value="0"
+                value="free"
+                v-model="selectedPlan"
               />
               <label for="radio5" class="flex items-center cursor-pointer">
                 <span
@@ -96,8 +99,10 @@ const handleChangeTag = (tags: any) => {
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] bg-white w-[538px] custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          >
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
+
+            >
             <div class="flex items-center justify-start space-x-[14px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
@@ -142,8 +147,11 @@ const handleChangeTag = (tags: any) => {
         </div>
 
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relative w-[538px] py-[62px] px-[10px] h-[149px] bg-whiteTamkin !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
+          :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+
+         
         >
           <div class="absolute bottom-[119px] left-[34px]">
             <img
@@ -153,7 +161,14 @@ const handleChangeTag = (tags: any) => {
             />
           </div>
 
-          <div class="flex items-center justify-center relative w-full">
+          <div class="flex items-center justify-center relative ">
+            <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[600] w-[120px]
+             h-[35px] rounded-[10px] text-white ipad-max:top-[-25%] ipad-max:left-[150px] top-[-75%] left-[200px]  lg:left-[250px]" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+">
+<div class=" text-white">
+    Best Deal
+</div>
+            </div>
             <div class="order-2 mt-[22px] relative w-full">
               <h1 class="font-[600] text-[20px] leading-[30px]">
                 Pro-Accessibility Widget
@@ -166,13 +181,14 @@ const handleChangeTag = (tags: any) => {
             </div>
             <div class="order-1 mx-[15px]">
               <input
-                id="radio5"
+                id="radio523"
                 type="radio"
                 name="radio"
                 class="hidden"
-                value="0"
+                 value="pro"
+                      v-model="selectedPlan"
               />
-              <label for="radio5" class="flex items-center cursor-pointer">
+              <label for="radio523" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -182,8 +198,10 @@ const handleChangeTag = (tags: any) => {
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] bg-white w-[538px] custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          >
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+
+            >
             <div class="flex items-center justify-start space-x-[14px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
@@ -237,8 +255,10 @@ const handleChangeTag = (tags: any) => {
         class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
       >
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relative w-[538px] py-[62px] px-[10px] h-[149px] bg-whiteTamkin !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
+          :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
+
         >
           <div class="absolute bottom-[119px] left-[34px]">
             <img
@@ -263,7 +283,8 @@ const handleChangeTag = (tags: any) => {
                 type="radio"
                 name="radio"
                 class="hidden"
-                value="0"
+                   value="premium"
+                      v-model="selectedPlan"
               />
               <label for="radio5" class="flex items-center cursor-pointer">
                 <span
@@ -275,8 +296,10 @@ const handleChangeTag = (tags: any) => {
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] bg-white w-[538px] custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          >
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
+
+            >
             <div class="flex items-center justify-start space-x-[14px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
@@ -321,8 +344,10 @@ const handleChangeTag = (tags: any) => {
         </div>
 
         <div
-          class="flex items-center custom-border justify-start space-x-[16px] relative w-[538px] py-[62px] px-[10px] h-[149px] bg-whiteTamkin !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start space-x-[16px] relativelg:w-[538px]  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
+          :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+
         >
           <div class="absolute bottom-[119px] left-[34px]">
             <img
@@ -343,13 +368,15 @@ const handleChangeTag = (tags: any) => {
             </div>
             <div class="order-1 mx-[15px]">
               <input
-                id="radio5"
+                id="radio665"
                 type="radio"
                 name="radio"
                 class="hidden"
-                value="0"
+               
+                value="platinum"
+                            v-model="selectedPlan"
               />
-              <label for="radio5" class="flex items-center cursor-pointer">
+              <label for="radio665" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -359,8 +386,10 @@ const handleChangeTag = (tags: any) => {
 
           <div
             v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] bg-white w-[538px] custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          >
+            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] lg:w-[538px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+            :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+          
+            >
             <div class="flex items-center justify-start space-x-[14px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
@@ -421,7 +450,7 @@ const handleChangeTag = (tags: any) => {
       ></div>
     </div>
 
-    <div class="flex items-center justify-start  w-full">
+    <div class="flex items-center justify-center lg:justify-start  w-full lg:mt-0 mt-[16px]">
  
         <h1 class="font-[600] text-[20px] leading-[30px]">Enter Website URLS</h1>
   
@@ -433,7 +462,7 @@ const handleChangeTag = (tags: any) => {
     @on-tags-changed="handleChangeTag"
   />
 
- <button class="btn-dashboard-normal mt-[16px] ml-auto">Add Sites and Continue</button>
+ <button class="btn-dashboard-normal normal_hover mt-[16px] mx-auto lg:ml-auto">Add Sites and Continue</button>
   </div>
 </template>
 
