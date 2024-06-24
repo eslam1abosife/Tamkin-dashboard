@@ -102,7 +102,44 @@
         /* Firefox */
     }
 }
+.v3ti-tag-content::after {
+    content: url('assets/imgs/tick.svg'); /* Replace 'path/to/your/svg/icon.svg' with the actual path to your SVG file */
+    margin-left: 5px; /* Adjust spacing */
+    color: green; /* Color the check mark green */
+  }
+.v3ti--focus  {
 
+    outline: 0;
+    border-color: transparent;
+    box-shadow:none !important;
+
+}
+.v3ti{
+    @apply border-[1px] border-lightGrey;
+}
+.v3ti .v3ti-content{
+
+    @apply ml-[24px] mt-[23px];
+}
+.v3ti .v3ti-content .v3ti-tag {
+    @apply bg-tamkinLight text-darkGrey rounded-none  ;
+    /*border: 1px solid #222222;*/
+    /*border-radius: 0;*/
+  }
+  
+  .v3ti .v3ti-new-tag{
+    @apply mt-[23px] focus:outline-none focus:ring-0 ;
+  }
+  .v3ti .v3ti-tag .v3ti-remove-tag {
+    color: transparent;
+    transition: color .3s;
+  }
+  .v3ti-remove-tag{
+    @apply hidden;
+  }
+  .v3ti .v3ti-tag .v3ti-remove-tag:hover {
+    color: black;
+  }
 .tooltip {
     padding: 10px;
     display: inline;

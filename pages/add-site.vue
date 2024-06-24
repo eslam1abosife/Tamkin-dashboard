@@ -455,19 +455,22 @@ const selectedPlan = ref('')
         <h1 class="font-[600] text-[20px] leading-[30px]">Enter Website URLS</h1>
   
     </div>
+ <Client-only>
     <vue3-tags-input
     :tags="tags"
-    class="mt-[16px] w-full h-[164px] border-[1px] border-[#C5C5C5] bg-white focus:outline-none focus:ring-0 focus:ring-transparent"
+    class="mt-[16px] w-full h-[164px] border-[1px] border-[#C5C5C5] bg-white focus:outline-none focus:ring-0 
+    focus:ring-transparent"
     placeholder="Add new website"
     @on-tags-changed="handleChangeTag"
   />
+ </Client-only>
 
  <button class="btn-dashboard-normal normal_hover mt-[16px] mx-auto lg:mx-0 lg:ml-auto">Add Sites and Continue</button>
   </div>
 </template>
 
 
-<style lang="scss">
+<style >
 .v3ti-tag-content::after {
     content: url('assets/imgs/tick.svg'); /* Replace 'path/to/your/svg/icon.svg' with the actual path to your SVG file */
     margin-left: 5px; /* Adjust spacing */

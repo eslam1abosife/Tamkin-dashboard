@@ -17,7 +17,8 @@ onMounted(() => {
 
 <template>
 
-    <div v-if="isVisible" class="mx-auto absolute top-[-10px] z-[2000] w-[273px]  rounded-[5px] space-x-[8px] h-[37px] bg-[#DAF3F1] flex items-center justify-start">
+    <div v-if="isVisible" class="lg:mx-0 mx-auto absolute  ipad-max:left-[22%] lg:left-[30%] 2xl:left-[32%] top-[-10px] z-[2000] w-[273px]  rounded-[5px]
+     space-x-[8px] h-[37px] bg-[#DAF3F1] flex items-center justify-start">
         <div class="pl-[16px]" >
             <img src="/assets/imgs/success_toast.svg" alt="">
         </div>

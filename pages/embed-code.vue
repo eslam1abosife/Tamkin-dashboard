@@ -353,7 +353,7 @@ const clearInput = () => {
        style="box-shadow: 0px 4px 24px 8px #51459F14;
 "
           >
-          <div class="flex items-center space-x-[-15px] flex-1">
+          <div class="flex items-center space-x-[-12px] flex-1">
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
@@ -397,7 +397,7 @@ const clearInput = () => {
                         </div>
                       </div>
 
-                      <div class="w-full lg:w-3/6">
+                      <div class="w-full lg:w-3/6 p-[16px]">
                         <div class="py-[17px] search_input">
                           <input
                             type="text"
@@ -421,7 +421,7 @@ const clearInput = () => {
                       </div>
                     </div>
 
-                    <th scope="col" class="relative py-3.5 px-4">
+                    <th scope="col" class="relative py-3.5 ">
                       <span class="sr-only">Actions</span>
                     </th>
                   </tr>
