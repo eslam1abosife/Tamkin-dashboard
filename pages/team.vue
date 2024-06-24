@@ -279,7 +279,7 @@ const clearInput = () => {
             </div>
           </div>
         </div>
-        <table class="min-w-full w-full divide-y last-border-b divide-gray-200">
+        <table class="min-w-full lg:w-full divide-y last-border-b overflow-x-auto divide-gray-200">
           <thead class="w-full">
             <tr class="">
               <th

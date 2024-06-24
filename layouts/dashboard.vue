@@ -4,7 +4,15 @@ import { useModalStore } from "@/stores/modal";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
-const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal,editUserModal,InviteMemberUpdateModal} = storeToRefs(modalStore);
+const {
+  showShareModal,
+  editPictureTeamModal,
+  editPermissionsModal,
+  inviteMemberModal,
+  selectSiteModal,
+  editUserModal,
+  InviteMemberUpdateModal,
+} = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
@@ -17,7 +25,7 @@ const isSearchfilled = ref(false);
 const search = ref("");
 const sideBarOpen = ref(true);
 const sideBarOpenMobile = ref(false);
-const showNotifiations = ref(false)
+const showNotifiations = ref(false);
 
 function toggleSidebar() {
   sideBarOpen.value = !sideBarOpen.value;
@@ -45,66 +53,73 @@ const clearInput = () => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
     <div
-      class="bg_dashboard relative  min-h-screen"
+      class="bg_dashboard relative min-h-screen"
       :class="[
         !sideBarOpen
           ? 'lg:grid lg:grid-cols-[100px_1fr]'
           : 'lg:grid lg:grid-cols-[3fr_9fr]',
       ]"
     >
-    <!--  -->
-    
+      <!--  -->
+
       <div
-     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal || editUserModal || InviteMemberUpdateModal"
-        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden">
-    </div>
-      <DashboardTeamEditUserModal :showModal="editUserModal"/>
+        v-if="
+          showShareModal ||
+          editPictureTeamModal ||
+          editPermissionsModal ||
+          inviteMemberModal ||
+          selectSiteModal ||
+          editUserModal ||
+          InviteMemberUpdateModal
+        "
+        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
+      ></div>
+      <DashboardTeamEditUserModal :showModal="editUserModal" />
 
       <DashboardEmbedShareModal :showModal="showShareModal" />
-<DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
-<DashboardTeamInviteMember :showModal="inviteMemberModal"/>
-<DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal"/>
-<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/>
+      <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal" />
+      <DashboardTeamInviteMember :showModal="inviteMemberModal" />
+      <DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal" />
+      <DashboardMySiteSelectSiteModal :showModal="selectSiteModal" />
 
-  <DashboardTeamEditUserPermissionsModal :showModal="editPermissionsModal"/>
+      <DashboardTeamEditUserPermissionsModal
+        :showModal="editPermissionsModal"
+      />
 
-  <!-- <DashboardMySiteUpgradeModal/> -->
+      <!-- <DashboardMySiteUpgradeModal/> -->
       <div
-      
-        class=" lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100] 
-         border-r border-[1px] border-lightGrey "
+        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
-            sideBarOpen ? 'min-w-[350px]' :''
+          sideBarOpen ? 'min-w-[350px]' : '',
         ]"
       >
-      <div
-      @click="toggleSidebar"
-      :class="[
-        !sideBarOpen
-          ? 'left-[80px] rotate-180 lg:!top-[126px]'
-          : 'lg:!top-[161px]',
-      ]"
-      class="close_sidebar_btn group z-[300] lg:flex hidden"
-    >
-      <svg
-        width="9"
-        height="15"
-        viewBox="0 0 9 15"
-        fill="none"
-        class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-        />
-      </svg>
-    </div>
-     
-        <div class="overflow-y-auto no-scrollbar fixed  " >
-      
+        <div
+          @click="toggleSidebar"
+          :class="[
+            !sideBarOpen
+              ? 'left-[80px] rotate-180 lg:!top-[126px]'
+              : 'lg:!top-[161px]',
+          ]"
+          class="close_sidebar_btn group z-[300] lg:flex hidden"
+        >
+          <svg
+            width="9"
+            height="15"
+            viewBox="0 0 9 15"
+            fill="none"
+            class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+            />
+          </svg>
+        </div>
+
+        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0  p-[20px]" >
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
             :mobileSidebar="sideBarOpenMobile"
@@ -120,11 +135,8 @@ const clearInput = () => {
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
           <nav
-          style="box-shadow: 0px 4px 24px 8px #51459F14;
-
-"
-            class="absolute  top-0 flex  z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full
-             bg-[#FFFEFE]  pl-[26px] space-x-[16px]"
+            style="box-shadow: 0px 4px 24px 8px #51459f14"
+            class="absolute top-0 flex z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pl-[26px] space-x-[16px]"
           >
             <div
               class="flex items-center justify-between space-x-[10px] lg:hidden"
@@ -167,21 +179,21 @@ const clearInput = () => {
                 </div>
               </div>
             </div>
-            <div class="flex items-center lg:justify-end  justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] ">
+            <div
+              class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px]"
+            >
               <div
-              @click="showNotifiations = !showNotifiations"
-              :class="[showNotifiations ? 'active_notification' :'']"
-                class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA]  rounded-[8px] bg-[#FFFEFE]  w-[48px] h-[48px]"
+                @click="showNotifiations = !showNotifiations"
+                :class="[showNotifiations ? 'active_notification' : '']"
+                class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] rounded-[8px] bg-[#FFFEFE] w-[48px] h-[48px]"
               >
                 <div class="relative stroke-current text-darkGrey">
                   <div
-                  :class="[showNotifiations ? 'hidden' :'']"
-
+                    :class="[showNotifiations ? 'hidden' : '']"
                     class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[24px] h-[24px] rounded-full flex items-center justify-center"
                   >
                     <span
                       class="text-[12px] font-[700] text-white"
-
                       style="line-height: 68px"
                       >5</span
                     >
@@ -191,8 +203,7 @@ const clearInput = () => {
                     height="22"
                     viewBox="0 0 20 22"
                     fill="none"
-                    :class="[showNotifiations ? 'active_bell' :'']"
-
+                    :class="[showNotifiations ? 'active_bell' : '']"
                     class=""
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -211,7 +222,9 @@ const clearInput = () => {
                   </svg>
                 </div>
               </div>
-              <div class="flex items-center justify-center lg:space-x-[18px] lg:pr-[37px] ">
+              <div
+                class="flex items-center justify-center lg:space-x-[18px] lg:pr-[37px]"
+              >
                 <div class="lg:block hidden">
                   <img
                     src="/assets//imgs/avatar.png"
