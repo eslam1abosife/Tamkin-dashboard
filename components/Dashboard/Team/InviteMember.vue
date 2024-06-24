@@ -134,7 +134,7 @@ const props = defineProps({
 
 
 <div class="mt-[32px] w-1/4 mx-auto">
-    <button class=" btn-dashboard text-center mx-auto  " >
+    <button class=" btn-dashboard text-center mx-auto  " @click="modalStore.controlInviteMemberUpdateModal">
         Invite Member
       </button>
 </div>

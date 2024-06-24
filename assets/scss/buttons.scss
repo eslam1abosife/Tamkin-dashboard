@@ -38,11 +38,18 @@ $colors: (
   }
 
   &.normal_hover:hover {
-    @apply text-darkGrey bg-white #{!important};
+    @apply text-darkGrey bg-white disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed #{!important};
 
   }
 
+  &.hover_light:hover {
+    @apply text-darkGrey bg-[#DAF3F1] border-0 #{!important};
 
+  }
+  &.hover_tamkin:hover {
+    @apply text-tamkin bg-white #{!important};
+
+  }
 }
 .btn-dashboard-normal {
   @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px];

@@ -117,12 +117,11 @@ const isLinkActive = (path) => {
 
 <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
 <button
-@click="$router.push(localePath('/add-site'))"
-  class="btn-dashboard normal_hover flex items-center justify-start "
-  v-if="sideBarOpen || sideBarOpenMobile"
+  @click="$router.push(localePath('/add-site'))"
+  class="btn-dashboard normal_hover flex items-center justify-center relative"
+  v-if="sideBarOpen"
 >
-  <div class="order-2 flex-1">Add site</div>
-  <div class="order-1 ml-[16px]">
+  <div class="absolute left-0 px-[16px]">
     <svg
       width="24"
       height="24"
@@ -145,8 +144,11 @@ const isLinkActive = (path) => {
       />
     </svg>
   </div>
-  <!-- <i class="fa-regular fa-circle-plus"></i> -->
+  <div class="order-2">Add Site</div>
 </button>
+
+  <!-- <i class="fa-regular fa-circle-plus"></i> -->
+
 </div>
     <button
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
@@ -361,7 +363,7 @@ const isLinkActive = (path) => {
             <img
               src="/assets/imgs/icons/signlang.svg"
               alt=""
-              class="pl-[16px]"
+              class="pl-[11px]"
             />
           </div>
           <div v-if="sideBarOpen || sideBarOpenMobile">

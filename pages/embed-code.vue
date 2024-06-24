@@ -82,6 +82,16 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
+const isSearchfilled = ref(false);
+const search = ref("");
+watch(search, (ov, nv) => {
+  return search.value.length > 0
+    ? (isSearchfilled.value = true)
+    : (isSearchfilled.value = false);
+});
+const clearInput = () => {
+  search.value = "";
+};
 </script>
 
 <template>
@@ -108,7 +118,7 @@ watch(copyDone, (newValue) => {
          <Vue3Lottie :animationData="embed" :height="90" :width="90" :noMargin="true"
         class="  lg:order-2 order-1 p-0 w-[105px] h-[100px]"  />
         </div>
-        <DashboardToastSuccess v-if="true" :hideIn="2000" :message="'Copied to clipboard'" />
+        <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
 
       <div>
         <p
@@ -148,7 +158,8 @@ watch(copyDone, (newValue) => {
               <div>Advanced View</div>
             </button>
             <div
-              class="ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+             @click="openShareModal"
+              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
                 <div class="pl-[16px]">
@@ -198,7 +209,7 @@ watch(copyDone, (newValue) => {
                 </div>
 
                 <button
-                  @click="openShareModal"
+                 
                   class="h-[45px] btn px-4 py-2 rounded-md
                    group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
@@ -342,7 +353,8 @@ watch(copyDone, (newValue) => {
        style="box-shadow: 0px 4px 24px 8px #51459F14;
 "
           >
-          <div class="flex items-center space-x-[-20px] flex-1">
+          <div class="flex items-center space-x-[-15px] flex-1">
+            <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
@@ -358,14 +370,14 @@ watch(copyDone, (newValue) => {
       </div>
       <div class="">
         <h1
-          class="text-center font-[500] text-[#021328] text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]"
+          class="text-center font-[500] mt-[43px] text-[#021328] text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]"
         >
           Select your platform for a quick installation video
         </h1>
       </div>
 
-      <section class="container w-full  mx-auto pb-[13px]">
-        <div class="flex flex-col">
+      <section class="container w-full  mx-auto ">
+        <div class="flex flex-col mb-[24px]">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div
               class="inline-block min-w-full  align-middle md:px-6 lg:px-8"
@@ -385,14 +397,26 @@ watch(copyDone, (newValue) => {
                         </div>
                       </div>
 
-                      <div class="p-[16px] search_input w-3/6">
-                        <input
-                          type="text"
-                          class="input_dashboard_search w-full"
-                          placeholder="Search ..."
-                        />
-                        <div class="absolute top-[16px] p-[16px]">
-                          <img src="/assets/imgs/icons/search.svg" alt="" />
+                      <div class="w-full lg:w-3/6">
+                        <div class="py-[17px] search_input">
+                          <input
+                            type="text"
+                            class="input_dashboard_search w-full"
+                            v-model="search"
+                            placeholder="Search ..."
+                          />
+                          <div
+                            class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+                          >
+                            <img src="/assets/imgs/icons/search.svg" alt="" />
+                          </div>
+                          <div
+                            v-if="isSearchfilled"
+                            @click="clearInput"
+                            class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+                          >
+                            <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                          </div>
                         </div>
                       </div>
                     </div>

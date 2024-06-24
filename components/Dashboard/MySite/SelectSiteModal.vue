@@ -23,6 +23,17 @@ const permissions = ref( [
 //     checked.value = value ? permissions.value.map(lang => lang.id) : [];
 //   }
 // });
+
+const isSearchfilled = ref(false);
+const search = ref("");
+watch(search, (ov, nv) => {
+  return search.value.length > 0
+    ? (isSearchfilled.value = true)
+    : (isSearchfilled.value = false);
+});
+const clearInput = () => {
+  search.value = "";
+};
 </script>
 
 <template>
@@ -54,32 +65,33 @@ const permissions = ref( [
     Select your default site</p>
 
 <div class="w-full ">
-<div class="py-[17px] search_input">
-<input
-  type="text"
-  class="input_dashboard_search w-full"
-
-  placeholder="Search ..."
-/>
-<div
-  class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
->
-  <img src="/assets/imgs/icons/search.svg" alt="" />
-</div>
-<div
-
-  class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
->
-  <img src="/assets/imgs/icons/clear_search.svg" alt="" />
-</div>
-</div>
+  <div class="py-[17px] search_input">
+    <input
+      type="text"
+      class="input_dashboard_search w-full"
+      v-model="search"
+      placeholder="Search ..."
+    />
+    <div
+      class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+    >
+      <img src="/assets/imgs/icons/search.svg" alt="" />
+    </div>
+    <div
+      v-if="isSearchfilled"
+      @click="clearInput"
+      class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+    >
+      <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+    </div>
+  </div>
 </div>
 
 <table class="min-w-full divide-y divide-gray-200  ">
   <thead>
     <tr>
-      <th class="py-3 px-4 text-left leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3 px-4 text-right leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
+      <th class="py-3  text-left leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
+      <th class="py-3  text-right leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
 
     </tr>
   </thead>

@@ -77,7 +77,7 @@ const permissions = ref( [
     <table class="min-w-full divide-y divide-gray-200  mt-[40px] ">
         <thead>
           <tr>
-            <th class="py-3 px-4  text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
+            <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
              flex items-center justify-start space-x-[10px] ">
              <div>
               <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
@@ -94,11 +94,12 @@ const permissions = ref( [
         </thead>
         <tbody class="divide-y divide-gray-200 h-[250px] overflow-y-auto">
           <tr v-for="permission in permissions " :key="permission.id">
-            <td class="py-4 px-4 flex items-center space-x-4">
+            <td class="py-4  flex items-center space-x-4">
               <div>
                   <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                   class="peer sr-only ml-auto  " number />
-                  <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                  <label :for="`checkbox_`+permission.id" class="relative block border-[1px] 
+                   ml-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                     <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
@@ -111,7 +112,7 @@ const permissions = ref( [
           </tr>
         
           <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4  flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -127,7 +128,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -143,7 +144,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -159,7 +160,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -175,7 +176,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -191,7 +192,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />
@@ -207,7 +208,7 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 px-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                     class="peer sr-only ml-auto  " number />

@@ -23,26 +23,14 @@ const permissions = ref( [
     checked.value = value ? permissions.value.map(lang => lang.id) : [];
   }
 });
-
-
-const isSearchfilled = ref(false);
-const search = ref("");
-watch(search, (ov, nv) => {
-  return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
-});
-const clearInput = () => {
-  search.value = "";
-};
 </script>
 
 <template>
-  <div  v-if="modalStore.editUserModal"
+  <div  v-if="modalStore.InviteMemberUpdateModal"
     class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[648px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlEditUserModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlInviteMemberUpdateModal">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -59,7 +47,7 @@ const clearInput = () => {
   </div>
 <div class="container mx-auto">
   <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
-    Update Member
+    Invite Member
 </h1>
 
 <div class="flex items-center space-x-[12px] justify-start mt-[56px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
@@ -87,26 +75,25 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
 </p>
 
 <div class="w-full ">
-  <div class="py-[17px] p-1 search_input w-full">
-    <input
-      type="text"
-      class="input_dashboard_search w-full"
-      v-model="search"
-      placeholder="Search ..."
-    />
-    <div
-      class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
-    >
-      <img src="/assets/imgs/icons/search.svg" alt="" />
-    </div>
-    <div
-      v-if="isSearchfilled"
-      @click="clearInput"
-      class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
-    >
-      <img src="/assets/imgs/icons/clear_search.svg" alt="" />
-    </div>
-  </div>
+<div class="py-[17px] search_input">
+<input
+  type="text"
+  class="input_dashboard_search w-full"
+
+  placeholder="Search ..."
+/>
+<div
+  class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+>
+  <img src="/assets/imgs/icons/search.svg" alt="" />
+</div>
+<div
+
+  class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+>
+  <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+</div>
+</div>
 </div>
 
 <table class="min-w-full divide-y divide-gray-200  ">
@@ -118,7 +105,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
         <div class="">Select All</div>
        <div>
         <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin peer-checked:border-0 peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
           <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
@@ -137,7 +124,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
         <div>
           <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
           class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
@@ -150,11 +137,11 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   </tbody>
 </table>
 <div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" >
+  <button class=" btn-dashboard text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
     Save
   </button>
 

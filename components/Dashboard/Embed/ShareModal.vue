@@ -50,7 +50,7 @@ const {openShareModal} = useModalStore()
         type="email"
         placeholder="{{$t('email')}}"
         id="email"
-        class="input_floating_label peer"
+        class="input_floating_label peer text-darkGrey"
         v-model="v$.email.$model"
         :class="{
           input_error:
@@ -97,7 +97,7 @@ const {openShareModal} = useModalStore()
     </div>
 
     <div class="w-[166px] mx-auto">
-      <button class="mt-[40px] btn-dashboard" :disabled="v$.email.$invalid">
+      <button class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
         Send Embed Code
       </button>
     </div>

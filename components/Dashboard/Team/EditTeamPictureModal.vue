@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
       <button class="flex items-center justify-center btn-borderd-normal w-1/4" @click="removeFile" >
         <img src="~/assets/imgs/icons/bin.svg" class="w-[18px] h-[18px] text-[#E80902]" alt="">
 
-        <span>delete</span>
+        <span>Delete</span>
       </button>
       <button class=" btn-dashboard w-1/4" @click="showEditedState">
         Save

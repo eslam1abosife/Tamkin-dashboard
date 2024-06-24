@@ -17,6 +17,17 @@ const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore();
 
 const editTeamNameMode = ref(false);
+
+const isSearchfilled = ref(false);
+const search = ref("");
+watch(search, (ov, nv) => {
+  return search.value.length > 0
+    ? (isSearchfilled.value = true)
+    : (isSearchfilled.value = false);
+});
+const clearInput = () => {
+  search.value = "";
+};
 </script>
 
 <template>
@@ -37,8 +48,7 @@ const editTeamNameMode = ref(false);
       class="mt-[18px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:space-x-[16px]"
     >
       <div
-        class="flex items-center justify-between px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
-        style="padding: 30px, 16px, 30px, 16px"
+        class="flex items-center justify-start flex-row space-x-[32px] px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
         <div
           class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
@@ -67,7 +77,7 @@ const editTeamNameMode = ref(false);
         </div>
         <div
           v-else
-          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center"
+          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
           <div class="relative">
             <img src="/assets/imgs/avatar.png" alt="" />
@@ -97,68 +107,71 @@ const editTeamNameMode = ref(false);
             </div>
           </div>
         </div>
+        <div class="flex items-center justify-center w-2/4">
+          <div v-if="!editTeamNameMode">
+            <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey">
+              Your team name <br />
+              <span class="font-bold">Tamkin</span>
+            </h1>
+          </div>
 
-        <div v-if="!editTeamNameMode">
-          <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey">
-            Your team name <br />
-            <span class="font-bold">Tamkin</span>
-          </h1>
-        </div>
-
-        <div v-else>
-          <div class="w-full relative">
-            <input
-              type="text"
-              placeholder="{{$t('Your team name')}}"
-              id="teamName"
-              class="input_floating_label peer w-full"
-              v-model="v$.teamName.$model"
-              :class="{
-                input_error:
-                  v$.teamName.$error && v$.teamName.required.$invalid,
-                input_success: !v$.teamName.$error && !v$.teamName.$invalid,
-              }"
-            />
-            <label
-              for="teamName"
-              class="floating_label"
-              :class="[
-                v$.teamName.$error && v$.teamName.required.$invalid
-                  ? '!text-error'
-                  : '',
-              ]"
-            >
-              {{ $t("teamName") }}*
-            </label>
-            <div
-              class="w-full lg:w-4/6 mt-2"
-              v-if="v$.teamName.$error && v$.teamName.required.$invalid"
-            >
-              <p class="error_message">
-                <span
-                  v-if="v$.teamName.$error && v$.teamName.required.$invalid"
-                  >{{ $t("teamName_is_required") }}</span
-                >
-              </p>
+          <div v-else>
+            <div class="w-full relative">
+              <input
+                type="text"
+                placeholder="{{$t('Your team name')}}"
+                id="teamName"
+                class="input_floating_label peer w-full"
+                v-model="v$.teamName.$model"
+                :class="{
+                  input_error:
+                    v$.teamName.$error && v$.teamName.required.$invalid,
+                  input_success: !v$.teamName.$error && !v$.teamName.$invalid,
+                }"
+              />
+              <label
+                for="teamName"
+                class="floating_label"
+                :class="[
+                  v$.teamName.$error && v$.teamName.required.$invalid
+                    ? '!text-error'
+                    : '',
+                ]"
+              >
+                {{ $t("Your team name") }}*
+              </label>
+              <div
+                class="w-full lg:w-4/6 mt-2"
+                v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+              >
+                <p class="error_message">
+                  <span
+                    v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+                    >{{ $t("teamName_is_required") }}</span
+                  >
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div v-if="!editTeamNameMode">
-          <button
-            @click="editTeamNameMode = !editTeamNameMode"
-            class="btn_bordered_dashboard font-[500] text-[15px] leading-[22.5px]"
-          >
-            Edit Team
-          </button>
-        </div>
-        <div v-else>
-          <button
-            @click="editTeamNameMode = !editTeamNameMode"
-            class="btn_bordered_dashboard font-[500] text-[15px] leading-[22.5px]"
-          >
-            save
-          </button>
+        <div class="flex items-center justify-center">
+          <div v-if="!editTeamNameMode">
+            <button
+              @click="editTeamNameMode = !editTeamNameMode"
+              class="btn_bordered_dashboard font-[500] text-[15px] leading-[22.5px]"
+            >
+              Edit Team
+            </button>
+          </div>
+          <div v-else>
+            <button
+              @click="editTeamNameMode = !editTeamNameMode"
+              class="btn_bordered_dashboard font-[500] text-[15px] leading-[22.5px]"
+            >
+              save
+            </button>
+          </div>
         </div>
       </div>
 
@@ -229,19 +242,30 @@ const editTeamNameMode = ref(false);
           <div
             class="flex items-center justify-between space-x-[66px] lg:p-[16px] w-full"
           >
-            <div class="p-[16px] search_input w-[550px]">
-              <input
-                type="text"
-                class="input_dashboard_search w-full"
-                placeholder="Search ..."
-              />
-              <div class="absolute top-[16px] p-[16px]">
-                <img src="/assets/imgs/icons/search.svg" alt="" />
-              </div>
+          <div class="py-[17px] search_input w-[460px]">
+            <input
+              type="text"
+              class="input_dashboard_search w-full"
+              v-model="search"
+              placeholder="Search ..."
+            />
+            <div
+              class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+            >
+              <img src="/assets/imgs/icons/search.svg" alt="" />
             </div>
+            <div
+              v-if="isSearchfilled"
+              @click="clearInput"
+              class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+            >
+              <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+            </div>
+          
+        </div>
             <div class="">
               <button
-                class="btn-dashboard w-[141px]"
+                class="btn-dashboard hover_light w-[141px]"
                 @click="modalStore.controlInviteMemberModal"
               >
                 Invite Member
@@ -249,7 +273,7 @@ const editTeamNameMode = ref(false);
             </div>
           </div>
         </div>
-        <table class="min-w-full w-full divide-y last-border-b divide-gray-200 ">
+        <table class="min-w-full w-full divide-y last-border-b divide-gray-200">
           <thead class="w-full">
             <tr class="">
               <th
@@ -264,7 +288,7 @@ const editTeamNameMode = ref(false);
                 Permissions
               </th>
               <th
-                class="py-3.5  text-center text-[14px] font-[600] text-darkGrey w-[15%]"
+                class="py-3.5 text-center text-[14px] font-[600] text-darkGrey lg:w-[20%] 2xl:w-[16%]"
               >
                 Action
               </th>
@@ -302,19 +326,16 @@ const editTeamNameMode = ref(false);
               <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start">
                   <button
+                    @click="modalStore.controlEditPermissionsModal"
                     class="flex items-center space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img
-                      src="/assets/imgs/icons/arow_down.svg"
-                      @click="modalStore.controlEditPermissionsModal"
-                      alt=""
-                    />
+                    <img src="/assets/imgs/icons/arow_down.svg" alt="" />
                   </button>
                 </div>
               </td>
 
-              <td class="text-right text-[14px] font-[400] text-darkGrey ">
+              <td class="text-right text-[14px] font-[400] text-darkGrey">
                 <div
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
@@ -412,7 +433,7 @@ const editTeamNameMode = ref(false);
                 </div>
               </td>
 
-              <td class="text-right text-[14px] font-[400] text-darkGrey ">
+              <td class="text-right text-[14px] font-[400] text-darkGrey">
                 <div
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
@@ -510,7 +531,7 @@ const editTeamNameMode = ref(false);
                 </div>
               </td>
 
-              <td class="text-right text-[14px] font-[400] text-darkGrey ">
+              <td class="text-right text-[14px] font-[400] text-darkGrey">
                 <div
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
@@ -608,7 +629,7 @@ const editTeamNameMode = ref(false);
                 </div>
               </td>
 
-              <td class="text-right text-[14px] font-[400] text-darkGrey ">
+              <td class="text-right text-[14px] font-[400] text-darkGrey">
                 <div
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
@@ -681,7 +702,8 @@ const editTeamNameMode = ref(false);
             10
           </button>
           <button
-            class="px-3 py-1 rounded-md bg-transparent bg-light text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            class="px-3 py-1 rounded-md  bg-darkGrey
+             text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             20
           </button>
@@ -691,10 +713,12 @@ const editTeamNameMode = ref(false);
             >Page</span
           >
           <button
-          class="p-[4px] rounded-md bg-transparent text-darkGrey  hover:bg-light-grey"
-        ><img src="/assets/imgs/arrow-left.svg" alt=""></button>
+            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey"
+          >
+            <img src="/assets/imgs/arrow-left.svg" alt="" />
+          </button>
           <button
-            class="px-3 py-1 rounded-md bg-transparent text-darkGrey  hover:bg-light-grey focus:outline-none"
+            class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none"
           >
             1
           </button>
@@ -707,8 +731,10 @@ const editTeamNameMode = ref(false);
             2
           </button>
           <button
-          class="p-[4px] rounded-md bg-transparent text-darkGrey  hover:bg-light-grey"
-        ><img src="/assets/imgs/arrow-right-pagination.svg" alt=""></button>
+            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey"
+          >
+            <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
+          </button>
         </div>
       </div>
     </section>

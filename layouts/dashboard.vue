@@ -4,7 +4,7 @@ import { useModalStore } from "@/stores/modal";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
-const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal,editUserModal} = storeToRefs(modalStore);
+const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal,editUserModal,InviteMemberUpdateModal} = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
@@ -17,6 +17,7 @@ const isSearchfilled = ref(false);
 const search = ref("");
 const sideBarOpen = ref(true);
 const sideBarOpenMobile = ref(false);
+const showNotifiations = ref(false)
 
 function toggleSidebar() {
   sideBarOpen.value = !sideBarOpen.value;
@@ -54,7 +55,7 @@ const clearInput = () => {
     <!--  -->
     
       <div
-     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal || editUserModal"
+     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal || editUserModal || InviteMemberUpdateModal"
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden">
     </div>
       <DashboardTeamEditUserModal :showModal="editUserModal"/>
@@ -62,6 +63,7 @@ const clearInput = () => {
       <DashboardEmbedShareModal :showModal="showShareModal" />
 <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
 <DashboardTeamInviteMember :showModal="inviteMemberModal"/>
+<DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal"/>
 <DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/>
 
   <DashboardTeamEditUserPermissionsModal :showModal="editPermissionsModal"/>
@@ -163,14 +165,19 @@ const clearInput = () => {
             </div>
             <div class="flex items-center lg:justify-end  justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] ">
               <div
-                class="flex items-center justify-center border-[1px] border-[#EAEAEA] active_notification rounded-[8px] bg-[#FFFEFE]  w-[48px] h-[48px]"
+              @click="showNotifiations = !showNotifiations"
+              :class="[showNotifiations ? 'active_notification' :'']"
+                class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA]  rounded-[8px] bg-[#FFFEFE]  w-[48px] h-[48px]"
               >
                 <div class="relative stroke-current text-darkGrey">
                   <div
+                  :class="[showNotifiations ? 'hidden' :'']"
+
                     class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[24px] h-[24px] rounded-full flex items-center justify-center"
                   >
                     <span
                       class="text-[12px] font-[700] text-white"
+
                       style="line-height: 68px"
                       >5</span
                     >
@@ -180,7 +187,9 @@ const clearInput = () => {
                     height="22"
                     viewBox="0 0 20 22"
                     fill="none"
-                    class="active_bell"
+                    :class="[showNotifiations ? 'active_bell' :'']"
+
+                    class=""
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
