@@ -243,7 +243,7 @@ const permissions = ref( [
 
 <style lang="scss">
 .close_btn {
-  @apply absolute top-[-10px] right-[-10px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
+  @apply absolute top-[-16px] right-[-14px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
   &:hover {
     @apply text-white;
     background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);

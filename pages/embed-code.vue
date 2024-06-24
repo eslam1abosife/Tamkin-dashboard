@@ -8,6 +8,7 @@ import embed from '~/assets/animation/embed.json'
 const code = ref(true);
 const advancedCode = ref(false)
 const currentCode = ref(``)
+const copyDone = ref(false)
 const showAdancedCode = ()=>{
   if(!advancedCode.value){
     code.value = false
@@ -67,16 +68,32 @@ onBeforeMount(()=>{
   currentCode.value = `const foo = 'bar';`
   code.value = true
 })
+
+
+const copyCode = () => {
+  copyDone.value = true;
+};
+
+watch(copyDone, (newValue) => {
+  if (newValue) {
+    // Reset copyDone after the hideIn duration
+    setTimeout(() => {
+      copyDone.value = false;
+    }, 2000);
+  }
+});
 </script>
 
 <template>
-  <div class="relative w-full">
+  <div class="relative w-full inset-0">
+
     <div class="container mx-auto space-y-[32px] relative">
       <!-- <DashboardEmbedShareModal/>
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->
 
       <div class="flex items-center justify-center flex-col">
      <div class="flex flex-col lg:flex-row items-center justify-between">
+
       <h1
       class="text-center text-[24px] font-[500] lg:order-1 order-2"
       style="line-height: 43.2px"
@@ -86,11 +103,13 @@ onBeforeMount(()=>{
         >Embed code...</span
       >
      
-    
+
         </h1>
          <Vue3Lottie :animationData="embed" :height="90" :width="90" :noMargin="true"
         class="  lg:order-2 order-1 p-0 w-[105px] h-[100px]"  />
         </div>
+        <DashboardToastSuccess v-if="true" :hideIn="2000" :message="'Copied to clipboard'" />
+
       <div>
         <p
         class="font-[400] text-[15px] text-center"
@@ -129,7 +148,7 @@ onBeforeMount(()=>{
               <div>Advanced View</div>
             </button>
             <div
-              class="ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2]"
+              class="ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
                 <div class="pl-[16px]">
@@ -180,15 +199,17 @@ onBeforeMount(()=>{
 
                 <button
                   @click="openShareModal"
-                  class="h-[45px] btn px-4 py-2 rounded-md hover:bg-gradient-to-r hover:to-tamkinStart hover:from-tamkinEnd hover:text-transparent hover:bg-clip-text"
+                  class="h-[45px] btn px-4 py-2 rounded-md
+                   group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                   Share code with your team
                 </button>
               </div>
             </div>
 
-            <div
-              class="ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2]"
+            <div @click="copyCode"
+              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
+               bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
                 <div class="pl-[16px]">
@@ -222,8 +243,9 @@ onBeforeMount(()=>{
                   </svg>
                 </div>
 
-                <button
-                  class="h-[45px] px-4 py-2 rounded-md hover:bg-gradient-to-r hover:to-tamkinStart hover:from-tamkinEnd hover:text-transparent hover:bg-clip-text"
+                <button 
+                  class="h-[45px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart 
+                  group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                  Copy
                 </button>
