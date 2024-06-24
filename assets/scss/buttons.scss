@@ -69,7 +69,8 @@ $colors: (
 }
 
 .close_sidebar_btn {
-  @apply cursor-pointer absolute flex items-center justify-center lg:left-[95%] bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px];
+  @apply cursor-pointer fixed flex items-center justify-center  lg:left-[26%] 2xl:left-[24%] bg-white border-[1px]
+   border-linecolor rounded-full w-[35px] h-[35px];
 
   &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);

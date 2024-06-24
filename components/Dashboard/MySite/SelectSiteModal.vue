@@ -97,11 +97,11 @@ const clearInput = () => {
   </thead>
   <tbody class="divide-y divide-gray-200">
     <tr v-for="permission in permissions " :key="permission.id">
-      <td class="py-4 px-4 flex items-center space-x-4">
+      <td class="py-4  flex items-center space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
         <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
-      <td class="py-4 px-4 text-right ">
+      <td class="py-4  text-right ">
         <div>
           <input type="checkbox" 
               @click="checked = `checkbox_`+permission.id"

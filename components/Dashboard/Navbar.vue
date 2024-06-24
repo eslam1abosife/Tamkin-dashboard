@@ -29,8 +29,9 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px] z-[100]"
+    class="flex-col items-center justify-start  2xl:p-0  lg:flex mx-auto mt-[6px] z-[100]"
   >
+  
     <div
       class="block lg:hidden absolute top-[35px] right-0"
       @click="toggleSidebarMobile"
@@ -62,14 +63,14 @@ const isLinkActive = (path) => {
     />
     <img
       src="/assets//imgs/icons/tamkin_small.svg"
-      class="pb-[32px] pt-[16px] mx-auto"
+      class="mb-[44px] mt-[16px]  w-[24px] h-[24px] mx-auto"
       alt=""
       v-else
     />
   </div>
   <img
     src="/assets/imgs/team.png"
-    class="w-[40px] h-[40px]"
+    class="h-[24px] w-[24px]"
     alt=""
     :class="[!sideBarOpen ? 'block' : 'hidden']"
   />
@@ -80,9 +81,8 @@ const isLinkActive = (path) => {
 >
   <img
     src="/assets/imgs/team.png"
-    class="w-[40px] h-[40px]"
+    :class="[sideBarOpen ? 'h-[40px] w-[40px] ' : 'h-[24px] w-[24px]']"
     alt=""
-    :class="[!sideBarOpen ? 'block' : '']"
   />
 
   <div class="flex items-center space-x-[100px]" >
@@ -168,11 +168,12 @@ const isLinkActive = (path) => {
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/dashboard')"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
       >
         <div>
           <svg
-            class=" pl-[11px] w-full h-full"
+          :class="[sideBarOpen ? 'pl-[11px]' :'']"
+            class="  w-full h-full"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -259,13 +260,12 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Dashboard</span>
+        <span v-if="sideBarOpen ">Dashboard</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/embed-code')"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
@@ -273,7 +273,9 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                        class="  w-full h-full"
+
           >
             <defs v-if="isLinkActive('/embed-code')">
               <linearGradient
@@ -304,16 +306,17 @@ const isLinkActive = (path) => {
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/my-site')"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
             height="24"
             viewBox="0 0 25 24"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+                        class="  w-full h-full"
+
           >
             <g clip-path="url(#clip0_2978_23987)">
               <path
@@ -348,28 +351,28 @@ const isLinkActive = (path) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">My Site</span>
+        <span v-if="sideBarOpen">My Site</span>
       </TamkinSideBarLink>
 
       <div class="relative w-full" @click="openMenuSub(2)">
         <div
           class="dashboard-nav-link-has-menu"
           :class="[
-            !sideBarOpen ? 'w-full' : 'w-full lg:w-[325px]',
-            showSubMenu[2] === true ? 'active' : '',
+         !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
+                        showSubMenu[2] === true ? 'active' : '',
           ]"
         >
           <div>
             <img
               src="/assets/imgs/icons/signlang.svg"
               alt=""
-              class="pl-[11px]"
+                 :class="[sideBarOpen ? 'pl-[11px]' :'']"
             />
           </div>
-          <div v-if="sideBarOpen || sideBarOpenMobile">
+          <div v-if="sideBarOpen">
             Sign language Services
           </div>
-          <div v-if="sideBarOpen || sideBarOpenMobile">
+          <div v-if="sideBarOpen ">
             <svg
               width="7"
               height="12"
@@ -439,8 +442,7 @@ const isLinkActive = (path) => {
 
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
@@ -448,7 +450,9 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                        class="  w-full h-full"
+
           >
             <g clip-path="url(#clip0_2978_5551)">
               <path
@@ -473,8 +477,7 @@ const isLinkActive = (path) => {
 
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
@@ -482,7 +485,9 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                        class="  w-full h-full"
+
           >
             <g clip-path="url(#clip0_2978_5569)">
               <path
@@ -506,8 +511,7 @@ const isLinkActive = (path) => {
       </div>
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
@@ -515,7 +519,9 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                        class="  w-full h-full"
+
           >
             <g clip-path="url(#clip0_2978_5587)">
               <path
@@ -539,8 +545,7 @@ const isLinkActive = (path) => {
       </div>
       <div
         class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'w-[55px]' : 'w-full lg:w-[325px]']"
-      >
+ :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
         <div>
           <svg
             width="25"
@@ -548,7 +553,9 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class=" pl-[11px] w-full h-full"
+               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                        class="  w-full h-full"
+
           >
             <g clip-path="url(#clip0_2978_5605)">
               <path

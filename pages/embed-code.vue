@@ -115,14 +115,16 @@ const clearInput = () => {
      
 
         </h1>
-         <Vue3Lottie :animationData="embed" :height="90" :width="90" :noMargin="true"
-        class="  lg:order-2 order-1 p-0 w-[105px] h-[100px]"  />
+      <div   class="  lg:order-2 order-1 p-0 w-[105px] h-[100px] " >
+        <Vue3Lottie :animationData="embed" :height="100" :width="105" :noMargin="true"
+       />
+      </div>
         </div>
         <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
 
       <div>
         <p
-        class="font-[400] text-[15px] text-center"
+        class="font-[400] text-[15px] text-center mt-[-23px]"
         style="line-height: 22.5px"
       >
         Insert the following embed code at the beginning of your site's
@@ -130,7 +132,8 @@ const clearInput = () => {
       </p>
       </div>
 
-        <div class="mt-[18px] w-full h-full bg-whiteTamkin rounded-[10px]">
+        <div class="mt-[44px] w-full h-full bg-whiteTamkin rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+">
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
             style="padding: 30px, 16px, 20px, 15px"

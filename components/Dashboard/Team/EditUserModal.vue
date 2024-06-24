@@ -137,7 +137,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
         <div>
           <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
           class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px]  peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
@@ -150,7 +150,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   </tbody>
 </table>
 <div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlEditUserModal">
 
     Cancel
   </button>

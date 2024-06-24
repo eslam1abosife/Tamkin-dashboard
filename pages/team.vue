@@ -45,14 +45,16 @@ const clearInput = () => {
     </div>
 
     <div
-      class="mt-[18px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:space-x-[16px]"
     >
       <div
-        class="flex items-center justify-start flex-row space-x-[32px] px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
+        class="flex items-center justify-between flex-row space-x-[24px] px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
-        <div
-          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
-          v-if="!modalStore.editDonePicture"
+      <div class="flex items-center justify-center space-x-[20px]">
+        <div      v-if="!modalStore.editDonePicture">
+          <div
+          class="w-[65px] h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+     
           @click="modalStore.controlTeamEditPictureModal"
         >
           <svg
@@ -75,11 +77,14 @@ const clearInput = () => {
             />
           </svg>
         </div>
-        <div
-          v-else
+        
+         </div>
+         <div   v-else>
+          <div
+        
           class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
-          <div class="relative">
+          <div class="relative ">
             <img src="/assets/imgs/avatar.png" alt="" />
             <div
               @click="modalStore.controlTeamEditPictureModal"
@@ -107,16 +112,16 @@ const clearInput = () => {
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-center w-2/4">
-          <div v-if="!editTeamNameMode">
+         </div>
+         
+          <div v-if="!editTeamNameMode" class="">
             <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey">
               Your team name <br />
               <span class="font-bold">Tamkin</span>
             </h1>
           </div>
-
           <div v-else>
-            <div class="w-full relative">
+            <div class=" relative 2xl:w-[274px]">
               <input
                 type="text"
                 placeholder="{{$t('Your team name')}}"
@@ -141,19 +146,20 @@ const clearInput = () => {
                 {{ $t("Your team name") }}*
               </label>
               <div
-                class="w-full lg:w-4/6 mt-2"
+                class="w-full lg:w-4/6 "
                 v-if="v$.teamName.$error && v$.teamName.required.$invalid"
               >
-                <p class="error_message">
+                <div class="error_message ">
                   <span
                     v-if="v$.teamName.$error && v$.teamName.required.$invalid"
                     >{{ $t("teamName_is_required") }}</span
                   >
-                </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+      </div>
+       
 
         <div class="flex items-center justify-center">
           <div v-if="!editTeamNameMode">
@@ -340,10 +346,10 @@ const clearInput = () => {
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
                   <div>
-                    <svg
+                     <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-[#285F4] cursor-pointer"
+                      class="text-[#8C8C8C] hover:text-[#4285F4] cursor-pointer"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -438,10 +444,10 @@ const clearInput = () => {
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
                   <div>
-                    <svg
+                     <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-[#285F4] cursor-pointer"
+                      class="text-[#8C8C8C] hover:text-[#4285F4] cursor-pointer"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -536,10 +542,10 @@ const clearInput = () => {
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
                   <div>
-                    <svg
+                     <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-[#285F4] cursor-pointer"
+                      class="text-[#8C8C8C] hover:text-[#4285F4] cursor-pointer"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -634,10 +640,10 @@ const clearInput = () => {
                   class="flex items-center justify-end space-x-[16px] pr-[16px]"
                 >
                   <div>
-                    <svg
+                     <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-[#285F4] cursor-pointer"
+                      class="text-[#8C8C8C] hover:text-[#4285F4] cursor-pointer"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -702,7 +708,7 @@ const clearInput = () => {
             10
           </button>
           <button
-            class="px-3 py-1 rounded-md  bg-darkGrey
+            class="px-3 py-1 rounded-md  bg-[#A7A7A7] hover:bg-lightGrey
              text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             20

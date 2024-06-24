@@ -31,12 +31,23 @@
     .dashboard-nav-link-has-menu {
         @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
         line-height: 27px;
+        &.closed_sidebar{
+            @apply flex items-center justify-center  space-x-[16px] w-full lg:w-[55px] 
+             bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
+
+        }
     }
 
     .dashboard-nav-link {
-        @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
+        @apply flex items-center justify-start mr-auto space-x-[16px] w-full lg:w-[325px]
+         bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
         line-height: 27px;
 
+        &.closed_sidebar{
+            @apply flex items-center justify-center  space-x-[16px] w-full lg:w-[55px] 
+             bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
+
+        }
         &.active-link {
             &.closedNav {
                 @apply w-[55px];

@@ -43,6 +43,17 @@ const checkAll = computed({
         checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
     },
 });
+
+const isSearchfilled = ref(false);
+const search = ref("");
+watch(search, (ov, nv) => {
+  return search.value.length > 0
+    ? (isSearchfilled.value = true)
+    : (isSearchfilled.value = false);
+});
+const clearInput = () => {
+  search.value = "";
+};
 </script>
 
 <template>
@@ -125,9 +136,9 @@ const checkAll = computed({
                                     <div class="hover:bg-tamkinLight px-[1px] pt-[16px] cursor-pointer">
                                         <div @click="switchTab('saved')" :class="[
                                 currentTab === 'saved'
-                                    ? 'border-b-[3px] border-tamkin'
+                                    ? 'border-b-[3px] border-tamkin  font-[600] '
                                     : 'border-b-[1px] border-[#C5C5C5]',
-                            ]" class="text-[14px] px-[4px] font-[600] pb-[16px] text-[#021328]" style="line-height: 21px">
+                            ]" class="text-[14px] px-[4px] pb-[16px] text-[#021328]" style="line-height: 21px">
                                             My Sites (4)
                                         </div>
                                     </div>
@@ -135,7 +146,7 @@ const checkAll = computed({
                                         @click="switchTab('deleted')">
                                         <div :class="[
                                 currentTab === 'deleted'
-                                    ? 'border-b-[3px] border-tamkin'
+                                    ? 'border-b-[3px] border-tamkin  font-[600]'
                                     : 'border-b-[1px] border-[#C5C5C5]',
                             ]" class="text-[14px] px-[4px] font-[400] pb-[16px] text-[#021328]" style="line-height: 21px">
                                             Deleted Sites (4)
@@ -143,12 +154,26 @@ const checkAll = computed({
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between  ">
-                                    <div class="p-[16px] search_input w-full">
-                                        <input type="text" class="input_dashboard_search w-[289px] "
-                                            placeholder="Search ..." />
-                                        <div class="absolute top-[16px] p-[16px]">
-                                            <img src="/assets/imgs/icons/search.svg" alt="" />
+                                    <div class="py-[17px] search_input w-full mr-[16px]">
+                                        <input
+                                          type="text"
+                                          class="input_dashboard_search w-[289px]"
+                                          v-model="search"
+                                          placeholder="Search ..."
+                                        />
+                                        <div
+                                          class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+                                        >
+                                          <img src="/assets/imgs/icons/search.svg" alt="" />
                                         </div>
+                                        <div
+                                          v-if="isSearchfilled"
+                                          @click="clearInput"
+                                          class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+                                        >
+                                          <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                                        </div>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -156,17 +181,17 @@ const checkAll = computed({
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="px-4 h-[50px] text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                            class="px-4 h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
-                                        <th class="text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Billing
                                         </th>
-                                        <th class="text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Products
                                         </th>
                                         <th
-                                            class="flex items-center justify-start space-x-[6px] text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                            class="flex items-center justify-start space-x-[6px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             <div>Status</div>
                                             <div>
                                                 <span class="tooltip left" id="saveButton"
@@ -183,13 +208,13 @@ const checkAll = computed({
                                             </div>
                                         </th>
 
-                                        <th class="text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Date
                                         </th>
 
                                         <th
                                             class="flex items-center justify-start space-x-[6px] text-left text-[14px] 
-                                            font-[400] leading-[21px] text-darkGrey">
+                                            font-[600] leading-[21px] text-darkGrey">
                                             <div>Traffic</div>
                                             <div>
                                                 <span class="tooltip right" id="saveButton"
@@ -205,7 +230,7 @@ const checkAll = computed({
                                                 </span>
                                             </div>
                                         </th>
-                                        <th colspan="2" class="text-center text-[14px] font-[400] leading-[21px] text-darkGrey pr-[12px] ">
+                                        <th colspan="2" class="text-center text-[14px] font-[600] leading-[21px] text-darkGrey pr-[12px] ">
                                             Action
                                         </th>
                                     </tr>
@@ -298,7 +323,7 @@ const checkAll = computed({
                                         </td>
 
                                         <td class="text-darkGrey text-left">
-                                            <div class="text-[14px] font-[600] leading-[21px] text-[#DE4134]">
+                                            <div class="text-[14px] font-[500] leading-[21px] text-[#DE4134]">
                                                 Not installed
                                             </div>
                                         </td>
@@ -457,12 +482,12 @@ const checkAll = computed({
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="px-4 h-[50px] text-left text-[14px] font-[400] leading-[21px] text-darkGrey">
+                                            class="px-4 h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
 
                                         <th
-                                            class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[500] text-darkGrey flex items-center justify-end space-x-[10px]">
+                                            class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[600] text-darkGrey flex items-center justify-end space-x-[10px]">
                                             <div class="">Restore All</div>
                                             <div>
                                                 <input type="checkbox" id="checkbox" class="peer sr-only m-auto"
@@ -523,26 +548,41 @@ const checkAll = computed({
                             style="box-shadow: 0px 4px 24px 8px #51459f1a">
                             <div class="flex items-center justify-center lg:justify-between flex-row">
                                 <div class="flex items-center space-x-[16px] pl-[16px]">
-                                    <div class="hover:bg-tamkinLight px-[1px] pt-[16px] cursor-pointer">
+                                    <div class="hover:bg-tamkinLight px-[1px]  cursor-pointer">
                                         <div @click="switchTab('saved')"
-                                            class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600] pb-[16px] text-[#021328]"
+                                            class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600]
+                                             pb-[16px] text-[#021328]"
                                             style="line-height: 21px">
                                             My Sites
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between  pr-[16px] w-2/4">
-                                    <div class="py-[16px] search_input w-full">
-                                        <input type="text" class="input_dashboard_search w-full"
-                                            placeholder="Search ..." />
-                                        <div class="absolute top-[16px] p-[16px]">
-                                            <img src="/assets/imgs/icons/search.svg" alt="" />
+                                    <div class="py-[17px] search_input w-full mr-[16px]">
+                                        <input
+                                          type="text"
+                                          class="input_dashboard_search w-full"
+                                          v-model="search"
+                                          placeholder="Search ..."
+                                        />
+                                        <div
+                                          class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+                                        >
+                                          <img src="/assets/imgs/icons/search.svg" alt="" />
                                         </div>
+                                        <div
+                                          v-if="isSearchfilled"
+                                          @click="clearInput"
+                                          class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+                                        >
+                                          <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                                        </div>
+                                      
                                     </div>
                                 </div>
                             </div>
                             <table class="min-w-full divide-y divide-gray-200">
-                                <div class="flex items-center justify-center h-[188px] mt-[8px]">
+                                <div class="flex items-center justify-center h-[188px] mt-[74px]">
                                     <div class="flex flex-col items-center justify-center space-y-[12px]">
                                         <div>
                                             <img src="/assets/imgs/no_sites.svg" alt="" />
@@ -575,7 +615,7 @@ const checkAll = computed({
                         10
                     </button>
                     <button
-                        class="px-3 py-1 rounded-md text-white bg-darkGrey focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         20
                     </button>
                 </div>

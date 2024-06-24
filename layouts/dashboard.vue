@@ -71,36 +71,40 @@ const clearInput = () => {
   <!-- <DashboardMySiteUpgradeModal/> -->
       <div
       
-        class="flex-1 lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"
+        class=" lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100] 
+         border-r border-[1px] border-lightGrey "
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
+            sideBarOpen ? 'min-w-[350px]' :''
         ]"
       >
-        <div
-          @click="toggleSidebar"
-          :class="[
-            !sideBarOpen
-              ? 'left-[80px] rotate-180 lg:!top-[140px] 2xl:!top-[130px]'
-              : 'lg:!top-[170px] 2xl:!top-[160px]',
-          ]"
-          class="close_sidebar_btn group z-[300] lg:flex hidden"
-        >
-          <svg
-            width="9"
-            height="15"
-            viewBox="0 0 9 15"
-            fill="none"
-            class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-            />
-          </svg>
-        </div>
-        <div class="overflow-y-auto no-scrollbar " >
+      <div
+      @click="toggleSidebar"
+      :class="[
+        !sideBarOpen
+          ? 'left-[80px] rotate-180 lg:!top-[126px]'
+          : 'lg:!top-[161px]',
+      ]"
+      class="close_sidebar_btn group z-[300] lg:flex hidden"
+    >
+      <svg
+        width="9"
+        height="15"
+        viewBox="0 0 9 15"
+        fill="none"
+        class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+        />
+      </svg>
+    </div>
+     
+        <div class="overflow-y-auto no-scrollbar fixed  " >
+      
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
             :mobileSidebar="sideBarOpenMobile"
