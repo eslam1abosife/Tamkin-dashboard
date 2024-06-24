@@ -143,8 +143,9 @@ const checkAll = computed({
       <div class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
-            <div class="rounded-[10px] bg-white">
-              <div
+            <div
+            class="flex flex-col items-between justify-center rounded-[10px] pb-[42px] mb-[16px] bg-white"
+            style="box-shadow: 0px 4px 24px 8px #51459f1a">              <div
                 class="flex items-center justify-center lg:justify-between flex-row"
               >
                 <div class="flex items-center space-x-[16px] pl-[16px]">
@@ -199,9 +200,9 @@ const checkAll = computed({
                 v-if="currentTab === 'saved'"
               >
                 <thead>
-                  <tr>
+                  <tr class="h-[50px]">
                     <th
-                      class="px-4 text-left text-[14px] font-[400] leading-[21px] text-darkGrey"
+                      class="px-4  h-[50px] text-left text-[14px] font-[400] leading-[21px] text-darkGrey"
                     >
                       Sites URL
                     </th>
@@ -287,9 +288,9 @@ const checkAll = computed({
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr>
+                  <tr class="h-[50px]">
                     <td
-                      class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
+                      class="flex h-[50px]  items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
                     >
                       <img
                         src="/assets/imgs/icons/avatar_table.svg"
@@ -372,7 +373,7 @@ const checkAll = computed({
                   </tr>
 
                
-                  <tr class="bg-[#FAEBEB]">
+                  <tr class="bg-[#FAEBEB] h-[50px]">
                     <td
                     class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
 
@@ -448,7 +449,7 @@ const checkAll = computed({
                       </div>
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="h-[50px]">
                     <td
                       class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
                     >
@@ -531,7 +532,7 @@ const checkAll = computed({
                       </div>
                     </td>
                   </tr>
-                  <tr>
+                  <tr class="h-[50px]">
                     <td
                     class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
 
@@ -624,15 +625,15 @@ const checkAll = computed({
                 v-if="currentTab === 'deleted'"
               >
                 <thead>
-                  <tr>
+                  <tr class="h-[50px]">
                     <th
-                      class=" px-4 text-left text-[14px] font-[400] leading-[21px] text-darkGrey"
+                      class=" px-4 h-[50px] text-left text-[14px] font-[400] leading-[21px] text-darkGrey"
                     >
                       Sites URL
                     </th>
 
                     <th
-                      class="py-4 pr-[18px] text-right text-[15px] leading-[22.5px] font-[500] text-darkGrey flex items-center justify-end space-x-[10px]"
+                      class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[500] text-darkGrey flex items-center justify-end space-x-[10px]"
                     >
                       <div class="">Restore All</div>
                       <div>
@@ -665,7 +666,7 @@ const checkAll = computed({
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 ">
-                  <tr v-for="dSite in deletedSites" :key="dSite.id" class="">
+                  <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                     <td
                     class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px]  text-[14px] font-[400] text-darkGrey"
 
