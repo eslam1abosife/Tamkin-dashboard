@@ -8,7 +8,7 @@
 
 
     .tamkin_team_card {
-        @apply flex items-center justify-start py-[10px] px-[16px] hover:bg-tamkinLight cursor-pointer bg-white w-[309px] h-[60px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
+        @apply flex items-center justify-start py-[10px] px-[16px] hover:bg-tamkinLight cursor-pointer bg-white w-full h-[60px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
 
         .arrow_svg {
             @apply fill-darkGrey;
@@ -250,3 +250,7 @@
     pointer-events: none;
 }
 
+
+.last-border-b:last-child {
+    border-bottom: 1px solid #E5E7EB; /* Adjust the color to match your design */
+}

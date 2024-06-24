@@ -18,7 +18,16 @@ const fileURL = (file) => {
 
 const removeFile = ()=>{
   acceptedFilesRef.value = []
+  modalStore.triggerupdatedPicture()
+
 }
+
+const showEditedState = ()=>{
+  modalStore.controlTeamEditPictureModal()
+  modalStore.triggerupdatedPicture()
+}
+
+
 
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach(file => {
@@ -76,12 +85,12 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
-      <button class="flex items-center justify-center btn-borderd-normal w-1/4" @click="removeFile">
+      <button class="flex items-center justify-center btn-borderd-normal w-1/4" @click="removeFile" >
         <img src="~/assets/imgs/icons/bin.svg" class="w-[18px] h-[18px] text-[#E80902]" alt="">
 
         <span>delete</span>
       </button>
-      <button class=" btn-dashboard w-1/4" >
+      <button class=" btn-dashboard w-1/4" @click="showEditedState">
         Save
       </button>
    

@@ -69,8 +69,10 @@ const checkAll = computed({
 
         <div
             class="mt-[18px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-x-[16px]">
-            <div class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white 2xl:w-2/4 lg:w-[500px] h-[200px] lg:h-[129px] rounded-[10px] border-[1px] border-lightGrey"
-                style="padding: 30px, 16px, 30px, 16px">
+            <div class="flex items-center lg:flex-row flex-col justify-start px-[16px]
+            py-[23px] w-full bg-white lg:w-[73%] 2xl:w-[75%] h-[200px] lg:h-[129px] rounded-[10px] "
+                style="box-shadow: 0px 4px 24px 8px #51459F1A;
+">
                 <div class="w-full space-y-[16px]">
                     <div>
                         <h1 class="font-[600] text-[18px] leading-[27px] text-darkGrey">

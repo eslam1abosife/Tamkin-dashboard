@@ -34,14 +34,16 @@ const editTeamNameMode = ref(false);
     </div>
 
     <div
-      class="mt-[18px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:space-x-[16px]"
+      class="mt-[18px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col 
+      justify-center lg:justify-start lg:space-x-[16px]"
     >
       <div
-        class="flex items-center justify-between px-[16px] py-[23px] w-full bg-white 2xl:w-full lg:w-[388px] h-[108px] rounded-[10px] border-[1px] border-lightGrey"
+        class="flex items-center justify-between px-[16px] py-[23px] w-full bg-white 
+         h-[108px] rounded-[10px] border-[1px] border-lightGrey"
         style="padding: 30px, 16px, 30px, 16px"
       >
         <div
-          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer" v-if="!modalStore.editDonePicture"
           @click="modalStore.controlTeamEditPictureModal"
         >
           <svg
@@ -50,7 +52,7 @@ const editTeamNameMode = ref(false);
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-[26px] h-[23px] text-white"
+            class="w-[36px] h-[32px] text-white"
           >
             <path
               stroke-linecap="round"
@@ -64,7 +66,7 @@ const editTeamNameMode = ref(false);
             />
           </svg>
         </div>
-        <div
+        <div v-else
           class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center"
         >
           <div class="relative">
@@ -103,7 +105,7 @@ const editTeamNameMode = ref(false);
         </div>
 
         <div v-else>
-          <div class="w-[159px] relative">
+          <div class="w-full relative">
             <input
               type="text"
               placeholder="{{$t('Your team name')}}"
@@ -168,7 +170,7 @@ const editTeamNameMode = ref(false);
           padding: 30px, 16px, 30px, 16px;
           background-size: cover;
         "
-        class="b 2xl:w-full lg:w-[388px] w-full flex items-center justify-between space-x-[30px] px-[16px] py-[23px] bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
+        class="b 2xl:w-full  w-full flex items-center justify-between space-x-[30px] px-[16px] py-[23px] bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
         <div>
           <img src="/assets/imgs/icons/team_members.svg" alt="" />
@@ -207,14 +209,12 @@ const editTeamNameMode = ref(false);
     </div>
 
     <section class="w-full mx-auto mt-[24px]">
-      <div class="flex flex-col">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
-            <div class="rounded-[10px] bg-white">
+      <div class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white"  style="box-shadow: 0px 4px 24px 8px #51459F1A;">
+
               <div
-                class="flex items-center justify-center lg:justify-between lg:flex-row flex-col"
+                class="w-full flex items-center justify-center lg:justify-evenly lg:flex-row flex-col "
               >
-                <div class="">
+                <div class="w-full">
                   <div
                     class="text-[20px] font-[600] p-[16px] text-[#021328]"
                     style="line-height: 30px"
@@ -223,8 +223,8 @@ const editTeamNameMode = ref(false);
                   </div>
                 </div>
 
-                <div class="flex items-center justify-between lg:p-[16px]">
-                  <div class="p-[16px] search_input w-[275px]">
+                <div class="flex items-center justify-between space-x-[66px] lg:p-[16px]  w-full">
+                  <div class="p-[16px] search_input w-[580px]">
                     <input
                       type="text"
                       class="input_dashboard_search w-full"
@@ -234,9 +234,9 @@ const editTeamNameMode = ref(false);
                       <img src="/assets/imgs/icons/search.svg" alt="" />
                     </div>
                   </div>
-                  <div class="w-[141px]">
+                  <div class="">
                     <button
-                      class="btn-dashboard"
+                      class="btn-dashboard w-[141px]" 
                       @click="modalStore.controlInviteMemberModal"
                     >
                       Invite Member
@@ -244,74 +244,84 @@ const editTeamNameMode = ref(false);
                   </div>
                 </div>
               </div>
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr>
+              <table class="min-w-full w-full  divide-y last-border-b divide-gray-200 ">
+                <thead class="w-full">
+                  <tr class="">
                     <th
-                      class="py-3.5 px-4 text-left text-[14px] font-[600] text-darkGrey"
+                      class="py-3.5  text-left text-[14px] font-[600] pl-[16px] text-darkGrey"
                     >
                       Name
                     </th>
                     <th
-                      class="py-3.5 px-4 text-left text-[14px] font-[600] text-darkGrey"
+                      class="py-3.5  text-left text-[14px] font-[600] text-darkGrey"
                     >
                       Email
                     </th>
                     <th
-                      class="py-3.5 px-4 text-left text-[14px] font-[600] text-darkGrey"
+                      class="py-3.5  text-left text-[14px] font-[600] text-darkGrey"
                     >
                       Permissions
                     </th>
                     <th
-                      class="py-3.5 px-4 text-left text-[14px] font-[600] text-darkGrey"
+                      class="py-3.5  text-center text-[14px] font-[600] text-darkGrey"
                     >
                       Action
                     </th>
                   </tr>
+                  
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr>
+                <tbody class=" bg-white divide-y  divide-gray-200 w-full " >
+                  <tr class="">
                     <td
-                      class="flex items-center lg:flex-row flex-col justify-start lg:px-4 lg:py-4 lg:space-y-[0] space-y-[10px] lg:space-x-4 text-[14px] font-[400] text-darkGrey"
+                      class=" pl-[16px]
+                       text-[14px] font-[400] text-darkGrey"
                     >
+                
+                   <div class="flex items-center justify-start space-x-[16px]">
+                    <div class="inline">
                       <img
-                        src="/assets/imgs/icons/avatar_table.svg"
-                        alt=""
-                        class="lg:h-full h-[30px] lg:mt-0 mt-[4px]"
-                      />
-                      <div class="lg:order-1 order-2 lg:py-0 py-1">
-                        Ali Ahmed
-                      </div>
-                      <div
-                        class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                        style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        "
-                      >
-                        Owner
-                      </div>
+                      src="/assets/imgs/icons/avatar_table.svg"
+                      alt=""
+                      class="lg:h-full h-[30px] mt-3 "
+                    />
+                     </div>
+                    <div class="lg:order-1 order-2 lg:py-0">
+                      Ali Ahmed
+                    </div>
+                    <div
+                      class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px]
+                       w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                      style="
+                        background: linear-gradient(
+                          180deg,
+                          #2dada3 0%,
+                          #71dad2 100%
+                        );
+                      "
+                    >
+                      Owner
+                    </div>
+                   </div>
+                    
+                     
                     </td>
-                    <td class="px-4 py-4 text-[14px] font-[400] text-darkGrey">
-                      Ali Ahmed@gmail.com
+                    <td class="py-4 text-left text-[14px] font-[400] text-darkGrey">
+                      <p>Ali Ahmed@gmail.com</p>
                     </td>
-                    <td class="px-4 py-4 text-[14px] font-[400] text-darkGrey">
-                      <div class="flex items-center">
+                    <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
+                      <div class="flex items-center justify-start ">
                         <button
-                          @click="modalStore.controlEditPermissionsModal"
-                          class="flex items-center space-x-2 bg-transparent underline focus:outline-none"
+                          
+                          class="flex items-center space-x-[10px]  bg-transparent underline focus:outline-none"
                         >
                           <div>Permissions</div>
-                          <img src="/assets/imgs/icons/arow_down.svg" alt="" />
+                          <img src="/assets/imgs/icons/arow_down.svg"   @click="modalStore.controlEditPermissionsModal" alt="" />
                         </button>
                       </div>
                     </td>
 
-                    <td class="px-4 py-4 text-[14px] font-[400] text-darkGrey">
-                      <div class="flex items-center space-x-[15px]">
+                    <td class="text-right text-[14px] font-[400] text-darkGrey">
+                      <div class="flex items-center justify-end space-x-[16px] pr-[64px] ">
                         <div>
                           <svg
                             width="22"
@@ -327,13 +337,14 @@ const editTeamNameMode = ref(false);
                             />
                           </svg>
                         </div>
-                        <div>
+                        <div> 
                           <svg
                             width="16"
                             height="20"
                             viewBox="0 0 16 20"
                             fill="none"
                             class="text-[#8C8C8C] hover:text-[#2DADA3] cursor-pointer"
+                            @click="modalStore.controlEditUserModal"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
@@ -362,19 +373,20 @@ const editTeamNameMode = ref(false);
                       </div>
                     </td>
                   </tr>
+              
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
-      </div>
+       
+       
+     
       <div class="flex justify-between items-center py-[16px]">
         <div class="flex items-center space-x-2">
             <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Per Page</span>
             <button style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
             " class="px-3 py-1 rounded-md  text-white  focus:outline-none 
     ">10</button>
-          <button class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-[#A7A7A7] hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">20</button>
+          <button class="px-3 py-1 rounded-md bg-transparent  bg-[#A7A7A7] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">20</button>
         </div>
         <div class="flex items-center space-x-2">
           <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Page</span>

@@ -26,11 +26,11 @@ const permissions = ref( [
 </script>
 
 <template>
-  <div  v-if="modalStore.editPermissionsModal"
+  <div  v-if="modalStore.editUserModal"
     class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[648px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlEditPermissionsModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlEditUserModal">
     <svg
       class="w-[12px] h-[12px]"
       width="14"

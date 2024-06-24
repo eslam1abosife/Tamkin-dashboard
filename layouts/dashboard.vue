@@ -4,7 +4,7 @@ import { useModalStore } from "@/stores/modal";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
-const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal} = storeToRefs(modalStore);
+const { showShareModal,editPictureTeamModal,editPermissionsModal,inviteMemberModal ,selectSiteModal,editUserModal} = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
@@ -51,18 +51,22 @@ const clearInput = () => {
           : 'lg:grid lg:grid-cols-[3fr_9fr]',
       ]"
     >
-    <!-- v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal " -->
+    <!--  -->
     
       <div
-     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal "
-        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
+     v-if="showShareModal || editPictureTeamModal || editPermissionsModal || inviteMemberModal || selectSiteModal || editUserModal"
+        class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden">
     </div>
-      <DashboardTeamEditPermissionsModal :showModal="editPermissionsModal"/>
+      <DashboardTeamEditUserModal :showModal="editUserModal"/>
+
       <DashboardEmbedShareModal :showModal="showShareModal" />
 <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal"/>
 <DashboardTeamInviteMember :showModal="inviteMemberModal"/>
-<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/> 
-<!-- <DashboardMySiteUpgradeModal/> -->
+<DashboardMySiteSelectSiteModal :showModal="selectSiteModal"/>
+
+  <DashboardTeamEditUserPermissionsModal :showModal="editPermissionsModal"/>
+
+  <!-- <DashboardMySiteUpgradeModal/> -->
       <div
       
         class="flex-1 lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100]  border-r border-[1px] border-lightGrey"
@@ -113,7 +117,8 @@ const clearInput = () => {
           style="box-shadow: 0px 4px 24px 8px #51459F14;
 
 "
-            class="absolute  top-0 flex  z-[10] flex-shrink-0 items-center justify-around lg:justify-evenly w-full bg-[#FFFEFE] 2xl:space-x-[16px]"
+            class="absolute  top-0 flex  z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full
+             bg-[#FFFEFE]  pl-[26px] space-x-[16px]"
           >
             <div
               class="flex items-center justify-between space-x-[10px] lg:hidden"
@@ -134,7 +139,7 @@ const clearInput = () => {
                 />
               </svg>
             </div>
-            <div class="ipad-max:w-3/6 lg:w-4/6 w-2/4">
+            <div class="w-full lg:w-3/6">
               <div class="py-[17px] search_input">
                 <input
                   type="text"
@@ -156,7 +161,7 @@ const clearInput = () => {
                 </div>
               </div>
             </div>
-            <div class="flex items-center justify-between lg:space-x-[32px]">
+            <div class="flex items-center lg:justify-end  justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] ">
               <div
                 class="flex items-center justify-center border-[1px] border-[#EAEAEA] active_notification rounded-[8px] bg-[#FFFEFE]  w-[48px] h-[48px]"
               >
@@ -193,7 +198,7 @@ const clearInput = () => {
                   </svg>
                 </div>
               </div>
-              <div class="flex items-center justify-center lg:space-x-[19px]">
+              <div class="flex items-center justify-center lg:space-x-[18px] lg:pr-[37px] ">
                 <div class="lg:block hidden">
                   <img
                     src="/assets//imgs/avatar.png"

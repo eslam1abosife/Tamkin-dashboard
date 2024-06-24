@@ -5,7 +5,52 @@ import { Vue3Lottie } from 'vue3-lottie'
 
 import embed from '~/assets/animation/embed.json'
    
-const code = ref(`const foo = 'bar';`);
+const code = ref(true);
+const advancedCode = ref(false)
+const currentCode = ref(``)
+const showAdancedCode = ()=>{
+  if(!advancedCode.value){
+    code.value = false
+advancedCode.value = true
+
+    currentCode.value = `const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+`
+  }else {
+
+    code.value = true
+advancedCode.value = false
+
+    currentCode.value = `const foo = 'bar';`
+  }
+
+
+}
 definePageMeta({
   layout: "dashboard",
 });
@@ -17,6 +62,11 @@ import { useModalStore } from "@/stores/modal";
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const { openShareModal } = useModalStore();
 // const {showShareModal} = storeToRefs(modalStore)
+
+onBeforeMount(()=>{
+  currentCode.value = `const foo = 'bar';`
+  code.value = true
+})
 </script>
 
 <template>
@@ -38,23 +88,25 @@ const { openShareModal } = useModalStore();
      
     
         </h1>
-         <Vue3Lottie :animationData="embed" :height="105" :width="100"
-        class="  lg:order-2 order-1"  />
+         <Vue3Lottie :animationData="embed" :height="90" :width="90" :noMargin="true"
+        class="  lg:order-2 order-1 p-0 w-[105px] h-[100px]"  />
         </div>
+      <div>
         <p
-          class="font-[400] text-[15px] text-center"
-          style="line-height: 22.5px"
-        >
-          Insert the following embed code at the beginning of your site's
-          <head></head> tag, and you’re all set!
-        </p>
+        class="font-[400] text-[15px] text-center"
+        style="line-height: 22.5px"
+      >
+        Insert the following embed code at the beginning of your site's
+        <head></head> tag, and you’re all set!
+      </p>
+      </div>
 
         <div class="mt-[18px] w-full h-full bg-whiteTamkin rounded-[10px]">
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
             style="padding: 30px, 16px, 20px, 15px"
           >
-            <button
+            <button @click="showAdancedCode()"
               class="btn__icon__dashboard ipad-max:text-[12px]"
               style="
                 background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
@@ -130,7 +182,7 @@ const { openShareModal } = useModalStore();
                   @click="openShareModal"
                   class="h-[45px] btn px-4 py-2 rounded-md hover:bg-gradient-to-r hover:to-tamkinStart hover:from-tamkinEnd hover:text-transparent hover:bg-clip-text"
                 >
-                  share code with your team
+                  Share code with your team
                 </button>
               </div>
             </div>
@@ -173,7 +225,7 @@ const { openShareModal } = useModalStore();
                 <button
                   class="h-[45px] px-4 py-2 rounded-md hover:bg-gradient-to-r hover:to-tamkinStart hover:from-tamkinEnd hover:text-transparent hover:bg-clip-text"
                 >
-                  copy
+                 Copy
                 </button>
               </div>
             </div>
@@ -182,7 +234,7 @@ const { openShareModal } = useModalStore();
           <div class="mt-[36px] px-[15px] w-full min-h-[50px]">
             <Client-only>
               <VCodeBlock
-                :code="code"
+                :code="currentCode"
                 highlightjs
                 lang="javascript"
                 theme="neon-bunny"
@@ -190,7 +242,7 @@ const { openShareModal } = useModalStore();
             </Client-only>
 
             <h2
-              class="text-center font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
+              class="text-left font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
               style="line-height: 23.4px"
             >
               Managing multiple sites for multiple clients ? Great! Make sure
@@ -247,22 +299,27 @@ const { openShareModal } = useModalStore();
         </div>
       </div>
 
-      <div class="lg:space-y-[32px] space-y-[14px]">
-        <h1
+      <div class="space-y-[14px] mb-[32px]">
+        <div class="">
+          <h1
           class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[24px]"
         >
           Need help installing Tamkin ?
         </h1>
         <p
-          class="lg:mt-[8px] text-center text-[14px] text-[#A7A7A7]"
+          class="text-center text-[14px] mt-[8px] text-[#A7A7A7]"
           style="line-height: 21px"
         >
           Our support team is help !
         </p>
+        </div>
 
         <div
-          class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
-        >
+          class="lg:h-[60px] w-full
+           bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+       style="box-shadow: 0px 4px 24px 8px #51459F14;
+"
+          >
           <div class="flex items-center space-x-[-20px] flex-1">
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
@@ -277,7 +334,7 @@ const { openShareModal } = useModalStore();
           </div>
         </div>
       </div>
-      <div class="space-y-[32px]">
+      <div class="">
         <h1
           class="text-center font-[500] text-[#021328] text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]"
         >
@@ -289,9 +346,10 @@ const { openShareModal } = useModalStore();
         <div class="flex flex-col">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div
-              class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+              class="inline-block min-w-full  align-middle md:px-6 lg:px-8"
             >
-              <div class="overflow-hidden rounded-[10px] bg-white">
+              <div class="overflow-hidden rounded-[10px] bg-white " style="box-shadow: 0px 4px 24px 8px #51459F1A;
+">
                 <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>

@@ -29,7 +29,7 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0 p-3 lg:flex mx-auto mt-[6px] z-[100]"
+    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px] z-[100]"
   >
     <div
       class="block lg:hidden absolute top-[35px] right-0"
@@ -50,104 +50,107 @@ const isLinkActive = (path) => {
         />
       </svg>
     </div>
-    <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
-      <img
-        src="/assets//imgs/logo.png"
-        class="min-h-[60px] w-[120px]"
-        alt=""
-        v-if="sideBarOpen "
-      />
-      <img
-        src="/assets//imgs/icons/tamkin_small.svg"
-        class="pb-[32px] pt-[16px] mx-auto"
-        alt=""
-        v-else
-      />
-    </div>
+   
+
+<div class="flex flex-col items-center justify-start ml-[4px]">
+  <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
     <img
-      src="/assets/imgs/team.png"
-      class="w-[40px] h-[40px]"
+      src="/assets//imgs/logo.png"
+      class="min-h-[60px] w-[120px] ml-[-4px]"
       alt=""
-      :class="[!sideBarOpen ? 'block' : 'hidden']"
+      v-if="sideBarOpen "
     />
+    <img
+      src="/assets//imgs/icons/tamkin_small.svg"
+      class="pb-[32px] pt-[16px] mx-auto"
+      alt=""
+      v-else
+    />
+  </div>
+  <img
+    src="/assets/imgs/team.png"
+    class="w-[40px] h-[40px]"
+    alt=""
+    :class="[!sideBarOpen ? 'block' : 'hidden']"
+  />
+  <div
+  class="tamkin_team_card "
+  @click="$router.push(localePath('/team'))"
+  :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '',isLinkActive('/team') ? 'active' : '']"
+>
+  <img
+    src="/assets/imgs/team.png"
+    class="w-[40px] h-[40px]"
+    alt=""
+    :class="[!sideBarOpen ? 'block' : '']"
+  />
 
+  <div class="flex items-center space-x-[100px]" >
     <div
-      class="tamkin_team_card"
-      @click="$router.push(localePath('/team'))"
-      :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '',isLinkActive('/team') ? 'active' : '']"
+      class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
+      :class="[!sideBarOpen ? 'hidden' : 'block']"
     >
-      <img
-        src="/assets/imgs/team.png"
-        class="w-[40px] h-[40px]"
-        alt=""
-        :class="[!sideBarOpen ? 'block' : '']"
-      />
-
-      <div class="flex items-center space-x-[100px]" >
-        <div
-          class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
-          :class="[!sideBarOpen ? 'hidden' : 'block']"
-        >
-          <h2 class="font-[400] text-[16px]" style="line-height: 24px">
-            {{ $t("Tamkin") }}
-          </h2>
-          <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
-            3 {{ $t("teamcount") }}
-          </h3>
-        </div>
-        <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
-          <svg
-            class="arrow_svg"
-            width="7"
-            height="12"
-            viewBox="0 0 7 12"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-            />
-          </svg>
-        </div>
-      </div>
+      <h2 class="font-[400] text-[16px]" style="line-height: 24px">
+        {{ $t("Tamkin") }}
+      </h2>
+      <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
+        3 {{ $t("teamcount") }}
+      </h3>
     </div>
+    <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
+      <svg
+        class="arrow_svg"
+        width="7"
+        height="12"
+        viewBox="0 0 7 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
 
-    <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
-    <button
-    @click="$router.push(localePath('/add-site'))"
-      class="btn-dashboard normal_hover flex items-center justify-start"
-      v-if="sideBarOpen || sideBarOpenMobile"
+<hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
+<button
+@click="$router.push(localePath('/add-site'))"
+  class="btn-dashboard normal_hover flex items-center justify-start "
+  v-if="sideBarOpen || sideBarOpenMobile"
+>
+  <div class="order-2 flex-1">Add site</div>
+  <div class="order-1 ml-[16px]">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="active_icon"
     >
-      <div class="order-2 flex-1">Add site</div>
-      <div class="order-1 ml-[16px]">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="active_icon"
-        >
-          <rect
-            x="0.5"
-            y="0.5"
-            width="23"
-            height="23"
-            rx="11.5"
-            stroke="currentColor"
-          />
-          <path
-            d="M7 12C7 11.8008 7.07913 11.6098 7.21998 11.4689C7.36083 11.3281 7.55186 11.2489 7.75105 11.2489H11.2489V7.75105C11.2489 7.55186 11.3281 7.36083 11.4689 7.21998C11.6098 7.07913 11.8008 7 12 7C12.1992 7 12.3902 7.07913 12.5311 7.21998C12.6719 7.36083 12.7511 7.55186 12.7511 7.75105V11.2489H16.2489C16.4481 11.2489 16.6392 11.3281 16.78 11.4689C16.9209 11.6098 17 11.8008 17 12C17 12.1992 16.9209 12.3902 16.78 12.5311C16.6392 12.6719 16.4481 12.7511 16.2489 12.7511H12.7511V16.2489C12.7511 16.4481 12.6719 16.6392 12.5311 16.78C12.3902 16.9209 12.1992 17 12 17C11.8008 17 11.6098 16.9209 11.4689 16.78C11.3281 16.6392 11.2489 16.4481 11.2489 16.2489V12.7511H7.75105C7.55186 12.7511 7.36083 12.6719 7.21998 12.5311C7.07913 12.3902 7 12.1992 7 12Z"
-            fill="currentColor"
-          />
-        </svg>
-      </div>
-      <!-- <i class="fa-regular fa-circle-plus"></i> -->
-    </button>
+      <rect
+        x="0.5"
+        y="0.5"
+        width="23"
+        height="23"
+        rx="11.5"
+        stroke="currentColor"
+      />
+      <path
+        d="M7 12C7 11.8008 7.07913 11.6098 7.21998 11.4689C7.36083 11.3281 7.55186 11.2489 7.75105 11.2489H11.2489V7.75105C11.2489 7.55186 11.3281 7.36083 11.4689 7.21998C11.6098 7.07913 11.8008 7 12 7C12.1992 7 12.3902 7.07913 12.5311 7.21998C12.6719 7.36083 12.7511 7.55186 12.7511 7.75105V11.2489H16.2489C16.4481 11.2489 16.6392 11.3281 16.78 11.4689C16.9209 11.6098 17 11.8008 17 12C17 12.1992 16.9209 12.3902 16.78 12.5311C16.6392 12.6719 16.4481 12.7511 16.2489 12.7511H12.7511V16.2489C12.7511 16.4481 12.6719 16.6392 12.5311 16.78C12.3902 16.9209 12.1992 17 12 17C11.8008 17 11.6098 16.9209 11.4689 16.78C11.3281 16.6392 11.2489 16.4481 11.2489 16.2489V12.7511H7.75105C7.55186 12.7511 7.36083 12.6719 7.21998 12.5311C7.07913 12.3902 7 12.1992 7 12Z"
+        fill="currentColor"
+      />
+    </svg>
+  </div>
+  <!-- <i class="fa-regular fa-circle-plus"></i> -->
+</button>
+</div>
     <button
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
-      v-else
+      v-if=!sideBarOpen
       @click="$router.push(localePath('/team'))"
 
     >
@@ -167,7 +170,7 @@ const isLinkActive = (path) => {
       >
         <div>
           <svg
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -268,7 +271,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <defs v-if="isLinkActive('/embed-code')">
               <linearGradient
@@ -308,7 +311,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <g clip-path="url(#clip0_2978_23987)">
               <path
@@ -368,7 +371,7 @@ const isLinkActive = (path) => {
             <svg
               width="7"
               height="12"
-              class="rtl:mr-[40px] ltr:ml-[20px]"
+              class="rtl:mr-[40px] ltr:ml-[12px]"
               :class="[showSubMenu[2] ? 'rotate-90' : '']"
               viewBox="0 0 7 12"
               xmlns="http://www.w3.org/2000/svg"
@@ -443,7 +446,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5551)">
               <path
@@ -477,7 +480,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5569)">
               <path
@@ -510,7 +513,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5587)">
               <path
@@ -543,7 +546,7 @@ const isLinkActive = (path) => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="pl-[16px] w-full h-full"
+            class=" pl-[11px] w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5605)">
               <path

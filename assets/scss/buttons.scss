@@ -34,7 +34,7 @@ $colors: (
   }
 
   &:not(.normal_hover):hover {
-    @apply text-white;
+    @apply text-darkGrey;
   }
 
   &.normal_hover:hover {

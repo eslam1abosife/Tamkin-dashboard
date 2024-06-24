@@ -9,7 +9,9 @@ export const useModalStore = defineStore('modal', {
     editPictureTeamModal:false,
     editPermissionsModal:false,
     inviteMemberModal:false,
-    selectSiteModal:false
+    selectSiteModal:false,
+    editUserModal:false,
+    editDonePicture:false
   }),
   actions: {
     openShareModal(){
@@ -17,10 +19,17 @@ export const useModalStore = defineStore('modal', {
     },
     controlTeamEditPictureModal(){
       this.editPictureTeamModal = !this.editPictureTeamModal
-
+      
+    },
+    triggerupdatedPicture(){
+      this.editDonePicture = !this.editDonePicture
     },
     controlEditPermissionsModal(){
       this.editPermissionsModal = !this.editPermissionsModal
+
+    },
+    controlEditUserModal(){
+      this.editUserModal = !this.editUserModal
 
     },
     controlInviteMemberModal(){
