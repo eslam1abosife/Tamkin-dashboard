@@ -63,7 +63,7 @@ const isLinkActive = (path) => {
     />
     <img
       src="/assets//imgs/icons/tamkin_small.svg"
-      class="mb-[44px] mt-[16px]  w-[24px] h-[24px] mx-auto"
+      class="mb-[64px] mt-[16px]  w-[24px] h-[24px] mx-auto"
       alt=""
       v-else
     />

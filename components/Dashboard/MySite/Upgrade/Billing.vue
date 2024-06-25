@@ -260,7 +260,7 @@ const selectedPlan = ref("");
  
     </div>
     <div class="mt-[26px] ml-auto ">
-        <button class="btn-dashboard-normal">
+        <button class="btn-dashboard hover_tamkin">
             Continue to Payment
         </button>
       </div>

@@ -1,0 +1,173 @@
+<script lang="ts" setup>
+const savedCards = ref([
+    {'id':1,number:'Tamkin  ****3536',type:'visa'},
+    {'id':2,number:'Tamkin  ****6792',type:'master'},
+]);
+
+import visaIcon from '/assets/imgs/payment_methods/visa.svg'
+import masterIcon from '/assets/imgs/payment_methods/master.svg'
+const currentCard = ref('')
+
+const isPromoFilled = ref(false);
+const promo = ref("");
+const validPromo = ref(false)
+watch(promo, (ov, nv) => {
+  return promo.value.length > 0
+    ? (isPromoFilled.value = true)
+    : (isPromoFilled.value = false);
+});
+const clearInput = () => {
+    promo.value = "";
+    validPromo.value = false
+
+};
+const addPromoCode = ()=>{
+   if(promo.value){
+    validPromo.value = !validPromo.value
+   }
+}
+
+const removePromoCode = ()=>{
+   if(promo.value){
+    validPromo.value = !validPromo.value
+    promo.value =""
+   }
+}
+
+</script>
+
+<template>
+  <div class="flex flex-col items-start justify-center w-full">
+  
+    <div class="flex items-center justify-center ">
+        <div
+   
+    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+   border-linecolor rounded-full w-[30px] h-[30px]"
+
+   style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
+"
+  >
+    <svg
+      width="9"
+      height="15"
+      viewBox="0 0 9 15"
+      fill="none"
+      class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+      />
+    </svg>
+  </div>
+    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+        Payment Process
+    </h1>
+    </div>
+    <div
+      class="flex flex-col items-start justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
+      style="box-shadow: 0px 4px 24px 8px #51459f14"
+    >
+      <h1
+        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+      >
+      Cards Payment
+      </h1>
+<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px]">Choose the payment method you want to complete this payment</p>
+    
+
+   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
+    <div class="flex flex-col items-center justify-center w-full px-[20px]" v-for="savedCard in savedCards " :key="savedCard.id">
+        <div 
+        @click="currentCard = savedCard.number"
+        :class="[currentCard === savedCard.number ? 'custom-border-tamkin' : 'border-[1px] ']"
+        class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+            <div class="flex items-center justify-start space-x-[13px]">
+                <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" alt=""></div>
+                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
+            </div>
+            <div class="order-1 mx-[4px]">
+                <input
+                  id="radio5"
+                  type="radio"
+                  name="radio"
+                  class="hidden"
+                  value="by_card"
+                v-model="currentCard"
+                :checked="currentCard=== savedCard.number"
+
+                />
+                <label for="radio5" class="flex items-center cursor-pointer pr-[40px]">
+                  <span
+                    class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
+                  ></span>
+                </label>
+              </div>
+        </div>
+        
+    </div>
+ <div class="flex items-center justify-between w-full px-[20px] ">
+    <div class="flex items-center space-x-[10px] mt-[39px]">
+        <div>
+            <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
+           </div>
+       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey"> Add New Card</div>
+      
+    </div>
+
+    <div class="flex items-center  space-x-[11px] mt-[39px]">
+<div class="cursor-pointer">
+    <div class="text-[16px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
+
+</div>
+<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px]" alt=""></div>
+    </div>
+ </div>
+   
+
+ <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
+    <div class="py-[17px] search_input w-3/4 mt-[39px]">
+        <input
+          type="text"
+          class="input_dashboard_search w-full text-darkGrey "
+        v-model="promo"
+          placeholder="Promo Code"
+          :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+        />
+       <div class="absolute top-[12px] lg:top-[11px] left-[29px] p-[16px] 
+       flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
+        <img src="/assets/imgs/promo_valid.svg" alt="">
+        <div class="text-[15px] font-[500] text-darkGrey">
+                <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
+        </div>
+        <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
+
+       </div>
+        <div
+          v-if="isPromoFilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[-26px] right-0 p-[16px] cursor-pointer mt-[39px]" 
+        >
+          <img src="/assets/imgs/close_promo.svg" alt="" />
+        </div>
+      </div>
+      <div class="text-center mt-[39px]">
+        <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+        <button v-else class="btn_bordered_dashboard 
+error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
+      </div>
+ </div>
+  
+   </div>
+   <div class="mt-[129px] mb-[34px] ml-auto pr-[16px]">
+    <button class="btn-dashboard no_hover">
+        Continue to Payment
+    </button>
+  </div>
+    </div>
+ 
+  </div>
+</template>
+
+

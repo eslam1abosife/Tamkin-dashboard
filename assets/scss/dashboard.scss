@@ -303,3 +303,14 @@
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB; /* Adjust the color to match your design */
 }
+
+
+.mysite_bg_modal{
+    background: linear-gradient(
+        180deg,
+        #fefefe 0%,
+        #eef5ff 47.07%,
+        #f6f3fc 72.04%,
+        #fef5f6 100%
+      );
+}

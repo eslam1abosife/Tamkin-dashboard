@@ -28,13 +28,16 @@ $colors: (
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-  @apply border-[1px] border-tamkin rounded-[10px] w-full h-[45px] text-white disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed;
-  &:hover {
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px] w-full;
+  &:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
     background: white !important;
   }
+&.no_hover:hover{
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px] w-full;
 
-  &:not(.normal_hover):hover {
-    @apply text-darkGrey;
+}
+&:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
+  @apply text-darkGrey;
   }
 
   &.normal_hover:hover {
@@ -91,8 +94,10 @@ $colors: (
 
 .btn_bordered_dashboard {
   @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px];
-
-  &:not(.normal_hover):hover {
+&.error{
+  @apply border-[#FF453F] text-[#FF453F];
+}
+  &:not(.normal_hover, .error):hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
     @apply text-white;
   }
