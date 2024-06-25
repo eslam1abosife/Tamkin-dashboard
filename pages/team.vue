@@ -57,25 +57,10 @@ const clearInput = () => {
      
           @click="modalStore.controlTeamEditPictureModal"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-[36px] h-[32px] text-white"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
-            />
+        <svg width="27" height="24" viewBox="0 0 27 24"  class="w-[32px] h-[32px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z" fill="white"/>
           </svg>
+          
         </div>
         
          </div>
@@ -230,11 +215,11 @@ const clearInput = () => {
 
     <section class="w-full mx-auto mt-[24px]">
       <div
-        class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white"
+        class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white overflow-auto"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div
-          class="w-full flex items-center justify-center lg:justify-start lg:flex-row flex-col"
+          class="w-full flex items-stretch justify-center lg:justify-start lg:flex-row flex-col px-[10px] lg:px-0 "
         >
           <div class="w-full">
             <div
@@ -248,7 +233,7 @@ const clearInput = () => {
           <div
             class="flex items-center justify-between space-x-[66px] lg:p-[16px] w-full"
           >
-          <div class="py-[17px] search_input w-[460px]">
+          <div class="py-[17px] search_input w-full lg:w-[460px]">
             <input
               type="text"
               class="input_dashboard_search w-full"
@@ -279,11 +264,11 @@ const clearInput = () => {
             </div>
           </div>
         </div>
-        <table class="min-w-full lg:w-full divide-y last-border-b overflow-x-auto divide-gray-200">
+        <table class="table-auto  divide-y last-border-b w-full divide-gray-200">
           <thead class="w-full">
             <tr class="">
               <th
-                class="py-3.5 text-left text-[14px] font-[600] pl-[16px] text-darkGrey"
+                class="py-3.5 text-left text-[14px] font-[600] pl-[8px] lg:pl-[16px] text-darkGrey"
               >
                 Name
               </th>
@@ -302,18 +287,19 @@ const clearInput = () => {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200 w-full">
             <tr class="">
-              <td class="pl-[16px] text-[14px] font-[400] text-darkGrey">
-                <div class="flex items-center justify-start space-x-[16px]">
+              <td class="lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
+                <div class="flex items-center justify-start lg:space-x-[16px] space-x-[8px]">
                   <div class="inline">
                     <img
                       src="/assets/imgs/icons/avatar_table.svg"
                       alt=""
-                      class="lg:h-full h-[30px] mt-3"
+                      class="lg:h-full h-[30px] mt-3 hidden lg:block"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0">Ali Ahmed</div>
                   <div
-                    class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                    class="order-1 flex items-center justify-center text-white
+                     text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                     style="
                       background: linear-gradient(
                         180deg,
@@ -397,18 +383,19 @@ const clearInput = () => {
               </td>
             </tr>
             <tr class="">
-              <td class="pl-[16px] text-[14px] font-[400] text-darkGrey">
-                <div class="flex items-center justify-start space-x-[16px]">
+              <td class="lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
+                <div class="flex items-center justify-start lg:space-x-[16px] space-x-[8px]">
                   <div class="inline">
                     <img
                       src="/assets/imgs/icons/avatar_table.svg"
                       alt=""
-                      class="lg:h-full h-[30px] mt-3"
+                      class="lg:h-full h-[30px] mt-3 hidden lg:block"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0">Ali Ahmed</div>
                   <div
-                    class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                    class="order-1 flex items-center justify-center text-white
+                     text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                     style="
                       background: linear-gradient(
                         180deg,
@@ -427,14 +414,11 @@ const clearInput = () => {
               <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start">
                   <button
+                    @click="modalStore.controlEditPermissionsModal"
                     class="flex items-center space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img
-                      src="/assets/imgs/icons/arow_down.svg"
-                      @click="modalStore.controlEditPermissionsModal"
-                      alt=""
-                    />
+                    <img src="/assets/imgs/icons/arow_down.svg" alt="" />
                   </button>
                 </div>
               </td>
@@ -495,18 +479,19 @@ const clearInput = () => {
               </td>
             </tr>
             <tr class="">
-              <td class="pl-[16px] text-[14px] font-[400] text-darkGrey">
-                <div class="flex items-center justify-start space-x-[16px]">
+              <td class="lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
+                <div class="flex items-center justify-start lg:space-x-[16px] space-x-[8px]">
                   <div class="inline">
                     <img
                       src="/assets/imgs/icons/avatar_table.svg"
                       alt=""
-                      class="lg:h-full h-[30px] mt-3"
+                      class="lg:h-full h-[30px] mt-3 hidden lg:block"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0">Ali Ahmed</div>
                   <div
-                    class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                    class="order-1 flex items-center justify-center text-white
+                     text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                     style="
                       background: linear-gradient(
                         180deg,
@@ -525,14 +510,11 @@ const clearInput = () => {
               <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start">
                   <button
+                    @click="modalStore.controlEditPermissionsModal"
                     class="flex items-center space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img
-                      src="/assets/imgs/icons/arow_down.svg"
-                      @click="modalStore.controlEditPermissionsModal"
-                      alt=""
-                    />
+                    <img src="/assets/imgs/icons/arow_down.svg" alt="" />
                   </button>
                 </div>
               </td>
@@ -593,18 +575,19 @@ const clearInput = () => {
               </td>
             </tr>
             <tr class="">
-              <td class="pl-[16px] text-[14px] font-[400] text-darkGrey">
-                <div class="flex items-center justify-start space-x-[16px]">
+              <td class="lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
+                <div class="flex items-center justify-start lg:space-x-[16px] space-x-[8px]">
                   <div class="inline">
                     <img
                       src="/assets/imgs/icons/avatar_table.svg"
                       alt=""
-                      class="lg:h-full h-[30px] mt-3"
+                      class="lg:h-full h-[30px] mt-3 hidden lg:block"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0">Ali Ahmed</div>
                   <div
-                    class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                    class="order-1 flex items-center justify-center text-white
+                     text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                     style="
                       background: linear-gradient(
                         180deg,
@@ -623,14 +606,11 @@ const clearInput = () => {
               <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start">
                   <button
+                    @click="modalStore.controlEditPermissionsModal"
                     class="flex items-center space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img
-                      src="/assets/imgs/icons/arow_down.svg"
-                      @click="modalStore.controlEditPermissionsModal"
-                      alt=""
-                    />
+                    <img src="/assets/imgs/icons/arow_down.svg" alt="" />
                   </button>
                 </div>
               </td>
@@ -690,6 +670,7 @@ const clearInput = () => {
                 </div>
               </td>
             </tr>
+           
           </tbody>
         </table>
       </div>

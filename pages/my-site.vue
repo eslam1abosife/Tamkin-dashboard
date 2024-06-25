@@ -508,7 +508,7 @@ const clearInput = () => {
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start space-x-[10px] pl-[15px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                             <div>
                                                 <input type="checkbox" :id="`checkbox_` + dSite.id"
                                                     class="peer sr-only m-auto" v-model="checked" :value="dSite.id"
@@ -528,7 +528,7 @@ const clearInput = () => {
                                             </div>
                                         </td>
 
-                                        <td class="text-[14px] pr-[18px] font-[400] text-darkGrey">
+                                        <td class="text-[14px] pr-[16px] font-[400] text-darkGrey">
                                             <button
                                                 class="ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
                                                 Restore

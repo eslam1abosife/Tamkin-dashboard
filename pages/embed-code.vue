@@ -115,8 +115,14 @@ const clearInput = () => {
      
 
         </h1>
-      <div   class="  lg:order-2 order-1 p-0 w-[105px] h-[100px] " >
-        <Vue3Lottie :animationData="embed" :height="100" :width="105" :noMargin="true"
+      <div   class="  lg:order-2 order-1 p-0 lg:mx-0 mx-auto w-[105px] h-[100px]  lg:block hidden" >
+        <Vue3Lottie :animationData="embed" :height="100" :width="105" :noMargin="true" class=""
+       />
+       
+      </div>
+
+      <div   class="  lg:order-2 order-1 p-0 lg:mx-0 mx-auto w-[200px] h-[150px]  mt-[-24px]  lg:hidden block " >
+        <Vue3Lottie :animationData="embed" :height="200" :width="200" class="lg:hidden block" :noMargin="true"
        />
       </div>
         </div>
@@ -124,7 +130,7 @@ const clearInput = () => {
 
       <div>
         <p
-        class="font-[400] text-[15px] text-center mt-[-23px]"
+        class="font-[400] text-[15px] text-center lg:mt-[-23px]"
         style="line-height: 22.5px"
       >
         Insert the following embed code at the beginning of your site's
