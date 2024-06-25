@@ -24,18 +24,24 @@ $colors: (
   vertical-align: middle;
 }
 
+.processing_payment {
+  @apply  text-white disabled:cursor-not-allowed h-[45px] rounded-[10px] p-[16px]
+   flex items-center justify-center space-x-[4px] w-full   leading-[30px] font-[600]
+   bg-[#6E8886]   border-0;
 
+}
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px] w-full;
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center justify-center space-x-[4px] w-full;
   &:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
     background: white !important;
   }
 &.no_hover:hover{
-  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px] w-full;
-
+@apply cursor-pointer;
 }
+
+
 &:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
   @apply text-darkGrey;
   }

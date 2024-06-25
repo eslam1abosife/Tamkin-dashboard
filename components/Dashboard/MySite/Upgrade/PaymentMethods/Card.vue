@@ -11,6 +11,7 @@ const currentCard = ref('')
 const isPromoFilled = ref(false);
 const promo = ref("");
 const validPromo = ref(false)
+const showMoreMethods = ref(false)
 watch(promo, (ov, nv) => {
   return promo.value.length > 0
     ? (isPromoFilled.value = true)
@@ -33,6 +34,7 @@ const removePromoCode = ()=>{
     promo.value =""
    }
 }
+const selectedPaymentMethod = ref("");
 
 </script>
 
@@ -107,25 +109,87 @@ const removePromoCode = ()=>{
         </div>
         
     </div>
- <div class="flex items-center justify-between w-full px-[20px] ">
-    <div class="flex items-center space-x-[10px] mt-[39px]">
+  <div class="flex items-center justify-between w-full  px-[20px]">
+    <div class="flex items-center space-x-[10px] mt-[39px] ">
         <div>
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
-       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey"> Add New Card</div>
+       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">Add New Card</div>
       
     </div>
 
     <div class="flex items-center  space-x-[11px] mt-[39px]">
-<div class="cursor-pointer">
+<div class="cursor-pointer" @click="showMoreMethods = !showMoreMethods">
     <div class="text-[16px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
 
 </div>
-<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px]" alt=""></div>
+<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px] " :class="[showMoreMethods ? 'rotate-90' :'' ]" alt=""></div>
     </div>
- </div>
-   
 
+    
+ </div>
+<!-- here-->
+
+ 
+
+<!-- here-->
+
+<div class="px-[20px] w-full " v-if="showMoreMethods">
+  <div 
+@click="selectedPaymentMethod = 'by_paypal'"
+:class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+<div class="flex items-center justify-start space-x-[13px]">
+        <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
+        <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
+    </div>
+    <div class="order-1 mx-[4px]">
+        <input
+          id="radio_paypal"
+          type="radio"
+          name="radio"
+          class="hidden"
+          value="by_paypal"
+        v-model="selectedPaymentMethod"
+        :checked="selectedPaymentMethod === 'by_paypal'"
+
+        />
+        <label for="radio_paypal" class="flex items-center cursor-pointer pr-[40px]">
+          <span
+            class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
+          ></span>
+        </label>
+      </div>
+</div>
+</div>
+
+<div class="px-[20px] w-full" v-if="showMoreMethods">
+  <div 
+  @click="selectedPaymentMethod = 'by_crypto'"
+  :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
+  class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+      <div class="flex items-center justify-start space-x-[13px]">
+          <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
+          <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
+      </div>
+      <div class="order-1 mx-[4px]">
+          <input
+            id="radio_crypto"
+            type="radio"
+            name="radio"
+            class="hidden"
+            value="by_crypto"
+          v-model="selectedPaymentMethod"
+          :checked="selectedPaymentMethod === 'by_crypto'"
+
+          />
+          <label for="radio_crypto" class="flex items-center cursor-pointer pr-[40px]">
+            <span
+              class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
+            ></span>
+          </label>
+        </div>
+  </div>
+</div>
  <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
     <div class="py-[17px] search_input w-3/4 mt-[39px]">
         <input
@@ -147,7 +211,7 @@ const removePromoCode = ()=>{
         <div
           v-if="isPromoFilled"
           @click="clearInput"
-          class="absolute top-[12px] lg:top-[-26px] right-0 p-[16px] cursor-pointer mt-[39px]" 
+          class="absolute top-[12px] lg:top-[-27px] right-0 p-[16px] cursor-pointer mt-[39px]" 
         >
           <img src="/assets/imgs/close_promo.svg" alt="" />
         </div>
@@ -158,13 +222,68 @@ const removePromoCode = ()=>{
 error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       </div>
  </div>
-  
+ <table class="min-w-full ">
+    <thead>
+      <tr>
+        <th
+          class="py-2 pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] text-left"
+        colspan="12">
+        Summary
+        </th>
+      
+      </tr>
+    </thead>
+    <tbody>
+   
+ 
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"           v-if="validPromo"
+      >
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+          Subtotal
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+      <tr           v-if="validPromo"
+       class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+        Discount
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+          Total
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+    </tbody>
+  </table>
    </div>
-   <div class="mt-[129px] mb-[34px] ml-auto pr-[16px]">
-    <button class="btn-dashboard no_hover">
-        Continue to Payment
+   <div class="mt-[39px]  mx-auto mb-[34px]">
+    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " disabled>
+      Confirm Payment
     </button>
   </div>
+   <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
+    <button class="processing_payment   lg:w-[535px] w-full " disabled>
+      Payment Processing...
+    </button>
+  </div> -->
     </div>
  
   </div>
