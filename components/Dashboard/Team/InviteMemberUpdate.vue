@@ -23,6 +23,16 @@ const permissions = ref( [
     checked.value = value ? permissions.value.map(lang => lang.id) : [];
   }
 });
+const isSearchfilled = ref(false);
+  const search = ref("");
+  watch(search, (ov, nv) => {
+    return search.value.length > 0
+      ? (isSearchfilled.value = true)
+      : (isSearchfilled.value = false);
+  });
+  const clearInput = () => {
+    search.value = "";
+  };
 </script>
 
 <template>
@@ -75,25 +85,27 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
 </p>
 
 <div class="w-full ">
-<div class="py-[17px] search_input">
-<input
-  type="text"
-  class="input_dashboard_search w-full"
 
-  placeholder="Search ..."
-/>
-<div
-  class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
->
-  <img src="/assets/imgs/icons/search.svg" alt="" />
-</div>
-<div
-
-  class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
->
-  <img src="/assets/imgs/icons/clear_search.svg" alt="" />
-</div>
-</div>
+  <div class="py-[17px]  search_input w-full">
+      <input
+        type="text"
+        class="input_dashboard_search w-full"
+        v-model="search"
+        placeholder="Search ..."
+      />
+      <div
+        class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+      >
+        <img src="/assets/imgs/icons/search.svg" alt="" />
+      </div>
+      <div
+        v-if="isSearchfilled"
+        @click="clearInput"
+        class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+      >
+        <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+      </div>
+    </div>
 </div>
 
 <table class="min-w-full divide-y divide-gray-200  ">

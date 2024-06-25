@@ -7,6 +7,7 @@ export default {
         'ipad-min': '768px',
         
         'ipad-max': {'min': '1023px','max':'1024px'},
+        'ret-max': {'min': '1381px','max':'1382px'},
         '3xl': {'min': '1900px'},
       },
       borderImage: {

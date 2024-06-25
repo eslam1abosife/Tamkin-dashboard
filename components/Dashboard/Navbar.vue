@@ -29,9 +29,9 @@ const isLinkActive = (path) => {
 
 <template>
   <div
-    class="flex-col items-center justify-start  2xl:p-0  lg:flex mx-auto mt-[6px] z-[100]"
+    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px] z-[100] "
   >
-  
+
     <div
       class="block lg:hidden absolute top-[35px] right-0"
       @click="toggleSidebarMobile"
@@ -118,7 +118,7 @@ const isLinkActive = (path) => {
 <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
 <button
   @click="$router.push(localePath('/add-site'))"
-  class="btn-dashboard normal_hover flex items-center justify-center relative"
+  class="btn-dashboard flex items-center justify-center relative w-full"
   v-if="sideBarOpen"
 >
   <div class="absolute left-0 px-[16px]">

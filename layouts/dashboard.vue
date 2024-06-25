@@ -51,13 +51,13 @@ const clearInput = () => {
 </script>
 
 <template>
-  <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
+  <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir" class="bg_dashboard">
     <div
-      class="bg_dashboard relative min-h-screen"
+      class=" relative min-h-screen "
       :class="[
         !sideBarOpen
-          ? 'lg:grid lg:grid-cols-[100px_1fr]'
-          : 'lg:grid lg:grid-cols-[3fr_9fr]',
+          ? 'flex'
+          : 'flex',
       ]"
     >
       <!--  
@@ -74,55 +74,65 @@ const clearInput = () => {
     -->
 
       <div
-
+      v-if="
+      showShareModal ||
+      editPictureTeamModal ||
+      editPermissionsModal ||
+      inviteMemberModal ||
+      selectSiteModal ||
+      editUserModal ||
+      InviteMemberUpdateModal
+    "
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
       ></div>
-      <!-- <DashboardTeamEditUserModal :showModal="editUserModal" />
+      <DashboardTeamEditUserModal :showModal="editUserModal" />
 
       <DashboardEmbedShareModal :showModal="showShareModal" />
       <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal" />
       <DashboardTeamInviteMember :showModal="inviteMemberModal" />
       <DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal" />
-      <DashboardMySiteSelectSiteModal :showModal="selectSiteModal" /> -->
+      <DashboardMySiteSelectSiteModal :showModal="selectSiteModal" />
 
-      <!-- <DashboardTeamEditUserPermissionsModal
+      <DashboardTeamEditUserPermissionsModal
         :showModal="editPermissionsModal"
       />
 
       <!-- <DashboardMySiteUpgradeModal/> -->
-      <DashboardMySiteUpgradeModal/>
+      <!-- <DashboardMySiteUpgradeModal/> -->
       <div
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
+        class="lg:relative flex items-center justify-start 
+        flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
-          sideBarOpen ? 'min-w-[350px]' : '',
+          sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
         ]"
       >
-        <div
-          @click="toggleSidebar"
-          :class="[
-            !sideBarOpen
-              ? 'left-[80px] rotate-180 lg:!top-[126px]'
-              : 'lg:!top-[161px]',
-          ]"
-          class="close_sidebar_btn group z-[300] lg:flex hidden"
-        >
-          <svg
-            width="9"
-            height="15"
-            viewBox="0 0 9 15"
-            fill="none"
-            class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-            />
-          </svg>
-        </div>
-
+  
+      <div
+      @click="toggleSidebar"
+      :class="[
+        !sideBarOpen
+          ? ' rotate-180 lg:!top-[146px]'
+          : 'top-[161px] lg:left-[95%]',
+      ]"
+      class="cursor-pointer close_sidebar_btn sticky ml-[100%]  items-center justify-center 
+       bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px]  group z-[300] lg:flex hidden"
+    >
+      <svg
+        width="9"
+        height="15"
+        viewBox="0 0 9 15"
+        fill="none"
+        class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+        />
+      </svg>
+    </div>
         <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0  p-[20px]" >
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
@@ -136,6 +146,7 @@ const clearInput = () => {
       <div
         class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full"
       >
+    
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
           <nav

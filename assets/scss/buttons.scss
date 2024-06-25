@@ -33,8 +33,9 @@ $colors: (
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] flex items-center justify-center space-x-[4px] w-full;
-  &:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] 
+  flex items-center justify-center space-x-[4px] w-full;
+  &:not(.normal_hover,.no_hover,.hover_tamkin):hover {
     background: white !important;
   }
 &.no_hover:hover{
@@ -78,8 +79,6 @@ $colors: (
 }
 
 .close_sidebar_btn {
-  @apply cursor-pointer fixed flex items-center justify-center  lg:left-[26%] 2xl:left-[24%] bg-white border-[1px]
-   border-linecolor rounded-full w-[35px] h-[35px];
 
   &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);

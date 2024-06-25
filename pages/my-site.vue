@@ -19,7 +19,7 @@ const modalStore = useModalStore();
 const dataAvailable = ref(true);
 const editTeamNameMode = ref(false);
 
-const currentTab = ref("deleted");
+const currentTab = ref("saved");
 
 const switchTab = (tab: any) => {
     currentTab.value = tab;
@@ -486,7 +486,7 @@ const clearInput = () => {
                                             Sites URL
                                         </th>
 
-                                        <th
+                                        <!-- <th
                                             class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[600] text-darkGrey flex items-center justify-end space-x-[10px]">
                                             <div class="">Restore All</div>
                                             <div>
@@ -502,33 +502,21 @@ const clearInput = () => {
                                                     </svg>
                                                 </label>
                                             </div>
-                                        </th>
+                                        </th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[10px] pl-[15px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                            <div>
-                                                <input type="checkbox" :id="`checkbox_` + dSite.id"
-                                                    class="peer sr-only m-auto" v-model="checked" :value="dSite.id"
-                                                    number />
-                                                <label :for="`checkbox_` + dSite.id"
-                                                    class="relative block border-[1px] w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked peer-checked:border-0">
-                                                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                                    </svg>
-                                                </label>
-                                            </div>
+                                            class="flex h-[50px] items-center justify-start space-x-[10px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                        
                                             <img :src="dSite.image" alt="" class="h-[14px] w-[14px]" />
                                             <div class="order-1">
                                                 {{ dSite.name }}
                                             </div>
                                         </td>
 
-                                        <td class="text-[14px] pr-[16px] font-[400] text-darkGrey">
+                                        <td class="text-[14px] pr-[18px] font-[400] text-darkGrey">
                                             <button
                                                 class="ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
                                                 Restore

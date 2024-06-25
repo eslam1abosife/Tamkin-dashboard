@@ -12,6 +12,7 @@ const isPromoFilled = ref(false);
 const promo = ref("");
 const validPromo = ref(false)
 const showMoreMethods = ref(false)
+const chooseOtherPaymentMethod = ref('')
 watch(promo, (ov, nv) => {
   return promo.value.length > 0
     ? (isPromoFilled.value = true)
@@ -82,7 +83,7 @@ const selectedPaymentMethod = ref("");
    <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
     <div class="flex flex-col items-center justify-center w-full px-[20px]" v-for="savedCard in savedCards " :key="savedCard.id">
         <div 
-        @click="currentCard = savedCard.number"
+        @click="selectCurrentMethod()"
         :class="[currentCard === savedCard.number ? 'custom-border-tamkin' : 'border-[1px] ']"
         class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
@@ -91,16 +92,17 @@ const selectedPaymentMethod = ref("");
             </div>
             <div class="order-1 mx-[4px]">
                 <input
-                  id="radio5"
+                  :id="'radio_'+savedCard.id"
                   type="radio"
                   name="radio"
                   class="hidden"
-                  value="by_card"
+                  :value="savedCard.number"
                 v-model="currentCard"
-                :checked="currentCard=== savedCard.number"
+                
 
                 />
-                <label for="radio5" class="flex items-center cursor-pointer pr-[40px]">
+                <label                   :for="'radio_'+savedCard.id"
+                class="flex items-center cursor-pointer pr-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -136,8 +138,10 @@ const selectedPaymentMethod = ref("");
 
 <div class="px-[20px] w-full " v-if="showMoreMethods">
   <div 
-@click="selectedPaymentMethod = 'by_paypal'"
-:class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+@click="chooseOtherPaymentMethod = 'by_paypal' "
+:class="[chooseOtherPaymentMethod == 'by_paypal' , currentCard ='' ? 'custom-border-tamkin' : 'border-[1px] ']"
+ class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
+  border-lightGrey pl-[16px]">
 <div class="flex items-center justify-start space-x-[13px]">
         <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
         <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
@@ -149,8 +153,7 @@ const selectedPaymentMethod = ref("");
           name="radio"
           class="hidden"
           value="by_paypal"
-        v-model="selectedPaymentMethod"
-        :checked="selectedPaymentMethod === 'by_paypal'"
+        v-model="chooseOtherPaymentMethod"
 
         />
         <label for="radio_paypal" class="flex items-center cursor-pointer pr-[40px]">
@@ -164,8 +167,8 @@ const selectedPaymentMethod = ref("");
 
 <div class="px-[20px] w-full" v-if="showMoreMethods">
   <div 
-  @click="selectedPaymentMethod = 'by_crypto'"
-  :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
+  @click="chooseOtherPaymentMethod = 'by_crypto'"
+  :class="[chooseOtherPaymentMethod == 'by_crypto', currentCard ='' ? 'custom-border-tamkin' : 'border-[1px] ']"
   class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
       <div class="flex items-center justify-start space-x-[13px]">
           <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
@@ -178,8 +181,7 @@ const selectedPaymentMethod = ref("");
             name="radio"
             class="hidden"
             value="by_crypto"
-          v-model="selectedPaymentMethod"
-          :checked="selectedPaymentMethod === 'by_crypto'"
+          v-model="chooseOtherPaymentMethod"
 
           />
           <label for="radio_crypto" class="flex items-center cursor-pointer pr-[40px]">

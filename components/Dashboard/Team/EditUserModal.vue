@@ -87,7 +87,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
 </p>
 
 <div class="w-full ">
-  <div class="py-[17px] p-1 search_input w-full">
+  <div class="py-[17px]  search_input w-full">
     <input
       type="text"
       class="input_dashboard_search w-full"
@@ -118,7 +118,8 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
         <div class="">Select All</div>
        <div>
         <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin peer-checked:border-0 peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin peer-checked:border-0 
+      bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
           <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
