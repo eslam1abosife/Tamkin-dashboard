@@ -24,7 +24,7 @@
   .floating_label {
     @apply cursor-text rounded-[10px] absolute rtl:right-[15px] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
     top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[8px] lg:text-[15px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] lg:peer-focus:text-[16px];
+    text-[12px] 2xl:text-[15px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 2xl:peer-focus:text-[16px];
     transition: all 0.2s ease-in-out;
     line-height: 24px;
   }
