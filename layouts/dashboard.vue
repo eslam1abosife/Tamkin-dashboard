@@ -133,7 +133,7 @@ const clearInput = () => {
         />
       </svg>
     </div>
-        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0  p-[20px]" >
+        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0  p-[20px] max-h-[700px]" >
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
             :mobileSidebar="sideBarOpenMobile"

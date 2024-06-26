@@ -96,7 +96,7 @@ const {openShareModal} = useModalStore()
       </div>
     </div>
 
-    <div class="w-[166px] mx-auto">
+    <div class="w-[190px] mx-auto">
       <button class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
         Send Embed Code
       </button>

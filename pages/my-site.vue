@@ -177,22 +177,23 @@ const clearInput = () => {
                                     </div>
                                 </div>
                             </div>
-                            <table class="min-w-full divide-y divide-gray-200" v-if="currentTab === 'saved'">
+                            <table class="table-fixed  min-w-full divide-y divide-gray-200" v-if="currentTab === 'saved'">
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="px-4 h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                            class="pl-[16px] h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
-                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="text-left w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Billing
                                         </th>
-                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="text-left w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Products
                                         </th>
                                         <th
-                                            class="flex items-center justify-start space-x-[6px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
-                                            <div>Status</div>
+                                            >
+                                            <div class="w-[150px] flex items-center justify-start space-x-[6px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                                <div>Status</div>
                                             <div>
                                                 <span class="tooltip left" id="saveButton"
                                                     title="Estimated accessibility compliance level based on currently active solutions">
@@ -206,14 +207,16 @@ const clearInput = () => {
                                                     </span>
                                                 </span>
                                             </div>
+                                            </div>
                                         </th>
 
-                                        <th class="text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="w-[150px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Date
                                         </th>
 
                                         <th
-                                            class="flex items-center justify-start space-x-[6px] text-left text-[14px] 
+                                            >
+                                           <div class="flex items-center justify-center w-[150px] space-x-[6px]  text-[14px] 
                                             font-[600] leading-[21px] text-darkGrey">
                                             <div>Traffic</div>
                                             <div>
@@ -229,8 +232,10 @@ const clearInput = () => {
                                                     </span>
                                                 </span>
                                             </div>
+                                           </div>
                                         </th>
-                                        <th colspan="2" class="text-center text-[14px] font-[600] leading-[21px] text-darkGrey pr-[12px] ">
+                                        <th class="w-[150px] text-center text-[14px] 
+                                        font-[600] leading-[21px] text-darkGrey  ">
                                             Action
                                         </th>
                                     </tr>
@@ -238,49 +243,54 @@ const clearInput = () => {
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                            <img src="/assets/imgs/icons/avatar_table.svg" alt=""
-                                                class="w-[20px] h-[20px]" />
-                                            <div class="order-1">Tamkin.App</div>
-                                            <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                                                style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        ">
-                                                Default
-                                            </div>
+                                            class="w-[25%]">
+                                            <div class="flex h-[50px] items-center justify-start space-x-[16px]
+                                             pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                             <img src="/assets/imgs/icons/avatar_table.svg" alt=""
+                                             class="w-[20px] h-[20px]" />
+                                         <div class="order-1">Tamkin.App</div>
+                                         <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                                             style="
+                       background: linear-gradient(
+                         180deg,
+                         #2dada3 0%,
+                         #71dad2 100%
+                       );
+                     ">
+                                             Default
+                                         </div>
+                                        </div>
+                                         
                                         </td>
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] text-[14px] text-left leading-[21px] font-[400] text-darkGrey">
                                             Monthly
                                         </td>
-                                        <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro">PRO</div>
+                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey">
+                                            <div class="billing_badge pro mr-auto">PRO</div>
                                         </td>
 
-                                        <td class="text-darkGrey">
+                                        <td class="w-[150px] mx-auto text-center text-darkGrey">
                                             <div style="
                           background: linear-gradient(
                             180deg,
                             #2dada3 0%,
                             #71dad2 100%
                           );
-                        " class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] w-[88px] text-white text-[12px] leading-[18px]">
+                        " class="rounded-[17px] border-[1px] flex items-center justify-center
+                         border-[#71DAD2] h-[25px] w-[88px] text-white text-[12px] leading-[18px]">
                                                 Active
                                             </div>
                                         </td>
 
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] text-left text-[14px] leading-[21px] font-[400] text-darkGrey">
                                             May 11 ,2024
                                         </td>
 
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey">
                                             2.35K
                                         </td>
 
-                                        <td class="text-[14px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey pl-[38px]">
                                             <div class="flex items-center justify-start space-x-[16px]">
                                                 <div class="hover:opacity-50">
                                                     <img src="/assets/imgs/installed.svg" alt="" />
@@ -297,7 +307,7 @@ const clearInput = () => {
                                             </div>
                                         </td>
                                     </tr>
-
+<!-- 
                                     <tr class="bg-[#FAEBEB] h-[50px]">
                                         <td
                                             class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
@@ -474,7 +484,7 @@ const clearInput = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
 
@@ -516,7 +526,7 @@ const clearInput = () => {
                                             </div>
                                         </td>
 
-                                        <td class="text-[14px] pr-[18px] font-[400] text-darkGrey">
+                                        <td class="text-[14px] pr-[16px] font-[400] text-darkGrey">
                                             <button
                                                 class="ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
                                                 Restore

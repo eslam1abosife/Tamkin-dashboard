@@ -313,3 +313,28 @@
         #fef5f6 100%
       );
 }
+
+.status-badge {
+    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+    border: 1px solid #71dad2;
+    border-radius: 17px;
+    height: 25px;
+    width: 88px;
+    color: white;
+    font-size: 12px;
+    line-height: 18px;
+    display: grid;
+    place-items: center;
+  }
+
+//   table {
+//     table-layout: fixed;
+//     width: 300px;
+//   }
+  
+//   th,
+//   td {
+//     // border: 1px solid black;
+//     width: 150px;
+//     overflow: hidden;
+//   }

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   '@nuxtjs/i18n',
   '@vueuse/nuxt',
   '@nuxtjs/device',
-
+'@vueuse/motion/nuxt'
 
 ],
 nitro: {
