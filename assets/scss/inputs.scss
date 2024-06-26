@@ -10,7 +10,8 @@
 
 
 .input_floating_label {
-    @apply  lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    @apply  lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white
+     border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
    &.error_text {
     // @apply text-light;
    }

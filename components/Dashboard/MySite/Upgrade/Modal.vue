@@ -24,8 +24,9 @@
     <div>
 
         <!-- <DashboardMySiteUpgradeBilling/> -->
-        <!-- <DashboardMySiteUpgradePaymentMethod/> -->
-        <DashboardMySiteUpgradePaymentMethodsCard/>
+        <!-- <DashboardMySiteUpgradePaymentMethod/>
+        <DashboardMySiteUpgradePaymentMethodsCard/> -->
+        <DashboardMySiteUpgradePaymentMethodsNewCard/>
 
     </div>
   </div>

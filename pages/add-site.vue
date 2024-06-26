@@ -620,8 +620,8 @@ const next = ()=>{
  
 </transition-group>
     <div
-   
-      class="flex items-center justify-center mt-[22px] mx-auto space-x-[8px]"
+   :class="[collapsed ? 'mt-[365px]':'mt-[22px]']"
+      class="flex items-center justify-center  mx-auto space-x-[8px]"
     >
       <div
         :class="[currentIndex === 0 ? 'bg-tamkin' : 'bg-[#D9D9D9] ']"
@@ -635,17 +635,18 @@ const next = ()=>{
       ></div>
     </div>
 
-    <div class="flex items-center justify-center lg:justify-start  w-full  mt-[45px]" >
+    <div class="flex items-center justify-center lg:justify-start  w-full  " :class="[collapsed ? '':'mt-[28px]']" >
  
         <h1 class="font-[600] text-[20px] leading-[30px]">Enter Website URLS</h1>
   
     </div>
- <Client-only  v-if="!collapsed">
+ <Client-only  >
     <vue3-tags-input
     :tags="tags"
-    class="mt-[16px] w-full h-[164px] border-[1px] border-[#C5C5C5] bg-white focus:outline-none focus:ring-0 
-    focus:ring-transparent"
+    class="mt-[16px] w-full h-[164px] border-[1px] border-[#C5C5C5]  bg-white focus:outline-none focus:ring-1 
+    focus:ring-[#C5C5C5]"
     :validate="customValidate"
+    
     placeholder="Add new website"
     @on-tags-changed="handleChangeTag"
     >
@@ -663,11 +664,11 @@ const next = ()=>{
   </template>
  </vue3-tags-input>
  </Client-only>
-
+<!-- 
  <div class="mt-[16px] w-full h-[164px]  bg-transparent focus:outline-none focus:ring-0 
-    focus:ring-transparent" v-if="collapsed"></div>
+    focus:ring-transparent" v-if="collapsed"></div> -->
 
- <button class="btn-dashboard-normal normal_hover mt-[16px] mx-auto lg:mx-0 lg:ml-auto">Add Sites and Continue</button>
+ <button class="btn-dashboard-normal normal_hover my-[16px] mx-auto lg:mx-0 lg:ml-auto">Add Sites and Continue</button>
   </div>
 </template>
 

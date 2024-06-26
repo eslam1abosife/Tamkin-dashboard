@@ -6,7 +6,7 @@ const savedCards = ref([
 
 import visaIcon from '/assets/imgs/payment_methods/visa.svg'
 import masterIcon from '/assets/imgs/payment_methods/master.svg'
-const currentCard = ref('')
+const currentCard = ref()
 
 const isPromoFilled = ref(false);
 const promo = ref("");
@@ -36,7 +36,20 @@ const removePromoCode = ()=>{
    }
 }
 const selectedPaymentMethod = ref("");
+const changeCurrentCard = (savedCard:any)=>{
 
+  currentCard.value = savedCard.id
+  chooseOtherPaymentMethod.value = ''
+
+}
+
+const changepaymentMethod = (method:any)=>{
+  chooseOtherPaymentMethod.value = method
+  currentCard.value = ''
+
+}
+
+watch(currentCard,(ov,nv)=>{})
 </script>
 
 <template>
@@ -83,9 +96,10 @@ const selectedPaymentMethod = ref("");
    <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
     <div class="flex flex-col items-center justify-center w-full px-[20px]" v-for="savedCard in savedCards " :key="savedCard.id">
         <div 
-        @click="selectCurrentMethod()"
-        :class="[currentCard === savedCard.number ? 'custom-border-tamkin' : 'border-[1px] ']"
-        class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+        @click=" changeCurrentCard(savedCard)"
+        :class="[currentCard === savedCard.id ? 'custom-border-tamkin' : 'border-[1px] ']"
+        class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
+         border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
@@ -96,16 +110,18 @@ const selectedPaymentMethod = ref("");
                   type="radio"
                   name="radio"
                   class="hidden"
-                  :value="savedCard.number"
+                 :value="savedCard.id"
+                 @click.stop
                 v-model="currentCard"
                 
 
-                />
+                number/>
                 <label                   :for="'radio_'+savedCard.id"
                 class="flex items-center cursor-pointer pr-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
+               
                 </label>
               </div>
         </div>
@@ -113,10 +129,10 @@ const selectedPaymentMethod = ref("");
     </div>
   <div class="flex items-center justify-between w-full  px-[20px]">
     <div class="flex items-center space-x-[10px] mt-[39px] ">
-        <div>
+        <div class="cursor-pointer">
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
-       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">Add New Card</div>
+       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey" >Add New Card</div>
       
     </div>
 
@@ -138,8 +154,8 @@ const selectedPaymentMethod = ref("");
 
 <div class="px-[20px] w-full " v-if="showMoreMethods">
   <div 
-@click="chooseOtherPaymentMethod = 'by_paypal' "
-:class="[chooseOtherPaymentMethod == 'by_paypal' , currentCard ='' ? 'custom-border-tamkin' : 'border-[1px] ']"
+@click="changepaymentMethod('by_paypal')"
+:class="[chooseOtherPaymentMethod === 'by_paypal'  ? 'custom-border-tamkin' : 'border-[1px] ']"
  class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
   border-lightGrey pl-[16px]">
 <div class="flex items-center justify-start space-x-[13px]">
@@ -152,6 +168,8 @@ const selectedPaymentMethod = ref("");
           type="radio"
           name="radio"
           class="hidden"
+       
+          @click.stop
           value="by_paypal"
         v-model="chooseOtherPaymentMethod"
 
@@ -167,8 +185,8 @@ const selectedPaymentMethod = ref("");
 
 <div class="px-[20px] w-full" v-if="showMoreMethods">
   <div 
-  @click="chooseOtherPaymentMethod = 'by_crypto'"
-  :class="[chooseOtherPaymentMethod == 'by_crypto', currentCard ='' ? 'custom-border-tamkin' : 'border-[1px] ']"
+  @click="changepaymentMethod('by_crypto')"
+  :class="[chooseOtherPaymentMethod === 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
   class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
       <div class="flex items-center justify-start space-x-[13px]">
           <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
@@ -180,8 +198,9 @@ const selectedPaymentMethod = ref("");
             type="radio"
             name="radio"
             class="hidden"
-            value="by_crypto"
-          v-model="chooseOtherPaymentMethod"
+            @click.stop
+              value="by_crypto"
+        v-model="chooseOtherPaymentMethod"
 
           />
           <label for="radio_crypto" class="flex items-center cursor-pointer pr-[40px]">

@@ -68,7 +68,7 @@ const clearInput = () => {
 
         <div class="mt-[18px] flex items-center justify-start space-x-[36px]">
             <div>
-                <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]">
+                <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]" @click="modalStore.controlSelectSiteModal">
                     Add New Site
                 </button>
             </div>
