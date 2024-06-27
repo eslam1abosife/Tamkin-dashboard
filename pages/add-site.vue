@@ -19,7 +19,9 @@ const handleChangeTag = (tags: any) => {
   tags.value = tags;
 }
 const selectedPlan = ref('')
-
+const selectPlan = (plan:any)=>{
+  selectedPlan.value = plan
+}
 
 const next = ()=>{
       back.value = false;
@@ -99,10 +101,11 @@ const next = ()=>{
               <input
                 id="radio5"
                 type="radio"
-                name="radio"
+                name="plans_radio"
                 class="hidden"
                 value="free"
-                v-model="selectedPlan"
+                @click.stop="selectPlan('free')"
+            
               />
               <label for="radio5" class="flex items-center cursor-pointer">
                 <span
@@ -241,10 +244,12 @@ const next = ()=>{
               <input
                 id="radio523"
                 type="radio"
-                name="radio"
+                name="plans_radio"
                 class="hidden"
                  value="pro"
-                      v-model="selectedPlan"
+                 @click.stop="selectPlan('pro')"
+
+                 
               />
               <label for="radio523" class="flex items-center cursor-pointer">
                 <span
@@ -376,14 +381,16 @@ const next = ()=>{
             </div>
             <div class="order-1 mx-[15px]">
               <input
-                id="radio5"
+                id="radio558t6666"
                 type="radio"
-                name="radio"
+                name="plans_radio"
                 class="hidden"
+                @click.stop="selectPlan('premium')"
+
                    value="premium"
-                      v-model="selectedPlan"
+                  
               />
-              <label for="radio5" class="flex items-center cursor-pointer">
+              <label for="radio558t6666" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -510,11 +517,12 @@ const next = ()=>{
               <input
                 id="radio665"
                 type="radio"
-                name="radio"
+                name="plans_radio"
                 class="hidden"
                
                 value="platinum"
-                            v-model="selectedPlan"
+                @click.stop="selectPlan('platinum')"
+                         
               />
               <label for="radio665" class="flex items-center cursor-pointer">
                 <span
@@ -668,7 +676,7 @@ const next = ()=>{
  <div class="mt-[16px] w-full h-[164px]  bg-transparent focus:outline-none focus:ring-0 
     focus:ring-transparent" v-if="collapsed"></div> -->
 
- <button class="btn-dashboard-normal normal_hover my-[16px] mx-auto lg:mx-0 lg:ml-auto">Add Sites and Continue</button>
+ <button class="btn-dashboard-normal normal_hover my-[16px] mx-auto lg:mx-0 lg:ml-auto" @click="modalStore.controlShowUpgradeModal">Add Sites and Continue</button>
   </div>
 </template>
 

@@ -1,9 +1,21 @@
 <script lang="ts" setup>
-const selectedPlan = ref("");
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
+const {
+plansModal
+} = storeToRefs(modalStore);
+const selectedPackage = ref("");
+const selectPackage = (plan:any)=>{
+  selectedPackage.value = plan
+}
+const props = defineProps({
+  showModal:Boolean
+})
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full">
+  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
     <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[30px]">
       Upgrade Plan
     </h1>
@@ -12,13 +24,13 @@ const selectedPlan = ref("");
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[10px] text-darkGrey mt-[31px]"
+        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
         Select Your Plan
       </h1>
 
       <div
-        class="flex items-center justify-start w-full space-x-[14px] px-[10px]"
+        class="flex items-center justify-start w-full space-x-[14px] px-[20px]"
       >
         <div
           class="flex items-center custom-border justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
@@ -31,14 +43,15 @@ const selectedPlan = ref("");
             </div>
             <div class="order-1 mx-[4px]">
               <input
-                id="radio522224"
+                id="monthly"
                 type="radio"
-                name="radio"
+                name="packages_radio"
                 class="hidden"
-                value="premium"
-                v-model="selectedPlan"
+                value="monthly"
+                @click.stop="selectPackage('monthly')"
+              
               />
-              <label for="radio522224" class="flex items-center cursor-pointer">
+              <label for="monthly" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -70,14 +83,17 @@ const selectedPlan = ref("");
             </div>
             <div class="order-1 mx-[4px]">
               <input
-                id="radio534"
+                id="annual"
                 type="radio"
-                name="radio"
+                name="packages_radio"
                 class="hidden"
-                value="premium"
-                v-model="selectedPlan"
+                value="annual"
+                @click.stop="selectPackage('annual')"
+
+               
+
               />
-              <label for="radio534" class="flex items-center cursor-pointer">
+              <label for="annual" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -106,14 +122,16 @@ const selectedPlan = ref("");
             </div>
             <div class="order-1 mx-[4px]">
               <input
-                id="radio5"
+                id="3year"
                 type="radio"
-                name="radio"
+                name="packages_radio"
                 class="hidden"
-                value="premium"
-                v-model="selectedPlan"
+                value="3year_plan"
+                @click.stop="selectPackage('3year_plan')"
+
+              
               />
-              <label for="radio5" class="flex items-center cursor-pointer">
+              <label for="3year" class="flex items-center cursor-pointer">
                 <span
                   class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
                 ></span>
@@ -124,7 +142,7 @@ const selectedPlan = ref("");
       </div>
 
       <div
-        class="flex items-center justify-start w-full space-x-[14px] px-[10px] mt-[50px]"
+        class="flex items-center justify-start w-full space-x-[14px] px-[20px] mt-[50px]"
       >
         <div class="flex-1 w-full">
           <input
@@ -148,17 +166,17 @@ const selectedPlan = ref("");
         <thead>
           <tr>
             <th
-              class="py-2 px-4 border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
+              class="py-2 px-[20px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
             >
               Website
             </th>
             <th
-              class="py-2 px-4 border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
+              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
             >
               Tier
             </th>
             <th
-              class="py-2 px-4 border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-right"
+              class="py-2 px-[20px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-right"
             >
               Price
             </th>
@@ -167,7 +185,7 @@ const selectedPlan = ref("");
         <tbody>
           <tr>
             <td
-              class="py-2 px-4 border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2 px-[20px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span>Tamkin.App</span>
@@ -189,19 +207,19 @@ const selectedPlan = ref("");
               </div>
             </td>
             <td
-              class="py-2 px-4 border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               Large
             </td>
             <td
-              class="py-2 px-4 border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2 px-[20px] border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               $30,444.00
             </td>
           </tr>
           <tr>
             <td
-              class="py-2 px-4 border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2 px-[20px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span class="w-[150px]">Pinterest.App</span>
@@ -223,35 +241,35 @@ const selectedPlan = ref("");
               </div>
             </td>
             <td
-              class="py-2 px-4 border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2 pr-[100px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               Small
             </td>
             <td
-              class="py-2 px-4 border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2 px-[20px] border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               $20,444.00
             </td>
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2 px-4 border-b text-right font-semibold w-full"
+              class="py-2 px-[20px] border-b text-right font-semibold w-full"
               colspan="2"
             >
               Subtotal
             </td>
-            <td class="py-2 px-4 border-b text-right w-full" colspan="2">
+            <td class="py-2 px-[20px] border-b text-right w-full" colspan="2">
               $50,444.00
             </td>
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2 px-4 border-b text-right font-semibold w-full"
+              class="py-2 px-[20px] border-b text-right font-semibold w-full"
               colspan="2"
             >
               Total
             </td>
-            <td class="py-2 px-4 border-b text-right w-full" colspan="2">
+            <td class="py-2 px-[20px] border-b text-right w-full" colspan="2">
               $50,444.00
             </td>
           </tr>
@@ -260,7 +278,7 @@ const selectedPlan = ref("");
  
     </div>
     <div class="mt-[26px] ml-auto ">
-        <button class="btn-dashboard hover_tamkin">
+        <button class="btn-dashboard hover_tamkin" @click="modalStore.controlchoosePaymentmethodModal">
             Continue to Payment
         </button>
       </div>

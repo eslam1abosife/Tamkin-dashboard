@@ -12,6 +12,7 @@ const {
   selectSiteModal,
   editUserModal,
   InviteMemberUpdateModal,
+  showUpgradeModal
 } = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
@@ -82,6 +83,8 @@ const clearInput = () => {
       selectSiteModal ||
       editUserModal ||
       InviteMemberUpdateModal
+      ||
+      showUpgradeModal
     "
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
       ></div>
@@ -95,10 +98,10 @@ const clearInput = () => {
 
       <DashboardTeamEditUserPermissionsModal
         :showModal="editPermissionsModal"
-      />
+      /> 
 
-      <!-- <DashboardMySiteUpgradeModal/> -->
-      <!-- <DashboardMySiteUpgradeModal/> -->
+    <DashboardMySiteUpgradeModal :showModal="showUpgradeModal"/>
+      <DashboardMySiteUpgradeModal/>
       <div
         class="lg:relative flex items-center justify-start 
         flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"

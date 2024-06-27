@@ -280,9 +280,11 @@
     position: relative;
     margin: 0px;
     display: inline-block;
+
 }
 
 .custom-border-tamkin::before {
+  
     content: "";
     position: absolute;
     inset: 0;
@@ -298,7 +300,9 @@
     mask-composite: exclude;
     pointer-events: none;
 }
-
+.custom-border-tamkin.padding-override-1::before {
+    padding: 1px !important; /* Custom padding */
+  }
 
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB; /* Adjust the color to match your design */

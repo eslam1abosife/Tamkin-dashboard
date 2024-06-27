@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
 const savedCards = ref([
     {'id':1,number:'Tamkin  ****3536',type:'visa'},
     {'id':2,number:'Tamkin  ****6792',type:'master'},
@@ -50,14 +53,18 @@ const changepaymentMethod = (method:any)=>{
 }
 
 watch(currentCard,(ov,nv)=>{})
+const props = defineProps({
+  showModal:Boolean
+})
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full">
+  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
   
     <div class="flex items-center justify-center ">
         <div
-   
+        @click="modalStore.backControl"
+
     class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
@@ -129,7 +136,7 @@ watch(currentCard,(ov,nv)=>{})
     </div>
   <div class="flex items-center justify-between w-full  px-[20px]">
     <div class="flex items-center space-x-[10px] mt-[39px] ">
-        <div class="cursor-pointer">
+        <div class="cursor-pointer" @click="modalStore.addNewCardModal">
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
        <div class="text-[16px] font-[600] leading-[24px] text-darkGrey" >Add New Card</div>
@@ -212,31 +219,31 @@ watch(currentCard,(ov,nv)=>{})
   </div>
 </div>
  <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
-    <div class="py-[17px] search_input w-3/4 mt-[39px]">
-        <input
-          type="text"
-          class="input_dashboard_search w-full text-darkGrey "
-        v-model="promo"
-          placeholder="Promo Code"
-          :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
-        />
-       <div class="absolute top-[12px] lg:top-[11px] left-[29px] p-[16px] 
-       flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
-        <img src="/assets/imgs/promo_valid.svg" alt="">
-        <div class="text-[15px] font-[500] text-darkGrey">
-                <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
-        </div>
-        <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
+  <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
+    <input
+      type="text"
+      class="input_dashboard_search w-full text-darkGrey "
+    v-model="promo"
+      placeholder="Promo Code"
+      :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+    />
+   <div class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] 
+   flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
+    <img src="/assets/imgs/promo_valid.svg" alt="">
+    <div class="text-[15px] font-[500] text-darkGrey">
+            <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
+    </div>
+    <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
 
-       </div>
-        <div
-          v-if="isPromoFilled"
-          @click="clearInput"
-          class="absolute top-[12px] lg:top-[-27px] right-0 p-[16px] cursor-pointer mt-[39px]" 
-        >
-          <img src="/assets/imgs/close_promo.svg" alt="" />
-        </div>
-      </div>
+   </div>
+    <div
+      v-if="isPromoFilled"
+      @click="clearInput"
+      class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]" 
+    >
+      <img src="/assets/imgs/close_promo.svg" alt="" />
+    </div>
+  </div>
       <div class="text-center mt-[39px]">
         <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
         <button v-else class="btn_bordered_dashboard 
@@ -296,15 +303,15 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " disabled>
+    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.paymentSuccessModal" v-if="!modalStore.loading">
       Confirm Payment
     </button>
-  </div>
-   <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
-    <button class="processing_payment   lg:w-[535px] w-full " disabled>
+
+    <button class="processing_payment   lg:w-[535px] w-full " v-else>
       Payment Processing...
     </button>
-  </div> -->
+  </div>
+ 
     </div>
  
   </div>

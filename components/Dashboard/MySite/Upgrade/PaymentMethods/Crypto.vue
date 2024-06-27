@@ -1,0 +1,364 @@
+<script lang="ts" setup>
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
+import UAEFLAG from '~/assets/imgs/flags/UAE.svg'
+import EGYPTFLAG from '~/assets/imgs/flags/Element.svg'
+import SAUDIFLAG from '~/assets/imgs/flags/Vector.svg'
+const props = defineProps({
+  showModal:Boolean
+})
+const savedCards = ref([
+    {'id':1,number:'ETH',type:'eth'},
+    {'id':2,number:'BNB',type:'bnb'},
+    {'id':2,number:'USDTD',type:'usdt'},
+]);
+
+import bnbIcon from '/assets/imgs/crypto_methods_icons/3.svg'
+import usdtIcon from '/assets/imgs/crypto_methods_icons/2.svg'
+import ethIcon from '/assets/imgs/crypto_methods_icons/1.svg'
+const currentCard = ref()
+
+const isPromoFilled = ref(false);
+const promo = ref("");
+const validPromo = ref(false)
+const showMoreMethods = ref(false)
+const chooseOtherPaymentMethod = ref('')
+watch(promo, (ov, nv) => {
+  return promo.value.length > 0
+    ? (isPromoFilled.value = true)
+    : (isPromoFilled.value = false);
+});
+const clearInput = () => {
+    promo.value = "";
+    validPromo.value = false
+
+};
+const addPromoCode = ()=>{
+   if(promo.value){
+    validPromo.value = !validPromo.value
+   }
+}
+
+const removePromoCode = ()=>{
+   if(promo.value){
+    validPromo.value = !validPromo.value
+    promo.value =""
+   }
+}
+const ChangeCurrentCryptoMethod = (method:any)=>{
+
+  selectedCrypto.value = method
+
+}
+
+
+
+watch(currentCard,(ov,nv)=>{})
+
+const cryptoMethods = [
+  { code: 'ETH', name: 'ETH', flag: bnbIcon },
+  { code: 'USDT', name: 'USDT', flag: usdtIcon},
+  { code: 'BNB', name: 'BNB', flag:ethIcon},
+  // Add more countries as needed
+];
+const isOpen = ref(false);
+const search = ref('');
+const selectedCrypto = ref(  { code: 'ETH', name: 'ETH', flag: bnbIcon });
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const selectCryptoMethod = (method) => {
+    selectedCrypto.value = method;
+  isOpen.value = false;
+};
+
+const filteredCryptoMethods = computed(() => {
+  return cryptoMethods.filter((method) =>
+  method.name.toLowerCase().includes(search.value.toLowerCase())
+  );
+});
+</script>
+
+<template>
+  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
+  
+    <div class="flex items-center justify-center ">
+        <div
+        @click="modalStore.backControl"
+
+    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+   border-linecolor rounded-full w-[30px] h-[30px]"
+
+   style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
+"
+  >
+    <svg
+      width="9"
+      height="15"
+      viewBox="0 0 9 15"
+      fill="none"
+      class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+      />
+    </svg>
+  </div>
+    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+        Payment Methods
+    </h1>
+    </div>
+    <div
+      class="flex flex-col items-start justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
+      style="box-shadow: 0px 4px 24px 8px #51459f14"
+    >
+      <h1
+        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+      >
+      Crypto Payment
+      </h1>
+<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the cryptocurrency you want to complete the payment process</p>
+    
+
+   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
+    <div class="flex flex-col items-center justify-center w-full px-[20px]" v-if="selectedCrypto">
+        <div 
+    
+        
+        class=" w-full   h-[87px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
+         border-lightGrey pl-[16px]">
+            <div class="flex items-center justify-start space-x-[13px]">
+                <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
+                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{selectedCrypto.name}}</div>
+            </div>
+
+            <div class="order-1 mx-[4px]">
+                <input
+                  :id="'radio_'+selectedCrypto.id"
+                  type="radio"
+                  name="radio"
+                  class="hidden"
+                 :value="selectedCrypto.id"
+     @click=""
+  checked
+                
+
+                number/>
+                <label                   :for="'radio_'+selectedCrypto.id"
+                class="flex items-center cursor-pointer pr-[40px]">
+                  <span
+                    class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
+                  ></span>
+               
+                </label>
+              </div>
+        </div>
+        
+    </div>
+
+  
+
+  <div class="flex items-center justify-between w-full  px-[20px] ">
+    
+    <div class="w-full lg:mt-0 mt-[16px]">
+        <p class=" text-[20px] font-[400]  leading-[24px] text-left mt-[19px] mb-[23px] text-[#3D3D3D]">
+            Please choose other currency</p>
+        
+        <div class="relative w-full ">
+            <button
+              @click="toggleDropdown"
+              class=" input_search_country !py-[6px] !px-[28px] peer w-full  text-left " :class="[isOpen ? 'rounded-b-none' : '']"
+            >
+              <span class="floating_label" v-if="!selectedCrypto">Choose Crypto currency</span>
+              <div class="flex items-center justify-evenly " v-else>
+                <img
+                :src="selectedCrypto.flag"
+                alt=""
+                class="w-[30px] h-[30px] mr-2"
+              />
+              <span class="ml-[42px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
+              <div class="ml-auto ">
+                <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
+                    0.00009 {{ selectedCrypto.name === 'ETH'  ? 'EHT' :  selectedCrypto.name === 'BNB' ?'BNB' : 'USDT'}}
+                </div>
+               </div>
+               <img src="/assets/imgs/country_arrow.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
+               class="px-[22px] mb-[2px] float-right fill-darkGrey"
+             >
+            </div>
+            
+         
+            </button>
+            <div
+              v-if="isOpen"
+              class="absolute z-10  bg-white border rounded shadow w-full  pt-[16px]"
+            >
+           
+              <ul>
+                <li
+                @click="selectCryptoMethod(cryptoMethod)"
+                  v-for="cryptoMethod in filteredCryptoMethods"
+                  :key="cryptoMethod.code"
+
+                  class="flex items-center  hover:bg-gray-100 py-[6px] px-[32px] cursor-pointer"
+                >
+                  <img
+                    :src="cryptoMethod.flag"
+                    alt=""
+                    class="w-[30px] h-[30px] mr-2"
+                  />
+                  <span class="ml-[42px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
+                  <div class="ml-auto ">
+                    <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
+                        0.00009 {{ cryptoMethod.name === 'ETH'  ? 'EHT' :  cryptoMethod.name === 'BNB' ?'BNB' : 'USDT'}}
+                    </div>
+                   </div>
+               
+                </li>
+                <hr>
+              </ul>
+            </div>
+       
+    
+    
+    </div>
+</div>
+    
+ </div>
+<div class="flex flex-col items-start justify-center space-y-[24px]">
+    <p class=" ml-[20px] text-[20px] font-[400] leading-[33px] mt-[36px]  text-[#A7A7A7]">
+    
+    
+        By Choosing this crypto Currency that equal 0.00009 EHT  your payment will be :  </p>
+    
+    
+    
+        <div class=" rounded-[10px] custom-border-tamkin padding-override-1 w-[338px] h-[54px] flex items-center justify-center  mx-auto" >
+    
+            <h3 class="">
+    
+                <div class="flex items-center justify-start space-x-[13px]">
+                    <div class="text-[20px] leading-[24px] font-[600] font-[Inter] text-[#3D3D3D]">
+                        
+                        AED 9.09 = <span class="text-black">1.938344 {{selectedCrypto.name}}</span>
+    
+    
+                    </div>
+                    <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
+                 
+                </div>
+            </h3>
+    
+                
+        </div>
+</div>
+<!-- here-->
+
+ 
+
+<!-- here-->
+
+ <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
+  <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
+    <input
+      type="text"
+      class="input_dashboard_search w-full text-darkGrey "
+    v-model="promo"
+      placeholder="Promo Code"
+      :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+    />
+   <div class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] 
+   flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
+    <img src="/assets/imgs/promo_valid.svg" alt="">
+    <div class="text-[15px] font-[500] text-darkGrey">
+            <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
+    </div>
+    <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
+
+   </div>
+    <div
+      v-if="isPromoFilled"
+      @click="clearInput"
+      class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]" 
+    >
+      <img src="/assets/imgs/close_promo.svg" alt="" />
+    </div>
+  </div>
+      <div class="text-center mt-[24px]">
+        <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+        <button v-else class="btn_bordered_dashboard 
+error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
+      </div>
+ </div>
+ <table class="min-w-full ">
+    <thead>
+      <tr>
+        <th
+          class="py-2 pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] text-left"
+        colspan="12">
+        Summary
+        </th>
+      
+      </tr>
+    </thead>
+    <tbody>
+   
+ 
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"           v-if="validPromo"
+      >
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+          Subtotal
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+      <tr           v-if="validPromo"
+       class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+        Discount
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+          Total
+        </td>
+        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+          $50,444.00
+        </td>
+      </tr>
+    </tbody>
+  </table>
+   </div>
+   <div class="mt-[39px]  mx-auto mb-[34px]">
+    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal">
+      Confirm Payment
+    </button>
+  </div>
+   <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
+    <button class="processing_payment   lg:w-[535px] w-full " disabled>
+      Payment Processing...
+    </button>
+  </div> -->
+    </div>
+ 
+  </div>
+</template>
+
+

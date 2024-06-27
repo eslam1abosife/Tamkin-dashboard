@@ -1,12 +1,32 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useModalStore } from "@/stores/modal";
+
+const props = defineProps({
+  showModal:Boolean
+})
+
+
+const modalStore = useModalStore();
+const {
+plansModal,
+choosePaymentModal,
+cardModal,
+cryptoModal,
+cryptoConfirmModal,
+cryptoSuccess,
+newcardModal,
+paymentSuccess,
+paymentError
+} = storeToRefs(modalStore);
+</script>
 
 <template>
-  <div
+  <div v-if="showModal"
     class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 lg:right-0 rounded-[10px] lg:p-[30px]
-     lg:w-[803px] lg:h-screen overflow-y-auto"
+     lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto"
    
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" >
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlShowUpgradeModal">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -21,12 +41,23 @@
       />
     </svg>
   </div>
-    <div>
+    <div class="w-full h-full">
 
-        <!-- <DashboardMySiteUpgradeBilling/> -->
-        <!-- <DashboardMySiteUpgradePaymentMethod/>
-        <DashboardMySiteUpgradePaymentMethodsCard/> -->
-        <DashboardMySiteUpgradePaymentMethodsNewCard/>
+      <DashboardMySiteUpgradeBilling :showModal="showModal && plansModal"/>
+       <DashboardMySiteUpgradePaymentMethod :showModal="choosePaymentModal "/>
+       <DashboardMySiteUpgradePaymentMethodsCard :showModal="cardModal "/>
+       <DashboardMySiteUpgradePaymentMethodsCrypto :showModal="cryptoModal " />
+       <DashboardMySiteUpgradePaymentMethodsCryptoSend :showModal="cryptoConfirmModal "/>
+       <DashboardMySiteUpgradePaymentMethodsCryptoSuccess :showModal="cryptoSuccess "/>
+      <DashboardMySiteUpgradePaymentMethodsNewCard  :showModal="newcardModal "/>
+      <DashboardMySiteUpgradeMessagesPaymentSuccess :showModal="paymentSuccess " />
+        <!-- 
+     <DashboardMySiteUpgradePaymentMethodsCrypto
+        <DashboardMySiteUpgradePaymentMethodsCrypto/>
+        <DashboardMySiteUpgradePaymentMethodsCryptoSend/>
+        <DashboardMySiteUpgradePaymentMethodsCryptoSuccess/>
+        <DashboardMySiteUpgradeMessagesPaymentSuccess/>
+  <DashboardMySiteUpgradeMessagesPaymentError/> -->
 
     </div>
   </div>

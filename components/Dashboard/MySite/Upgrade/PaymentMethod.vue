@@ -1,13 +1,33 @@
 <script lang="ts" setup>
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
+
 const selectedPaymentMethod = ref("by_card");
+const props = defineProps({
+  showModal:Boolean
+})
+
+const goToPaymentMethod = (method:any)=>{
+if(selectedPaymentMethod.value === 'by_card'){
+return modalStore.payViaCard()
+}
+if(selectedPaymentMethod.value === 'by_paypal'){
+  
+}
+if(selectedPaymentMethod.value === 'by_crypto'){
+  return modalStore.payViaCrypto()
+
+}
+}
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full">
+  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
   
     <div class="flex items-center justify-center">
         <div
-   
+   @click="modalStore.backControl"
     class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
@@ -134,7 +154,7 @@ const selectedPaymentMethod = ref("by_card");
     </div>
    </div>
    <div class="mt-[129px] mb-[34px] ml-auto pr-[16px]">
-    <button class="btn-dashboard hover_tamkin">
+    <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
         Continue to Payment
     </button>
   </div>

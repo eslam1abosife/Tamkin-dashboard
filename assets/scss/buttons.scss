@@ -33,7 +33,7 @@ $colors: (
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
   border: 1px solid;
-  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px] 
+  @apply border-[1px] border-tamkin text-white h-[45px] rounded-[10px] p-[16px]  lg:text-base text-[12px]
   flex items-center justify-center space-x-[4px] w-full;
   &:not(.normal_hover,.no_hover,.hover_tamkin):hover {
     background: white !important;
@@ -57,7 +57,9 @@ $colors: (
 
   }
   &.hover_tamkin:hover {
-    @apply text-tamkin bg-white #{!important};
+    background: linear-gradient(180deg, white 0%, white 100%);
+
+    @apply text-tamkin;
 
   }
 }
@@ -98,17 +100,17 @@ $colors: (
 }
 
 .btn_bordered_dashboard {
-  @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center space-x-[4px];
+  @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center justify-center cursor-pointer space-x-[4px];
 &.error{
   @apply border-[#FF453F] text-[#FF453F];
 }
   &:not(.normal_hover, .error):hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-    @apply text-white;
+    @apply text-white cursor-pointer ;
   }
   &.normal_hover:hover {
 
-    @apply text-darkGrey bg-tamkinLight #{!important};
+    @apply text-darkGrey bg-tamkinLight cursor-pointer  #{!important};
   }
 }
 
