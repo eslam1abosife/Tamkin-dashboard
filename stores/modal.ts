@@ -130,24 +130,34 @@ this.choosePaymentModal = false
   },
 
   confirmCryptoModal(){
-    this.cryptoConfirmModal = !this.cryptoConfirmModal
-    this.cryptoModal = false
-    this.cardModal = false
-    
+this.loading = true
+ setTimeout(()=>{
+  this.cryptoConfirmModal = !this.cryptoConfirmModal
+  this.cryptoModal = false
+  this.cardModal = false
+  
+  this.choosePaymentModal = false
     this.choosePaymentModal = false
-      this.choosePaymentModal = false
-      this.plansModal =false
+    this.plansModal =false
+this.loading = false
+
+ },2000)
   },
   controlCryptoSuccessModal(){
-
-    this.cryptoSuccess = !this.cryptoSuccess
-    this.cryptoConfirmModal = false
-    this.cryptoModal = false
-    this.cardModal = false
-    
+    this.loading = true
+setTimeout(()=>{
+  
+  this.cryptoSuccess = !this.cryptoSuccess
+  this.cryptoConfirmModal = false
+  this.cryptoModal = false
+  this.cardModal = false
+  
+  this.choosePaymentModal = false
     this.choosePaymentModal = false
-      this.choosePaymentModal = false
-      this.plansModal =false
+    this.plansModal =false
+    this.loading = false
+
+},2000)
   },
 
 

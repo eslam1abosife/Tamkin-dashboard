@@ -108,7 +108,7 @@ const filteredCryptoMethods = computed(() => {
       />
     </svg>
   </div>
-  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -117,7 +117,7 @@ const filteredCryptoMethods = computed(() => {
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
       Crypto Payment
       </h1>
@@ -369,8 +369,11 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal">
+    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal" v-if="!modalStore.loading">
       Confirm Payment
+    </button>
+    <button class="processing_payment   lg:w-[535px] w-full " v-else disabled>
+      Loading..
     </button>
   </div>
    <!-- <div class="mt-[129px]  mx-auto mb-[34px]">

@@ -16,7 +16,7 @@ const props = defineProps({
 
 <template>
   <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden" v-if="showModal">
-    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey  lg:mt-0 mt-[60px]">
       Upgrade Plan
     </h1>
     <div

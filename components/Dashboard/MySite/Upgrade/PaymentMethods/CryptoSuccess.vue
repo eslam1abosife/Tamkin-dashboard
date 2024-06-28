@@ -27,8 +27,9 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
         <div
-   
-      class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
+        @click="modalStore.controlShowUpgradeModal"
+
+      class="cursor-pointer close_sidebar_btn group flex items-center justify-center   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -47,12 +48,12 @@ const props = defineProps({
       />
     </svg>
   </div>
-  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
     <div
-      class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[87px]"
+      class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[10px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
 
@@ -63,13 +64,13 @@ const props = defineProps({
 
    <div class="flex flex-col items-center justify-center mx-auto  px-[70px]  w-full">
  
-<div class="w-full my-[30px]">
+<div class="w-full my-[16px]">
     <h1 class="text-center text-tamkin text-[24px] leading-[40px] font-[500]">
         Please Wait...
     </h1>
 </div>
  <div class="w-full ">
-  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[26px] text-[#1E1E1E]">
+  <p class="text-[16px] text-center leading-[40px] font-[500]  text-[#1E1E1E]">
     
     the Coins balance will appear in your Coins Balance account only after transaction get confirmation and approved by our team.  
 
@@ -81,7 +82,7 @@ const props = defineProps({
 
 
    </div>
-   <div class="mt-[39px]  mx-auto mb-[260px]">
+   <div class="mt-[16px]  mx-auto mb-[260px]">
     <button class="btn-dashboard    lg:w-[535px] w-full " @click="modalStore.controlShowUpgradeModal">
         Back to My Site
     </button>

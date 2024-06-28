@@ -153,7 +153,7 @@ watch(
     <div class="flex items-center justify-center ">
       <div
         @click="modalStore.backControl"
-        class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
+        class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white border-[1px]
         border-linecolor rounded-full w-[30px] h-[30px]"        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
       >
         <svg
@@ -180,7 +180,7 @@ watch(
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing Info
       </h1>
@@ -428,7 +428,7 @@ watch(
       </div>
 
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing address
       </h1>

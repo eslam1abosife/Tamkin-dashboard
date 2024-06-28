@@ -29,7 +29,7 @@ const props = defineProps({
         <div
         @click="modalStore.backControl"
 
-      class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
+      class="cursor-pointer close_sidebar_btn group flex items-center justify-center   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -48,7 +48,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -57,7 +57,7 @@ const props = defineProps({
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
       Confirm your Payment
       </h1>
@@ -122,12 +122,17 @@ input_success: !v$.TXID.$error && !v$.TXID.$invalid,
 </div>
 
    </div>
-   <div class="mt-[39px]  mx-auto mb-[34px]">
+   <div class="mt-[39px]  mx-auto mb-[34px]" v-if="!modalStore.loading">
     <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.controlCryptoSuccessModal">
       Confirm Payment
     </button>
     <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[535px] w-full " disabled>
       Cancel
+    </button>
+  </div>
+  <div class="mt-[39px]  mx-auto mb-[34px]" v-else>
+    <button class="processing_payment   lg:w-[535px] w-full "  disabled>
+      Payment Processing...
     </button>
   </div>
    <!-- <div class="mt-[129px]  mx-auto mb-[34px]">

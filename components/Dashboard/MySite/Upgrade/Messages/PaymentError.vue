@@ -32,7 +32,7 @@ const props = defineProps({
     </h1>
     </div>
     <div
-      class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[87px]"
+      class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[40px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
 
@@ -43,13 +43,13 @@ const props = defineProps({
 
    <div class="flex flex-col items-center justify-center mx-auto  px-[70px]  w-full">
  
-<div class="w-full mt-[30px]">
+<div class="w-full mt-[16px]">
     <h1 class="text-center text-[#D43139] text-[24px] leading-[40px] font-[500]">
         Declined Transaction
     </h1>
 </div>
  <div class="w-full ">
-  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[24px] text-[#1E1E1E]">
+  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
     
     there is some thing wrong happened please tray again 
 </p>
@@ -59,7 +59,7 @@ const props = defineProps({
 
 
    </div>
-   <div class="mt-[39px]  mx-auto mb-[260px]">
+   <div class="mt-[16px]  mx-auto mb-[260px]">
     <button class="btn-dashboard    lg:w-[400px] w-full " @click="modalStore.backControl" >
         Try again    </button>
     <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[400px] w-full " @click="modalStore.controlShowUpgradeModal">
