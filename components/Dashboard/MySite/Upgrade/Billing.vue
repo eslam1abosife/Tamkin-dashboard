@@ -15,27 +15,29 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[30px]">
+  <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden" v-if="showModal">
+    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
       Upgrade Plan
     </h1>
     <div
-      class="flex flex-col items-start justify-center bg-white w-full h-full rounded-[10px] mt-[33px]"
+      class="flex flex-col items-start justify-center lg:overflow-x-hidden overflow-x-scroll bg-white w-full h-full 
+      px-[20px] rounded-[10px] mt-[33px] mb-[80px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[24px] leading-[36px] font-[600]  text-darkGrey mt-[31px]"
       >
         Select Your Plan
       </h1>
 
       <div
-        class="flex items-center justify-start w-full space-x-[14px] px-[20px]"
+        class="flex items-center lg:flex-row flex-col justify-center lg:justify-start w-full space-x-[14px] "
       >
         <div
-          class="flex items-center custom-border justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
-        
+          :class="[selectedPackage === 'monthly' ? 'custom-border-tamkin' : 'custom-border ']"
+
         >
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 relative w-full">
@@ -61,9 +63,9 @@ const props = defineProps({
         </div>
 
         <div
-          class="flex items-center custom-border-tamkin justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
-        
+          :class="[selectedPackage === 'annual' ? 'custom-border-tamkin' : 'custom-border ']"
         >
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 relative w-full">
@@ -71,13 +73,15 @@ const props = defineProps({
                 style="
                   background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                 "
-                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope] w-[69px] custom-border rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-35px] left-[15%] text-white"
+                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope]
+                 w-[69px] custom-border rounded-[10px] h-[22px] flex items-center justify-center 
+                 py-[4.5] px-[0.5px] top-[-35px] left-[15%] text-white"
               >
                 <span>Popular</span>
               </div>
               <h1 class="font-[500] text-[14px]">Annual Plan</h1>
               <h2 class="font-[500] text-[10px] font-[Manrope]">
-                <span class="!text-[#021328] text-[700]">12%</span>
+                <span class="!text-[#021328] font-[700]">12% </span>
                 <span class="text-[#536174]">discount on the monthly Plan</span>
               </h2>
             </div>
@@ -102,21 +106,22 @@ const props = defineProps({
           </div>
         </div>
         <div
-          class="flex items-center custom-border justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
-         
+         :class="[selectedPackage === '3year_plan' ? 'custom-border-tamkin' : 'custom-border ']"
         >
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 relative w-full">
               <div
                 style="background: #c16487"
-                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope] w-[89px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-35px] left-[15%] text-white"
+                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope] w-[89px] 
+                rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-28px] left-[15%] text-white"
               >
                 <span>Best Value</span>
               </div>
               <h1 class="font-[500] text-[14px]">3- Year Plan</h1>
               <h2 class="font-[500] text-[10px]">
-                <span class="!text-[#021328] text-[700]">20%</span>
+                <span class="!text-[#021328] font-[700]">20% </span>
                 <span class="text-[#536174]">discount on the monthly Plan</span>
               </h2>
             </div>
@@ -142,31 +147,31 @@ const props = defineProps({
       </div>
 
       <div
-        class="flex items-center justify-start w-full space-x-[14px] px-[20px] mt-[50px]"
+      class="flex items-center lg:flex-row flex-col  justify-center lg:justify-between w-full   mt-[50px]"
       >
-        <div class="flex-1 w-full">
+        <div class="w-full 2xl:w-[520px] lg:w-[550px] 3xl:w-[500px] ">
           <input
             type="text"
-            class="input_floating_label h-[45px]"
+            class="input_floating_label h-[45px] w-full"
             value="tamkin.app"
             placeholder="Search ..."
           />
         </div>
 
-        <div>
+        <div class="lg:w-[125px] 3xl:w-[130px] lg:mt-0 mt-[16px]">
           <button
-            class="btn-dashboard-normal normal_hover text-[14px] leading-[21px] font-[600]"
+            class="w-full btn-dashboard-normal normal_hover text-[14px] flex items-center justify-center leading-[21px] font-[600]"
           >
             Add Website
           </button>
         </div>
       </div>
 
-      <table class="min-w-full bg-white mt-[62px]">
+      <table class="min-w-full  bg-white mt-[62px]">
         <thead>
           <tr>
             <th
-              class="py-2 px-[20px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
+              class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
             >
               Website
             </th>
@@ -176,16 +181,16 @@ const props = defineProps({
               Tier
             </th>
             <th
-              class="py-2 px-[20px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-right"
+              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-right"
             >
               Price
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="">
           <tr>
             <td
-              class="py-2 px-[20px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span>Tamkin.App</span>
@@ -212,14 +217,14 @@ const props = defineProps({
               Large
             </td>
             <td
-              class="py-2 px-[20px] border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2  border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               $30,444.00
             </td>
           </tr>
           <tr>
             <td
-              class="py-2 px-[20px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span class="w-[150px]">Pinterest.App</span>
@@ -246,41 +251,41 @@ const props = defineProps({
               Small
             </td>
             <td
-              class="py-2 px-[20px] border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2  border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               $20,444.00
             </td>
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2 px-[20px] border-b text-right font-semibold w-full"
+              class="py-2  pr-[40px] border-b text-right font-semibold w-full"
               colspan="2"
             >
               Subtotal
             </td>
-            <td class="py-2 px-[20px] border-b text-right w-full" colspan="2">
+            <td class="py-2    border-b text-right w-full" colspan="2">
               $50,444.00
             </td>
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2 px-[20px] border-b text-right font-semibold w-full"
+              class="py-2 pr-[40px] border-b text-right font-semibold w-full"
               colspan="2"
             >
               Total
             </td>
-            <td class="py-2 px-[20px] border-b text-right w-full" colspan="2">
+            <td class="py-2  border-b text-right w-full" colspan="2">
               $50,444.00
             </td>
           </tr>
         </tbody>
       </table>
- 
-    </div>
-    <div class="mt-[26px] ml-auto ">
+      <div class="my-[26px] ml-auto  ">
         <button class="btn-dashboard hover_tamkin" @click="modalStore.controlchoosePaymentmethodModal">
             Continue to Payment
         </button>
       </div>
+    </div>
+ 
   </div>
 </template>

@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useModalStore } from "@/stores/modal";
+
+const modalStore = useModalStore();
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 definePageMeta({
@@ -25,7 +28,7 @@ const props = defineProps({
     <div class="flex items-center justify-center ">
         <div
    
-    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+      class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -44,7 +47,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -79,7 +82,7 @@ const props = defineProps({
 
    </div>
    <div class="mt-[39px]  mx-auto mb-[260px]">
-    <button class="btn-dashboard    lg:w-[535px] w-full " >
+    <button class="btn-dashboard    lg:w-[535px] w-full " @click="modalStore.controlShowUpgradeModal">
         Back to My Site
     </button>
  

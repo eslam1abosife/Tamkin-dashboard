@@ -89,7 +89,7 @@ const filteredCryptoMethods = computed(() => {
         <div
         @click="modalStore.backControl"
 
-    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+     class="cursor-pointer  flex items-center justify-center    bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -108,7 +108,7 @@ const filteredCryptoMethods = computed(() => {
       />
     </svg>
   </div>
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -133,7 +133,13 @@ const filteredCryptoMethods = computed(() => {
          border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
-                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{selectedCrypto.name}}</div>
+                
+                <div class="flex items-start flex-col justify-center space-y-[-8px]">
+                  <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{selectedCrypto.name}}</div>
+
+                  <div class="text-[#021328] text-[14px] font-[500]">Pay Via {{ selectedCrypto.code }} and get <span class="text-[14px] font-[700]">20%</span> discount</div>
+
+                </div>
             </div>
 
             <div class="order-1 mx-[4px]">
@@ -165,29 +171,29 @@ const filteredCryptoMethods = computed(() => {
   <div class="flex items-center justify-between w-full  px-[20px] ">
     
     <div class="w-full lg:mt-0 mt-[16px]">
-        <p class=" text-[20px] font-[400]  leading-[24px] text-left mt-[19px] mb-[23px] text-[#3D3D3D]">
+        <p class=" text-[20px] font-[400]  leading-[24px] text-left mt-[10px] mb-[23px] text-[#3D3D3D]">
             Please choose other currency</p>
         
-        <div class="relative w-full ">
+        <div class="relative w-full  ">
             <button
               @click="toggleDropdown"
-              class=" input_search_country !py-[6px] !px-[28px] peer w-full  text-left " :class="[isOpen ? 'rounded-b-none' : '']"
+              class=" input_search_country !rounded-[10px] !py-[6px] peer w-full  text-left " :class="[isOpen ? 'rounded-b-none' : '']"
             >
               <span class="floating_label" v-if="!selectedCrypto">Choose Crypto currency</span>
-              <div class="flex items-center justify-evenly " v-else>
+              <div class="flex items-center justify-start " v-else>
                 <img
                 :src="selectedCrypto.flag"
                 alt=""
-                class="w-[30px] h-[30px] mr-2"
+                class="!ml-[-16px]"
               />
-              <span class="ml-[42px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
+              <span class="ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
               <div class="ml-auto ">
                 <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
                     0.00009 {{ selectedCrypto.name === 'ETH'  ? 'EHT' :  selectedCrypto.name === 'BNB' ?'BNB' : 'USDT'}}
                 </div>
                </div>
                <img src="/assets/imgs/country_arrow.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
-               class="px-[22px] mb-[2px] float-right fill-darkGrey"
+               class="pl-[22px] pr-[15px] mb-[2px] float-right fill-darkGrey"
              >
             </div>
             
@@ -195,7 +201,7 @@ const filteredCryptoMethods = computed(() => {
             </button>
             <div
               v-if="isOpen"
-              class="absolute z-10  bg-white border rounded shadow w-full  pt-[16px]"
+              class="absolute z-10 top-[52px] bg-white  rounded-[12px] border-[1px] border-[#C8CFEB] shadow w-full  py-[16px]"
             >
            
               <ul>
@@ -204,14 +210,14 @@ const filteredCryptoMethods = computed(() => {
                   v-for="cryptoMethod in filteredCryptoMethods"
                   :key="cryptoMethod.code"
 
-                  class="flex items-center  hover:bg-gray-100 py-[6px] px-[32px] cursor-pointer"
+                  class="flex items-center  hover:bg-gray-100 py-[6px] px-[16px] cursor-pointer"
                 >
                   <img
                     :src="cryptoMethod.flag"
                     alt=""
-                    class="w-[30px] h-[30px] mr-2"
+                    class="w-[30px] h-[30px]"
                   />
-                  <span class="ml-[42px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
+                  <span class="ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
                   <div class="ml-auto ">
                     <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
                         0.00009 {{ cryptoMethod.name === 'ETH'  ? 'EHT' :  cryptoMethod.name === 'BNB' ?'BNB' : 'USDT'}}
@@ -219,7 +225,7 @@ const filteredCryptoMethods = computed(() => {
                    </div>
                
                 </li>
-                <hr>
+             
               </ul>
             </div>
        
@@ -229,12 +235,15 @@ const filteredCryptoMethods = computed(() => {
 </div>
     
  </div>
-<div class="flex flex-col items-start justify-center space-y-[24px]">
-    <p class=" ml-[20px] text-[20px] font-[400] leading-[33px] mt-[36px]  text-[#A7A7A7]">
-    
-    
-        By Choosing this crypto Currency that equal 0.00009 EHT  your payment will be :  </p>
-    
+<div class="flex flex-col items-start justify-center space-y-[24px] w-full px-[20px]">
+
+  <div class="flex-1 w-full    text-[20px] font-[400]  leading-[24px] mt-[10px]  text-[#A7A7A7] whitespace-pre-line ">
+      By Choosing this crypto Currency that equal 0.00009 EHT your payment 
+
+
+      will be : 
+
+  </div>
     
     
         <div class=" rounded-[10px] custom-border-tamkin padding-override-1 w-[338px] h-[54px] flex items-center justify-center  mx-auto" >
@@ -263,7 +272,7 @@ const filteredCryptoMethods = computed(() => {
 <!-- here-->
 
  <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
-  <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
+  <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[10px]">
     <input
       type="text"
       class="input_dashboard_search w-full text-darkGrey "
@@ -288,7 +297,7 @@ const filteredCryptoMethods = computed(() => {
       <img src="/assets/imgs/close_promo.svg" alt="" />
     </div>
   </div>
-      <div class="text-center mt-[24px]">
+      <div class="text-center mt-[10px]">
         <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
         <button v-else class="btn_bordered_dashboard 
 error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
@@ -323,16 +332,17 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       <tr           v-if="validPromo"
        class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 pr-4 border-b text-right font-semibold w-full"
           colspan="2"
         >
         Discount
         </td>
-        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+        <td class="py-2 pr-4 border-b text-right w-full" colspan="2">
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"         
+      >
         <td
           class="py-2 px-5 border-b text-right font-semibold w-full"
           colspan="2"
@@ -341,6 +351,18 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
         </td>
         <td class="py-2 px-5 border-b text-right w-full" colspan="2">
           $50,444.00
+        </td>
+      </tr>
+      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"         
+      >
+        <td
+          class="py-2 px-5 border-b text-right font-semibold w-full"
+          colspan="2"
+        >
+        Total Crypto
+        </td>
+        <td class="py-2 px-3 border-b text-right w-full" colspan="2">
+          EHT 1.938344
         </td>
       </tr>
     </tbody>

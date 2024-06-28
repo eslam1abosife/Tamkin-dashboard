@@ -23,12 +23,14 @@ if(selectedPaymentMethod.value === 'by_crypto'){
 </script>
 
 <template>
+
   <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
   
     <div class="flex items-center justify-center">
         <div
    @click="modalStore.backControl"
-    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+
+  class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -47,12 +49,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       />
     </svg>
   </div>
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[10px] lg:mt-0 mt-[60px]">
-        Choose Payment Methods
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+    Choose Payment Methods
     </h1>
     </div>
     <div
-      class="flex flex-col items-center justify-center bg-white w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
+      class="flex flex-col items-start justify-center bg-white w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
@@ -60,15 +62,16 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       >
       Payment Methods
       </h1>
-<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px]">Choose the payment method you want to complete this payment</p>
+<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the payment method you want to complete this payment</p>
     
 
-   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px] lg:p-0 px-[20px] w-full">
-    <div class="flex flex-col items-center justify-center w-full">
+   <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
+    <div class="w-full">
         <div 
         @click="selectedPaymentMethod = 'by_card'"
         :class="[selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
-        class="mx-auto  w-full lg:w-[704px] h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+        class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE] 
+        flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/cc.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Card</div>
@@ -94,11 +97,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         
     </div>
  
-    <div class="flex flex-col items-center justify-center w-full">
+    <div class=" w-full ">
         <div 
         @click="selectedPaymentMethod = 'by_crypto'"
         :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
-        class="mx-auto  w-full lg:w-[704px] h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+        class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between
+         rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
@@ -123,11 +127,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         </div>
         
     </div>
-    <div class="flex flex-col items-center justify-center w-full">
+    <div class=" w-full ">
         <div 
         @click="selectedPaymentMethod = 'by_paypal'"
         :class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']"
-        class="mx-auto  w-full lg:w-[704px] h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
+        class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center 
+        justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
@@ -153,11 +158,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         
     </div>
    </div>
-   <div class="mt-[129px] mb-[34px] ml-auto pr-[16px]">
+   <div class="my-[26px] px-[20px] ml-auto">
     <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
-        Continue to Payment
-    </button>
+      Continue to Payment
+  </button>
   </div>
+
     </div>
  
   </div>

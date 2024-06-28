@@ -65,7 +65,7 @@ const props = defineProps({
         <div
         @click="modalStore.backControl"
 
-    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+  class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -84,7 +84,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -100,7 +100,7 @@ const props = defineProps({
 <p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px]">Choose the payment method you want to complete this payment</p>
     
 
-   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
+   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px]  mx-auto   w-full">
     <div class="flex flex-col items-center justify-center w-full px-[20px]" v-for="savedCard in savedCards " :key="savedCard.id">
         <div 
         @click=" changeCurrentCard(savedCard)"
@@ -134,8 +134,8 @@ const props = defineProps({
         </div>
         
     </div>
-  <div class="flex items-center justify-between w-full  px-[20px]">
-    <div class="flex items-center space-x-[10px] mt-[39px] ">
+  <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full  px-[20px]">
+    <div class="flex items-center space-x-[10px] mt-[24px] ">
         <div class="cursor-pointer" @click="modalStore.addNewCardModal">
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
@@ -143,8 +143,8 @@ const props = defineProps({
       
     </div>
 
-    <div class="flex items-center  space-x-[11px] mt-[39px]">
-<div class="cursor-pointer" @click="showMoreMethods = !showMoreMethods">
+    <div class="flex items-center  space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
+<div class="cursor-pointer" >
     <div class="text-[16px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
 
 </div>
@@ -218,11 +218,11 @@ const props = defineProps({
         </div>
   </div>
 </div>
- <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
-  <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
+ <div class="flex items-center lg:flex-row flex-col justify-center lg:justify-start  lg:space-x-[38px] w-full  px-[20px] ">
+  <div class="lg:py-[17px] search_input w-full lg:w-[520px]  mt-[24px] ">
     <input
       type="text"
-      class="input_dashboard_search w-full text-darkGrey "
+      class="input_dashboard_search lg:w-[520px] w-full text-darkGrey "
     v-model="promo"
       placeholder="Promo Code"
       :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
@@ -244,8 +244,8 @@ const props = defineProps({
       <img src="/assets/imgs/close_promo.svg" alt="" />
     </div>
   </div>
-      <div class="text-center mt-[39px]">
-        <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+      <div class="text-center mt-[16px] lg:mt-[24px] ">
+        <button class="btn-dashboard hover_tamkin mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
         <button v-else class="btn_bordered_dashboard 
 error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       </div>
@@ -303,11 +303,11 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.paymentSuccessModal" v-if="!modalStore.loading">
+    <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="modalStore.paymentSuccessModal" v-if="!modalStore.loading">
       Confirm Payment
     </button>
 
-    <button class="processing_payment   lg:w-[535px] w-full " v-else>
+    <button class="processing_payment   lg:w-[535px] w-full " v-else disabled>
       Payment Processing...
     </button>
   </div>

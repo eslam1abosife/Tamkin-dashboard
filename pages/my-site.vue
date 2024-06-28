@@ -43,6 +43,7 @@ const checkAll = computed({
         checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
     },
 });
+const localePath = useLocalePath();
 
 const isSearchfilled = ref(false);
 const search = ref("");
@@ -68,7 +69,7 @@ const clearInput = () => {
 
         <div class="mt-[18px] flex items-center justify-start space-x-[36px]">
             <div>
-                <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]" @click="modalStore.controlSelectSiteModal">
+                <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]" @click="$router.push(localePath('/add-site'))">
                     Add New Site
                 </button>
             </div>

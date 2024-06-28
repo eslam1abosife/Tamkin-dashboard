@@ -27,7 +27,7 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
        
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -37,7 +37,7 @@ const props = defineProps({
     >
 
     <div>
-        <img src="/assets/imgs/payment_methods/success.svg" class="w-[60px] h-[60px]" alt="">
+        <img src="/assets/imgs/payment_methods/success.svg" class="w-[74px] h-[85px]" alt="">
     </div>
     
 

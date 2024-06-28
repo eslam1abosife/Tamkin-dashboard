@@ -22,8 +22,8 @@ paymentError
 
 <template>
   <div v-if="showModal"
-    class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 lg:right-0 rounded-[10px] lg:p-[30px]
-     lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto"
+    class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 lg:right-0 rounded-[10px] lg:p-[30px] 
+     lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
    
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlShowUpgradeModal">
@@ -66,10 +66,4 @@ paymentError
 
 <style>
 
-.close_btn {
-    @apply absolute top-[35px] right-[34px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
-    &:hover {
-      @apply text-white;
-      background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-    }
-  }</style>
+</style>

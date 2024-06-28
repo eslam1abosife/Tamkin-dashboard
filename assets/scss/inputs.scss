@@ -10,7 +10,7 @@
 
 
 .input_floating_label {
-    @apply  lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white
+    @apply  lg:text-[16px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white
      border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
       focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
    &.error_text {
@@ -20,7 +20,8 @@
 
   .input_search_country {
     @apply  lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white
-     border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]  focus:ring-[0] placeholder:text-transparent;
+     border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] 
+      focus:ring-1 focus:border-transparent focus:ring-tamkin  focus:outline-none placeholder:text-transparent;
    &.error_text {
     // @apply text-light;
    }
@@ -30,7 +31,7 @@
 
   }
   .floating_label {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[15px] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
     top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[12px] 2xl:text-[15px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 2xl:peer-focus:text-[16px];
     transition: all 0.2s ease-in-out;
@@ -42,7 +43,7 @@
   }
   
   .error_message {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  lg:ltr:right-[14px];
+    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  ltr:right-[0px] lg:ltr:right-[14px];
     
   }
   .error_message_password {

@@ -19,6 +19,20 @@ nitro: {
     failOnError: false, 
   },
 },
+watchers: {
+  webpack: {
+    aggregateTimeout: 300,
+    poll: 1000
+  }
+},
+vite: {
+  server: {
+    hmr: {
+      protocol: 'ws',
+      host: '0.0.0.0',  
+    }
+  },
+},
 device: {
   refreshOnResize: true
 },
@@ -72,5 +86,5 @@ tailwindcss: {
   config: {},
   viewer: false,
 }
-  
+
 })

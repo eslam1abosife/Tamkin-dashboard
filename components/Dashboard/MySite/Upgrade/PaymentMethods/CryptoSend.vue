@@ -29,7 +29,7 @@ const props = defineProps({
         <div
         @click="modalStore.backControl"
 
-    class="cursor-pointer  flex items-center justify-center  bg-white border-[1px]
+      class="cursor-pointer close_sidebar_btn group flex items-center justify-center lg:ml-[10px] ml-[20px]   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -48,7 +48,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-    <h1 class="text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>

@@ -343,3 +343,10 @@
 //     width: 150px;
 //     overflow: hidden;
 //   }
+.close_btn {
+    @apply absolute  right-[20px] top-[35px] lg:top-[-16px] lg:right-[-14px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
+    &:hover {
+      @apply text-white;
+      background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+    }
+  }
