@@ -33,9 +33,21 @@
   .floating_label {
     @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
     top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[12px] 2xl:text-[15px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 2xl:peer-focus:text-[16px];
+    text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
+    2xl:peer-focus:text-[16px];
     transition: all 0.2s ease-in-out;
     line-height: 24px;
+  }
+
+  .floating_country{
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
+    top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+    text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
+    2xl:peer-focus:text-[16px];
+    transition: all 0.2s ease-in-out;
+    line-height: 24px;
+  
+  
   }
   input:focus ~ .floating_label,
   input:not(:placeholder-shown) ~ .floating_label {
@@ -43,7 +55,7 @@
   }
   
   .error_message {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  ltr:right-[0px] lg:ltr:right-[14px];
+    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  ltr:right-[14px] lg:ltr:right-[14px];
     
   }
   .error_message_password {

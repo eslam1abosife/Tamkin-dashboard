@@ -192,8 +192,10 @@ const filteredCryptoMethods = computed(() => {
                     0.00009 {{ selectedCrypto.name === 'ETH'  ? 'EHT' :  selectedCrypto.name === 'BNB' ?'BNB' : 'USDT'}}
                 </div>
                </div>
-               <img src="/assets/imgs/country_arrow.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
-               class="pl-[22px] pr-[15px] mb-[2px] float-right fill-darkGrey"
+             
+                
+               <img src="/assets/imgs/menu-down.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
+               class=" ml-[24px] mr-[55px] mb-[2px] float-right stroke-current fill-darkGrey text-darkGrey"
              >
             </div>
             
@@ -218,7 +220,7 @@ const filteredCryptoMethods = computed(() => {
                     class="w-[30px] h-[30px]"
                   />
                   <span class="ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
-                  <div class="ml-auto ">
+                  <div class="ml-auto  mr-[72px]">
                     <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
                         0.00009 {{ cryptoMethod.name === 'ETH'  ? 'EHT' :  cryptoMethod.name === 'BNB' ?'BNB' : 'USDT'}}
                     </div>
@@ -251,9 +253,9 @@ const filteredCryptoMethods = computed(() => {
             <h3 class="">
     
                 <div class="flex items-center justify-start space-x-[13px]">
-                    <div class="text-[20px] leading-[24px] font-[600] font-[Inter] text-[#3D3D3D]">
+                    <div class="text-[20px] leading-[24px] font-[500] font-[Inter] text-[#3D3D3D]">
                         
-                        AED 9.09 = <span class="text-black">1.938344 {{selectedCrypto.name}}</span>
+                        AED 9.09 = <span class="text-black font-[500]">1.938344 {{selectedCrypto.name}}</span>
     
     
                     </div>

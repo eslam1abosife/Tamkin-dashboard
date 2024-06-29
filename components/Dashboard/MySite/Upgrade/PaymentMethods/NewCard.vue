@@ -289,7 +289,7 @@ const checkInput = (event) =>{
               id="cardNumber"
               @keydown="checkInput"
 
-              :maxlength="20"
+              :maxlength="19"
               class="input_floating_label peer w-full lg:w-[704px]"
               v-model="v$.cardNumber.$model"
               :class="{
@@ -568,7 +568,8 @@ const checkInput = (event) =>{
         </div>
 
         <div
-          class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:space-x-[42px] lg:mb-[25px] w-full"
+          class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 
+          space-y-[16px] lg:space-x-[42px] lg:mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -613,9 +614,9 @@ const checkInput = (event) =>{
                 class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] text-left"
                 :class="[isOpen ? 'rounded-b-none' : '']"
               >
-                <span class="floating_label">{{
+                <div class="floating_country !font-[400]" :class="[selectedCountry && selectedCountry.name ? '!text-black' :'text-light']">{{
                   selectedCountry ? selectedCountry.name : "Country*"
-                }}</span>
+                }}</div>
 
                 <img
                   src="/assets/imgs/payment_methods/country_arrow.svg"
@@ -628,7 +629,7 @@ const checkInput = (event) =>{
                 v-if="isOpen"
                 class="absolute z-10 top-[52px] w-[330px] bg-white border rounded shadow"
               >
-                <div class="py-[21px] w-full search_input mx-auto px-[20px]">
+                <div class="py-[21px]  search_input mx-auto w-full  px-[20px]">
                   <input
                     type="text"
                     class="input_dashboard_search w-full  "
@@ -636,14 +637,14 @@ const checkInput = (event) =>{
                     placeholder="Search ..."
                   />
                   <div
-                    class="absolute top-[12px] lg:top-[20px] lg:left-[20px] left-[10px] lg:p-[16px]"
+                    class="absolute top-[33px] lg:top-[20px] lg:left-[20px] left-[30px] lg:p-[16px]"
                   >
                     <img src="/assets/imgs/icons/search.svg" alt="" />
                   </div>
                   <div
                     v-if="search"
                     @click="search = ''"
-                    class="absolute top-[12px] lg:top-[18px] right-[20px] p-[16px] cursor-pointer"
+                    class="absolute top-[16px] lg:top-[18px] right-[20px] p-[16px] cursor-pointer"
                   >
                     <img src="/assets/imgs/icons/clear_search.svg" alt="" />
                   </div>
@@ -652,7 +653,7 @@ const checkInput = (event) =>{
                   <li
                     v-for="country in filteredCountries"
                     :key="country.code"
-                    class="border-b-[1px] flex items-center px-4 py-2 hover:bg-gray-100"
+                    class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100"
                   >
                     <img :src="country.flag" alt="" class="w-6 h-4 mr-2" />
                     <span>{{ country.name }}</span>
@@ -729,7 +730,7 @@ const checkInput = (event) =>{
         </div>
         <div class="text-center mt-[16px] lg:mt-[39px]">
           <button
-            class="btn-dashboard no_hover w-6/6 mx-auto text-center ]"
+            class="btn-dashboard  w-6/6 mx-auto text-center ]"
             @click="addPromoCode"
             v-if="!validPromo"
           >
@@ -799,7 +800,7 @@ const checkInput = (event) =>{
       </table>
       <div class="mt-[39px] mx-auto mb-[34px]">
         <button
-          class="btn-dashboard no_hover lg:w-[535px] w-full"
+          class="btn-dashboard hover_tamkin lg:w-[535px] w-full"
           @click="modalStore.paymentSuccessModal"
           v-if="!modalStore.loading"
         >

@@ -249,7 +249,7 @@ const props = defineProps({
 </div>
 <div class="text-center mt-[16px] lg:mt-[39px]">
   <button
-    class="btn-dashboard no_hover w-6/6 mx-auto text-center ]"
+    class="btn-dashboard  w-6/6 mx-auto text-center ]"
     @click="addPromoCode"
     v-if="!validPromo"
   >

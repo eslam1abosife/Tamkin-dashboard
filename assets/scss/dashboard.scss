@@ -118,10 +118,10 @@
     margin-left: 5px; /* Adjust spacing */
     color: green; /* Color the check mark green */
   }
-.v3ti--focus  {
+.v3ti--focus.v3ti {
 
-    outline: 0;
-    border-color: transparent !important;
+   
+  @apply border-[1px] border-tamkin #{!important}; 
     box-shadow:none !important;
 
 }
@@ -230,6 +230,12 @@
     mask-composite: exclude;
     pointer-events: none;
 }
+
+.custom-border.rounded-big::before {
+
+    border-radius: 19px !important;
+
+}
 .custom-border-collapse {
     position: relative;
     margin: 0px;
@@ -306,7 +312,13 @@
   .custom-border-tamkin.custom-border-tamkin-rounded::before {
 border-radius: 9999px !important;
 }
+.custom-border-tamkin.custom-border-tamkin-rounded-small::before {
+    border-radius: 9999px !important;
 
+    padding: 1px !important; /* Custom padding */
+
+    }
+    
 
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB; /* Adjust the color to match your design */
@@ -356,7 +368,7 @@ border-radius: 9999px !important;
   }
 
   .close_btn_payment {
-    @apply absolute  top-[34px] right-[14px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
+    @apply absolute  top-[34px] right-[30px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
     &:hover {
       @apply text-white;
       background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);

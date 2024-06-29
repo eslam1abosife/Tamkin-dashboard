@@ -78,7 +78,7 @@ const props = defineProps({
               />
               <label for="monthly" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>
@@ -101,8 +101,8 @@ const props = defineProps({
                 </div>
                 <h1 class="font-[500] text-[14px]">Annual Plan</h1>
                 <h2 class="font-[500] text-[10px]">
-                    <span class="!text-[#021328] font-[700]">12%</span>
-                    <span class="text-[#536174]">discount on the monthly Plan</span>
+                    <span class="!text-[#021328] font-[700]">12% </span>
+                    <span class="text-[#536174]">Discount on the monthly Plan</span>
                 </h2>
             </div>
             <div class="order-1 mx-[4px]">
@@ -115,7 +115,7 @@ const props = defineProps({
                     @click.stop="selectPackage('annual')"
                 />
                 <label for="annual" class="flex items-center cursor-pointer">
-                    <span class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"></span>
+                    <span class="radio-tamkin"></span>
                 </label>
             </div>
         </div>
@@ -139,7 +139,7 @@ const props = defineProps({
               <h1 class="font-[500] text-[14px]">3- Year Plan</h1>
               <h2 class="font-[500] text-[10px]">
                 <span class="!text-[#021328] font-[700]">20% </span>
-                <span class="text-[#536174]">discount on the monthly Plan</span>
+                <span class="text-[#536174]">Discount on the monthly Plan</span>
               </h2>
             </div>
             <div class="order-1 mx-[4px]">
@@ -155,7 +155,7 @@ const props = defineProps({
               />
               <label for="3year" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>

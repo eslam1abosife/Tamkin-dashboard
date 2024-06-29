@@ -109,7 +109,7 @@ const next = ()=>{
               />
               <label for="radio5" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>
@@ -253,7 +253,7 @@ const next = ()=>{
               />
               <label for="radio523" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>
@@ -392,7 +392,7 @@ const next = ()=>{
               />
               <label for="radio558t6666" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>
@@ -526,7 +526,7 @@ const next = ()=>{
               />
               <label for="radio665" class="flex items-center cursor-pointer">
                 <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
+                  class="radio-tamkin"
                 ></span>
               </label>
             </div>
