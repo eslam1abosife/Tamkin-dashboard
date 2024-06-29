@@ -218,38 +218,52 @@ const props = defineProps({
         </div>
   </div>
 </div>
- <div class="flex items-center lg:flex-row flex-col justify-center lg:justify-start  lg:space-x-[38px] w-full  px-[20px] ">
-  <div class="lg:py-[17px] search_input w-full lg:w-[520px]  mt-[24px] ">
-    <input
-      type="text"
-      class="input_dashboard_search lg:w-[520px] w-full text-darkGrey "
+<div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between space-x-[24px] w-full px-[20px]"
+>
+<div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
+  <input
+    type="text"
+    class="input_dashboard_search w-full text-darkGrey"
     v-model="promo"
-      placeholder="Promo Code"
-      :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
-    />
-   <div class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] 
-   flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
-    <img src="/assets/imgs/promo_valid.svg" alt="">
+    placeholder="Promo Code"
+    :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+  />
+  <div
+    class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] flex items-center justify-evenly space-x-[10px]"
+    v-if="validPromo"
+  >
+    <img src="/assets/imgs/promo_valid.svg" alt="" />
     <div class="text-[15px] font-[500] text-darkGrey">
-            <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
+      <span class="text-[#021328] font-[700]">12%</span> Discount
+      (-$2,444 )
     </div>
-    <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
-
-   </div>
-    <div
-      v-if="isPromoFilled"
-      @click="clearInput"
-      class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]" 
-    >
-      <img src="/assets/imgs/close_promo.svg" alt="" />
-    </div>
+    <img src="/assets/imgs/promo_valid_.svg" class="" alt="" />
   </div>
-      <div class="text-center mt-[16px] lg:mt-[24px] ">
-        <button class="btn-dashboard hover_tamkin mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
-        <button v-else class="btn_bordered_dashboard 
-error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
-      </div>
- </div>
+  <div
+    v-if="isPromoFilled"
+    @click="clearInput"
+    class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]"
+  >
+    <img src="/assets/imgs/close_promo.svg" alt="" />
+  </div>
+</div>
+<div class="text-center mt-[16px] lg:mt-[39px]">
+  <button
+    class="btn-dashboard no_hover w-6/6 mx-auto text-center ]"
+    @click="addPromoCode"
+    v-if="!validPromo"
+  >
+    Apply Code
+  </button>
+  <button
+    v-else
+    class="btn_bordered_dashboard error w-6/6 mx-auto text-center"
+    @click="removePromoCode"
+  >
+    Remove Code
+  </button>
+</div>
+</div>
  <table class="min-w-full ">
     <thead>
       <tr>
@@ -267,35 +281,35 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"           v-if="validPromo"
       >
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
           Subtotal
         </td>
-        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+        <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>
       <tr           v-if="validPromo"
-       class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+       class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
         Discount
         </td>
-        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+        <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+      <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
           Total
         </td>
-        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+        <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>

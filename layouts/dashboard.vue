@@ -264,7 +264,7 @@ const clearInput = () => {
               </div>
             </div>
           </nav>
-          <div class="pt-[90px] w-full px-[10px] lg:px-[40px] lg:flex-grow-0">
+          <div class="pt-[90px] w-full px-[10px] lg:px-[40px] lg:flex-grow-0 relative">
             <NuxtPage />
           </div>
         </div>

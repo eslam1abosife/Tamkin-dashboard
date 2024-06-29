@@ -303,6 +303,10 @@
 .custom-border-tamkin.padding-override-1::before {
     padding: 1px !important; /* Custom padding */
   }
+  .custom-border-tamkin.custom-border-tamkin-rounded::before {
+border-radius: 9999px !important;
+}
+
 
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB; /* Adjust the color to match your design */
@@ -344,9 +348,27 @@
 //     overflow: hidden;
 //   }
 .close_btn {
-    @apply absolute  right-[20px] top-[35px] lg:top-[-16px] lg:right-[-14px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
+    @apply absolute  top-[-14px] right-[-12px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
     &:hover {
       @apply text-white;
       background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
     }
   }
+
+  .close_btn_payment {
+    @apply absolute  top-[34px] right-[14px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
+    &:hover {
+      @apply text-white;
+      background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+    }
+  }
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

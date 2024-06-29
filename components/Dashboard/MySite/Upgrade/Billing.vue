@@ -1,5 +1,26 @@
 <script lang="ts" setup>
 import { useModalStore } from "@/stores/modal";
+import { useVuelidate } from "@vuelidate/core";
+import { required, email, sameAs } from "@vuelidate/validators";
+import { helpers } from '@vuelidate/validators'
+
+// Regular expression to validate a domain name
+const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/;
+
+ const isDomain = helpers.withParams(
+  { type: 'isDomain' },
+  (value) => {
+    return domainRegex.test(value);
+  }
+  );
+const state = reactive({
+  newWebsite: "",
+});
+const rules = {
+  newWebsite: { required,isDomain },
+};
+
+const v$ = useVuelidate(rules, state);
 
 const modalStore = useModalStore();
 const {
@@ -12,11 +33,13 @@ const selectPackage = (plan:any)=>{
 const props = defineProps({
   showModal:Boolean
 })
+
+
 </script>
 
 <template>
   <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden" v-if="showModal">
-    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey  lg:mt-0 mt-[60px]">
+    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px]  lg:mt-0 mt-[60px]">
       Upgrade Plan
     </h1>
     <div
@@ -25,7 +48,7 @@ const props = defineProps({
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[24px] leading-[36px] font-[600]  text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600]  text-darkGrey mt-[31px]"
       >
         Select Your Plan
       </h1>
@@ -63,59 +86,53 @@ const props = defineProps({
         </div>
 
         <div
-          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
-          style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPackage === 'annual' ? 'custom-border-tamkin' : 'custom-border ']"
-        >
-          <div class="flex items-center justify-center relative w-full">
-            <div class="order-2 relative w-full">
-              <div
-                style="
-                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                "
-                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope]
-                 w-[69px] custom-border rounded-[10px] h-[22px] flex items-center justify-center 
-                 py-[4.5] px-[0.5px] top-[-35px] left-[15%] text-white"
-              >
-                <span>Popular</span>
-              </div>
-              <h1 class="font-[500] text-[14px]">Annual Plan</h1>
-              <h2 class="font-[500] text-[10px] font-[Manrope]">
-                <span class="!text-[#021328] font-[700]">12% </span>
-                <span class="text-[#536174]">discount on the monthly Plan</span>
-              </h2>
+        class="flex items-center justify-start bg-selected space-x-[16px] w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+        style="padding: 16px, 10px, 16px, 10px"
+        :class="[selectedPackage === 'annual' ? 'custom-border-tamkin' : 'custom-border ']"
+    >
+        <div class="flex items-center justify-center w-full ">
+            <div class="order-2  w-full h-full">
+                <div
+                    style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);"
+                    class="absolute text-[13px] leading-[17.76px] font-[600] w-[69px] custom-border rounded-[10px] 
+                    h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[30%] text-white"
+                >
+                    <span>Popular</span>
+                </div>
+                <h1 class="font-[500] text-[14px]">Annual Plan</h1>
+                <h2 class="font-[500] text-[10px]">
+                    <span class="!text-[#021328] font-[700]">12%</span>
+                    <span class="text-[#536174]">discount on the monthly Plan</span>
+                </h2>
             </div>
             <div class="order-1 mx-[4px]">
-              <input
-                id="annual"
-                type="radio"
-                name="packages_radio"
-                class="hidden"
-                value="annual"
-                @click.stop="selectPackage('annual')"
-
-               
-
-              />
-              <label for="annual" class="flex items-center cursor-pointer">
-                <span
-                  class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"
-                ></span>
-              </label>
+                <input
+                    id="annual"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    value="annual"
+                    @click.stop="selectPackage('annual')"
+                />
+                <label for="annual" class="flex items-center cursor-pointer">
+                    <span class="w-[24px] h-[24px] inline-block mr-1 rounded-full border border-grey"></span>
+                </label>
             </div>
-          </div>
         </div>
+    </div>
+    
         <div
-          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
-          style="padding: 16px, 10px, 16px, 10px"
-         :class="[selectedPackage === '3year_plan' ? 'custom-border-tamkin' : 'custom-border ']"
+        class="flex items-center justify-start bg-selected space-x-[16px] relative  w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] 
+        !rounded-[10px] mt-[35px]"
+        :class="[selectedPackage === '3year_plan' ? 'custom-border-tamkin' : 'custom-border ']"
         >
-          <div class="flex items-center justify-center relative w-full">
-            <div class="order-2 relative w-full">
+        <div class="flex items-center justify-center  w-full">
+          <div class="order-2  w-full">
               <div
                 style="background: #c16487"
-                class="absolute text-[13px] leading-[17.76px] font-[600] font-[Manrope] w-[89px] 
-                rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-28px] left-[15%] text-white"
+                class="absolute text-[13px] leading-[17.76px] font-[600] 
+                w-[89px]  rounded-[10px] h-[22px] flex items-center justify-center 
+                top-[-10px]  left-[30%] text-white"
               >
                 <span>Best Value</span>
               </div>
@@ -149,18 +166,52 @@ const props = defineProps({
       <div
       class="flex items-center lg:flex-row flex-col  justify-center lg:justify-between w-full   mt-[50px]"
       >
-        <div class="w-full 2xl:w-[520px] lg:w-[550px] 3xl:w-[500px] ">
-          <input
-            type="text"
-            class="input_floating_label h-[45px] w-full"
-            value="tamkin.app"
-            placeholder="Search ..."
-          />
+        <div class="w-full 2xl:w-[520px] lg:w-[550px] 3xl:w-[500px] relative ">
+            <input
+              type="newWebsite"
+              placeholder="{{$t('web site')}}"
+              id="email"
+              class="input_floating_label peer  focus:outline-0 text-darkGrey w-full"
+              v-model="v$.newWebsite.$model"
+              :class="{
+                input_error:
+                  (v$.newWebsite.$error && v$.newWebsite.required.$invalid) || (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid) ,
+                error_text:
+                  (v$.newWebsite.$error && v$.newWebsite.required.$invalid) || (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid),
+                input_success: !v$.newWebsite.$error && !v$.newWebsite.$invalid || (!v$.newWebsite.$error && !v$.newWebsite.isDomain.$invalid),
+              }"
+            />
+            <label
+              for="newWebsite"
+              class="floating_label"
+              :class="[
+                (v$.newWebsite.$error && v$.newWebsite.required.$invalid) ||
+              (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid)
+                  ? '!text-error'
+                  : '',
+              ]"
+            >
+              {{ $t("Add a Website") }}*
+            </label>
+            <div
+              class="w-full lg:w-4/6 "
+              v-if="
+                (v$.newWebsite.$error && v$.newWebsite.required.$invalid) || (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid)
+              "
+            >
+              <p class="error_message">
+                <span v-if="(v$.newWebsite.$error && v$.newWebsite.required.$invalid )||         (v$.newWebsite.$error && v$.newWebsite.isDomain.$invalid)">{{
+                  $t("Website is not valid")
+                }}</span>
+                
+              </p>
+            </div>
+        
         </div>
 
         <div class="lg:w-[125px] 3xl:w-[130px] lg:mt-0 mt-[16px]">
           <button
-            class="w-full btn-dashboard-normal normal_hover text-[14px] flex items-center justify-center leading-[21px] font-[600]"
+            class="w-full btn-dashboard-normal normal_hover h-[50px] text-[14px] flex items-center justify-center leading-[21px] font-[600]"
           >
             Add Website
           </button>
@@ -258,7 +309,7 @@ const props = defineProps({
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2  pr-[40px] border-b text-right font-semibold w-full"
+              class="py-2  pr-[40px] border-b text-right font-[500] w-full"
               colspan="2"
             >
               Subtotal
@@ -269,7 +320,7 @@ const props = defineProps({
           </tr>
           <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
             <td
-              class="py-2 pr-[40px] border-b text-right font-semibold w-full"
+              class="py-2 pr-[40px] border-b text-right font-[500] w-full"
               colspan="2"
             >
               Total

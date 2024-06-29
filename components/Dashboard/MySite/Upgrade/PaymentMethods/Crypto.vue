@@ -124,17 +124,17 @@ const filteredCryptoMethods = computed(() => {
 <p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the cryptocurrency you want to complete the payment process</p>
     
 
-   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[50px]  mx-auto   w-full">
+   <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px]  mx-auto   w-full">
     <div class="flex flex-col items-center justify-center w-full px-[20px]" v-if="selectedCrypto">
         <div 
     
         
-        class=" w-full   h-[87px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
+        class=" w-full   h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
          border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start space-x-[13px]">
                 <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
                 
-                <div class="flex items-start flex-col justify-center space-y-[-8px]">
+                <div class="flex items-start flex-col justify-center space-y-[-4px]">
                   <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{selectedCrypto.name}}</div>
 
                   <div class="text-[#021328] text-[14px] font-[500]">Pay Via {{ selectedCrypto.code }} and get <span class="text-[14px] font-[700]">20%</span> discount</div>
@@ -171,7 +171,7 @@ const filteredCryptoMethods = computed(() => {
   <div class="flex items-center justify-between w-full  px-[20px] ">
     
     <div class="w-full lg:mt-0 mt-[16px]">
-        <p class=" text-[20px] font-[400]  leading-[24px] text-left mt-[10px] mb-[23px] text-[#3D3D3D]">
+        <p class=" text-[18px] font-[400]  leading-[24px] text-left mt-[10px] mb-[23px] text-[#3D3D3D]">
             Please choose other currency</p>
         
         <div class="relative w-full  ">
@@ -237,7 +237,7 @@ const filteredCryptoMethods = computed(() => {
  </div>
 <div class="flex flex-col items-start justify-center space-y-[24px] w-full px-[20px]">
 
-  <div class="flex-1 w-full    text-[20px] font-[400]  leading-[24px] mt-[10px]  text-[#A7A7A7] whitespace-pre-line ">
+  <div class="flex-1 w-full    text-[17px] font-[400]  leading-[24px] mt-[10px]  text-[#A7A7A7] whitespace-pre-line ">
       By Choosing this crypto Currency that equal 0.00009 EHT your payment 
 
 
@@ -280,7 +280,7 @@ const filteredCryptoMethods = computed(() => {
       placeholder="Promo Code"
       :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
     />
-   <div class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] 
+   <div class="absolute top-[-8px] lg:top-[11px] left-[7.5px] p-[16px] 
    flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
     <img src="/assets/imgs/promo_valid.svg" alt="">
     <div class="text-[15px] font-[500] text-darkGrey">
@@ -298,7 +298,7 @@ const filteredCryptoMethods = computed(() => {
     </div>
   </div>
       <div class="text-center mt-[10px]">
-        <button class="btn-dashboard no_hover w-6/6 mx-auto text-center ]" @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+        <button class="btn-dashboard  w-6/6 mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
         <button v-else class="btn_bordered_dashboard 
 error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
       </div>
@@ -317,10 +317,10 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <tbody>
    
  
-      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"           v-if="validPromo"
+      <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"           v-if="validPromo"
       >
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
           Subtotal
@@ -330,38 +330,38 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
         </td>
       </tr>
       <tr           v-if="validPromo"
-       class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+       class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
         <td
-          class="py-2 pr-4 border-b text-right font-semibold w-full"
+          class="py-2 pr-4 border-b text-right font-[500] w-full"
           colspan="2"
         >
         Discount
         </td>
-        <td class="py-2 pr-4 border-b text-right w-full" colspan="2">
+        <td class="py-2 pr-4 border-b text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"         
+      <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"         
       >
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
           Total
         </td>
-        <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+        <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"         
+      <tr class="text-[16px] leading-[24px]  bg-[#FAFCFE]"         
       >
         <td
-          class="py-2 px-5 border-b text-right font-semibold w-full"
+          class="py-2 px-5 border-b text-right font-[500] w-full"
           colspan="2"
         >
         Total Crypto
         </td>
-        <td class="py-2 px-3 border-b text-right w-full" colspan="2">
+        <td class="py-2 px-3 border-b text-right w-full font-[500]" colspan="2">
           EHT 1.938344
         </td>
       </tr>
@@ -369,7 +369,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard no_hover   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal" v-if="!modalStore.loading">
+    <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal" v-if="!modalStore.loading">
       Confirm Payment
     </button>
     <button class="processing_payment   lg:w-[535px] w-full " v-else disabled>

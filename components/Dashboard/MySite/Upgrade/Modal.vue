@@ -26,7 +26,7 @@ paymentError
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
    
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlShowUpgradeModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment" @click="modalStore.controlShowUpgradeModal">
     <svg
       class="w-[12px] h-[12px]"
       width="14"

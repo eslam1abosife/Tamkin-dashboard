@@ -36,8 +36,7 @@ const validDate = (value) => {
   const [month, year] = value.split("/").map(Number);
   return month >= 1 && month <= 12 && year >= 0 && year <= 99;
 };
-const creditCardPattern2 =
-  /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
+const creditCardPattern2 = /^(?:4[0-9]{15}|5[1-5][0-9]{14}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})$/;
 
 const futureDate = (value) => {
   if (!value || value.length !== 5) {
@@ -132,9 +131,10 @@ const filteredCountries = computed(() => {
 watch(
   state,
   (newValue) => {
+   
     const formattedValue = newValue.cardNumber
       .replace(/\s+/g, "")
-      .replace(/(.{2})/g, "$1 ")
+      .replace(/(.{4})/g, "$1 ")
       .trim();
     // alert('gg')
     if (newValue.cardNumber !== formattedValue) {
@@ -143,6 +143,16 @@ watch(
   },
   { deep: true }
 );
+
+const checkInput = (event) =>{
+      // Allow only numeric input
+      const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
+
+      if (!allowedKeys.includes(event.key)) {
+        event.preventDefault();
+      }
+    }
+
 </script>
 
 <template>
@@ -277,6 +287,9 @@ watch(
               type="text"
               placeholder="{{$t('Card Number')}}"
               id="cardNumber"
+              @keydown="checkInput"
+
+              :maxlength="20"
               class="input_floating_label peer w-full lg:w-[704px]"
               v-model="v$.cardNumber.$model"
               :class="{
@@ -374,6 +387,8 @@ watch(
             <div class="relative">
               <input
                 type="password"
+                @keydown="checkInput"
+              :maxlength="3"
                 placeholder="{{$t('CVV')}}"
                 id="cvv"
                 class="input_floating_label peer w-full lg:w-[330px]"
@@ -742,41 +757,41 @@ watch(
         </thead>
         <tbody>
           <tr
-            class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"
+            class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"
             v-if="validPromo"
           >
             <td
-              class="py-2 px-5 border-b text-right font-semibold w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full"
               colspan="2"
             >
               Subtotal
             </td>
-            <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
               $50,444.00
             </td>
           </tr>
           <tr
             v-if="validPromo"
-            class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]"
+            class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"
           >
             <td
-              class="py-2 px-5 border-b text-right font-semibold w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full"
               colspan="2"
             >
               Discount
             </td>
-            <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
               $50,444.00
             </td>
           </tr>
-          <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE]">
+          <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
             <td
-              class="py-2 px-5 border-b text-right font-semibold w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full"
               colspan="2"
             >
               Total
             </td>
-            <td class="py-2 px-5 border-b text-right w-full" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
               $50,444.00
             </td>
           </tr>

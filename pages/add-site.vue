@@ -92,7 +92,7 @@ const next = ()=>{
             <div class="order-2 mt-[22px] relative w-full">
               <h1 class="font-[600] text-[20px] leading-[30px]">Free Widget</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px] font-[Manrope] text-[#536174]"
+                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -235,7 +235,7 @@ const next = ()=>{
                 Pro-Accessibility Widget
               </h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px] font-[Manrope] text-[#536174]"
+                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -374,7 +374,7 @@ const next = ()=>{
             <div class="order-2 mt-[22px] relative w-full">
               <h1 class="font-[600] text-[20px] leading-[30px]">Premium</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px] font-[Manrope] text-[#536174]"
+                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -508,7 +508,7 @@ const next = ()=>{
             <div class="order-2 mt-[22px] relative w-full">
               <h1 class="font-[600] text-[20px] leading-[30px]">Platinum</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px] font-[Manrope] text-[#536174]"
+                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
