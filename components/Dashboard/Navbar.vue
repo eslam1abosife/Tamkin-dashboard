@@ -474,7 +474,7 @@ watchEffect(() => {
          
           </div>
           <div v-if="sideBarOpen">
-            Sign language Services
+            Accessibility Services
           </div>
           <div v-if="sideBarOpen ">
             <svg
