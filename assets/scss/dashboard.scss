@@ -35,6 +35,12 @@
              bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
 
         }
+
+        &.active{
+            @apply bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text w-full;
+
+        }
+        
     }
 
     .dashboard-nav-link {

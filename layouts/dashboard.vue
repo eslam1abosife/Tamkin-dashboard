@@ -102,6 +102,7 @@ const clearInput = () => {
 
     <DashboardMySiteUpgradeModal :showModal="showUpgradeModal"/>
       <DashboardMySiteUpgradeModal/>
+
       <div
         class="lg:relative flex items-center justify-start 
         flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
@@ -112,7 +113,7 @@ const clearInput = () => {
           sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
         ]"
       >
-  
+
       <div
       @click="toggleSidebar"
       :class="[
@@ -137,6 +138,7 @@ const clearInput = () => {
       </svg>
     </div>
         <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 z-[101] p-[20px] max-h-[700px]" >
+
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
             :mobileSidebar="sideBarOpenMobile"
@@ -264,7 +266,24 @@ const clearInput = () => {
               </div>
             </div>
           </nav>
-          <div class="pt-[90px] w-full px-[10px] lg:px-[40px] lg:flex-grow-0 relative">
+
+          <div class="pt-[90px]  px-[10px] lg:px-[40px] lg:flex-grow-0 relative">
+            <div
+            class="absolute left-0 right-0  w-full h-[320px] z-[-1] top-0"
+            style="
+              box-shadow: 0px 4px 24px 8px #51459f1a;
+              background: linear-gradient(
+                180deg,
+                #fefefe 0%,
+                #eef5ff 47.07%,
+                #f6f3fc 72.04%,
+                #fef5f6 100%
+              );
+            "
+            v-if="$route.path === '/addons'"
+          ></div>
+            <DashboardAddonsSaveFooter v-if="$route.path === '/addons'"/>
+
             <NuxtPage />
           </div>
         </div>

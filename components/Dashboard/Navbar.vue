@@ -25,6 +25,21 @@ const isLinkActive = (path) => {
   //   const localePath = this.$i18n.localePath(path);
   return route.path === localePath(path);
 };
+
+const isSubMenuActive = (index) => {
+  const routes = [
+    '/overview',
+    '/addons',
+    // Add more routes here
+  ];
+
+  return routes.includes(route.path);
+};
+
+// Watch the route and open the submenu if necessary
+watchEffect(() => {
+  showSubMenu.value[3] = isSubMenuActive(3);
+});
 </script>
 
 <template>
@@ -440,6 +455,95 @@ const isLinkActive = (path) => {
         </div>
       </div>
 
+      <div class="relative w-full" @click="openMenuSub(3)">
+        <div
+          class="dashboard-nav-link-has-menu"
+          :class="[
+         !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
+                        showSubMenu[3] === true ? 'active ' : '',
+          ]"
+        >
+          <div>
+            <svg 
+             :class="[sideBarOpen ? 'pl-[11px]' :'']"
+            width="25" height="25" viewBox="0 0 25 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 12.5C0.5 9.3174 1.76428 6.26516 4.01472 4.01472C6.26516 1.76428 9.3174 0.5 12.5 0.5C15.6826 0.5 18.7348 1.76428 20.9853 4.01472C23.2357 6.26516 24.5 9.3174 24.5 12.5C24.5 15.6826 23.2357 18.7348 20.9853 20.9853C18.7348 23.2357 15.6826 24.5 12.5 24.5C9.3174 24.5 6.26516 23.2357 4.01472 20.9853C1.76428 18.7348 0.5 15.6826 0.5 12.5ZM12.5 2.22127C9.77391 2.22127 7.15948 3.30421 5.23184 5.23184C3.30421 7.15948 2.22127 9.77391 2.22127 12.5C2.22127 15.2261 3.30421 17.8405 5.23184 19.7682C7.15948 21.6958 9.77391 22.7787 12.5 22.7787C15.2261 22.7787 17.8405 21.6958 19.7682 19.7682C21.6958 17.8405 22.7787 15.2261 22.7787 12.5C22.7787 9.77391 21.6958 7.15948 19.7682 5.23184C17.8405 3.30421 15.2261 2.22127 12.5 2.22127ZM11.8205 15.2178C11.7209 15.4479 10.3837 20.5809 10.3837 20.5809C10.3528 20.6959 10.2995 20.8036 10.227 20.8979C10.1544 20.9922 10.064 21.0714 9.96086 21.1308C9.75257 21.2507 9.50516 21.283 9.27306 21.2205C9.15814 21.1896 9.05043 21.1363 8.95609 21.0638C8.86176 20.9912 8.78263 20.9008 8.72324 20.7976C8.60329 20.5894 8.571 20.3419 8.63347 20.1098C8.63347 20.1098 10.2279 14.9877 10.2279 13.8951V11.2335L6.68028 10.2823C6.56361 10.2532 6.45389 10.2012 6.35752 10.1293C6.26115 10.0573 6.18007 9.96696 6.11899 9.86338C6.05792 9.7598 6.01807 9.6451 6.00178 9.52596C5.98549 9.40683 5.99308 9.28564 6.02411 9.16947C6.05514 9.05329 6.10898 8.94446 6.1825 8.84931C6.25603 8.75416 6.34775 8.6746 6.45234 8.61527C6.55693 8.55593 6.67228 8.51801 6.79167 8.50372C6.91106 8.48943 7.03211 8.49904 7.14774 8.53201C7.14774 8.53201 10.1446 9.55209 11.315 9.55209H13.6868C14.8554 9.55209 17.8504 8.53201 17.8504 8.53201C18.0825 8.46954 18.33 8.50183 18.5382 8.62178C18.7465 8.74172 18.8987 8.9395 18.9611 9.1716C19.0236 9.4037 18.9913 9.65111 18.8714 9.8594C18.7514 10.0677 18.5536 10.2198 18.3215 10.2823L14.7594 11.2371V13.8951C14.7594 14.9877 16.3538 20.1044 16.3538 20.1044C16.4161 20.3365 16.3836 20.5838 16.2634 20.7919C16.1433 21.0001 15.9454 21.1519 15.7133 21.2142C15.4812 21.2764 15.2339 21.2439 15.0258 21.1238C14.8177 21.0037 14.6658 20.8058 14.6036 20.5737C14.6036 20.5737 13.261 15.4479 13.1686 15.2178C13.078 14.9877 12.7718 14.9877 12.7718 14.9877H12.2155C12.2155 14.9877 11.9021 14.9877 11.8205 15.2178ZM12.5 8.18775C13.0406 8.18775 13.5591 7.973 13.9413 7.59074C14.3236 7.20847 14.5384 6.69001 14.5384 6.1494C14.5384 5.6088 14.3236 5.09034 13.9413 4.70807C13.5591 4.32581 13.0406 4.11105 12.5 4.11105C11.9594 4.11105 11.4409 4.32581 11.0587 4.70807C10.6764 5.09034 10.4616 5.6088 10.4616 6.1494C10.4616 6.69001 10.6764 7.20847 11.0587 7.59074C11.4409 7.973 11.9594 8.18775 12.5 8.18775Z" fill="currentColor"/>
+              </svg>
+              
+                
+         
+          </div>
+          <div v-if="sideBarOpen">
+            Sign language Services
+          </div>
+          <div v-if="sideBarOpen ">
+            <svg
+              width="7"
+              height="12"
+              class="rtl:mr-[40px] ltr:ml-[12px]"
+              :class="[showSubMenu[2] ? 'rotate-90' : '']"
+              viewBox="0 0 7 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                  <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                </linearGradient>
+              </defs>
+              <path
+                :fill="showSubMenu[3] ? 'url(#grad1)' : '#585B5B'"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="menu_item bg-[#FFFEFE] rounded-[10px]"
+          :class="[
+            !sideBarOpen && showSubMenu[3] ? 'absolute left-[85px] ' : ' ',
+            showSubMenu[3] ? 'block ' : 'hidden'
+          ]"
+          style="padding: 10px 40px 10px 40px"
+        >
+          <div class="flex w-full">
+            <div class="bg-[#FFFEFE] relative w-full h-full left-0">
+              <div
+                class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
+              ></div>
+              <ul class="mt-4 space-y-[10px]">
+                <li class="rounded-[10px] relative">
+              
+                  <a
+                    href="#"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px] "
+                    >Overview</a
+                  >
+                </li>
+                <li class="rounded-[10px] relative w-full">
+                  <div v-if="isLinkActive('/addons')"
+                  class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-tamkin h-full"
+                ></div>
+                  <nuxt-link
+                    :to="localePath('/addons')" :class="[isLinkActive('/addons') ? 'active_sub_menu' :'']"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Addons</nuxt-link
+                  >
+                </li>
+                <li class="rounded-[10px] relative">
+                  <a
+                    href="#"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Overview</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         class="dashboard-nav-link"
  :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >

@@ -93,41 +93,54 @@ const miniSizeLiveTranslation = ref(false)
 const verticalView = ref(false)
 const horizontalView = ref(true)
 const openResizeMenuLiveTranslataion = ref(false)
-
+const annual_prices = ref(false)
 const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH:any)=>{
 
-  verticalView.value = !verticalView.value
+  if(directionVOrH === 'vertical'){
+    verticalView.value = true
 
-  horizontalView.value = !horizontalView.value
-  miniSizeLiveTranslation.value =false
+horizontalView.value = false
 
+  }else if (directionVOrH === "horizontal"){
+    verticalView.value = false
+
+horizontalView.value = true
+  }
+ if (directionVOrH === "horizontal" && miniSizeLiveTranslation.value){
+
+  verticalView.value = false
+
+horizontalView.value = true
+miniSizeLiveTranslation.value = false
+
+ }
 
 }
 
 const liveTranslationMiniSize = ()=>{
-  verticalView.value = false
-horizontalView.value = false
-  miniSizeLiveTranslation.value = !miniSizeLiveTranslation.value
+  verticalView.value =false
+  horizontalView.value =false
+
+  if(!miniSizeLiveTranslation.value){
+    miniSizeLiveTranslation.value = true
+  }
+
+
 }
 </script>
 
 <template>
-  <div class="w-full h-full relative">
-    <!-- <div class="bg-whiteTamkin h-[75px] w-full fixed rounded-t-[10px] z-[100] ml-[-40px] bottom-0" style="box-shadow: 4px 4px 24px 8px #51459F1A;"></div> -->
-    <div
-      class="absolute left-0 right-0 w-full h-[100px] z-20 top-[-25%]"
-      style="
-        box-shadow: 0px 4px 24px 8px #51459f1a;
-        background: linear-gradient(
-          180deg,
-          #fefefe 0%,
-          #eef5ff 47.07%,
-          #f6f3fc 72.04%,
-          #fef5f6 100%
-        );
-      "
-    ></div>
+
+  <div class="  relative h-full w-full">
+
+
+
+
+
     <div class="mt-[23px] w-full h-full relative">
+
+
+
       <div class="space-y-[10px]">
         <h1 class="text-left text-[24px] leading-[36px] font-[600]">Addons</h1>
 
@@ -140,8 +153,12 @@ horizontalView.value = false
       </div>
 
       <div
-        class="ipad-max:-mx-6 mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+        class="relative ipad-max:-mx-6 mt-[5px] flex lg:space-y-0 space-y-[16px] items-center 
+        lg:flex-row flex-col w-full justify-center lg:justify-start"
       >
+
+    
+  
         <div
           class="flex items-center lg:flex-row flex-col justify-start py-[23px] w-full rounded-[10px]"
         >
@@ -199,7 +216,8 @@ horizontalView.value = false
               #fef5f6 100%
             );
           "
-          class="w-[96px] h-[31px] cursor-pointer rounded-[22px] border-[1px] border-black flex items-center justify-center text-darkGrey text-[15px] leading-[22.5px] font-[500] text-center mr-[72px] flex-1"
+          class="w-[96px] h-[31px] cursor-pointer rounded-[22px] border-[1px] border-black 
+          flex items-center justify-center text-darkGrey text-[15px] leading-[22.5px] font-[500] text-center mr-[72px] flex-1"
         >
           Addons
         </div>
@@ -240,18 +258,18 @@ horizontalView.value = false
                 
             <div v-if="openResizeMenuAdjust" style="box-shadow: 0px 2px 6px 0px #00000040;
 " class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px]  bg-white rounded-[10px] border-[1px] border-lightGrey">
-                <div 
-               
-                class="flex items-center justify-start cursor-pointer space-x-[8px] 
-                mt-[20px] mb-[8px] py-[8px] px-[12px] border-t border-b w-full" @click="miniSizeAdjust  = !miniSizeAdjust">
-                    <div>
-                        
-                        <img src="/assets/imgs/addons/min_size.svg" alt=""  > 
-                    </div>
-                    <div class="text-[14px] leading-[21px] font-[400] ">Minisize</div>
-                   
-                </div>
+<div 
+               class="flex items-center justify-start cursor-pointer space-x-[8px] 
+  py-[16px] px-[12px]  w-full" @click="miniSizeAdjust = !miniSizeAdjust">
+    <div>
+        
+        <img src="/assets/imgs/addons/min_size.svg" alt="" :class="[openResizeMenuAdjust ? '!fill-white' :'']" > 
+    </div>
+    <div class="text-[14px] leading-[21px] font-[400] ">Minisize</div>
+   
+</div>
        
+                
                 <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
 
 
@@ -264,7 +282,7 @@ horizontalView.value = false
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y"
+          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px] "
           v-if="!miniSizeAdjust"
         >
           <div
@@ -1129,17 +1147,15 @@ horizontalView.value = false
                 
             <div v-if="openResizeMenuManage" style="box-shadow: 0px 2px 6px 0px #00000040;
 " class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px]  bg-white rounded-[10px] border-[1px] border-lightGrey">
-                <div 
-               
-                class="flex items-center justify-start cursor-pointer space-x-[8px] 
-                mt-[20px] mb-[8px] py-[8px] px-[12px] border-t border-b w-full" @click="miniSizeManage  = !miniSizeManage">
-                    <div>
-                        
-                        <img src="/assets/imgs/addons/min_size.svg" alt="" :class="[openResizeMenuManage ? '!fill-white' :'']" > 
-                    </div>
-                    <div class="text-[14px] leading-[21px] font-[400] ">Minisize</div>
-                   
-                </div>
+<div  class="flex items-center justify-start cursor-pointer space-x-[8px] 
+py-[16px] px-[12px]  w-full" @click="miniSizeManage = !miniSizeManage">
+<div>
+
+<img src="/assets/imgs/addons/min_size.svg" alt="" :class="[openResizeMenuManage ? '!fill-white' :'']" > 
+</div>
+<div class="text-[14px] leading-[21px] font-[400] ">Minisize</div>
+
+</div>
        
                 <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
 
@@ -1153,7 +1169,7 @@ horizontalView.value = false
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y" v-if="!miniSizeManage"
+          class="flex flex-col items-start justify-center ml-[15px] pb-[16px] mt-[18px] divide-y" v-if="!miniSizeManage"
         >
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
@@ -1619,7 +1635,7 @@ horizontalView.value = false
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px]">
+      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
          <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
@@ -1646,7 +1662,18 @@ horizontalView.value = false
                 
             <div v-if="openResizeMenuLiveTranslataion" style="box-shadow: 0px 2px 6px 0px #00000040;
 " class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px]  bg-white rounded-[10px] border-[1px] border-lightGrey">
-                <div 
+<div 
+               class="flex items-center justify-start cursor-pointer space-x-[8px] 
+  py-[16px] px-[12px]  w-full" @click="annual_prices = !annual_prices">
+    <div>
+        
+        <img src="/assets/imgs/addons/annual_convert.svg" alt="" :class="[openResizeMenuLiveTranslataion ? '!fill-white' :'']" > 
+    </div>
+    <div class="text-[14px] leading-[21px] font-[400] ">Convert to {{annual_prices ? 'Monthly' :'Annual'}}</div>
+   
+</div>
+
+<div 
                
                 class="flex items-center justify-start cursor-pointer space-x-[8px] 
                   py-[16px] px-[12px]  w-full" @click="liveTranslationMiniSize">
@@ -1661,7 +1688,7 @@ horizontalView.value = false
                 <div 
                
                 class="flex items-center justify-start cursor-pointer space-x-[8px]  
-               py-[16px] px-[12px] border-b w-full" v-if="verticalView " @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')">
+               py-[16px] px-[12px] border-b w-full" v-if="verticalView || miniSizeLiveTranslation" @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')">
                     <div>
                         
                       <img src="/assets/imgs/addons/horizontal_view.svg" alt=""  :class="[openResizeMenuLiveTranslataion ? '!fill-white' :'']" > 
@@ -1695,11 +1722,11 @@ horizontalView.value = false
 
         <div
           class="flex items-center lg:flex-row flex-col justify-center lg:justify-start  mt-[56px] divide-y 
-          space-y-[42px] lg:space-y-0 lg:space-x-[100px] px-[15px]" v-if="horizontalView "
+          space-y-[42px] lg:space-y-0 lg:space-x-[100px] px-[15px]" v-if="horizontalView && !miniSizeLiveTranslation"
         >
         <div class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]">
           <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-            $100.00 <span class="text-[13px]">/mo</span>
+            ${{annual_prices ? 1200 :'100.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
           </div>
           <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
             For 1 million characters
@@ -1728,7 +1755,7 @@ horizontalView.value = false
         
         <div class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]">
           <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-            $200.00 <span class="text-[13px]">/mo</span>
+            ${{annual_prices ? 2400 :'200.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
           </div>
           <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
             For 1 million characters
@@ -1757,7 +1784,7 @@ horizontalView.value = false
         
         <div class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]">
           <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-            $100.00 <span class="text-[13px]">/mo</span>
+            ${{annual_prices ? 3600 :'300.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
           </div>
           <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
             For 2 million characters
@@ -1789,7 +1816,7 @@ horizontalView.value = false
         
      
         </div>
-        <div v-if="miniSizeLiveTranslation" class="py-[24px] w-3/4  text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]">
+        <div v-if="miniSizeLiveTranslation " class="py-[24px] w-3/4  text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]">
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis dolore. Exercitationem et omnis ea quidem
 
       </div>
@@ -1806,7 +1833,7 @@ horizontalView.value = false
 
         <div class="flex flex-col items-start justify-center py-[14px]  mx-[15px]">
       <div class="text-[20px] font-[600] text-[#021328] ">
-        $100.00 <span class="text-[13px]">/mo</span>
+        ${{annual_prices ? 1200 :'100.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
       </div>
       <div class="text-[14px] font-[500] text-[#585B5B] ">
         For 1 million characters
@@ -1832,7 +1859,7 @@ horizontalView.value = false
       
               <div class="flex flex-col items-start justify-center py-[14px]  mx-[15px]">
             <div class="text-[20px] font-[600] text-[#021328] ">
-              $200.00 <span class="text-[13px]">/mo</span>
+              ${{annual_prices ? 2400 :'200.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
             </div>
             <div class="text-[14px] font-[500] text-[#585B5B] ">
               For 1 million characters
@@ -1857,7 +1884,7 @@ horizontalView.value = false
             
                     <div class="flex flex-col items-start justify-center py-[14px]  mx-[15px]">
                   <div class="text-[20px] font-[600] text-[#021328] ">
-                    $300.00 <span class="text-[13px]">/mo</span>
+                    ${{annual_prices ? 3600 :'300.00' }}<span class="text-[13px]">/{{annual_prices ?'year':'mo'}}</span>
                   </div>
                   <div class="text-[14px] font-[500] text-[#585B5B] ">
                     For 2 million characters
@@ -1877,7 +1904,8 @@ horizontalView.value = false
       </div>
       </div>
     </div>
-  </div>
+
+</div>
 </template>
 
 <style>
