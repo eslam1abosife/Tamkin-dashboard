@@ -280,7 +280,7 @@ const clearInput = () => {
                 #fef5f6 100%
               );
             "
-            v-if="$route.path === '/addons'"
+            v-if="$route.path === '/addons' || $route.path === '/statistics'"
           ></div>
             <DashboardAddonsSaveFooter v-if="$route.path === '/addons'"/>
 

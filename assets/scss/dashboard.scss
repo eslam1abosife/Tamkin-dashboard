@@ -315,6 +315,13 @@
 .custom-border-tamkin.padding-override-1::before {
     padding: 1px !important; /* Custom padding */
   }
+
+  .custom-border-tamkin.no_bottom::before {
+    border-top-left-radius: 0.5rem !important; /* Adjust the value as needed */
+    border-top-right-radius: 0.5rem !important; /* Adjust the value as needed */
+    border-bottom-right-radius: 0rem !important; /* Adjust the value as needed */
+    border-bottom-left-radius: 0 !important; /* No border-radius for bottom-left corner */
+  }
   .custom-border-tamkin.custom-border-tamkin-rounded::before {
 border-radius: 9999px !important;
 }
@@ -390,3 +397,58 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.circular-progress {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.circular-progress.big {
+    width: 60px !important;
+    height: 60px !important;
+}
+.circular-progress svg {
+    transform: rotate(-90deg);
+}
+
+.circular-progress circle {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.circular-progress .bg-circle {
+    stroke: #e5e7eb; /* Tailwind color gray-200 */
+}
+
+.circular-progress .progress-circle {
+    stroke: url(#gradient); /* Reference to the gradient */
+    transition: stroke-dasharray 0.3s;
+}
+
+.circular-progress .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+}
+
+.active_subNavb {
+    background: linear-gradient(
+      180deg,
+      #fefefe 0%,
+      #eef5ff 47.07%,
+      #f6f3fc 72.04%,
+      #fef5f6 100%
+    );
+  
+    @apply w-[96px] h-[31px] cursor-pointer rounded-[22px] border-[1px] border-black flex items-center justify-center
+       text-darkGrey text-[15px] leading-[22.5px] font-[500] text-center;
+  }
+  
+  .sub_menu_item {
+    @apply text-[#A7A7A7] text-[15px] leading-[22.5px] font-[600] text-left cursor-pointer;
+  }
+  
