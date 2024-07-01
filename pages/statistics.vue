@@ -2,6 +2,12 @@
 import { Vue3Lottie } from "vue3-lottie";
 import mysiteAnimation from "~/assets/animation/mysite.json";
 import { useModalStore } from "@/stores/modal";
+import { useNavbarStore } from "@/stores/navbar";
+import { storeToRefs } from 'pinia'
+
+const navStore = useNavbarStore();
+const {sideBarOpen} = storeToRefs(navStore)
+
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import {
@@ -108,9 +114,18 @@ const checkAll = computed({
 });
 const localePath = useLocalePath();
 const selectDate = () => {
+  
+
   dp.value.selectDate();
 };
 const isSearchfilled = ref(false);
+const chart1 = ref(null);
+const chart2 = ref(null);
+watch(sideBarOpen, async (newVal) => {
+  await nextTick();
+  chart1.value.chart.resize(100,100);
+  chart2.value.chart.resize(100,100);
+});
 const search = ref("");
 watch(search, (ov, nv) => {
   return search.value.length > 0
@@ -152,6 +167,8 @@ const chartData = ref({
 });
 
 const options = ref({
+  responsive: true,
+  maintainAspectRatio: true,
   plugins: {
     legend: {
       display: false, // This will remove the legend
@@ -599,7 +616,7 @@ const liveTranslationStats= ref(false)
             </div>
           </div>
 
-          <div class="flex items-center justify-start w-full lg:space-x-[31px] lg:flex-row flex-col">
+          <div class="flex items-center justify-start w-full lg:space-x-[31px] lg:flex-row flex-col overflow-x-hidden">
             <div
               class="mt-[30px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px]"
               style="box-shadow: 0px 0px 3.9px 0px #00000040"
@@ -632,6 +649,7 @@ const liveTranslationStats= ref(false)
                 </div>
               </div>
               <Line
+              ref="chart1"
                 :data="chartData"
                 :options="options"
                 class="w-full h-[293px]"
@@ -670,6 +688,8 @@ const liveTranslationStats= ref(false)
                 </div>
               </div>
               <Line
+              ref="chart2"
+
                 :data="chartData"
                 :options="options"
                 class="w-full h-[293px]"

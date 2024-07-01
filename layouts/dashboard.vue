@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { useWindowSize } from "@vueuse/core";
 import { useModalStore } from "@/stores/modal";
+import { useNavbarStore } from "@/stores/navbar";
 const { isMobile, isMobileOrTablet } = useDevice();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
+const navStore = useNavbarStore();
+const navStoreRef = storeToRefs(navStore);
 const {
   showShareModal,
   editPictureTeamModal,
@@ -24,12 +27,13 @@ const htmlAttrs = computed(() => head.value.htmlAttrs!);
 
 const isSearchfilled = ref(false);
 const search = ref("");
-const sideBarOpen = ref(true);
+const sideBarOpen = navStoreRef.sideBarOpen
 const sideBarOpenMobile = ref(false);
 const showNotifiations = ref(false);
 
-function toggleSidebar() {
-  sideBarOpen.value = !sideBarOpen.value;
+const  toggleSidebar = ()=> {
+  navStore.openNav()
+  
 }
 function toggleSidebarMobile() {
   sideBarOpenMobile.value = !sideBarOpenMobile.value;
@@ -56,7 +60,7 @@ const clearInput = () => {
     <div
       class=" relative min-h-screen "
       :class="[
-        !sideBarOpen
+        !navStoreRef.sideBarOpen
           ? 'flex'
           : 'flex',
       ]"
@@ -110,7 +114,7 @@ const clearInput = () => {
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
-          sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
+            sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
         ]"
       >
 

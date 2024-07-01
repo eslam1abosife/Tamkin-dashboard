@@ -9,6 +9,7 @@ const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
 function toggleSidebar() {
   emit("toggleSidebar");
 }
+
 function toggleSidebarMobile() {
   emit("toggleSidebarMobile");
 }
