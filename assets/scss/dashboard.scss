@@ -242,6 +242,12 @@
     border-radius: 19px !important;
 
 }
+
+.custom-border.padding-2::before {
+
+    padding: 2px !important;
+
+}
 .custom-border-collapse {
     position: relative;
     margin: 0px;
@@ -312,6 +318,27 @@
     mask-composite: exclude;
     pointer-events: none;
 }
+
+.custom-border-bottom {
+    position: relative;
+    margin: 0px;
+    display: inline-block;
+}
+
+.custom-border-bottom::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px; /* control the border thickness */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: linear-gradient(90deg, #77A1D3 0%, #79CBCA 50%, #E684AE 100%);
+    pointer-events: none;
+}
+
+
 .custom-border-tamkin.padding-override-1::before {
     padding: 1px !important; /* Custom padding */
   }

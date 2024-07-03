@@ -284,9 +284,9 @@ const clearInput = () => {
                 #fef5f6 100%
               );
             "
-            v-if="$route.path === '/addons' || $route.path === '/statistics'"
+            v-if="$route.path === '/addons' || $route.path === '/statistics' || $route.path === '/customize' "
           ></div>
-            <DashboardAddonsSaveFooter v-if="$route.path === '/addons'"/>
+            <DashboardAddonsSaveFooter v-if="$route.path === '/addons' || $route.path === '/customize'"/>
 
             <NuxtPage />
           </div>
