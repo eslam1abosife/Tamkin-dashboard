@@ -201,10 +201,14 @@ const liveTranslationMiniSize = () => {
       >
         Statistics
       </nuxt-link>
-      <nuxt-link class="sub_menu_item"     :class="[
+      <nuxt-link 
+      :to="localePath('/customize')"
+      
+      :class="[
         isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
       ]">Customize</nuxt-link>
-      <nuxt-link class="sub_menu_item"     :class="[
+      <nuxt-link         :to="localePath('/settings')"
+      :class="[
         isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item',
       ]">Settings</nuxt-link>
     </div>

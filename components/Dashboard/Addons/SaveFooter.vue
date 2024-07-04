@@ -6,7 +6,7 @@
 
 
 <template>
-    <div class="lg:!px-0 fixed z-[80] bottom-0 w-full left-[50%] !px-[0] transform translate-x-[-50%]" >
+    <div class="lg:!px-0 fixed z-[50] bottom-0 w-full left-[50%] !px-[0] transform translate-x-[-50%]" >
         <div class="bg-whiteTamkin h-[75px] rounded-t-[10px] " 
         style="box-shadow: 4px 4px 24px 8px #51459F1A;">
             <div class="flex items-center justify-between ipad-max:px-[20px] px-[40px] py-[16px]">

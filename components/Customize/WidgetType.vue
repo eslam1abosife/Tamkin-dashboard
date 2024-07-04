@@ -178,7 +178,7 @@ const openMenuResize = (typeMenu: any) => {
             </div>
           </div>
           <div>
-            <img src="/assets/imgs/customize/mini_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
+            <img src="/assets/imgs/customize/rounded_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
           </div>
       </div>
 
@@ -207,7 +207,7 @@ const openMenuResize = (typeMenu: any) => {
             </div>
           </div>
           <div>
-            <img src="/assets/imgs/customize/mini_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
+            <img src="/assets/imgs/customize/minu_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
           </div>
       </div>
 </div>

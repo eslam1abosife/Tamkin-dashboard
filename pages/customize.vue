@@ -52,6 +52,14 @@ const liveTranslationAsDefaultOrTranslationAbove = ref("default");
 
 const defaultLiveTranslationButtonSelection = ref("en");
 const aboveLivetranslationButtonSelection = ref("en");
+
+const openResizeAccessMode =ref(false)
+const miniSizeAccessMode =ref(false)
+const openResizeWidgetCustomiztion = ref(false)
+const miniSizeWidgetCustomiztion = ref(false)
+
+const openResizeButtonLocation = ref(false)
+const miniSizeButtonLocation = ref(false)
 const changeButtonShape = (shape: string) => {
   buttonShapeSelector.value = shape;
 };
@@ -71,11 +79,16 @@ const liveTranslationMiniSize = () => {
   miniSizeLiveTranslation.value = !miniSizeLiveTranslation.value;
 };
 
+const resizeAccessMode = () => {
+  miniSizeAccessMode.value = !miniSizeAccessMode.value;
+};
+const resizeWidgetCustomize = () => {
+  miniSizeWidgetCustomiztion.value = !miniSizeWidgetCustomiztion.value;
+};
+const resizeButtonLocation = () => {
+  miniSizeButtonLocation.value = !miniSizeButtonLocation.value;
+};
 const liveTranslationStats = ref(false);
-
-
-
-
 </script>
 
 <template>
@@ -140,7 +153,7 @@ const liveTranslationStats = ref(false);
       >
         <nuxt-link class="sub_menu_item">Overview</nuxt-link>
         <nuxt-link
-          class="sub_menu_item"
+   
           :class="[
             isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item',
           ]"
@@ -151,18 +164,23 @@ const liveTranslationStats = ref(false);
           :class="[
             isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item',
           ]"
+          :to="localePath('/statistics')"
+
         >
           Statistics
         </nuxt-link>
         <nuxt-link
-          class="sub_menu_item"
+        
           :class="[
             isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
           ]"
+          :to="localePath('/customize')"
+
           >Customize</nuxt-link
         >
         <nuxt-link
-          class="sub_menu_item"
+        :to="localePath('/settings')"
+
           :class="[
             isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item',
           ]"
@@ -594,7 +612,7 @@ const liveTranslationStats = ref(false);
                 min="2"
                 max="98"
                 v-model="buttonSizeSlider"
-                class="w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
+                class="range_tamkin_customize w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
               />
               <div
                 class="absolute inset-0 left-0 h-[20px] bg-[#2DADA3] rounded-full pointer-events-none"
@@ -781,8 +799,9 @@ const liveTranslationStats = ref(false);
                   :checked="
                     liveTranslationAsDefaultOrTranslationAbove === 'default'
                   "
-                  v-model="liveTranslationAsDefaultOrTranslationAbove"
+                 :value="liveTranslationAsDefaultOrTranslationAbove"
                   @click="changeLivePositionDefaultOrAbove('default')"
+
                 />
                 <label for="radio665" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin w-[19px] h-[19px]"></span>
@@ -808,7 +827,7 @@ const liveTranslationStats = ref(false);
                   type="radio"
                   name="plans_radio"
                   class="hidden"
-                  v-model="liveTranslationAsDefaultOrTranslationAbove"
+                  :value="liveTranslationAsDefaultOrTranslationAbove"
                   @click="changeLivePositionDefaultOrAbove('above')"
                   :checked="
                     liveTranslationAsDefaultOrTranslationAbove === 'above'
@@ -989,7 +1008,6 @@ const liveTranslationStats = ref(false);
           est veritatis dolore. Exercitationem et omnis ea quidem
         </div>
       </div>
-    
 
       <div class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
@@ -1004,13 +1022,14 @@ const liveTranslationStats = ref(false);
               Select the location where you want the button to appear
             </p>
           </div>
-
+       
+          
           <div
             @click="
-              openResizeMenuLiveTranslataion = !openResizeMenuLiveTranslataion
+            openResizeButtonLocation = !openResizeButtonLocation
             "
             :class="[
-              openResizeMenuLiveTranslataion
+              openResizeButtonLocation
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
@@ -1023,7 +1042,7 @@ const liveTranslationStats = ref(false);
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuLiveTranslataion
+                openResizeButtonLocation
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -1035,20 +1054,20 @@ const liveTranslationStats = ref(false);
             </svg>
 
             <div
-              v-if="openResizeMenuLiveTranslataion"
+              v-if="openResizeButtonLocation"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="liveTranslationMiniSize"
+                @click="resizeButtonLocation"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
                     :class="[
-                      openResizeMenuLiveTranslataion ? '!fill-white' : '',
+                      openResizeButtonLocation ? '!fill-white' : '',
                     ]"
                   />
                 </div>
@@ -1072,35 +1091,36 @@ const liveTranslationStats = ref(false);
           </div>
         </div>
 
-      <CustomizePositioning/>
-        <!-- <div
+        <CustomizePositioning v-if="!miniSizeButtonLocation"/>
+        <div
           v-else
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
           est veritatis dolore. Exercitationem et omnis ea quidem
-        </div> -->
+        </div>
       </div>
 
       <div class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
-                Widget Customization 
+              Widget Customization
             </h1>
 
             <p
               class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
             >
-            Customize your widgets for a tailored browsing experience            </p>
+              Customize your widgets for a tailored browsing experience
+            </p>
           </div>
-
+          
           <div
             @click="
-              openResizeMenuLiveTranslataion = !openResizeMenuLiveTranslataion
+            openResizeWidgetCustomiztion = !openResizeWidgetCustomiztion
             "
             :class="[
-              openResizeMenuLiveTranslataion
+              openResizeWidgetCustomiztion
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
@@ -1113,7 +1133,7 @@ const liveTranslationStats = ref(false);
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuLiveTranslataion
+                openResizeWidgetCustomiztion
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -1125,20 +1145,20 @@ const liveTranslationStats = ref(false);
             </svg>
 
             <div
-              v-if="openResizeMenuLiveTranslataion"
+              v-if="openResizeWidgetCustomiztion"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="liveTranslationMiniSize"
+                @click="resizeWidgetCustomize"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
                     :class="[
-                      openResizeMenuLiveTranslataion ? '!fill-white' : '',
+                      openResizeWidgetCustomiztion ? '!fill-white' : '',
                     ]"
                   />
                 </div>
@@ -1162,37 +1182,38 @@ const liveTranslationStats = ref(false);
           </div>
         </div>
 
-       <CustomizeWidgetCustomize/>
-    
-        <!-- <div
+        <CustomizeWidgetCustomize v-if="!miniSizeWidgetCustomiztion"/>
+
+        <div
           v-else
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
           est veritatis dolore. Exercitationem et omnis ea quidem
-        </div> -->
+        </div>
       </div>
-
 
       <div class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
-                Accessibility Mode
+              Accessibility Mode
             </h1>
 
             <p
               class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
             >
-            Accessibility Mode optimizes interface for diverse user needs and disabilities           </p>
+              Accessibility Mode optimizes interface for diverse user needs and
+              disabilities
+            </p>
           </div>
 
           <div
             @click="
-              openResizeMenuLiveTranslataion = !openResizeMenuLiveTranslataion
+            openResizeAccessMode = !openResizeAccessMode
             "
             :class="[
-              openResizeMenuLiveTranslataion
+              openResizeAccessMode
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
@@ -1205,7 +1226,7 @@ const liveTranslationStats = ref(false);
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuLiveTranslataion
+                openResizeAccessMode
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -1217,20 +1238,20 @@ const liveTranslationStats = ref(false);
             </svg>
 
             <div
-              v-if="openResizeMenuLiveTranslataion"
+              v-if="openResizeAccessMode"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="liveTranslationMiniSize"
+                @click="resizeAccessMode"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
                     :class="[
-                      openResizeMenuLiveTranslataion ? '!fill-white' : '',
+                      openResizeAccessMode ? '!fill-white' : '',
                     ]"
                   />
                 </div>
@@ -1254,23 +1275,22 @@ const liveTranslationStats = ref(false);
           </div>
         </div>
 
-       <CustomizeAccessibilityMode/>
-    
-        <!-- <div
+        <CustomizeAccessibilityMode v-if="!miniSizeAccessMode"/>
+
+        <div
           v-else
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
           est veritatis dolore. Exercitationem et omnis ea quidem
-        </div> -->
+        </div>
       </div>
- 
 
-      <CustomizeAdjustMainMenu/>
-      <CustomizeAccessibilityProfiles/>
-      <CustomizeWidgetType/>
-      <CustomizeLanguage/>
-      <CustomizeCustomTrigger/>
+      <CustomizeAdjustMainMenu />
+      <CustomizeAccessibilityProfiles />
+      <CustomizeWidgetType />
+      <CustomizeLanguage />
+      <CustomizeCustomTrigger />
     </div>
   </div>
 </template>
@@ -1304,7 +1324,7 @@ const liveTranslationStats = ref(false);
 }
 
 /* Add custom styles here if needed */
-input[type="range"]::-webkit-slider-thumb {
+.range_tamkin_customize::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 40px;
@@ -1313,7 +1333,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-input[type="range"]::-moz-range-thumb {
+.range_tamkin_customize::-moz-range-thumb {
   width: 40px;
   height: 40px;
   background: transparent; /* Hide the default thumb */

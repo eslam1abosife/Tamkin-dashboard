@@ -24,7 +24,8 @@ const openMenuResize = (typeMenu: any) => {
 
 <template>
   <div
-    class="flex flex-col items-center justify-center   w-full">
+    class="flex flex-col items-center justify-center   w-full relative">
+    <MessagesLockedFeature/>
     <div class=" bg-white rounded-[10px] w-full">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
           <div>

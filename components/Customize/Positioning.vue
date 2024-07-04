@@ -43,7 +43,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
   class="bg-[#F2FBF9] rounded-lg p-10 w-96 relative mx-[15px] h-[173px] mt-[32px]"
 >
   <div
-    class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[102]"
+    class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
   >
     <div class="w-[28px] h-[28px]">
       <input
@@ -97,7 +97,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
     </div>
   </div>
   <div
-    class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[104]"
+    class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
   >
     <div class="w-[28px] h-[28px]">
       <input
@@ -152,7 +152,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
     </div>
   </div>
   <div
-    class="absolute top-0 left-0 right-[15px] bottom-0 flex flex-col items-center justify-between py-5 z-[101]"
+    class="absolute top-0 left-0 right-[15px] bottom-0 flex flex-col items-center justify-between py-5 z-[41]"
   >
     <div class="w-[28px] h-[28px]">
       <input
@@ -214,7 +214,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
   class="bg-[#F2FBF9] rounded-lg p-10 w-96 relative mx-[15px] h-[173px] mt-[32px]"
 >
   <div
-    class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[102]"
+    class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
   >
     <div class="w-[28px] h-[28px]">
       <input
@@ -268,7 +268,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
     </div>
   </div>
   <div
-    class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[104]"
+    class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[40]"
   >
     <div class="w-[28px] h-[28px]">
       <input

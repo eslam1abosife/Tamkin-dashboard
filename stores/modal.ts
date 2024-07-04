@@ -5,224 +5,247 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useModalStore = defineStore('modal', {
   state: () => ({
-    showShareModal:false,
-    editPictureTeamModal:false,
-    editPermissionsModal:false,
-    inviteMemberModal:false,
-    selectSiteModal:false,
-    editUserModal:false,
-    editDonePicture:false,
-    InviteMemberUpdateModal:false,
-    plansModal:true,
-    showUpgradeModal:false,
-    choosePaymentModal:false,
-    cardModal:false,
-    cryptoModal:false,
-    cryptoConfirmModal:false,
-    cryptoSuccess:false,
-    newcardModal:false,
-    paymentSuccess:false,
-    paymentError:false,
-    loading:false
+    showShareModal: false,
+    editPictureTeamModal: false,
+    editPermissionsModal: false,
+    inviteMemberModal: false,
+    selectSiteModal: false,
+    editUserModal: false,
+    editDonePicture: false,
+    InviteMemberUpdateModal: false,
+    plansModal: true,
+    showUpgradeModal: false,
+    choosePaymentModal: false,
+    cardModal: false,
+    cryptoModal: false,
+    cryptoConfirmModal: false,
+    cryptoSuccess: false,
+    newcardModal: false,
+    paymentSuccess: false,
+    paymentError: false,
+    loading: false,
+    resetModal:false,
+    deleteModal:false,
+    transferModalStep1:false,
+    transferStep2:false,
+    SuccessStep2Transfer:false
   }),
   actions: {
-    
-    openShareModal(){
-        this.showShareModal = !this.showShareModal
+    controlTransferStep2Modal(){
+      this.transferStep2 = !this.transferStep2
+      this.transferModalStep1 = false
+      if(this.SuccessStep2Transfer){
+this.SuccessStep2Transfer =false
+      }
     },
-    controlTeamEditPictureModal(){
+    controlStep1TransferModal(){
+this.transferModalStep1 = !this.transferModalStep1
+this.SuccessStep2Transfer =!this.SuccessStep2Transfer
+
+
+    },
+    controlDeleteModal(){
+      this.deleteModal = !this.deleteModal
+    },
+    controlResetModal(){
+      this.resetModal = !this.resetModal
+    },
+    openShareModal() {
+      this.showShareModal = !this.showShareModal
+    },
+    controlTeamEditPictureModal() {
       this.editPictureTeamModal = !this.editPictureTeamModal
-      
+
     },
-    triggerupdatedPicture(){
+    triggerupdatedPicture() {
       this.editDonePicture = !this.editDonePicture
     },
-    controlEditPermissionsModal(){
+    controlEditPermissionsModal() {
       this.editPermissionsModal = !this.editPermissionsModal
 
     },
-    controlEditUserModal(){
+    controlEditUserModal() {
       this.editUserModal = !this.editUserModal
 
     },
-    controlInviteMemberModal(){
+    controlInviteMemberModal() {
       this.inviteMemberModal = !this.inviteMemberModal
 
     },
-    controlInviteMemberUpdateModal(){
+    controlInviteMemberUpdateModal() {
       this.InviteMemberUpdateModal = !this.InviteMemberUpdateModal
       this.inviteMemberModal = false
 
     },
-    controlSelectSiteModal(){
+    controlSelectSiteModal() {
       this.selectSiteModal = !this.selectSiteModal
 
     },
-    controlShowUpgradeModal(){
+    controlShowUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;
-  this.plansModal = true
+      this.plansModal = true
 
 
- 
-    this.paymentError = false
-    this.paymentSuccess =false
-    this.newcardModal = false
-    this.cryptoSuccess = false 
-    this.cryptoConfirmModal = false
-    this.cryptoModal =false
-    this.cardModal =false
-    
-    this.choosePaymentModal = false
-      this.choosePaymentModal =false
- 
 
-
-    },
-    backControl(){
-      if(this.paymentError){
-        this.paymentError = false
-  this.choosePaymentModal = true;
-      }
-      if(this.choosePaymentModal){
-        this.choosePaymentModal = false
-  this.plansModal = true;
-      }
-      if(this.cardModal){
-        this.cardModal = false
-  this.choosePaymentModal = true;
-      }
-      if(this.cryptoModal){
-        this.cryptoModal = false
-  this.choosePaymentModal = true;
-      }
-      if(this.cryptoConfirmModal){
-        this.cryptoConfirmModal = false
-  this.cryptoModal = true;
-      }
-      if(this.newcardModal){
-        this.newcardModal = false
-  this.choosePaymentModal = true;
-      }
-    },
-controlPlansModal(){
-  this.plansModal = !this.plansModal;
-},
-
-controlchoosePaymentmethodModal(){
-  this.choosePaymentModal = !this.choosePaymentModal
-  this.plansModal = false;
-
-
-},
-
-payViaCard(){
-this.cardModal = !this.cardModal
-this.choosePaymentModal = false
-this.plansModal =false
-},
-payViaCrypto(){
-  this.cryptoModal = !this.cryptoModal
-this.cardModal = false
-
-this.choosePaymentModal = false
-  this.choosePaymentModal = false
-  this.plansModal =false
-  },
-
-  confirmCryptoModal(){
-this.loading = true
- setTimeout(()=>{
-  this.cryptoConfirmModal = !this.cryptoConfirmModal
-  this.cryptoModal = false
-  this.cardModal = false
-  
-  this.choosePaymentModal = false
-    this.choosePaymentModal = false
-    this.plansModal =false
-this.loading = false
-
- },2000)
-  },
-  controlCryptoSuccessModal(){
-    this.loading = true
-setTimeout(()=>{
-  
-  this.cryptoSuccess = !this.cryptoSuccess
-  this.cryptoConfirmModal = false
-  this.cryptoModal = false
-  this.cardModal = false
-  
-  this.choosePaymentModal = false
-    this.choosePaymentModal = false
-    this.plansModal =false
-    this.loading = false
-
-},2000)
-  },
-
-
-  addNewCardModal(){
-    this.newcardModal = !this.newcardModal
-    this.cryptoSuccess = false
-  
-    this.cryptoConfirmModal = false
-    this.cryptoModal = false
-    this.cardModal = false
-    
-    this.choosePaymentModal = false
-      this.choosePaymentModal = false
-      this.plansModal =false
-  },
-
-  paymentSuccessModal(){
-    this.loading = true
-    setTimeout(()=>{
-      this.paymentSuccess = !this.paymentSuccess
+      this.paymentError = false
+      this.paymentSuccess = false
       this.newcardModal = false
       this.cryptoSuccess = false
-    
       this.cryptoConfirmModal = false
       this.cryptoModal = false
       this.cardModal = false
-      
+
       this.choosePaymentModal = false
+      this.choosePaymentModal = false
+
+
+
+    },
+    backControl() {
+      if (this.paymentError) {
+        this.paymentError = false
+        this.choosePaymentModal = true;
+      }
+      if (this.choosePaymentModal) {
         this.choosePaymentModal = false
-        this.plansModal =false
+        this.plansModal = true;
+      }
+      if (this.cardModal) {
+        this.cardModal = false
+        this.choosePaymentModal = true;
+      }
+      if (this.cryptoModal) {
+        this.cryptoModal = false
+        this.choosePaymentModal = true;
+      }
+      if (this.cryptoConfirmModal) {
+        this.cryptoConfirmModal = false
+        this.cryptoModal = true;
+      }
+      if (this.newcardModal) {
+        this.newcardModal = false
+        this.choosePaymentModal = true;
+      }
+    },
+    controlPlansModal() {
+      this.plansModal = !this.plansModal;
+    },
+
+    controlchoosePaymentmethodModal() {
+      this.choosePaymentModal = !this.choosePaymentModal
+      this.plansModal = false;
+
+
+    },
+
+    payViaCard() {
+      this.cardModal = !this.cardModal
+      this.choosePaymentModal = false
+      this.plansModal = false
+    },
+    payViaCrypto() {
+      this.cryptoModal = !this.cryptoModal
+      this.cardModal = false
+
+      this.choosePaymentModal = false
+      this.choosePaymentModal = false
+      this.plansModal = false
+    },
+
+    confirmCryptoModal() {
+      this.loading = true
+      setTimeout(() => {
+        this.cryptoConfirmModal = !this.cryptoConfirmModal
+        this.cryptoModal = false
+        this.cardModal = false
+
+        this.choosePaymentModal = false
+        this.choosePaymentModal = false
+        this.plansModal = false
         this.loading = false
-    },2000)
-   
 
-  },
-  paymentErrorModal(){
-    this.paymentError = !this.paymentError
-    this.paymentSuccess = false
-    this.newcardModal = false
-    this.cryptoSuccess = false
-  
-    this.cryptoConfirmModal = false
-    this.cryptoModal = false
-    this.cardModal = false
-    
-    this.choosePaymentModal = false
-      this.choosePaymentModal = false
-      this.plansModal =false
-  },
-  closeAllPaymentModals(){
-    this.paymentError = false
-    this.paymentSuccess = false
-    this.newcardModal = false
-    this.cryptoSuccess = false
-  
-    this.cryptoConfirmModal = false
-    this.cryptoModal = false
-    this.cardModal = false
-    
-    this.choosePaymentModal = false
-      this.choosePaymentModal = false
-      this.plansModal =false
-  }
+      }, 2000)
+    },
+    controlCryptoSuccessModal() {
+      this.loading = true
+      setTimeout(() => {
 
-    
+        this.cryptoSuccess = !this.cryptoSuccess
+        this.cryptoConfirmModal = false
+        this.cryptoModal = false
+        this.cardModal = false
+
+        this.choosePaymentModal = false
+        this.choosePaymentModal = false
+        this.plansModal = false
+        this.loading = false
+
+      }, 2000)
+    },
+
+
+    addNewCardModal() {
+      this.newcardModal = !this.newcardModal
+      this.cryptoSuccess = false
+
+      this.cryptoConfirmModal = false
+      this.cryptoModal = false
+      this.cardModal = false
+
+      this.choosePaymentModal = false
+      this.choosePaymentModal = false
+      this.plansModal = false
+    },
+
+    paymentSuccessModal() {
+      this.loading = true
+      setTimeout(() => {
+        this.paymentSuccess = !this.paymentSuccess
+        this.newcardModal = false
+        this.cryptoSuccess = false
+
+        this.cryptoConfirmModal = false
+        this.cryptoModal = false
+        this.cardModal = false
+
+        this.choosePaymentModal = false
+        this.choosePaymentModal = false
+        this.plansModal = false
+        this.loading = false
+      }, 2000)
+
+
+    },
+    paymentErrorModal() {
+      this.paymentError = !this.paymentError
+      this.paymentSuccess = false
+      this.newcardModal = false
+      this.cryptoSuccess = false
+
+      this.cryptoConfirmModal = false
+      this.cryptoModal = false
+      this.cardModal = false
+
+      this.choosePaymentModal = false
+      this.choosePaymentModal = false
+      this.plansModal = false
+    },
+    closeAllPaymentModals() {
+      this.paymentError = false
+      this.paymentSuccess = false
+      this.newcardModal = false
+      this.cryptoSuccess = false
+
+      this.cryptoConfirmModal = false
+      this.cryptoModal = false
+      this.cardModal = false
+
+      this.choosePaymentModal = false
+      this.choosePaymentModal = false
+      this.plansModal = false
+    }
+
+
   },
 });
 

@@ -45,7 +45,7 @@ watchEffect(() => {
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px] z-[100]  "
+    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px]   "
   >
 
     <div

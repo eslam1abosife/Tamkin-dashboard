@@ -61,12 +61,14 @@ const copyCode = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full mt-[40px]">
+  <div class="flex flex-col items-center justify-center w-full mt-[40px] relative">
     <div class="bg-white rounded-[10px] w-full px-[15px] relative">
+ 
        
-      <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="flex items-center justify-start ml-[15px] pt-[35px] relative">
+      
         
-    <div class="flex flex-col items-start justify-center">
+    <div class="flex flex-col items-start justify-center relative">
         <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Custom Trigger</h1>
   
@@ -150,7 +152,7 @@ const copyCode = () => {
       </div>
     </div>
       <div
-        class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] max-w-full"
+        class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] max-w-full" :class="[!moveAccess ? 'my-[64px]' :'']"
         v-if="!miniSizeAdjust"
       >
       
@@ -206,7 +208,7 @@ const copyCode = () => {
         </div>
       </div>
 
-      <div class="w-full relative my-[24px] ">
+      <div class="w-full relative my-[24px] " v-if="moveAccess">
         <input type="text" placeholder="{{$t('Custom id')}}" id="custom_id" class="input_floating_label peer !w-full"
           v-model="v$.custom_id.$model" :class="{
     input_error:
@@ -231,7 +233,7 @@ const copyCode = () => {
         </div>
       </div>
 
-      <div class="   " :class="[!state.custom_id ?'w-full ' :'max-w-[1060px] w-full']">
+      <div class="   " :class="[!state.custom_id ?'w-full max-w-[1060px]' :'max-w-[1060px] w-full']" v-if="moveAccess">
         <Client-only>
             <VCodeBlock
               :code="currentCode"
@@ -245,7 +247,7 @@ const copyCode = () => {
               </p>
                         </Client-only>
     </div>
-    <div @click="copyCode"
+    <div @click="copyCode" v-if="moveAccess"
     class="ml-auto cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
      bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
   >

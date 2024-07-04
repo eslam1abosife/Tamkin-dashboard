@@ -15,7 +15,11 @@ const {
   selectSiteModal,
   editUserModal,
   InviteMemberUpdateModal,
-  showUpgradeModal
+  showUpgradeModal,
+  resetModal,
+  deleteModal,
+  transferModalStep1,
+  transferStep2
 } = storeToRefs(modalStore);
 
 const { width, height } = useWindowSize();
@@ -53,6 +57,9 @@ watchEffect(() => {
 const clearInput = () => {
   search.value = "";
 };
+// const closeResetAllModal = ()=>{
+
+// }
 </script>
 
 <template>
@@ -77,7 +84,7 @@ const clearInput = () => {
           InviteMemberUpdateModal
         "
     -->
-
+    <!--      -->
       <div
       v-if="
       showShareModal ||
@@ -88,7 +95,7 @@ const clearInput = () => {
       editUserModal ||
       InviteMemberUpdateModal
       ||
-      showUpgradeModal
+      showUpgradeModal ||resetModal || deleteModal || transferModalStep1 || transferStep2
     "
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
       ></div>
@@ -105,8 +112,26 @@ const clearInput = () => {
       /> 
 
     <DashboardMySiteUpgradeModal :showModal="showUpgradeModal"/>
-      <DashboardMySiteUpgradeModal/>
+    <LazyModalsConfirm :showModal="resetModal" title="Rest All Accessibility Settings" 
 
+    sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+
+    confirm-btn-type="confirm"
+    
+    @control-confirm="modalStore.controlResetModal"
+    />
+    <LazyModalsConfirm :showModal="deleteModal" title="Delete your site" 
+
+    sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+
+    confirm-btn-type="delete"
+    
+    @control-delete="modalStore.controlDeleteModal"
+    />
+
+      <!-- <DashboardMySiteUpgradeModal/> -->
+<SettingsTransferModalStep1 :show-modal="transferModalStep1"/>
+<SettingsTransferModalStep2 :show-modal="transferStep2"/>
       <div
         class="lg:relative flex items-center justify-start 
         flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
@@ -141,7 +166,7 @@ const clearInput = () => {
         />
       </svg>
     </div>
-        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 z-[101] p-[20px] max-h-[700px]" >
+        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 Z-[120] p-[20px] max-h-[700px]" >
 
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
@@ -284,9 +309,9 @@ const clearInput = () => {
                 #fef5f6 100%
               );
             "
-            v-if="$route.path === '/addons' || $route.path === '/statistics' || $route.path === '/customize' "
+            v-if="$route.path === '/addons' || $route.path === '/statistics' || $route.path === '/customize' || $route.path === '/settings' "
           ></div>
-            <DashboardAddonsSaveFooter v-if="$route.path === '/addons' || $route.path === '/customize'"/>
+            <DashboardAddonsSaveFooter v-if="$route.path === '/addons' || $route.path === '/customize' || $route.path === '/settings'"/>
 
             <NuxtPage />
           </div>

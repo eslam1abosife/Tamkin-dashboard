@@ -325,13 +325,17 @@ const liveTranslationStats= ref(false)
         :to="localePath('/addons')"
         >Addons</nuxt-link>
         <nuxt-link
+             :to="localePath('/statistics')"
           :class="[
             isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item',
           ]"
         >
           Statistics
         </nuxt-link>
-        <nuxt-link class="sub_menu_item"     :class="[
+        <nuxt-link 
+        :to="localePath('/customize')"
+        
+        :class="[
           isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
         ]">Customize</nuxt-link>
         <nuxt-link class="sub_menu_item"     :class="[

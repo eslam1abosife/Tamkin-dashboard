@@ -52,6 +52,7 @@ advancedCode.value = false
 
 
 }
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -64,6 +65,10 @@ import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pini
 const { openShareModal } = useModalStore();
 // const {showShareModal} = storeToRefs(modalStore)
 
+onBeforeMount(()=>{
+  currentCode.value = `const foo = 'bar';`
+  code.value = true
+})
 onBeforeMount(()=>{
   currentCode.value = `const foo = 'bar';`
   code.value = true
