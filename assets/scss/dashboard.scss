@@ -242,7 +242,11 @@
     border-radius: 19px !important;
 
 }
+.custom-border.rounded-big4x::before {
 
+    border-radius: 43px !important;
+
+}
 .custom-border.padding-2::before {
 
     padding: 2px !important;
@@ -278,6 +282,39 @@
     right: 0;
     height: 0.8px; /* same as the border thickness */
     background: linear-gradient(90deg, #77A1D3 0%, #79CBCA 50%, #E684AE 100%);; /* same as the background color of the element */
+}
+
+
+.custom-border-collapse-tamkin {
+    position: relative;
+    margin: 0px;
+    display: inline-block;
+}
+
+.custom-border-collapse-tamkin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0 0 10px 10px; /* Remove top border-radius */
+    padding: 1px; /* control the border thickness */
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+    mask: linear-gradient(black 0 0) content-box, 
+          linear-gradient(black 0 0);
+    -webkit-mask: linear-gradient(black 0 0) content-box, 
+                  linear-gradient(black 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.custom-border-collapse-tamkin::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.8px; /* same as the border thickness */
+    background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 }
 
 
@@ -481,4 +518,6 @@ input[type=number] {
   .sub_menu_item {
     @apply text-[#A7A7A7] text-[15px] leading-[22.5px] font-[600] text-left cursor-pointer;
   }
+  
+
   

@@ -25,7 +25,6 @@ import "chartjs-adapter-date-fns"; // Import the date adapter
 
 import upTamkin from "/assets/imgs/up_tamkin.svg";
 import { Line } from "vue-chartjs";
-import * as chartConfig from "./chartConfig.js";
 
 ChartJS.register(
   Title,
@@ -653,7 +652,7 @@ const liveTranslationStats= ref(false)
                 </div>
               </div>
               <Line
-              ref="chart1"
+              ref="chart12"
                 :data="chartData"
                 :options="options"
                 class="w-full h-[293px]"

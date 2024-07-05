@@ -2,7 +2,7 @@
 import VCodeBlock from "@wdns/vue-code-block";
 import { useModalStore } from "@/stores/modal";
 
-const { controlResetModal ,controlDeleteModal,controlStep1TransferModal} = useModalStore();
+const { controlResetModal ,controlDeleteModal,controlStep1TransferModal,openShareModal} = useModalStore();
 definePageMeta({
   layout: "dashboard",
 });
@@ -488,7 +488,7 @@ const licenseMiniSize = () => {
               Widget Embed Code
             </h1>
             <h2
-              class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey"
+              class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey "
             >
               Widget Embed Code allows you to easily integrate accessibility
               features into your website by adding a simple script to your
@@ -500,7 +500,8 @@ const licenseMiniSize = () => {
             :class="[
               openResizeMenuManage ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ml-auto mr-[15px] 
+            flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -557,15 +558,16 @@ const licenseMiniSize = () => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] pb-[16px] mt-[18px] divide-y"
+          class="flex flex-col items-start justify-center px-[15px] pb-[16px]  divide-y"
           v-if="!miniSizeManage"
         >
           <div
-            class="mt-[44px] w-full h-full  rounded-[10px]"
+            class=" w-full h-full  rounded-[10px]"
         
           >
             <div
-              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
+              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] 
+              lg:justify-between mt-[24px] w-full"
               style="padding: 30px, 16px, 20px, 15px"
             >
               <button
@@ -593,7 +595,8 @@ const licenseMiniSize = () => {
               </button>
               <div
                 @click="openShareModal"
-                class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+                class="cursor-pointer ipad-max:text-[12px] border-[2px] 
+                rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
               >
                 <div
                   class="bg-white rounded-md flex items-center justify-center"
@@ -645,7 +648,8 @@ const licenseMiniSize = () => {
                   </div>
 
                   <button
-                    class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                    class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r
+                     group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                   >
                     Share code with your team
                   </button>
@@ -699,7 +703,7 @@ const licenseMiniSize = () => {
               </div>
             </div>
 
-            <div class="mt-[36px] px-[15px] w-full min-h-[50px]">
+            <div class="mt-[24px]  w-full min-h-[50px]">
               <Client-only>
                 <VCodeBlock
                   :code="currentCode"
