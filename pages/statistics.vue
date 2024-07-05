@@ -4,10 +4,12 @@ import mysiteAnimation from "~/assets/animation/mysite.json";
 import { useModalStore } from "@/stores/modal";
 import { useNavbarStore } from "@/stores/navbar";
 import { storeToRefs } from 'pinia'
+import { useWindowSize } from "@vueuse/core";
 
 const navStore = useNavbarStore();
 const {sideBarOpen} = storeToRefs(navStore)
-
+const chart12 = ref('');
+const chart2 = ref('');
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import {
@@ -72,7 +74,13 @@ const state = reactive({
 const rules = {
   teamName: { required },
 };
+const { width, height } = useWindowSize();
 
+watch(width, (newWidth) => {
+    console.log(newWidth);
+  chart12.value.chart.resize(100, 100);
+  chart2.value.chart.resize(100, 100);
+});
 const dateF = ref();
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore();
@@ -118,11 +126,10 @@ const selectDate = () => {
   dp.value.selectDate();
 };
 const isSearchfilled = ref(false);
-const chart1 = ref(null);
-const chart2 = ref(null);
+
 watch(sideBarOpen, async (newVal) => {
   await nextTick();
-  chart1.value.chart.resize(100,100);
+  chart12.value.chart.resize(100,100);
   chart2.value.chart.resize(100,100);
 });
 const search = ref("");
@@ -316,8 +323,9 @@ const liveTranslationStats= ref(false)
       <div
         class="w-full mx-auto h-[43px] rounded-[22px] bg-white flex items-center px-[20px] justify-around"
       >
-        <nuxt-link class="sub_menu_item">Overview</nuxt-link>
-        <nuxt-link class="sub_menu_item"
+        <nuxt-link       :class="[isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item']"
+        :to="localePath('/overview')">Overview</nuxt-link>
+        <nuxt-link 
         :class="[
           isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item',
         ]"
@@ -337,7 +345,7 @@ const liveTranslationStats= ref(false)
         :class="[
           isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
         ]">Customize</nuxt-link>
-        <nuxt-link class="sub_menu_item"     :class="[
+        <nuxt-link     :class="[
           isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item',
         ]">Settings</nuxt-link>
       </div>

@@ -186,7 +186,8 @@ const liveTranslationMiniSize = () => {
       <div
       class="w-full mx-auto h-[43px] rounded-[22px] bg-white flex items-center px-[20px] justify-around"
     >
-      <nuxt-link class="sub_menu_item">Overview</nuxt-link>
+      <nuxt-link       :class="[isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item']"
+      :to="localePath('/overview')">Overview</nuxt-link>
       <nuxt-link 
       :class="[
         isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item',
