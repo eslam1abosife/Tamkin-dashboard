@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-const overSizeWidget = ref(false);
-const columnsWidget = ref(false);
-const accessibillityWidget =ref(false)
+
+import { useCustomizeStore } from "@/stores/customize.js";
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
 </script>
 
 <template>
@@ -32,36 +34,38 @@ const accessibillityWidget =ref(false)
         <div class="ml-auto">
           <label
             for="toggle_oversized"
-            class="relative inline-flex items-center cursor-pointer h-[32px]"
+            class="toggle_wrap"
           >
             <input
               type="checkbox"
               id="toggle_oversized"
               class="sr-only"
-              v-model="overSizeWidget"
+              :checked="isChecked('oversized_widget')"
+                               @change="toggleCheckbox('oversized_widget')"
             />
             <div
-              class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+              class="toggle_parent"
               :class="[
-                overSizeWidget
-                  ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                  : 'border-[1px] border-lightGrey',
+                isChecked('oversized_widget')
+                  ?'active'
+                  : 'in_active',
               ]"
             >
               <div
-                class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                :class="{ 'translate-x-full ': overSizeWidget }"
+                class="toggle_inner"
+                :class="{ 'active': isChecked('oversized_widget') }"
               >
                 <img
-                  v-if="overSizeWidget"
+                  v-if="isChecked('oversized_widget')"
                   src="/assets/imgs/addons/active_toggle.svg"
-                  class="w-6 h-6"
+                  class="w-[28px] h-[28px]"
                   alt=""
                 />
                 <img
                   v-else
                   src="/assets/imgs/addons/toggle.svg"
-                  class="w-6 h-6"
+                  class="w-[28px] h-[28px]"
+
                   alt=""
                 />
               </div>
@@ -93,36 +97,37 @@ const accessibillityWidget =ref(false)
       <div class="ml-auto">
         <label
           for="toggle_cols3"
-          class="relative inline-flex items-center cursor-pointer h-[32px]"
+          class="toggle_wrap"
         >
           <input
             type="checkbox"
             id="toggle_cols3"
             class="sr-only"
-            v-model="columnsWidget"
+            :checked="isChecked('3_column_layout_widget')"
+            @change="toggleCheckbox('3_column_layout_widget')"
           />
           <div
-            class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+            class="toggle_parent"
             :class="[
-                columnsWidget
-                ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                : 'border-[1px] border-lightGrey',
+              isChecked('3_column_layout_widget')
+                ?'active'
+                : 'in_active',
             ]"
           >
             <div
-              class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-              :class="{ 'translate-x-full ': columnsWidget }"
+              class="toggle_inner"
+              :class="{ 'active': isChecked('3_column_layout_widget') }"
             >
               <img
-                v-if="columnsWidget"
+                v-if="isChecked('3_column_layout_widget')"
                 src="/assets/imgs/addons/active_toggle.svg"
-                class="w-6 h-6"
+                class="w-[28px] h-[28px]"
                 alt=""
               />
               <img
                 v-else
                 src="/assets/imgs/addons/toggle.svg"
-                class="w-6 h-6"
+                class="w-[28px] h-[28px]"
                 alt=""
               />
             </div>
@@ -154,36 +159,37 @@ const accessibillityWidget =ref(false)
     <div class="ml-auto">
       <label
         for="toggle_profiles"
-        class="relative inline-flex items-center cursor-pointer h-[32px]"
+        class="toggle_wrap"
       >
         <input
           type="checkbox"
           id="toggle_profiles"
           class="sr-only"
-          v-model="accessibillityWidget"
+             :checked="isChecked('accessibility_profiles')"
+            @change="toggleCheckbox('accessibility_profiles')"
         />
         <div
-          class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+          class="toggle_parent"
           :class="[
-            accessibillityWidget
-              ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-              : 'border-[1px] border-lightGrey',
+            isChecked('accessibility_profiles')
+              ?'active'
+              : 'in_active',
           ]"
         >
           <div
-            class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-            :class="{ 'translate-x-full ': accessibillityWidget }"
+            class="toggle_inner"
+            :class="{ 'active': isChecked('accessibility_profiles') }"
           >
             <img
-              v-if="accessibillityWidget"
+              v-if="isChecked('accessibility_profiles')"
               src="/assets/imgs/addons/active_toggle.svg"
-              class="w-6 h-6"
+              class="w-[28px] h-[28px]"
               alt=""
             />
             <img
               v-else
               src="/assets/imgs/addons/toggle.svg"
-              class="w-6 h-6"
+              class="w-[28px] h-[28px]"
               alt=""
             />
           </div>

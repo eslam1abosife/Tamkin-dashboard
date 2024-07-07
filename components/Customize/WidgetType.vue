@@ -1,23 +1,22 @@
 <script lang="ts" setup>
+import { vOnClickOutside } from '@vueuse/components'
+import { useCustomizeStore } from "@/stores/customize.js";
+const customizeStore = useCustomizeStore();
 
-const openResizeMenuAdjust = ref(false);
-const miniSizeAdjust = ref(false)
-const selectedWidgetType = ref('')
-const selectWidgetType = (v:string)=>{
-    selectedWidgetType.value = v
-}
-const openMenuResize = (typeMenu: any) => {
-  if (typeMenu === "widgetType") {
-    openResizeMenuAdjust.value = !openResizeMenuAdjust.value;
-  }
-};
+import { useCollapseStore } from "@/stores/collapse.js";
+const collapseStore = useCollapseStore();
+
+const {widgetType} = storeToRefs(customizeStore)
+
+
+
 </script>
 
 <template>
   <div
     class="flex flex-col items-center justify-center   w-full mt-[40px]">
     <div class=" bg-white rounded-[10px] w-full  px-[15px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[16px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
                 Widget Type
@@ -30,11 +29,13 @@ const openMenuResize = (typeMenu: any) => {
           </div>
 
           <div
-            @click.stop="openMenuResize('widgetType')"
+            @click.stop="collapseStore.collapseMenu('widget_type')"
+            v-on-click-outside="() => collapseStore.removeMenu('widget_type')"
             :class="[
-              openResizeMenuAdjust ? 'active_notification !text-darkGrey' : '',
+              collapseStore.menus.includes('widget_type') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer 
+            bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -43,7 +44,7 @@ const openMenuResize = (typeMenu: any) => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuAdjust
+                collapseStore.menus.includes('widget_type')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -55,23 +56,23 @@ const openMenuResize = (typeMenu: any) => {
             </svg>
 
             <div
-              v-if="openResizeMenuAdjust"
+              v-if=" collapseStore.menus.includes('widget_type')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="miniSizeAdjust = !miniSizeAdjust"
+                @click=" collapseStore.collapseCard('widget_type_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeMenuAdjust ? '!fill-white' : '']"
+                    :class="[collapseStore.menus.includes('widget_type') ? '!fill-white' : '']"
                   />
                 </div>
                 <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                  {{ !collapseStore.collapses.includes('widget_type_card') ?'Minisize':'Maxsize' }}
                 </div>
               </div>
 
@@ -92,7 +93,7 @@ const openMenuResize = (typeMenu: any) => {
 
         <div
           class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
-          v-if="!miniSizeAdjust"
+          v-if="!collapseStore.collapses.includes('widget_type_card')"
         >
     
 <div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full lg:flex-wrap mx-auto ipad-max:flex-col ">
@@ -108,9 +109,9 @@ const openMenuResize = (typeMenu: any) => {
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-               
+              :checked="widgetType === 'full_widget'"
                 value="full_widget"
-                @click.stop="selectWidgetType('full_widget')"
+                @click.stop="customizeStore.selectWidgetType('full_widget')"
                          
               />
               <label for="full_widget" class="flex items-center cursor-pointer">
@@ -136,9 +137,10 @@ const openMenuResize = (typeMenu: any) => {
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-               
+                :checked="widgetType === 'mini_widget'"
+
                 value="mini_widget"
-                @click.stop="selectWidgetType('mini_widget')"
+                @click.stop="customizeStore.selectWidgetType('mini_widget')"
                          
               />
               <label for="mini_widget" class="flex items-center cursor-pointer">
@@ -165,9 +167,10 @@ const openMenuResize = (typeMenu: any) => {
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-               
+                :checked="widgetType === 'rounded_widget'"
+
                 value="rounded_widget"
-                @click.stop="selectWidgetType('rounded_widget')"
+                @click.stop="customizeStore.selectWidgetType('rounded_widget')"
                          
               />
               <label for="rounded_widget" class="flex items-center cursor-pointer">
@@ -196,7 +199,7 @@ const openMenuResize = (typeMenu: any) => {
                 class="hidden"
                
                 value="minuscule_widget"
-                @click.stop="selectWidgetType('minuscule_widget')"
+                @click.stop="customizeStore.selectWidgetType('minuscule_widget')"
                          
               />
               <label for="minuscule_widget" class="flex items-center cursor-pointer">

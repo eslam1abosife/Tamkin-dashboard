@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-const openResizeMenuManage = ref(false);
-const miniSizeManage = ref(false);
-const isMotorActive = ref(false);
-const isColorBlindChecked = ref(false);
-const isVisuallyImprairedChecked = ref(false);
-const isSeizureChecked = ref(false);
-const isBlindChecked = ref(false);
-const isDyslexiaChecked = ref(false);
-const isCongitiveChecked = ref(false);
-const isADHDChecked = ref(false);
+import { vOnClickOutside } from '@vueuse/components'
+
+import { useCollapseStore } from "@/stores/collapse.js";
+const collapseStore = useCollapseStore();
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
+
 </script>
 
 <template>
@@ -16,16 +14,17 @@ const isADHDChecked = ref(false);
     class="flex flex-col items-center justify-center  w-full mt-[40px] "
   >
   <div class=" bg-white rounded-[10px] w-full  px-[15px]">
-    <div class="flex items-center justify-start ml-[15px] pt-[35px] w-full">
+    <div class="flex items-center justify-start ml-[15px] pt-[24px] w-full">
       <div>
         <h1 class="text-[20px] font-[500] leading-[30px]">
           Manage your Accessibility Profiles
         </h1>
       </div>
       <div
-        @click="openResizeMenuManage = !openResizeMenuManage"
+       @click.stop="collapseStore.collapseMenu('manage_access_profiles')"
+            v-on-click-outside="() => collapseStore.removeMenu('manage_access_profiles')"
         :class="[
-          openResizeMenuManage ? 'active_notification !text-darkGrey' : '',
+          collapseStore.menus.includes('manage_access_profiles') ? 'active_notification !text-darkGrey' : '',
         ]"
         class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
       >
@@ -36,7 +35,7 @@ const isADHDChecked = ref(false);
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           :class="[
-            openResizeMenuManage
+            collapseStore.menus.includes('manage_access_profiles') 
               ? 'stroke-current !text-white !fill-white'
               : '',
           ]"
@@ -48,23 +47,23 @@ const isADHDChecked = ref(false);
         </svg>
 
         <div
-          v-if="openResizeMenuManage"
+          v-if="collapseStore.menus.includes('manage_access_profiles') "
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
         >
           <div
             class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-            @click="miniSizeManage = !miniSizeManage"
+            @click="collapseStore.collapseCard('manage_access_profiles_card') "
           >
             <div>
               <img
                 src="/assets/imgs/addons/min_size.svg"
                 alt=""
-                :class="[openResizeMenuManage ? '!fill-white' : '']"
+                :class="[collapseStore.menus.includes('manage_access_profiles') ? '!fill-white' : '']"
               />
             </div>
             <div class="text-[14px] leading-[21px] font-[400]">
-              Minisize
+              {{ !collapseStore.collapses.includes('manage_access_profiles_card')? 'Minisize':'Maxsize' }}
             </div>
           </div>
 
@@ -85,7 +84,7 @@ const isADHDChecked = ref(false);
 
     <div
       class="flex flex-col items-start justify-center ml-[15px] pb-[16px] mt-[18px] divide-y"
-      v-if="!miniSizeManage"
+      v-if="!collapseStore.collapses.includes('manage_access_profiles_card')"
     >
       <div
         class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
@@ -94,17 +93,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isMotorActive ? 'opacity-60' : '']"
+            :class="[!isChecked('motor_active') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/monitor_im.svg"
             alt=""
-            :class="[!isMotorActive ? 'opacity-60' : '']"
+            :class="[!isChecked('motor_active') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isMotorActive ? 'opacity-60' : '']"
+            :class="[!isChecked('motor_active') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -123,36 +122,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_motor"
-              class="relative inline-flex items-center cursor-pointer h-[32px]"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_motor"
                 class="sr-only"
-                v-model="isMotorActive"
+                 :checked="isChecked('motor_active')"
+            @change="toggleCheckbox('motor_active')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isMotorActive
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('motor_active')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isMotorActive }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('motor_active') }"
                 >
                   <img
-                    v-if="isMotorActive"
+                    v-if="isChecked('motor_active')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -169,17 +169,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isColorBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('color_blind') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/color_blind.svg"
             alt=""
-            :class="[!isColorBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('color_blind') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isColorBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('color_blind') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -198,36 +198,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_colorBlind"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_colorBlind"
                 class="sr-only"
-                v-model="isColorBlindChecked"
+                  :checked="isChecked('color_blind')"
+            @change="toggleCheckbox('color_blind')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isColorBlindChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('color_blind')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isColorBlindChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('color_blind') }"
                 >
                   <img
-                    v-if="isColorBlindChecked"
+                    v-if="isChecked('color_blind')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -244,17 +245,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isVisuallyImprairedChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('visuallyImpraired') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/vis_impaired.svg"
             alt=""
-            :class="[!isVisuallyImprairedChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('visuallyImpraired') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isVisuallyImprairedChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('visuallyImpraired') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -273,38 +274,39 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_visually_imp"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_visually_imp"
                 class="sr-only"
-                v-model="isVisuallyImprairedChecked"
+                      :checked="isChecked('visuallyImpraired')"
+            @change="toggleCheckbox('visuallyImpraired')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isVisuallyImprairedChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('visuallyImpraired')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
+                  class="toggle_inner"
                   :class="{
-                    'translate-x-full ': isVisuallyImprairedChecked,
+                    'active': isChecked('visuallyImpraired'),
                   }"
                 >
                   <img
-                    v-if="isVisuallyImprairedChecked"
+                    v-if="isChecked('visuallyImpraired')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -321,17 +323,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isSeizureChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('Seizure') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/seizure.svg"
             alt=""
-            :class="[!isSeizureChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('Seizure') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isSeizureChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('Seizure') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -350,36 +352,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_seizure_epli"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_seizure_epli"
                 class="sr-only"
-                v-model="isSeizureChecked"
+                       :checked="isChecked('Seizure')"
+            @change="toggleCheckbox('Seizure')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isSeizureChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('Seizure')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isSeizureChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('Seizure') }"
                 >
                   <img
-                    v-if="isSeizureChecked"
+                    v-if="isChecked('Seizure')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -396,17 +399,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('blind') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/blind.svg"
             alt=""
-            :class="[!isBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('blind') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isBlindChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('blind') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -425,36 +428,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_blind_manage"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_blind_manage"
                 class="sr-only"
-                v-model="isBlindChecked"
+                 :checked="isChecked('blind')"
+            @change="toggleCheckbox('blind')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isBlindChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('blind')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isBlindChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('blind') }"
                 >
                   <img
-                    v-if="isBlindChecked"
+                    v-if="isChecked('blind')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -471,17 +475,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isDyslexiaChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('dyslexia') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/df.svg"
             alt=""
-            :class="[!isDyslexiaChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('dyslexia') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isDyslexiaChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('dyslexia') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -500,36 +504,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_Dyslexia"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_Dyslexia"
                 class="sr-only"
-                v-model="isDyslexiaChecked"
+                   :checked="isChecked('dyslexia')"
+            @change="toggleCheckbox('dyslexia')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isDyslexiaChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('dyslexia')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isDyslexiaChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('dyslexia') }"
                 >
                   <img
-                    v-if="isDyslexiaChecked"
+                    v-if="isChecked('dyslexia')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -546,17 +551,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isCongitiveChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('congitive') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/congitive.svg"
             alt=""
-            :class="[!isCongitiveChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('congitive') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isCongitiveChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('congitive') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -575,36 +580,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_congitive_manage"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_congitive_manage"
                 class="sr-only"
-                v-model="isCongitiveChecked"
+                       :checked="isChecked('congitive')"
+            @change="toggleCheckbox('congitive')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isCongitiveChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('congitive')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isCongitiveChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('congitive') }"
                 >
                   <img
-                    v-if="isCongitiveChecked"
+                    v-if="isChecked('congitive')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>
@@ -621,17 +627,17 @@ const isADHDChecked = ref(false);
           <img
             src="/assets/imgs/addons/left_item.svg"
             alt=""
-            :class="[!isADHDChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('ADHD') ? 'opacity-60' : '']"
           />
 
           <img
             src="/assets/imgs/addons/adhd.svg"
             alt=""
-            :class="[!isADHDChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('ADHD') ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
-            :class="[!isADHDChecked ? 'opacity-60' : '']"
+            :class="[!isChecked('ADHD') ? 'opacity-60' : '']"
           >
             <div
               class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -650,36 +656,37 @@ const isADHDChecked = ref(false);
           <div class="ml-auto">
             <label
               for="toggle_adhd"
-              class="relative inline-flex items-center cursor-pointer"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_adhd"
                 class="sr-only"
-                v-model="isADHDChecked"
+              :checked="isChecked('ADHD')"
+            @change="toggleCheckbox('ADHD')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                  isADHDChecked
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('ADHD')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': isADHDChecked }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('ADHD') }"
                 >
                   <img
-                    v-if="isADHDChecked"
+                    v-if="isChecked('ADHD')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>

@@ -1,18 +1,45 @@
 <script lang="ts" setup>
+import { useCustomizeStore} from "@/stores/customize.js";
+const customizeStore = useCustomizeStore();
 const switchButtonLocation = ref("desktop");
-const positionOnDesktop = ref("top_left");
-const positionOnMobile = ref("top_left_mobile");
+// const buttonPositionDesktop = ref("top_left");
+// const buttonPositionMobile = ref("top_left_mobile");
+const {colorMode,gradient1,gradient2,currentColor,buttonPositionDesktop,buttonPositionMobile,initialPositionMobile,initialPositionDesktop} = storeToRefs(customizeStore);
 
 
-const changePositionOnDesktop = (position: string) => {
-  positionOnDesktop.value = position;
+const changebuttonPositionDesktop = (position: string) => {
+  buttonPositionDesktop.value = position;
 };
-const changePositionOnMobile = (position: string) => {
-  positionOnMobile.value = position;
+const changebuttonPositionMobile = (position: string) => {
+  buttonPositionMobile.value = position;
 };
 const changeButtonMobileOrDesktop = (v: string) => {
   switchButtonLocation.value = v;
 };
+
+
+
+const gradientClasses = computed(() => {
+  return colorMode.value === 'gradient' && gradient1.value && gradient2.value
+    ? 'bg-gradient-to-b' // Tailwind utility for background gradient
+    : ''; // No extra class if not gradient
+});
+
+const backgroundImageStyle = computed(() => {
+  if (colorMode.value === 'gradient' && gradient1.value && gradient2.value) {
+    return {
+      backgroundImage: `linear-gradient(to bottom, ${gradient1.value}, ${gradient2.value})`,
+    };
+  } else {
+    return {
+      backgroundColor: currentColor.value,
+    };
+  }
+});
+
+watch([currentColor],()=>{},{immediate:true})
+
+
 </script>
 
 <template>
@@ -42,12 +69,13 @@ const changeButtonMobileOrDesktop = (v: string) => {
   <div
   class="bg-[#F2FBF9] rounded-lg p-10 w-96 relative mx-[15px] h-[173px] mt-[32px]"
 >
+
   <div
     class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnDesktop('top_left')"
+        @click="changebuttonPositionDesktop('top_left')"
         id="top_left"
         type="radio"
         name="position_radio"
@@ -56,43 +84,50 @@ const changeButtonMobileOrDesktop = (v: string) => {
       <label for="top_left" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'top_left'"
+          v-if="buttonPositionDesktop !== 'top_left'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnDesktop('middle_left')"
+        @click="changebuttonPositionDesktop('middle_left')"
         id="middle_left"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnDesktop === 'middle_left'"
+        :checked="buttonPositionDesktop === 'middle_left'"
       />
       <label for="middle_left" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'middle_left'"
+          v-if="buttonPositionDesktop !== 'middle_left'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+    <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
+     
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnDesktop('bottom_left')"
+        @click="changebuttonPositionDesktop('bottom_left')"
         id="bottom_left"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnDesktop === 'bottom_left'"
+        :checked="buttonPositionDesktop === 'bottom_left'"
       />
       <label for="bottom_left" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'bottom_left'"
+          v-if="buttonPositionDesktop !== 'bottom_left'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+        <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+          <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+              </div>
       </label>
     </div>
   </div>
@@ -101,19 +136,21 @@ const changeButtonMobileOrDesktop = (v: string) => {
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnDesktop('top_right')"
+        @click="changebuttonPositionDesktop('top_right')"
         id="top_right"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnDesktop === 'top_right'"
+        :checked="buttonPositionDesktop === 'top_right'"
       />
       <label for="top_right" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'top_right'"
+          v-if="buttonPositionDesktop !== 'top_right'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
@@ -122,15 +159,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnDesktop('middle_right')"
-        :checked="positionOnDesktop === 'middle_right'"
+        @click="changebuttonPositionDesktop('middle_right')"
+        :checked="buttonPositionDesktop === 'middle_right'"
       />
       <label for="middle_right" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'middle_right'"
+          v-if="buttonPositionDesktop !== 'middle_right'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
@@ -139,15 +178,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnDesktop('bottom_right')"
-        :checked="positionOnDesktop === 'bottom_right'"
+        @click="changebuttonPositionDesktop('bottom_right')"
+        :checked="buttonPositionDesktop === 'bottom_right'"
       />
       <label for="bottom_right" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'bottom_right'"
+          v-if="buttonPositionDesktop !== 'bottom_right'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
   </div>
@@ -160,15 +201,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnDesktop('top_center')"
-        :checked="positionOnDesktop === 'top_center'"
+        @click="changebuttonPositionDesktop('top_center')"
+        :checked="buttonPositionDesktop === 'top_center'"
       />
       <label for="top_center" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'top_center'"
+          v-if="buttonPositionDesktop !== 'top_center'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
@@ -177,15 +220,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnDesktop('bottom_center')"
-        :checked="positionOnDesktop === 'bottom_center'"
+        @click="changebuttonPositionDesktop('bottom_center')"
+        :checked="buttonPositionDesktop === 'bottom_center'"
       />
       <label for="bottom_center" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnDesktop !== 'bottom_center'"
+          v-if="buttonPositionDesktop !== 'bottom_center'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
   </div>
@@ -193,16 +238,19 @@ const changeButtonMobileOrDesktop = (v: string) => {
 
 
 <div class="relative">
-  <div class="absolute " :class="[positionOnDesktop === 'top_left' ? 'top-[30px] left-[70px]' :'',
-  positionOnDesktop === 'middle_left' ? 'top-[80px] left-[70px]':'',
-    positionOnDesktop === 'bottom_left' ? 'top-[140px] left-[70px]':'',
-    positionOnDesktop === 'top_center' ? 'top-[30px] left-[48%]':'',
-    positionOnDesktop === 'bottom_center' ? 'top-[140px] left-[48%]':'',
-    positionOnDesktop === 'top_right' ? 'top-[30px] right-[70px]':'',
-    positionOnDesktop === 'middle_right' ? 'top-[80px] right-[70px]':'',
-    positionOnDesktop === 'bottom_right' ? 'top-[140px] right-[70px]':'',
+  <div class="absolute " :class="[buttonPositionDesktop === 'top_left' ? 'top-[30px] ipad-max:left-[50px] lg:left-[70px]' :'',
+  buttonPositionDesktop === 'middle_left' ? 'ipad-max:top-[60px] lg:top-[80px] ipad-max:left-[50px] lg:left-[70px]':'',
+    buttonPositionDesktop === 'bottom_left' ? 'ipad-max:top-[100px] lg:top-[140px] ipad-max:left-[50px] lg:left-[70px]':'',
+    buttonPositionDesktop === 'top_center' ? 'ipad-max:top-[20px] lg:top-[30px] left-[48%]':'',
+    buttonPositionDesktop === 'bottom_center' ? 'ipad-max:top-[100px] lg:top-[140px] left-[48%]':'',
+    buttonPositionDesktop === 'top_right' ? 'top-[30px] ipad-max:right-[50px] lg:right-[70px]':'',
+    buttonPositionDesktop === 'middle_right' ? 'top-[80px] ipad-max:right-[50px] lg:right-[70px]':'',
+    buttonPositionDesktop === 'bottom_right' ? 'ipad-max:top-[100px] lg:top-[140px] ipad-max:right-[50px] lg:right-[70px]':'',
   ]">
-    <img src="/assets/imgs/customize/access.svg" alt="Access Icon" class="w-[16px] h-[16px]">
+  <div class="w-[24px] h-[24px]  rounded-full flex items-center justify-center" 
+  :class="gradientClasses" :style="backgroundImageStyle">
+    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[16px] h-[16px]">
+        </div>
   </div>
   <img src="/assets/imgs/customize/laptop.svg" alt="Laptop Image" class="w-96 h-auto">
 </div>
@@ -218,7 +266,7 @@ const changeButtonMobileOrDesktop = (v: string) => {
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnMobile('top_left_mobile')"
+        @click="changebuttonPositionMobile('top_left_mobile')"
         id="top_left_mobile"
         type="radio"
         name="position_radio"
@@ -227,43 +275,49 @@ const changeButtonMobileOrDesktop = (v: string) => {
       <label for="top_left_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'top_left_mobile'"
+          v-if="buttonPositionMobile !== 'top_left_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnMobile('middle_left_mobile')"
+        @click="changebuttonPositionMobile('middle_left_mobile')"
         id="middle_left_mobile"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnMobile === 'middle_leeft_mobile'"
+        :checked="buttonPositionMobile === 'middle_leeft_mobile'"
       />
       <label for="middle_left_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'middle_left_mobile'"
+          v-if="buttonPositionMobile !== 'middle_left_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnMobile('bottom_left_mobile')"
+        @click="changebuttonPositionMobile('bottom_left_mobile')"
         id="bottom_left_mobile"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnMobile === 'bottom_left'"
+        :checked="buttonPositionMobile === 'bottom_left'"
       />
       <label for="bottom_left_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'bottom_left_mobile'"
+          v-if="buttonPositionMobile !== 'bottom_left_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
   </div>
@@ -272,19 +326,21 @@ const changeButtonMobileOrDesktop = (v: string) => {
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changePositionOnMobile('top_right_mobile')"
+        @click="changebuttonPositionMobile('top_right_mobile')"
         id="top_right_mobile"
         type="radio"
         name="position_radio"
         class="hidden"
-        :checked="positionOnMobile === 'top_right_mobile'"
+        :checked="buttonPositionMobile === 'top_right_mobile'"
       />
       <label for="top_right_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'top_right_mobile'"
+          v-if="buttonPositionMobile !== 'top_right_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
@@ -293,15 +349,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnMobile('middle_right_mobile')"
-        :checked="positionOnMobile === 'middle_right_mobile'"
+        @click="changebuttonPositionMobile('middle_right_mobile')"
+        :checked="buttonPositionMobile === 'middle_right_mobile'"
       />
       <label for="middle_right_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin  !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'middle_right_mobile'"
+          v-if="buttonPositionMobile !== 'middle_right_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
     <div class="w-[28px] h-[28px]">
@@ -310,15 +368,17 @@ const changeButtonMobileOrDesktop = (v: string) => {
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changePositionOnMobile('bottom_right_mobile')"
-        :checked="positionOnMobile === 'bottom_right_mobile'"
+        @click="changebuttonPositionMobile('bottom_right_mobile')"
+        :checked="buttonPositionMobile === 'bottom_right_mobile'"
       />
       <label for="bottom_right_mobile" class="flex items-center cursor-pointer">
         <span
           class="radio-tamkin !border-[#A7A7A7]"
-          v-if="positionOnMobile !== 'bottom_right_mobile'"
+          v-if="buttonPositionMobile !== 'bottom_right_mobile'"
         ></span>
-        <img src="/assets/imgs/customize/access.svg" alt="" v-else />
+            <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
+<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+    </div>
       </label>
     </div>
   </div>
@@ -327,30 +387,42 @@ const changeButtonMobileOrDesktop = (v: string) => {
 
 
 <div class="relative">
-  <div class="absolute " :class="[positionOnMobile === 'top_left_mobile' ? 'top-[30px] left-[30px]' :'',
-  positionOnMobile === 'middle_left_mobile' ? 'top-[80px] left-[30px]':'',
-  positionOnMobile === 'bottom_left_mobile' ? 'top-[140px] left-[30px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] left-[30px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] left-[30px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] left-[30px]':'',
 
-  positionOnMobile === 'top_right_mobile' ? 'top-[30px] left-[90px]':'',
-  positionOnMobile === 'middle_right_mobile' ? 'top-[80px] left-[90px]':'',
-  positionOnMobile === 'bottom_right_mobile' ? 'top-[140px] left-[90px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[90px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[90px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] left-[90px]':'',
   ]">
-    <img src="/assets/imgs/customize/access.svg" alt="Access Icon" class="w-[16px] h-[16px]">
+  <div class="w-[18px] h-[18px]  rounded-full flex items-center justify-center" 
+  :class="gradientClasses" :style="backgroundImageStyle">
+    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[12px] h-[12px]">
+        </div>
   </div>
-  <div class="absolute " :class="[positionOnMobile === 'top_left_mobile' ? 'top-[30px] right-[210px]' :'',
-  positionOnMobile === 'middle_left_mobile' ? 'top-[80px] right-[210px]':'',
-  positionOnMobile === 'bottom_left_mobile' ? 'top-[140px] right-[210px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[210px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] right-[210px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] right-[210px]':'',
 
-  positionOnMobile === 'top_right_mobile' ? 'top-[30px] right-[30px]':'',
-  positionOnMobile === 'middle_right_mobile' ? 'top-[80px] right-[30px]':'',
-  positionOnMobile === 'bottom_right_mobile' ? 'top-[140px] right-[30px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] right-[30px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] right-[30px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] right-[30px]':'',
   ]">
-    <img src="/assets/imgs/customize/access.svg" alt="Access Icon" class="w-[16px] h-[16px]">
+  <div class="w-[22px] h-[22px]  rounded-full flex items-center justify-center" 
+  :class="gradientClasses" :style="backgroundImageStyle">
+    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[14px] h-[14px]">
+        </div>
   </div>
  <div class="flex items-center justify-evenly space-x-[29px] px-[15px]">
   <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-[102px] h-auto">
-  <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="w-[225px] h-auto">
+  <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="ipad-max:hidden w-[225px] h-auto">
  </div>
 </div>
 </div>
 </template>
+
+
+<style>
+
+
+</style>

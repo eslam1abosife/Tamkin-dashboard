@@ -1,4 +1,13 @@
 <script lang="ts" setup>
+import { vOnClickOutside } from '@vueuse/components'
+
+import { useCollapseStore } from "@/stores/collapse.js";
+const collapseStore = useCollapseStore();
+import { useCustomizeStore } from "@/stores/customize.js";
+
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import VCodeBlock from "@wdns/vue-code-block";
@@ -65,7 +74,7 @@ const copyCode = () => {
     <div class="bg-white rounded-[10px] w-full px-[15px] relative">
  
        
-      <div class="flex items-center justify-start ml-[15px] pt-[35px] relative">
+      <div class="flex items-center justify-start ml-[15px] pt-[16px] relative">
       
         
     <div class="flex flex-col items-start justify-center relative">
@@ -80,7 +89,7 @@ const copyCode = () => {
             </p>
           </div>
   
-          <div class="py-[24px] border-t-[2px] border-b-[2px] border-lightGrey mt-[32px]" v-if="!miniSizeAdjust">
+          <div class="py-[24px] border-t-[2px] border-b-[2px] border-lightGrey mt-[32px]" v-if="!collapseStore.collapses.includes('custom_trigger_card')">
             <p
               class="text-[15px] leading-[22px] font-[400] text-darkGrey pt-[6px]"
             >
@@ -96,11 +105,12 @@ const copyCode = () => {
    
       </div>
       <div
-      @click.stop="openMenuResize('widgetType')"
+      @click.stop="collapseStore.collapseMenu('custom_trigger')"
+      v-on-click-outside="() => collapseStore.removeMenu('custom_trigger')"
       :class="[
-        openResizeMenuAdjust ? 'active_notification !text-darkGrey' : '',
+        collapseStore.menus.includes('custom_trigger')  ? 'active_notification !text-darkGrey' : '',
       ]"
-      class="absolute top-0 right-[15px]  ml-auto mr-[15px] mt-[47px] flex items-center justify-center cursor-pointer 
+      class="absolute top-0 right-[15px]  ml-auto mr-[15px] mt-[31px] flex items-center justify-center cursor-pointer 
       bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
     >
       <svg
@@ -110,7 +120,7 @@ const copyCode = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         :class="[
-          openResizeMenuAdjust
+          collapseStore.menus.includes('custom_trigger')
             ? 'stroke-current !text-white !fill-white'
             : '',
         ]"
@@ -122,22 +132,22 @@ const copyCode = () => {
       </svg>
   
       <div
-        v-if="openResizeMenuAdjust"
+        v-if=" collapseStore.menus.includes('custom_trigger')"
         style="box-shadow: 0px 2px 6px 0px #00000040"
         class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
       >
         <div
           class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-          @click="miniSizeAdjust = !miniSizeAdjust"
+          @click=" collapseStore.collapseCard('custom_trigger_card')"
         >
           <div>
             <img
               src="/assets/imgs/addons/min_size.svg"
               alt=""
-              :class="[openResizeMenuAdjust ? '!fill-white' : '']"
+              :class="[collapseStore.menus.includes('custom_trigger') ? '!fill-white' : '']"
             />
           </div>
-          <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
+          <div class="text-[14px] leading-[21px] font-[400]">{{!collapseStore.collapses.includes('custom_trigger_card') ?'Minisize':'Maxsize'}}</div>
         </div>
   
         <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
@@ -153,7 +163,7 @@ const copyCode = () => {
     </div>
       <div
         class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] max-w-full" :class="[!moveAccess ? 'my-[64px]' :'']"
-        v-if="!miniSizeAdjust"
+        v-if="!collapseStore.collapses.includes('custom_trigger_card') "
       >
       
       <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full px-[15px] mt-[16px] border-b-[2px] border-lightGrey">
@@ -169,36 +179,37 @@ const copyCode = () => {
           <div class="ml-auto">
             <label
               for="toggle_custom_trigger"
-              class="relative inline-flex items-center cursor-pointer h-[32px]"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_custom_trigger"
                 class="sr-only"
-                v-model="moveAccess"
+                        :checked="isChecked('enable_custom_trigger')"
+                    @change="toggleCheckbox('enable_custom_trigger')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                    moveAccess
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('enable_custom_trigger')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': moveAccess }"
+                  class="toggle_inner"
+                  :class="{ 'active': isChecked('enable_custom_trigger') }"
                 >
                   <img
-                    v-if="moveAccess"
+                    v-if="isChecked('enable_custom_trigger')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>

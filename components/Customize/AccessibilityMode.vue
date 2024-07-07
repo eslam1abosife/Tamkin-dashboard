@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-const moveAccess = ref(false);
-const moveHide = ref('')
+import { useCustomizeStore } from "@/stores/customize.js";
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
+ const moveHide = ref('')
 
 const moveHideWidget = (v:string)=>{
     moveHide.value = v;
@@ -32,36 +35,37 @@ const moveHideWidget = (v:string)=>{
           <div class="ml-auto">
             <label
               for="toggle_move_acess"
-              class="relative inline-flex items-center cursor-pointer h-[32px]"
+              class="toggle_wrap"
             >
               <input
                 type="checkbox"
                 id="toggle_move_acess"
                 class="sr-only"
-                v-model="moveAccess"
+:checked="isChecked('move_access')"
+            @change="toggleCheckbox('move_access')"
               />
               <div
-                class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                class="toggle_parent"
                 :class="[
-                    moveAccess
-                    ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                    : 'border-[1px] border-lightGrey',
+                  isChecked('move_access')
+                    ? 'active'
+                    : 'in_active',
                 ]"
               >
                 <div
-                  class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                  :class="{ 'translate-x-full ': moveAccess }"
+                  class="toggle_inner"
+                  :class="{ 'translate-x-full !left-0 ': isChecked('move_access') }"
                 >
                   <img
-                    v-if="moveAccess"
+                    v-if="isChecked('move_access')"
                     src="/assets/imgs/addons/active_toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                   <img
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
-                    class="w-6 h-6"
+                    class="w-[28px] h-[28px]"
                     alt=""
                   />
                 </div>

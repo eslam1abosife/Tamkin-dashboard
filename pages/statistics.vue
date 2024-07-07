@@ -5,6 +5,7 @@ import { useModalStore } from "@/stores/modal";
 import { useNavbarStore } from "@/stores/navbar";
 import { storeToRefs } from 'pinia'
 import { useWindowSize } from "@vueuse/core";
+import { vOnClickOutside } from '@vueuse/components'
 
 const navStore = useNavbarStore();
 const {sideBarOpen} = storeToRefs(navStore)
@@ -95,30 +96,17 @@ const alertFn = () => {
     dateOpen.value = true;
   }
 };
-const currentTab = ref("saved");
 
-const switchTab = (tab: any) => {
-  currentTab.value = tab;
-};
 
-const checked = ref([]);
-const deletedSites = ref([
-  { id: "1", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "2", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "3", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "4", name: "Tamkin", image: "https://via.placeholder.com/24" },
-]);
+const isADHDChecked = ref(false);
 
-const checkAll = computed({
-  get() {
-    return (
-      deletedSites.value && checked.value.length === deletedSites.value.length
-    );
-  },
-  set(value) {
-    checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
-  },
-});
+const openResizeMenuManage = ref(false);
+const openResizeMenuAdjust = ref(false);
+const miniSizeManage = ref(false);
+const miniSizeAdjust = ref(false);
+const miniSizeLiveTranslation = ref(false);
+const openResizeMenuLiveTranslationStats =ref(false)
+const openResizeMenuLiveTranslataion = ref(false);
 const localePath = useLocalePath();
 const selectDate = () => {
   
@@ -141,10 +129,29 @@ watch(search, (ov, nv) => {
 const clearInput = () => {
   search.value = "";
 };
-const openMenuResize = (typeMenu: any) => {
-  if (typeMenu === "adjust") {
+const openMenuResize = () => {
+
     openResizeMenuAdjust.value = !openResizeMenuAdjust.value;
-  }
+  
+};
+
+const openMenuResizeManageFn = () => {
+
+  openResizeMenuManage.value = !openResizeMenuManage.value;
+
+};
+
+
+const openMenuResizeLiveTranslationStatsFn = () => {
+
+  openResizeMenuLiveTranslationStats.value = !openResizeMenuLiveTranslationStats.value;
+
+};
+
+const openMenuResizeLiveTranslationFn = () => {
+
+  openResizeMenuLiveTranslataion.value = !openResizeMenuLiveTranslataion.value;
+
 };
 const isOpen = ref(false);
 const percentageChange = ref(3.6);
@@ -228,17 +235,7 @@ const isLinkActive = (path) => {
 };
 
 
-const isADHDChecked = ref(false);
 
-const openResizeMenuManage = ref(false);
-const openResizeMenuAdjust = ref(false);
-const miniSizeManage = ref(false);
-const miniSizeAdjust = ref(false);
-const miniSizeLiveTranslation = ref(false);
-const openResizeMenuLiveTranslationStats =ref(false)
-const openResizeMenuLiveTranslataion = ref(false);
-const annual_prices = ref(false);
-// In case of a range picker, you'll receive [Date, Date]
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -264,31 +261,28 @@ const liveTranslationStats= ref(false)
 
 <template>
   <div class="relative h-full w-full">
-    <div class="mt-[23px] w-full h-full relative">
+    <div class=" w-full h-full relative">
       <div class="space-y-[10px]">
-        <h1 class="text-left text-[24px] leading-[36px] font-[600]">
-          Statistics
-        </h1>
+        <h1 class="text-left text-[24px] leading-[36px] font-[600]">Statistics</h1>
 
-        <h2
-          class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey"
-        >
+        <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
           Statistics involves collecting, analyzing, and interpreting data to
-          provide useful insights.
-        </h2>
+          provide useful insights.        </h2>
       </div>
 
       <div
-        class="relative ipad-max:-mx-6 mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+        class="relative  mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col 
+        w-full justify-center lg:justify-start"
       >
         <div
-          class="flex items-center lg:flex-row flex-col justify-start py-[23px] w-full rounded-[10px]"
+          class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
               <div class="flex items-center justify-start space-x-[8px]">
                 <div
-                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
+                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin 
+                  custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
@@ -296,9 +290,7 @@ const liveTranslationStats= ref(false)
                 <div class="flex items-center space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
-                    <h2
-                      class="font-[600] text-[16px] leading-[24px] text-darkGrey"
-                    >
+                    <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
                       Tamkin.App
                     </h2>
                   </div>
@@ -320,37 +312,9 @@ const liveTranslationStats= ref(false)
         </div>
       </div>
 
-      <div
-        class="w-full mx-auto h-[43px] rounded-[22px] bg-white flex items-center px-[20px] justify-around"
-      >
-        <nuxt-link       :class="[isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item']"
-        :to="localePath('/overview')">Overview</nuxt-link>
-        <nuxt-link 
-        :class="[
-          isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item',
-        ]"
-        :to="localePath('/addons')"
-        >Addons</nuxt-link>
-        <nuxt-link
-             :to="localePath('/statistics')"
-          :class="[
-            isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item',
-          ]"
-        >
-          Statistics
-        </nuxt-link>
-        <nuxt-link 
-        :to="localePath('/customize')"
-        
-        :class="[
-          isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
-        ]">Customize</nuxt-link>
-        <nuxt-link     :class="[
-          isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item',
-        ]">Settings</nuxt-link>
-      </div>
-      <div class="mt-[30px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="mt-[50px] bg-white rounded-[10px]" style="box-shadow: 0px 4px 4px 0px #00000014;
+">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Select Date Range
@@ -391,6 +355,7 @@ const liveTranslationStats= ref(false)
             <div
               v-if="openResizeMenuAdjust"
               style="box-shadow: 0px 2px 6px 0px #00000040"
+               v-on-click-outside="openMenuResize"
               class="flex flex-col items-start justify-start !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
@@ -405,7 +370,8 @@ const liveTranslationStats= ref(false)
                   />
                 </div>
                 <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                  {{ !miniSizeAdjust ? 'Minisize' : 'Maxsize' }}
+
                 </div>
               </div>
 
@@ -663,7 +629,7 @@ const liveTranslationStats= ref(false)
               ref="chart12"
                 :data="chartData"
                 :options="options"
-                class="w-full h-[293px]"
+                class="w-full h-[200px]"
               />
             </div>
 
@@ -703,8 +669,7 @@ const liveTranslationStats= ref(false)
 
                 :data="chartData"
                 :options="options"
-                class="w-full h-[293px]"
-              />
+                class="w-full h-[200px]"              />
             </div>
           </div>
         </div>
@@ -719,7 +684,7 @@ const liveTranslationStats= ref(false)
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Usage stats by function
@@ -759,6 +724,7 @@ const liveTranslationStats= ref(false)
 
             <div
               v-if="openResizeMenuManage"
+                   v-on-click-outside="openMenuResizeManageFn"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
@@ -774,7 +740,7 @@ const liveTranslationStats= ref(false)
                   />
                 </div>
                 <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                  {{ !miniSizeManage ? 'Minisize' : 'Maxsize' }}
                 </div>
               </div>
 
@@ -1790,7 +1756,7 @@ const liveTranslationStats= ref(false)
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Usage stats by Profile
@@ -1803,10 +1769,11 @@ const liveTranslationStats= ref(false)
               or app.
             </p>
           </div>
-
+          
+          
           <div
             @click="
-              openResizeMenuLiveTranslataion = !openResizeMenuLiveTranslataion
+            openResizeMenuLiveTranslataion = !openResizeMenuLiveTranslataion
             "
             :class="[
               openResizeMenuLiveTranslataion
@@ -1835,6 +1802,8 @@ const liveTranslationStats= ref(false)
 
             <div
               v-if="openResizeMenuLiveTranslataion"
+              v-on-click-outside="openMenuResizeLiveTranslationFn"
+
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
@@ -1854,7 +1823,7 @@ const liveTranslationStats= ref(false)
                   />
                 </div>
                 <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                  {{ !miniSizeLiveTranslation ? 'Minisize' : 'Maxsize' }}
                 </div>
               </div>
 
@@ -2442,14 +2411,14 @@ const liveTranslationStats= ref(false)
           </div>
         </div>
         <div class="ml-auto flex items-center">
-          <label for="toggle_google_a" class="relative inline-flex items-center cursor-pointer">
+          <label for="toggle_google_a" class="toggle_wrap">
             <input type="checkbox" id="toggle_google_a" class="sr-only" v-model="isADHDChecked"/>
-            <div class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
-              :class="[ isADHDChecked ? 'custom-border-tamkin custom-border-tamkin-rounded-small' : 'border-[1px] border-lightGrey']">
-              <div class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                :class="{ 'translate-x-full ': isADHDChecked }">
-                <img v-if="isADHDChecked" src="/assets/imgs/addons/active_toggle.svg" class="w-6 h-6" alt=""/>
-                <img v-else src="/assets/imgs/addons/toggle.svg" class="w-6 h-6" alt=""/>
+            <div class="toggle_parent"
+              :class="[ isADHDChecked ? 'active' : 'in_active']">
+              <div class="toggle_inner"
+                :class="{ 'active': isADHDChecked }">
+                <img v-if="isADHDChecked" src="/assets/imgs/addons/active_toggle.svg" class="w-[28px] h-[28px]" alt=""/>
+                <img v-else src="/assets/imgs/addons/toggle.svg" class="w-[28px] h-[28px]" alt=""/>
               </div>
             </div>
           </label>
@@ -2474,7 +2443,7 @@ const liveTranslationStats= ref(false)
           </div>
   
 
-      <div class="flex flex-col items-center justify-center pt-[35px] space-y-[24px] relative">
+      <div class="flex flex-col items-center justify-center pt-[24px] space-y-[24px] relative">
         <div
         @click="
           openResizeMenuLiveTranslationStats = !openResizeMenuLiveTranslationStats
@@ -2508,7 +2477,11 @@ const liveTranslationStats= ref(false)
         </svg>
 
         <div
+    
+
           v-if="openResizeMenuLiveTranslationStats"
+          v-on-click-outside="openMenuResizeLiveTranslationStatsFn"
+
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
         >
@@ -2527,7 +2500,7 @@ const liveTranslationStats= ref(false)
               />
             </div>
             <div class="text-[14px] leading-[21px] font-[400]">
-              Minisize
+              {{ !liveTranslationStats ? 'Minisize' : 'Maxsize' }}
             </div>
           </div>
 
@@ -2549,7 +2522,7 @@ const liveTranslationStats= ref(false)
       </div>
       <div 
       v-if="!liveTranslationStats"
-      class="flex items-center justify-start mr-[18px] h-[105px] rounded-[10px] w-[369px] custom-border" style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
+      class="flex items-center justify-start mr-[18px] h-[105px] rounded-[10px] w-[369px] custom-border !mt-[36px] " style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
           ">
           <div class="circular-progress big  bg-white rounded-full ml-[10px]">
             <svg viewBox="0 0 36 36" class=" " width="60" height="60">
@@ -2598,7 +2571,7 @@ const liveTranslationStats= ref(false)
           </div>
 
       <div class="flex flex-col items-center justify-center w-full space-y-[8px] px-[24px]" >
-        <div class="flex items-center justify-between w-full">
+        <div class="flex items-center justify-between w-full ">
           <div class="text-[14px] font-[400] leading-[19px]">
             Used
           </div>

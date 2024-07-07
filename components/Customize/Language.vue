@@ -1,6 +1,13 @@
 <script lang="ts" setup>
-const openResizeMenuAdjust = ref(false);
-const miniSizeAdjust = ref(false);
+import { vOnClickOutside } from '@vueuse/components'
+
+import { useCollapseStore } from "@/stores/collapse.js";
+const collapseStore = useCollapseStore();
+import { useCustomizeStore } from "@/stores/customize.js";
+
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
 const isOpen = ref(false);
 const search = ref("");
 const languages = [
@@ -9,11 +16,6 @@ const languages = [
   { code: "fr", name: "French (France)" },
   // Add more countries as needed
 ];
-const openMenuResize = (typeMenu: any) => {
-  if (typeMenu === "widgetType") {
-    openResizeMenuAdjust.value = !openResizeMenuAdjust.value;
-  }
-};
 
 const selectedLanguage = ref(null);
 const toggleDropdown = () => {
@@ -43,7 +45,7 @@ const moveHideWidget = (v:string)=>{
     class="flex flex-col items-center justify-center w-full mt-[40px] "
   >
     <div class="bg-white rounded-[10px] w-full px-[15px]">
-      <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="flex items-center justify-start ml-[15px] pt-[16px]">
         <div>
           <h1 class="text-[20px] font-[500] leading-[30px]">Language</h1>
 
@@ -55,9 +57,11 @@ const moveHideWidget = (v:string)=>{
         </div>
 
         <div
-          @click.stop="openMenuResize('widgetType')"
+        @click.stop="collapseStore.collapseMenu('language_customize')"
+            v-on-click-outside="() => collapseStore.removeMenu('language_customize')"
           :class="[
-            openResizeMenuAdjust ? 'active_notification !text-darkGrey' : '',
+            collapseStore.menus.includes('language_customize') 
+            ? 'active_notification !text-darkGrey' : '',
           ]"
           class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
         >
@@ -68,7 +72,7 @@ const moveHideWidget = (v:string)=>{
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             :class="[
-              openResizeMenuAdjust
+              collapseStore.menus.includes('language_customize') 
                 ? 'stroke-current !text-white !fill-white'
                 : '',
             ]"
@@ -80,22 +84,23 @@ const moveHideWidget = (v:string)=>{
           </svg>
 
           <div
-            v-if="openResizeMenuAdjust"
+            v-if="collapseStore.menus.includes('language_customize') "
             style="box-shadow: 0px 2px 6px 0px #00000040"
             class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
           >
             <div
               class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-              @click="miniSizeAdjust = !miniSizeAdjust"
+              @click="  collapseStore.collapseCard('language_customize_card') 
+"
             >
               <div>
                 <img
                   src="/assets/imgs/addons/min_size.svg"
                   alt=""
-                  :class="[openResizeMenuAdjust ? '!fill-white' : '']"
+                  :class="[collapseStore.menus.includes('language_customize')  ? '!fill-white' : '']"
                 />
               </div>
-              <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
+              <div class="text-[14px] leading-[21px] font-[400]">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
             </div>
 
             <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
@@ -113,7 +118,7 @@ const moveHideWidget = (v:string)=>{
 
       <div
         class="flex flex-col items-start justify-center ml-[15px] mt-[18px]  pb-[16px]"
-        v-if="!miniSizeAdjust"
+        v-if="!collapseStore.collapses.includes('language_customize_card') "
       >
         <div class="w-full lg:w-[330px] lg:mt-0 mt-[16px]">
           <div class="relative w-full lg:w-64">
@@ -234,36 +239,37 @@ const moveHideWidget = (v:string)=>{
               <div class="ml-auto">
                 <label
                   for="toggle_language_selector"
-                  class="relative inline-flex items-center cursor-pointer h-[32px]"
+                  class="toggle_wrap h-[32px]"
                 >
                   <input
                     type="checkbox"
                     id="toggle_language_selector"
                     class="sr-only"
-                    v-model="moveAccess"
+                        :checked="isChecked('language')"
+                    @change="toggleCheckbox('language')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                        moveAccess
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('language')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': moveAccess }"
+                      class="toggle_inner"
+                      :class="{ 'active': isChecked('language') }"
                     >
                       <img
-                        v-if="moveAccess"
+                        v-if="isChecked('language')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                     </div>

@@ -124,32 +124,29 @@ const licenseMiniSize = () => {
 
 <template>
   <div class="relative h-full w-full">
-    <div class="mt-[23px] w-full h-full relative">
+    <div class=" w-full h-full relative">
  
       <div class="space-y-[10px]">
-        <h1 class="text-left text-[24px] leading-[36px] font-[600]">
-          Settings
-        </h1>
+        <h1 class="text-left text-[24px] leading-[36px] font-[600]">Settings</h1>
 
-        <h2
-          class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey"
-        >
+        <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
           Settings let you customize your preferences and configurations
         </h2>
       </div>
 
       <div
-        class="relative ipad-max:-mx-6 mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+        class="relative  mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col 
+        w-full justify-center lg:justify-start"
       >
-
         <div
-          class="flex items-center lg:flex-row flex-col justify-start py-[23px] w-full rounded-[10px]"
+          class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
               <div class="flex items-center justify-start space-x-[8px]">
                 <div
-                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
+                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin 
+                  custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
@@ -157,9 +154,7 @@ const licenseMiniSize = () => {
                 <div class="flex items-center space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
-                    <h2
-                      class="font-[600] text-[16px] leading-[24px] text-darkGrey"
-                    >
+                    <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
                       Tamkin.App
                     </h2>
                   </div>
@@ -181,44 +176,9 @@ const licenseMiniSize = () => {
         </div>
       </div>
 
-      <div
-        class="w-full mx-auto h-[43px] rounded-[22px] bg-white flex items-center px-[20px] justify-around"
-      >
-        <nuxt-link       :class="[isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item']"
-        :to="localePath('/overview')">Overview</nuxt-link>
-        <nuxt-link
-          :class="[
-            isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item',
-          ]"
-          :to="localePath('/addons')"
-          >Addons</nuxt-link
-        >
-        <nuxt-link
-          :to="localePath('/statistics')"
-          :class="[
-            isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item',
-          ]"
-        >
-          Statistics
-        </nuxt-link>
-        <nuxt-link
-          :to="localePath('/customize')"
-          :class="[
-            isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item',
-          ]"
-          >Customize</nuxt-link
-        >
-        <nuxt-link
-        :to="localePath('/settings')"
-
-          :class="[
-            isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item',
-          ]"
-          >Settings</nuxt-link
-        >
-      </div>
-      <div class="mt-[30px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="mt-[50px] bg-white rounded-[10px]" style="box-shadow: 0px 4px 4px 0px #00000014;
+      ">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               General Settings
@@ -315,7 +275,7 @@ const licenseMiniSize = () => {
               <div class="ml-auto">
                 <label
                   for="toggle_Widget_enabled_on_this_site"
-                  class="relative inline-flex items-center cursor-pointer h-[32px]"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
@@ -324,27 +284,27 @@ const licenseMiniSize = () => {
                     v-model="widgetEnabledOnSite"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
                       widgetEnabledOnSite
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': widgetEnabledOnSite }"
+                      class="toggle_inner"
+                      :class="{ 'active': widgetEnabledOnSite }"
                     >
                       <img
                         v-if="widgetEnabledOnSite"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                     </div>
@@ -371,7 +331,7 @@ const licenseMiniSize = () => {
               <div class="ml-auto">
                 <label
                   for="toggle_Widget_enabled_on_mobile"
-                  class="relative inline-flex items-center cursor-pointer h-[32px]"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
@@ -380,27 +340,27 @@ const licenseMiniSize = () => {
                     v-model="widgetEnabledOnMobile"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
                       widgetEnabledOnMobile
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': widgetEnabledOnMobile }"
+                      class="toggle_inner"
+                      :class="{ 'active': widgetEnabledOnMobile }"
                     >
                       <img
                         v-if="widgetEnabledOnMobile"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                     </div>
@@ -427,7 +387,7 @@ const licenseMiniSize = () => {
               <div class="ml-auto">
                 <label
                   for="toggle_Sound_effects"
-                  class="relative inline-flex items-center cursor-pointer h-[32px]"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
@@ -436,27 +396,27 @@ const licenseMiniSize = () => {
                     v-model="soundEffects"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
                       soundEffects
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': soundEffects }"
+                      class="toggle_inner"
+                      :class="{ 'active': soundEffects }"
                     >
                       <img
                         v-if="soundEffects"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                     </div>
@@ -476,14 +436,15 @@ const licenseMiniSize = () => {
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] relative" >
+      <div class="mt-[30px] bg-white rounded-[10px] relative" style="box-shadow: 0px 4px 4px 0px #00000014;
+      ">
         <DashboardToastSuccess
         v-if="copyDone"
         :hideIn="2000"
         :message="'Copied to clipboard'"
       />
 
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Widget Embed Code
@@ -736,8 +697,9 @@ const licenseMiniSize = () => {
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] ">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] " style="box-shadow: 0px 4px 4px 0px #00000014;
+      ">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
                 Rest All Accessibility Settings
@@ -869,8 +831,9 @@ const licenseMiniSize = () => {
       </div>
 
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]" style="box-shadow: 0px 4px 4px 0px #00000014;
+      ">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               License Settings

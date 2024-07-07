@@ -2,7 +2,11 @@
 import { useWindowSize } from "@vueuse/core";
 import { useModalStore } from "@/stores/modal";
 import { useNavbarStore } from "@/stores/navbar";
-const { isMobile, isMobileOrTablet } = useDevice();
+import { useAddonStore } from "@/stores/addons.js";
+import { useCustomizeStore } from "@/stores/customize.js";
+
+const checkboxStore = useAddonStore();
+const custmizeStore = useCustomizeStore();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
 const navStore = useNavbarStore();
@@ -19,9 +23,15 @@ const {
   resetModal,
   deleteModal,
   transferModalStep1,
-  transferStep2
+  transferStep2,
 } = storeToRefs(modalStore);
+const {
+  initialPositionDesktop,
+initialPositionMobile,
+buttonPositionDesktop,
+buttonPositionMobile
 
+} = storeToRefs(custmizeStore);
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
   addDirAttribute: true,
@@ -31,14 +41,13 @@ const htmlAttrs = computed(() => head.value.htmlAttrs!);
 
 const isSearchfilled = ref(false);
 const search = ref("");
-const sideBarOpen = navStoreRef.sideBarOpen
+const sideBarOpen = navStoreRef.sideBarOpen;
 const sideBarOpenMobile = ref(false);
 const showNotifiations = ref(false);
 
-const  toggleSidebar = ()=> {
-  navStore.openNav()
-  
-}
+const toggleSidebar = () => {
+  navStore.openNav();
+};
 function toggleSidebarMobile() {
   sideBarOpenMobile.value = !sideBarOpenMobile.value;
 }
@@ -65,12 +74,8 @@ const clearInput = () => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir" class="bg_dashboard">
     <div
-      class=" relative min-h-screen "
-      :class="[
-        !navStoreRef.sideBarOpen
-          ? 'flex'
-          : 'flex',
-      ]"
+      class="relative min-h-screen"
+      :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
       <!--  
     
@@ -84,19 +89,23 @@ const clearInput = () => {
           InviteMemberUpdateModal
         "
     -->
-    <!--      -->
+      <!--      -->
+
       <div
-      v-if="
-      showShareModal ||
-      editPictureTeamModal ||
-      editPermissionsModal ||
-      inviteMemberModal ||
-      selectSiteModal ||
-      editUserModal ||
-      InviteMemberUpdateModal
-      ||
-      showUpgradeModal ||resetModal || deleteModal || transferModalStep1 || transferStep2
-    "
+        v-if="
+          showShareModal ||
+          editPictureTeamModal ||
+          editPermissionsModal ||
+          inviteMemberModal ||
+          selectSiteModal ||
+          editUserModal ||
+          InviteMemberUpdateModal ||
+          showUpgradeModal ||
+          resetModal ||
+          deleteModal ||
+          transferModalStep1 ||
+          transferStep2
+        "
         class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"
       ></div>
       <DashboardTeamEditUserModal :showModal="editUserModal" />
@@ -107,67 +116,60 @@ const clearInput = () => {
       <DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal" />
       <DashboardMySiteSelectSiteModal :showModal="selectSiteModal" />
 
-      <DashboardTeamEditUserPermissionsModal
-        :showModal="editPermissionsModal"
-      /> 
+      <DashboardTeamEditUserPermissionsModal :showModal="editPermissionsModal" />
 
-    <DashboardMySiteUpgradeModal :showModal="showUpgradeModal"/>
-    <LazyModalsConfirm :showModal="resetModal" title="Rest All Accessibility Settings" 
-
-    sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
-
-    confirm-btn-type="confirm"
-    
-    @control-confirm="modalStore.controlResetModal"
-    />
-    <LazyModalsConfirm :showModal="deleteModal" title="Delete your site" 
-
-    sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-
-    confirm-btn-type="delete"
-    
-    @control-delete="modalStore.controlDeleteModal"
-    />
+      <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
+      <LazyModalsConfirm
+        :showModal="resetModal"
+        title="Rest All Accessibility Settings"
+        sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+        confirm-btn-type="confirm"
+        @control-confirm="modalStore.controlResetModal"
+      />
+      <LazyModalsConfirm
+        :showModal="deleteModal"
+        title="Delete your site"
+        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+        confirm-btn-type="delete"
+        @control-delete="modalStore.controlDeleteModal"
+      />
 
       <!-- <DashboardMySiteUpgradeModal/> -->
-<SettingsTransferModalStep1 :show-modal="transferModalStep1"/>
-<SettingsTransferModalStep2 :show-modal="transferStep2"/>
+      <SettingsTransferModalStep1 :show-modal="transferModalStep1" />
+      <SettingsTransferModalStep2 :show-modal="transferStep2" />
+
       <div
-        class="lg:relative flex items-center justify-start 
-        flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
+        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] z-[100] border-r border-[1px] border-lightGrey"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
-            sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
+          sideBarOpen ? 'min-w-[350px]' : 'min-w-[100px]',
         ]"
       >
-
-      <div
-      @click="toggleSidebar"
-      :class="[
-        !sideBarOpen
-          ? ' rotate-180 lg:!top-[146px]'
-          : 'top-[161px] lg:left-[95%]',
-      ]"
-      class="cursor-pointer close_sidebar_btn sticky ml-[100%]  items-center justify-center 
-       bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px]  group z-[300] lg:flex hidden"
-    >
-      <svg
-        width="9"
-        height="15"
-        viewBox="0 0 9 15"
-        fill="none"
-        class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-        />
-      </svg>
-    </div>
-        <div class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 Z-[120] p-[20px] max-h-[700px]" >
-
+        <div
+          @click="toggleSidebar"
+          :class="[
+            !sideBarOpen ? ' rotate-180 lg:!top-[146px]' : 'top-[161px] lg:left-[95%]',
+          ]"
+          class="cursor-pointer close_sidebar_btn sticky ml-[100%] items-center justify-center bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px] group z-[300] lg:flex hidden"
+        >
+          <svg
+            width="9"
+            height="15"
+            viewBox="0 0 9 15"
+            fill="none"
+            class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 Z-[120] p-[20px] max-h-[700px]"
+        >
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
             :mobileSidebar="sideBarOpenMobile"
@@ -178,14 +180,13 @@ const clearInput = () => {
       </div>
 
       <div
-        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full"
+        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full !overflow-x-hidden"
       >
-    
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="absolute top-0 flex z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pl-[26px] space-x-[16px]"
+            class="absolute top-0 flex z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pl-[26px] space-x-[16px] h-[70px]"
           >
             <div
               class="flex items-center justify-between space-x-[10px] lg:hidden"
@@ -275,17 +276,10 @@ const clearInput = () => {
                 class="flex items-center justify-center lg:space-x-[18px] lg:pr-[37px]"
               >
                 <div class="lg:block hidden">
-                  <img
-                    src="/assets//imgs/avatar.png"
-                    class="w-[50px] h-[50px]"
-                    alt=""
-                  />
+                  <img src="/assets//imgs/avatar.png" class="w-[50px] h-[50px]" alt="" />
                 </div>
                 <div class="lg:block hidden">
-                  <h2
-                    class="font-[400] text-[12px]"
-                    style="line-height: 14.4px"
-                  >
+                  <h2 class="font-[400] text-[12px]" style="line-height: 14.4px">
                     Ali Ahmed
                   </h2>
                 </div>
@@ -296,23 +290,42 @@ const clearInput = () => {
             </div>
           </nav>
 
-          <div class="pt-[90px]  px-[10px] lg:px-[40px] lg:flex-grow-0 relative">
-            <div
-            class="absolute left-0 right-0  w-full h-[320px] z-[-1] top-0"
-            style="
-              box-shadow: 0px 4px 24px 8px #51459f1a;
-              background: linear-gradient(
-                180deg,
-                #fefefe 0%,
-                #eef5ff 47.07%,
-                #f6f3fc 72.04%,
-                #fef5f6 100%
-              );
-            "
-            v-if="$route.path === '/addons' || $route.path === '/statistics' ||  $route.path === '/overview' || $route.path === '/customize' || $route.path === '/settings' "
-          ></div>
-            <DashboardAddonsSaveFooter v-if="$route.path === '/addons' || $route.path === '/customize' || $route.path === '/settings'"/>
+          <div class="pt-[85px] lg:px-[40px] relative">
+            <div class="relative px-[15px]">
+              <NavbarOverview />
+            </div>
 
+            <div
+              class="absolute left-0 right-0 w-full h-[270px] z-[-1] top-0"
+              style="
+                box-shadow: 0px 4px 24px 8px #51459f1a;
+                background: linear-gradient(
+                  180deg,
+                  #fefefe 0%,
+                  #eef5ff 47.07%,
+                  #f6f3fc 72.04%,
+                  #fef5f6 100%
+                );
+              "
+              v-if="
+                $route.path === '/addons' ||
+                $route.path === '/statistics' ||
+                $route.path === '/overview' ||
+                $route.path === '/customize' ||
+                $route.path === '/settings'
+              "
+            ></div>
+
+        
+            <transition name="slide-up">
+              <DashboardAddonsSaveFooter :show-footer="($route.path === '/addons' && checkboxStore.hasChanges()) ||
+              ($route.path === '/customize' && custmizeStore.hasChanges() || buttonPositionDesktop !== 'top_left'  ||
+               buttonPositionMobile !== 'top_left_mobile'
+              || custmizeStore.force_change
+              
+              ) ||
+              $route.path === '/settings' " />
+            </transition>
             <NuxtPage />
           </div>
         </div>
@@ -321,3 +334,21 @@ const clearInput = () => {
     </div>
   </Html>
 </template>
+
+<style>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-up-enter-from,
+.slide-up-leave-to {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.slide-up-enter-to,
+.slide-up-leave-from {
+  max-height: 100px; /* Adjust based on your content */
+  opacity: 1;
+}
+</style>

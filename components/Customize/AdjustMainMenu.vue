@@ -1,31 +1,18 @@
 <script lang="ts" setup>
-const isPageStrucChecked = ref(false);
-const isScreenChecked = ref(false);
-const isHideImagesChecked = ref(false);
-const isContrastChecked = ref(false);
-const isVoiceNavigationChecked = ref(false);
-const isDictChecked = ref(false);
-const isHighLightChecked = ref(false);
-const isLineHeightChecked = ref(false);
-const isSaturationChecked = ref(false);
-const isBiggerTextChecked = ref(false);
-const isPauseAnimationChecked = ref(false);
-const isToolTipChecked = ref(false);
-const isCursorChecked = ref(false);
-const isTextSpacingChecked = ref(false);
-const isContrastPlusChecked = ref(false);
-const openResizeMenuAdjust = ref(false);
-const openMenuResize = (typeMenu: any) => {
-  if (typeMenu === "adjust") {
-    openResizeMenuAdjust.value = !openResizeMenuAdjust.value;
-  }
-};
+import { vOnClickOutside } from '@vueuse/components'
+import { useCustomizeStore } from "@/stores/customize.js";
+import { useCollapseStore } from "@/stores/collapse.js";
+const collapseStore = useCollapseStore();
+
+const customizeStore = useCustomizeStore();
+const {isChecked,toggleCheckbox} = customizeStore
+ const moveHide = ref('')
 </script>
 
 <template>
   <div
     class="flex flex-col items-center justify-center   w-full relative">
-    <MessagesLockedFeature/>
+    <!-- <MessagesLockedFeature/> -->
     <div class=" bg-white rounded-[10px] w-full">
         <div class="flex items-center justify-start ml-[15px] pt-[35px]">
           <div>
@@ -35,9 +22,11 @@ const openMenuResize = (typeMenu: any) => {
           </div>
 
           <div
-            @click.stop="openMenuResize('adjust')"
+            @click.stop="collapseStore.collapseMenu('adjust_main_menu_customize')"
+            v-on-click-outside="() => collapseStore.removeMenu('adjust_main_menu_customize')"
+
             :class="[
-              openResizeMenuAdjust ? 'active_notification !text-darkGrey' : '',
+              collapseStore.menus.includes('adjust_main_menu_customize') ? 'active_notification !text-darkGrey' : '',
             ]"
             class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
@@ -48,7 +37,7 @@ const openMenuResize = (typeMenu: any) => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuAdjust
+                collapseStore.menus.includes('adjust_main_menu_customize')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -60,23 +49,23 @@ const openMenuResize = (typeMenu: any) => {
             </svg>
 
             <div
-              v-if="openResizeMenuAdjust"
+              v-if="collapseStore.menus.includes('adjust_main_menu_customize')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="miniSizeAdjust = !miniSizeAdjust"
+                @click="collapseStore.collapseCard('adjust_main_menu_customize_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeMenuAdjust ? '!fill-white' : '']"
+                    :class="[collapseStore.menus.includes('adjust_main_menu_customize') ? '!fill-white' : '']"
                   />
                 </div>
                 <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                  {{ !collapseStore.collapses.includes('adjust_main_menu_customize_card')?'Minisize':'Maxsize' }}
                 </div>
               </div>
 
@@ -97,7 +86,7 @@ const openMenuResize = (typeMenu: any) => {
 
         <div
           class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
-          v-if="!miniSizeAdjust"
+          v-if="!collapseStore.collapses.includes('adjust_main_menu_customize_card')"
         >
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
@@ -106,17 +95,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isPageStrucChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/page_str.svg"
                 alt=""
-                :class="[!isPageStrucChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isPageStrucChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -135,36 +124,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle"
-                  class="relative inline-flex items-center cursor-pointer h-[32px]"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle"
                     class="sr-only"
-                    v-model="isPageStrucChecked"
+                    :checked="isChecked('page_str')"
+            @change="toggleCheckbox('page_str')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isPageStrucChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('page_str')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isPageStrucChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('page_str') }"
                     >
                       <img
-                        v-if="isPageStrucChecked"
+                        v-if="isChecked('page_str')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -181,17 +171,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isScreenChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/language sign.svg"
                 alt=""
-                :class="[!isScreenChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isScreenChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -210,36 +200,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_screen"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_screen"
                     class="sr-only"
-                    v-model="isScreenChecked"
+                       :checked="isChecked('screen_reader')"
+            @change="toggleCheckbox('screen_reader')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isScreenChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('screen_reader')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isScreenChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('screen_reader') }"
                     >
                       <img
-                        v-if="isScreenChecked"
+                        v-if="isChecked('screen_reader')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -256,17 +247,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isHideImagesChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/hide_images.svg"
                 alt=""
-                :class="[!isHideImagesChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isHideImagesChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -285,36 +276,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_hide_images"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_hide_images"
                     class="sr-only"
-                    v-model="isHideImagesChecked"
+              :checked="isChecked('hide_images')"
+            @change="toggleCheckbox('hide_images')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isHideImagesChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('hide_images')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isHideImagesChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('hide_images') }"
                     >
                       <img
-                        v-if="isHideImagesChecked"
+                        v-if="isChecked('hide_images')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -331,17 +323,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isContrastChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/contrast.svg"
                 alt=""
-                :class="[!isContrastChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isContrastChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -360,36 +352,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_contrast"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_contrast"
                     class="sr-only"
-                    v-model="isContrastChecked"
+                     :checked="isChecked('smart_contrast')"
+            @change="toggleCheckbox('smart_contrast')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isContrastChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('smart_contrast')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isContrastChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('smart_contrast') }"
                     >
                       <img
-                        v-if="isContrastChecked"
+                        v-if="isChecked('smart_contrast')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -406,17 +399,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isVoiceNavigationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/voice_navigation.svg"
                 alt=""
-                :class="[!isVoiceNavigationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isVoiceNavigationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -435,36 +428,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_voice"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_voice"
                     class="sr-only"
-                    v-model="isVoiceNavigationChecked"
+                     :checked="isChecked('voice_navigation')"
+            @change="toggleCheckbox('voice_navigation')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isVoiceNavigationChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('voice_navigation')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isVoiceNavigationChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('voice_navigation') }"
                     >
                       <img
-                        v-if="isVoiceNavigationChecked"
+                        v-if="isChecked('voice_navigation')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -481,17 +475,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isDictChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/a-z.svg"
                 alt=""
-                :class="[!isDictChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isDictChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -510,36 +504,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_dict"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_dict"
                     class="sr-only"
-                    v-model="isDictChecked"
+                     :checked="isChecked('dictionary')"
+            @change="toggleCheckbox('dictionary')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isDictChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('dictionary')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isDictChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('dictionary') }"
                     >
                       <img
-                        v-if="isDictChecked"
+                        v-if="isChecked('dictionary')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -556,17 +551,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isHighLightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/clip.svg"
                 alt=""
-                :class="[!isHighLightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isHighLightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -585,36 +580,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_hightlights"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_hightlights"
                     class="sr-only"
-                    v-model="isHighLightChecked"
+                   :checked="isChecked('highlight_links')"
+            @change="toggleCheckbox('highlight_links')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isHighLightChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('highlight_links')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isHighLightChecked }"
+                      class="toggle_inner"
+                      :class="{ 'active': isChecked('highlight_links') }"
                     >
                       <img
-                        v-if="isHighLightChecked"
+                        v-if="isChecked('highlight_links')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -631,17 +627,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isLineHeightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/line_height.svg"
                 alt=""
-                :class="[!isLineHeightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isLineHeightChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -660,36 +656,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_line_height"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_line_height"
                     class="sr-only"
-                    v-model="isLineHeightChecked"
+                       :checked="isChecked('line_height')"
+            @change="toggleCheckbox('line_height')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isLineHeightChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('line_height')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isLineHeightChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('line_height') }"
                     >
                       <img
-                        v-if="isLineHeightChecked"
+                        v-if="isChecked('line_height')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -706,17 +703,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isSaturationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/saturation.svg"
                 alt=""
-                :class="[!isSaturationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isSaturationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -735,36 +732,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_saturation"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_saturation"
                     class="sr-only"
-                    v-model="isSaturationChecked"
+                   :checked="isChecked('saturation')"
+            @change="toggleCheckbox('saturation')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isSaturationChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('saturation')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isSaturationChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('saturation') }"
                     >
                       <img
-                        v-if="isSaturationChecked"
+                        v-if="isChecked('saturation')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -781,17 +779,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isBiggerTextChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/text.svg"
                 alt=""
-                :class="[!isBiggerTextChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isBiggerTextChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -810,36 +808,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_bigger"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_bigger"
                     class="sr-only"
-                    v-model="isBiggerTextChecked"
+                   :checked="isChecked('bigger_text')"
+            @change="toggleCheckbox('bigger_text')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isBiggerTextChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('bigger_text')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isBiggerTextChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('bigger_text') }"
                     >
                       <img
-                        v-if="isBiggerTextChecked"
+                        v-if="isChecked('bigger_text')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -856,17 +855,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isPauseAnimationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/pause.svg"
                 alt=""
-                :class="[!isPauseAnimationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isPauseAnimationChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -885,36 +884,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_pause_animation"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_pause_animation"
                     class="sr-only"
-                    v-model="isPauseAnimationChecked"
+                       :checked="isChecked('pause_animation')"
+            @change="toggleCheckbox('pause_animation')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isPauseAnimationChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('pause_animation')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isPauseAnimationChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('pause_animation') }"
                     >
                       <img
-                        v-if="isPauseAnimationChecked"
+                        v-if="isChecked('pause_animation')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -930,17 +930,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isToolTipChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/tooltip.svg"
                 alt=""
-                :class="[!isToolTipChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isToolTipChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -959,36 +959,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_tooltip"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_tooltip"
                     class="sr-only"
-                    v-model="isToolTipChecked"
+                         :checked="isChecked('tool_tip')"
+            @change="toggleCheckbox('tool_tip')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isToolTipChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('tool_tip')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isToolTipChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('tool_tip') }"
                     >
                       <img
-                        v-if="isToolTipChecked"
+                        v-if="isChecked('tool_tip')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -1005,17 +1006,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isCursorChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/cursor.svg"
                 alt=""
-                :class="[!isCursorChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isCursorChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -1034,36 +1035,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_cursor"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_cursor"
                     class="sr-only"
-                    v-model="isCursorChecked"
+                   :checked="isChecked('cursor')"
+            @change="toggleCheckbox('cursor')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isCursorChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('cursor')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isCursorChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('cursor') }"
                     >
                       <img
-                        v-if="isCursorChecked"
+                        v-if="isChecked('cursor')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -1080,17 +1082,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isTextSpacingChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/text_spacing.svg"
                 alt=""
-                :class="[!isTextSpacingChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isTextSpacingChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -1109,36 +1111,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_textspacing"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_textspacing"
                     class="sr-only"
-                    v-model="isTextSpacingChecked"
+                     :checked="isChecked('text_spacing')"
+            @change="toggleCheckbox('text_spacing')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isTextSpacingChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('text_spacing')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isTextSpacingChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('text_spacing') }"
                     >
                       <img
-                        v-if="isTextSpacingChecked"
+                        v-if="isChecked('text_spacing')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>
@@ -1155,17 +1158,17 @@ const openMenuResize = (typeMenu: any) => {
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isContrastPlusChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
               />
 
               <img
                 src="/assets/imgs/addons/contrast_plus.svg"
                 alt=""
-                :class="[!isContrastPlusChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isContrastPlusChecked ? 'opacity-60' : '']"
+                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
               >
                 <div
                   class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
@@ -1184,36 +1187,37 @@ const openMenuResize = (typeMenu: any) => {
               <div class="ml-auto">
                 <label
                   for="toggle_contrast_plus"
-                  class="relative inline-flex items-center cursor-pointer"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
                     id="toggle_contrast_plus"
                     class="sr-only"
-                    v-model="isContrastPlusChecked"
+                        :checked="isChecked('contrast_plus')"
+            @change="toggleCheckbox('contrast_plus')"
                   />
                   <div
-                    class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                    class="toggle_parent"
                     :class="[
-                      isContrastPlusChecked
-                        ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                        : 'border-[1px] border-lightGrey',
+                      isChecked('contrast_plus')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
-                      class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                      :class="{ 'translate-x-full ': isContrastPlusChecked }"
+                      class="toggle_inner"
+                      :class="{'active': isChecked('contrast_plus') }"
                     >
                       <img
-                        v-if="isContrastPlusChecked"
+                        v-if="isChecked('contrast_plus')"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="w-6 h-6"
+                        class="h-[28px] w-[28px]"
                         alt=""
                       />
                     </div>

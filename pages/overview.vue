@@ -2,6 +2,9 @@
 import VCodeBlock from "@wdns/vue-code-block";
 import { useModalStore } from "@/stores/modal";
 import banner from "assets/imgs/gradient_embded.png";
+import { vOnClickOutside } from "@vueuse/components";
+
+import { useCollapseStore } from "@/stores/collapse.js";
 import {
   Chart as ChartJS,
   Title,
@@ -34,8 +37,8 @@ const chart14 = ref("");
 
 watch(width, (newWidth) => {
   //   console.log(newWidth);
-  chart13.value.chart.resize(300, 80);
-  chart14.value.chart.resize(300, 80);
+  chart13.value.chart.resize(50, 50);
+  chart14.value.chart.resize(50, 50);
 });
 const { openShareModal } = useModalStore();
 definePageMeta({
@@ -102,35 +105,15 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
-const localePath = useLocalePath();
 
-const openResizeMenuManage = ref(false);
-const openResizeMenuLiveOverview = ref(false);
-const openResizeAcccessDetails = ref(false);
-const miniSizeLicense = ref(false);
-const miniSizeManage = ref(false);
-const miniSizeAdjust = ref(false);
-const miniSizeLiveOverview = ref(false);
-const miniSizeDetailsAccess = ref(false);
-const openResizeResetAllAccess = ref(false);
-const miniSizeResetAll = ref(false);
-const route = useRoute();
+
+
+const collapseStore = useCollapseStore();
 const pricingType = ref("monthly");
 const switchBetweenMonthlyAndAnnual = (v: any) => {
   pricingType.value = v;
 };
-const isLinkActive = (path) => {
-  //   const localePath = this.$i18n.localePath(path);
-  return route.path === localePath(path);
-};
 
-const resetAllMiniSize = () => {
-  miniSizeResetAll.value = !miniSizeResetAll.value;
-};
-
-const liveoverviewMinisize = () => {
-  miniSizeLiveOverview.value = !miniSizeLiveOverview.value;
-};
 const currentIndex = ref(0);
 
 const back = ref(false);
@@ -234,15 +217,11 @@ const options = ref({
   },
 });
 const progress = ref(30.78);
-
-function increaseProgress() {
-  progress.value = Math.min(progress.value + 10, 100);
-}
 </script>
 
 <template>
-  <div class="relative h-full w-full">
-    <div class="mt-[23px] w-full h-full relative">
+  <div class="relative !overflow-x-hidden">
+    <div class=" ">
       <div class="space-y-[10px]">
         <h1 class="text-left text-[24px] leading-[36px] font-[600]">Overview</h1>
 
@@ -252,10 +231,10 @@ function increaseProgress() {
       </div>
 
       <div
-        class="relative ipad-max:-mx-6 mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+        class="relative mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
       >
         <div
-          class="flex items-center lg:flex-row flex-col justify-start py-[23px] w-full rounded-[10px]"
+          class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
@@ -291,40 +270,10 @@ function increaseProgress() {
         </div>
       </div>
 
-      <div
-        class="w-full mx-auto h-[43px] rounded-[22px] bg-white flex items-center px-[20px] justify-around"
-      >
-        <nuxt-link
-          :class="[isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item']"
-          :to="localePath('/overview')"
-          >Overview</nuxt-link
-        >
-        <nuxt-link
-          :class="[isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item']"
-          :to="localePath('/addons')"
-          >Addons</nuxt-link
-        >
-        <nuxt-link
-          :to="localePath('/statistics')"
-          :class="[isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item']"
-        >
-          Statistics
-        </nuxt-link>
-        <nuxt-link
-          :to="localePath('/customize')"
-          :class="[isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item']"
-          >Customize</nuxt-link
-        >
-        <nuxt-link
-          :to="localePath('/settings')"
-          :class="[isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item']"
-          >Settings</nuxt-link
-        >
-      </div>
-      <div class="mt-[30px] bg-white rounded-[10px]">
+      <!-- <NavbarOverview/> -->
+      <div class="mt-[52px] bg-white rounded-[10px]">
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y"
-          v-if="!miniSizeAdjust"
+          class="flex flex-col items-start justify-center ml-[15px] divide-y"
         >
           <div
             class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start space-x-[10px]"
@@ -337,7 +286,7 @@ function increaseProgress() {
               />
             </div>
             <div
-              class="font-[400] px-[24px] text-[15px] leading-[28px] text-darkGrey ml-auto"
+              class="font-[400] lg:px-[24px] text-[12px] lg:text-[15px] leading-[28px] text-darkGrey ml-auto"
             >
               Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
               and unlock the full potential of digital accessibility and ADA compliance
@@ -345,23 +294,20 @@ function increaseProgress() {
           </div>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+      
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] relative">
+      <div
+        class="mt-[16px] bg-white rounded-[10px] relative"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <DashboardToastSuccess
           v-if="copyDone"
           :hideIn="2000"
           :message="'Copied to clipboard'"
         />
 
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Widget Embed Code</h1>
             <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
@@ -370,8 +316,14 @@ function increaseProgress() {
             </h2>
           </div>
           <div
-            @click="openResizeMenuManage = !openResizeMenuManage"
-            :class="[openResizeMenuManage ? 'active_notification !text-darkGrey' : '']"
+            @click="collapseStore.collapseMenu('widget_embded_code')"
+            v-on-click-outside="() => collapseStore.removeMenu('widget_embded_code')"
+
+            :class="[
+              collapseStore.menus.includes('widget_embded_code')
+                ? 'active_notification !text-darkGrey'
+                : '',
+            ]"
             class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
@@ -381,7 +333,9 @@ function increaseProgress() {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuManage ? 'stroke-current !text-white !fill-white' : '',
+                collapseStore.menus.includes('widget_embded_code')
+                  ? 'stroke-current !text-white !fill-white'
+                  : '',
               ]"
             >
               <path
@@ -391,22 +345,32 @@ function increaseProgress() {
             </svg>
 
             <div
-              v-if="openResizeMenuManage"
+              v-if="collapseStore.menus.includes('widget_embded_code')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="miniSizeManage = !miniSizeManage"
+                @click="collapseStore.collapseCard('widget_embded_code_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeMenuManage ? '!fill-white' : '']"
+                    :class="[
+                      collapseStore.menus.includes('widget_embded_code')
+                        ? '!fill-white'
+                        : '',
+                    ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
+                <div class="text-[14px] leading-[21px] font-[400]">
+                  {{
+                    !collapseStore.collapses.includes("widget_embded_code_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
+                </div>
               </div>
 
               <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
@@ -423,8 +387,8 @@ function increaseProgress() {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center px-[15px] pb-[16px] divide-y"
-          v-if="!miniSizeManage"
+          class="flex flex-col items-start justify-center px-[15px] divide-y"
+          v-if="!collapseStore.collapses.includes('widget_embded_code_card')"
         >
           <div class="w-full h-full rounded-[10px]">
             <div
@@ -588,7 +552,7 @@ function increaseProgress() {
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] pb-[24px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Connect with us</h1>
 
@@ -599,11 +563,13 @@ function increaseProgress() {
           </div>
 
           <div
-            @click="openResizeResetAllAccess = !openResizeResetAllAccess"
+            @click="collapseStore.collapseMenu('connect_withUs')"
+            v-on-click-outside="() => collapseStore.removeMenu('connect_withUs')"
+
             :class="[
-              openResizeResetAllAccess ? 'active_notification !text-darkGrey' : '',
+              collapseStore.menus.includes('connect_withUs') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[40px] h-[36px]"
+            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-1/4 lg:w-[40px] h-[36px]"
           >
             <svg
               width="18"
@@ -612,7 +578,7 @@ function increaseProgress() {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeResetAllAccess ? 'stroke-current !text-white !fill-white' : '',
+                collapseStore.menus.includes('connect_withUs') ? 'stroke-current !text-white !fill-white' : '',
               ]"
             >
               <path
@@ -622,22 +588,26 @@ function increaseProgress() {
             </svg>
 
             <div
-              v-if="openResizeResetAllAccess"
+              v-if="collapseStore.menus.includes('connect_withUs')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="flex flex-col items-start justify-start !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
                 class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="resetAllMiniSize"
+                @click="collapseStore.collapseCard('connect_withUs_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeResetAllAccess ? '!fill-white' : '']"
+                    :class="[collapseStore.menus.includes('connect_withUs') ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
+                <div class="text-[14px] leading-[21px] font-[400]">   {{
+                  !collapseStore.collapses.includes("connect_withUs_card")
+                    ? "Minisize"
+                    : "Maxsize"
+                }}</div>
               </div>
 
               <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
@@ -655,26 +625,26 @@ function increaseProgress() {
 
         <div
           class="flex items-center flex-col justify-center mt-[24px] space-y-[24px] px-[15px]"
-          v-if="!miniSizeResetAll"
+          v-if="!collapseStore.collapses.includes('connect_withUs_card')"
         >
           <div
             :style="{ backgroundImage: `url(${banner})` }"
             style="width: 100%; height: 100%; background-size: cover"
-            class="w-full rounded-lg text-center flex items-center justify-center"
+            class="rounded-lg text-center flex items-center justify-center lg:flex-row flex-col w-full lg:p-0 p-6"
           >
             <img
               src="/assets/imgs/icons/man.svg"
               alt="Character"
-              class="w-[280px] h-full"
+              class="w-[280px] h-full lg:block hidden"
             />
             <div class="flex flex-col items-center justify-center px-[15px]">
               <h2
-                class="text-[24px] ipad-max:leading-[30px] leading-[42px] font-[600] text-gray-800 mb-4"
+                class="text-[16px] lg:text-[24px] ipad-max:leading-[30px] lg:leading-[42px] font-[600] text-gray-800 mb-4"
               >
                 Would you like to have early access to the platform?
               </h2>
               <button
-                class="ipad-max:leading-[20px] h-[51px] bg-white text-tamkin space-x-[16px] py-3 rounded-[15px] font-[600] leading-[42px] text-[16px] flex items-center justify-center px-[16px]"
+                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[16px] flex items-center justify-center px-[16px]"
               >
                 <div class="">Sign up to keep up with the latest news from us</div>
                 <div>
@@ -716,21 +686,18 @@ function increaseProgress() {
             </div>
           </div>
         </div>
-        <div
-          v-if="miniSizeResetAll"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] h-full">
+      <div
+        class="mt-[30px] bg-white rounded-[10px] h-full"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <div
           class="flex items-center justify-start rounded-[10px] h-[212px] w-full"
           style="background: linear-gradient(90deg, #35b4a9 10.67%, #c8fdf9 76.5%)"
         >
-          <div class="flex flex-col items-center justify-center w-full px-[15px]">
+          <div class="flex flex-col items-start justify-center w-full px-[15px]">
             <div>
               <h1 class="text-white font-[500] text-[20px] leading-[30px]">
                 Your Current Plan
@@ -742,7 +709,8 @@ function increaseProgress() {
             </div>
 
             <div
-              class="h-[63px] w-[480px] bg-white bg-opacity-75 rounded-[41px] flex items-center justify-between mt-[24px] px-[15px]"
+              class="h-[63px] w-full  bg-white bg-opacity-75 rounded-[41px] 
+              flex items-center justify-between mt-[24px] px-[15px]"
             >
               <div class="w-full flex items-center justify-evenly space-x-[4px]">
                 <div>
@@ -776,7 +744,7 @@ function increaseProgress() {
             </div>
           </div>
 
-          <div class="ml-auto h-full w-full">
+          <div class="ml-auto h-full w-full lg:block hidden">
             <img
               src="/assets/imgs/overview/current_plan_upgrade.svg"
               class="w-full h-full"
@@ -787,29 +755,10 @@ function increaseProgress() {
 
         <div
           class="flex items-center flex-col justify-center px-[15px]"
-          v-if="!miniSizeLicense"
         >
           <div
-            class="h-[63px] w-[480px] bg-gray-200 bg-opacity-75 rounded-[41px] flex items-center justify-between mt-[24px] px-[15px]"
+            class="flex items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-y-0 space-y-3 w-full mt-[32px]"
           >
-            <div class="w-full flex items-center justify-start space-x-[16px]">
-              <div>
-                <img src="/assets/imgs/platplan.svg" class="w-[22px] h-[22px]" alt="" />
-              </div>
-              <div class="text-[15px] font-[500] leading-[22.5px] text-darkGrey">
-                Pro widget
-              </div>
-            </div>
-
-            <div class="w-[200px]">
-              <button
-                class="btn_bordered_dashboard bg-white rounded-[19px] ml-auto mx-[15px] !p-[10px] w-full"
-              >
-                Upgrade Plans
-              </button>
-            </div>
-          </div>
-          <div class="flex items-center justify-between w-full mt-[32px]">
             <div class="text-[15px] leading-[22.5px] font-[500]">
               Accessibility Widget Pricing
             </div>
@@ -845,10 +794,11 @@ function increaseProgress() {
             <div
               v-if="currentIndex === 0"
               key="1"
-              class="flex items-center justify-between h-full w-full space-x-[36px] mt-[32px]"
+              class="flex items-center lg:flex-row flex-col justify-center lg:justify-between ipad-max:flex-wrap ipad-max:space-x-0 h-full w-full lg:space-x-[36px] mt-[32px]"
             >
               <div
-                class="flex items-center flex-col custom-border justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] bg-selected w-[300px]"
+                class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
+                 !rounded-b-none mt-[35px] bg-selected w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -959,7 +909,7 @@ function increaseProgress() {
               </div>
 
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -1072,7 +1022,7 @@ function increaseProgress() {
               </div>
 
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -1192,10 +1142,10 @@ function increaseProgress() {
             <div
               v-else-if="currentIndex === 1"
               key="2"
-              class="flex items-center justify-between h-full w-full space-x-[36px] mt-[32px]"
+              class="flex items-center justify-between h-full w-full space-x-[36px] mt-[32px] ipad-max:flex-wrap ipad-max:space-x-0"
             >
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] mt-[35px] w-[300px]"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -1312,7 +1262,7 @@ function increaseProgress() {
               </div>
 
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -1429,7 +1379,7 @@ function increaseProgress() {
               </div>
 
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
                 <div class="absolute top-[-30px] left-[15px]">
@@ -1557,101 +1507,11 @@ function increaseProgress() {
             ></div>
           </div>
         </div>
-        <div
-          v-if="miniSizeLicense"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
-      </div>
-      <div
-        class="bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
-      >
-        <h1 class="text-[20px] leading-[33px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
-          Buy Tamkin Token – TSLT and Join in our Investor Program
-        </h1>
-        <div class="relative mb-6 w-full">
-          <div class="absolute right-0 top-10">
-            <img src="/assets/imgs/overview/10p.svg" alt="" />
-          </div>
-          <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
-            <img src="/assets/imgs/overview/svg_opacity.svg" alt="" />
-          </div>
-          <!-- Timeline bar -->
-          <div
-            class="absolute left-4 top-[6px] h-full w-[9px] z-[20] bg-tamkin rounded-full"
-          ></div>
-          <!-- Icons and Text -->
-          <div class="flex items-start space-x-4 relative z-[50]">
-            <!-- Icons -->
-            <div class="flex flex-col space-y-16">
-              <div
-                class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center mt-[36px]"
-              >
-                <img
-                  src="https://via.placeholder.com/40"
-                  alt="Icon 1"
-                  class="w-[27px] h-[27px]"
-                />
-              </div>
-              <div
-                class="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center"
-              >
-                <img
-                  src="https://via.placeholder.com/40"
-                  alt="Icon 2"
-                  class="w-[27px] h-[27px]"
-                />
-              </div>
-            </div>
-            <!-- Text content -->
-            <div class="flex flex-col space-y-[16px] ml-6 w-2/4 mt-[16px]">
-              <div>
-                <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
-                  Win Investor Package
-                </h2>
-                <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
-                  Investors participating in the Investor Program will receive an
-                  exclusive package with many additional benefits and special access to
-                  advanced tools and services.
-                </p>
-              </div>
-              <div>
-                <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
-                  Monthly profits
-                </h2>
-                <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
-                  This program includes 10% of Tamkin profits, distributed monthly in USDT
-                  to investors who participate in and maintain the program on their tokens
-                  without selling.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Big number and buttons -->
-        <div class="flex items-center justify-end w-full relative z-[50]">
-          <div class="flex space-x-4">
-            <button class="btn-dashboard rounded-full h-[40px] w-[156px]">
-              Buy Tamkin
-            </button>
-            <button
-              class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]"
-            >
-              Investor Program
-            </button>
-            <button
-              class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]"
-            >
-              Investor Package
-            </button>
-          </div>
-        </div>
+       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full">
+        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Exclusive Investor Package
@@ -1665,12 +1525,13 @@ function increaseProgress() {
           </div>
         </div>
 
-        <div class="flex items-center flex-col justify-center px-[15px]">
+        <div class="flex items-center flex-col justify-center px-[15px] w-full">
           <div
-            class="flex items-center justify-between h-full w-full space-x-[36px] mt-[32px]"
+            class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:space-x-[36px] mt-[32px]"
           >
             <div
-              class="flex items-center flex-col justify-start custom-border-tamkin padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+              class="flex items-center flex-col justify-start custom-border-tamkin padding-override-1
+               !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-30px] left-[15px]">
@@ -1779,7 +1640,8 @@ function increaseProgress() {
               </div>
             </div>
             <div
-              class="flex items-center flex-col justify-start custom-border-tamkin padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+              class="flex items-center flex-col justify-start ipad-max:w-full custom-border-tamkin 
+              padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-full "
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-30px] left-[15px]">
@@ -1888,7 +1750,8 @@ function increaseProgress() {
               </div>
             </div>
             <div
-              class="flex items-center flex-col justify-start custom-border-tamkin padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-[300px]"
+              class="flex items-center flex-col justify-start ipad-max:w-full custom-border-tamkin padding-override-1 
+              !rounded-t-[10px] !rounded-b-none mt-[35px] w-full "
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-30px] left-[15px]">
@@ -1999,7 +1862,7 @@ function increaseProgress() {
           </div>
         </div>
       </div>
-      <div
+      <!-- <div
         class="bg-white custom-border-tamkin padding-override-1 w-full space-x-[16px] rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start"
       >
         <div>
@@ -2029,96 +1892,103 @@ function increaseProgress() {
             Switch To Annual
           </button>
         </div>
-      </div>
+      </div> -->
 
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px]">
-        <div class="flex items-center justify-start">
-          <div>
-            <div class="flex items-center justify-start px-[15px]">
-              <div class="w-3/4">
-                <h1 class="text-[20px] font-[500] leading-[30px]">
-                  <div class="flex items-center justify-start pt-[35px]">
-                    <div>
-                      <h1 class="text-[20px] font-[500] leading-[30px]">
-                        Accessibility Details
-                      </h1>
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full">
+        <div class="flex items-center justify-start px-[15px]">
+          <div class="w-3/4">
+            <h1 class="text-[20px] font-[500] leading-[30px]">
+              <div class="flex items-center justify-start pt-[24px]">
+                <div>
+                  <h1 class="text-[20px] font-[500] leading-[30px]">
+                    Accessibility Details
+                  </h1>
 
-                      <p
-                        class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
-                      >
-                        Accessibility Details provide comprehensive information to help
-                        ensure your website complies with all accessibility standards
-                      </p>
-                    </div>
-                  </div>
-                </h1>
-              </div>
-              <div class="ml-auto flex items-center justify-evenly space-x-[16px]">
-                <button class="btn_bordered_dashboard ml-auto rounded-full">
-                  View All
-                </button>
-
-                <div
-                  @click="openResizeAcccessDetails = !openResizeAcccessDetails"
-                  :class="[openResizeAcccessDetails ? 'active_notification !text-darkGrey' : '']"
-                  class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]">
-                  <svg
-                    width="18"
-                    height="5"
-                    viewBox="0 0 18 5"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    :class="[
-                      openResizeAcccessDetails
-                        ? 'stroke-current !text-white !fill-white'
-                        : '',
-                    ]"                  >
-                    <path
-                      d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-
-                  <div
-                    v-if="openResizeAcccessDetails"
-                    style="box-shadow: 0px 2px 6px 0px #00000040"
-                    class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+                  <p
+                    class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
                   >
-                    <div
-                      class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                      @click="miniSizeDetailsAccess = !miniSizeDetailsAccess"
-                    >
-                      <div>
-                        <img
-                          src="/assets/imgs/addons/min_size.svg"
-                          alt=""
-                          :class="[openResizeAcccessDetails ? '!fill-white' : '']"
-                        />
-                      </div>
-                      <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
-                    </div>
+                  Accessibility Details provide comprehensive information  to help ensure your website complies with all accessibility standards
+                  </p>
+                </div>
+              </div>
+            </h1>
+          </div>
+          <div
+            class="ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly space-x-[16px]"
+          >
+            <button
+              class="btn_bordered_dashboard ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+            >
+              View All
+            </button>
+            <div
+              @click="collapseStore.collapseMenu('access_details')"
+              v-on-click-outside="() => collapseStore.removeMenu('access_details')"
 
-                    <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
-                      <img
-                        src="/assets/imgs/addons/arrow_menu.svg"
-                        tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                              "
-                        alt=""
-                        class="w-full h-full"
-                      />
-                    </div>
+              :class="[
+                collapseStore.menus.includes('access_details') ? 'active_notification !text-darkGrey' : '',
+              ]"
+              class="lg:order-2 order-1 relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            >
+              <svg
+                width="18"
+                height="5"
+                viewBox="0 0 18 5"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                :class="[
+                  collapseStore.menus.includes('access_details')
+                    ? 'stroke-current !text-white !fill-white'
+                    : '',
+                ]"
+              >
+                <path
+                  d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+                  fill="currentColor"
+                />
+              </svg>
+
+              <div
+                v-if="collapseStore.menus.includes('access_details')"
+                style="box-shadow: 0px 2px 6px 0px #00000040"
+                class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              >
+                <div
+                  class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                  @click="collapseStore.collapseCard('access_details_card')"
+                >
+                  <div>
+                    <img
+                      src="/assets/imgs/addons/min_size.svg"
+                      alt=""
+                      :class="[collapseStore.menus.includes('access_details') ? '!fill-white' : '']"
+                    />
                   </div>
+                  <div class="text-[14px] leading-[21px] font-[400]"> {{
+                    !collapseStore.collapses.includes("access_details_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}</div>
+                </div>
+
+                <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+                  <img
+                    src="/assets/imgs/addons/arrow_menu.svg"
+                    tyle="box-shadow: 0px 2px 6px 0px #00000040;
+                    "
+                    alt=""
+                    class="w-full h-full"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-[16px]"
-          v-if="!miniSizeDetailsAccess"
-        >
+        <div class="grid grid-cols-12 gap-6 mt-[16px]" v-if="!collapseStore.collapses.includes('access_details_card')">
           <!-- Function Card -->
-          <div class="px-[15px] rounded-[10px]">
+          <div
+            class="px-[15px] rounded-[10px] lg:col-span-6 col-span-12 ipad-max:col-span-12"
+          >
             <div
               class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
             >
@@ -2145,13 +2015,13 @@ function increaseProgress() {
                   </p>
                 </div>
               </div>
-              <div class="w-[300px] h-[80px] left-1/2 right-0 absolute">
-                <Line
+              <div class="h-[80px] left-1/2 right-0 absolute">
+                <!-- <Line
                   ref="chart13"
                   :data="chartData"
                   :options="options"
-                  class="w-[300px] h-[80px]"
-                />
+                  class=" h-[80px]"
+                /> -->
                 <!-- <img src="path_to_graph_image" alt="Graph" class="h-16"> -->
               </div>
             </div>
@@ -2231,7 +2101,9 @@ function increaseProgress() {
             </div>
           </div>
 
-          <div class="px-[15px] rounded-[10px]">
+          <div
+            class="px-[15px] rounded-[10px] lg:col-span-6 col-span-12 ipad-max:col-span-12"
+          >
             <div
               class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
             >
@@ -2258,13 +2130,13 @@ function increaseProgress() {
                   </p>
                 </div>
               </div>
-              <div class="w-[300px] h-[80px] left-1/2 right-0 absolute">
-                <Line
+              <div class="h-[80px] left-1/2 right-0 absolute">
+                <!-- <Line
                   ref="chart14"
                   :data="chartData2"
                   :options="options"
-                  class="w-[300px] h-[80px]"
-                />
+                  class="w-auto h-[80px]"
+                /> -->
                 <!-- <img src="path_to_graph_image" alt="Graph" class="h-16"> -->
               </div>
             </div>
@@ -2346,11 +2218,11 @@ function increaseProgress() {
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px]">
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full mb-[24px]">
         <div class="flex items-center justify-start px-[15px]">
           <div class="w-3/4">
             <h1 class="text-[20px] font-[500] leading-[30px]">
-              <div class="flex items-center justify-start pt-[35px]">
+              <div class="flex items-center justify-start pt-[24px]">
                 <div>
                   <h1 class="text-[20px] font-[500] leading-[30px]">
                     Live Translation Overview
@@ -2367,14 +2239,22 @@ function increaseProgress() {
               </div>
             </h1>
           </div>
-          <div class="ml-auto flex items-center justify-evenly space-x-[16px]">
-            <button class="btn_bordered_dashboard ml-auto rounded-full">View All</button>
+          <div
+            class="ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly space-x-[16px]"
+          >
+            <button
+              class="btn_bordered_dashboard ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+            >
+              View All
+            </button>
             <div
-              @click="openResizeMenuLiveOverview = !openResizeMenuLiveOverview"
+              @click="collapseStore.collapseMenu('livetranslation_overview')"
+              v-on-click-outside="() => collapseStore.removeMenu('livetranslation_overview')"
+
               :class="[
-                openResizeMenuLiveOverview ? 'active_notification !text-darkGrey' : '',
+                collapseStore.menus.includes('livetranslation_overview') ? 'active_notification !text-darkGrey' : '',
               ]"
-              class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+              class="lg:order-2 order-1 relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
             >
               <svg
                 width="18"
@@ -2383,7 +2263,7 @@ function increaseProgress() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[
-                  openResizeMenuLiveOverview
+                  collapseStore.menus.includes('livetranslation_overview')
                     ? 'stroke-current !text-white !fill-white'
                     : '',
                 ]"
@@ -2395,22 +2275,26 @@ function increaseProgress() {
               </svg>
 
               <div
-                v-if="openResizeMenuLiveOverview"
+                v-if="collapseStore.menus.includes('livetranslation_overview')"
                 style="box-shadow: 0px 2px 6px 0px #00000040"
                 class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
               >
                 <div
                   class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                  @click="miniSizeLiveOverview = !miniSizeLiveOverview"
+                  @click="collapseStore.collapseCard('livetranslation_overview_card')"
                 >
                   <div>
                     <img
                       src="/assets/imgs/addons/min_size.svg"
                       alt=""
-                      :class="[openResizeMenuLiveOverview ? '!fill-white' : '']"
+                      :class="[collapseStore.menus.includes('livetranslation_overview') ? '!fill-white' : '']"
                     />
                   </div>
-                  <div class="text-[14px] leading-[21px] font-[400]">Minisize</div>
+                  <div class="text-[14px] leading-[21px] font-[400]"> {{
+                    !collapseStore.collapses.includes("livetranslation_overview_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}</div>
                 </div>
 
                 <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
@@ -2428,15 +2312,12 @@ function increaseProgress() {
         </div>
 
         <div
-          v-if="!miniSizeLiveOverview"
-          class="flex space-x-8 items-center justify-between px-[15px] w-full mt-[16px]"
+          v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
+          class="flex lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
         >
           <!-- Donut Chart -->
-          <div class="h-full">
+          <div class="h-full ipad-max:mx-auto">
             <circular-progress-bar :initial-percentage="progress" />
-            <button class="btn-dashboard w-3/4 mx-auto" @click="increaseProgress">
-              Increase Progress
-            </button>
           </div>
           <!-- Labels and Values -->
           <div
