@@ -44,7 +44,7 @@ watch([currentColor],()=>{},{immediate:true})
 
 <template>
   <div
-    class="flex items-center justify-start mt-[32px] px-[15px] space-x-[18px]"
+    class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
   >
     <div
       class="pb-[12px] text-[14px] leading-[32px] font-[600] text-darkGrey cursor-pointer"
@@ -413,7 +413,7 @@ watch([currentColor],()=>{},{immediate:true})
     <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[14px] h-[14px]">
         </div>
   </div>
- <div class="flex items-center justify-evenly space-x-[29px] px-[15px]">
+ <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[29px] px-[15px]">
   <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-[102px] h-auto">
   <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="ipad-max:hidden w-[225px] h-auto">
  </div>

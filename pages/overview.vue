@@ -223,9 +223,9 @@ const progress = ref(30.78);
   <div class="relative !overflow-x-hidden">
     <div class=" ">
       <div class="space-y-[10px]">
-        <h1 class="text-left text-[24px] leading-[36px] font-[600]">Overview</h1>
+        <h1 class="rtl:text-right ltr:text-left text-[24px] leading-[36px] font-[600]">Overview</h1>
 
-        <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
+        <h2 class="text-right ltr:text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
           Overview provides system summary with key data and analytics for decision-making
         </h2>
       </div>
@@ -238,14 +238,14 @@ const progress = ref(30.78);
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
-              <div class="flex items-center justify-start space-x-[8px]">
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                 <div
                   class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
                 </div>
-                <div class="flex items-center space-x-[16px]">
+                <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
                     <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
@@ -273,10 +273,10 @@ const progress = ref(30.78);
       <!-- <NavbarOverview/> -->
       <div class="mt-[52px] bg-white rounded-[10px]">
         <div
-          class="flex flex-col items-start justify-center ml-[15px] divide-y"
+          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
         >
           <div
-            class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start space-x-[10px]"
+            class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
           >
             <div>
               <img
@@ -307,7 +307,7 @@ const progress = ref(30.78);
           :message="'Copied to clipboard'"
         />
 
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Widget Embed Code</h1>
             <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
@@ -324,7 +324,7 @@ const progress = ref(30.78);
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px]  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -347,10 +347,10 @@ const progress = ref(30.78);
             <div
               v-if="collapseStore.menus.includes('widget_embded_code')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('widget_embded_code_card')"
               >
                 <div>
@@ -364,7 +364,7 @@ const progress = ref(30.78);
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("widget_embded_code_card")
                       ? "Minisize"
@@ -373,7 +373,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -421,7 +421,7 @@ const progress = ref(30.78);
                 class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
               >
                 <div class="bg-white rounded-md flex items-center justify-center">
-                  <div class="pl-[16px]">
+                  <div class="rtl:pr-[16px] ltr:pl-[16px]">
                     <svg
                       width="22"
                       height="21"
@@ -477,10 +477,11 @@ const progress = ref(30.78);
 
               <div
                 @click="copyCode"
-                class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+                class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r
+                 from-[#2DADA3] to-[#71DAD2] group"
               >
                 <div class="bg-white rounded-md flex items-center justify-center">
-                  <div class="pl-[16px]">
+                  <div class="rtl:pr-[16px] ltr:pl-[16px]">
                     <svg
                       width="20"
                       height="21"
@@ -512,7 +513,9 @@ const progress = ref(30.78);
                   </div>
 
                   <button
-                    class="h-[45px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                    class="h-[45px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r
+                     group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent 
+                     group-hover:bg-clip-text"
                   >
                     Copy
                   </button>
@@ -523,6 +526,7 @@ const progress = ref(30.78);
             <div class="mt-[24px] w-full min-h-[50px]">
               <Client-only>
                 <VCodeBlock
+                dir="ltr"
                   :code="currentCode"
                   highlightjs
                   lang="javascript"
@@ -544,7 +548,7 @@ const progress = ref(30.78);
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -552,7 +556,7 @@ const progress = ref(30.78);
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] pb-[24px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Connect with us</h1>
 
@@ -569,7 +573,7 @@ const progress = ref(30.78);
             :class="[
               collapseStore.menus.includes('connect_withUs') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-1/4 lg:w-[40px] h-[36px]"
+            class="relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px]  mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-1/4 lg:w-[40px] h-[36px]"
           >
             <svg
               width="18"
@@ -589,11 +593,10 @@ const progress = ref(30.78);
 
             <div
               v-if="collapseStore.menus.includes('connect_withUs')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('connect_withUs_card')"
               >
                 <div>
@@ -603,14 +606,14 @@ const progress = ref(30.78);
                     :class="[collapseStore.menus.includes('connect_withUs') ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">   {{
+                <div class="text_mini">   {{
                   !collapseStore.collapses.includes("connect_withUs_card")
                     ? "Minisize"
                     : "Maxsize"
                 }}</div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -644,7 +647,7 @@ const progress = ref(30.78);
                 Would you like to have early access to the platform?
               </h2>
               <button
-                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[16px] flex items-center justify-center px-[16px]"
+                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin rtl:space-x-reverse space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[16px] flex items-center justify-center px-[16px]"
               >
                 <div class="">Sign up to keep up with the latest news from us</div>
                 <div>
@@ -671,7 +674,7 @@ const progress = ref(30.78);
           <div
             class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
           >
-            <div class="flex items-center space-x-[-12px] flex-1">
+            <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
               <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
               <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
               <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
@@ -694,8 +697,8 @@ const progress = ref(30.78);
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
         <div
-          class="flex items-center justify-start rounded-[10px] h-[212px] w-full"
-          style="background: linear-gradient(90deg, #35b4a9 10.67%, #c8fdf9 76.5%)"
+          class="flex items-center justify-start rounded-[10px] h-[212px] w-full
+           rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-[#c8fdf9]"
         >
           <div class="flex flex-col items-start justify-center w-full px-[15px]">
             <div>
@@ -712,7 +715,7 @@ const progress = ref(30.78);
               class="h-[63px] w-full  bg-white bg-opacity-75 rounded-[41px] 
               flex items-center justify-between mt-[24px] px-[15px]"
             >
-              <div class="w-full flex items-center justify-evenly space-x-[4px]">
+              <div class="w-full flex items-center justify-evenly rtl:space-x-reverse space-x-[4px]">
                 <div>
                   <img src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px]" alt="" />
                 </div>
@@ -722,7 +725,8 @@ const progress = ref(30.78);
               </div>
 
               <div
-                class="w-full text-[15px] font-[500] leading-[22.5px] text-darkGrey flex items-center justify-evenly space-x-[4px]"
+                class="w-full text-[15px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
+                justify-evenly rtl:space-x-reverse space-x-[4px]"
               >
                 <div>
                   <img
@@ -736,7 +740,7 @@ const progress = ref(30.78);
 
               <div class="w-full">
                 <button
-                  class="btn_bordered_dashboard bg-white rounded-[19px] ml-auto mx-[15px] !p-[10px] w-full"
+                  class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto  ltr:ml-auto mx-[15px] !p-[10px] w-full"
                 >
                   Upgrade Plans
                 </button>
@@ -744,7 +748,7 @@ const progress = ref(30.78);
             </div>
           </div>
 
-          <div class="ml-auto h-full w-full lg:block hidden">
+          <div class="rtl:!mr-auto ltr:ml-auto h-full w-full lg:block hidden">
             <img
               src="/assets/imgs/overview/current_plan_upgrade.svg"
               class="w-full h-full"
@@ -794,7 +798,7 @@ const progress = ref(30.78);
             <div
               v-if="currentIndex === 0"
               key="1"
-              class="flex items-center lg:flex-row flex-col justify-center lg:justify-between ipad-max:flex-wrap ipad-max:space-x-0 h-full w-full lg:space-x-[36px] mt-[32px]"
+              class="flex items-center lg:flex-row flex-col justify-center lg:justify-between ipad-max:flex-wrap ipad-max:rtl:space-x-reverse space-x-0 h-full w-full lg:rtl:space-x-reverse space-x-[36px] mt-[32px]"
             >
               <div
                 class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
@@ -830,7 +834,7 @@ const progress = ref(30.78);
                 <div
                   class="flex bg-selected flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -840,7 +844,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -850,7 +854,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -860,7 +864,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -870,7 +874,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -880,7 +884,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -890,7 +894,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -943,7 +947,7 @@ const progress = ref(30.78);
                 <div
                   class="flex custom-border-collapse-tamkin flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -953,7 +957,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -963,7 +967,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -973,7 +977,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -983,7 +987,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -993,7 +997,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1003,7 +1007,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1060,7 +1064,7 @@ const progress = ref(30.78);
                 <div
                   class="flex custom-border-collapse-tamkin flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1070,7 +1074,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1080,7 +1084,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1090,7 +1094,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -1100,7 +1104,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1110,7 +1114,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1120,7 +1124,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1142,7 +1146,7 @@ const progress = ref(30.78);
             <div
               v-else-if="currentIndex === 1"
               key="2"
-              class="flex items-center justify-between h-full w-full space-x-[36px] mt-[32px] ipad-max:flex-wrap ipad-max:space-x-0"
+              class="flex items-center justify-between h-full w-full rtl:space-x-reverse space-x-[36px] mt-[32px] ipad-max:flex-wrap ipad-max:rtl:space-x-reverse space-x-0"
             >
               <div
                 class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] mt-[35px] w-full"
@@ -1183,7 +1187,7 @@ const progress = ref(30.78);
                 <div
                   class="flex flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1193,7 +1197,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1203,7 +1207,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1213,7 +1217,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -1223,7 +1227,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1233,7 +1237,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1243,7 +1247,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1300,7 +1304,7 @@ const progress = ref(30.78);
                 <div
                   class="flex custom-border-collapse-tamkin flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1310,7 +1314,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1320,7 +1324,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1330,7 +1334,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -1340,7 +1344,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1350,7 +1354,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1360,7 +1364,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1415,7 +1419,7 @@ const progress = ref(30.78);
                 <div
                   class="flex custom-border-collapse-tamkin flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
                 >
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1425,7 +1429,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1435,7 +1439,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1445,7 +1449,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                     </div>
@@ -1455,7 +1459,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1465,7 +1469,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1475,7 +1479,7 @@ const progress = ref(30.78);
                       </h3>
                     </div>
                   </div>
-                  <div class="flex items-center justify-start space-x-[24px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                     <div>
                       <img src="/assets/imgs/checked_list_active.svg" alt="" />
                     </div>
@@ -1494,7 +1498,7 @@ const progress = ref(30.78);
               </div>
             </div>
           </transition-group>
-          <div class="flex items-center justify-center mx-auto space-x-[8px] my-[32px]">
+          <div class="flex items-center justify-center mx-auto rtl:space-x-reverse space-x-[8px] my-[32px]">
             <div
               :class="[currentIndex === 0 ? 'bg-tamkin' : 'bg-[#D9D9D9] ']"
               class="w-[15px] h-[15px] rounded-full cursor-pointer"
@@ -1511,7 +1515,7 @@ const progress = ref(30.78);
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full">
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Exclusive Investor Package
@@ -1527,7 +1531,7 @@ const progress = ref(30.78);
 
         <div class="flex items-center flex-col justify-center px-[15px] w-full">
           <div
-            class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:space-x-[36px] mt-[32px]"
+            class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse space-x-[36px] mt-[32px]"
           >
             <div
               class="flex items-center flex-col justify-start custom-border-tamkin padding-override-1
@@ -1549,7 +1553,7 @@ const progress = ref(30.78);
                   <h1 class="font-[600] text-[20px] leading-[30px]">Silver</h1>
 
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start space-x-[10px]"
+                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
@@ -1562,7 +1566,7 @@ const progress = ref(30.78);
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
               >
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1572,7 +1576,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1582,7 +1586,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1592,7 +1596,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                   </div>
@@ -1602,7 +1606,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1612,7 +1616,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1622,7 +1626,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1659,7 +1663,7 @@ const progress = ref(30.78);
                   <h1 class="font-[600] text-[20px] leading-[30px]">Gold</h1>
 
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start space-x-[10px]"
+                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
@@ -1672,7 +1676,7 @@ const progress = ref(30.78);
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
               >
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1682,7 +1686,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1692,7 +1696,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1702,7 +1706,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                   </div>
@@ -1712,7 +1716,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1722,7 +1726,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1732,7 +1736,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1769,7 +1773,7 @@ const progress = ref(30.78);
                   <h1 class="font-[600] text-[20px] leading-[30px]">Platinum</h1>
 
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start space-x-[10px]"
+                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
@@ -1782,7 +1786,7 @@ const progress = ref(30.78);
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
               >
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1792,7 +1796,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1802,7 +1806,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1812,7 +1816,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                   </div>
@@ -1822,7 +1826,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1832,7 +1836,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1842,7 +1846,7 @@ const progress = ref(30.78);
                     </h3>
                   </div>
                 </div>
-                <div class="flex items-center justify-start space-x-[24px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
                     <img src="/assets/imgs/checked_list_active.svg" alt="" />
                   </div>
@@ -1863,7 +1867,7 @@ const progress = ref(30.78);
         </div>
       </div>
       <!-- <div
-        class="bg-white custom-border-tamkin padding-override-1 w-full space-x-[16px] rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start"
+        class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start"
       >
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" alt="" />
@@ -1872,7 +1876,7 @@ const progress = ref(30.78);
           <div class="font-[500] text-[18px] leading-[27px] text-darkGrey w-full">
             Monthly Plan
           </div>
-          <div class="flex items-center justify-start w-full space-x-[6px]">
+          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px]">
             <div class="text-[13px] leading-[24px] font-[400]">Package Expires in</div>
             <div
               class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500]"
@@ -1914,10 +1918,11 @@ const progress = ref(30.78);
             </h1>
           </div>
           <div
-            class="ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly space-x-[16px]"
+            class="rtl:mr-auto ltr:ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] 
+            lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
           >
             <button
-              class="btn_bordered_dashboard ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+              class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
             >
               View All
             </button>
@@ -1928,7 +1933,7 @@ const progress = ref(30.78);
               :class="[
                 collapseStore.menus.includes('access_details') ? 'active_notification !text-darkGrey' : '',
               ]"
-              class="lg:order-2 order-1 relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+              class="lg:order-2 order-1 relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px]  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
             >
               <svg
                 width="18"
@@ -1950,11 +1955,10 @@ const progress = ref(30.78);
 
               <div
                 v-if="collapseStore.menus.includes('access_details')"
-                style="box-shadow: 0px 2px 6px 0px #00000040"
-                class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+                class="mini_SizeMenu"
               >
                 <div
-                  class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                  class="mini_wrap"
                   @click="collapseStore.collapseCard('access_details_card')"
                 >
                   <div>
@@ -1964,14 +1968,14 @@ const progress = ref(30.78);
                       :class="[collapseStore.menus.includes('access_details') ? '!fill-white' : '']"
                     />
                   </div>
-                  <div class="text-[14px] leading-[21px] font-[400]"> {{
+                  <div class="text_mini"> {{
                     !collapseStore.collapses.includes("access_details_card")
                       ? "Minisize"
                       : "Maxsize"
                   }}</div>
                 </div>
 
-                <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+                <div class="arrow">
                   <img
                     src="/assets/imgs/addons/arrow_menu.svg"
                     tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -2003,7 +2007,7 @@ const progress = ref(30.78);
                     >225%</span
                   >
                 </p>
-                <div class="flex items-center justify-start space-x-[8px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                   <div>
                     <img src="/assets/imgs/overview/up.svg" alt="" />
                   </div>
@@ -2031,7 +2035,7 @@ const progress = ref(30.78);
               <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">
                 Function
               </div>
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/language sign.svg"
@@ -2040,7 +2044,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Screen Reader</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
                   </div>
@@ -2048,7 +2052,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/voice_navigation.svg"
@@ -2057,7 +2061,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Voice Navigation</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
                   </div>
@@ -2065,7 +2069,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/saturation.svg"
@@ -2074,7 +2078,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Saturation</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
                   </div>
@@ -2082,7 +2086,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/cursor.svg"
@@ -2091,7 +2095,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Cursor</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
                   </div>
@@ -2118,7 +2122,7 @@ const progress = ref(30.78);
                     >112%</span
                   >
                 </p>
-                <div class="flex items-center justify-start space-x-[8px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                   <div>
                     <img src="/assets/imgs/overview/down.svg" alt="" />
                   </div>
@@ -2146,7 +2150,7 @@ const progress = ref(30.78);
               <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">
                 Profile
               </div>
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/monitor_im.svg"
@@ -2155,7 +2159,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Motor impaired</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
                   </div>
@@ -2163,7 +2167,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/color_blind.svg"
@@ -2172,7 +2176,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Color blind</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
                   </div>
@@ -2180,7 +2184,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/vis_impaired.svg"
@@ -2189,7 +2193,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Visually-impaired</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
                   </div>
@@ -2197,7 +2201,7 @@ const progress = ref(30.78);
                 </div>
               </div>
 
-              <div class="flex items-center space-x-4 w-full">
+              <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
                 <div>
                   <img
                     src="/assets/imgs/addons/seizure.svg"
@@ -2206,7 +2210,7 @@ const progress = ref(30.78);
                   />
                 </div>
                 <div class="w-3/4 text-[12px] leading-[15px]">Seizure & Epileptic</div>
-                <div class="w-2/4 flex items-center space-x-2">
+                <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
                   </div>
@@ -2240,10 +2244,10 @@ const progress = ref(30.78);
             </h1>
           </div>
           <div
-            class="ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly space-x-[16px]"
+            class="rtl:mr-auto ltr:ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
           >
             <button
-              class="btn_bordered_dashboard ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+              class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
             >
               View All
             </button>
@@ -2254,7 +2258,8 @@ const progress = ref(30.78);
               :class="[
                 collapseStore.menus.includes('livetranslation_overview') ? 'active_notification !text-darkGrey' : '',
               ]"
-              class="lg:order-2 order-1 relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+              class="lg:order-2 order-1 relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] 
+               flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
             >
               <svg
                 width="18"
@@ -2277,10 +2282,10 @@ const progress = ref(30.78);
               <div
                 v-if="collapseStore.menus.includes('livetranslation_overview')"
                 style="box-shadow: 0px 2px 6px 0px #00000040"
-                class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+                class="mini_SizeMenu"
               >
                 <div
-                  class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                  class="mini_wrap"
                   @click="collapseStore.collapseCard('livetranslation_overview_card')"
                 >
                   <div>
@@ -2290,14 +2295,14 @@ const progress = ref(30.78);
                       :class="[collapseStore.menus.includes('livetranslation_overview') ? '!fill-white' : '']"
                     />
                   </div>
-                  <div class="text-[14px] leading-[21px] font-[400]"> {{
+                  <div class="text_mini"> {{
                     !collapseStore.collapses.includes("livetranslation_overview_card")
                       ? "Minisize"
                       : "Maxsize"
                   }}</div>
                 </div>
 
-                <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+                <div class="arrow">
                   <img
                     src="/assets/imgs/addons/arrow_menu.svg"
                     tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -2313,7 +2318,8 @@ const progress = ref(30.78);
 
         <div
           v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
-          class="flex lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
+          class="flex lg:rtl:space-x-reverse space-x-8 items-center ipad-max:flex-wrap
+           lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
         >
           <!-- Donut Chart -->
           <div class="h-full ipad-max:mx-auto">
@@ -2321,9 +2327,9 @@ const progress = ref(30.78);
           </div>
           <!-- Labels and Values -->
           <div
-            class="flex flex-col items-start justify-center w-full space-y-[10px] mt-[32px]"
+            class="flex flex-col items-start justify-center w-full space-y-[10px] mt-[32px] px-[4px]"
           >
-            <div class="flex space-x-8 items-center justify-between w-full">
+            <div class="flex rtl:space-x-reverse space-x-8 items-center justify-between w-full">
               <div class="text-center">
                 <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
                 <span class="text-gray-500">Used</span>
@@ -2346,7 +2352,7 @@ const progress = ref(30.78);
             <div class="space-y-4 w-full">
               <div class="flex items-center mt-[32px]">
                 <div class="w-1/4 text-gray-500">Average Daily</div>
-                <div class="w-3/4 flex items-center space-x-2">
+                <div class="w-3/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 40%"></div>
                   </div>
@@ -2356,7 +2362,7 @@ const progress = ref(30.78);
 
               <div class="flex items-center">
                 <div class="w-1/4 text-gray-500">Average Weekly</div>
-                <div class="w-3/4 flex items-center space-x-2">
+                <div class="w-3/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 70%"></div>
                   </div>
@@ -2366,7 +2372,7 @@ const progress = ref(30.78);
 
               <div class="flex items-center">
                 <div class="w-1/4 text-gray-500">Average Monthly</div>
-                <div class="w-3/4 flex items-center space-x-2">
+                <div class="w-3/4 flex items-center rtl:space-x-reverse space-x-2">
                   <div class="bg-gray-200 rounded-full h-4 w-full relative">
                     <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 50%"></div>
                   </div>

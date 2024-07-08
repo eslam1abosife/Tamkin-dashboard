@@ -14,7 +14,7 @@ const {isChecked,toggleCheckbox} = customizeStore
     class="flex flex-col items-center justify-center   w-full relative">
     <!-- <MessagesLockedFeature/> -->
     <div class=" bg-white rounded-[10px] w-full">
-        <div class="flex items-center justify-start ml-[15px] pt-[35px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[35px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Adjust the Main Menu
@@ -28,7 +28,7 @@ const {isChecked,toggleCheckbox} = customizeStore
             :class="[
               collapseStore.menus.includes('adjust_main_menu_customize') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -50,11 +50,10 @@ const {isChecked,toggleCheckbox} = customizeStore
 
             <div
               v-if="collapseStore.menus.includes('adjust_main_menu_customize')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('adjust_main_menu_customize_card')"
               >
                 <div>
@@ -64,13 +63,13 @@ const {isChecked,toggleCheckbox} = customizeStore
                     :class="[collapseStore.menus.includes('adjust_main_menu_customize') ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{ !collapseStore.collapses.includes('adjust_main_menu_customize_card')?'Minisize':'Maxsize' }}
                 </div>
               </div>
 
               <div
-                class="absolute top-[10px] right-[-10px] z-[50] !border-none"
+                class="arrow"
               >
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
@@ -85,13 +84,13 @@ const {isChecked,toggleCheckbox} = customizeStore
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('adjust_main_menu_customize_card')"
         >
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -167,7 +166,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -243,7 +242,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -319,7 +318,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -395,7 +394,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -471,7 +470,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -547,7 +546,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -623,7 +622,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -699,7 +698,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -775,7 +774,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -851,7 +850,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -926,7 +925,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1002,7 +1001,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1078,7 +1077,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1154,7 +1153,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1230,7 +1229,7 @@ const {isChecked,toggleCheckbox} = customizeStore
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
           est veritatis dolore. Exercitationem et omnis ea quidem

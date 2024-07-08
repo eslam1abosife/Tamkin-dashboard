@@ -105,9 +105,9 @@ onBeforeMount(() => {
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
       <div class="space-y-[10px]">
-        <h1 class="text-left text-[24px] leading-[36px] font-[600]">Addons</h1>
+        <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">Addons</h1>
 
-        <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
+        <h2 class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey">
           Enable the Accessibility Services Addons to improve usability and enhance your
           experience.
         </h2>
@@ -121,14 +121,14 @@ onBeforeMount(() => {
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
-              <div class="flex items-center justify-start space-x-[8px]">
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                 <div
                   class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
                 </div>
-                <div class="flex items-center space-x-[16px]">
+                <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
                     <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
@@ -138,11 +138,11 @@ onBeforeMount(() => {
                   <div>
                     <a
                       href=""
-                      class="text-tamkin font-[600] text-[16px] leading-[24px] flex ]"
+                      class="text-tamkin font-[600] text-[16px] leading-[24px] flex "
                       >Visit Site
                       <img
                         src="/assets/imgs/icons/external_link.svg"
-                        class="ml-[14px]"
+                        class="rtl:mr-[14px] ltr:ml-[14px]"
                         alt=""
                     /></a>
                   </div>
@@ -153,7 +153,7 @@ onBeforeMount(() => {
         </div>
       </div>
       <div class="mt-[50px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Adjust the Main Menu</h1>
           </div>
@@ -163,7 +163,7 @@ onBeforeMount(() => {
             :class="[
               menus.includes('adjustMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -186,11 +186,10 @@ onBeforeMount(() => {
             <div
               v-if="menus.includes('adjustMenu')"
               v-on-click-outside="() => collapseStore.removeMenu('adjustMenu')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('adjustMenu')"
               >
                 <div>
@@ -202,7 +201,7 @@ onBeforeMount(() => {
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("adjustMenu")
                       ? "Minisize"
@@ -211,7 +210,7 @@ onBeforeMount(() => {
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -225,13 +224,13 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('adjustMenu')"
         >
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -305,7 +304,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -379,7 +378,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -453,7 +452,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -527,7 +526,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -601,7 +600,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -675,7 +674,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -749,7 +748,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -823,7 +822,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -897,7 +896,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -971,7 +970,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1044,7 +1043,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1118,7 +1117,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1192,7 +1191,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1266,7 +1265,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1340,7 +1339,7 @@ onBeforeMount(() => {
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -1348,7 +1347,7 @@ onBeforeMount(() => {
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Manage your Accessibility Profiles
@@ -1359,7 +1358,7 @@ onBeforeMount(() => {
             :class="[
               menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1382,11 +1381,10 @@ onBeforeMount(() => {
             <div
               v-if="menus.includes('ManageMenu')"
               v-on-click-outside="() => collapseStore.removeMenu('ManageMenu')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('ManageCard')"
               >
                 <div>
@@ -1396,7 +1394,7 @@ onBeforeMount(() => {
                     :class="[menus.includes('ManageMenu') ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("ManageCard")
                       ? "Minisize"
@@ -1405,7 +1403,7 @@ onBeforeMount(() => {
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -1419,13 +1417,13 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] pb-[16px] mt-[18px] divide-y"
+          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] pb-[16px] mt-[18px] divide-y"
           v-if="!collapseStore.collapses.includes('ManageCard')"
         >
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1499,7 +1497,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1573,7 +1571,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1649,7 +1647,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1723,7 +1721,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1797,7 +1795,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1871,7 +1869,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -1945,7 +1943,7 @@ onBeforeMount(() => {
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
@@ -2019,7 +2017,7 @@ onBeforeMount(() => {
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -2027,7 +2025,7 @@ onBeforeMount(() => {
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Live Translation</h1>
 
@@ -2044,7 +2042,7 @@ onBeforeMount(() => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -2067,11 +2065,10 @@ onBeforeMount(() => {
             <div
               v-if="menus.includes('LiveTranslationAddons')"
               v-on-click-outside="() => collapseStore.removeMenu('LiveTranslationAddons')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="annual_prices = !annual_prices"
               >
                 <div>
@@ -2083,13 +2080,13 @@ onBeforeMount(() => {
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   Convert to {{ annual_prices ? "Monthly" : "Annual" }}
                 </div>
               </div>
 
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('LiveTranslationAddonsCard')"
               >
                 <div>
@@ -2101,7 +2098,7 @@ onBeforeMount(() => {
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("LiveTranslationAddonsCard")
                       ? "Minisize"
@@ -2111,7 +2108,7 @@ onBeforeMount(() => {
               </div>
 
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] border-b w-full"
+                class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] border-b w-full"
                 v-if="verticalView"
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')"
               >
@@ -2122,10 +2119,10 @@ onBeforeMount(() => {
                     :class="[openResizeMenuLiveTranslataion ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">Horizontal View</div>
+                <div class="text_mini">Horizontal View</div>
               </div>
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] border-b w-full"
+                class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] border-b w-full"
                 v-if="horizontalView"
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('vertical')"
               >
@@ -2136,9 +2133,9 @@ onBeforeMount(() => {
                     :class="[openResizeMenuLiveTranslataion ? '!fill-white' : '']"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">Vertical View</div>
+                <div class="text_mini">Vertical View</div>
               </div>
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -2152,7 +2149,7 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[56px] divide-y space-y-[42px] lg:space-y-0 lg:space-x-[100px] px-[15px]"
+          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[56px] divide-y space-y-[42px] lg:space-y-0 lg:rtl:space-x-reverse space-x-[100px] px-[15px]"
           v-if="
             horizontalView &&
             !collapseStore.collapses.includes('LiveTranslationAddonsCard')
@@ -2172,7 +2169,7 @@ onBeforeMount(() => {
               Almost 50 Page
             </div>
 
-            <div class="flex items-center justify-evenly mt-[12px] space-x-[6px]">
+            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
                 <img
                   src="/assets/imgs/addons/live_icon.svg"
@@ -2210,7 +2207,7 @@ onBeforeMount(() => {
               Almost 100 Page
             </div>
 
-            <div class="flex items-center justify-evenly mt-[12px] space-x-[6px]">
+            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
                 <img
                   src="/assets/imgs/addons/live_icon.svg"
@@ -2244,7 +2241,7 @@ onBeforeMount(() => {
               Almost 500 Page
             </div>
 
-            <div class="flex items-center justify-evenly mt-[12px] space-x-[6px]">
+            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
                 <img
                   src="/assets/imgs/addons/live_icon.svg"
@@ -2273,7 +2270,7 @@ onBeforeMount(() => {
         </div>
         <div
           v-if="collapseStore.collapses.includes('LiveTranslationAddonsCard')"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -2296,7 +2293,7 @@ onBeforeMount(() => {
             "
             class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
-            <div class="ml-[15px]">
+            <div class="ltr:ml-[15px] rtl:mr-[15px]">
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
             </div>
 
@@ -2329,7 +2326,7 @@ onBeforeMount(() => {
             "
             class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
-            <div class="ml-[15px]">
+            <div class="ltr:ml-[15px] rtl:mr-[15px]">
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
             </div>
 
@@ -2362,7 +2359,7 @@ onBeforeMount(() => {
             "
             class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
-            <div class="ml-[15px]">
+            <div class="ltr:ml-[15px] rtl:mr-[15px]">
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
             </div>
 

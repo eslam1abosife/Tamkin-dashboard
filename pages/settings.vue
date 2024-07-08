@@ -1,8 +1,18 @@
 <script lang="ts" setup>
 import VCodeBlock from "@wdns/vue-code-block";
 import { useModalStore } from "@/stores/modal";
-
-const { controlResetModal ,controlDeleteModal,controlStep1TransferModal,openShareModal} = useModalStore();
+import { useCollapseStore } from "@/stores/collapse.js";
+import { vOnClickOutside } from "@vueuse/components";
+import { useSettingsStore } from "@/stores/settings";
+const settingsStore = useSettingsStore();
+const {isChecked,toggleCheckbox} = settingsStore
+const collapseStore = useCollapseStore();
+const {
+  controlResetModal,
+  controlDeleteModal,
+  controlStep1TransferModal,
+  openShareModal,
+} = useModalStore();
 definePageMeta({
   layout: "dashboard",
 });
@@ -67,65 +77,29 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
-const localePath = useLocalePath();
 
-const isSearchfilled = ref(false);
-const search = ref("");
-watch(search, (ov, nv) => {
-  return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
+const widgetEnabledOnSite = ref(false);
+const widgetEnabledOnMobile = ref(false);
+const soundEffects = ref(false);
+
+onBeforeMount(() => {
+  ["enable_widget_on_this_site", "widget_enabled_on_mobile", "sound_effects"].forEach(
+    (name) => {
+      settingsStore.addCheckbox(name);
+    }
+  );
+  settingsStore.initializeCheckboxes([
+    "enable_widget_on_this_site",
+
+    "widget_enabled_on_mobile",
+    "sound_effects",
+  ]);
 });
-const clearInput = () => {
-  search.value = "";
-};
-const openMenuResize = (typeMenu: any) => {
-  if (typeMenu === "adjust") {
-    openResizeMenuAdjust.value = !openResizeMenuAdjust.value;
-  }
-};
-const isPageStrucChecked = ref(false);
-
-const openResizeMenuManage = ref(false);
-const openResizeMenuAdjust = ref(false);
-const openResizeLicenseMenu = ref(false)
-const miniSizeLicense = ref(false)
-const miniSizeManage = ref(false);
-const miniSizeAdjust = ref(false);
-const miniSizeLiveTranslation = ref(false);
-const verticalView = ref(false);
-const horizontalView = ref(true);
-const openResizeResetAllAccess = ref(false);
-const miniSizeResetAll = ref(false);
-const route = useRoute();
-const widgetEnabledOnSite = ref(false)
-const widgetEnabledOnMobile = ref(false)
-const soundEffects = ref(false)
-const isLinkActive = (path) => {
-  //   const localePath = this.$i18n.localePath(path);
-  return route.path === localePath(path);
-};
-
-const liveTranslationMiniSize = () => {
-  verticalView.value = false;
-  horizontalView.value = false;
-
-  if (!miniSizeLiveTranslation.value) {
-    miniSizeLiveTranslation.value = true;
-  }
-};
-const resetAllMiniSize = ()=>{
-  miniSizeResetAll.value = !miniSizeResetAll.value
-}
-const licenseMiniSize = () => {
-  miniSizeLicense.value = !miniSizeLicense.value
-};
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    <div class=" w-full h-full relative">
- 
+    <div class="w-full h-full relative">
       <div class="space-y-[10px]">
         <h1 class="text-left text-[24px] leading-[36px] font-[600]">Settings</h1>
 
@@ -135,8 +109,7 @@ const licenseMiniSize = () => {
       </div>
 
       <div
-        class="relative  mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col 
-        w-full justify-center lg:justify-start"
+        class="relative mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
       >
         <div
           class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
@@ -145,8 +118,7 @@ const licenseMiniSize = () => {
             <div class="flex flex-col lg:flex-row items-center justify-between">
               <div class="flex items-center justify-start space-x-[8px]">
                 <div
-                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin 
-                  custom-border-tamkin-rounded rounded-full"
+                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
@@ -176,25 +148,26 @@ const licenseMiniSize = () => {
         </div>
       </div>
 
-      <div class="mt-[50px] bg-white rounded-[10px]" style="box-shadow: 0px 4px 4px 0px #00000014;
-      ">
+      <div
+        class="mt-[50px] bg-white rounded-[10px]"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
-              General Settings
-            </h1>
-            <h2
-              class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey"
-            >
-              Accessibility Settings allow users to customize their website
-              experience to ensure it is accessible and user-friendly
+            <h1 class="text-[20px] font-[500] leading-[30px]">General Settings</h1>
+            <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
+              Accessibility Settings allow users to customize their website experience to
+              ensure it is accessible and user-friendly
             </h2>
           </div>
 
           <div
-            @click.stop="openMenuResize('adjust')"
+            @click.stop="collapseStore.collapseMenu('general_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('general_settings')"
             :class="[
-              openResizeMenuAdjust ? 'active_notification !text-darkGrey' : '',
+              collapseStore.menus.includes('general_settings')
+                ? 'active_notification !text-darkGrey'
+                : '',
             ]"
             class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
@@ -205,7 +178,7 @@ const licenseMiniSize = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuAdjust
+                collapseStore.menus.includes('general_settings')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -217,29 +190,34 @@ const licenseMiniSize = () => {
             </svg>
 
             <div
-              v-if="openResizeMenuAdjust"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              v-if="collapseStore.menus.includes('general_settings')"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="miniSizeAdjust = !miniSizeAdjust"
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('general_settings_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeMenuAdjust ? '!fill-white' : '']"
+                    :class="[
+                      collapseStore.menus.includes('general_settings')
+                        ? '!fill-white'
+                        : '',
+                    ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("general_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
                 </div>
               </div>
 
-              <div
-                class="absolute top-[10px] right-[-10px] z-[50] !border-none"
-              >
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -254,49 +232,37 @@ const licenseMiniSize = () => {
 
         <div
           class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
-          v-if="!miniSizeAdjust"
+          v-if="!collapseStore.collapses.includes('general_settings_card')"
         >
-        
-
           <div
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!widgetEnabledOnSite ? 'opacity-60' : '']"
+                :class="[!isChecked('enable_widget_on_this_site') ? 'opacity-60' : '']"
               >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
+                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
               <div class="ml-auto">
-                <label
-                  for="toggle_Widget_enabled_on_this_site"
-                  class="toggle_wrap"
-                >
+                <label for="toggle_Widget_enabled_on_this_site" class="toggle_wrap">
+               
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_this_site"
                     class="sr-only"
-                    v-model="widgetEnabledOnSite"
+                     :checked="isChecked('enable_widget_on_this_site')"
+                    @change="toggleCheckbox('enable_widget_on_this_site')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[
-                      widgetEnabledOnSite
-                        ? 'active'
-                        : 'in_active',
-                    ]"
+                    :class="[isChecked('enable_widget_on_this_site') ? 'active' : 'in_active']"
                   >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': widgetEnabledOnSite }"
-                    >
+                    <div class="toggle_inner" :class="{ active: isChecked('enable_widget_on_this_site') }">
                       <img
-                        v-if="widgetEnabledOnSite"
+                        v-if="isChecked('enable_widget_on_this_site')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                         alt=""
@@ -320,39 +286,29 @@ const licenseMiniSize = () => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!widgetEnabledOnMobile ? 'opacity-60' : '']"
+                :class="[!isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '']"
               >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
+                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
                   <span>Widget enabled on mobile</span>
                 </div>
               </div>
               <div class="ml-auto">
-                <label
-                  for="toggle_Widget_enabled_on_mobile"
-                  class="toggle_wrap"
-                >
+                <label for="toggle_Widget_enabled_on_mobile" class="toggle_wrap">
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_mobile"
+
                     class="sr-only"
-                    v-model="widgetEnabledOnMobile"
+                          :checked="isChecked('widget_enabled_on_mobile')"
+                    @change="toggleCheckbox('widget_enabled_on_mobile')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[
-                      widgetEnabledOnMobile
-                        ? 'active'
-                        : 'in_active',
-                    ]"
+                    :class="[isChecked('widget_enabled_on_mobile') ? 'active' : 'in_active']"
                   >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': widgetEnabledOnMobile }"
-                    >
+                    <div class="toggle_inner" :class="{ active: isChecked('widget_enabled_on_mobile') }">
                       <img
-                        v-if="widgetEnabledOnMobile"
+                        v-if="isChecked('widget_enabled_on_mobile')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                         alt=""
@@ -376,39 +332,30 @@ const licenseMiniSize = () => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!soundEffects ? 'opacity-60' : '']"
+                :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
               >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
+                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
                   <span> Sound effects</span>
                 </div>
               </div>
               <div class="ml-auto">
-                <label
-                  for="toggle_Sound_effects"
-                  class="toggle_wrap"
-                >
+                <label for="toggle_Sound_effects" class="toggle_wrap">
                   <input
                     type="checkbox"
                     id="toggle_Sound_effects"
                     class="sr-only"
-                    v-model="soundEffects"
+                
+           
+      :checked="isChecked('sound_effects')"
+                    @change="toggleCheckbox('sound_effects')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[
-                      soundEffects
-                        ? 'active'
-                        : 'in_active',
-                    ]"
+                    :class="[isChecked('sound_effects') ? 'active' : 'in_active']"
                   >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': soundEffects }"
-                    >
+                    <div class="toggle_inner" :class="{ active: isChecked('sound_effects') }">
                       <img
-                        v-if="soundEffects"
+                        v-if="isChecked('sound_effects')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                         alt=""
@@ -431,39 +378,40 @@ const licenseMiniSize = () => {
           v-else
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
+          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
+          veritatis dolore. Exercitationem et omnis ea quidem
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] relative" style="box-shadow: 0px 4px 4px 0px #00000014;
-      ">
+      <div
+        class="mt-[30px] bg-white rounded-[10px] relative"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <DashboardToastSuccess
-        v-if="copyDone"
-        :hideIn="2000"
-        :message="'Copied to clipboard'"
-      />
+          v-if="copyDone"
+          :hideIn="2000"
+          :message="'Copied to clipboard'"
+        />
 
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
-              Widget Embed Code
-            </h1>
-            <h2
-              class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey "
-            >
-              Widget Embed Code allows you to easily integrate accessibility
-              features into your website by adding a simple script to your
-              site's HTML
+            <h1 class="text-[20px] font-[500] leading-[30px]">Widget Embed Code</h1>
+            <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
+              Widget Embed Code allows you to easily integrate accessibility features into
+              your website by adding a simple script to your site's HTML
             </h2>
           </div>
           <div
-            @click="openResizeMenuManage = !openResizeMenuManage"
+            @click="collapseStore.collapseMenu('widget_embded_code_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('widget_embded_code_settings')
+            "
             :class="[
-              openResizeMenuManage ? 'active_notification !text-darkGrey' : '',
+              collapseStore.menus.includes('widget_embded_code_settings')
+                ? 'active_notification !text-darkGrey'
+                : '',
             ]"
-            class="relative ml-auto mr-[15px] 
-            flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -472,7 +420,7 @@ const licenseMiniSize = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeMenuManage
+                collapseStore.menus.includes('widget_embded_code_settings')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -484,29 +432,35 @@ const licenseMiniSize = () => {
             </svg>
 
             <div
-              v-if="openResizeMenuManage"
+              v-if="collapseStore.menus.includes('widget_embded_code_settings')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="miniSizeManage = !miniSizeManage"
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('widget_embded_code_settings_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
-                    :class="[openResizeMenuManage ? '!fill-white' : '']"
+                    :class="[
+                      collapseStore.menus.includes('widget_embded_code_settings')
+                        ? '!fill-white'
+                        : '',
+                    ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("widget_embded_code_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
                 </div>
               </div>
 
-              <div
-                class="absolute top-[10px] right-[-10px] z-[50] !border-none"
-              >
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -520,24 +474,18 @@ const licenseMiniSize = () => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center px-[15px] pb-[16px]  divide-y"
-          v-if="!miniSizeManage"
+          class="flex flex-col items-start justify-center px-[15px] pb-[16px] divide-y"
+          v-if="!collapseStore.collapses.includes('widget_embded_code_settings_card')"
         >
-          <div
-            class=" w-full h-full  rounded-[10px]"
-        
-          >
+          <div class="w-full h-full rounded-[10px]">
             <div
-              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] 
-              lg:justify-between mt-[24px] w-full"
+              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[24px] w-full"
               style="padding: 30px, 16px, 20px, 15px"
             >
               <button
                 @click="showAdancedCode()"
                 class="btn__icon__dashboard ipad-max:text-[12px]"
-                style="
-                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                "
+                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
               >
                 <div>
                   <svg
@@ -557,12 +505,9 @@ const licenseMiniSize = () => {
               </button>
               <div
                 @click="openShareModal"
-                class="cursor-pointer ipad-max:text-[12px] border-[2px] 
-                rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+                class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
               >
-                <div
-                  class="bg-white rounded-md flex items-center justify-center"
-                >
+                <div class="bg-white rounded-md flex items-center justify-center">
                   <div class="pl-[16px]">
                     <svg
                       width="22"
@@ -610,8 +555,7 @@ const licenseMiniSize = () => {
                   </div>
 
                   <button
-                    class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r
-                     group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                    class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                   >
                     Share code with your team
                   </button>
@@ -622,9 +566,7 @@ const licenseMiniSize = () => {
                 @click="copyCode"
                 class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
               >
-                <div
-                  class="bg-white rounded-md flex items-center justify-center"
-                >
+                <div class="bg-white rounded-md flex items-center justify-center">
                   <div class="pl-[16px]">
                     <svg
                       width="20"
@@ -665,7 +607,7 @@ const licenseMiniSize = () => {
               </div>
             </div>
 
-            <div class="mt-[24px]  w-full min-h-[50px]">
+            <div class="mt-[24px] w-full min-h-[50px]">
               <Client-only>
                 <VCodeBlock
                   :code="currentCode"
@@ -679,10 +621,9 @@ const licenseMiniSize = () => {
                 class="text-left font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
                 style="line-height: 23.4px"
               >
-                Managing multiple sites for multiple clients ? Great! Make sure
-                you use
-                <span class="text-darkGrey">the same embed code</span> on all of
-                your sites !
+                Managing multiple sites for multiple clients ? Great! Make sure you use
+                <span class="text-darkGrey">the same embed code</span> on all of your
+                sites !
               </h2>
             </div>
           </div>
@@ -692,32 +633,34 @@ const licenseMiniSize = () => {
           v-else
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
+          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
+          veritatis dolore. Exercitationem et omnis ea quidem
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] " style="box-shadow: 0px 4px 4px 0px #00000014;
-      ">
+      <div
+        class="mt-[30px] bg-white rounded-[10px] pb-[24px]"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
-                Rest All Accessibility Settings
+              Rest All Accessibility Settings
             </h1>
 
             <p
               class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] w-3/4"
             >
-            Reset all accessibility settings to their default configurations, restoring original preferences and ensuring a standard user experience for all users
+              Reset all accessibility settings to their default configurations, restoring
+              original preferences and ensuring a standard user experience for all users
             </p>
           </div>
 
           <div
-            @click="
-              openResizeResetAllAccess = !openResizeResetAllAccess
-            "
+            @click="collapseStore.collapseMenu('reset_all_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('reset_all_settings')"
             :class="[
-              openResizeResetAllAccess
+              collapseStore.menus.includes('reset_all_settings')
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
@@ -730,7 +673,7 @@ const licenseMiniSize = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeResetAllAccess
+                collapseStore.menus.includes('reset_all_settings')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -742,34 +685,35 @@ const licenseMiniSize = () => {
             </svg>
 
             <div
-              v-if="openResizeResetAllAccess"
+              v-if="collapseStore.menus.includes('reset_all_settings')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
-      
-
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="resetAllMiniSize"
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('reset_all_settings_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
                     :class="[
-                      openResizeResetAllAccess ? '!fill-white' : '',
+                      collapseStore.menus.includes('reset_all_settings')
+                        ? '!fill-white'
+                        : '',
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("reset_all_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
                 </div>
               </div>
 
-          
-              <div
-                class="absolute top-[10px] right-[-10px] z-[50] !border-none"
-              >
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -783,87 +727,114 @@ const licenseMiniSize = () => {
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[24px]
-           divide-y space-y-[42px] lg:space-y-0 lg:space-x-[100px] px-[15px]"
-          v-if=" !miniSizeResetAll"
+          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[24px] divide-y space-y-[42px] lg:space-y-0 lg:space-x-[100px] px-[15px]"
+          v-if="!collapseStore.collapses.includes('reset_all_settings_card')"
         >
-    
-        <button class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group" @click="controlResetModal">
+          <button
+            class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
+            @click="controlResetModal"
+          >
             <div>
-                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                class="group-hover:hidden block">
-                    <path d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239" stroke="url(#paint0_linear_3592_46947)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <defs>
-                    <linearGradient id="paint0_linear_3592_46947" x1="12.4998" y1="3" x2="12.4998" y2="21" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#2DADA3"/>
-                    <stop offset="1" stop-color="#71DAD2"/>
-                    </linearGradient>
-                    </defs>
-                    </svg>
-                <svg class="group-hover:block hidden" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.5 16.5H19.5V21.5M10.5 8.5H5.5V3.5M19.9176 9.5034C19.3569 8.11566 18.4181 6.91304 17.208 6.03223C15.9979 5.15141 14.5652 4.62752 13.0723 4.52051C11.5794 4.4135 10.0861 4.7274 8.7627 5.42661C7.43933 6.12582 6.33882 7.18254 5.58594 8.47612M5.08203 15.4971C5.64272 16.8848 6.58146 18.0874 7.79157 18.9682C9.00169 19.8491 10.4359 20.3723 11.9288 20.4793C13.4217 20.5863 14.9138 20.2725 16.2371 19.5732C17.5605 18.874 18.6603 17.8175 19.4131 16.5239" stroke="url(#paint0_linear_4555_30965)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <defs>
-                    <linearGradient id="paint0_linear_4555_30965" x1="12.4998" y1="3.5" x2="12.4998" class=" !stroke-white"
-                    y2="21.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="currentColor"/>
-                    <stop offset="1" stop-color="currentColor"/>
-                    </linearGradient>
-                    </defs>
-                    </svg>
-                    
-          
-                        
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="group-hover:hidden block"
+              >
+                <path
+                  d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239"
+                  stroke="url(#paint0_linear_3592_46947)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_3592_46947"
+                    x1="12.4998"
+                    y1="3"
+                    x2="12.4998"
+                    y2="21"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <svg
+                class="group-hover:block hidden"
+                width="25"
+                height="25"
+                viewBox="0 0 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.5 16.5H19.5V21.5M10.5 8.5H5.5V3.5M19.9176 9.5034C19.3569 8.11566 18.4181 6.91304 17.208 6.03223C15.9979 5.15141 14.5652 4.62752 13.0723 4.52051C11.5794 4.4135 10.0861 4.7274 8.7627 5.42661C7.43933 6.12582 6.33882 7.18254 5.58594 8.47612M5.08203 15.4971C5.64272 16.8848 6.58146 18.0874 7.79157 18.9682C9.00169 19.8491 10.4359 20.3723 11.9288 20.4793C13.4217 20.5863 14.9138 20.2725 16.2371 19.5732C17.5605 18.874 18.6603 17.8175 19.4131 16.5239"
+                  stroke="url(#paint0_linear_4555_30965)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_4555_30965"
+                    x1="12.4998"
+                    y1="3.5"
+                    x2="12.4998"
+                    class="!stroke-white"
+                    y2="21.5"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="currentColor" />
+                    <stop offset="1" stop-color="currentColor" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
-           <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
-            Rest All Accessibility Settings
-           </div>
-        </button>
-
+            <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
+              Rest All Accessibility Settings
+            </div>
+          </button>
         </div>
         <div
-          v-if="miniSizeResetAll"
+          v-if="collapseStore.collapses.includes('reset_all_settings_card')"
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
+          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
+          veritatis dolore. Exercitationem et omnis ea quidem
         </div>
-      
       </div>
 
-
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]" style="box-shadow: 0px 4px 4px 0px #00000014;
-      ">
+      <div
+        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]"
+        style="box-shadow: 0px 4px 4px 0px #00000014"
+      >
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
-              License Settings
-            </h1>
+            <h1 class="text-[20px] font-[500] leading-[30px]">License Settings</h1>
 
             <p
               class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] w-3/4"
             >
-            Transfer License to Another Website allows you to move your existing accessibility widget license to a different site, ensuring continued accessibility compliance
-
-
-
-
-
-
-          </p>
+              Transfer License to Another Website allows you to move your existing
+              accessibility widget license to a different site, ensuring continued
+              accessibility compliance
+            </p>
           </div>
 
           <div
-            @click="
-            
-            openResizeLicenseMenu= !openResizeLicenseMenu
-            "
+            @click="collapseStore.collapseMenu('license_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('license_settings')"
             :class="[
-              openResizeLicenseMenu
+              collapseStore.menus.includes('license_settings')
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer 
-            bg-[#F2F2F2] rounded-[10px] w-[46px] h-[36px]"
+            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[46px] h-[36px]"
           >
             <svg
               width="18"
@@ -872,7 +843,7 @@ const licenseMiniSize = () => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               :class="[
-                openResizeLicenseMenu
+                collapseStore.menus.includes('license_settings')
                   ? 'stroke-current !text-white !fill-white'
                   : '',
               ]"
@@ -884,34 +855,35 @@ const licenseMiniSize = () => {
             </svg>
 
             <div
-              v-if="openResizeLicenseMenu"
+              v-if="collapseStore.menus.includes('license_settings')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
-          
-
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
-                @click="licenseMiniSize"
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('license_settings_card')"
               >
                 <div>
                   <img
                     src="/assets/imgs/addons/min_size.svg"
                     alt=""
                     :class="[
-                      openResizeLicenseMenu ? '!fill-white' : '',
+                      collapseStore.menus.includes('license_settings')
+                        ? '!fill-white'
+                        : '',
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
-                  Minisize
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("license_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
                 </div>
               </div>
 
-          
-              <div
-                class="absolute top-[10px] right-[-10px] z-[50] !border-none"
-              >
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -925,65 +897,59 @@ const licenseMiniSize = () => {
         </div>
 
         <div
-          class="flex items-center flex-col justify-center  divide-y  lg:space-y-0  px-[15px]"
-          v-if="!miniSizeLicense"
+          class="flex items-center flex-col justify-center divide-y lg:space-y-0 px-[15px]"
+          v-if="!collapseStore.collapses.includes('license_settings_card')"
         >
-    
-        <div
-        class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-      >
-        <div class="flex items-center justify-start space-x-[13px] w-full">
           <div
-            class="flex flex-col items-start justify-center w-full"
-        
+            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <div
-              class="!text-[#585B5B] font-[500] text-[14px] leading-[24px] w-full"
-            >
-              <span>Widget enabled on this site </span>
+            <div class="flex items-center justify-start space-x-[13px] w-full">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div class="!text-[#585B5B] font-[500] text-[14px] leading-[24px] w-full">
+                  <span>Widget enabled on this site </span>
+                </div>
+              </div>
+              <div class="ml-auto w-full">
+                <button
+                  class="btn_bordered_dashboard ml-auto !p-[5px] w-1/4 text-[14px] font-[500] leading-[22.5px]"
+                  @click="controlStep1TransferModal"
+                >
+                  Transfer License
+                </button>
+              </div>
             </div>
           </div>
-          <div class="ml-auto w-full">
-          <button class="btn_bordered_dashboard ml-auto !p-[5px] w-1/4 text-[14px] font-[500] leading-[22.5px]" @click="controlStep1TransferModal">
-            Transfer License
-          </button>
-          </div>
-        </div>
-      </div>
 
-      <div
-      class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-    >
-      <div class="flex items-center justify-start  w-full">
-        <div
-          class="flex flex-col items-start justify-center w-full"
-         
-        >
           <div
-            class="!text-[#585B5B] font-[500] text-[14px] leading-[24px] w-full"
+            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
-            <span>Delete site permanently removes your profile and data from the system </span>
+            <div class="flex items-center justify-start w-full">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div class="!text-[#585B5B] font-[500] text-[14px] leading-[24px] w-full">
+                  <span
+                    >Delete site permanently removes your profile and data from the system
+                  </span>
+                </div>
+              </div>
+              <div class="ml-auto w-full">
+                <button
+                  class="btn_bordered_dashboard error ml-auto w-1/4 text-[14px] font-[500] leading-[22.5px]"
+                  @click="controlDeleteModal"
+                >
+                  Delete Site
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="ml-auto w-full">
-        <button class="btn_bordered_dashboard error ml-auto w-1/4 text-[14px] font-[500] leading-[22.5px]" @click="controlDeleteModal">
-          Delete Site
-        </button>
-        </div>
-      </div>
-    </div>
-
-        </div>
         <div
-          v-if="miniSizeLicense"
+          v-if="collapseStore.collapses.includes('license_settings_card')"
           class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
         >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
+          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
+          veritatis dolore. Exercitationem et omnis ea quidem
         </div>
-  
       </div>
-      
     </div>
   </div>
 </template>

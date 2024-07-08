@@ -110,7 +110,8 @@ const copyCode = () => {
       :class="[
         collapseStore.menus.includes('custom_trigger')  ? 'active_notification !text-darkGrey' : '',
       ]"
-      class="absolute top-0 right-[15px]  ml-auto mr-[15px] mt-[31px] flex items-center justify-center cursor-pointer 
+      class="absolute top-0 rtl:left-[15px] ltr:right-[15px] rtl:mr-auto  rtl:ml-[0px]  ltr:ml-auto  ltr:mr-[15px] mt-[31px] 
+      flex items-center justify-center cursor-pointer 
       bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
     >
       <svg
@@ -133,11 +134,10 @@ const copyCode = () => {
   
       <div
         v-if=" collapseStore.menus.includes('custom_trigger')"
-        style="box-shadow: 0px 2px 6px 0px #00000040"
-        class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+        class="mini_SizeMenu"
       >
         <div
-          class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+          class="mini_wrap"
           @click=" collapseStore.collapseCard('custom_trigger_card')"
         >
           <div>
@@ -147,10 +147,10 @@ const copyCode = () => {
               :class="[collapseStore.menus.includes('custom_trigger') ? '!fill-white' : '']"
             />
           </div>
-          <div class="text-[14px] leading-[21px] font-[400]">{{!collapseStore.collapses.includes('custom_trigger_card') ?'Minisize':'Maxsize'}}</div>
+          <div class="text_mini">{{!collapseStore.collapses.includes('custom_trigger_card') ?'Minisize':'Maxsize'}}</div>
         </div>
   
-        <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+        <div class="arrow">
           <img
             src="/assets/imgs/addons/arrow_menu.svg"
             tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -176,7 +176,7 @@ const copyCode = () => {
             </div>
          
           </div>
-          <div class="ml-auto">
+          <div class="ltr:ml-auto rtl:mr-auto">
             <label
               for="toggle_custom_trigger"
               class="toggle_wrap"
@@ -219,7 +219,7 @@ const copyCode = () => {
         </div>
       </div>
 
-      <div class="w-full relative my-[24px] " v-if="moveAccess">
+      <div class="w-full relative my-[24px] " v-if="isChecked('enable_custom_trigger')">
         <input type="text" placeholder="{{$t('Custom id')}}" id="custom_id" class="input_floating_label peer !w-full"
           v-model="v$.custom_id.$model" :class="{
     input_error:
@@ -244,7 +244,7 @@ const copyCode = () => {
         </div>
       </div>
 
-      <div class="   " :class="[!state.custom_id ?'w-full max-w-[1060px]' :'max-w-[1060px] w-full']" v-if="moveAccess">
+      <div class="   " :class="[!state.custom_id ?'w-full max-w-[1060px]' :'max-w-[1060px] w-full']" v-if="isChecked('enable_custom_trigger')">
         <Client-only>
             <VCodeBlock
               :code="currentCode"
@@ -258,8 +258,8 @@ const copyCode = () => {
               </p>
                         </Client-only>
     </div>
-    <div @click="copyCode" v-if="moveAccess"
-    class="ml-auto cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
+    <div @click="copyCode" v-if="isChecked('enable_custom_trigger')"
+    class="ltr:ml-auto rtl:mr-auto cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
      bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
   >
     <div class="bg-white rounded-md flex items-center justify-center">

@@ -96,7 +96,8 @@ $colors: (
 }
 
 .btn__icon__dashboard {
-  @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight h-[45px] rounded-[10px] p-[16px] text-white flex items-center space-x-[4px];
+  @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight
+   h-[45px] rounded-[10px] p-[16px] text-white flex items-center rtl:space-x-reverse space-x-[4px];
 }
 
 .btn_bordered_dashboard {

@@ -49,7 +49,7 @@ watchEffect(() => {
   >
 
     <div
-      class="block lg:hidden absolute top-[35px] right-0"
+      class="block lg:hidden absolute top-[35px] rtl:left-0 ltr:right-0"
       @click="toggleSidebarMobile"
     >
       <svg
@@ -69,11 +69,11 @@ watchEffect(() => {
     </div>
    
 
-<div class="flex flex-col items-center justify-start ml-[4px]">
+<div class="flex flex-col items-center justify-start rtl:mr-[4px] ltr:ml-[4px]">
   <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
     <img
       src="/assets//imgs/logo.png"
-      class="min-h-[60px] w-[120px] ml-[-4px]"
+      class="min-h-[60px] w-[120px] rtl:mr-[4px] ltr:ml-[-4px]"
       alt=""
       v-if="sideBarOpen "
     />
@@ -101,7 +101,7 @@ watchEffect(() => {
     alt=""
   />
 
-  <div class="flex items-center space-x-[100px]" >
+  <div class="flex items-center  rtl:space-x-reverse space-x-[100px]" >
     <div
       class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
       :class="[!sideBarOpen ? 'hidden' : 'block']"
@@ -137,7 +137,7 @@ watchEffect(() => {
   class="btn-dashboard flex items-center justify-center relative w-full"
   v-if="sideBarOpen"
 >
-  <div class="absolute left-0 px-[16px]">
+  <div class="absolute rtl:right-0 ltr:left-0 px-[16px]">
     <svg
       width="24"
       height="24"
@@ -188,7 +188,7 @@ watchEffect(() => {
       >
         <div>
           <svg
-          :class="[sideBarOpen ? 'pl-[11px]' :'']"
+          :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
             class="  w-full h-full"
             width="24"
             height="24"
@@ -289,7 +289,7 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
                         class="  w-full h-full"
 
           >
@@ -328,7 +328,7 @@ watchEffect(() => {
             width="25"
             height="24"
             viewBox="0 0 25 24"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' :'']"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
                         class="  w-full h-full"
@@ -382,7 +382,7 @@ watchEffect(() => {
             <img
               src="/assets/imgs/icons/signlang.svg"
               alt=""
-                 :class="[sideBarOpen ? 'pl-[11px]' :'']"
+                 :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
             />
           </div>
           <div v-if="sideBarOpen">
@@ -392,7 +392,7 @@ watchEffect(() => {
             <svg
               width="7"
               height="12"
-              class="rtl:mr-[40px] ltr:ml-[12px]"
+              class="rtl:mr-[12px] ltr:ml-[12px]"
               :class="[showSubMenu[2] ? 'rotate-90' : '']"
               viewBox="0 0 7 12"
               xmlns="http://www.w3.org/2000/svg"
@@ -421,32 +421,33 @@ watchEffect(() => {
           style="padding: 10px 40px 10px 40px"
         >
           <div class="flex w-full">
-            <div class="bg-[#FFFEFE] relative w-full h-full left-0">
+            <div class="bg-[#FFFEFE] relative w-full h-full rtl:right-0 lt:left-0">
               <div
-                class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
+                class="absolute inset-y-0 rtl:right-[-20px] ltr:left-[-20px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
               ></div>
               <ul class="mt-4 space-y-[10px]">
                 <li class="rounded-[10px] relative">
                   <div
-                    class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 rtl:right-[-20px] ltr:left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px] active_sub_menu"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] 
+                    h-[40px] active_sub_menu"
                     >Overview</a
                   >
                 </li>
                 <li class="rounded-[10px] relative w-full">
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
                     >Overview</a
                   >
                 </li>
                 <li class="rounded-[10px] relative">
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px]  w-[225px] h-[40px]"
                     >Overview</a
                   >
                 </li>
@@ -466,7 +467,7 @@ watchEffect(() => {
         >
           <div>
             <svg 
-             :class="[sideBarOpen ? 'pl-[11px]' :'']"
+             :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
             width="25" height="25" viewBox="0 0 25 25" class="w-full h-full" 
             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
        
@@ -557,7 +558,7 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
                         class="  w-full h-full"
 
           >
@@ -592,7 +593,7 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
                         class="  w-full h-full"
 
           >
@@ -626,7 +627,7 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
                         class="  w-full h-full"
 
           >
@@ -660,7 +661,7 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'pl-[11px]' :'']"
+               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
                         class="  w-full h-full"
 
           >

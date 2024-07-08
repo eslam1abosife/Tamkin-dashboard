@@ -6,6 +6,7 @@ import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
+const langStore = useLangSwitch()
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
 const { colorMode, gradient1, gradient2, currentColor,buttonSizeSlider ,buttonShapeSelector} = storeToRefs(customizeStore);
@@ -52,12 +53,14 @@ const changeGradientColor2 = computed(() => {
 const thumbStyle = computed(() => {
   const minSize = 50; // Min size of outer circle
   const maxSize = 85; // Max size of outer circle
-  const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
+  const position = langStore.direction === 'rtl' ? 'right' : 'left';
 
   return {
     width: `${size}px`,
     height: `${size}px`,
-    left: `${buttonSizeSlider.value}%`,
+    transform: langStore.direction === 'rtl' ? `translate(50%, -50%)` : `translate(-50%, -50%)`,
+    [position]: `${buttonSizeSlider.value}%`,
   };
 });
 const border_style = computed(() => {
@@ -173,7 +176,7 @@ onBeforeMount(() => {
 });
 
 watch(buttonSizeSlider,(ov,nv)=>{   
-  console.log(nv) 
+  // console.log(nv) 
   if(nv>=4){
 
     customizeStore.force_change = true
@@ -189,9 +192,9 @@ watch(buttonSizeSlider,(ov,nv)=>{
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
       <div class="space-y-[10px]">
-        <h1 class="text-left text-[24px] leading-[36px] font-[600]">Customize</h1>
+        <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">Customize</h1>
 
-        <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
+        <h2 class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey">
           Customization empowers users to shape their digital environment
         </h2>
       </div>
@@ -204,14 +207,14 @@ watch(buttonSizeSlider,(ov,nv)=>{
         >
           <div class="w-full space-y-[16px]">
             <div class="flex flex-col lg:flex-row items-center justify-between">
-              <div class="flex items-center justify-start space-x-[8px]">
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                 <div
                   class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px #51459f1a"
                 >
                   <img src="/assets/imgs/tamkin_hand.svg" alt="" />
                 </div>
-                <div class="flex items-center space-x-[16px]">
+                <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
                     <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
@@ -240,7 +243,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[50px] bg-white rounded-[10px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Button Color</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -257,7 +260,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -283,7 +286,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
               class="flex flex-col items-start justify-start !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('button_color_card')"
               >
                 <div>
@@ -304,7 +307,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -322,7 +325,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
           v-if="!collapseStore.collapses.includes('button_color_card')"
         >
           <div class="flex items-center justify-between w-full">
-            <div class="flex items-center justify-start px-[15px] space-x-[29px] w-full">
+            <div class="flex items-center justify-start px-[15px] rtl:space-x-reverse space-x-[29px] w-full">
               <div
                 @click="customizeStore.colorMode = 'solid'"
                 :class="[
@@ -330,7 +333,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                     ? 'custom-border-tamkin padding-override-1'
                     : 'border-[1px] rounded-[10px]',
                 ]"
-                class="flex items-center justify-start space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div class="bg-[#585B5B] h-[24px] w-[24px] rounded-[5px]"></div>
                 <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
@@ -345,7 +348,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                     : 'border-[1px] rounded-[10px]',
                 ]"
                 @click="customizeStore.colorMode = 'gradient'"
-                class="flex items-center justify-start space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div
                   style="background: linear-gradient(180deg, #585b5b 0%, #bac1c0 100%)"
@@ -359,7 +362,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="customizeStore.colorMode === 'solid'"
               :style="{ border: `1px solid ${customizeStore.currentColor}` }"
-              class="mx-[15px] ml-auto flex items-center justify-start space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
+              class="mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
             >
               <div
                 class="h-[24px] w-[24px] rounded-full"
@@ -374,7 +377,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
               v-if="customizeStore.colorMode === 'gradient'"
               class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] mx-[15px] cursor-pointer"
             >
-              <div class="flex items-center justify-center space-x-[10px] px-[15px]">
+              <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]">
                 <div
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient1 }"
@@ -384,7 +387,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
               <div
-                class="flex items-center justify-center space-x-[10px] ml-[50%] pr-[15px]"
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-[50%] pr-[15px]"
               >
                 <div
                   class="h-[24px] w-[24px] rounded-full"
@@ -457,7 +460,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -468,7 +471,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[30px] bg-white rounded-[10px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Button Type</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -485,7 +488,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -508,10 +511,10 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="collapseStore.menus.includes('button_type')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('button_type_card')"
               >
                 <div>
@@ -523,7 +526,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("button_type_card")
                       ? "Minisize"
@@ -532,7 +535,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -846,38 +849,33 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 class="range_tamkin_customize w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
               />
               <div
-                class="absolute top-0 left-0 h-[20px] bg-[#2DADA3] rounded-full pointer-events-none"
+                class="absolute top-0 h-[20px] bg-[#2DADA3] rounded-full pointer-events-none"
+                :class="{ 'right-0': langStore.direction === 'rtl', 'left-0': langStore.direction !== 'rtl' }"
                 :style="{ width: `${buttonSizeSlider}%` }"
               ></div>
               <div
-                class="absolute top-1/2 left-0 flex items-center justify-center bg-tamkinLight shadow-xl shadow-tamkinLight rounded-full pointer-events-none transform -translate-y-1/2 -translate-x-1/2"
+                class="absolute top-1/2 flex items-center justify-center bg-tamkinLight shadow-xl shadow-tamkinLight rounded-full pointer-events-none transform -translate-y-1/2"
+                :class="{ 'flex-row-reverse': langStore.direction === 'rtl', 'flex-row': langStore.direction !== 'rtl' }"
                 :style="thumbStyle"
               >
                 <div
-                  class=" rounded-full flex items-center justify-center"
+                  class="rounded-full flex items-center justify-center"
                   :class="gradientClasses"
                   :style="[border_style, backgroundImageStyle]"
-                  >
+                >
                   <img
                     src="/assets/imgs/icons/ios_access.svg"
                     alt=""
-                   
-                   :style="imgStyle"
+                    :style="imgStyle"
                   />
                 </div>
-
-                <!-- <img
-                  src="/assets/imgs/icons/access.svg"
-                  
-                  alt="slider thumb"
-                /> -->
               </div>
             </div>
           </div>
         </div>
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -888,7 +886,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Live Site Translations Button
@@ -910,7 +908,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -933,10 +931,10 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="collapseStore.menus.includes('live_site_translation_button')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('live_site_translation_button_card')"
               >
                 <div>
@@ -959,7 +957,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -979,7 +977,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <thead class="bg-[#FAFCFE]">
               <tr class="">
                 <th
-                  class="w-full border-b-2 border-gray-200 text-left text-[14px] font-[400] leading-[18px] text-black"
+                  class="w-full border-b-2 border-gray-200 ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Enable Live Site Translations Button
                 </th>
@@ -987,9 +985,12 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   class="ml-auto w-full py-3 border-b-2 border-gray-200 text-[14px] font-[400] leading-[18px] text-black"
                 >
                   <div class="flex items-center">
+                    
+
+
                     <label
                       for="toggle_enable_live_button"
-                      class="relative inline-flex items-center cursor-pointer"
+                      class="toggle_wrap"
                     >
                       <input
                         type="checkbox"
@@ -998,27 +999,27 @@ watch(buttonSizeSlider,(ov,nv)=>{
                         v-model="isADHDChecked"
                       />
                       <div
-                        class="w-14 h-8 bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200"
+                        class="toggle_parent"
                         :class="[
                           isADHDChecked
-                            ? 'custom-border-tamkin custom-border-tamkin-rounded-small'
-                            : 'border-[1px] border-lightGrey',
+                            ? 'active'
+                            : 'in_active',
                         ]"
                       >
                         <div
-                          class="absolute left-1 top-1 w-6 h-6 bg-white border border-gray-300 rounded-full transition-transform duration-200 transform"
-                          :class="{ 'translate-x-full ': isADHDChecked }"
+                          class="toggle_inner"
+                          :class="{ 'active ': isADHDChecked }"
                         >
                           <img
                             v-if="isADHDChecked"
                             src="/assets/imgs/addons/active_toggle.svg"
-                            class="w-6 h-6"
+                            class="w-[28px] h-[28px]"
                             alt=""
                           />
                           <img
                             v-else
                             src="/assets/imgs/addons/toggle.svg"
-                            class="w-6 h-6"
+                            class="w-[28px] h-[28px]"
                             alt=""
                           />
                         </div>
@@ -1038,7 +1039,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   ? 'custom-border'
                   : 'border-[1px]',
               ]"
-              class="mx-[15px] ml-auto flex items-center justify-start space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+              class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
             >
               <div class=" ">
                 <input
@@ -1066,7 +1067,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   : 'border-[1px]',
               ]"
               @click="changeLivePositionDefaultOrAbove('above')"
-              class="mx-[15px] ml-auto flex items-center justify-start space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+              class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
             >
               <div class=" ">
                 <input
@@ -1397,7 +1398,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         </div>
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -1408,7 +1409,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Button Location</h1>
 
@@ -1425,7 +1426,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1447,11 +1448,10 @@ watch(buttonSizeSlider,(ov,nv)=>{
 
             <div
               v-if="collapseStore.menus.includes('button_location')"
-              style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('button_location_card')"
               >
                 <div>
@@ -1474,7 +1474,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -1492,7 +1492,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         />
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -1503,7 +1503,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Widget Customization</h1>
 
@@ -1520,7 +1520,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1543,10 +1543,10 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="collapseStore.menus.includes('widget_custom')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('widget_custom_card')"
               >
                 <div>
@@ -1558,7 +1558,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("widget_custom_card")
                       ? "Minisize"
@@ -1567,7 +1567,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -1586,7 +1586,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -1597,7 +1597,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Accessibility Mode</h1>
 
@@ -1615,7 +1615,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1638,10 +1638,10 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="collapseStore.menus.includes('access_mode')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
-                class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+                class="mini_wrap"
                 @click="collapseStore.collapseCard('access_mode_card')"
               >
                 <div>
@@ -1653,7 +1653,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                     ]"
                   />
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("access_mode_card")
                       ? "Minisize"
@@ -1662,7 +1662,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 </div>
               </div>
 
-              <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+              <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -1681,7 +1681,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
 
         <div
           v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
         >
           Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
           veritatis dolore. Exercitationem et omnis ea quidem
@@ -1717,13 +1717,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
   }
 }
 
-.tamkin_date_input {
-  box-shadow: 0px 1.54px 3.08px 0px #61616133;
 
-  box-shadow: 0px 0.77px 1.54px 0px #61616133;
-
-  @apply pl-[14px] text-[15px] w-full  h-[32px] rounded-[10px] border-[1px] border-[#585B5B8C] focus:!outline-0;
-}
 
 /* Add custom styles here if needed */
 .range_tamkin_customize::-webkit-slider-thumb {

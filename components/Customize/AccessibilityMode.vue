@@ -15,7 +15,7 @@ const moveHideWidget = (v:string)=>{
     class="flex flex-col items-center justify-center mt-[32px] px-[15px]">
     <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px] border-b">
      
-        <div class="flex items-center justify-start space-x-[13px] w-full">
+        <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
           <img
             src="/assets/imgs/customize/move_acess.svg"
             class="h-[28px] w-[28px]"
@@ -54,7 +54,7 @@ const moveHideWidget = (v:string)=>{
               >
                 <div
                   class="toggle_inner"
-                  :class="{ 'translate-x-full !left-0 ': isChecked('move_access') }"
+                  :class="{ 'active': isChecked('move_access') }"
                 >
                   <img
                     v-if="isChecked('move_access')"
@@ -75,8 +75,8 @@ const moveHideWidget = (v:string)=>{
         </div>
       </div>
 
-      <div class="flex items-center justify-between  mt-[24px] w-full space-x-[60px]" v-if="moveAccess">
-        <div class=" flex items-center justify-start h-[50px] w-[180px] px-[15px] space-x-[10px] cursor-pointer"
+      <div class="flex items-center justify-between  mt-[24px] w-full rtl:space-x-reverse space-x-[60px]" v-if="isChecked('move_access')">
+        <div class=" flex items-center justify-start h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"
         @click="moveHideWidget('left_side')">
             <div>
@@ -87,7 +87,7 @@ const moveHideWidget = (v:string)=>{
             </div>
          
         </div>
-        <div class="flex items-center  justify-start  h-[50px] w-[180px] px-[15px] space-x-[10px] cursor-pointer"
+        <div class="flex items-center  justify-start  h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="moveHideWidget('right_side')"
         :class="[moveHide === 'right_side' ? 'custom-border padding-2' : '']"
 
@@ -100,7 +100,7 @@ const moveHideWidget = (v:string)=>{
             </div>
          
         </div>
-        <div class="ml-auto flex items-center justify-start  h-[50px] w-[180px] px-[15px] space-x-[10px] cursor-pointer"
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center justify-start  h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
            @click="moveHideWidget('hide')"
         :class="[moveHide === 'hide' ? 'custom-border padding-2' : '']"
         >

@@ -4,13 +4,20 @@ import { useModalStore } from "@/stores/modal";
 import { useNavbarStore } from "@/stores/navbar";
 import { useAddonStore } from "@/stores/addons.js";
 import { useCustomizeStore } from "@/stores/customize.js";
+import { useSettingsStore } from "@/stores/settings.js";
 
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
+const settingsStore =useSettingsStore()
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
 const navStore = useNavbarStore();
 const navStoreRef = storeToRefs(navStore);
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
 const {
   showShareModal,
   editPictureTeamModal,
@@ -150,9 +157,9 @@ const clearInput = () => {
         <div
           @click="toggleSidebar"
           :class="[
-            !sideBarOpen ? ' rotate-180 lg:!top-[146px]' : 'top-[161px] lg:left-[95%]',
+            !sideBarOpen ? ' rotate-180 lg:!top-[146px]' : 'top-[161px] rtl:lg:right-[95%] ltr:lg:left-[95%]',
           ]"
-          class="cursor-pointer close_sidebar_btn sticky ml-[100%] items-center justify-center bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px] group z-[300] lg:flex hidden"
+          class="cursor-pointer close_sidebar_btn sticky rtl:mr-[100%] ltr:ml-[100%] items-center justify-center bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px] group z-[300] lg:flex hidden"
         >
           <svg
             width="9"
@@ -168,7 +175,7 @@ const clearInput = () => {
           </svg>
         </div>
         <div
-          class="overflow-y-auto no-scrollbar fixed lg:left-auto left-0 lg:p-0 Z-[120] p-[20px] max-h-[700px]"
+          class="overflow-y-auto no-scrollbar fixed ltr:lg:left-auto rtl:lg:right-auto rtl:right-0 ltr:left-0 lg:p-0 Z-[120] p-[20px] max-h-[700px]"
         >
           <DashboardNavbar
             :sideBarOpen="sideBarOpen"
@@ -180,16 +187,17 @@ const clearInput = () => {
       </div>
 
       <div
-        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full !overflow-x-hidden"
+        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full !overflow-x-hidden "
       >
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="absolute top-0 flex z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pl-[26px] space-x-[16px] h-[70px]"
+            class="absolute top-0 flex z-[10] flex-shrink-0 
+            items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pr-[26px] ltr:pl-[26px] rtl:space-x-reverse  space-x-[16px] h-[70px]"
           >
             <div
-              class="flex items-center justify-between space-x-[10px] lg:hidden"
+              class="flex items-center justify-between rtl:space-x-reverse  space-x-[10px] lg:hidden"
               @click="toggleSidebarMobile"
             >
               <svg
@@ -273,7 +281,7 @@ const clearInput = () => {
                 </div>
               </div>
               <div
-                class="flex items-center justify-center lg:space-x-[18px] lg:pr-[37px]"
+                class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]"
               >
                 <div class="lg:block hidden">
                   <img src="/assets//imgs/avatar.png" class="w-[50px] h-[50px]" alt="" />
@@ -292,7 +300,7 @@ const clearInput = () => {
 
           <div class="pt-[85px] lg:px-[40px] relative">
             <div class="relative px-[15px]">
-              <NavbarOverview />
+              <NavbarOverview v-if="isLinkActive('/overview') ||isLinkActive('/settings')||  isLinkActive('/addons')|| isLinkActive('/customize') || isLinkActive('/addons') ||isLinkActive('/statistics') "/>
             </div>
 
             <div
@@ -308,23 +316,24 @@ const clearInput = () => {
                 );
               "
               v-if="
-                $route.path === '/addons' ||
-                $route.path === '/statistics' ||
-                $route.path === '/overview' ||
-                $route.path === '/customize' ||
-                $route.path === '/settings'
+                isLinkActive('/addons') ||
+                isLinkActive('/statistics') ||
+                isLinkActive('/overview') ||
+                isLinkActive('/customize') ||
+                isLinkActive('/settings')
               "
             ></div>
 
         
             <transition name="slide-up">
-              <DashboardAddonsSaveFooter :show-footer="($route.path === '/addons' && checkboxStore.hasChanges()) ||
-              ($route.path === '/customize' && custmizeStore.hasChanges() || buttonPositionDesktop !== 'top_left'  ||
-               buttonPositionMobile !== 'top_left_mobile'
-              || custmizeStore.force_change
+              <DashboardAddonsSaveFooter :show-footer="(isLinkActive('/addons') && checkboxStore.hasChanges()) ||
+              (isLinkActive('/customize') && custmizeStore.hasChanges() || isLinkActive('/customize') &&
+               buttonPositionDesktop !== 'top_left'  ||
+              isLinkActive('/customize') && buttonPositionMobile !== 'top_left_mobile'
+              || isLinkActive('/customize') &&custmizeStore.force_change
               
               ) ||
-              $route.path === '/settings' " />
+              (isLinkActive('/settings') && settingsStore.hasChanges())" />
             </transition>
             <NuxtPage />
           </div>

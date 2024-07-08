@@ -7,9 +7,9 @@ const currentRoute = ref(route.path);
 const navContainer = ref(null);
 const slider = ref(null);
 const sliderVisible = ref(false);
-
+const localePath = useLocalePath()
 const isLinkActive = (path) => {
-  return currentRoute.value === path;
+  return localePath(currentRoute.value) === localePath(path);
 };
 
 const moveSlider = async (path, animate = true) => {
@@ -70,10 +70,7 @@ if (process.client) {
   });
 }
 
-const localePath = (path) => {
-  // Adjust this function according to your localization setup
-  return path;
-};
+
 
 onMounted(() => {
   moveSlider(currentRoute.value, false);

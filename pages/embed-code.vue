@@ -176,7 +176,7 @@ const clearInput = () => {
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
-                <div class="pl-[16px]">
+                <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="22"
                     height="21"
@@ -237,7 +237,7 @@ const clearInput = () => {
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
-                <div class="pl-[16px]">
+                <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="20"
                     height="21"
@@ -281,6 +281,7 @@ const clearInput = () => {
           <div class="mt-[36px] px-[15px] w-full min-h-[50px]">
             <Client-only>
               <VCodeBlock
+              dir="ltr"
                 :code="currentCode"
                 highlightjs
                 lang="javascript"
@@ -307,7 +308,7 @@ const clearInput = () => {
 
 
 "
-        class="max-w-full lg:max-h-[230px] w-full relative rounded-lg p-8 flex items-center justify-center lg:flex-row flex-col lg:space-x-[150px]"
+        class="max-w-full lg:max-h-[230px] w-full relative rounded-lg p-8 flex items-center justify-center lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[150px]"
       >
         <div
           class="relative lg:top-[-20px] 2xl:top-[-18px] h-full flex items-center justify-start"
@@ -326,7 +327,7 @@ const clearInput = () => {
             platform?
           </h1>
           <div
-            class="flex items-center justify-between bg-white py-2 lg:py-1 px-4 rounded-[15px] shadow-md space-x-4"
+            class="flex items-center justify-between bg-white py-2 lg:py-1 px-4 rounded-[15px] shadow-md rtl:space-x-reverse space-x-4"
           >
             <div class="flex-1">
               <h1
@@ -367,7 +368,7 @@ const clearInput = () => {
        style="box-shadow: 0px 4px 24px 8px #51459F14;
 "
           >
-          <div class="flex items-center space-x-[-12px] flex-1">
+          <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
@@ -443,7 +444,7 @@ const clearInput = () => {
                 <tbody class="bg-white divide-y divide-gray-200">
                   <tr class="flex items-center justify-between">
                     <td
-                      class="flex items-center space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
                       style="line-height: 22.5px"
                     >
                       <div>
@@ -513,7 +514,7 @@ const clearInput = () => {
 
                   <tr class="flex items-center justify-between">
                     <td
-                      class="flex items-center space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
                       style="line-height: 22.5px"
                     >
                       <div>
@@ -583,7 +584,7 @@ const clearInput = () => {
 
                   <tr class="flex items-center justify-between">
                     <td
-                      class="flex items-center space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
                       style="line-height: 22.5px"
                     >
                       <div>

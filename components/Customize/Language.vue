@@ -63,7 +63,7 @@ const moveHideWidget = (v:string)=>{
             collapseStore.menus.includes('language_customize') 
             ? 'active_notification !text-darkGrey' : '',
           ]"
-          class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+          class="relative ltr:ml-auto ltr:mr-[15px] rtl:mr-auto rtl:ml-[-15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
         >
           <svg
             width="18"
@@ -89,7 +89,7 @@ const moveHideWidget = (v:string)=>{
             class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
           >
             <div
-              class="flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full"
+              class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] w-full"
               @click="  collapseStore.collapseCard('language_customize_card') 
 "
             >
@@ -117,14 +117,14 @@ const moveHideWidget = (v:string)=>{
       </div>
 
       <div
-        class="flex flex-col items-start justify-center ml-[15px] mt-[18px]  pb-[16px]"
+        class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px]  pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card') "
       >
         <div class="w-full lg:w-[330px] lg:mt-0 mt-[16px]">
           <div class="relative w-full lg:w-64">
             <button
               @click="toggleDropdown"
-              class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] text-left"
+              class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
               :class="[isOpen ? 'rounded-b-none' : '']"
             >
               <div
@@ -148,8 +148,8 @@ const moveHideWidget = (v:string)=>{
                 viewBox="0 0 12 18"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                :class="[isOpen ? 'rotate-90' : '']"
-                class="stroke-current fill-darkGrey my-[6px] float-right w-[20px] h-[10px] mr-[15px]"
+                :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
+                class="stroke-current rtl:rotate-180 fill-darkGrey my-[6px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[15px] ltr:mr-[15px]"
               >
                 <path
                   d="M11.027 8.61302C11.2715 8.81307 11.2715 9.18693 11.027 9.38698L1.31662 17.3319C0.990153 17.599 0.5 17.3667 0.5 16.9449L0.500001 1.05512C0.500001 0.633308 0.990154 0.401035 1.31662 0.668143L11.027 8.61302Z"
@@ -189,7 +189,7 @@ const moveHideWidget = (v:string)=>{
                   @click="selectLanguage(lang)"
                 >
                   <div
-                    class="h-6 w-6 rounded-full flex items-center justify-center mr-[4px]"
+                    class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[4px] ltr:mr-[4px]"
                     :class="[
                       selectedLanguage && selectedLanguage.code === lang.code
                         ? 'bg-custom-gradient text-white'
@@ -205,7 +205,7 @@ const moveHideWidget = (v:string)=>{
                   <!-- <img :src="country.flag" alt="" class="w-6 h-4 mr-2" /> -->
                   <span>{{ lang.name }}</span>
                   <div
-                    class="ml-auto"
+                    class="rtl:mr-auto ltr:ml-auto"
                     v-if="
                       selectedLanguage && selectedLanguage.code === lang.code
                     "
@@ -224,7 +224,7 @@ const moveHideWidget = (v:string)=>{
 
         <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
      
-            <div class="flex items-center justify-start space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/customize/lang_selector.svg"
                 class="h-[28px] w-[28px]"
@@ -281,7 +281,7 @@ const moveHideWidget = (v:string)=>{
       </div>
       <div
         v-else
-        class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
+        class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] rtl:mr-[15px] ltr:ml-[15px]"
       >
         Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
         est veritatis dolore. Exercitationem et omnis ea quidem

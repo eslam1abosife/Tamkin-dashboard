@@ -12,7 +12,7 @@ const {isChecked,toggleCheckbox} = customizeStore
   >
     <div
       class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]">
-      <div class="flex items-center justify-start space-x-[13px] w-full">
+      <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
         <img
           src="/assets/imgs/customize/xl.svg"
           class="h-[28px] w-[28px]"
@@ -76,7 +76,7 @@ const {isChecked,toggleCheckbox} = customizeStore
     </div>
     <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]">
      
-    <div class="flex items-center justify-start space-x-[13px] w-full">
+    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
       <img
         src="/assets/imgs/customize/columns.svg"
         class="h-[28px] w-[28px]"
@@ -138,7 +138,7 @@ const {isChecked,toggleCheckbox} = customizeStore
   </div>
   <div
   class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]">
-  <div class="flex items-center justify-start space-x-[13px] w-full">
+  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
     <img
       src="/assets/imgs/customize/accessibillity.svg"
       class="h-[28px] w-[28px]"
