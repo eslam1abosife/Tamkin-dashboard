@@ -108,7 +108,7 @@ const filteredCryptoMethods = computed(() => {
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -117,11 +117,11 @@ const filteredCryptoMethods = computed(() => {
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
       >
       Crypto Payment
       </h1>
-<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the cryptocurrency you want to complete the payment process</p>
+<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the cryptocurrency you want to complete the payment process</p>
     
 
    <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px]  mx-auto   w-full">
@@ -130,8 +130,8 @@ const filteredCryptoMethods = computed(() => {
     
         
         class=" w-full   h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
-         border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start space-x-[13px]">
+         border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
                 
                 <div class="flex items-start flex-col justify-center space-y-[-4px]">
@@ -155,7 +155,7 @@ const filteredCryptoMethods = computed(() => {
 
                 number/>
                 <label                   :for="'radio_'+selectedCrypto.id"
-                class="flex items-center cursor-pointer pr-[40px]">
+                class="flex items-center cursor-pointer rtl:pl-[40px] ltr:pr-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -171,23 +171,23 @@ const filteredCryptoMethods = computed(() => {
   <div class="flex items-center justify-between w-full  px-[20px] ">
     
     <div class="w-full lg:mt-0 mt-[16px]">
-        <p class=" text-[18px] font-[400]  leading-[24px] text-left mt-[10px] mb-[23px] text-[#3D3D3D]">
+        <p class=" text-[18px] font-[400]  leading-[24px] ltr:text-left rtl:text-right mt-[10px] mb-[23px] text-[#3D3D3D]">
             Please choose other currency</p>
         
         <div class="relative w-full  ">
             <button
               @click="toggleDropdown"
-              class=" input_search_country !rounded-[10px] !py-[6px] peer w-full  text-left " :class="[isOpen ? 'rounded-b-none' : '']"
+              class=" input_search_country !rounded-[10px] !py-[6px] peer w-full  ltr:text-left rtl:text-right " :class="[isOpen ? 'rounded-b-none' : '']"
             >
               <span class="floating_label" v-if="!selectedCrypto">Choose Crypto currency</span>
               <div class="flex items-center justify-start " v-else>
                 <img
                 :src="selectedCrypto.flag"
                 alt=""
-                class="!ml-[-16px]"
+                class="rtl:!mr-[16px] ltr:!ml-[-16px]"
               />
-              <span class="ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
-              <div class="ml-auto ">
+              <span class="rtl:mr-[16px] ltr:ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
+              <div class="rtl:mr-auto ltr:ml-auto ">
                 <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
                     0.00009 {{ selectedCrypto.name === 'ETH'  ? 'EHT' :  selectedCrypto.name === 'BNB' ?'BNB' : 'USDT'}}
                 </div>
@@ -195,7 +195,7 @@ const filteredCryptoMethods = computed(() => {
              
                 
                <img src="/assets/imgs/menu-down.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
-               class=" ml-[24px] mr-[55px] mb-[2px] float-right stroke-current fill-darkGrey text-darkGrey"
+               class=" rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[55px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey text-darkGrey"
              >
             </div>
             
@@ -219,8 +219,8 @@ const filteredCryptoMethods = computed(() => {
                     alt=""
                     class="w-[30px] h-[30px]"
                   />
-                  <span class="ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
-                  <div class="ml-auto  mr-[72px]">
+                  <span class="rtl:mr-[16px] ltr:ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
+                  <div class="rtl:mr-auto ltr:ml-auto rtl:ml-[72px] ltr:mr-[72px]">
                     <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] ">
                         0.00009 {{ cryptoMethod.name === 'ETH'  ? 'EHT' :  cryptoMethod.name === 'BNB' ?'BNB' : 'USDT'}}
                     </div>
@@ -252,7 +252,7 @@ const filteredCryptoMethods = computed(() => {
     
             <h3 class="">
     
-                <div class="flex items-center justify-start space-x-[13px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                     <div class="text-[20px] leading-[24px] font-[500] font-[Inter] text-[#3D3D3D]">
                         
                         AED 9.09 = <span class="text-black font-[500]">1.938344 {{selectedCrypto.name}}</span>
@@ -273,7 +273,7 @@ const filteredCryptoMethods = computed(() => {
 
 <!-- here-->
 
- <div class="flex items-center justify-between  space-x-[24px] w-full  px-[20px] ">
+ <div class="flex items-center justify-between  rtl:space-x-reverse space-x-[24px] w-full  px-[20px] ">
   <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[10px]">
     <input
       type="text"
@@ -282,8 +282,8 @@ const filteredCryptoMethods = computed(() => {
       placeholder="Promo Code"
       :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
     />
-   <div class="absolute top-[-8px] lg:top-[11px] left-[7.5px] p-[16px] 
-   flex items-center justify-evenly space-x-[10px]" v-if="validPromo">
+   <div class="absolute top-[-8px] lg:top-[11px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] 
+   flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="validPromo">
     <img src="/assets/imgs/promo_valid.svg" alt="">
     <div class="text-[15px] font-[500] text-darkGrey">
             <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
@@ -294,7 +294,7 @@ const filteredCryptoMethods = computed(() => {
     <div
       v-if="isPromoFilled"
       @click="clearInput"
-      class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]" 
+      class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]" 
     >
       <img src="/assets/imgs/close_promo.svg" alt="" />
     </div>
@@ -309,7 +309,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <thead>
       <tr>
         <th
-          class="py-2 pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] text-left"
+          class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>

@@ -57,30 +57,30 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
     Select Site
 </h1>
 
-<p class="mt-[16px] text-left font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
+<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
     Select your default site</p>
 
 <div class="w-full ">
   <div class="py-[17px] search_input">
     <input
       type="text"
-      class="input_dashboard_search w-full"
+      class="input_dashboard_search w-full rtl:direction-rtl"
       v-model="search"
       placeholder="Search ..."
     />
     <div
-      class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+      class="absolute top-[40%] ltr:lg:left-0 ltr:left-[10px] rtl:lg:right-0 rtl:right-[10px] lg:top-[16px] lg:p-[16px]"
     >
       <img src="/assets/imgs/icons/search.svg" alt="" />
     </div>
     <div
       v-if="isSearchfilled"
       @click="clearInput"
-      class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
     >
       <img src="/assets/imgs/icons/clear_search.svg" alt="" />
     </div>
@@ -97,7 +97,7 @@ const clearInput = () => {
   </thead>
   <tbody class="divide-y divide-gray-200">
     <tr v-for="permission in permissions " :key="permission.id">
-      <td class="py-4  flex items-center space-x-4">
+      <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
         <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
@@ -108,8 +108,8 @@ const clearInput = () => {
        :checked="checked === `checkbox_`+permission.id"
           
           :id="`checkbox_`+permission.id" :value="permission.id" 
-          class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+          class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
@@ -121,7 +121,7 @@ const clearInput = () => {
   
   </tbody>
 </table>
-<div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlSelectSiteModal">
 
     Cancel

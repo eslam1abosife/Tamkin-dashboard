@@ -26,18 +26,25 @@ const aboveLivetranslationButtonSelection = ref("en");
 
 
 const changeLivePositionDefaultOrAbove = (v: string) => {
-  liveTranslationAsDefaultOrTranslationAbove.value = v;
+  if(isADHDChecked.value){
+    liveTranslationAsDefaultOrTranslationAbove.value = v;
+  
   customizeStore.force_change = !customizeStore.force_change 
+  }
 
 };
 
 const changeDefaultButtonShape = (v: string) => {
+  if(isADHDChecked.value){
   defaultLiveTranslationButtonSelection.value = v;
   customizeStore.force_change = !customizeStore.force_change 
+  }
 };
 
 const changeAboveButtonPosition = (v: string) => {
+  if(isADHDChecked.value){
   aboveLivetranslationButtonSelection.value = v;
+  }
 };
 const changeGradientColor1 = computed(() => {
   return customizeStore.colorMode === "gradient" && gradient1.value && gradient2.value
@@ -1031,13 +1038,14 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </thead>
           </table>
 
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between " :class="[!isADHDChecked ? 'blur-[2px] !cursor-not-allowed':'']">
             <div
               @click="changeLivePositionDefaultOrAbove('default')"
               :class="[
                 liveTranslationAsDefaultOrTranslationAbove === 'default'
                   ? 'custom-border'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
             >
@@ -1065,6 +1073,8 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 liveTranslationAsDefaultOrTranslationAbove === 'above'
                   ? 'custom-border'
                   : 'border-[1px]',
+
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               @click="changeLivePositionDefaultOrAbove('above')"
               class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
@@ -1100,6 +1110,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'gb'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1117,6 +1128,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'en'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1168,6 +1180,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'langs'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1230,6 +1243,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'gb'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1264,6 +1278,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'en'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1329,6 +1344,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'langs'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
+                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >

@@ -56,19 +56,19 @@ const isSearchfilled = ref(false);
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[24px] leading-[36px]">
     Invite Member
 </h1>
 
-<div class="flex items-center space-x-[12px] justify-start mt-[56px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[56px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
 <div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="text-left font-[500] text-darkGrey text-[16px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[16px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="text-left font-[400] text-[#878787] text-[14px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[14px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -80,7 +80,7 @@ const isSearchfilled = ref(false);
 </div>
 
 </div>
-<p class="mt-[16px] text-left font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
+<p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
 Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can access
 </p>
 
@@ -94,14 +94,14 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
         placeholder="Search ..."
       />
       <div
-        class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+        class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
       >
         <img src="/assets/imgs/icons/search.svg" alt="" />
       </div>
       <div
         v-if="isSearchfilled"
         @click="clearInput"
-        class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+        class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
       >
         <img src="/assets/imgs/icons/clear_search.svg" alt="" />
       </div>
@@ -111,9 +111,9 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
 <table class="min-w-full divide-y divide-gray-200  ">
   <thead>
     <tr>
-      <th class="py-3 text-left leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
+      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
       <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
-       flex items-center justify-end space-x-[10px] ">
+       flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
         <div class="">Select All</div>
        <div>
         <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
@@ -128,15 +128,15 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   </thead>
   <tbody class="divide-y divide-gray-200">
     <tr v-for="permission in permissions " :key="permission.id">
-      <td class="py-4  flex items-center space-x-4">
+      <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
         <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
           <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-          class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px]  bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+          class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]  bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
@@ -148,7 +148,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   
   </tbody>
 </table>
-<div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
 
     Cancel

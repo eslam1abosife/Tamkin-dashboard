@@ -66,7 +66,7 @@ const clearInput = () => {
       placeholder="Search ..."
     />
     <div
-      class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
     >
       <img src="/assets/imgs/icons/search.svg" alt="" />
     </div>

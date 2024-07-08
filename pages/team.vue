@@ -51,24 +51,24 @@ watch(reInvite, (newValue) => {
     <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'" class="!top-[-33px]" />
 
     <div class="space-y-[10px] ">
-      <h1 class="text-left text-[24px] leading-[36px] font-[600]">
+      <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">
         Team Management
       </h1>
 
       <h2
-        class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey"
+        class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey"
       >
         Manage your team and their account permissions here
       </h2>
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:rtl:space-x-reverse space-x-[16px]"
     >
       <div
-        class="flex items-center justify-between flex-row space-x-[24px] px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
+        class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
-      <div class="flex items-center justify-start space-x-[20px] w-full">
+      <div class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full">
         <div      v-if="!modalStore.editDonePicture">
           <div
           class="w-[65px] h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer "
@@ -173,7 +173,7 @@ watch(reInvite, (newValue) => {
               Edit Team
             </button>
           </div>
-          <div v-else class="w-1/4 mr-[29px]">
+          <div v-else class="w-1/4 rtl:ml-[29px] ltr:mr-[29px]">
             <button
               @click="editTeamNameMode = !editTeamNameMode"
               class="btn_bordered_dashboard font-[500] text-[15px] leading-[22.5px]"
@@ -193,7 +193,7 @@ watch(reInvite, (newValue) => {
           padding: 30px, 16px, 30px, 16px;
           background-size: cover;
         "
-        class="b 2xl:w-full w-full flex items-center justify-between space-x-[30px] px-[16px] py-[23px] bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
+        class="b 2xl:w-full w-full flex items-center justify-between rtl:space-x-reverse space-x-[30px] px-[16px] py-[23px] bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
         <div>
           <img src="/assets/imgs/icons/team_members.svg" alt="" />
@@ -249,7 +249,7 @@ watch(reInvite, (newValue) => {
           </div>
 
           <div
-            class="flex items-center justify-between space-x-[66px] lg:p-[16px] w-full"
+            class="flex items-center justify-between rtl:space-x-reverse space-x-[66px] lg:p-[16px] w-full"
           >
           <div class="py-[17px] search_input w-full lg:w-[460px]">
             <input
@@ -259,14 +259,14 @@ watch(reInvite, (newValue) => {
               placeholder="Search ..."
             />
             <div
-              class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+              class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
             >
               <img src="/assets/imgs/icons/search.svg" alt="" />
             </div>
             <div
               v-if="isSearchfilled"
               @click="clearInput"
-              class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+              class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
             >
               <img src="/assets/imgs/icons/clear_search.svg" alt="" />
             </div>
@@ -286,14 +286,14 @@ watch(reInvite, (newValue) => {
           <thead class="w-full">
             <tr class="">
               <th
-                class="py-3.5 text-left text-[14px] font-[600] pl-[8px] lg:pl-[16px] text-darkGrey"
+                class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-darkGrey"
               >
                 Name
               </th>
-              <th class="py-3.5 text-left text-[14px] font-[600] text-darkGrey">
+              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey">
                 Email
               </th>
-              <th class="py-3.5 text-left text-[14px] font-[600] text-darkGrey">
+              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey">
                 Permissions
               </th>
               <th
@@ -305,8 +305,8 @@ watch(reInvite, (newValue) => {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200 w-full">
             <tr class="">
-              <td class="lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
-                <div class="flex items-center justify-start lg:space-x-[16px] space-x-[8px]">
+              <td class="rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
+                <div class="flex items-center justify-start  space-x-[16px] rtl:space-x-reverse ">
                   <div class="inline">
                     <img
                       src="/assets/imgs/icons/avatar_table.svg"
@@ -330,14 +330,14 @@ watch(reInvite, (newValue) => {
                   </div>
                 </div>
               </td>
-              <td class="py-4 text-left text-[14px] font-[400] text-darkGrey">
+              <td class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey">
                 <p>Ali Ahmed@gmail.com</p>
               </td>
               <td class="py-4 text-center text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start">
                   <button
                     @click="modalStore.controlEditPermissionsModal"
-                    class="flex items-center space-x-[10px] bg-transparent underline focus:outline-none"
+                    class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
                     <img src="/assets/imgs/icons/arow_down.svg" alt="" />
@@ -347,7 +347,7 @@ watch(reInvite, (newValue) => {
 
               <td class=" text-[14px] font-[400] text-darkGrey">
                 <div
-                  class="flex items-center justify-center space-x-[16px] pl-[32px]"
+                  class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
                   <div @click="reinviteUser">
                      <svg
@@ -407,7 +407,7 @@ watch(reInvite, (newValue) => {
       </div>
 
       <div class="flex justify-between items-center py-[16px]">
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span class="text-darkGrey text-[14px] leading-[21px] font-[400]"
             >Per Page</span
           >
@@ -426,12 +426,12 @@ watch(reInvite, (newValue) => {
             20
           </button>
         </div>
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span class="text-darkGrey text-[14px] leading-[21px] font-[400]"
             >Page</span
           >
           <button
-            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey"
+            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey transform rtl:scale-x-[-1]"
           >
             <img src="/assets/imgs/arrow-left.svg" alt="" />
           </button>
@@ -449,7 +449,7 @@ watch(reInvite, (newValue) => {
             2
           </button>
           <button
-            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey"
+            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey transform rtl:scale-x-[-1]"
           >
             <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
           </button>

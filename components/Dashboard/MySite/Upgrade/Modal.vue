@@ -22,7 +22,7 @@ paymentError
 
 <template>
   <div v-if="showModal"
-    class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 lg:right-0 rounded-[10px] lg:p-[30px] 
+    class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
    
   >

@@ -38,7 +38,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden" v-if="showModal">
+  <div class="flex flex-col items-start  justify-center w-full lg:overflow-x-hidden" v-if="showModal">
     <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px]  lg:mt-0 mt-[60px]">
       Upgrade Plan
     </h1>
@@ -54,10 +54,11 @@ const props = defineProps({
       </h1>
 
       <div
-        class="flex items-center lg:flex-row flex-col justify-center lg:justify-start w-full space-x-[14px] "
+        class="flex items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[14px] "
       >
         <div
-          class="flex items-center justify-start bg-selected space-x-[16px] relative w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+          class="flex items-center justify-start bg-selected rtl:space-x-reverse space-x-[16px] relative w-full 
+          pt-2.5 pr-2.5 pb-2.5 rtl:pr-2 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPackage === 'monthly' ? 'custom-border-tamkin' : 'custom-border ']"
 
@@ -86,7 +87,7 @@ const props = defineProps({
         </div>
 
         <div
-        class="flex items-center justify-start bg-selected space-x-[16px] w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+        class="flex items-center justify-start bg-selected rtl:space-x-reverse space-x-[16px] w-full pt-2.5 pr-2.5 pb-2.5 rtl:pr-2 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
         :class="[selectedPackage === 'annual' ? 'custom-border-tamkin' : 'custom-border ']"
     >
@@ -95,7 +96,7 @@ const props = defineProps({
                 <div
                     style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);"
                     class="absolute text-[13px] leading-[17.76px] font-[600] w-[69px] custom-border rounded-[10px] 
-                    h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[30%] text-white"
+                    h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] rtl:right-[30%] ltr:left-[30%] text-white"
                 >
                     <span>Popular</span>
                 </div>
@@ -122,7 +123,7 @@ const props = defineProps({
     </div>
     
         <div
-        class="flex items-center justify-start bg-selected space-x-[16px] relative  w-full pt-2.5 pr-2.5 pb-2.5 pl-2 h-[87px] 
+        class="flex items-center justify-start bg-selected rtl:space-x-reverse space-x-[16px] relative  w-full pt-2.5 pr-2.5 pb-2.5 rtl:pr-2 ltr:pl-2 h-[87px] 
         !rounded-[10px] mt-[35px]"
         :class="[selectedPackage === '3year_plan' ? 'custom-border-tamkin' : 'custom-border ']"
         >
@@ -222,17 +223,17 @@ const props = defineProps({
         <thead>
           <tr>
             <th
-              class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
+              class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] ltr:text-left rtl:text-right"
             >
               Website
             </th>
             <th
-              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-left"
+              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] ltr:text-left rtl:text-right"
             >
               Tier
             </th>
             <th
-              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] text-right"
+              class="py-2  border-b text-[16px] leading-[24px] text-[#A7A7A7] font-[500] rtl:text-left ltr:text-right"
             >
               Price
             </th>
@@ -241,7 +242,7 @@ const props = defineProps({
         <tbody class="">
           <tr>
             <td
-              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2  border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span>Tamkin.App</span>
@@ -263,7 +264,7 @@ const props = defineProps({
               </div>
             </td>
             <td
-              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2  border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               Large
             </td>
@@ -275,7 +276,7 @@ const props = defineProps({
           </tr>
           <tr>
             <td
-              class="py-2  border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start space-x-[33px]"
+              class="py-2  border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
             >
               <div class="w-[150px]">
                 <span class="w-[150px]">Pinterest.App</span>
@@ -297,7 +298,7 @@ const props = defineProps({
               </div>
             </td>
             <td
-              class="py-2 pr-[100px] border-b text-left text-[16px] leading-[24px] font-[400] text-darkGrey"
+              class="py-2 pr-[100px] border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey"
             >
               Small
             </td>
@@ -331,7 +332,7 @@ const props = defineProps({
           </tr>
         </tbody>
       </table>
-      <div class="my-[26px] ml-auto  ">
+      <div class="my-[26px] rtl:mr-auto ltr:ml-auto  ">
         <button class="btn-dashboard hover_tamkin" @click="modalStore.controlchoosePaymentmethodModal">
             Continue to Payment
         </button>

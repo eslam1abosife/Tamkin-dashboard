@@ -2308,7 +2308,7 @@ onBeforeMount(() => {
             </div>
 
             <button
-              class="ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>
@@ -2341,7 +2341,7 @@ onBeforeMount(() => {
             </div>
 
             <button
-              class="ml-auto btn-dashboard hover_tamkin w-[140px] mt-[24px] my-[19px] mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin w-[140px] mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Active
             </button>
@@ -2374,7 +2374,7 @@ onBeforeMount(() => {
             </div>
 
             <button
-              class="ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>

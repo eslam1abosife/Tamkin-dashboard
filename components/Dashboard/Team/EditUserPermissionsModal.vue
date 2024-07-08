@@ -46,19 +46,19 @@ const permissions = ref( [
     </svg>
   </div>
 <div class="container mx-auto h-full">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[24px] leading-[36px]">
     Permissions
 </h1>
 
-<div class="flex items-center space-x-[12px] justify-start mt-[40px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[40px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
 <div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="text-left font-[500] text-darkGrey text-[16px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[16px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="text-left font-[400] text-[#878787] text-[14px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[14px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -78,7 +78,7 @@ const permissions = ref( [
         <thead>
           <tr>
             <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
-             flex items-center justify-start space-x-[10px] ">
+             flex items-center justify-start rtl:space-x-reverse space-x-[10px] ">
              <div>
               <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
               <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
@@ -94,12 +94,12 @@ const permissions = ref( [
         </thead>
         <tbody class="divide-y divide-gray-200 h-[250px] overflow-y-auto">
           <tr v-for="permission in permissions " :key="permission.id">
-            <td class="py-4  flex items-center space-x-4">
+            <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
               <div>
                   <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                  class="peer sr-only ml-auto  " number />
+                  class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
                   <label :for="`checkbox_`+permission.id" class="relative block border-[1px] 
-                   ml-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                   ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                     <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
@@ -112,11 +112,11 @@ const permissions = ref( [
           </tr>
         
           <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4  flex items-center space-x-4">
+              <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -128,11 +128,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -144,11 +144,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -160,11 +160,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -176,11 +176,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -192,11 +192,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -208,11 +208,11 @@ const permissions = ref( [
              
             </tr>
             <tr v-for="permission in permissions " :key="permission.id">
-              <td class="py-4 flex items-center space-x-4">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <div>
                     <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
-                    class="peer sr-only ml-auto  " number />
-                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ml-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+                    <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
                       <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -228,7 +228,7 @@ const permissions = ref( [
       </table>
 </div>
 
-<div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
 
     Cancel

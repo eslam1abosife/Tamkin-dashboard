@@ -180,7 +180,7 @@ const checkInput = (event) =>{
         </svg>
       </div>
       <h1
-        class="text-[24px] leading-[36px] font-[600] text-darkGrey lg:mr-0 mr-[auto] lg:ml-[20px] lg:mt-0 mt-[60px]"
+        class="text-[24px] leading-[36px] font-[600] text-darkGrey  rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
       >
         Billing Info
       </h1>
@@ -190,7 +190,7 @@ const checkInput = (event) =>{
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing Info
       </h1>
@@ -199,7 +199,7 @@ const checkInput = (event) =>{
         class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
       >
         <div
-          class="flex items-center justify-start lg:flex-row flex-col lg:space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="w-full relative">
@@ -333,7 +333,7 @@ const checkInput = (event) =>{
           </div>
         </div>
         <div
-          class="flex items-center justify-start lg:flex-row flex-col lg:space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
+          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -443,7 +443,7 @@ const checkInput = (event) =>{
       </div>
 
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing address
       </h1>
@@ -491,7 +491,7 @@ const checkInput = (event) =>{
           </div>
         </div>
         <div
-          class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:space-x-[42px] lg:mb-[25px] w-full"
+          class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -569,7 +569,7 @@ const checkInput = (event) =>{
 
         <div
           class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 
-          space-y-[16px] lg:space-x-[42px] lg:mb-[25px] w-full"
+          space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -611,7 +611,7 @@ const checkInput = (event) =>{
             <div class="relative w-full lg:w-64">
               <button
                 @click="toggleDropdown"
-                class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] text-left"
+                class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] ltr:text-left rtl:text-right"
                 :class="[isOpen ? 'rounded-b-none' : '']"
               >
                 <div class="floating_country !font-[400]" :class="[selectedCountry && selectedCountry.name ? '!text-black' :'text-light']">{{
@@ -699,7 +699,7 @@ const checkInput = (event) =>{
       </div>
 
       <div
-        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between space-x-[24px] w-full px-[20px]"
+        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
       >
         <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
           <input
@@ -710,7 +710,7 @@ const checkInput = (event) =>{
             :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
           />
           <div
-            class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] flex items-center justify-evenly space-x-[10px]"
+            class="absolute top-[-8px] lg:top-[11px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px]"
             v-if="validPromo"
           >
             <img src="/assets/imgs/promo_valid.svg" alt="" />
@@ -723,7 +723,7 @@ const checkInput = (event) =>{
           <div
             v-if="isPromoFilled"
             @click="clearInput"
-            class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]"
+            class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]"
           >
             <img src="/assets/imgs/close_promo.svg" alt="" />
           </div>
@@ -749,7 +749,7 @@ const checkInput = (event) =>{
         <thead>
           <tr>
             <th
-              class="py-2 pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] text-left"
+              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
               colspan="12"
             >
               Summary

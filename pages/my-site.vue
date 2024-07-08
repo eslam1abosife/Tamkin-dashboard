@@ -60,14 +60,14 @@ const clearInput = () => {
 <template>
     <div class="mt-[23px]">
         <div class="space-y-[10px]">
-            <h1 class="text-left text-[24px] leading-[36px] font-[600]">My Site</h1>
+            <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">My Site</h1>
 
-            <h2 class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
+            <h2 class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey">
                 Add New Site for TAMKIN to enjoy the features
             </h2>
         </div>
 
-        <div class="mt-[18px] flex items-center justify-start space-x-[36px]">
+        <div class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px]">
             <div>
                 <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]" @click="$router.push(localePath('/add-site'))">
                     Add New Site
@@ -94,9 +94,9 @@ const clearInput = () => {
                     </div>
 
                     <div class="flex flex-col lg:flex-row items-center justify-between">
-                        <div class="flex items-center justify-start space-x-[8px]">
+                        <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                             <img src="/assets/imgs/icons/mysite_select.svg" alt="" />
-                            <div class="flex items-center space-x-[16px]">
+                            <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                                 <div>
                                     <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey underline">
@@ -106,7 +106,7 @@ const clearInput = () => {
                                 <div>
                                     <a href="" class="text-tamkin font-[600] text-[16px] leading-[24px] flex ]">Visit
                                         Site
-                                        <img src="/assets/imgs/icons/external_link.svg" class="ml-[14px]" alt="" /></a>
+                                        <img src="/assets/imgs/icons/external_link.svg" class="ltr:ml-[14px] rtl:mr-[14px]" alt="" /></a>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +119,7 @@ const clearInput = () => {
                     </div>
                 </div>
             </div>
-            <div class="ml-auto absolute right-0 ipad-max:top-[170px] top-[119px] ipad-max:w-1/4">
+            <div class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] ltr:right-0 ipad-max:top-[170px] top-[119px] ipad-max:w-1/4">
                 <Vue3Lottie :animationData="mysiteAnimation" class="absolute left-[25%] top-[125px] " :height="32"
                     :width="39" />
                 <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:block hidden" alt="" />
@@ -133,7 +133,7 @@ const clearInput = () => {
                         <div class="flex flex-col  justify-start rounded-[10px] pb-[42px]  mb-[16px] bg-white"
                             style="box-shadow: 0px 4px 24px 8px #51459f1a">
                             <div class="flex items-center justify-center lg:justify-between flex-row ">
-                                <div class="flex items-center space-x-[16px] pl-[16px] ">
+                                <div class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px]   rtl:pr-[16px] ">
                                     <div class="hover:bg-tamkinLight px-[1px] pt-[16px] cursor-pointer">
                                         <div @click="switchTab('saved')" :class="[
                                 currentTab === 'saved'
@@ -155,7 +155,7 @@ const clearInput = () => {
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between  ">
-                                    <div class="py-[17px] search_input w-full mr-[16px]">
+                                    <div class="py-[17px] search_input w-full ltr:mr-[16px] rtl:ml-[16px]">
                                         <input
                                           type="text"
                                           class="input_dashboard_search w-[289px]"
@@ -163,14 +163,14 @@ const clearInput = () => {
                                           placeholder="Search ..."
                                         />
                                         <div
-                                          class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+                                          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                                         >
                                           <img src="/assets/imgs/icons/search.svg" alt="" />
                                         </div>
                                         <div
                                           v-if="isSearchfilled"
                                           @click="clearInput"
-                                          class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+                                          class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                                         >
                                           <img src="/assets/imgs/icons/clear_search.svg" alt="" />
                                         </div>
@@ -182,18 +182,20 @@ const clearInput = () => {
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="pl-[16px] h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                            class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
-                                        <th class="text-left w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="ltr:text-left rtl:text-right w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Billing
                                         </th>
-                                        <th class="text-left w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="ltr:text-left rtl:text-right w-[150px] text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Products
                                         </th>
                                         <th
                                             >
-                                            <div class="w-[150px] flex items-center justify-start space-x-[6px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                            <div class="w-[150px] flex items-center justify-start
+                                             rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right text-[14px] font-[600]
+                                              leading-[21px] text-darkGrey">
                                                 <div>Status</div>
                                             <div>
                                                 <span class="tooltip left" id="saveButton"
@@ -211,13 +213,13 @@ const clearInput = () => {
                                             </div>
                                         </th>
 
-                                        <th class="w-[150px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                        <th class="w-[150px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Date
                                         </th>
 
                                         <th
                                             >
-                                           <div class="flex items-center justify-center w-[150px] space-x-[6px]  text-[14px] 
+                                           <div class="flex items-center justify-center w-[150px] rtl:space-x-reverse space-x-[6px]  text-[14px] 
                                             font-[600] leading-[21px] text-darkGrey">
                                             <div>Traffic</div>
                                             <div>
@@ -245,8 +247,8 @@ const clearInput = () => {
                                     <tr class="h-[50px]">
                                         <td
                                             class="w-[25%]">
-                                            <div class="flex h-[50px] items-center justify-start space-x-[16px]
-                                             pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            <div class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px]
+                                             ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                              <img src="/assets/imgs/icons/avatar_table.svg" alt=""
                                              class="w-[20px] h-[20px]" />
                                          <div class="order-1">Tamkin.App</div>
@@ -263,11 +265,12 @@ const clearInput = () => {
                                         </div>
                                          
                                         </td>
-                                        <td class="w-[150px] text-[14px] text-left leading-[21px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] text-[14px] ltr:text-left rtl:text-right
+                                         leading-[21px] font-[400] text-darkGrey">
                                             Monthly
                                         </td>
                                         <td class="w-[150px] text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro mr-auto">PRO</div>
+                                            <div class="billing_badge pro rtl:ml-auto ltr:mr-auto">PRO</div>
                                         </td>
 
                                         <td class="w-[150px] mx-auto text-center text-darkGrey">
@@ -283,7 +286,7 @@ const clearInput = () => {
                                             </div>
                                         </td>
 
-                                        <td class="w-[150px] text-left text-[14px] leading-[21px] font-[400] text-darkGrey">
+                                        <td class="w-[150px] ltr:text-left rtl:text-right text-[14px] leading-[21px] font-[400] text-darkGrey">
                                             May 11 ,2024
                                         </td>
 
@@ -291,13 +294,13 @@ const clearInput = () => {
                                             2.35K
                                         </td>
 
-                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey pl-[38px]">
-                                            <div class="flex items-center justify-start space-x-[16px]">
+                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey rtl:pr-[38px] ltr:pl-[38px]">
+                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
                                                 <div class="hover:opacity-50">
                                                     <img src="/assets/imgs/installed.svg" alt="" />
                                                 </div>
                                                 <div>
-                                                    <svg width="18" height="17" viewBox="0 0 18 17"
+                                                    <svg width="18" height="17" rviewBox="0 0 18 17"
                                                         class="text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -311,7 +314,7 @@ const clearInput = () => {
 <!-- 
                                     <tr class="bg-[#FAEBEB] h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                             <img src="/assets/imgs/icons/avatar_table.svg" alt=""
                                                 class="lg:block hidden w-[20px] h-[20px] lg:mt-0" />
                                             <div class="order-1">Tamkin.App</div>
@@ -333,7 +336,7 @@ const clearInput = () => {
                                             <div class="billing_badge pro">PRO</div>
                                         </td>
 
-                                        <td class="text-darkGrey text-left">
+                                        <td class="text-darkGrey ltr:text-left rtl:text-right">
                                             <div class="text-[14px] font-[500] leading-[21px] text-[#DE4134]">
                                                 Not installed
                                             </div>
@@ -348,7 +351,7 @@ const clearInput = () => {
                                         </td>
 
                                         <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="flex items-center justify-start space-x-[10px]">
+                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
                                                 <div class="hover:opacity-50">
                                                     <img src="/assets/imgs/install.svg" alt="" />
                                                 </div>
@@ -366,7 +369,7 @@ const clearInput = () => {
                                     </tr>
                                     <tr class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                             <img src="/assets/imgs/icons/avatar_table.svg" alt=""
                                                 class="w-[20px] h-[20px]" />
                                             <div class="order-1">Tamkin.App</div>
@@ -409,7 +412,7 @@ const clearInput = () => {
                                         </td>
 
                                         <td class="text-[14px] font-[400] text-darkGrey w-[70px]">
-                                            <div class="flex items-center justify-start space-x-[16px] ">
+                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] ">
                                                 <div class="hover:opacity-50">
                                                     <img src="/assets/imgs/installed.svg" alt="" />
                                                 </div>
@@ -427,7 +430,7 @@ const clearInput = () => {
                                     </tr>
                                     <tr class="h-[50px] ">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[16px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                             <img src="/assets/imgs/icons/avatar_table.svg" alt=""
                                                 class="w-[20px] h-[20px]" />
                                             <div class="order-1">Tamkin.App</div>
@@ -470,7 +473,7 @@ const clearInput = () => {
                                         </td>
 
                                         <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="flex items-center justify-start space-x-[16px]">
+                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
                                                 <div class="hover:opacity-50">
                                                     <img src="/assets/imgs/installed.svg" alt="" />
                                                 </div>
@@ -493,12 +496,12 @@ const clearInput = () => {
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="px-4 h-[50px] text-left text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                            class="px-4 h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
 
                                         <!-- <th
-                                            class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[600] text-darkGrey flex items-center justify-end space-x-[10px]">
+                                            class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[600] text-darkGrey flex items-center justify-end rtl:space-x-reverse space-x-[10px]">
                                             <div class="">Restore All</div>
                                             <div>
                                                 <input type="checkbox" id="checkbox" class="peer sr-only m-auto"
@@ -519,7 +522,7 @@ const clearInput = () => {
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start space-x-[10px] pl-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                         
                                             <img :src="dSite.image" alt="" class="h-[14px] w-[14px]" />
                                             <div class="order-1">
@@ -527,9 +530,9 @@ const clearInput = () => {
                                             </div>
                                         </td>
 
-                                        <td class="text-[14px] pr-[16px] font-[400] text-darkGrey">
+                                        <td class="text-[14px] ltr:pr-[16px]  rtl:pl-[16px] font-[400] text-darkGrey">
                                             <button
-                                                class="ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
+                                                class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
                                                 Restore
                                             </button>
                                         </td>
@@ -546,7 +549,7 @@ const clearInput = () => {
                         <div class="flex flex-col items-between justify-center rounded-[10px] pb-[42px] mb-[16px] bg-white"
                             style="box-shadow: 0px 4px 24px 8px #51459f1a">
                             <div class="flex items-center justify-center lg:justify-between flex-row">
-                                <div class="flex items-center space-x-[16px] pl-[16px]">
+                                <div class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px]">
                                     <div class="hover:bg-tamkinLight px-[1px]  cursor-pointer">
                                         <div @click="switchTab('saved')"
                                             class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600]
@@ -556,8 +559,8 @@ const clearInput = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center justify-between  pr-[16px] w-2/4">
-                                    <div class="py-[17px] search_input w-full mr-[16px]">
+                                <div class="flex items-center justify-between  ltr:pr-[16px]  rtl:pl-[16px] w-2/4">
+                                    <div class="py-[17px] search_input w-full ltr:mr-[16px] rtl:ml-[16px]">
                                         <input
                                           type="text"
                                           class="input_dashboard_search w-full"
@@ -565,14 +568,14 @@ const clearInput = () => {
                                           placeholder="Search ..."
                                         />
                                         <div
-                                          class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+                                          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                                         >
                                           <img src="/assets/imgs/icons/search.svg" alt="" />
                                         </div>
                                         <div
                                           v-if="isSearchfilled"
                                           @click="clearInput"
-                                          class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+                                          class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                                         >
                                           <img src="/assets/imgs/icons/clear_search.svg" alt="" />
                                         </div>
@@ -606,7 +609,7 @@ const clearInput = () => {
             </div>
             <div class="py-[4px]" v-if="!dataAvailable"></div>
             <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Per Page</span>
                     <button style="
               background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
@@ -614,11 +617,12 @@ const clearInput = () => {
                         10
                     </button>
                     <button
-                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey 
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         20
                     </button>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Page</span>
                     <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
                         <img src="/assets/imgs/arrow-left.svg" alt="" />

@@ -3,6 +3,9 @@ export default {
   content: [],
   theme: {
     extend:{
+      direction: {
+        'rtl': 'rtl',
+      },
       screens: {
         'ipad-min': '768px',
         
@@ -62,6 +65,18 @@ export default {
         },
       });
     },
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.direction-rtl': {
+          direction: 'rtl',
+        },
+        '.direction-ltr': {
+          direction: 'ltr',
+        },
+      }
+
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    }
   ],
 }
 

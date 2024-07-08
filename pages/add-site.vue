@@ -54,7 +54,7 @@ const next = ()=>{
           Select Your package
         </h2>
       </div>
-      <div class="flex items-center space-x-[10px] ">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px] ">
         <div>
           <h2
             class="underline text-[14px] font-[400] leading-[24px] text-[#151515]"
@@ -63,7 +63,7 @@ const next = ()=>{
           </h2>
         </div>
         <div class="cursor-pointer" @click="collapsed = !collapsed">
-          <img src="/assets/imgs/arrow-right.svg" class="w-[12px] h-[10px]" :class="[collapsed ? 'rotate-90 ' :'rotate-0']" alt="" />
+          <img src="/assets/imgs/arrow-right.svg" class="w-[12px] h-[10px] rtl:rotate-180" :class="[collapsed ? '!rotate-90 ' :'rotate-0']" alt="" />
         </div>
       </div>
     </div>
@@ -73,14 +73,15 @@ const next = ()=>{
 
       v-if="currentIndex === 0" key="1"
 
-        class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
+        class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
       >
         <div
-        class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+        class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px]
+         relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
         >
-          <div class="absolute bottom-[119px] left-[24px]">
+          <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/freeplan.svg"
               class="w-[60px] h-[60px]"
@@ -122,7 +123,7 @@ const next = ()=>{
             :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -132,7 +133,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -143,7 +144,7 @@ const next = ()=>{
               </div>
             </div>
 
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -153,7 +154,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -163,7 +164,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -173,7 +174,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -183,7 +184,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px] ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] ">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -193,7 +194,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px] ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] ">
               <div>
                 <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
               </div>
@@ -208,13 +209,13 @@ const next = ()=>{
 
         <div
         
-          class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
          
         >
-          <div class="absolute bottom-[119px] left-[24px]">
+          <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/proplan.svg"
               class="w-[60px] h-[60px]"
@@ -224,7 +225,8 @@ const next = ()=>{
 
           <div class="flex items-center justify-center relative ">
             <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[600] w-[120px]
-             h-[35px] rounded-[10px] text-white ipad-max:top-[-25%] ipad-max:left-[150px] top-[-75%] left-[200px]  lg:left-[250px]" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+             h-[35px] rounded-[10px] text-white ipad-max:top-[-25%] ipad-max:left-[150px] top-[-75%] rtl:right-[200px] 
+             ltr:left-[200px] rtl:lg:right-[250px] ltr:lg:left-[250px]" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 ">
 <div class=" text-white">
     Best Deal
@@ -266,7 +268,7 @@ const next = ()=>{
             :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -276,7 +278,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -286,7 +288,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -296,7 +298,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -306,7 +308,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -316,7 +318,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -326,7 +328,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -336,7 +338,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
               </div>
@@ -350,19 +352,19 @@ const next = ()=>{
         </div>
       </div>
  
-      <div   class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"       v-if="currentIndex === 1" key="2"
+      <div   class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"       v-if="currentIndex === 1" key="2"
       >
         <div
-        class="flex items-center lg:flex-row flex-col justify-start space-x-[8px] w-full"
+        class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
       >
         <div
      
-        class="flex items-center custom-border justify-start space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+        class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
         >
-          <div class="absolute bottom-[119px] left-[24px]">
+          <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/platplan.svg"
               class="w-[60px] h-[60px]"
@@ -405,7 +407,7 @@ const next = ()=>{
             :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -415,7 +417,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -425,7 +427,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -435,7 +437,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
               </div>
@@ -445,7 +447,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -455,7 +457,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -465,7 +467,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -475,7 +477,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -491,12 +493,12 @@ const next = ()=>{
 
         <div
   
-          class="flex items-center custom-border justify-start space-x-[16px] relative  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
+          class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
           :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
 
         >
-          <div class="absolute bottom-[119px] left-[24px]">
+          <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/plat_plan.svg"
               class="w-[60px] h-[60px]"
@@ -538,7 +540,7 @@ const next = ()=>{
             :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
           
             >
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -548,7 +550,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -558,7 +560,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -568,7 +570,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
               </div>
@@ -578,7 +580,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -588,7 +590,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -598,7 +600,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -608,7 +610,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
-            <div class="flex items-center justify-start space-x-[24px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
                 <img src="/assets/imgs/checked_list_active.svg" alt="" />
               </div>
@@ -629,7 +631,7 @@ const next = ()=>{
 </transition-group>
     <div
    :class="[collapsed ? 'mt-[365px]':'mt-[22px]']"
-      class="flex items-center justify-center  mx-auto space-x-[8px]"
+      class="flex items-center justify-center  mx-auto rtl:space-x-reverse space-x-[8px]"
     >
       <div
         :class="[currentIndex === 0 ? 'bg-tamkin' : 'bg-[#D9D9D9] ']"
@@ -659,7 +661,7 @@ const next = ()=>{
     @on-tags-changed="handleChangeTag"
     >
   <template #item="{ name, index }" >
-    <div class="flex items-center justify-center p-[6px] space-x-[13px]">
+    <div class="flex items-center justify-center p-[6px] rtl:space-x-reverse space-x-[13px]">
 <div>
   {{ name }} 
 </div>

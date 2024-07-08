@@ -95,14 +95,14 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
       placeholder="Search ..."
     />
     <div
-      class="absolute top-[40%] lg:left-0 left-[10px] lg:top-[16px] lg:p-[16px]"
+      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
     >
       <img src="/assets/imgs/icons/search.svg" alt="" />
     </div>
     <div
       v-if="isSearchfilled"
       @click="clearInput"
-      class="absolute top-[12px] lg:top-[16px] right-[0] p-[16px] cursor-pointer"
+      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
     >
       <img src="/assets/imgs/icons/clear_search.svg" alt="" />
     </div>

@@ -29,8 +29,8 @@ const isLinkActive = (path) => {
 
 const isSubMenuActive = (index) => {
   const routes = [
-    '/overview',
-    '/addons',
+    "/overview",
+    "/addons",
     // Add more routes here
   ];
 
@@ -39,15 +39,14 @@ const isSubMenuActive = (index) => {
 
 // Watch the route and open the submenu if necessary
 watchEffect(() => {
-  showSubMenu.value[3] = isSubMenuActive(3);
+  // showSubMenu.value[3] = isSubMenuActive(3);
 });
 </script>
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0  lg:flex mx-auto mt-[6px]   "
+    class="flex-col items-center justify-start relative 2xl:p-0 lg:flex mx-auto mt-[6px]"
   >
-
     <div
       class="block lg:hidden absolute top-[35px] rtl:left-0 ltr:right-0"
       @click="toggleSidebarMobile"
@@ -67,110 +66,110 @@ watchEffect(() => {
         />
       </svg>
     </div>
-   
 
-<div class="flex flex-col items-center justify-start rtl:mr-[4px] ltr:ml-[4px]">
-  <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
-    <img
-      src="/assets//imgs/logo.png"
-      class="min-h-[60px] w-[120px] rtl:mr-[4px] ltr:ml-[-4px]"
-      alt=""
-      v-if="sideBarOpen "
-    />
-    <img
-      src="/assets//imgs/icons/tamkin_small.svg"
-      class="mb-[64px] mt-[16px]  w-[24px] h-[24px] mx-auto"
-      alt=""
-      v-else
-    />
-  </div>
-  <img
-    src="/assets/imgs/team.png"
-    class="h-[24px] w-[24px]"
-    alt=""
-    :class="[!sideBarOpen ? 'block' : 'hidden']"
-  />
-  <div
-  class="tamkin_team_card "
-  @click="$router.push(localePath('/team'))"
-  :class="[!sideBarOpen ? 'border-none bg-transparent hidden' : '',isLinkActive('/team') ? 'active' : '']"
->
-  <img
-    src="/assets/imgs/team.png"
-    :class="[sideBarOpen ? 'h-[40px] w-[40px] ' : 'h-[24px] w-[24px]']"
-    alt=""
-  />
-
-  <div class="flex items-center  rtl:space-x-reverse space-x-[100px]" >
-    <div
-      class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
-      :class="[!sideBarOpen ? 'hidden' : 'block']"
-    >
-      <h2 class="font-[400] text-[16px]" style="line-height: 24px">
-        {{ $t("Tamkin") }}
-      </h2>
-      <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
-        3 {{ $t("teamcount") }}
-      </h3>
-    </div>
-    <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
-      <svg
-        class="arrow_svg"
-        width="7"
-        height="12"
-        viewBox="0 0 7 12"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+    <div class="flex flex-col items-center justify-start rtl:mr-[4px] ltr:ml-[4px]">
+      <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
+        <img
+          src="/assets//imgs/logo.png"
+          class="min-h-[60px] w-[120px] rtl:mr-[4px] ltr:ml-[-4px]"
+          alt=""
+          v-if="sideBarOpen"
         />
-      </svg>
+        <img
+          src="/assets//imgs/icons/tamkin_small.svg"
+          class="mb-[64px] mt-[16px] w-[24px] h-[24px] mx-auto"
+          alt=""
+          v-else
+        />
+      </div>
+      <img
+        src="/assets/imgs/team.png"
+        class="h-[24px] w-[24px]"
+        alt=""
+        :class="[!sideBarOpen ? 'block' : 'hidden']"
+      />
+      <div
+        class="tamkin_team_card"
+        @click="$router.push(localePath('/team'))"
+        :class="[
+          !sideBarOpen ? 'border-none bg-transparent hidden' : '',
+          isLinkActive('/team') ? 'active' : '',
+        ]"
+      >
+        <img
+          src="/assets/imgs/team.png"
+          :class="[sideBarOpen ? 'h-[40px] w-[40px] ' : 'h-[24px] w-[24px]']"
+          alt=""
+        />
+
+        <div class="flex items-center rtl:space-x-reverse space-x-[100px]">
+          <div
+            class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
+            :class="[!sideBarOpen ? 'hidden' : 'block']"
+          >
+            <h2 class="font-[400] text-[16px]" style="line-height: 24px">
+              {{ $t("Tamkin") }}
+            </h2>
+            <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
+              3 {{ $t("teamcount") }}
+            </h3>
+          </div>
+          <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
+            <svg
+              class="arrow_svg"
+              width="7"
+              height="12"
+              viewBox="0 0 7 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
+      <button
+        @click="$router.push(localePath('/add-site'))"
+        class="btn-dashboard flex items-center justify-center relative w-full"
+        v-if="sideBarOpen"
+      >
+        <div class="absolute rtl:right-0 ltr:left-0 px-[16px]">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="active_icon"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="23"
+              height="23"
+              rx="11.5"
+              stroke="currentColor"
+            />
+            <path
+              d="M7 12C7 11.8008 7.07913 11.6098 7.21998 11.4689C7.36083 11.3281 7.55186 11.2489 7.75105 11.2489H11.2489V7.75105C11.2489 7.55186 11.3281 7.36083 11.4689 7.21998C11.6098 7.07913 11.8008 7 12 7C12.1992 7 12.3902 7.07913 12.5311 7.21998C12.6719 7.36083 12.7511 7.55186 12.7511 7.75105V11.2489H16.2489C16.4481 11.2489 16.6392 11.3281 16.78 11.4689C16.9209 11.6098 17 11.8008 17 12C17 12.1992 16.9209 12.3902 16.78 12.5311C16.6392 12.6719 16.4481 12.7511 16.2489 12.7511H12.7511V16.2489C12.7511 16.4481 12.6719 16.6392 12.5311 16.78C12.3902 16.9209 12.1992 17 12 17C11.8008 17 11.6098 16.9209 11.4689 16.78C11.3281 16.6392 11.2489 16.4481 11.2489 16.2489V12.7511H7.75105C7.55186 12.7511 7.36083 12.6719 7.21998 12.5311C7.07913 12.3902 7 12.1992 7 12Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <div class="order-2">Add Site</div>
+      </button>
+
+      <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </div>
-  </div>
-</div>
-
-<hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
-<button
-  @click="$router.push(localePath('/add-site'))"
-  class="btn-dashboard flex items-center justify-center relative w-full"
-  v-if="sideBarOpen"
->
-  <div class="absolute rtl:right-0 ltr:left-0 px-[16px]">
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      class="active_icon"
-    >
-      <rect
-        x="0.5"
-        y="0.5"
-        width="23"
-        height="23"
-        rx="11.5"
-        stroke="currentColor"
-      />
-      <path
-        d="M7 12C7 11.8008 7.07913 11.6098 7.21998 11.4689C7.36083 11.3281 7.55186 11.2489 7.75105 11.2489H11.2489V7.75105C11.2489 7.55186 11.3281 7.36083 11.4689 7.21998C11.6098 7.07913 11.8008 7 12 7C12.1992 7 12.3902 7.07913 12.5311 7.21998C12.6719 7.36083 12.7511 7.55186 12.7511 7.75105V11.2489H16.2489C16.4481 11.2489 16.6392 11.3281 16.78 11.4689C16.9209 11.6098 17 11.8008 17 12C17 12.1992 16.9209 12.3902 16.78 12.5311C16.6392 12.6719 16.4481 12.7511 16.2489 12.7511H12.7511V16.2489C12.7511 16.4481 12.6719 16.6392 12.5311 16.78C12.3902 16.9209 12.1992 17 12 17C11.8008 17 11.6098 16.9209 11.4689 16.78C11.3281 16.6392 11.2489 16.4481 11.2489 16.2489V12.7511H7.75105C7.55186 12.7511 7.36083 12.6719 7.21998 12.5311C7.07913 12.3902 7 12.1992 7 12Z"
-        fill="currentColor"
-      />
-    </svg>
-  </div>
-  <div class="order-2">Add Site</div>
-</button>
-
-  <!-- <i class="fa-regular fa-circle-plus"></i> -->
-
-</div>
     <button
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
-      v-if=!sideBarOpen
+      v-if="!sideBarOpen"
       @click="$router.push(localePath('/team'))"
-
     >
       <img src="/assets/imgs/icons/add.svg" alt="" class="" />
 
@@ -188,8 +187,8 @@ watchEffect(() => {
       >
         <div>
           <svg
-          :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-            class="  w-full h-full"
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -276,12 +275,13 @@ watchEffect(() => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen ">Dashboard</span>
+        <span v-if="sideBarOpen">Dashboard</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/embed-code')"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
@@ -289,9 +289,8 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-                        class="  w-full h-full"
-
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full "
           >
             <defs v-if="isLinkActive('/embed-code')">
               <linearGradient
@@ -322,17 +321,17 @@ watchEffect(() => {
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="localePath('/my-site')"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
             height="24"
             viewBox="0 0 25 24"
-               :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' :'']"
+            :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' : '']"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-                        class="  w-full h-full"
-
+            class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_23987)">
               <path
@@ -357,12 +356,7 @@ watchEffect(() => {
                 <stop offset="1" stop-color="#71DAD2" />
               </linearGradient>
               <clipPath id="clip0_2978_23987">
-                <rect
-                  width="24"
-                  height="24"
-                  fill="white"
-                  transform="translate(0.5)"
-                />
+                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
               </clipPath>
             </defs>
           </svg>
@@ -374,21 +368,19 @@ watchEffect(() => {
         <div
           class="dashboard-nav-link-has-menu"
           :class="[
-         !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
-                        showSubMenu[2] === true ? 'active' : '',
+            !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
+            showSubMenu[2] === true ? 'active' : '',
           ]"
         >
           <div>
             <img
               src="/assets/imgs/icons/signlang.svg"
               alt=""
-                 :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
+              :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             />
           </div>
+          <div v-if="sideBarOpen">Sign language Services</div>
           <div v-if="sideBarOpen">
-            Sign language Services
-          </div>
-          <div v-if="sideBarOpen ">
             <svg
               width="7"
               height="12"
@@ -432,22 +424,21 @@ watchEffect(() => {
                   ></div>
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] 
-                    h-[40px] active_sub_menu"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px] active_sub_menu"
                     >Overview</a
                   >
                 </li>
                 <li class="rounded-[10px] relative w-full">
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
                     >Overview</a
                   >
                 </li>
                 <li class="rounded-[10px] relative">
                   <a
                     href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] rtl:mr-[20px] ltr:ml-[20px]  w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
                     >Overview</a
                   >
                 </li>
@@ -461,30 +452,70 @@ watchEffect(() => {
         <div
           class="dashboard-nav-link-has-menu"
           :class="[
-         !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
-                        showSubMenu[3] === true ? 'active ' : '',
+            !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
+            showSubMenu[3] === true ? 'active ' : '',
           ]"
         >
           <div>
-            <svg 
-             :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-            width="25" height="25" viewBox="0 0 25 25" class="w-full h-full" 
-            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-       
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 12.5C0.5 9.3174 1.76428 6.26516 4.01472 4.01472C6.26516 1.76428 9.3174 0.5 12.5 0.5C15.6826 0.5 18.7348 1.76428 20.9853 4.01472C23.2357 6.26516 24.5 9.3174 24.5 12.5C24.5 15.6826 23.2357 18.7348 20.9853 20.9853C18.7348 23.2357 15.6826 24.5 12.5 24.5C9.3174 24.5 6.26516 23.2357 4.01472 20.9853C1.76428 18.7348 0.5 15.6826 0.5 12.5ZM12.5 2.22127C9.77391 2.22127 7.15948 3.30421 5.23184 5.23184C3.30421 7.15948 2.22127 9.77391 2.22127 12.5C2.22127 15.2261 3.30421 17.8405 5.23184 19.7682C7.15948 21.6958 9.77391 22.7787 12.5 22.7787C15.2261 22.7787 17.8405 21.6958 19.7682 19.7682C21.6958 17.8405 22.7787 15.2261 22.7787 12.5C22.7787 9.77391 21.6958 7.15948 19.7682 5.23184C17.8405 3.30421 15.2261 2.22127 12.5 2.22127ZM11.8205 15.2178C11.7209 15.4479 10.3837 20.5809 10.3837 20.5809C10.3528 20.6959 10.2995 20.8036 10.227 20.8979C10.1544 20.9922 10.064 21.0714 9.96086 21.1308C9.75257 21.2507 9.50516 21.283 9.27306 21.2205C9.15814 21.1896 9.05043 21.1363 8.95609 21.0638C8.86176 20.9912 8.78263 20.9008 8.72324 20.7976C8.60329 20.5894 8.571 20.3419 8.63347 20.1098C8.63347 20.1098 10.2279 14.9877 10.2279 13.8951V11.2335L6.68028 10.2823C6.56361 10.2532 6.45389 10.2012 6.35752 10.1293C6.26115 10.0573 6.18007 9.96696 6.11899 9.86338C6.05792 9.7598 6.01807 9.6451 6.00178 9.52596C5.98549 9.40683 5.99308 9.28564 6.02411 9.16947C6.05514 9.05329 6.10898 8.94446 6.1825 8.84931C6.25603 8.75416 6.34775 8.6746 6.45234 8.61527C6.55693 8.55593 6.67228 8.51801 6.79167 8.50372C6.91106 8.48943 7.03211 8.49904 7.14774 8.53201C7.14774 8.53201 10.1446 9.55209 11.315 9.55209H13.6868C14.8554 9.55209 17.8504 8.53201 17.8504 8.53201C18.0825 8.46954 18.33 8.50183 18.5382 8.62178C18.7465 8.74172 18.8987 8.9395 18.9611 9.1716C19.0236 9.4037 18.9913 9.65111 18.8714 9.8594C18.7514 10.0677 18.5536 10.2198 18.3215 10.2823L14.7594 11.2371V13.8951C14.7594 14.9877 16.3538 20.1044 16.3538 20.1044C16.4161 20.3365 16.3836 20.5838 16.2634 20.7919C16.1433 21.0001 15.9454 21.1519 15.7133 21.2142C15.4812 21.2764 15.2339 21.2439 15.0258 21.1238C14.8177 21.0037 14.6658 20.8058 14.6036 20.5737C14.6036 20.5737 13.261 15.4479 13.1686 15.2178C13.078 14.9877 12.7718 14.9877 12.7718 14.9877H12.2155C12.2155 14.9877 11.9021 14.9877 11.8205 15.2178ZM12.5 8.18775C13.0406 8.18775 13.5591 7.973 13.9413 7.59074C14.3236 7.20847 14.5384 6.69001 14.5384 6.1494C14.5384 5.6088 14.3236 5.09034 13.9413 4.70807C13.5591 4.32581 13.0406 4.11105 12.5 4.11105C11.9594 4.11105 11.4409 4.32581 11.0587 4.70807C10.6764 5.09034 10.4616 5.6088 10.4616 6.1494C10.4616 6.69001 10.6764 7.20847 11.0587 7.59074C11.4409 7.973 11.9594 8.18775 12.5 8.18775Z" fill="currentColor"/>
-              </svg>
-              
-                
-         
+            <svg
+          width="26" height="26" viewBox="0 0 26 26"
+            :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' : '']"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-full h-full stroke-darkGrey"
+          >
+            <g>
+              <path
+                :stroke="[
+                 showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                    ? 'url(#paint0_linear_2978_5493)'
+                    : 'currentColor',
+                ]"
+                d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
+                stroke-width="1.5"
+              />
+              <path
+                :stroke="[
+                  showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                  ? 'url(#paint0_linear_2978_5493)'
+                    : 'currentColor',
+                ]"
+                d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
+              />
+              <path
+                :stroke="[
+                  showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                  ? 'url(#paint0_linear_2978_5493)'
+                    : 'currentColor',
+                ]"
+                d="M20.2008 10.6001C20.2008 10.6001 15.9564 12.4001 13.0008 12.4001C10.0452 12.4001 5.80078 10.6001 5.80078 10.6001M13.0008 13.0001V14.7425M13.0008 14.7425C13.0004 15.433 13.1987 16.1091 13.572 16.6901L16.6008 21.4001M13.0008 14.7425C13.0011 15.433 12.8028 16.1091 12.4296 16.6901L9.40078 21.4001"
+             
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </g>
+            <defs>
+              <linearGradient
+                id="paint0_linear_2978_5493"
+                x1="12.5"
+                y1="0.5"
+                x2="12.5"
+                y2="24.5"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#2DADA3" />
+                <stop offset="1" stop-color="#71DAD2" />
+              </linearGradient>
+            </defs>
+          </svg>
+          
           </div>
+          <div v-if="sideBarOpen">Accessibility Services</div>
           <div v-if="sideBarOpen">
-            Accessibility Services
-          </div>
-          <div v-if="sideBarOpen ">
             <svg
               width="7"
               height="12"
-              class="rtl:mr-[40px] ltr:ml-[34px]"
+              class="rtl:mr-[40px] ltr:ml-[32px]"
               :class="[showSubMenu[3] ? 'rotate-90' : 'rotate-0']"
               viewBox="0 0 7 12"
               xmlns="http://www.w3.org/2000/svg"
@@ -508,39 +539,79 @@ watchEffect(() => {
           class="menu_item bg-[#FFFEFE] rounded-[10px]"
           :class="[
             !sideBarOpen && showSubMenu[3] ? 'absolute left-[85px] ' : ' ',
-            showSubMenu[3] ? 'block ' : 'hidden'
+            showSubMenu[3] ? 'block ' : 'hidden',
           ]"
           style="padding: 10px 40px 10px 40px"
         >
           <div class="flex w-full">
             <div class="bg-[#FFFEFE] relative w-full h-full left-0">
               <div
-                class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
+                class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
               ></div>
               <ul class="mt-4 space-y-[10px]">
                 <li class="rounded-[10px] relative">
-              
-                  <a
-                    href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px] "
-                    >Overview</a
+                  <div
+                    v-if="isLinkActive('/overview')"
+                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                  ></div>
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/overview')"
+                    :class="[isLinkActive('/overview') ? 'active_sub_menu' : '']"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Overview</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative w-full">
-                  <div v-if="isLinkActive('/addons')"
-                  class="absolute inset-y-0 left-[-10px] w-1 rounded-[10px] bg-tamkin h-full"
-                ></div>
+                  <div
+                    v-if="isLinkActive('/addons')"
+                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                  ></div>
                   <nuxt-link
-                    :to="localePath('/addons')" :class="[isLinkActive('/addons') ? 'active_sub_menu' :'']"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    @click.stop
+                    :to="localePath('/addons')"
+                    :class="[isLinkActive('/addons') ? 'active_sub_menu' : '']"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
                     >Addons</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative">
-                  <a
-                    href="#"
-                    class="block text-gray-800 hover:bg-gray-200 py-[10px] ml-[10px] w-[225px] h-[40px]"
-                    >Overview</a
+                  <div
+                    v-if="isLinkActive('/statistics')"
+                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                  ></div>
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/statistics')"
+                    :class="[isLinkActive('/statistics') ? 'active_sub_menu' : '']"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Statistics</nuxt-link
+                  >
+                </li>
+                <li class="rounded-[10px] relative">
+                  <div
+                    v-if="isLinkActive('/customize')"
+                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                  ></div>
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/customize')"
+                    :class="[isLinkActive('/customize') ? 'active_sub_menu' : '']"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Customize</nuxt-link
+                  >
+                </li>
+                <li class="rounded-[10px] relative">
+                  <div
+                    v-if="isLinkActive('/settings')"
+                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                  ></div>
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/settings')"
+                    :class="[isLinkActive('/settings') ? 'active_sub_menu' : '']"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    >Settings</nuxt-link
                   >
                 </li>
               </ul>
@@ -550,7 +621,8 @@ watchEffect(() => {
       </div>
       <div
         class="dashboard-nav-link"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
@@ -558,9 +630,8 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-                        class="  w-full h-full"
-
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5551)">
               <path
@@ -570,12 +641,7 @@ watchEffect(() => {
             </g>
             <defs>
               <clipPath id="clip0_2978_5551">
-                <rect
-                  width="24"
-                  height="24"
-                  fill="white"
-                  transform="translate(0.5)"
-                />
+                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
               </clipPath>
             </defs>
           </svg>
@@ -585,7 +651,8 @@ watchEffect(() => {
 
       <div
         class="dashboard-nav-link"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
@@ -593,9 +660,8 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-                        class="  w-full h-full"
-
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5569)">
               <path
@@ -605,12 +671,7 @@ watchEffect(() => {
             </g>
             <defs>
               <clipPath id="clip0_2978_5569">
-                <rect
-                  width="24"
-                  height="24"
-                  fill="white"
-                  transform="translate(0.5)"
-                />
+                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
               </clipPath>
             </defs>
           </svg>
@@ -619,7 +680,8 @@ watchEffect(() => {
       </div>
       <div
         class="dashboard-nav-link"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
@@ -627,9 +689,8 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-                        class="  w-full h-full"
-
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5587)">
               <path
@@ -639,12 +700,7 @@ watchEffect(() => {
             </g>
             <defs>
               <clipPath id="clip0_2978_5587">
-                <rect
-                  width="24"
-                  height="24"
-                  fill="white"
-                  transform="translate(0.5)"
-                />
+                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
               </clipPath>
             </defs>
           </svg>
@@ -653,7 +709,8 @@ watchEffect(() => {
       </div>
       <div
         class="dashboard-nav-link"
- :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"      >
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      >
         <div>
           <svg
             width="25"
@@ -661,9 +718,8 @@ watchEffect(() => {
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-               :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' :'']"
-                        class="  w-full h-full"
-
+            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
+            class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5605)">
               <path
@@ -673,12 +729,7 @@ watchEffect(() => {
             </g>
             <defs>
               <clipPath id="clip0_2978_5605">
-                <rect
-                  width="24"
-                  height="24"
-                  fill="white"
-                  transform="translate(0.5)"
-                />
+                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
               </clipPath>
             </defs>
           </svg>

@@ -49,7 +49,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
     Choose Payment Methods
     </h1>
     </div>
@@ -58,11 +58,11 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
       >
       Payment Methods
       </h1>
-<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the payment method you want to complete this payment</p>
+<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the payment method you want to complete this payment</p>
     
 
    <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
@@ -71,8 +71,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         @click="selectedPaymentMethod = 'by_card'"
         :class="[selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
         class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE] 
-        flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start space-x-[13px]">
+        flex items-center justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/cc.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Card</div>
             </div>
@@ -87,7 +87,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                 :checked="selectedPaymentMethod === 'by_card'"
 
                 />
-                <label for="radio5" class="flex items-center cursor-pointer pr-[40px]">
+                <label for="radio5" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -102,8 +102,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         @click="selectedPaymentMethod = 'by_crypto'"
         :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between
-         rounded-[10px] border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start space-x-[13px]">
+         rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
             </div>
@@ -118,7 +118,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                 :checked="selectedPaymentMethod === 'by_crypto'"
 
                 />
-                <label for="radio_crypto" class="flex items-center cursor-pointer pr-[40px]">
+                <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -132,8 +132,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         @click="selectedPaymentMethod = 'by_paypal'"
         :class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']"
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center 
-        justify-between rounded-[10px] border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start space-x-[13px]">
+        justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
             </div>
@@ -148,7 +148,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                 :checked="selectedPaymentMethod === 'by_paypal'"
 
                 />
-                <label for="radio_paypal" class="flex items-center cursor-pointer pr-[40px]">
+                <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -158,7 +158,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         
     </div>
    </div>
-   <div class="my-[26px] px-[20px] ml-auto">
+   <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
     <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
       Continue to Payment
   </button>

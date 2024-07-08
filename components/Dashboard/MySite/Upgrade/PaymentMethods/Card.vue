@@ -107,7 +107,7 @@ const props = defineProps({
         :class="[currentCard === savedCard.id ? 'custom-border-tamkin' : 'border-[1px] ']"
         class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
          border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start space-x-[13px]">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" alt=""></div>
                 <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
             </div>
@@ -124,7 +124,7 @@ const props = defineProps({
 
                 number/>
                 <label                   :for="'radio_'+savedCard.id"
-                class="flex items-center cursor-pointer pr-[40px]">
+                class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                   <span
                     class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
                   ></span>
@@ -135,7 +135,7 @@ const props = defineProps({
         
     </div>
   <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full  px-[20px]">
-    <div class="flex items-center space-x-[10px] mt-[24px] ">
+    <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px] ">
         <div class="cursor-pointer" @click="modalStore.addNewCardModal">
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
@@ -143,12 +143,13 @@ const props = defineProps({
       
     </div>
 
-    <div class="flex items-center  space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
+    <div class="flex items-center  rtl:space-x-reverse space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
 <div class="cursor-pointer" >
     <div class="text-[16px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
 
 </div>
-<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px] " :class="[showMoreMethods ? 'rotate-90' :'' ]" alt=""></div>
+<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px] rtl:rotate-180 " 
+  :class="[showMoreMethods ? '!rotate-90' :'' ]" alt=""></div>
     </div>
 
     
@@ -164,8 +165,8 @@ const props = defineProps({
 @click="changepaymentMethod('by_paypal')"
 :class="[chooseOtherPaymentMethod === 'by_paypal'  ? 'custom-border-tamkin' : 'border-[1px] ']"
  class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
-  border-lightGrey pl-[16px]">
-<div class="flex items-center justify-start space-x-[13px]">
+  border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
+<div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
         <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
         <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
     </div>
@@ -181,7 +182,7 @@ const props = defineProps({
         v-model="chooseOtherPaymentMethod"
 
         />
-        <label for="radio_paypal" class="flex items-center cursor-pointer pr-[40px]">
+        <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
           <span
             class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
           ></span>
@@ -194,8 +195,9 @@ const props = defineProps({
   <div 
   @click="changepaymentMethod('by_crypto')"
   :class="[chooseOtherPaymentMethod === 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
-  class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
-      <div class="flex items-center justify-start space-x-[13px]">
+  class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] 
+  border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
+      <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
           <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
           <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
       </div>
@@ -210,7 +212,7 @@ const props = defineProps({
         v-model="chooseOtherPaymentMethod"
 
           />
-          <label for="radio_crypto" class="flex items-center cursor-pointer pr-[40px]">
+          <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
             <span
               class="w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin"
             ></span>
@@ -218,7 +220,7 @@ const props = defineProps({
         </div>
   </div>
 </div>
-<div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between space-x-[24px] w-full px-[20px]"
+<div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
 >
 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
   <input
@@ -229,7 +231,7 @@ const props = defineProps({
     :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
   />
   <div
-    class="absolute top-[-8px] lg:top-[11px] left-[29px] p-[16px] flex items-center justify-evenly space-x-[10px]"
+    class="absolute top-[-8px] lg:top-[11px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
     v-if="validPromo"
   >
     <img src="/assets/imgs/promo_valid.svg" alt="" />
@@ -242,7 +244,7 @@ const props = defineProps({
   <div
     v-if="isPromoFilled"
     @click="clearInput"
-    class="absolute top-[-8px] lg:top-[-27px] right-0 p-[16px] cursor-pointer lg:mt-[39px]"
+    class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]"
   >
     <img src="/assets/imgs/close_promo.svg" alt="" />
   </div>
@@ -268,7 +270,7 @@ const props = defineProps({
     <thead>
       <tr>
         <th
-          class="py-2 pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] text-left"
+          class="py-2  rtl:pr-[20px] ltr:pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>

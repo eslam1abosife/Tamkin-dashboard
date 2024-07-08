@@ -145,7 +145,7 @@
 
 .v3ti .v3ti-content {
 
-    @apply ml-[24px] mt-[23px];
+    @apply rtl:mr-[24px] ltr:ml-[24px] mt-[23px];
 }
 
 .v3ti .v3ti-content .v3ti-tag {
@@ -189,11 +189,11 @@
     margin-top: 10px;
 
     &.right {
-        @apply right-[-60%];
+        @apply rtl:left-[-80%] ltr:right-[-40%];
     }
 
     &.left {
-        @apply right-[-52%];
+        @apply rtl:left-[-75%] ltr:right-[-80%];
 
     }
 
@@ -216,11 +216,11 @@
 
     /* added to center the triangle */
     &.right {
-        @apply right-[-11px];
+        @apply rtl:left-[3px] ltr:right-[-6px];
     }
 
     &.left {
-        @apply left-[11px];
+        @apply rtl:right-[0px] ltr:left-[11px];
 
     }
 }
@@ -483,7 +483,7 @@
 }
 
 .close_btn_payment {
-    @apply absolute top-[34px] right-[30px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
+    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
 
     &:hover {
         @apply text-white;

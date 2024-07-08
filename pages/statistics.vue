@@ -433,7 +433,7 @@ const format = (date) => {
                     {{ selectedInterval ? selectedInterval : "Interval Period" }}
 
                     <svg
-                      class="rtl:mr-auto rtl:mrl-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
+                      class="rtl:mr-auto rtl:ml-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
                       :class="[isOpen ? 'rotate-90 !text-white ' : 'rotate-0']"
                       width="11"
                       height="16"

@@ -27,7 +27,7 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
    
-  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>

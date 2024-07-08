@@ -18,8 +18,8 @@ onMounted(() => {
 <template>
 
     <div v-if="isVisible" class="mx-[50%] fixed  inset-0 top-[80px] z-[2000] w-[273px]  rounded-[5px]
-     space-x-[8px] h-[37px] bg-[#DAF3F1] flex items-center justify-start">
-        <div class="pl-[16px]" >
+     rtl:space-x-reverse space-x-[8px] h-[37px] bg-[#DAF3F1] flex items-center justify-start">
+        <div class="rtl:pr-[16px] ltr:pl-[16px]" >
             <img src="/assets/imgs/success_toast.svg" alt="">
         </div>
         <div>

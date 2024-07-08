@@ -40,7 +40,7 @@ watch(copyCode, (newValue) => {
 
 <template>
   <div class="flex flex-col items-start justify-center w-full relative" v-if="showModal">
-    <DashboardToastSuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" class="!top-[41%] !left-[59%] " />
+    <DashboardToastSuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" class="!top-[41%] rtl:!right-[59%] ltr:!left-[59%] " />
 
     <div class="flex items-center justify-center ">
         <div
@@ -65,7 +65,7 @@ watch(copyCode, (newValue) => {
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -74,11 +74,11 @@ watch(copyCode, (newValue) => {
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[20px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
       >
       Confirm your Payment
       </h1>
-<p class=" ml-[20px] text-[16px] font-[400] leading-[29px] mt-[14px] text-darkGrey">
+<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[16px] font-[400] leading-[29px] mt-[14px] text-darkGrey">
     Please send <span class="text-tamkin font-[600]"> 1.938344 EHT </span>  to the address below. the Coins balance will appear in your Coins Balance account only after transaction get confirmation and approved by our team.  
 
 </p>
@@ -87,7 +87,8 @@ watch(copyCode, (newValue) => {
    <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px]  mx-auto   w-full px-[20px]">
  
 <!-- here-->
-<div class="h-[50px] w-full bg-[#FAFCFE] border-[1px] border-lightGrey rounded-[10px] mb-[24px] flex items-center justify-start space-x-[10px] px-[10px]">
+<div class="h-[50px] w-full bg-[#FAFCFE] border-[1px] border-lightGrey rounded-[10px] mb-[24px] flex items-center
+ justify-start rtl:space-x-reverse space-x-[10px] px-[10px]">
   <div>
     <img src="/assets/imgs/info.svg" alt="">
   </div>
@@ -95,7 +96,7 @@ watch(copyCode, (newValue) => {
 
  
 </div>
- <div class="flex items-center flex-col lg:flex-row lg:space-x-[16px] justify-center lg:space-y-[0] 
+ <div class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] 
  space-y-[16px] lg:justify-start w-full">
 
   <img src="/assets/imgs/crypto_methods_icons/qr.svg" alt="">
@@ -103,7 +104,7 @@ watch(copyCode, (newValue) => {
     <h2 class="text-[16px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>
     <div class="border custom-border-tamkin padding-override-1 w-full  h-[47px] rounded-[10px] flex items-center justify-between px-[10px]">
 
-      <div class="flex items-center space-x-[8px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
         <img src="/assets/imgs/crypto_methods_icons/3.svg" alt="">
         <div class="text-[#878787]">
           0x2d5jdska9erptjfew7364432
