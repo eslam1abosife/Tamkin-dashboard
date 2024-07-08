@@ -23,10 +23,13 @@ const openMenuSub = (id: any) => {
 const localePath = useLocalePath();
 const route = useRoute();
 const isLinkActive = (path) => {
-  //   const localePath = this.$i18n.localePath(path);
-  return route.path === localePath(path);
+  return localePath(route.path) === localePath(path);
 };
+const goToLink = (link:string)=>{
 
+  
+  return localePath(link)
+}
 const isSubMenuActive = (index) => {
   const routes = [
     "/overview",
@@ -36,11 +39,18 @@ const isSubMenuActive = (index) => {
 
   return routes.includes(route.path);
 };
+const activeAccessLinks = computed(()=>{
+  return showSubMenu.value[3] && isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics')
+   || isLinkActive('/customize')  ||  isLinkActive('/settings') 
 
-// Watch the route and open the submenu if necessary
-watchEffect(() => {
-  // showSubMenu.value[3] = isSubMenuActive(3);
-});
+})
+onMounted(()=>{
+  // if(localePath(route.path) === route.path && activeAccessLinks){
+  //   // showSubMenu.value[3] = isSubMenuActive(3);
+  //   showSubMenu.value[3] = true
+  // }
+})
+
 </script>
 
 <template>
@@ -182,7 +192,7 @@ watchEffect(() => {
     >
       <TamkinSideBarLink
         class="dashboard-nav-link"
-        :to="localePath('/dashboard')"
+        :to="goToLink('/dashboard')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
       >
         <div>
@@ -279,7 +289,7 @@ watchEffect(() => {
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
-        :to="localePath('/embed-code')"
+        :to="goToLink('/embed-code')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
       >
         <div>
@@ -320,7 +330,7 @@ watchEffect(() => {
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
-        :to="localePath('/my-site')"
+        :to="goToLink('/my-site')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
       >
         <div>
@@ -453,7 +463,7 @@ watchEffect(() => {
           class="dashboard-nav-link-has-menu"
           :class="[
             !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
-            showSubMenu[3] === true ? 'active ' : '',
+            activeAccessLinks ? 'active ' : '',
           ]"
         >
           <div>
@@ -467,26 +477,26 @@ watchEffect(() => {
             <g>
               <path
                 :stroke="[
-                 showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                  activeAccessLinks
                     ? 'url(#paint0_linear_2978_5493)'
-                    : 'currentColor',
+                    : '',
                 ]"
                 d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
                 stroke-width="1.5"
               />
               <path
                 :stroke="[
-                  showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                  activeAccessLinks
                   ? 'url(#paint0_linear_2978_5493)'
-                    : 'currentColor',
+                    : '',
                 ]"
                 d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
               />
               <path
                 :stroke="[
-                  showSubMenu[3]|| isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics') || isLinkActive('/customize')  ||  isLinkActive('/settings') 
+                  activeAccessLinks
                   ? 'url(#paint0_linear_2978_5493)'
-                    : 'currentColor',
+                    : '',
                 ]"
                 d="M20.2008 10.6001C20.2008 10.6001 15.9564 12.4001 13.0008 12.4001C10.0452 12.4001 5.80078 10.6001 5.80078 10.6001M13.0008 13.0001V14.7425M13.0008 14.7425C13.0004 15.433 13.1987 16.1091 13.572 16.6901L16.6008 21.4001M13.0008 14.7425C13.0011 15.433 12.8028 16.1091 12.4296 16.6901L9.40078 21.4001"
              
@@ -510,7 +520,7 @@ watchEffect(() => {
           </svg>
           
           </div>
-          <div v-if="sideBarOpen">Accessibility Services</div>
+          <div v-if="sideBarOpen" :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text':'']">Accessibility Services</div>
           <div v-if="sideBarOpen">
             <svg
               width="7"
@@ -527,7 +537,7 @@ watchEffect(() => {
                 </linearGradient>
               </defs>
               <path
-                :fill="showSubMenu[3] ? 'url(#grad1)' : '#585B5B'"
+                :fill="activeAccessLinks? 'url(#grad1)' : '#585B5B'"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
@@ -536,7 +546,7 @@ watchEffect(() => {
           </div>
         </div>
         <div
-          class="menu_item bg-[#FFFEFE] rounded-[10px]"
+          class="menu_item bg-[#FFFEFE] rounded-[10px]" @click.stop
           :class="[
             !sideBarOpen && showSubMenu[3] ? 'absolute left-[85px] ' : ' ',
             showSubMenu[3] ? 'block ' : 'hidden',
@@ -544,7 +554,7 @@ watchEffect(() => {
           style="padding: 10px 40px 10px 40px"
         >
           <div class="flex w-full">
-            <div class="bg-[#FFFEFE] relative w-full h-full left-0">
+            <div class="bg-[#FFFEFE] relative w-full h-full left-0" @click.stop>
               <div
                 class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
               ></div>

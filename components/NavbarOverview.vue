@@ -16,7 +16,7 @@ const moveSlider = async (path, animate = true) => {
   await nextTick();
   const newActiveIndex = getNavLinkIndex(path);
 
-  if (newActiveIndex !== -1 && navContainer.value) {
+  if (newActiveIndex !== -1 && navContainer.value && process.client) {
     const navLinks = navContainer.value.querySelectorAll('a');
 
     // Remove active_subNavb class from all nav links
@@ -53,8 +53,10 @@ const moveSlider = async (path, animate = true) => {
 };
 
 const getNavLinkIndex = (path) => {
-  const navLinks = navContainer.value.querySelectorAll('a');
-  return Array.from(navLinks).findIndex(link => link.getAttribute('href') === localePath(path));
+  if(process.client){
+    const navLinks = navContainer.value.querySelectorAll('a');
+    return Array.from(navLinks).findIndex(link => link.getAttribute('href') === localePath(path));
+  }
 };
 
 // Watch for route changes to update the current route and move the slider

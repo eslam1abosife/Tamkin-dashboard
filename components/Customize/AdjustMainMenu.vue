@@ -13,8 +13,8 @@ const {isChecked,toggleCheckbox} = customizeStore
   <div
     class="flex flex-col items-center justify-center   w-full relative">
     <!-- <MessagesLockedFeature/> -->
-    <div class=" bg-white rounded-[10px] w-full">
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[35px]">
+    <div class=" bg-white rounded-[10px] w-full px-[15px]">
+        <div class="flex items-center justify-start  pt-[35px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Adjust the Main Menu
@@ -28,7 +28,8 @@ const {isChecked,toggleCheckbox} = customizeStore
             :class="[
               collapseStore.menus.includes('adjust_main_menu_customize') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer
+             bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -84,11 +85,11 @@ const {isChecked,toggleCheckbox} = customizeStore
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center  mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('adjust_main_menu_customize_card')"
         >
           <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px] w-full"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img

@@ -54,7 +54,7 @@
   }
   .circle-bg, .circle-progress {
     fill: none;
-    stroke-width: 40; /* Stroke width */
+    stroke-width: 25; /* Stroke width */
   }
   .circle-bg {
     stroke: #e5e7eb;
@@ -67,7 +67,7 @@
   .circle-dotted {
     fill: none;
     stroke-dasharray: 2, 15; /* Dash pattern */
-    stroke-width: 2; /* Thin stroke for dotted line */
+    stroke-width: 1; /* Thin stroke for dotted line */
   }
   .content {
     position: absolute;

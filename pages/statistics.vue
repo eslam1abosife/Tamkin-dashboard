@@ -204,54 +204,15 @@ const format = (date) => {
 <template>
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
-      <div class="space-y-[10px]">
-        <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">Statistics</h1>
+      <HeaderAccess 
+      websiteImgName="tamkin_hand.svg"
+      website-title="Tamkin.App"
+      website-link="google.com"
+      section-title="Statistics" 
+      section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
+          useful insights."/>
+ 
 
-        <h2 class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey">
-          Statistics involves collecting, analyzing, and interpreting data to provide
-          useful insights.
-        </h2>
-      </div>
-
-      <div
-        class="relative mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
-      >
-        <div
-          class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
-        >
-          <div class="w-full space-y-[16px]">
-            <div class="flex flex-col lg:flex-row items-center justify-between">
-              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-                <div
-                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
-                  style="box-shadow: 0px 4px 24px 8px #51459f1a"
-                >
-                  <img src="/assets/imgs/tamkin_hand.svg" alt="" />
-                </div>
-                <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                  <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
-                  <div>
-                    <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
-                      Tamkin.App
-                    </h2>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-tamkin font-[600] text-[16px] leading-[24px] flex ]"
-                      >Visit Site
-                      <img
-                        src="/assets/imgs/icons/external_link.svg"
-                        class="rtl:mr-[14px] ltr:ml-[14px]"
-                        alt=""
-                    /></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div
         class="mt-[50px] bg-white rounded-[10px]"

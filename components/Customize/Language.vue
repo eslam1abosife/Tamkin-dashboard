@@ -45,7 +45,7 @@ const moveHideWidget = (v:string)=>{
     class="flex flex-col items-center justify-center w-full mt-[40px] "
   >
     <div class="bg-white rounded-[10px] w-full px-[15px]">
-      <div class="flex items-center justify-start ml-[15px] pt-[16px]">
+      <div class="flex items-center justify-start rtl:mr-[15px] ltr:ml-[15px] pt-[16px]">
         <div>
           <h1 class="text-[20px] font-[500] leading-[30px]">Language</h1>
 

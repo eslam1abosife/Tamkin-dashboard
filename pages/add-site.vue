@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useModalStore } from "@/stores/modal";
-import { defineComponent } from "vue";
 import Vue3TagsInput from "vue3-tags-input";
 definePageMeta({
   layout: "dashboard",

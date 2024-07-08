@@ -3,7 +3,7 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useModalStore } from "@/stores/modal";
 import banner from "assets/imgs/gradient_embded.png";
 import { vOnClickOutside } from "@vueuse/components";
-
+const modalStore = useModalStore();
 import { useCollapseStore } from "@/stores/collapse.js";
 import {
   Chart as ChartJS,
@@ -117,6 +117,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 const currentIndex = ref(0);
 
 const back = ref(false);
+const showUpgradePlan = ref(false)
 
 const next = () => {
   back.value = false;
@@ -222,56 +223,18 @@ const progress = ref(30.78);
 <template>
   <div class="relative !overflow-x-hidden">
     <div class=" ">
-      <div class="space-y-[10px]">
-        <h1 class="rtl:text-right ltr:text-left text-[24px] leading-[36px] font-[600]">Overview</h1>
+      <HeaderAccess 
+      websiteImgName="tamkin_hand.svg"
+      website-title="Tamkin.App"
+      website-link="google.com"
+      section-title="Overview" 
+      section-sub-title=" Overview provides system summary with key data and analytics for decision-making"/>
+     
 
-        <h2 class="text-right ltr:text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey">
-          Overview provides system summary with key data and analytics for decision-making
-        </h2>
-      </div>
-
-      <div
-        class="relative mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
-      >
-        <div
-          class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
-        >
-          <div class="w-full space-y-[16px]">
-            <div class="flex flex-col lg:flex-row items-center justify-between">
-              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-                <div
-                  class="flex items-center justify-center bg-white w-[60px] h-[60px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
-                  style="box-shadow: 0px 4px 24px 8px #51459f1a"
-                >
-                  <img src="/assets/imgs/tamkin_hand.svg" alt="" />
-                </div>
-                <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                  <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
-                  <div>
-                    <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey">
-                      Tamkin.App
-                    </h2>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-tamkin font-[600] text-[16px] leading-[24px] flex ]"
-                      >Visit Site
-                      <img
-                        src="/assets/imgs/icons/external_link.svg"
-                        class="ml-[14px]"
-                        alt=""
-                    /></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
 
       <!-- <NavbarOverview/> -->
-      <div class="mt-[52px] bg-white rounded-[10px]">
+      <div class="mt-[52px] bg-white rounded-[10px]" >
         <div
           class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
         >
@@ -300,6 +263,7 @@ const progress = ref(30.78);
       <div
         class="mt-[16px] bg-white rounded-[10px] relative"
         style="box-shadow: 0px 4px 4px 0px #00000014"
+        v-if="!showUpgradePlan"
       >
         <DashboardToastSuccess
           v-if="copyDone"
@@ -555,7 +519,8 @@ const progress = ref(30.78);
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px]">
+      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px]"           v-if="!showUpgradePlan"
+      >
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Connect with us</h1>
@@ -715,18 +680,23 @@ const progress = ref(30.78);
               class="h-[63px] w-full  bg-white bg-opacity-75 rounded-[41px] 
               flex items-center justify-between mt-[24px] px-[15px]"
             >
-              <div class="w-full flex items-center justify-evenly rtl:space-x-reverse space-x-[4px]">
+              <div class="w-full flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
                 <div>
-                  <img src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px]" alt="" />
+                  <img src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px] mr-[13px]" alt="" v-if="!showUpgradePlan"/>
+                  <img src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] mr-[13px]" alt="" v-else/>
                 </div>
-                <div class="text-[15px] font-[500] leading-[22.5px] text-darkGrey">
+                <div class="text-[15px] font-[500] leading-[22.5px] text-darkGrey" v-if="!showUpgradePlan">
                   Free Widget
+                </div>
+                <div class=" text-[15px] font-[500] leading-[22.5px] text-darkGrey" v-else>
+                  Pro- Widget
                 </div>
               </div>
 
               <div
-                class="w-full text-[15px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
+                class="w-full  text-[15px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
                 justify-evenly rtl:space-x-reverse space-x-[4px]"
+                v-if="!showUpgradePlan"
               >
                 <div>
                   <img
@@ -738,9 +708,10 @@ const progress = ref(30.78);
                 <div>Not installed</div>
               </div>
 
-              <div class="w-full">
+              <div class="w-full max-w-[160px]">
                 <button
-                  class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto  ltr:ml-auto mx-[15px] !p-[10px] w-full"
+                @click="showUpgradePlan = !showUpgradePlan"
+                  class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto  ltr:ml-auto mx-[15px] max-w-[160px] !p-[10px] w-full"
                 >
                   Upgrade Plans
                 </button>
@@ -759,6 +730,7 @@ const progress = ref(30.78);
 
         <div
           class="flex items-center flex-col justify-center px-[15px]"
+          v-if="!showUpgradePlan"
         >
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-y-0 space-y-3 w-full mt-[32px]"
@@ -913,9 +885,18 @@ const progress = ref(30.78);
               </div>
 
               <div
-                class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
+                class="flex items-center flex-col custom-border-tamkin padding-override-1
+                 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
                 style="padding: 16px, 10px, 16px, 10px"
               >
+              <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[500] w-[83px]
+              h-[28px] rounded-[10px] text-white top-[-15px] rtl:right-[200px] 
+              ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+ ">
+ <div class=" text-white">
+     Best Deal
+ </div>
+             </div>
                 <div class="absolute top-[-30px] left-[15px]">
                   <img src="/assets/imgs/proplan.svg" class="w-[50px] h-[50px]" alt="" />
                 </div>
@@ -923,7 +904,9 @@ const progress = ref(30.78);
                 <div
                   class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
                 >
+      
                   <div class="order-2 relative w-full">
+              
                     <h1 class="font-[600] text-[20px] leading-[30px]">Pro- Widget</h1>
                     <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                       For Individuals and Small Teams
@@ -1513,8 +1496,66 @@ const progress = ref(30.78);
         </div>
        
       </div>
-
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full">
+      <div
+      v-if="!showUpgradePlan"
+      class="bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
+    >
+      <h1 class="text-[20px] leading-[33px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
+        Buy Tamkin Token – TSLT and Join in our Investor Program
+      </h1>
+      <div class="relative mb-6 w-full">
+        <div class="absolute right-0 top-10">
+          <img src="/assets/imgs/overview/10p.svg" alt="" />
+        </div>
+        <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
+          <img src="/assets/imgs/overview/svg_opacity.svg" alt="" />
+        </div>
+        <!-- Timeline bar -->
+        <div
+          class="absolute left-4 top-[6px] h-full 2xl:h-[230px] w-[9px] z-[20] bg-tamkin rounded-full"
+        ></div>
+        <!-- Icons and Text -->
+        <div class="flex items-start relative z-[50]">
+          <!-- Icons -->
+          <div class="relative flex items-center justify-center ">
+            <div class="absolute left-[5px] top-10 w-[27px] h-[27px]">
+              <img src="/assets/imgs/icons/investor.svg" alt="Icon 1" class="w-[27px] h-[27px]" />
+            </div>
+            <div class="absolute left-[5px] top-40 w-[27px] max-h-[27px]">
+              <img src="/assets/imgs/icons/investor.svg" alt="Icon 2" class="w-[27px] h-[27px]" />
+            </div>
+          </div>
+          <!-- Text content -->
+          <div class="flex flex-col space-y-[16px] ml-14 w-2/4 mt-[16px]">
+            <div>
+              <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
+                Win Investor Package
+              </h2>
+              <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
+                Investors participating in the Investor Program will receive an exclusive package with many additional benefits and special access to advanced tools and services.
+              </p>
+            </div>
+            <div>
+              <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
+                Monthly profits
+              </h2>
+              <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
+                This program includes 10% of Tamkin profits, distributed monthly in USDT to investors who participate in and maintain the program on their tokens without selling.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Big number and buttons -->
+      <div class="flex items-center justify-end w-full relative z-[50]">
+        <div class="flex space-x-4">
+          <button class="btn-dashboard rounded-full h-[40px] w-[156px]">Buy Tamkin</button>
+          <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Program</button>
+          <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Package</button>
+        </div>
+      </div>
+    </div>
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full" v-if="!showUpgradePlan">
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
@@ -1549,15 +1590,22 @@ const progress = ref(30.78);
               <div
                 class="flex items-center justify-center relative w-full px-[15px] mt-[48px] pb-[24px]"
               >
+              
                 <div class="order-2 relative w-full">
                   <h1 class="font-[600] text-[20px] leading-[30px]">Silver</h1>
-
+                
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                    class="relative mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
+                  <div class="absolute top-[-16px] left-[120px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
+                      <span>$18,000</span>
+                    </div>
+                  </div>
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
                     </div>
+                  
                     <div>$ 10,000</div>
                   </div>
                 </div>
@@ -1663,8 +1711,13 @@ const progress = ref(30.78);
                   <h1 class="font-[600] text-[20px] leading-[30px]">Gold</h1>
 
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                    class="relative mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
+                  <div class="absolute top-[-16px] left-[120px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
+                      <span>$40,000</span>
+                    </div>
+                  </div>
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
                     </div>
@@ -1773,8 +1826,13 @@ const progress = ref(30.78);
                   <h1 class="font-[600] text-[20px] leading-[30px]">Platinum</h1>
 
                   <div
-                    class="mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                    class="relative mt-[16px] text-black font-[600] text-[24px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                   >
+                  <div class="absolute top-[-16px] left-[120px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
+                      <span>$90,000</span>
+                    </div>
+                  </div>
                     <div class="!font-[400] !text-[#536174] !text-[13px] leading-[19px]">
                       When investing
                     </div>
@@ -1866,39 +1924,10 @@ const progress = ref(30.78);
           </div>
         </div>
       </div>
-      <!-- <div
-        class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start"
+ 
+
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full"         v-if="showUpgradePlan"
       >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" alt="" />
-        </div>
-        <div class="flex flex-col items-start justify-center w-full">
-          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey w-full">
-            Monthly Plan
-          </div>
-          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px]">
-            <div class="text-[13px] leading-[24px] font-[400]">Package Expires in</div>
-            <div
-              class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500]"
-            >
-              Aug 20,2024
-            </div>
-          </div>
-        </div>
-
-        <div class="relative">
-          <div
-            class="flex items-center justify-center absolute top-[-10px] transform left-[30%] h-[19px] bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            SAVE 12%
-          </div>
-          <button class="btn_bordered_dashboard rounded-full w-[178px]">
-            Switch To Annual
-          </button>
-        </div>
-      </div> -->
-
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full">
         <div class="flex items-center justify-start px-[15px]">
           <div class="w-3/4">
             <h1 class="text-[20px] font-[500] leading-[30px]">
@@ -1922,6 +1951,7 @@ const progress = ref(30.78);
             lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
           >
             <button
+            @click="$router.push('/statistics')"
               class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
             >
               View All
@@ -2020,12 +2050,12 @@ const progress = ref(30.78);
                 </div>
               </div>
               <div class="h-[80px] left-1/2 right-0 absolute">
-                <!-- <Line
+                <Line
                   ref="chart13"
                   :data="chartData"
                   :options="options"
                   class=" h-[80px]"
-                /> -->
+                />
                 <!-- <img src="path_to_graph_image" alt="Graph" class="h-16"> -->
               </div>
             </div>
@@ -2135,12 +2165,12 @@ const progress = ref(30.78);
                 </div>
               </div>
               <div class="h-[80px] left-1/2 right-0 absolute">
-                <!-- <Line
+                <Line
                   ref="chart14"
                   :data="chartData2"
                   :options="options"
                   class="w-auto h-[80px]"
-                /> -->
+                />
                 <!-- <img src="path_to_graph_image" alt="Graph" class="h-16"> -->
               </div>
             </div>
@@ -2222,7 +2252,7 @@ const progress = ref(30.78);
         </div>
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full mb-[24px]">
+      <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full mb-[24px]" v-if="showUpgradePlan">
         <div class="flex items-center justify-start px-[15px]">
           <div class="w-3/4">
             <h1 class="text-[20px] font-[500] leading-[30px]">
@@ -2247,6 +2277,8 @@ const progress = ref(30.78);
             class="rtl:mr-auto ltr:ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
           >
             <button
+            @click="$router.push('/statistics')"
+
               class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
             >
               View All
@@ -2384,6 +2416,100 @@ const progress = ref(30.78);
         </div>
         <!-- Progress Bars -->
       </div>
+  
+        <div
+          v-if="showUpgradePlan"
+          class="bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
+        >
+          <h1 class="text-[20px] leading-[33px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
+            Buy Tamkin Token – TSLT and Join in our Investor Program
+          </h1>
+          <div class="relative mb-6 w-full">
+            <div class="absolute right-0 top-10">
+              <img src="/assets/imgs/overview/10p.svg" alt="" />
+            </div>
+            <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
+              <img src="/assets/imgs/overview/svg_opacity.svg" alt="" />
+            </div>
+            <!-- Timeline bar -->
+            <div
+              class="absolute left-4 top-[6px] h-full 2xl:h-[230px] w-[9px] z-[20] bg-tamkin rounded-full"
+            ></div>
+            <!-- Icons and Text -->
+            <div class="flex items-start relative z-[50]">
+              <!-- Icons -->
+              <div class="relative flex items-center justify-center ">
+                <div class="absolute left-[5px] top-10 w-[27px] h-[27px]">
+                  <img src="/assets/imgs/icons/investor.svg" alt="Icon 1" class="w-[27px] h-[27px]" />
+                </div>
+                <div class="absolute left-[5px] top-40 w-[27px] max-h-[27px]">
+                  <img src="/assets/imgs/icons/investor.svg" alt="Icon 2" class="w-[27px] h-[27px]" />
+                </div>
+              </div>
+              <!-- Text content -->
+              <div class="flex flex-col space-y-[16px] ml-14 w-2/4 mt-[16px]">
+                <div>
+                  <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
+                    Win Investor Package
+                  </h2>
+                  <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
+                    Investors participating in the Investor Program will receive an exclusive package with many additional benefits and special access to advanced tools and services.
+                  </p>
+                </div>
+                <div>
+                  <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
+                    Monthly profits
+                  </h2>
+                  <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
+                    This program includes 10% of Tamkin profits, distributed monthly in USDT to investors who participate in and maintain the program on their tokens without selling.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Big number and buttons -->
+          <div class="flex items-center justify-end w-full relative z-[50]">
+            <div class="flex space-x-4">
+              <button class="btn-dashboard rounded-full h-[40px] w-[156px]">Buy Tamkin</button>
+              <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Program</button>
+              <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Package</button>
+            </div>
+          </div>
+        </div>
+      
+
+           <div v-if="showUpgradePlan"
+        class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] 
+        rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start mb-[32px]"
+      >
+        <div>
+          <img src="/assets/imgs/overview/plan-calender.svg" alt="" />
+        </div>
+        <div class="flex flex-col items-start justify-center w-full">
+          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey w-full">
+            Monthly Plan
+          </div>
+          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px]">
+            <div class="text-[13px] leading-[24px] font-[400]">Package Expires in</div>
+            <div
+              class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500]"
+            >
+              Aug 20,2024
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div
+            class="flex items-center justify-center absolute top-[-10px] transform left-[30%] h-[19px] bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
+          >
+            SAVE 12%
+          </div>
+          <button class="btn_bordered_dashboard rounded-full w-[178px]"  @click="modalStore.controlShowUpgradeModal">
+            Switch To Annual
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -2404,5 +2530,18 @@ const progress = ref(30.78);
 }
 .slide-fade-leave-active {
   display: none;
+}
+.crossed-out {
+  position: relative;
+  display: inline-block;
+}
+.crossed-out::before {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+  border-top: 2px solid red;
+  transform: rotate(-12deg);
 }
 </style>

@@ -14,7 +14,7 @@ const {isChecked,toggleCheckbox} = customizeStore
     class="flex flex-col items-center justify-center  w-full mt-[40px] "
   >
   <div class=" bg-white rounded-[10px] w-full  px-[15px]">
-    <div class="flex items-center justify-start ml-[15px] pt-[24px] w-full">
+    <div class="flex items-center justify-start pt-[24px] w-full">
       <div>
         <h1 class="text-[20px] font-[500] leading-[30px]">
           Manage your Accessibility Profiles
@@ -82,7 +82,7 @@ const {isChecked,toggleCheckbox} = customizeStore
     </div>
 
     <div
-      class="flex flex-col items-start justify-center ml-[15px] pb-[16px] mt-[18px] divide-y"
+      class="flex flex-col items-start justify-center  pb-[16px] mt-[18px] divide-y"
       v-if="!collapseStore.collapses.includes('manage_access_profiles_card')"
     >
       <div

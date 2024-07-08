@@ -74,7 +74,7 @@ const copyCode = () => {
     <div class="bg-white rounded-[10px] w-full px-[15px] relative">
  
        
-      <div class="flex items-center justify-start ml-[15px] pt-[16px] relative">
+      <div class="flex items-center justify-start rtl:mr-[15px] ltr:ml-[15px] pt-[16px] relative">
       
         
     <div class="flex flex-col items-start justify-center relative">
