@@ -96,24 +96,30 @@ $colors: (
 }
 
 .btn__icon__dashboard {
-  @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight
+  @apply hover:bg-gradient-to-b hover:from-tamkinLight hover:to-tamkinLight max-w-[190px]
    h-[45px] rounded-[10px] p-[16px] text-white flex items-center rtl:space-x-reverse space-x-[4px];
 }
 
 .btn_bordered_dashboard {
-  @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center justify-center cursor-pointer ;
-&.error{
-  @apply border-[#FF453F] text-[#FF453F] hover:bg-[#FF453F] hover:bg-opacity-10;
-}
+  @apply border-[1px] border-tamkin text-tamkin h-[45px] rounded-[10px] p-[16px] flex items-center justify-center cursor-pointer;
+  
+  &.error {
+    @apply border-[#FF453F] text-[#FF453F] hover:bg-[#FF453F] hover:bg-opacity-10;
+  }
+
   &:not(.normal_hover, .error):hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-    @apply text-white cursor-pointer ;
+    @apply text-white cursor-pointer;
   }
-  &.normal_hover:hover {
 
-    @apply text-darkGrey bg-tamkinLight cursor-pointer  #{!important};
+  &.normal_hover:hover {
+    @apply text-darkGrey bg-tamkinLight cursor-pointer #{!important};
   }
+
+  /* Responsive adjustments */
+  @apply sm:h-[40px] sm:p-[12px] md:h-[45px] md:p-[16px];
 }
+
 
 .gradient-border-wrapper {
   display: inline-block;

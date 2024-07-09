@@ -112,8 +112,8 @@ onBeforeMount(() => {
       section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."/>
      
-      <div class="mt-[50px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+      <div class="mt-[50px] bg-white rounded-[10px] px-[15px] pb-[24px]">
+        <div class="flex items-center justify-start  pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Adjust the Main Menu</h1>
           </div>
@@ -123,7 +123,7 @@ onBeforeMount(() => {
             :class="[
               menus.includes('adjustMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto   rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -146,7 +146,7 @@ onBeforeMount(() => {
             <div
               v-if="menus.includes('adjustMenu')"
               v-on-click-outside="() => collapseStore.removeMenu('adjustMenu')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu shadow"
             >
               <div
                 class="mini_wrap"
@@ -173,8 +173,7 @@ onBeforeMount(() => {
               <div class="arrow">
                 <img
                   src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
+                
                   alt=""
                   class="w-full h-full"
                 />
@@ -184,7 +183,7 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center  mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('adjustMenu')"
         >
           <div
@@ -1297,17 +1296,12 @@ onBeforeMount(() => {
           </div>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+        
+      
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px]">
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+      <div class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px]">
+        <div class="flex items-center justify-start pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Manage your Accessibility Profiles
@@ -1318,7 +1312,7 @@ onBeforeMount(() => {
             :class="[
               menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto   rtl:mr-auto  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1377,7 +1371,7 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] pb-[16px] mt-[18px] divide-y"
+          class="flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
           v-if="!collapseStore.collapses.includes('ManageCard')"
         >
           <div
@@ -1975,13 +1969,7 @@ onBeforeMount(() => {
           </div>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+      
       </div>
 
       <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]">
@@ -2068,8 +2056,8 @@ onBeforeMount(() => {
               </div>
 
               <div
-                class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] border-b w-full"
-                v-if="verticalView"
+                class="mini_wrap"
+                v-if="verticalView && !collapseStore.collapses.includes('LiveTranslationAddonsCard')"
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')"
               >
                 <div>
@@ -2082,8 +2070,8 @@ onBeforeMount(() => {
                 <div class="text_mini">Horizontal View</div>
               </div>
               <div
-                class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] border-b w-full"
-                v-if="horizontalView"
+                class="mini_wrap"
+                v-if="horizontalView && !collapseStore.collapses.includes('LiveTranslationAddonsCard')"
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('vertical')"
               >
                 <div>
@@ -2109,7 +2097,8 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[56px] divide-y space-y-[42px] lg:space-y-0 lg:rtl:space-x-reverse space-x-[100px] px-[15px]"
+          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[56px] divide-y space-y-[42px]
+           lg:space-y-0 lg:rtl:space-x-reverse space-x-[100px] px-[15px]"
           v-if="
             horizontalView &&
             !collapseStore.collapses.includes('LiveTranslationAddonsCard')
@@ -2228,13 +2217,7 @@ onBeforeMount(() => {
             </div>
           </div>
         </div>
-        <div
-          v-if="collapseStore.collapses.includes('LiveTranslationAddonsCard')"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+      
         <div
           class="flex items-center flex-col justify-center lg:justify-start mt-[56px] space-y-[24px] pb-[16px] px-[15px]"
           v-if="

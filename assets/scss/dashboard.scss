@@ -4,7 +4,13 @@
     background-size: cover;
     /* Ensure the background covers the entire area */
 }
+@layer utilities{
 
+    .bg-selected {
+        background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
+    
+    }
+}
 @layer components {
 
 
@@ -350,10 +356,7 @@
 
 }
 
-.bg-selected {
-    background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
 
-}
 
 
 .custom-border-tamkin {
@@ -602,23 +605,31 @@ input[type=number] {
         }
     }
 }
+.menu_button_control{
 
 
+    @apply relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] flex items-center
+     justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px] ;
+
+&.active_notification{
+    @apply shadow;
+}
+   
+}
 .mini_SizeMenu{
 
     @apply flex flex-col items-start justify-start cursor-default absolute z-[1000] top-0 rtl:left-[50px]
-     ltr:right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey;
+     ltr:right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey shadow-lg;
 
     .mini_wrap{
 
-        @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full;
+        @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full 
     }
 .text_mini{
     @apply text-[14px] leading-[21px] font-[400];
 }
 
     .arrow{
-        @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180;
+        @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px] border-lightGrey ; 
     }
-    box-shadow: 0px 2px 6px 0px #00000040
 }
