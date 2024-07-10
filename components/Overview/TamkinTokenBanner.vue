@@ -10,7 +10,8 @@
     <div
 
     class="bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
-  >
+    style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
+    " >
     <h1 class="text-[20px] leading-[33px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
       Buy Tamkin Token – TSLT and Join in our Investor Program
     </h1>

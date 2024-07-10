@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import draggable from 'vuedraggable'
+
 import { vOnClickOutside } from '@vueuse/components'
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useCollapseStore } from "@/stores/collapse.js";
@@ -6,15 +8,126 @@ const collapseStore = useCollapseStore();
 
 const customizeStore = useCustomizeStore();
 const {isChecked,toggleCheckbox} = customizeStore
+
+const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(customizeStore)
  const moveHide = ref('')
+ // Initialize cards
+
+ onBeforeMount(()=>{
+  customizeStore.initializeCardsMenu([
+ {
+  icon:'page_str.svg',
+  name:'Page Structure',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'page_str'
+ },
+ {
+  icon:'language sign.svg',
+  name:'Screen Reader',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'screen_reader'
+ },
+ {
+  icon:'hide_images.svg',
+  name:'Hide Images',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'hide_images'
+ },
+ {
+  icon:'contrast.svg',
+  name:'Smart Contrast',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'smart_contrast'
+ },
+ {
+  icon:'voice_navigation.svg',
+  name:'Voice Navigation',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'voice_navigation'
+ },
+ {
+  icon:'a-z.svg',
+  name:'Dictionary',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'dictionary'
+ },
+ {
+  icon:'clip.svg',
+  name:'Highlight Links',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'highlight_links'
+ },
+ {
+  icon:'line_height.svg',
+  name:'Line Height',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'line_height'
+ },
+ {
+  icon:'saturation.svg',
+  name:'Saturation',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'saturation'
+ },
+
+ {
+  icon:'text.svg',
+  name:'Bigger Text',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'bigger_text'
+ },
+
+ {
+  icon:'pause.svg',
+  name:'Pause Animation',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'pause_animation'
+ },
+
+ 
+ {
+  icon:'tooltip.svg',
+  name:'Tooltip',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'tool_tip'
+ },
+ {
+  icon:'cursor.svg',
+  name:'Cursor',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'cursor'
+ },
+ {
+  icon:'text_spacing.svg',
+  name:'Text Spacing',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'text_spacing'
+ },
+
+ {
+  icon:'contrast_plus.svg',
+  name:'Contrast +',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'contrast_plus'
+ },
+  ], 'AdjustMainMenuCardsCustomize', 'initialCardsOrderCustomize');
+
+ })
+
+ const getImagePath = (icon) => {
+  return new URL(`/assets/imgs/addons/${icon}`, import.meta.url).href;
+};
 </script>
 
 <template>
   <div
-    class="flex flex-col items-center justify-center   w-full relative">
+    class="flex flex-col items-center justify-center   w-full relative" >
     <!-- <MessagesLockedFeature/> -->
-    <div class=" bg-white rounded-[10px] w-full px-[15px]">
-        <div class="flex items-center justify-start  pt-[35px]">
+  <div 
+  style="box-shadow: 0px 4px 4px 0px #00000014"
+
+  class=" bg-white rounded-[10px] w-full px-[15px] " :class="[collapseStore.collapses.includes('adjust_main_menu_customize_card') ? 'pb-[24px]' :'pb-[10px]']" >
+        <div class="flex items-center justify-start  pt-[21px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Adjust the Main Menu
@@ -28,7 +141,7 @@ const {isChecked,toggleCheckbox} = customizeStore
             :class="[
               collapseStore.menus.includes('adjust_main_menu_customize') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer
+            class="relative rtl:mr-auto ltr:ml-auto  flex items-center justify-center cursor-pointer
              bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
@@ -88,149 +201,79 @@ const {isChecked,toggleCheckbox} = customizeStore
           class="flex flex-col items-start justify-center  mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('adjust_main_menu_customize_card')"
         >
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px] w-full"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/page_str.svg"
-                alt=""
-                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('page_str') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Page Structure </span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle"
-                    class="sr-only"
-                    :checked="isChecked('page_str')"
-            @change="toggleCheckbox('page_str')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('page_str')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('page_str') }"
-                    >
-                      <img
-                        v-if="isChecked('page_str')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
+        <draggable
+        
+        v-model="AdjustMainMenuCardsCustomize"
+        @change="customizeStore.onDragChange('AdjustMainMenuCardsCustomize', 'initialCardsOrderCustomize')"
+        @start="customizeStore.onDragStart('initialCardsOrderCustomize')"
+        @end="customizeStore.onDragEnd('AdjustMainMenuCardsCustomize', 'initialCardsOrderCustomize')"
+        item-key="name" class="w-full"  handle=".handle">
+          <template #item="{element}" >
+          <div  
             class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 alt=""
-                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
+                :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
+                class="cursor-pointer handle"
               />
 
               <img
-                src="/assets/imgs/addons/language sign.svg"
+                :src="getImagePath(element.icon)"
                 alt=""
-                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
+                :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('screen_reader') ? 'opacity-60' : '']"
+                :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Screen Reader</span>
+                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+                  <span>{{element.name}}</span>
                 </div>
                 <div
                   class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
+                 {{ element.description }}
                   </span>
                 </div>
               </div>
               <div class="ml-auto">
                 <label
-                  for="toggle_screen"
+                  :for="element.checkboxId"
                   class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
-                    id="toggle_screen"
+                    :id="element.checkboxId"
                     class="sr-only"
-                       :checked="isChecked('screen_reader')"
-            @change="toggleCheckbox('screen_reader')"
+                    :checked="isChecked(element.checkboxId)"
+                    @change="toggleCheckbox(element.checkboxId)"
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('screen_reader')
+                      isChecked(element.checkboxId)
                         ? 'active'
                         : 'in_active',
                     ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{'active': isChecked('screen_reader') }"
+                      :class="{ 'active': isChecked(element.checkboxId) }"
                     >
                       <img
-                        v-if="isChecked('screen_reader')"
+                        v-if="isChecked(element.checkboxId)"
                         src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                       <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
+                        class="w-[28px] h-[28px]"
                         alt=""
                       />
                     </div>
@@ -239,1002 +282,11 @@ const {isChecked,toggleCheckbox} = customizeStore
               </div>
             </div>
           </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/hide_images.svg"
-                alt=""
-                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('hide_images') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Hide Images</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_hide_images"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_hide_images"
-                    class="sr-only"
-              :checked="isChecked('hide_images')"
-            @change="toggleCheckbox('hide_images')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('hide_images')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('hide_images') }"
-                    >
-                      <img
-                        v-if="isChecked('hide_images')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/contrast.svg"
-                alt=""
-                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('smart_contrast') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Smart Contrast</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_contrast"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_contrast"
-                    class="sr-only"
-                     :checked="isChecked('smart_contrast')"
-            @change="toggleCheckbox('smart_contrast')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('smart_contrast')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('smart_contrast') }"
-                    >
-                      <img
-                        v-if="isChecked('smart_contrast')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/voice_navigation.svg"
-                alt=""
-                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('voice_navigation') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Voice Navigation</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_voice"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_voice"
-                    class="sr-only"
-                     :checked="isChecked('voice_navigation')"
-            @change="toggleCheckbox('voice_navigation')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('voice_navigation')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('voice_navigation') }"
-                    >
-                      <img
-                        v-if="isChecked('voice_navigation')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/a-z.svg"
-                alt=""
-                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('dictionary') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Dictionary</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_dict"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_dict"
-                    class="sr-only"
-                     :checked="isChecked('dictionary')"
-            @change="toggleCheckbox('dictionary')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('dictionary')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('dictionary') }"
-                    >
-                      <img
-                        v-if="isChecked('dictionary')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/clip.svg"
-                alt=""
-                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('highlight_links') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Highlight Links</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_hightlights"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_hightlights"
-                    class="sr-only"
-                   :checked="isChecked('highlight_links')"
-            @change="toggleCheckbox('highlight_links')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('highlight_links')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': isChecked('highlight_links') }"
-                    >
-                      <img
-                        v-if="isChecked('highlight_links')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/line_height.svg"
-                alt=""
-                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('line_height') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Line Height</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_line_height"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_line_height"
-                    class="sr-only"
-                       :checked="isChecked('line_height')"
-            @change="toggleCheckbox('line_height')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('line_height')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('line_height') }"
-                    >
-                      <img
-                        v-if="isChecked('line_height')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/saturation.svg"
-                alt=""
-                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('saturation') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Saturation</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_saturation"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_saturation"
-                    class="sr-only"
-                   :checked="isChecked('saturation')"
-            @change="toggleCheckbox('saturation')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('saturation')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('saturation') }"
-                    >
-                      <img
-                        v-if="isChecked('saturation')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/text.svg"
-                alt=""
-                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('bigger_text') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Bigger Text</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_bigger"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_bigger"
-                    class="sr-only"
-                   :checked="isChecked('bigger_text')"
-            @change="toggleCheckbox('bigger_text')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('bigger_text')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('bigger_text') }"
-                    >
-                      <img
-                        v-if="isChecked('bigger_text')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/pause.svg"
-                alt=""
-                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('pause_animation') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Pause Animation</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_pause_animation"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_pause_animation"
-                    class="sr-only"
-                       :checked="isChecked('pause_animation')"
-            @change="toggleCheckbox('pause_animation')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('pause_animation')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('pause_animation') }"
-                    >
-                      <img
-                        v-if="isChecked('pause_animation')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/tooltip.svg"
-                alt=""
-                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('tool_tip') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Tooltip</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_tooltip"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_tooltip"
-                    class="sr-only"
-                         :checked="isChecked('tool_tip')"
-            @change="toggleCheckbox('tool_tip')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('tool_tip')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('tool_tip') }"
-                    >
-                      <img
-                        v-if="isChecked('tool_tip')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/cursor.svg"
-                alt=""
-                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('cursor') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Cursor</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_cursor"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_cursor"
-                    class="sr-only"
-                   :checked="isChecked('cursor')"
-            @change="toggleCheckbox('cursor')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('cursor')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('cursor') }"
-                    >
-                      <img
-                        v-if="isChecked('cursor')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/text_spacing.svg"
-                alt=""
-                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('text_spacing') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Text Spacing</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_textspacing"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_textspacing"
-                    class="sr-only"
-                     :checked="isChecked('text_spacing')"
-            @change="toggleCheckbox('text_spacing')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('text_spacing')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('text_spacing') }"
-                    >
-                      <img
-                        v-if="isChecked('text_spacing')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
-          >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
-                src="/assets/imgs/addons/left_item.svg"
-                alt=""
-                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
-              />
-
-              <img
-                src="/assets/imgs/addons/contrast_plus.svg"
-                alt=""
-                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
-              />
-              <div
-                class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('contrast_plus') ? 'opacity-60' : '']"
-              >
-                <div
-                  class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]"
-                >
-                  <span>Contrast +</span>
-                </div>
-                <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-                >
-                  <span>
-                    Voluptate ullam minima assumenda nesciunt delectus sequi.
-                    Veniam suscipit nesciunt esse sint aperiam aliquid
-                  </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_contrast_plus"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_contrast_plus"
-                    class="sr-only"
-                        :checked="isChecked('contrast_plus')"
-            @change="toggleCheckbox('contrast_plus')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('contrast_plus')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{'active': isChecked('contrast_plus') }"
-                    >
-                      <img
-                        v-if="isChecked('contrast_plus')"
-                        src="/assets/imgs/addons/active_toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                      <img
-                        v-else
-                        src="/assets/imgs/addons/toggle.svg"
-                        class="h-[28px] w-[28px]"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
+        </template>
+          </draggable>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+       
       </div>
   </div>
 </template>

@@ -8,13 +8,13 @@ import { useSettingsStore } from "@/stores/settings.js";
 
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
-const settingsStore =useSettingsStore()
+const settingsStore = useSettingsStore();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 const modalStore = useModalStore();
 const navStore = useNavbarStore();
 const navStoreRef = storeToRefs(navStore);
-const localePath = useLocalePath()
-const route = useRoute()
+const localePath = useLocalePath();
+const route = useRoute();
 const isLinkActive = (path) => {
   return localePath(route.path) === localePath(path);
 };
@@ -34,11 +34,13 @@ const {
 } = storeToRefs(modalStore);
 const {
   initialPositionDesktop,
-initialPositionMobile,
-buttonPositionDesktop,
-buttonPositionMobile
-
+  initialPositionMobile,
+  buttonPositionDesktop,
+  buttonPositionMobile,
+  force_change_profileCards,
+  force_change_MainMenuCard
 } = storeToRefs(custmizeStore);
+
 const { width, height } = useWindowSize();
 const head = useLocaleHead({
   addDirAttribute: true,
@@ -76,6 +78,27 @@ const clearInput = () => {
 // const closeResetAllModal = ()=>{
 
 // }
+  // const isCustomizeLinkActive = isLinkActive('/customize') && custmizeStore.force_change;
+
+const shouldShowFooter = computed(() => {
+  const isAddonsLinkActive = isLinkActive('/addons') && checkboxStore.hasChanges() || isLinkActive('/addons') && checkboxStore.force_change_menuCards || isLinkActive('/addons') && checkboxStore.force_change_profileCards;
+  const isCustomizeLinkActive = isLinkActive('/customize') && custmizeStore.forceChange_buttonShape ||  isLinkActive('/customize') && force_change_profileCards.value || isLinkActive('/customize') && force_change_MainMenuCard.value || custmizeStore.hasChanges();
+  const isSettingsLinkActive = isLinkActive('/settings') && settingsStore.hasChanges();
+
+  // console.log('isAddonsLinkActive:', isAddonsLinkActive);
+  console.log('isCustomizeLinkActive:', isCustomizeLinkActive);
+  // console.log('isSettingsLinkActive:', isSettingsLinkActive);
+
+  return isAddonsLinkActive || isCustomizeLinkActive || isSettingsLinkActive;
+});
+const cancelAc = ()=>{
+  const isCustomizeLinkActive = isLinkActive('/customize') && force_change_profileCards.value || 
+  isLinkActive('/customize') && force_change_MainMenuCard.value || custmizeStore.hasChanges();
+
+  if(isCustomizeLinkActive){
+    custmizeStore.cancelAll()
+  }
+}
 </script>
 
 <template>
@@ -84,20 +107,6 @@ const clearInput = () => {
       class="relative min-h-screen"
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
-      <!--  
-    
-        v-if="
-          showShareModal ||
-          editPictureTeamModal ||
-          editPermissionsModal ||
-          inviteMemberModal ||
-          selectSiteModal ||
-          editUserModal ||
-          InviteMemberUpdateModal
-        "
-    -->
-      <!--      -->
-
       <div
         v-if="
           showShareModal ||
@@ -157,7 +166,9 @@ const clearInput = () => {
         <div
           @click="toggleSidebar"
           :class="[
-            !sideBarOpen ? ' rotate-180 lg:!top-[146px]' : 'top-[161px] rtl:lg:right-[95%] ltr:lg:left-[95%]',
+            !sideBarOpen
+              ? ' rotate-180 lg:!top-[146px]'
+              : 'top-[161px] rtl:lg:right-[95%] ltr:lg:left-[95%]',
           ]"
           class="cursor-pointer close_sidebar_btn sticky rtl:mr-[100%] ltr:ml-[100%] items-center justify-center bg-white border-[1px] border-linecolor rounded-full w-[35px] h-[35px] group z-[300] lg:flex hidden"
         >
@@ -187,17 +198,16 @@ const clearInput = () => {
       </div>
 
       <div
-        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full !overflow-x-hidden "
+        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full !overflow-x-hidden"
       >
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="absolute top-0 flex z-[10] flex-shrink-0 
-            items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pr-[26px] ltr:pl-[26px] rtl:space-x-reverse  space-x-[16px] h-[70px]"
+            class="absolute top-0 flex z-[10] flex-shrink-0 items-center justify-around lg:justify-between w-full bg-[#FFFEFE] pr-[26px] ltr:pl-[26px] rtl:space-x-reverse space-x-[16px] h-[70px]"
           >
             <div
-              class="flex items-center justify-between rtl:space-x-reverse  space-x-[10px] lg:hidden"
+              class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:hidden"
               @click="toggleSidebarMobile"
             >
               <svg
@@ -300,7 +310,16 @@ const clearInput = () => {
 
           <div class="pt-[85px] lg:px-[40px] relative">
             <div class="relative px-[15px]">
-              <NavbarOverview v-if="isLinkActive('/overview') ||isLinkActive('/settings')||  isLinkActive('/addons')|| isLinkActive('/customize') || isLinkActive('/addons') ||isLinkActive('/statistics') "/>
+              <NavbarOverview
+                v-if="
+                  isLinkActive('/overview') ||
+                  isLinkActive('/settings') ||
+                  isLinkActive('/addons') ||
+                  isLinkActive('/customize') ||
+                  isLinkActive('/addons') ||
+                  isLinkActive('/statistics')
+                "
+              />
             </div>
 
             <div
@@ -324,16 +343,8 @@ const clearInput = () => {
               "
             ></div>
 
-        
             <transition name="slide-up">
-              <DashboardAddonsSaveFooter :show-footer="(isLinkActive('/addons') && checkboxStore.hasChanges()) ||
-              (isLinkActive('/customize') && custmizeStore.hasChanges() || isLinkActive('/customize') &&
-               buttonPositionDesktop !== 'top_left'  ||
-              isLinkActive('/customize') && buttonPositionMobile !== 'top_left_mobile'
-              || isLinkActive('/customize') &&custmizeStore.force_change
-              
-              ) ||
-              (isLinkActive('/settings') && settingsStore.hasChanges())" />
+              <DashboardAddonsSaveFooter :show-footer="shouldShowFooter"  @cancel_action="cancelAc"/>
             </transition>
             <NuxtPage />
           </div>

@@ -111,10 +111,12 @@ onBeforeMount(() => {
    
 
       <div
-        class="mt-[50px] bg-white rounded-[10px]"
+        class="mt-[50px] bg-white rounded-[10px]  px-[15px]"
+        :class="[               collapseStore.collapses.includes('general_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ml-[15px] pt-[24px]">
+        <div class="flex items-center justify-start  pt-[24px] ">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">General Settings</h1>
             <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
@@ -131,7 +133,7 @@ onBeforeMount(() => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ml-auto  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -193,7 +195,7 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center ml-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center  mt-[18px] divide-y "
           v-if="!collapseStore.collapses.includes('general_settings_card')"
         >
           <div
@@ -336,18 +338,15 @@ onBeforeMount(() => {
           </div>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+  
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] relative"
+        class="mt-[30px] bg-white rounded-[10px] relative "
+        
         style="box-shadow: 0px 4px 4px 0px #00000014"
+           :class="[ collapseStore.collapses.includes('widget_embded_code_settings_card')
+ ? 'pb-[24px]' :'']"
       >
         <DashboardToastSuccess
           v-if="copyDone"
@@ -436,12 +435,13 @@ onBeforeMount(() => {
         </div>
 
         <div
-          class="flex flex-col items-start justify-center px-[15px] pb-[16px] divide-y"
+          class="flex flex-col items-start justify-center px-[15px]  divide-y"
           v-if="!collapseStore.collapses.includes('widget_embded_code_settings_card')"
         >
           <div class="w-full h-full rounded-[10px]">
             <div
-              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[24px] w-full"
+              class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between 
+              mt-[24px] w-full"
               style="padding: 30px, 16px, 20px, 15px"
             >
               <button
@@ -580,7 +580,7 @@ onBeforeMount(() => {
               </Client-only>
 
               <h2
-                class="text-left font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
+                class="text-left font-[500] text-[13px] text-[#979897] mb-[20px] mt-[20px]"
                 style="line-height: 23.4px"
               >
                 Managing multiple sites for multiple clients ? Great! Make sure you use
@@ -591,18 +591,14 @@ onBeforeMount(() => {
           </div>
         </div>
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+       
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] pb-[24px]"
+        class="mt-[30px] bg-white rounded-[10px] "
         style="box-shadow: 0px 4px 4px 0px #00000014"
+                :class="[               collapseStore.collapses.includes('reset_all_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
@@ -762,18 +758,14 @@ onBeforeMount(() => {
             </div>
           </button>
         </div>
-        <div
-          v-if="collapseStore.collapses.includes('reset_all_settings_card')"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+       
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]"
+        class="mt-[30px] bg-white rounded-[10px]  mb-[80px]" 
         style="box-shadow: 0px 4px 4px 0px #00000014"
+                 :class="[               collapseStore.collapses.includes('license_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
         <div class="flex items-center justify-start ml-[15px] pt-[24px]">
           <div>
@@ -904,13 +896,7 @@ onBeforeMount(() => {
             </div>
           </div>
         </div>
-        <div
-          v-if="collapseStore.collapses.includes('license_settings_card')"
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+     
       </div>
     </div>
   </div>

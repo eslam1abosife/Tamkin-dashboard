@@ -70,11 +70,13 @@ const copyCode = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full mt-[40px] relative">
-    <div class="bg-white rounded-[10px] w-full px-[15px] relative">
+  <div class="flex flex-col items-center justify-center w-full mt-[40px] relative mb-[80px]">
+    <div         style="box-shadow: 0px 4px 4px 0px #00000014"
+
+    class="bg-white rounded-[10px] w-full px-[15px] relative" :class="[collapseStore.collapses.includes('custom_trigger_card') ? 'pb-[24px]' :'pb-[10px]']">
  
        
-      <div class="flex items-center justify-start rtl:mr-[15px] ltr:ml-[15px] pt-[16px] relative">
+      <div class="flex items-center justify-start  pt-[16px] relative">
       
         
     <div class="flex flex-col items-start justify-center relative">
@@ -110,7 +112,7 @@ const copyCode = () => {
       :class="[
         collapseStore.menus.includes('custom_trigger')  ? 'active_notification !text-darkGrey' : '',
       ]"
-      class="absolute top-0 rtl:left-[15px] ltr:right-[15px] rtl:mr-auto  rtl:ml-[0px]  ltr:ml-auto  ltr:mr-[15px] mt-[31px] 
+      class="absolute top-0 rtl:left-[15px] ltr:right-[0px] rtl:mr-auto    ltr:ml-auto  ltr:mr-[15px] mt-[31px] 
       flex items-center justify-center cursor-pointer 
       bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
     >
@@ -162,7 +164,7 @@ const copyCode = () => {
       </div>
     </div>
       <div
-        class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] max-w-full" :class="[!moveAccess ? 'my-[64px]' :'']"
+        class="flex flex-col items-start justify-center  mt-[18px]  max-w-full" :class="[!moveAccess ? 'pb-[16px]' :'']"
         v-if="!collapseStore.collapses.includes('custom_trigger_card') "
       >
       
@@ -305,13 +307,7 @@ const copyCode = () => {
     </div>
   </div>
       </div>
-      <div
-        v-else
-        class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-      >
-        Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-        est veritatis dolore. Exercitationem et omnis ea quidem
-      </div>
+     
     </div>
   </div>
 </template>

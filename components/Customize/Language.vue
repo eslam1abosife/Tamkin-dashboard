@@ -44,8 +44,11 @@ const moveHideWidget = (v:string)=>{
   <div
     class="flex flex-col items-center justify-center w-full mt-[40px] "
   >
-    <div class="bg-white rounded-[10px] w-full px-[15px]">
-      <div class="flex items-center justify-start rtl:mr-[15px] ltr:ml-[15px] pt-[16px]">
+    <div 
+    style="box-shadow: 0px 4px 4px 0px #00000014"
+
+    class="bg-white rounded-[10px] w-full px-[15px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
+      <div class="flex items-center justify-start  pt-[16px]">
         <div>
           <h1 class="text-[20px] font-[500] leading-[30px]">Language</h1>
 
@@ -63,7 +66,7 @@ const moveHideWidget = (v:string)=>{
             collapseStore.menus.includes('language_customize') 
             ? 'active_notification !text-darkGrey' : '',
           ]"
-          class="relative ltr:ml-auto ltr:mr-[15px] rtl:mr-auto rtl:ml-[-15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+          class="relative ltr:ml-auto  rtl:mr-auto  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
         >
           <svg
             width="18"
@@ -279,13 +282,7 @@ const moveHideWidget = (v:string)=>{
             </div>
           </div>
       </div>
-      <div
-        v-else
-        class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] rtl:mr-[15px] ltr:ml-[15px]"
-      >
-        Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-        est veritatis dolore. Exercitationem et omnis ea quidem
-      </div>
+    
     </div>
   </div>
 </template>

@@ -15,8 +15,9 @@ const {widgetType} = storeToRefs(customizeStore)
 <template>
   <div
     class="flex flex-col items-center justify-center   w-full mt-[40px]">
-    <div class=" bg-white rounded-[10px] w-full  px-[15px]">
-        <div class="flex items-center justify-start ml-[15px] pt-[16px]">
+    <div         style="box-shadow: 0px 4px 4px 0px #00000014"
+    class=" bg-white rounded-[10px] w-full  px-[15px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
+        <div class="flex items-center justify-start  pt-[16px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
                 Widget Type
@@ -34,7 +35,7 @@ const {widgetType} = storeToRefs(customizeStore)
             :class="[
               collapseStore.menus.includes('widget_type') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px] rtl:mr-auto rtl:ml-[-15px] flex items-center justify-center cursor-pointer 
+            class="relative ltr:ml-auto  rtl:mr-auto  flex items-center justify-center cursor-pointer 
             bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
@@ -91,7 +92,7 @@ const {widgetType} = storeToRefs(customizeStore)
         </div>
 
         <div
-          class="flex flex-col items-start justify-center rtlmr-[15px] ltr:ml-[15px] mt-[18px] divide-y pb-[16px]"
+          class="flex flex-col items-start justify-center  mt-[18px] divide-y pb-[16px]"
           v-if="!collapseStore.collapses.includes('widget_type_card')"
         >
     
@@ -216,13 +217,7 @@ const {widgetType} = storeToRefs(customizeStore)
 
 
 </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ml-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto
-          est veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+    
       </div>
   </div>
 </template>

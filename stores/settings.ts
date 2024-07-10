@@ -45,7 +45,7 @@ export const useSettingsStore = defineStore('settings', {
             }
           },
           hasChanges() {
-            return JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes) ;
+            return JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes);
           },
 
            isChecked(name: string) {

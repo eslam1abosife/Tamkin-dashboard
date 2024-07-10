@@ -51,7 +51,8 @@ const getImageUrl = computed(() => {
                 <div
                   class="flex items-center justify-center bg-white w-[60px] h-[60px] 
                   custom-border-tamkin custom-border-tamkin-rounded rounded-full"
-                  style="box-shadow: 0px 4px 24px 8px #51459f1a"
+                  style="box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
+"
                 >
                   <img :src="getImageUrl" alt="" />
                 </div>

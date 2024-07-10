@@ -36,7 +36,8 @@
     "vue3-highlightjs": "^1.0.5",
     "vue3-lottie": "^3.3.0",
     "vue3-otp-input": "^0.5.21",
-    "vue3-tags-input": "^1.0.12"
+    "vue3-tags-input": "^1.0.12",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

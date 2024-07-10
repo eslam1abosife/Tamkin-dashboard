@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useOverviewStore } from "@/stores/overview";
+
+const overviewStore = useOverviewStore()
 
 const props = defineProps({
     planType:{
@@ -94,7 +97,9 @@ const prev = () => {
           </div>
 
           <div class="">
-            <button class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto ltr:ml-auto mx-[15px]  !p-[6px] w-full">
+            <button 
+            @click="overviewStore.switchState"
+            class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto ltr:ml-auto mx-[15px]  !p-[6px] w-full">
               Upgrade Plans
             </button>
           </div>
@@ -112,6 +117,7 @@ const prev = () => {
 
     <div
       class="flex items-center flex-col justify-center px-[15px]"
+       v-if="!overviewStore.showUpgradeState"
     >
       <div
         class="flex items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-y-0 space-y-3 w-full mt-[32px]"

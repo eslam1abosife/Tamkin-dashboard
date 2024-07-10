@@ -6,7 +6,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 import upTamkin from "/assets/imgs/up_tamkin.svg";
 import { Line } from "vue-chartjs";
-const langStore = useLangSwitch()
+const langStore = useLangSwitch();
 const collapseStore = useCollapseStore();
 
 const navStore = useNavbarStore();
@@ -145,6 +145,9 @@ const options = ref({
   },
   scales: {
     x: {
+      border: {
+        display: false, // This will remove the border line on the y-axis
+      },
       grid: {
         display: false, // This will remove the grid lines on the x-axis
       },
@@ -172,6 +175,9 @@ const options = ref({
       },
       ticks: {
         display: false, // This will remove the labels from the y-axis
+      },
+      border: {
+        display: false, // This will remove the border line on the y-axis
       },
     },
   },
@@ -204,21 +210,22 @@ const format = (date) => {
 <template>
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
-      <HeaderAccess 
-      websiteImgName="tamkin_hand.svg"
-      website-title="Tamkin.App"
-      website-link="google.com"
-      section-title="Statistics" 
-      section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
-          useful insights."/>
- 
-
+      <HeaderAccess
+        websiteImgName="tamkin_hand.svg"
+        website-title="Tamkin.App"
+        website-link="google.com"
+        section-title="Statistics"
+        section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
+          useful insights."
+      />
 
       <div
         class="mt-[50px] bg-white rounded-[10px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div
+          class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+        >
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Select Date Range</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -300,7 +307,9 @@ const format = (date) => {
           v-if="!collapseStore.collapses.includes('select_date_range_card')"
         >
           <div class="flex items-center justify-between w-full">
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] w-full">
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] w-full"
+            >
               <div class="w-1/4">
                 <VueDatePicker
                   :enable-time-picker="false"
@@ -316,14 +325,15 @@ const format = (date) => {
                   placeholder="Select Period"
                   v-model="dateF"
                   :format="format"
-             
-                  :position="langStore.direction === 'rtl' ? 'right' :'left'"
+                  :position="langStore.direction === 'rtl' ? 'right' : 'left'"
                   :auto-position="false"
                   range
                   :max-date="new Date()"
                 >
                   <template #action-row="{ closePicker, selectDate }">
-                    <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full">
+                    <div
+                      class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+                    >
                       <button
                         @click="closePicker"
                         class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
@@ -413,7 +423,8 @@ const format = (date) => {
                 </div>
 
                 <div
-                  v-show="isOpen"
+                  v-if="isOpen"
+                  v-on-click-outside="toggleDropdown"
                   class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-56 z-[100] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
@@ -578,10 +589,10 @@ const format = (date) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px]"
+        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div class="flex items-center justify-start pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Usage stats by function</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -595,7 +606,7 @@ const format = (date) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px] rtl:ml-[15px] rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -657,24 +668,24 @@ const format = (date) => {
         </div>
 
         <div
-          class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('usage_stats_card')"
         >
           <table class="min-w-full leading-normal">
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black w-2/4"
                 >
                   Function
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-left rtl:!text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Time Enabled
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white rtl:text-left ltr:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white rtl:!text-left ltr:!text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Percentage
                 </th>
@@ -683,7 +694,9 @@ const format = (date) => {
             <tbody>
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/language sign.svg"
@@ -732,7 +745,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/page_str.svg"
@@ -781,7 +796,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/hide_images.svg"
@@ -830,7 +847,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/contrast.svg"
@@ -879,7 +898,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/voice_navigation.svg"
@@ -930,7 +951,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/a-z.svg"
@@ -979,7 +1002,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/clip.svg"
@@ -1028,7 +1053,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/line_height.svg"
@@ -1077,7 +1104,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/saturation.svg"
@@ -1126,7 +1155,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/text.svg"
@@ -1175,7 +1206,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/pause.svg"
@@ -1224,7 +1257,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/tooltip.svg"
@@ -1273,7 +1308,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/cursor.svg"
@@ -1322,7 +1359,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/text_spacing.svg"
@@ -1371,7 +1410,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/contrast_plus.svg"
@@ -1420,20 +1461,13 @@ const format = (date) => {
             </tbody>
           </table>
         </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] rtl:mr-[15px] ltr:ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
+        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] mb-[30px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div class="flex items-center justify-start pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Usage stats by Profile</h1>
 
@@ -1449,7 +1483,7 @@ const format = (date) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ml-auto mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -1512,25 +1546,24 @@ const format = (date) => {
           </div>
         </div>
         <div
-          class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('usage_stats_profile_card')"
         >
           <table class="min-w-full leading-normal">
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black w-2/4"
                 >
                   Function
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-left rtl:!text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Time Enabled
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-right rtl:!text-left
-                   text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-right rtl:!text-left text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Percentage
                 </th>
@@ -1539,7 +1572,9 @@ const format = (date) => {
             <tbody>
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start  rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/monitor_im.svg"
@@ -1588,7 +1623,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/color_blind.svg"
@@ -1637,7 +1674,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/vis_impaired.svg"
@@ -1688,7 +1727,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/seizure.svg"
@@ -1739,7 +1780,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/blind.svg"
@@ -1788,7 +1831,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/df.svg"
@@ -1837,7 +1882,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/congitive.svg"
@@ -1888,7 +1935,9 @@ const format = (date) => {
 
               <tr class="bg-[#FAFCFE] h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/addons/adhd.svg"
@@ -1936,13 +1985,6 @@ const format = (date) => {
               </tr>
             </tbody>
           </table>
-        </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
         </div>
       </div>
       <div
@@ -2110,7 +2152,9 @@ const format = (date) => {
                 );
               "
             >
-              <div class="circular-progress big bg-white rounded-full rtl:mr-[10px] ltr:ml-[10px]">
+              <div
+                class="circular-progress big bg-white rounded-full rtl:mr-[10px] ltr:ml-[10px]"
+              >
                 <svg viewBox="0 0 36 36" class=" " width="60" height="60">
                   <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -2136,7 +2180,7 @@ const format = (date) => {
               </div>
 
               <div
-                class="flex flex-col  items-center justify-center w-full space-y-[8px] px-[24px]"
+                class="flex flex-col items-center justify-center w-full space-y-[8px] px-[24px]"
               >
                 <div class="flex items-center justify-between w-full">
                   <div class="text-[14px] font-[400] leading-[19px]">Used</div>
@@ -2185,7 +2229,9 @@ const format = (date) => {
             <tbody>
               <tr class="bg-white h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/arabic.svg"
@@ -2232,7 +2278,9 @@ const format = (date) => {
 
               <tr class="bg-white h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
                     <div>
                       <img
                         src="/assets/imgs/english.svg"
@@ -2510,8 +2558,7 @@ const format = (date) => {
   color: red;
 }
 
-.dp__arrow_top{
+.dp__arrow_top {
   @apply rtl:top-[-6px] rtl:!rotate-45 rtl:translate-x-[50%];
-
 }
 </style>

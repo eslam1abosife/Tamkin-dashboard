@@ -1,21 +1,10 @@
 <script lang="ts" setup>
 import { useCustomizeStore} from "@/stores/customize.js";
 const customizeStore = useCustomizeStore();
-const switchButtonLocation = ref("desktop");
 // const buttonPositionDesktop = ref("top_left");
 // const buttonPositionMobile = ref("top_left_mobile");
-const {colorMode,gradient1,gradient2,currentColor,buttonPositionDesktop,buttonPositionMobile,initialPositionMobile,initialPositionDesktop} = storeToRefs(customizeStore);
-
-
-const changebuttonPositionDesktop = (position: string) => {
-  buttonPositionDesktop.value = position;
-};
-const changebuttonPositionMobile = (position: string) => {
-  buttonPositionMobile.value = position;
-};
-const changeButtonMobileOrDesktop = (v: string) => {
-  switchButtonLocation.value = v;
-};
+const {colorMode,gradient1,gradient2,currentColor,buttonPositionDesktop,buttonPositionMobile,
+  initialPositionMobile,initialPositionDesktop,switchButtonLocation,buttonSizeSlider} = storeToRefs(customizeStore);
 
 
 
@@ -47,19 +36,19 @@ watch([currentColor],()=>{},{immediate:true})
     class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
   >
     <div
-      class="pb-[12px] text-[14px] leading-[32px] font-[600] text-darkGrey cursor-pointer"
-      @click="changeButtonMobileOrDesktop('desktop')"
+      class="pb-[12px] text-[14px] leading-[32px]  text-darkGrey cursor-pointer"
+      @click="customizeStore.changeButtonMobileOrDesktop('desktop')"
       :class="[
-        switchButtonLocation === 'desktop' ? 'custom-border-bottom' : '',
+        switchButtonLocation === 'desktop' ? 'custom-border-bottom font-[600]' : 'font-[500]',
       ]"
     >
       Button Location Desktop
     </div>
 
     <div
-      class="pb-[12px] text-[14px] leading-[32px] font-[600] text-darkGrey cursor-pointer"
-      @click="changeButtonMobileOrDesktop('mobile')"
-      :class="[switchButtonLocation === 'mobile' ? 'custom-border-bottom' : '']"
+      class="pb-[12px] text-[14px] leading-[32px]  text-darkGrey cursor-pointer"
+      @click="customizeStore.changeButtonMobileOrDesktop('mobile')"
+      :class="[switchButtonLocation === 'mobile' ? 'custom-border-bottom font-[600]' : 'font-[500]']"
     >
       Button Location Mobile
     </div>
@@ -67,7 +56,7 @@ watch([currentColor],()=>{},{immediate:true})
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'desktop'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-96 relative mx-[15px] h-[173px] mt-[32px]"
+  class="bg-[#F2FBF9] rounded-lg p-10 w-2/4 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
 
   <div
@@ -75,7 +64,7 @@ watch([currentColor],()=>{},{immediate:true})
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionDesktop('top_left')"
+        @click="customizeStore.changebuttonPositionDesktop('top_left')"
         id="top_left"
         type="radio"
         name="position_radio"
@@ -93,7 +82,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionDesktop('middle_left')"
+        @click="customizeStore.changebuttonPositionDesktop('middle_left')"
         id="middle_left"
         type="radio"
         name="position_radio"
@@ -113,7 +102,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionDesktop('bottom_left')"
+        @click="customizeStore.changebuttonPositionDesktop('bottom_left')"
         id="bottom_left"
         type="radio"
         name="position_radio"
@@ -136,7 +125,7 @@ watch([currentColor],()=>{},{immediate:true})
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionDesktop('top_right')"
+        @click="customizeStore.changebuttonPositionDesktop('top_right')"
         id="top_right"
         type="radio"
         name="position_radio"
@@ -159,7 +148,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionDesktop('middle_right')"
+        @click="customizeStore.changebuttonPositionDesktop('middle_right')"
         :checked="buttonPositionDesktop === 'middle_right'"
       />
       <label for="middle_right" class="flex items-center cursor-pointer">
@@ -178,7 +167,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionDesktop('bottom_right')"
+        @click="customizeStore.changebuttonPositionDesktop('bottom_right')"
         :checked="buttonPositionDesktop === 'bottom_right'"
       />
       <label for="bottom_right" class="flex items-center cursor-pointer">
@@ -201,7 +190,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionDesktop('top_center')"
+        @click="customizeStore.changebuttonPositionDesktop('top_center')"
         :checked="buttonPositionDesktop === 'top_center'"
       />
       <label for="top_center" class="flex items-center cursor-pointer">
@@ -220,7 +209,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionDesktop('bottom_center')"
+        @click="customizeStore.changebuttonPositionDesktop('bottom_center')"
         :checked="buttonPositionDesktop === 'bottom_center'"
       />
       <label for="bottom_center" class="flex items-center cursor-pointer">
@@ -259,14 +248,14 @@ watch([currentColor],()=>{},{immediate:true})
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'mobile'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-96 relative mx-[15px] h-[173px] mt-[32px]"
+  class="bg-[#F2FBF9] rounded-lg p-10 w-2/4 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
   <div
     class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionMobile('top_left_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('top_left_mobile')"
         id="top_left_mobile"
         type="radio"
         name="position_radio"
@@ -284,7 +273,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionMobile('middle_left_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('middle_left_mobile')"
         id="middle_left_mobile"
         type="radio"
         name="position_radio"
@@ -303,7 +292,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionMobile('bottom_left_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('bottom_left_mobile')"
         id="bottom_left_mobile"
         type="radio"
         name="position_radio"
@@ -326,7 +315,7 @@ watch([currentColor],()=>{},{immediate:true})
   >
     <div class="w-[28px] h-[28px]">
       <input
-        @click="changebuttonPositionMobile('top_right_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('top_right_mobile')"
         id="top_right_mobile"
         type="radio"
         name="position_radio"
@@ -349,7 +338,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionMobile('middle_right_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('middle_right_mobile')"
         :checked="buttonPositionMobile === 'middle_right_mobile'"
       />
       <label for="middle_right_mobile" class="flex items-center cursor-pointer">
@@ -368,7 +357,7 @@ watch([currentColor],()=>{},{immediate:true})
         type="radio"
         name="position_radio"
         class="hidden"
-        @click="changebuttonPositionMobile('bottom_right_mobile')"
+        @click="customizeStore.changebuttonPositionMobile('bottom_right_mobile')"
         :checked="buttonPositionMobile === 'bottom_right_mobile'"
       />
       <label for="bottom_right_mobile" class="flex items-center cursor-pointer">
@@ -387,33 +376,33 @@ watch([currentColor],()=>{},{immediate:true})
 
 
 <div class="relative">
-  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] left-[30px]' :'',
-  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] left-[30px]':'',
-  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] left-[30px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] left-[50px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] left-[50px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] left-[50px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[90px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[90px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] left-[90px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[115px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[115px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] left-[115px]':'',
   ]">
   <div class="w-[18px] h-[18px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
     <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[12px] h-[12px]">
         </div>
   </div>
-  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[210px]' :'',
-  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] right-[210px]':'',
-  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] right-[210px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[230px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] right-[230px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] right-[230px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] right-[30px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] right-[30px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] right-[30px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] right-[50px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] right-[50px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] right-[50px]':'',
   ]">
   <div class="w-[22px] h-[22px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
     <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[14px] h-[14px]">
         </div>
   </div>
- <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[29px] px-[15px]">
+ <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[29px] px-[40px]">
   <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-[102px] h-auto">
   <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="ipad-max:hidden w-[225px] h-auto">
  </div>

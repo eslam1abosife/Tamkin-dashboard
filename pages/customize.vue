@@ -1,15 +1,21 @@
 <script lang="ts" setup>
-import { useVuelidate } from "@vuelidate/core";
 import { Vue3ColorPicker } from "@cyhnkckali/vue3-color-picker";
 import "@cyhnkckali/vue3-color-picker/dist/style.css";
 import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
-const langStore = useLangSwitch()
+const langStore = useLangSwitch();
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
-const { colorMode, gradient1, gradient2, currentColor,buttonSizeSlider ,buttonShapeSelector} = storeToRefs(customizeStore);
+const {
+  colorMode,
+  gradient1,
+  gradient2,
+  currentColor,
+  buttonSizeSlider,
+  buttonShapeSelector,
+} = storeToRefs(customizeStore);
 definePageMeta({
   layout: "dashboard",
 });
@@ -18,31 +24,50 @@ const isADHDChecked = ref(false);
 
 // const buttonShapeSelector = ref("type1");
 
-const liveTranslationAsDefaultOrTranslationAbove = ref("default");
+const liveTranslationAsDefaultOrTranslationAbove = ref("");
 
 const defaultLiveTranslationButtonSelection = ref("en");
 const aboveLivetranslationButtonSelection = ref("en");
+const toggleEnableLive = ()=>{
+ if(!customizeStore.isChecked('enable_live_site')){
+  liveTranslationAsDefaultOrTranslationAbove.value =''
+  aboveLivetranslationButtonSelection.value =''
+  defaultLiveTranslationButtonSelection.value = ''
 
+ }
+ customizeStore.toggleCheckbox('enable_live_site')
 
+}
 const changeLivePositionDefaultOrAbove = (v: string) => {
-  if(isADHDChecked.value){
+  if (customizeStore.isChecked('enable_live_site')) {
     liveTranslationAsDefaultOrTranslationAbove.value = v;
-  
-  customizeStore.force_change = !customizeStore.force_change 
-  }
 
+    customizeStore.force_change_MainMenuCard = !customizeStore.force_change_MainMenuCard;
+  }else{
+    liveTranslationAsDefaultOrTranslationAbove.value =''
+  aboveLivetranslationButtonSelection.value =''
+  defaultLiveTranslationButtonSelection.value = ''
+  }
 };
 
 const changeDefaultButtonShape = (v: string) => {
-  if(isADHDChecked.value){
-  defaultLiveTranslationButtonSelection.value = v;
-  customizeStore.force_change = !customizeStore.force_change 
+  if (customizeStore.isChecked('enable_live_site')) {
+    defaultLiveTranslationButtonSelection.value = v;
+    customizeStore.force_change_MainMenuCard = !customizeStore.force_change_MainMenuCard;
+  }else {
+    liveTranslationAsDefaultOrTranslationAbove.value =''
+  aboveLivetranslationButtonSelection.value =''
+  defaultLiveTranslationButtonSelection.value = ''
   }
 };
 
 const changeAboveButtonPosition = (v: string) => {
-  if(isADHDChecked.value){
-  aboveLivetranslationButtonSelection.value = v;
+  if (customizeStore.isChecked('enable_live_site')) {
+    aboveLivetranslationButtonSelection.value = v;
+  }else {
+    liveTranslationAsDefaultOrTranslationAbove.value =''
+  aboveLivetranslationButtonSelection.value =''
+  defaultLiveTranslationButtonSelection.value = ''
   }
 };
 const changeGradientColor1 = computed(() => {
@@ -58,20 +83,21 @@ const changeGradientColor2 = computed(() => {
 });
 const thumbStyle = computed(() => {
   const minSize = 50; // Min size of outer circle
-  const maxSize = 85; // Max size of outer circle
+  const maxSize = 65; // Max size of outer circle
   const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
-  const position = langStore.direction === 'rtl' ? 'right' : 'left';
+  const position = langStore.direction === "rtl" ? "right" : "left";
 
   return {
     width: `${size}px`,
     height: `${size}px`,
-    transform: langStore.direction === 'rtl' ? `translate(50%, -50%)` : `translate(-50%, -50%)`,
+    transform:
+      langStore.direction === "rtl" ? `translate(50%, -50%)` : `translate(-50%, -50%)`,
     [position]: `${buttonSizeSlider.value}%`,
   };
 });
 const border_style = computed(() => {
   const minSize = 36; // Min size of outer circle
-  const maxSize = 60; // Max size of outer circle
+  const maxSize = 40; // Max size of outer circle
   const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
@@ -82,7 +108,7 @@ const border_style = computed(() => {
 });
 const imgStyle = computed(() => {
   const minSize = 26; // Min size of inner icon
-  const maxSize = 50; // Max size of inner icon
+  const maxSize = 80; // Max size of inner icon
   const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
@@ -110,12 +136,13 @@ const backgroundImageStyle = computed(() => {
 
 onBeforeMount(() => {
   [
+    "enable_live_site",
     "oversized_widget",
-  "3_column_layout_widget",
-  "accessibility_profiles",
-  "move_access",
-  "move_hide_accessibility",
-  "page_str",
+    "3_column_layout_widget",
+    "accessibility_profiles",
+    "move_access",
+    "move_hide_accessibility",
+    "page_str",
     "screen_reader",
     "hide_images",
     "smart_contrast",
@@ -140,20 +167,19 @@ onBeforeMount(() => {
     "motor_active",
     "enable_custom_trigger",
     "show_lang_selector",
-    "language"
-
+    "language",
   ].forEach((name) => {
     customizeStore.addCheckbox(name);
   });
   customizeStore.initializeCheckboxes([
     "language",
-
+"enable_live_site",
     "oversized_widget",
     "move_access",
-  "3_column_layout_widget",
-  "accessibility_profiles",
-  "move_hide_accessibility",
-  "page_str",
+    "3_column_layout_widget",
+    "accessibility_profiles",
+    "move_hide_accessibility",
+    "page_str",
     "screen_reader",
     "hide_images",
     "smart_contrast",
@@ -177,38 +203,40 @@ onBeforeMount(() => {
     "color_blind",
     "motor_active",
     "enable_custom_trigger",
-  "show_lang_selector"
+    "show_lang_selector",
   ]);
 });
 
-watch(buttonSizeSlider,(ov,nv)=>{   
-  // console.log(nv) 
-  if(nv>=4){
+watch(buttonSizeSlider, (ov, nv) => {
+  // console.log(nv)
+  if (nv >= 4) {
+    customizeStore.force_change_MainMenuCard = true
 
-    customizeStore.force_change = true
-  }else {
-    customizeStore.force_change = false
-
+  } else {
+    customizeStore.force_change_MainMenuCard = false
   }
-
-})
+});
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
-      <HeaderAccess 
-      websiteImgName="tamkin_hand.svg"
-      website-title="Tamkin.App"
-      website-link="google.com"
-      section-title="Customize" 
-      section-sub-title="Customization empowers users to shape their digital environment"/>
-   
+      <HeaderAccess
+        websiteImgName="tamkin_hand.svg"
+        website-title="Tamkin.App"
+        website-link="google.com"
+        section-title="Customize"
+        section-sub-title="Customization empowers users to shape their digital environment"
+      />
+
       <div
         class="mt-[50px] bg-white rounded-[10px]"
+        :class="[collapseStore.collapses.includes('button_color_card') ? 'pb-[24px]' :'pb-[0]']"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div
+          class="flex items-center justify-start px-[15px] pt-[16px]"
+        >
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Button Color</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -225,7 +253,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -248,7 +276,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
             <div
               v-if="collapseStore.menus.includes('button_color')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="flex flex-col items-start justify-start !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+              class="mini_SizeMenu"
             >
               <div
                 class="mini_wrap"
@@ -290,7 +318,9 @@ watch(buttonSizeSlider,(ov,nv)=>{
           v-if="!collapseStore.collapses.includes('button_color_card')"
         >
           <div class="flex items-center justify-between w-full">
-            <div class="flex items-center justify-start px-[15px] rtl:space-x-reverse space-x-[29px] w-full">
+            <div
+              class="flex items-center justify-start px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
+            >
               <div
                 @click="customizeStore.colorMode = 'solid'"
                 :class="[
@@ -342,7 +372,9 @@ watch(buttonSizeSlider,(ov,nv)=>{
               v-if="customizeStore.colorMode === 'gradient'"
               class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] mx-[15px] cursor-pointer"
             >
-              <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]">
+              <div
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]"
+              >
                 <div
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient1 }"
@@ -422,21 +454,16 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </div>
           </div>
         </div>
-
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px]"
+        class="mt-[30px] bg-white rounded-[10px] px-[15px]" 
+        :class="[collapseStore.collapses.includes('button_type_card') ? 'pb-[24px]' :'pb-[10px]']"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div
+          class="flex items-center justify-start  pt-[24px]"
+        >
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Button Type</h1>
             <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
@@ -453,7 +480,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -514,7 +541,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
         </div>
 
         <div
-          class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('button_type_card')"
         >
           <div>
@@ -798,13 +825,13 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </div>
           </div>
 
-          <div class="my-[30px]">
+          <div class="my-[30px] ">
             <h1 class="text-[16px] font-[500] leading-[24px]">button size</h1>
             <p class="font-[400] text-[13px] leading-[18.95px] text-darkGrey mt-[10px]">
               Pull the button to select the right size for you
             </p>
           </div>
-          <div class="w-full flex flex-col items-center space-y-4">
+          <div class="w-full flex flex-col items-center space-y-4 px-[15px]">
             <div class="relative w-full mb-[34px]">
               <input
                 type="range"
@@ -815,12 +842,18 @@ watch(buttonSizeSlider,(ov,nv)=>{
               />
               <div
                 class="absolute top-0 h-[20px] bg-[#2DADA3] rounded-full pointer-events-none"
-                :class="{ 'right-0': langStore.direction === 'rtl', 'left-0': langStore.direction !== 'rtl' }"
+                :class="{
+                  'right-0': langStore.direction === 'rtl',
+                  'left-0': langStore.direction !== 'rtl',
+                }"
                 :style="{ width: `${buttonSizeSlider}%` }"
               ></div>
               <div
                 class="absolute top-1/2 flex items-center justify-center bg-tamkinLight shadow-xl shadow-tamkinLight rounded-full pointer-events-none transform -translate-y-1/2"
-                :class="{ 'flex-row-reverse': langStore.direction === 'rtl', 'flex-row': langStore.direction !== 'rtl' }"
+                :class="{
+                  'flex-row-reverse': langStore.direction === 'rtl',
+                  'flex-row': langStore.direction !== 'rtl',
+                }"
                 :style="thumbStyle"
               >
                 <div
@@ -829,6 +862,31 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   :style="[border_style, backgroundImageStyle]"
                 >
                   <img
+                    src="/assets/imgs/gradient_icons/drag.svg"
+                    :style="imgStyle"
+                    v-if="buttonShapeSelector === 'type2'"
+                    alt=""
+                  />
+                  <img
+                    src="/assets/imgs/gradient_icons/type2.svg"
+                    :style="imgStyle"
+                    v-if="buttonShapeSelector === 'type3'"
+                    alt=""
+                  />
+                  <img
+                    src="/assets/imgs/gradient_icons/type3.svg"
+                    :style="imgStyle"
+                    v-if="buttonShapeSelector === 'type4'"
+                    alt=""
+                  />
+                  <img
+                    src="/assets/imgs/gradient_icons/type4.svg"
+                    :style="imgStyle"
+                    v-if="buttonShapeSelector === 'type5'"
+                    alt=""
+                  />
+                  <img
+                    v-if="buttonShapeSelector === 'type1'"
                     src="/assets/imgs/icons/ios_access.svg"
                     alt=""
                     :style="imgStyle"
@@ -838,20 +896,16 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </div>
           </div>
         </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+      
       </div>
 
       <div
         class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div
+          class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+        >
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">
               Live Site Translations Button
@@ -950,33 +1004,21 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   class="ml-auto w-full py-3 border-b-2 border-gray-200 text-[14px] font-[400] leading-[18px] text-black"
                 >
                   <div class="flex items-center">
-                    
-
-
-                    <label
-                      for="toggle_enable_live_button"
-                      class="toggle_wrap"
-                    >
+                    <label for="toggle_enable_live_button" class="toggle_wrap">
                       <input
                         type="checkbox"
                         id="toggle_enable_live_button"
                         class="sr-only"
-                        v-model="isADHDChecked"
+                        :checked="customizeStore.isChecked('enable_live_site')"
+                        @change="toggleEnableLive"
                       />
                       <div
                         class="toggle_parent"
-                        :class="[
-                          isADHDChecked
-                            ? 'active'
-                            : 'in_active',
-                        ]"
+                        :class="[customizeStore.isChecked('enable_live_site') ? 'active' : 'in_active']"
                       >
-                        <div
-                          class="toggle_inner"
-                          :class="{ 'active ': isADHDChecked }"
-                        >
+                        <div class="toggle_inner" :class="{ 'active ': customizeStore.isChecked('enable_live_site') }">
                           <img
-                            v-if="isADHDChecked"
+                            v-if="customizeStore.isChecked('enable_live_site')"
                             src="/assets/imgs/addons/active_toggle.svg"
                             class="w-[28px] h-[28px]"
                             alt=""
@@ -996,14 +1038,17 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </thead>
           </table>
 
-          <div class="flex items-center justify-between " :class="[!isADHDChecked ? 'blur-[2px] !cursor-not-allowed':'']">
+          <div
+            class="flex items-center justify-between"
+            :class="[!customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '']"
+          >
             <div
               @click="changeLivePositionDefaultOrAbove('default')"
               :class="[
                 liveTranslationAsDefaultOrTranslationAbove === 'default'
                   ? 'custom-border'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
             >
@@ -1014,8 +1059,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   name="plans_radio"
                   class="hidden"
                   :checked="liveTranslationAsDefaultOrTranslationAbove === 'default'"
-                  :value="liveTranslationAsDefaultOrTranslationAbove"
-                  @click="changeLivePositionDefaultOrAbove('default')"
+                  @change="changeLivePositionDefaultOrAbove('default')"
                 />
                 <label for="radio665" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin w-[19px] h-[19px]"></span>
@@ -1032,7 +1076,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                   ? 'custom-border'
                   : 'border-[1px]',
 
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               @click="changeLivePositionDefaultOrAbove('above')"
               class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
@@ -1068,7 +1112,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'gb'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1086,7 +1130,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'en'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1138,7 +1182,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 defaultLiveTranslationButtonSelection === 'langs'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1201,7 +1245,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'gb'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1236,7 +1280,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'en'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1302,7 +1346,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
                 aboveLivetranslationButtonSelection === 'langs'
                   ? 'custom-border-tamkin padding-override-1'
                   : 'border-[1px]',
-                  !isADHDChecked ? 'blur-[2px] !cursor-not-allowed':''
+                !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
               ]"
               class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
             >
@@ -1370,114 +1414,18 @@ watch(buttonSizeSlider,(ov,nv)=>{
             </div>
           </div>
         </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+     
       </div>
 
+    
+<CustomizeButtonLocation/>
       <div
         class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
-          <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Button Location</h1>
-
-            <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
-              Select the location where you want the button to appear
-            </p>
-          </div>
-
-          <div
-            @click="collapseStore.collapseMenu('button_location')"
-            v-on-click-outside="() => collapseStore.removeMenu('button_location')"
-            :class="[
-              collapseStore.menus.includes('button_location')
-                ? 'active_notification !text-darkGrey'
-                : '',
-            ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
-          >
-            <svg
-              width="18"
-              height="5"
-              viewBox="0 0 18 5"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              :class="[
-                collapseStore.menus.includes('button_location')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
-              ]"
-            >
-              <path
-                d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
-                fill="currentColor"
-              />
-            </svg>
-
-            <div
-              v-if="collapseStore.menus.includes('button_location')"
-              class="mini_SizeMenu"
-            >
-              <div
-                class="mini_wrap"
-                @click="collapseStore.collapseCard('button_location_card')"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/min_size.svg"
-                    alt=""
-                    :class="[
-                      collapseStore.menus.includes('button_location')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
-                </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
-                  {{
-                    !collapseStore.collapses.includes("button_location_card")
-                      ? "Minisize"
-                      : "Maxsize"
-                  }}
-                </div>
-              </div>
-
-              <div class="arrow">
-                <img
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                      "
-                  alt=""
-                  class="w-full h-full"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <CustomizePositioning
-          v-if="!collapseStore.collapses.includes('button_location_card')"
-        />
         <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
+          class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
-      </div>
-
-      <div
-        class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
-        style="box-shadow: 0px 4px 4px 0px #00000014"
-      >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Widget Customization</h1>
 
@@ -1558,20 +1506,16 @@ watch(buttonSizeSlider,(ov,nv)=>{
           v-if="!collapseStore.collapses.includes('widget_custom_card')"
         />
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+        
       </div>
 
       <div
         class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
         style="box-shadow: 0px 4px 4px 0px #00000014"
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+        <div
+          class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+        >
           <div>
             <h1 class="text-[20px] font-[500] leading-[30px]">Accessibility Mode</h1>
 
@@ -1653,13 +1597,7 @@ watch(buttonSizeSlider,(ov,nv)=>{
           v-if="!collapseStore.collapses.includes('access_mode_card')"
         />
 
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+       
       </div>
 
       <CustomizeAdjustMainMenu />
@@ -1690,8 +1628,6 @@ watch(buttonSizeSlider,(ov,nv)=>{
     @apply rounded-[10px] h-[32px];
   }
 }
-
-
 
 /* Add custom styles here if needed */
 .range_tamkin_customize::-webkit-slider-thumb {
