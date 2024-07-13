@@ -65,7 +65,7 @@ watch(copyCode, (newValue) => {
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
         Payment Methods
     </h1>
     </div>
@@ -74,11 +74,11 @@ watch(copyCode, (newValue) => {
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
+        class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
       >
       Confirm your Payment
       </h1>
-<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[16px] font-[400] leading-[29px] mt-[14px] text-darkGrey">
+<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[29px] mt-[14px] text-darkGrey">
     Please send <span class="text-tamkin font-[600]"> 1.938344 EHT </span>  to the address below. the Coins balance will appear in your Coins Balance account only after transaction get confirmation and approved by our team.  
 
 </p>
@@ -92,7 +92,7 @@ watch(copyCode, (newValue) => {
   <div>
     <img src="/assets/imgs/info.svg" alt="">
   </div>
-  <div class="font-[500] text-[15px] leading-[24px] text-darkGrey">You must send money through</div>
+  <div class="font-[500] text-[14px] leading-[24px] text-darkGrey">You must send money through</div>
 
  
 </div>
@@ -101,24 +101,25 @@ watch(copyCode, (newValue) => {
 
   <img src="/assets/imgs/crypto_methods_icons/qr.svg" alt="">
   <div class="w-full">
-    <h2 class="text-[16px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>
-    <div class="border custom-border-tamkin padding-override-1 w-full  h-[47px] rounded-[10px] flex items-center justify-between px-[10px]">
+    <h2 class="text-[14px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>
+    <div class="border custom-border-tamkin padding-override-1 w-full  h-[40px] rounded-[10px] flex items-center justify-between
+     px-[10px]">
 
       <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
-        <img src="/assets/imgs/crypto_methods_icons/3.svg" alt="">
+        <img src="/assets/imgs/crypto_methods_icons/3.svg" class="w-[25px] h-[25px]" alt="">
         <div class="text-[#878787]">
           0x2d5jdska9erptjfew7364432
         </div>
       
       </div>
-      <img class="ml-auto cursor-pointer " @click="copyCodeFn" src="/assets/imgs/crypto_methods_icons/copy_code.svg" alt="">
+      <img class="ml-auto cursor-pointer  h-[25px]" @click="copyCodeFn" src="/assets/imgs/crypto_methods_icons/copy_code.svg" alt="">
 
     </div>
   </div>
  
  </div>
  <div class="w-full ">
-  <p class="text-[16px] leading-[29px] font-[600] mt-[26px]">To speed up verification Process please enter your wallet address from where you’ll transferring your amount to our address.  </p>
+  <p class="text-[14px] leading-[29px] font-[600] mt-[26px]">To speed up verification Process please enter your wallet address from where you’ll transferring your amount to our address.  </p>
 </div>
 
 

@@ -21,9 +21,19 @@ export const useAddonStore = defineStore('addon', {
     manageProfileCards: [] as Card[], // Another draggable array
     initialManageProfileCards: [] as Card[], // Initial order for the other draggable array
     force_change_profileCards : false,
-    force_change_menuCards : false
+    force_change_menuCards : false,
+    routeLeaveModal:false
   }),
   actions: {
+    showSaveBeforeLeaveModal(){
+
+      this.routeLeaveModal = !this.routeLeaveModal
+    },
+
+    saveAndMove(){
+      this.routeLeaveModal = false
+      this.cancelAll()
+    },
     initializeCheckboxes(names: string[]) {
       this.checkboxes = names.map(name => ({ name, value: false }));
       this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes)); // Deep copy the initial state
@@ -75,13 +85,13 @@ export const useAddonStore = defineStore('addon', {
     },
     onDragStart(initialOrderKey: keyof typeof this) {
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[initialOrderKey])); // Store initial order
-      console.log('Initial order:', this[initialOrderKey]);
+      // console.log('Initial order:', this[initialOrderKey]);
     },
     onDragChange(customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
       const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
-      console.log('Current order:', currentOrder);
-      console.log('Order changed:', isOrderChanged);
+      // console.log('Current order:', currentOrder);
+      // console.log('Order changed:', isOrderChanged);
       if(customArrayKey === 'AdjustMainMenuCards'){
         this.force_change_menuCards = isOrderChanged;
 
@@ -96,7 +106,7 @@ export const useAddonStore = defineStore('addon', {
       const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
       console.log('Current order:', currentOrder);
       console.log('Order changed:', isOrderChanged);
-      this.forceChanges = isOrderChanged;
+      this.force_change = isOrderChanged;
     },
     arraysEqual(a: Card[], b: Card[]) {
       if (a.length !== b.length) return false;
@@ -106,7 +116,201 @@ export const useAddonStore = defineStore('addon', {
         }
       }
       return true;
-    }
+    },
+
+    cancelAll(){
+ this.force_change_profileCards=false
+ this.force_change_menuCards=false
+      // this.colorMode= 'solid',
+      this.initializeCardsMenu([
+        {
+         icon:'page_str.svg',
+         name:'Page Structure',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'page_str'
+        },
+        {
+         icon:'language sign.svg',
+         name:'Screen Reader',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'screen_reader'
+        },
+        {
+         icon:'hide_images.svg',
+         name:'Hide Images',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'hide_images'
+        },
+        {
+         icon:'contrast.svg',
+         name:'Smart Contrast',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'smart_contrast'
+        },
+        {
+         icon:'voice_navigation.svg',
+         name:'Voice Navigation',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'voice_navigation'
+        },
+        {
+         icon:'a-z.svg',
+         name:'Dictionary',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'dictionary'
+        },
+        {
+         icon:'clip.svg',
+         name:'Highlight Links',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'highlight_links'
+        },
+        {
+         icon:'line_height.svg',
+         name:'Line Height',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'line_height'
+        },
+        {
+         icon:'saturation.svg',
+         name:'Saturation',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'saturation'
+        },
+       
+        {
+         icon:'text.svg',
+         name:'Bigger Text',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'bigger_text'
+        },
+       
+        {
+         icon:'pause.svg',
+         name:'Pause Animation',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'pause_animation'
+        },
+       
+        
+        {
+         icon:'tooltip.svg',
+         name:'Tooltip',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'tool_tip'
+        },
+        {
+         icon:'cursor.svg',
+         name:'Cursor',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'cursor'
+        },
+        {
+         icon:'text_spacing.svg',
+         name:'Text Spacing',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'text_spacing'
+        },
+       
+        {
+         icon:'contrast_plus.svg',
+         name:'Contrast +',
+         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+         checkboxId:'contrast_plus'
+        },
+         ], 'AdjustMainMenuCards', 'initialCardsOrder');
+   
+
+         this.initializeCardsMenu([
+          {
+           icon:'monitor_im.svg',
+           name:'Motor impaired',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'motor_active'
+          },
+          {
+           icon:'color_blind.svg',
+           name:'Color blind',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'color_blind'
+          },
+          {
+           icon:'vis_impaired.svg',
+           name:'Visually-impaired',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'hide_images'
+          },
+          {
+           icon:'seizure.svg',
+           name:'Seizure & Epileptic',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'Seizure'
+          },
+          {
+           icon:'blind.svg',
+           name:'Blind',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'blind'
+          },
+          {
+           icon:'df.svg',
+           name:'Dyslexia',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'dyslexia'
+          },
+          {
+           icon:'congitive.svg',
+           name:'Congitive & Learning',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'congitive'
+          },
+          {
+           icon:'ADHD.svg',
+           name:'ADHD',
+           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+           checkboxId:'ADHD'
+          },
+         
+         
+           ], 'manageProfileCards', 'initialManageProfileCards');
+         
+          
+           this.initializeCheckboxes([
+            "language",
+        "enable_live_site",
+            "oversized_widget",
+            "move_access",
+            "3_column_layout_widget",
+            "accessibility_profiles",
+            "move_hide_accessibility",
+            "page_str",
+            "screen_reader",
+            "hide_images",
+            "smart_contrast",
+            "voice_navigation",
+            "dictionary",
+            "highlight_links",
+            "line_height",
+            "saturation",
+            "bigger_text",
+            "pause_animation",
+            "tool_tip",
+            "cursor",
+            "text_spacing",
+            "contrast_plus",
+            "dyslexia",
+            "ADHD",
+            "congitive",
+            "blind",
+            "Seizure",
+            "visuallyImpraired",
+            "color_blind",
+            "motor_active",
+            "enable_custom_trigger",
+            "show_lang_selector",
+          ]);
+
+    },
   }
 });
 

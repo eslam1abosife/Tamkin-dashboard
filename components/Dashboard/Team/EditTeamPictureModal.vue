@@ -56,14 +56,15 @@ onBeforeUnmount(() => {
       />
     </svg>
   </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
         Edit Team Picture
     </h1>
 
     <div 
     v-bind="getRootProps()"
     style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-" class="w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] mt-[40px] flex items-center justify-center flex-col space-y-[30px] ">
+" class="w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] mt-[40px] 
+flex items-center justify-center flex-col space-y-[30px] ">
 <input v-bind="getInputProps()" />
 
 <div v-if="acceptedFilesRef.length > 0" v-for="file in acceptedFilesRef" :key="file.name" class="upload-file-item">

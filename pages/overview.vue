@@ -10,7 +10,7 @@ const modalStore = useModalStore();
 const overviewStore = useOverviewStore()
 
 import "chartjs-adapter-date-fns"; // Import the date adapter
-
+const showExpired = ref(false)
 
 
 
@@ -27,7 +27,7 @@ definePageMeta({
 
 <template>
   <div class="relative ">
-    <div class=" ">
+    <div class="">
       <HeaderAccess 
       websiteImgName="tamkin_hand.svg"
       website-title="Tamkin.App"
@@ -38,38 +38,11 @@ definePageMeta({
 
    
 
-      <div class="mt-[52px] bg-white rounded-[10px] "       style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-      ">
-        <div
-          class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
-        >
-          <div
-          
-            class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
-          >
-            <div>
-              <img
-                src="/assets/imgs/overview/warning_overview.svg"
-                class="w-[43px] h-[36px]"
-                alt=""
-              />
-            </div>
-            <div
-            
-              class="font-[400] lg:px-[24px] text-[12px] lg:text-[15px] leading-[28px] text-darkGrey ml-auto"
-            >
-              Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
-              and unlock the full potential of digital accessibility and ADA compliance
-            </div>
-          </div>
-        </div>
-
-      
-      </div>
 
       <LazyOverviewWidgetEmbdedCode   v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewConnectWithUs   v-if="!overviewStore.showUpgradeState"/>
-      <LazyOverviewCurrentPlan :plan-type="'advanced'" :is-installed="false"/>
+      <LazyOverviewCurrentPlan :plan-type="'free'" :is-installed="false"  v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewCurrentPlan :plan-type="'pro'" :is-installed="true"  v-if="overviewStore.showUpgradeState"/>
       <LazyOverviewTamkinTokenBanner v-if="!overviewStore.showUpgradeState"/>
   
     <LazyOverviewExclusiveInvestorPackage v-if="!overviewStore.showUpgradeState"/>
@@ -143,25 +116,41 @@ definePageMeta({
            <div v-if="overviewStore.showUpgradeState"
         class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] 
         rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start mb-[32px]"
-        style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-      "
+     
       >
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" alt="" />
         </div>
         <div class="flex flex-col items-start justify-center w-full">
-          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey w-full">
-            Monthly Plan
+          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey">
+            <h1>Monthly Plan</h1>
           </div>
-          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px]">
-            <div class="text-[13px] leading-[24px] font-[400]">Package Expires in</div>
-            <div
-              class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500]"
-            >
-              Aug 20,2024
-            </div>
+          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]" @click="showExpired = !showExpired">
+            <transition name="fade" mode="out-in">
+              <template v-if="!showExpired">
+                <div class="flex items-center" key="not-expired">
+                  <div class="text-[13px] leading-[24px] font-[400] w-[130px]">Package Expires in</div>
+                  <div class="flex items-center justify-center custom-border-tamkin padding-override-1 
+                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]">
+                    Aug 20,2024
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <div class="flex items-center" key="expired">
+                  <div class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]">Expired</div>
+                  <div class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] 
+                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]">
+                    Aug 10,2024
+                  </div>
+                </div>
+              </template>
+            </transition>
           </div>
+
+     
         </div>
+        
 
         <div class="relative">
           <div
@@ -174,6 +163,8 @@ definePageMeta({
           </button>
         </div>
       </div>
+
+   
     </div>
   </div>
 </template>
@@ -207,5 +198,11 @@ definePageMeta({
   right: 0;
   border-top: 2px solid red;
   transform: rotate(-12deg);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>

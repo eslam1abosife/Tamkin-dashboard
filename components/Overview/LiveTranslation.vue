@@ -18,15 +18,15 @@ const progress = ref(30.78);
     ">
         <div class="flex items-center justify-start px-[15px]">
           <div class="w-3/4">
-            <h1 class="text-[20px] font-[500] leading-[30px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">
               <div class="flex items-center justify-start pt-[24px]">
                 <div>
-                  <h1 class="text-[20px] font-[500] leading-[30px]">
+                  <h1 class="text-[18px] font-[500] leading-[30px]">
                     Live Translation Overview
                   </h1>
 
                   <p
-                    class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+                    class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
                   >
                     Live Translation Overview offers insights into real-time translation
                     technologies, enabling instant communication between speakers of
@@ -47,7 +47,7 @@ const progress = ref(30.78);
               View All
             </button>
             <div
-              @click="collapseStore.collapseMenu('livetranslation_overview')"
+              @click.stop="collapseStore.collapseMenu('livetranslation_overview')"
               v-on-click-outside="() => collapseStore.removeMenu('livetranslation_overview')"
 
               :class="[
@@ -147,7 +147,7 @@ const progress = ref(30.78);
                <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
                 <div class="flex items-center mt-[32px] w-full">
                     <div class="w-1/4 text-[#3D3D3D] text-[14px] leading-[24px] font-[400]  mr-auto">Average Daily</div>
-                    <span class="text-[#A6A6A6] text-sm mr-[60px] ">40</span>
+                    <span class="text-[#A6A6A6] text-sm ml-auto ">40</span>
                   
                   </div>
                   <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -162,7 +162,7 @@ const progress = ref(30.78);
                <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
                 <div class="flex items-center mt-[32px] w-full">
                     <div class="w-1/4 text-[#3D3D3D] text-[14px] leading-[24px] font-[400]  mr-auto">Average Daily</div>
-                    <span class="text-[#A6A6A6] text-sm mr-[60px] ">280</span>
+                    <span class="text-[#A6A6A6] text-sm ml-auto ">280</span>
                   
                   </div>
                   <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
@@ -176,7 +176,7 @@ const progress = ref(30.78);
                <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
                 <div class="flex items-center mt-[32px] w-full">
                     <div class="w-1/4 text-[#3D3D3D] text-[14px] leading-[24px] font-[400]  mr-auto">Average Monthly</div>
-                    <span class="text-[#A6A6A6] text-sm mr-[60px] ">280</span>
+                    <span class="text-[#A6A6A6] text-sm ml-auto ">280</span>
                   
                   </div>
                   <div class="w-full flex items-center rtl:space-x-reverse space-x-2">

@@ -60,21 +60,21 @@ const clearInput = () => {
 <template>
     <div class="mt-[23px]">
         <div class="space-y-[10px]">
-            <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">My Site</h1>
+            <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600]">My Site</h1>
 
-            <h2 class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey">
+            <h2 class="ltr:text-left rtl:text-right text-[14px] font-[400]  text-darkGrey">
                 Add New Site for TAMKIN to enjoy the features
             </h2>
         </div>
 
         <div class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px]">
             <div>
-                <button class="btn-dashboard-normal normal_hover text-[16px] leading-[24px] font-[500]" @click="$router.push(localePath('/add-site'))">
+                <button class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]" @click="$router.push(localePath('/add-site'))">
                     Add New Site
                 </button>
             </div>
             <div>
-                <button class="btn_bordered_dashboard normal_hover bg-white text-[16px] leading-[24px] font-[500]">
+                <button class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500]">
                     Upgrade Plans
                 </button>
             </div>
@@ -88,23 +88,23 @@ const clearInput = () => {
                 style="box-shadow: 0px 4px 24px 8px #51459f1a">
                 <div class="w-full space-y-[16px]">
                     <div>
-                        <h1 class="font-[500] text-[18px] leading-[27px] text-darkGrey">
+                        <h1 class="font-[500] text-[16px] leading-[20px] text-darkGrey">
                             Select your default site
                         </h1>
                     </div>
 
                     <div class="flex flex-col lg:flex-row items-center justify-between">
                         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-                            <img src="/assets/imgs/icons/mysite_select.svg" alt="" />
+                            <img src="/assets/imgs/icons/mysite_select.svg" alt="" class="w-[40px] h-[40px]"/>
                             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                                 <div>
-                                    <h2 class="font-[600] text-[16px] leading-[24px] text-darkGrey underline">
+                                    <h2 class="font-[500] text-[14px] leading-[14px] text-darkGrey underline">
                                         Tamkin.App
                                     </h2>
                                 </div>
                                 <div>
-                                    <a href="" class="text-tamkin font-[600] text-[16px] leading-[24px] flex ]">Visit
+                                    <a href="" class="text-tamkin font-[500] text-[14px] leading-[24px] flex ">Visit
                                         Site
                                         <img src="/assets/imgs/icons/external_link.svg" class="ltr:ml-[14px] rtl:mr-[14px]" alt="" /></a>
                                 </div>
@@ -112,7 +112,7 @@ const clearInput = () => {
                         </div>
                         <div>
                             <button @click="modalStore.controlSelectSiteModal"
-                                class="btn_bordered_dashboard text-[15px] leading-[22.5px] font-[600]">
+                                class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]">
                                 Select Site
                             </button>
                         </div>
@@ -610,30 +610,30 @@ const clearInput = () => {
             <div class="py-[4px]" v-if="!dataAvailable"></div>
             <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
                 <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Per Page</span>
+                    <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
                     <button style="
               background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            " class="px-3 py-1 rounded-md text-white focus:outline-none">
+            " class="px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]">
                         10
                     </button>
                     <button
-                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey 
+                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  !text-[13px]
                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         20
                     </button>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-darkGrey text-[14px] leading-[21px] font-[400]">Page</span>
-                    <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
+                    <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
+                    <button class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey">
                         <img src="/assets/imgs/arrow-left.svg" alt="" />
                     </button>
                     <button
-                        class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none">
+                        class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none flex items-center justify-center">
                         1
                     </button>
                     <button style="
               background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            " class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none">
+            " class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none !text-[13px] w-[28px] h-[28px] flex items-center justify-center">
                         2
                     </button>
                     <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">

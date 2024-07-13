@@ -62,7 +62,6 @@ this.SuccessStep2Transfer =!this.SuccessStep2Transfer
     },
     controlEditPermissionsModal() {
       this.editPermissionsModal = !this.editPermissionsModal
-
     },
     controlEditUserModal() {
       this.editUserModal = !this.editUserModal
@@ -75,6 +74,11 @@ this.SuccessStep2Transfer =!this.SuccessStep2Transfer
     controlInviteMemberUpdateModal() {
       this.InviteMemberUpdateModal = !this.InviteMemberUpdateModal
       this.inviteMemberModal = false
+    
+      if(!this.InviteMemberUpdateModal){
+        this.editPermissionsModal = true
+      }
+
 
     },
     controlSelectSiteModal() {

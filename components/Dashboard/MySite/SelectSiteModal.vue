@@ -57,11 +57,11 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
     Select Site
 </h1>
 
-<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
+<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] text-[14px] leading-[24px]">
     Select your default site</p>
 
 <div class="w-full ">
@@ -90,8 +90,8 @@ const clearInput = () => {
 <table class="min-w-full divide-y divide-gray-200  ">
   <thead>
     <tr>
-      <th class="py-3  text-left leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3  text-right leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
+      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
+      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
 
     </tr>
   </thead>
@@ -99,7 +99,7 @@ const clearInput = () => {
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
-        <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
+        <span class="text-[13px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>

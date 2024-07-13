@@ -10,11 +10,12 @@
 
 
 .input_floating_label {
-    @apply  lg:text-[16px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] lg:h-[50px] rounded-[10px] py-[14px] bg-white
+    @apply  lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[45px] rounded-[10px] 
+    py-[6px] bg-white
      border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
       focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
    &.error_text {
-    // @apply text-light;
+    // @apply text-light; 
    }
   }
 
@@ -32,9 +33,9 @@
   }
   .floating_label {
     @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
-    top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
-    2xl:peer-focus:text-[16px];
+    top-[7px] lg:top-[10px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+    text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
+    2xl:peer-focus:text-[12px];
     transition: all 0.2s ease-in-out;
     line-height: 24px;
   }
@@ -71,7 +72,8 @@
     @apply relative;
     .input_dashboard_search {
       @apply placeholder:text-[#BCC0BF]  rtl:placeholder:text-right rtl:text-right
-       text-[12px] font-[500] lg:text-[14px] pl-[30px] rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey  border-[1px] focus:border-tamkin focus:ring-0;
+       text-[14px] font-[500]  pl-[30px] rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px]
+        lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey  border-[1px] focus:border-tamkin focus:ring-0;
       line-height: 19.5px;
       
     }

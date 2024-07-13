@@ -49,7 +49,7 @@ const props = defineProps({
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
     Invite Member
 </h1>
 

@@ -71,9 +71,9 @@ const copyCode = () => {
 
 <template>
   <div class="flex flex-col items-center justify-center w-full mt-[40px] relative mb-[80px]">
-    <div         style="box-shadow: 0px 4px 4px 0px #00000014"
+    <div         
 
-    class="bg-white rounded-[10px] w-full px-[15px] relative" :class="[collapseStore.collapses.includes('custom_trigger_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class="bg-white rounded-[10px] w-full px-[15px] relative shadow-md  -shadow-y-[1px]" :class="[collapseStore.collapses.includes('custom_trigger_card') ? 'pb-[24px]' :'pb-[10px]']">
  
        
       <div class="flex items-center justify-start  pt-[16px] relative">
@@ -81,10 +81,10 @@ const copyCode = () => {
         
     <div class="flex flex-col items-start justify-center relative">
         <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Custom Trigger</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px]">Custom Trigger</h1>
   
             <p
-              class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
             >
               Custom Trigger enables users to define specific conditions or events
               that automatically initiate tailored actions
@@ -93,7 +93,7 @@ const copyCode = () => {
   
           <div class="py-[24px] border-t-[2px] border-b-[2px] border-lightGrey mt-[32px]" v-if="!collapseStore.collapses.includes('custom_trigger_card')">
             <p
-              class="text-[15px] leading-[22px] font-[400] text-darkGrey pt-[6px]"
+              class="text-[13px] leading-[22px] font-[400] text-darkGrey pt-[6px]"
             >
               A custom trigger replaces the original menu button and allows you to
               fix the position of the accessibility menu trigger to any element on
@@ -112,7 +112,7 @@ const copyCode = () => {
       :class="[
         collapseStore.menus.includes('custom_trigger')  ? 'active_notification !text-darkGrey' : '',
       ]"
-      class="absolute top-0 rtl:left-[15px] ltr:right-[0px] rtl:mr-auto    ltr:ml-auto  ltr:mr-[15px] mt-[31px] 
+      class="absolute top-0 rtl:left-[15px] ltr:right-[0px] rtl:mr-auto    ltr:ml-auto  ltr:mr-[15px] mt-[25px] 
       flex items-center justify-center cursor-pointer 
       bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
     >
@@ -136,8 +136,24 @@ const copyCode = () => {
   
       <div
         v-if=" collapseStore.menus.includes('custom_trigger')"
-        class="mini_SizeMenu"
+        class="mini_SizeMenu divide-y"
       >
+      <div
+      class="mini_wrap"
+    >
+      <div>
+        <img
+          src="/assets/imgs/addons/annual_convert.svg"
+          alt=""
+          :class="[
+            collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+          ]"
+        />
+      </div>
+      <div class="text_mini">
+        Switch To Annual
+      </div>
+    </div>
         <div
           class="mini_wrap"
           @click=" collapseStore.collapseCard('custom_trigger_card')"
@@ -168,12 +184,12 @@ const copyCode = () => {
         v-if="!collapseStore.collapses.includes('custom_trigger_card') "
       >
       
-      <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full px-[15px] mt-[16px] border-b-[2px] border-lightGrey">
+      <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full px-[15px] mt-[16px] border-b-[2px] border-lightGrey">
      
         <div class="flex items-center justify-start space-x-[13px] w-full">
         
           <div class="flex flex-col items-start justify-center w-full">
-            <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+            <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
               <span>Enable custom trigger</span>
             </div>
          

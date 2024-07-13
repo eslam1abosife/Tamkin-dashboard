@@ -49,7 +49,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
     Choose Payment Methods
     </h1>
     </div>
@@ -58,11 +58,11 @@ if(selectedPaymentMethod.value === 'by_crypto'){
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
+        class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey mt-[31px]"
       >
       Payment Methods
       </h1>
-<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the payment method you want to complete this payment</p>
+<p class=" ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey">Choose the payment method you want to complete this payment</p>
     
 
    <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
@@ -73,8 +73,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE] 
         flex items-center justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/cc.svg" alt=""></div>
-                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Card</div>
+                <div><img src="/assets/imgs/payment_methods/cc.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Card</div>
             </div>
             <div class="order-1 mx-[4px]">
                 <input
@@ -104,8 +104,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between
          rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/crypto.svg" alt=""></div>
-                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
+                <div><img src="/assets/imgs/payment_methods/crypto.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
             </div>
             <div class="order-1 mx-[4px]">
                 <input
@@ -134,8 +134,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center 
         justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/paypal.svg" alt=""></div>
-                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
+                <div><img src="/assets/imgs/payment_methods/paypal.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
             </div>
             <div class="order-1 mx-[4px]">
                 <input

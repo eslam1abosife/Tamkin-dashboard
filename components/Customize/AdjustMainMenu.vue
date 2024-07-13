@@ -124,12 +124,12 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
     class="flex flex-col items-center justify-center   w-full relative" >
     <!-- <MessagesLockedFeature/> -->
   <div 
-  style="box-shadow: 0px 4px 4px 0px #00000014"
+  
 
-  class=" bg-white rounded-[10px] w-full px-[15px] " :class="[collapseStore.collapses.includes('adjust_main_menu_customize_card') ? 'pb-[24px]' :'pb-[10px]']" >
+  class=" bg-white rounded-[10px] w-full px-[15px] shadow-md  -shadow-y-[1px]" :class="[collapseStore.collapses.includes('adjust_main_menu_customize_card') ? 'pb-[24px]' :'pb-[10px]']" >
         <div class="flex items-center justify-start  pt-[21px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">
               Adjust the Main Menu
             </h1>
           </div>
@@ -164,8 +164,24 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
 
             <div
               v-if="collapseStore.menus.includes('adjust_main_menu_customize')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('adjust_main_menu_customize_card')"
@@ -210,7 +226,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
@@ -229,7 +245,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div

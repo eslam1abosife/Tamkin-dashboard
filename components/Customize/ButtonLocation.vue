@@ -11,32 +11,31 @@ const collapseStore = useCollapseStore();
 
 
     <div
-    class="mt-[34px] bg-white rounded-[10px] px-[15px] mb-[40px]"
-    style="box-shadow: 0px 4px 4px 0px #00000014"
+    class="mt-[34px] bg-white rounded-[10px] px-[15px] mb-[40px] shadow-md  -shadow-y-[1px]"
+    
     :class="[collapseStore.collapses.includes('button_location_card') ? 'pb-[24px]' :'pb-[20px]']"
   >
     <div
-      class="flex items-center justify-start pt-[16px]"
+      class="flex items-center justify-start"
       
     >
-      <div>
-        <h1 class="text-[20px] font-[500] leading-[30px]">Button Location</h1>
+      <div class=" mt-[24px]">
+        <h1 class="text-[18px] font-[500] leading-[30px]">Button Location</h1>
 
-        <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+        <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
           Select the location where you want the button to appear
         </p>
       </div>
 
       <div
-        @click="collapseStore.collapseMenu('button_location')"
+        @click.stop="collapseStore.collapseMenu('button_location')"
         v-on-click-outside="() => collapseStore.removeMenu('button_location')"
         :class="[
           collapseStore.menus.includes('button_location')
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
-        class="relative rtl:mr-auto ltr:ml-auto  mt-[-24px] flex items-center justify-center 
-        cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+        class="menu_button_control"
       >
         <svg
           width="18"
@@ -58,8 +57,24 @@ const collapseStore = useCollapseStore();
 
         <div
           v-if="collapseStore.menus.includes('button_location')"
-          class="mini_SizeMenu"
+          class="mini_SizeMenu divide-y"
         >
+        <div
+        class="mini_wrap"
+      >
+        <div>
+          <img
+            src="/assets/imgs/addons/annual_convert.svg"
+            alt=""
+            :class="[
+              collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+            ]"
+          />
+        </div>
+        <div class="text_mini">
+          Switch To Annual
+        </div>
+      </div>
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('button_location_card')"

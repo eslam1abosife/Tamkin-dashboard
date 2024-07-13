@@ -52,11 +52,11 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto" v-if="!SuccessStep2Transfer">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
     Transfer License to another site
 </h1>
 
-<p class="mt-[16px] text-left font-[400] text-[#A7A7A7] text-[12px] leading-[24px]">
+<p class="mt-[4px] text-left font-[400] text-[#A7A7A7] text-[14px] leading-[24px]">
     This action will move all widgets and features to the new site.</p>
 
 

@@ -4,11 +4,12 @@ import { storeToRefs } from "pinia";
 import { useWindowSize } from "@vueuse/core";
 import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
+import { useStatsStore } from "@/stores/stats.js";
 import upTamkin from "/assets/imgs/up_tamkin.svg";
 import { Line } from "vue-chartjs";
 const langStore = useLangSwitch();
 const collapseStore = useCollapseStore();
-
+const statsStore = useStatsStore()
 const navStore = useNavbarStore();
 const { sideBarOpen } = storeToRefs(navStore);
 const chart12 = ref("");
@@ -70,11 +71,11 @@ definePageMeta({
 
 const { width, height } = useWindowSize();
 
-watch(width, (newWidth) => {
-  console.log(newWidth);
-  chart12.value.chart.resize(100, 100);
-  chart2.value.chart.resize(100, 100);
-});
+// watch(width, (newWidth) => {
+//   console.log(newWidth);
+//   chart12.value.chart.resize(320, 320);
+//   chart2.value.chart.resize(320, 320);
+// });
 const dateF = ref();
 
 const dateOpen = ref(false);
@@ -93,12 +94,32 @@ const localePath = useLocalePath();
 const selectDate = () => {
   dp.value.selectDate();
 };
+const handleDate = ()=>{
+  selectedInterval.value = '';
 
-watch(sideBarOpen, async (newVal) => {
-  await nextTick();
-  chart12.value.chart.resize(100, 100);
-  chart2.value.chart.resize(100, 100);
+}
+const resizeCharts = () => {
+  const containerWidth = document.querySelector('.container_chart')?.offsetWidth || width.value;
+  const newChartWidth = navStore.sideBarOpen ? '50%' : '100%'; // Use 50% if sidebar is open, 100% if closed
+
+  if (chart12.value && chart2.value) {
+    chart12.value.chart.resize(containerWidth, 200); // Set width to containerWidth
+    chart2.value.chart.resize(containerWidth, 200); // Set width to containerWidth
+  }
+};
+
+
+// Watch for changes in the window width and sidebar state
+watch(sideBarOpen, () => {
+  resizeCharts();
 });
+
+watch(() => navStore.sideBarOpen, () => {
+  resizeCharts();
+});
+
+
+
 const search = ref("");
 watch(search, (ov, nv) => {
   return search.value.length > 0
@@ -136,7 +157,7 @@ const chartData = ref({
 });
 
 const options = ref({
-  responsive: true,
+  responsive: false,
   maintainAspectRatio: true,
   plugins: {
     legend: {
@@ -189,8 +210,12 @@ const selectedInterval = ref("");
 const selectOption = (option) => {
   selectedInterval.value = option;
   isOpen.value = false;
+  dateF.value = ""
+
 };
-const route = useRoute();
+
+
+
 
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
@@ -205,10 +230,55 @@ const format = (date) => {
     return `Selected date is ${formatDate(date)}`;
   }
 };
+const myStyles = computed(()=>{
+  return {
+        height: `200px`,
+        width:"100%",
+        position: 'relative'
+      }
+})
+
+const route = useRoute();
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
+let pendingNavigation = null;
+
+const detectUnsavedChanges = () => {
+  return isLinkActive("/statistics") && statsStore.google_enabled
+    
+};
+
+const handleSaveAndMove = () => {
+  statsStore.saveAndMove();
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+
+const handleCancelLeave = () => {
+  statsStore.routeLeaveModal = false; // Close the modal
+};
+
+onBeforeRouteLeave((to, from, next) => {
+  if (detectUnsavedChanges()) {
+    statsStore.showSaveBeforeLeaveModal();
+    pendingNavigation = { next, to };
+  } else {
+    next(); // No unsaved changes, proceed normally
+  }
+});
 </script>
 
 <template>
   <div class="relative h-full w-full">
+    <LazyModalsConfirm :showModal="statsStore.routeLeaveModal" title="Save  your changes"
+    sub-title="Do you want to save the changes before moving on?"
+    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
+    :savetoAllSitesBtn="true"
+    @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
       <HeaderAccess
         websiteImgName="tamkin_hand.svg"
@@ -220,27 +290,29 @@ const format = (date) => {
       />
 
       <div
-        class="mt-[50px] bg-white rounded-[10px]"
-        style="box-shadow: 0px 4px 4px 0px #00000014"
+        class="mt-[64px] bg-white rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px]"
+
       >
         <div
-          class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
+          class="flex items-center justify-start  "
         >
-          <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Select Date Range</h1>
-            <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
+          <div class="pt-[24px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">Select Date Range</h1>
+            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
               Select Date Range specifies start and end dates to analyze or display data.
             </p>
           </div>
 
           <div
-            @click.stop="collapseStore.collapseMenu('select_date_range')"
+                   @click.stop="collapseStore.collapseMenu('select_date_range')"
+                   v-on-click-outside="() => collapseStore.removeMenu('select_date_range')"
+
             :class="[
               collapseStore.menus.includes('select_date_range')
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px] rtl:ml-[15px] rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto  rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -262,9 +334,24 @@ const format = (date) => {
 
             <div
               v-if="collapseStore.menus.includes('select_date_range')"
-              v-on-click-outside="() => collapseStore.collapseMenu('select_date_range')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('select_date_range_card')"
@@ -302,13 +389,13 @@ const format = (date) => {
           </div>
         </div>
 
-        <div
-          class="flex flex-col items-start justify-center px-[15px] mt-[18px] pb-[16px] overflow-hidden"
-          v-if="!collapseStore.collapses.includes('select_date_range_card')"
+        <div  v-if="!collapseStore.collapses.includes('select_date_range_card')"
+          class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] w-full"
+         
         >
           <div class="flex items-center justify-between w-full">
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] w-full"
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  w-full"
             >
               <div class="w-1/4">
                 <VueDatePicker
@@ -329,6 +416,7 @@ const format = (date) => {
                   :auto-position="false"
                   range
                   :max-date="new Date()"
+                  @update:model-value="handleDate" 
                 >
                   <template #action-row="{ closePicker, selectDate }">
                     <div
@@ -395,7 +483,7 @@ const format = (date) => {
                   <button
                     @click="toggleDropdown"
                     type="button"
-                    class="tamkin_date_input flex items-center justify-evenly text-darkGrey"
+                    class="tamkin_date_input flex items-center justify-evenly text-darkGrey w-full"
                     id="options-menu"
                     :class="[isOpen ? 'bg_interval_open' : '']"
                     aria-haspopup="true"
@@ -406,6 +494,8 @@ const format = (date) => {
                     <svg
                       class="rtl:mr-auto rtl:ml-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
                       :class="[isOpen ? 'rotate-90 !text-white ' : 'rotate-0']"
+                      @click.stop="toggleDropdown"
+
                       width="11"
                       height="16"
                       viewBox="0 0 11 16"
@@ -424,15 +514,16 @@ const format = (date) => {
 
                 <div
                   v-if="isOpen"
-                  v-on-click-outside="toggleDropdown"
-                  class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-56 z-[100] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  v-on-click-outside="() => toggleDropdown"
+
+                  class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-full z-[100] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="options-menu"
                 >
                   <div class="py-1" role="none">
                     <a
-                      href="#"
+                    
                       :class="[
                         selectedInterval === '7 Days'
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
@@ -444,7 +535,7 @@ const format = (date) => {
                       >7 Days</a
                     >
                     <a
-                      href="#"
+                    
                       :class="[
                         selectedInterval === '14 Days'
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
@@ -456,7 +547,7 @@ const format = (date) => {
                       >14 Days</a
                     >
                     <a
-                      href="#"
+                    
                       :class="[
                         selectedInterval === '1 Month'
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
@@ -468,7 +559,7 @@ const format = (date) => {
                       >1 Month</a
                     >
                     <a
-                      href="#"
+                    
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
                       role="menuitem"
                       :class="[
@@ -480,7 +571,7 @@ const format = (date) => {
                       >2 Months</a
                     >
                     <a
-                      href="#"
+                    
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
                       role="menuitem"
                       :class="[
@@ -495,118 +586,76 @@ const format = (date) => {
                 </div>
               </div>
             </div>
-            <div class="2xl:w-[160px] lg:w-[170px]">
+            <div class="mr-[-15px] px-[15px] ">
               <button
-                class="btn-dashboard hover_tamkin flex items-center h-[19px] w-full !rounded-[13px] !text-[14px] !leading-[24px] justify-center"
+                class="btn-dashboard hover_tamkin flex items-center h-[19px]  !rounded-[13px] 
+                !text-[13px] !leading-[10px] justify-center w-[130px]"
               >
                 <div>Download CSV</div>
               </button>
             </div>
           </div>
 
-          <div
-            class="flex items-center justify-start w-full lg:rtl:space-x-reverse space-x-[31px] lg:flex-row flex-col overflow-x-hidden"
-          >
-            <div
-              class="mt-[30px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px]"
-              style="box-shadow: 0px 0px 3.9px 0px #00000040"
-            >
-              <div class="custom-legend">
-                <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
-                  <h3>Widget Loads</h3>
-                  <p class="font-[400]">5 Times during 7 days</p>
-                </div>
-                <div class="text-[20px] leading-[27px] font-[600]">
-                  <div
-                    class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-                    :class="{
-                      positive: percentageChange >= 0,
-                      negative: percentageChange < 0,
-                    }"
-                  >
-                    <img
-                      :src="upTamkin"
-                      :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"
-                      alt=""
-                      class="w-[19px] h-[19px]"
-                    />
-                    <div>{{ percentageChange }}%</div>
-                  </div>
+         
+        </div>
+        <div class="flex items-center justify-start space-x-[48px]   "  v-if="!collapseStore.collapses.includes('select_date_range_card')">
+          <div  class="container_chart mt-[30px] h-[255px]  w-full  p-[8px] relative custom-border-tamkin 
+          padding-override-1 rounded-[8px] shadow-sm">
+            <div class="custom-legend" >
+              <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
+                <h3>Widget Loads</h3>
+                <p class="font-[400]">5 Times during 7 days</p>
+              </div>
+              <div class="text-[20px] leading-[27px] font-[600]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
+                  <img :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']" alt="" class="w-[19px] h-[19px]" />
+                  <div>+{{ percentageChange }}%</div>
                 </div>
               </div>
-              <Line
-                ref="chart12"
-                :data="chartData"
-                :options="options"
-                class="w-full h-[200px]"
-              />
             </div>
-
-            <div
-              class="mt-[30px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px]"
-              style="box-shadow: 0px 0px 3.9px 0px #00000040"
-            >
-              <div class="custom-legend">
-                <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
-                  <h3>Widget Opens</h3>
-                  <p class="font-[400]">5 Times during 7 days</p>
-                </div>
-                <div class="text-[20px] leading-[27px] font-[600]">
-                  <div
-                    class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-                    :class="{
-                      positive: percentageChange >= 0,
-                      negative: percentageChange < 0,
-                    }"
-                  >
-                    <img
-                      :src="upTamkin"
-                      :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"
-                      alt=""
-                      class="w-[19px] h-[19px]"
-                    />
-                    <div>{{ percentageChange }}%</div>
-                  </div>
+            <Line ref="chart12" :data="chartData" :options="options" :style="myStyles" :class="[navStore.sideBarOpen ? '':'mx-auto']"  />
+          </div>
+      
+          <div   class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm">
+            <div class="custom-legend">
+              <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
+                <h3>Widget Opens</h3>
+                <p class="font-[400]">5 Times during 7 days</p>
+              </div>
+              <div class="text-[20px] leading-[27px] font-[600]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
+                  <img :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-180' : 'rotate-90']" alt="" class="w-[19px] h-[19px]" />
+                  <div>-{{ percentageChange }}%</div>
                 </div>
               </div>
-              <Line
-                ref="chart2"
-                :data="chartData"
-                :options="options"
-                class="w-full h-[200px]"
-              />
             </div>
+            <Line ref="chart2" :data="chartData" :options="options" :style="myStyles" :class="[navStore.sideBarOpen ? '':'mx-auto']" />
           </div>
         </div>
-
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+   
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px]"
-        style="box-shadow: 0px 4px 4px 0px #00000014"
+        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]"
+        
       >
-        <div class="flex items-center justify-start pt-[24px]">
-          <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Usage stats by function</h1>
-            <p class="font-[400] text-[15px] leading-[22.95px] text-darkGrey mt-[10px]">
+        <div class="flex items-center justify-start ">
+          <div class="pt-[24px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">Usage stats by function</h1>
+            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
               Usage stats by function show how each feature is used in a system or app.
             </p>
           </div>
           <div
-            @click="collapseStore.collapseMenu('usage_stats')"
+            @click.stop="collapseStore.collapseMenu('usage_stats')"
+            v-on-click-outside="() => collapseStore.removeMenu('usage_stats')"
+
             :class="[
               collapseStore.menus.includes('usage_stats')
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control divide-y"
           >
             <svg
               width="18"
@@ -628,10 +677,25 @@ const format = (date) => {
 
             <div
               v-if="collapseStore.menus.includes('usage_stats')"
-              v-on-click-outside="() => collapseStore.collapseMenu('usage_stats')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu "
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('usage_stats_card')"
@@ -705,12 +769,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Screen Reader</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Screen Reader</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -756,12 +820,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Page Structure</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Page Structure</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -807,12 +871,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Hide Images</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Hide Images</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -858,12 +922,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Smart Contrast</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Smart Contrast</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -909,14 +973,14 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">
+                      <p class="text-[13px] leading-[19px] font-[400]">
                         Voice Navigation
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -962,12 +1026,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Dictionary</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Dictionary</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1013,12 +1077,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Highlight Links</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Highlight Links</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1064,12 +1128,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Line Height</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Line Height</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1115,12 +1179,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Saturation</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Saturation</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1166,12 +1230,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Bigger Text</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Bigger Text</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1217,12 +1281,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Pause Animation</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Pause Animation</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1268,12 +1332,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Tooltip</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Tooltip</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1319,12 +1383,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Cursor</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Cursor</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1370,12 +1434,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Text Spacing</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Text Spacing</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1421,12 +1485,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Contrast +</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Contrast +</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1464,26 +1528,28 @@ const format = (date) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] mb-[30px]"
-        style="box-shadow: 0px 4px 4px 0px #00000014"
+        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] mb-[30px] shadow-md -shadow-y-[1px]"
+        
       >
-        <div class="flex items-center justify-start pt-[24px]">
-          <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Usage stats by Profile</h1>
+        <div class="flex items-center justify-start ">
+          <div class="pt-[24px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">Usage stats by Profile</h1>
 
-            <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
               Usage stats by profile show how each feature is used in a system or app.
             </p>
           </div>
 
           <div
             @click="collapseStore.collapseMenu('usage_stats_profile')"
+            v-on-click-outside="() => collapseStore.removeMenu('usage_stats_profile')"
+
             :class="[
               collapseStore.menus.includes('usage_stats_profile')
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ml-auto mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -1505,10 +1571,25 @@ const format = (date) => {
 
             <div
               v-if="collapseStore.menus.includes('usage_stats_profile')"
-              v-on-click-outside="() => collapseStore.collapseMenu('usage_stats_profile')"
               style="box-shadow: 0px 2px 6px 0px #00000040"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('usage_stats_profile_card')"
@@ -1583,12 +1664,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Motor impaired</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Motor impaired</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1634,12 +1715,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Color blind</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Color blind</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1685,14 +1766,14 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">
+                      <p class="text-[13px] leading-[19px] font-[400]">
                         Visually-impaired
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1738,14 +1819,14 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">
+                      <p class="text-[13px] leading-[19px] font-[400]">
                         Seizure & Epileptic
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1791,12 +1872,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Blind</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Blind</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1842,12 +1923,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Dyslexia</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Dyslexia</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1893,14 +1974,14 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">
+                      <p class="text-[13px] leading-[19px] font-[400]">
                         Congitive & Learning
                       </p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1946,12 +2027,12 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">ADHD</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">ADHD</p>
                     </div>
                   </div>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[14px] leading-[19px] font-[400]">13</p>
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
                 </td>
                 <td class="border-b border-gray-200 text-sm">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
@@ -1988,8 +2069,8 @@ const format = (date) => {
         </div>
       </div>
       <div
-        style="box-shadow: 0px 4px 4px 0px #00000014"
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[13px] bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey rounded-[10px]"
+        
+        class="shadow-md -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey rounded-[10px]"
       >
         <div class="flex items-center justify-start flex-1">
           <div>
@@ -2015,12 +2096,12 @@ const format = (date) => {
               type="checkbox"
               id="toggle_google_a"
               class="sr-only"
-              v-model="isADHDChecked"
+              v-model="statsStore.google_enabled"
             />
-            <div class="toggle_parent" :class="[isADHDChecked ? 'active' : 'in_active']">
-              <div class="toggle_inner" :class="{ active: isADHDChecked }">
+            <div class="toggle_parent" :class="[statsStore.google_enabled ? 'active' : 'in_active']">
+              <div class="toggle_inner" :class="{ active: statsStore.google_enabled }">
                 <img
-                  v-if="isADHDChecked"
+                  v-if="statsStore.google_enabled"
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
                   alt=""
@@ -2038,24 +2119,24 @@ const format = (date) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px]"
-        style="box-shadow: 0px 4px 4px 0px #00000014"
+        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] px-[15px]"
+        
       >
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px]">
-          <div>
+        <div class="flex items-center justify-start  ">
+          <div >
             <h1
-              class="text-[20px] font-[500] leading-[30px]"
+              class="text-[18px] font-[500] leading-[30px]"
               :class="[
                 !collapseStore.collapses.includes('live_translation_stats_card')
-                  ? 'mt-[-35px]'
-                  : 'mt-[35px]',
+                  ? 'mt-[-24px]'
+                  : 'mt-[24px]',
               ]"
             >
               Live Translation
             </h1>
 
             <p
-              class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[15px] w-3/4"
+              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] "
             >
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
@@ -2063,18 +2144,20 @@ const format = (date) => {
           </div>
 
           <div
-            class="flex flex-col items-center justify-center pt-[24px] space-y-[24px] relative"
+            class="flex flex-col items-center justify-center pt-[24px] space-y-[24px] relative w-full"
           >
             <div
-              @click="collapseStore.collapseMenu('live_translation_stats')"
+              @click.stop="collapseStore.collapseMenu('live_translation_stats')"
+              v-on-click-outside="() => collapseStore.removeMenu('live_translation_stats')"
+
               :class="[
                 collapseStore.menus.includes('live_translation_stats')
                   ? 'active_notification !text-darkGrey'
                   : '',
 
                 collapseStore.collapses.includes('live_translation_stats_card')
-                  ? 'top-[-32px] rtl:left-[-121px] ltr:right-[-121px]'
-                  : 'top-[16px] rtl:left-[15px] ltr:right-[15px]',
+                  ? 'top-[-20px] right-[0]'
+                  : 'top-[16px] right-[0]',
               ]"
               class="absolute flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
             >
@@ -2098,12 +2181,26 @@ const format = (date) => {
 
               <div
                 v-if="collapseStore.menus.includes('live_translation_stats')"
-                v-on-click-outside="
-                  () => collapseStore.collapseMenu('live_translation_stats')
-                "
+           
                 style="box-shadow: 0px 2px 6px 0px #00000040"
-                class="mini_SizeMenu"
+                class="mini_SizeMenu divide-y"
               >
+              <div
+              class="mini_wrap"
+            >
+              <div>
+                <img
+                  src="/assets/imgs/addons/annual_convert.svg"
+                  alt=""
+                  :class="[
+                    collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                  ]"
+                />
+              </div>
+              <div class="text_mini">
+                Switch To Annual
+              </div>
+            </div>
                 <div
                   class="mini_wrap"
                   @click="collapseStore.collapseCard('live_translation_stats_card')"
@@ -2141,7 +2238,8 @@ const format = (date) => {
             </div>
             <div
               v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
-              class="flex items-center justify-start rtl:ml-[18px] ltr:mr-[18px] h-[105px] rounded-[10px] w-[369px] custom-border !mt-[36px]"
+              class="flex items-center justify-start ml-auto mr-[15px] h-[105px] rounded-[10px] w-[369px] 
+              custom-border !mt-[36px]"
               style="
                 background: linear-gradient(
                   180deg,
@@ -2183,19 +2281,19 @@ const format = (date) => {
                 class="flex flex-col items-center justify-center w-full space-y-[8px] px-[24px]"
               >
                 <div class="flex items-center justify-between w-full">
-                  <div class="text-[14px] font-[400] leading-[19px]">Used</div>
-                  <div class="text-[14px] font-[600] leading-[19px]">5.78%</div>
+                  <div class="text-[13px] font-[400] leading-[19px]">Used</div>
+                  <div class="text-[13px] font-[600] leading-[19px]">5.78%</div>
                 </div>
 
                 <div class="flex items-center justify-between w-full">
-                  <div class="text-[14px] font-[400] leading-[19px]">User Assistance</div>
-                  <div class="text-[14px] font-[600] leading-[19px]">20</div>
+                  <div class="text-[13px] font-[400] leading-[19px]">User Assistance</div>
+                  <div class="text-[13px] font-[600] leading-[19px]">20</div>
                 </div>
                 <div class="flex items-center justify-between w-full">
-                  <div class="text-[14px] font-[400] leading-[19px]">
+                  <div class="text-[13px] font-[400] leading-[19px]">
                     Pages Translated
                   </div>
-                  <div class="text-[14px] font-[600] leading-[19px]">5</div>
+                  <div class="text-[13px] font-[600] leading-[19px]">5</div>
                 </div>
               </div>
             </div>
@@ -2206,7 +2304,7 @@ const format = (date) => {
           class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
         >
-          <h1 class="text-[20px] font-[500] leading-[26px] mb-[24px]">
+          <h1 class="text-[18px] font-[500] leading-[26px] mb-[24px]">
             Translated languages
           </h1>
 
@@ -2240,7 +2338,7 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">Arabic</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">Arabic</p>
                     </div>
                   </div>
                 </td>
@@ -2289,7 +2387,7 @@ const format = (date) => {
                       />
                     </div>
                     <div class="">
-                      <p class="text-[14px] leading-[19px] font-[400]">English</p>
+                      <p class="text-[13px] leading-[19px] font-[400]">English</p>
                     </div>
                   </div>
                 </td>
@@ -2327,7 +2425,7 @@ const format = (date) => {
             </tbody>
           </table>
 
-          <h1 class="text-[20px] font-[500] leading-[26px] my-[24px]">
+          <h1 class="text-[18px] font-[500] leading-[26px] my-[24px]">
             Pages Translated
           </h1>
 
@@ -2351,7 +2449,7 @@ const format = (date) => {
               <tr class="bg-white h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
                   <div class="flex items-start flex-col justify-center">
-                    <div class="text-[14px] leading-[19px] font-[400] text-black">
+                    <div class="text-[13px] leading-[19px] font-[400] text-black">
                       /Page
                     </div>
                     <div class="">
@@ -2396,7 +2494,7 @@ const format = (date) => {
               <tr class="bg-white h-[56px]">
                 <td class="border-b border-gray-200 text-sm">
                   <div class="flex items-start flex-col justify-center">
-                    <div class="text-[14px] leading-[19px] font-[400] text-black">
+                    <div class="text-[13px] leading-[19px] font-[400] text-black">
                       /Page
                     </div>
                     <div class="">
@@ -2440,13 +2538,7 @@ const format = (date) => {
             </tbody>
           </table>
         </div>
-        <div
-          v-else
-          class="py-[24px] w-3/4 text-[16px] leading-[24px] font-[400] text-[#585B5B] ltr:ml-[15px] rtl:mr-[15px]"
-        >
-          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-          veritatis dolore. Exercitationem et omnis ea quidem
-        </div>
+   
       </div>
     </div>
   </div>
@@ -2560,5 +2652,14 @@ const format = (date) => {
 
 .dp__arrow_top {
   @apply rtl:top-[-6px] rtl:!rotate-45 rtl:translate-x-[50%];
+}
+.dp__overlay_cell_active {
+
+  @apply bg-tamkin;
+}
+
+.dp__overlay_cell_pad:hover{
+
+  @apply bg-tamkinLight text-darkGrey;
 }
 </style>

@@ -51,12 +51,12 @@ watch(reInvite, (newValue) => {
     <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'" class="!top-[-33px]" />
 
     <div class="space-y-[10px] ">
-      <h1 class="ltr:text-left rtl:text-right text-[24px] leading-[36px] font-[600]">
+      <h1 class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600]">
         Team Management
       </h1>
 
       <h2
-        class="ltr:text-left rtl:text-right text-[15px] font-[400] leading-[22.5px] text-darkGrey"
+        class="ltr:text-left rtl:text-right text-[14px] font-[400] leading-[22.5px] text-darkGrey"
       >
         Manage your team and their account permissions here
       </h2>
@@ -85,7 +85,7 @@ watch(reInvite, (newValue) => {
          <div  class="" v-else>
           <div
         
-          class="w-[63px] h-[62px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+          class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
           <div class="relative ">
             <img src="/assets/imgs/avatar.png" alt="" />
@@ -168,7 +168,7 @@ watch(reInvite, (newValue) => {
           <div v-if="!editTeamNameMode">
             <button
               @click="editTeamNameMode = !editTeamNameMode"
-              class="btn_bordered_dashboard  font-[500] text-[15px] leading-[22.5px]"
+              class="btn_bordered_dashboard  font-[500] text-[13px] leading-[22.5px]"
             >
               Edit Team
             </button>
@@ -241,7 +241,7 @@ watch(reInvite, (newValue) => {
         >
           <div class="w-full p-[16px]">
             <div
-              class="text-[20px] font-[600] py-[24px]  text-[#021328]"
+              class="text-[16px] font-[600] py-[24px]  text-[#021328]"
               style="line-height: 30px"
             >
               All Members
@@ -254,19 +254,19 @@ watch(reInvite, (newValue) => {
           <div class="py-[17px] search_input w-full lg:w-[460px]">
             <input
               type="text"
-              class="input_dashboard_search w-full"
+              class="input_dashboard_search w-full !h-[40px]"
               v-model="search"
               placeholder="Search ..."
             />
             <div
-              class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+              class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
             >
               <img src="/assets/imgs/icons/search.svg" alt="" />
             </div>
             <div
               v-if="isSearchfilled"
               @click="clearInput"
-              class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+              class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
             >
               <img src="/assets/imgs/icons/clear_search.svg" alt="" />
             </div>
@@ -353,7 +353,7 @@ watch(reInvite, (newValue) => {
                      <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-[#4285F4] cursor-pointer"
+                      class="text-[#8C8C8C] hover:text-tamkin cursor-pointer"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -408,52 +408,36 @@ watch(reInvite, (newValue) => {
 
       <div class="flex justify-between items-center py-[16px]">
         <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span class="text-darkGrey text-[14px] leading-[21px] font-[400]"
-            >Per Page</span
-          >
-          <button
-            style="
-              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            "
-            class="px-3 py-1 rounded-md text-white focus:outline-none"
-          >
-            10
+          <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
+          <button style="
+    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+  " class="px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]">
+              10
           </button>
           <button
-            class="px-3 py-1 rounded-md  bg-[#A7A7A7] hover:bg-lightGrey
-             text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          >
-            20
+              class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  !text-[13px]
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+              20
           </button>
-        </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span class="text-darkGrey text-[14px] leading-[21px] font-[400]"
-            >Page</span
-          >
-          <button
-            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey transform rtl:scale-x-[-1]"
-          >
-            <img src="/assets/imgs/arrow-left.svg" alt="" />
+      </div>
+      <div class="flex items-center rtl:space-x-reverse space-x-2">
+          <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
+          <button class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey">
+              <img src="/assets/imgs/arrow-left.svg" alt="" />
           </button>
           <button
-            class="px-3 py-1 rounded-md bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none"
-          >
-            1
+              class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none flex items-center justify-center">
+              1
           </button>
-          <button
-            style="
-              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            "
-            class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none"
-          >
-            2
+          <button style="
+    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+  " class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none !text-[13px] w-[28px] h-[28px] flex items-center justify-center">
+              2
           </button>
-          <button
-            class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey transform rtl:scale-x-[-1]"
-          >
-            <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
+          <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
+              <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
           </button>
-        </div>
+      </div>
       </div>
     </section>
   </div>

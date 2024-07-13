@@ -1,13 +1,19 @@
 <script setup>
 import { ref, onMounted, nextTick, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+import { useWindowSize } from "@vueuse/core";
+import { useNavbarStore } from "@/stores/navbar";
+
+const navStore = useNavbarStore();
+
+const { width, height } = useWindowSize();
 
 const route = useRoute();
 const currentRoute = ref(route.path);
 const navContainer = ref(null);
 const slider = ref(null);
 const sliderVisible = ref(false);
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 const isLinkActive = (path) => {
   return localePath(currentRoute.value) === localePath(path);
 };
@@ -28,21 +34,15 @@ const moveSlider = async (path, animate = true) => {
     const sliderWidth = targetLink.offsetWidth;
     const sliderLeft = targetLink.offsetLeft;
 
-    if (slider.value) {
-      // Temporarily remove transition class
-      slider.value.classList.remove('slider-transition');
+    if (slider.value ) {
+      if (animate ) {
+        slider.value.classList.add('slider-transition');
+      } else {
+        slider.value.classList.remove('slider-transition');
+      }
 
-      // Update slider position and size without transition
       slider.value.style.width = `${sliderWidth}px`;
       slider.value.style.transform = `translateX(${sliderLeft}px)`;
-
-      // Force reflow to apply changes
-      slider.value.offsetHeight; // Trigger reflow
-
-      if (animate) {
-        // Add transition class for subsequent transitions
-        slider.value.classList.add('slider-transition');
-      }
 
       sliderVisible.value = true;
     }
@@ -53,7 +53,7 @@ const moveSlider = async (path, animate = true) => {
 };
 
 const getNavLinkIndex = (path) => {
-  if(process.client){
+  if (process.client) {
     const navLinks = navContainer.value.querySelectorAll('a');
     return Array.from(navLinks).findIndex(link => link.getAttribute('href') === localePath(path));
   }
@@ -65,14 +65,12 @@ watchEffect(() => {
   moveSlider(currentRoute.value, false);
 });
 
-// Adjust slider position on window resize for responsiveness
-if (process.client) {
-  window.addEventListener('resize', () => {
+// Watch for window size changes and sidebar state changes to adjust the slider position
+watchEffect(() => {
+  if (navStore.sideBarOpen !== undefined) {
     moveSlider(currentRoute.value, false);
-  });
-}
-
-
+  }
+});
 
 onMounted(() => {
   moveSlider(currentRoute.value, false);
@@ -82,7 +80,7 @@ onMounted(() => {
 <template>
   <div
     ref="navContainer"
-    class="absolute top-[160px] left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white flex items-center justify-between px-[4px]"
+    class="shadow-sm absolute top-[160px] left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white flex items-center justify-between px-[4px]"
   >
     <transition name="slider-transition">
       <div v-show="sliderVisible" ref="slider" class="absolute top-[6px] left-0 active_subNavb__div"></div>
@@ -91,7 +89,6 @@ onMounted(() => {
       :class="isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center " 
       :to="localePath('/overview')"
-      @click="() => moveSlider('/overview')"
     >
       Overview
     </nuxt-link>
@@ -99,7 +96,6 @@ onMounted(() => {
       :class="isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/addons')"
-      @click="() => moveSlider('/addons')"
     >
       Addons
     </nuxt-link>
@@ -107,7 +103,6 @@ onMounted(() => {
       :class="isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/statistics')"
-      @click="() => moveSlider('/statistics')"
     >
       Statistics
     </nuxt-link>
@@ -115,7 +110,6 @@ onMounted(() => {
       :class="isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/customize')"
-      @click="() => moveSlider('/customize')"
     >
       Customize
     </nuxt-link>
@@ -123,14 +117,11 @@ onMounted(() => {
       :class="isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
       :to="localePath('/settings')"
-      @click="() => moveSlider('/settings')"
     >
       Settings
     </nuxt-link>
   </div>
 </template>
-
-
 
 <style scoped>
 .active_subNavb {
@@ -141,7 +132,8 @@ onMounted(() => {
     #f6f3fc 72.04%,
     #fef5f6 100%
   );
-  @apply transition-all ease-in w-[96px] h-[31px] cursor-pointer rounded-[22px] border-[1px] border-black flex items-center justify-center text-darkGrey text-[15px] leading-[22.5px] font-[500] text-center;
+  @apply transition-all ease-in w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  border-[1px] border-black flex items-center justify-center text-darkGrey text-[11px] font-[500] text-center;
 }
 
 .active_subNavb__div {
@@ -152,11 +144,20 @@ onMounted(() => {
     #f6f3fc 72.04%,
     #fef5f6 100%
   );
-  @apply transition-all ease-out w-[96px] h-[31px] cursor-pointer rounded-[22px] border-[1px] border-black flex items-center justify-center text-darkGrey text-[15px] leading-[22.5px] font-[500] text-center;
+  @apply  transition-all ease-out w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  border-[1px] border-black flex items-center justify-center text-darkGrey !text-[13px] font-[500] text-center;
 }
+.router-link-active.router-link-exact-active{
+@apply   !text-[13px] !font-[500] text-center text-darkGrey;
 
+}
+a{
+  @apply  
+  !text-[13px] font-[500] text-center;
+}
 .sub_menu_item {
-  @apply text-[#A7A7A7] text-[15px] w-[96px] h-[31px] bg-transparent rounded-[22px] border-[1px] border-transparent flex items-center justify-center leading-[22.5px] font-[600] text-center cursor-pointer;
+  @apply text-[#A7A7A7] text-[13px] w-[96px] h-[31px] bg-transparent rounded-[22px] border-[1px]
+   border-transparent flex items-center justify-center leading-[22.5px] font-[600] text-center cursor-pointer;
 }
 
 .slider-transition-enter-active, .slider-transition-leave-active {
@@ -171,4 +172,3 @@ onMounted(() => {
   transition: transform 0.3s ease-out, width 0.3s ease-out;
 }
 </style>
-

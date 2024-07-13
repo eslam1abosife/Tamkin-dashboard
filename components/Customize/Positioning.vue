@@ -36,7 +36,7 @@ watch([currentColor],()=>{},{immediate:true})
     class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
   >
     <div
-      class="pb-[12px] text-[14px] leading-[32px]  text-darkGrey cursor-pointer"
+      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('desktop')"
       :class="[
         switchButtonLocation === 'desktop' ? 'custom-border-bottom font-[600]' : 'font-[500]',
@@ -46,7 +46,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
 
     <div
-      class="pb-[12px] text-[14px] leading-[32px]  text-darkGrey cursor-pointer"
+      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('mobile')"
       :class="[switchButtonLocation === 'mobile' ? 'custom-border-bottom font-[600]' : 'font-[500]']"
     >
@@ -56,7 +56,7 @@ watch([currentColor],()=>{},{immediate:true})
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'desktop'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-2/4 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+  class="bg-[#F2FBF9] rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
 
   <div
@@ -241,14 +241,14 @@ watch([currentColor],()=>{},{immediate:true})
     <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[16px] h-[16px]">
         </div>
   </div>
-  <img src="/assets/imgs/customize/laptop.svg" alt="Laptop Image" class="w-96 h-auto">
+  <img src="/assets/imgs/customize/laptop.svg" alt="Laptop Image" class="w-full h-auto">
 </div>
 </div>
 
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'mobile'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-2/4 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+  class="bg-[#F2FBF9] rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
   <div
     class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
@@ -402,9 +402,9 @@ watch([currentColor],()=>{},{immediate:true})
     <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[14px] h-[14px]">
         </div>
   </div>
- <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[29px] px-[40px]">
-  <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-[102px] h-auto">
-  <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="ipad-max:hidden w-[225px] h-auto">
+ <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[100px] px-[40px]">
+  <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-full h-full">
+  <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="w-full  h-auto">
  </div>
 </div>
 </div>

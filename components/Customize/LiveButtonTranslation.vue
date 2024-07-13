@@ -1,0 +1,591 @@
+<script lang="ts" setup>
+import { useCollapseStore } from "@/stores/collapse.js";
+import { useCustomizeStore } from "@/stores/customize.js";
+import { vOnClickOutside } from "@vueuse/components";
+
+const customizeStore = useCustomizeStore();
+const {
+  colorMode,
+  gradient1,
+  gradient2,
+  currentColor,
+  buttonSizeSlider,
+  buttonShapeSelector,
+  liveTranlsationButtonLocation
+} = storeToRefs(customizeStore);
+const collapseStore = useCollapseStore();
+const changeGradientColor1 = computed(() => {
+  return colorMode.value === "gradient" && gradient1.value && gradient2.value
+    ? gradient1.value
+    : currentColor.value;
+});
+
+const changeGradientColor2 = computed(() => {
+  return colorMode.value === "gradient" && gradient1.value && gradient2.value
+    ? gradient2.value
+    : currentColor.value;
+});
+const gradientClasses = computed(() => {
+  return colorMode.value === "gradient" && gradient1.value && gradient2.value
+    ? "bg-gradient-to-b" // Tailwind utility for background gradient
+    : ""; // No extra class if not gradient
+});
+
+const backgroundImageStyle = computed(() => {
+  if (colorMode.value === "gradient" && gradient1.value && gradient2.value) {
+    return {
+      backgroundImage: `linear-gradient(to bottom, ${gradient1.value}, ${gradient2.value})`,
+    };
+  } else {
+    return {
+      backgroundColor: currentColor.value,
+    };
+  }
+});
+
+const isLocationChecked = computed(() => {
+    return liveTranlsationButtonLocation.value === 'above' ? true : liveTranlsationButtonLocation.value === 'default' ? true :false
+}) ;
+
+</script>
+
+
+
+<template>
+
+    <div
+    class="mt-[30px] bg-white rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
+  
+  >
+    <div
+      class="flex items-center justify-start px-[15px]"
+    >
+      <div class=" mt-[24px] ">
+        <h1 class="text-[18px] font-[500] leading-[30px]">
+          Live Site Translations Button
+        </h1>
+
+        <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
+          The ‘Live Site Translations’ button instantly translates web content,
+          bridging languages
+        </p>
+      </div>
+
+      <div
+        @click.stop="collapseStore.collapseMenu('live_site_translation_button')"
+        v-on-click-outside="
+          () => collapseStore.removeMenu('live_site_translation_button')
+        "
+        :class="[
+          collapseStore.menus.includes('live_site_translation_button')
+            ? 'active_notification !text-darkGrey'
+            : '',
+        ]"
+        class="menu_button_control"
+      >
+        <svg
+          width="18"
+          height="5"
+          viewBox="0 0 18 5"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          :class="[
+            collapseStore.menus.includes('live_site_translation_button')
+              ? 'stroke-current !text-white !fill-white'
+              : '',
+          ]"
+        >
+          <path
+            d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+            fill="currentColor"
+          />
+        </svg>
+
+        <div
+          v-if="collapseStore.menus.includes('live_site_translation_button')"
+          style="box-shadow: 0px 2px 6px 0px #00000040"
+          class="mini_SizeMenu divide-y"
+        >
+        <div
+        class="mini_wrap"
+      >
+        <div>
+          <img
+            src="/assets/imgs/addons/annual_convert.svg"
+            alt=""
+            :class="[
+              collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+            ]"
+          />
+        </div>
+        <div class="text_mini">
+          Switch To Annual
+        </div>
+      </div>
+          <div
+            class="mini_wrap"
+            @click="collapseStore.collapseCard('live_site_translation_button_card')"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/min_size.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('live_site_translation_button')
+                    ? '!fill-white'
+                    : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              {{
+                collapseStore.collapses.includes("live_site_translation_button_card")
+                  ? "Minisize"
+                  : "Maxsize"
+              }}
+            </div>
+          </div>
+
+          <div class="arrow">
+            <img
+              src="/assets/imgs/addons/arrow_menu.svg"
+           
+              alt=""
+              class="w-full h-full"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+      v-if="!collapseStore.collapses.includes('live_site_translation_button_card')"
+    >
+      <table class="min-w-full leading-normal">
+        <thead class="bg-[#FAFCFE]">
+          <tr class="">
+            <th
+              class="w-full border-b-2 border-gray-200 ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black"
+            >
+              Enable Live Site Translations Button
+            </th>
+            <th
+              class="ml-auto w-full py-3 border-b-2 border-gray-200 text-[14px] font-[400] leading-[18px] text-black"
+            >
+              <div class="flex items-center">
+                <label for="toggle_enable_live_button" class="toggle_wrap">
+                  <input
+                    type="checkbox"
+                    id="toggle_enable_live_button"
+                    class="sr-only"
+                    :checked="customizeStore.isChecked('enable_live_site')"
+                    @change="customizeStore.toggleCheckbox('enable_live_site')"
+                  />
+                  <div
+                    class="toggle_parent"
+                    :class="[customizeStore.isChecked('enable_live_site') ? 'active' : 'in_active']"
+                  >
+                    <div class="toggle_inner" :class="{ 'active ': customizeStore.isChecked('enable_live_site') }">
+                      <img
+                        v-if="customizeStore.isChecked('enable_live_site')"
+                        src="/assets/imgs/addons/active_toggle.svg"
+                        class="w-[28px] h-[28px]"
+                        alt=""
+                      />
+                      <img
+                        v-else
+                        src="/assets/imgs/addons/toggle.svg"
+                        class="w-[28px] h-[28px]"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
+
+      <div
+        class="flex items-center justify-between"
+        :class="[!customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '']"
+      >
+        <div
+          @click="customizeStore.selectLiveTranslationButtonLocation('default')"
+          :class="[
+             liveTranlsationButtonLocation === 'default'
+              ? 'custom-border'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+        >
+          <div class=" ">
+            <input
+              id="radio665"
+              type="radio"
+              name="button_location_Radio"
+              class="hidden"
+                :disabled="!customizeStore.isChecked('enable_live_site')"
+            :checked="     liveTranlsationButtonLocation === 'default'"
+              @click="customizeStore.selectLiveTranslationButtonLocation('default')"
+            
+            />
+            <label for="radio665" class="flex items-center cursor-pointer">
+              <span class="radio-tamkin w-[19px] h-[19px]"></span>
+            </label>
+          </div>
+
+          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey">
+            Use translation button as default button
+          </div>
+        </div>
+        <div
+          :class="[
+        liveTranlsationButtonLocation === 'above'
+              ? 'custom-border'
+              : 'border-[1px]',
+
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          @click="customizeStore.selectLiveTranslationButtonLocation('above')"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+        >
+          <div class=" ">
+            <input
+              id="radio_position"
+              type="radio"
+              :disabled="!customizeStore.isChecked('enable_live_site')"
+              name="button_location_Radio"
+              class="hidden"
+              @click="customizeStore.selectLiveTranslationButtonLocation('above')"
+              :checked="customizeStore.liveTranlsationButtonLocation === 'above'"
+            />
+            <label for="radio_position" class="flex items-center cursor-pointer">
+              <span class="radio-tamkin w-[19px] h-[19px]"></span>
+            </label>
+          </div>
+
+          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey">
+            Position translation button above
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center justify-between mt-[33px]"
+        v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
+      >
+        <div
+          @click="customizeStore.changeDefaultButtonShape('gb')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'gb'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if="customizeStore.currentShapeLiveTranslation === 'gb'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+          <img src="/assets/imgs/customize/gb.svg" alt="" />
+        </div>
+        <div
+          @click="customizeStore.changeDefaultButtonShape('en')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'en'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if="customizeStore.currentShapeLiveTranslation === 'en'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+
+          <svg
+            width="40"
+            height="41"
+            viewBox="0 0 40 41"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.5"
+              y="1"
+              width="39"
+              height="39"
+              rx="19.5"
+              fill="url(#paint0_linear_3321_46191)"
+            />
+            <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" />
+            <path
+              d="M13.3706 16.455V19.515H16.9706V20.91H13.3706V24.105H17.4206V25.5H11.6606V15.06H17.4206V16.455H13.3706ZM28.3438 25.5H26.6338L21.4888 17.715V25.5H19.7788V15.06H21.4888L26.6338 22.83V15.06H28.3438V25.5Z"
+              fill="white"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_3321_46191"
+                x1="20"
+                y1="0.5"
+                x2="20"
+                y2="40.5"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop :stop-color="changeGradientColor1" />
+                <stop offset="1" :stop-color="changeGradientColor2" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div
+          @click="customizeStore.changeDefaultButtonShape('langs')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'langs'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if=" customizeStore.currentShapeLiveTranslation === 'langs'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.5"
+              y="0.5"
+              width="39"
+              height="39"
+              rx="19.5"
+              fill="url(#paint0_linear_4851_63637)"
+            />
+            <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="white" />
+            <mask id="path-2-inside-1_4851_63637" fill="white">
+              <path
+                d="M22.7615 29.6149C24.4288 29.1775 25.929 28.3545 27.1502 27.2518C26.3602 26.9256 25.4907 26.6519 24.5612 26.4403C24.4097 26.8608 24.2434 27.2585 24.0638 27.6299C23.6861 28.4124 23.2478 29.0824 22.7615 29.6149ZM27.9344 26.4618C29.3755 24.8442 30.2859 22.7797 30.4064 20.5156H25.59C25.5492 22.3078 25.2941 23.9895 24.8776 25.4542C25.9811 25.7103 27.0092 26.0507 27.9344 26.4618ZM23.4979 26.23C22.5565 26.0716 21.5643 25.9759 20.5369 25.9509V29.8939C21.5002 29.6243 22.3895 28.6443 23.0871 27.1985C23.2337 26.8945 23.3711 26.571 23.4979 26.23ZM19.4595 25.9509C18.4321 25.9759 17.44 26.0716 16.4986 26.23C16.6254 26.571 16.7628 26.8945 16.9094 27.1985C17.607 28.6436 18.4963 29.6237 19.4595 29.8939V25.9509ZM15.4359 26.4403C14.5058 26.6519 13.6369 26.9256 12.847 27.2518C14.0682 28.3545 15.5684 29.1775 17.2356 29.6149C16.7487 29.0831 16.3104 28.4124 15.9334 27.6292C15.7544 27.2578 15.5881 26.8608 15.4359 26.4403ZM12.0627 26.4625C12.988 26.0513 14.0161 25.7103 15.1195 25.4548C14.7024 23.9902 14.448 22.3092 14.4071 20.5163H9.59081C9.71131 22.7803 10.6217 24.8449 12.0627 26.4625ZM16.1737 25.2405C17.2187 25.0572 18.3208 24.9466 19.4602 24.9197V20.5163H15.4853C15.5261 22.2425 15.7721 23.8513 16.1737 25.2405ZM20.5384 24.9197C21.6778 24.946 22.7799 25.0565 23.8249 25.2405C24.2258 23.8513 24.4725 22.2425 24.5133 20.5163H20.5384V24.9197ZM22.7623 10.3858C23.2492 10.9176 23.6875 11.5882 24.0645 12.3708C24.2434 12.7422 24.4097 13.1398 24.5619 13.5604C25.4921 13.3488 26.3609 13.0751 27.1509 12.7489C25.9297 11.6462 24.4288 10.8232 22.7623 10.3858ZM24.8783 14.5458C25.2955 16.0105 25.5499 17.6915 25.5907 19.4844H30.4071C30.2866 17.2203 29.3762 15.1558 27.9351 13.5382C27.0099 13.9493 25.9825 14.2904 24.8783 14.5458ZM14.4071 19.4844C14.448 17.6922 14.7031 16.0105 15.1195 14.5458C14.0153 14.2897 12.988 13.9493 12.0627 13.5382C10.621 15.1558 9.71131 17.2203 9.59081 19.4844H14.4071ZM15.4366 13.5604C15.5881 13.1398 15.7544 12.7422 15.9341 12.3708C16.3118 11.5882 16.7501 10.9176 17.2363 10.3858C15.5691 10.8232 14.0696 11.6462 12.8477 12.7489C13.6384 13.0751 14.5072 13.3488 15.4366 13.5604ZM23.0885 12.8021C22.3909 11.357 21.5016 10.377 20.5384 10.1067V14.0498C21.5657 14.0248 22.5579 13.9291 23.4993 13.7707C23.3725 13.4297 23.2351 13.1061 23.0885 12.8021ZM19.4609 10.1067C18.4977 10.3763 17.6084 11.3564 16.9108 12.8021C16.7642 13.1061 16.6268 13.4297 16.5 13.7707C17.4414 13.9291 18.4335 14.0248 19.4609 14.0498V10.1067ZM16.1744 14.7602C15.7735 16.1493 15.5268 17.7582 15.486 19.4844H19.4609V15.081C18.3215 15.0547 17.2194 14.9442 16.1744 14.7602ZM24.5133 19.4844C24.4725 17.7589 24.2265 16.1493 23.8249 14.7602C22.7799 14.9435 21.6778 15.054 20.5384 15.081V19.4844H24.5133ZM28.1317 27.7782C26.0502 29.7686 23.1752 31 20 31C16.8241 31 13.9491 29.7686 11.8683 27.7782C9.78741 25.7871 8.5 23.0378 8.5 20C8.5 16.9629 9.78741 14.2122 11.8683 12.2218C13.9498 10.2314 16.8241 9 20 9C23.1752 9 26.0509 10.2314 28.1317 12.2218C30.2126 14.2129 31.5 16.9629 31.5 20C31.5 23.0378 30.2126 25.7878 28.1317 27.7782Z"
+              />
+            </mask>
+            <path
+              d="M22.7615 29.6149L21.7546 28.6954L18.6403 32.106L23.1076 30.9339L22.7615 29.6149ZM27.1502 27.2518L28.064 28.2639L29.6674 26.816L27.6707 25.9914L27.1502 27.2518ZM24.5612 26.4403L24.864 25.1107L23.6873 24.8427L23.2783 25.9781L24.5612 26.4403ZM24.0638 27.6299L22.8362 27.036L22.8357 27.0372L24.0638 27.6299ZM27.9344 26.4618L27.3807 27.708L28.2904 28.1122L28.9527 27.3689L27.9344 26.4618ZM30.4064 20.5156L31.7681 20.5881L31.8445 19.152H30.4064V20.5156ZM25.59 20.5156V19.152H24.2571L24.2268 20.4845L25.59 20.5156ZM24.8776 25.4542L23.566 25.0812L23.1743 26.4587L24.5693 26.7825L24.8776 25.4542ZM23.4979 26.23L24.776 26.7053L25.3511 25.159L23.7242 24.8852L23.4979 26.23ZM20.5369 25.9509L20.57 24.5877L19.1733 24.5538V25.9509H20.5369ZM20.5369 29.8939H19.1733V31.6916L20.9045 31.2071L20.5369 29.8939ZM23.0871 27.1985L24.3152 27.7911L24.3154 27.7908L23.0871 27.1985ZM19.4595 25.9509H20.8232V24.5538L19.4264 24.5877L19.4595 25.9509ZM16.4986 26.23L16.2723 24.8852L14.6454 25.159L15.2204 26.7053L16.4986 26.23ZM16.9094 27.1985L15.6811 27.7908L15.6813 27.7914L16.9094 27.1985ZM19.4595 29.8939L19.0911 31.2069L20.8232 31.6929V29.8939H19.4595ZM15.4359 26.4403L16.7182 25.9762L16.3082 24.8433L15.1334 25.1106L15.4359 26.4403ZM12.847 27.2518L12.3265 25.9914L10.3297 26.816L11.9331 28.2639L12.847 27.2518ZM17.2356 29.6149L16.8896 30.9339L21.3681 32.1089L18.2414 28.694L17.2356 29.6149ZM15.9334 27.6292L17.1621 27.0378L17.1618 27.0372L15.9334 27.6292ZM12.0627 26.4625L11.0445 27.3695L11.7067 28.1129L12.6165 27.7086L12.0627 26.4625ZM15.1195 25.4548L15.4271 26.7833L16.8237 26.46L16.431 25.0813L15.1195 25.4548ZM14.4071 20.5163L15.7704 20.4852L15.74 19.1527H14.4071V20.5163ZM9.59081 20.5163V19.1527H8.15267L8.2291 20.5888L9.59081 20.5163ZM16.1737 25.2405L14.8637 25.6193L15.2037 26.7951L16.4093 26.5836L16.1737 25.2405ZM19.4602 24.9197L19.4925 26.2829L20.8239 26.2514V24.9197H19.4602ZM19.4602 20.5163H20.8239V19.1527H19.4602V20.5163ZM15.4853 20.5163V19.1527H14.089L14.122 20.5486L15.4853 20.5163ZM20.5384 24.9197H19.1747V26.2522L20.5069 26.2829L20.5384 24.9197ZM23.8249 25.2405L23.5884 26.5835L24.7952 26.796L25.135 25.6186L23.8249 25.2405ZM24.5133 20.5163L25.8766 20.5486L25.9096 19.1527H24.5133V20.5163ZM20.5384 20.5163V19.1527H19.1747V20.5163H20.5384ZM22.7623 10.3858L23.1085 9.06683L18.6292 7.89108L21.7565 11.3066L22.7623 10.3858ZM24.0645 12.3708L22.836 12.9626L22.836 12.9628L24.0645 12.3708ZM24.5619 13.5604L23.2797 14.0244L23.6897 15.1574L24.8645 14.8901L24.5619 13.5604ZM27.1509 12.7489L27.6714 14.0093L29.6681 13.1846L28.0647 11.7368L27.1509 12.7489ZM24.8783 14.5458L24.571 13.2173L23.1741 13.5404L23.5669 14.9194L24.8783 14.5458ZM25.5907 19.4844L24.2275 19.5155L24.2578 20.848H25.5907V19.4844ZM30.4071 19.4844V20.848H31.8452L31.7688 19.4119L30.4071 19.4844ZM27.9351 13.5382L28.9534 12.6311L28.2911 11.8878L27.3814 12.292L27.9351 13.5382ZM14.4071 19.4844V20.848H15.74L15.7704 19.5155L14.4071 19.4844ZM15.1195 14.5458L16.4312 14.9188L16.8229 13.5411L15.4277 13.2175L15.1195 14.5458ZM12.0627 13.5382L12.6165 12.292L11.707 11.8879L11.0447 12.6309L12.0627 13.5382ZM9.59081 19.4844L8.2291 19.4119L8.15267 20.848H9.59081V19.4844ZM15.4366 13.5604L15.1339 14.89L16.3106 15.158L16.7196 14.0225L15.4366 13.5604ZM15.9341 12.3708L17.1616 12.9647L17.1622 12.9635L15.9341 12.3708ZM17.2363 10.3858L18.2427 11.3059L21.3628 7.8933L16.8903 9.06679L17.2363 10.3858ZM12.8477 12.7489L11.9341 11.7366L10.3293 13.1849L12.3276 14.0094L12.8477 12.7489ZM23.0885 12.8021L24.3168 12.2099L24.3165 12.2093L23.0885 12.8021ZM20.5384 10.1067L20.9068 8.79381L19.1747 8.30782V10.1067H20.5384ZM20.5384 14.0498H19.1747V15.4469L20.5714 15.413L20.5384 14.0498ZM23.4993 13.7707L23.7256 15.1154L25.3525 14.8417L24.7774 13.2954L23.4993 13.7707ZM19.4609 10.1067H20.8246V8.30903L19.0934 8.79357L19.4609 10.1067ZM16.9108 12.8021L15.6826 12.2095L15.6825 12.2099L16.9108 12.8021ZM16.5 13.7707L15.2219 13.2954L14.6468 14.8417L16.2737 15.1154L16.5 13.7707ZM19.4609 14.0498L19.4278 15.413L20.8246 15.4469V14.0498H19.4609ZM16.1744 14.7602L16.4109 13.4172L15.2041 13.2047L14.8643 14.382L16.1744 14.7602ZM15.486 19.4844L14.1227 19.4521L14.0897 20.848H15.486V19.4844ZM19.4609 19.4844V20.848H20.8246V19.4844H19.4609ZM19.4609 15.081H20.8246V13.7485L19.4924 13.7177L19.4609 15.081ZM24.5133 19.4844V20.848H25.9096L25.8766 19.4521L24.5133 19.4844ZM23.8249 14.7602L25.1349 14.3814L24.7949 13.2055L23.5892 13.417L23.8249 14.7602ZM20.5384 15.081L20.5061 13.7178L19.1747 13.7493V15.081H20.5384ZM20.5384 19.4844H19.1747V20.848H20.5384V19.4844ZM28.1317 27.7782L29.0741 28.7638L29.0743 28.7636L28.1317 27.7782ZM11.8683 27.7782L10.9255 28.7634L10.9257 28.7636L11.8683 27.7782ZM11.8683 12.2218L10.9258 11.2362L10.9257 11.2364L11.8683 12.2218ZM28.1317 12.2218L29.0745 11.2366L29.0743 11.2364L28.1317 12.2218ZM23.1076 30.9339C24.9867 30.4409 26.6815 29.5123 28.064 28.2639L26.2363 26.2397C25.1765 27.1966 23.8708 27.914 22.4155 28.2959L23.1076 30.9339ZM27.6707 25.9914C26.8041 25.6335 25.8611 25.3377 24.864 25.1107L24.2585 27.7699C25.1203 27.9661 25.9164 28.2176 26.6296 28.5122L27.6707 25.9914ZM23.2783 25.9781C23.1416 26.3575 22.9935 26.7109 22.8362 27.036L25.2913 28.2238C25.4934 27.8061 25.6778 27.3642 25.8442 26.9024L23.2783 25.9781ZM22.8357 27.0372C22.5032 27.7259 22.1345 28.2793 21.7546 28.6954L23.7685 30.5344C24.361 29.8855 24.8689 29.0989 25.2918 28.2226L22.8357 27.0372ZM28.9527 27.3689C30.5878 25.5333 31.6302 23.1785 31.7681 20.5881L29.0447 20.4432C28.9415 22.3808 28.1631 24.155 26.9162 25.5548L28.9527 27.3689ZM30.4064 19.152H25.59V21.8793H30.4064V19.152ZM24.2268 20.4845C24.1883 22.17 23.9484 23.7362 23.566 25.0812L26.1893 25.8271C26.6397 24.2429 26.91 22.4457 26.9533 20.5467L24.2268 20.4845ZM24.5693 26.7825C25.5965 27.0209 26.5416 27.3351 27.3807 27.708L28.4882 25.2157C27.4768 24.7663 26.3657 24.3997 25.1859 24.1258L24.5693 26.7825ZM23.7242 24.8852C22.7172 24.7158 21.6604 24.6142 20.57 24.5877L20.5039 27.3142C21.4683 27.3376 22.3958 27.4273 23.2717 27.5747L23.7242 24.8852ZM19.1733 25.9509V29.8939H21.9006V25.9509H19.1733ZM20.9045 31.2071C22.4462 30.7756 23.5667 29.3424 24.3152 27.7911L21.859 26.6059C21.2123 27.9462 20.5542 28.4731 20.1694 28.5808L20.9045 31.2071ZM24.3154 27.7908C24.4815 27.4464 24.6353 27.0837 24.776 26.7053L22.2198 25.7546C22.1068 26.0584 21.9859 26.3427 21.8588 26.6063L24.3154 27.7908ZM19.4264 24.5877C18.3361 24.6142 17.2793 24.7158 16.2723 24.8852L16.7248 27.5747C17.6007 27.4273 18.5282 27.3376 19.4926 27.3142L19.4264 24.5877ZM15.2204 26.7053C15.3612 27.0837 15.515 27.4464 15.6811 27.7908L18.1377 26.6063C18.0106 26.3427 17.8896 26.0584 17.7767 25.7546L15.2204 26.7053ZM15.6813 27.7914C16.43 29.3421 17.5503 30.7745 19.0911 31.2069L19.8279 28.581C19.4422 28.4728 18.784 27.9451 18.1374 26.6057L15.6813 27.7914ZM20.8232 29.8939V25.9509H18.0959V29.8939H20.8232ZM15.1334 25.1106C14.1353 25.3377 13.1929 25.6336 12.3265 25.9914L13.3675 28.5122C14.081 28.2175 14.8763 27.9661 15.7385 27.7699L15.1334 25.1106ZM11.9331 28.2639C13.3157 29.5123 15.0105 30.4409 16.8896 30.9339L17.5817 28.2959C16.1263 27.914 14.8207 27.1966 13.7609 26.2397L11.9331 28.2639ZM18.2414 28.694C17.8621 28.2798 17.4938 27.7269 17.1621 27.0378L14.7047 28.2207C15.127 29.098 15.6353 29.8864 16.2299 30.5357L18.2414 28.694ZM17.1618 27.0372C17.0043 26.7104 16.8558 26.3564 16.7182 25.9762L14.1537 26.9043C14.3205 27.3653 14.5045 27.8053 14.705 28.2212L17.1618 27.0372ZM12.6165 27.7086C13.456 27.3356 14.401 27.0209 15.4271 26.7833L14.812 24.1263C13.6311 24.3997 12.5199 24.7671 11.509 25.2164L12.6165 27.7086ZM16.431 25.0813C16.0481 23.737 15.8089 22.1718 15.7704 20.4852L13.0439 20.5474C13.0872 22.4466 13.3566 24.2434 13.8081 25.8284L16.431 25.0813ZM14.4071 19.1527H9.59081V21.8799H14.4071V19.1527ZM8.2291 20.5888C8.36696 23.1792 9.40938 25.534 11.0445 27.3695L13.081 25.5555C11.8341 24.1557 11.0556 22.3815 10.9525 20.4438L8.2291 20.5888ZM16.4093 26.5836C17.3859 26.4123 18.42 26.3083 19.4925 26.2829L19.428 23.5564C18.2216 23.585 17.0515 23.702 15.9381 23.8974L16.4093 26.5836ZM20.8239 24.9197V20.5163H18.0966V24.9197H20.8239ZM19.4602 19.1527H15.4853V21.8799H19.4602V19.1527ZM14.122 20.5486C14.1654 22.3806 14.4265 24.1069 14.8637 25.6193L17.4837 24.8617C17.1177 23.5958 16.8869 22.1043 16.8485 20.484L14.122 20.5486ZM20.5069 26.2829C21.5789 26.3077 22.6124 26.4116 23.5884 26.5835L24.0614 23.8975C22.9474 23.7014 21.7767 23.5842 20.5698 23.5564L20.5069 26.2829ZM25.135 25.6186C25.5713 24.1071 25.8332 22.3811 25.8766 20.5486L23.1501 20.484C23.1117 22.1039 22.8803 23.5956 22.5147 24.8624L25.135 25.6186ZM24.5133 19.1527H20.5384V21.8799H24.5133V19.1527ZM19.1747 20.5163V24.9197H21.902V20.5163H19.1747ZM21.7565 11.3066C22.1358 11.7209 22.5042 12.2739 22.836 12.9626L25.293 11.7789C24.8708 10.9025 24.3625 10.1142 23.768 9.46492L21.7565 11.3066ZM22.836 12.9628C22.9933 13.2891 23.1419 13.6438 23.2797 14.0244L25.8442 13.0964C25.6775 12.6359 25.4936 12.1952 25.2929 11.7788L22.836 12.9628ZM24.8645 14.8901C25.8626 14.663 26.8049 14.3671 27.6714 14.0093L26.6303 11.4885C25.9169 11.7831 25.1216 12.0346 24.2594 12.2308L24.8645 14.8901ZM28.0647 11.7368C26.6821 10.4883 24.9866 9.55981 23.1085 9.06683L22.416 11.7047C23.8709 12.0866 25.1773 12.8041 26.237 13.761L28.0647 11.7368ZM23.5669 14.9194C23.9497 16.2637 24.189 17.8289 24.2275 19.5155L26.954 19.4533C26.9107 17.5541 26.6412 15.7573 26.1898 14.1723L23.5669 14.9194ZM25.5907 20.848H30.4071V18.1207H25.5907V20.848ZM31.7688 19.4119C31.6309 16.8215 30.5885 14.4667 28.9534 12.6311L26.9169 14.4452C28.1638 15.845 28.9422 17.6192 29.0454 19.5568L31.7688 19.4119ZM27.3814 12.292C26.5417 12.6652 25.5975 12.9798 24.571 13.2173L25.1857 15.8744C26.3675 15.601 27.4781 15.2335 28.4889 14.7843L27.3814 12.292ZM15.7704 19.5155C15.8089 17.83 16.0487 16.2638 16.4312 14.9188L13.8079 14.1729C13.3574 15.7571 13.0872 17.5543 13.0439 19.4533L15.7704 19.5155ZM15.4277 13.2175C14.4001 12.9791 13.4557 12.665 12.6165 12.292L11.509 14.7843C12.5202 15.2337 13.6306 15.6003 14.8114 15.8742L15.4277 13.2175ZM11.0447 12.6309C9.40851 14.4668 8.36695 16.8218 8.2291 19.4119L10.9525 19.5568C11.0557 17.6189 11.8335 15.8449 13.0807 14.4455L11.0447 12.6309ZM9.59081 20.848H14.4071V18.1207H9.59081V20.848ZM16.7196 14.0225C16.8562 13.6431 17.0044 13.2898 17.1616 12.9647L14.7066 11.7769C14.5045 12.1946 14.32 12.6365 14.1537 13.0983L16.7196 14.0225ZM17.1622 12.9635C17.4949 12.2742 17.8636 11.7206 18.2427 11.3059L16.2299 9.46565C15.6367 10.1145 15.1287 10.9023 14.7061 11.778L17.1622 12.9635ZM16.8903 9.06679C15.011 9.55987 13.3171 10.4885 11.9341 11.7366L13.7613 13.7612C14.8221 12.8039 16.1273 12.0866 17.5824 11.7048L16.8903 9.06679ZM12.3276 14.0094C13.1944 14.3671 14.1366 14.6629 15.1339 14.89L15.7394 12.2308C14.8778 12.0346 14.0823 11.7831 13.3679 11.4884L12.3276 14.0094ZM24.3165 12.2093C23.5679 10.6585 22.4476 9.22615 20.9068 8.79381L20.17 11.4197C20.5556 11.5279 21.2139 12.0556 21.8605 13.395L24.3165 12.2093ZM19.1747 10.1067V14.0498H21.902V10.1067H19.1747ZM20.5714 15.413C21.6618 15.3865 22.7186 15.2849 23.7256 15.1154L23.2731 12.426C22.3972 12.5733 21.4697 12.6631 20.5053 12.6865L20.5714 15.413ZM24.7774 13.2954C24.6367 12.917 24.4829 12.5543 24.3168 12.2099L21.8602 13.3944C21.9873 13.6579 22.1083 13.9423 22.2212 14.246L24.7774 13.2954ZM19.0934 8.79357C17.5517 9.22508 16.4312 10.6583 15.6826 12.2095L18.1389 13.3947C18.7856 12.0545 19.4437 11.5276 19.8285 11.4199L19.0934 8.79357ZM15.6825 12.2099C15.5164 12.5543 15.3626 12.917 15.2219 13.2954L17.7781 14.246C17.891 13.9423 18.012 13.6579 18.1391 13.3944L15.6825 12.2099ZM16.2737 15.1154C17.2807 15.2849 18.3375 15.3865 19.4278 15.413L19.494 12.6865C18.5296 12.6631 17.6021 12.5733 16.7262 12.426L16.2737 15.1154ZM20.8246 14.0498V10.1067H18.0973V14.0498H20.8246ZM14.8643 14.382C14.428 15.8936 14.1661 17.6196 14.1227 19.4521L16.8492 19.5167C16.8876 17.8968 17.119 16.4051 17.4846 15.1383L14.8643 14.382ZM15.486 20.848H19.4609V18.1207H15.486V20.848ZM20.8246 19.4844V15.081H18.0973V19.4844H20.8246ZM19.4924 13.7177C18.4204 13.693 17.3869 13.5891 16.4109 13.4172L15.9379 16.1031C17.0519 16.2993 18.2226 16.4164 19.4295 16.4443L19.4924 13.7177ZM25.8766 19.4521C25.8332 17.6207 25.5721 15.8938 25.1349 14.3814L22.5149 15.1389C22.8809 16.4049 23.1117 17.897 23.1501 19.5167L25.8766 19.4521ZM23.5892 13.417C22.6127 13.5884 21.5786 13.6924 20.5061 13.7178L20.5706 16.4443C21.777 16.4157 22.9471 16.2986 24.0605 16.1033L23.5892 13.417ZM19.1747 15.081V19.4844H21.902V15.081H19.1747ZM20.5384 20.848H24.5133V18.1207H20.5384V20.848ZM27.1893 26.7926C25.3573 28.5444 22.8183 29.6364 20 29.6364V32.3636C23.532 32.3636 26.743 30.9928 29.0741 28.7638L27.1893 26.7926ZM20 29.6364C17.1809 29.6364 14.642 28.5443 12.8108 26.7928L10.9257 28.7636C13.2562 30.9928 16.4673 32.3636 20 32.3636V29.6364ZM12.811 26.7929C10.9806 25.0416 9.86364 22.6411 9.86364 20H7.13636C7.13636 23.4345 8.59417 26.5327 10.9255 28.7634L12.811 26.7929ZM9.86364 20C9.86364 17.3594 10.9808 14.9577 12.8108 13.2072L10.9257 11.2364C8.59404 13.4667 7.13636 16.5663 7.13636 20H9.86364ZM12.8107 13.2074C14.6427 11.4556 17.181 10.3636 20 10.3636V7.63636C16.4672 7.63636 13.2569 9.00726 10.9258 11.2362L12.8107 13.2074ZM20 10.3636C22.8185 10.3636 25.358 11.4557 27.1892 13.2072L29.0743 11.2364C26.7437 9.00714 23.5319 7.63636 20 7.63636V10.3636ZM27.189 13.2071C29.0193 14.9584 30.1364 17.3596 30.1364 20H32.8636C32.8636 16.5662 31.4059 13.4673 29.0745 11.2366L27.189 13.2071ZM30.1364 20C30.1364 22.6412 29.0193 25.0422 27.1892 26.7928L29.0743 28.7636C31.4059 26.5334 32.8636 23.4344 32.8636 20H30.1364Z"
+              fill="white"
+              mask="url(#path-2-inside-1_4851_63637)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_4851_63637"
+                x1="20"
+                y1="0"
+                x2="20"
+                y2="40"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop :stop-color="changeGradientColor1" />
+                <stop offset="1" :stop-color="changeGradientColor2" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center justify-between mt-[33px]"
+        v-if="liveTranlsationButtonLocation === 'above'"
+      >
+        <div
+          @click="customizeStore.changeDefaultButtonShape('gb')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'gb'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if=" customizeStore.currentShapeLiveTranslation === 'gb'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+          <div class="flex flex-col items-center justify-center">
+            <img
+              src="/assets/imgs/customize/gb.svg"
+              class="w-[40px] h-[40px]"
+              alt=""
+            />
+            <div
+              class="w-[30px] h-[30px] rounded-full flex items-center justify-center"
+              :class="gradientClasses"
+              :style="backgroundImageStyle"
+            >
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                alt=""
+                class="w-[22px] h-[22px]"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          @click="customizeStore.changeDefaultButtonShape('en')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'en'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if="customizeStore.currentShapeLiveTranslation === 'en'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+
+          <div class="flex flex-col items-center justify-center space-y-[8px]">
+            <svg
+              class="w-[30px] h-[30px]"
+              width="40"
+              height="41"
+              viewBox="0 0 40 41"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="0.5"
+                y="1"
+                width="39"
+                height="39"
+                rx="19.5"
+                fill="url(#paint0_linear_3321_46191)"
+              />
+              <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" />
+              <path
+                d="M13.3706 16.455V19.515H16.9706V20.91H13.3706V24.105H17.4206V25.5H11.6606V15.06H17.4206V16.455H13.3706ZM28.3438 25.5H26.6338L21.4888 17.715V25.5H19.7788V15.06H21.4888L26.6338 22.83V15.06H28.3438V25.5Z"
+                fill="white"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_3321_46191"
+                  x1="20"
+                  y1="0.5"
+                  x2="20"
+                  y2="40.5"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop :stop-color="changeGradientColor1" />
+                  <stop offset="1" :stop-color="changeGradientColor2" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div
+              class="w-[30px] h-[30px] rounded-full flex items-center justify-center"
+              :class="gradientClasses"
+              :style="backgroundImageStyle"
+            >
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                alt=""
+                class="w-[22px] h-[22px]"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          @click="customizeStore.changeDefaultButtonShape('langs')"
+          :class="[
+            customizeStore.currentShapeLiveTranslation === 'langs'
+              ? 'custom-border-tamkin padding-override-1'
+              : 'border-[1px]',
+            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+          ]"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+        >
+          <div
+            class="absolute top-[-3px] right-[5px]"
+            v-if=" customizeStore.currentShapeLiveTranslation  === 'langs'"
+          >
+            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+          </div>
+          <div class="flex flex-col items-center justify-center space-y-[8px]">
+            <svg
+              class="w-[30px] h-[30px]"
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="0.5"
+                y="0.5"
+                width="39"
+                height="39"
+                rx="19.5"
+                fill="url(#paint0_linear_4851_63637)"
+              />
+              <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="white" />
+              <mask id="path-2-inside-1_4851_63637" fill="white">
+                <path
+                  d="M22.7615 29.6149C24.4288 29.1775 25.929 28.3545 27.1502 27.2518C26.3602 26.9256 25.4907 26.6519 24.5612 26.4403C24.4097 26.8608 24.2434 27.2585 24.0638 27.6299C23.6861 28.4124 23.2478 29.0824 22.7615 29.6149ZM27.9344 26.4618C29.3755 24.8442 30.2859 22.7797 30.4064 20.5156H25.59C25.5492 22.3078 25.2941 23.9895 24.8776 25.4542C25.9811 25.7103 27.0092 26.0507 27.9344 26.4618ZM23.4979 26.23C22.5565 26.0716 21.5643 25.9759 20.5369 25.9509V29.8939C21.5002 29.6243 22.3895 28.6443 23.0871 27.1985C23.2337 26.8945 23.3711 26.571 23.4979 26.23ZM19.4595 25.9509C18.4321 25.9759 17.44 26.0716 16.4986 26.23C16.6254 26.571 16.7628 26.8945 16.9094 27.1985C17.607 28.6436 18.4963 29.6237 19.4595 29.8939V25.9509ZM15.4359 26.4403C14.5058 26.6519 13.6369 26.9256 12.847 27.2518C14.0682 28.3545 15.5684 29.1775 17.2356 29.6149C16.7487 29.0831 16.3104 28.4124 15.9334 27.6292C15.7544 27.2578 15.5881 26.8608 15.4359 26.4403ZM12.0627 26.4625C12.988 26.0513 14.0161 25.7103 15.1195 25.4548C14.7024 23.9902 14.448 22.3092 14.4071 20.5163H9.59081C9.71131 22.7803 10.6217 24.8449 12.0627 26.4625ZM16.1737 25.2405C17.2187 25.0572 18.3208 24.9466 19.4602 24.9197V20.5163H15.4853C15.5261 22.2425 15.7721 23.8513 16.1737 25.2405ZM20.5384 24.9197C21.6778 24.946 22.7799 25.0565 23.8249 25.2405C24.2258 23.8513 24.4725 22.2425 24.5133 20.5163H20.5384V24.9197ZM22.7623 10.3858C23.2492 10.9176 23.6875 11.5882 24.0645 12.3708C24.2434 12.7422 24.4097 13.1398 24.5619 13.5604C25.4921 13.3488 26.3609 13.0751 27.1509 12.7489C25.9297 11.6462 24.4288 10.8232 22.7623 10.3858ZM24.8783 14.5458C25.2955 16.0105 25.5499 17.6915 25.5907 19.4844H30.4071C30.2866 17.2203 29.3762 15.1558 27.9351 13.5382C27.0099 13.9493 25.9825 14.2904 24.8783 14.5458ZM14.4071 19.4844C14.448 17.6922 14.7031 16.0105 15.1195 14.5458C14.0153 14.2897 12.988 13.9493 12.0627 13.5382C10.621 15.1558 9.71131 17.2203 9.59081 19.4844H14.4071ZM15.4366 13.5604C15.5881 13.1398 15.7544 12.7422 15.9341 12.3708C16.3118 11.5882 16.7501 10.9176 17.2363 10.3858C15.5691 10.8232 14.0696 11.6462 12.8477 12.7489C13.6384 13.0751 14.5072 13.3488 15.4366 13.5604ZM23.0885 12.8021C22.3909 11.357 21.5016 10.377 20.5384 10.1067V14.0498C21.5657 14.0248 22.5579 13.9291 23.4993 13.7707C23.3725 13.4297 23.2351 13.1061 23.0885 12.8021ZM19.4609 10.1067C18.4977 10.3763 17.6084 11.3564 16.9108 12.8021C16.7642 13.1061 16.6268 13.4297 16.5 13.7707C17.4414 13.9291 18.4335 14.0248 19.4609 14.0498V10.1067ZM16.1744 14.7602C15.7735 16.1493 15.5268 17.7582 15.486 19.4844H19.4609V15.081C18.3215 15.0547 17.2194 14.9442 16.1744 14.7602ZM24.5133 19.4844C24.4725 17.7589 24.2265 16.1493 23.8249 14.7602C22.7799 14.9435 21.6778 15.054 20.5384 15.081V19.4844H24.5133ZM28.1317 27.7782C26.0502 29.7686 23.1752 31 20 31C16.8241 31 13.9491 29.7686 11.8683 27.7782C9.78741 25.7871 8.5 23.0378 8.5 20C8.5 16.9629 9.78741 14.2122 11.8683 12.2218C13.9498 10.2314 16.8241 9 20 9C23.1752 9 26.0509 10.2314 28.1317 12.2218C30.2126 14.2129 31.5 16.9629 31.5 20C31.5 23.0378 30.2126 25.7878 28.1317 27.7782Z"
+                />
+              </mask>
+              <path
+                d="M22.7615 29.6149L21.7546 28.6954L18.6403 32.106L23.1076 30.9339L22.7615 29.6149ZM27.1502 27.2518L28.064 28.2639L29.6674 26.816L27.6707 25.9914L27.1502 27.2518ZM24.5612 26.4403L24.864 25.1107L23.6873 24.8427L23.2783 25.9781L24.5612 26.4403ZM24.0638 27.6299L22.8362 27.036L22.8357 27.0372L24.0638 27.6299ZM27.9344 26.4618L27.3807 27.708L28.2904 28.1122L28.9527 27.3689L27.9344 26.4618ZM30.4064 20.5156L31.7681 20.5881L31.8445 19.152H30.4064V20.5156ZM25.59 20.5156V19.152H24.2571L24.2268 20.4845L25.59 20.5156ZM24.8776 25.4542L23.566 25.0812L23.1743 26.4587L24.5693 26.7825L24.8776 25.4542ZM23.4979 26.23L24.776 26.7053L25.3511 25.159L23.7242 24.8852L23.4979 26.23ZM20.5369 25.9509L20.57 24.5877L19.1733 24.5538V25.9509H20.5369ZM20.5369 29.8939H19.1733V31.6916L20.9045 31.2071L20.5369 29.8939ZM23.0871 27.1985L24.3152 27.7911L24.3154 27.7908L23.0871 27.1985ZM19.4595 25.9509H20.8232V24.5538L19.4264 24.5877L19.4595 25.9509ZM16.4986 26.23L16.2723 24.8852L14.6454 25.159L15.2204 26.7053L16.4986 26.23ZM16.9094 27.1985L15.6811 27.7908L15.6813 27.7914L16.9094 27.1985ZM19.4595 29.8939L19.0911 31.2069L20.8232 31.6929V29.8939H19.4595ZM15.4359 26.4403L16.7182 25.9762L16.3082 24.8433L15.1334 25.1106L15.4359 26.4403ZM12.847 27.2518L12.3265 25.9914L10.3297 26.816L11.9331 28.2639L12.847 27.2518ZM17.2356 29.6149L16.8896 30.9339L21.3681 32.1089L18.2414 28.694L17.2356 29.6149ZM15.9334 27.6292L17.1621 27.0378L17.1618 27.0372L15.9334 27.6292ZM12.0627 26.4625L11.0445 27.3695L11.7067 28.1129L12.6165 27.7086L12.0627 26.4625ZM15.1195 25.4548L15.4271 26.7833L16.8237 26.46L16.431 25.0813L15.1195 25.4548ZM14.4071 20.5163L15.7704 20.4852L15.74 19.1527H14.4071V20.5163ZM9.59081 20.5163V19.1527H8.15267L8.2291 20.5888L9.59081 20.5163ZM16.1737 25.2405L14.8637 25.6193L15.2037 26.7951L16.4093 26.5836L16.1737 25.2405ZM19.4602 24.9197L19.4925 26.2829L20.8239 26.2514V24.9197H19.4602ZM19.4602 20.5163H20.8239V19.1527H19.4602V20.5163ZM15.4853 20.5163V19.1527H14.089L14.122 20.5486L15.4853 20.5163ZM20.5384 24.9197H19.1747V26.2522L20.5069 26.2829L20.5384 24.9197ZM23.8249 25.2405L23.5884 26.5835L24.7952 26.796L25.135 25.6186L23.8249 25.2405ZM24.5133 20.5163L25.8766 20.5486L25.9096 19.1527H24.5133V20.5163ZM20.5384 20.5163V19.1527H19.1747V20.5163H20.5384ZM22.7623 10.3858L23.1085 9.06683L18.6292 7.89108L21.7565 11.3066L22.7623 10.3858ZM24.0645 12.3708L22.836 12.9626L22.836 12.9628L24.0645 12.3708ZM24.5619 13.5604L23.2797 14.0244L23.6897 15.1574L24.8645 14.8901L24.5619 13.5604ZM27.1509 12.7489L27.6714 14.0093L29.6681 13.1846L28.0647 11.7368L27.1509 12.7489ZM24.8783 14.5458L24.571 13.2173L23.1741 13.5404L23.5669 14.9194L24.8783 14.5458ZM25.5907 19.4844L24.2275 19.5155L24.2578 20.848H25.5907V19.4844ZM30.4071 19.4844V20.848H31.8452L31.7688 19.4119L30.4071 19.4844ZM27.9351 13.5382L28.9534 12.6311L28.2911 11.8878L27.3814 12.292L27.9351 13.5382ZM14.4071 19.4844V20.848H15.74L15.7704 19.5155L14.4071 19.4844ZM15.1195 14.5458L16.4312 14.9188L16.8229 13.5411L15.4277 13.2175L15.1195 14.5458ZM12.0627 13.5382L12.6165 12.292L11.707 11.8879L11.0447 12.6309L12.0627 13.5382ZM9.59081 19.4844L8.2291 19.4119L8.15267 20.848H9.59081V19.4844ZM15.4366 13.5604L15.1339 14.89L16.3106 15.158L16.7196 14.0225L15.4366 13.5604ZM15.9341 12.3708L17.1616 12.9647L17.1622 12.9635L15.9341 12.3708ZM17.2363 10.3858L18.2427 11.3059L21.3628 7.8933L16.8903 9.06679L17.2363 10.3858ZM12.8477 12.7489L11.9341 11.7366L10.3293 13.1849L12.3276 14.0094L12.8477 12.7489ZM23.0885 12.8021L24.3168 12.2099L24.3165 12.2093L23.0885 12.8021ZM20.5384 10.1067L20.9068 8.79381L19.1747 8.30782V10.1067H20.5384ZM20.5384 14.0498H19.1747V15.4469L20.5714 15.413L20.5384 14.0498ZM23.4993 13.7707L23.7256 15.1154L25.3525 14.8417L24.7774 13.2954L23.4993 13.7707ZM19.4609 10.1067H20.8246V8.30903L19.0934 8.79357L19.4609 10.1067ZM16.9108 12.8021L15.6826 12.2095L15.6825 12.2099L16.9108 12.8021ZM16.5 13.7707L15.2219 13.2954L14.6468 14.8417L16.2737 15.1154L16.5 13.7707ZM19.4609 14.0498L19.4278 15.413L20.8246 15.4469V14.0498H19.4609ZM16.1744 14.7602L16.4109 13.4172L15.2041 13.2047L14.8643 14.382L16.1744 14.7602ZM15.486 19.4844L14.1227 19.4521L14.0897 20.848H15.486V19.4844ZM19.4609 19.4844V20.848H20.8246V19.4844H19.4609ZM19.4609 15.081H20.8246V13.7485L19.4924 13.7177L19.4609 15.081ZM24.5133 19.4844V20.848H25.9096L25.8766 19.4521L24.5133 19.4844ZM23.8249 14.7602L25.1349 14.3814L24.7949 13.2055L23.5892 13.417L23.8249 14.7602ZM20.5384 15.081L20.5061 13.7178L19.1747 13.7493V15.081H20.5384ZM20.5384 19.4844H19.1747V20.848H20.5384V19.4844ZM28.1317 27.7782L29.0741 28.7638L29.0743 28.7636L28.1317 27.7782ZM11.8683 27.7782L10.9255 28.7634L10.9257 28.7636L11.8683 27.7782ZM11.8683 12.2218L10.9258 11.2362L10.9257 11.2364L11.8683 12.2218ZM28.1317 12.2218L29.0745 11.2366L29.0743 11.2364L28.1317 12.2218ZM23.1076 30.9339C24.9867 30.4409 26.6815 29.5123 28.064 28.2639L26.2363 26.2397C25.1765 27.1966 23.8708 27.914 22.4155 28.2959L23.1076 30.9339ZM27.6707 25.9914C26.8041 25.6335 25.8611 25.3377 24.864 25.1107L24.2585 27.7699C25.1203 27.9661 25.9164 28.2176 26.6296 28.5122L27.6707 25.9914ZM23.2783 25.9781C23.1416 26.3575 22.9935 26.7109 22.8362 27.036L25.2913 28.2238C25.4934 27.8061 25.6778 27.3642 25.8442 26.9024L23.2783 25.9781ZM22.8357 27.0372C22.5032 27.7259 22.1345 28.2793 21.7546 28.6954L23.7685 30.5344C24.361 29.8855 24.8689 29.0989 25.2918 28.2226L22.8357 27.0372ZM28.9527 27.3689C30.5878 25.5333 31.6302 23.1785 31.7681 20.5881L29.0447 20.4432C28.9415 22.3808 28.1631 24.155 26.9162 25.5548L28.9527 27.3689ZM30.4064 19.152H25.59V21.8793H30.4064V19.152ZM24.2268 20.4845C24.1883 22.17 23.9484 23.7362 23.566 25.0812L26.1893 25.8271C26.6397 24.2429 26.91 22.4457 26.9533 20.5467L24.2268 20.4845ZM24.5693 26.7825C25.5965 27.0209 26.5416 27.3351 27.3807 27.708L28.4882 25.2157C27.4768 24.7663 26.3657 24.3997 25.1859 24.1258L24.5693 26.7825ZM23.7242 24.8852C22.7172 24.7158 21.6604 24.6142 20.57 24.5877L20.5039 27.3142C21.4683 27.3376 22.3958 27.4273 23.2717 27.5747L23.7242 24.8852ZM19.1733 25.9509V29.8939H21.9006V25.9509H19.1733ZM20.9045 31.2071C22.4462 30.7756 23.5667 29.3424 24.3152 27.7911L21.859 26.6059C21.2123 27.9462 20.5542 28.4731 20.1694 28.5808L20.9045 31.2071ZM24.3154 27.7908C24.4815 27.4464 24.6353 27.0837 24.776 26.7053L22.2198 25.7546C22.1068 26.0584 21.9859 26.3427 21.8588 26.6063L24.3154 27.7908ZM19.4264 24.5877C18.3361 24.6142 17.2793 24.7158 16.2723 24.8852L16.7248 27.5747C17.6007 27.4273 18.5282 27.3376 19.4926 27.3142L19.4264 24.5877ZM15.2204 26.7053C15.3612 27.0837 15.515 27.4464 15.6811 27.7908L18.1377 26.6063C18.0106 26.3427 17.8896 26.0584 17.7767 25.7546L15.2204 26.7053ZM15.6813 27.7914C16.43 29.3421 17.5503 30.7745 19.0911 31.2069L19.8279 28.581C19.4422 28.4728 18.784 27.9451 18.1374 26.6057L15.6813 27.7914ZM20.8232 29.8939V25.9509H18.0959V29.8939H20.8232ZM15.1334 25.1106C14.1353 25.3377 13.1929 25.6336 12.3265 25.9914L13.3675 28.5122C14.081 28.2175 14.8763 27.9661 15.7385 27.7699L15.1334 25.1106ZM11.9331 28.2639C13.3157 29.5123 15.0105 30.4409 16.8896 30.9339L17.5817 28.2959C16.1263 27.914 14.8207 27.1966 13.7609 26.2397L11.9331 28.2639ZM18.2414 28.694C17.8621 28.2798 17.4938 27.7269 17.1621 27.0378L14.7047 28.2207C15.127 29.098 15.6353 29.8864 16.2299 30.5357L18.2414 28.694ZM17.1618 27.0372C17.0043 26.7104 16.8558 26.3564 16.7182 25.9762L14.1537 26.9043C14.3205 27.3653 14.5045 27.8053 14.705 28.2212L17.1618 27.0372ZM12.6165 27.7086C13.456 27.3356 14.401 27.0209 15.4271 26.7833L14.812 24.1263C13.6311 24.3997 12.5199 24.7671 11.509 25.2164L12.6165 27.7086ZM16.431 25.0813C16.0481 23.737 15.8089 22.1718 15.7704 20.4852L13.0439 20.5474C13.0872 22.4466 13.3566 24.2434 13.8081 25.8284L16.431 25.0813ZM14.4071 19.1527H9.59081V21.8799H14.4071V19.1527ZM8.2291 20.5888C8.36696 23.1792 9.40938 25.534 11.0445 27.3695L13.081 25.5555C11.8341 24.1557 11.0556 22.3815 10.9525 20.4438L8.2291 20.5888ZM16.4093 26.5836C17.3859 26.4123 18.42 26.3083 19.4925 26.2829L19.428 23.5564C18.2216 23.585 17.0515 23.702 15.9381 23.8974L16.4093 26.5836ZM20.8239 24.9197V20.5163H18.0966V24.9197H20.8239ZM19.4602 19.1527H15.4853V21.8799H19.4602V19.1527ZM14.122 20.5486C14.1654 22.3806 14.4265 24.1069 14.8637 25.6193L17.4837 24.8617C17.1177 23.5958 16.8869 22.1043 16.8485 20.484L14.122 20.5486ZM20.5069 26.2829C21.5789 26.3077 22.6124 26.4116 23.5884 26.5835L24.0614 23.8975C22.9474 23.7014 21.7767 23.5842 20.5698 23.5564L20.5069 26.2829ZM25.135 25.6186C25.5713 24.1071 25.8332 22.3811 25.8766 20.5486L23.1501 20.484C23.1117 22.1039 22.8803 23.5956 22.5147 24.8624L25.135 25.6186ZM24.5133 19.1527H20.5384V21.8799H24.5133V19.1527ZM19.1747 20.5163V24.9197H21.902V20.5163H19.1747ZM21.7565 11.3066C22.1358 11.7209 22.5042 12.2739 22.836 12.9626L25.293 11.7789C24.8708 10.9025 24.3625 10.1142 23.768 9.46492L21.7565 11.3066ZM22.836 12.9628C22.9933 13.2891 23.1419 13.6438 23.2797 14.0244L25.8442 13.0964C25.6775 12.6359 25.4936 12.1952 25.2929 11.7788L22.836 12.9628ZM24.8645 14.8901C25.8626 14.663 26.8049 14.3671 27.6714 14.0093L26.6303 11.4885C25.9169 11.7831 25.1216 12.0346 24.2594 12.2308L24.8645 14.8901ZM28.0647 11.7368C26.6821 10.4883 24.9866 9.55981 23.1085 9.06683L22.416 11.7047C23.8709 12.0866 25.1773 12.8041 26.237 13.761L28.0647 11.7368ZM23.5669 14.9194C23.9497 16.2637 24.189 17.8289 24.2275 19.5155L26.954 19.4533C26.9107 17.5541 26.6412 15.7573 26.1898 14.1723L23.5669 14.9194ZM25.5907 20.848H30.4071V18.1207H25.5907V20.848ZM31.7688 19.4119C31.6309 16.8215 30.5885 14.4667 28.9534 12.6311L26.9169 14.4452C28.1638 15.845 28.9422 17.6192 29.0454 19.5568L31.7688 19.4119ZM27.3814 12.292C26.5417 12.6652 25.5975 12.9798 24.571 13.2173L25.1857 15.8744C26.3675 15.601 27.4781 15.2335 28.4889 14.7843L27.3814 12.292ZM15.7704 19.5155C15.8089 17.83 16.0487 16.2638 16.4312 14.9188L13.8079 14.1729C13.3574 15.7571 13.0872 17.5543 13.0439 19.4533L15.7704 19.5155ZM15.4277 13.2175C14.4001 12.9791 13.4557 12.665 12.6165 12.292L11.509 14.7843C12.5202 15.2337 13.6306 15.6003 14.8114 15.8742L15.4277 13.2175ZM11.0447 12.6309C9.40851 14.4668 8.36695 16.8218 8.2291 19.4119L10.9525 19.5568C11.0557 17.6189 11.8335 15.8449 13.0807 14.4455L11.0447 12.6309ZM9.59081 20.848H14.4071V18.1207H9.59081V20.848ZM16.7196 14.0225C16.8562 13.6431 17.0044 13.2898 17.1616 12.9647L14.7066 11.7769C14.5045 12.1946 14.32 12.6365 14.1537 13.0983L16.7196 14.0225ZM17.1622 12.9635C17.4949 12.2742 17.8636 11.7206 18.2427 11.3059L16.2299 9.46565C15.6367 10.1145 15.1287 10.9023 14.7061 11.778L17.1622 12.9635ZM16.8903 9.06679C15.011 9.55987 13.3171 10.4885 11.9341 11.7366L13.7613 13.7612C14.8221 12.8039 16.1273 12.0866 17.5824 11.7048L16.8903 9.06679ZM12.3276 14.0094C13.1944 14.3671 14.1366 14.6629 15.1339 14.89L15.7394 12.2308C14.8778 12.0346 14.0823 11.7831 13.3679 11.4884L12.3276 14.0094ZM24.3165 12.2093C23.5679 10.6585 22.4476 9.22615 20.9068 8.79381L20.17 11.4197C20.5556 11.5279 21.2139 12.0556 21.8605 13.395L24.3165 12.2093ZM19.1747 10.1067V14.0498H21.902V10.1067H19.1747ZM20.5714 15.413C21.6618 15.3865 22.7186 15.2849 23.7256 15.1154L23.2731 12.426C22.3972 12.5733 21.4697 12.6631 20.5053 12.6865L20.5714 15.413ZM24.7774 13.2954C24.6367 12.917 24.4829 12.5543 24.3168 12.2099L21.8602 13.3944C21.9873 13.6579 22.1083 13.9423 22.2212 14.246L24.7774 13.2954ZM19.0934 8.79357C17.5517 9.22508 16.4312 10.6583 15.6826 12.2095L18.1389 13.3947C18.7856 12.0545 19.4437 11.5276 19.8285 11.4199L19.0934 8.79357ZM15.6825 12.2099C15.5164 12.5543 15.3626 12.917 15.2219 13.2954L17.7781 14.246C17.891 13.9423 18.012 13.6579 18.1391 13.3944L15.6825 12.2099ZM16.2737 15.1154C17.2807 15.2849 18.3375 15.3865 19.4278 15.413L19.494 12.6865C18.5296 12.6631 17.6021 12.5733 16.7262 12.426L16.2737 15.1154ZM20.8246 14.0498V10.1067H18.0973V14.0498H20.8246ZM14.8643 14.382C14.428 15.8936 14.1661 17.6196 14.1227 19.4521L16.8492 19.5167C16.8876 17.8968 17.119 16.4051 17.4846 15.1383L14.8643 14.382ZM15.486 20.848H19.4609V18.1207H15.486V20.848ZM20.8246 19.4844V15.081H18.0973V19.4844H20.8246ZM19.4924 13.7177C18.4204 13.693 17.3869 13.5891 16.4109 13.4172L15.9379 16.1031C17.0519 16.2993 18.2226 16.4164 19.4295 16.4443L19.4924 13.7177ZM25.8766 19.4521C25.8332 17.6207 25.5721 15.8938 25.1349 14.3814L22.5149 15.1389C22.8809 16.4049 23.1117 17.897 23.1501 19.5167L25.8766 19.4521ZM23.5892 13.417C22.6127 13.5884 21.5786 13.6924 20.5061 13.7178L20.5706 16.4443C21.777 16.4157 22.9471 16.2986 24.0605 16.1033L23.5892 13.417ZM19.1747 15.081V19.4844H21.902V15.081H19.1747ZM20.5384 20.848H24.5133V18.1207H20.5384V20.848ZM27.1893 26.7926C25.3573 28.5444 22.8183 29.6364 20 29.6364V32.3636C23.532 32.3636 26.743 30.9928 29.0741 28.7638L27.1893 26.7926ZM20 29.6364C17.1809 29.6364 14.642 28.5443 12.8108 26.7928L10.9257 28.7636C13.2562 30.9928 16.4673 32.3636 20 32.3636V29.6364ZM12.811 26.7929C10.9806 25.0416 9.86364 22.6411 9.86364 20H7.13636C7.13636 23.4345 8.59417 26.5327 10.9255 28.7634L12.811 26.7929ZM9.86364 20C9.86364 17.3594 10.9808 14.9577 12.8108 13.2072L10.9257 11.2364C8.59404 13.4667 7.13636 16.5663 7.13636 20H9.86364ZM12.8107 13.2074C14.6427 11.4556 17.181 10.3636 20 10.3636V7.63636C16.4672 7.63636 13.2569 9.00726 10.9258 11.2362L12.8107 13.2074ZM20 10.3636C22.8185 10.3636 25.358 11.4557 27.1892 13.2072L29.0743 11.2364C26.7437 9.00714 23.5319 7.63636 20 7.63636V10.3636ZM27.189 13.2071C29.0193 14.9584 30.1364 17.3596 30.1364 20H32.8636C32.8636 16.5662 31.4059 13.4673 29.0745 11.2366L27.189 13.2071ZM30.1364 20C30.1364 22.6412 29.0193 25.0422 27.1892 26.7928L29.0743 28.7636C31.4059 26.5334 32.8636 23.4344 32.8636 20H30.1364Z"
+                fill="white"
+                mask="url(#path-2-inside-1_4851_63637)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_4851_63637"
+                  x1="20"
+                  y1="0"
+                  x2="20"
+                  y2="40"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop :stop-color="changeGradientColor1" />
+                  <stop offset="1" :stop-color="changeGradientColor2" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div
+              class="w-[30px] h-[30px] rounded-full flex items-center justify-center"
+              :class="gradientClasses"
+              :style="backgroundImageStyle"
+            >
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                alt=""
+                class="w-[22px] h-[22px]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+
+</template>

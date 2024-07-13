@@ -15,16 +15,16 @@ const {widgetType} = storeToRefs(customizeStore)
 <template>
   <div
     class="flex flex-col items-center justify-center   w-full mt-[40px]">
-    <div         style="box-shadow: 0px 4px 4px 0px #00000014"
-    class=" bg-white rounded-[10px] w-full  px-[15px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
+    <div         
+    class=" bg-white rounded-[10px] w-full  px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
         <div class="flex items-center justify-start  pt-[16px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">
                 Widget Type
             </h1>
             
             <p
-              class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
             >
             Control the size of the buttons that you want to appear in the list            </p>
           </div>
@@ -58,8 +58,24 @@ const {widgetType} = storeToRefs(customizeStore)
 
             <div
               v-if=" collapseStore.menus.includes('widget_type')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click=" collapseStore.collapseCard('widget_type_card')"
@@ -96,11 +112,12 @@ const {widgetType} = storeToRefs(customizeStore)
           v-if="!collapseStore.collapses.includes('widget_type_card')"
         >
     
-<div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full lg:flex-wrap mx-auto ipad-max:flex-col ">
-    <div class="flex flex-col items-center justify-center">
-        <div class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+<div class="flex items-start flex-col justify-center w-full  mx-auto ipad-max:flex-col ">
+    <div class="flex  items-center justify-between space-x-[20px] w-full">
+      <div class="flex flex-col items-center justify-center flex-1 w-full">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[15px] leading-[22.5px]">Full Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">Full Widget</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -109,7 +126,8 @@ const {widgetType} = storeToRefs(customizeStore)
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-              :checked="widgetType === 'full_widget'"
+                :checked="widgetType === 'full_widget'"
+
                 value="full_widget"
                 @click.stop="customizeStore.selectWidgetType('full_widget')"
                          
@@ -121,14 +139,14 @@ const {widgetType} = storeToRefs(customizeStore)
               </label>
             </div>
           </div>
-          <div>
-            <img src="/assets/imgs/customize/full_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
+          <div class="w-full">
+            <img src="/assets/imgs/customize/full_widget.svg"  class="h-full w-full " alt="">
           </div>
       </div>
-      <div class="flex flex-col items-center justify-center">
-        <div class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+      <div class="flex flex-col items-center justify-center flex-1 w-full">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[15px] leading-[22.5px]">Mini Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">Mini Widget</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -150,69 +168,74 @@ const {widgetType} = storeToRefs(customizeStore)
               </label>
             </div>
           </div>
-          <div>
-            <img src="/assets/imgs/customize/mini_widget.svg"  class="lg:h-[200px] 2xl:h-full  " alt="">
+          <div class="w-full">
+            <img src="/assets/imgs/customize/mini_widget.svg"  class="h-full w-full " alt="">
           </div>
       </div>
 
-      <div class="flex flex-col items-center justify-center mt-[16px]">
-        <div class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+    </div>
+    <div class="flex  items-center justify-between space-x-[20px] w-full mt-[16px]">
+      <div class="flex flex-col items-center justify-center flex-1 w-full">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[15px] leading-[22.5px]">Round Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">Round Widget</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
               <input
-                id="rounded_widget"
+                id="round_widget"
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-                :checked="widgetType === 'rounded_widget'"
-
-                value="rounded_widget"
-                @click.stop="customizeStore.selectWidgetType('rounded_widget')"
+                :checked="widgetType === 'round_widget'"
+  
+                value="round_widget"
+                @click.stop="customizeStore.selectWidgetType('round_widget')"
                          
               />
-              <label for="rounded_widget" class="flex items-center cursor-pointer">
+              <label for="round_widget" class="flex items-center cursor-pointer">
                 <span
                   class="radio-tamkin"
                 ></span>
               </label>
             </div>
           </div>
-          <div>
-            <img src="/assets/imgs/customize/rounded_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
+          <div class="w-full">
+            <img src="/assets/imgs/customize/rounded_widget.svg"  class="h-full w-full " alt="">
           </div>
       </div>
-
-      <div class="flex flex-col items-center justify-center mt-[16px]">
-        <div class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+      <div class="flex flex-col items-center justify-center flex-1 w-full ">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[15px] leading-[22.5px]">Minuscule Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">Minuscule Widget</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
               <input
-                id="minuscule_widget"
+                id="minu_widget"
                 type="radio"
                 name="plans_radio"
                 class="hidden"
-               
-                value="minuscule_widget"
-                @click.stop="customizeStore.selectWidgetType('minuscule_widget')"
+                :checked="widgetType === 'minu_widget'"
+  
+                value="minu_widget"
+                @click.stop="customizeStore.selectWidgetType('minu_widget')"
                          
               />
-              <label for="minuscule_widget" class="flex items-center cursor-pointer">
+              <label for="round_widget" class="flex items-center cursor-pointer">
                 <span
                   class="radio-tamkin"
                 ></span>
               </label>
             </div>
           </div>
-          <div>
-            <img src="/assets/imgs/customize/minu_widget.svg" class="lg:h-[200px] 2xl:h-full  " alt="">
+          <div class="w-full">
+            <img src="/assets/imgs/customize/minu_widget.svg"  class="h-full w-full " alt="">
           </div>
       </div>
+</div>
+ 
+    
 </div>
 
 

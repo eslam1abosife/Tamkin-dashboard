@@ -1,13 +1,12 @@
 <template>
-  <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-  ">
+  <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] " >
     <div class="flex items-center justify-start px-[15px]">
       <div class="w-3/4">
-        <h1 class="text-[20px] font-[500] leading-[30px]">
+        <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[20px] font-[500] leading-[30px]">Accessibility Details</h1>
-              <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+              <h1 class="text-[18px] font-[500] leading-[30px]">Accessibility Details</h1>
+              <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
                 Accessibility Details provide comprehensive information to help ensure your website
                 complies with all accessibility standards
               </p>

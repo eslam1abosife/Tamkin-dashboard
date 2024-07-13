@@ -27,7 +27,7 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
        
-  <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey  lg:mt-0 mt-[60px]">
+  <h1 class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey  lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -44,12 +44,12 @@ const props = defineProps({
    <div class="flex flex-col items-center justify-center mx-auto  px-[70px]  w-full">
  
 <div class="w-full mt-[16px]">
-    <h1 class="text-center text-tamkin text-[24px] leading-[40px] font-[500]">
+    <h1 class="text-center text-tamkin text-[18px] leading-[40px] font-[500]">
         Congratulation's
     </h1>
 </div>
  <div class="w-full ">
-  <p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
+  <p class="text-[14px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
     
     Now your site has been upgraded Now you can enjoy more features</p>
 </div>

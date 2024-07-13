@@ -12,9 +12,9 @@
         <circle class="circle-dotted" cx="150" cy="150" r="85" stroke="url(#gradient)" />
       </svg>
       <div class="content">
-        <div class="remain-text">Remain</div>
-        <div class="text-4xl font-bold">{{ percentage.toFixed(2) }}%</div>
-        <div class="text-2xl">1 M</div>
+        <!-- <div class="remain-text">Remain</div> -->
+        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey">{{ percentage.toFixed(2) }}%</div>
+        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey">1 M</div>
       </div>
     </div>
   </template>
@@ -54,7 +54,7 @@
   }
   .circle-bg, .circle-progress {
     fill: none;
-    stroke-width: 25; /* Stroke width */
+    stroke-width: 30; /* Stroke width */
   }
   .circle-bg {
     stroke: #e5e7eb;

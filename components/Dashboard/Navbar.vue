@@ -55,7 +55,7 @@ onMounted(()=>{
 
 <template>
   <div
-    class="flex-col items-center justify-start relative 2xl:p-0 lg:flex mx-auto mt-[6px]"
+    class="flex-col items-center justify-start relative px-[15px] lg:flex mx-auto mt-[6px] w-full"
   >
     <div
       class="block lg:hidden absolute top-[35px] rtl:left-0 ltr:right-0"
@@ -77,11 +77,11 @@ onMounted(()=>{
       </svg>
     </div>
 
-    <div class="flex flex-col items-center justify-start rtl:mr-[4px] ltr:ml-[4px]">
+    <div class="flex flex-col items-center justify-start w-full">
       <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
         <img
           src="/assets//imgs/logo.png"
-          class="min-h-[60px] w-[120px] rtl:mr-[4px] ltr:ml-[-4px]"
+          class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
           alt=""
           v-if="sideBarOpen"
         />
@@ -108,19 +108,19 @@ onMounted(()=>{
       >
         <img
           src="/assets/imgs/team.png"
-          :class="[sideBarOpen ? 'h-[40px] w-[40px] ' : 'h-[24px] w-[24px]']"
+          :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
           alt=""
         />
 
-        <div class="flex items-center rtl:space-x-reverse space-x-[100px]">
+        <div class="flex items-center rtl:space-x-reverse w-full">
           <div
-            class="order-2 ltr:ml-[12px] rtl:mr-[12px]"
+            class="order-2 ltr:ml-[12px] rtl:mr-[12px] w-full"
             :class="[!sideBarOpen ? 'hidden' : 'block']"
           >
-            <h2 class="font-[400] text-[16px]" style="line-height: 24px">
+            <h2 class="font-[400] text-[14px]" style="line-height: 20px">
               {{ $t("Tamkin") }}
             </h2>
-            <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
+            <h3 class="font-[400] text-[12px]" style="line-height: 20px">
               3 {{ $t("teamcount") }}
             </h3>
           </div>
@@ -142,13 +142,13 @@ onMounted(()=>{
         </div>
       </div>
 
-      <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
+      <hr class="w-3/4 mx-auto h-[1px] bg-lightGrey my-[28px]" />
       <button
         @click="$router.push(localePath('/add-site'))"
-        class="btn-dashboard flex items-center justify-center relative w-full"
+        class="btn-dashboard h-[40px] flex items-center justify-center relative w-full"
         v-if="sideBarOpen"
       >
-        <div class="absolute rtl:right-0 ltr:left-0 px-[16px]">
+        <div class="absolute rtl:right-0 ltr:left-0 px-[12px]">
           <svg
             width="24"
             height="24"
@@ -187,17 +187,16 @@ onMounted(()=>{
     </button>
 
     <div
-      class="flex flex-col items-center mt-[14.5px]"
+      class="flex flex-col items-center mt-[14.5px]  w-full"
       :class="[!sideBarOpen ? 'justify-center' : 'justify-start']"
     >
       <TamkinSideBarLink
-        class="dashboard-nav-link"
+        class="dashboard-nav-link px-[6px]"
         :to="goToLink('/dashboard')"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full"
             width="24"
             height="24"
@@ -288,9 +287,9 @@ onMounted(()=>{
         <span v-if="sideBarOpen">Dashboard</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
-        class="dashboard-nav-link"
+        class="dashboard-nav-link px-[6px]"
         :to="goToLink('/embed-code')"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
@@ -299,7 +298,6 @@ onMounted(()=>{
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full "
           >
             <defs v-if="isLinkActive('/embed-code')">
@@ -329,16 +327,15 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Embed Code</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
-        class="dashboard-nav-link"
+        class="dashboard-nav-link px-[6px]"
         :to="goToLink('/my-site')"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
             width="25"
             height="24"
             viewBox="0 0 25 24"
-            :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' : '']"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="w-full h-full"
@@ -374,102 +371,19 @@ onMounted(()=>{
         <span v-if="sideBarOpen">My Site</span>
       </TamkinSideBarLink>
 
-      <div class="relative w-full" @click="openMenuSub(2)">
-        <div
-          class="dashboard-nav-link-has-menu"
-          :class="[
-            !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
-            showSubMenu[2] === true ? 'active' : '',
-          ]"
-        >
-          <div>
-            <img
-              src="/assets/imgs/icons/signlang.svg"
-              alt=""
-              :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
-            />
-          </div>
-          <div v-if="sideBarOpen">Sign language Services</div>
-          <div v-if="sideBarOpen">
-            <svg
-              width="7"
-              height="12"
-              class="rtl:mr-[12px] ltr:ml-[12px]"
-              :class="[showSubMenu[2] ? 'rotate-90' : '']"
-              viewBox="0 0 7 12"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                  <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
-                </linearGradient>
-              </defs>
-              <path
-                :fill="showSubMenu[2] ? 'url(#grad1)' : '#585B5B'"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="menu_item bg-[#FFFEFE] rounded-[10px]"
-          :class="[
-            !sideBarOpen && showSubMenu[2] ? 'absolute left-[85px] ' : ' ',
-            showSubMenu[2] ? 'block' : 'hidden',
-          ]"
-          style="padding: 10px 40px 10px 40px"
-        >
-          <div class="flex w-full">
-            <div class="bg-[#FFFEFE] relative w-full h-full rtl:right-0 lt:left-0">
-              <div
-                class="absolute inset-y-0 rtl:right-[-20px] ltr:left-[-20px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
-              ></div>
-              <ul class="mt-4 space-y-[10px]">
-                <li class="rounded-[10px] relative">
-                  <div
-                    class="absolute inset-y-0 rtl:right-[-20px] ltr:left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
-                  ></div>
-                  <a
-                    href="#"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px] active_sub_menu"
-                    >Overview</a
-                  >
-                </li>
-                <li class="rounded-[10px] relative w-full">
-                  <a
-                    href="#"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
-                    >Overview</a
-                  >
-                </li>
-                <li class="rounded-[10px] relative">
-                  <a
-                    href="#"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] rtl:mr-[20px] ltr:ml-[20px] w-[225px] h-[40px]"
-                    >Overview</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="relative w-full" @click="openMenuSub(3)">
         <div
-          class="dashboard-nav-link-has-menu"
+          class="dashboard-nav-link-has-menu px-[6px]"
           :class="[
-            !sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]',
+            !sideBarOpen ? 'closed_sidebar' : 'w-full ',
             activeAccessLinks ? 'active ' : '',
           ]"
         >
-          <div>
+          <div >
             <svg
           width="26" height="26" viewBox="0 0 26 26"
-            :class="[sideBarOpen ? 'ltr:pl-[11px]  rtl:pr-[11px]' : '']"
+            :class="[sideBarOpen ? '' : '']"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="w-full h-full stroke-darkGrey"
@@ -525,9 +439,9 @@ onMounted(()=>{
             <svg
               width="7"
               height="12"
-              class="rtl:mr-[40px] ltr:ml-[32px]"
-              :class="[showSubMenu[3] ? 'rotate-90' : 'rotate-0']"
+              :class="[showSubMenu[3] ? 'rotate-90 p-[10px]' : 'rotate-0 p-[10px]' ]"
               viewBox="0 0 7 12"
+              class="w-full h-full"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
@@ -546,81 +460,81 @@ onMounted(()=>{
           </div>
         </div>
         <div
-          class="menu_item bg-[#FFFEFE] rounded-[10px]" @click.stop
+          class="menu_item bg-[#FFFEFE] rounded-[10px] w-full" @click.stop
           :class="[
             !sideBarOpen && showSubMenu[3] ? 'absolute left-[85px] ' : ' ',
             showSubMenu[3] ? 'block ' : 'hidden',
           ]"
-          style="padding: 10px 40px 10px 40px"
+
         >
-          <div class="flex w-full">
-            <div class="bg-[#FFFEFE] relative w-full h-full left-0" @click.stop>
+          <div class="flex mt-[6px]">
+            <div class="bg-[#FFFEFE] relative w-full h-full left-[25px]" @click.stop>
               <div
-                class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
+                class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
               ></div>
-              <ul class="mt-4 space-y-[10px]">
-                <li class="rounded-[10px] relative">
+              <ul class="space-y-[10px] ">
+                <li class="rounded-[10px] relative w-full">
                   <div
                     v-if="isLinkActive('/overview')"
-                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <nuxt-link
                     @click.stop
                     :to="localePath('/overview')"
                     :class="[isLinkActive('/overview') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
                     >Overview</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative w-full">
                   <div
                     v-if="isLinkActive('/addons')"
-                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <nuxt-link
                     @click.stop
                     :to="localePath('/addons')"
                     :class="[isLinkActive('/addons') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
                     >Addons</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative">
                   <div
                     v-if="isLinkActive('/statistics')"
-                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <nuxt-link
                     @click.stop
                     :to="localePath('/statistics')"
                     :class="[isLinkActive('/statistics') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
                     >Statistics</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative">
                   <div
                     v-if="isLinkActive('/customize')"
-                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <nuxt-link
                     @click.stop
                     :to="localePath('/customize')"
                     :class="[isLinkActive('/customize') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
                     >Customize</nuxt-link
                   >
                 </li>
                 <li class="rounded-[10px] relative">
                   <div
                     v-if="isLinkActive('/settings')"
-                    class="absolute inset-y-0 left-[-20px] w-1 rounded-[10px] bg-tamkin h-full"
+                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
                   ></div>
                   <nuxt-link
                     @click.stop
                     :to="localePath('/settings')"
                     :class="[isLinkActive('/settings') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-[225px] h-[40px]"
+                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
                     >Settings</nuxt-link
                   >
                 </li>
@@ -630,8 +544,8 @@ onMounted(()=>{
         </div>
       </div>
       <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+      class="dashboard-nav-link px-[6px]"
+      :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
@@ -640,7 +554,6 @@ onMounted(()=>{
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5551)">
@@ -660,8 +573,8 @@ onMounted(()=>{
       </div>
 
       <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        class="dashboard-nav-link px-[6px]"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
@@ -670,7 +583,6 @@ onMounted(()=>{
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5569)">
@@ -689,8 +601,8 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Records</span>
       </div>
       <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        class="dashboard-nav-link px-[6px]"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
@@ -699,7 +611,6 @@ onMounted(()=>{
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5587)">
@@ -718,8 +629,8 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Packages</span>
       </div>
       <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full lg:w-[325px]']"
+        class="dashboard-nav-link px-[6px]"
+        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
@@ -728,7 +639,6 @@ onMounted(()=>{
             viewBox="0 0 25 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[sideBarOpen ? 'ltr:pl-[11px] rtl:pr-[11px]' : '']"
             class="w-full h-full"
           >
             <g clip-path="url(#clip0_2978_5605)">

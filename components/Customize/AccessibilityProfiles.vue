@@ -55,7 +55,7 @@ onMounted(()=>{
   checkboxId:'congitive'
  },
  {
-  icon:'ADHD.svg',
+  icon:'adhd.svg',
   name:'ADHD',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'ADHD'
@@ -75,12 +75,12 @@ const getImagePath = (icon) => {
     class="flex flex-col items-center justify-center  w-full mt-[40px] " 
   >
   <div 
-  style="box-shadow: 0px 4px 4px 0px #00000014"
+  
 
-  class=" bg-white rounded-[10px] w-full  px-[15px]" :class="[collapseStore.collapses.includes('manage_access_profiles_card') ? 'pb-[24px]' :'pb-[10px]']">
+  class=" bg-white rounded-[10px] w-full  px-[15px] shadow-md  -shadow-y-[1px]" :class="[collapseStore.collapses.includes('manage_access_profiles_card') ? 'pb-[24px]' :'pb-[10px]']">
     <div class="flex items-center justify-start pt-[24px] w-full">
       <div>
-        <h1 class="text-[20px] font-[500] leading-[30px]">
+        <h1 class="text-[18px] font-[500] leading-[30px]">
           Manage your Accessibility Profiles
         </h1>
       </div>
@@ -112,8 +112,24 @@ const getImagePath = (icon) => {
 
         <div
           v-if="collapseStore.menus.includes('manage_access_profiles') "
-          class="mini_SizeMenu"
+          class="mini_SizeMenu divide-y"
         >
+        <div
+        class="mini_wrap"
+      >
+        <div>
+          <img
+            src="/assets/imgs/addons/annual_convert.svg"
+            alt=""
+            :class="[
+              collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+            ]"
+          />
+        </div>
+        <div class="text_mini">
+          Switch To Annual
+        </div>
+      </div>
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('manage_access_profiles_card') "
@@ -158,7 +174,7 @@ const getImagePath = (icon) => {
     item-key="name" class="w-full"  handle=".handle">
       <template #item="{element}" >
       <div  
-        class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
+        class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
       >
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
           <img
@@ -177,7 +193,7 @@ const getImagePath = (icon) => {
             class="flex flex-col items-start justify-center w-full"
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
           >
-            <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+            <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
               <span>{{element.name}}</span>
             </div>
             <div

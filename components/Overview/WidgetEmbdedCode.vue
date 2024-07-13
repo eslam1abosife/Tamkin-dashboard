@@ -68,15 +68,48 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
+const route = useRoute()
+const isLinkActive = (path) => {
+  return localePath(route.patj) === localePath(path);
+};
+
+const localePath = useLocalePath()
 
 </script>
 
 <template>
   <div>
+    
+    <div class=" bg-white rounded-[10px] shadow-md -shadow-y-[1px] mt-[64px]"    v-if="isLinkActive('/overview')"   >
+      <div
+        class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y "
+      >
+        <div
+        
+          class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+        >
+          <div>
+            <img
+              src="/assets/imgs/overview/warning_overview.svg"
+              class="w-[43px] h-[36px]"
+              alt=""
+            />
+          </div>
+          <div
+          
+            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] leading-[28px] text-darkGrey ml-auto"
+          >
+            Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
+            and unlock the full potential of digital accessibility and ADA compliance
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
     <div
-      class="mt-[16px] bg-white rounded-[10px] relative"
-      style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-"
+      class="mt-[30px] bg-white rounded-[10px] px-[15px] relative shadow-md -shadow-y-[2px]"
+
     >
       <DashboardToastSuccess
         v-if="copyDone"
@@ -84,16 +117,16 @@ watch(copyDone, (newValue) => {
         :message="'Copied to clipboard'"
       />
 
-      <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
+      <div class="flex items-start justify-start l pt-[24px]">
         <div>
-          <h1 class="text-[20px] font-[500] leading-[30px]">Widget Embed Code</h1>
-          <h2 class="text-left text-[15px] font-[400] leading-[28.5px] text-darkGrey">
+          <h1 class="text-[18px] font-[500] leading-[30px]">Widget Embed Code</h1>
+          <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey ">
             Widget Embed Code allows you to easily integrate accessibility features into
             your website by adding a simple script to your site's HTML
           </h2>
         </div>
         <div
-          @click="collapseStore.collapseMenu('widget_embded_code')"
+          @click.stop="collapseStore.collapseMenu('widget_embded_code')"
           v-on-click-outside="() => collapseStore.removeMenu('widget_embded_code')"
           :class="[
             collapseStore.menus.includes('widget_embded_code')
@@ -168,12 +201,13 @@ watch(copyDone, (newValue) => {
       >
         <div class="w-full h-full rounded-[10px]">
           <div
-            class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[24px] w-full"
+            class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[24px] 
+            w-full"
             style="padding: 30px, 16px, 20px, 15px"
           >
             <button
               @click="showAdancedCode()"
-              class="btn__icon__dashboard ipad-max:text-[12px]"
+              class="btn__icon__dashboard ipad-max:text-[12px] text-[14px]"
               style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
             >
               <div>
@@ -194,7 +228,8 @@ watch(copyDone, (newValue) => {
             </button>
             <div
               @click="openShareModal"
-              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent 
+              bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white rounded-md flex items-center justify-center">
                 <div class="rtl:pr-[16px] ltr:pl-[16px]">
@@ -244,7 +279,8 @@ watch(copyDone, (newValue) => {
                 </div>
 
                 <button
-                  class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                  class="h-[45px] btn px-4 py-2 rounded-md group-hover:bg-gradient-to-r text-[14px]
+                   group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                   Share code with your team
                 </button>
@@ -288,7 +324,7 @@ watch(copyDone, (newValue) => {
                 </div>
 
                 <button
-                  class="h-[45px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                  class="h-[45px] px-4 py-2  text-[14px] rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                   Copy
                 </button>
@@ -308,7 +344,7 @@ watch(copyDone, (newValue) => {
             </Client-only>
 
             <h2
-              class="text-left font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
+              class="text-left font-[500] text-[12px] text-[#979897] mb-[30px] mt-[20px]"
               style="line-height: 23.4px"
             >
               Managing multiple sites for multiple clients ? Great! Make sure you use

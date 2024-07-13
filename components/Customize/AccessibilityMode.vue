@@ -13,7 +13,7 @@ const moveHideWidget = (v:string)=>{
 <template>
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px]">
-    <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px] border-b">
+    <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] border-b">
      
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
           <img
@@ -22,7 +22,7 @@ const moveHideWidget = (v:string)=>{
             alt=""
           />
           <div class="flex flex-col items-start justify-center w-full">
-            <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+            <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
               <span>Move / hide accessibility</span>
             </div>
             <div
@@ -75,40 +75,41 @@ const moveHideWidget = (v:string)=>{
         </div>
       </div>
 
-      <div class="flex items-center justify-between  mt-[24px] w-full rtl:space-x-reverse space-x-[60px]" v-if="isChecked('move_access')">
-        <div class=" flex items-center justify-start h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+      <div class="flex items-center justify-between  mt-[24px] w-full rtl:space-x-reverse space-x-[60px]"
+       v-if="isChecked('move_access')">
+        <div class=" flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"
         @click="moveHideWidget('left_side')">
             <div>
-                <img src="/assets/imgs/customize/left_side.svg" alt="" >
+                <img src="/assets/imgs/customize/left_side.svg" alt="" class="w-3/4 h-3/4">
             </div>
-            <div>
+            <div class="text-[14px]">
                 Left Side
             </div>
          
         </div>
-        <div class="flex items-center  justify-start  h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        <div class="flex items-center  justify-start  h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="moveHideWidget('right_side')"
         :class="[moveHide === 'right_side' ? 'custom-border padding-2' : '']"
 
         >
             <div>
-                <img src="/assets/imgs/customize/right_side.svg" alt="">
+                <img src="/assets/imgs/customize/right_side.svg" alt="" class="w-3/4 h-3/4">
             </div>
-            <div>
-                Right Side
+            <div class="text-[14px] w-full">
+              Right Side
             </div>
          
         </div>
-        <div class="rtl:mr-auto ltr:ml-auto flex items-center justify-start  h-[50px] w-[180px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center justify-start  h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
            @click="moveHideWidget('hide')"
         :class="[moveHide === 'hide' ? 'custom-border padding-2' : '']"
         >
             <div>
-                <img src="/assets/imgs/customize/hide.svg" alt="">
+                <img src="/assets/imgs/customize/hide.svg" alt="" class="w-3/4 h-3/4">
             </div>
-            <div>
-               Hide
+            <div class="text-[14px]">
+              Hide
             </div>
          
         </div>

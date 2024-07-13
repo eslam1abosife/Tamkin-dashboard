@@ -110,7 +110,7 @@ const clearInput = () => {
      <div class="flex flex-col lg:flex-row items-center justify-between">
 
       <h1
-      class="text-center text-[24px] font-[500] lg:order-1 order-2"
+      class="text-center text-[20px] font-[500] lg:order-1 order-2"
       style="line-height: 43.2px"
     >
       Here’s your
@@ -121,7 +121,7 @@ const clearInput = () => {
 
         </h1>
       <div   class="  lg:order-2 order-1 p-0 lg:mx-0 mx-auto w-[105px] h-[100px]  lg:block hidden" >
-        <Vue3Lottie :animationData="embed" :height="100" :width="105" :noMargin="true" class=""
+        <Vue3Lottie :animationData="embed" :height="100" :width="120" :noMargin="true" class=""
        />
        
       </div>
@@ -135,8 +135,8 @@ const clearInput = () => {
 
       <div>
         <p
-        class="font-[400] text-[15px] text-center lg:mt-[-23px]"
-        style="line-height: 22.5px"
+        class="font-[400] text-[13px] text-center lg:mt-[-23px]"
+      
       >
         Insert the following embed code at the beginning of your site's
         <head></head> tag, and you’re all set!
@@ -150,7 +150,7 @@ const clearInput = () => {
             style="padding: 30px, 16px, 20px, 15px"
           >
             <button @click="showAdancedCode()"
-              class="btn__icon__dashboard ipad-max:text-[12px]"
+              class="btn__icon__dashboard text-[14px]"
               style="
                 background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
               "
@@ -224,7 +224,7 @@ const clearInput = () => {
 
                 <button
                  
-                  class="h-[45px] btn px-4 py-2 rounded-md
+                  class="h-[45px] btn px-4 py-2 rounded-md text-[14px]
                    group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                   Share code with your team
@@ -269,7 +269,7 @@ const clearInput = () => {
                 </div>
 
                 <button 
-                  class="h-[45px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart 
+                  class="h-[45px] text-[14px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart 
                   group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
                 >
                  Copy
@@ -290,7 +290,7 @@ const clearInput = () => {
             </Client-only>
 
             <h2
-              class="text-left font-[500] text-[13px] text-[#979897] mb-[30px] mt-[20px]"
+              class="text-left font-[500] text-[12px] text-[#979897] mb-[30px] mt-[20px]"
               style="line-height: 23.4px"
             >
               Managing multiple sites for multiple clients ? Great! Make sure
@@ -301,48 +301,37 @@ const clearInput = () => {
         </div>
       </div>
 
-      <div
-    :style="{ backgroundImage: `url(${banner})`}"
-      style=" width:100%; height:100%;
-  background-size:cover;
-
-
-"
-        class="max-w-full lg:max-h-[230px] w-full relative rounded-lg p-8 flex items-center justify-center lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[150px]"
-      >
+     
+      <div class="flex items-center flex-col justify-center mt-[16px] space-y-[16px] ">
         <div
-          class="relative lg:top-[-20px] 2xl:top-[-18px] h-full flex items-center justify-start"
+          :style="{ backgroundImage: `url(${banner})` }"
+          style="width: 100%; background-size: cover"
+          class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
         >
-          <img
-            src="/assets/imgs/icons/man.svg"
-            alt="Man Icon"
-            class="lg:w-[221px] lg:h-[265px] w-full h-auto lg:self-start lg:block hidden"
-          />
-        </div>
-        <div class="text-center">
-          <h1
-            class="font-[600] text-[14px] lg:text-[20px] 2xl:text-[24px] font-[lato] text-black mb-4 lg:leading-[42px] leading-[18px]"
-          >
-            Would you like to have early access to the<br />
-            platform?
-          </h1>
-          <div
-            class="flex items-center justify-between bg-white py-2 lg:py-1 px-4 rounded-[15px] shadow-md rtl:space-x-reverse space-x-4"
-          >
-            <div class="flex-1">
-              <h1
-                class="text-tamkin font-[500] lg:text-[12px] text-[11px] 2xl:text-[16px] lg:leading-[42px] leading-[14px]"
-              >
-                Sign up to keep up with the latest news from us
-              </h1>
-            </div>
-            <div class="lg:w-auto lg:h-auto w-4 h-4">
-              <img
-                src="/assets/imgs/icons/nicemove.svg"
-                alt="Sign up Icon"
-                class=""
-              />
-            </div>
+          <div class="h-full">
+            <img
+              src="/assets/imgs/icons/man.svg"
+              alt="Character"
+              class=" h-full lg:block hidden m-auto"
+            />
+          </div>
+          <div class="flex flex-col items-center justify-center px-[10px]">
+            <h2
+              class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
+            >
+              Would you like to have early access to the platform?
+            </h2>
+            <button
+              class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
+              space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
+              flex items-center justify-center px-[12px]"
+            
+            >
+              <div class="">Sign up to keep up with the latest news from us</div>
+              <div>
+                <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" alt="" />
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -350,24 +339,21 @@ const clearInput = () => {
       <div class="space-y-[14px] mb-[32px]">
         <div class="">
           <h1
-          class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[24px]"
-        >
-          Need help installing Tamkin ?
-        </h1>
-        <p
-          class="text-center text-[14px] mt-[8px] text-[#A7A7A7]"
-          style="line-height: 21px"
-        >
-          Our support team is help !
-        </p>
-        </div>
-
-        <div
-          class="lg:h-[60px] w-full
-           bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
-       style="box-shadow: 0px 4px 24px 8px #51459F14;
-"
+            class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px]"
           >
+            Need help installing Tamkin ?
+          </h1>
+          <p
+            class="text-center text-[14px] mt-[8px] text-[#A7A7A7]"
+            style="line-height: 21px"
+          >
+            Our support team is help !
+          </p>
+        </div>
+  
+        <div
+          class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+        >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
             <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />

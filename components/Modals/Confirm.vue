@@ -8,9 +8,11 @@ const props = defineProps({
   showModal: Boolean,
   title:String,
   subTitle:String,
-  confirmBtnType:String
+  confirmBtnType:String,
+  savetoAllSitesBtn:Boolean,
+  cancelButtonName:String
 });
-const emit = defineEmits(['controlConfirm','controlDelete'])
+const emit = defineEmits(['controlConfirm','controlDelete','controlCancel','controlOther','controlsaveAllSites'])
 
 const controlConfirmButton = ()=>{
   emit('controlConfirm')
@@ -19,19 +21,21 @@ const controlDeleteButton = ()=>{
   emit('controlDelete')
 }
 const controlCancelButton = ()=>{
-  if(props.confirmBtnType === 'delete'){
-    controlDeleteModal()
-  }
+  emit('controlCancel')
 
-  if(props.confirmBtnType === 'confirm'){
-    controlResetModal()
-  }
+}
+const controlOtherBtn = ()=>{
+  emit('controlOther')
+
+}
+const controlSaveSite = ()=>{
+  emit('controlsaveAllSites')
 }
 </script>
 
 <template>
   <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
+    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="controlCancelButton">
@@ -49,24 +53,35 @@ const controlCancelButton = ()=>{
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
       {{ title }}
     </h1>
   
-    <h2 class="text-[16px] font-[500] leading-[24px] text-darkGrey mt-[24px]">
+    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey mt-[24px]">
 
       {{ subTitle }}
     </h2>
 
   <div class="flex items-center justify-end space-x-[16px]">
+  
     <div class="  mt-[40px] " >
       <button class="btn_bordered_dashboard hover_tamkin " @click="controlCancelButton">
-        Cancel
+        {{ cancelButtonName ? cancelButtonName :'Cancel' }}
+      </button>
+    </div>
+    <div class="  mt-[40px] " v-if="savetoAllSitesBtn">
+      <button class="btn_bordered_dashboard hover_tamkin " @click="controlSaveSite">
+        Save to all sites
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'confirm' ">
       <button class="btn-dashboard hover_tamkin "  @click="controlConfirmButton">
         Confirm Reset
+      </button>
+    </div>
+    <div class="  mt-[40px] " v-if="confirmBtnType === 'other' ">
+      <button class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
+        Save
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'delete' ">

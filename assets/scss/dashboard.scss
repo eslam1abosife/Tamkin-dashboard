@@ -1,3 +1,8 @@
+
+html {
+    overflow-y: scroll; /* Always show scrollbar to prevent jumping */
+  }
+
 .bg_dashboard {
     @apply min-h-screen;
     background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
@@ -15,7 +20,8 @@
 
 
     .tamkin_team_card {
-        @apply flex items-center justify-start py-[10px] px-[16px] hover:bg-tamkinLight cursor-pointer bg-white w-full h-[60px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
+        @apply flex items-center justify-start py-[10px] px-[16px]
+         hover:bg-tamkinLight cursor-pointer bg-white w-full h-[55px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
 
         .arrow_svg {
             @apply fill-darkGrey;
@@ -35,13 +41,15 @@
     }
 
     .dashboard-nav-link-has-menu {
-        @apply flex items-center justify-start rtl:ml-auto ltr:mr-auto rtl:space-x-reverse space-x-[16px]
-         w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] 
-         cursor-pointer text-[18px] font-[400];
-        line-height: 27px;
+        @apply flex items-center justify-start rtl:ml-auto ltr:mr-auto rtl:space-x-reverse space-x-[16px] 
+         w-full  bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] 
+         cursor-pointer text-[16px] font-[400];
+        line-height: 24px;
 
         &.closed_sidebar {
-            @apply flex items-center justify-center rtl:space-x-reverse  space-x-[16px] w-full lg:w-[55px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
+            @apply flex items-center justify-center rtl:space-x-reverse  space-x-[16px] 
+            w-full lg:w-[55px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px]
+             cursor-pointer text-[18px] font-[400];
 
         }
 
@@ -53,11 +61,13 @@
     }
 
     .dashboard-nav-link {
-        @apply flex items-center justify-start rtl:ml-auto ltr:mr-auto rtl:space-x-reverse space-x-[16px] w-full lg:w-[325px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
-        line-height: 27px;
+        @apply flex items-center justify-start rtl:ml-auto ltr:mr-auto rtl:space-x-reverse space-x-[16px] w-full 
+         bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+        line-height: 24px;
 
         &.closed_sidebar {
-            @apply flex items-center justify-center rtl:space-x-reverse  space-x-[16px] w-full lg:w-[55px] bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[45px] cursor-pointer text-[18px] font-[400];
+            @apply flex items-center justify-center rtl:space-x-reverse  space-x-[16px] w-full lg:w-[55px]
+             bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[18px] font-[400];
 
         }
 
@@ -128,7 +138,7 @@
 }
 
 .v3ti-tag-content::after {
-    @apply border-[1px] border-[#C5C5C5];
+    @apply border-[1px] border-[#C5C5C5] ;
     content: url('assets/imgs/tick.svg');
     /* Replace 'path/to/your/svg/icon.svg' with the actual path to your SVG file */
     margin-left: 5px;
@@ -146,12 +156,16 @@
 }
 
 .v3ti {
-    @apply border-[1px] border-[#C5C5C5] #{!important};
+    @apply border-[1px] border-[#C5C5C5]  text-[14px] #{!important};
 }
 
 .v3ti .v3ti-content {
 
-    @apply rtl:mr-[24px] ltr:ml-[24px] mt-[23px];
+    @apply rtl:mr-[24px] ltr:ml-[24px] mt-[23px] ;
+}
+.v3ti .v3ti-new-tag{
+
+@apply text-[14px];
 }
 
 .v3ti .v3ti-content .v3ti-tag {
@@ -239,7 +253,10 @@
 
 
 }
-
+.custom-border.padding-override-1::before {
+    padding: 0.4px !important;
+    /* Custom padding */
+}
 .custom-border::before {
     content: "";
     position: absolute;
@@ -549,7 +566,7 @@ input[type=number] {
     @apply relative inline-flex items-center cursor-pointer w-full;
 
     .toggle_parent {
-        @apply w-[58px] h-[32px] bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200;
+        @apply w-[58px] h-[28px] bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200;
 
         &.active {
             position: relative;
@@ -580,11 +597,11 @@ input[type=number] {
         }
 
         .toggle_inner {
-            @apply absolute rtl:right-[2px] ltr:left-[2px] top-[2px] w-[28px] h-[28px] 
-            bg-white rounded-full transition-transform duration-200 transform;
+            @apply absolute rtl:right-[2px] ltr:left-[2px] inset-y-0 w-[24px] h-[24px] 
+           rounded-full transition-transform duration-200 transform;
 
             &.active {
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 ltr:left-0 #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 ltr:left-[8px] #{!important};
             }
 
             &.in_active {
@@ -593,10 +610,10 @@ input[type=number] {
         }
 
         .toggle_icon {
-            @apply w-[28px] h-[28px] rounded-full flex items-center justify-center shadow-lg transform transition-transform;
+            @apply w-[24px] h-[24px] rounded-full flex items-center justify-center shadow-lg transform transition-transform;
 
             &.active {
-                @apply bg-teal-400 rtl:translate-x-[-24px] ltr:translate-x-[24px];
+                @apply bg-teal-400 rtl:translate-x-[-24px] ltr:translate-x-[10px];
             }
 
             &.in_active {
@@ -608,7 +625,7 @@ input[type=number] {
 .menu_button_control{
 
 
-    @apply relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] flex items-center
+    @apply relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
      justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px] ;
 
 &.active_notification{
@@ -630,6 +647,7 @@ input[type=number] {
 }
 
     .arrow{
-        @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px] border-lightGrey ; 
+        @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px]
+         border-lightGrey ; 
     }
 }

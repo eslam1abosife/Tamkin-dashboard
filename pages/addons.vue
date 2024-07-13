@@ -1,23 +1,29 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
+import { useCustomizeStore } from "@/stores/customize.js";
 import { useAddonStore } from "@/stores/addons.js";
 import draggable from 'vuedraggable'
-
+const custmizeStore = useCustomizeStore()
 const checkboxStore = useAddonStore();
+const {force_change_menuCards, 
+  force_change_profileCards} = storeToRefs(checkboxStore)
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
 definePageMeta({
   layout: "dashboard",
 });
-
+const localePath = useLocalePath();
+const route = useRoute();
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
 const miniSizeLiveTranslation = ref(false);
 const verticalView = ref(false);
 const horizontalView = ref(true);
 const openResizeMenuLiveTranslataion = ref(false);
 const annual_prices = ref(false);
-const route = useRoute();
 
 const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
   if (directionVOrH === "vertical") {
@@ -247,7 +253,7 @@ checkboxStore.initializeCardsMenu([
   checkboxId:'congitive'
  },
  {
-  icon:'ADHD.svg',
+  icon:'adhd.svg',
   name:'ADHD',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'ADHD'
@@ -261,10 +267,45 @@ checkboxStore.initializeCardsMenu([
 const getImagePath = (icon) => {
   return new URL(`/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
+
+let pendingNavigation = null;
+
+const detectUnsavedChanges = () => {
+  return (isLinkActive("/addons") && checkboxStore.hasChanges()) || 
+         (isLinkActive('/addons') && checkboxStore.force_change_menuCards) || 
+         (isLinkActive('/addons') && checkboxStore.force_change_profileCards);
+};
+
+const handleSaveAndMove = () => {
+  checkboxStore.saveAndMove();
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+
+const handleCancelLeave = () => {
+  checkboxStore.routeLeaveModal = false; // Close the modal
+};
+
+onBeforeRouteLeave((to, from, next) => {
+  if (detectUnsavedChanges()) {
+    checkboxStore.showSaveBeforeLeaveModal();
+    pendingNavigation = { next, to };
+  } else {
+    next(); // No unsaved changes, proceed normally
+  }
+});
 </script>
 
 <template>
   <div class="relative h-full w-full">
+    <LazyModalsConfirm :showModal="checkboxStore.routeLeaveModal" title="Save  your changes"
+    sub-title="Do you want to save the changes before moving on?"
+    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
+    :savetoAllSitesBtn="true"
+    @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
       <HeaderAccess 
       websiteImgName="tamkin_hand.svg"
@@ -274,19 +315,20 @@ const getImagePath = (icon) => {
       section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."/>
      
-      <div class="mt-[50px] bg-white rounded-[10px] px-[15px] pb-[24px]" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-      ">
+      <div class="mt-[64px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]">
         <div class="flex items-center justify-start  pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Adjust the Main Menu</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px]">Adjust the Main Menu</h1>
           </div>
 
           <div
             @click.stop="collapseMenu('adjustMenu')"
+            v-on-click-outside="() => collapseStore.removeMenu('adjustMenu')"
             :class="[
               menus.includes('adjustMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto   rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto  
+             rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
           >
             <svg
               width="18"
@@ -308,9 +350,24 @@ const getImagePath = (icon) => {
 
             <div
               v-if="menus.includes('adjustMenu')"
-              v-on-click-outside="() => collapseStore.removeMenu('adjustMenu')"
-              class="mini_SizeMenu shadow"
+              class="mini_SizeMenu shadow divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('adjustMenu')"
@@ -359,7 +416,7 @@ const getImagePath = (icon) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
@@ -378,7 +435,7 @@ const getImagePath = (icon) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
@@ -435,22 +492,27 @@ const getImagePath = (icon) => {
           </draggable>
 </div>
   
+<div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+  Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis dolore. Exercitationem et omnis ea quidem
+
+</div>
      
 
         
       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px]" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-      ">
+      <div class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]" >
         <div class="flex items-center justify-start pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]">
               Manage your Accessibility Profiles
             </h1>
           </div>
           <div
-            @click="collapseStore.collapseMenu('ManageMenu')"
+            @click.stop="collapseStore.collapseMenu('ManageMenu')"
+            v-on-click-outside="() => collapseStore.removeMenu('ManageMenu')"
+
             :class="[
               menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
@@ -476,9 +538,24 @@ const getImagePath = (icon) => {
 
             <div
               v-if="menus.includes('ManageMenu')"
-              v-on-click-outside="() => collapseStore.removeMenu('ManageMenu')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
+            <div
+            class="mini_wrap"
+          >
+            <div>
+              <img
+                src="/assets/imgs/addons/annual_convert.svg"
+                alt=""
+                :class="[
+                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
+                ]"
+              />
+            </div>
+            <div class="text_mini">
+              Switch To Annual
+            </div>
+          </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('ManageCard')"
@@ -526,7 +603,7 @@ const getImagePath = (icon) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
@@ -545,7 +622,7 @@ const getImagePath = (icon) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
@@ -602,23 +679,28 @@ const getImagePath = (icon) => {
           </draggable>
         </div>
 
+        <div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+          Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis dolore. Exercitationem et omnis ea quidem
+ 
+        </div>
       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px]" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08);
-      ">
+      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px]">
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Live Translation</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px]">Live Translation</h1>
 
-            <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
             </p>
           </div>
 
           <div
-            @click="collapseStore.collapseMenu('LiveTranslationAddons')"
+            @click.stop="collapseStore.collapseMenu('LiveTranslationAddons')"
+            v-on-click-outside="() => collapseStore.removeMenu('LiveTranslationAddons')"
+
             :class="[
               menus.includes('LiveTranslationAddons')
                 ? 'active_notification !text-darkGrey'
@@ -646,8 +728,7 @@ const getImagePath = (icon) => {
 
             <div
               v-if="menus.includes('LiveTranslationAddons')"
-              v-on-click-outside="() => collapseStore.removeMenu('LiveTranslationAddons')"
-              class="mini_SizeMenu"
+              class="mini_SizeMenu divide-y"
             >
               <div
                 class="mini_wrap"
@@ -739,7 +820,7 @@ const getImagePath = (icon) => {
           "
         >
           <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]"
+            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
           >
             <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
               ${{ annual_prices ? 1200 : "100.00"
@@ -751,6 +832,7 @@ const getImagePath = (icon) => {
             <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
               Almost 50 Page
             </div>
+            <div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
 
             <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
@@ -777,7 +859,7 @@ const getImagePath = (icon) => {
           </div>
 
           <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]"
+            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
           >
             <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
               ${{ annual_prices ? 2400 : "200.00"
@@ -789,7 +871,7 @@ const getImagePath = (icon) => {
             <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
               Almost 100 Page
             </div>
-
+<div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
             <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
                 <img
@@ -811,7 +893,7 @@ const getImagePath = (icon) => {
           </div>
 
           <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px]"
+            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
           >
             <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
               ${{ annual_prices ? 3600 : "300.00"
@@ -823,6 +905,7 @@ const getImagePath = (icon) => {
             <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
               Almost 500 Page
             </div>
+            <div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
 
             <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
               <div>
@@ -846,9 +929,7 @@ const getImagePath = (icon) => {
             <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
               <img src="/assets/imgs/addons/live_icon.svg" alt="" />
             </div>
-            <div class="absolute top-[17px] right-[18px]">
-              <img src="/assets/imgs/addons/start.svg" alt="" />
-            </div>
+           
           </div>
         </div>
       
@@ -868,7 +949,7 @@ const getImagePath = (icon) => {
                 #fef5f6 100%
               );
             "
-            class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
+            class="flex items-center  justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
             <div class="ltr:ml-[15px] rtl:mr-[15px]">
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
@@ -885,7 +966,7 @@ const getImagePath = (icon) => {
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>
@@ -901,13 +982,13 @@ const getImagePath = (icon) => {
                 #fef5f6 100%
               );
             "
-            class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
+            class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]   "
           >
             <div class="ltr:ml-[15px] rtl:mr-[15px]">
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
             </div>
 
-            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
+            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] ">
               <div class="text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 2400 : "200.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
@@ -918,7 +999,7 @@ const getImagePath = (icon) => {
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin w-[140px] mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin !h-[40px] w-[140px] mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Active
             </button>
@@ -940,7 +1021,7 @@ const getImagePath = (icon) => {
               <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
             </div>
 
-            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
+            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] relative">
               <div class="text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 3600 : "300.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
@@ -949,9 +1030,11 @@ const getImagePath = (icon) => {
                 For 2 million characters
               </div>
             </div>
-
+            <div class="absolute top-[2px] right-[0]">
+              <img src="/assets/imgs/addons/start.svg" alt="" class="w-full h-full"/>
+            </div>
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>

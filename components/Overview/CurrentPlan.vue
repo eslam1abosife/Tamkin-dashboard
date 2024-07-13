@@ -41,8 +41,8 @@ const prev = () => {
 
 
     <div
-    class="mt-[30px] bg-white rounded-[10px] h-full"
-    style="box-shadow: 0px 4px 4px 0px #00000014"
+    class="mt-[64px] bg-white rounded-[10px] h-full shadow-md -shadow-y-[1px]"
+    
   >
     <div
       class="flex items-center justify-start rounded-[10px] h-[212px] w-full
@@ -50,20 +50,20 @@ const prev = () => {
     >
       <div class="flex flex-col items-start justify-center w-full px-[15px]">
         <div>
-          <h1 class="text-white font-[500] text-[20px] leading-[30px]">
+          <h1 class="text-white font-[500] text-[18px] leading-[30px]">
             Your Current Plan
           </h1>
-          <h3 class="text-white font-[500] text-[14px] leading-[21px]">
+          <h3 class="text-white font-[500] text-[13px] leading-[21px]">
             Your current plan provides comprehensive features tailored to meet your
             needs.
           </h3>
         </div>
 
         <div
-          class="h-[63px]   bg-white bg-opacity-75 rounded-[41px] w-[500px]
-          flex items-center justify-around  space-x-[10px] mt-[24px]  "
+          class="h-[55px]   bg-white bg-opacity-75 rounded-[41px] w-[500px]
+          flex items-center justify-between p-2 space-x-[10px] mt-[24px]  "
         >
-          <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px]">
+          <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px] ">
             <div>
               <img src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'free'"/>
               <img src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'pro'"/>
@@ -72,7 +72,7 @@ const prev = () => {
               <img src="/assets/imgs/overview/enterprise_plan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'enterprise'"/>
               <!-- <img src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] mr-[13px]" alt="" v-else/> -->
             </div>
-            <div class="text-[15px] font-[500] leading-[22.5px] text-darkGrey">
+            <div class="text-[14px] font-[500] leading-[22.5px] text-darkGrey">
               {{ planType === 'free' ? 'Free Widget' : planType === 'pro' ? 'Pro- Widget':planType === 'platinum' ?'Platinum Widget':planType ==='advanced' ?'Advanced Widget':planType === 'enterprise'?'EnterPrise Widget' :''}}
             </div>
             <!-- <div class=" text-[15px] font-[500] leading-[22.5px] text-darkGrey" >
@@ -81,8 +81,8 @@ const prev = () => {
           </div>
 
           <div
-            class="w-  text-[15px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
-            justify-evenly rtl:space-x-reverse space-x-[4px] mr-[4px]"
+            class=" text-[14px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
+            justify-evenly rtl:space-x-reverse space-x-[4px] "
             v-if="!isInstalled"
          
           >
@@ -132,17 +132,17 @@ const prev = () => {
           <button
             @click="switchBetweenMonthlyAndAnnual('monthly')"
             :class="[pricingType === 'monthly' ? 'bg-white rounded-full' : '']"
-            class="py-2 px-4 transition-all ease-in-out text-darkGrey font-[500] text-[15px] leading-[22.5px]"
+            class="py-2 px-4 transition-all ease-in-out text-darkGrey font-[500] text-[14px] leading-[22.5px]"
           >
             Monthly
           </button>
           <button
             :class="[pricingType === 'annual' ? 'bg-white rounded-full' : '']"
             @click="switchBetweenMonthlyAndAnnual('annual')"
-            class="py-2 px-2 transition-all ease-in-out text-darkGrey font-[500] text-[15px] leading-[22.5px] mr-[4px]"
+            class="py-2 px-2 transition-all ease-in-out text-darkGrey font-[500] text-[14px] leading-[22.5px] mr-[4px]"
           >
             Annual
-            <span class="!text-black text-[12px] leading-[18px] font-[600]"
+            <span class="!text-black text-[11px] leading-[18px] font-[600]"
               >SAVE 12%</span
             >
           </button>
@@ -173,11 +173,11 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[20px] leading-[30px]">Free Widget</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Free Widget</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
-                <div class="absolute top-[46px] left-[-6px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
                     <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
                       <span>$18,000</span>
                     </div>
@@ -186,7 +186,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ 00
-                  <span class="!font-[500] !text-darkGrey !text-[20px]">/month</span>
+                  <span class="!font-[500] !text-darkGrey !text-[18px]">/month</span>
                 </h3>
 
                 <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
@@ -299,11 +299,11 @@ const prev = () => {
   
               <div class="order-2 relative w-full">
           
-                <h1 class="font-[600] text-[20px] leading-[30px]">Pro- Widget</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Pro- Widget</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
-                <div class="absolute top-[46px] left-[-6px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
                     <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
                       <span>$18,000</span>
                     </div>
@@ -312,7 +312,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "1000" : "150" }}
-                  <span class="!font-[500] !text-darkGrey !text-[20px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px]"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
@@ -424,7 +424,7 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[20px] leading-[30px]">Premium</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Premium</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
@@ -433,7 +433,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "1500" : "300" }}
-                  <span class="!font-[500] !text-darkGrey !text-[20px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px]"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
@@ -551,7 +551,7 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[20px] leading-[30px]">Advanced</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Advanced</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
@@ -560,7 +560,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "4000" : "400" }}
-                  <span class="!font-[500] !text-darkGrey !text-[20px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px]"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
@@ -672,7 +672,7 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[20px] leading-[30px]">Platinum</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Platinum</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
@@ -681,7 +681,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "5000" : "500" }}
-                  <span class="!font-[500] !text-darkGrey !text-[20px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px]"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
@@ -793,7 +793,7 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[20px] leading-[30px]">Enterprise</h1>
+                <h1 class="font-[600] text-[18px] leading-[30px]">Enterprise</h1>
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
                   For Individuals and Small Teams
                 </h2>
@@ -802,7 +802,7 @@ const prev = () => {
                   class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "5500" : "600" }}
-                  <span class="!font-[500] !text-darkGrey !text-[20px]">/month</span>
+                  <span class="!font-[500] !text-darkGrey !text-[18px]">/month</span>
                 </h3>
 
                 <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">

@@ -84,7 +84,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -93,11 +93,11 @@ const props = defineProps({
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[18px] leading-[36px] font-[600] ml-[20px] text-darkGrey mt-[31px]"
       >
       Cards Payment
       </h1>
-<p class=" ml-[20px] text-[15px] font-[400] leading-[22.5px] mt-[14px]">Choose the payment method you want to complete this payment</p>
+<p class=" ml-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px]">Choose the payment method you want to complete this payment</p>
     
 
    <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px]  mx-auto   w-full">
@@ -109,7 +109,7 @@ const props = defineProps({
          border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                 <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" alt=""></div>
-                <div class="text-[20px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
             </div>
             <div class="order-1 mx-[4px]">
                 <input
@@ -139,16 +139,16 @@ const props = defineProps({
         <div class="cursor-pointer" @click="modalStore.addNewCardModal">
             <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
            </div>
-       <div class="text-[16px] font-[600] leading-[24px] text-darkGrey" >Add New Card</div>
+       <div class="text-[14px] font-[600] leading-[24px] text-darkGrey" >Add New Card</div>
       
     </div>
 
     <div class="flex items-center  rtl:space-x-reverse space-x-[11px] mt-[24px]" @click="showMoreMethods = !showMoreMethods">
 <div class="cursor-pointer" >
-    <div class="text-[16px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
+    <div class="text-[14px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
 
 </div>
-<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[16px] rtl:rotate-180 " 
+<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[10px] rtl:rotate-180 " 
   :class="[showMoreMethods ? '!rotate-90' :'' ]" alt=""></div>
     </div>
 
@@ -222,10 +222,10 @@ const props = defineProps({
 </div>
 <div class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
 >
-<div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[39px]">
+<div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
   <input
     type="text"
-    class="input_dashboard_search w-full text-darkGrey"
+    class="input_dashboard_search w-full text-darkGrey !h-[40px]" 
     v-model="promo"
     placeholder="Promo Code"
     :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
@@ -244,12 +244,12 @@ const props = defineProps({
   <div
     v-if="isPromoFilled"
     @click="clearInput"
-    class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]"
+    class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
   >
     <img src="/assets/imgs/close_promo.svg" alt="" />
   </div>
 </div>
-<div class="text-center mt-[16px] lg:mt-[39px]">
+<div class="text-center mt-[16px] lg:mt-[24px]">
   <button
     class="btn-dashboard  w-6/6 mx-auto text-center ]"
     @click="addPromoCode"

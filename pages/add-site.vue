@@ -38,10 +38,10 @@ const next = ()=>{
 <template>
   <div class="mt-[23px] overflow-x-hidden">
     <div class="space-y-[10px]">
-      <h1 class="text-left text-[24px] leading-[36px] font-[600]">Add Site</h1>
+      <h1 class="text-left text-[18px] leading-[36px] font-[600]">Add Site</h1>
 
       <h2
-        class="text-left text-[15px] font-[400] leading-[22.5px] text-darkGrey"
+        class="text-left text-[14px] font-[400] leading-[22.5px] text-darkGrey"
       >
         Enhance your site to improve accessibility and meet compliance standards
       </h2>
@@ -49,7 +49,7 @@ const next = ()=>{
 
     <div class="mt-[18px] flex items-center justify-between mt-[32px]">
       <div>
-        <h2 class="text-[14px] lg:text-[20px] font-[600] leading-[30px] text-[#151515]">
+        <h2 class="text-[14px] lg:text-[16px] font-[600] leading-[30px] text-[#151515]">
           Select Your package
         </h2>
       </div>
@@ -72,7 +72,7 @@ const next = ()=>{
 
       v-if="currentIndex === 0" key="1"
 
-        class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
+        class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[48px] w-full"
       >
         <div
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px]
@@ -83,16 +83,16 @@ const next = ()=>{
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/freeplan.svg"
-              class="w-[60px] h-[60px]"
+              class="w-[50px] h-[50px]"
               alt=""
             />
           </div>
 
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 mt-[22px] relative w-full">
-              <h1 class="font-[600] text-[20px] leading-[30px]">Free Widget</h1>
+              <h1 class="font-[500] text-[18px] leading-[30px]">Free Widget</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
+                class="font-[400] text-[14px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -217,14 +217,14 @@ const next = ()=>{
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/proplan.svg"
-              class="w-[60px] h-[60px]"
+              class="w-[50px] h-[50px]"
               alt=""
             />
           </div>
 
           <div class="flex items-center justify-center relative ">
-            <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[600] w-[120px]
-             h-[35px] rounded-[10px] text-white ipad-max:top-[-25%] ipad-max:left-[150px] top-[-75%] rtl:right-[200px] 
+            <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[600] w-[90px]
+             h-[30px] rounded-[10px] text-white ipad-max:top-[-25%] ipad-max:left-[150px] top-[-70%] rtl:right-[200px] 
              ltr:left-[200px] rtl:lg:right-[250px] ltr:lg:left-[250px]" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 ">
 <div class=" text-white">
@@ -232,11 +232,11 @@ const next = ()=>{
 </div>
             </div>
             <div class="order-2 mt-[22px] relative w-full">
-              <h1 class="font-[600] text-[20px] leading-[30px]">
+              <h1 class="font-[500] text-[18px] leading-[30px]">
                 Pro-Accessibility Widget
               </h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
+                class="font-[400] text-[14px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -351,7 +351,7 @@ const next = ()=>{
         </div>
       </div>
  
-      <div   class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"       v-if="currentIndex === 1" key="2"
+      <div   class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[48px]  w-full"       v-if="currentIndex === 1" key="2"
       >
         <div
         class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
@@ -366,16 +366,16 @@ const next = ()=>{
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/platplan.svg"
-              class="w-[60px] h-[60px]"
+              class="w-[50px] h-[50px]"
               alt=""
             />
           </div>
 
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 mt-[22px] relative w-full">
-              <h1 class="font-[600] text-[20px] leading-[30px]">Premium</h1>
+              <h1 class="font-[500] text-[18px] leading-[30px]">Premium</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
+                class="font-[400] text-[14px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -500,16 +500,16 @@ const next = ()=>{
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
             <img
               src="/assets/imgs/plat_plan.svg"
-              class="w-[60px] h-[60px]"
+              class="w-[50px] h-[50px]"
               alt=""
             />
           </div>
 
           <div class="flex items-center justify-center relative w-full">
             <div class="order-2 mt-[22px] relative w-full">
-              <h1 class="font-[600] text-[20px] leading-[30px]">Platinum</h1>
+              <h1 class="font-[500] text-[18px] leading-[30px]">Platinum</h1>
               <h2
-                class="font-[400] text-[16px] leading-[21.86px]  text-[#536174]"
+                class="font-[400] text-[14px] leading-[21.86px]  text-[#536174]"
               >
                 For Individuals and Small Teams
               </h2>
@@ -646,7 +646,7 @@ const next = ()=>{
 
     <div class="flex items-center justify-center lg:justify-start  w-full  " :class="[collapsed ? '':'mt-[28px]']" >
  
-        <h1 class="font-[600] text-[20px] leading-[30px]">Enter Website URLS</h1>
+        <h1 class="font-[500] text-[16px] leading-[30px]">Enter Website URLS</h1>
   
     </div>
  <Client-only  >

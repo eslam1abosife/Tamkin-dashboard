@@ -45,15 +45,14 @@ const moveHideWidget = (v:string)=>{
     class="flex flex-col items-center justify-center w-full mt-[40px] "
   >
     <div 
-    style="box-shadow: 0px 4px 4px 0px #00000014"
 
-    class="bg-white rounded-[10px] w-full px-[15px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class="bg-white rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
       <div class="flex items-center justify-start  pt-[16px]">
         <div>
-          <h1 class="text-[20px] font-[500] leading-[30px]">Language</h1>
+          <h1 class="text-[18px] font-[500] leading-[30px]">Language</h1>
 
           <p
-            class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+            class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
           >
             Customize your widgets for a tailored browsing experience
           </p>
@@ -66,7 +65,8 @@ const moveHideWidget = (v:string)=>{
             collapseStore.menus.includes('language_customize') 
             ? 'active_notification !text-darkGrey' : '',
           ]"
-          class="relative ltr:ml-auto  rtl:mr-auto  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+           class=" relative rtl:mr-auto ltr:ml-auto  flex items-center justify-center cursor-pointer
+             bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
         >
           <svg
             width="18"
@@ -89,10 +89,29 @@ const moveHideWidget = (v:string)=>{
           <div
             v-if="collapseStore.menus.includes('language_customize') "
             style="box-shadow: 0px 2px 6px 0px #00000040"
-            class="flex flex-col items-start justify-start divide-y !cursor-default absolute z-[1000] top-0 right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey"
+            class="mini_SizeMenu divide-y"
+
           >
+
+          <div
+          class="mini_wrap"
+        >
+          <div>
+            <img
+              src="/assets/imgs/addons/annual_convert.svg"
+              alt=""
+              :class="[
+                collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
+              ]"
+            />
+          </div>
+          <div class="text_mini">
+            Switch To Annual
+          </div>
+        </div>
             <div
-              class="flex items-center justify-start cursor-pointer rtl:space-x-reverse space-x-[8px] py-[16px] px-[12px] w-full"
+            class="mini_wrap"
+
               @click="  collapseStore.collapseCard('language_customize_card') 
 "
             >
@@ -103,10 +122,10 @@ const moveHideWidget = (v:string)=>{
                   :class="[collapseStore.menus.includes('language_customize')  ? '!fill-white' : '']"
                 />
               </div>
-              <div class="text-[14px] leading-[21px] font-[400]">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
+              <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
             </div>
 
-            <div class="absolute top-[10px] right-[-10px] z-[50] !border-none">
+            <div class="arrow">
               <img
                 src="/assets/imgs/addons/arrow_menu.svg"
                 tyle="box-shadow: 0px 2px 6px 0px #00000040;
@@ -123,37 +142,59 @@ const moveHideWidget = (v:string)=>{
         class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px]  pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card') "
       >
-        <div class="w-full lg:w-[330px] lg:mt-0 mt-[16px]">
+        <div class="w-full lg:w-[330px] lg:mt-0 mt-[8px]">
           <div class="relative w-full lg:w-64">
             <button
               @click="toggleDropdown"
-              class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
+              class="input_search_country !rounded-[10px] !h-[45px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
               :class="[isOpen ? 'rounded-b-none' : '']"
             >
               <div
-                class="floating_language_selector !font-[500] text-[14px] leading-[32px]"
+                class="floating_language_selector_ov flex flex-row items-center justify-start  !font-[500] !text-[13px] leading-[32px]"
                 :class="[
                   selectedLanguage && selectedLanguage.name
                     ? '!text-black'
                     : '!text-darkGrey',
                 ]"
               >
+              <div
+              v-if=" selectedLanguage && selectedLanguage.code"
+              class="h-6 w-6 rounded-full flex items-center justify-center mr-[6px] "
+              :class="[
+                selectedLanguage && selectedLanguage.code
+                  ? 'bg-custom-gradient text-white'
+                  : 'bg-[#F2FBF9] text-tamkin',
+              ]"
+            >
+              <div
+                class="text-[12px] font-[400] leading-[14px] uppercase"
+              >
+                {{ selectedLanguage && selectedLanguage.code ? selectedLanguage.code :'' }}
+              </div>
+            </div>
                 {{
                   selectedLanguage
                     ? selectedLanguage.name
                     : "Auto detect Language"
                 }}
+
+           
               </div>
 
               <svg
-                width="12"
-                height="18"
+
+                width="11"
+                height="14"
                 viewBox="0 0 12 18"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
-                class="stroke-current rtl:rotate-180 fill-darkGrey my-[6px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[15px] ltr:mr-[15px]"
-              >
+                class="stroke-current rtl:rotate-180 fill-darkGrey my-[4px] rtl:float-left ltr:float-right 
+                w-[20px] h-[10px] rtl:ml-[15px] ltr:mr-[15px]"
+                @click.stop="toggleDropdown"
+
+              
+                >
                 <path
                   d="M11.027 8.61302C11.2715 8.81307 11.2715 9.18693 11.027 9.38698L1.31662 17.3319C0.990153 17.599 0.5 17.3667 0.5 16.9449L0.500001 1.05512C0.500001 0.633308 0.990154 0.401035 1.31662 0.668143L11.027 8.61302Z"
                   fill="currentColor"
@@ -162,7 +203,9 @@ const moveHideWidget = (v:string)=>{
             </button>
             <div
               v-if="isOpen"
-              class="absolute z-10 top-[52px] w-[330px] bg-white border rounded shadow"
+              v-on-click-outside="() => toggleDropdown"
+
+              class="absolute z-10 top-[52px] w-[330px] bg-white border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">
                 <input
@@ -206,7 +249,7 @@ const moveHideWidget = (v:string)=>{
                     </div>
                   </div>
                   <!-- <img :src="country.flag" alt="" class="w-6 h-4 mr-2" /> -->
-                  <span>{{ lang.name }}</span>
+                  <span class="text-[14px]">{{ lang.name }}</span>
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
                     v-if="
@@ -225,7 +268,7 @@ const moveHideWidget = (v:string)=>{
           </div>
         </div>
 
-        <div class="h-[65px] bg-[#FAFCFE] p-[12px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
+        <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
      
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img
@@ -234,7 +277,7 @@ const moveHideWidget = (v:string)=>{
                 alt=""
               />
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="text-[#23262F] font-[500] text-[16px] leading-[16.39px]">
+                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
                   <span>Show  language selector on the widget</span>
                 </div>
              
@@ -242,7 +285,7 @@ const moveHideWidget = (v:string)=>{
               <div class="ml-auto">
                 <label
                   for="toggle_language_selector"
-                  class="toggle_wrap h-[32px]"
+                  class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
@@ -288,9 +331,9 @@ const moveHideWidget = (v:string)=>{
 </template>
 
 <style lang="scss">
-.floating_language_selector {
-  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
-    top-[8px] lg:top-[12px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+.floating_language_selector_ov {
+  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
+    top-[8px] lg:top-[12px] -translate-y-0 bg-white  duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
     2xl:peer-focus:text-[16px];
   transition: all 0.2s ease-in-out;

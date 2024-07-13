@@ -12,11 +12,18 @@ export const useSettingsStore = defineStore('settings', {
 
      checkboxes: [] as Checkbox[],
      initialCheckboxes: [] as Checkbox[], 
-
-
+     routeLeaveModal: false
       }),
       actions: {
+        showSaveBeforeLeaveModal() {
  
+          this.routeLeaveModal = !this.routeLeaveModal
+        },
+    
+        saveAndMove() {
+          this.routeLeaveModal = false
+          this.cancelAll()
+        },
         initializeCheckboxes(names: string[]) {
             this.checkboxes = names.map(name => ({ name, value: false }));
             this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes)); // Deep copy the initial state
@@ -51,7 +58,17 @@ export const useSettingsStore = defineStore('settings', {
            isChecked(name: string) {
             const checkbox = this.checkboxes.find((checkbox) => checkbox.name === name);
             return checkbox ? checkbox.value : false;
-          }
+          },
+          cancelAll(){
+     
+            this.initializeCheckboxes([
+              "enable_widget_on_this_site",
+          
+              "widget_enabled_on_mobile",
+              "sound_effects",
+            ]);
+      
+          },
       }
   
       

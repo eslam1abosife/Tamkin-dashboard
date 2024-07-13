@@ -42,7 +42,7 @@ const {openShareModal} = useModalStore()
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
       Share Embed code with your team
     </h1>
     <div class="w-full relative mt-[40px]">

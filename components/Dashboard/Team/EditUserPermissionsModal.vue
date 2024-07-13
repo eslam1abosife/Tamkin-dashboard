@@ -46,7 +46,7 @@ const permissions = ref( [
     </svg>
   </div>
 <div class="container mx-auto h-full">
-  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[18px] leading-[36px]">
     Permissions
 </h1>
 
@@ -54,11 +54,11 @@ const permissions = ref( [
 <div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[16px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[14px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[13px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -87,7 +87,7 @@ const permissions = ref( [
                 </svg>
               </label>
              </div>
-              <div class="text-[15px] leading-[22px] text-darkGrey">ALL Permissions</div>
+              <div class="text-[14px] leading-[22px] text-darkGrey">ALL Permissions</div>
            
             </th>
           </tr>
@@ -99,13 +99,14 @@ const permissions = ref( [
                   <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                   class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
                   <label :for="`checkbox_`+permission.id" class="relative block border-[1px] 
-                   ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+                   ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px]
+                    peer-checked:bg-gradient-checked">
                     <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
                  </div>
-              <span class="text-[14px] leading-[21px] font-[400] text-darkGrey">{{permission.name}}</span>
+              <span class="text-[13px] leading-[21px] font-[400] text-darkGrey">{{permission.name}}</span>
               
             </td>
            
@@ -233,7 +234,7 @@ const permissions = ref( [
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" >
+  <button class=" btn-dashboard text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
     Save
   </button>
 

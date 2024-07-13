@@ -58,6 +58,7 @@ export default {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require("tailwind-extended-shadows"),
     function ({ addUtilities }) {
       addUtilities({
         '.bg-gradient-checked': {

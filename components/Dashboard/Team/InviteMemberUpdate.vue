@@ -56,19 +56,19 @@ const isSearchfilled = ref(false);
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[18px] leading-[36px]">
     Invite Member
 </h1>
 
-<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[56px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
 <div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[16px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[14px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[13px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -80,7 +80,7 @@ const isSearchfilled = ref(false);
 </div>
 
 </div>
-<p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] text-[16px] leading-[24px]">
+<p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] text-[14px] leading-[24px]">
 Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can access
 </p>
 
@@ -89,7 +89,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   <div class="py-[17px]  search_input w-full">
       <input
         type="text"
-        class="input_dashboard_search w-full"
+        class="input_dashboard_search w-full "
         v-model="search"
         placeholder="Search ..."
       />
@@ -111,8 +111,8 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
 <table class="min-w-full divide-y divide-gray-200  ">
   <thead>
     <tr>
-      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[16px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
+      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
+      <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  
        flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
         <div class="">Select All</div>
        <div>
@@ -154,7 +154,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
     Cancel
   </button>
   <button class=" btn-dashboard text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
-    Save
+    Continue
   </button>
 
 </div>

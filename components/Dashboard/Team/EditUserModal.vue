@@ -58,7 +58,7 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[24px] leading-[36px]">
+  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
     Update Member
 </h1>
 
@@ -66,7 +66,7 @@ const clearInput = () => {
 <div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="text-left font-[500] text-darkGrey text-[16px] ">
+<h2 class="text-left font-[500] text-darkGrey text-[14px] ">
   Ali Ahmed 
 </h2>
 </div><div>

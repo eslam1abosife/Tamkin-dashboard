@@ -48,7 +48,7 @@ const props = defineProps({
       />
     </svg>
   </div>
-  <h1 class="text-[24px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[60px]">
+  <h1 class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[60px]">
         Payment Process
     </h1>
     </div>
@@ -70,7 +70,7 @@ const props = defineProps({
     </h1>
 </div>
  <div class="w-full ">
-  <p class="text-[16px] text-center leading-[40px] font-[500]  text-[#1E1E1E]">
+  <p class="text-[14px] text-center leading-[40px] font-[500]  text-[#1E1E1E]">
     
     the Coins balance will appear in your Coins Balance account only after transaction get confirmation and approved by our team.  
 

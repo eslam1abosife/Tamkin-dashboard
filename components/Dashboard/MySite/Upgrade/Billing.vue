@@ -39,7 +39,7 @@ const props = defineProps({
 
 <template>
   <div class="flex flex-col items-start  justify-center w-full lg:overflow-x-hidden" v-if="showModal">
-    <h1 class="text-[20px] lg:text-[24px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px]  lg:mt-0 mt-[60px]">
+    <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px]  lg:mt-0 mt-[60px]">
       Upgrade Plan
     </h1>
     <div
@@ -48,7 +48,7 @@ const props = defineProps({
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600]  text-darkGrey mt-[31px]"
+        class="text-[18px] leading-[36px] font-[600]  text-darkGrey mt-[31px]"
       >
         Select Your Plan
       </h1>
@@ -171,8 +171,8 @@ const props = defineProps({
             <input
               type="newWebsite"
               placeholder="{{$t('web site')}}"
-              id="email"
-              class="input_floating_label peer  focus:outline-0 text-darkGrey w-full"
+              id="email" 
+              class="input_floating_label peer  focus:outline-0 text-darkGrey w-full !h-[40px] "
               v-model="v$.newWebsite.$model"
               :class="{
                 input_error:
@@ -210,9 +210,10 @@ const props = defineProps({
         
         </div>
 
-        <div class="lg:w-[125px] 3xl:w-[130px] lg:mt-0 mt-[16px]">
+        <div class="lg:w-[140px]  lg:mt-0 mt-[16px]">
           <button
-            class="w-full btn-dashboard-normal normal_hover h-[50px] text-[14px] flex items-center justify-center leading-[21px] font-[600]"
+            class="w-full btn-dashboard-normal normal_hover h-[45px] text-[12px] flex items-center justify-center 
+            font-[600]"
           >
             Add Website
           </button>

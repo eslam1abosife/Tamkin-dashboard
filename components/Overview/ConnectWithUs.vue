@@ -10,19 +10,19 @@ const collapseStore = useCollapseStore();
 
 
 <template>
-    <div class="mt-[30px] bg-white rounded-[10px] pb-[24px]">
-        <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
-          <div>
-            <h1 class="text-[20px] font-[500] leading-[30px]">Connect with us</h1>
+    <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px]"       >
+        <div class="flex items-start justify-start px-[15px] pt-[24px]">
+          <div class="">
+            <h1 class="text-[18px] font-[500] leading-[30px]">Connect with us</h1>
   
-            <p class="text-[16px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
               Connect with us to stay updated and receive support for all your accessibility
               needs
             </p>
           </div>
   
           <div
-            @click="collapseStore.collapseMenu('connect_withUs')"
+            @click.stop="collapseStore.collapseMenu('connect_withUs')"
             v-on-click-outside="() => collapseStore.removeMenu('connect_withUs')"
             :class="[
               collapseStore.menus.includes('connect_withUs')
@@ -95,21 +95,23 @@ const collapseStore = useCollapseStore();
           <div
             :style="{ backgroundImage: `url(${banner})` }"
             style="width: 100%; height: 100%; background-size: cover"
-            class="rounded-lg text-center flex items-center justify-center lg:flex-row flex-col w-full lg:p-0 p-6"
+            class="rounded-lg text-center flex items-center justify-center lg:flex-row flex-col w-full "
           >
             <img
               src="/assets/imgs/icons/man.svg"
               alt="Character"
-              class="w-[280px] h-full lg:block hidden"
+              class="w-[260px] h-full lg:block hidden"
             />
             <div class="flex flex-col items-center justify-center px-[15px]">
               <h2
-                class="text-[16px] lg:text-[24px] ipad-max:leading-[30px] lg:leading-[42px] font-[600] text-gray-800 mb-4"
+                class="text-[16px] lg:text-[22px] ipad-max:leading-[30px] lg:leading-[42px] font-[600] text-gray-800 mb-4"
               >
                 Would you like to have early access to the platform?
               </h2>
               <button
-                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin rtl:space-x-reverse space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[16px] flex items-center justify-center px-[16px]"
+                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin rtl:space-x-reverse 
+                space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[14px] 
+                flex items-center justify-center px-[16px]"
               >
                 <div class="">Sign up to keep up with the latest news from us</div>
                 <div>
@@ -121,7 +123,7 @@ const collapseStore = useCollapseStore();
   
           <div class="">
             <h1
-              class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[24px]"
+              class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px]"
             >
               Need help installing Tamkin ?
             </h1>
