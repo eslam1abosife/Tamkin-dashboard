@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { vOnClickOutside } from "@vueuse/components";
+import { useElementHover } from '@vueuse/core'
+import banner from 'assets/imgs/gradient_embded.png'
+
+const accessMenuHover = ref()
+const isHovered = useElementHover(accessMenuHover)
 const props = defineProps({
   sideBarOpen: Boolean,
   mobileSidebar: Boolean,
@@ -51,12 +57,41 @@ onMounted(()=>{
   // }
 })
 
+const closeSubMenuOnClickOutside = (index:any)=>{
+  if(!props.sideBarOpen ){
+      showSubMenu.value[index] = false
+
+  }
+}
+
+watch(isHovered,(ov,nv)=>{
+if(!props.sideBarOpen){
+showSubMenu.value[3] = true
+}
+})
+watch(
+  () => route.path,  // Watch for changes in the route path
+  (to) => {
+  if(!props.sideBarOpen){
+    showSubMenu.value[3] = false; // Update the submenu visibility
+  }
+  },
+  { flush: 'pre', immediate: true, deep: true }
+);
+watch(() => props.sideBarOpen, (first, second) => {
+  showSubMenu.value[3] = false
+
+})
+
+
 </script>
 
 <template>
   <div
-    class="flex-col items-center justify-start relative px-[15px] lg:flex mx-auto mt-[6px] w-full"
-  >
+    class="flex-col items-center justify-start overflow-y-auto  no-scrollbar
+    lg:flex mx-auto  fixed  rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6 Z-[120] h-screen "
+  :class="[sideBarOpen ? 'w-[280px]' : 'w-[75px]']"
+    >
     <div
       class="block lg:hidden absolute top-[35px] rtl:left-0 ltr:right-0"
       @click="toggleSidebarMobile"
@@ -77,27 +112,31 @@ onMounted(()=>{
       </svg>
     </div>
 
-    <div class="flex flex-col items-center justify-start w-full">
-      <div class="self-start" :class="[sideBarOpen ? '' : 'mx-auto']">
+    <div class="flex flex-col items-center justify-start w-full ">
+      <div class="self-start w-full" :class="[sideBarOpen ? '' : 'mx-auto']"  v-if="sideBarOpen">
         <img
           src="/assets//imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
           alt=""
-          v-if="sideBarOpen"
+         
         />
-        <img
-          src="/assets//imgs/icons/tamkin_small.svg"
-          class="mb-[64px] mt-[16px] w-[24px] h-[24px] mx-auto"
-          alt=""
-          v-else
-        />
+     
       </div>
-      <img
-        src="/assets/imgs/team.png"
-        class="h-[24px] w-[24px]"
+      <div           class="mb-[64px] w-[24px] h-[24px]"
+      v-else>
+        <img
+        src="/assets//imgs/icons/tamkin_small.svg"
         alt=""
-        :class="[!sideBarOpen ? 'block' : 'hidden']"
+      class="  mx-auto"
       />
+      </div>
+    <div class="w-[24px] h-[24px]" v-if="!sideBarOpen"   >
+      <img
+      src="/assets/imgs/team.png"
+    
+      alt=""
+ />
+    </div>
       <div
         class="tamkin_team_card"
         @click="$router.push(localePath('/team'))"
@@ -177,7 +216,7 @@ onMounted(()=>{
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </div>
     <button
-      class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
+      class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start w-[24px] h-[24px]"
       v-if="!sideBarOpen"
       @click="$router.push(localePath('/team'))"
     >
@@ -188,12 +227,12 @@ onMounted(()=>{
 
     <div
       class="flex flex-col items-center mt-[14.5px]  w-full"
-      :class="[!sideBarOpen ? 'justify-center' : 'justify-start']"
+     
     >
       <TamkinSideBarLink
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :to="goToLink('/dashboard')"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
+        :class="[!sideBarOpen ? 'closed_sidebar !w-[55px]' : 'w-full ']"
       >
         <div>
           <svg
@@ -287,7 +326,7 @@ onMounted(()=>{
         <span v-if="sideBarOpen">Dashboard</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :to="goToLink('/embed-code')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
@@ -327,7 +366,7 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Embed Code</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :to="goToLink('/my-site')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
@@ -372,76 +411,84 @@ onMounted(()=>{
       </TamkinSideBarLink>
 
 
-      <div class="relative w-full" @click="openMenuSub(3)">
-        <div
-          class="dashboard-nav-link-has-menu px-[6px]"
-          :class="[
-            !sideBarOpen ? 'closed_sidebar' : 'w-full ',
-            activeAccessLinks ? 'active ' : '',
-          ]"
-        >
-          <div >
-            <svg
-          width="26" height="26" viewBox="0 0 26 26"
-            :class="[sideBarOpen ? '' : '']"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-full h-full stroke-darkGrey"
-          >
-            <g>
-              <path
-                :stroke="[
-                  activeAccessLinks
-                    ? 'url(#paint0_linear_2978_5493)'
-                    : '',
-                ]"
-                d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
-                stroke-width="1.5"
-              />
-              <path
-                :stroke="[
-                  activeAccessLinks
-                  ? 'url(#paint0_linear_2978_5493)'
-                    : '',
-                ]"
-                d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
-              />
-              <path
-                :stroke="[
-                  activeAccessLinks
-                  ? 'url(#paint0_linear_2978_5493)'
-                    : '',
-                ]"
-                d="M20.2008 10.6001C20.2008 10.6001 15.9564 12.4001 13.0008 12.4001C10.0452 12.4001 5.80078 10.6001 5.80078 10.6001M13.0008 13.0001V14.7425M13.0008 14.7425C13.0004 15.433 13.1987 16.1091 13.572 16.6901L16.6008 21.4001M13.0008 14.7425C13.0011 15.433 12.8028 16.1091 12.4296 16.6901L9.40078 21.4001"
-             
-                stroke-width="1.5"
-                stroke-linecap="round"
-              />
-            </g>
-            <defs>
-              <linearGradient
-                id="paint0_linear_2978_5493"
-                x1="12.5"
-                y1="0.5"
-                x2="12.5"
-                y2="24.5"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-            </defs>
-          </svg>
           
-          </div>
-          <div v-if="sideBarOpen" :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text':'']">Accessibility Services</div>
+          <div class="relative "  @click.stop="openMenuSub(3)"           :class="[!sideBarOpen ? '  ' : 'w-full ']"
+      > 
+        <div
+          class="dashboard-nav-link "
+          :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
+          ref="accessMenuHover" 
+          >
+      
+          
+          <div >
+          <svg
+        
+        width="26" height="26" viewBox="0 0 26 26"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full h-full stroke-darkGrey mx-auto"
+        >
+          <g>
+            <path
+              :stroke="[
+                activeAccessLinks
+                  ? 'url(#paint0_linear_2978_5493)'
+                  : '',
+              ]"
+              d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
+              stroke-width="1.5"
+            />
+            <path
+              :stroke="[
+                activeAccessLinks
+                ? 'url(#paint0_linear_2978_5493)'
+                  : '',
+              ]"
+              d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
+            />
+            <path
+              :stroke="[
+                activeAccessLinks
+                ? 'url(#paint0_linear_2978_5493)'
+                  : '',
+              ]"
+              d="M20.2008 10.6001C20.2008 10.6001 15.9564 12.4001 13.0008 12.4001C10.0452 12.4001 5.80078 10.6001 5.80078 10.6001M13.0008 13.0001V14.7425M13.0008 14.7425C13.0004 15.433 13.1987 16.1091 13.572 16.6901L16.6008 21.4001M13.0008 14.7425C13.0011 15.433 12.8028 16.1091 12.4296 16.6901L9.40078 21.4001"
+           
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </g>
+          <defs>
+            <linearGradient
+              id="paint0_linear_2978_5493"
+              x1="12.5"
+              y1="0.5"
+              x2="12.5"
+              y2="24.5"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#2DADA3" />
+              <stop offset="1" stop-color="#71DAD2" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        </div>
+
+        
+     
+        <div class=" w-full space-x-[65px] flex items-center justify-center " :class="[!sideBarOpen?'hidden':'']">
+          
+          <div v-if="sideBarOpen" :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent':'']">
+            Accessibility</div>
           <div v-if="sideBarOpen">
             <svg
               width="7"
               height="12"
-              :class="[showSubMenu[3] ? 'rotate-90 p-[10px]' : 'rotate-0 p-[10px]' ]"
+              :class="[showSubMenu[3] ? 'rotate-90 ' : 'rotate-0 ' ]"
               viewBox="0 0 7 12"
-              class="w-full h-full"
+              class="w-full h-full pr-[8px]"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
@@ -459,92 +506,144 @@ onMounted(()=>{
             </svg>
           </div>
         </div>
+        </div>
         <div
-          class="menu_item bg-[#FFFEFE] rounded-[10px] w-full" @click.stop
+          class=" bg-[#FFFEFE] rounded-[10px] " @click.stop
           :class="[
-            !sideBarOpen && showSubMenu[3] ? 'absolute left-[85px] ' : ' ',
-            showSubMenu[3] ? 'block ' : 'hidden',
+            !sideBarOpen && showSubMenu[3] ? 'absolute top-0 left-[65px] bg-white z-[200] w-[270px] shadow-md' : ' ',
+            showSubMenu[3] ? 'block ' : 'hidden'
+      
           ]"
+          v-on-click-outside="()=> closeSubMenuOnClickOutside(3)"
+
 
         >
-          <div class="flex mt-[6px]">
-            <div class="bg-[#FFFEFE] relative w-full h-full left-[25px]" @click.stop>
-              <div
-                class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-lightMenuBarColor h-full"
-              ></div>
-              <ul class="space-y-[10px] ">
-                <li class="rounded-[10px] relative w-full">
-                  <div
-                    v-if="isLinkActive('/overview')"
-                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
-                  ></div>
+          <div class="flex flex-col items-start justify-center mt-[6px] w-full mb-[10px] px-[15px]">
+       <div class="flex items-center justify-between w-full mt-[10px]">
+        <div v-if="!sideBarOpen" 
+        class=""
+        :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent':'']">
+          Accessibility</div>
+        <div v-if="!sideBarOpen">
+          <svg
+            width="7"
+            height="12"
+            :class="[showSubMenu[3] ? 'rotate-90 ' : 'rotate-0 ' ]"
+            viewBox="0 0 7 12"
+            class="w-full h-full pr-[8px]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+              </linearGradient>
+            </defs>
+            <path
+              :fill="activeAccessLinks? 'url(#grad1)' : '#585B5B'"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+            />
+          </svg>
+        </div>
+       </div>
+            <div class="bg-[#FFFEFE] relative w-full" @click.stop >
+            
+              <ul class="space-y-[10px] w-full " :class="[!sideBarOpen  ? 'mt-[10px]':'']">
+                <li class="rounded-[10px] relative  dashboard-nav-link_sub_menu group !p-3" 
+                
+                :class="[isLinkActive('/overview') && sideBarOpen ? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                
                   <nuxt-link
                     @click.stop
                     :to="localePath('/overview')"
-                    :class="[isLinkActive('/overview') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
-                    >Overview</nuxt-link
+                    :class="[isLinkActive('/overview') ? '' : '']"
+                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    >
+                    <div
+              
+                    class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                    :class="[isLinkActive('/overview') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                  ></div>
+                  <div :class="[!sideBarOpen && isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                    Overview
+                    </div>
+                  
+                    </nuxt-link
                   >
                 </li>
-                <li class="rounded-[10px] relative w-full">
-                  <div
-                    v-if="isLinkActive('/addons')"
-                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
-                  ></div>
+                <li class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                 :class="[isLinkActive('/addons') &&sideBarOpen? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                
                   <nuxt-link
-                    @click.stop
+                   
                     :to="localePath('/addons')"
-                    :class="[isLinkActive('/addons') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
-                    >Addons</nuxt-link
+                    :class="[isLinkActive('/addons') ? '' : '']"
+                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    >
+                    <div
+              
+                    class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] "  v-if="sideBarOpen"
+                    :class="[isLinkActive('/addons') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                  ></div>
+                  <div :class="[!sideBarOpen && isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                    Addons
+                    </div>
+                  
+                    </nuxt-link
                   >
                 </li>
-                <li class="rounded-[10px] relative">
-                  <div
-                    v-if="isLinkActive('/statistics')"
-                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
-                  ></div>
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/statistics')"
-                    :class="[isLinkActive('/statistics') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
-                    >Statistics</nuxt-link
-                  >
-                </li>
-                <li class="rounded-[10px] relative">
-                  <div
-                    v-if="isLinkActive('/customize')"
-                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
-                  ></div>
+                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group !p-3"
+                :class="[isLinkActive('/statistics')&&sideBarOpen ? ' bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+               
+                 <nuxt-link
+                   @click.stop
+                   :to="localePath('/statistics')"
+                   :class="[isLinkActive('/statistics') ? '' : '']"
+                   class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                   >
+                   <div
+             
+                   class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                   :class="[isLinkActive('/statistics') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                 ></div>
+                 <div :class="[!sideBarOpen && isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                  Statistics
+                   </div>
+                 
+                   </nuxt-link
+                 >
+               </li>
+                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group !p-3" 
+                :class="[isLinkActive('/customize')&&sideBarOpen ? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                
                   <nuxt-link
                     @click.stop
                     :to="localePath('/customize')"
-                    :class="[isLinkActive('/customize') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
-                    >Customize</nuxt-link
-                  >
-                </li>
-                <li class="rounded-[10px] relative">
-                  <div
-                    v-if="isLinkActive('/settings')"
-                    class="absolute inset-y-0 left-[-5px] w-1 rounded-[10px] bg-tamkin h-full"
+                    :class="[isLinkActive('/customize') ? '' : '']"
+                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    >
+                    <div
+              
+                    class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                    :class="[isLinkActive('/customize') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
                   ></div>
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/settings')"
-                    :class="[isLinkActive('/settings') ? 'active_sub_menu' : '']"
-                    class="block text-gray-800 hover:bg-tamkinLight py-[10px] ml-[10px] w-full h-[40px] text-[15px]"
-                    >Settings</nuxt-link
+                  <div :class="[!sideBarOpen && isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                    Customize
+                    </div>
+                  
+                    </nuxt-link
                   >
                 </li>
+               
               </ul>
             </div>
           </div>
         </div>
       </div>
       <div
-      class="dashboard-nav-link px-[6px]"
+      class="dashboard-nav-link"
       :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
@@ -573,7 +672,7 @@ onMounted(()=>{
       </div>
 
       <div
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
@@ -601,7 +700,7 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Records</span>
       </div>
       <div
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
@@ -629,7 +728,7 @@ onMounted(()=>{
         <span v-if="sideBarOpen || sideBarOpenMobile">Packages</span>
       </div>
       <div
-        class="dashboard-nav-link px-[6px]"
+        class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
@@ -656,6 +755,22 @@ onMounted(()=>{
         </div>
         <span v-if="sideBarOpen || sideBarOpenMobile">Settings</span>
       </div>
+      <div
+        :style="{ backgroundImage: `url(${banner})` }"
+        style="  background-color: rgba(255, 255, 255, 0.486);"
+        class="w-full  bg-cover bg-center rounded-[18px] mt-[12px]"
+      >
+        <div class="text-center flex items-center justify-center flex-col p-4  rounded-lg m-4">
+          <img src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[60px] h-[60px] mb-4" />
+          <h2 class="text-[14px] font-[600] text-[#0D5C56] leading-[20px]">Talk to a member of our sales team</h2>
+          <p class="text-[10px] font-[400] leading-[14px] text-[#627E7C] mt-[6px]">Contact our sales team for more information</p>
+          <button class="btn-dashboard hover_tamkin mt-[12px]">Contact Sales</button>
+        </div>
+      </div>
+      
+
     </div>
+
+
   </div>
 </template>

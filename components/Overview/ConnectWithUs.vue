@@ -92,34 +92,37 @@ const collapseStore = useCollapseStore();
           class="flex items-center flex-col justify-center mt-[24px] space-y-[24px] px-[15px]"
           v-if="!collapseStore.collapses.includes('connect_withUs_card')"
         >
-          <div
-            :style="{ backgroundImage: `url(${banner})` }"
-            style="width: 100%; height: 100%; background-size: cover"
-            class="rounded-lg text-center flex items-center justify-center lg:flex-row flex-col w-full "
+        <div
+        :style="{ backgroundImage: `url(${banner})` }"
+        style="width: 100%; background-size: cover"
+        class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
+      >
+        <div class="h-full">
+          <img
+            src="/assets/imgs/icons/man.svg"
+            alt="Character"
+            class=" h-full lg:block hidden m-auto"
+          />
+        </div>
+        <div class="flex flex-col items-center justify-center px-[10px]">
+          <h2
+            class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
           >
-            <img
-              src="/assets/imgs/icons/man.svg"
-              alt="Character"
-              class="w-[260px] h-full lg:block hidden"
-            />
-            <div class="flex flex-col items-center justify-center px-[15px]">
-              <h2
-                class="text-[16px] lg:text-[22px] ipad-max:leading-[30px] lg:leading-[42px] font-[600] text-gray-800 mb-4"
-              >
-                Would you like to have early access to the platform?
-              </h2>
-              <button
-                class="w-full ipad-max:leading-[20px] h-[51px] bg-white text-tamkin rtl:space-x-reverse 
-                space-x-[16px] py-3 rounded-[15px] font-[600] text-[12px] lg:leading-[42px] lg:text-[14px] 
-                flex items-center justify-center px-[16px]"
-              >
-                <div class="">Sign up to keep up with the latest news from us</div>
-                <div>
-                  <img src="/assets/imgs/icons/nicemove.svg" alt="" />
-                </div>
-              </button>
+            Would you like to have early access to the platform?
+          </h2>
+          <button
+            class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
+            space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
+            flex items-center justify-center px-[12px]"
+          
+          >
+            <div class="">Sign up to keep up with the latest news from us</div>
+            <div>
+              <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" alt="" />
             </div>
-          </div>
+          </button>
+        </div>
+      </div>
   
           <div class="">
             <h1

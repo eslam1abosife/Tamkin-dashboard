@@ -35,7 +35,7 @@ emit('Save')
                     </div>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-[32px]">
-                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">Cancel</button>
+                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">Discard</button>
                     <button class="btn_bordered_dashboard w-[160px]" @click="saveToAllSites">Save to all sites</button>
                     <button class="btn-dashboard hover_tamkin w-[74px]" @click="saveFn">Save</button>
                 </div>

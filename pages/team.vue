@@ -48,7 +48,7 @@ watch(reInvite, (newValue) => {
 
 <template>
   <div class="mt-[23px] relative">
-    <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'" class="!top-[-33px]" />
+    <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'"  class="!top-[70px]"  />
 
     <div class="space-y-[10px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600]">

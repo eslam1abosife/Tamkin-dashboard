@@ -180,7 +180,7 @@ const checkInput = (event) =>{
         </svg>
       </div>
       <h1
-        class="text-[24px] leading-[36px] font-[600] text-darkGrey  rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
+        class="text-[18px] leading-[36px] font-[600] text-darkGrey  rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
       >
         Billing Info
       </h1>
@@ -190,7 +190,7 @@ const checkInput = (event) =>{
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[20px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing Info
       </h1>
@@ -443,7 +443,7 @@ const checkInput = (event) =>{
       </div>
 
       <h1
-        class="text-[20px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
       >
         Billing address
       </h1>
@@ -614,7 +614,7 @@ const checkInput = (event) =>{
                 class="input_search_country !rounded-[10px] peer w-full lg:w-[330px] ltr:text-left rtl:text-right"
                 :class="[isOpen ? 'rounded-b-none' : '']"
               >
-                <div class="floating_country !font-[400]" :class="[selectedCountry && selectedCountry.name ? '!text-black' :'text-light']">{{
+                <div class="floating_country !font-[400] text-[14px]" :class="[selectedCountry && selectedCountry.name ? '!text-black' :'text-light']">{{
                   selectedCountry ? selectedCountry.name : "Country*"
                 }}</div>
 
@@ -622,7 +622,7 @@ const checkInput = (event) =>{
                   src="/assets/imgs/payment_methods/country_arrow.svg"
                   alt=""
                   :class="[isOpen ? 'rotate-90' : '']"
-                  class="px-[22px] mb-[2px] float-right"
+                  class="mr-[20px] mb-[0px] float-right w-[16px] h-[12px]" 
                 />
               </button>
               <div

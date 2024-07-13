@@ -31,27 +31,33 @@
                !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
               style="padding: 16px, 10px, 16px, 10px"
             >
-              <div class="absolute top-[-30px] left-[15px]">
+              <div class="absolute top-[-35px] left-[5px]">
                 <img
                   src="/assets/imgs/overview/silver.svg"
-                  class="w-[50px] h-[50px]"
+             
                   alt=""
                 />
               </div>
 
               <div
-                class="flex items-center justify-center relative w-full px-[15px] mt-[48px] pb-[24px]"
+                class="flex items-center justify-center relative w-full px-[15px] mt-[48px] "
               >
               
                 <div class="order-2 relative w-full">
-                  <h1 class="font-[600] text-[16px] leading-[26px]">Silver</h1>
-                  <div class="absolute top-[26px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+               
+                  <h1 class="font-[600] text-[18px] leading-[30px]">Silver</h1>
+                  <div class="absolute top-[46px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
                     <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
                       <span>$18,000</span>
                     </div>
                   </div>
+                  <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                    For Individuals and Small Teams
+                  </h2>
+   
                   <div
-                    class="relative mt-[16px] text-black font-[600] text-[20px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                    class="relative mt-[16px] text-black font-[600] text-[20px] leading-[29px] flex items-center 
+                    justify-start rtl:space-x-reverse space-x-[10px]"
                   >
                   
                     <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px]">
@@ -60,6 +66,9 @@
                   
                     <div>$ 10,000</div>
                   </div>
+                  <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                    <span class="!font-[700]">UP to 100K </span>Page views/mo
+                  </p>
                 </div>
               </div>
 
@@ -68,30 +77,30 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
@@ -101,37 +110,37 @@
                     <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
@@ -148,37 +157,45 @@
               padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-full "
               style="padding: 16px, 10px, 16px, 10px"
             >
-              <div class="absolute top-[-30px] left-[15px]">
+              <div class="absolute top-[-35px] left-[5px]">
                 <img
                   src="/assets/imgs/overview/gold.svg"
-                  class="w-[50px] h-[50px]"
                   alt=""
                 />
               </div>
 
         
               <div
-              class="flex items-center justify-center relative w-full px-[15px] mt-[48px] pb-[24px] "
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px] "
             >
             
-              <div class="order-2 relative w-full">
-                  <h1 class="font-[600] text-[16px] leading-[26px]">Gold</h1>
-                  <div class="absolute top-[26px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
-                    <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
-                      <span>$18,000</span>
-                    </div>
-                  </div>
-                  <div
-                    class="relative mt-[16px] w-full text-black font-[600] text-[20px] leading-[29px] 
-                    flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
-                  >
-              
-                    <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px]">
-                      When investing
-                    </div>
-                    <div>$ 50,000</div>
-                  </div>
+            <div class="order-2 relative w-full">
+               
+              <h1 class="font-[600] text-[18px] leading-[30px]">Gold</h1>
+              <div class="absolute top-[46px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
+                  <span>$18,000</span>
                 </div>
+              </div>
+              <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                For Individuals and Small Teams
+              </h2>
+
+              <div
+                class="relative mt-[16px] text-black font-[600] text-[20px] leading-[29px] flex items-center 
+                justify-start rtl:space-x-reverse space-x-[10px]"
+              >
+              
+                <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px]">
+                  When investing
+                </div>
+              
+                <div>$ 10,000</div>
+              </div>
+              <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <span class="!font-[700]">UP to 100K </span>Page views/mo
+              </p>
+            </div>
               </div>
 
               <div
@@ -186,70 +203,70 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_inactive.svg" alt="" class="w-[15px] h-[15px]" />
+                    <img src="/assets/imgs/checked_list_inactive.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
@@ -266,34 +283,43 @@
               !rounded-t-[10px] !rounded-b-none mt-[35px] w-full "
               style="padding: 16px, 10px, 16px, 10px"
             >
-              <div class="absolute top-[-30px] left-[15px]">
+              <div class="absolute top-[-35px] left-[5px]">
                 <img
                   src="/assets/imgs/overview/plat.svg"
-                  class="w-[50px] h-[50px]"
                   alt=""
                 />
               </div>
 
               <div
-                class="flex items-center justify-center relative w-full px-[15px] mt-[48px] pb-[24px]"
+                class="flex items-center justify-center relative w-full px-[15px] mt-[48px] "
               >
-                <div class="order-2 relative w-full">
-                  <h1 class="font-[600] text-[16px] leading-[26px]">Platinum</h1>
-                  <div class="absolute top-[26px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
-                    <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
-                      <span>$18,000</span>
-                    </div>
-                  </div>
-                  <div
-                    class=" relative mt-[16px] text-black font-[600] text-[20px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
-                  >
-                
-                    <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px]">
-                      When investing
-                    </div>
-                    <div>$ 80,000</div>
+              <div class="order-2 relative w-full">
+               
+                <h1 class="font-[600] text-[18px] leading-[30px]">Platinum</h1>
+                <div class="absolute top-[46px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                  <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
+                    <span>$18,000</span>
                   </div>
                 </div>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                  For Individuals and Small Teams
+                </h2>
+ 
+                <div
+                  class="relative mt-[16px] text-black font-[600] text-[20px] leading-[29px] flex items-center 
+                  justify-start rtl:space-x-reverse space-x-[10px]"
+                >
+                
+                  <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px]">
+                    When investing
+                  </div>
+                
+                  <div>$ 10,000</div>
+                </div>
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                  <span class="!font-[700]">UP to 100K </span>Page views/mo
+                </p>
+              </div>
               </div>
 
               <div
@@ -301,70 +327,70 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_inactive.svg" alt="" class="w-[15px] h-[15px]" />
+                    <img src="/assets/imgs/checked_list_inactive.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  class="w-[15px] h-[15px]"/>
+                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
                   </div>
                   <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
+                    <h3 class="text-[14px] font-[400] leading-[20px]">
                       All analytics features
                     </h3>
                   </div>

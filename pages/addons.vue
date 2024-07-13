@@ -812,126 +812,91 @@ onBeforeRouteLeave((to, from, next) => {
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[56px] divide-y space-y-[42px]
-           lg:space-y-0 lg:rtl:space-x-reverse space-x-[100px] px-[15px]"
-          v-if="
-            horizontalView &&
-            !collapseStore.collapses.includes('LiveTranslationAddonsCard')
-          "
+        class="flex items-center justify-center px-[25px] mt-[64px] w-full space-x-44"
+        v-if="
+          horizontalView &&
+          !collapseStore.collapses.includes('LiveTranslationAddonsCard')
+        "
+      >
+        <div
+          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
         >
-          <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
-          >
-            <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-              ${{ annual_prices ? 1200 : "100.00"
-              }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
-            </div>
-            <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
-              For 1 million characters
-            </div>
-            <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
-              Almost 50 Page
-            </div>
-            <div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
-
-            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
-              <div>
-                <img
-                  src="/assets/imgs/addons/live_icon.svg"
-                  class="w-[23px] h-[23px]"
-                  alt=""
-                />
-              </div>
-              <div class="text-[12px] leading-[14.16px] font-[500] text-black">
-                Live translation
-              </div>
-            </div>
-
-            <button
-              class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white"
-            >
-              Upgrade Now
-            </button>
-
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-              <img src="/assets/imgs/addons/live_icon.svg" alt="" />
-            </div>
+          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+            ${{ annual_prices ? 1200 : "100.00" }}
+            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
-
-          <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
-          >
-            <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-              ${{ annual_prices ? 2400 : "200.00"
-              }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
-            </div>
-            <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
-              For 1 million characters
-            </div>
-            <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
-              Almost 100 Page
-            </div>
-<div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
-            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
-              <div>
-                <img
-                  src="/assets/imgs/addons/live_icon.svg"
-                  class="w-[23px] h-[23px]"
-                  alt=""
-                />
-              </div>
-              <div class="text-[12px] leading-[14.16px] font-[500] text-black">
-                Live translation
-              </div>
-            </div>
-
-            <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
-
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-              <img src="/assets/imgs/addons/live_icon.svg" alt="" />
-            </div>
+          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+            For 1 million characters
           </div>
-
-          <div
-            class="flex flex-col items-center justify-start h-[267px] w-full relative custom-border rounded-big rounded-[19px] hover:bg-selected "
-          >
-            <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
-              ${{ annual_prices ? 3600 : "300.00"
-              }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+            Almost 50 Page
+          </div>
+          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+          <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
+            <div>
+              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
             </div>
-            <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
-              For 2 million characters
-            </div>
-            <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
-              Almost 500 Page
-            </div>
-            <div class="w-full  custom-border padding-override-1 mt-[4px]"></div>
-
-            <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
-              <div>
-                <img
-                  src="/assets/imgs/addons/live_icon.svg"
-                  class="w-[23px] h-[23px]"
-                  alt=""
-                />
-              </div>
-              <div class="text-[12px] leading-[14.16px] font-[500] text-black">
-                Live translation
-              </div>
-            </div>
-
-            <button
-              class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white"
-            >
-              Upgrade Now
-            </button>
-
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-              <img src="/assets/imgs/addons/live_icon.svg" alt="" />
-            </div>
-           
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+          </div>
+          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
+          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
+            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
           </div>
         </div>
+      
+        <div
+          class="w-full max-w-[270px] flex flex-col items-center bg-selected justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
+        >
+          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+            ${{ annual_prices ? 2400 : "200.00" }}
+            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+          </div>
+          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+            For 1 million characters
+          </div>
+          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+            Almost 100 Page
+          </div>
+          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+          <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
+            <div>
+              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
+            </div>
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+          </div>
+          <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
+          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
+            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
+          </div>
+        </div>
+      
+        <div
+          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
+        >
+          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+            ${{ annual_prices ? 3600 : "300.00" }}
+            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+          </div>
+          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+            For 2 million characters
+          </div>
+          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+            Almost 500 Page
+          </div>
+          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+          <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
+            <div>
+              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
+            </div>
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+          </div>
+          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
+          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
+            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
+          </div>
+        </div>
+      </div>
+      
       
         <div
           class="flex items-center flex-col justify-center lg:justify-start mt-[56px] space-y-[24px] pb-[16px] px-[15px]"

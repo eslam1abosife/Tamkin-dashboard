@@ -154,12 +154,13 @@ definePageMeta({
 
         <div class="relative">
           <div
+          v-if="!showExpired"
             class="flex items-center justify-center absolute top-[-10px] transform left-[30%] h-[19px] bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
           >
             SAVE 12%
           </div>
-          <button class="btn_bordered_dashboard rounded-full w-[178px]"  @click="modalStore.controlShowUpgradeModal">
-            Switch To Annual
+          <button class=" rounded-full w-[178px]" :class="[showExpired?'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard']"  @click="modalStore.controlShowUpgradeModal">
+            {{ !showExpired ? 'Switch To Annual' :'Renew'}}
           </button>
         </div>
       </div>

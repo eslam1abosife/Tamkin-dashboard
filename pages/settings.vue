@@ -112,7 +112,7 @@ const handleSaveAndMove = () => {
 };
 
 const handleCancelLeave = () => {
-  customizeStore.routeLeaveModal = false; // Close the modal
+  settingsStore.routeLeaveModal = false; // Close the modal
 };
 
 onBeforeRouteLeave((to, from, next) => {
@@ -127,7 +127,7 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
-    <LazyModalsConfirm :showModal="checkboxStore.routeLeaveModal" title="Save  your changes"
+    <LazyModalsConfirm :showModal="settingsStore.routeLeaveModal" title="Save  your changes"
     sub-title="Do you want to save the changes before moving on?"
     confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
     :savetoAllSitesBtn="true"
