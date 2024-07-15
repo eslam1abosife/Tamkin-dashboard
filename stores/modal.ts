@@ -28,9 +28,13 @@ export const useModalStore = defineStore('modal', {
     deleteModal:false,
     transferModalStep1:false,
     transferStep2:false,
-    SuccessStep2Transfer:false
+    SuccessStep2Transfer:false,
+    showSuccessModalContact:false
   }),
   actions: {
+    controlSuccessContactModal(){
+      this.showSuccessModalContact = !this.showSuccessModalContact
+    },
     controlTransferStep2Modal(){
       this.transferStep2 = !this.transferStep2
       this.transferModalStep1 = false

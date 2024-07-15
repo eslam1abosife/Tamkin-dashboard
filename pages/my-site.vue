@@ -58,7 +58,7 @@ const clearInput = () => {
 </script>
 
 <template>
-    <div class="mt-[23px]">
+    <div class="">
         <div class="space-y-[10px]">
             <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600]">My Site</h1>
 

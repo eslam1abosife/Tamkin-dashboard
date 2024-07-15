@@ -1,7 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-
+  app: {
+    head: {
+      meta: [
+        // Remove or comment out the existing viewport meta tag if present
+        // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, user-scalable=no' }
+      ]
+    }
+  },
   modules:
 [
   '@nuxtjs/tailwindcss',
@@ -71,6 +79,7 @@ googleFonts: {
     Inter:['100','200','300','400','500','600','700'],
     Lato:[100,200,300,400,500,600,700],
     Manrope:[100,200,300,400,500,600,700],
+    Mali:true
   }
   },
   css: [

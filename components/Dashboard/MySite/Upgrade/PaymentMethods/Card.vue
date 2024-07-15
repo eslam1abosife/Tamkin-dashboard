@@ -51,7 +51,14 @@ const changepaymentMethod = (method:any)=>{
   currentCard.value = ''
 
 }
-
+const continueCheckOut = ()=>{
+  if(currentCard.value){
+    return modalStore.paymentSuccessModal()
+  }
+  if(chooseOtherPaymentMethod.value === "by_crypto"){
+   return  modalStore.payViaCrypto()
+  }
+}
 watch(currentCard,(ov,nv)=>{})
 const props = defineProps({
   showModal:Boolean
@@ -319,11 +326,15 @@ const props = defineProps({
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="modalStore.paymentSuccessModal" v-if="!modalStore.loading">
+    <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="continueCheckOut()" 
+    v-if="!modalStore.loading && currentCard">
       Confirm Payment
     </button>
-
-    <button class="processing_payment   lg:w-[535px] w-full " v-else disabled>
+    <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="continueCheckOut()"
+     v-else-if="!modalStore.loading && !currentCard">
+      Change Payment Method
+    </button>
+    <button class="processing_payment   lg:w-[535px] w-full !h-[40px]" v-else disabled>
       Payment Processing...
     </button>
   </div>

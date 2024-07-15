@@ -94,11 +94,12 @@ const imgStyle = computed(() => {
 
 onBeforeMount(() => {
   [
-    "enable_live_site",
+    "language",
+"enable_live_site",
     "oversized_widget",
+    "move_access",
     "3_column_layout_widget",
     "accessibility_profiles",
-    "move_access",
     "move_hide_accessibility",
     "page_str",
     "screen_reader",
@@ -124,8 +125,7 @@ onBeforeMount(() => {
     "color_blind",
     "motor_active",
     "enable_custom_trigger",
-    "show_lang_selector",
-    "language",
+    "show_lang_selector"
   ].forEach((name) => {
     customizeStore.addCheckbox(name);
   });
@@ -161,19 +161,32 @@ onBeforeMount(() => {
     "color_blind",
     "motor_active",
     "enable_custom_trigger",
-    "show_lang_selector",
+    "show_lang_selector"
   ]);
+  const buttonPositionCheck = customizeStore.buttonPositionDesktop !== 'top_left' || customizeStore.buttonPositionMobile !== 'top_left_mobile';
+const forceChangeCheck = customizeStore.forceChange_buttonShape === true || customizeStore.force_change_profileCards === true ||
+ customizeStore.force_change_MainMenuCard === true
+
+const conditionMet = buttonPositionCheck || forceChangeCheck;
+
+console.log(conditionMet);
+
+// customizeStore.cancelAll()
+
 });
 
-watch(buttonSizeSlider, (ov, nv) => {
-  // console.log(nv)
-  if (nv >= 4) {
-    customizeStore.force_change_MainMenuCard = true
+const handleRangeChange = (event)=>{
+      buttonSizeSlider.value = event.target.value;
+   checkSliderValue();
+    }
 
-  } else {
-    customizeStore.force_change_MainMenuCard = false
-  }
-});
+    const checkSliderValue = () =>{
+      if (Number(buttonSizeSlider.value) > 3) {
+       customizeStore.force_change_MainMenuCard = true;
+      } else {
+     customizeStore.force_change_MainMenuCard = false;
+      }
+    }
 
 watch(currentColor, (ov, nv) => {
   // console.log(nv)
@@ -186,7 +199,8 @@ let pendingNavigation = null;
 
 const detectUnsavedChanges = () => {
   
-  return forceChange_buttonShape.value || force_change_profileCards.value || force_change_MainMenuCard.value || currentColor.value !== "#2dada3" || gradient1.value !== "#2dada3" || gradient2.value !== "#2dada3" || customizeStore.hasChanges()
+  return forceChange_buttonShape.value || force_change_profileCards.value || force_change_MainMenuCard.value ||
+   currentColor.value !== "#2dada3" || gradient1.value !== "#2dada3" || gradient2.value !== "#2dada3" || customizeStore.hasChanges()
 
 };
 
@@ -870,7 +884,7 @@ onBeforeRouteLeave((to, from, next) => {
                 type="range"
                 min="2"
                 max="98"
-                v-model="buttonSizeSlider"
+               @input="handleRangeChange"
                 class="range_tamkin_customize w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
               />
               <div

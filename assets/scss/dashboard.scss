@@ -2,8 +2,12 @@
 html {
     overflow-y: scroll; /* Always show scrollbar to prevent jumping */
 
-   
+
      
+  }
+ 
+  .nav_no_transform{
+    -webkit-transform: translateZ(0);
   }
 
 .bg_dashboard {
@@ -95,8 +99,8 @@ html {
         }
     }
     .dashboard-nav-link_sub_menu {
-        @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[250px] 
-         bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+        @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[260px] 
+         bg-whiteTamkin hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
      }

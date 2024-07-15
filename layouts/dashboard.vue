@@ -91,16 +91,13 @@ const clearInput = () => {
 // const isCustomizeLinkActive = isLinkActive('/customize') && custmizeStore.force_change;
 
 const shouldShowFooter = computed(() => {
-  const isAddonsLinkActive = (isLinkActive("/addons") && checkboxStore.hasChanges()) || (isLinkActive('/addons') && checkboxStore.force_change_menuCards) || (isLinkActive('/addons') && checkboxStore.force_change_profileCards);
-  const isCustomizeLinkActive = isLinkActive("/customize") && (
-    custmizeStore.forceChange_buttonShape ||
-    force_change_profileCards.value ||
-    force_change_MainMenuCard.value ||
-    currentColor.value !== "#2dada3" ||
-    gradient1.value !== "#2dada3" ||
-    gradient2.value !== "#2dada3" ||
-    custmizeStore.hasChanges()
-  );
+  const isAddonsLinkActive = (isLinkActive("/addons") && checkboxStore.hasChanges()) || (isLinkActive('/addons') && 
+  checkboxStore.force_change_menuCards) || (isLinkActive('/addons') && checkboxStore.force_change_profileCards);
+  const isCustomizeLinkActive =      isLinkActive('/customize') &&  currentColor.value !== "#2dada3" || 
+  isLinkActive('/customize') && gradient1.value !== "#2dada3" || isLinkActive('/customize') && gradient2.value !== "#2dada3"  || isLinkActive('/customize') && custmizeStore.hasChanges()
+
+ 
+  
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
 
@@ -175,6 +172,7 @@ const saveModalBeforeLeave = computed(()=>{
 
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir" class="bg_dashboard">
+    
   <div class="relative min-h-screen" :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
     <div v-if="
       showShareModal ||
@@ -189,8 +187,10 @@ const saveModalBeforeLeave = computed(()=>{
       deleteModal ||
       transferModalStep1 ||
       transferStep2 || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal ||
-       statsStore.routeLeaveModal
+       statsStore.routeLeaveModal || modalStore.showSuccessModalContact
     " class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"></div>
+
+    <ModalsSuccessModal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us" sub-title="We will contact you as soon as possible " icon="contact_success.svg"/>
     <DashboardTeamEditUserModal :showModal="editUserModal" />
 
     <DashboardEmbedShareModal :showModal="showShareModal" />
@@ -209,12 +209,7 @@ const saveModalBeforeLeave = computed(()=>{
       sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
       confirm-btn-type="delete" @control-delete="modalStore.controlDeleteModal" @control-cancel="
 controlDeleteModal" />
-      <!-- <LazyModalsConfirm :showModal="saveModalBeforeLeave" title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
-      confirm-btn-type="other" @control-other="checkboxStore.saveAndMove"
-      :savetoAllSitesBtn="true"
-      @control-cancel="checkboxStore.routeLeaveModal  = !checkboxStore.routeLeaveModal " /> -->
-    <!-- <DashboardMySiteUpgradeModal/> -->
+
     <SettingsTransferModalStep1 :show-modal="transferModalStep1" />
     <SettingsTransferModalStep2 :show-modal="transferStep2" />
 
@@ -228,24 +223,25 @@ controlDeleteModal" />
           : 'hidden lg:flex',
         sideBarOpen ? 'max-w-[280px]' : 'max-w-[75px]',
       ]">
-      <div @click="toggleSidebar" style="transform: translateZ(0);
-      " :class="[
-        !sideBarOpen
-          ? ' rotate-180 lg:!top-[130px]'
-          : 'top-[148px] rtl:lg:right-[95%] ltr:lg:left-[95%]',
-      ]"
-        class="cursor-pointer close_sidebar_btn sticky rtl:mr-[100%] ltr:ml-[100%] items-center justify-center 
-        bg-white border-[1px] border-linecolor rounded-full w-[30px] h-[30px] group z-[300] lg:flex hidden">
-        <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
-          class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[11px] h-[13px]" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
-        </svg>
-      </div>
+      
       <div
-        class=" h-screen w-full mt-[-25px]
-        ">
+        class="h-full w-full relative "
+       :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
+        <div @click="toggleSidebar"  :class="[
+          !sideBarOpen
+            ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
+            : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
+        ]"
+          class="!overflow-visible cursor-pointer close_sidebar_btn fixed  items-center justify-center 
+          bg-white border-[1px] border-linecolor rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+            class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+          </svg>
+        </div>
         <DashboardNavbar :sideBarOpen="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
-          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" />
+          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" style="transform: translateZ(0);
+          " />
       </div>
     </div>
 
@@ -256,7 +252,7 @@ controlDeleteModal" />
         <nav style="box-shadow: 0px 4px 24px 8px #51459f14"
         class="fixed top-0 flex z-[60] items-center  justify-between w-full bg-[#FFFEFE] rtl:space-x-reverse px-[40px] h-[70px]">
      
-        <div class="flex ipad-max:max-w-2xl lg:max-w-[80%] w-full">
+        <div class="flex ipad-max:max-w-2xl  w-full" :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']">
           <div class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:hidden" @click="toggleSidebarMobile" style="transform: translateZ(0);">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
@@ -273,7 +269,7 @@ controlDeleteModal" />
               </div>
             </div>
           </div>
-          <div class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] w-[50%]">
+          <div class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] w-full" :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']">
             <div @click="showNotifiations = !showNotifiations" :class="[showNotifiations ? 'active_notification' : '']"
               class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] rounded-[8px] bg-[#FFFEFE] w-[40px] h-[40px]">
               <div class="relative stroke-current text-darkGrey">
@@ -304,7 +300,7 @@ controlDeleteModal" />
       </nav>
       
 
-        <div class="pt-[85px] lg:px-[40px] relative">
+        <div class="pt-[85px] lg:px-[40px] relative overflow-x-hidden ">
           <div class="relative px-[15px]">
             <NavbarOverview v-if="
               isLinkActive('/overview') ||

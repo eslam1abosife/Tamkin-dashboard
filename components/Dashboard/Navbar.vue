@@ -4,13 +4,17 @@ import { useElementHover } from '@vueuse/core'
 import banner from 'assets/imgs/gradient_embded.png'
 
 const accessMenuHover = ref()
+const submenuHover = ref()
 const isHovered = useElementHover(accessMenuHover)
+const isSubmenuHovered = useElementHover(submenuHover)
+
 const props = defineProps({
   sideBarOpen: Boolean,
   mobileSidebar: Boolean,
 });
 
 const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
+let closeTimeout = null
 
 function toggleSidebar() {
   emit("toggleSidebar");
@@ -19,13 +23,15 @@ function toggleSidebar() {
 function toggleSidebarMobile() {
   emit("toggleSidebarMobile");
 }
-const showSubMenu = ref(new Array(3).fill(false)); // initialize an array of booleans to track the visibility of each submenu
-const openMenuSub = (id: any) => {
-  //   showSubMenu.fill(false); // reset all submenus to hidden
-  showSubMenu.value[id] = !showSubMenu.value[id]; // toggle the visibility of the clicked submenu
+const showOnClick = ref(false)
+const showSubMenu = ref(new Array(6).fill(false)); // initialize an array of booleans to track the visibility of each submenu
+const openMenuSub = (id) => {
+  clearTimeout(closeTimeout) // Clear any previous timeout
 
-  //   console.log(showSubMenu.value[id]);
-};
+  showOnClick.value = !showOnClick.value
+  showSubMenu.value[id] = showOnClick.value
+  console.log(`Submenu ${id} visibility:`, showSubMenu.value[id])
+}
 const localePath = useLocalePath();
 const route = useRoute();
 const isLinkActive = (path) => {
@@ -46,7 +52,7 @@ const isSubMenuActive = (index) => {
   return routes.includes(route.path);
 };
 const activeAccessLinks = computed(()=>{
-  return showSubMenu.value[3] && isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics')
+  return  isLinkActive('/overview') ||  isLinkActive('/addons') || isLinkActive('/statistics')
    || isLinkActive('/customize')  ||  isLinkActive('/settings') 
 
 })
@@ -58,16 +64,29 @@ onMounted(()=>{
 })
 
 const closeSubMenuOnClickOutside = (index:any)=>{
-  if(!props.sideBarOpen ){
+  if(!props.sideBarOpen && showSubMenu.value[index] === true){
       showSubMenu.value[index] = false
 
   }
 }
-
-watch(isHovered,(ov,nv)=>{
-if(!props.sideBarOpen){
-showSubMenu.value[3] = true
+const closeSubmenuWithDelay = () => {
+  closeTimeout = setTimeout(() => {
+    if (!isHovered.value && !isSubmenuHovered.value && !showOnClick.value) {
+      showSubMenu.value[3] = false
+    }
+  }, 200) // Delay in milliseconds
 }
+
+watch([isHovered, isSubmenuHovered], ([newIsHovered, newIsSubmenuHovered]) => {
+  clearTimeout(closeTimeout) // Clear any previous timeout
+
+  if (!props.sideBarOpen) { // Only handle hover if sidebar is closed
+    if (newIsHovered || newIsSubmenuHovered) {
+      showSubMenu.value[3] = true
+    } else if (!showOnClick.value) {
+      closeSubmenuWithDelay()
+    }
+  }
 })
 watch(
   () => route.path,  // Watch for changes in the route path
@@ -88,29 +107,11 @@ watch(() => props.sideBarOpen, (first, second) => {
 
 <template>
   <div
-    class="flex-col items-center justify-start overflow-y-auto  no-scrollbar
-    lg:flex mx-auto  fixed  rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6 Z-[120] h-screen "
-  :class="[sideBarOpen ? 'w-[280px]' : 'w-[75px]']"
+    class="flex-col items-center justify-start   
+    lg:flex mx-auto  fixed  rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6    h-screen z-[140]"
+  :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]']" style="box-sizing:border-box !important;"
     >
-    <div
-      class="block lg:hidden absolute top-[35px] rtl:left-0 ltr:right-0"
-      @click="toggleSidebarMobile"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-        />
-      </svg>
-    </div>
+  
 
     <div class="flex flex-col items-center justify-start w-full ">
       <div class="self-start w-full" :class="[sideBarOpen ? '' : 'mx-auto']"  v-if="sideBarOpen">
@@ -122,15 +123,15 @@ watch(() => props.sideBarOpen, (first, second) => {
         />
      
       </div>
-      <div           class="mb-[64px] w-[24px] h-[24px]"
+      <div           class="mb-[10px] w-[55px] h-[55px] mt-[24px]"
       v-else>
         <img
         src="/assets//imgs/icons/tamkin_small.svg"
         alt=""
-      class="  mx-auto"
+      class="  mx-auto w-[28px] h-[28px]"
       />
       </div>
-    <div class="w-[24px] h-[24px]" v-if="!sideBarOpen"   >
+    <div class="w-[28px] h-[28px]" v-if="!sideBarOpen"   >
       <img
       src="/assets/imgs/team.png"
     
@@ -181,7 +182,7 @@ watch(() => props.sideBarOpen, (first, second) => {
         </div>
       </div>
 
-      <hr class="w-3/4 mx-auto h-[1px] bg-lightGrey my-[28px]" />
+      <hr class="w-full mx-auto h-[1px] bg-lightGrey my-[28px]" />
       <button
         @click="$router.push(localePath('/add-site'))"
         class="btn-dashboard h-[40px] flex items-center justify-center relative w-full"
@@ -216,11 +217,11 @@ watch(() => props.sideBarOpen, (first, second) => {
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </div>
     <button
-      class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start w-[24px] h-[24px]"
+      class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start w-[28px] h-[28px]"
       v-if="!sideBarOpen"
       @click="$router.push(localePath('/team'))"
     >
-      <img src="/assets/imgs/icons/add.svg" alt="" class="" />
+      <img src="/assets/imgs/icons/add.svg" alt="" class="w-[28px] h-[28px]" />
 
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </button>
@@ -231,7 +232,7 @@ watch(() => props.sideBarOpen, (first, second) => {
     >
       <TamkinSideBarLink
         class="dashboard-nav-link"
-        :to="goToLink('/dashboard')"
+        :to="goToLink('/overview')"
         :class="[!sideBarOpen ? 'closed_sidebar !w-[55px]' : 'w-full ']"
       >
         <div>
@@ -246,7 +247,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             <path
               d="M6.99805 10.75H4.99805C2.57805 10.75 1.24805 9.42 1.24805 7V5C1.24805 2.58 2.57805 1.25 4.99805 1.25H6.99805C9.41805 1.25 10.748 2.58 10.748 5V7C10.748 9.42 9.41805 10.75 6.99805 10.75ZM4.99805 2.75C3.41805 2.75 2.74805 3.42 2.74805 5V7C2.74805 8.58 3.41805 9.25 4.99805 9.25H6.99805C8.57805 9.25 9.24805 8.58 9.24805 7V5C9.24805 3.42 8.57805 2.75 6.99805 2.75H4.99805Z"
               :fill="[
-                isLinkActive('/dashboard')
+                isLinkActive('/overview')
                   ? 'url(#paint0_linear_339_7555)'
                   : 'currentColor',
               ]"
@@ -254,7 +255,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             <path
               d="M19 10.75H17C14.58 10.75 13.25 9.42 13.25 7V5C13.25 2.58 14.58 1.25 17 1.25H19C21.42 1.25 22.75 2.58 22.75 5V7C22.75 9.42 21.42 10.75 19 10.75ZM17 2.75C15.42 2.75 14.75 3.42 14.75 5V7C14.75 8.58 15.42 9.25 17 9.25H19C20.58 9.25 21.25 8.58 21.25 7V5C21.25 3.42 20.58 2.75 19 2.75H17Z"
               :fill="[
-                isLinkActive('/dashboard')
+                isLinkActive('/overview')
                   ? 'url(#paint1_linear_339_7555)'
                   : 'currentColor',
               ]"
@@ -262,7 +263,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             <path
               d="M19 22.75H17C14.58 22.75 13.25 21.42 13.25 19V17C13.25 14.58 14.58 13.25 17 13.25H19C21.42 13.25 22.75 14.58 22.75 17V19C22.75 21.42 21.42 22.75 19 22.75ZM17 14.75C15.42 14.75 14.75 15.42 14.75 17V19C14.75 20.58 15.42 21.25 17 21.25H19C20.58 21.25 21.25 20.58 21.25 19V17C21.25 15.42 20.58 14.75 19 14.75H17Z"
               :fill="[
-                isLinkActive('/dashboard')
+                isLinkActive('/overview')
                   ? 'url(#paint2_linear_339_7555)'
                   : 'currentColor',
               ]"
@@ -270,12 +271,12 @@ watch(() => props.sideBarOpen, (first, second) => {
             <path
               d="M6.99805 22.75H4.99805C2.57805 22.75 1.24805 21.42 1.24805 19V17C1.24805 14.58 2.57805 13.25 4.99805 13.25H6.99805C9.41805 13.25 10.748 14.58 10.748 17V19C10.748 21.42 9.41805 22.75 6.99805 22.75ZM4.99805 14.75C3.41805 14.75 2.74805 15.42 2.74805 17V19C2.74805 20.58 3.41805 21.25 4.99805 21.25H6.99805C8.57805 21.25 9.24805 20.58 9.24805 19V17C9.24805 15.42 8.57805 14.75 6.99805 14.75H4.99805Z"
               :fill="[
-                isLinkActive('/dashboard')
+                isLinkActive('/overview')
                   ? 'url(#paint3_linear_339_7555)'
                   : 'currentColor',
               ]"
             />
-            <defs v-if="isLinkActive('/dashboard')">
+            <defs v-if="isLinkActive('/overview')">
               <linearGradient
                 id="paint0_linear_339_7555"
                 x1="5.99805"
@@ -363,7 +364,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             />
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Embed Code</span>
+        <span v-if="sideBarOpen ">Embed Code</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
@@ -410,14 +411,484 @@ watch(() => props.sideBarOpen, (first, second) => {
         <span v-if="sideBarOpen">My Site</span>
       </TamkinSideBarLink>
 
-
-          
-          <div class="relative "  @click.stop="openMenuSub(3)"           :class="[!sideBarOpen ? '  ' : 'w-full ']"
+      <div class="relative "  @click="openMenuSub(4)"           :class="[!sideBarOpen ? '  ' : 'w-full ']"
       > 
         <div
           class="dashboard-nav-link "
           :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
           ref="accessMenuHover" 
+         
+          >
+      
+          
+          <div >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.7514 7.08983L7.23314 2.35596C7.08597 2.24635 6.99943 2.11523 6.97351 1.96259C6.94759 1.80995 6.99107 1.66177 7.10395 1.51806C7.21683 1.37435 7.35563 1.2887 7.52035 1.26109C7.68507 1.23349 7.84185 1.27449 7.99069 1.3841L14.5077 6.12406L13.7514 7.08983ZM8.92885 6.28847L8.54757 6.64166C8.44305 6.72772 8.35191 6.81094 8.27414 6.89132C8.19638 6.97251 8.12364 7.06588 8.05591 7.17143L6.14823 5.79889C6.00023 5.69009 5.91327 5.55491 5.88735 5.39334C5.86226 5.23258 5.90574 5.08034 6.01779 4.93663C6.13067 4.79374 6.26989 4.7097 6.43545 4.68453C6.601 4.65936 6.75778 4.70158 6.90578 4.81119L8.92885 6.28847ZM19.8243 7.26034L11.3056 1.0979C11.1576 0.989101 11.0736 0.857977 11.0535 0.704525C11.0334 0.551073 11.0794 0.402898 11.1915 0.260001C11.3035 0.117104 11.4386 0.0326647 11.5966 0.00668345C11.7538 -0.017674 11.9064 0.0245456 12.0544 0.133342L18.8523 5.04746L19.3038 1.77504C19.3498 1.5071 19.4598 1.27449 19.6337 1.07719C19.8076 0.879898 20.0304 0.764606 20.3022 0.731318L21.1701 0.642413L23.8517 9.44276C24.003 9.91368 24.0385 10.3785 23.9583 10.8372C23.878 11.296 23.6844 11.7198 23.3776 12.1087L21.7007 14.2838C21.6589 14.0467 21.5932 13.821 21.5037 13.6067C21.4151 13.3915 21.3047 13.1824 21.1726 12.9795L22.383 11.3962C22.5728 11.1559 22.694 10.8977 22.7467 10.6217C22.8002 10.3456 22.7818 10.0692 22.6915 9.79229L20.464 2.53377L19.8243 7.26034ZM6.75277 10.4171L6.0968 9.9494C5.9463 9.84629 5.85766 9.71273 5.83091 9.54872C5.80415 9.38471 5.84721 9.23085 5.96009 9.08714C6.07297 8.94344 6.21219 8.86306 6.37775 8.84601C6.54331 8.82896 6.70009 8.87524 6.84809 8.98484L7.48273 9.43546C7.47436 9.59784 7.48189 9.76185 7.5053 9.92748C7.52872 10.0915 7.57052 10.2547 7.63072 10.4171H6.75277ZM0.627114 17.2542C0.449014 17.2542 0.300179 17.1957 0.180609 17.0788C0.060203 16.9619 0 16.817 0 16.644C0 16.4711 0.060203 16.3266 0.180609 16.2105C0.301015 16.0944 0.44985 16.0363 0.627114 16.0363H8.7796V17.2542H0.627114ZM1.88134 20.6265C1.70324 20.6265 1.55441 20.568 1.43484 20.4511C1.31527 20.3342 1.25506 20.1893 1.25423 20.0163C1.25339 19.8434 1.3136 19.6989 1.43484 19.5828C1.55608 19.4667 1.70491 19.4086 1.88134 19.4086H8.7796V20.6265H1.88134ZM4.3898 24C4.2117 24 4.06286 23.9411 3.94329 23.8234C3.82372 23.7057 3.76352 23.5616 3.76269 23.3911C3.76185 23.2206 3.82205 23.076 3.94329 22.9575C4.06454 22.839 4.21337 22.7805 4.3898 22.7821H16.4505C16.9664 22.7821 17.4087 22.6031 17.7774 22.245C18.1462 21.887 18.331 21.4571 18.3318 20.9553V15.7099C18.3318 15.4128 18.2695 15.1363 18.1449 14.8806C18.0212 14.6248 17.8355 14.4125 17.588 14.2436L11.3457 9.70948L13.7489 13.8831H3.13557C2.95747 13.8831 2.80864 13.8247 2.68907 13.7078C2.56866 13.59 2.50846 13.4443 2.50846 13.2705C2.50846 13.0968 2.56866 12.9523 2.68907 12.837C2.80947 12.7217 2.95831 12.6636 3.13557 12.6628H11.6066L9.93725 9.78255C9.79929 9.54385 9.74034 9.29134 9.7604 9.02503C9.78047 8.75873 9.89586 8.5391 10.1066 8.36616L10.7676 7.79376L18.3218 13.2778C18.7223 13.5758 19.0329 13.9314 19.2537 14.3447C19.4752 14.7588 19.586 15.2135 19.586 15.7087V20.9541C19.586 21.8001 19.2808 22.5191 18.6704 23.111C18.0609 23.7037 17.3209 24 16.4505 24H4.3898Z" fill="currentColor"/>
+              <defs>
+
+              <!-- <linearGradient id="paint0_linear_5574_30336" x1="12" y1="0" x2="12" y2="24" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#2DADA3"/>
+              url(#paint0_linear_5574_30336)
+              <stop offset="1" stop-color="#71DAD2"/>
+              </linearGradient> -->
+              </defs>
+              </svg>
+              
+        
+        </div>
+
+        
+     
+        <div class=" w-full space-x-[50px] flex items-center justify-evenly  " :class="[!sideBarOpen?'hidden':'']">
+          
+          <div   v-if="sideBarOpen"  class="ml-[-10px] whitespace-nowrap" >Sign language</div>
+          <div v-if="sideBarOpen">
+            <svg
+              width="7"
+              height="12"
+              :class="[showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 ' ]"
+              viewBox="0 0 7 12"
+              class="w-full h-full ]"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                  <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                </linearGradient>
+              </defs>
+              <path
+                fill="#585B5B"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+              />
+            </svg>
+          </div>
+        </div>
+        </div>
+        <div
+          class=" bg-[#FFFEFE] rounded-[10px] " 
+          ref="submenuHover"
+          :class="[
+            !sideBarOpen && showSubMenu[4] ? 'absolute top-0 left-[65px] bg-white !z-[140] w-[270px] shadow-md' : ' ',
+            showSubMenu[4] ? 'block ' : 'hidden'
+      
+          ]"
+          v-on-click-outside="()=> closeSubMenuOnClickOutside(4)"
+
+
+        >
+          <div class="flex flex-col items-start justify-center mt-[6px] w-full mb-[10px] px-[15px]">
+       <div class="flex items-center justify-between w-full mt-[10px]">
+        <div v-if="!sideBarOpen" 
+        class=""
+        :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent':'']">
+          Sign language</div>
+        <div v-if="!sideBarOpen">
+          <svg
+            width="7"
+            height="12"
+            :class="[showSubMenu[4] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px]' ]"
+            viewBox="0 0 7 12"
+            class="w-full h-full pr-[8px]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+              </linearGradient>
+            </defs>
+            <path
+              :fill="activeAccessLinks? 'url(#grad1)' : '#585B5B'"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+            />
+          </svg>
+        </div>
+       </div>
+            <div class="bg-[#FFFEFE] relative w-full" @click.stop >
+            
+              <ul class="space-y-[10px] w-full " :class="[!sideBarOpen  ? 'mt-[10px]':'']">
+                <li class="rounded-[10px] relative  group   w-full" 
+                
+                :class="[isLinkActive('/overview') && sideBarOpen ? '' : '',sideBarOpen?'w-full ' :'']">
+                
+                  <nuxt-link
+                    @click="openMenuSub(6)"
+                   
+                    :class="[showSubMenu[6] ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                    class="relative  w-full"
+                    >
+                  
+
+<div  class=" w-full flex items-center justify-start  dashboard-nav-link_sub_menu p-2 ">
+
+<div 
+
+:class="[!sideBarOpen  ? 
+'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': 
+!sideBarOpen ? 
+'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']"
+class="flex items-center justify-start w-full "
+>
+  <div
+              
+  class="w-[7px] h-[2px] rounded-[10px] " v-if="sideBarOpen"
+  :class="[showSubMenu[6] ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd ' : 'bg-darkGrey']"
+></div>
+<div class="ml-[16px] ">
+  Services
+</div>
+  </div>
+  
+
+  <div class="mr-[-4px]">
+    <svg
+      width="7"
+      height="12"
+      :class="[showSubMenu[6] ? 'rotate-90 ' : 'rotate-0 ' ]"
+      viewBox="0 0 7 12"
+      class="w-full h-full "
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+          <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+        </linearGradient>
+      </defs>
+      <path
+        :fill="showSubMenu[6]? 'url(#grad1)' : '#585B5B'"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+      />
+    </svg>
+  </div>
+</div>
+
+                 
+                  
+
+                   
+                    </nuxt-link
+                  >
+
+               
+                </li>
+                <ul class="space-y-[10px] w-full ml-[20px]"  :class="[!sideBarOpen  ? 'mt-[10px]':'']" v-if="showSubMenu[6]">
+                  <li class="rounded-[10px] relative  dashboard-nav-link_sub_menu group  !p-3" 
+                  
+                  :class="[isLinkActive('/overview') && sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/overview')"
+                      :class="[isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/overview') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/overview') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': 
+                    sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Overview
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative dashboard-nav-link_sub_menu group   !p-3"
+                   :class="[isLinkActive('/addons') &&sideBarOpen? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                     
+                      :to="localePath('/addons')"
+                      :class="[isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] "  v-if="sideBarOpen"
+                      :class="[isLinkActive('/addons') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/addons') ?
+                     'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Addons
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group    !p-3"
+                  :class="[isLinkActive('/statistics')&&sideBarOpen ? ' ' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                 
+                   <nuxt-link
+                     @click.stop
+                     :to="localePath('/statistics')"
+                     :class="[isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                     >
+                     <div
+               
+                     class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                     :class="[isLinkActive('/statistics') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                   ></div>
+                   <div :class="[!sideBarOpen && isLinkActive('/statistics') ?
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                    Statistics
+                     </div>
+                   
+                     </nuxt-link
+                   >
+                 </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                  :class="[isLinkActive('/customize')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/customize')"
+                      :class="[isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/customize') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/customize') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Customize
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                  :class="[isLinkActive('/settings')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/settings')"
+                      :class="[isLinkActive('/settings') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/settings') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/settings') ?
+                     'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Settings
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                </ul>
+                <li class="rounded-[10px] relative   group   w-full" 
+                
+                :class="[isLinkActive('/overview') && sideBarOpen ? '' : '',sideBarOpen?'w-full ' :'']">
+                
+                  <nuxt-link
+                    @click="openMenuSub(5)"
+                   
+                    :class="[showSubMenu[5] ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                    class="relative  w-full"
+                    >
+                  
+
+<div  class=" w-full flex items-center justify-start  dashboard-nav-link_sub_menu p-2  ">
+
+<div 
+
+:class="[!sideBarOpen  ? 
+'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': 
+!sideBarOpen ? 
+'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']"
+class="flex items-center justify-start w-full"
+>
+  <div
+              
+  class="w-[7px] h-[2px] rounded-[10px] " v-if="sideBarOpen"
+  :class="[showSubMenu[5] ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : 'bg-darkGrey']"
+></div>
+<div class="ml-[16px]">
+  Control
+</div>
+  </div>
+
+  <div class="mr-[-4px]">
+    <svg
+      width="7"
+      height="12"
+      :class="[showSubMenu[5] ? 'rotate-90 ' : 'rotate-0 ' ]"
+      viewBox="0 0 7 12"
+      class="w-full h-full "
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+          <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+        </linearGradient>
+      </defs>
+      <path
+        :fill="showSubMenu[5]? 'url(#grad1)' : '#585B5B'"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+      />
+    </svg>
+  </div>
+</div>
+
+                 
+                  
+
+                   
+                    </nuxt-link
+                  >
+
+               
+                </li>
+                <ul class="space-y-[10px] w-full ml-[20px]"  :class="[!sideBarOpen  ? 'mt-[10px]':'']" v-if="showSubMenu[5]">
+                  <li class="rounded-[10px] relative  dashboard-nav-link_sub_menu group  !p-3" 
+                  
+                  :class="[isLinkActive('/overview') && sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/overview')"
+                      :class="[isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/overview') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/overview') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': 
+                    sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Overview
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative dashboard-nav-link_sub_menu group   !p-3"
+                   :class="[isLinkActive('/addons') &&sideBarOpen? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                     
+                      :to="localePath('/addons')"
+                      :class="[isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] "  v-if="sideBarOpen"
+                      :class="[isLinkActive('/addons') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/addons') ?
+                     'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Addons
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group    !p-3"
+                  :class="[isLinkActive('/statistics')&&sideBarOpen ? ' ' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                 
+                   <nuxt-link
+                     @click.stop
+                     :to="localePath('/statistics')"
+                     :class="[isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                     >
+                     <div
+               
+                     class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                     :class="[isLinkActive('/statistics') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                   ></div>
+                   <div :class="[!sideBarOpen && isLinkActive('/statistics') ?
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                    Statistics
+                     </div>
+                   
+                     </nuxt-link
+                   >
+                 </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                  :class="[isLinkActive('/customize')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/customize')"
+                      :class="[isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/customize') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/customize') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Customize
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                  <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                  :class="[isLinkActive('/settings')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                  
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/settings')"
+                      :class="[isLinkActive('/settings') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      >
+                      <div
+                
+                      class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                      :class="[isLinkActive('/settings') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    ></div>
+                    <div :class="[!sideBarOpen && isLinkActive('/settings') ?
+                     'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                      Settings
+                      </div>
+                    
+                      </nuxt-link
+                    >
+                  </li>
+                </ul>
+            
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+          
+          <div class="relative "  @click="openMenuSub(3)"           :class="[!sideBarOpen ? '  ' : 'w-full ']"
+      > 
+        <div
+          class="dashboard-nav-link "
+          :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
+          ref="accessMenuHover" 
+         
           >
       
           
@@ -486,7 +957,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             <svg
               width="7"
               height="12"
-              :class="[showSubMenu[3] ? 'rotate-90 ' : 'rotate-0 ' ]"
+              :class="[showSubMenu[3] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px] ' ]"
               viewBox="0 0 7 12"
               class="w-full h-full pr-[8px]"
               xmlns="http://www.w3.org/2000/svg"
@@ -508,9 +979,10 @@ watch(() => props.sideBarOpen, (first, second) => {
         </div>
         </div>
         <div
-          class=" bg-[#FFFEFE] rounded-[10px] " @click.stop
+          class=" bg-[#FFFEFE] rounded-[10px] " 
+          ref="submenuHover"
           :class="[
-            !sideBarOpen && showSubMenu[3] ? 'absolute top-0 left-[65px] bg-white z-[200] w-[270px] shadow-md' : ' ',
+            !sideBarOpen && showSubMenu[3] ? 'absolute top-0 left-[65px] bg-white !z-[140] w-[270px] shadow-md' : ' ',
             showSubMenu[3] ? 'block ' : 'hidden'
       
           ]"
@@ -521,8 +993,7 @@ watch(() => props.sideBarOpen, (first, second) => {
           <div class="flex flex-col items-start justify-center mt-[6px] w-full mb-[10px] px-[15px]">
        <div class="flex items-center justify-between w-full mt-[10px]">
         <div v-if="!sideBarOpen" 
-        class=""
-        :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent':'']">
+        class="bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent">
           Accessibility</div>
         <div v-if="!sideBarOpen">
           <svg
@@ -533,16 +1004,14 @@ watch(() => props.sideBarOpen, (first, second) => {
             class="w-full h-full pr-[8px]"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
-              </linearGradient>
-            </defs>
+          <defs>
+            <linearGradient id="grad13" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+              <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+            </linearGradient>
+          </defs>
             <path
-              :fill="activeAccessLinks? 'url(#grad1)' : '#585B5B'"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+            fill="url(#grad13)"
               d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
             />
           </svg>
@@ -551,92 +1020,118 @@ watch(() => props.sideBarOpen, (first, second) => {
             <div class="bg-[#FFFEFE] relative w-full" @click.stop >
             
               <ul class="space-y-[10px] w-full " :class="[!sideBarOpen  ? 'mt-[10px]':'']">
-                <li class="rounded-[10px] relative  dashboard-nav-link_sub_menu group !p-3" 
+                <li class="rounded-[10px] relative  dashboard-nav-link_sub_menu group  !p-3" 
                 
-                :class="[isLinkActive('/overview') && sideBarOpen ? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                :class="[isLinkActive('/overview') && sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
                 
                   <nuxt-link
                     @click.stop
                     :to="localePath('/overview')"
-                    :class="[isLinkActive('/overview') ? '' : '']"
+                    :class="[isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
               
                     class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
-                    :class="[isLinkActive('/overview') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    :class="[isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' : 'border-[1px] border-darkGrey']"
                   ></div>
-                  <div :class="[!sideBarOpen && isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                  <div :class="[!sideBarOpen && isLinkActive('/overview') ? 
+                  'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': 
+                  sideBarOpen ? '' :'']">
                     Overview
                     </div>
                   
                     </nuxt-link
                   >
                 </li>
-                <li class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                 :class="[isLinkActive('/addons') &&sideBarOpen? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                <li class="rounded-[10px] relative dashboard-nav-link_sub_menu group   !p-3"
+                 :class="[isLinkActive('/addons') &&sideBarOpen? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
                 
                   <nuxt-link
                    
                     :to="localePath('/addons')"
-                    :class="[isLinkActive('/addons') ? '' : '']"
+                    :class="[isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
               
                     class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] "  v-if="sideBarOpen"
-                    :class="[isLinkActive('/addons') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    :class="[isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' : 'border-[1px] border-darkGrey']"
                   ></div>
-                  <div :class="[!sideBarOpen && isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                  <div :class="[!sideBarOpen && isLinkActive('/addons') ?
+                   'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? '' :'']">
                     Addons
                     </div>
                   
                     </nuxt-link
                   >
                 </li>
-                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group !p-3"
-                :class="[isLinkActive('/statistics')&&sideBarOpen ? ' bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group    !p-3"
+                :class="[isLinkActive('/statistics')&&sideBarOpen ? ' ' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
                
                  <nuxt-link
                    @click.stop
                    :to="localePath('/statistics')"
-                   :class="[isLinkActive('/statistics') ? '' : '']"
+                   :class="[isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                    >
                    <div
              
                    class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
-                   :class="[isLinkActive('/statistics') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                   :class="[isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' : 'border-[1px] border-darkGrey']"
                  ></div>
-                 <div :class="[!sideBarOpen && isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                 <div :class="[!sideBarOpen && isLinkActive('/statistics') ?
+                  'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? '' :'']">
                   Statistics
                    </div>
                  
                    </nuxt-link
                  >
                </li>
-                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group !p-3" 
-                :class="[isLinkActive('/customize')&&sideBarOpen ? 'bg-tamkinLight' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                :class="[isLinkActive('/customize')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
                 
                   <nuxt-link
                     @click.stop
                     :to="localePath('/customize')"
-                    :class="[isLinkActive('/customize') ? '' : '']"
+                    :class="[isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
               
                     class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
-                    :class="[isLinkActive('/customize') ? 'bg-darkGrey' : 'border-[1px] border-darkGrey']"
+                    :class="[isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' : 'border-[1px] border-darkGrey']"
                   ></div>
-                  <div :class="[!sideBarOpen && isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': !sideBarOpen ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent' :'']">
+                  <div :class="[!sideBarOpen && isLinkActive('/customize') ? 
+                  'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? '' :'']">
                     Customize
                     </div>
                   
                     </nuxt-link
                   >
                 </li>
-               
+                <li class="rounded-[10px] relative   dashboard-nav-link_sub_menu group   !p-3" 
+                :class="[isLinkActive('/settings')&&sideBarOpen ? '' : '',sideBarOpen?'w-3/4 ml-[10px]' :'']">
+                
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/settings')"
+                    :class="[isLinkActive('/settings') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    >
+                    <div
+              
+                    class="group-hover:bg-darkGrey w-[7px] h-[7px] rounded-[10px] " v-if="sideBarOpen"
+                    :class="[isLinkActive('/settings') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' : 'border-[1px] border-darkGrey']"
+                  ></div>
+                  <div :class="[!sideBarOpen && isLinkActive('/settings') ?
+                   'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent': sideBarOpen ? '' :'']">
+                    Settings
+                    </div>
+                  
+                    </nuxt-link
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -668,7 +1163,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Coin Store</span>
+        <span v-if="sideBarOpen ">Coin Store</span>
       </div>
 
       <div
@@ -697,7 +1192,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Records</span>
+        <span v-if="sideBarOpen">Records</span>
       </div>
       <div
         class="dashboard-nav-link"
@@ -725,7 +1220,7 @@ watch(() => props.sideBarOpen, (first, second) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Packages</span>
+        <span v-if="sideBarOpen ">Packages</span>
       </div>
       <div
         class="dashboard-nav-link"
@@ -753,21 +1248,42 @@ watch(() => props.sideBarOpen, (first, second) => {
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen || sideBarOpenMobile">Settings</span>
+        <span v-if="sideBarOpen ">Settings</span>
       </div>
       <div
-        :style="{ backgroundImage: `url(${banner})` }"
-        style="  background-color: rgba(255, 255, 255, 0.486);"
-        class="w-full  bg-cover bg-center rounded-[18px] mt-[12px]"
-      >
-        <div class="text-center flex items-center justify-center flex-col p-4  rounded-lg m-4">
-          <img src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[60px] h-[60px] mb-4" />
-          <h2 class="text-[14px] font-[600] text-[#0D5C56] leading-[20px]">Talk to a member of our sales team</h2>
-          <p class="text-[10px] font-[400] leading-[14px] text-[#627E7C] mt-[6px]">Contact our sales team for more information</p>
-          <button class="btn-dashboard hover_tamkin mt-[12px]">Contact Sales</button>
-        </div>
+     
+      v-if="!sideBarOpen"
+      class="cursor-pointer mt-[14px]" 
+      @click="$router.push(localePath('/contact'))"
+      :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
+    >
+      <div class="w-[34px] h-[34px]">
+       <img src="/assets/imgs/icons/support.svg"  alt="">
       </div>
-      
+
+    </div>
+    <div
+  v-if="sideBarOpen"
+  class="w-full mb-[24px] bg-cover bg-center rounded-[18px] mt-[4px] bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+>
+  <div class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg">
+    <div>
+      <img src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[35px] h-[35px]" />
+    </div>
+    <div>
+      <h2 class="text-[14px] font-[600] text-[#0D5C56]">Need Help?</h2>
+    </div>
+    <div>
+      <h2 class="text-[11px] font-[400] text-[#64938f]">Contact Our Sales Team</h2>
+    </div>
+    <div class="w-full mx-auto">
+      <button class="btn-dashboard hover_tamkin !h-[14px] !p-[13px] w-2/4 !text-[12px] mx-auto" @click="$router.push(localePath('/contact'))">
+        Contact Sales
+      </button>
+    </div>
+  </div>
+</div>
+
 
     </div>
 

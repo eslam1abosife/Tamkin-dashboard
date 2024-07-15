@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useModalStore } from "#imports";
+const modalStore = useModalStore()
 definePageMeta({
     layout:'dashboard'
 })
@@ -29,20 +31,20 @@ const v$ = useVuelidate(rules, state);
 
 
 <template>
-    <div class="relative h-full w-full my-[16px]">
+    <div class="relative w-full ">
 
-    <div class="flex items-center justify-center flex-col mx-auto px-6 py-12 shadow-md bg-white rounded-[10px] w-full max-w-4xl">
-        <div class="flex flex-col items-center justify-center w-full space-y-6">
+    <div class="flex items-center justify-between mx-auto px-6 py-12 shadow-md bg-white rounded-[10px] w-full ">
+        <div class="flex flex-col items-start justify-center w-full space-y-6">
           <div class="flex items-center justify-center space-x-4">
             <h1 class="text-2xl font-semibold text-[#021328]">Contact Sales</h1>
             <img src="/assets/imgs/icons/contact_sales.svg" alt="Contact Sales Icon">
           </div>
       
-          <p class="text-lg text-darkGrey text-center w-full">
+          <p class="text-lg text-darkGrey text-left w-full">
             Let’s get this conversation started tell us about yourself, and we’ll get in touch as soon as we can
           </p>
       
-          <form class="w-full space-y-6">
+          <div class="w-full space-y-6 pr-[24px]">
             
             <div class="w-full relative">
                 <input type="text" placeholder="{{$t('Name')}}" id="Name" class="input_floating_label peer w-full"
@@ -156,10 +158,18 @@ const v$ = useVuelidate(rules, state);
               </div>
               
             <div class="flex justify-center space-x-4">
-              <button type="button" class="btn_bordered_dashboard w-1/6">Cancel</button>
-              <button type="submit" class="btn-dashboard hover_tamkin w-1/6">Submit</button>
+              <button class="btn-dashboard hover_tamkin w-2/6" @click="modalStore.controlSuccessContactModal">Submit</button>
             </div>
-          </form>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-start justify-center mt-[90px] space-y-[10px] w-2/4">
+            <div class=" text-darkGrey text-[18px] font-[400]  leading-[26px] font-[Mali]">
+                You will have more surprises and enjoy  with us 
+            </div>
+            <div class="w-full h-full">
+                <img src="/assets/imgs/icons/contact_desk.svg"  class="h-full w-full" alt="">
+            </div>
         </div>
       </div>
     </div>
