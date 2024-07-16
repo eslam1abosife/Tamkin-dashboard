@@ -8,9 +8,9 @@ import {
   numeric,
   minLength,
 } from "@vuelidate/validators";
-import UAEFLAG from "~/assets/imgs/flags/UAE.svg";
-import EGYPTFLAG from "~/assets/imgs/flags/Element.svg";
-import SAUDIFLAG from "~/assets/imgs/flags/Vector.svg";
+import UAEFLAG from "/assets/imgs/flags/UAE.svg";
+import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
+import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 
 import { useModalStore } from "@/stores/modal";
 
@@ -443,7 +443,7 @@ const checkInput = (event) =>{
       </div>
 
       <h1
-        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[0px]"
       >
         Billing address
       </h1>
@@ -618,9 +618,9 @@ const checkInput = (event) =>{
                   selectedCountry ? selectedCountry.name : "Country*"
                 }}</div>
 
-                <img
+                <img 
                   src="/assets/imgs/payment_methods/country_arrow.svg"
-                  alt=""
+                  
                   :class="[isOpen ? 'rotate-90' : '']"
                   class="mr-[20px] mb-[0px] float-right w-[16px] h-[12px]" 
                 />
@@ -639,14 +639,14 @@ const checkInput = (event) =>{
                   <div
                     class="absolute top-[33px] lg:top-[20px] lg:left-[20px] left-[30px] lg:p-[16px]"
                   >
-                    <img src="/assets/imgs/icons/search.svg" alt="" />
+                    <img  src="/assets/imgs/icons/search.svg"  />
                   </div>
                   <div
                     v-if="search"
                     @click="search = ''"
                     class="absolute top-[16px] lg:top-[18px] right-[20px] p-[16px] cursor-pointer"
                   >
-                    <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                    <img  src="/assets/imgs/icons/clear_search.svg"  />
                   </div>
                 </div>
                 <ul>
@@ -655,7 +655,7 @@ const checkInput = (event) =>{
                     :key="country.code"
                     class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100"
                   >
-                    <img :src="country.flag" alt="" class="w-6 h-4 mr-2" />
+                    <img  :src="country.flag"  class="w-6 h-4 mr-2" />
                     <span>{{ country.name }}</span>
                     <div class="ml-auto">
                       <input
@@ -699,9 +699,10 @@ const checkInput = (event) =>{
       </div>
 
       <div
-        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse
+         space-x-[24px] w-full px-[20px]"
       >
-        <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
+        <div class="lg:py-[17px] search_input w-full lg:w-3/4 ">
           <input
             type="text"
             class="input_dashboard_search w-full text-darkGrey !h-[40px]" 
@@ -713,22 +714,22 @@ const checkInput = (event) =>{
             class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px]"
             v-if="validPromo"
           >
-            <img src="/assets/imgs/promo_valid.svg" alt="" />
+            <img  src="/assets/imgs/promo_valid.svg"  />
             <div class="text-[15px] font-[500] text-darkGrey">
               <span class="text-[#021328] font-[700]">12%</span> Discount
               (-$2,444 )
             </div>
-            <img src="/assets/imgs/promo_valid_.svg" class="" alt="" />
+            <img  src="/assets/imgs/promo_valid_.svg" class=""  />
           </div>
           <div
             v-if="isPromoFilled"
             @click="clearInput"
             class="absolute top-[-8px] lg:top-[-30px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]"
           >
-            <img src="/assets/imgs/close_promo.svg" alt="" />
+            <img  src="/assets/imgs/close_promo.svg"  />
           </div>
         </div>
-        <div class="text-center mt-[16px] lg:mt-[24px]">
+        <div class="text-center ">
           <button
             class="btn-dashboard  w-6/6 mx-auto text-center ]"
             @click="addPromoCode"
@@ -749,7 +750,7 @@ const checkInput = (event) =>{
         <thead>
           <tr>
             <th
-              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
               colspan="12"
             >
               Summary
@@ -758,7 +759,7 @@ const checkInput = (event) =>{
         </thead>
         <tbody>
           <tr
-            class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"
+            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"
             v-if="validPromo"
           >
             <td
@@ -773,7 +774,7 @@ const checkInput = (event) =>{
           </tr>
           <tr
             v-if="validPromo"
-            class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"
+            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"
           >
             <td
               class="py-2 px-5 border-b text-right font-[500] w-full"
@@ -785,7 +786,7 @@ const checkInput = (event) =>{
               $50,444.00
             </td>
           </tr>
-          <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
+          <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]">
             <td
               class="py-2 px-5 border-b text-right font-[500] w-full"
               colspan="2"
@@ -813,7 +814,7 @@ const checkInput = (event) =>{
 
       <div class="">
 
-        <img src="/assets/imgs/payment_methods/accepted-cards.svg" alt="">
+        <img  src="/assets/imgs/payment_methods/accepted-cards.svg" />
       </div>
       <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
   

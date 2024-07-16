@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useModalStore } from "@/stores/modal";
+import QRCodeVue3 from "qrcode-vue3";
 
 const modalStore = useModalStore();
 import { useVuelidate } from "@vuelidate/core";
@@ -40,13 +41,14 @@ watch(copyCode, (newValue) => {
 
 <template>
   <div class="flex flex-col items-start justify-center w-full relative" v-if="showModal">
-    <DashboardToastSuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" class="!top-[41%] rtl:!right-[59%] ltr:!left-[59%] " />
+    <DashboardToastSuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" 
+    class="top-[8%] !inset-x-[13%]" />
 
     <div class="flex items-center justify-center ">
         <div
         @click="modalStore.backControl"
 
-      class="cursor-pointer close_sidebar_btn group flex items-center justify-center   bg-white border-[1px]
+      class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center   bg-white border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
 
    style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
@@ -90,7 +92,7 @@ watch(copyCode, (newValue) => {
 <div class="h-[50px] w-full bg-[#FAFCFE] border-[1px] border-lightGrey rounded-[10px] mb-[24px] flex items-center
  justify-start rtl:space-x-reverse space-x-[10px] px-[10px]">
   <div>
-    <img src="/assets/imgs/info.svg" alt="">
+    <img  src="/assets/imgs/info.svg" />
   </div>
   <div class="font-[500] text-[14px] leading-[24px] text-darkGrey">You must send money through</div>
 
@@ -98,21 +100,63 @@ watch(copyCode, (newValue) => {
 </div>
  <div class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] 
  space-y-[16px] lg:justify-start w-full">
+<div class="p-2 border rounded-lg">
+  <QRCodeVue3
+  value="0x2d5jdska9erptjfew7364432"
+  
 
-  <img src="/assets/imgs/crypto_methods_icons/qr.svg" alt="">
+:width="115"
+    :height="115"
+   
+:cornersSquareOptions="{ type: 'square',      gradient: {
+  type: 'linear',
+  rotation: 0,
+  colorStops: [
+    { offset: 0, color: '#2DADA3' },
+    { offset: 1, color: '#71DAD2' },
+  ],
+} }"
+    :dotsOptions="{
+      type: 'dots',
+      color: '#2DADA3',
+      gradient: {
+        type: 'linear',
+        rotation: 0,
+        colorStops: [
+          { offset: 0, color: '#2DADA3' },
+          { offset: 1, color: '#71DAD2' },
+        ],
+      },
+    }"
+    :qr-options="{ errorCorrectionLevel: 'H' }"
+
+    :image-options="{ hideBackgroundDots: true, imageSize:0.2 ,margin:1}"
+    :backgroundOptions="{ color: '#ffffff' }"
+    :cornersDotOptions="{ type: 'dot',      gradient: {
+      type: 'linear',
+      rotation: 0,
+      colorStops: [
+        { offset: 0, color: '#2DADA3' },
+        { offset: 1, color: '#71DAD2' },
+      ],
+    },}"
+/>
+</div>
   <div class="w-full">
     <h2 class="text-[14px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>
     <div class="border custom-border-tamkin padding-override-1 w-full  h-[40px] rounded-[10px] flex items-center justify-between
      px-[10px]">
 
       <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
-        <img src="/assets/imgs/crypto_methods_icons/3.svg" class="w-[25px] h-[25px]" alt="">
+       
+        <img  src="/assets/imgs/crypto_methods_icons/3.svg" class="w-[25px] h-[25px]" />
         <div class="text-[#878787]">
           0x2d5jdska9erptjfew7364432
         </div>
       
       </div>
-      <img class="ml-auto cursor-pointer  h-[25px]" @click="copyCodeFn" src="/assets/imgs/crypto_methods_icons/copy_code.svg" alt="">
+      <img  class="ml-auto cursor-pointer  h-[25px]" 
+      @click="copyCodeFn" src="/assets/imgs/crypto_methods_icons/copy_code.svg" />
 
     </div>
   </div>
@@ -153,7 +197,7 @@ input_success: !v$.TXID.$error && !v$.TXID.$invalid,
     <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="modalStore.controlCryptoSuccessModal">
       Confirm Payment
     </button>
-    <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[535px] w-full " disabled>
+    <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[535px] w-full " @click="modalStore.backControl">
       Cancel
     </button>
   </div>

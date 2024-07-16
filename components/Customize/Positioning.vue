@@ -76,7 +76,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'top_left'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -95,7 +95,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'middle_left'"
         ></span>
     <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
      
       </label>
@@ -115,7 +115,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'bottom_left'"
         ></span>
         <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-          <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+          <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
               </div>
       </label>
     </div>
@@ -138,7 +138,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'top_right'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -157,7 +157,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'middle_right'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -176,7 +176,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'bottom_right'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -199,7 +199,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'top_center'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -218,7 +218,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionDesktop !== 'bottom_center'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -238,10 +238,10 @@ watch([currentColor],()=>{},{immediate:true})
   ]">
   <div class="w-[24px] h-[24px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
-    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[16px] h-[16px]">
+    <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[16px] h-[16px]"/>
         </div>
   </div>
-  <img src="/assets/imgs/customize/laptop.svg" alt="Laptop Image" class="w-full h-auto">
+  <img  src="/assets/imgs/customize/laptop.svg" alt="Laptop Image" class="w-full h-auto"/>
 </div>
 </div>
 
@@ -267,7 +267,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'top_left_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -286,7 +286,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'middle_left_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -305,7 +305,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'bottom_left_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -328,7 +328,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'top_right_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -347,7 +347,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'middle_right_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -366,7 +366,7 @@ watch([currentColor],()=>{},{immediate:true})
           v-if="buttonPositionMobile !== 'bottom_right_mobile'"
         ></span>
             <div class="w-[28px] h-[28px]  rounded-full flex items-center justify-center" :class="gradientClasses" :style="backgroundImageStyle" v-else>
-<img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[22px] h-[22px]">
+<img  src="/assets/imgs/icons/ios_access.svg"  class="w-[22px] h-[22px]"/>
     </div>
       </label>
     </div>
@@ -386,7 +386,7 @@ watch([currentColor],()=>{},{immediate:true})
   ]">
   <div class="w-[18px] h-[18px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
-    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[12px] h-[12px]">
+    <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[12px] h-[12px]"/>
         </div>
   </div>
   <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[230px]' :'',
@@ -399,12 +399,12 @@ watch([currentColor],()=>{},{immediate:true})
   ]">
   <div class="w-[22px] h-[22px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
-    <img src="/assets/imgs/icons/ios_access.svg" alt="" class="w-[14px] h-[14px]">
+    <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[14px] h-[14px]"/>
         </div>
   </div>
  <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[100px] px-[40px]">
-  <img src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-full h-full">
-  <img src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="w-full  h-auto">
+  <img  src="/assets/imgs/customize/iphone.svg" alt="Laptop Image" class="w-full h-full"/>
+  <img  src="/assets/imgs/customize/ipad.svg" alt="Laptop Image" class="w-full  h-auto"/>
  </div>
 </div>
 </div>

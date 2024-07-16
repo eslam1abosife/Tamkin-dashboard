@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Vue3Lottie } from "vue3-lottie";
-import mysiteAnimation from "~/assets/animation/mysite.json";
+import mysiteAnimation from "/assets/animation/mysite.json";
 import { useModalStore } from "@/stores/modal";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -55,6 +55,51 @@ watch(search, (ov, nv) => {
 const clearInput = () => {
   search.value = "";
 };
+const perPageOptions = ref([10, 20]);
+const perPage = ref(perPageOptions.value[0]);
+const currentPage = ref(1);
+const totalItems = ref(500); // Example total items, you can change this
+
+const totalPages = computed(() => Math.ceil(totalItems.value / perPage.value));
+
+const visiblePages = computed(() => {
+  const pages = [];
+  const maxVisiblePages = 5; // Adjust this number for more or fewer visible pages
+  let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
+  let endPage = startPage + maxVisiblePages - 1;
+
+  if (endPage > totalPages.value) {
+    endPage = totalPages.value;
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+});
+
+const changePerPage = (option) => {
+  perPage.value = option;
+  currentPage.value = 1; // Reset to the first page when changing items per page
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value += 1;
+  }
+};
+
+const goToPage = (page) => {
+  currentPage.value = page;
+};
 </script>
 
 <template>
@@ -95,7 +140,7 @@ const clearInput = () => {
 
                     <div class="flex flex-col lg:flex-row items-center justify-between">
                         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-                            <img src="/assets/imgs/icons/mysite_select.svg" alt="" class="w-[40px] h-[40px]"/>
+                            <img  src="/assets/imgs/icons/mysite_select.svg"  class="w-[40px] h-[40px]"/>
                             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                                 <div>
@@ -104,9 +149,9 @@ const clearInput = () => {
                                     </h2>
                                 </div>
                                 <div>
-                                    <a href="" class="text-tamkin font-[500] text-[14px] leading-[24px] flex ">Visit
+                                    <a href="" target="_blank" class="text-tamkin font-[500] text-[14px] leading-[24px] flex ">Visit
                                         Site
-                                        <img src="/assets/imgs/icons/external_link.svg" class="ltr:ml-[14px] rtl:mr-[14px]" alt="" /></a>
+                                        <img  src="/assets/imgs/icons/external_link.svg" class="ltr:ml-[14px] rtl:mr-[14px]"  /></a>
                                 </div>
                             </div>
                         </div>
@@ -119,10 +164,11 @@ const clearInput = () => {
                     </div>
                 </div>
             </div>
-            <div class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] ltr:right-0 ipad-max:top-[170px] top-[119px] ipad-max:w-1/4">
+            <div class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] 
+            ltr:right-0 ipad-max:top-[170px] top-[119px] ipad-max:w-1/4">
                 <Vue3Lottie :animationData="mysiteAnimation" class="absolute left-[25%] top-[125px] " :height="32"
                     :width="39" />
-                <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:block hidden" alt="" />
+                <img  src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:block hidden"  />
             </div>
         </div>
 
@@ -130,7 +176,7 @@ const clearInput = () => {
             <div class="flex flex-col" v-if="dataAvailable">
                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full align-middle md:px-6 ipad-max:px-2 lg:px-8">
-                        <div class="flex flex-col  justify-start rounded-[10px] pb-[42px]  mb-[16px] bg-white"
+                        <div class="flex flex-col  justify-start rounded-[10px] pb-[16px]  mb-[16px] bg-white"
                             style="box-shadow: 0px 4px 24px 8px #51459f1a">
                             <div class="flex items-center justify-center lg:justify-between flex-row ">
                                 <div class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px]   rtl:pr-[16px] ">
@@ -165,14 +211,14 @@ const clearInput = () => {
                                         <div
                                           class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                                         >
-                                          <img src="/assets/imgs/icons/search.svg" alt="" />
+                                          <img  src="/assets/imgs/icons/search.svg"  />
                                         </div>
                                         <div
                                           v-if="isSearchfilled"
                                           @click="clearInput"
                                           class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                                         >
-                                          <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                                          <img  src="/assets/imgs/icons/clear_search.svg"  />
                                         </div>
                                       
                                     </div>
@@ -237,7 +283,7 @@ const clearInput = () => {
                                             </div>
                                            </div>
                                         </th>
-                                        <th class="w-[150px] text-center text-[14px] 
+                                        <th class="w-[140px] text-center text-[14px] 
                                         font-[600] leading-[21px] text-darkGrey  ">
                                             Action
                                         </th>
@@ -249,7 +295,7 @@ const clearInput = () => {
                                             class="w-[25%]">
                                             <div class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px]
                                              ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                             <img src="/assets/imgs/icons/avatar_table.svg" alt=""
+                                             <img  src="/assets/imgs/icons/avatar_table.svg" 
                                              class="w-[20px] h-[20px]" />
                                          <div class="order-1">Tamkin.App</div>
                                          <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
@@ -269,8 +315,15 @@ const clearInput = () => {
                                          leading-[21px] font-[400] text-darkGrey">
                                             Monthly
                                         </td>
-                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro rtl:ml-auto ltr:mr-auto">PRO</div>
+                                        <td class="text-left text-[14px] font-[400] text-darkGrey">
+                                            <div class="flex items-center justify-start space-x-[10px]">
+                                               <div class="w-[20px] h-[20px]">
+                                                <img src="/assets/imgs/overview/advanced_plan.svg" class="w-[20px] h-[20px]" alt="">
+                                               </div>
+                                               <div >
+                                                Advanced
+                                               </div>
+                                            </div>
                                         </td>
 
                                         <td class="w-[150px] mx-auto text-center text-darkGrey">
@@ -294,10 +347,10 @@ const clearInput = () => {
                                             2.35K
                                         </td>
 
-                                        <td class="w-[150px] text-[14px] font-[400] text-darkGrey rtl:pr-[38px] ltr:pl-[38px]">
-                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
+                                        <td class=" text-[14px] font-[400] text-darkGrey rtl:pr-[38px] mr-[0%]">
+                                            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] ml-auto">
                                                 <div class="hover:opacity-50">
-                                                    <img src="/assets/imgs/installed.svg" alt="" />
+                                                    <img  src="/assets/imgs/installed.svg"  />
                                                 </div>
                                                 <div>
                                                     <svg width="18" height="17" rviewBox="0 0 18 17"
@@ -311,11 +364,11 @@ const clearInput = () => {
                                             </div>
                                         </td>
                                     </tr>
-<!-- 
+
                                     <tr class="bg-[#FAEBEB] h-[50px]">
                                         <td
                                             class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                            <img src="/assets/imgs/icons/avatar_table.svg" alt=""
+                                            <img  src="/assets/imgs/icons/avatar_table.svg" 
                                                 class="lg:block hidden w-[20px] h-[20px] lg:mt-0" />
                                             <div class="order-1">Tamkin.App</div>
                                             <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
@@ -332,8 +385,15 @@ const clearInput = () => {
                                         <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
                                             _
                                         </td>
-                                        <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro">PRO</div>
+                                        <td class="text-left text-[14px] font-[400] text-darkGrey">
+                                            <div class="flex items-center justify-start space-x-[10px]">
+                                               <div class="w-[20px] h-[20px]">
+                                                <img src="/assets/imgs/overview/prem_plan.svg" class="w-[20px] h-[20px]" alt="">
+                                               </div>
+                                               <div >
+                                                Premium
+                                               </div>
+                                            </div>
                                         </td>
 
                                         <td class="text-darkGrey ltr:text-left rtl:text-right">
@@ -346,14 +406,14 @@ const clearInput = () => {
                                             May 11 ,2024
                                         </td>
 
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            5.0K
+                                        <td class="w-[150px] text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey">
+                                            8.35K
                                         </td>
 
                                         <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
+                                            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px]">
                                                 <div class="hover:opacity-50">
-                                                    <img src="/assets/imgs/install.svg" alt="" />
+                                                    <img  src="/assets/imgs/install.svg"  />
                                                 </div>
                                                 <div>
                                                     <svg width="18" height="17" viewBox="0 0 18 17"
@@ -367,128 +427,7 @@ const clearInput = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="h-[50px]">
-                                        <td
-                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                            <img src="/assets/imgs/icons/avatar_table.svg" alt=""
-                                                class="w-[20px] h-[20px]" />
-                                            <div class="order-1">Tamkin.App</div>
-                                            <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                                                style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        ">
-                                                Default
-                                            </div>
-                                        </td>
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            Monthly
-                                        </td>
-                                        <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro">PRO</div>
-                                        </td>
-
-                                        <td class="text-darkGrey">
-                                            <div style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        " class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] w-[88px] text-white text-[12px] leading-[18px]">
-                                                Active
-                                            </div>
-                                        </td>
-
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            May 11 ,2024
-                                        </td>
-
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            2.335K
-                                        </td>
-
-                                        <td class="text-[14px] font-[400] text-darkGrey w-[70px]">
-                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] ">
-                                                <div class="hover:opacity-50">
-                                                    <img src="/assets/imgs/installed.svg" alt="" />
-                                                </div>
-                                                <div>
-                                                    <svg width="18" height="17" viewBox="0 0 18 17"
-                                                        class="text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                                                            fill="currentColor" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="h-[50px] ">
-                                        <td
-                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
-                                            <img src="/assets/imgs/icons/avatar_table.svg" alt=""
-                                                class="w-[20px] h-[20px]" />
-                                            <div class="order-1">Tamkin.App</div>
-                                            <div class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                                                style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        ">
-                                                Default
-                                            </div>
-                                        </td>
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            Monthly
-                                        </td>
-                                        <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="billing_badge pro">PRO</div>
-                                        </td>
-
-                                        <td class="text-darkGrey">
-                                            <div style="
-                          background: linear-gradient(
-                            180deg,
-                            #2dada3 0%,
-                            #71dad2 100%
-                          );
-                        " class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] w-[88px] text-white text-[12px] leading-[18px]">
-                                                Active
-                                            </div>
-                                        </td>
-
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            May 11 ,2024
-                                        </td>
-
-                                        <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
-                                            2.35K
-                                        </td>
-
-                                        <td class="text-[14px] font-[400] text-darkGrey">
-                                            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
-                                                <div class="hover:opacity-50">
-                                                    <img src="/assets/imgs/installed.svg" alt="" />
-                                                </div>
-                                                <div>
-                                                    <svg width="18" height="17" viewBox="0 0 18 17"
-                                                        class="text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                                                            fill="currentColor" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr> -->
+                               
                                 </tbody>
                             </table>
 
@@ -496,7 +435,8 @@ const clearInput = () => {
                                 <thead>
                                     <tr class="h-[50px]">
                                         <th
-                                            class="px-4 h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey">
+                                            class="px-4 h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600]
+                                             leading-[21px] text-darkGrey">
                                             Sites URL
                                         </th>
 
@@ -522,9 +462,10 @@ const clearInput = () => {
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                                         <td
-                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
+                                            class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px]
+                                             ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey">
                                         
-                                            <img :src="dSite.image" alt="" class="h-[14px] w-[14px]" />
+                                            <img  :src="dSite.image"  class="h-[14px] w-[14px]" />
                                             <div class="order-1">
                                                 {{ dSite.name }}
                                             </div>
@@ -532,7 +473,8 @@ const clearInput = () => {
 
                                         <td class="text-[14px] ltr:pr-[16px]  rtl:pl-[16px] font-[400] text-darkGrey">
                                             <button
-                                                class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center">
+                                                class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px]
+                                                 h-[31px] flex items-center justify-center">
                                                 Restore
                                             </button>
                                         </td>
@@ -570,14 +512,14 @@ const clearInput = () => {
                                         <div
                                           class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                                         >
-                                          <img src="/assets/imgs/icons/search.svg" alt="" />
+                                          <img  src="/assets/imgs/icons/search.svg"  />
                                         </div>
                                         <div
                                           v-if="isSearchfilled"
                                           @click="clearInput"
                                           class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                                         >
-                                          <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                                          <img  src="/assets/imgs/icons/clear_search.svg"  />
                                         </div>
                                       
                                     </div>
@@ -587,7 +529,7 @@ const clearInput = () => {
                                 <div class="flex items-center justify-center h-[188px] mt-[74px]">
                                     <div class="flex flex-col items-center justify-center space-y-[12px]">
                                         <div>
-                                            <img src="/assets/imgs/no_sites.svg" alt="" />
+                                            <img  src="/assets/imgs/no_sites.svg"  />
                                         </div>
                                         <div class="mx-auto">
                                             <h2 class="text-[15px] leading-[22.5px] font-[400] text-darkGrey">
@@ -610,37 +552,32 @@ const clearInput = () => {
             <div class="py-[4px]" v-if="!dataAvailable"></div>
             <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
                 <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
-                    <button style="
-              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            " class="px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]">
-                        10
-                    </button>
-                    <button
-                        class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  !text-[13px]
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        20
-                    </button>
+                  <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
+                  <button
+                    v-for="option in perPageOptions"
+                    :key="option"
+                    :style="perPage === option ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+                    :class="['px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]', perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey']"
+                    @click="changePerPage(option)"
+                  >{{ option }}</button>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
-                    <button class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey">
-                        <img src="/assets/imgs/arrow-left.svg" alt="" />
-                    </button>
-                    <button
-                        class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none flex items-center justify-center">
-                        1
-                    </button>
-                    <button style="
-              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            " class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none !text-[13px] w-[28px] h-[28px] flex items-center justify-center">
-                        2
-                    </button>
-                    <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
-                        <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
-                    </button>
+                  <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
+                  <button @click="prevPage" class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey" :disabled="currentPage === 1">
+                    <img src="/assets/imgs/arrow-left.svg" />
+                  </button>
+                  <button
+                    v-for="page in visiblePages"
+                    :key="page"
+                    :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+                    :class="['px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey focus:outline-none flex items-center justify-center', currentPage === page ? 'text-white' : 'hover:bg-light-grey']"
+                    @click="goToPage(page)"
+                  >{{ page }}</button>
+                  <button @click="nextPage" class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey" :disabled="currentPage === totalPages">
+                    <img src="/assets/imgs/arrow-right-pagination.svg" />
+                  </button>
                 </div>
-            </div>
+              </div>
         </section>
     </div>
 </template>

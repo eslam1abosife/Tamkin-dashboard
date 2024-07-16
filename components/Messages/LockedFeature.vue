@@ -8,7 +8,7 @@
         <!-- Modal -->
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
             <div class="mb-4 ">
-             <img src="/assets/imgs/customize/locked.svg" class="mx-auto w-[64px] h-[64px]" alt="">
+             <img  src="/assets/imgs/customize/locked.svg" class="mx-auto w-[64px] h-[64px]" />
             </div>
             <h2 class="text-xl font-semibold mb-2">Unlock Features</h2>
             <p class="text-gray-600 mb-4">To access these additional features, please Upgrade your plan</p>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import VCodeBlock from "@wdns/vue-code-block";
-import banner from 'assets/imgs/gradient_embded.png'
+import banner from '/assets/imgs/gradient_embded.png'
 import { Vue3Lottie } from 'vue3-lottie'
 
-import embed from '~/assets/animation/embed.json'
+import embed from '/assets/animation/embed.json'
    
 const code = ref(true);
 const advancedCode = ref(false)
@@ -309,7 +309,7 @@ const clearInput = () => {
           class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
         >
           <div class="h-full">
-            <img
+            <img 
               src="/assets/imgs/icons/man.svg"
               alt="Character"
               class=" h-full lg:block hidden m-auto"
@@ -329,7 +329,7 @@ const clearInput = () => {
             >
               <div class="">Sign up to keep up with the latest news from us</div>
               <div>
-                <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" alt="" />
+                <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
               </div>
             </button>
           </div>
@@ -355,10 +355,10 @@ const clearInput = () => {
           class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
-            <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-            <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-            <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-            <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
+            <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+            <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+            <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+            <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
           </div>
           <div class="">
             <a
@@ -409,14 +409,14 @@ const clearInput = () => {
                           <div
                             class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                           >
-                            <img src="/assets/imgs/icons/search.svg" alt="" />
+                            <img  src="/assets/imgs/icons/search.svg"  />
                           </div>
                           <div
                             v-if="isSearchfilled"
                             @click="clearInput"
                             class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
                           >
-                            <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                            <img  src="/assets/imgs/icons/clear_search.svg"  />
                           </div>
                         </div>
                       </div>

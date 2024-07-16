@@ -46,7 +46,7 @@ setTimeout(()=>{
 
  <div class="flex flex-col items-center justify-center">
     <div class="mx-auto">
-        <img :src="getImageUrl" alt="" class="h-[90px] w-[90px]" />
+        <img  :src="getImageUrl"  class="h-[90px] w-[90px]" />
 
     </div>
     <h1 class="text-center font-[600] bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text text-[18px] leading-[36px]">

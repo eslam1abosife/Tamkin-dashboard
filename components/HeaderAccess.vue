@@ -54,7 +54,7 @@ const getImageUrl = computed(() => {
                   style="box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
 "
                 >
-                  <img :src="getImageUrl" alt="" class="h-[30px] w-[30px]" />
+                  <img  :src="getImageUrl"  class="h-[30px] w-[30px]" />
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
@@ -69,10 +69,10 @@ const getImageUrl = computed(() => {
                       target="_blank"
                       class="text-tamkin font-[600] text-[14px] leading-[24px] flex ]"
                       >Visit Site
-                      <img
+                      <img 
                         src="/assets/imgs/icons/external_link.svg"
                         class="rtl:mr-[14px] ltr:ml-[14px]"
-                        alt=""
+                        
                     /></a>
                   </div>
                 </div>

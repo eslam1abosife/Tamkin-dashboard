@@ -47,9 +47,9 @@
           <div v-if="collapseStore.menus.includes('access_details')" class="mini_SizeMenu">
             <div class="mini_wrap" @click="collapseStore.collapseCard('access_details_card')">
               <div>
-                <img
+                <img 
                   src="/assets/imgs/addons/min_size.svg"
-                  alt=""
+                  
                   :class="[collapseStore.menus.includes('access_details') ? '!fill-white' : '']"
                 />
               </div>
@@ -63,10 +63,10 @@
             </div>
 
             <div class="arrow">
-              <img
+              <img 
                 src="/assets/imgs/addons/arrow_menu.svg"
          
-                alt=""
+                
                 class="w-full h-full"
               />
             </div>
@@ -91,12 +91,12 @@
             justify-center">
               <div>225%</div>
 
-              <img src="/assets/imgs/icons/arrow_chart_up.svg" alt="" />
+              <img  src="/assets/imgs/icons/arrow_chart_up.svg"  />
             </div>
           </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
               <div>
-                <img src="/assets/imgs/overview/up.svg" alt="" />
+                <img  src="/assets/imgs/overview/up.svg"  />
               </div>
               <p class="text-[12px] leading-[16px] font-[400] text-darkGrey">
                 <span class="text-tamkin !text-[14px] !leading-[20px] !font-[700]">
@@ -116,7 +116,7 @@
           <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">Function</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/language sign.svg"
                 alt="Motor impaired icon"
                 class="w-[42px] !h-[42px]"
@@ -133,7 +133,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/voice_navigation.svg"
                 alt="Color blind icon"
                 class="w-[42px] !h-[42px]"
@@ -150,7 +150,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/saturation.svg"
                 alt="Visually-impaired icon"
                 class="w-[42px] !h-[42px]"
@@ -167,7 +167,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/cursor.svg"
                 alt="Seizure & Epileptic icon"
                 class="w-[42px] !h-[42px]"
@@ -199,13 +199,13 @@
               justify-center">
                 <div>112%</div>
   
-                <img src="/assets/imgs/icons/arrow_down_chart.svg" alt="" />
+                <img  src="/assets/imgs/icons/arrow_down_chart.svg"  />
               </div>
             </div>
           
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
               <div>
-                <img src="/assets/imgs/overview/down.svg" alt="" />
+                <img  src="/assets/imgs/overview/down.svg"  />
               </div>
               <p class="text-[12px] leading-[16px] font-[400] text-darkGrey">
                 <span class="text-[#DA100B] !text-[14px] !leading-[20px] !font-[700]">12%</span>
@@ -224,7 +224,7 @@
           <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">Profile</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/monitor_im.svg"
                 alt="Motor impaired icon"
                 class="w-[42px] !h-[42px]"
@@ -241,7 +241,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/color_blind.svg"
                 alt="Color blind icon"
                 class="w-[42px] !h-[42px]"
@@ -258,7 +258,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/vis_impaired.svg"
                 alt="Visually-impaired icon"
                 class="w-[42px] !h-[42px]"
@@ -275,7 +275,7 @@
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/seizure.svg"
                 alt="Seizure & Epileptic icon"
                 class="w-[42px] !h-[42px]"

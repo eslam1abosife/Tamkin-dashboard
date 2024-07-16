@@ -13,10 +13,10 @@ const {isChecked,toggleCheckbox} = customizeStore
     <div
       class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
       <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-        <img
+        <img 
           src="/assets/imgs/customize/xl.svg"
           class="h-[28px] w-[28px]"
-          alt=""
+          
         />
         <div class="flex flex-col items-start justify-center w-full">
           <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
@@ -55,18 +55,18 @@ const {isChecked,toggleCheckbox} = customizeStore
                 class="toggle_inner"
                 :class="{ 'active': isChecked('oversized_widget') }"
               >
-                <img
+                <img 
                   v-if="isChecked('oversized_widget')"
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
-                  alt=""
+                  
                 />
-                <img
+                <img 
                   v-else
                   src="/assets/imgs/addons/toggle.svg"
                   class="w-[28px] h-[28px]"
 
-                  alt=""
+                  
                 />
               </div>
             </div>
@@ -77,10 +77,10 @@ const {isChecked,toggleCheckbox} = customizeStore
     <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
      
     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-      <img
+      <img 
         src="/assets/imgs/customize/columns.svg"
         class="h-[28px] w-[28px]"
-        alt=""
+        
       />
       <div class="flex flex-col items-start justify-center w-full">
         <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
@@ -118,17 +118,17 @@ const {isChecked,toggleCheckbox} = customizeStore
               class="toggle_inner"
               :class="{ 'active': isChecked('3_column_layout_widget') }"
             >
-              <img
+              <img 
                 v-if="isChecked('3_column_layout_widget')"
                 src="/assets/imgs/addons/active_toggle.svg"
                 class="w-[28px] h-[28px]"
-                alt=""
+                
               />
-              <img
+              <img 
                 v-else
                 src="/assets/imgs/addons/toggle.svg"
                 class="w-[28px] h-[28px]"
-                alt=""
+                
               />
             </div>
           </div>
@@ -139,10 +139,10 @@ const {isChecked,toggleCheckbox} = customizeStore
   <div
   class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-    <img
+    <img 
       src="/assets/imgs/customize/accessibillity.svg"
       class="h-[28px] w-[28px]"
-      alt=""
+      
     />
     <div class="flex flex-col items-start justify-center w-full">
       <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
@@ -180,17 +180,17 @@ const {isChecked,toggleCheckbox} = customizeStore
             class="toggle_inner"
             :class="{ 'active': isChecked('accessibility_profiles') }"
           >
-            <img
+            <img 
               v-if="isChecked('accessibility_profiles')"
               src="/assets/imgs/addons/active_toggle.svg"
               class="w-[28px] h-[28px]"
-              alt=""
+              
             />
-            <img
+            <img 
               v-else
               src="/assets/imgs/addons/toggle.svg"
               class="w-[28px] h-[28px]"
-              alt=""
+              
             />
           </div>
         </div>

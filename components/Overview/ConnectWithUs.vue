@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import banner from "assets/imgs/gradient_embded.png";
+import banner from "/assets/imgs/gradient_embded.png";
 
 import { useCollapseStore } from "@/stores/collapse.js";
 
@@ -58,9 +58,9 @@ const collapseStore = useCollapseStore();
                 @click="collapseStore.collapseCard('connect_withUs_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('connect_withUs') ? '!fill-white' : '',
                     ]"
@@ -76,11 +76,11 @@ const collapseStore = useCollapseStore();
               </div>
   
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                   "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -98,7 +98,7 @@ const collapseStore = useCollapseStore();
         class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
       >
         <div class="h-full">
-          <img
+          <img 
             src="/assets/imgs/icons/man.svg"
             alt="Character"
             class=" h-full lg:block hidden m-auto"
@@ -118,7 +118,7 @@ const collapseStore = useCollapseStore();
           >
             <div class="">Sign up to keep up with the latest news from us</div>
             <div>
-              <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" alt="" />
+              <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
             </div>
           </button>
         </div>
@@ -142,10 +142,10 @@ const collapseStore = useCollapseStore();
             class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
           >
             <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
-              <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-              <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-              <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
-              <img src="/assets/imgs/icons/avatr1.svg" alt="" class="w-10 h-10" />
+              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
+              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
             </div>
             <div class="">
               <a

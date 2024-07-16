@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { Vue3Lottie } from 'vue3-lottie'
-import AuthJson from '~/assets/animation/log_in.json'
-import shapeDown from '~/assets/animation/shape_down.json'
-import shapeUp from '~/assets/animation/shape_up.json'
+import AuthJson from '/assets/animation/log_in.json'
+import shapeDown from '/assets/animation/shape_down.json'
+import shapeUp from '/assets/animation/shape_up.json'
 
 const head = useLocaleHead({
   addDirAttribute: true,

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import banner from "assets/imgs/gradient_embded.png";
+import banner from "/assets/imgs/gradient_embded.png";
 import { useModalStore } from "@/stores/modal";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -88,7 +88,7 @@ watch(reInvite, (newValue) => {
           class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
           <div class="relative ">
-            <img src="/assets/imgs/avatar.png" alt="" />
+            <img  src="/assets/imgs/avatar.png"  />
             <div
               @click="modalStore.controlTeamEditPictureModal"
               class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
@@ -196,7 +196,7 @@ watch(reInvite, (newValue) => {
         class="b 2xl:w-full w-full flex items-center justify-between rtl:space-x-reverse space-x-[30px] px-[16px] py-[23px] bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey"
       >
         <div>
-          <img src="/assets/imgs/icons/team_members.svg" alt="" />
+          <img  src="/assets/imgs/icons/team_members.svg"  />
         </div>
         <div class="flex flex-col items-center justify-center text-darkGrey">
           <div class="">
@@ -261,14 +261,14 @@ watch(reInvite, (newValue) => {
             <div
               class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
             >
-              <img src="/assets/imgs/icons/search.svg" alt="" />
+              <img  src="/assets/imgs/icons/search.svg"  />
             </div>
             <div
               v-if="isSearchfilled"
               @click="clearInput"
               class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
             >
-              <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+              <img  src="/assets/imgs/icons/clear_search.svg"  />
             </div>
           
         </div>
@@ -308,9 +308,9 @@ watch(reInvite, (newValue) => {
               <td class="rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey">
                 <div class="flex items-center justify-start  space-x-[16px] rtl:space-x-reverse ">
                   <div class="inline">
-                    <img
+                    <img 
                       src="/assets/imgs/icons/avatar_table.svg"
-                      alt=""
+                      
                       class="lg:h-full h-[30px] mt-3 hidden lg:block"
                     />
                   </div>
@@ -340,7 +340,7 @@ watch(reInvite, (newValue) => {
                     class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img src="/assets/imgs/icons/arow_down.svg" alt="" />
+                    <img  src="/assets/imgs/icons/arow_down.svg"  />
                   </button>
                 </div>
               </td>
@@ -423,7 +423,7 @@ watch(reInvite, (newValue) => {
       <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
           <button class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey">
-              <img src="/assets/imgs/arrow-left.svg" alt="" />
+              <img  src="/assets/imgs/arrow-left.svg"  />
           </button>
           <button
               class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none flex items-center justify-center">
@@ -435,7 +435,7 @@ watch(reInvite, (newValue) => {
               2
           </button>
           <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
-              <img src="/assets/imgs/arrow-right-pagination.svg" alt="" />
+              <img  src="/assets/imgs/arrow-right-pagination.svg"  />
           </button>
       </div>
       </div>

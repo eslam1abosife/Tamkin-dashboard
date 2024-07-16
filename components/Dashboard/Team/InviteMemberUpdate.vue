@@ -61,7 +61,7 @@ const isSearchfilled = ref(false);
 </h1>
 
 <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
-<div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
+<div> <img  src="/assets/imgs/icons/avatar_table.svg"  class="w-[56px] h-[56px]"/></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
 <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">
@@ -96,14 +96,14 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
       <div
         class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
       >
-        <img src="/assets/imgs/icons/search.svg" alt="" />
+        <img  src="/assets/imgs/icons/search.svg"  />
       </div>
       <div
         v-if="isSearchfilled"
         @click="clearInput"
         class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
       >
-        <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+        <img  src="/assets/imgs/icons/clear_search.svg"  />
       </div>
     </div>
 </div>
@@ -129,7 +129,7 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   <tbody class="divide-y divide-gray-200">
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-        <img :src="permission.image" alt="Logo" class="w-6 h-6">
+        <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
         <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">

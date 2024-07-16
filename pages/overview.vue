@@ -61,10 +61,10 @@ definePageMeta({
           </h1>
           <div class="relative mb-6 w-full">
             <div class="absolute right-0 top-10">
-              <img src="/assets/imgs/overview/10p.svg" alt="" />
+              <img  src="/assets/imgs/overview/10p.svg"  />
             </div>
             <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
-              <img src="/assets/imgs/overview/svg_opacity.svg" alt="" />
+              <img  src="/assets/imgs/overview/svg_opacity.svg"  />
             </div>
             <!-- Timeline bar -->
             <div
@@ -75,10 +75,10 @@ definePageMeta({
               <!-- Icons -->
               <div class="relative flex items-center justify-center ">
                 <div class="absolute left-[5px] top-10 w-[27px] h-[27px]">
-                  <img src="/assets/imgs/icons/investor.svg" alt="Icon 1" class="w-[27px] h-[27px]" />
+                  <img  src="/assets/imgs/icons/investor.svg" alt="Icon 1" class="w-[27px] h-[27px]" />
                 </div>
                 <div class="absolute left-[5px] top-40 w-[27px] max-h-[27px]">
-                  <img src="/assets/imgs/icons/investor.svg" alt="Icon 2" class="w-[27px] h-[27px]" />
+                  <img  src="/assets/imgs/icons/investor.svg" alt="Icon 2" class="w-[27px] h-[27px]" />
                 </div>
               </div>
               <!-- Text content -->
@@ -119,7 +119,7 @@ definePageMeta({
      
       >
         <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" alt="" />
+          <img  src="/assets/imgs/overview/plan-calender.svg"  />
         </div>
         <div class="flex flex-col items-start justify-center w-full">
           <div class="font-[500] text-[18px] leading-[27px] text-darkGrey">

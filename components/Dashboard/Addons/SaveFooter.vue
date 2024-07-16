@@ -28,7 +28,7 @@ emit('Save')
             <div class="flex items-center justify-between ipad-max:px-[20px] px-[40px] py-[16px]">
                 <div class="flex items-center rtl:space-x-reverse space-x-[10px] rtl:mr-[350px] ltr:ml-[350px]">
                     <div>
-                        <img src="/assets/imgs/info.svg" alt="">
+                        <img  src="/assets/imgs/info.svg" />
                     </div>
                     <div class="text-[12px] leading-[21.6px] text-darkGrey font-[500]">
                         Make sure to save all changes before moving to another page

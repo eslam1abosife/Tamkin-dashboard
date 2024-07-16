@@ -83,9 +83,9 @@ const progress = ref(30.78);
                   @click="collapseStore.collapseCard('livetranslation_overview_card')"
                 >
                   <div>
-                    <img
+                    <img 
                       src="/assets/imgs/addons/min_size.svg"
-                      alt=""
+                      
                       :class="[collapseStore.menus.includes('livetranslation_overview') ? '!fill-white' : '']"
                     />
                   </div>
@@ -97,11 +97,11 @@ const progress = ref(30.78);
                 </div>
 
                 <div class="arrow">
-                  <img
+                  <img 
                     src="/assets/imgs/addons/arrow_menu.svg"
                     tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                    alt=""
+                    
                     class="w-full h-full"
                   />
                 </div>

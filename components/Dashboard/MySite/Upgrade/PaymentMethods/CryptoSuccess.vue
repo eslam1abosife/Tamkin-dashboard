@@ -58,7 +58,7 @@ const props = defineProps({
     >
 
     <div>
-        <img src="/assets/imgs/crypto_methods_icons/waiting.svg"  alt="">
+        <img  src="/assets/imgs/crypto_methods_icons/waiting.svg"  />
     </div>
     
 

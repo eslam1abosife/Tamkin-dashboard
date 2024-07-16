@@ -89,10 +89,10 @@ const localePath = useLocalePath()
           class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
         >
           <div>
-            <img
+            <img 
               src="/assets/imgs/overview/warning_overview.svg"
               class="w-[43px] h-[36px]"
-              alt=""
+              
             />
           </div>
           <div
@@ -163,9 +163,9 @@ const localePath = useLocalePath()
               @click="collapseStore.collapseCard('widget_embded_code_card')"
             >
               <div>
-                <img
+                <img 
                   src="/assets/imgs/addons/min_size.svg"
-                  alt=""
+                  
                   :class="[
                     collapseStore.menus.includes('widget_embded_code')
                       ? '!fill-white'
@@ -183,11 +183,11 @@ const localePath = useLocalePath()
             </div>
 
             <div class="arrow">
-              <img
+              <img 
                 src="/assets/imgs/addons/arrow_menu.svg"
                 tyle="box-shadow: 0px 2px 6px 0px #00000040;
                 "
-                alt=""
+                
                 class="w-full h-full"
               />
             </div>

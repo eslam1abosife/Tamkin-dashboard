@@ -2,9 +2,9 @@
 import { useModalStore } from "@/stores/modal";
 
 const modalStore = useModalStore();
-import UAEFLAG from '~/assets/imgs/flags/UAE.svg'
-import EGYPTFLAG from '~/assets/imgs/flags/Element.svg'
-import SAUDIFLAG from '~/assets/imgs/flags/Vector.svg'
+import UAEFLAG from '/assets/imgs/flags/UAE.svg'
+import EGYPTFLAG from '/assets/imgs/flags/Element.svg'
+import SAUDIFLAG from '/assets/imgs/flags/Vector.svg'
 const props = defineProps({
   showModal:Boolean
 })
@@ -132,7 +132,8 @@ const filteredCryptoMethods = computed(() => {
         class=" w-full   h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
          border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" alt=""></div>
+                <div><img  :src="selectedCrypto.code === 'BNB' ?
+                   ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" /></div>
                 
                 <div class="flex items-start flex-col justify-center space-y-[-4px]">
                   <div class="text-[18px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{selectedCrypto.name}}</div>
@@ -182,9 +183,9 @@ const filteredCryptoMethods = computed(() => {
             >
               <span class="floating_label" v-if="!selectedCrypto">Choose Crypto currency</span>
               <div class="flex items-center justify-start " v-else>
-                <img
+                <img 
                 :src="selectedCrypto.flag"
-                alt=""
+                
                 class="rtl:!mr-[16px] ltr:!ml-[-12px] w-[25px] h-[25px]"
               />
               <span class="rtl:mr-[16px] ltr:ml-[16px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D]">{{ selectedCrypto.name }}</span>
@@ -195,10 +196,10 @@ const filteredCryptoMethods = computed(() => {
                </div>
              
                 
-               <img src="/assets/imgs/menu-down.svg" alt=""        :class="[isOpen ? 'rotate-90':'']"       
+               <img  src="/assets/imgs/menu-down.svg"         :class="[isOpen ? 'rotate-90':'']"       
                class=" rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[55px] mb-[2px] rtl:float-left ltr:float-right
                 stroke-current fill-darkGrey text-darkGrey w-[10px] h-[10px]"
-             >
+             />
             </div>
             
          
@@ -216,9 +217,9 @@ const filteredCryptoMethods = computed(() => {
 
                   class="flex items-center  hover:bg-gray-100 py-[6px] px-[16px] cursor-pointer"
                 >
-                  <img
+                  <img 
                     :src="cryptoMethod.flag"
-                    alt=""
+                    
                     class="w-[30px] h-[30px]"
                   />
                   <span class="rtl:mr-[16px] ltr:ml-[16px] text-[16px] leading-[24px] font-[500] text-[#3D3D3D]">{{ cryptoMethod.name }}</span>
@@ -261,8 +262,10 @@ const filteredCryptoMethods = computed(() => {
     
     
                     </div>
-                    <div><img 
-                      :src="selectedCrypto.code === 'BNB' ? ethIcon : selectedCrypto.code === 'ETH'  ? bnbIcon : usdtIcon" class="w-[25px] h-[25px]"></div>
+                    <div><img  
+                      :src="selectedCrypto.code === 'BNB' ? 
+                      ethIcon : selectedCrypto.code === 'ETH'  ?
+                       bnbIcon : usdtIcon" class="w-[25px] h-[25px]"/></div>
                  
                 </div>
             </h3>
@@ -287,11 +290,11 @@ const filteredCryptoMethods = computed(() => {
     />
    <div class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] 
    flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="validPromo">
-    <img src="/assets/imgs/promo_valid.svg" alt="">
+    <img  src="/assets/imgs/promo_valid.svg" />
     <div class="text-[15px] font-[500] text-darkGrey">
             <span class="text-[#021328] font-[700]">12%</span> Discount (-$2,444 )
     </div>
-    <img src="/assets/imgs/promo_valid_.svg" class="" alt="">
+    <img  src="/assets/imgs/promo_valid_.svg" class="" />
 
    </div>
     <div
@@ -299,7 +302,7 @@ const filteredCryptoMethods = computed(() => {
       @click="clearInput"
       class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]" 
     >
-      <img src="/assets/imgs/close_promo.svg" alt="" />
+      <img  src="/assets/imgs/close_promo.svg"  />
     </div>
   </div>
       <div class="text-center mt-[10px]">
@@ -312,7 +315,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <thead>
       <tr>
         <th
-          class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+          class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>
@@ -322,7 +325,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <tbody>
    
  
-      <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"           v-if="validPromo"
+      <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"           v-if="validPromo"
       >
         <td
           class="py-2 px-5 border-b text-right font-[500] w-full"
@@ -335,7 +338,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
         </td>
       </tr>
       <tr           v-if="validPromo"
-       class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]">
+       class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]">
         <td
           class="py-2 pr-4 border-b text-right font-[500] w-full"
           colspan="2"
@@ -346,7 +349,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE]"         
+      <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"         
       >
         <td
           class="py-2 px-5 border-b text-right font-[500] w-full"
@@ -358,7 +361,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
           $50,444.00
         </td>
       </tr>
-      <tr class="text-[16px] leading-[24px]  bg-[#FAFCFE]"         
+      <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE]"         
       >
         <td
           class="py-2 px-5 border-b text-right font-[500] w-full"
@@ -377,7 +380,7 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
     <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal" v-if="!modalStore.loading">
       Confirm Payment
     </button>
-    <button class="processing_payment   lg:w-[535px] w-full " v-else disabled>
+    <button class="processing_payment !h-[40px]  lg:w-[535px] w-full " v-else disabled>
       Loading..
     </button>
   </div>

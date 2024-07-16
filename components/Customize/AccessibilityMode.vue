@@ -16,10 +16,10 @@ const moveHideWidget = (v:string)=>{
     <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] border-b">
      
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-          <img
+          <img 
             src="/assets/imgs/customize/move_acess.svg"
             class="h-[28px] w-[28px]"
-            alt=""
+            
           />
           <div class="flex flex-col items-start justify-center w-full">
             <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
@@ -56,17 +56,17 @@ const moveHideWidget = (v:string)=>{
                   class="toggle_inner"
                   :class="{ 'active': isChecked('move_access') }"
                 >
-                  <img
+                  <img 
                     v-if="isChecked('move_access')"
                     src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
                 </div>
               </div>
@@ -81,7 +81,7 @@ const moveHideWidget = (v:string)=>{
         :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"
         @click="moveHideWidget('left_side')">
             <div>
-                <img src="/assets/imgs/customize/left_side.svg" alt="" class="w-3/4 h-3/4">
+                <img  src="/assets/imgs/customize/left_side.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px]">
                 Left Side
@@ -94,7 +94,7 @@ const moveHideWidget = (v:string)=>{
 
         >
             <div>
-                <img src="/assets/imgs/customize/right_side.svg" alt="" class="w-3/4 h-3/4">
+                <img  src="/assets/imgs/customize/right_side.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px] w-full">
               Right Side
@@ -106,7 +106,7 @@ const moveHideWidget = (v:string)=>{
         :class="[moveHide === 'hide' ? 'custom-border padding-2' : '']"
         >
             <div>
-                <img src="/assets/imgs/customize/hide.svg" alt="" class="w-3/4 h-3/4">
+                <img  src="/assets/imgs/customize/hide.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px]">
               Hide

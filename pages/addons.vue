@@ -265,7 +265,7 @@ checkboxStore.initializeCardsMenu([
 });
 
 const getImagePath = (icon) => {
-  return new URL(`/assets/imgs/addons/${icon}`, import.meta.url).href;
+  return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
 
 let pendingNavigation = null;
@@ -356,9 +356,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -373,9 +373,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('adjustMenu')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('adjustMenu') ? '!fill-white' : '',
                     ]"
@@ -391,10 +391,10 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                 
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -419,16 +419,16 @@ onBeforeRouteLeave((to, from, next) => {
             class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
+              <img 
                 src="/assets/imgs/addons/left_item.svg"
-                alt=""
+                
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
                 class="cursor-pointer handle"
               />
 
-              <img
+              <img 
                 :src="getImagePath(element.icon)"
-                alt=""
+                
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
@@ -470,17 +470,17 @@ onBeforeRouteLeave((to, from, next) => {
                       class="toggle_inner"
                       :class="{ 'active': isChecked(element.checkboxId) }"
                     >
-                      <img
+                      <img 
                         v-if="isChecked(element.checkboxId)"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -544,9 +544,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -561,9 +561,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('ManageCard')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[menus.includes('ManageMenu') ? '!fill-white' : '']"
                   />
                 </div>
@@ -577,11 +577,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -606,16 +606,16 @@ onBeforeRouteLeave((to, from, next) => {
             class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
+              <img 
                 src="/assets/imgs/addons/left_item.svg"
-                alt=""
+                
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
                 class="cursor-pointer handle"
               />
 
-              <img
+              <img 
                 :src="getImagePath(element.icon)"
-                alt=""
+                
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
@@ -657,17 +657,17 @@ onBeforeRouteLeave((to, from, next) => {
                       class="toggle_inner"
                       :class="{ 'active': isChecked(element.checkboxId) }"
                     >
-                      <img
+                      <img 
                         v-if="isChecked(element.checkboxId)"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -735,9 +735,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="annual_prices = !annual_prices"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/annual_convert.svg"
-                    alt=""
+                    
                     :class="[
                       menus.includes('LiveTranslationAddons') ? '!fill-white' : '',
                     ]"
@@ -753,9 +753,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('LiveTranslationAddonsCard')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       menus.includes('LiveTranslationAddons') ? '!fill-white' : '',
                     ]"
@@ -776,9 +776,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/horizontal_view.svg"
-                    alt=""
+                    
                     :class="[openResizeMenuLiveTranslataion ? '!fill-white' : '']"
                   />
                 </div>
@@ -790,20 +790,20 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="liveTransaltionSwitchToVerticalOrHorizontal('vertical')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/vertical_view.svg"
-                    alt=""
+                    
                     :class="[openResizeMenuLiveTranslataion ? '!fill-white' : '']"
                   />
                 </div>
                 <div class="text_mini">Vertical View</div>
               </div>
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -834,13 +834,13 @@ onBeforeRouteLeave((to, from, next) => {
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
             <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
+              <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
             <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
           </div>
           <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
+            <img  src="/assets/imgs/addons/live_icon.svg"  />
           </div>
         </div>
       
@@ -860,13 +860,13 @@ onBeforeRouteLeave((to, from, next) => {
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
             <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
+              <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
             <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
           </div>
           <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
+            <img  src="/assets/imgs/addons/live_icon.svg"  />
           </div>
         </div>
       
@@ -886,13 +886,13 @@ onBeforeRouteLeave((to, from, next) => {
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]">
             <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" alt="" />
+              <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
             <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
           </div>
           <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" alt="" />
+            <img  src="/assets/imgs/addons/live_icon.svg"  />
           </div>
         </div>
       </div>
@@ -917,7 +917,7 @@ onBeforeRouteLeave((to, from, next) => {
             class="flex items-center  justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
             <div class="ltr:ml-[15px] rtl:mr-[15px]">
-              <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
+              <img  src="/assets/imgs/addons/live_vertical.svg"  />
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
@@ -950,7 +950,7 @@ onBeforeRouteLeave((to, from, next) => {
             class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]   "
           >
             <div class="ltr:ml-[15px] rtl:mr-[15px]">
-              <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
+              <img  src="/assets/imgs/addons/live_vertical.svg"  />
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] ">
@@ -983,7 +983,7 @@ onBeforeRouteLeave((to, from, next) => {
             class="flex items-center justify-start h-[77px] w-full relative custom-border rounded-big rounded-[19px]"
           >
             <div class="ltr:ml-[15px] rtl:mr-[15px]">
-              <img src="/assets/imgs/addons/live_vertical.svg" alt="" />
+              <img  src="/assets/imgs/addons/live_vertical.svg"  />
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] relative">
@@ -996,7 +996,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
             </div>
             <div class="absolute top-[2px] right-[0]">
-              <img src="/assets/imgs/addons/start.svg" alt="" class="w-full h-full"/>
+              <img  src="/assets/imgs/addons/start.svg"  class="w-full h-full"/>
             </div>
             <button
               class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"

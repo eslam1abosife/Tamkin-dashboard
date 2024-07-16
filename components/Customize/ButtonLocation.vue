@@ -63,9 +63,9 @@ const collapseStore = useCollapseStore();
         class="mini_wrap"
       >
         <div>
-          <img
+          <img 
             src="/assets/imgs/addons/annual_convert.svg"
-            alt=""
+            
             :class="[
               collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
             ]"
@@ -80,9 +80,9 @@ const collapseStore = useCollapseStore();
             @click="collapseStore.collapseCard('button_location_card')"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/min_size.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('button_location')
                     ? '!fill-white'
@@ -100,11 +100,11 @@ const collapseStore = useCollapseStore();
           </div>
 
           <div class="arrow">
-            <img
+            <img 
               src="/assets/imgs/addons/arrow_menu.svg"
               tyle="box-shadow: 0px 2px 6px 0px #00000040;
                   "
-              alt=""
+              
               class="w-full h-full"
             />
           </div>

@@ -37,7 +37,7 @@ const props = defineProps({
     >
 
     <div>
-        <img src="/assets/imgs/payment_methods/declined.svg" class="w-[60px] h-[60px]" alt="">
+        <img  src="/assets/imgs/payment_methods/declined.svg" class="w-[60px] h-[60px]" />
     </div>
     
 

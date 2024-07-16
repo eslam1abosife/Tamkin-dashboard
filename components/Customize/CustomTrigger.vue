@@ -142,9 +142,9 @@ const copyCode = () => {
       class="mini_wrap"
     >
       <div>
-        <img
+        <img 
           src="/assets/imgs/addons/annual_convert.svg"
-          alt=""
+          
           :class="[
             collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
           ]"
@@ -159,9 +159,9 @@ const copyCode = () => {
           @click=" collapseStore.collapseCard('custom_trigger_card')"
         >
           <div>
-            <img
+            <img 
               src="/assets/imgs/addons/min_size.svg"
-              alt=""
+              
               :class="[collapseStore.menus.includes('custom_trigger') ? '!fill-white' : '']"
             />
           </div>
@@ -169,11 +169,11 @@ const copyCode = () => {
         </div>
   
         <div class="arrow">
-          <img
+          <img 
             src="/assets/imgs/addons/arrow_menu.svg"
             tyle="box-shadow: 0px 2px 6px 0px #00000040;
                 "
-            alt=""
+            
             class="w-full h-full"
           />
         </div>
@@ -218,17 +218,17 @@ const copyCode = () => {
                   class="toggle_inner"
                   :class="{ 'active': isChecked('enable_custom_trigger') }"
                 >
-                  <img
+                  <img 
                     v-if="isChecked('enable_custom_trigger')"
                     src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
                 </div>
               </div>

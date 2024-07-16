@@ -62,7 +62,7 @@ const next = ()=>{
           </h2>
         </div>
         <div class="cursor-pointer" @click="collapsed = !collapsed">
-          <img src="/assets/imgs/arrow-right.svg" class="w-[12px] h-[10px] rtl:rotate-180" :class="[collapsed ? '!rotate-90 ' :'rotate-0']" alt="" />
+          <img  src="/assets/imgs/arrow-right.svg" class="w-[12px] h-[10px] rtl:rotate-180" :class="[collapsed ? '!rotate-90 ' :'rotate-0']"  />
         </div>
       </div>
     </div>
@@ -79,13 +79,13 @@ const next = ()=>{
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px]
          relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
         >
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-            <img
+            <img 
               src="/assets/imgs/freeplan.svg"
               class="w-[50px] h-[50px]"
-              alt=""
+              
             />
           </div>
 
@@ -120,12 +120,12 @@ const next = ()=>{
             v-if="collapsed"
             class="flex flex-col items-start h-[350px] justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]
             pl-[42px] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 "
-            :class="[selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
+            :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -135,7 +135,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -146,7 +146,7 @@ const next = ()=>{
 
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -156,7 +156,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -166,7 +166,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -176,7 +176,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -186,7 +186,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] ">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -196,7 +196,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] ">
               <div>
-                <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_inactive.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -211,15 +211,15 @@ const next = ()=>{
         
           class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
          
         >
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-            <img
+            <img 
               src="/assets/imgs/proplan.svg"
               class="w-[50px] h-[50px]"
-              alt=""
+              
             />
           </div>
 
@@ -265,12 +265,12 @@ const next = ()=>{
             v-if="collapsed"
             class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] pl-[42px]
              w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 h-[350px]"
-            :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+            :class="[selectedPlan && selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -280,7 +280,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -290,7 +290,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -300,7 +300,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -310,7 +310,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -320,7 +320,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -330,7 +330,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -340,7 +340,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_inactive.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -354,15 +354,15 @@ const next = ()=>{
         
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
-        :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+        :class="[selectedPlan && selectedPlan === 'pro_custom' ? 'bg-selected' :'bg-whiteTamkin']"
 
        
       >
         <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-          <img
+          <img 
             src="/assets/imgs/proplan.svg"
             class="w-[50px] h-[50px]"
-            alt=""
+            
           />
         </div>
 
@@ -380,16 +380,16 @@ const next = ()=>{
           </div>
           <div class="order-1 mx-[15px]">
             <input
-              id="radio523"
+              id="radio_custom_pro"
               type="radio"
               name="plans_radio"
               class="hidden"
                value="pro"
-               @click.stop="selectPlan('pro')"
+               @click.stop="selectPlan('pro_custom')"
 
                
             />
-            <label for="radio523" class="flex items-center cursor-pointer">
+            <label for="radio_custom_pro" class="flex items-center cursor-pointer">
               <span
                 class="radio-tamkin"
               ></span>
@@ -401,12 +401,12 @@ const next = ()=>{
           v-if="collapsed"
           class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] pl-[42px]
            w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 h-[350px]"
-          :class="[selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'pro' ? 'bg-selected' :'bg-whiteTamkin']"
 
           >
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -416,7 +416,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -426,7 +426,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -436,7 +436,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -446,7 +446,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -456,7 +456,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -466,7 +466,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -476,7 +476,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_inactive.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -499,14 +499,14 @@ const next = ()=>{
      
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
         >
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-            <img
+            <img 
               src="/assets/imgs/platplan.svg"
               class="w-[50px] h-[50px]"
-              alt=""
+              
             />
           </div>
 
@@ -542,12 +542,12 @@ const next = ()=>{
             v-if="collapsed"
 
             class="flex flex-col pl-[42px] items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]  h-[350px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-            :class="[selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
+            :class="[selectedPlan && selectedPlan === 'premium' ? 'bg-selected' :'bg-whiteTamkin']"
 
             >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -557,7 +557,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -567,7 +567,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -577,7 +577,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_inactive.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -587,7 +587,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -597,7 +597,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -607,7 +607,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -617,7 +617,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -633,14 +633,14 @@ const next = ()=>{
   
           class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
           style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'platinum_1' ? 'bg-selected' :'bg-whiteTamkin']"
 
         >
           <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-            <img
+            <img 
               src="/assets/imgs/plat_plan.svg"
               class="w-[50px] h-[50px]"
-              alt=""
+              
             />
           </div>
 
@@ -660,8 +660,8 @@ const next = ()=>{
                 name="plans_radio"
                 class="hidden"
                
-                value="platinum"
-                @click.stop="selectPlan('platinum')"
+                value="platinum_1"
+                @click.stop="selectPlan('platinum_1')"
                          
               />
               <label for="radio665" class="flex items-center cursor-pointer">
@@ -675,12 +675,12 @@ const next = ()=>{
           <div
             v-if="collapsed"
             class="flex  pl-[42px] flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] h-[350px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-            :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+            :class="[selectedPlan && selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
           
             >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -690,7 +690,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -700,7 +700,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -710,7 +710,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_inactive.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -720,7 +720,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -730,7 +730,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -740,7 +740,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -750,7 +750,7 @@ const next = ()=>{
             </div>
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
               <div>
-                <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
               <div>
                 <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -764,14 +764,14 @@ const next = ()=>{
   
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px] relative  w-full py-[62px] px-[10px] h-[149px]  !rounded-[10px] mt-[35px]"
         style="padding: 16px, 10px, 16px, 10px"
-        :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+        :class="[selectedPlan && selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
 
       >
         <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-          <img
+          <img 
             src="/assets/imgs/plat_plan.svg"
             class="w-[50px] h-[50px]"
-            alt=""
+            
           />
         </div>
 
@@ -786,7 +786,7 @@ const next = ()=>{
           </div>
           <div class="order-1 mx-[15px]">
             <input
-              id="radio665"
+              id="radioplatcustom"
               type="radio"
               name="plans_radio"
               class="hidden"
@@ -795,7 +795,7 @@ const next = ()=>{
               @click.stop="selectPlan('platinum')"
                        
             />
-            <label for="radio665" class="flex items-center cursor-pointer">
+            <label for="radioplatcustom" class="flex items-center cursor-pointer">
               <span
                 class="radio-tamkin"
               ></span>
@@ -806,12 +806,12 @@ const next = ()=>{
         <div
           v-if="collapsed"
           class="flex  pl-[42px] flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] h-[350px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          :class="[selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
+          :class="[selectedPlan && selectedPlan === 'platinum' ? 'bg-selected' :'bg-whiteTamkin']"
         
           >
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -821,7 +821,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -831,7 +831,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -841,7 +841,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_inactive.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -851,7 +851,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -861,7 +861,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -871,7 +871,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -881,7 +881,7 @@ const next = ()=>{
           </div>
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
             <div>
-              <img src="/assets/imgs/checked_list_active.svg" alt="" />
+              <img  src="/assets/imgs/checked_list_active.svg"  />
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -935,7 +935,7 @@ const next = ()=>{
 <div>
   {{ name }} 
 </div>
-<img src="assets/imgs/tick.svg" alt="" v-if="name !== 'alaa.com'">
+<img  src="/assets/imgs/tick.svg"  v-if="name !== 'alaa.com'"/>
 <svg xmlns="http://www.w3.org/2000/svg" v-else fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-tamkingErrorInput">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 </svg>

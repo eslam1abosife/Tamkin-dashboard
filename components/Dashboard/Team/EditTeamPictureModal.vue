@@ -83,14 +83,14 @@ onBeforeUnmount(() => {
         :key="file.name"
         class="upload-file-item"
       >
-        <img
+        <img 
           :src="fileURL(file)"
           :alt="file.name"
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px]"
         />
       </div>
       <div v-else>
-        <img src="/assets/imgs/icons/camera_modal.svg" alt="" />
+        <img  src="/assets/imgs/icons/camera_modal.svg"  />
       </div>
 
       <div class="w-[264px]">

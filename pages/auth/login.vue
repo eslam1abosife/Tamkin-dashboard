@@ -52,7 +52,7 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+          <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
@@ -65,7 +65,7 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
           <button style="line-height: 30px;" class="google_login_button">
             <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
               <div class="font-[600] text-[16px] lg:text-[20px]">{{ $t("login_with_google") }}</div>
-              <img src="/assets/imgs/google_login.png" alt="" class="w-[19px] h-[19px]" />
+              <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />
             </div>
           </button>
           <div class="space-y-[23px] w-full">

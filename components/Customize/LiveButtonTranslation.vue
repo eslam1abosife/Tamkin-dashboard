@@ -110,9 +110,9 @@ const isLocationChecked = computed(() => {
         class="mini_wrap"
       >
         <div>
-          <img
+          <img 
             src="/assets/imgs/addons/annual_convert.svg"
-            alt=""
+            
             :class="[
               collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
             ]"
@@ -127,9 +127,9 @@ const isLocationChecked = computed(() => {
             @click="collapseStore.collapseCard('live_site_translation_button_card')"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/min_size.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('live_site_translation_button')
                     ? '!fill-white'
@@ -147,10 +147,10 @@ const isLocationChecked = computed(() => {
           </div>
 
           <div class="arrow">
-            <img
+            <img 
               src="/assets/imgs/addons/arrow_menu.svg"
            
-              alt=""
+              
               class="w-full h-full"
             />
           </div>
@@ -186,17 +186,17 @@ const isLocationChecked = computed(() => {
                     :class="[customizeStore.isChecked('enable_live_site') ? 'active' : 'in_active']"
                   >
                     <div class="toggle_inner" :class="{ 'active ': customizeStore.isChecked('enable_live_site') }">
-                      <img
+                      <img 
                         v-if="customizeStore.isChecked('enable_live_site')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -291,9 +291,9 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if="customizeStore.currentShapeLiveTranslation === 'gb'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
-          <img src="/assets/imgs/customize/gb.svg" alt="" />
+          <img  src="/assets/imgs/customize/gb.svg"  />
         </div>
         <div
           @click="customizeStore.changeDefaultButtonShape('en')"
@@ -309,7 +309,7 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if="customizeStore.currentShapeLiveTranslation === 'en'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
 
           <svg
@@ -361,7 +361,7 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if=" customizeStore.currentShapeLiveTranslation === 'langs'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
           <svg
             width="40"
@@ -424,22 +424,22 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if=" customizeStore.currentShapeLiveTranslation === 'gb'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
           <div class="flex flex-col items-center justify-center">
-            <img
+            <img 
               src="/assets/imgs/customize/gb.svg"
               class="w-[40px] h-[40px]"
-              alt=""
+              
             />
             <div
               class="w-[30px] h-[30px] rounded-full flex items-center justify-center"
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img
+              <img 
                 src="/assets/imgs/icons/ios_access.svg"
-                alt=""
+                
                 class="w-[22px] h-[22px]"
               />
             </div>
@@ -459,7 +459,7 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if="customizeStore.currentShapeLiveTranslation === 'en'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
 
           <div class="flex flex-col items-center justify-center space-y-[8px]">
@@ -503,9 +503,9 @@ const isLocationChecked = computed(() => {
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img
+              <img 
                 src="/assets/imgs/icons/ios_access.svg"
-                alt=""
+                
                 class="w-[22px] h-[22px]"
               />
             </div>
@@ -525,7 +525,7 @@ const isLocationChecked = computed(() => {
             class="absolute top-[-3px] right-[5px]"
             v-if=" customizeStore.currentShapeLiveTranslation  === 'langs'"
           >
-            <img src="/assets/imgs/customize/tick_two.svg" alt="" />
+            <img  src="/assets/imgs/customize/tick_two.svg"  />
           </div>
           <div class="flex flex-col items-center justify-center space-y-[8px]">
             <svg
@@ -575,9 +575,9 @@ const isLocationChecked = computed(() => {
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img
+              <img 
                 src="/assets/imgs/icons/ios_access.svg"
-                alt=""
+                
                 class="w-[22px] h-[22px]"
               />
             </div>

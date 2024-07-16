@@ -115,7 +115,7 @@ const props = defineProps({
         class=" w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
          border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" alt=""></div>
+                <div><img  :src="savedCard.type === 'visa' ? visaIcon : masterIcon" /></div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">{{savedCard.number}}</div>
             </div>
             <div class="order-1 mx-[4px]">
@@ -144,7 +144,7 @@ const props = defineProps({
   <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full  px-[20px]">
     <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px] ">
         <div class="cursor-pointer" @click="modalStore.addNewCardModal">
-            <img src="/assets/imgs/payment_methods/new_card.svg" alt="">
+            <img  src="/assets/imgs/payment_methods/new_card.svg" />
            </div>
        <div class="text-[14px] font-[600] leading-[24px] text-darkGrey" >Add New Card</div>
       
@@ -155,8 +155,8 @@ const props = defineProps({
     <div class="text-[14px] font-[500] underline leading-[24px] text-darkGrey">Show all payment options</div>
 
 </div>
-<div class="cursor-pointer"><img src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[10px] rtl:rotate-180 " 
-  :class="[showMoreMethods ? '!rotate-90' :'' ]" alt=""></div>
+<div class="cursor-pointer"><img  src="/assets/imgs/arrow-right.svg"  class="w-[10px] h-[10px] rtl:rotate-180 " 
+  :class="[showMoreMethods ? '!rotate-90' :'' ]" /></div>
     </div>
 
     
@@ -174,7 +174,7 @@ const props = defineProps({
  class="mt-[31px] w-full   h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px]
   border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-        <div><img src="/assets/imgs/payment_methods/paypal.svg" alt="" class="w-[40px] h-[40px]"></div>
+        <div><img  src="/assets/imgs/payment_methods/paypal.svg"  class="w-[40px] h-[40px]"/></div>
         <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
     </div>
     <div class="order-1 mx-[4px]">
@@ -205,7 +205,7 @@ const props = defineProps({
   class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between rounded-[10px] 
   border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
       <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-          <div><img src="/assets/imgs/payment_methods/crypto.svg" alt="" class="w-[40px] h-[40px]"></div>
+          <div><img  src="/assets/imgs/payment_methods/crypto.svg"  class="w-[40px] h-[40px]"/></div>
           <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
       </div>
       <div class="order-1 mx-[4px]">
@@ -241,19 +241,19 @@ const props = defineProps({
     class="absolute top-[-8px] lg:top-[11px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
     v-if="validPromo"
   >
-    <img src="/assets/imgs/promo_valid.svg" alt="" />
+    <img  src="/assets/imgs/promo_valid.svg"  />
     <div class="text-[15px] font-[500] text-darkGrey">
       <span class="text-[#021328] font-[700]">12%</span> Discount
       (-$2,444 )
     </div>
-    <img src="/assets/imgs/promo_valid_.svg" class="" alt="" />
+    <img  src="/assets/imgs/promo_valid_.svg" class=""  />
   </div>
   <div
     v-if="isPromoFilled"
     @click="clearInput"
     class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
   >
-    <img src="/assets/imgs/close_promo.svg" alt="" />
+    <img  src="/assets/imgs/close_promo.svg"  />
   </div>
 </div>
 <div class="text-center mt-[16px] lg:mt-[24px]">

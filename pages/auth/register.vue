@@ -64,7 +64,7 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img src="~assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+          <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
@@ -237,7 +237,7 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
       <button style="line-height: 30px;" class="google_login_button ">
         <div class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
           <div class="font-[600] text-[16px] lg:text-[20px]">{{ $t("signUpWithGoogle") }}</div>
-          <img src="/assets/imgs/google_login.png" alt="" class="w-[23px] h-[23px]" />
+          <img  src="/assets/imgs/google_login.png"  class="w-[23px] h-[23px]" />
         </div>
       </button>
     

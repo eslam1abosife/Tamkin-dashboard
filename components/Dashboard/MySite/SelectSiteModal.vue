@@ -75,14 +75,14 @@ const clearInput = () => {
     <div
       class="absolute top-[40%] ltr:lg:left-0 ltr:left-[10px] rtl:lg:right-0 rtl:right-[10px] lg:top-[16px] lg:p-[16px]"
     >
-      <img src="/assets/imgs/icons/search.svg" alt="" />
+      <img  src="/assets/imgs/icons/search.svg"  />
     </div>
     <div
       v-if="isSearchfilled"
       @click="clearInput"
       class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
     >
-      <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+      <img  src="/assets/imgs/icons/clear_search.svg"  />
     </div>
   </div>
 </div>
@@ -99,7 +99,7 @@ const clearInput = () => {
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
-        <span class="text-[13px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
+              <span class="text-[13px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>

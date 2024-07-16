@@ -97,9 +97,9 @@ const moveHideWidget = (v:string)=>{
           class="mini_wrap"
         >
           <div>
-            <img
+            <img 
               src="/assets/imgs/addons/annual_convert.svg"
-              alt=""
+              
               :class="[
                 collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
               ]"
@@ -116,9 +116,9 @@ const moveHideWidget = (v:string)=>{
 "
             >
               <div>
-                <img
+                <img 
                   src="/assets/imgs/addons/min_size.svg"
-                  alt=""
+                  
                   :class="[collapseStore.menus.includes('language_customize')  ? '!fill-white' : '']"
                 />
               </div>
@@ -126,11 +126,11 @@ const moveHideWidget = (v:string)=>{
             </div>
 
             <div class="arrow">
-              <img
+              <img 
                 src="/assets/imgs/addons/arrow_menu.svg"
                 tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                alt=""
+                
                 class="w-full h-full"
               />
             </div>
@@ -217,14 +217,14 @@ const moveHideWidget = (v:string)=>{
                 <div
                   class="absolute top-[33px] lg:top-[20px] lg:left-[20px] left-[30px] lg:p-[16px]"
                 >
-                  <img src="/assets/imgs/icons/search.svg" alt="" />
+                  <img  src="/assets/imgs/icons/search.svg"  />
                 </div>
                 <div
                   v-if="search"
                   @click="search = ''"
                   class="absolute top-[16px] lg:top-[18px] right-[20px] p-[16px] cursor-pointer"
                 >
-                  <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                  <img  src="/assets/imgs/icons/clear_search.svg"  />
                 </div>
               </div>
               <ul>
@@ -248,7 +248,7 @@ const moveHideWidget = (v:string)=>{
                       {{ lang.code }}
                     </div>
                   </div>
-                  <!-- <img :src="country.flag" alt="" class="w-6 h-4 mr-2" /> -->
+                  <!-- <img  :src="country.flag"  class="w-6 h-4 mr-2" /> -->
                   <span class="text-[14px]">{{ lang.name }}</span>
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
@@ -256,9 +256,9 @@ const moveHideWidget = (v:string)=>{
                       selectedLanguage && selectedLanguage.code === lang.code
                     "
                   >
-                    <img
+                    <img 
                       src="/assets/imgs/customize/selected_language.svg"
-                      alt=""
+                      
                     />
                   </div>
                 </li>
@@ -271,10 +271,10 @@ const moveHideWidget = (v:string)=>{
         <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
      
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img
+              <img 
                 src="/assets/imgs/customize/lang_selector.svg"
                 class="h-[28px] w-[28px]"
-                alt=""
+                
               />
               <div class="flex flex-col items-start justify-center w-full">
                 <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
@@ -306,17 +306,17 @@ const moveHideWidget = (v:string)=>{
                       class="toggle_inner"
                       :class="{ 'active': isChecked('language') }"
                     >
-                      <img
+                      <img 
                         v-if="isChecked('language')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>

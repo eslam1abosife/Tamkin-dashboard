@@ -2,7 +2,7 @@
 import { useDropzone } from "vue3-dropzone";
 import {useModalStore} from '@/stores/modal'
  import { Vue3Lottie } from 'vue3-lottie'
-          import SuccessAnimation from '~/assets/animation/forget_password_success.json'
+          import SuccessAnimation from '/assets/animation/forget_password_success.json'
 const modalStore = useModalStore()
 const {SuccessStep2Transfer} = storeToRefs(modalStore)
 const props = defineProps({
@@ -66,18 +66,18 @@ const clearInput = () => {
             <div class="text-gray-700 w-[60px] ">From</div>
             <div class="flex items-center justify-center bg-white border-[1px] w-[161px]
             rounded-[10px] px-2 py-1 h-[41px]">
-                <img src="/assets/imgs/tamkin_hand.svg" alt="Tamkin App" class="w-5 h-5 mr-1">
+                <img  src="/assets/imgs/tamkin_hand.svg" alt="Tamkin App" class="w-5 h-5 mr-1"/>
                 <span class="text-gray-700">Tamkin.App</span>
             </div>
         </div>
         <div class="mb-2 ml-[10%]">
-            <img src="/assets/imgs/settings/arrow-down.svg" alt="">
+            <img  src="/assets/imgs/settings/arrow-down.svg" />
         </div>
         <div class="flex items-center justify-start ">
             <div class="text-gray-700 w-[60px] ">To</div>
             <div class="flex items-center justify-center bg-white custom-border-tamkin w-[161px] padding-override-1 
             rounded-[10px] px-2 py-1 h-[41px]">
-                <img src="/assets/imgs/settings/pint.svg" alt="Pinterest App" class="w-5 h-5 mr-1">
+                <img  src="/assets/imgs/settings/pint.svg" alt="Pinterest App" class="w-5 h-5 mr-1"/>
                 <span class="text-turquoise-500">Pinterest.App</span>
             </div>
         </div>

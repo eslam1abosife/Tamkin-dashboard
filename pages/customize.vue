@@ -296,9 +296,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
                 ]"
@@ -313,9 +313,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('button_color_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('button_color') ? '!fill-white' : '',
                     ]"
@@ -331,11 +331,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -540,9 +540,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -557,9 +557,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('button_type_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('button_type') ? '!fill-white' : '',
                     ]"
@@ -575,11 +575,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -604,10 +604,10 @@ onBeforeRouteLeave((to, from, next) => {
               @click="customizeStore.changeButtonShape('type1')"
             >
               <div v-if="buttonShapeSelector === 'type1'">
-                <img
+                <img 
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  alt=""
+                  
                 />
               </div>
               <div class="">
@@ -616,9 +616,9 @@ onBeforeRouteLeave((to, from, next) => {
                   :class="gradientClasses"
                   :style="backgroundImageStyle"
                 >
-                  <img
+                  <img 
                     src="/assets/imgs/icons/ios_access.svg"
-                    alt=""
+                    
                     class="w-[26px] h-[26px]"
                   />
                 </div>
@@ -631,10 +631,10 @@ onBeforeRouteLeave((to, from, next) => {
               @click="customizeStore.changeButtonShape('type2')"
             >
               <div v-if="buttonShapeSelector === 'type2'">
-                <img
+                <img 
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  alt=""
+                  
                 />
               </div>
               <div class="">
@@ -694,10 +694,10 @@ onBeforeRouteLeave((to, from, next) => {
               @click="customizeStore.changeButtonShape('type3')"
             >
               <div v-if="buttonShapeSelector === 'type3'">
-                <img
+                <img 
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  alt=""
+                  
                 />
               </div>
               <div class="">
@@ -755,10 +755,10 @@ onBeforeRouteLeave((to, from, next) => {
               @click.prevent="customizeStore.changeButtonShape('type4')"
             >
               <div v-if="buttonShapeSelector === 'type4'">
-                <img
+                <img 
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  alt=""
+                  
                 />
               </div>
               <div class="">
@@ -816,10 +816,10 @@ onBeforeRouteLeave((to, from, next) => {
               @click.prevent="customizeStore.changeButtonShape('type5')"
             >
               <div v-if="buttonShapeSelector === 'type5'">
-                <img
+                <img 
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  alt=""
+                  
                 />
               </div>
               <div class="">
@@ -911,34 +911,34 @@ onBeforeRouteLeave((to, from, next) => {
                   :class="gradientClasses"
                   :style="[border_style, backgroundImageStyle]"
                 >
-                  <img
+                  <img 
                     src="/assets/imgs/gradient_icons/drag.svg"
                     :style="imgStyle"
                     v-if="buttonShapeSelector === 'type2'"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     src="/assets/imgs/gradient_icons/type2.svg"
                     :style="imgStyle"
                     v-if="buttonShapeSelector === 'type3'"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     src="/assets/imgs/gradient_icons/type3.svg"
                     :style="imgStyle"
                     v-if="buttonShapeSelector === 'type4'"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     src="/assets/imgs/gradient_icons/type4.svg"
                     :style="imgStyle"
                     v-if="buttonShapeSelector === 'type5'"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     v-if="buttonShapeSelector === 'type1'"
                     src="/assets/imgs/icons/ios_access.svg"
-                    alt=""
+                    
                     :style="imgStyle"
                   />
                 </div>
@@ -1005,9 +1005,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -1022,9 +1022,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('widget_custom_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('widget_custom') ? '!fill-white' : '',
                     ]"
@@ -1040,11 +1040,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                       "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -1112,9 +1112,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -1129,9 +1129,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('access_mode_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('access_mode') ? '!fill-white' : '',
                     ]"
@@ -1147,11 +1147,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                       "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>

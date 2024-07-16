@@ -262,10 +262,10 @@ controlDeleteModal" />
             <div class="py-[17px] search_input relative">
               <input type="text" class="input_dashboard_search w-full" v-model="search" placeholder="Search ..." />
               <div class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
-                <img src="/assets/imgs/icons/search.svg" alt="" />
+                <img  src="/assets/imgs/icons/search.svg"  />
               </div>
               <div v-if="isSearchfilled" @click="clearInput" class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer">
-                <img src="/assets/imgs/icons/clear_search.svg" alt="" />
+                <img  src="/assets/imgs/icons/clear_search.svg"  />
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ controlDeleteModal" />
             </div>
             <div class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]">
               <div class="lg:block hidden">
-                <img src="/assets//imgs/avatar.png" class="w-[40px] h-[40px]" alt="" />
+                <img  src="/assets//imgs/avatar.png" class="w-[40px] h-[40px]"  />
               </div>
               <div class="lg:block hidden">
                 <h2 class="font-[400] text-[12px]" style="line-height: 14.4px">
@@ -292,7 +292,7 @@ controlDeleteModal" />
                 </h2>
               </div>
               <div class="lg:block hidden">
-                <img src="/assets/imgs/arrow.svg" alt="" />
+                <img  src="/assets/imgs/arrow.svg"  />
               </div>
             </div>
           </div>

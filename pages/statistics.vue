@@ -340,9 +340,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -357,9 +357,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('select_date_range_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('select_date_range')
                         ? '!fill-white'
@@ -377,11 +377,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -608,7 +608,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="text-[20px] leading-[27px] font-[600]">
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
-                  <img :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']" alt="" class="w-[19px] h-[19px]" />
+                  <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"  class="w-[19px] h-[19px]" />
                   <div>+{{ percentageChange }}%</div>
                 </div>
               </div>
@@ -624,7 +624,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="text-[20px] leading-[27px] font-[600]">
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
-                  <img :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-180' : 'rotate-90']" alt="" class="w-[19px] h-[19px]" />
+                  <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-180' : 'rotate-90']"  class="w-[19px] h-[19px]" />
                   <div>-{{ percentageChange }}%</div>
                 </div>
               </div>
@@ -684,9 +684,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -701,9 +701,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('usage_stats_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('usage_stats') ? '!fill-white' : '',
                     ]"
@@ -719,11 +719,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -762,10 +762,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/language sign.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -813,10 +813,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/page_str.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -864,10 +864,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/hide_images.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -915,10 +915,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/contrast.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -966,10 +966,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/voice_navigation.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1019,10 +1019,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/a-z.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1070,10 +1070,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/clip.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1121,10 +1121,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/line_height.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1172,10 +1172,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/saturation.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1223,10 +1223,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/text.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1274,10 +1274,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/pause.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1325,10 +1325,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/tooltip.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1376,10 +1376,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/cursor.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1427,10 +1427,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/text_spacing.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1478,10 +1478,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/contrast_plus.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1578,9 +1578,9 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                 ]"
@@ -1595,9 +1595,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('usage_stats_profile_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('usage_stats_profile')
                         ? '!fill-white'
@@ -1615,11 +1615,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -1657,10 +1657,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/monitor_im.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1708,10 +1708,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/color_blind.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1759,10 +1759,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/vis_impaired.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1812,10 +1812,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/seizure.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1865,10 +1865,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/blind.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1916,10 +1916,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/df.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -1967,10 +1967,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/congitive.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -2020,10 +2020,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/addons/adhd.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -2074,9 +2074,9 @@ onBeforeRouteLeave((to, from, next) => {
       >
         <div class="flex items-center justify-start flex-1">
           <div>
-            <img
+            <img 
               src="/assets/imgs/google_analytics.svg"
-              alt=""
+              
               class="w-[71px] h-[63px]"
             />
           </div>
@@ -2100,17 +2100,17 @@ onBeforeRouteLeave((to, from, next) => {
             />
             <div class="toggle_parent" :class="[statsStore.google_enabled ? 'active' : 'in_active']">
               <div class="toggle_inner" :class="{ active: statsStore.google_enabled }">
-                <img
+                <img 
                   v-if="statsStore.google_enabled"
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
-                  alt=""
+                  
                 />
-                <img
+                <img 
                   v-else
                   src="/assets/imgs/addons/toggle.svg"
                   class="w-[28px] h-[28px]"
-                  alt=""
+                  
                 />
               </div>
             </div>
@@ -2189,9 +2189,9 @@ onBeforeRouteLeave((to, from, next) => {
               class="mini_wrap"
             >
               <div>
-                <img
+                <img 
                   src="/assets/imgs/addons/annual_convert.svg"
-                  alt=""
+                  
                   :class="[
                     collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
                   ]"
@@ -2206,9 +2206,9 @@ onBeforeRouteLeave((to, from, next) => {
                   @click="collapseStore.collapseCard('live_translation_stats_card')"
                 >
                   <div>
-                    <img
+                    <img 
                       src="/assets/imgs/addons/min_size.svg"
-                      alt=""
+                      
                       :class="[
                         collapseStore.menus.includes('live_translation_stats')
                           ? '!fill-white'
@@ -2226,11 +2226,11 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
 
                 <div class="arrow">
-                  <img
+                  <img 
                     src="/assets/imgs/addons/arrow_menu.svg"
                     tyle="box-shadow: 0px 2px 6px 0px #00000040;
                 "
-                    alt=""
+                    
                     class="w-full h-full"
                   />
                 </div>
@@ -2331,10 +2331,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/arabic.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">
@@ -2380,10 +2380,10 @@ onBeforeRouteLeave((to, from, next) => {
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
-                      <img
+                      <img 
                         src="/assets/imgs/english.svg"
                         class="w-[36px] h-[36px]"
-                        alt=""
+                        
                       />
                     </div>
                     <div class="">

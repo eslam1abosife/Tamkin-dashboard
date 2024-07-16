@@ -65,12 +65,12 @@ const prev = () => {
         >
           <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px] ">
             <div>
-              <img src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'free'"/>
-              <img src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'pro'"/>
-              <img src="/assets/imgs/overview/advanced_plan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'advanced'"/>
-              <img src="/assets/imgs/plat_plan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'platinum'"/>
-              <img src="/assets/imgs/overview/enterprise_plan.svg" class="w-[22px] h-[22px] " alt="" v-if="planType === 'enterprise'"/>
-              <!-- <img src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] mr-[13px]" alt="" v-else/> -->
+              <img  src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'free'"/>
+              <img  src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'pro'"/>
+              <img  src="/assets/imgs/overview/advanced_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'advanced'"/>
+              <img  src="/assets/imgs/plat_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'platinum'"/>
+              <img  src="/assets/imgs/overview/enterprise_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'enterprise'"/>
+              <!-- <img  src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] mr-[13px]"  v-else/> -->
             </div>
             <div class="text-[14px] font-[500] leading-[22.5px] text-darkGrey">
               {{ planType === 'free' ? 'Free Widget' : planType === 'pro' ? 'Pro- Widget':planType === 'platinum' ?'Platinum Widget':planType ==='advanced' ?'Advanced Widget':planType === 'enterprise'?'EnterPrise Widget' :''}}
@@ -87,10 +87,10 @@ const prev = () => {
          
           >
             <div > 
-              <img
+              <img 
                 src="/assets/imgs/payment_methods/declined.svg"
                 class="w-[22px] h-[22px]"
-                alt=""
+                
               />
             </div>
             <div>Not installed</div>
@@ -107,10 +107,10 @@ const prev = () => {
       </div>
 
       <div class="rtl:!mr-auto ltr:ml-auto h-full w-full lg:block hidden">
-        <img
+        <img 
           src="/assets/imgs/overview/current_plan_upgrade.svg"
           class="w-full h-full"
-          alt=""
+          
         />
       </div>
     </div>
@@ -166,7 +166,7 @@ const prev = () => {
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
-              <img src="/assets/imgs/freeplan.svg" class="w-[50px] h-[50px]" alt="" />
+              <img  src="/assets/imgs/freeplan.svg" class="w-[50px] h-[50px]"  />
             </div>
 
             <div
@@ -200,7 +200,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -210,7 +210,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -220,7 +220,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -230,7 +230,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -240,7 +240,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -250,7 +250,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -260,7 +260,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -290,7 +290,7 @@ const prev = () => {
 </div>
          </div>
             <div class="absolute top-[-30px] left-[15px]">
-              <img src="/assets/imgs/proplan.svg" class="w-[50px] h-[50px]" alt="" />
+              <img  src="/assets/imgs/proplan.svg" class="w-[50px] h-[50px]"  />
             </div>
 
             <div
@@ -330,7 +330,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -340,7 +340,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -350,7 +350,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -360,7 +360,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -370,7 +370,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -380,7 +380,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -390,7 +390,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -413,10 +413,10 @@ const prev = () => {
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
-              <img
+              <img 
                 src="/assets/imgs/overview/prem_plan.svg"
                 class="w-[50px] h-[50px]"
-                alt=""
+                
               />
             </div>
 
@@ -451,7 +451,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -461,7 +461,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -471,7 +471,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -481,7 +481,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -491,7 +491,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -501,7 +501,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -511,7 +511,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -540,10 +540,10 @@ const prev = () => {
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
-              <img
+              <img 
                 src="/assets/imgs/overview/advanced_plan.svg"
                 class="w-[50px] h-[50px]"
-                alt=""
+                
               />
             </div>
 
@@ -578,7 +578,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -588,7 +588,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -598,7 +598,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -608,7 +608,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -618,7 +618,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -628,7 +628,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -638,7 +638,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -661,10 +661,10 @@ const prev = () => {
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
-              <img
+              <img 
                 src="/assets/imgs/plat_plan.svg"
                 class="w-[50px] h-[50px]"
-                alt=""
+                
               />
             </div>
 
@@ -699,7 +699,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -709,7 +709,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -719,7 +719,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -729,7 +729,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -739,7 +739,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -749,7 +749,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -759,7 +759,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -782,10 +782,10 @@ const prev = () => {
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
-              <img
+              <img 
                 src="/assets/imgs/overview/enterprise_plan.svg"
                 class="w-[50px] h-[50px]"
-                alt=""
+                
               />
             </div>
 
@@ -818,7 +818,7 @@ const prev = () => {
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -828,7 +828,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -838,7 +838,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -848,7 +848,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -858,7 +858,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -868,7 +868,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -878,7 +878,7 @@ const prev = () => {
               </div>
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
-                  <img src="/assets/imgs/checked_list_active.svg" alt="" />
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
                 </div>
                 <div>
                   <h3 class="text-[14px] font-[400] leading-[20px]">

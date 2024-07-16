@@ -51,7 +51,7 @@ const permissions = ref( [
 </h1>
 
 <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[40px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
-<div> <img src="/assets/imgs/icons/avatar_table.svg" alt="" class="w-[56px] h-[56px]"></div>
+<div> <img  src="/assets/imgs/icons/avatar_table.svg"  class="w-[56px] h-[56px]"/></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
 <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">

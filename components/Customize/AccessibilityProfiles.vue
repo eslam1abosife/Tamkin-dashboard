@@ -118,9 +118,9 @@ const getImagePath = (icon) => {
         class="mini_wrap"
       >
         <div>
-          <img
+          <img 
             src="/assets/imgs/addons/annual_convert.svg"
-            alt=""
+            
             :class="[
               collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
             ]"
@@ -135,9 +135,9 @@ const getImagePath = (icon) => {
             @click="collapseStore.collapseCard('manage_access_profiles_card') "
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/min_size.svg"
-                alt=""
+                
                 :class="[collapseStore.menus.includes('manage_access_profiles') ? '!fill-white' : '']"
               />
             </div>
@@ -149,11 +149,11 @@ const getImagePath = (icon) => {
           <div
             class="arrow"
           >
-            <img
+            <img 
               src="/assets/imgs/addons/arrow_menu.svg"
               tyle="box-shadow: 0px 2px 6px 0px #00000040;
                 "
-              alt=""
+              
               class="w-full h-full"
             />
           </div>
@@ -177,16 +177,16 @@ const getImagePath = (icon) => {
         class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
       >
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-          <img
+          <img 
             src="/assets/imgs/addons/left_item.svg"
-            alt=""
+            
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
             class="cursor-pointer handle"
           />
 
-          <img
+          <img 
             :src="getImagePath(element.icon)"
-            alt=""
+            
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
           />
           <div
@@ -228,17 +228,17 @@ const getImagePath = (icon) => {
                   class="toggle_inner"
                   :class="{ 'active': isChecked(element.checkboxId) }"
                 >
-                  <img
+                  <img 
                     v-if="isChecked(element.checkboxId)"
                     src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
-                  <img
+                  <img 
                     v-else
                     src="/assets/imgs/addons/toggle.svg"
                     class="w-[28px] h-[28px]"
-                    alt=""
+                    
                   />
                 </div>
               </div>

@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useElementHover } from '@vueuse/core'
-import banner from 'assets/imgs/gradient_embded.png'
+// import banner from 'assets/imgs/gradient_embded.png'
 
 const accessMenuHover = ref()
 const submenuHover = ref()
+const signLanguageHover = ref()
 const isHovered = useElementHover(accessMenuHover)
 const isSubmenuHovered = useElementHover(submenuHover)
+const isSignLanguageHoverd = useElementHover(signLanguageHover)
 
 const props = defineProps({
   sideBarOpen: Boolean,
@@ -69,10 +71,10 @@ const closeSubMenuOnClickOutside = (index:any)=>{
 
   }
 }
-const closeSubmenuWithDelay = () => {
+const closeSubmenuWithDelay = (id) => {
   closeTimeout = setTimeout(() => {
-    if (!isHovered.value && !isSubmenuHovered.value && !showOnClick.value) {
-      showSubMenu.value[3] = false
+    if (!isHovered.value && !isSubmenuHovered.value && !isSignLanguageHoverd.value && !showOnClick.value) {
+      showSubMenu.value[id] = false
     }
   }, 200) // Delay in milliseconds
 }
@@ -84,9 +86,28 @@ watch([isHovered, isSubmenuHovered], ([newIsHovered, newIsSubmenuHovered]) => {
     if (newIsHovered || newIsSubmenuHovered) {
       showSubMenu.value[3] = true
     } else if (!showOnClick.value) {
-      closeSubmenuWithDelay()
+      closeSubmenuWithDelay(3)
     }
+    
+   
   }
+
+
+})
+watch([isSignLanguageHoverd], (isNewSignLanguageHoverd) => {
+  clearTimeout(closeTimeout) // Clear any previous timeout
+
+  if (!props.sideBarOpen) { // Only handle hover if sidebar is closed
+    if (isNewSignLanguageHoverd) {
+      showSubMenu.value[4] = true
+    } else if (!showOnClick.value) {
+      closeSubmenuWithDelay(4)
+    }
+    
+   
+  }
+
+
 })
 watch(
   () => route.path,  // Watch for changes in the route path
@@ -115,27 +136,28 @@ watch(() => props.sideBarOpen, (first, second) => {
 
     <div class="flex flex-col items-center justify-start w-full ">
       <div class="self-start w-full" :class="[sideBarOpen ? '' : 'mx-auto']"  v-if="sideBarOpen">
-        <img
+        <img 
           src="/assets//imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
-          alt=""
+          
          
         />
      
       </div>
       <div           class="mb-[10px] w-[55px] h-[55px] mt-[24px]"
       v-else>
-        <img
+        <img 
         src="/assets//imgs/icons/tamkin_small.svg"
-        alt=""
+        
       class="  mx-auto w-[28px] h-[28px]"
       />
       </div>
-    <div class="w-[28px] h-[28px]" v-if="!sideBarOpen"   >
-      <img
+    <div class="w-[28px] h-[28px] cursor-pointer" v-if="!sideBarOpen"         @click="$router.push(localePath('/team'))"
+    >
+      <img 
       src="/assets/imgs/team.png"
     
-      alt=""
+      
  />
     </div>
       <div
@@ -146,10 +168,10 @@ watch(() => props.sideBarOpen, (first, second) => {
           isLinkActive('/team') ? 'active' : '',
         ]"
       >
-        <img
+        <img 
           src="/assets/imgs/team.png"
           :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
-          alt=""
+          
         />
 
         <div class="flex items-center rtl:space-x-reverse w-full">
@@ -219,9 +241,9 @@ watch(() => props.sideBarOpen, (first, second) => {
     <button
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start w-[28px] h-[28px]"
       v-if="!sideBarOpen"
-      @click="$router.push(localePath('/team'))"
+      @click="$router.push(localePath('/add-site'))"
     >
-      <img src="/assets/imgs/icons/add.svg" alt="" class="w-[28px] h-[28px]" />
+      <img  src="/assets/imgs/icons/add.svg"  class="w-[28px] h-[28px]" />
 
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </button>
@@ -411,12 +433,18 @@ watch(() => props.sideBarOpen, (first, second) => {
         <span v-if="sideBarOpen">My Site</span>
       </TamkinSideBarLink>
 
-      <div class="relative "  @click="openMenuSub(4)"           :class="[!sideBarOpen ? '  ' : 'w-full ']"
+      <div class="relative "  
+   
+      @click="openMenuSub(4)"       
+      
+
+      :class="[!sideBarOpen ? '  ' : 'w-full ']"
       > 
         <div
           class="dashboard-nav-link "
           :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
-          ref="accessMenuHover" 
+                   ref="signLanguageHover"
+
          
           >
       
@@ -441,7 +469,9 @@ watch(() => props.sideBarOpen, (first, second) => {
      
         <div class=" w-full space-x-[50px] flex items-center justify-evenly  " :class="[!sideBarOpen?'hidden':'']">
           
-          <div   v-if="sideBarOpen"  class="ml-[-10px] whitespace-nowrap" >Sign language</div>
+          <div   v-if="sideBarOpen"  
+          :class="[activeAccessLinks ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent':'']"
+          class="ml-[-10px] whitespace-nowrap" >Sign language</div>
           <div v-if="sideBarOpen">
             <svg
               width="7"
@@ -452,14 +482,14 @@ watch(() => props.sideBarOpen, (first, second) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="grad34311" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
                   <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
                 </linearGradient>
               </defs>
               <path
-                fill="#585B5B"
-                fill-rule="evenodd"
+              :fill="activeAccessLinks? 'url(#grad34311)' : '#585B5B'"
+              fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
               />
@@ -469,7 +499,7 @@ watch(() => props.sideBarOpen, (first, second) => {
         </div>
         <div
           class=" bg-[#FFFEFE] rounded-[10px] " 
-          ref="submenuHover"
+        
           :class="[
             !sideBarOpen && showSubMenu[4] ? 'absolute top-0 left-[65px] bg-white !z-[140] w-[270px] shadow-md' : ' ',
             showSubMenu[4] ? 'block ' : 'hidden'
@@ -540,7 +570,8 @@ class="flex items-center justify-start w-full "
   class="w-[7px] h-[2px] rounded-[10px] " v-if="sideBarOpen"
   :class="[showSubMenu[6] ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd ' : 'bg-darkGrey']"
 ></div>
-<div class="ml-[16px] ">
+<div class="ml-[16px] " :class="[showSubMenu[6] ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent ' 
+: 'text-darkGrey']">
   Services
 </div>
   </div>
@@ -963,13 +994,13 @@ class="flex items-center justify-start w-full"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="grad_ni" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
                   <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
                 </linearGradient>
               </defs>
               <path
-                :fill="activeAccessLinks? 'url(#grad1)' : '#585B5B'"
+                :fill="activeAccessLinks? 'url(#grad_ni)' : '#585B5B'"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
@@ -1027,7 +1058,8 @@ class="flex items-center justify-start w-full"
                   <nuxt-link
                     @click.stop
                     :to="localePath('/overview')"
-                    :class="[isLinkActive('/overview') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                    :class="[isLinkActive('/overview') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
@@ -1050,7 +1082,8 @@ class="flex items-center justify-start w-full"
                   <nuxt-link
                    
                     :to="localePath('/addons')"
-                    :class="[isLinkActive('/addons') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                                      :class="[isLinkActive('/addons') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
@@ -1072,7 +1105,8 @@ class="flex items-center justify-start w-full"
                  <nuxt-link
                    @click.stop
                    :to="localePath('/statistics')"
-                   :class="[isLinkActive('/statistics') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+             :class="[isLinkActive('/statistics') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey' : '']"
                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                    >
                    <div
@@ -1094,7 +1128,8 @@ class="flex items-center justify-start w-full"
                   <nuxt-link
                     @click.stop
                     :to="localePath('/customize')"
-                    :class="[isLinkActive('/customize') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                  :class="[isLinkActive('/customize') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
@@ -1116,7 +1151,8 @@ class="flex items-center justify-start w-full"
                   <nuxt-link
                     @click.stop
                     :to="localePath('/settings')"
-                    :class="[isLinkActive('/settings') ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent' : '']"
+                    :class="[isLinkActive('/settings') ? 
+                    'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey' : '']"
                     class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
                     >
                     <div
@@ -1258,7 +1294,7 @@ class="flex items-center justify-start w-full"
       :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
     >
       <div class="w-[34px] h-[34px]">
-       <img src="/assets/imgs/icons/support.svg"  alt="">
+       <img  src="/assets/imgs/icons/support.svg"  />
       </div>
 
     </div>
@@ -1268,7 +1304,7 @@ class="flex items-center justify-start w-full"
 >
   <div class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg">
     <div>
-      <img src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[35px] h-[35px]" />
+      <img  src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[35px] h-[35px]" />
     </div>
     <div>
       <h2 class="text-[14px] font-[600] text-[#0D5C56]">Need Help?</h2>

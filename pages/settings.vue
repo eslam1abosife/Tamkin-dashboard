@@ -195,9 +195,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('general_settings_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('general_settings')
                         ? '!fill-white'
@@ -215,11 +215,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -258,17 +258,17 @@ onBeforeRouteLeave((to, from, next) => {
                     :class="[isChecked('enable_widget_on_this_site') ? 'active' : 'in_active']"
                   >
                     <div class="toggle_inner" :class="{ active: isChecked('enable_widget_on_this_site') }">
-                      <img
+                      <img 
                         v-if="isChecked('enable_widget_on_this_site')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -304,17 +304,17 @@ onBeforeRouteLeave((to, from, next) => {
                     :class="[isChecked('widget_enabled_on_mobile') ? 'active' : 'in_active']"
                   >
                     <div class="toggle_inner" :class="{ active: isChecked('widget_enabled_on_mobile') }">
-                      <img
+                      <img 
                         v-if="isChecked('widget_enabled_on_mobile')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -351,17 +351,17 @@ onBeforeRouteLeave((to, from, next) => {
                     :class="[isChecked('sound_effects') ? 'active' : 'in_active']"
                   >
                     <div class="toggle_inner" :class="{ active: isChecked('sound_effects') }">
-                      <img
+                      <img 
                         v-if="isChecked('sound_effects')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
-                      <img
+                      <img 
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        alt=""
+                        
                       />
                     </div>
                   </div>
@@ -434,9 +434,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('reset_all_settings_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('reset_all_settings')
                         ? '!fill-white'
@@ -454,11 +454,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -601,9 +601,9 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('license_settings_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[
                       collapseStore.menus.includes('license_settings')
                         ? '!fill-white'
@@ -621,11 +621,11 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>

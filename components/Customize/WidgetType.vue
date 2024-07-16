@@ -64,9 +64,9 @@ const {widgetType} = storeToRefs(customizeStore)
             class="mini_wrap"
           >
             <div>
-              <img
+              <img 
                 src="/assets/imgs/addons/annual_convert.svg"
-                alt=""
+                
                 :class="[
                   collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
                 ]"
@@ -81,9 +81,9 @@ const {widgetType} = storeToRefs(customizeStore)
                 @click=" collapseStore.collapseCard('widget_type_card')"
               >
                 <div>
-                  <img
+                  <img 
                     src="/assets/imgs/addons/min_size.svg"
-                    alt=""
+                    
                     :class="[collapseStore.menus.includes('widget_type') ? '!fill-white' : '']"
                   />
                 </div>
@@ -95,11 +95,11 @@ const {widgetType} = storeToRefs(customizeStore)
               <div
                 class="arrow"
               >
-                <img
+                <img 
                   src="/assets/imgs/addons/arrow_menu.svg"
                   tyle="box-shadow: 0px 2px 6px 0px #00000040;
                     "
-                  alt=""
+                  
                   class="w-full h-full"
                 />
               </div>
@@ -140,7 +140,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </div>
           </div>
           <div class="w-full">
-            <img src="/assets/imgs/customize/full_widget.svg"  class="h-full w-full " alt="">
+            <img  src="/assets/imgs/customize/full_widget.svg"  class="h-full w-full " />
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full">
@@ -169,7 +169,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </div>
           </div>
           <div class="w-full">
-            <img src="/assets/imgs/customize/mini_widget.svg"  class="h-full w-full " alt="">
+            <img  src="/assets/imgs/customize/mini_widget.svg"  class="h-full w-full " />
           </div>
       </div>
 
@@ -201,7 +201,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </div>
           </div>
           <div class="w-full">
-            <img src="/assets/imgs/customize/rounded_widget.svg"  class="h-full w-full " alt="">
+            <img  src="/assets/imgs/customize/rounded_widget.svg"  class="h-full w-full " />
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full ">
@@ -230,7 +230,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </div>
           </div>
           <div class="w-full">
-            <img src="/assets/imgs/customize/minu_widget.svg"  class="h-full w-full " alt="">
+            <img  src="/assets/imgs/customize/minu_widget.svg"  class="h-full w-full " />
           </div>
       </div>
 </div>

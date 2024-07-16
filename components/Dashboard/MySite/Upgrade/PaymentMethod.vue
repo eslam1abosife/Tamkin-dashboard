@@ -73,7 +73,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE] 
         flex items-center justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/cc.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div><img  src="/assets/imgs/payment_methods/cc.svg"  class="w-[40px] h-[40px]"/></div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Card</div>
             </div>
             <div class="order-1 mx-[4px]">
@@ -104,7 +104,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center justify-between
          rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/crypto.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div><img  src="/assets/imgs/payment_methods/crypto.svg"  class="w-[40px] h-[40px]"/></div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via Crypto currency</div>
             </div>
             <div class="order-1 mx-[4px]">
@@ -134,7 +134,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] flex items-center 
         justify-between rounded-[10px] border-lightGrey ltr:pl-[16px] rtl:pr-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-                <div><img src="/assets/imgs/payment_methods/paypal.svg" alt="" class="w-[40px] h-[40px]"></div>
+                <div><img  src="/assets/imgs/payment_methods/paypal.svg"  class="w-[40px] h-[40px]"/></div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey">Pay Via PayPal</div>
             </div>
             <div class="order-1 mx-[4px]">

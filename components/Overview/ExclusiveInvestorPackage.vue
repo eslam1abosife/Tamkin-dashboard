@@ -32,10 +32,10 @@
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-35px] left-[5px]">
-                <img
+                <img 
                   src="/assets/imgs/overview/silver.svg"
              
-                  alt=""
+                  
                 />
               </div>
 
@@ -77,7 +77,7 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -87,7 +87,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -107,7 +107,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_inactive.svg" alt="" />
+                    <img  src="/assets/imgs/checked_list_inactive.svg"  />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -117,7 +117,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -127,7 +127,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -137,7 +137,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -158,9 +158,9 @@
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-35px] left-[5px]">
-                <img
+                <img 
                   src="/assets/imgs/overview/gold.svg"
-                  alt=""
+                  
                 />
               </div>
 
@@ -203,7 +203,7 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -213,7 +213,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -223,7 +223,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -233,7 +233,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_inactive.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_inactive.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -243,7 +243,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -253,7 +253,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -263,7 +263,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -284,9 +284,9 @@
               style="padding: 16px, 10px, 16px, 10px"
             >
               <div class="absolute top-[-35px] left-[5px]">
-                <img
+                <img 
                   src="/assets/imgs/overview/plat.svg"
-                  alt=""
+                  
                 />
               </div>
 
@@ -327,7 +327,7 @@
               >
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -337,7 +337,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -347,7 +347,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -357,7 +357,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_inactive.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_inactive.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -367,7 +367,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -377,7 +377,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">
@@ -387,7 +387,7 @@
                 </div>
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                   <div>
-                    <img src="/assets/imgs/checked_list_active.svg" alt=""  />
+                    <img  src="/assets/imgs/checked_list_active.svg"   />
                   </div>
                   <div>
                     <h3 class="text-[14px] font-[400] leading-[20px]">

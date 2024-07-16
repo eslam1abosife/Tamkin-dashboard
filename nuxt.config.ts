@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
   app: {
@@ -13,17 +14,39 @@ export default defineNuxtConfig({
   modules:
 [
   '@nuxtjs/tailwindcss',
-  '@nuxtjs/google-fonts'
-  ,    '@pinia/nuxt',
+  '@nuxtjs/google-fonts',
+  '@pinia/nuxt',
   '@nuxtjs/i18n',
   '@vueuse/nuxt',
   '@nuxtjs/device',
-'@vueuse/motion/nuxt',
-
-
-
+  '@vueuse/motion/nuxt',
+  // "@nuxt/image",
+  // "nuxt-svgo"
 ],
+// image: {
+//   // inject: true,
+//   formats: {
+//     webp: {
+//       quality: 20
+//     }
+//   },
+
+// },
+
+modern: 'client',
+// components: {
+//   dirs: [
+//     {
+//       path: '@/components',
+//       extensions: ['vue'],
+//       prefix: 'Lazy',
+//       chunkNamePrefix: 'components/'
+//     }
+//   ]
+// },
 nitro: {
+  compressPublicAssets: true,
+
   prerender: {
     crawlLinks: true,
     failOnError: false, 
@@ -43,9 +66,30 @@ vite: {
     }
   },
 },
+// render: {
+//   static: {
+//     maxAge: '1y', // Cache static files for one year
+//     setHeaders(res) {
+//       res.setHeader('Cache-Control', 'public, max-age=31536000')
+//     }
+//   }
+// },
 device: {
   refreshOnResize: true
 },
+// webpack:{
+//   extractCSS: true
+// },
+// build: {
+
+
+//     splitChunks: {
+//       layouts: true,
+//       pages: true,
+//       commons: true
+  
+//   }
+// },
 i18n: {
   defaultLocale: 'en',
   // Specify the directory where the language files are stored
@@ -71,6 +115,7 @@ i18n: {
   // custom path example
 },
 googleFonts: {
+  preload:true,
   families: {
     Poppins: {
       wght: [100,200,300,400,500,600,700],
@@ -83,10 +128,10 @@ googleFonts: {
   }
   },
   css: [
-    '/assets/scss/fontawesome.css'
+    // '/assets/scss/fontawesome.css'
   ],
   plugins: [
-    { src: '~/plugins/fontawsome.ts' },
+    { src: '@/plugins/fontawsome.ts' },
   ],
 tailwindcss: {
   cssPath: ['~/assets/scss/main.scss', { injectPosition: "first" }],

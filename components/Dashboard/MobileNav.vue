@@ -35,23 +35,23 @@ const isLinkActive = (path) => {
           
     </div>
     <div class="self-start" :class="[sideBarOpenMobile ? '' : 'mx-auto']">
-      <img
+      <img 
         src="/assets//imgs/logo.png"
         class="min-h-[60px] w-[120px]"
-        alt=""
+        
         v-if="sideBarOpenMobile "
       />
-      <img
+      <img 
         src="/assets//imgs/icons/tamkin_small.svg"
         class="pb-[32px] pt-[16px] mx-auto"
-        alt=""
+        
         v-else
       />
     </div>
-    <img
+    <img 
       src="/assets/imgs/team.png"
       class="w-[40px] h-[40px]"
-      alt=""
+      
       :class="[!sideBarOpenMobile ? 'block' : 'hidden']"
     />
 
@@ -59,10 +59,10 @@ const isLinkActive = (path) => {
       class="tamkin_team_card"
       :class="[!sideBarOpenMobile ? 'border-none bg-transparent hidden' : '']"
     >
-      <img
+      <img 
         src="/assets/imgs/team.png"
         class="w-[40px] h-[40px]"
-        alt=""
+        
         :class="[!sideBarOpenMobile ? 'block' : '']"
       />
 
@@ -131,7 +131,7 @@ const isLinkActive = (path) => {
       class="rounded-full bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] flex items-center justify-start"
       v-else
     >
-      <img src="/assets/imgs/icons/add.svg" alt="" class="" />
+      <img  src="/assets/imgs/icons/add.svg"  class="" />
 
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </button>
@@ -332,9 +332,9 @@ const isLinkActive = (path) => {
           ]"
         >
           <div>
-            <img
+            <img 
               src="/assets/imgs/icons/signlang.svg"
-              alt=""
+              
               class="pl-[16px]"
             />
           </div>
