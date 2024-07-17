@@ -3,6 +3,10 @@ export default {
   content: [],
   theme: {
     extend:{
+      order: {
+        '1': '1',
+        '2': '2',
+      },
       direction: {
         'rtl': 'rtl',
       },
@@ -54,7 +58,14 @@ export default {
       backgroundColor: {
         'light-grey': '#D9D9D9', // Define the bg-light-grey class
       },
-    }
+    },
+  
+
+  },
+  variants: {
+    extend: {
+      order: ['responsive'],
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

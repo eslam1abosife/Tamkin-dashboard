@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useModalStore } from "#imports";
+import { useModalStore } from "@/stores/modal.js";
 const modalStore = useModalStore()
 definePageMeta({
     layout:'dashboard'
@@ -37,7 +37,7 @@ const v$ = useVuelidate(rules, state);
         <div class="flex flex-col items-start justify-center w-full space-y-6">
           <div class="flex items-center justify-center space-x-4">
             <h1 class="text-2xl font-semibold text-[#021328]">Contact Sales</h1>
-            <img  src="/assets/imgs/icons/contact_sales.svg" alt="Contact Sales Icon"/>
+            <img  src="/assets/pngs/contact.png"  class="w-[40px] h-[40px]" alt="Contact Sales Icon"/>
           </div>
       
           <p class="text-lg text-darkGrey text-left w-full">
@@ -168,7 +168,7 @@ const v$ = useVuelidate(rules, state);
                 You will have more surprises and enjoy  with us 
             </div>
             <div class="w-full h-full">
-                <img  src="/assets/imgs/icons/contact_desk.svg"  class="h-full w-full" />
+                <img  src="/assets/pngs/desk.png"  class="h-full w-full" />
             </div>
         </div>
       </div>

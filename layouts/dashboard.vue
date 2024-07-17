@@ -190,16 +190,16 @@ const saveModalBeforeLeave = computed(()=>{
        statsStore.routeLeaveModal || modalStore.showSuccessModalContact
     " class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"></div>
 
-    <ModalsSuccessModal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us" sub-title="We will contact you as soon as possible " icon="contact_success.svg"/>
-    <DashboardTeamEditUserModal :showModal="editUserModal" />
+    <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us" sub-title="We will contact you as soon as possible " icon="contact_success.svg"/>
+    <DashboardTeamEditusermodal :showModal="editUserModal" />
 
-    <DashboardEmbedShareModal :showModal="showShareModal" />
-    <DashboardTeamEditTeamPictureModal :showModal="editPictureTeamModal" />
-    <DashboardTeamInviteMember :showModal="inviteMemberModal " />
-    <DashboardTeamInviteMemberUpdate :showModal="InviteMemberUpdateModal" />
-    <DashboardMySiteSelectSiteModal :showModal="selectSiteModal" />
+    <DashboardEmbedSharemodal :showModal="showShareModal" />
+    <DashboardTeamEditteampicturemodal :showModal="editPictureTeamModal" />
+    <DashboardTeamInvitemember :showModal="inviteMemberModal " />
+    <DashboardTeamInvitememberupdate :showModal="InviteMemberUpdateModal" />
+    <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
 
-    <DashboardTeamEditUserPermissionsModal :showModal="editPermissionsModal" />
+    <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" />
 
     <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
     <LazyModalsConfirm :showModal="resetModal" title="Rest All Accessibility Settings"
@@ -210,8 +210,8 @@ const saveModalBeforeLeave = computed(()=>{
       confirm-btn-type="delete" @control-delete="modalStore.controlDeleteModal" @control-cancel="
 controlDeleteModal" />
 
-    <SettingsTransferModalStep1 :show-modal="transferModalStep1" />
-    <SettingsTransferModalStep2 :show-modal="transferStep2" />
+    <SettingsTransfermodalstep1 :show-modal="transferModalStep1" />
+    <SettingsTransfermodalstep2 :show-modal="transferStep2" />
 
     <div
       class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] 
@@ -302,7 +302,7 @@ controlDeleteModal" />
 
         <div class="pt-[85px] lg:px-[40px] relative overflow-x-hidden ">
           <div class="relative px-[15px]">
-            <NavbarOverview v-if="
+            <Navbaroverview v-if="
               isLinkActive('/overview') ||
               isLinkActive('/settings') ||
               isLinkActive('/addons') ||
@@ -330,7 +330,7 @@ controlDeleteModal" />
               "></div>
 
           <transition name="slide-up">
-            <DashboardAddonsSaveFooter :show-footer="shouldShowFooter" @cancel_action="cancelAc" />
+            <DashboardAddonsSavefooter :show-footer="shouldShowFooter" @cancel_action="cancelAc" />
           </transition>
           <NuxtPage />
         </div>
@@ -342,23 +342,4 @@ controlDeleteModal" />
   </Html>
 </template>
 
-<style>
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.3s ease;
-}
 
-.slide-up-enter-from,
-.slide-up-leave-to {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-}
-
-.slide-up-enter-to,
-.slide-up-leave-from {
-  max-height: 100px;
-  /* Adjust based on your content */
-  opacity: 1;
-}
-</style>

@@ -117,7 +117,7 @@ const progress = ref(30.78);
         >
           <!-- Donut Chart -->
           <div class="h-full ipad-max:mx-auto">
-            <circular-progress-bar :initial-percentage="progress" />
+            <Circularprogressbar :initial-percentage="progress" />
           </div>
           <!-- Labels and Values -->
           <div

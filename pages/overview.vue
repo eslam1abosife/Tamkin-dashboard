@@ -28,7 +28,7 @@ definePageMeta({
 <template>
   <div class="relative ">
     <div class="">
-      <HeaderAccess 
+      <Headeraccess 
       websiteImgName="tamkin_hand.svg"
       website-title="Tamkin.App"
       website-link="google.com"
@@ -39,18 +39,18 @@ definePageMeta({
    
 
 
-      <LazyOverviewWidgetEmbdedCode   v-if="!overviewStore.showUpgradeState"/>
-      <LazyOverviewConnectWithUs   v-if="!overviewStore.showUpgradeState"/>
-      <LazyOverviewCurrentPlan :plan-type="'free'" :is-installed="false"  v-if="!overviewStore.showUpgradeState"/>
-      <LazyOverviewCurrentPlan :plan-type="'pro'" :is-installed="true"  v-if="overviewStore.showUpgradeState"/>
-      <LazyOverviewTamkinTokenBanner v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewWidgetembdedcode   v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewConnectwithus   v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewCurrentplan :plan-type="'free'" :is-installed="false"  v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewCurrentplan :plan-type="'pro'" :is-installed="true"  v-if="overviewStore.showUpgradeState"/>
+      <LazyOverviewTamkintokenBanner v-if="!overviewStore.showUpgradeState"/>
   
-    <LazyOverviewExclusiveInvestorPackage v-if="!overviewStore.showUpgradeState"/>
+    <LazyOverviewExclusiveinvestorpackage v-if="!overviewStore.showUpgradeState"/>
  
 
-   <OverviewAccessibilityDetails v-if="overviewStore.showUpgradeState"/>
+   <OverviewAccessibilitydetails v-if="overviewStore.showUpgradeState"/>
 
-    <OverviewLiveTranslation  v-if="overviewStore.showUpgradeState"/>
+    <OverviewLivetranslation  v-if="overviewStore.showUpgradeState"/>
   
         <div
           v-if="overviewStore.showUpgradeState"

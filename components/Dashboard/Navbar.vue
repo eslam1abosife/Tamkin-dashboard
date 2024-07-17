@@ -1294,7 +1294,7 @@ class="flex items-center justify-start w-full"
       :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
     >
       <div class="w-[34px] h-[34px]">
-       <img  src="/assets/imgs/icons/support.svg"  />
+       <img  src="/assets/pngs/support_h.png"  />
       </div>
 
     </div>
@@ -1304,7 +1304,7 @@ class="flex items-center justify-start w-full"
 >
   <div class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg">
     <div>
-      <img  src="/assets/imgs/icons/support.svg" alt="Sales Team" class="w-[35px] h-[35px]" />
+      <img  src="/assets/pngs/support_h.png" alt="Sales Team" class="w-[35px] h-[35px]" />
     </div>
     <div>
       <h2 class="text-[14px] font-[600] text-[#0D5C56]">Need Help?</h2>

@@ -99,7 +99,7 @@ const collapseStore = useCollapseStore();
       >
         <div class="h-full">
           <img 
-            src="/assets/imgs/icons/man.svg"
+            src="/assets/pngs/man.png"
             alt="Character"
             class=" h-full lg:block hidden m-auto"
           />
