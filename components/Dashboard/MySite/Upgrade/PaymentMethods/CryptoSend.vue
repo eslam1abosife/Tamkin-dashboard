@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useModalStore } from "@/stores/modal";
-import QRCodeVue3 from "qrcode-vue3";
+// import QRCodeVue3 from "qrcode-vue3";
 
 const modalStore = useModalStore();
 import { useVuelidate } from "@vuelidate/core";
@@ -41,7 +41,7 @@ watch(copyCode, (newValue) => {
 
 <template>
   <div class="flex flex-col items-start justify-center w-full relative" v-if="showModal">
-    <DashboardToastSuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" 
+    <DashboardToastsuccess v-if="copyCode" :hideIn="2000" :message="'Copied Successfully'" 
     class="top-[8%] !inset-x-[13%]" />
 
     <div class="flex items-center justify-center ">
@@ -101,6 +101,7 @@ watch(copyCode, (newValue) => {
  <div class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] 
  space-y-[16px] lg:justify-start w-full">
 <div class="p-2 border rounded-lg">
+<Client-only>
   <QRCodeVue3
   value="0x2d5jdska9erptjfew7364432"
   
@@ -141,6 +142,7 @@ watch(copyCode, (newValue) => {
       ],
     },}"
 />
+</Client-only>
 </div>
   <div class="w-full">
     <h2 class="text-[14px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>

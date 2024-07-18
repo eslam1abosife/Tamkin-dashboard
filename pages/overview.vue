@@ -39,11 +39,11 @@ definePageMeta({
    
 
 
-      <LazyOverviewWidgetembdedcode   v-if="!overviewStore.showUpgradeState"/>
+      <OverviewWidgetembdedcode  v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewConnectwithus   v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewCurrentplan :plan-type="'free'" :is-installed="false"  v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewCurrentplan :plan-type="'pro'" :is-installed="true"  v-if="overviewStore.showUpgradeState"/>
-      <LazyOverviewTamkintokenBanner v-if="!overviewStore.showUpgradeState"/>
+      <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/>
   
     <LazyOverviewExclusiveinvestorpackage v-if="!overviewStore.showUpgradeState"/>
  

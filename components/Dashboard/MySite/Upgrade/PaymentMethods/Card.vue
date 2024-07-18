@@ -9,7 +9,7 @@ const savedCards = ref([
 
 import visaIcon from '/assets/imgs/payment_methods/visa.svg'
 import masterIcon from '/assets/imgs/payment_methods/master.svg'
-const currentCard = ref()
+const currentCard = ref('1')
 
 const isPromoFilled = ref(false);
 const promo = ref("");

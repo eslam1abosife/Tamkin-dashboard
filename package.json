@@ -30,6 +30,7 @@
     "pinia": "^2.1.7",
     "qrcode-vue3": "^1.6.8",
     "tailwind-extended-shadows": "^0.4.0",
+    "uuid": "^10.0.0",
     "v-mask": "^2.3.0",
     "vue": "^3.4.27",
     "vue-chart-3": "^3.1.8",
@@ -45,7 +46,6 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-
     "@nuxt/webpack-builder": "^3.12.2",
     "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/tailwindcss": "^6.12.0",

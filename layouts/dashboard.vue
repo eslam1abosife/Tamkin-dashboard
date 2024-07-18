@@ -6,8 +6,9 @@ import { useAddonStore } from "@/stores/addons.js";
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useSettingsStore } from "@/stores/settings.js";
 import { useStatsStore } from "@/stores/stats.js";
-
+import { useMarketStore } from "@/stores/market.js";
 const statsStore = useStatsStore()
+const marketStore = useMarketStore()
 
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
@@ -167,13 +168,17 @@ const saveModalBeforeLeave = computed(()=>{
   return isLinkActive(localePath('/addons')) ?  checkboxStore.routeLeaveModal :false
 })
 
+const openModals  = computed(()=>{
+  return     marketStore.resetModal ||   marketStore.requestModal|| showShareModal.value || editPictureTeamModal.value || editPermissionsModal.value || inviteMemberModal.value || selectSiteModal.value || editUserModal.value || InviteMemberUpdateModal.value || showUpgradeModal.value || resetModal.value || deleteModal.value || transferModalStep1.value || transferStep2.value || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal || statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart
+})
+
 
 </script>
 
 <template>
-  <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir" class="bg_dashboard">
+  <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir" class="bg_dashboard " :class="[openModals ? '!overflow-hidden' : 'overflow-auto']">
     
-  <div class="relative min-h-screen" :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
+  <div class="relative min-h-screen "  :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']" >
     <div v-if="
       showShareModal ||
       editPictureTeamModal ||
@@ -187,7 +192,7 @@ const saveModalBeforeLeave = computed(()=>{
       deleteModal ||
       transferModalStep1 ||
       transferStep2 || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal ||
-       statsStore.routeLeaveModal || modalStore.showSuccessModalContact
+       statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart||   marketStore.requestModal || marketStore.resetModal
     " class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"></div>
 
     <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us" sub-title="We will contact you as soon as possible " icon="contact_success.svg"/>
@@ -248,7 +253,7 @@ controlDeleteModal" />
     <div
       class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full ">
       <!-- upper nav and content -->
-      <div class="relative top-0 w-full">
+      <div class="relative top-0 w-full ">
         <nav style="box-shadow: 0px 4px 24px 8px #51459f14"
         class="fixed top-0 flex z-[60] items-center  justify-between w-full bg-[#FFFEFE] rtl:space-x-reverse px-[40px] h-[70px]">
      
@@ -300,7 +305,7 @@ controlDeleteModal" />
       </nav>
       
 
-        <div class="pt-[85px] lg:px-[40px] relative overflow-x-hidden ">
+        <div class="pt-[85px] lg:px-[40px] relative " >
           <div class="relative px-[15px]">
             <Navbaroverview v-if="
               isLinkActive('/overview') ||

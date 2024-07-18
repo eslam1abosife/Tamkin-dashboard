@@ -133,7 +133,7 @@ onBeforeRouteLeave((to, from, next) => {
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
-      <HeaderAccess 
+      <Headeraccess 
       websiteImgName="tamkin_hand.svg"
       website-title="Tamkin.App"
       website-link="google.com"
@@ -374,7 +374,7 @@ onBeforeRouteLeave((to, from, next) => {
   
       </div>
 
-<OverviewWidgetEmbdedCode/>
+<OverviewWidgetembdedcode/>
 
       <div
         class="mt-[30px] bg-white rounded-[10px] px-[15px] shadow-md -shadow-y-[1px]"

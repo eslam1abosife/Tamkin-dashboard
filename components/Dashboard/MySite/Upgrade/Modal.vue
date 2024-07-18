@@ -44,14 +44,17 @@ paymentError
     <div class="w-full h-full">
 
 
-      <!-- <DashboardMySiteUpgradeBilling :showModal="showModal && plansModal"/> -->
-       <!-- <DashboardMySiteUpgradePaymentmethod :showModal="choosePaymentModal "/>
-       <DashboardMySiteUpgradePaymentmethodsCard :showModal="cardModal "/>
-       <DashboardMySiteUpgradePaymentmethodsCrypto :showModal="cryptoModal " />
-       <DashboardMySiteUpgradePaymentmethodsCryptosend :showModal="cryptoConfirmModal "/>
-       <DashboardMySiteUpgradePaymentmethodsCryptosuccess :showModal="cryptoSuccess "/>
-      <DashboardMySiteUpgradePaymentmethodsNewcard  :showModal="newcardModal "/> -->
-      <!-- <DashboardMySiteUpgradeMessagespaymentSuccess :showModal="paymentSuccess " /> -->
+      <DashboardMySiteUpgradeBilling :showModal="showModal && plansModal"/>
+      <DashboardMySiteUpgradePaymentmethod :showModal="choosePaymentModal "/>
+      <DashboardMySiteUpgradePaymentmethodsCard :showModal="cardModal "/>
+      <DashboardMySiteUpgradePaymentmethodsCrypto :showModal="cryptoModal " />
+      <DashboardMySiteUpgradePaymentmethodsCryptosend :showModal="cryptoConfirmModal "/>
+      <DashboardMySiteUpgradePaymentmethodsCryptosuccess :showModal="cryptoSuccess "/>
+      <DashboardMySiteUpgradePaymentmethodsNewcard  :showModal="newcardModal "/>
+      <DashboardMySiteUpgradeMessagesPaymentsuccess :showModal="paymentSuccess " />
+      <!-- 
+
+    -->
         <!-- 
      <DashboardMySiteUpgradePaymentmethodsCrypto
         <DashboardMySiteUpgradePaymentmethodsCrypto/>

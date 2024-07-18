@@ -11,12 +11,13 @@
 .input_floating_label_text_area {
   @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] rounded-[10px]
     py-[6px] bg-white h-[100px] border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-    focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+    focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent pt-[20px];
 }
 
 .floating_label_text_area {
   @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px]
-    top-[7px] lg:top-[8px] -translate-y-0 peer-focus:-translate-y-[18px]  bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey
+    top-[7px] lg:top-[8px] -translate-y-0 peer-focus:-translate-y-[19px] bg-white px-1 duration-100 ease-linear text-light
+     peer-focus:text-darkGrey
     text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px]
     2xl:peer-focus:text-[12px] transition-all  leading-[24px];
 }
@@ -25,7 +26,7 @@
     @apply  lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] rounded-[10px] 
     py-[6px] bg-white
      border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-      focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent;
+      focus:border-tamkin focus:ring-[1.5] focus:ring-tamkin placeholder:text-transparent;
    &.error_text {
     // @apply text-light; 
    }

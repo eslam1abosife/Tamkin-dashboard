@@ -190,3 +190,7 @@ input[type="radio"]:checked + label span {
 
   @apply w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin;
 }
+.radio-normal{
+
+  @apply w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-lightGrey;
+}
