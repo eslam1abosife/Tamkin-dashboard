@@ -96,7 +96,7 @@ const shouldShowFooter = computed(() => {
   checkboxStore.force_change_menuCards) || (isLinkActive('/addons') && checkboxStore.force_change_profileCards);
   const isCustomizeLinkActive =      isLinkActive('/customize') &&  currentColor.value !== "#2dada3" || 
   isLinkActive('/customize') && gradient1.value !== "#2dada3" || isLinkActive('/customize') && gradient2.value !== "#2dada3"  || isLinkActive('/customize') && custmizeStore.hasChanges()
-
+const isMarketChanges = isLinkActive('/market') && marketStore.showSaveFooter;
  
   
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
@@ -106,7 +106,7 @@ const shouldShowFooter = computed(() => {
   // console.log('isCustomizeLinkActive:', isCustomizeLinkActive);
   // console.log('isSettingsLinkActive:', isSettingsLinkActive);
 
-  return isAddonsLinkActive || isCustomizeLinkActive || isSettingsLinkActive || isStatsActive;
+  return isAddonsLinkActive || isCustomizeLinkActive || isSettingsLinkActive || isStatsActive || isMarketChanges;
 });
 
 const cancelAc = () => {
@@ -122,11 +122,14 @@ const cancelAc = () => {
   const isAddonsLinkActive = (isLinkActive("/addons") && checkboxStore.hasChanges()) || (isLinkActive('/addons') && checkboxStore.force_change_menuCards) || (isLinkActive('/addons') && checkboxStore.force_change_profileCards);
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
+  const isMarketChanges = isLinkActive('/market') && marketStore.showSaveFooter;
 
   if (isCustomizeLinkActive) {
     custmizeStore.cancelAll();
   }
-
+  if (isMarketChanges) {
+    marketStore.resetAll();
+  }
   if(isAddonsLinkActive){
     checkboxStore.cancelAll();
 
@@ -169,7 +172,7 @@ const saveModalBeforeLeave = computed(()=>{
 })
 
 const openModals  = computed(()=>{
-  return     marketStore.resetModal ||   marketStore.requestModal|| showShareModal.value || editPictureTeamModal.value || editPermissionsModal.value || inviteMemberModal.value || selectSiteModal.value || editUserModal.value || InviteMemberUpdateModal.value || showUpgradeModal.value || resetModal.value || deleteModal.value || transferModalStep1.value || transferStep2.value || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal || statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart
+  return     marketStore.firstItemNotificationShown ||marketStore.resetModal ||   marketStore.requestModal|| showShareModal.value || editPictureTeamModal.value || editPermissionsModal.value || inviteMemberModal.value || selectSiteModal.value || editUserModal.value || InviteMemberUpdateModal.value || showUpgradeModal.value || resetModal.value || deleteModal.value || transferModalStep1.value || transferStep2.value || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal || statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart
 })
 
 
@@ -192,8 +195,8 @@ const openModals  = computed(()=>{
       deleteModal ||
       transferModalStep1 ||
       transferStep2 || checkboxStore.routeLeaveModal  || custmizeStore.routeLeaveModal ||settingsStore.routeLeaveModal ||
-       statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart||   marketStore.requestModal || marketStore.resetModal
-    " class="absolute z-[999] bg-black bg-opacity-70 h-full w-full overflow-hidden"></div>
+       statsStore.routeLeaveModal || modalStore.showSuccessModalContact ||   marketStore.showCart||  marketStore.firstItemNotificationShown || marketStore.requestModal || marketStore.resetModal
+    " class="absolute z-[200] bg-black bg-opacity-70 h-full w-full overflow-hidden"></div>
 
     <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us" sub-title="We will contact you as soon as possible " icon="contact_success.svg"/>
     <DashboardTeamEditusermodal :showModal="editUserModal" />
@@ -348,3 +351,23 @@ controlDeleteModal" />
 </template>
 
 
+<style>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.slide-up-enter-to,
+.slide-up-leave-from {
+  max-height: 100px;
+  /* Adjust based on your content */
+  opacity: 1;
+}
+</style>

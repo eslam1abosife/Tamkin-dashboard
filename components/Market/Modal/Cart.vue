@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
+import { useModalStore } from "@/stores/modal.js";
 const props = defineProps({
   showModal:Boolean
 })
+const modalStore = useModalStore()
 
 
 const marketStore = useMarketStore();
@@ -137,7 +139,7 @@ const marketStore = useMarketStore();
             <!-- Actions -->
             <div class="mt-8 flex justify-end space-x-[20px]  py-3">
               <button class="btn_bordered_dashboard">Cancel</button>
-              <button class="btn-dashboard hover_tamkin max-w-[195px]">Continue to payment</button>
+              <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="modalStore.controlPaymentMethodModalCar">Continue to payment</button>
             </div>
           </div>
           </div>

@@ -1,8 +1,7 @@
 
 
 import { defineStore, acceptHMRUpdate } from 'pinia'
-
-
+import { useMarketStore } from '@/stores/market.js';
 export const useModalStore = defineStore('modal', {
   state: () => ({
     showShareModal: false,
@@ -32,6 +31,13 @@ export const useModalStore = defineStore('modal', {
     showSuccessModalContact:false
   }),
   actions: {
+    controlPaymentMethodModalCar(){
+      const marketStore = useMarketStore()
+this.showUpgradeModal = true
+this.   plansModal = false
+      this.choosePaymentModal = true
+      marketStore.showCart = !marketStore.showCart
+    },
     controlSuccessContactModal(){
       this.showSuccessModalContact = !this.showSuccessModalContact
     },
@@ -110,6 +116,15 @@ this.SuccessStep2Transfer =!this.SuccessStep2Transfer
 
     },
     backControl() {
+      const marketStore = useMarketStore()
+
+
+      if(!marketStore.showCart){
+        marketStore.showCart = !marketStore.showCart
+        this.choosePaymentModal = !this.choosePaymentModal 
+        this.showUpgradeModal = false
+this.   plansModal = false
+      }
       if (this.paymentError) {
         this.paymentError = false
         this.choosePaymentModal = true;

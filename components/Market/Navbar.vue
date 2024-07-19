@@ -3,15 +3,26 @@ import { useNavbarStore } from "@/stores/navbar";
 import { useMarketStore } from "@/stores/market.js";
 
 const marketStore = useMarketStore();
-const scrollContainer = ref(null);
-
+const scrollNav = ref(null);
 const navStore = useNavbarStore();
-
+const  glasses =  ref(null)
 const navStoreRef = storeToRefs(navStore);
 
+const  character =  ref(null)
+const top= ref(null);
+const  bottom =  ref(null)
+  const outfit=  ref(null)
+  const shoes= ref(null)
+   const cap= ref(null)
+   const belt= ref(null)
+   const ties =ref(null)
+   const background =ref(null)
+
 onMounted(() => {
+  // console.log('onMounted: scrollContainer', scrollContainer.value);
+  // console.log('onMounted: character', character.value);
   if (process.client) {
-    const container = scrollContainer.value;
+    const container = scrollNav.value;
     container.addEventListener("wheel", (e) => {
       if (e.deltaY !== 0) {
         e.preventDefault();
@@ -20,18 +31,57 @@ onMounted(() => {
     });
   }
 });
+
+
+const scrollToItem = async (itemRef) => {
+  await nextTick(); // Ensure DOM updates
+
+  if (!scrollNav.value) {
+    console.error("scrollToItem: scrollContainer.value is undefined");
+    return;
+  }
+
+  if (!itemRef || !itemRef.value) {
+    console.error("scrollToItem: itemRef or itemRef.value is undefined");
+    return;
+  }
+
+  const container = scrollNav.value;
+  const item = itemRef.value;
+
+  const containerRect = container.getBoundingClientRect();
+  const itemRect = item.getBoundingClientRect();
+
+  const offsetLeft = itemRect.left - containerRect.left;
+  const scrollPosition = offsetLeft + (itemRect.width / 2) - (containerRect.width / 2);
+
+  container.scroll({
+    left: scrollPosition,
+    behavior: 'smooth'
+  });
+};
+
+const switchTabAndScroll = async (tabName, scrollToRef) => {
+  marketStore.switchTabs(tabName);
+  await nextTick(); // Ensure the DOM is updated
+  scrollToItem(scrollToRef);
+};
+
+
 </script>
 
 <template>
   <div
-    ref="scrollContainer"
-    class="scroll-container w-full no-scrollabar bg-[#F7F7F7] h-[61px] rounded-xl overflow-x-auto overflow-y-hidden"
+    ref="scrollNav"
+    class="scroll-container w-full no-scrollbar  bg-[#F7F7F7] h-[61px] rounded-t-xl overflow-x-auto overflow-y-hidden"
   >
-    <div class="w-[200px] flex items-center justify-between pt-[5px] space-x-2">
+    <div class="w-[200px] flex items-center justify-between space-x-2">
       <div
-        @click="marketStore.switchTabs('character')"
+      
+       ref="character"
+      @click="() =>  switchTabAndScroll('character',ref(character))"
         :class="[marketStore.currentTab === 'character' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl !rounded-b-none  flex-grow"
       >
         <div>
           <svg
@@ -82,9 +132,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('top')"
+      ref="top"
+      @click="() =>  switchTabAndScroll('top',ref(top))"
         :class="[marketStore.currentTab === 'top' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -130,9 +181,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('bottom')"
-        :class="[marketStore.currentTab === 'bottom' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+           ref="bottom"
+           @click="() =>  switchTabAndScroll('bottom',ref(bottom))"
+           :class="[marketStore.currentTab === 'bottom' ? 'bg-white' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -160,9 +212,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('outfit')"
-        :class="[marketStore.currentTab === 'outfit' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+         ref="outfit"
+         @click="() =>  switchTabAndScroll('outfit',ref(outfit))"
+         :class="[marketStore.currentTab === 'outfit' ? 'bg-white' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -189,9 +242,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('shoes')"
-        :class="[marketStore.currentTab === 'shoes' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+       ref="shoes"
+       @click="() =>  switchTabAndScroll('shoes',ref(shoes))"
+       :class="[marketStore.currentTab === 'shoes' ? 'bg-white' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -226,9 +280,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('cap')"
-        :class="[marketStore.currentTab === 'cap' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+          ref="cap"
+          @click="() =>  switchTabAndScroll('cap',ref(cap))"
+          :class="[marketStore.currentTab === 'cap' ? 'bg-white' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -255,9 +310,10 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('belt')"
-        :class="[marketStore.currentTab === 'belt' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+              ref="belt"
+              @click="() =>  switchTabAndScroll('belt',ref(belt))"
+              :class="[marketStore.currentTab === 'belt' ? 'bg-white' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -284,9 +340,12 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('glasses')"
+      ref="glasses"
+      @click="() =>  switchTabAndScroll('glasses',ref(glasses))"
+
+
         :class="[marketStore.currentTab === 'glasses' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -315,9 +374,11 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('ties')"
+         ref="ties"
+         @click="() =>  switchTabAndScroll('ties',ref(ties))"
+
         :class="[marketStore.currentTab === 'ties' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg
@@ -364,9 +425,11 @@ onMounted(() => {
         </div>
       </div>
       <div
-        @click="marketStore.switchTabs('background')"
+        ref="background"
+        @click="() =>  switchTabAndScroll('background',ref(background))"
+
         :class="[marketStore.currentTab === 'background' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
           <svg

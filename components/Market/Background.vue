@@ -14,7 +14,9 @@ const marketStore = useMarketStore();
     class="market_card_char order-1"
     v-for="char in marketStore.bgs"
     :key="char.id"
-    :class="[char.purchased ? '!bg-selected' : '']"
+    @click.stop="marketStore.selectItemforPreview(char)"
+ 
+    :class="[marketStore.selectedForPreview.includes(char) ? '!bg-selected custom-border-tamkin padding-override-1' : '']"
   >
     <div
       class="w-[144px] h-full bg-[#FAFAFA] flex items-center justify-center rounded-[10px] relative p-3"
@@ -64,7 +66,7 @@ const marketStore = useMarketStore();
             ${{ char.price }}
           </div>
           <div
-           @click="marketStore.addToCart(char)"
+          @click.stop="marketStore.addToCart(char)"
            :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
 
 
@@ -120,7 +122,7 @@ const marketStore = useMarketStore();
             ${{ char.price }}
           </div>
           <div
-          @click="marketStore.addToCart(char)"
+          @click.stop="marketStore.addToCart(char)"
           :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
             class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
           >

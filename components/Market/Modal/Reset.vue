@@ -47,7 +47,7 @@ const marketStore = useMarketStore();
   
   
     <div class="  mt-[20px] " >
-      <button class="btn_bordered_dashboard hover_tamkin "  @click="marketStore.openResetModal">
+      <button class="btn_bordered_dashboard hover_tamkin "  @click="()=>{marketStore.resetAll(),marketStore.openResetModal()}">
         Cancel
       </button>
     </div>
