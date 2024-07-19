@@ -28,7 +28,8 @@ export const useModalStore = defineStore('modal', {
     transferModalStep1:false,
     transferStep2:false,
     SuccessStep2Transfer:false,
-    showSuccessModalContact:false
+    showSuccessModalContact:false,
+    currentPage:''
   }),
   actions: {
     controlPaymentMethodModalCar(){
@@ -117,21 +118,22 @@ this.SuccessStep2Transfer =!this.SuccessStep2Transfer
     },
     backControl() {
       const marketStore = useMarketStore()
+      const {showCart} = storeToRefs(marketStore)
 
-
-      if(!marketStore.showCart){
-        marketStore.showCart = !marketStore.showCart
-        this.choosePaymentModal = !this.choosePaymentModal 
+      if(this.choosePaymentModal && this.currentPage === 'market'){
+        marketStore.showCart =true
+        this.choosePaymentModal = false
+        this.plansModal = false;
         this.showUpgradeModal = false
-this.   plansModal = false
       }
       if (this.paymentError) {
         this.paymentError = false
         this.choosePaymentModal = true;
       }
-      if (this.choosePaymentModal) {
+      if (this.choosePaymentModal && !showCart.value ) {
         this.choosePaymentModal = false
         this.plansModal = true;
+        this.showUpgradeModal = true
       }
       if (this.cardModal) {
         this.cardModal = false

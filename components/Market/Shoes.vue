@@ -7,8 +7,9 @@ const marketStore = useMarketStore();
 <template>
 
   <div
-  class="grid grid-cols-12 lg:grid-cols-12 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-12 bg-white p-10 lg:gap-4 2xl:gap-4 ipad-max:gap-8"
->
+    class="grid grid-cols-12 lg:grid-cols-12 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 
+    ipad-max:grid-cols-12 bg-white pt-4 px-[15px] lg:gap-4 2xl:gap-4 ipad-max:gap-8"
+  >
 
   <div
     class="market_card_char order-1"
@@ -18,31 +19,32 @@ const marketStore = useMarketStore();
  
     :class="[marketStore.selectedForPreview.includes(char) ? '!bg-selected custom-border-tamkin padding-override-1' : '']"
   >
-    <div
-      class="w-[144px] h-full bg-[#FAFAFA] flex items-end justify-center rounded-[10px] relative "
-    >
-      <div class="absolute top-0 left-0" v-if="char.package">
-        <img src="/assets/pngs/market/package.png" class="w-[64px] h-[17px]" alt="" />
-      </div>
-      <div class="absolute top-0 left-0" v-if="char.specialOffer">
-        <img
-          src="/assets/pngs/market/special_offer.png"
-          class="w-[64px] h-[17px]"
-          alt=""
-        />
-      </div>
-      <div class="absolute top-0 left-0" v-if="char.applied">
-        <img src="/assets/pngs/market/applied.png" class="w-[51px] h-[17px]" alt="" />
-      </div>
-      <div class="absolute top-0 left-0" v-if="char.purchased">
-        <img src="/assets/pngs/market/purchased.png" class="w-[64px] h-[17px]" alt="" />
-      </div>
-
-<div class="my-[30px]">
-  <img :src="char.img" class="w-[84px] h-[54px] " alt="" />
+  <div
+  class="w-[95%] h-full bg-[#FAFAFA] flex items-center justify-center rounded-[10px] relative "
+>
+<div class="h-[120px] flex items-center justify-center">
+  <img :src="char.img" class="w-[84px] h-[54px]" alt="" />
 
 </div>
-    </div>
+  <div class="absolute top-0 left-0" v-if="char.package">
+    <img src="/assets/pngs/market/package.png" class="w-[64px] h-[17px]" alt="" />
+  </div>
+  <div class="absolute top-0 left-0" v-if="char.specialOffer">
+    <img
+      src="/assets/pngs/market/special_offer.png"
+      class="w-[64px] h-[17px]"
+      alt=""
+    />
+  </div>
+  <div class="absolute top-0 left-0" v-if="char.applied">
+    <img src="/assets/pngs/market/applied.png" class="w-[51px] h-[17px]" alt="" />
+  </div>
+  <div class="absolute top-0 left-0" v-if="char.purchased">
+    <img src="/assets/pngs/market/purchased.png" class="w-[64px] h-[17px]" alt="" />
+  </div>
+
+
+</div>
 
     <div class="flex flex-col justify-between h-full p-2">
       <h1 class="text-[11px] font-[500] text-darkGrey leading-[17px]">

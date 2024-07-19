@@ -5,14 +5,15 @@ const marketStore = useMarketStore();
 
 <template>
   <div
-    class="grid grid-cols-12 lg:grid-cols-12 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-12 bg-white p-10 lg:gap-4 2xl:gap-4 ipad-max:gap-8"
+    class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 
+    ipad-max:grid-cols-12 bg-white pt-4 px-[15px] lg:gap-4 2xl:gap-4 ipad-max:gap-8"
   >
     <div class="market_card_char !justify-center order-1">
       <div>
         <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
       </div>
       <div>
-        <button class="btn-dashboard hover_tamkin !rounded-full" @click="marketStore.openReqestModal">
+        <button class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2" @click="marketStore.openReqestModal">
           specific character
         </button>
       </div>
@@ -24,29 +25,34 @@ const marketStore = useMarketStore();
       :key="char.id"
       :class="[marketStore.selectedForPreview.includes(char) ? '!bg-selected custom-border-tamkin padding-override-1' : '']"
     >
+     
       <div
-        class="w-[144px] h-full bg-[#FAFAFA] flex items-end justify-center rounded-[10px] relative "
-      >
-        <div class="absolute top-0 left-0" v-if="char.package">
-          <img src="/assets/pngs/market/package.png" class="w-[64px] h-[17px]" alt="" />
-        </div>
-        <div class="absolute top-0 left-0" v-if="char.specialOffer">
-          <img
-            src="/assets/pngs/market/special_offer.png"
-            class="w-[64px] h-[17px]"
-            alt=""
-          />
-        </div>
-        <div class="absolute top-0 left-0" v-if="char.applied">
-          <img src="/assets/pngs/market/applied.png" class="w-[51px] h-[17px]" alt="" />
-        </div>
-        <div class="absolute top-0 left-0" v-if="char.purchased">
-          <img src="/assets/pngs/market/purchased.png" class="w-[64px] h-[17px]" alt="" />
-        </div>
-        <img :src="char.img" class="w-[94px] h-[120px] pt-[10px]" alt="" />
+      class="w-full h-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative "
+    >
+    <div class="h-[120px] flex items-end justify-center mt-[10px]">
+      <img :src="char.img" class="w-[94px] h-[120px] mt-10" alt="" />
+    
+    </div>
+      <div class="absolute top-0 left-0" v-if="char.package">
+        <img src="/assets/pngs/market/package.png" class="w-[64px] h-[17px]" alt="" />
+      </div>
+      <div class="absolute top-0 left-0"  v-if="char.specialOffer">
+        <img
+          src="/assets/pngs/market/special_offer.png"
+          class="w-[64px] h-[17px]"
+          alt=""
+        />
+      </div>
+      <div class="absolute top-0 left-0" v-if="char.applied">
+        <img src="/assets/pngs/market/applied.png" class="w-[51px] h-[17px]" alt="" />
+      </div>
+      <div class="absolute top-0 left-0" v-if="char.purchased">
+        <img src="/assets/pngs/market/purchased.png" class="w-[64px] h-[17px]" alt="" />
       </div>
 
-      <div class="flex flex-col justify-between h-full p-2">
+
+    </div>
+      <div class="flex flex-col justify-between h-full">
         <h1 class="text-[11px] font-[500] text-darkGrey leading-[17px]">
           {{ char.description }}
         </h1>
@@ -56,19 +62,20 @@ const marketStore = useMarketStore();
           class="flex flex-col items-start justify-start mt-2"
         >
           <div
-            class="w-[45px] h-[16px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-center mb-2"
+            class="w-[55px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
+            font-[500] text-darkGrey text-[11px] flex items-center justify-center mb-2"
             v-if="char.discount.percent"
           >
             <div>%{{ char.discount.percent }} OFF</div>
           </div>
           <div
-            class="flex items-center justify-between w-full"
+            class="flex items-center justify-evenly w-full "
             v-if="char.discount.percent"
           >
             <div class="text-[13px] font-[600] text-darkGrey pr-[10px]">
               ${{ char.discount.discountPrice }}
             </div>
-            <div class="text-[13px] font-[600] text-[#EC5A4E] line-through decoration-2">
+            <div class="text-[13px] font-[400] text-[#EC5A4E] line-through decoration-[1px]">
               ${{ char.price }}
             </div>
             <div
@@ -180,35 +187,6 @@ const marketStore = useMarketStore();
       </div>
     </div>
 
-    <div class="market_card_char !bg-white order-2">
-      <div
-        class="w-[144px] h-[118px] bg-[#FAFAFA] flex items-end justify-center rounded-[10px] relative"
-      >
-        <img src="/assets/pngs/market/man.png" class="w-[94px] h-[106px]" alt="" />
-      </div>
-      <div>
-        <h1 class="text-[11px] font-[500] text-darkGrey leading-[17px]">
-          Fares aperiam perferendi at libero perferendis
-        </h1>
-        <div class="flex flex-col items-evenly justify-center">
-          <!-- Additional content if needed -->
-        </div>
-      </div>
-    </div>
-    <div class="market_card_char !bg-white order-2">
-      <div
-        class="w-[144px] h-[118px] bg-[#FAFAFA] flex items-end justify-center rounded-[10px] relative"
-      >
-        <img src="/assets/pngs/market/man.png" class="w-[94px] h-[106px]" alt="" />
-      </div>
-      <div>
-        <h1 class="text-[11px] font-[500] text-darkGrey leading-[17px]">
-          Fares aperiam perferendi at libero perferendis
-        </h1>
-        <div class="flex flex-col items-evenly justify-center">
-          <!-- Additional content if needed -->
-        </div>
-      </div>
-    </div>
+  
   </div>
 </template>

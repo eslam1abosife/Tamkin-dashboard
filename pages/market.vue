@@ -59,6 +59,39 @@ function leaveCart(el, done) {
     done();
   }, 500);
 }
+
+///
+
+function beforeEnterNotification(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterNotification(el, done) {
+  // Set the initial position and opacity
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+
+  // Trigger reflow to ensure the initial styles are applied
+  el.offsetHeight;
+
+  // Start the transition
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveNotification(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
 </script>
 
 <template>
@@ -70,24 +103,31 @@ function leaveCart(el, done) {
       <MarketModalRequest v-if="marketStore.requestModal" key="request_modal_popup" />
     </transition>
     <MarketModalReset v-if="resetModal" />
-    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-
-    <MarketModalCartNotification v-if="marketStore.firstItemNotificationShown" />
-  </transition>
+    <transition
+      @before-enter="beforeEnterNotification"
+      @enter="enterNotification"
+      @leave="leaveNotification"
+    >
+      <MarketModalCartNotification v-if="marketStore.firstItemNotificationShown" />
+    </transition>
     <div class="w-full h-full relative">
-      <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600]">Market</h1>
+      <h1
+        class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[24px]"
+      >
+        Market
+      </h1>
       <div
         class="bg-[#EEF1F3] rounded-[10px] w-full h-[300px] flex items-end justify-center relative"
       >
-      <div
-      @click="marketStore.openCart"
-      class="cursor-pointer w-[35px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
-      :class="[
-        marketStore.firstItemNotificationShown
-          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd z-[200]'
-          : 'bg-white',
-      ]"
-    >
+        <div
+          @click="marketStore.openCart"
+          class="cursor-pointer w-[35px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
+          :class="[
+            marketStore.firstItemNotificationShown
+              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd z-[200]'
+              : 'bg-white',
+          ]"
+        >
           <transition
             name="grow"
             @before-enter="beforeEnter"
@@ -102,9 +142,11 @@ function leaveCart(el, done) {
               {{ cartItemCount }}
             </div>
           </transition>
-  
+
           <svg
-                 :class="[marketStore.firstItemNotificationShown ? 'text-white ' :'text-tamkin']"
+            :class="[
+              marketStore.firstItemNotificationShown ? 'text-white ' : 'text-tamkin',
+            ]"
             class="group-hover:text-white animate_cart"
             width="25"
             height="25"
@@ -146,13 +188,59 @@ function leaveCart(el, done) {
         </div>
 
         <div
-          class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] space-x-[32px]"
+          class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] space-x-[16px]"
         >
           <div
             class="cursor-pointer w-[35px] h-[35px] bg-white rounded-lg flex items-center justify-center"
             @click="marketStore.openResetModal"
           >
-            <img src="/assets/pngs/market/reset.png" class="w-[21px] h-[21px]" alt="" />
+          <div class="group">
+            <svg
+              width="22"
+              height="21"
+              viewBox="0 0 22 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-[21px] h-[21px] text-darkGrey"
+            >
+              <path
+                d="M13.6062 19.6175C13.3175 19.6175 13.0462 19.425 12.9675 19.1275C12.8713 18.7775 13.0812 18.4188 13.44 18.3225C16.9925 17.3862 19.4688 14.1662 19.4688 10.4913C19.4688 6.02875 15.8375 2.3975 11.375 2.3975C7.58625 2.3975 5.10125 4.61125 3.9375 5.95H6.51C6.86875 5.95 7.16625 6.2475 7.16625 6.60625C7.16625 6.965 6.8775 7.27125 6.51 7.27125H2.63375C2.59 7.27125 2.51125 7.2625 2.45 7.245C2.37125 7.21875 2.30125 7.18375 2.24 7.14C2.16125 7.0875 2.1 7.0175 2.05625 6.93875C2.0125 6.86 1.9775 6.76375 1.96875 6.6675C1.96875 6.64125 1.96875 6.62375 1.96875 6.5975V2.625C1.96875 2.26625 2.26625 1.96875 2.625 1.96875C2.98375 1.96875 3.28125 2.26625 3.28125 2.625V4.71625C4.7075 3.185 7.39375 1.09375 11.375 1.09375C16.5638 1.09375 20.7812 5.31125 20.7812 10.5C20.7812 14.77 17.9025 18.515 13.7725 19.6C13.72 19.6087 13.6588 19.6175 13.6062 19.6175Z"
+                class="fill-current group-hover:gradient-fill"
+              />
+              <path
+                d="M10.7537 19.8888C10.7362 19.8888 10.7188 19.88 10.71 19.88C9.765 19.8188 8.8375 19.6088 7.9625 19.2675C7.70875 19.1713 7.53375 18.9175 7.5425 18.6462C7.5425 18.5675 7.56 18.4887 7.58625 18.4187C7.7175 18.0863 8.11125 17.92 8.435 18.0425C9.19625 18.34 9.9925 18.515 10.7975 18.5763C11.1388 18.5938 11.41 18.8913 11.41 19.2413L11.4012 19.2763C11.3837 19.6175 11.095 19.8888 10.7537 19.8888ZM5.9325 18.0075C5.78375 18.0075 5.64375 17.955 5.52125 17.8675C4.78625 17.2725 4.13875 16.5813 3.61375 15.8113C3.535 15.6975 3.49125 15.575 3.49125 15.4437C3.49125 15.225 3.59625 15.0238 3.78 14.9013C4.06875 14.7 4.48875 14.7787 4.69 15.0587C4.69 15.0675 4.69 15.0675 4.69 15.0675C4.69875 15.0762 4.7075 15.0938 4.71625 15.1025C5.17125 15.7588 5.7225 16.345 6.34375 16.835C6.4925 16.9575 6.58875 17.1413 6.58875 17.3425C6.58875 17.4913 6.545 17.64 6.44875 17.7625C6.3175 17.92 6.13375 18.0075 5.9325 18.0075ZM3.01 13.7375C2.72125 13.7375 2.4675 13.5538 2.38875 13.2825C2.10875 12.3813 1.96875 11.445 1.96875 10.5V10.4912C1.9775 10.1325 2.26625 9.84375 2.625 9.84375C2.98375 9.84375 3.28125 10.1413 3.28125 10.5C3.28125 11.3225 3.40375 12.1275 3.64 12.8887C3.6575 12.9587 3.66625 13.02 3.66625 13.09C3.66625 13.37 3.4825 13.6238 3.2025 13.7113C3.14125 13.7288 3.08 13.7375 3.01 13.7375Z"
+                class="fill-current group-hover:gradient-fill"
+              />
+              <defs >
+                <linearGradient
+                  id="paint0_linear_6084_64126"
+                  x1="11.375"
+                  y1="1.09375"
+                  x2="11.375"
+                  y2="19.6175"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#2DADA3" />
+                  <stop offset="1" stop-color="#71DAD2" />
+                </linearGradient>
+                <linearGradient
+                  id="paint1_linear_6084_64126"
+                  x1="6.68937"
+                  y1="9.84375"
+                  x2="6.68937"
+                  y2="19.8888"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#2DADA3" />
+                  <stop offset="1" stop-color="#71DAD2" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          
+          
+
+            <!-- <img src="/assets/pngs/market/reset.png"  alt="" /> -->
           </div>
           <div
             class="cursor-pointer w-[35px] h-[35px] bg-white rounded-lg flex items-center justify-center"
@@ -183,7 +271,7 @@ function leaveCart(el, done) {
 
 <style>
 .market_card_char {
-  @apply cursor-pointer ipad-max:col-span-4 lg:col-span-3 2xl:col-span-1 col-span-6 p-3 h-full w-[200px] border-[1px]
+  @apply cursor-pointer  2xl:col-span-1 lg:col-span-1 p-3 h-full  border-[1px]
      border-[#E6E8EC] flex flex-col items-center justify-start rounded-[10px]  space-y-[10px];
 }
 
@@ -251,4 +339,5 @@ function leaveCart(el, done) {
   transform: translateX(0);
   opacity: 1;
 }
+
 </style>

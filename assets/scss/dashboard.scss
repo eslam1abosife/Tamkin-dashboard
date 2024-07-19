@@ -22,6 +22,9 @@ html {
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
     
     }
+    .gradient-fill {
+        fill: url(#paint0_linear_6084_64126);
+      }
 }
 @layer components {
 

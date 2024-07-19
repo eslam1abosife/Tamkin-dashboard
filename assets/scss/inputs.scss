@@ -11,22 +11,24 @@
 .input_floating_label_text_area {
   @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] rounded-[10px]
     py-[6px] bg-white h-[100px] border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-    focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent pt-[20px];
+    focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent pt-[20px];
 }
 
 .floating_label_text_area {
-  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px]
-    top-[7px] lg:top-[8px] -translate-y-0 peer-focus:-translate-y-[19px] bg-white px-1 duration-100 ease-linear text-light
-     peer-focus:text-darkGrey
-    text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px]
-    2xl:peer-focus:text-[12px] transition-all  leading-[24px];
+  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
+  top-[3px] lg:top-[8px] -translate-y-0 bg-white duration-100 ease-linear 
+  text-light peer-focus:text-darkGrey 
+  text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
+  2xl:peer-focus:text-[12px] ;
+  transition: all 0.2s ease-in-out;
+  line-height: 24px;
 }
 
 .input_floating_label {
-    @apply  lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] rounded-[10px] 
+    @apply  lg:text-[12px] pt-[10px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] rounded-[10px] 
     py-[6px] bg-white
      border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-      focus:border-tamkin focus:ring-[1.5] focus:ring-tamkin placeholder:text-transparent;
+      focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent;
    &.error_text {
     // @apply text-light; 
    }
@@ -46,9 +48,10 @@
   }
   .floating_label {
     @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
-    top-[3px] lg:top-[8px] peer-focus:-translate-y-[18px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+    top-[3px] lg:top-[8px] -translate-y-0 bg-white duration-100 ease-linear 
+    text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
-    2xl:peer-focus:text-[12px];
+    2xl:peer-focus:text-[12px] ;
     transition: all 0.2s ease-in-out;
     line-height: 24px;
   }
@@ -65,9 +68,12 @@
   }
   input:focus ~ .floating_label,
   input:not(:placeholder-shown) ~ .floating_label {
-    @apply -translate-y-6 px-1 text-darkGrey text-[16px];
+    @apply -translate-y-[22px] px-1 text-darkGrey text-[12px];
   }
-  
+  textarea:focus ~ .floating_label_text_area,
+  textarea:not(:placeholder-shown) ~ .floating_label_text_area {
+    @apply -translate-y-[22px] px-1 text-darkGrey text-[12px];
+  }
   .error_message {
     @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  ltr:right-[14px] lg:ltr:right-[14px];
     &.text_area{

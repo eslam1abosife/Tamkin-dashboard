@@ -73,7 +73,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
 <template>
   <div
     ref="scrollNav"
-    class="scroll-container w-full no-scrollbar  bg-[#F7F7F7] h-[61px] rounded-t-xl overflow-x-auto overflow-y-hidden"
+    class="scroll-container w-full no-scrollbar  bg-[#F7F7F7]  rounded-t-xl overflow-x-auto h-[60px]"
   >
     <div class="w-[200px] flex items-center justify-between space-x-2">
       <div
@@ -81,7 +81,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
        ref="character"
       @click="() =>  switchTabAndScroll('character',ref(character))"
         :class="[marketStore.currentTab === 'character' ? 'bg-white' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl !rounded-b-none  flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl  flex-grow"
       >
         <div>
           <svg

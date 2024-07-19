@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
     <div 
-    class=" fixed z-[9999] top-[120px]  right-[110px]   rounded-[16px] shadow-xl
+    class=" fixed z-[9999] top-[150px]  right-[110px]   rounded-[16px] shadow-xl
        w-[246px] h-[280px]  bg-white flex  items-center justify-start flex-col space-y-[16px]"
     >
 <div class="absolute shadow-2xl top-[15px]  right-[-15px]">
