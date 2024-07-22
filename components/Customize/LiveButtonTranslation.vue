@@ -139,7 +139,7 @@ const isLocationChecked = computed(() => {
             </div>
             <div class="text_mini">
               {{
-                collapseStore.collapses.includes("live_site_translation_button_card")
+                !collapseStore.collapses.includes("live_site_translation_button_card")
                   ? "Minisize"
                   : "Maxsize"
               }}

@@ -277,11 +277,10 @@ const props = defineProps({
     <thead>
       <tr>
         <th
-          class="py-2  rtl:pr-[20px] ltr:pl-[20px] border-b text-[20px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+          class="py-2  rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
         colspan="12">
         Summary
         </th>
-      
       </tr>
     </thead>
     <tbody>

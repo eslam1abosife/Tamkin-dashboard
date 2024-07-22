@@ -125,11 +125,19 @@ onBeforeMount(() => {
     "color_blind",
     "motor_active",
     "enable_custom_trigger",
-    "show_lang_selector"
+    "show_lang_selector",
+    "media_player",
+    "tamkin_player",
+    "reading_mode",
+    "text_align",
+    "df_friendly",
+"pause_animation",
   ].forEach((name) => {
     customizeStore.addCheckbox(name);
   });
   customizeStore.initializeCheckboxes([
+      "media_player",
+    "tamkin_player",
     "language",
 "enable_live_site",
     "oversized_widget",
@@ -161,7 +169,11 @@ onBeforeMount(() => {
     "color_blind",
     "motor_active",
     "enable_custom_trigger",
-    "show_lang_selector"
+    "show_lang_selector",
+     "df_friendly",
+"pause_animation",
+"text_align",
+"reading_mode",
   ]);
   const buttonPositionCheck = customizeStore.buttonPositionDesktop !== 'top_left' || customizeStore.buttonPositionMobile !== 'top_left_mobile';
 const forceChangeCheck = customizeStore.forceChange_buttonShape === true || customizeStore.force_change_profileCards === true ||

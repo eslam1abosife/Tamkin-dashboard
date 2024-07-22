@@ -66,7 +66,7 @@ onMounted(()=>{
 
 })
 const getImagePath = (icon) => {
-  return new URL(`/assets/imgs/addons/${icon}`, import.meta.url).href;
+  return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
 </script>
 

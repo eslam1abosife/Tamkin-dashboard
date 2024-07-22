@@ -31,16 +31,16 @@ const v$ = useVuelidate(rules, state);
 
 
 <template>
-    <div class="relative w-full ">
+    <div class="relative w-full h-full mb-[16px]">
 
-    <div class="flex items-center justify-between mx-auto px-6 py-12 shadow-md bg-white rounded-[10px] w-full ">
+    <div class="flex items-start justify-between mx-auto px-6 py-12 shadow-md bg-white dark:bg-darkTamkin rounded-[10px] w-full max-h-[700px] ">
         <div class="flex flex-col items-start justify-center w-full space-y-6">
           <div class="flex items-center justify-center space-x-4">
-            <h1 class="text-2xl font-semibold text-[#021328]">Contact Sales</h1>
+            <h1 class="text-2xl font-semibold text-[#021328] dark:text-whiteTamkin">Contact Sales</h1>
             <img  src="/assets/pngs/contact.png"  class="w-[40px] h-[40px]" alt="Contact Sales Icon"/>
           </div>
       
-          <p class="text-lg text-darkGrey text-left w-full">
+          <p class="text-lg text-darkGrey  dark:text-whiteTamkin text-left w-full">
             Let’s get this conversation started tell us about yourself, and we’ll get in touch as soon as we can
           </p>
       
@@ -163,12 +163,12 @@ const v$ = useVuelidate(rules, state);
           </div>
         </div>
 
-        <div class="flex flex-col items-start justify-center mt-[90px] space-y-[10px] w-2/4">
-            <div class=" text-darkGrey text-[18px] font-[400]  leading-[26px] font-[Mali]">
+        <div class="flex flex-col items-start justify-center space-y-[10px] w-2/4">
+            <div class=" text-darkGrey  dark:text-whiteTamkin text-[18px] font-[400]  leading-[26px] font-[Mali mt-[90px]">
                 You will have more surprises and enjoy  with us 
             </div>
             <div class="w-full h-full">
-                <img  src="/assets/pngs/desk.png"  class="h-full w-full" />
+                <img  src="/assets/pngs/desk.png"  class="h-[303px] w-full" />
             </div>
         </div>
       </div>

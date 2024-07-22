@@ -43,7 +43,53 @@ watch(reInvite, (newValue) => {
   }
 });
        
+const dataAvailable = ref(true);
 
+const perPageOptions = ref([10, 20]);
+const perPage = ref(perPageOptions.value[0]);
+const currentPage = ref(1);
+const totalItems = ref(500); // Example total items, you can change this
+
+const totalPages = computed(() => Math.ceil(totalItems.value / perPage.value));
+
+const visiblePages = computed(() => {
+  const pages = [];
+  const maxVisiblePages = 5; // Adjust this number for more or fewer visible pages
+  let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
+  let endPage = startPage + maxVisiblePages - 1;
+
+  if (endPage > totalPages.value) {
+    endPage = totalPages.value;
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+});
+
+const changePerPage = (option) => {
+  perPage.value = option;
+  currentPage.value = 1; // Reset to the first page when changing items per page
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value += 1;
+  }
+};
+
+const goToPage = (page) => {
+  currentPage.value = page;
+};
 </script>
 
 <template>
@@ -406,39 +452,35 @@ watch(reInvite, (newValue) => {
         </table>
       </div>
 
-      <div class="flex justify-between items-center py-[16px]">
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
-          <button style="
-    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  " class="px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]">
-              10
-          </button>
-          <button
-              class="px-3 py-1 rounded-md text-white bg-[#A7A7A7] hover:bg-lightGrey  !text-[13px]
-               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-              20
-          </button>
-      </div>
-      <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
-          <button class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey">
-              <img  src="/assets/imgs/arrow-left.svg"  />
-          </button>
-          <button
-              class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey hover:bg-light-grey focus:outline-none flex items-center justify-center">
-              1
-          </button>
-          <button style="
-    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  " class="px-3 py-1 rounded-md hover:bg-[#A7A7A7] text-white focus:outline-none !text-[13px] w-[28px] h-[28px] flex items-center justify-center">
-              2
-          </button>
-          <button class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey">
-              <img  src="/assets/imgs/arrow-right-pagination.svg"  />
-          </button>
-      </div>
-      </div>
+      <div class="py-[4px]" v-if="!dataAvailable"></div>
+      <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
+          <div class="flex items-center rtl:space-x-reverse space-x-2">
+            <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Per Page</span>
+            <button
+              v-for="option in perPageOptions"
+              :key="option"
+              :style="perPage === option ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="['px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]', perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey']"
+              @click="changePerPage(option)"
+            >{{ option }}</button>
+          </div>
+          <div class="flex items-center rtl:space-x-reverse space-x-2">
+            <span class="text-darkGrey text-[13px] leading-[21px] font-[400]">Page</span>
+            <button @click="prevPage" class="p-[4px] rounded-md bg-transparent !text-[13px] text-darkGrey hover:bg-light-grey" :disabled="currentPage === 1">
+              <img src="/assets/imgs/arrow-left.svg" />
+            </button>
+            <button
+              v-for="page in visiblePages"
+              :key="page"
+              :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="['px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey focus:outline-none flex items-center justify-center', currentPage === page ? 'text-white' : 'hover:bg-light-grey']"
+              @click="goToPage(page)"
+            >{{ page }}</button>
+            <button @click="nextPage" class="p-[4px] rounded-md bg-transparent text-darkGrey hover:bg-light-grey" :disabled="currentPage === totalPages">
+              <img src="/assets/imgs/arrow-right-pagination.svg" />
+            </button>
+          </div>
+        </div>
     </section>
   </div>
 </template>

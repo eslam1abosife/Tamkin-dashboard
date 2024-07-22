@@ -923,7 +923,7 @@ const next = ()=>{
  <Client-only  >
     <vue3-tags-input
     :tags="tags"
-    class="mt-[16px] w-full h-[164px] border-[1px] border-[#C5C5C5]  bg-white focus:outline-none focus:ring-1 
+    class="mt-[16px] w-full h-[164px] border-[1px] !rounded-[10px] border-[#C5C5C5]  bg-white focus:outline-none focus:ring-1 
     focus:ring-[#C5C5C5]"
     :validate="customValidate"
     

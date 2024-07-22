@@ -10,14 +10,8 @@ html {
     -webkit-transform: translateZ(0);
   }
 
-.bg_dashboard {
-    @apply min-h-screen;
-    background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-    background-size: cover;
-    /* Ensure the background covers the entire area */
-}
 @layer utilities{
-
+ 
     .bg-selected {
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
     
@@ -25,16 +19,47 @@ html {
     .gradient-fill {
         fill: url(#paint0_linear_6084_64126);
       }
+      .stroke-gradient-0{
+        stroke: url(#paint0_linear);
+      }
+      .stroke-gradient-1 {
+        stroke: url(#paint1_linear);
+      }
+      .stroke-gradient-2 {
+        stroke: url(#paint2_linear);
+      }
+      .stroke-gradient-3{
+        stroke: url(#paint3_linear);
+      }
+      .sign-gradient {
+        fill: url(#grad_sign_lang);
+      }
+
+      .stroke_access{
+        stroke:url(#paint0_linear_2978_5493);
+      }
+      .fill_access{
+        fill: url(#grad_ni);
+      }
+      .fill_services{
+        fill: url(#grad1);
+      }
+
 }
 @layer components {
-
-
+  
+    .bg_dashboard {
+    
+        @apply bg-tamkin-main-bg dark:bg-tamkin-main-bg-dark;
+        
+      }
     .tamkin_team_card {
-        @apply flex items-center justify-start py-[10px] px-[16px]
-         hover:bg-tamkinLight cursor-pointer bg-white w-full h-[55px] mt-[24px] border-tamkin border-[1px] rounded-[10px];
+        @apply flex items-center justify-start py-[10px] px-[16px] dark:text-white
+         hover:bg-tamkinLight cursor-pointer bg-white dark:bg-darkTamkin w-full h-[55px] mt-[24px]
+          border-tamkin border-[1px] rounded-[10px];
 
         .arrow_svg {
-            @apply fill-darkGrey;
+            @apply fill-darkGrey dark:fill-white;
         }
 
         &.active {
@@ -70,13 +95,13 @@ html {
     }
 
     .dashboard-nav-link {
-        @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px]   p-1
-         bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+        @apply flex items-center justify-start rtl:space-x-reverse space-x-[12px]   p-1
+         bg-whiteTamkin dark:bg-transparent dark:text-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
         &.closed_sidebar {
-            @apply flex items-center justify-center rtl:space-x-reverse  space-x-[16px] w-[55px] 
-             bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[18px] font-[400] #{!important};
+            @apply flex items-center justify-center  w-[55px] 
+             bg-whiteTamkin dark:bg-transparent text-darkGrey dark:text-white hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[18px] font-[400] #{!important};
 
         }
 
@@ -103,7 +128,7 @@ html {
     }
     .dashboard-nav-link_sub_menu {
         @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[260px] 
-         bg-whiteTamkin hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+         bg-whiteTamkin dark:bg-darkTamkin dark:hover:bg-tamkinStart dark:text-white hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
      }

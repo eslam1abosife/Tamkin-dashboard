@@ -763,6 +763,106 @@ onBeforeRouteLeave((to, from, next) => {
                   >
                     <div>
                       <img 
+                        src="/assets/imgs/icons/tamkin_player.svg"
+                        class="w-[36px] h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[13px] leading-[19px] font-[400]">Tamkin Player</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px]">
+                <td class="border-b border-gray-200 text-sm">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/media_player.svg"
+                        class="w-[36px] h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[13px] leading-[19px] font-[400]">Media player</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px]">
+                <td class="border-b border-gray-200 text-sm">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
                         src="/assets/imgs/addons/language sign.svg"
                         class="w-[36px] h-[36px]"
                         
@@ -1518,6 +1618,158 @@ onBeforeRouteLeave((to, from, next) => {
                     </svg>
                     <div class="progress-text text-[10px] leading-[13px] font-[500]">
                       10%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="bg-[#FAFCFE] h-[56px]">
+                <td class="border-b border-gray-200 text-sm">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/reading_mode.svg"
+                        class="w-[36px] h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[13px] leading-[19px] font-[400]">Reading Mode</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px]">
+                <td class="border-b border-gray-200 text-sm">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/df.svg"
+                        class="w-[36px] h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[13px] leading-[19px] font-[400]">Dyslexia Friendly</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="bg-[#FAFCFE] h-[56px]">
+                <td class="border-b border-gray-200 text-sm">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/text_align.svg"
+                        class="w-[36px] h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[13px] leading-[19px] font-[400]">Text Align</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                      80%
                     </div>
                   </div>
                 </td>

@@ -201,7 +201,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </div>
           </div>
           <div class="w-full">
-            <img  src="/assets/imgs/customize/rounded_widget.svg"  class="h-full w-full " />
+            <img  src="/assets/imgs/customize/rounded_widget.svg"  class="h-full w-full rounded-b-lg " />
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full ">

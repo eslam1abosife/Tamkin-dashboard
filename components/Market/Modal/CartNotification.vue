@@ -14,27 +14,27 @@ onMounted(() => {
 
 <template>
     <div 
-    class=" fixed z-[9999] top-[150px]  right-[110px]   rounded-[16px] shadow-xl
-       w-[246px] h-[280px]  bg-white flex  items-center justify-start flex-col space-y-[16px]"
+    class=" fixed z-[9999] top-[140px]  right-[110px]   rounded-[16px] shadow-xl
+       w-[246px] h-[220px]  bg-white "
     >
-<div class="absolute shadow-2xl top-[15px]  right-[-15px]">
-    <img src="/assets/pngs/market/Union.svg" alt="">
-</div>
+<div class="flex items-center justify-evenly flex-col space-y-[10px]">
+    <div class="absolute shadow-2xl top-[15px]  right-[-15px]">
+        <img src="/assets/pngs/market/Union.svg" alt="">
+    </div>
+    <Vue3Lottie :animationData="cartAnimate" :height="60" :width="60" :no-margin="true"
+    />
+        <div >
+            <h1 class="text-[14px] font-[500] text-tamkin">Your Item added here </h1>
+        </div>
+    
     <div>
-        <Vue3Lottie :animationData="cartAnimate" :height="90" :width="90" :no-margin="true"
-        />
+        <p class="text-[13px] font-[400] text-darkGrey text-center">click on the cart icon to check your items cart</p>
     </div>
     <div>
-        <h1 class="text-[14px] font-[500] text-tamkin">Your Item added here </h1>
+        <button class="btn-dashboard hover_tamkin" @click="marketStore.closeCartNotification">
+            Done
+        </button>
     </div>
-
-<div>
-    <p class="text-[13px] font-[400] text-darkGrey text-center">click on the cart icon to check your items cart</p>
-</div>
-<div>
-    <button class="btn-dashboard hover_tamkin" @click="marketStore.closeCartNotification">
-        Done
-    </button>
 </div>
     </div>
 

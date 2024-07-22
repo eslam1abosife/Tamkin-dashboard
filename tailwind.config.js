@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode:'class',
   content: [],
   theme: {
     extend:{
@@ -35,7 +36,8 @@ export default {
         tamkinLight:'#DAF3F1',
         tamkingErrorInput:"#EF7267",
         lightMenuBarColor:"#F2F2F2",
-        linecolor:"#C5C5C5"
+        linecolor:"#C5C5C5",
+        darkTamkin:'#222f44'
       },
       backgroundSize: {
         'size-200': '200% 200%',
@@ -49,7 +51,8 @@ export default {
         'custom-gradient': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
         'bg-dashboard-gradient': 'linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%)',
         'gradient-to-b': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
-
+'tamkin-main-bg': 'linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%)',
+        'tamkin-main-bg-dark': 'linear-gradient(180deg, #222f44 0%, #30475e 47.07%, #3b6978 72.04%, #464e59 100%)',
       },
       
       // backgroundImage: {

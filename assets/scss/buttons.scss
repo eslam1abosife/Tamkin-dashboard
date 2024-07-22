@@ -147,7 +147,8 @@ $colors: (
 
 .btn__embed_table {
 
-  @apply space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px];
+  @apply space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] dark:text-whiteTamkin
+   border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px];
 
   &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);

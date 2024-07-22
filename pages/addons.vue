@@ -53,7 +53,10 @@ const toggleCheckbox = (name: string) => {
 };
 
 onBeforeMount(() => {
+  
   [
+    "tamkin_player",
+    "media_player",
     "page_str",
     "screen_reader",
     "hide_images",
@@ -76,11 +79,18 @@ onBeforeMount(() => {
     "Seizure",
     "visuallyImpraired",
     "color_blind",
+    "reading_mode",
+"text_align",
     "motor_active",
   ].forEach((name) => {
     checkboxStore.addCheckbox(name);
   });
   checkboxStore.initializeCheckboxes([
+    "text_align",
+
+    "tamkin_player",
+    "reading_mode",
+    "media_player",
     "page_str",
     "screen_reader",
     "hide_images",
@@ -111,18 +121,31 @@ const initialOrderKey = 'initialCardsOrder';
 
 // Initialize cards
 checkboxStore.initializeCardsMenu([
+  {
+  icon:'tamkin_player.svg',
+  name:'Tamkin Player',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'tamkin_player'
+ },
+ {
+  icon:'media_player.svg',
+  name:'Media Player',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'media_player'
+ },
+    {
+  icon:'language sign.svg',
+  name:'Screen Reader',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'screen_reader'
+ },
  {
   icon:'page_str.svg',
   name:'Page Structure',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'page_str'
  },
- {
-  icon:'language sign.svg',
-  name:'Screen Reader',
-  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-  checkboxId:'screen_reader'
- },
+ 
  {
   icon:'hide_images.svg',
   name:'Hide Images',
@@ -172,15 +195,30 @@ checkboxStore.initializeCardsMenu([
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'bigger_text'
  },
-
+ {
+  icon:'df_friendly.svg',
+  name:'Dyslexia Friendly',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'df_friendly'
+ },
  {
   icon:'pause.svg',
   name:'Pause Animation',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'pause_animation'
  },
-
- 
+ {
+  icon:'text_align.svg',
+  name:'Text Align',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'text_align'
+ },
+ {
+  icon:'reading_mode.svg',
+  name:'Reading Mode',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'reading_mode'
+ },
  {
   icon:'tooltip.svg',
   name:'Tooltip',

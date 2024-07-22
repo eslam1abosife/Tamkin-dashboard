@@ -101,8 +101,8 @@ watch(copyCode, (newValue) => {
  <div class="flex items-center flex-col lg:flex-row lg:rtl:space-x-reverse space-x-[16px] justify-center lg:space-y-[0] 
  space-y-[16px] lg:justify-start w-full">
 <div class="p-2 border rounded-lg">
-<Client-only>
-  <QRCodeVue3
+
+  <!-- <QRCodeVue3
   value="0x2d5jdska9erptjfew7364432"
   
 
@@ -141,8 +141,8 @@ watch(copyCode, (newValue) => {
         { offset: 1, color: '#71DAD2' },
       ],
     },}"
-/>
-</Client-only>
+/> -->
+
 </div>
   <div class="w-full">
     <h2 class="text-[14px] leading-[24px] font-[600] mb-[18px]">Send amount : <span class="text-tamkin"> 1.938344 EHT</span> </h2>

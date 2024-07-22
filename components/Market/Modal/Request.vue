@@ -225,7 +225,7 @@ onBeforeUnmount(() => {
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
           <button class="btn_bordered_dashboard" @click="marketStore.openReqestModal">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]">Add To Cart</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="marketStore.openReqestModal">Add To Cart</button>
         </div>
       </div>
     </div>

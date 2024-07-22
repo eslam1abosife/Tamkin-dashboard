@@ -73,7 +73,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
 <template>
   <div
     ref="scrollNav"
-    class="scroll-container w-full no-scrollbar  bg-[#F7F7F7]  rounded-t-xl overflow-x-auto h-[60px]"
+    class="scroll-container w-full no-scrollbar  bg-[#F7F7F7]  rounded-t-xl overflow-x-auto h-[60px]  relative z-[20]"
   >
     <div class="w-[200px] flex items-center justify-between space-x-2">
       <div
@@ -523,6 +523,8 @@ v-if="marketStore.currentTab === 'background'">
   overflow-y: hidden;
   max-width: 100%;
   width: 100%;
+  @apply h-[45px];
+  
 }
 
 .scroll-content {
@@ -533,7 +535,7 @@ v-if="marketStore.currentTab === 'background'">
 
 .scroll-item {
   flex: 0 0 150px; /* Fixed width for each item */
-  @apply h-[60px];
+  @apply h-[45px];
 }
 
 .scroll-container::-webkit-scrollbar {

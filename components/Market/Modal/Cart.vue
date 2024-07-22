@@ -99,7 +99,7 @@ const marketStore = useMarketStore();
                    </div>
                     <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize">Request a specific character</p>
 
-                    <button class="text-tamkin underline font-[500] text-[13px]">Edit request</button>
+                    <button class="text-tamkin underline font-[500] text-[13px]" @click="marketStore.openReqestModal">Edit request</button>
                   </div>
                 </div>
                 <div class="flex items-end flex-col justify-start space-y-[44px] ">

@@ -196,7 +196,7 @@ const localePath = useLocalePath()
       </div>
 
       <div
-        class="flex flex-col items-start justify-center px-[15px] divide-y"
+        class="flex flex-col items-start justify-center  divide-y"
         v-if="!collapseStore.collapses.includes('widget_embded_code_card')"
       >
         <div class="w-full h-full rounded-[10px]">
