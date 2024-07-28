@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr:true,
 
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL
+    }
+  },
+
   // vite: {
   //   server: {
   //     cors: true,

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useApi } from "@/composables/api";
+
 definePageMeta({
   layout: "auth",
 });
@@ -23,6 +25,14 @@ const v$ = useVuelidate(rules, state);
 
 const loginUser = async () => {
   try {
+
+    const api = useApi();
+
+    const data = await api({
+      method: 'get',
+      url: '/auth/login'
+    })
+
     //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
     // // redirect to homepage if user is authenticated
     // if (authenticated) {
@@ -31,6 +41,7 @@ const loginUser = async () => {
     //   // state.password = ""
     // }
   } catch (error) {
+    console.log('error here',error)
     // Handle login errors
     // console.log(error)
     // console.error('Login failed:', error.);
@@ -172,7 +183,7 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full" v-if="!loading"
+      <button class="btn-grad-action w-full" @click="loginUser()" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid || loading">
         {{ $t("login_button") }}
       </button>
