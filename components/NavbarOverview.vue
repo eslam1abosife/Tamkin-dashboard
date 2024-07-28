@@ -80,7 +80,7 @@ onMounted(() => {
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute top-[160px] left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white flex items-center justify-between px-[4px]"
+    class="shadow-sm absolute top-[160px] left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
   >
     <transition name="slider-transition">
       <div v-show="sliderVisible" ref="slider" class="absolute top-[6px] left-0 active_subNavb__div"></div>
@@ -125,30 +125,19 @@ onMounted(() => {
 
 <style scoped>
 .active_subNavb {
-  background: linear-gradient(
-    180deg,
-    #fefefe 0%,
-    #eef5ff 47.07%,
-    #f6f3fc 72.04%,
-    #fef5f6 100%
-  );
-  @apply transition-all ease-in w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-  border-[1px] border-black flex items-center justify-center text-darkGrey text-[11px] font-[500] text-center;
+
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
 
 .active_subNavb__div {
-  background: linear-gradient(
-    180deg,
-    #fefefe 0%,
-    #eef5ff 47.07%,
-    #f6f3fc 72.04%,
-    #fef5f6 100%
-  );
-  @apply  transition-all ease-out w-[96px] h-[31px] cursor-pointer rounded-[22px] 
-  border-[1px] border-black flex items-center justify-center text-darkGrey !text-[13px] font-[500] text-center;
+
+  @apply  bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar dark:border-0 transition-all ease-out w-[96px] h-[31px] cursor-pointer rounded-[22px]  dark:!bg-darkSecondary
+  border-[1px] border-black flex items-center justify-center text-darkGrey dark:!text-white  !text-[13px] font-[500] text-center;
 }
+
 .router-link-active.router-link-exact-active{
-@apply   !text-[13px] !font-[500] text-center text-darkGrey;
+@apply   !text-[13px] !font-[500] text-center text-darkGrey dark:text-white;
 
 }
 a{

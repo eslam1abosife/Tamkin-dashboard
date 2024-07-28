@@ -11,11 +11,18 @@ html {
   }
 
 @layer utilities{
- 
     .bg-selected {
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
     
     }
+    .bg-p {
+        background: linear-gradient(180deg, #384558 0%, #384558 0%, #384558 0%, #384558 0%);
+    
+    }
+ .fill_miniArrow{
+    fill : url(#shadow-sm);
+ }
+   
     .gradient-fill {
         fill: url(#paint0_linear_6084_64126);
       }
@@ -47,7 +54,10 @@ html {
 
 }
 @layer components {
-  
+    .bg-p {
+        background: linear-gradient(180deg, #222F44 0%, #222F44 0%, #222F44 0%, #222F44 0%);
+    
+    }
     .bg_dashboard {
     
         @apply bg-tamkin-main-bg dark:bg-tamkin-main-bg-dark;
@@ -55,7 +65,7 @@ html {
       }
     .tamkin_team_card {
         @apply flex items-center justify-start py-[10px] px-[16px] dark:text-white
-         hover:bg-tamkinLight cursor-pointer bg-white dark:bg-darkTamkin w-full h-[55px] mt-[24px]
+         hover:bg-tamkinLight cursor-pointer bg-white dark:bg-tamkinDarkPrimary w-full h-[55px] mt-[24px]
           border-tamkin border-[1px] rounded-[10px];
 
         .arrow_svg {
@@ -128,7 +138,7 @@ html {
     }
     .dashboard-nav-link_sub_menu {
         @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[260px] 
-         bg-whiteTamkin dark:bg-darkTamkin dark:hover:bg-tamkinStart dark:text-white hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+         bg-whiteTamkin dark:bg-tamkinDarkPrimary dark:hover:bg-tamkinStart dark:text-white hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
      }
@@ -331,6 +341,12 @@ html {
 
 }
 
+.custom-border.rounded-small-custom::before {
+
+    border-radius: 9px !important;
+
+}
+
 .custom-border-collapse {
     position: relative;
     margin: 0px;
@@ -494,6 +510,69 @@ html {
 }
 
 
+.border-translate {
+    position: relative;
+    // padding: 20px 30px;
+    margin: 0px;
+    display: inline-block;
+
+
+}
+.border-translate.padding-override-1::before {
+    padding:1px !important;
+    /* Custom padding */
+}
+.border-translate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 1px;
+    /* control the border thickness */
+    background: linear-gradient(90deg, #35C0B4 0%, #E42AD2 47%, #4F75FD 100%);
+
+    
+    
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.border-translate.border-s::before{
+    border-radius: 1px !important; 
+}
+
+
+
+
+
+.border-translate-tab {
+    position: relative;
+    border-radius: 10px; /* Adjust if you need rounded corners for the main element */
+  }
+  
+  .border-translate-tab::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px; /* Adjust the thickness of the bottom border */
+    background: linear-gradient(102.63deg, #2DADA3 40.85%, #77EDE3 96.93%);
+    border-radius: 10px 10px 0 0; /* Adjust this for rounded corners on top edges */
+    pointer-events: none;
+    box-shadow: 0px 4px 4.5px 0px #E9EBEF;
+
+  }
+  
+  /* Adjusted for specific bottom border radius */
+  .border-translate-tab.border-s::before {
+    border-radius: 1px 1px 0 0 !important;
+  }
+  
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB;
     /* Adjust the color to match your design */
@@ -542,7 +621,8 @@ html {
 }
 
 .close_btn_payment {
-    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
+    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white 
+    rounded-full flex justify-center items-center w-[30px] h-[30px];
 
     &:hover {
         @apply text-white;
@@ -605,7 +685,7 @@ input[type=number] {
     @apply relative inline-flex items-center cursor-pointer w-full;
 
     .toggle_parent {
-        @apply w-[58px] h-[28px] bg-white rounded-full peer-checked:bg-green-500 transition-colors duration-200;
+        @apply w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full peer-checked:bg-green-500 transition-colors duration-200;
 
         &.active {
             position: relative;
@@ -614,7 +694,7 @@ input[type=number] {
 
         }
 &.in_active{
-    @apply border-[1px] ;
+    @apply border-[1px] dark:border-light ;
 }
         &.active::before {
 
@@ -665,7 +745,7 @@ input[type=number] {
 
 
     @apply relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
-     justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px] ;
+     justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary dark:border-darkGrey dark:border-[1px] rounded-[10px] w-[36px] h-[36px] ;
 
 &.active_notification{
     @apply shadow;
@@ -675,18 +755,18 @@ input[type=number] {
 .mini_SizeMenu{
 
     @apply flex flex-col items-start justify-start cursor-default absolute z-[1000] top-0 rtl:left-[50px]
-     ltr:right-[50px] w-[203px] bg-white rounded-[10px] border-[1px] border-lightGrey shadow-lg;
+     ltr:right-[50px] w-[203px] !divide-y dark:divide-light bg-white dark:bg-tamkinDarkPrimary rounded-[10px] border-[1px] border-lightGrey dark:border-darkGrey shadow-lg;
 
     .mini_wrap{
 
         @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full 
     }
 .text_mini{
-    @apply text-[14px] leading-[21px] font-[400];
+    @apply text-[14px] leading-[21px] font-[400] dark:text-whiteTamkin;
 }
 
     .arrow{
         @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px]
-         border-lightGrey ; 
+         border-lightGrey dark:border-darkTamkin ; 
     }
 }

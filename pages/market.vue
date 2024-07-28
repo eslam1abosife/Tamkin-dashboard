@@ -118,12 +118,12 @@ function leaveNotification(el, done) {
     </transition>
     <div class="w-full h-full relative">
       <h1
-        class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px]"
+        class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
       >
         Market
       </h1>
       <div
-        class="bg-[#EEF1F3] rounded-[10px] w-full flex items-end justify-center relative"
+        class="bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 rounded-[10px] w-full flex items-end justify-center relative"
         :class="{
           'h-[250px]': expandedHeaderStep === 0,
           'h-[350px]': expandedHeaderStep === 1,
@@ -132,11 +132,11 @@ function leaveNotification(el, done) {
       >
         <div
           @click="marketStore.openCart"
-          class="cursor-pointer w-[35px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
+          class="cursor-pointer w-[35px] dark:border-[#333333] dark:border-[1px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
           :class="[
             marketStore.firstItemNotificationShown
               ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd z-[200]'
-              : 'bg-white',
+              : 'bg-white dark:bg-tamkinDarkPrimary',
           ]"
         >
           <transition
@@ -148,7 +148,7 @@ function leaveNotification(el, done) {
             <div
               v-if="cartItemCount"
               key="cart-badge"
-              class="absolute -top-2 -right-1 bg-[#EA4335] w-[16px] h-[16px] rounded-full flex items-center justify-center text-white font-[600] text-[10px]"
+              class="absolute -top-2 -right-1 bg-[#EA4335] w-[16px] h-[16px] rounded-full flex items-center justify-center dark:text-darkTamkin text-white font-[600] text-[10px]"
             >
               {{ cartItemCount }}
             </div>
@@ -202,7 +202,7 @@ function leaveNotification(el, done) {
           class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] space-x-[16px]"
         >
           <div
-            class="cursor-pointer w-[35px] h-[35px] bg-white rounded-lg flex items-center justify-center"
+            class="cursor-pointer w-[35px] h-[35px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-lg flex items-center justify-center"
             @click="marketStore.openResetModal"
           >
             <div class="group">
@@ -212,15 +212,15 @@ function leaveNotification(el, done) {
                 viewBox="0 0 22 21"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-[21px] h-[21px] text-darkGrey"
+                class="w-[21px] h-[21px] text-darkGrey dark:!text-whiteTamkin"
               >
                 <path
                   d="M13.6062 19.6175C13.3175 19.6175 13.0462 19.425 12.9675 19.1275C12.8713 18.7775 13.0812 18.4188 13.44 18.3225C16.9925 17.3862 19.4688 14.1662 19.4688 10.4913C19.4688 6.02875 15.8375 2.3975 11.375 2.3975C7.58625 2.3975 5.10125 4.61125 3.9375 5.95H6.51C6.86875 5.95 7.16625 6.2475 7.16625 6.60625C7.16625 6.965 6.8775 7.27125 6.51 7.27125H2.63375C2.59 7.27125 2.51125 7.2625 2.45 7.245C2.37125 7.21875 2.30125 7.18375 2.24 7.14C2.16125 7.0875 2.1 7.0175 2.05625 6.93875C2.0125 6.86 1.9775 6.76375 1.96875 6.6675C1.96875 6.64125 1.96875 6.62375 1.96875 6.5975V2.625C1.96875 2.26625 2.26625 1.96875 2.625 1.96875C2.98375 1.96875 3.28125 2.26625 3.28125 2.625V4.71625C4.7075 3.185 7.39375 1.09375 11.375 1.09375C16.5638 1.09375 20.7812 5.31125 20.7812 10.5C20.7812 14.77 17.9025 18.515 13.7725 19.6C13.72 19.6087 13.6588 19.6175 13.6062 19.6175Z"
-                  class="fill-current group-hover:gradient-fill"
+                  class="fill-current group-hover:gradient-fill dark:fill-whiteTamkin"
                 />
                 <path
                   d="M10.7537 19.8888C10.7362 19.8888 10.7188 19.88 10.71 19.88C9.765 19.8188 8.8375 19.6088 7.9625 19.2675C7.70875 19.1713 7.53375 18.9175 7.5425 18.6462C7.5425 18.5675 7.56 18.4887 7.58625 18.4187C7.7175 18.0863 8.11125 17.92 8.435 18.0425C9.19625 18.34 9.9925 18.515 10.7975 18.5763C11.1388 18.5938 11.41 18.8913 11.41 19.2413L11.4012 19.2763C11.3837 19.6175 11.095 19.8888 10.7537 19.8888ZM5.9325 18.0075C5.78375 18.0075 5.64375 17.955 5.52125 17.8675C4.78625 17.2725 4.13875 16.5813 3.61375 15.8113C3.535 15.6975 3.49125 15.575 3.49125 15.4437C3.49125 15.225 3.59625 15.0238 3.78 14.9013C4.06875 14.7 4.48875 14.7787 4.69 15.0587C4.69 15.0675 4.69 15.0675 4.69 15.0675C4.69875 15.0762 4.7075 15.0938 4.71625 15.1025C5.17125 15.7588 5.7225 16.345 6.34375 16.835C6.4925 16.9575 6.58875 17.1413 6.58875 17.3425C6.58875 17.4913 6.545 17.64 6.44875 17.7625C6.3175 17.92 6.13375 18.0075 5.9325 18.0075ZM3.01 13.7375C2.72125 13.7375 2.4675 13.5538 2.38875 13.2825C2.10875 12.3813 1.96875 11.445 1.96875 10.5V10.4912C1.9775 10.1325 2.26625 9.84375 2.625 9.84375C2.98375 9.84375 3.28125 10.1413 3.28125 10.5C3.28125 11.3225 3.40375 12.1275 3.64 12.8887C3.6575 12.9587 3.66625 13.02 3.66625 13.09C3.66625 13.37 3.4825 13.6238 3.2025 13.7113C3.14125 13.7288 3.08 13.7375 3.01 13.7375Z"
-                  class="fill-current group-hover:gradient-fill"
+                  class="fill-current group-hover:gradient-fill dark:fill-whiteTamkin"
                 />
                 <defs>
                   <linearGradient
@@ -254,7 +254,7 @@ function leaveNotification(el, done) {
           <div
           @click="toggleExpandHeader"
 
-          class="cursor-pointer w-[35px] h-[35px] bg-white rounded-lg group flex items-center justify-center"
+          class="cursor-pointer w-[35px] h-[35px] bg-white  dark:bg-tamkinDarkPrimary  dark:border-[#333333] dark:border-[1px] rounded-lg group flex items-center justify-center"
         >
         <template v-if="expandedHeaderStep === 1 || expandedHeaderStep === 0">
           <svg
@@ -263,29 +263,29 @@ function leaveNotification(el, done) {
             viewBox="0 0 17 17"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="text-darkGrey"
+            class="text-darkGrey dark:text-whiteTamkin"
           >
             <path
               d="M10.25 6.875L16.5 0.625"
-              class="stroke-current group-hover:stroke-gradient-0"
+              class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M11.5 0.625H16.5V5.625"
-              class="stroke-current group-hover:stroke-gradient-1"
+              class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M6.875 10.25L0.625 16.5"
-              class="stroke-current group-hover:stroke-gradient-2"
+              class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M5.625 16.5H0.625V11.5"
-              class="stroke-current group-hover:stroke-gradient-3"
+              class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -348,25 +348,25 @@ function leaveNotification(el, done) {
           >
             <path
               d="M1.375 17.625L7.625 11.375"
-              class="stroke-current group-hover:stroke-gradient-0"
+              class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M2.625 11.375H7.625V16.375"
-              class="stroke-current group-hover:stroke-gradient-1"
+              class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M17.625 1.375L11.375 7.625"
-              class="stroke-current group-hover:stroke-gradient-2"
+              class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M16.375 7.625H11.375V2.625"
-              class="stroke-current group-hover:stroke-gradient-3"
+              class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -447,7 +447,7 @@ function leaveNotification(el, done) {
 <style>
 .market_card_char {
   @apply cursor-pointer  2xl:col-span-1 lg:col-span-1 p-1 h-[250px]  border-[1px]
-     border-[#E6E8EC] flex flex-col items-center justify-start rounded-[10px];
+     border-[#E6E8EC] dark:border-[#333333] flex flex-col items-center justify-start rounded-[10px];
 }
 
 @keyframes bounce {

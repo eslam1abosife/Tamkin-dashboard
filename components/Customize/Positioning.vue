@@ -33,10 +33,10 @@ watch([currentColor],()=>{},{immediate:true})
 
 <template>
   <div
-    class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
+    class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px] "
   >
     <div
-      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey cursor-pointer"
+      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey dark:text-whiteTamkin cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('desktop')"
       :class="[
         switchButtonLocation === 'desktop' ? 'custom-border-bottom font-[600]' : 'font-[500]',
@@ -46,7 +46,7 @@ watch([currentColor],()=>{},{immediate:true})
     </div>
 
     <div
-      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey cursor-pointer"
+      class="pb-[12px] text-[13px] leading-[32px]  text-darkGrey dark:text-whiteTamkin cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('mobile')"
       :class="[switchButtonLocation === 'mobile' ? 'custom-border-bottom font-[600]' : 'font-[500]']"
     >
@@ -56,7 +56,7 @@ watch([currentColor],()=>{},{immediate:true})
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'desktop'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+  class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
 
   <div
@@ -229,12 +229,12 @@ watch([currentColor],()=>{},{immediate:true})
 <div class="relative">
   <div class="absolute " :class="[buttonPositionDesktop === 'top_left' ? 'top-[30px] ipad-max:left-[50px] lg:left-[70px]' :'',
   buttonPositionDesktop === 'middle_left' ? 'ipad-max:top-[60px] lg:top-[80px] ipad-max:left-[50px] lg:left-[70px]':'',
-    buttonPositionDesktop === 'bottom_left' ? 'ipad-max:top-[100px] lg:top-[140px] ipad-max:left-[50px] lg:left-[70px]':'',
+    buttonPositionDesktop === 'bottom_left' ? 'ipad-max:top-[100px] lg:top-[110px] ipad-max:left-[50px] lg:left-[70px]':'',
     buttonPositionDesktop === 'top_center' ? 'ipad-max:top-[20px] lg:top-[30px] left-[48%]':'',
-    buttonPositionDesktop === 'bottom_center' ? 'ipad-max:top-[100px] lg:top-[140px] left-[48%]':'',
+    buttonPositionDesktop === 'bottom_center' ? 'ipad-max:top-[100px] lg:top-[110px] left-[48%]':'',
     buttonPositionDesktop === 'top_right' ? 'top-[30px] ipad-max:right-[50px] lg:right-[70px]':'',
     buttonPositionDesktop === 'middle_right' ? 'top-[80px] ipad-max:right-[50px] lg:right-[70px]':'',
-    buttonPositionDesktop === 'bottom_right' ? 'ipad-max:top-[100px] lg:top-[140px] ipad-max:right-[50px] lg:right-[70px]':'',
+    buttonPositionDesktop === 'bottom_right' ? 'ipad-max:top-[100px] lg:top-[110px] ipad-max:right-[50px] lg:right-[70px]':'',
   ]">
   <div class="w-[24px] h-[24px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
@@ -248,7 +248,7 @@ watch([currentColor],()=>{},{immediate:true})
 
 <div class="flex items-center justify-between" v-if="switchButtonLocation === 'mobile'">
   <div
-  class="bg-[#F2FBF9] rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+  class="bg-[#F2FBF9]  dark:bg-tamkinDarkPrimary rounded-lg p-10 w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
 >
   <div
     class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
@@ -380,22 +380,22 @@ watch([currentColor],()=>{},{immediate:true})
   buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] left-[50px]':'',
   buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] left-[50px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[115px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[115px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] left-[115px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[120px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[120px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] left-[120px]':'',
   ]">
   <div class="w-[18px] h-[18px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
     <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[12px] h-[12px]"/>
         </div>
   </div>
-  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[230px]' :'',
-  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] right-[230px]':'',
-  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] right-[230px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] right-[250px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] right-[250px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[140px] right-[250px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] right-[50px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] right-[50px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] right-[50px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] right-[56px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] right-[56px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[140px] right-[56px]':'',
   ]">
   <div class="w-[22px] h-[22px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">

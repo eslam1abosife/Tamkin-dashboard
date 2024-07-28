@@ -4,6 +4,7 @@ import { useModalStore } from "@/stores/modal";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
+
 const settingsStore = useSettingsStore();
 const {isChecked,toggleCheckbox} = settingsStore
 const collapseStore = useCollapseStore();
@@ -144,15 +145,15 @@ onBeforeRouteLeave((to, from, next) => {
    
 
       <div
-        class="mt-[64px] bg-white rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px]"
+        class="mt-[64px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px]"
         :class="[               collapseStore.collapses.includes('general_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
         
       >
         <div class="flex items-center justify-start  ">
           <div class="pt-[24px] ">
-            <h1 class="text-[18px] font-[500] leading-[30px]">General Settings</h1>
-            <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey">
+            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
+            <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
               Accessibility Settings allow users to customize their website experience to
               ensure it is accessible and user-friendly
             </h2>
@@ -176,8 +177,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('general_settings')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -195,15 +195,17 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('general_settings_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('general_settings')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -215,13 +217,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -232,14 +257,14 @@ onBeforeRouteLeave((to, from, next) => {
           v-if="!collapseStore.collapses.includes('general_settings_card')"
         >
           <div
-            class="h-[55px] bg-[#FAFCFE] flex items-center justify-start w-full mt-[4px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
           >
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('enable_widget_on_this_site') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F] dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
@@ -278,14 +303,14 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
-            class="h-[55px] bg-[#FAFCFE]  flex items-center justify-start w-full mt-[4px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
           >
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F] dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
                   <span>Widget enabled on mobile</span>
                 </div>
               </div>
@@ -324,14 +349,14 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
-            class="h-[55px] bg-[#FAFCFE]  flex items-center justify-start w-full mt-[4px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
           >
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
                   <span> Sound effects</span>
                 </div>
               </div>
@@ -377,19 +402,19 @@ onBeforeRouteLeave((to, from, next) => {
 <OverviewWidgetembdedcode/>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] shadow-md -shadow-y-[1px]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px]"
         
                 :class="[               collapseStore.collapses.includes('reset_all_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
-        <div class="flex items-start justify-start  pt-[24px]">
+        <div class="flex items-start justify-start  ">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px] pt-[24px]">
+            <h1 class="text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
               Rest All Accessibility Settings
             </h1>
 
             <p
-              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] w-3/4"
+              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
               Reset all accessibility settings to their default configurations, restoring
               original preferences and ensuring a standard user experience for all users
@@ -404,7 +429,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="menu_button_control"
+            class="menu_button_control mt-[24px]"
           >
             <svg
               width="18"
@@ -414,8 +439,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('reset_all_settings')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -434,15 +458,15 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('reset_all_settings_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('reset_all_settings')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -454,20 +478,44 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[16px] divide-y space-y-[42px] 
+          class="flex items-center lg:flex-row flex-col justify-center 
+          lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] 
           lg:space-y-0 lg:space-x-[100px] "
           v-if="!collapseStore.collapses.includes('reset_all_settings_card')"
         >
@@ -545,17 +593,17 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] " 
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] " 
         
                  :class="[               collapseStore.collapses.includes('license_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
         <div class="flex items-start justify-start  pt-[24px] ">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px]">License Settings</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
 
             <p
-              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] w-3/4"
+              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
               Transfer License to Another Website allows you to move your existing
               accessibility widget license to a different site, ensuring continued
@@ -581,8 +629,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('license_settings')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -601,15 +648,15 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('license_settings_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('license_settings')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -621,28 +668,51 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center flex-col justify-center divide-y lg:space-y-0 "
+          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0 "
           v-if="!collapseStore.collapses.includes('license_settings_card')"
         >
           <div
-            class="h-[55px] bg-[#FAFCFE]  flex items-center justify-start w-full mt-[22px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[22px] px-[15px]"
           >
             <div class="flex items-center justify-start space-x-[13px] w-full  ">
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="!text-[#585B5B] font-[500] text-[13px] leading-[24px] w-full">
+                <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] leading-[24px] w-full">
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
@@ -658,11 +728,11 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
-            class="h-[55px] bg-[#FAFCFE] flex items-center justify-start w-full mt-[4px] px-[15px] "
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[4px] px-[15px] "
           >
             <div class="flex items-center justify-start w-full ">
               <div class="flex flex-col items-start justify-center w-full ">
-                <div class="!text-[#585B5B] font-[500] text-[13px] leading-[24px] w-full">
+                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500] text-[13px] leading-[24px] w-full">
                   <span
                     >Delete site permanently removes your profile and data from the system
                   </span>

@@ -49,7 +49,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div 
-    class="mysite_bg_modal fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
        lg:w-[600px] w-full h-screen  lg:overflow-x-hidden"
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
@@ -68,11 +68,11 @@ onBeforeUnmount(() => {
       </svg>
     </div>
     <div class="w-full  mb-[30px] ">
-        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px] ">
+        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
         Request a specific character
       </h1>
       <div
-      class="flex flex-col items-start justify-center space-y-[20px]  bg-white
+      class="flex flex-col items-start justify-center space-y-[20px]  bg-white dark:bg-tamkinDarkPrimary
        w-full   h-full pb-[20px]
       px-[20px] rounded-[10px] mt-[16px] pt-[20px]  "
       style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -113,7 +113,7 @@ onBeforeUnmount(() => {
           </div>
         </div>
         <div class="w-full flex-col flex items-start justify-start">
-          <h1 class="text-[16px] font-[600] text-darkGrey">Gender</h1>
+          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">Gender</h1>
           <div class="flex items-center justify-start space-x-[100px] w-full">
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -127,7 +127,7 @@ onBeforeUnmount(() => {
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px]">Male</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Male</h2>
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px]">Female</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Female</h2>
             </div>
           </div>
         </div>
@@ -172,10 +172,10 @@ onBeforeUnmount(() => {
           </div>
         </div>
         <div class="w-full ">
-          <h1 class="text-left text-[16px] font-[500] text-darkGrey">Upload Character image</h1>
+          <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
           <div
             v-bind="getRootProps()"
-            class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] mt-[16px] 
+            class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
@@ -188,8 +188,10 @@ onBeforeUnmount(() => {
                 class="rounded-[10px] upload-file-item col-span-4 relative border-[2px] border-dashed border-tamkin p-2"
               >
                 <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
-                 border bg-white rounded-full border-black shadow-xl transition-all ease-in-out group hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
-                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px]">
+                 border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
+                 transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
+                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px] dark:text-whiteTamkin">
                     <path d="M1.21191 0.59375L8.78806 8.16989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M1.34082 8.04297L8.66443 0.719362" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -209,10 +211,10 @@ onBeforeUnmount(() => {
               <img src="/assets/pngs/market/upload_request.png" class="w-[84px] h-[52px]" />
             </div>
             <div class="w-full">
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey" v-if="isDragActive">
+              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
                 Drop the files here ...
               </h1>
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey" v-if="acceptedFilesRef.length === 0">
+              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
                 <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop media here
               </h1>
             </div>

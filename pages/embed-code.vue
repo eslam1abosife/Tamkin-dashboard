@@ -2,6 +2,7 @@
 import VCodeBlock from "@wdns/vue-code-block";
 import banner from '/assets/imgs/gradient_embded.png'
 import { Vue3Lottie } from 'vue3-lottie'
+import { useModalManager } from '@/composables/useModalManager';
 
 import embed from '/assets/animation/embed.json'
    
@@ -60,11 +61,16 @@ const props = defineProps({
   maxWidth: String,
 });
 
-import { useModalStore } from "@/stores/modal";
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-const { openShareModal } = useModalStore();
-// const {showShareModal} = storeToRefs(modalStore)
 
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 onBeforeMount(()=>{
   currentCode.value = `const foo = 'bar';`
   code.value = true
@@ -143,7 +149,7 @@ const clearInput = () => {
       </p>
       </div>
 
-        <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-darkTamkin rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+        <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
@@ -172,10 +178,10 @@ const clearInput = () => {
               <div>Advanced View</div>
             </button>
             <div
-             @click="openShareModal"
+             @click="openModal('shareModal')"
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
                 <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="22"
@@ -236,7 +242,7 @@ const clearInput = () => {
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
                 <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="20"
@@ -352,7 +358,7 @@ const clearInput = () => {
         </div>
   
         <div
-          class="lg:h-[60px] w-full bg-white dark:bg-darkTamkin flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+          class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
             <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
@@ -383,7 +389,7 @@ const clearInput = () => {
             <div
               class="inline-block min-w-full  align-middle md:px-6 lg:px-8"
             >
-              <div class="overflow-hidden rounded-[10px] bg-white  dark:bg-darkTamkin" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+              <div class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
                 <table class="min-w-full divide-y divide-gray-200">
                 <thead>
@@ -427,7 +433,7 @@ const clearInput = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-darkTamkin divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
                   <tr class="flex items-center justify-between">
                     <td
                       class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"

@@ -15,10 +15,10 @@ const marketStore = useMarketStore();
 
 <template>
   <div 
-  class="mysite_bg_modal fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] p-[20px] 
+  class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] p-[20px] 
      lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openCart">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openCart">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -36,11 +36,11 @@ const marketStore = useMarketStore();
     <div class="w-full h-full pb-[50px] ">
 
 
-        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px]">
+        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin lg:px-0 px-[20px]">
             My Cart {{ marketStore.cartItems.length === 0 ? '': `(${marketStore.cartItems.length})`}}
           </h1>
           <div
-            class="flex flex-col items-start justify-end lg:overflow-x-hidden space-y-[20px]  overflow-x-scroll bg-white
+            class="flex flex-col items-start justify-end lg:overflow-x-hidden space-y-[20px]  overflow-x-scroll bg-white dark:bg-tamkinDarkPrimary
              w-full mx-auto  
              rounded-[10px] mt-[16px]  h-full"
             style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -53,7 +53,7 @@ const marketStore = useMarketStore();
               <!-- Item 1 -->
               <div class="flex items-center border-b justify-between pb-4 " v-for="cartItem in marketStore.cartItems" :key="cartItem.id">
                 <div class="flex items-center space-x-4 ">
-                 <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
+                 <div class="rounded-lg bg-[#F8F8F8] dark:bg-tamkinDarkPrimary  w-[97px] h-[101px] flex items-center justify-center border">
                     <img :src="cartItem.img" alt="Top" class="w-[63px] h-[67px] ">
                  </div>
                   <div>
@@ -63,10 +63,10 @@ const marketStore = useMarketStore();
 
                     </div>
                     <div class="py-2">
-                        <h3 class="font-[500] text-[#878787] capitalize">{{cartItem.type}}</h3>
+                        <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{cartItem.type}}</h3>
                     </div>
                    </div>
-                    <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize">{{cartItem.type + ' Item'}}</p>
+                    <p class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize">{{cartItem.type + ' Item'}}</p>
                   </div>
                 </div>
                 <div class="flex items-end flex-col justify-start space-y-[44px]">
@@ -74,7 +74,7 @@ const marketStore = useMarketStore();
                   <button @click="marketStore.removeFromCart(cartItem)" class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB]  w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
                   <img src="/assets/imgs/icons/bin.svg" alt="">
                   </button>
-                  <p class="text-[#021328] text-[14px] font-[500] ">Price <span class="px-1">${{cartItem.discount.discountPrice ?cartItem.discount.discountPrice :cartItem.price }}</span></p>
+                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">${{cartItem.discount.discountPrice ?cartItem.discount.discountPrice :cartItem.price }}</span></p>
                 </div>
               </div>
           
@@ -94,12 +94,12 @@ const marketStore = useMarketStore();
 
                     </div>
                     <div class="py-2">
-                      <h3 class="font-[500] text-[#878787] capitalize">Character</h3>
+                      <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">Character</h3>
                     </div>
                    </div>
-                    <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize">Request a specific character</p>
+                    <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
 
-                    <button class="text-tamkin underline font-[500] text-[13px]" @click="marketStore.openReqestModal">Edit request</button>
+                    <button class="text-tamkin underline font-[500] text-[13px] " @click="marketStore.openReqestModal">Edit request</button>
                   </div>
                 </div>
                 <div class="flex items-end flex-col justify-start space-y-[44px] ">
@@ -107,7 +107,7 @@ const marketStore = useMarketStore();
                   <button class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
                   <img src="/assets/imgs/icons/bin.svg" alt="">
                   </button>
-                  <p class="text-[#021328] text-[14px] font-[500] ">Price <span class="px-1">$80</span></p>
+                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">$80</span></p>
                 </div>
               </div>
           
@@ -118,7 +118,7 @@ const marketStore = useMarketStore();
                 <thead>
                   <tr>
                     <th
-                      class="py-2  border-b text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+                      class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey  dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
                     colspan="12">
                     Summary
                     </th>
@@ -129,41 +129,41 @@ const marketStore = useMarketStore();
                
              
             
-                  <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"         
+                  <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"         
                   >
                     <td
-                      class="py-2 px-5 border-b text-right font-[500] w-full"
+                      class="py-2 px-5 border-b  dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
                       colspan="2"
                     >
                     Subtotal
                     </td>
-                    <td class="py-2 px-1  border-b text-right w-full font-[500]" colspan="2">
+                    <td class="py-2 px-1  border-b dark:border-light text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
                     {{marketStore.cartSubtotal}}
                     </td>
                   </tr>
-                  <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE]"    v-if="marketStore.cartDiscount "     
+                  <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"    v-if="marketStore.cartDiscount "     
                   >
                     <td 
-                      class="py-2 px-5 border-b text-right font-[500] w-full"
+                      class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
                       colspan="2"
                     >
                     Discount
 
                     </td>
-                    <td class="py-2 px-1  border-b text-right w-full font-[500]" colspan="2">
+                    <td class="py-2 px-1  border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="2">
                       {{ marketStore.cartDiscount }}
                     </td>
                   </tr>
-                  <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE]"         
+                  <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p"         
                   >
                     <td
-                      class="py-2 px-5 border-b text-right font-[500] w-full"
+                      class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
                       colspan="2"
                     >
                     Total
 
                     </td>
-                    <td class="py-2 px-1 border-b text-right w-full font-[500]" colspan="2">
+                    <td class="py-2 px-1 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="2">
                         {{ marketStore.cartTotal }}
                     </td>
                   </tr>
@@ -183,7 +183,7 @@ const marketStore = useMarketStore();
                 <img src="/assets/pngs/market/empty_cart.png" class="w-[116px] h-[110px]" alt="">
             </div>
 
-            <div class="text-[#23262F] font-[600] text-[16px] w-3/4 mt-[20px] text-center ">
+            <div class="text-[#23262F] dark:text-whiteTamkin font-[600] text-[16px] w-3/4 mt-[20px] text-center ">
                 Your Cart is empty when you add products , they will appear here
             </div>
           </div>

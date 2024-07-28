@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 const colorMode = useColorMode();
 
-console.log(colorMode.preference);
 const changeColorMode = (mode: any) => {
   colorMode.preference = mode;
 };
+
+
 </script>
 
 <template>

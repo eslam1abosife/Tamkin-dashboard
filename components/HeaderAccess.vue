@@ -31,9 +31,9 @@ const getImageUrl = computed(() => {
 
 <template>
     <div class="space-y-[10px]">
-        <h1 class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600]">{{sectionTitle}}</h1>
+        <h1 class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600]  dark:text-whiteTamkin">{{sectionTitle}}</h1>
 
-        <h2 class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey">
+        <h2 class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90">
 
 {{sectionSubTitle}}
         </h2>
@@ -49,7 +49,7 @@ const getImageUrl = computed(() => {
             <div class="flex flex-col lg:flex-row items-center justify-between">
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                 <div
-                  class="flex items-center justify-center bg-white w-[50px] h-[50px] 
+                  class="flex items-center justify-center bg-white  dark:bg-tamkinDarkPrimary w-[50px] h-[50px] 
                   custom-border-tamkin custom-border-tamkin-rounded rounded-full"
                   style="box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
 "
@@ -59,7 +59,7 @@ const getImageUrl = computed(() => {
                 <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                   <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                   <div>
-                    <h2 class="font-[600] text-[14px] leading-[24px] text-darkGrey">
+                    <h2 class="font-[600] text-[14px] leading-[24px] text-darkGrey  dark:text-whiteTamkin/90" >
                       {{ websiteTitle }}
                     </h2>
                   </div>

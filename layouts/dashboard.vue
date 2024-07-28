@@ -1,20 +1,19 @@
 <script lang="ts" setup>
 import { useWindowSize } from "@vueuse/core";
-import { useModalStore } from "@/stores/modal";
+// import { useModalStore } from "@/stores/modal";
 import { useNavbarStore } from "@/stores/navbar";
 import { useAddonStore } from "@/stores/addons.js";
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useSettingsStore } from "@/stores/settings.js";
 import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
+import { useModalManager } from '@/composables/useModalManager';
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
-
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
 const settingsStore = useSettingsStore();
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-const modalStore = useModalStore();
 const navStore = useNavbarStore();
 const navStoreRef = storeToRefs(navStore);
 const localePath = useLocalePath();
@@ -22,22 +21,15 @@ const route = useRoute();
 const isLinkActive = (path) => {
   return localePath(route.path) === localePath(path);
 };
-const { controlResetModal, controlDeleteModal } = useModalStore();
 
 const {
-  showShareModal,
-  editPictureTeamModal,
-  editPermissionsModal,
-  inviteMemberModal,
-  selectSiteModal,
-  editUserModal,
-  InviteMemberUpdateModal,
-  showUpgradeModal,
-  resetModal,
-  deleteModal,
-  transferModalStep1,
-  transferStep2,
-} = storeToRefs(modalStore);
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const {
   initialPositionDesktop,
   initialPositionMobile,
@@ -105,9 +97,7 @@ const shouldShowFooter = computed(() => {
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
 
-  // console.log('isAddonsLinkActive:', isAddonsLinkActive);
-  // console.log('isCustomizeLinkActive:', isCustomizeLinkActive);
-  // console.log('isSettingsLinkActive:', isSettingsLinkActive);
+
 
   return (
     isAddonsLinkActive ||
@@ -184,308 +174,177 @@ const saveModalBeforeLeave = computed(() => {
 
 const openModals = computed(() => {
   return (
-    marketStore.firstItemNotificationShown ||
-    marketStore.resetModal ||
-    marketStore.requestModal ||
-    showShareModal.value ||
-    editPictureTeamModal.value ||
-    editPermissionsModal.value ||
-    inviteMemberModal.value ||
-    selectSiteModal.value ||
-    editUserModal.value ||
-    InviteMemberUpdateModal.value ||
-    showUpgradeModal.value ||
-    resetModal.value ||
-    deleteModal.value ||
-    transferModalStep1.value ||
-    transferStep2.value ||
-    checkboxStore.routeLeaveModal ||
-    custmizeStore.routeLeaveModal ||
-    settingsStore.routeLeaveModal ||
-    statsStore.routeLeaveModal ||
-    modalStore.showSuccessModalContact ||
-    marketStore.showCart
+    isOpen('shareModal') ||
+    isOpen('invitemember') || 
+    isOpen('invitememberupdate') ||
+    isOpen('editteampic') ||
+    isOpen('editusermodal') || 
+    isOpen('userpermissions') ||
+    isOpen('selectSite') ||
+    isOpen('upgrade')
+    // marketStore.firstItemNotificationShown ||
+    // marketStore.resetModal ||
+    // marketStore.requestModal ||
+    // showShareModal.value ||
+    // editPictureTeamModal.value ||
+    // editPermissionsModal.value ||
+    // inviteMemberModal.value ||
+    // selectSiteModal.value ||
+    // editUserModal.value ||
+    // InviteMemberUpdateModal.value ||
+    // showUpgradeModal.value ||
+    // resetModal.value ||
+    // deleteModal.value ||
+    // transferModalStep1.value ||
+    // transferStep2.value ||
+    // checkboxStore.routeLeaveModal ||
+    // custmizeStore.routeLeaveModal ||
+    // settingsStore.routeLeaveModal ||
+    // statsStore.routeLeaveModal ||
+    // modalStore.showSuccessModalContact ||
+    // marketStore.showCart
   );
 });
 </script>
 
 <template>
-  <Html
-    :lang="htmlAttrs.lang"
-    :dir="htmlAttrs.dir"
-    :class="[openModals ? '!overflow-hidden' : 'overflow-auto']"
-  >
-    <div
-      class="relative min-h-screen bg_dashboard"
-      :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
-    >
-      <div
-        v-if="
-          showShareModal ||
-          editPictureTeamModal ||
-          editPermissionsModal ||
-          inviteMemberModal ||
-          selectSiteModal ||
-          editUserModal ||
-          InviteMemberUpdateModal ||
-          showUpgradeModal ||
-          resetModal ||
-          deleteModal ||
-          transferModalStep1 ||
-          transferStep2 ||
-          checkboxStore.routeLeaveModal ||
-          custmizeStore.routeLeaveModal ||
-          settingsStore.routeLeaveModal ||
-          statsStore.routeLeaveModal ||
-          modalStore.showSuccessModalContact ||
-          marketStore.showCart ||
-          marketStore.requestModal ||
-          marketStore.resetModal
-        "
-        class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"
-      ></div>
-      <div
-        v-if="marketStore.firstItemNotificationShown"
-        class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"
-      ></div>
+  <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
+    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
+  <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
+    <div v-if="
+    openModals
+    " class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    <div v-if="marketStore.firstItemNotificationShown"
+      class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
-      <ModalsSuccessmodal
-        :show-modal="modalStore.showSuccessModalContact"
-        title="Thanks for contact us"
-        sub-title="We will contact you as soon as possible "
-        icon="contact_success.svg"
-      />
-      <DashboardTeamEditusermodal :showModal="editUserModal" />
+    <!-- <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us"
+      sub-title="We will contact you as soon as possible " icon="contact_success.svg" /> -->
+ <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
+    <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
+    <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
+    
+    <DashboardTeamInvitememberupdate :showModal="isOpen('invitememberupdate')" />
+    <DashboardTeamEditteampicturemodal :showModal="isOpen('editteampic')" />
+    <DashboardTeamEdituserpermissionsmodal :showModal="isOpen('userpermissions')" />
+    <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
+    <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
+    <!-- <DashboardTeamEditteampicturemodal :showModal="editPictureTeamModal" />
 
-      <DashboardEmbedSharemodal :showModal="showShareModal" />
-      <DashboardTeamEditteampicturemodal :showModal="editPictureTeamModal" />
-      <DashboardTeamInvitemember :showModal="inviteMemberModal" />
-      <DashboardTeamInvitememberupdate :showModal="InviteMemberUpdateModal" />
-      <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
+    <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
+    <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
 
-      <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" />
+    <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
+    <LazyModalsConfirm :showModal="resetModal" title="Rest All Accessibility Settings"
+      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      confirm-btn-type="confirm" @control-confirm="modalStore.controlResetModal" @control-cancel="controlResetModal" />
+    <LazyModalsConfirm :showModal="deleteModal" title="Delete your site"
+      sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      confirm-btn-type="delete" @control-delete="modalStore.controlDeleteModal" @control-cancel="controlDeleteModal" />
 
-      <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
-      <LazyModalsConfirm
-        :showModal="resetModal"
-        title="Rest All Accessibility Settings"
-        sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
-        confirm-btn-type="confirm"
-        @control-confirm="modalStore.controlResetModal"
-        @control-cancel="controlResetModal"
-      />
-      <LazyModalsConfirm
-        :showModal="deleteModal"
-        title="Delete your site"
-        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-        confirm-btn-type="delete"
-        @control-delete="modalStore.controlDeleteModal"
-        @control-cancel="controlDeleteModal"
-      />
+    <SettingsTransfermodalstep1 :show-modal="transferModalStep1" />
+    <SettingsTransfermodalstep2 :show-modal="transferStep2" /> -->
 
-      <SettingsTransfermodalstep1 :show-modal="transferModalStep1" />
-      <SettingsTransfermodalstep2 :show-modal="transferStep2" />
-
-      <div
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-darkTamkin z-[100] border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-white w-full"
-        :class="[
+    <div class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] 
+        border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-[#3A475C] w-full" :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
           sideBarOpen ? 'max-w-[280px]' : 'max-w-[75px]',
+        ]">
+      <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
+        <div @click="toggleSidebar" :class="[
+          !sideBarOpen
+            ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
+            : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
         ]"
-      >
-        <div
-          class="h-full w-full relative"
-          :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']"
-        >
-          <div
-            @click="toggleSidebar"
-            :class="[
-              !sideBarOpen
-                ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
-                : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
-            ]"
-            class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-darkTamkin border-[1px] dark:border-white border-linecolor rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden"
-          >
-            <svg
-              width="9"
-              height="15"
-              viewBox="0 0 9 15"
-              fill="none"
-              class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-              />
-            </svg>
-          </div>
-
-          <DashboardNavbar
-            :side-bar-open="sideBarOpen"
-            :mobileSidebar="sideBarOpenMobile"
-            @toggleSidebarMobile="toggleSidebarMobile"
-            @toggleSidebar="toggleSidebar"
-          />
+          class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white
+             dark:bg-tamkinDarkPrimary border-[1px]  border-linecolor dark:border-[#3A475C]  rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+            class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+          </svg>
         </div>
+
+        <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
+          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" />
       </div>
+    </div>
 
-      <div
-        class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full"
-      >
-        <!-- upper nav and content -->
-        <div class="relative top-0 w-full">
-          <nav
-            style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="fixed top-0 flex z-[60] items-center justify-between w-full bg-[#FFFEFE] dark:bg-darkTamkin rtl:space-x-reverse px-[40px] h-[70px]"
-          >
-            <div
-              class="flex ipad-max:max-w-2xl w-full"
-              :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']"
-            >
-              <div
-                class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:hidden"
-                @click="toggleSidebarMobile"
-                style="transform: translateZ(0)"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                  />
-                </svg>
-              </div>
-              <div class="flex-grow">
-                <div class="py-[17px] search_input relative">
-                  <input
-                    type="text"
-                    class="input_dashboard_search w-full"
-                    v-model="search"
-                    placeholder="Search ..."
-                  />
-                  <div
-                    class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                  >
-                    <img src="/assets/imgs/icons/search.svg" />
-                  </div>
-                  <div
-                    v-if="isSearchfilled"
-                    @click="clearInput"
-                    class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
-                  >
-                    <img src="/assets/imgs/icons/clear_search.svg" />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] w-full"
-                :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']"
-              >
-                <Darkmode />
+    <div class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full">
+      <!-- upper nav and content -->
+      <div class="relative top-0 w-full">
+        <nav style="box-shadow: 0px 4px 24px 8px #51459f14"
+          class="fixed top-0 flex z-[60] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse px-[40px] h-[70px]">
+          <div class="flex ipad-max:max-w-2xl w-full" :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']">
+            <div class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:hidden"
+              @click="toggleSidebarMobile" style="transform: translateZ(0)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+              </svg>
+            </div>
+            <div class="flex-grow">
+              <div class="py-[17px] search_input relative">
+                <input type="text" class="input_dashboard_search w-full" v-model="search" placeholder="Search ..." />
                 <div
-                  @click="showNotifiations = !showNotifiations"
-                  :class="[showNotifiations ? 'active_notification' : '']"
-                  class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] dark:border-whiteTamkin rounded-[8px] bg-[#FFFEFE] dark:bg-darkTamkin w-[40px] h-[40px]"
-                >
-                  <div
-                    class="relative stroke-current dark:text-whiteTamkin text-darkGrey"
-                  >
-                    <div
-                      :class="[showNotifiations ? 'hidden' : '']"
-                      class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                    >
-                      <span
-                        class="text-[12px] font-[700] text-white"
-                        style="line-height: 68px"
-                        >5</span
-                      >
-                    </div>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 20 22"
-                      fill="none"
-                      :class="[showNotifiations ? 'active_bell' : '']"
-                      class=""
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M11.7295 20C11.5537 20.3031 11.3014 20.5547 10.9978 20.7295C10.6941 20.9044 10.3499 20.9965 9.99953 20.9965C9.64915 20.9965 9.30492 20.9044 9.0013 20.7295C8.69769 20.5547 8.44534 20.3031 8.26953 20"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
+                  class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
+                  <img src="/assets/imgs/icons/search.svg" />
                 </div>
-                <div
-                  class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]"
-                >
-                  <div class="lg:block hidden">
-                    <img src="/assets//imgs/avatar.png" class="w-[40px] h-[40px]" />
-                  </div>
-                  <div class="lg:block hidden">
-                    <h2
-                      class="font-[400] text-[12px] dark:text-white"
-                      style="line-height: 14.4px"
-                    >
-                      Ali Ahmed
-                    </h2>
-                  </div>
-                  <div class="lg:block hidden">
-                    <svg
-                      width="7"
-                      height="12"
-                      viewBox="0 0 7 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-                        class="dark:fill-white fill-[#585B5B]"
-                      />
-                    </svg>
-                  </div>
+                <div v-if="isSearchfilled" @click="clearInput"
+                  class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer">
+                  <img src="/assets/imgs/icons/clear_search.svg" />
                 </div>
               </div>
             </div>
-          </nav>
-
-          <div class="pt-[85px] lg:px-[40px] relative">
-            <div class="relative px-[15px]">
-              <Navbaroverview
-                v-if="
-                  isLinkActive('/overview') ||
-                  isLinkActive('/settings') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/customize') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/statistics')
-                "
-              />
-            </div>
 
             <div
-              class="absolute left-0 right-0 w-full h-[270px] z-[-1] top-0"
-              style="
+              class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] w-full"
+              :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']">
+              <Darkmode />
+              <div @click="showNotifiations = !showNotifiations"
+                :class="[showNotifiations ? 'active_notification' : '']"
+                class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] dark:border-darkGrey rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary w-[40px] h-[40px]">
+                <div class="relative stroke-current dark:text-whiteTamkin text-darkGrey">
+                  <div :class="[showNotifiations ? 'hidden' : '']"
+                    class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                    <span class="text-[12px] font-[700] text-white" style="line-height: 68px">5</span>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                    :class="[showNotifiations ? 'active_bell' : '']" class="" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                      d="M11.7295 20C11.5537 20.3031 11.3014 20.5547 10.9978 20.7295C10.6941 20.9044 10.3499 20.9965 9.99953 20.9965C9.64915 20.9965 9.30492 20.9044 9.0013 20.7295C8.69769 20.5547 8.44534 20.3031 8.26953 20"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]">
+                <div class="lg:block hidden">
+                  <img src="/assets//imgs/avatar.png" class="w-[40px] h-[40px]" />
+                </div>
+                <div class="lg:block hidden">
+                  <h2 class="font-[400] text-[12px] dark:text-white" style="line-height: 14.4px">
+                    Ali Ahmed
+                  </h2>
+                </div>
+                <div class="lg:block hidden">
+                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                      class="dark:fill-white fill-[#585B5B]" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="pt-[85px] lg:px-[40px] relative">
+          <div class="absolute left-0 right-0 w-full h-[270px] z-[-1] top-0" style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
                 background: linear-gradient(
                   180deg,
@@ -494,28 +353,36 @@ const openModals = computed(() => {
                   #f6f3fc 72.04%,
                   #fef5f6 100%
                 );
-              "
-              v-if="
+              " v-if="
                 isLinkActive('/addons') ||
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
                 isLinkActive('/settings')
-              "
-            ></div>
-
-            <transition name="slide-up">
-              <DashboardAddonsSavefooter
-                :show-footer="shouldShowFooter"
-                @cancel_action="cancelAc"
-              />
-            </transition>
-            <NuxtPage />
+              "></div>
+          <div class="relative px-[15px]">
+            <Navbaroverview v-if="
+              isLinkActive('/overview') ||
+              isLinkActive('/settings') ||
+              isLinkActive('/addons') ||
+              isLinkActive('/customize') ||
+              isLinkActive('/addons') ||
+              isLinkActive('/statistics')
+            " />
           </div>
+
+
+
+          <transition name="slide-up">
+            <DashboardAddonsSavefooter :show-footer="shouldShowFooter" @cancel_action="cancelAc" />
+          </transition>
+          <NuxtPage class="" />
         </div>
-        <!-- end of upper nav and content -->
       </div>
+      <!-- end of upper nav and content -->
     </div>
+  </div>
+
   </Html>
 </template>
 
@@ -538,13 +405,20 @@ const openModals = computed(() => {
   /* Adjust based on your content */
   opacity: 1;
 }
+
 .sidebar-enter-active,
 .sidebar-leave-active {
   transition: transform 0.3s ease-in-out;
 }
-.sidebar-enter, .sidebar-leave-to /* .sidebar-leave-active in <2.1.8 */ {
+
+.sidebar-enter,
+.sidebar-leave-to
+
+/* .sidebar-leave-active in <2.1.8 */
+  {
   transform: translateX(-75px);
 }
+
 .sidebar {
   transform: translateX(100%);
 }

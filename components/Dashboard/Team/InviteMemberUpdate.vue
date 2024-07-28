@@ -1,7 +1,14 @@
 <script lang="ts" setup>
-import { useDropzone } from "vue3-dropzone";
-import {useModalStore} from '@/stores/modal'
-const modalStore = useModalStore()
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 
 const props = defineProps({
   showModal:Boolean
@@ -36,11 +43,11 @@ const isSearchfilled = ref(false);
 </script>
 
 <template>
-  <div  v-if="modalStore.InviteMemberUpdateModal"
-    class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[648px] w-10/12 "
+  <div  v-if="isOpen('invitememberupdate')"
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[648px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlInviteMemberUpdateModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitememberupdate')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -56,7 +63,7 @@ const isSearchfilled = ref(false);
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
     Invite Member
 </h1>
 
@@ -64,11 +71,11 @@ const isSearchfilled = ref(false);
 <div> <img  src="/assets/imgs/icons/avatar_table.svg"  class="w-[56px] h-[56px]"/></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[13px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] dark:text-whiteTamkin/80 text-[13px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -80,8 +87,8 @@ const isSearchfilled = ref(false);
 </div>
 
 </div>
-<p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] text-[14px] leading-[24px]">
-Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can access
+<p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
+Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60">Ali Ahmed </span> can access
 </p>
 
 <div class="w-full ">
@@ -108,17 +115,18 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
     </div>
 </div>
 
-<table class="min-w-full divide-y divide-gray-200  ">
+<table class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
   <thead>
     <tr>
-      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  
+      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
+      <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin 
        flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
         <div class="">Select All</div>
        <div>
         <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-          <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin 
+        bg-whiteTamkin  dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+          <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </label>
@@ -130,14 +138,15 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
-        <span class="text-[14px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
+        <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
           <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
           class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]  bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] 
+           bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </label>
@@ -149,11 +158,11 @@ Select Website that <span class="font-[700] text-darkGrey">Ali Ahmed </span> can
   </tbody>
 </table>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('invitememberupdate')">
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" @click="modalStore.controlInviteMemberUpdateModal">
+  <button class=" btn-dashboard text-center w-1/6" @click="closeModal('invitememberupdate')">
     Continue
   </button>
 

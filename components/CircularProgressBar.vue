@@ -13,8 +13,8 @@
       </svg>
       <div class="content">
         <!-- <div class="remain-text">Remain</div> -->
-        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey">{{ percentage.toFixed(2) }}%</div>
-        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey">1 M</div>
+        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey  dark:text-whiteTamkin">{{ percentage.toFixed(2) }}%</div>
+        <div class="text-[26px] leading-[26px] font-[600] text-darkGrey  dark:text-whiteTamkin">1 M</div>
       </div>
     </div>
   </template>

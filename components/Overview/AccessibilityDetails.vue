@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-[30px] bg-white rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] " >
+  <div class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] " >
     <div class="flex items-center justify-start px-[15px]">
       <div class="w-3/4">
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[18px] font-[500] leading-[30px]">Accessibility Details</h1>
-              <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+              <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Accessibility Details</h1>
+              <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90 pt-[6px]">
                 Accessibility Details provide comprehensive information to help ensure your website
                 complies with all accessibility standards
               </p>
@@ -36,7 +36,8 @@
             viewBox="0 0 18 5"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[collapseStore.menus.includes('access_details') ? 'stroke-current !text-white !fill-white' : '']"
+            :class="[collapseStore.menus.includes('access_details')? 'stroke-current !text-white !fill-white'
+                : 'dark:text-white']"
           >
             <path
               d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
@@ -47,11 +48,15 @@
           <div v-if="collapseStore.menus.includes('access_details')" class="mini_SizeMenu">
             <div class="mini_wrap" @click="collapseStore.collapseCard('access_details_card')">
               <div>
-                <img 
-                  src="/assets/imgs/addons/min_size.svg"
-                  
-                  :class="[collapseStore.menus.includes('access_details') ? '!fill-white' : '']"
-                />
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
               </div>
               <div class="text_mini">
                 {{
@@ -63,12 +68,30 @@
             </div>
 
             <div class="arrow">
-              <img 
-                src="/assets/imgs/addons/arrow_menu.svg"
-         
-                
-                class="w-full h-full"
+              <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-darkTamkin"
+                filter="url(#shadow-sm)"
               />
+            </svg>
             </div>
           </div>
         </div>
@@ -81,9 +104,9 @@
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey">Function</h2>
+            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Function</h2>
           <div class="flex items-center justify-start space-x-[8px]">
-            <div class="text-[24px] leading-[32px]">
+            <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin/90">
               20
        
             </div>
@@ -98,7 +121,7 @@
               <div>
                 <img  src="/assets/imgs/overview/up.svg"  />
               </div>
-              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey">
+              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey  dark:text-whiteTamkin">
                 <span class="text-tamkin !text-[14px] !leading-[20px] !font-[700]">
                   12% 
                 </span>
@@ -113,7 +136,7 @@
         <div
           class="space-y-2 h-[254px] custom-border-tamkin padding-override-1 flex flex-col items-start justify-center w-full px-[15px]"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">Function</div>
+          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">Function</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img 
@@ -122,12 +145,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Screen Reader</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Screen Reader</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
               </div>
-              <span class="text-gray-500 text-sm">30%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">30%</span>
             </div>
           </div>
 
@@ -139,12 +162,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Voice Navigation</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Voice Navigation</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
               </div>
-              <span class="text-gray-500 text-sm">20%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">20%</span>
             </div>
           </div>
 
@@ -156,12 +179,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Saturation</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Saturation</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
               </div>
-              <span class="text-gray-500 text-sm">15%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">15%</span>
             </div>
           </div>
 
@@ -173,12 +196,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Cursor</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Cursor</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
               </div>
-              <span class="text-gray-500 text-sm">8%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90" >8%</span>
             </div>
           </div>
         </div>
@@ -189,9 +212,9 @@
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey">Profile</h2>
+            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Profile</h2>
             <div class="flex items-center justify-start space-x-[8px]">
-              <div class="text-[24px] leading-[32px]">
+              <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin">
                 20
          
               </div>
@@ -207,7 +230,7 @@
               <div>
                 <img  src="/assets/imgs/overview/down.svg"  />
               </div>
-              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey">
+              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey  dark:text-whiteTamkin">
                 <span class="text-[#DA100B] !text-[14px] !leading-[20px] !font-[700]">12%</span>
                 vs last 30 days
               </p>
@@ -221,7 +244,7 @@
           class="space-y-2 px-[15px] custom-border-tamkin padding-override-1 h-[254px]
            w-full flex flex-col items-start justify-center"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey">Profile</div>
+          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">Profile</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img 
@@ -230,12 +253,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Motor impaired</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin  ">Motor impaired</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
               </div>
-              <span class="text-gray-500 text-sm">30%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin">30%</span>
             </div>
           </div>
 
@@ -247,12 +270,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Color blind</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Color blind</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
               </div>
-              <span class="text-gray-500 text-sm">20%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin">20%</span>
             </div>
           </div>
 
@@ -264,12 +287,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Visually-impaired</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Visually-impaired</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
               </div>
-              <span class="text-gray-500 text-sm">15%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin">15%</span>
             </div>
           </div>
 
@@ -281,12 +304,12 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]">Seizure & Epileptic</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Seizure & Epileptic</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative">
+              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
               </div>
-              <span class="text-gray-500 text-sm">8%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin">8%</span>
             </div>
           </div>
         </div>

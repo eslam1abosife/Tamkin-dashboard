@@ -33,7 +33,7 @@ const v$ = useVuelidate(rules, state);
 <template>
     <div class="relative w-full h-full mb-[16px]">
 
-    <div class="flex items-start justify-between mx-auto px-6 py-12 shadow-md bg-white dark:bg-darkTamkin rounded-[10px] w-full max-h-[700px] ">
+    <div class="flex items-start justify-between mx-auto px-6 py-12 shadow-md bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full max-h-[700px] ">
         <div class="flex flex-col items-start justify-center w-full space-y-6">
           <div class="flex items-center justify-center space-x-4">
             <h1 class="text-2xl font-semibold text-[#021328] dark:text-whiteTamkin">Contact Sales</h1>

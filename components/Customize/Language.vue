@@ -46,13 +46,13 @@ const moveHideWidget = (v:string)=>{
   >
     <div 
 
-    class="bg-white rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class="bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
       <div class="flex items-center justify-start  pt-[16px]">
         <div>
-          <h1 class="text-[18px] font-[500] leading-[30px]">Language</h1>
+          <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Language</h1>
 
           <p
-            class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+            class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
           >
             Customize your widgets for a tailored browsing experience
           </p>
@@ -65,8 +65,7 @@ const moveHideWidget = (v:string)=>{
             collapseStore.menus.includes('language_customize') 
             ? 'active_notification !text-darkGrey' : '',
           ]"
-           class=" relative rtl:mr-auto ltr:ml-auto  flex items-center justify-center cursor-pointer
-             bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+           class=" relative rtl:mr-auto ltr:ml-auto menu_button_control"
         >
           <svg
             width="18"
@@ -77,7 +76,7 @@ const moveHideWidget = (v:string)=>{
             :class="[
               collapseStore.menus.includes('language_customize') 
                 ? 'stroke-current !text-white !fill-white'
-                : '',
+                : 'dark:text-white',
             ]"
           >
             <path
@@ -97,13 +96,18 @@ const moveHideWidget = (v:string)=>{
           class="mini_wrap"
         >
           <div>
-            <img 
-              src="/assets/imgs/addons/annual_convert.svg"
-              
-              :class="[
-                collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
-              ]"
+            <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+              class="fill-[#585B5B] dark:fill-whiteTamkin"
             />
+          </svg>
           </div>
           <div class="text_mini">
             Switch To Annual
@@ -116,23 +120,51 @@ const moveHideWidget = (v:string)=>{
 "
             >
               <div>
-                <img 
-                  src="/assets/imgs/addons/min_size.svg"
-                  
-                  :class="[collapseStore.menus.includes('language_customize')  ? '!fill-white' : '']"
-                />
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                >
+                  <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+
               </div>
               <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
             </div>
 
             <div class="arrow">
-              <img 
-                src="/assets/imgs/addons/arrow_menu.svg"
-                tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                
-                class="w-full h-full"
+              <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-darkTamkin"
+                filter="url(#shadow-sm)"
               />
+            </svg>
             </div>
           </div>
         </div>
@@ -153,7 +185,7 @@ const moveHideWidget = (v:string)=>{
                 class="floating_language_selector_ov flex flex-row items-center justify-start  !font-[500] !text-[13px] leading-[32px]"
                 :class="[
                   selectedLanguage && selectedLanguage.name
-                    ? '!text-black'
+                    ? '!text-black dark:!text-whiteTamkin'
                     : '!text-darkGrey',
                 ]"
               >
@@ -163,7 +195,7 @@ const moveHideWidget = (v:string)=>{
               :class="[
                 selectedLanguage && selectedLanguage.code
                   ? 'bg-custom-gradient text-white'
-                  : 'bg-[#F2FBF9] text-tamkin',
+                  : 'bg-[#F2FBF9] dark:bg-tamkinDarkPrimary text-tamkin',
               ]"
             >
               <div
@@ -189,7 +221,7 @@ const moveHideWidget = (v:string)=>{
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
-                class="stroke-current rtl:rotate-180 fill-darkGrey my-[4px] rtl:float-left ltr:float-right 
+                class="stroke-current rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right 
                 w-[20px] h-[10px] rtl:ml-[15px] ltr:mr-[15px]"
                 @click.stop="toggleDropdown"
 
@@ -205,7 +237,7 @@ const moveHideWidget = (v:string)=>{
               v-if="isOpen"
               v-on-click-outside="() => toggleDropdown"
 
-              class="absolute z-10 top-[52px] w-[330px] bg-white border rounded shadow overflow-y-scroll"
+              class="absolute z-10 top-[52px] w-[330px] bg-white  dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">
                 <input
@@ -231,7 +263,7 @@ const moveHideWidget = (v:string)=>{
                 <li
                   v-for="lang in filterdLanguages"
                   :key="lang.code"
-                  class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100 cursor-pointer"
+                  class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100 dark:hover:bg-darkGrey cursor-pointer"
                   @click="selectLanguage(lang)"
                 >
                   <div
@@ -239,17 +271,17 @@ const moveHideWidget = (v:string)=>{
                     :class="[
                       selectedLanguage && selectedLanguage.code === lang.code
                         ? 'bg-custom-gradient text-white'
-                        : 'bg-[#F2FBF9] text-tamkin',
+                        : 'bg-[#F2FBF9] dark:bg-darkGrey text-tamkin',
                     ]"
                   >
                     <div
-                      class="text-[12px] font-[400] leading-[20px] uppercase"
+                      class="text-[12px] font-[400] leading-[20px] uppercase dark:text-whiteTamkin"
                     >
                       {{ lang.code }}
                     </div>
                   </div>
                   <!-- <img  :src="country.flag"  class="w-6 h-4 mr-2" /> -->
-                  <span class="text-[14px]">{{ lang.name }}</span>
+                  <span class="text-[14px] dark:text-whiteTamkin">{{ lang.name }}</span>
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
                     v-if="
@@ -268,7 +300,7 @@ const moveHideWidget = (v:string)=>{
           </div>
         </div>
 
-        <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
+        <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
      
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img 
@@ -277,7 +309,7 @@ const moveHideWidget = (v:string)=>{
                 
               />
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
                   <span>Show  language selector on the widget</span>
                 </div>
              
@@ -333,7 +365,7 @@ const moveHideWidget = (v:string)=>{
 <style lang="scss">
 .floating_language_selector_ov {
   @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
-    top-[8px] lg:top-[12px] -translate-y-0 bg-white  duration-100 ease-linear text-light peer-focus:text-darkGrey 
+    top-[8px] lg:top-[12px] -translate-y-0 bg-white  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
     2xl:peer-focus:text-[16px];
   transition: all 0.2s ease-in-out;

@@ -6,7 +6,7 @@ const marketStore = useMarketStore();
 <template>
   <div
     class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 
-    ipad-max:grid-cols-5 bg-white pt-4 px-[15px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+    ipad-max:grid-cols-5 bg-white dark:bg-tamkinDarkPrimary pt-4 px-[15px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
   <div class="market_card_char !justify-center order-1">
     <div>
@@ -27,7 +27,7 @@ const marketStore = useMarketStore();
     >
      
       <div
-      class="w-full  bg-[#f2efef] flex items-center justify-center rounded-[10px] relative  "
+      class="w-full  bg-[#f2efef] dark:bg-[#3a4a60] flex items-center justify-center rounded-[10px] relative  "
     >
     <div class="h-[120px] flex items-end justify-center ">
       <img :src="char.img" class="w-[94px] h-[120px] " alt="" />
@@ -53,7 +53,7 @@ const marketStore = useMarketStore();
         </div>
        </div>
       <div class="absolute top-0 left-0 w-[66px] h-[17px] 
-      rounded-tl-[10px] flex items-center text-[#021328] justify-center" 
+      rounded-tl-[10px] flex items-center text-[#021328]  dark:text-whiteTamkin justify-center" 
       style="background: linear-gradient(270deg, #B3F8F2 0%, #75A7EE 31.17%, #D2BCFF 60.17%, #FDE7EA 100%);
 "
         v-if="char.purchased">
@@ -65,7 +65,7 @@ const marketStore = useMarketStore();
 
     </div>
       <div class="flex flex-col justify-center items-evenly space-y-[10px]  p-1">
-        <h1 class="text-[11px] font-[500] text-darkGrey leading-[17px] mt-2">
+        <h1 class="text-[11px] font-[500] text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2">
           {{ char.description }}
         </h1>
 
@@ -89,7 +89,7 @@ const marketStore = useMarketStore();
           <div>%{{ char.discount.percent }} OFF</div>
         </div>
            <div class="flex items-center justify-center">
-            <div class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px]">
+            <div class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]">
               ${{ char.discount.discountPrice }}
             </div>
             <div class="text-[13px] font-[400] text-[#EC5A4E]  line-through decoration-[1px] leading-[10px]">
@@ -103,8 +103,8 @@ const marketStore = useMarketStore();
             :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
 
 
-             class="cursor-pointer group w-[35px] mt-[4px] h-[35px] ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
-           >
+             class="cursor-pointer group w-[35px] mt-[4px] h-[35px] ml-auto hover:border-0 bg-white  dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center dark:border-light border"
+           > 
            <svg
            :class="[marketStore.cartItems.includes(char) ? 'text-white' :'text-tamkin']"
 
@@ -151,14 +151,15 @@ const marketStore = useMarketStore();
             class="flex  items-end justify-between w-full mt-[5px]"
             v-if="char.price && !char.discount"
           >
-            <div class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px] ">
+            <div class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px] ">
               ${{ char.price }}
             </div>
             <div
             @click.stop="marketStore.addToCart(char)"
             :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
-              class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white hover:bg-gradient-to-b
-               from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+              class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white dark:bg-tamkinDarkPrimary 
+              hover:bg-gradient-to-b
+               from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border dark:border-light"
             >
               <svg
                   :class="[marketStore.cartItems.includes(char) ? 'text-white' :'text-tamkin']"

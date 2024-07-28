@@ -1,7 +1,16 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useModalManager } from '@/composables/useModalManager';
 
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const state = reactive({
   email: "",
   password: "",
@@ -17,17 +26,15 @@ const props = defineProps({
   showModal: Boolean,
 });
 
-import {useModalStore} from '@/stores/modal'
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-const {openShareModal} = useModalStore()
+
 </script>
 
 <template>
-  <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
+  <div v-if="isOpen('shareModal')"
+    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="openShareModal">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('shareModal')">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -42,7 +49,7 @@ const {openShareModal} = useModalStore()
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
       Share Embed code with your team
     </h1>
     <div class="w-full relative mt-[40px]">
@@ -50,7 +57,7 @@ const {openShareModal} = useModalStore()
         type="email"
         placeholder="{{$t('email')}}"
         id="email"
-        class="input_floating_label peer text-darkGrey"
+        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
         v-model="v$.email.$model"
         :class="{
           input_error:

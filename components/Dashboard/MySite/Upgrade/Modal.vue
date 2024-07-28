@@ -1,32 +1,29 @@
 <script lang="ts" setup>
-import { useModalStore } from "@/stores/modal";
+import { useModalManager } from '@/composables/useModalManager';
 
 const props = defineProps({
   showModal:Boolean
 })
 
 
-const modalStore = useModalStore();
 const {
-plansModal,
-choosePaymentModal,
-cardModal,
-cryptoModal,
-cryptoConfirmModal,
-cryptoSuccess,
-newcardModal,
-paymentSuccess,
-paymentError
-} = storeToRefs(modalStore);
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 </script>
 
 <template>
-  <div v-if="showModal"
-    class="mysite_bg_modal fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
+  <div v-if="isOpen('upgrade')"
+    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
    
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]" @click="modalStore.controlShowUpgradeModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
+   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModal('upgrade')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -44,7 +41,7 @@ paymentError
     <div class="w-full h-full">
 
 
-      <DashboardMySiteUpgradeBilling :showModal="showModal && plansModal"/>
+      <DashboardMySiteUpgradeBilling :showModal="isOpen('upgrade') && isOpen('billing')"/>
       <DashboardMySiteUpgradePaymentmethod :showModal="choosePaymentModal "/>
       <DashboardMySiteUpgradePaymentmethodsCard :showModal="cardModal "/>
       <DashboardMySiteUpgradePaymentmethodsCrypto :showModal="cryptoModal " />

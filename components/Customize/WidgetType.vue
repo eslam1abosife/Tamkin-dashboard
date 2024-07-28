@@ -16,15 +16,15 @@ const {widgetType} = storeToRefs(customizeStore)
   <div
     class="flex flex-col items-center justify-center   w-full mt-[40px]">
     <div         
-    class=" bg-white rounded-[10px] w-full  px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full  px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
         <div class="flex items-center justify-start  pt-[16px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">
+            <h1 class="text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]">
                 Widget Type
             </h1>
             
             <p
-              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin  pt-[6px]"
             >
             Control the size of the buttons that you want to appear in the list            </p>
           </div>
@@ -35,8 +35,7 @@ const {widgetType} = storeToRefs(customizeStore)
             :class="[
               collapseStore.menus.includes('widget_type') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto  rtl:mr-auto  flex items-center justify-center cursor-pointer 
-            bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative ltr:ml-auto  rtl:mr-auto  menu_button_control"
           >
             <svg
               width="18"
@@ -46,8 +45,7 @@ const {widgetType} = storeToRefs(customizeStore)
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('widget_type')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -64,13 +62,18 @@ const {widgetType} = storeToRefs(customizeStore)
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -81,11 +84,16 @@ const {widgetType} = storeToRefs(customizeStore)
                 @click=" collapseStore.collapseCard('widget_type_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[collapseStore.menus.includes('widget_type') ? '!fill-white' : '']"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{ !collapseStore.collapses.includes('widget_type_card') ?'Minisize':'Maxsize' }}
@@ -95,13 +103,36 @@ const {widgetType} = storeToRefs(customizeStore)
               <div
                 class="arrow"
               >
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
-                />
+              <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-darkTamkin"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
               </div>
             </div>
           </div>
@@ -115,7 +146,8 @@ const {widgetType} = storeToRefs(customizeStore)
 <div class="flex items-start flex-col justify-center w-full  mx-auto ipad-max:flex-col ">
     <div class="flex  items-center justify-between space-x-[20px] w-full">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+         border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Full Widget</h1>
            
@@ -144,7 +176,8 @@ const {widgetType} = storeToRefs(customizeStore)
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+         border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Mini Widget</h1>
            
@@ -176,9 +209,10 @@ const {widgetType} = storeToRefs(customizeStore)
     </div>
     <div class="flex  items-center justify-between space-x-[20px] w-full mt-[16px]">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+         border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[13px] leading-[22.5px]">Round Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px] dark:text-whiteTamkin">Round Widget</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -205,7 +239,7 @@ const {widgetType} = storeToRefs(customizeStore)
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full ">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] border-b-[2px] border-lightGrey">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light dark:text-whiteTamkin border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Minuscule Widget</h1>
            

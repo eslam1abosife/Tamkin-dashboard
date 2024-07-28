@@ -1,7 +1,15 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
-import {useModalStore} from '@/stores/modal'
-const modalStore = useModalStore()
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 
 const props = defineProps({
   showModal:Boolean
@@ -26,11 +34,11 @@ const permissions = ref( [
 </script>
 
 <template>
-  <div  v-if="modalStore.editPermissionsModal"
-    class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[550px] w-10/12 "
+  <div  v-if="isOpen('userpermissions')" 
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[550px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlEditPermissionsModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('userpermissions')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -46,7 +54,7 @@ const permissions = ref( [
     </svg>
   </div>
 <div class="container mx-auto h-full">
-  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
     Permissions
 </h1>
 
@@ -54,11 +62,11 @@ const permissions = ref( [
 <div> <img  src="/assets/imgs/icons/avatar_table.svg"  class="w-[56px] h-[56px]"/></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
-<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey text-[14px] ">
+<h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] ">
   Ali Ahmed 
 </h2>
 </div><div>
-<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] text-[13px]  leading-[27px]">
+<h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787]  dark:text-whiteTamkin text-[13px]  leading-[27px]">
   Ali Ahmed @gmail.com
 </h2>
 </div>
@@ -74,39 +82,39 @@ const permissions = ref( [
 
 
 <div class="h-[250px] overflow-y-auto">
-    <table class="min-w-full divide-y divide-gray-200  mt-[40px] ">
+    <table class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
         <thead>
           <tr>
             <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
              flex items-center justify-start rtl:space-x-reverse space-x-[10px] ">
              <div>
               <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-              <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-                <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+                <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
               </label>
              </div>
-              <div class="text-[14px] leading-[22px] text-darkGrey">ALL Permissions</div>
+              <div class="text-[14px] leading-[22px] text-darkGrey dark:text-whiteTamkin">ALL Permissions</div>
            
             </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200 h-[250px] overflow-y-auto">
+        <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-auto">
           <tr v-for="permission in permissions " :key="permission.id">
             <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
               <div>
                   <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
                   class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
                   <label :for="`checkbox_`+permission.id" class="relative block border-[1px] 
-                   ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px]
+                   ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-lightGrey bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px]
                     peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
                  </div>
-              <span class="text-[13px] leading-[21px] font-[400] text-darkGrey">{{permission.name}}</span>
+              <span class="text-[13px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin">{{permission.name}}</span>
               
             </td>
            
@@ -230,11 +238,11 @@ const permissions = ref( [
 </div>
 
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('userpermissions')">
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" @click="modalStore.controlEditPermissionsModal">
+  <button class=" btn-dashboard text-center w-1/6" @click="closeModal('userpermissions')">
     Save
   </button>
 

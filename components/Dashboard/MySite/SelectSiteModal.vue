@@ -1,7 +1,14 @@
 <script lang="ts" setup>
-import { useDropzone } from "vue3-dropzone";
-import {useModalStore} from '@/stores/modal'
-const modalStore = useModalStore()
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 
 const props = defineProps({
   showModal:Boolean
@@ -37,11 +44,11 @@ const clearInput = () => {
 </script>
 
 <template>
-  <div  v-if="modalStore.selectSiteModal"
-    class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[530px] w-10/12 "
+  <div  v-if="isOpen('selectSite')"
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[530px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlSelectSiteModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('selectSite')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -57,11 +64,11 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
     Select Site
 </h1>
 
-<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] text-[14px] leading-[24px]">
+<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] dark:text-whiteTamkin  text-[14px] leading-[24px]">
     Select your default site</p>
 
 <div class="w-full ">
@@ -87,19 +94,19 @@ const clearInput = () => {
   </div>
 </div>
 
-<table class="min-w-full divide-y divide-gray-200  ">
+<table class="min-w-full divide-y divide-gray-200  dark:divide-light">
   <thead>
     <tr>
-      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
+      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">Website</th>
+      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Select</th>
 
     </tr>
   </thead>
-  <tbody class="divide-y divide-gray-200">
+  <tbody class="divide-y divide-gray-200 dark:divide-light">
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img :src="permission.image" alt="Logo" class="w-6 h-6">
-              <span class="text-[13px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
+              <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
@@ -109,8 +116,9 @@ const clearInput = () => {
           
           :id="`checkbox_`+permission.id" :value="permission.id" 
           class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  
+          rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </label>
@@ -122,7 +130,7 @@ const clearInput = () => {
   </tbody>
 </table>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="modalStore.controlSelectSiteModal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('selectSite','my-site')">
 
     Cancel
   </button>

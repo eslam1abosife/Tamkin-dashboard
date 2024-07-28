@@ -256,7 +256,7 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <div
-        class="mt-[64px] bg-white rounded-[10px] shadow-md -shadow-y-[1px]"
+        class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px]"
         :class="[collapseStore.collapses.includes('button_color_card') ? 'pb-[24px]' :'pb-[0]']"
 
       >
@@ -264,8 +264,8 @@ onBeforeRouteLeave((to, from, next) => {
           class="flex items-center justify-start px-[15px]"
         >
           <div class=" mt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Button Color</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Button Color</h1>
+            <p class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]">
               Choose the appropriate color that you prefer to appear in the icons and
               buttons
             </p>
@@ -289,8 +289,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('button_color')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -308,13 +307,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('language_customize') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -325,15 +329,18 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('button_color_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('button_color') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
-                <div class="text-[14px] leading-[21px] font-[400]">
+                <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("button_color_card")
                       ? "Minisize"
@@ -343,13 +350,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -373,7 +403,7 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div class="bg-[#585B5B] h-[24px] w-[24px] rounded-[5px]"></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
+                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
                   Solid
                 </div>
               </div>
@@ -391,7 +421,7 @@ onBeforeRouteLeave((to, from, next) => {
                   style="background: linear-gradient(180deg, #585b5b 0%, #bac1c0 100%)"
                   class="h-[24px] w-[24px] rounded-[5px]"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
+                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
                   Gradient
                 </div>
               </div>
@@ -405,7 +435,7 @@ onBeforeRouteLeave((to, from, next) => {
                 class="h-[24px] w-[24px] rounded-full"
                 :style="{ backgroundColor: customizeStore.currentColor }"
               ></div>
-              <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
+              <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
                 {{ customizeStore.currentColor }}
               </div>
             </div>
@@ -421,7 +451,7 @@ onBeforeRouteLeave((to, from, next) => {
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient1 }"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
+                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
                   {{ customizeStore.gradient1 }}
                 </div>
               </div>
@@ -432,7 +462,7 @@ onBeforeRouteLeave((to, from, next) => {
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient2 }"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]">
+                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
                   {{ customizeStore.gradient2 }}
                 </div>
               </div>
@@ -500,7 +530,7 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] shadow-md  -shadow-y-[1px]" 
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md  -shadow-y-[1px]" 
         :class="[collapseStore.collapses.includes('button_type_card') ? 'pb-[24px]' :'pb-[10px]']"
         
       >
@@ -508,8 +538,8 @@ onBeforeRouteLeave((to, from, next) => {
           class="flex items-center justify-start  "
         >
           <div class="pt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Button Type</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Button Type</h1>
+            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
               Choosing the right button type and size is essential for intuitive
               navigation
             </p>
@@ -533,8 +563,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('button_type')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-whiteTamkin',
               ]"
             >
               <path
@@ -552,13 +581,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -569,13 +603,16 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('button_type_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('button_type') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -587,25 +624,48 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('button_type_card')"
         >
           <div>
-            <h1 class="text-[14px] font-[500] leading-[24px]">Button Shape</h1>
-            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[14px] font-[500] leading-[24px]  dark:text-whiteTamkin">Button Shape</h1>
+            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
               Choose the button Shape you prefer to appear in the widget
             </p>
           </div>
@@ -885,8 +945,8 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div class="my-[30px] ">
-            <h1 class="text-[14px] font-[500] leading-[24px]">Button Size</h1>
-            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[14px] font-[500] leading-[24px]  dark:text-whiteTamkin">Button Size</h1>
+            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
               Pull the button to select the right size for you
             </p>
           </div>
@@ -966,16 +1026,16 @@ onBeforeRouteLeave((to, from, next) => {
     
 <CustomizeButtonLocation/>
       <div
-        class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
         
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">Widget Customization</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Widget Customization</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin  pt-[6px]">
               Customize your widgets for a tailored browsing experience
             </p>
           </div>
@@ -988,7 +1048,8 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px]
+             ltr:mr-[15px] menu_button_control"
           >
             <svg
               width="18"
@@ -998,8 +1059,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('widget_custom')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -1017,13 +1077,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -1034,13 +1099,16 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('widget_custom_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('widget_custom') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -1052,13 +1120,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                      "
-                  
-                  class="w-full h-full"
+               <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -1072,16 +1163,16 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[34px] bg-white rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
         
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">Accessibility Mode</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Accessibility Mode</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
               Accessibility Mode optimizes interface for diverse user needs and
               disabilities
             </p>
@@ -1095,7 +1186,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] menu_button_control"
           >
             <svg
               width="18"
@@ -1105,8 +1196,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('access_mode')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -1124,13 +1214,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -1141,13 +1236,16 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('access_mode_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('access_mode') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -1159,13 +1257,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                      "
-                  
-                  class="w-full h-full"
+               <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>

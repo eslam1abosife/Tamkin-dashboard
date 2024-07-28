@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Vue3Lottie } from "vue3-lottie";
 import mysiteAnimation from "/assets/animation/mysite.json";
-import { useModalStore } from "@/stores/modal";
+import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 definePageMeta({
@@ -15,7 +15,15 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-const modalStore = useModalStore();
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const dataAvailable = ref(true);
 const editTeamNameMode = ref(false);
 
@@ -140,7 +148,7 @@ const goToPage = (page) => {
       class="ipad-max:-mx-6 mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start"
     >
       <div
-        class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-darkTamkin lg:w-[73%] 2xl:w-[75%] h-[200px] lg:h-[129px] rounded-[10px]"
+        class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] h-[200px] lg:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -181,7 +189,7 @@ const goToPage = (page) => {
             </div>
             <div>
               <button
-                @click="modalStore.controlSelectSiteModal"
+                @click="openModal('selectSite','my-site')"
                 class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
               >
                 Select Site
@@ -208,7 +216,7 @@ const goToPage = (page) => {
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 ipad-max:px-2 lg:px-8">
             <div
-              class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-darkTamkin"
+              class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div class="flex items-center justify-center lg:justify-between flex-row">
@@ -366,7 +374,7 @@ const goToPage = (page) => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-darkTamkin divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
                   <tr class="h-[50px]">
                     <td class="w-[25%]">
                       <div
@@ -567,7 +575,7 @@ const goToPage = (page) => {
                                         </th> -->
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-darkTamkin divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
                   <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                     <td
                       class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] 
@@ -599,7 +607,7 @@ const goToPage = (page) => {
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
-              class="flex flex-col items-between justify-center rounded-[10px] pb-[42px] mb-[16px] dark:bg-darkTamkin bg-white"
+              class="flex flex-col items-between justify-center rounded-[10px] pb-[42px] mb-[16px] dark:bg-tamkinDarkPrimary bg-white"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div class="flex items-center justify-center lg:justify-between flex-row">

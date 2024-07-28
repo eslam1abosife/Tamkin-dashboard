@@ -10,12 +10,12 @@ const collapseStore = useCollapseStore();
 
 
 <template>
-    <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px]"       >
+    <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px]"       >
         <div class="flex items-start justify-start px-[15px] pt-[24px]">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Connect with us</h1>
+            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Connect with us</h1>
   
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
+            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
               Connect with us to stay updated and receive support for all your accessibility
               needs
             </p>
@@ -39,8 +39,7 @@ const collapseStore = useCollapseStore();
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('connect_withUs')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -58,13 +57,17 @@ const collapseStore = useCollapseStore();
                 @click="collapseStore.collapseCard('connect_withUs_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     
-                    :class="[
-                      collapseStore.menus.includes('connect_withUs') ? '!fill-white' : '',
-                    ]"
-                  />
+                
                 </div>
                 <div class="text_mini">
                   {{
@@ -76,13 +79,36 @@ const collapseStore = useCollapseStore();
               </div>
   
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                  "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -126,12 +152,12 @@ const collapseStore = useCollapseStore();
   
           <div class="">
             <h1
-              class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px]"
+              class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px] dark:text-whiteTamkin"
             >
               Need help installing Tamkin ?
             </h1>
             <p
-              class="text-center text-[14px] mt-[8px] text-[#A7A7A7]"
+              class="text-center text-[14px] mt-[8px] text-[#A7A7A7] dark:text-whiteTamkin/90"
               style="line-height: 21px"
             >
               Our support team is help !
@@ -139,7 +165,7 @@ const collapseStore = useCollapseStore();
           </div>
   
           <div
-            class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+            class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary/20 flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
           >
             <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
               <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />

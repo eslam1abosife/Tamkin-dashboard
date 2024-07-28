@@ -114,7 +114,7 @@ definePageMeta({
       
 
            <div v-if="overviewStore.showUpgradeState"
-        class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] 
+        class="bg-white  dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] 
         rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start mb-[32px]"
      
       >
@@ -122,16 +122,16 @@ definePageMeta({
           <img  src="/assets/imgs/overview/plan-calender.svg"  />
         </div>
         <div class="flex flex-col items-start justify-center w-full">
-          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey">
+          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin">
             <h1>Monthly Plan</h1>
           </div>
           <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]" @click="showExpired = !showExpired">
             <transition name="fade" mode="out-in">
               <template v-if="!showExpired">
                 <div class="flex items-center" key="not-expired">
-                  <div class="text-[13px] leading-[24px] font-[400] w-[130px]">Package Expires in</div>
+                  <div class="text-[13px] leading-[24px] font-[400] w-[130px]  dark:text-whiteTamkin">Package Expires in</div>
                   <div class="flex items-center justify-center custom-border-tamkin padding-override-1 
-                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]">
+                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]  dark:text-whiteTamkin">
                     Aug 20,2024
                   </div>
                 </div>

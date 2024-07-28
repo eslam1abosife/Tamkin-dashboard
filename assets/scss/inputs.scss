@@ -19,7 +19,7 @@
   }
 
   .input_floating_label {
-    @apply dark:!text-whiteTamkin lg:text-[12px] pt-[10px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] rounded-[10px] 
+    @apply dark:!text-whiteTamkin lg:text-[12px] pt-[10px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] h-[40px] rounded-[10px] 
       py-[6px] bg-white dark:bg-transparent
       border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
       focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent;
@@ -30,7 +30,7 @@
   }
 
   .input_search_country {
-    @apply lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] rounded-[10px] py-[14px] bg-white
+    @apply lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] rounded-[10px] py-[14px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333]
       border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] 
       focus:ring-1 focus:border-transparent focus:ring-tamkin  focus:outline-none placeholder:text-transparent;
 
@@ -44,7 +44,11 @@
   }
 
   .floating_label {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] top-[3px] lg:top-[8px] -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
+     lg:rtl:right-[30px] lg:ltr:left-[16px] top-[3px] lg:top-[8px]
+      -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+      text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] 
+      ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];
   }
 
   .floating_country {
@@ -56,12 +60,12 @@
 
   input:focus ~ .floating_label,
   input:not(:placeholder-shown) ~ .floating_label {
-    @apply -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-darkTamkin text-[12px];
+    @apply -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-tamkinDarkPrimary text-[12px];
   }
 
   textarea:focus ~ .floating_label_text_area,
   textarea:not(:placeholder-shown) ~ .floating_label_text_area {
-    @apply -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-darkTamkin text-[12px];
+    @apply -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-tamkinDarkPrimary text-[12px];
   }
 
   .error_message {
@@ -85,7 +89,11 @@
     @apply relative;
 
     .input_dashboard_search {
-      @apply placeholder:text-[#BCC0BF]  dark:placeholder:text-whiteTamkin rtl:placeholder:text-right rtl:text-right text-[14px] font-[500] pl-[30px] rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px] lg:h-[45px] rounded-[8px] py-[14px] bg-white dark:bg-darkTamkin border-lightGrey border-[1px] focus:border-tamkin focus:ring-0 dark:text-whiteTamkin leading-[19.5px];
+      @apply placeholder:text-[#BCC0BF]  dark:placeholder:text-whiteTamkin
+       rtl:placeholder:text-right rtl:text-right text-[14px] font-[500] pl-[30px] 
+       rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px] lg:h-[45px] rounded-[8px] py-[14px]
+        bg-white dark:bg-tamkinDarkPrimary border-lightGrey dark:border-darkGrey border-[1px] focus:border-tamkin focus:ring-0
+         dark:text-whiteTamkin leading-[19.5px];
     }
   }
 

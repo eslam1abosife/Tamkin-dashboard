@@ -259,7 +259,7 @@ watch(
         </div>
       </div>
 
-      <hr class="w-full mx-auto h-[1px] bg-lightGrey dark:bg-darkTamkin my-[28px]" />
+      <hr class="w-full mx-auto h-[1px] bg-lightGrey dark:!bg-darkGrey  my-[28px]" />
       <button
         @click="$router.push(localePath('/add-site'))"
         class="btn-dashboard h-[40px] flex items-center justify-center relative w-full transition-all duration-75 ease-in-out"
@@ -565,10 +565,10 @@ watch(
           </div>
         </div>
         <div
-          class="bg-[#FFFEFE] dark:bg-darkTamkin rounded-[10px]"
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 left-[65px] bg-white dark:bg-darkTamkin !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
               : ' ',
             showSubMenu[4] ? 'block ' : 'hidden',
           ]"
@@ -680,7 +680,7 @@ watch(
                           width="7"
                           height="12"
                           :class="[
-                            showChildMenu[1]
+                            !showChildMenu[1]
                               ? 'rotate-90 '
                               : 'rotate-0 ',
                           ]"
@@ -713,7 +713,7 @@ watch(
                     @mouseenter="servicesHover = true"
     @mouseleave="servicesHover = false"
                   class=" space-y-[10px] w-full"
-                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-darkTamkin p-3 absolute top-[0] left-[270px]  rounded-[10px] rounded-tl-none ' : 'ml-[20px]']"
+                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] left-[270px]  rounded-[10px] rounded-tl-none ' : 'ml-[20px]']"
                   v-if="showChildMenu[1]"
                 >
                   <li
@@ -895,11 +895,11 @@ watch(
           </div>
         </div>
         <div
-          class="bg-[#FFFEFE] dark:bg-darkTamkin rounded-[10px]"
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
           ref="submenuHover"
           :class="[
             !sideBarOpen && showSubMenu[3]
-              ? 'absolute top-0 left-[65px] bg-white dark:bg-darkTamkin !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
               : ' ',
             showSubMenu[3] ? 'block ' : 'hidden',
           ]"
@@ -937,7 +937,7 @@ watch(
                 </svg>
               </div>
             </div>
-            <div class="bg-[#FFFEFE] dark:bg-darkTamkin relative w-full" @click.stop>
+            <div class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary relative w-full" @click.stop>
               <ul
                 class="space-y-[10px] w-full"
                 :class="[!sideBarOpen ? 'mt-[10px]' : '']"
