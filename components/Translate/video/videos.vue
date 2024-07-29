@@ -14,7 +14,7 @@ const changeDropMenu = (menu:any)=>{
 </script>
 <template>
    <div>
-    <div class="grid grid-cols-5 mt-[10px] ">
+    <div class="grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px] ">
     
         <div class="h-[140px]  flex flex-col items-start justify-start rounded-[7px] shadow-lg group hover:border-tamkin
          hover:border-[1px] cursor-pointer mx-1 mb-2">

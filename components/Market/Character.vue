@@ -5,8 +5,8 @@ const marketStore = useMarketStore();
 
 <template>
   <div
-    class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 
-    ipad-max:grid-cols-5 bg-white dark:bg-tamkinDarkPrimary pt-4 px-[15px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+    class="grid grid-cols-1 ipad-max:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 
+    bg-white dark:bg-[#344153] pt-4 px-[15px] gap-4 lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
   <div class="market_card_char !justify-center order-1">
     <div>

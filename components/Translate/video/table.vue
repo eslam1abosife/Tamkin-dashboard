@@ -18,14 +18,14 @@ const changeTab = (tab: any) => {
 
 <template>
   <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[24px] rounded-[10px] w-full mb-[16px]">
-    <div class="flex items-center justify-between w-full">
+    <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
           currentTab === 'translatev'
             ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="font-[600] text-[16px] leading-[22.5px] pb-[10px] cursor-pointer"
+        class="font-[600] ipad-max:text-[13px] lg:text-[16px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('translatev')"
       >
         Translate video
@@ -36,7 +36,7 @@ const changeTab = (tab: any) => {
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="font-[600] text-[16px] leading-[22.5px] cursor-pointer pb-[10px]"
+        class="font-[600] ipad-max:text-[13px] lg:text-[16px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translateaudio')"
       >
         Translate Audio
@@ -47,12 +47,12 @@ const changeTab = (tab: any) => {
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="text-[#A7A7A7] font-[600] text-[16px] leading-[22.5px] cursor-pointer pb-[10px]"
+        class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[16px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translatelive')"
       >
         Translate Live Video
       </div>
-      <div class="py-[17px] search_input w-2/4">
+      <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
         <input
           type="text"
           class="input_dashboard_search w-full !h-[40px]"
@@ -81,7 +81,7 @@ const changeTab = (tab: any) => {
     <TranslateLiveVideoList v-if="currentTab === 'translatelive'" />
     <div class="mx-auto my-[36px]">
       <button
-        class="h-[40px] w-[150px] text-[16px] font-[500] text-[#878787] bg-[#EDEDED] rounded-[5px] flex items-center justify-center mx-auto"
+        class="h-[40px] w-[150px] ipad-max:text-[13px] lg:text-[16px] font-[500] text-[#878787] bg-[#EDEDED] rounded-[5px] flex items-center justify-center mx-auto"
       >
         Load more...
       </button>

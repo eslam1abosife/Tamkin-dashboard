@@ -46,13 +46,13 @@ const moveHideWidget = (v:string)=>{
   >
     <div 
 
-    class="bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class="bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
       <div class="flex items-center justify-start  pt-[16px]">
         <div>
-          <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Language</h1>
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Language</h1>
 
           <p
-            class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+            class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
           >
             Customize your widgets for a tailored browsing experience
           </p>
@@ -65,7 +65,7 @@ const moveHideWidget = (v:string)=>{
             collapseStore.menus.includes('language_customize') 
             ? 'active_notification !text-darkGrey' : '',
           ]"
-           class=" relative rtl:mr-auto ltr:ml-auto menu_button_control"
+           class="menu_button_control"
         >
           <svg
             width="18"
@@ -237,7 +237,7 @@ const moveHideWidget = (v:string)=>{
               v-if="isOpen"
               v-on-click-outside="() => toggleDropdown"
 
-              class="absolute z-10 top-[52px] w-[330px] bg-white  dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
+              class="absolute z-10 top-[52px] w-full lg:w-[330px] bg-white  dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">
                 <input
@@ -300,7 +300,7 @@ const moveHideWidget = (v:string)=>{
           </div>
         </div>
 
-        <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
+        <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey">
      
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img 
@@ -309,7 +309,8 @@ const moveHideWidget = (v:string)=>{
                 
               />
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px]  
+          lg:leading-[16.39px]">
                   <span>Show  language selector on the widget</span>
                 </div>
              
@@ -365,7 +366,7 @@ const moveHideWidget = (v:string)=>{
 <style lang="scss">
 .floating_language_selector_ov {
   @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
-    top-[8px] lg:top-[12px] -translate-y-0 bg-white  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin duration-100 ease-linear text-light peer-focus:text-darkGrey 
+    top-[12px] -translate-y-0 bg-white  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
     2xl:peer-focus:text-[16px];
   transition: all 0.2s ease-in-out;

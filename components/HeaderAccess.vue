@@ -40,13 +40,13 @@ const getImageUrl = computed(() => {
       </div>
 
       <div
-        class="relative mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+        class="relative mt-[-10px] lg:mt-[5px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
       >
         <div
           class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
         >
           <div class="w-full space-y-[16px]">
-            <div class="flex flex-col lg:flex-row items-center justify-between">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between">
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
                 <div
                   class="flex items-center justify-center bg-white  dark:bg-tamkinDarkPrimary w-[50px] h-[50px] 

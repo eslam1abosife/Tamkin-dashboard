@@ -259,7 +259,7 @@ watch(
         </div>
       </div>
 
-      <hr class="w-full mx-auto h-[1px] bg-lightGrey dark:!bg-darkGrey  my-[28px]" />
+      <hr class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder  my-[28px]" />
       <button
         @click="$router.push(localePath('/add-site'))"
         class="btn-dashboard h-[40px] flex items-center justify-center relative w-full transition-all duration-75 ease-in-out"
@@ -614,7 +614,7 @@ watch(
                 </svg>
               </div>
             </div>
-            <div class="bg-[#FFFEFE]  dark:!bg-darkTamkin relative w-full" @click.stop>
+            <div class="bg-[#FFFEFE]  dark:!bg-transparent relative w-full" @click.stop>
               <ul
                 class="space-y-[10px] w-full"
                 :class="[!sideBarOpen ? 'mt-[10px]' : '']"

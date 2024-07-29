@@ -154,10 +154,10 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
   <div 
   
 
-  class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md  -shadow-y-[1px]" :class="[collapseStore.collapses.includes('adjust_main_menu_customize_card') ? 'pb-[24px]' :'pb-[10px]']" >
+  class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md  -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('adjust_main_menu_customize_card') ? 'pb-[24px]' :'pb-[10px]']" >
         <div class="flex items-center justify-start  pt-[21px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
               Adjust the Main Menu
             </h1>
           </div>
@@ -169,7 +169,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
             :class="[
               collapseStore.menus.includes('adjust_main_menu_customize') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto  menu_button_control"
+            class=" menu_button_control"
           >
             <svg
               width="18"
@@ -263,7 +263,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
               </defs>
               <path
                 d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                class="fill-white dark:!fill-darkTamkin"
+                class="fill-white dark:!fill-tamkinDarkPrimary"
                 filter="url(#shadow-sm)"
               />
             </svg>
@@ -285,30 +285,33 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-20 p-[6px] flex items-center justify-start w-full mt-[4px]"
           >
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
               <img 
                 src="/assets/imgs/addons/left_item.svg"
                 
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle"
+                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
               />
 
               <img 
                 :src="getImagePath(element.icon)"
-                
+                class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
+
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
+              <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+              lg:leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
-                  class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+                  class="text-[#585B5B] truncate whitespace-nowrap w-40 
+                   dark:text-whiteTamkin font-[500] ipad-max:text-[10px] lg:text-[12px] leading-[13.66px] mt-[8px]"
                 >
                   <span>
                  {{ element.description }}

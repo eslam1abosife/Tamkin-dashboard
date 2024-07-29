@@ -181,7 +181,14 @@ const openModals = computed(() => {
     isOpen('editusermodal') || 
     isOpen('userpermissions') ||
     isOpen('selectSite') ||
-    isOpen('upgrade')
+    isOpen('upgrade') || 
+    isOpen('translate_video') 
+    ||
+    isOpen('translate_audio') ||
+
+    isOpen('renamemodal')||
+    isOpen('upgradeTranslatePackage')
+|| sideBarOpenMobile.value
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -213,7 +220,7 @@ const openModals = computed(() => {
   <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
     <div v-if="
     openModals
-    " class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    "  @click="sideBarOpenMobile = !sideBarOpenMobile" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
     <div v-if="marketStore.firstItemNotificationShown"
       class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
@@ -245,7 +252,7 @@ const openModals = computed(() => {
     <SettingsTransfermodalstep2 :show-modal="transferStep2" /> -->
 
     <div class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] 
-        border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-[#3A475C] w-full" :class="[
+        border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full" :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
@@ -258,7 +265,7 @@ const openModals = computed(() => {
             : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
         ]"
           class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white
-             dark:bg-tamkinDarkPrimary border-[1px]  border-linecolor dark:border-[#3A475C]  rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+             dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5]  rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
           <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
             class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
             xmlns="http://www.w3.org/2000/svg">
@@ -275,9 +282,10 @@ const openModals = computed(() => {
       <!-- upper nav and content -->
       <div class="relative top-0 w-full">
         <nav style="box-shadow: 0px 4px 24px 8px #51459f14"
-          class="fixed top-0 flex z-[60] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse px-[40px] h-[70px]">
-          <div class="flex ipad-max:max-w-2xl w-full" :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']">
-            <div class="flex items-center justify-between rtl:space-x-reverse space-x-[10px] lg:hidden"
+          class="fixed top-0 flex z-[60] items-center justify-center lg:justify-between w-full
+           bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse lg:px-[40px] h-[70px]">
+          <div class="flex ipad-max:w-[75%] items-center lg:space-x-0 space-x-[10px] lg:px-0 px-[20px]  w-full" :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']">
+            <div class="flex items-center justify-between  lg:hidden"
               @click="toggleSidebarMobile" style="transform: translateZ(0)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
@@ -285,8 +293,23 @@ const openModals = computed(() => {
                   d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
               </svg>
             </div>
-            <div class="flex-grow">
-              <div class="py-[17px] search_input relative">
+          
+            <div class="py-[17px] search_input relative flex-grow lg:block hidden">
+              <input type="text" class="input_dashboard_search w-full" v-model="search" placeholder="Search ..." />
+              <div
+                class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
+                <img src="/assets/imgs/icons/search.svg" />
+              </div>
+              <div v-if="isSearchfilled" @click="clearInput"
+                class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer">
+                <img src="/assets/imgs/icons/clear_search.svg" />
+              </div>
+            </div>
+           
+            <div
+              class="flex items-center  justify-end lg:ml-auto space-x-[14px] lg:space-x-[43px] w-full"
+              :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']">
+              <div class="py-[17px] search_input relative lg:hidden block">
                 <input type="text" class="input_dashboard_search w-full" v-model="search" placeholder="Search ..." />
                 <div
                   class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
@@ -297,15 +320,11 @@ const openModals = computed(() => {
                   <img src="/assets/imgs/icons/clear_search.svg" />
                 </div>
               </div>
-            </div>
-
-            <div
-              class="flex items-center lg:justify-end justify-center lg:ml-auto space-x-[24px] lg:space-x-[43px] w-full"
-              :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']">
               <Darkmode />
               <div @click="showNotifiations = !showNotifiations"
                 :class="[showNotifiations ? 'active_notification' : '']"
-                class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] dark:border-darkGrey rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary w-[40px] h-[40px]">
+                class="cursor-pointer flex items-center justify-center border-[1px] 
+                border-[#EAEAEA] dark:border-darkborder rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary lg:w-[40px] w-[60px] h-[40px]">
                 <div class="relative stroke-current dark:text-whiteTamkin text-darkGrey">
                   <div :class="[showNotifiations ? 'hidden' : '']"
                     class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[18px] h-[18px] rounded-full flex items-center justify-center">
@@ -343,7 +362,7 @@ const openModals = computed(() => {
           </div>
         </nav>
 
-        <div class="pt-[85px] lg:px-[40px] relative">
+        <div class="pt-[85px] px-[20px] ipad-max:px-[20px] lg:px-[40px] relative">
           <div class="absolute left-0 right-0 w-full h-[270px] z-[-1] top-0" style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
                 background: linear-gradient(

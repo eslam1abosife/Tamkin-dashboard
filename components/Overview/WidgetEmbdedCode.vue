@@ -93,18 +93,19 @@ const localePath = useLocalePath()
       >
         <div
         
-          class="bg-white dark:bg-tamkinDarkPrimary h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+          class="bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4
+           w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col space-x-[10px]"
         >
           <div>
             <img 
               src="/assets/imgs/overview/warning_overview.svg"
-              class="w-[43px] h-[36px]"
+              class="lg:w-[43px] lg:h-[36px] w-full h-full"
               
             />
           </div>
           <div
           
-            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] leading-[28px] text-darkGrey  dark:text-whiteTamkin ml-auto"
+            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey  dark:text-whiteTamkin ml-auto"
           >
             Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
             and unlock the full potential of digital accessibility and ADA compliance
@@ -115,7 +116,7 @@ const localePath = useLocalePath()
     
     </div>
     <div
-      class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] relative shadow-md -shadow-y-[2px]"
+      class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] relative shadow-md -shadow-y-[2px]"
 
     >
       <DashboardToastSuccess
@@ -124,10 +125,11 @@ const localePath = useLocalePath()
         :message="'Copied to clipboard'"
       />
 
-      <div class="flex items-start justify-start l pt-[24px]">
+      <div class="flex items-start justify-between w-full pt-[24px]">
         <div>
-          <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin ">Widget Embed Code</h1>
-          <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey  dark:text-whiteTamkin/90 ">
+          <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px]  dark:text-whiteTamkin ">Widget Embed Code</h1>
+          <h2 class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px]
+       text-darkGrey  lg:w-auto ipad-max:max-w-[400px] w-[290px] dark:text-whiteTamkin/90 ">
             Widget Embed Code allows you to easily integrate accessibility features into
             your website by adding a simple script to your site's HTML
           </h2>

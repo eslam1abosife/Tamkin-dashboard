@@ -67,13 +67,13 @@ const filteredList = computed(() => {
             class="absolute z-10 top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] ">
             <div class=" search_input w-full  rounded-t-[10px] " v-if="enableSearch">
                 <input type="text"
-                    class="input_dashboard_search lg:!pl-[48px] !w-full !rounded-b-none   !text-[12px] !placeholder:text-[12px]"
+                    class="input_dashboard_search !pl-[48px] !w-full !rounded-b-none   !text-[12px] !placeholder:text-[12px]"
                     v-model="search" placeholder="Search ..." />
-                <div class="absolute top-[33px] lg:top-[14px] lg:left-[20px] left-[0]">
+                <div class="absolute top-[14px] left-[20px] ">
                     <img src="/assets/imgs/icons/search.svg" />
                 </div>
                 <div v-if="search" @click="search = ''"
-                    class="absolute top-[33px] lg:top-[14px] cursor-pointer lg:right-[20px] right-[0]">
+                    class="absolute top-[14px] cursor-pointer right-[20px] ">
                     <img src="/assets/imgs/icons/clear_search.svg" />
                 </div>
             </div>

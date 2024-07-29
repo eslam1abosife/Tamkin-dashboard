@@ -80,7 +80,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       
        ref="character"
       @click="() =>  switchTabAndScroll('character',ref(character))"
-          :class="[marketStore.currentTab === 'character' ? 'bg-white dark:bg-[#28384f]' : '']"
+          :class="[marketStore.currentTab === 'character' ? 'bg-white dark:bg-[#344153]' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl  flex-grow"
       >
         <div>
@@ -134,7 +134,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
       ref="top"
       @click="() =>  switchTabAndScroll('top',ref(top))"
-        :class="[marketStore.currentTab === 'top' ? 'bg-white dark:bg-[#28384f]' : '']"
+        :class="[marketStore.currentTab === 'top' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -183,7 +183,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
            ref="bottom"
            @click="() =>  switchTabAndScroll('bottom',ref(bottom))"
-           :class="[marketStore.currentTab === 'bottom' ? 'bg-white dark:bg-[#28384f]' : '']"
+           :class="[marketStore.currentTab === 'bottom' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -214,7 +214,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
          ref="outfit"
          @click="() =>  switchTabAndScroll('outfit',ref(outfit))"
-         :class="[marketStore.currentTab === 'outfit' ? 'bg-white dark:bg-[#28384f]' : '']"
+         :class="[marketStore.currentTab === 'outfit' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -244,7 +244,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
        ref="shoes"
        @click="() =>  switchTabAndScroll('shoes',ref(shoes))"
-       :class="[marketStore.currentTab === 'shoes' ? 'bg-white dark:bg-[#28384f]' : '']"
+       :class="[marketStore.currentTab === 'shoes' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -282,7 +282,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
           ref="cap"
           @click="() =>  switchTabAndScroll('cap',ref(cap))"
-          :class="[marketStore.currentTab === 'cap' ? 'bg-white dark:bg-[#28384f]' : '']"
+          :class="[marketStore.currentTab === 'cap' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -312,7 +312,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       <div
               ref="belt"
               @click="() =>  switchTabAndScroll('belt',ref(belt))"
-              :class="[marketStore.currentTab === 'belt' ? 'bg-white dark:bg-[#28384f]' : '']"
+              :class="[marketStore.currentTab === 'belt' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -344,7 +344,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
       @click="() =>  switchTabAndScroll('glasses',ref(glasses))"
 
 
-        :class="[marketStore.currentTab === 'glasses' ? 'bg-white dark:bg-[#28384f]' : '']"
+        :class="[marketStore.currentTab === 'glasses' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -377,7 +377,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
          ref="ties"
          @click="() =>  switchTabAndScroll('ties',ref(ties))"
 
-        :class="[marketStore.currentTab === 'ties' ? 'bg-white dark:bg-[#28384f]' : '']"
+        :class="[marketStore.currentTab === 'ties' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>
@@ -428,7 +428,7 @@ const switchTabAndScroll = async (tabName, scrollToRef) => {
         ref="background"
         @click="() =>  switchTabAndScroll('background',ref(background))"
 
-        :class="[marketStore.currentTab === 'background' ? 'bg-white dark:bg-[#28384f]' : '']"
+        :class="[marketStore.currentTab === 'background' ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow"
       >
         <div>

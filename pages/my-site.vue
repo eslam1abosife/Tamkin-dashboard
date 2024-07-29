@@ -148,7 +148,8 @@ const goToPage = (page) => {
       class="ipad-max:-mx-6 mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start"
     >
       <div
-        class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] h-[200px] lg:h-[129px] rounded-[10px]"
+        class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full
+         bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] h-[150px] lg:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -160,7 +161,7 @@ const goToPage = (page) => {
             </h1>
           </div>
 
-          <div class="flex flex-col lg:flex-row items-center justify-between">
+          <div class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between">
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
@@ -219,9 +220,9 @@ const goToPage = (page) => {
               class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
-              <div class="flex items-center justify-center lg:justify-between flex-row">
+              <div class="flex items-center justify-start lg:justify-between flex-row">
                 <div
-                  class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px]"
+                  class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
                 >
                   <div
                     class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] pt-[16px] cursor-pointer"
@@ -231,7 +232,7 @@ const goToPage = (page) => {
                       :class="[
                         currentTab === 'saved'
                           ? 'border-b-[3px] border-tamkin  font-[600] '
-                          : 'border-b-[1px] border-[#C5C5C5] dark:border-darkGrey',
+                          : 'border-b-[1px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
                       class="text-[14px] px-[4px] pb-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
@@ -247,7 +248,7 @@ const goToPage = (page) => {
                       :class="[
                         currentTab === 'deleted'
                           ? 'border-b-[3px] border-tamkin  font-[600]'
-                          : 'border-b-[1px] border-[#C5C5C5]',
+                          : 'border-b-[1px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
                       class="text-[14px] px-[4px] font-[400] pb-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
@@ -256,11 +257,11 @@ const goToPage = (page) => {
                     </div>
                   </div>
                 </div>
-                <div class="flex items-center justify-between">
-                  <div class="py-[17px] search_input w-full ltr:mr-[16px] rtl:ml-[16px]">
+                <div class="flex items-center justify-between lg:w-auto w-full">
+                  <div class="py-[17px] search_input w-full lg:ltr:mr-[16px] lg:rtl:ml-[16px]">
                     <input
                       type="text"
-                      class="input_dashboard_search w-[289px]"
+                      class="input_dashboard_search w-full lg:w-[289px]"
                       v-model="search"
                       placeholder="Search ..."
                     />
@@ -280,29 +281,29 @@ const goToPage = (page) => {
                 </div>
               </div>
               <table
-                class="table-fixed min-w-full divide-y divide-gray-200"
+                class="table-fixed min-w-full divide-y divide-gray-200 dark:divide-darkborder"
                 v-if="currentTab === 'saved'"
               >
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Sites URL
                     </th>
                     <th
-                      class="ltr:text-left rtl:text-right w-[150px] text-[14px] font-[600] leading-[21px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:w-[150px]  w-full lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Billing
                     </th>
                     <th
-                      class="ltr:text-left rtl:text-right w-[150px] text-[14px] font-[600] leading-[21px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:w-[150px]  w-full lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Products
                     </th>
                     <th>
                       <div
-                        class="w-[150px] flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey dark:text-whiteTamkin"
+                        class="lg:w-[150px] lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>Status</div>
                         <div>
@@ -332,14 +333,14 @@ const goToPage = (page) => {
                     </th>
 
                     <th
-                      class="w-[150px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:w-[150px]  w-full ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Date
                     </th>
 
                     <th>
                       <div
-                        class="flex items-center justify-center w-[150px] rtl:space-x-reverse space-x-[6px] text-[14px] font-[600] leading-[21px] text-darkGrey dark:text-whiteTamkin"
+                        class="flex items-center lg:px-0 px-[100px] justify-center lg:w-[150px]  w-full rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>Traffic</div>
                         <div>
@@ -368,7 +369,7 @@ const goToPage = (page) => {
                       </div>
                     </th>
                     <th
-                      class="w-[140px] text-center text-[14px] font-[600] leading-[21px] text-darkGrey dark:text-whiteTamkin"
+                      class="w-[140px] lg:px-0 px-[100px] text-center lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Action
                     </th>
@@ -378,15 +379,17 @@ const goToPage = (page) => {
                   <tr class="h-[50px]">
                     <td class="w-[25%]">
                       <div
-                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px] lg:space-x-[16px]
+                         lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
                         <img
                           src="/assets/imgs/icons/avatar_table.svg"
-                          class="w-[20px] h-[20px]"
+                          class="w-[20px] h-[20px] lg:block hidden"
                         />
                         <div class="order-1">Tamkin.App</div>
                         <div
-                          class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                          class="order-1 flex items-center justify-center
+                           text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                           style="
                             background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                           "
@@ -396,18 +399,18 @@ const goToPage = (page) => {
                       </div>
                     </td>
                     <td
-                      class="w-[150px] text-[14px] ltr:text-left rtl:text-right leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:w-[150px] lg:px-0 px-[100px]  w-full text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       Monthly
                     </td>
                     <td
-                      class="text-left text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      <div class="flex items-center justify-start space-x-[10px]">
-                        <div class="w-[20px] h-[20px]">
+                      <div class="flex items-center justify-start lg:space-x-[10px]">
+                        <div class="lg:w-[20px] lg:h-[20px] h-[10px] w-[10px]">
                           <img
                             src="/assets/imgs/overview/advanced_plan.svg"
-                            class="w-[20px] h-[20px]"
+                            class="lg:w-[20px] lg:h-[20px] h-[10px] w-[10px]"
                             alt=""
                           />
                         </div>
@@ -416,26 +419,29 @@ const goToPage = (page) => {
                     </td>
 
                     <td
-                      class="w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                      class="lg:w-[150px]  lg:px-0 px-[100px] w-full mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                     >
                       <div
                         style="
                           background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                         "
-                        class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] w-[88px] text-white text-[12px] leading-[18px]"
+                        class="rounded-[17px] border-[1px] flex items-center justify-center
+                         border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                       >
                         Active
                       </div>
                     </td>
 
                     <td
-                      class="w-[150px] ltr:text-left rtl:text-right text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:w-[150px]  w-full ltr:text-left 
+                      rtl:text-right text-[12px] lg:text-[14px] leading-[24px]  lg:leading-[21px] font-[400] text-darkGrey
+                       dark:text-whiteTamkin"
                     >
                       May 11 ,2024
                     </td>
 
                     <td
-                      class="w-[150px] text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:w-[150px]  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       2.35K
                     </td>
@@ -511,7 +517,7 @@ const goToPage = (page) => {
                     </td>
 
                     <td
-                      class="w-[150px] text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey"
+                      class="lg:w-[150px]  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey"
                     >
                       8.35K
                     </td>
@@ -545,13 +551,13 @@ const goToPage = (page) => {
               </table>
 
               <table
-                class="min-w-full divide-y divide-gray-200"
+                class="min-w-full divide-y divide-gray-200 dark:divide-darkborder"
                 v-if="currentTab === 'deleted'"
               >
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="px-4 h-[50px] ltr:text-left rtl:text-right text-[14px] font-[600] leading-[21px] dark:text-whiteTamkin text-darkGrey"
+                      class="px-4 h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Sites URL
                     </th>
@@ -575,7 +581,7 @@ const goToPage = (page) => {
                                         </th> -->
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
                   <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
                     <td
                       class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] 
@@ -676,34 +682,30 @@ const goToPage = (page) => {
         </div>
       </div>
       <div class="py-[4px]" v-if="!dataAvailable"></div>
-      <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
-            >Per Page</span
-          >
-          <button
-            v-for="option in perPageOptions"
-            :key="option"
-            :style="
-              perPage === option
-                ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
-                : ''
-            "
-            :class="[
-              'px-3 py-1 rounded-md text-white  focus:outline-none !text-[13px]',
-              perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
-            ]"
-            @click="changePerPage(option)"
-          >
-            {{ option }}
-          </button>
+      <div class="flex flex-col lg:flex-row justify-between items-center py-[16px]" v-if="dataAvailable">
+        <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+          <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
+            Per Page
+          </span>
+          <div class="flex space-x-2 rtl:space-x-reverse">
+            <button
+              v-for="option in perPageOptions"
+              :key="option"
+              :style="perPage === option ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="[
+                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
+              ]"
+              @click="changePerPage(option)"
+            >
+              {{ option }}
+            </button>
+          </div>
         </div>
         <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span
-            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
-            >Page</span
-          >
+          <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
+            Page
+          </span>
           <button
             @click="prevPage"
             class="p-[4px] rounded-md bg-transparent !text-[13px] dark:text-whiteTamkin text-darkGrey hover:bg-light-grey"
@@ -724,22 +726,20 @@ const goToPage = (page) => {
               />
             </svg>
           </button>
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            :style="
-              currentPage === page
-                ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
-                : ''
-            "
-            :class="[
-              'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
-              currentPage === page ? 'text-white' : 'hover:bg-light-grey',
-            ]"
-            @click="goToPage(page)"
-          >
-            {{ page }}
-          </button>
+          <div class="flex space-x-2 rtl:space-x-reverse">
+            <button
+              v-for="page in visiblePages"
+              :key="page"
+              :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="[
+                'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                currentPage === page ? 'text-white' : 'hover:bg-light-grey',
+              ]"
+              @click="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          </div>
           <button
             @click="nextPage"
             class="p-[4px] rounded-md bg-transparent text-darkGrey dark:text-whiteTamkin hover:bg-light-grey"
@@ -762,6 +762,7 @@ const goToPage = (page) => {
           </button>
         </div>
       </div>
+      
     </section>
   </div>
 </template>

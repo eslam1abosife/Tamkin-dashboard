@@ -145,15 +145,15 @@ onBeforeRouteLeave((to, from, next) => {
    
 
       <div
-        class="mt-[64px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px]"
+        class="mt-[64px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
         :class="[               collapseStore.collapses.includes('general_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
         
       >
         <div class="flex items-center justify-start  ">
           <div class="pt-[24px] ">
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
-            <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
+            <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
               Accessibility Settings allow users to customize their website experience to
               ensure it is accessible and user-friendly
             </h2>
@@ -243,7 +243,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -264,7 +264,8 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('enable_widget_on_this_site') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
@@ -310,7 +311,8 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
                   <span>Widget enabled on mobile</span>
                 </div>
               </div>
@@ -356,7 +358,8 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F]  dark:!text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
                   <span> Sound effects</span>
                 </div>
               </div>
@@ -402,19 +405,19 @@ onBeforeRouteLeave((to, from, next) => {
 <OverviewWidgetembdedcode/>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
         
                 :class="[               collapseStore.collapses.includes('reset_all_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
         <div class="flex items-start justify-start  ">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
               Rest All Accessibility Settings
             </h1>
 
             <p
-              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+              class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
               Reset all accessibility settings to their default configurations, restoring
               original preferences and ensuring a standard user experience for all users
@@ -429,7 +432,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="menu_button_control mt-[24px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -504,7 +507,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -530,11 +533,11 @@ onBeforeRouteLeave((to, from, next) => {
                 viewBox="0 0 25 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="group-hover:hidden block"
+                class=" lg:w-full lg:h-full w-[16px] h-[16px]"
               >
                 <path
                   d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239"
-                  stroke="url(#paint0_linear_3592_46947)"
+                class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -553,36 +556,7 @@ onBeforeRouteLeave((to, from, next) => {
                   </linearGradient>
                 </defs>
               </svg>
-              <svg
-                class="group-hover:block hidden"
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14.5 16.5H19.5V21.5M10.5 8.5H5.5V3.5M19.9176 9.5034C19.3569 8.11566 18.4181 6.91304 17.208 6.03223C15.9979 5.15141 14.5652 4.62752 13.0723 4.52051C11.5794 4.4135 10.0861 4.7274 8.7627 5.42661C7.43933 6.12582 6.33882 7.18254 5.58594 8.47612M5.08203 15.4971C5.64272 16.8848 6.58146 18.0874 7.79157 18.9682C9.00169 19.8491 10.4359 20.3723 11.9288 20.4793C13.4217 20.5863 14.9138 20.2725 16.2371 19.5732C17.5605 18.874 18.6603 17.8175 19.4131 16.5239"
-                  stroke="url(#paint0_linear_4555_30965)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_4555_30965"
-                    x1="12.4998"
-                    y1="3.5"
-                    x2="12.4998"
-                    class="!stroke-white"
-                    y2="21.5"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stop-color="currentColor" />
-                    <stop offset="1" stop-color="currentColor" />
-                  </linearGradient>
-                </defs>
-              </svg>
+          
             </div>
             <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
               Rest All Accessibility Settings
@@ -593,17 +567,17 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] " 
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative " 
         
                  :class="[               collapseStore.collapses.includes('license_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
       >
         <div class="flex items-start justify-start  pt-[24px] ">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
 
             <p
-              class="text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+              class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
               Transfer License to Another Website allows you to move your existing
               accessibility widget license to a different site, ensuring continued
@@ -712,13 +686,13 @@ onBeforeRouteLeave((to, from, next) => {
           >
             <div class="flex items-center justify-start space-x-[13px] w-full  ">
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] leading-[24px] w-full">
+                <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
               <div class="ml-auto w-full">
                 <button
-                  class="btn_bordered_dashboard ml-auto !p-[5px] w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                   @click="controlStep1TransferModal"
                 >
                   Transfer License
@@ -732,7 +706,7 @@ onBeforeRouteLeave((to, from, next) => {
           >
             <div class="flex items-center justify-start w-full ">
               <div class="flex flex-col items-start justify-center w-full ">
-                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500] text-[13px] leading-[24px] w-full">
+                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500]  text-[13px] lg:leading-[24px] lg:w-full w-40 truncate">
                   <span
                     >Delete site permanently removes your profile and data from the system
                   </span>
@@ -740,7 +714,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="ml-auto w-full">
                 <button
-                  class="btn_bordered_dashboard error ml-auto w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                  class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                   @click="controlDeleteModal"
                 >
                   Delete Site

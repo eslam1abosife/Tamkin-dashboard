@@ -178,7 +178,7 @@ const clearInput = () => {
               <div>Advanced View</div>
             </button>
             <div
-             @click="openModal('shareModal')"
+             @click="openModal('shareModal','embed-code')"
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
@@ -312,13 +312,13 @@ const clearInput = () => {
         <div
           :style="{ backgroundImage: `url(${banner})` }"
           style="width: 100%; background-size: cover"
-          class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
+          class="rounded-lg h-[150px] lg:h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
         >
-          <div class="h-full">
+          <div class="hidden lg:block lg:h-full">
             <img 
               src="/assets/imgs/icons/man.svg"
               alt="Character"
-              class=" h-full lg:block hidden m-auto"
+              class=" h-full "
             />
           </div>
           <div class="flex flex-col items-center justify-center px-[10px]">
@@ -358,7 +358,8 @@ const clearInput = () => {
         </div>
   
         <div
-          class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+          class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary 
+          flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
             <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
@@ -391,7 +392,7 @@ const clearInput = () => {
             >
               <div class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-darkborder">
                 <thead>
                   <tr>
                     <div class="flex items-center jutify-between">
@@ -433,7 +434,7 @@ const clearInput = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
                   <tr class="flex items-center justify-between">
                     <td
                       class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"

@@ -77,10 +77,10 @@ const getImagePath = (icon) => {
   <div 
   
 
-  class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full  px-[15px] shadow-md  -shadow-y-[1px]" :class="[collapseStore.collapses.includes('manage_access_profiles_card') ? 'pb-[24px]' :'pb-[10px]']">
+  class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full  px-[15px] shadow-md  -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('manage_access_profiles_card') ? 'pb-[24px]' :'pb-[10px]']">
     <div class="flex items-center justify-start pt-[24px] w-full">
       <div>
-        <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
           Manage your Accessibility Profiles
         </h1>
       </div>
@@ -90,7 +90,7 @@ const getImagePath = (icon) => {
         :class="[
           collapseStore.menus.includes('manage_access_profiles') ? 'active_notification !text-darkGrey' : '',
         ]"
-        class="relative ltr:ml-auto rtl:mr-auto  menu_button_control"
+        class="  menu_button_control"
       >
         <svg
           width="18"
@@ -207,31 +207,34 @@ const getImagePath = (icon) => {
     item-key="name" class="w-full"  handle=".handle">
       <template #item="{element}" >
       <div  
-        class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]"
+        class="h-[55px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-20  p-[6px] flex items-center justify-start w-full mt-[4px]"
       >
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
           <img 
             src="/assets/imgs/addons/left_item.svg"
             
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-            class="cursor-pointer handle"
-          />
+            class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
+            />
 
           <img 
             :src="getImagePath(element.icon)"
-            
+                    class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
           />
           <div
             class="flex flex-col items-start justify-center w-full"
             :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
           >
-            <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
-              <span>{{element.name}}</span>
+          <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
+                        <span>{{element.name}}</span>
             </div>
             <div
-              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[12px] leading-[13.66px] mt-[8px]"
-            >
+            class="text-[#585B5B] truncate whitespace-nowrap w-40 lg:w-auto ipad-max:w-40
+            
+            dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
+          >
               <span>
              {{ element.description }}
               </span>

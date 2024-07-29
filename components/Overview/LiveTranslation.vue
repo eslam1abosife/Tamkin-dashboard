@@ -11,7 +11,7 @@ const progress = ref(30.78);
 
 <template>
   <div
-    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full mb-[24px]"
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full mb-[24px] relative"
     style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.08)"
   >
     <div class="flex items-center justify-start px-[15px]">
@@ -19,12 +19,12 @@ const progress = ref(30.78);
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
                 Live Translation Overview
               </h1>
 
               <p
-                class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
+                class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
               >
                 Live Translation Overview offers insights into real-time translation
                 technologies, enabling instant communication between speakers of different
@@ -35,11 +35,11 @@ const progress = ref(30.78);
         </h1>
       </div>
       <div
-        class="rtl:mr-auto ltr:ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px] lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
+      
       >
         <button
           @click="$router.push('/statistics')"
-          class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+          class="absolute right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
           View All
         </button>
@@ -156,7 +156,7 @@ const progress = ref(30.78);
 
     <div
       v-if="!collapseStore.collapses.includes('livetranslation_overview_card')"
-      class="flex lg:rtl:space-x-reverse space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
+      class="flex lg:rtl:space-x-reverse lg:space-x-8 items-center ipad-max:flex-wrap lg:flex-row flex-col justify-center lg:justify-between px-[15px] w-full mt-[16px]"
     >
       <!-- Donut Chart -->
       <div class="h-full ipad-max:mx-auto">
@@ -167,26 +167,36 @@ const progress = ref(30.78);
         class="flex flex-col items-start justify-center w-full space-y-[10px] mt-[32px] px-[4px]"
       >
         <div
-          class="flex rtl:space-x-reverse space-x-8 items-center justify-between w-full"
+          class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap  justify-evenly lg:justify-between w-full"
         >
           <div class="text-center">
-            <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
-            <span class="text-gray-500 dark:text-whiteTamkin">Used</span>
+       <div class="flex items-center space-x-[10px]">
+        <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
+        <span class="text-gray-500 dark:text-whiteTamkin">Used</span>
+       </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">70%</span>
           </div>
           <div class="text-center">
+            <div class="flex items-center space-x-[10px]">
+
             <span
               class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
             ></span>
+            
             <span class="text-gray-500 dark:text-whiteTamkin">User Assistance</span>
+
+            </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">20</span>
           </div>
-          <div class="text-center">
+          <div class="text-center lg:mt-0 mt-[10px]">
+            <div class="flex items-center space-x-[10px]">
+
             <span
-              class="block w-3 h-3 rounded-full mx-auto"
+              class="block w-3 h-3 rounded-full mx-auto "
               style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
             ></span>
             <span class="text-gray-500 dark:text-whiteTamkin">Pages Translated</span>
+            </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">5</span>
           </div>
         </div>
@@ -194,7 +204,7 @@ const progress = ref(30.78);
           <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
               >
                 Average Daily
               </div>
@@ -215,7 +225,7 @@ const progress = ref(30.78);
           <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
               >
                 Average Daily
               </div>
@@ -235,7 +245,7 @@ const progress = ref(30.78);
           <div class="flex flex-col items-center justify-center w-full space-y-[6px]">
             <div class="flex items-center mt-[32px] w-full">
               <div
-                class="w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] mr-auto"
+                class="lg:w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] mr-auto"
               >
                 Average Monthly
               </div>

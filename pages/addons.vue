@@ -353,10 +353,10 @@ onBeforeRouteLeave((to, from, next) => {
       section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."/>
      
-      <div class="mt-[64px] bg-white dark:bg-[#2E3B4E] rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]">
-        <div class="flex items-center justify-start  pt-[24px]">
+      <div class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative">
+        <div class="flex items-center justify-start  pt-[24px] xs:px-[15px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Adjust the Main Menu</h1>
+            <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Adjust the Main Menu</h1>
           </div>
 
           <div
@@ -365,9 +365,7 @@ onBeforeRouteLeave((to, from, next) => {
             :class="[
               menus.includes('adjustMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto  
-             rtl:mr-auto flex items-center justify-center cursor-pointer 
-             bg-[#F2F2F2] dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -462,7 +460,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -485,30 +483,33 @@ onBeforeRouteLeave((to, from, next) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-[#374152]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkborder dark:bg-opacity-20"
           >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full">
               <img 
                 src="/assets/imgs/addons/left_item.svg"
                 
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle"
+                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
               />
 
               <img 
                 :src="getImagePath(element.icon)"
-                
+                class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+                lg:leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
-                  class="text-[#585B5B] dark:text-whiteTamkin/80 font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+                  class="text-[#585B5B] truncate whitespace-nowrap w-40
+                  
+                  dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
                  {{ element.description }}
@@ -571,10 +572,11 @@ onBeforeRouteLeave((to, from, next) => {
       
       </div>
 
-      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]" >
-        <div class="flex items-center justify-start pt-[24px]">
+      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary 
+      rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative" >
+        <div class="flex items-center justify-start pt-[24px] ">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">
+            <h1 class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">
               Manage your Accessibility Profiles
             </h1>
           </div>
@@ -681,7 +683,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -704,30 +706,34 @@ onBeforeRouteLeave((to, from, next) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-tamkinDarkPrimary"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkborder 
+            dark:bg-opacity-20"
           >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full">
               <img 
                 src="/assets/imgs/addons/left_item.svg"
                 
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle"
+                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
               />
 
               <img 
                 :src="getImagePath(element.icon)"
-                
+                      class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+                lg:leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
-                  class="text-[#585B5B]  dark:text-whiteTamkin font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+                  class="text-[#585B5B] truncate whitespace-nowrap w-40
+                  
+                  dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
                  {{ element.description }}
@@ -787,12 +793,13 @@ onBeforeRouteLeave((to, from, next) => {
       
       </div>
 
-      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px]">
+      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px]
+       shadow-md -shadow-y-[1px] relative">
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Live Translation</h1>
+            <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Live Translation</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]">
+            <p class="xs:text-[10px] text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]">
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
             </p>
@@ -807,8 +814,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] mt-[-24px]
-             flex items-center justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary dark:border-[1px] dark:border-[#333333] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control top-[21px] "
           >
             <svg
               width="18"
@@ -929,7 +935,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -939,7 +945,8 @@ onBeforeRouteLeave((to, from, next) => {
         </div>
 
         <div
-        class="flex items-center justify-center px-[25px] mt-[64px] w-full space-x-44"
+        class="flex items-center justify-center lg:flex-nowrap 
+        flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 ipad-max:space-x-10 lg:space-x-44"
         v-if="
           horizontalView &&
           !collapseStore.collapses.includes('LiveTranslationAddonsCard')
@@ -949,7 +956,7 @@ onBeforeRouteLeave((to, from, next) => {
           class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] 
           relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 1200 : "100.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
@@ -976,7 +983,7 @@ onBeforeRouteLeave((to, from, next) => {
           class="w-full max-w-[270px] flex flex-col items-center  justify-start h-[267px] relative custom-border 
           rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 2400 : "200.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
@@ -1003,7 +1010,7 @@ onBeforeRouteLeave((to, from, next) => {
           class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative
            custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328]  dark:text-whiteTamkin mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]  dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 3600 : "300.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
@@ -1051,17 +1058,18 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 1200 : "100.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 1 million characters
               </div>
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-auto w-2/4  mt-[24px] 
+              !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>
@@ -1084,17 +1092,18 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] ">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 2400 : "200.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 1 million characters
               </div>
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin !h-[40px] w-[140px] mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin lg:w-[140px] w-2/4
+                mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Active
             </button>
@@ -1117,11 +1126,11 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] relative">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 3600 : "300.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 2 million characters
               </div>
             </div>
@@ -1129,7 +1138,8 @@ onBeforeRouteLeave((to, from, next) => {
               <img  src="/assets/imgs/addons/start.svg"  class="w-full h-full"/>
             </div>
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+               class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-auto w-2/4  mt-[24px] 
+              !text-darkGrey !p-1 hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>

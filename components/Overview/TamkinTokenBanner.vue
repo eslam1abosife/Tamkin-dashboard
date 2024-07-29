@@ -9,16 +9,17 @@
 
     <div
 
-    class="shadow-md -shadow-y-[1px] bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
+    class="shadow-md -shadow-y-[1px] bg-gradient-to-r custom-border rounded-big4x 
+    from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
      >
     <h1 class="text-[18px] leading-[30px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
       Buy Tamkin Token – TSLT and Join in our Investor Program
     </h1>
     <div class="relative mb-6 w-full">
-      <div class="absolute right-0 top-10">
+      <div class="absolute right-0 top-10 lg:block hidden">
         <img  src="/assets/imgs/overview/10p.svg"  />
       </div>
-      <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
+      <div class="absolute lg:top-[-80px] top-[50px] transform lg:translate-x-[50%] z-[1]">
         <img  src="/assets/imgs/overview/svg_opacity.svg"  />
       </div>
       <!-- Timeline bar -->
@@ -59,10 +60,10 @@
     </div>
     <!-- Big number and buttons -->
     <div class="flex items-center justify-end w-full relative z-[50]">
-      <div class="flex space-x-4">
-        <button class="btn-dashboard rounded-full h-[40px] w-[156px]">Buy Tamkin</button>
-        <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Program</button>
-        <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Package</button>
+      <div class="flex lg:space-x-4 lg:flex-nowrap flex-wrap lg:space-y-0 space-y-[10px] w-2/4">
+        <button class="btn-dashboard rounded-full h-[40px] w-3/4">Buy Tamkin</button>
+        <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px] ">Investor Program</button>
+        <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px]">Investor Package</button>
       </div>
     </div>
   </div>

@@ -8,7 +8,7 @@ const {isChecked,toggleCheckbox} = customizeStore
 
 <template>
   <div
-    class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y"
+    class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
   >
     <div
       class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]">
@@ -23,7 +23,7 @@ const {isChecked,toggleCheckbox} = customizeStore
             <span>Oversized Widget</span>
           </div>
           <div
-            class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+            class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
           >
             <span>
               An XL Oversized Widget provides a larger, more prominent display
@@ -87,7 +87,7 @@ const {isChecked,toggleCheckbox} = customizeStore
           <span>3 Column Layout Widget</span>
         </div>
         <div
-          class="text-[#585B5B] dark:text-whiteTamkin  font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+          class="text-[#585B5B] dark:text-whiteTamkin  text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
         >
           <span>
             Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid 
@@ -149,7 +149,7 @@ const {isChecked,toggleCheckbox} = customizeStore
         <span>Accessibility Profiles</span>
       </div>
       <div
-        class="text-[#585B5B]  dark:text-whiteTamkin  font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+        class="text-[#585B5B]  dark:text-whiteTamkin  font-[500] text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
       >
         <span>
             You can choose specific features to be shown to you

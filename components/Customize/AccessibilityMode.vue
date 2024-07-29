@@ -13,7 +13,7 @@ const moveHideWidget = (v:string)=>{
 <template>
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px]">
-    <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b">
+    <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder">
      
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
           <img 
@@ -26,7 +26,7 @@ const moveHideWidget = (v:string)=>{
               <span>Move / hide accessibility</span>
             </div>
             <div
-              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
                 Reposition or conceal accessibility features to simplify the interface              </span>
@@ -75,7 +75,8 @@ const moveHideWidget = (v:string)=>{
         </div>
       </div>
 
-      <div class="flex items-center justify-between  mt-[24px] w-full rtl:space-x-reverse space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      <div class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between  mt-[24px] 
+       w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
        v-if="isChecked('move_access')">
         <div class=" flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"

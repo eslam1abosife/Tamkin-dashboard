@@ -24,7 +24,7 @@
 
         <div class="flex items-center flex-col justify-center px-[15px] w-full">
           <div
-            class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse space-x-[36px] mt-[32px]"
+            class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
           >
             <div
               class="flex items-center    hover:bg-selected  hover:dark:bg-p flex-col justify-start custom-border-tamkin padding-override-1

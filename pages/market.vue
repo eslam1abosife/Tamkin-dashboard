@@ -485,34 +485,5 @@ function leaveNotification(el, done) {
 .animate-scale {
   animation: scale 0.5s;
 }
-.grow-enter-active,
-.grow-leave-active {
-  transition: all 0.5s ease;
-}
-
-.grow-enter,
-.grow-leave-to {
-  transform: scale(0);
-  opacity: 0;
-}
-.slide-enter-active,
-.slide-leave-active,
-.slide-appear-active {
-  transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.slide-enter,
-.slide-leave-to,
-.slide-appear {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.slide-enter-to,
-.slide-leave,
-.slide-appear-to {
-  transform: translateX(0);
-  opacity: 1;
-}
 
 </style>

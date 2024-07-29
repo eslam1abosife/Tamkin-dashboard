@@ -6,6 +6,36 @@ html {
      
   }
  
+  .grow-enter-active,
+.grow-leave-active {
+  transition: all 0.5s ease;
+}
+
+.grow-enter,
+.grow-leave-to {
+  transform: scale(0);
+  opacity: 0;
+}
+.slide-enter-active,
+.slide-leave-active,
+.slide-appear-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-enter,
+.slide-leave-to,
+.slide-appear {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave,
+.slide-appear-to {
+  transform: translateX(0);
+  opacity: 1;
+}
+
   .nav_no_transform{
     -webkit-transform: translateZ(0);
   }
@@ -369,6 +399,7 @@ html {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  
 }
 
 .custom-border-collapse::after {
@@ -643,8 +674,7 @@ input[type=number] {
 
 .circular-progress {
     position: relative;
-    width: 36px;
-    height: 36px;
+   @apply lg:h-[36px] lg:w-[36px] h-[25px] w-[25px];
 }
 
 .circular-progress.big {
@@ -678,6 +708,7 @@ input[type=number] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  
 
 }
 
@@ -685,7 +716,7 @@ input[type=number] {
     @apply relative inline-flex items-center cursor-pointer w-full;
 
     .toggle_parent {
-        @apply w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full peer-checked:bg-green-500 transition-colors duration-200;
+        @apply w-[45px] lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full peer-checked:bg-green-500 transition-colors duration-200;
 
         &.active {
             position: relative;
@@ -720,7 +751,7 @@ input[type=number] {
            rounded-full transition-transform duration-200 transform;
 
             &.active {
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 ltr:left-[8px] #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 left-[-5px] lg:ltr:left-[8px] #{!important};
             }
 
             &.in_active {
@@ -744,8 +775,9 @@ input[type=number] {
 .menu_button_control{
 
 
-    @apply relative rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
-     justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary dark:border-darkGrey dark:border-[1px] rounded-[10px] w-[36px] h-[36px] ;
+    @apply absolute top-[21px] right-0  mr-[15px] rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
+     justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary
+      dark:border-darkborder dark:border-[1px] rounded-[10px] w-[36px] h-[30px] lg:h-[36px] ;
 
 &.active_notification{
     @apply shadow;
@@ -755,7 +787,8 @@ input[type=number] {
 .mini_SizeMenu{
 
     @apply flex flex-col items-start justify-start cursor-default absolute z-[1000] top-0 rtl:left-[50px]
-     ltr:right-[50px] w-[203px] !divide-y dark:divide-light bg-white dark:bg-tamkinDarkPrimary rounded-[10px] border-[1px] border-lightGrey dark:border-darkGrey shadow-lg;
+     ltr:right-[50px] w-[203px] !divide-y dark:divide-darkborder bg-white dark:bg-tamkinDarkPrimary
+     rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder shadow-lg;
 
     .mini_wrap{
 
@@ -767,6 +800,6 @@ input[type=number] {
 
     .arrow{
         @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px]
-         border-lightGrey dark:border-darkTamkin ; 
+         border-lightGrey dark:border-darkborder ; 
     }
 }

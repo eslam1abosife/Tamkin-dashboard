@@ -80,42 +80,44 @@ onMounted(() => {
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute top-[160px] left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
+    class="shadow-sm absolute top-[160px] 
+ lg:overflow-x-hidden overflow-x-auto  left-0 w-full  lg:mx-auto h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary
+     flex items-center lg:space-x-0 space-x-[20px] lg:justify-between px-[4px]"
   >
     <transition name="slider-transition">
       <div v-show="sliderVisible" ref="slider" class="absolute top-[6px] left-0 active_subNavb__div"></div>
     </transition>
     <nuxt-link
       :class="isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item'"
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center " 
+      class="relative z-[20] w-full lg:px-0 px-2 !ml-0 lg:w-[96px] h-[31px] flex items-center justify-center " 
       :to="localePath('/overview')"
     >
       Overview
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item'"
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/addons')"
     >
       Addons
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item'"
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/statistics')"
     >
       Statistics
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item'"
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/customize')"
     >
       Customize
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item'"
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
+      class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
       :to="localePath('/settings')"
     >
       Settings
@@ -126,13 +128,14 @@ onMounted(() => {
 <style scoped>
 .active_subNavb {
 
-  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
 }
 
 .active_subNavb__div {
 
-  @apply  bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar dark:border-0 transition-all ease-out w-[96px] h-[31px] cursor-pointer rounded-[22px]  dark:!bg-darkSecondary
+  @apply  bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar dark:border-0 transition-all ease-out 
+  w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px]  dark:!bg-darkSecondary
   border-[1px] border-black flex items-center justify-center text-darkGrey dark:!text-white  !text-[13px] font-[500] text-center;
 }
 
@@ -145,7 +148,7 @@ a{
   !text-[13px] font-[500] text-center;
 }
 .sub_menu_item {
-  @apply text-[#A7A7A7] text-[13px] w-[96px] h-[31px] bg-transparent rounded-[22px] border-[1px]
+  @apply text-[#A7A7A7] text-[13px] w-full lg:w-[96px] h-[31px] bg-transparent rounded-[22px] border-[1px]
    border-transparent flex items-center justify-center leading-[22.5px] font-[600] text-center cursor-pointer;
 }
 

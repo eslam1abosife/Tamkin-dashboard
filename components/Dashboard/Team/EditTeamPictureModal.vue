@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="isOpen('editteampic')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
+    class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editteampic')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"

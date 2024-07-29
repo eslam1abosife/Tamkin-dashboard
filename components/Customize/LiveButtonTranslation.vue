@@ -54,18 +54,18 @@ const isLocationChecked = computed(() => {
 <template>
 
     <div
-    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
   
   >
     <div
       class="flex items-center justify-start px-[15px]"
     >
       <div class=" mt-[24px] ">
-        <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
           Live Site Translations Button
         </h1>
 
-        <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
+        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
           The ‘Live Site Translations’ button instantly translates web content,
           bridging languages
         </p>
@@ -194,7 +194,7 @@ const isLocationChecked = computed(() => {
         <thead class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
           <tr class="">
             <th
-              class="w-full border-b-2 border-gray-200 dark:border-light  ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
+              class="w-full border-b-2 border-gray-200 dark:border-darkborder  ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
               Enable Live Site Translations Button
             </th>
@@ -237,7 +237,7 @@ const isLocationChecked = computed(() => {
       </table>
 
       <div
-        class="flex items-center justify-between"
+        class="flex items-center lg:flex-nowrap flex-wrap justify-between"
         :class="[!customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '']"
       >
         <div
@@ -245,10 +245,11 @@ const isLocationChecked = computed(() => {
           :class="[
              liveTranlsationButtonLocation === 'default'
               ? 'custom-border'
-              : 'border-[1px]',
+              : 'border-[1px] dark:border-darkborder',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px]
+           w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -266,7 +267,7 @@ const isLocationChecked = computed(() => {
             </label>
           </div>
 
-          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
             Use translation button as default button
           </div>
         </div>
@@ -274,12 +275,13 @@ const isLocationChecked = computed(() => {
           :class="[
         liveTranlsationButtonLocation === 'above'
               ? 'custom-border'
-              : 'border-[1px]',
+              : 'border-[1px] dark:border-darkborder',
 
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
           @click="customizeStore.selectLiveTranslationButtonLocation('above')"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
+          w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -296,14 +298,14 @@ const isLocationChecked = computed(() => {
             </label>
           </div>
 
-          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
             Position translation button above
           </div>
         </div>
       </div>
 
       <div
-        class="flex items-center justify-between mt-[33px]"
+        class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
         v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
       >
         <div
@@ -314,7 +316,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-transparent rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -436,7 +438,7 @@ const isLocationChecked = computed(() => {
       </div>
 
       <div
-        class="flex items-center justify-between mt-[33px]"
+        class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
         v-if="liveTranlsationButtonLocation === 'above'"
       >
         <div
@@ -482,7 +484,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] dark:border-darkborder bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"

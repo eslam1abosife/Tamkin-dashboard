@@ -78,9 +78,9 @@ const next = ()=>{
       <div
 
       v-if="currentIndex === 0" key="1"
-      class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[48px]  w-full" 
+      class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse lg:space-x-[48px]  w-full" 
       >
-        <div         class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
+        <div         class="flex items-center lg:flex-row flex-col ipad-max:flex-col justify-start rtl:space-x-reverse lg:space-x-[8px] ipad-max:space-x-0 w-full"
         >
           <div
         class="flex items-center custom-border justify-start rtl:space-x-reverse space-x-[16px]
@@ -123,14 +123,17 @@ const next = ()=>{
             </div>
           </div>
 
-          <div
-            v-if="collapsed"
-            class="flex flex-col items-start h-[350px] justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100]
-            pl-[42px] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 "
+          <div   class="custom-border-collapse lg:h-[350px]  w-full  left-[-16px]  
+ lg:top-[90%] top-[120px] absolute z-[100] mt-2 p-4 bg-white"  v-if="collapsed">
+            <div
+        
+            class="flex flex-col items-start  lg:h-full lg:pt-0 pt-14 h-[100px]  lg:overflow-hidden overflow-y-scroll   justify-center space-y-[16px] 
+           
+            pl-[42px] w-full rounded-t-none rounded-[10px]  "
             :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
 
             >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]   dark:text-whiteTamkin ">
               <div>
                 <img  src="/assets/imgs/checked_list_active.svg"  />
               </div>
@@ -211,6 +214,7 @@ const next = ()=>{
                 </h3>
               </div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -268,94 +272,99 @@ const next = ()=>{
             </div>
           </div>
 
-          <div
-            v-if="collapsed"
-            class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] pl-[42px]
-             w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 h-[350px]"
-            :class="[selectedPlan && selectedPlan === 'pro' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
-
-            >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_active.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-              <div>
-                <img  src="/assets/imgs/checked_list_inactive.svg"  />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  All analytics features
-                </h3>
-              </div>
-            </div>
-          </div>
+          <div   class="custom-border-collapse lg:h-[350px]  w-full  left-[-16px]  
+          lg:top-[90%] top-[120px] absolute z-[100] mt-2 p-4 bg-white"  v-if="collapsed">
+                     <div
+                 
+                     class="flex flex-col items-start  lg:h-full lg:pt-0 pt-14 h-[100px]  lg:overflow-hidden overflow-y-scroll   justify-center space-y-[16px] 
+                    
+                     pl-[42px] w-full rounded-t-none rounded-[10px]  "
+                     :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
+         
+                     >
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]   dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+         
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_active.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                       <div>
+                         <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                       </div>
+                       <div>
+                         <h3 class="text-[14px] font-[400] leading-[20px]">
+                           All analytics features
+                         </h3>
+                       </div>
+                     </div>
+                   </div>
+                   </div>
         </div>
         <div
         
@@ -404,103 +413,108 @@ const next = ()=>{
           </div>
         </div>
 
-        <div
-          v-if="collapsed"
-          class="flex flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] pl-[42px]
-           w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4 h-[350px]"
-          :class="[selectedPlan && selectedPlan === 'pro' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
-
-          >
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_inactive.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-        </div>
+        <div   class="custom-border-collapse lg:h-[350px]  w-full  left-[-16px]  
+        lg:top-[90%] top-[120px] absolute z-[100] mt-2 p-4 bg-white"  v-if="collapsed">
+                   <div
+               
+                   class="flex flex-col items-start  lg:h-full lg:pt-0 pt-14 h-[100px]  lg:overflow-hidden overflow-y-scroll   justify-center space-y-[16px] 
+                  
+                   pl-[42px] w-full rounded-t-none rounded-[10px]  "
+                   :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
+       
+                   >
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]   dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+       
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                 </div>
+                 </div>
       </div>
         </div>
       </div>
  
-      <div    class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[48px]  w-full" 
+      <div    class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse lg:space-x-[48px]  w-full" 
          v-if="currentIndex === 1" key="2"
       >
         <div
-        class="flex items-center lg:flex-row flex-col justify-start rtl:space-x-reverse space-x-[8px] w-full"
+        class="flex items-center lg:flex-row ipad-max:flex-col flex-col justify-start rtl:space-x-reverse lg:space-x-[8px] ipad-max:space-x-0 w-full"
       >
         <div
      
@@ -810,93 +824,99 @@ const next = ()=>{
           </div>
         </div>
 
-        <div
-          v-if="collapsed"
-          class="flex  pl-[42px] flex-col items-start justify-center space-y-[16px] left-[-16px] top-[90%] absolute z-[100] h-[350px]  w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-          :class="[selectedPlan && selectedPlan === 'platinum' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
-        
-          >
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_inactive.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-            <div>
-              <img  src="/assets/imgs/checked_list_active.svg"  />
-            </div>
-            <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
-                All analytics features
-              </h3>
-            </div>
-          </div>
-        </div>
+        <div   class="custom-border-collapse lg:h-[350px]  w-full  left-[-16px]  
+        lg:top-[90%] top-[120px] absolute z-[100] mt-2 p-4 bg-white"  v-if="collapsed">
+                   <div
+               
+                   class="flex flex-col items-start  lg:h-full lg:pt-0 pt-14 h-[100px]  lg:overflow-hidden overflow-y-scroll   justify-center space-y-[16px] 
+                  
+                   pl-[42px] w-full rounded-t-none rounded-[10px]  "
+                   :class="[selectedPlan && selectedPlan === 'free' ? 'bg-selected dark:bg-p ' :'bg-whiteTamkin dark:bg-tamkinDarkPrimary']"
+       
+                   >
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]   dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+       
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin ">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_active.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin  dark:text-whiteTamkin">
+                     <div>
+                       <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                     </div>
+                     <div>
+                       <h3 class="text-[14px] font-[400] leading-[20px]">
+                         All analytics features
+                       </h3>
+                     </div>
+                   </div>
+                 </div>
+                 </div>
       </div>
       
       </div>
@@ -907,7 +927,7 @@ const next = ()=>{
  
 </transition-group>
     <div
-   :class="[collapsed ? 'mt-[365px]':'mt-[22px]']"
+   :class="[collapsed ? 'lg:mt-[365px] mt-[150px]':' mt-[22px]']"
       class="flex items-center justify-center  mx-auto rtl:space-x-reverse space-x-[8px]"
     >
       <div
@@ -922,7 +942,7 @@ const next = ()=>{
       ></div>
     </div>
 
-    <div class="flex items-center justify-center lg:justify-start  w-full  " :class="[collapsed ? '':'mt-[28px]']" >
+    <div class="flex items-center justify-center lg:justify-start  w-full  " :class="[collapsed ? '':'lg:mt-[28px] mt-[36px]']" >
  
         <h1 class="font-[500] text-[16px] leading-[30px] dark:text-whiteTamkin" >Enter Website URLS</h1>
   

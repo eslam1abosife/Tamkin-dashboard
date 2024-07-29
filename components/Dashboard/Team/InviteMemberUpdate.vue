@@ -44,7 +44,7 @@ const isSearchfilled = ref(false);
 
 <template>
   <div  v-if="isOpen('invitememberupdate')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[648px] w-10/12 "
+    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-[648px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitememberupdate')">
@@ -67,7 +67,8 @@ const isSearchfilled = ref(false);
     Invite Member
 </h1>
 
-<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+<div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 
+border-l-0 border-r-0 pt-[16px]">
 <div> <img  src="/assets/imgs/icons/avatar_table.svg"  class="w-[56px] h-[56px]"/></div>
 <div class="flex flex-col items-start justify-center">    
 <div>
@@ -157,12 +158,12 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
   
   </tbody>
 </table>
-<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('invitememberupdate')">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[40px]">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('invitememberupdate')">
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" @click="closeModal('invitememberupdate')">
+  <button class=" btn-dashboard text-center w-1/4" @click="closeModal('invitememberupdate')">
     Continue
   </button>
 

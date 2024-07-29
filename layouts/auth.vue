@@ -1,18 +1,40 @@
 <script lang="ts" setup>
-import { Vue3Lottie } from 'vue3-lottie'
-import AuthJson from '/assets/animation/log_in.json'
-import shapeDown from '/assets/animation/shape_down.json'
-import shapeUp from '/assets/animation/shape_up.json'
+import { Vue3Lottie } from 'vue3-lottie';
+import AuthJson from '/assets/animation/log_in.json';
+import shapeDown from '/assets/animation/shape_down.json';
+import shapeUp from '/assets/animation/shape_up.json';
+import { useWindowSize } from '@vueuse/core';
+import { computed, ref, watch } from 'vue';
 
+const { width, height } = useWindowSize();
 const head = useLocaleHead({
   addDirAttribute: true,
   addSeoAttributes: true,
-})
-const htmlAttrs = computed(() => head.value.htmlAttrs!)
+});
+const htmlAttrs = computed(() => head.value.htmlAttrs!);
 
+const authHeight = ref(500);
+const authWidth = ref(500);
 
+watch(width, (newWidth) => {
+  if (newWidth >= 1280) {
+    authWidth.value = 400;
+    authHeight.value = 550;
+  } else if (newWidth >= 768) {
+    authWidth.value = 200;
+    authHeight.value = 400;
+  }    else if (newWidth === 1024) {
+    authWidth.value = 200;
+    authHeight.value = 400;
 
+  }
+  else {
+    authWidth.value = 300;
+    authHeight.value = 300;
+  }
+});
 </script>
+
 
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
@@ -27,9 +49,9 @@ const htmlAttrs = computed(() => head.value.htmlAttrs!)
         <Vue3Lottie :animationData="shapeUp" :height="700" :width="500"
           class="absolute -top-[50%] left-[130px] 3xl:-top-[30%]  " />
 
-        <div class="w-full h-full">
-          <Vue3Lottie :animationData="AuthJson" :height="574" :width="308"
-            class="absolute inset-0 top-[50px] 3xl:top-[200px] ipad-max:top-[0] " />
+        <div class="2xl:h-[4px] 2xl:w-[308px] lg:w-[100px] lg:h-[100px]">
+          <Vue3Lottie :animationData="AuthJson" :width="authWidth" :height="authHeight" 
+            class="absolute inset-x-0 top-[50px] ipad-max:top-[40px]  " />
 
         </div>
         <div class="absolute bottom-0 w-full mb-4">

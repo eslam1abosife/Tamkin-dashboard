@@ -16,15 +16,15 @@ const {widgetType} = storeToRefs(customizeStore)
   <div
     class="flex flex-col items-center justify-center   w-full mt-[40px]">
     <div         
-    class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full  px-[15px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
+    class=" bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full  px-[15px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('widget_type_card') ? 'pb-[24px]' :'pb-[10px]']">
         <div class="flex items-center justify-start  pt-[16px]">
           <div>
-            <h1 class="text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]">
+            <h1 class="text-[14px] lg:text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]">
                 Widget Type
             </h1>
             
             <p
-              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin  pt-[6px]"
+              class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin  pt-[6px]"
             >
             Control the size of the buttons that you want to appear in the list            </p>
           </div>
@@ -35,7 +35,7 @@ const {widgetType} = storeToRefs(customizeStore)
             :class="[
               collapseStore.menus.includes('widget_type') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto  rtl:mr-auto  menu_button_control"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -144,9 +144,10 @@ const {widgetType} = storeToRefs(customizeStore)
         >
     
 <div class="flex items-start flex-col justify-center w-full  mx-auto ipad-max:flex-col ">
-    <div class="flex  items-center justify-between space-x-[20px] w-full">
+    <div class="flex  items-center justify-between lg:flex-row flex-col lg:space-y-0 space-y-[10px] lg:space-x-[20px] w-full">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] 
+      dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder 
          border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Full Widget</h1>
@@ -176,7 +177,8 @@ const {widgetType} = storeToRefs(customizeStore)
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE]
+        dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder
          border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Mini Widget</h1>
@@ -207,9 +209,9 @@ const {widgetType} = storeToRefs(customizeStore)
       </div>
 
     </div>
-    <div class="flex  items-center justify-between space-x-[20px] w-full mt-[16px]">
+    <div class="flex  items-center justify-between lg:flex-row flex-col lg:space-y-0 space-y-[10px] lg:space-x-[20px] w-full mt-[10px]">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder
          border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px] dark:text-whiteTamkin">Round Widget</h1>
@@ -239,7 +241,7 @@ const {widgetType} = storeToRefs(customizeStore)
           </div>
       </div>
       <div class="flex flex-col items-center justify-center flex-1 w-full ">
-        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-light dark:text-whiteTamkin border-b-[2px] border-lightGrey">
+        <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder dark:text-whiteTamkin border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
               <h1 class="font-[500] text-[13px] leading-[22.5px]">Minuscule Widget</h1>
            

@@ -12,6 +12,8 @@ export default {
         rtl: "rtl",
       },
       screens: {
+        xs: { min: "300px", max: "350px" }, 
+
         "ipad-min": "768px",
 
         "ipad-max": { min: "1023px", max: "1024px" },
@@ -39,6 +41,7 @@ export default {
         darkTamkin: "#384558",
         darkSecondary: "#303E56",
         tamkinDarkPrimary: "#323E50",
+        darkborder:'#333333'
       },
       backgroundSize: {
         "size-200": "200% 200%",

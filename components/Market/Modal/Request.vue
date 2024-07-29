@@ -49,10 +49,11 @@ onBeforeUnmount(() => {
 
 <template>
     <div 
-    class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
-       lg:w-[600px] w-full h-screen  lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] 
+       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto h-full"
     >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -67,13 +68,13 @@ onBeforeUnmount(() => {
         />
       </svg>
     </div>
-    <div class="w-full  mb-[30px] ">
-        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
+    <div class="w-full ">
+      <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
         Request a specific character
       </h1>
       <div
-      class="flex flex-col items-start justify-center space-y-[20px]  bg-white dark:bg-tamkinDarkPrimary
-       w-full   h-full pb-[20px]
+      class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
+       w-full   h-full pb-[20px] 
       px-[20px] rounded-[10px] mt-[16px] pt-[20px]  "
       style="box-shadow: 0px 4px 24px 8px #51459f14"
    >
@@ -179,13 +180,13 @@ onBeforeUnmount(() => {
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 grid-cols-12 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
+            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
                 style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
 "
-                class="rounded-[10px] upload-file-item col-span-4 relative border-[2px] border-dashed border-tamkin p-2"
+                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
               >
                 <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
                  border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
@@ -203,7 +204,7 @@ onBeforeUnmount(() => {
                   @click.stop
                 />
               </div>
-              <div class="upload-file-item relative col-span-4 cursor-pointer m-auto">
+              <div class="upload-file-item relative  cursor-pointer m-auto">
                 <img src="/assets/pngs/market/add_image.png" class="w-[83px] h-[83px]" alt="">
               </div>
             </div>

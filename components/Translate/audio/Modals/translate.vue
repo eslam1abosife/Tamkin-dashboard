@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
-import USa from '/public/assets/imgs/translatevideo/USA.svg'
+import { required } from "@vuelidate/validators";
+import USa from '/public/assets/imgs/translatevideo/USA.svg';
 import { useModalManager } from '@/composables/useModalManager';
 
 const {
@@ -13,154 +13,94 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const props = defineProps({
-  showModal: Boolean,
-});
-const modalStore = useModalStore();
+
+
+
 const acceptedFilesRef = ref<File[]>([]);
 const projectNameArr = [
-  {
-    id: 1,
-    name: 'Project 1'
-  },
-  {
-    id: 2,
-    name: 'Project 54'
-  },
-  {
-    id: 3,
-    name: 'Project 4'
-  },
-  {
-    id: 6,
-    name: 'Project 2'
-  },
-  {
-    id: 4,
-    name: 'Project 166'
-  },
-  {
-    id: 7,
-    name: 'Project 5'
-  }
-]
+  { id: 1, name: 'Project 1' },
+  { id: 2, name: 'Project 54' },
+  { id: 3, name: 'Project 4' },
+  { id: 6, name: 'Project 2' },
+  { id: 4, name: 'Project 166' },
+  { id: 7, name: 'Project 5' },
+];
+
 const languagesArr = [
-  {
-    id: 1,
-    name: 'English (USA)',
-    icon: USa
-  },
-  {
-    id: 2,
-    name: 'English (USA)',
-    icon: USa
+  { id: 1, name: 'English (USA)', icon: USa },
+  { id: 2, name: 'English (USA)', icon: USa },
+  { id: 3, name: 'English (USA)', icon: USa },
+];
 
-  },
-  {
-    id: 3,
-    name: 'English (USA)',
-    icon: USa
-
-  },
-
-]
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
-}
+  console.log(item);
+};
 
 const state = reactive({
-  videoLink: "",
+  audioLink: "",
   projectName: ""
-
 });
-const rules = {
-  videoLink: { required },
-  projectName: { required },
 
+const rules = {
+  audioLink: { required },
+  projectName: { required },
 };
+
 const v$ = useVuelidate(rules, state);
-const thumbnail = ref(null);
-const videoDuration = ref(null)
-const progressPercentage = ref(0); // You can dynamically update this value based on actual progress
+const audioDuration = ref(null);
+const progressPercentage = ref(0);
 
 const dynamicWidth = computed(() => {
   return progressPercentage.value;
 });
 
 const blurWidth = computed(() => {
-  return 100 - progressPercentage.value; // The blur width decreases as the progress increases
+  return 100 - progressPercentage.value; 
 });
+
 const onDrop = async (acceptedFiles) => {
   if (acceptedFiles.length > 0) {
     const file = acceptedFiles[0];
     acceptedFilesRef.value.push(file);
 
-    const fileUrl = URL.createObjectURL(file);
-    thumbnail.value = await extractVideoThumbnail(fileUrl);
-    extractVideoDuration(file)
-    URL.revokeObjectURL(fileUrl); // Clean up the URL
+    extractAudioDuration(file);
   }
 };
-const extractVideoDuration = (file) => {
+
+const extractAudioDuration = (file) => {
   const fileUrl = URL.createObjectURL(file);
-  const video = document.createElement('video');
+  const audio = document.createElement('audio');
 
-  video.src = fileUrl;
+  audio.src = fileUrl;
 
-  video.addEventListener('loadedmetadata', () => {
-    videoDuration.value = video.duration;
+  audio.addEventListener('loadedmetadata', () => {
+    audioDuration.value = audio.duration;
     URL.revokeObjectURL(fileUrl); // Clean up the URL
   });
 
-  video.addEventListener('error', (e) => {
-    console.error('Error loading video', e);
+  audio.addEventListener('error', (e) => {
+    console.error('Error loading audio', e);
     URL.revokeObjectURL(fileUrl); // Clean up the URL in case of error
   });
 };
-const extractVideoThumbnail = (fileUrl) => {
-  return new Promise((resolve, reject) => {
-    const video = document.createElement('video');
-    video.src = fileUrl;
 
-    video.addEventListener('loadeddata', () => {
-      video.currentTime = video.duration / 2; // Capture a frame from the middle of the video
-    });
-
-    video.addEventListener('seeked', () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const dataUrl = canvas.toDataURL('image/png');
-      resolve(dataUrl);
-    });
-
-    video.addEventListener('error', (e) => {
-      reject(e);
-    });
-  });
-};
 const { getRootProps, getInputProps, isDragActive } = useDropzone({
   onDrop,
   multiple: false,
-  maxFiles: 1
+  maxFiles: 1,
+  accept: 'audio/*'
 });
-const fileURL = (file) => {
-  return URL.createObjectURL(file);
-};
+
 const removeFile = (file: any) => {
   acceptedFilesRef.value = acceptedFilesRef.value.filter((f) => f !== file);
-  //   modalStore.triggerupdatedPicture();
 };
-onBeforeUnmount(() => {
 
+onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
     URL.revokeObjectURL(file);
   });
 });
+
 onUpdated(() => {
   const intervalId = setInterval(() => {
     if (progressPercentage.value >= 100) {
@@ -170,39 +110,29 @@ onUpdated(() => {
     }
   }, 1000);
 });
+
 function bytesToMB(bytes) {
   return (bytes / 1024 / 1024).toFixed(2);
 }
+
 function formatDuration(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60);
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
-
 const validatationForUpload = computed(() => {
- return acceptedFilesRef.value.length === 0
-})
-
-const rendering = ref(false)
-
-const failedRender = ref(false)
-
-onUpdated(()=>{
-  setTimeout(()=>{
-      rendering.value = false
-      failedRender.value = true
-
-},2000)
-})
+  return acceptedFilesRef.value.length === 0;
+});
 </script>
+
 
 <template>
   <div class="bg-selected dark:bg-p fixed z-[9999] top-[0] 
     rtl:lg:left-0 right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full  overflow-y-auto">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]"
-      @click="closeModal('translate_video')">
+      @click="closeModal('translate_audio')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -213,9 +143,9 @@ onUpdated(()=>{
     <div class="w-full h-screen  pb-[50px]">
       <h1
         class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px]">
-        Translate video
+        Translate Audio
       </h1>
-      <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-start  space-y-[16px] h-auto pb-[16px] px-[12px]  bg-white
+      <div class="flex flex-col items-start justify-start  space-y-[16px] h-auto pb-[16px] px-[12px]  bg-white
          dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14">
         <div class="w-full">
           <div v-bind="getRootProps()" class="w-full h-auto p-[20px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB]
@@ -224,20 +154,21 @@ onUpdated(()=>{
             <input v-bind="getInputProps()" />
             <div class="flex items-start justify-between w-full space-x-[16px]" v-if="acceptedFilesRef.length > 0">
               <div v-for="file in acceptedFilesRef" :key="file.name" class="rounded-[10px]   ">
-
                 <div class="flex items-center justify-start w-full space-x-[14px]">
                   <div class="relative">
                     <div class="h-[81px] w-[60px] absolute inset-y-0 right-0 bg-white  
                   backdrop-blur-sm rounded-tr-[7px] rounded-br-[7px] bg-opacity-40"
                       :style="{ width: blurWidth + '%' }"> </div>
-                    <img :src="thumbnail" :alt="file.name" class="w-[119px] h-[81px] rounded-[7px]" @click.stop />
+                    <div class="w-[78px] h-[78px] flex items-center justify-center custom-border bg-[#F7FCFC]">
+                    <img src="/assets/imgs/translatevideo/mp3.svg" class="w-[41px] h-[41px] rounded-[7px]" @click.stop />
+                   </div>
 
 
                   </div>
                   <div>
                     <div class="max-w-xs truncate "> {{ file.name }}</div>
                     {{ bytesToMB(file.size) }} MB<br>
-                    {{ formatDuration(videoDuration) }}
+                    {{ formatDuration(audioDuration) }}
                   </div>
                 </div>
               </div>
@@ -285,7 +216,7 @@ onUpdated(()=>{
                 <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop video
               </h1>
               <h2 class="text-center text-[10px] leading-[33px] text-[#6D6D6D]">
-                MP4, MOV, WEBM, MKV
+                MP3, MOV, WEBM, MKV
               </h2>
             </div>
           </div>
@@ -297,19 +228,19 @@ onUpdated(()=>{
           </div>
           <div class="w-full relative mt-[16px] ">
             <input type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full"
-              v-model="v$.videoLink.$model" :class="{
-                input_error: (v$.videoLink.$error && v$.videoLink.required.$invalid),
-                error_text: (v$.videoLink.$error && v$.videoLink.required.$invalid),
-                input_success: !v$.videoLink.$error && !v$.videoLink.$invalid,
+              v-model="v$.audioLink.$model" :class="{
+                input_error: (v$.audioLink.$error && v$.audioLink.required.$invalid),
+                error_text: (v$.audioLink.$error && v$.audioLink.required.$invalid),
+                input_success: !v$.audioLink.$error && !v$.audioLink.$invalid,
               }" />
             <label for="characterName" class="floating_label" :class="[
-              (v$.videoLink.$error && v$.videoLink.required.$invalid) ? '!text-error' : '',
+              (v$.audioLink.$error && v$.audioLink.required.$invalid) ? '!text-error' : '',
             ]">
               Facebook, Instagram , YouTube...
             </label>
-            <div class="w-full lg:w-4/6 " v-if="(v$.videoLink.$error && v$.videoLink.required.$invalid)">
+            <div class="w-full lg:w-4/6 " v-if="(v$.audioLink.$error && v$.audioLink.required.$invalid)">
               <p class="error_message">
-                <span v-if="v$.videoLink.$error && v$.videoLink.required.$invalid">{{ $t("video Link is Required")
+                <span v-if="v$.audioLink.$error && v$.audioLink.required.$invalid">{{ $t("Audio Link is Required")
                   }}</span>
               </p>
             </div>
@@ -377,54 +308,8 @@ onUpdated(()=>{
           <TranslateVideoModalsTranslateSign />
 
           <button class="btn-dashboard hover_tamkin w-[217px] mt-[16px]"
-            :disabled="validatationForUpload" @click="rendering = !rendering">Translate</button>
+            :disabled="validatationForUpload">Translate</button>
         </div>
-      </div>
-      <div class="flex flex-col items-center justify-center px-[50px]   h-[600px] pb-[16px]  bg-white space-y-[20px]
-      dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-else-if="rendering && !failedRender">
-        <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
-         50%
-        </div>
-       
-        <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-          Video is processing  
-        </div>
-        <div class="relative pt-1 flex items-center justify-between w-full">
-          <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">
-            <div :style="{ width:  '50%' }" class="shadow-none flex flex-col text-center whitespace-nowrap
-             text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>
-          </div>
-      
-        </div>
-        <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-          Wait a few seconds please...
-         </div>
-      </div>
-      <div class="flex flex-col items-center justify-center px-[50px]   h-[600px] pb-[16px]  bg-white space-y-[20px]
-      dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" 
-      v-if="failedRender && !rendering">
-      
-       
-       <div class="flex items-center justify-center space-x-[10px] w-full">
-        <div >
-          <img
-          src="/assets/imgs/translatevideo/limited.svg"
-          class="w-[25px] h-[25px]"
-          alt=""
-        />
-        </div>
-        <div class="text-[20px] leading-[30px] font-[600] text-darkGrey">
-          Process failed
-        </div>
-       </div>
-      
-        <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-          You do not have enough minutes to complete this process
-         </div>
-
-         <div>
-          <button class="btn-dashboard hover_tamkin">Upgrade Now</button>
-         </div>
       </div>
     </div>
   </div>

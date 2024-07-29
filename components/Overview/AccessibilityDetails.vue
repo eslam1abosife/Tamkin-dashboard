@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] " >
+  <div class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] relative" >
     <div class="flex items-center justify-start px-[15px]">
       <div class="w-3/4">
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Accessibility Details</h1>
-              <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90 pt-[6px]">
+              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Accessibility Details</h1>
+              <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90 pt-[6px]">
                 Accessibility Details provide comprehensive information to help ensure your website
                 complies with all accessibility standards
               </p>
@@ -15,12 +15,11 @@
         </h1>
       </div>
       <div
-        class="rtl:mr-auto ltr:ml-auto flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[10px]
-        lg:justify-evenly rtl:space-x-reverse space-x-[16px]"
+        class=""
       >
         <button
           @click="$router.push('/statistics')"
-          class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+          class="absolute right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
           View All
         </button>

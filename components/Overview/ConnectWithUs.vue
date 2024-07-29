@@ -13,9 +13,9 @@ const collapseStore = useCollapseStore();
     <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px]"       >
         <div class="flex items-start justify-start px-[15px] pt-[24px]">
           <div class="">
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Connect with us</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">Connect with us</h1>
   
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
+            <p class="text-[12px] lg:text-[14px] lg:w-auto w-[290px] lg:leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
               Connect with us to stay updated and receive support for all your accessibility
               needs
             </p>
@@ -118,38 +118,38 @@ const collapseStore = useCollapseStore();
           class="flex items-center flex-col justify-center mt-[24px] space-y-[24px] px-[15px]"
           v-if="!collapseStore.collapses.includes('connect_withUs_card')"
         >
-        <div
-        :style="{ backgroundImage: `url(${banner})` }"
-        style="width: 100%; background-size: cover"
-        class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
-      >
-        <div class="h-full">
-          <img 
-            src="/assets/pngs/man.png"
-            alt="Character"
-            class=" h-full lg:block hidden m-auto"
-          />
-        </div>
-        <div class="flex flex-col items-center justify-center px-[10px]">
-          <h2
-            class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
+          <div
+            :style="{ backgroundImage: `url(${banner})` }"
+            style="width: 100%; background-size: cover"
+            class="rounded-lg h-[150px] lg:h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
           >
-            Would you like to have early access to the platform?
-          </h2>
-          <button
-            class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
-            space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
-            flex items-center justify-center px-[12px]"
-          
-          >
-            <div class="">Sign up to keep up with the latest news from us</div>
-            <div>
-              <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
+            <div class="hidden lg:block lg:h-full">
+              <img 
+                src="/assets/imgs/icons/man.svg"
+                alt="Character"
+                class=" h-full "
+              />
             </div>
-          </button>
-        </div>
-      </div>
-  
+            <div class="flex flex-col items-center justify-center px-[10px]">
+              <h2
+                class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
+              >
+                Would you like to have early access to the platform?
+              </h2>
+              <button
+                class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
+                space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
+                flex items-center justify-center px-[12px]"
+              
+              >
+                <div class="">Sign up to keep up with the latest news from us</div>
+                <div>
+                  <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
+                </div>
+              </button>
+            </div>
+          </div>
+      
           <div class="">
             <h1
               class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px] dark:text-whiteTamkin"

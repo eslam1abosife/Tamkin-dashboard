@@ -256,7 +256,7 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <div
-        class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px]"
+        class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
         :class="[collapseStore.collapses.includes('button_color_card') ? 'pb-[24px]' :'pb-[0]']"
 
       >
@@ -376,7 +376,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -389,16 +389,16 @@ onBeforeRouteLeave((to, from, next) => {
           class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden"
           v-if="!collapseStore.collapses.includes('button_color_card')"
         >
-          <div class="flex items-center justify-between w-full">
+          <div class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]">
             <div
-              class="flex items-center justify-start px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
+              class="flex items-center justify-start lg:px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
             >
               <div
                 @click="customizeStore.colorMode = 'solid'"
                 :class="[
                   customizeStore.colorMode === 'solid'
                     ? 'custom-border-tamkin padding-override-1'
-                    : 'border-[1px] rounded-[10px]',
+                    : 'border-[1px]  dark:border-darkborder  rounded-[10px]',
                 ]"
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
@@ -412,10 +412,12 @@ onBeforeRouteLeave((to, from, next) => {
                 :class="[
                   customizeStore.colorMode === 'gradient'
                     ? 'custom-border-tamkin padding-override-1'
-                    : 'border-[1px] rounded-[10px]',
+                    : 'border-[1px] dark:border-darkborder  rounded-[10px]',
                 ]"
                 @click="customizeStore.colorMode = 'gradient'"
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
+                class="flex items-center justify-start 
+                
+                rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div
                   style="background: linear-gradient(180deg, #585b5b 0%, #bac1c0 100%)"
@@ -429,7 +431,8 @@ onBeforeRouteLeave((to, from, next) => {
             <div
               v-if="customizeStore.colorMode === 'solid'"
               :style="{ border: `1px solid ${customizeStore.currentColor}` }"
-              class="mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
+              class="lg:mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start
+               rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
             >
               <div
                 class="h-[24px] w-[24px] rounded-full"
@@ -442,7 +445,9 @@ onBeforeRouteLeave((to, from, next) => {
 
             <div
               v-if="customizeStore.colorMode === 'gradient'"
-              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] mx-[15px] cursor-pointer"
+              class="flex items-center  justify-start
+           
+              border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
             >
               <div
                 class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]"
@@ -456,7 +461,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
               <div
-                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-[50%] pr-[15px]"
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-[20%] lg:ml-[50%] pr-[15px]"
               >
                 <div
                   class="h-[24px] w-[24px] rounded-full"
@@ -530,7 +535,7 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md  -shadow-y-[1px]" 
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md  -shadow-y-[1px] relative" 
         :class="[collapseStore.collapses.includes('button_type_card') ? 'pb-[24px]' :'pb-[10px]']"
         
       >
@@ -650,7 +655,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -1026,16 +1031,16 @@ onBeforeRouteLeave((to, from, next) => {
     
 <CustomizeButtonLocation/>
       <div
-        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
         
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Widget Customization</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Widget Customization</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin  pt-[6px]">
+            <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin  pt-[6px]">
               Customize your widgets for a tailored browsing experience
             </p>
           </div>
@@ -1048,8 +1053,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px]
-             ltr:mr-[15px] menu_button_control"
+            class=" menu_button_control"
           >
             <svg
               width="18"
@@ -1146,7 +1150,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -1163,16 +1167,16 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px]"
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
         
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Accessibility Mode</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Accessibility Mode</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
+            <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
               Accessibility Mode optimizes interface for diverse user needs and
               disabilities
             </p>
@@ -1186,7 +1190,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative rtl:mr-auto ltr:ml-auto rtl:ml-[15px] ltr:mr-[15px] mt-[-24px] menu_button_control"
+            class=" menu_button_control"
           >
             <svg
               width="18"
@@ -1283,7 +1287,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
