@@ -15,10 +15,17 @@ html {
 }
 
 
+body{
+    @apply dark:bg-darkSecondary;
 
+}
 
 .otp_field {
-    @apply lg:w-[78px] focus:bg-whiteTamkin lg:h-[65px] ipad-max:w-[55px] ipad-max:h-[45px] md:w-[50px] md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 rounded-[15px] border border-lightGrey focus:outline-none focus:ring-0 focus:border-tamkin shadow-sm text-lg bg-whiteTamkin [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+    @apply lg:w-[78px] focus:bg-whiteTamkin lg:h-[65px] ipad-max:w-[55px] ipad-max:h-[45px] md:w-[50px]
+     md:h-[40px] w-[50px] h-[50px] flex flex-col items-center justify-center text-center px-5 dark:border-darkborder dark:text-whiteTamkin
+     rounded-[15px] border border-lightGrey focus:outline-none focus:ring-0 focus:border-tamkin dark:bg-tamkinDarkPrimary
+     shadow-sm text-lg bg-whiteTamkin [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none
+      [&::-webkit-inner-spin-button]:appearance-none;
 
 }
 
@@ -32,7 +39,7 @@ input:-webkit-autofill {
 }
 
 .password_eye {
-    @apply absolute top-[6px] lg:top-[11px] rtl:left-[30px] ltr:right-[30px] p-1 cursor-pointer hover:opacity-80;
+    @apply absolute top-[6px] lg:top-[6px] rtl:left-[30px] ltr:right-[30px] p-1 cursor-pointer hover:opacity-80;
 
     .svg_eye {
         @apply w-[16px] h-[16px] lg:h-[20px] lg:w-[20px] text-light;

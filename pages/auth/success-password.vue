@@ -49,10 +49,11 @@ const loginUser = async () => {
           <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
+          
+          
+          <h1 class="text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{ $t("successfully") }}</h1>
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("successfully") }}</h1>
-
-          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 30px;">
+          <h3 class="text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px] dark:text-whiteTamkin/90" style="line-height: 30px;">
             {{ $t("password_reset_successfully") }}
           </h3>
 

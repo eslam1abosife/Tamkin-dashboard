@@ -31,11 +31,12 @@ const { forgetPassword } = useForgetPassword(state);
                     <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
                 </div>
                 <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
-
-                    <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{
+                 
+                    
+                    <h1 class="dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{
                         $t("forgot_password_prompt") }}</h1>
 
-                    <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]"
+                    <h3 class="dark:text-whiteTamkin/90 text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]"
                         style="line-height: 30px;">
                         {{ $t("enter_email_for_verification") }}
                     </h3>

@@ -45,17 +45,18 @@ const { register } = useRegister(state);
 </script>
 
 <template>
-  <div class="max-w-[600px] h-[600px] relative">
+  <div class="max-w-[600px] h-[600px] relative ">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
           <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
+        
+         
+          <h1 class="  text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{ $t("register") }}</h1>
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("register") }}</h1>
-
-          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 48px;">
+          <h3 class=" text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px] dark:text-whiteTamkin/90" style="line-height: 48px;">
             {{ $t("sign_up_to_enjoy_features_of_tamkin") }}
 
           </h3>
@@ -226,18 +227,18 @@ const { register } = useRegister(state);
       </div>
 
     </div>
-    <div class="flex flex-col items-center justify-center mt-[18px]">
-      <div class="text-[15px] font-[400] leading-5 text-secondary_text">
+    <div class="flex flex-col items-center justify-center mt-[18px] ">
+      <div class="text-[15px] font-[400] leading-5 text-secondary_text dark:text-whiteTamkin">
         <p>{{ $t('by_continuing_i_agree_to_tamkin') }}</p>
       </div>
       <div>
-        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400]" style="line-height:22.5px">& </span>
+        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
         <a href="" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
 
       </div>
     </div>
 
-    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3">
+    <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3 ">
       <button @click="register" class="btn-grad-action w-full" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid || v$.phone.$invalid">
         {{ $t("register") }}
@@ -245,14 +246,14 @@ const { register } = useRegister(state);
 
       <button style="line-height: 30px;" class="google_login_button ">
         <div class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
-          <div class="font-[600] text-[16px] lg:text-[20px]">{{ $t("signUpWithGoogle") }}</div>
-          <img  src="/assets/imgs/google_login.png"  class="w-[23px] h-[23px]" />
+          <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("signUpWithGoogle") }}</div>
+          <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />
         </div>
       </button>
     
       <div class="text-center pb-[20px]">
-        <span class="text-darkGrey text-lg font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1">{{$t('already_have_an_account')}}</span>
-        <a class="text-lg font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400]"  @click="$router.push('/auth/login')">{{$t('loginRegisterPage')}}</a></div>
+        <span class="text-darkGrey text-[16px] font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1 dark:text-whiteTamkin">{{$t('already_have_an_account')}}</span>
+        <a class="text-[16px] font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400]"  @click="$router.push('/auth/login')">{{$t('loginRegisterPage')}}</a></div>
     
     </div>
   </div>

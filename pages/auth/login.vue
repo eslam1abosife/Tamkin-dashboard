@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
-<<<<<<< HEAD
-import { required, email, sameAs } from "@vuelidate/validators";
-// import { useApi } from "@/composables/api";
-=======
 import { required, email } from "@vuelidate/validators";
 import { useGoogle, useLogin } from '@/composables/useAuth';
->>>>>>> 6282641393d0ab79c1d3896376444416251bcafb
 
 definePageMeta({
   layout: "auth",
@@ -24,33 +19,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-<<<<<<< HEAD
-const loginUser = async () => {
-  // try {
 
-  //   const api = useApi();
-
-  //   const data = await api({
-  //     method: 'get',
-  //     url: '/auth/login'
-  //   })
-
-  //   //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
-  //   // // redirect to homepage if user is authenticated
-  //   // if (authenticated) {
-  //   //   router.push('/admin/dashboard');
-  //   //   // state.email = ""
-  //   //   // state.password = ""
-  //   // }
-  // } catch (error) {
-  //   console.log('error here',error)
-  //   // Handle login errors
-  //   // console.log(error)
-  //   // console.error('Login failed:', error.);
-  // }
-};
-=======
->>>>>>> 6282641393d0ab79c1d3896376444416251bcafb
 const isPasswordVisible = ref(false);
 
 const togglePasswordVisibility = () => {
@@ -65,7 +34,7 @@ const { loginUser, loading } = useLogin(state);
 </script>
 
 <template>
-  <div class="max-w-[600px] h-[600px] relative">
+  <div class="max-w-[600px] h-[600px] relative ">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
@@ -73,23 +42,23 @@ const { loginUser, loading } = useLogin(state);
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
-          <h1 class="text-[26px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("login") }}</h1>
+          <h1 class="text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{ $t("login") }}</h1>
 
-          <h3 class="text-[15px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 48px;">
+          <h3 class="text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]  dark:text-whiteTamkin/90" style="line-height: 48px;">
             {{ $t("new_to_tamkin") }}
-            <a @click="$router.push('/auth/register')" class="cursor-pointer text-tamkin underline brightness-[0.8]">{{ $t("get_started") }}</a>
+            <a @click="$router.push('/auth/register')" class="cursor-pointer text-tamkin underline dark:brightness-[1] brightness-[0.8]">{{ $t("get_started") }}</a>
           </h3>
           <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button">
             <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
-              <div class="font-[600] text-[16px] lg:text-[20px]">{{ $t("login_with_google") }}</div>
+              <div class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("login_with_google") }}</div>
               <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />
             </div>
           </button>
           <div class="space-y-[23px] w-full">
             <div class="relative flex items-center mx-auto w-full mt-[23px]">
-              <div class="flex-grow border-t border-lightGrey"></div>
-              <span class="flex-shrink mx-4 text-secondary_text text-[20px] font-[500]">{{ $t("or") }}</span>
-              <div class="flex-grow border-t border-lightGrey"></div>
+              <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
+              <span class="flex-shrink mx-4 text-secondary_text text-[20px] font-[500]  dark:text-whiteTamkin">{{ $t("or") }}</span>
+              <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
             </div>
 
             <div class="space-y-[23px] w-full ">
@@ -169,9 +138,10 @@ const { loginUser, loading } = useLogin(state);
               <div class="flex flex-row items-center justify-between">
                 <div>
                   <label for="remember_me"
-                    class="h-[22px]  text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
+                    class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
                     <input type="checkbox"
-                      class="border-[1px] w-[18px] h-[18px] border-lightGrey bg-whiteTamkin rounded-[4px]  text-tamkin ring-0 focus:ring-0"
+                      class="border-[1px]  w-[18px] h-[18px] border-lightGrey dark:border-darkborder bg-transparent rounded-[4px] 
+                       text-tamkin ring-0 focus:ring-0 focus:outline-none"
                       id="remember_me" />
                     {{ $t("remember_me") }}</label>
                 </div>

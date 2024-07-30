@@ -39,11 +39,11 @@ watch(width, (newWidth) => {
 <template>
   <Html :lang="htmlAttrs.lang" :dir="htmlAttrs.dir">
 
-  <div class=" mx-auto h-screen ">
+  <div class=" mx-auto h-screen dark:bg-darkSecondary">
     <div class="grid grid-cols-12  lg:gap-[20px] ">
 
       <div
-        class=" lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 rtl:left-0 ltr:right-0 z-50 overflow-hidden bg-gradient-to-b from-tamkinStart to-tamkinEnd  rtl:order-2 order-2 ">
+        class=" lg:block md:hidden hidden col-span-12 md:col-span-4 w-2/4 lg:col-span-6 fixed top-0 bottom-0 rtl:left-0 ltr:right-0 z-50 overflow-hidden  bg-gradient-to-b from-tamkinStart to-tamkinEnd  rtl:order-2 order-2 ">
         <Vue3Lottie :animationData="shapeDown" :height="200" :width="200"
           class="absolute 3xl:top-[85%] top-[75%] left-[85%]  " />
         <Vue3Lottie :animationData="shapeUp" :height="700" :width="500"
@@ -69,8 +69,9 @@ watch(width, (newWidth) => {
         </div>
       </div>
       <div
-        class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%] 3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 ">
-        <NuxtPage class=" " />
+        class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%]  dark:bg-darkSecondary 
+        3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 ">
+        <NuxtPage class="dark:bg-darkSecondary" />
       </div>
     </div>
 
