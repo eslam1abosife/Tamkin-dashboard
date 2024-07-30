@@ -50,7 +50,7 @@ watch(width, (newWidth) => {
           class="absolute -top-[50%] left-[130px] 3xl:-top-[30%]  " />
 
         <div class="2xl:h-[4px] 2xl:w-[308px] lg:w-[100px] lg:h-[100px]">
-          <Vue3Lottie :animationData="AuthJson" :width="authWidth" :height="authHeight" 
+          <Vue3Lottie :animationData="AuthJson" :width="authWidth" :height="authHeight"
             class="absolute inset-x-0 top-[50px] ipad-max:top-[40px]  " />
 
         </div>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useForgetPassword } from '@/composables/useAuth';
+
 definePageMeta({
     layout: "auth",
 });
@@ -18,23 +20,7 @@ const rules = {
     email: { required, email },
 };
 const v$ = useVuelidate(rules, state);
-
-const loginUser = async () => {
-    try {
-        //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
-        // // redirect to homepage if user is authenticated
-        // if (authenticated) {
-        //   router.push('/admin/dashboard');
-        //   // state.email = ""
-        //   // state.password = ""
-        // }
-    } catch (error) {
-        // Handle login errors
-        // console.log(error)
-        // console.error('Login failed:', error.);
-    }
-};
-
+const { forgetPassword } = useForgetPassword(state);
 </script>
 
 <template>
@@ -98,7 +84,7 @@ const loginUser = async () => {
 
         <div
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-            <button class="btn-grad-action w-full" @click="loginUser" v-if="!loading"
+            <button class="btn-grad-action w-full" @click="forgetPassword" v-if="!loading"
                 :disabled="v$.email.$invalid || loading">
                 {{ $t("continue") }}
             </button>

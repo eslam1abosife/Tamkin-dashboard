@@ -104,6 +104,7 @@ const editDonePicture = ref(false)
 
 <template>
   <div class=" relative">
+
     <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'"  class="!top-[70px]"  />
 
     <div class="space-y-[10px] ">
