@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useRegister } from "@/composables/useAuth";
+
 definePageMeta({
   layout: "auth",
 });
@@ -13,37 +15,20 @@ const { loading } = storeToRefs(authStore); // make authenticated state reactive
 const state = reactive({
   email: "",
   password: "",
-  fullName: "",
-  password_confirm: "",
-
-
+  full_name: "",
+  confirm_password: "",
+  phone: ""
 });
 const rules = {
   email: { required, email },
   password: { required },
-  fullName: { required },
-  password_confirm: { required, sameAs: sameAs(computed(() => state.password)) },
-
-
+  full_name: { required },
+  phone: { required },
+  confirm_password: { required, sameAs: sameAs(computed(() => state.password)) },
 };
 
 const v$ = useVuelidate(rules, state);
 
-const loginUser = async () => {
-  try {
-    //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
-    // // redirect to homepage if user is authenticated
-    // if (authenticated) {
-    //   router.push('/admin/dashboard');
-    //   // state.email = ""
-    //   // state.password = ""
-    // }
-  } catch (error) {
-    // Handle login errors
-    // console.log(error)
-    // console.error('Login failed:', error.);
-  }
-};
 const isPasswordVisible = ref(false);
 const isconfirmPasswordVisible = ref(false)
 const togglePasswordVisibility = () => {
@@ -55,7 +40,7 @@ const toggleConfirmPasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
-
+const { register } = useRegister(state);
 
 </script>
 
@@ -80,26 +65,50 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
           <div class="space-y-[23px] w-full ">
             <div class="w-full relative">
               <input type="text" placeholder="{{$t('full name')}}" id="email" class="input_floating_label peer"
-                v-model="v$.fullName.$model" :class="{
+                v-model="v$.full_name.$model" :class="{
             input_error:
-              (v$.fullName.$error && v$.fullName.required.$invalid),
-            input_success: !v$.fullName.$error && !v$.fullName.$invalid,
+              (v$.full_name.$error && v$.full_name.required.$invalid),
+            input_success: !v$.full_name.$error && !v$.full_name.$invalid,
           }" />
               <label for="email" class="floating_label" :class="[
-            (v$.fullName.$error && v$.fullName.required.$invalid)
+            (v$.full_name.$error && v$.full_name.required.$invalid)
               ? '!text-error'
               : '',
           ]">
                 {{ $t("full_name") }}*
               </label>
-              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.fullName.$error && v$.fullName.required.$invalid)">
+              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.full_name.$error && v$.full_name.required.$invalid)">
                 <p class="error_message">
-                  <span v-if="v$.fullName.$error && v$.fullName.required.$invalid">{{ $t("email_address_is_required")
+                  <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("email_address_is_required")
                     }}</span>
 
                 </p>
               </div>
             </div>
+
+            <div class="w-full relative">
+              <input type="text" placeholder="{{$t('phone')}}" id="phone" class="input_floating_label peer"
+                     v-model="v$.phone.$model" :class="{
+            input_error:
+              (v$.phone.$error && v$.phone.required.$invalid),
+            input_success: !v$.phone.$error && !v$.phone.$invalid,
+          }" />
+              <label for="phone" class="floating_label" :class="[
+            (v$.phone.$error && v$.phone.required.$invalid)
+              ? '!text-error'
+              : '',
+          ]">
+                {{ $t("phone") }}*
+              </label>
+              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.phone.$error && v$.phone.required.$invalid)">
+                <p class="error_message">
+                  <span v-if="v$.phone.$error && v$.phone.required.$invalid">{{ $t("email_address_is_required")
+                    }}</span>
+
+                </p>
+              </div>
+            </div>
+
             <div class="w-full relative">
               <input type="email" placeholder="{{$t('email')}}" id="email" class="input_floating_label peer"
                 v-model="v$.email.$model" :class="{
@@ -170,14 +179,14 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
 
             <div class="w-full relative">
               <input :type="ConfirmpasswordFieldType" placeholder="{{ $t('confirm_password') }}" id="password_confirm"
-                class="input_floating_label peer" v-model="v$.password_confirm.$model" :class="{
+                class="input_floating_label peer" v-model="v$.confirm_password.$model" :class="{
             input_error:
-              (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid),
-            input_success: !v$.password_confirm.$error && !v$.password_confirm.$invalid,
+              (v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid) || (v$.confirm_password.$error && v$.confirm_password.required.$invalid),
+            input_success: !v$.confirm_password.$error && !v$.confirm_password.$invalid,
 
           }" />
-              <label for="password_confirm" class="floating_label" :class="[(v$.password_confirm.$error && v$.password_confirm.required.$invalid) ||
-            (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) ? '!text-error' : ''
+              <label for="password_confirm" class="floating_label" :class="[(v$.confirm_password.$error && v$.confirm_password.required.$invalid) ||
+            (v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid) ? '!text-error' : ''
             ,]">{{ $t('confirm_password') }}*</label>
 
             <div class="password_eye"
@@ -199,11 +208,11 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
 
 
           </div>
-              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid)
+              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid) || (v$.confirm_password.$error && v$.confirm_password.required.$invalid)
             ">
                 <p class="error_message_password">
                   <span
-                    v-if="v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid || v$.password_confirm.$error && v$.password_confirm.required.$invalid">{{
+                    v-if="v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid || v$.confirm_password.$error && v$.confirm_password.required.$invalid">{{
             $t('password_should_be_the_same') }}</span>
 
 
@@ -229,8 +238,8 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full" @click="loginUser" v-if="!loading"
-        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.password_confirm.$invalid ">
+      <button @click="register" class="btn-grad-action w-full" v-if="!loading"
+        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid || v$.phone.$invalid">
         {{ $t("register") }}
       </button>
 

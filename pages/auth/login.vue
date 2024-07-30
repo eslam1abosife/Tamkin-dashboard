@@ -1,21 +1,17 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
-import { useApi } from "@/composables/api";
+import { required, email } from "@vuelidate/validators";
+import { useGoogle, useLogin } from '@/composables/useAuth';
 
 definePageMeta({
   layout: "auth",
 });
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-import { useAuthStore } from "@/stores/auth"; // import the auth store we just created
-
-const authStore = useAuthStore();
-const { loading } = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
 
 const state = reactive({
   email: "",
   password: "",
 });
+
 const rules = {
   email: { required, email },
   password: { required },
@@ -23,30 +19,6 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const loginUser = async () => {
-  try {
-
-    const api = useApi();
-
-    const data = await api({
-      method: 'get',
-      url: '/auth/login'
-    })
-
-    //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
-    // // redirect to homepage if user is authenticated
-    // if (authenticated) {
-    //   router.push('/admin/dashboard');
-    //   // state.email = ""
-    //   // state.password = ""
-    // }
-  } catch (error) {
-    console.log('error here',error)
-    // Handle login errors
-    // console.log(error)
-    // console.error('Login failed:', error.);
-  }
-};
 const isPasswordVisible = ref(false);
 
 const togglePasswordVisibility = () => {
@@ -55,6 +27,8 @@ const togglePasswordVisibility = () => {
 
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 
+const { loginWithGoogle } = useGoogle();
+const { loginUser, loading } = useLogin(state);
 
 </script>
 
@@ -73,7 +47,7 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
             {{ $t("new_to_tamkin") }}
             <a @click="$router.push('/auth/register')" class="cursor-pointer text-tamkin underline brightness-[0.8]">{{ $t("get_started") }}</a>
           </h3>
-          <button style="line-height: 30px;" class="google_login_button">
+          <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button">
             <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
               <div class="font-[600] text-[16px] lg:text-[20px]">{{ $t("login_with_google") }}</div>
               <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />

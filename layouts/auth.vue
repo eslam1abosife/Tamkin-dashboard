@@ -10,7 +10,7 @@ const head = useLocaleHead({
 })
 const htmlAttrs = computed(() => head.value.htmlAttrs!)
 
-
+const x = ref(true);
 
 </script>
 
