@@ -189,7 +189,7 @@ watch(
   <div
     class="flex-col items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto 
     rtl:right-0 ltr:left-0 px-6 h-screen z-[140]  transition-all duration-75 ease-in-out transform-gpu"
-    :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]']"
+    :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
     style="box-sizing: border-box !important"
   >
     <div class="flex flex-col items-start justify-start w-full  transition-all duration-100 ease-in-out">
@@ -262,7 +262,7 @@ watch(
       <hr class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder  my-[28px]" />
       <button
         @click="$router.push(localePath('/add-site'))"
-        class="btn-dashboard h-[40px] flex items-center justify-center relative w-full transition-all duration-75 ease-in-out"
+        class="btn-dashboard  hover_tamkin  relative w-full transition-all duration-75 ease-in-out"
         v-if="sideBarOpen"
       >
         <div class="absolute rtl:right-0 ltr:left-0 px-[12px]">
@@ -1266,7 +1266,8 @@ watch(
       </div>
       <div
         v-if="sideBarOpen"
-        class="w-full mb-[24px] bg-cover bg-center rounded-[18px] mt-[4px] bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+        class="w-full mb-[24px] bg-cover bg-center rounded-[18px] mt-[4px] dark:border-[1px] dark:border-darkborder 
+        dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div
           class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
@@ -1279,10 +1280,10 @@ watch(
             />
           </div>
           <div>
-            <h2 class="text-[14px] font-[600] text-[#0D5C56]">Need Help?</h2>
+            <h2 class="text-[14px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">Need Help?</h2>
           </div>
           <div>
-            <h2 class="text-[11px] font-[400] text-[#64938f]">Contact Our Sales Team</h2>
+            <h2 class="text-[11px] font-[400] text-[#64938f] dark:text-[#75B1A9]">Contact Our Sales Team</h2>
           </div>
           <div class="w-full mx-auto">
             <button

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import { useApi } from "@/composables/api";
+// import { useApi } from "@/composables/api";
 
 definePageMeta({
   layout: "auth",
@@ -24,28 +24,28 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const loginUser = async () => {
-  try {
+  // try {
 
-    const api = useApi();
+  //   const api = useApi();
 
-    const data = await api({
-      method: 'get',
-      url: '/auth/login'
-    })
+  //   const data = await api({
+  //     method: 'get',
+  //     url: '/auth/login'
+  //   })
 
-    //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
-    // // redirect to homepage if user is authenticated
-    // if (authenticated) {
-    //   router.push('/admin/dashboard');
-    //   // state.email = ""
-    //   // state.password = ""
-    // }
-  } catch (error) {
-    console.log('error here',error)
-    // Handle login errors
-    // console.log(error)
-    // console.error('Login failed:', error.);
-  }
+  //   //   await authenticateUser({email:state.email,password:state.password}); // call authenticateUser and pass the user object
+  //   // // redirect to homepage if user is authenticated
+  //   // if (authenticated) {
+  //   //   router.push('/admin/dashboard');
+  //   //   // state.email = ""
+  //   //   // state.password = ""
+  //   // }
+  // } catch (error) {
+  //   console.log('error here',error)
+  //   // Handle login errors
+  //   // console.log(error)
+  //   // console.error('Login failed:', error.);
+  // }
 };
 const isPasswordVisible = ref(false);
 

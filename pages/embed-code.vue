@@ -108,11 +108,11 @@ const clearInput = () => {
 <template>
   <div class="relative w-full inset-0">
 
-    <div class="container mx-auto space-y-[32px] relative">
+    <div class=" mx-auto space-y-[32px] relative w-full">
       <!-- <DashboardEmbedShareModal/>
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->
 
-      <div class="flex items-center justify-center flex-col">
+      <div class="flex items-center justify-center flex-col w-full">
      <div class="flex flex-col lg:flex-row items-center justify-between">
 
       <h1
@@ -132,8 +132,8 @@ const clearInput = () => {
        
       </div>
 
-      <div   class="  lg:order-2 order-1 p-0 lg:mx-0 mx-auto w-[200px] h-[150px]  mt-[-24px]  lg:hidden block " >
-        <Vue3Lottie :animationData="embed" :height="200" :width="200" class="lg:hidden block" :noMargin="true"
+      <div   class="  lg:order-2 order-1 p-0 lg:mx-0   lg:hidden block " >
+        <Vue3Lottie :animationData="embed" :height="120" :width="120" class="lg:hidden block" :noMargin="true"
        />
       </div>
         </div>
@@ -149,14 +149,16 @@ const clearInput = () => {
       </p>
       </div>
 
-        <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+        <div class="mt-[44px] w-full h-full bg-whiteTamkin
+         dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
           <div
-            class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
+            class="flex items-center  lg:flex-nowrap flex-wrap md:flex-nowrap
+           justify-between mt-[30px] w-full  px-[15px] "
             style="padding: 30px, 16px, 20px, 15px"
           >
             <button @click="showAdancedCode()"
-              class="btn__icon__dashboard text-[14px]"
+              class="btn__icon__dashboard text-[14px] order-1 "
               style="
                 background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
               "
@@ -179,7 +181,8 @@ const clearInput = () => {
             </button>
             <div
              @click="openModal('shareModal','embed-code')"
-              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+              class="lg:order-2 md:order-2 order-3 cursor-pointer ipad-max:text-[12px] border-[2px]  mx-auto lg:m-0 md:mt-0 mt-4 lg:mt-0 md:w-auto w-full lg:w-auto
+              rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
                 <div class="ltr:pl-[16px] rtl:pr-[16px]">
@@ -239,7 +242,7 @@ const clearInput = () => {
             </div>
 
             <div @click="copyCode"
-              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
+              class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
               <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
@@ -310,36 +313,36 @@ const clearInput = () => {
      
       <div class="flex items-center flex-col justify-center mt-[16px] space-y-[16px] ">
         <div
-          :style="{ backgroundImage: `url(${banner})` }"
-          style="width: 100%; background-size: cover"
-          class="rounded-lg h-[150px] lg:h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
-        >
-          <div class="hidden lg:block lg:h-full">
-            <img 
-              src="/assets/imgs/icons/man.svg"
-              alt="Character"
-              class=" h-full "
-            />
-          </div>
-          <div class="flex flex-col items-center justify-center px-[10px]">
-            <h2
-              class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
-            >
-              Would you like to have early access to the platform?
-            </h2>
-            <button
-              class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
-              space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
-              flex items-center justify-center px-[12px]"
-            
-            >
-              <div class="">Sign up to keep up with the latest news from us</div>
-              <div>
-                <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
-              </div>
-            </button>
-          </div>
+        :style="{ backgroundImage: `url(${banner})` }"
+        style="width: 100%; background-size: cover"
+        class="rounded-lg h-[150px] lg:h-auto text-center flex items-center justify-center lg:flex-row md:flex-row flex-col w-full"
+      >
+        <div class="hidden lg:block md:block lg:h-full md:h-full">
+          <img 
+            src="/assets/imgs/icons/man.svg"
+            alt="Character"
+            class=" h-full "
+          />
         </div>
+        <div class="flex flex-col items-center justify-center px-[10px] lg:space-y-0 space-y-4">
+          <h2
+            class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
+          >
+            Would you like to have early access to the platform?
+          </h2>
+          <button
+            class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
+            space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
+            flex items-center justify-center px-[12px] whitespace-nowrap"
+          
+          >
+            <div class="">Sign up to keep up with the latest news from us</div>
+            <div>
+              <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
+            </div>
+          </button>
+        </div>
+      </div>
       </div>
 
       <div class="space-y-[14px] mb-[32px]">
@@ -384,7 +387,7 @@ const clearInput = () => {
         </h1>
       </div>
 
-      <section class="container w-full  mx-auto ">
+      <section class=" w-full  mx-auto ">
         <div class="flex flex-col mb-[24px]">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div

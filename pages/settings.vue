@@ -145,7 +145,7 @@ onBeforeRouteLeave((to, from, next) => {
    
 
       <div
-        class="mt-[64px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
+        class="mt-[64px] md:mt-[94px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
         :class="[               collapseStore.collapses.includes('general_settings_card')
  ? 'pb-[24px]' :'pb-[20px]'        ]"
         

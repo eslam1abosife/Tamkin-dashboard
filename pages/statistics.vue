@@ -335,7 +335,7 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <div
-        class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
+        class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
 
       >
         <div
@@ -464,7 +464,7 @@ onBeforeRouteLeave((to, from, next) => {
         </div>
 
         <div  v-if="!collapseStore.collapses.includes('select_date_range_card')"
-          class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] w-full"
+          class="flex flex-col items-start justify-center  mt-[18px] lg:pb-[16px] w-full"
          
         >
           <div class="flex items-center justify-between  lg:space-y-0 space-y-4  lg:flex-nowrap flex-wrap w-full">

@@ -109,8 +109,8 @@ const goToPage = (page) => {
 </script>
 
 <template>
-  <div class="">
-    <div class="space-y-[10px]">
+  <div class=" w-full ">
+    <div class="space-y-[10px] ">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
@@ -125,7 +125,7 @@ const goToPage = (page) => {
     </div>
 
     <div
-      class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px]"
+      class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px] "
     >
       <div>
         <button
@@ -145,11 +145,12 @@ const goToPage = (page) => {
     </div>
 
     <div
-      class="ipad-max:-mx-6 mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start"
+      class=" ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] 
+      items-center lg:flex-row flex-col justify-center lg:justify-start"
     >
       <div
         class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full
-         bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] h-[150px] lg:h-[129px] rounded-[10px]"
+         bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -200,24 +201,25 @@ const goToPage = (page) => {
         </div>
       </div>
       <div
-        class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] ltr:right-0 ipad-max:top-[170px] top-[119px] ipad-max:w-1/4"
+        class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
+        ltr:right-0 ipad-max:top-[119px] top-[119px] md:top-[60px] lg:top-[119px] ipad-max:w-1/4 "
       >
         <Vue3Lottie
           :animationData="mysiteAnimation"
-          class="absolute left-[25%] top-[125px]"
+          class="absolute left-[25%] top-[125px] lg:top-[125px] lg:left-[25%] md:top-[55px] md:left-[20%]"
           :height="32"
           :width="39"
         />
-        <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:block hidden" />
+        <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:h-[300px] md:h-[150px] lg:block hidden md:block" />
       </div>
     </div>
 
-    <section class="w-full mx-auto mt-[24px]">
+    <section class="w-full mx-auto mt-[24px] ">
       <div class="flex flex-col" v-if="dataAvailable">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full align-middle md:px-6 ipad-max:px-2 lg:px-8">
+        <div class="overflow-x-auto ">
+          <div class="inline-block min-w-full align-middle ">
             <div
-              class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+              class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div class="flex items-center justify-start lg:justify-between flex-row">
@@ -281,29 +283,32 @@ const goToPage = (page) => {
                 </div>
               </div>
               <table
-                class="table-fixed min-w-full divide-y divide-gray-200 dark:divide-darkborder"
+                class="table-auto  divide-y divide-gray-200 dark:divide-darkborder"
                 v-if="currentTab === 'saved'"
               >
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] 
+                      ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Sites URL
                     </th>
                     <th
-                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:w-[150px]  w-full lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right   lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Billing
                     </th>
                     <th
-                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:w-[150px]  w-full lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
                       Products
                     </th>
                     <th>
                       <div
-                        class="lg:w-[150px] lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class=" lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse 
+                        space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px]
+                         text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>Status</div>
                         <div>
@@ -333,14 +338,14 @@ const goToPage = (page) => {
                     </th>
 
                     <th
-                      class="lg:w-[150px]  w-full ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class=" ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Date
                     </th>
 
                     <th>
                       <div
-                        class="flex items-center lg:px-0 px-[100px] justify-center lg:w-[150px]  w-full rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="flex items-center lg:px-0 px-[100px] justify-center   rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>Traffic</div>
                         <div>
@@ -369,7 +374,7 @@ const goToPage = (page) => {
                       </div>
                     </th>
                     <th
-                      class="w-[140px] lg:px-0 px-[100px] text-center lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="lg:px-0 px-[100px] text-center lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       Action
                     </th>
@@ -377,14 +382,16 @@ const goToPage = (page) => {
                 </thead>
                 <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
                   <tr class="h-[50px]">
-                    <td class="w-[25%]">
+                    <td class="w-[25%] ">
                       <div
-                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px] lg:space-x-[16px]
-                         lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px]
+                         ipad-max:space-x-[10px] lg:space-x-[16px]
+                        ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey
+                          dark:text-whiteTamkin"
                       >
                         <img
                           src="/assets/imgs/icons/avatar_table.svg"
-                          class="w-[20px] h-[20px] lg:block hidden"
+                          class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden"
                         />
                         <div class="order-1">Tamkin.App</div>
                         <div
@@ -399,27 +406,28 @@ const goToPage = (page) => {
                       </div>
                     </td>
                     <td
-                      class="lg:w-[150px] lg:px-0 px-[100px]  w-full text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class=" lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       Monthly
                     </td>
                     <td
-                      class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px]
+                       font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      <div class="flex items-center justify-start lg:space-x-[10px]">
-                        <div class="lg:w-[20px] lg:h-[20px] h-[10px] w-[10px]">
-                          <img
-                            src="/assets/imgs/overview/advanced_plan.svg"
-                            class="lg:w-[20px] lg:h-[20px] h-[10px] w-[10px]"
-                            alt=""
-                          />
-                        </div>
-                        <div>Advanced</div>
+                    <div class="flex items-center justify-start space-x-[10px]">
+                      <div class="w-[20px] h-[20px]">
+                        <img
+                          src="/assets/imgs/overview/prem_plan.svg"
+                          class="w-[20px] h-[20px]"
+                          alt=""
+                        />
                       </div>
+                      <div>Premium</div>
+                    </div>
                     </td>
 
                     <td
-                      class="lg:w-[150px]  lg:px-0 px-[100px] w-full mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+                      class="  lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                     >
                       <div
                         style="
@@ -433,15 +441,15 @@ const goToPage = (page) => {
                     </td>
 
                     <td
-                      class="lg:w-[150px]  w-full ltr:text-left 
-                      rtl:text-right text-[12px] lg:text-[14px] leading-[24px]  lg:leading-[21px] font-[400] text-darkGrey
+                      class="  ltr:text-left 
+                      rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey
                        dark:text-whiteTamkin"
                     >
                       May 11 ,2024
                     </td>
 
                     <td
-                      class="lg:w-[150px]  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class=" text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       2.35K
                     </td>
@@ -474,26 +482,31 @@ const goToPage = (page) => {
                     </td>
                   </tr>
 
-                  <tr class="bg-[#FAEBEB] h-[50px]">
-                    <td
-                      class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[16px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey"
-                    >
-                      <img
-                        src="/assets/imgs/icons/avatar_table.svg"
-                        class="lg:block hidden w-[20px] h-[20px] lg:mt-0"
-                      />
-                      <div class="order-1">Tamkin.App</div>
+                  <!-- <tr class="bg-[#FAEBEB] h-[50px]">
+                    <td class="w-[25%]">
                       <div
-                        class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                        style="
-                          background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                        "
+                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px] lg:space-x-[16px]
+                         lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey
+                          "
                       >
-                        Default
+                        <img
+                          src="/assets/imgs/icons/avatar_table.svg"
+                          class="w-[20px] h-[20px] lg:block hidden"
+                        />
+                        <div class="order-1">Tamkin.App</div>
+                        <div
+                          class="order-1 flex items-center justify-center
+                           text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                          style="
+                            background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                          "
+                        >
+                          Default
+                        </div>
                       </div>
                     </td>
-                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">_</td>
-                    <td class="text-left text-[14px] font-[400] text-darkGrey">
+                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey lg:px-0 px-[100px] ">_</td>
+                    <td class="text-left text-[14px] font-[400] text-darkGrey lg:px-0 px-[100px] ">
                       <div class="flex items-center justify-start space-x-[10px]">
                         <div class="w-[20px] h-[20px]">
                           <img
@@ -506,18 +519,18 @@ const goToPage = (page) => {
                       </div>
                     </td>
 
-                    <td class="text-darkGrey ltr:text-left rtl:text-right">
-                      <div class="text-[14px] font-[500] leading-[21px] text-[#DE4134]">
+                    <td class="text-darkGrey ltr:text-left rtl:text-right lg:px-0 px-[100px] ">
+                      <div class="text-[14px] font-[500] leading-[21px] text-[#DE4134] whitespace-nowrap">
                         Not installed
                       </div>
                     </td>
 
-                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey">
+                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey whitespace-nowrap">
                       May 11 ,2024
                     </td>
 
                     <td
-                      class="lg:w-[150px]  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey"
+                      class="  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey"
                     >
                       8.35K
                     </td>
@@ -546,7 +559,7 @@ const goToPage = (page) => {
                         </div>
                       </div>
                     </td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
 
@@ -609,7 +622,7 @@ const goToPage = (page) => {
           </div>
         </div>
       </div>
-      <div class="flex flex-col" v-else>
+      <div class="flex flex-col " v-else>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
@@ -682,7 +695,7 @@ const goToPage = (page) => {
         </div>
       </div>
       <div class="py-[4px]" v-if="!dataAvailable"></div>
-      <div class="flex flex-col lg:flex-row justify-between items-center py-[16px]" v-if="dataAvailable">
+      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]" v-if="dataAvailable">
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
             Per Page

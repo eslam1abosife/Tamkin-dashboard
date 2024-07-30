@@ -60,6 +60,7 @@ const toggleSidebar = () => {
   navStore.openNav();
 };
 function toggleSidebarMobile() {
+
   sideBarOpenMobile.value = !sideBarOpenMobile.value;
 }
 watch(search, (ov, nv) => {
@@ -68,6 +69,9 @@ watch(search, (ov, nv) => {
     : (isSearchfilled.value = false);
 });
 
+watch(() => route.path, (newPath, oldPath) => {
+  sideBarOpenMobile.value = false;
+}, { immediate: true });
 watchEffect(() => {
   if (width.value < 1000) {
     sideBarOpen.value = true;
@@ -168,9 +172,7 @@ const hasUnsavedChanges = () => {
   );
 };
 
-const saveModalBeforeLeave = computed(() => {
-  return isLinkActive(localePath("/addons")) ? checkboxStore.routeLeaveModal : false;
-});
+
 
 const openModals = computed(() => {
   return (
@@ -256,7 +258,7 @@ const openModals = computed(() => {
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
             : 'hidden lg:flex',
-          sideBarOpen ? 'max-w-[280px]' : 'max-w-[75px]',
+          sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
         ]">
       <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
         <div @click="toggleSidebar" :class="[
@@ -265,7 +267,9 @@ const openModals = computed(() => {
             : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
         ]"
           class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white
-             dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5]  rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+             dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] 
+             dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5]  rounded-full w-[24px] 
+             h-[24px] group z-[150] lg:flex hidden">
           <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
             class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
             xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +282,7 @@ const openModals = computed(() => {
       </div>
     </div>
 
-    <div class="flex items-start lg:flex-row flex-col justify-center lg:justify-between relative w-full">
+    <div class="flex items-start lg:flex-row flex-col md:justify-between lg:justify-between relative w-full">
       <!-- upper nav and content -->
       <div class="relative top-0 w-full">
         <nav style="box-shadow: 0px 4px 24px 8px #51459f14"
@@ -324,14 +328,15 @@ const openModals = computed(() => {
               <div @click="showNotifiations = !showNotifiations"
                 :class="[showNotifiations ? 'active_notification' : '']"
                 class="cursor-pointer flex items-center justify-center border-[1px] 
-                border-[#EAEAEA] dark:border-darkborder rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary lg:w-[40px] w-[60px] h-[40px]">
+                border-[#EAEAEA] dark:border-darkborder rounded-[8px] bg-[#FFFEFE] 
+                dark:bg-tamkinDarkPrimary lg:w-[40px] w-[60px] h-[40px] ipad-max:w-[30px] ipad-max:h-[30px]">
                 <div class="relative stroke-current dark:text-whiteTamkin text-darkGrey">
                   <div :class="[showNotifiations ? 'hidden' : '']"
-                    class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                    <span class="text-[12px] font-[700] text-white" style="line-height: 68px">5</span>
+                    class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] ipad-max:w-[14px] ipad-max:h-[14px] w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                    <span class="ipad-max:text-[10px] text-[12px] font-[700] text-white" style="line-height: 68px">5</span>
                   </div>
                   <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
-                    :class="[showNotifiations ? 'active_bell' : '']" class="" xmlns="http://www.w3.org/2000/svg">
+                    :class="[showNotifiations ? 'active_bell' : '']" class="ipad-max:h-[14px] ipad-max:w-[14px]" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -343,10 +348,10 @@ const openModals = computed(() => {
               </div>
               <div class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]">
                 <div class="lg:block hidden">
-                  <img src="/assets//imgs/avatar.png" class="w-[40px] h-[40px]" />
+                  <img src="/assets//imgs/avatar.png" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]" />
                 </div>
                 <div class="lg:block hidden">
-                  <h2 class="font-[400] text-[12px] dark:text-white" style="line-height: 14.4px">
+                  <h2 class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]" >
                     Ali Ahmed
                   </h2>
                 </div>

@@ -34,17 +34,17 @@ const v$ = useVuelidate(rules, state);
     <div class="relative w-full h-full mb-[16px]">
 
     <div class="flex items-start justify-between mx-auto px-6 py-12 shadow-md bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full max-h-[700px] ">
-        <div class="flex flex-col items-start justify-center w-full space-y-6">
+        <div class="flex flex-col items-center lg:items-start justify-center w-full space-y-6">
           <div class="flex items-center justify-center space-x-4">
-            <h1 class="text-2xl font-semibold text-[#021328] dark:text-whiteTamkin">Contact Sales</h1>
+            <h1 class="text-[14px] lg:text-[18px]  font-semibold text-[#021328] dark:text-whiteTamkin">Contact Sales</h1>
             <img  src="/assets/pngs/contact.png"  class="w-[40px] h-[40px]" alt="Contact Sales Icon"/>
           </div>
       
-          <p class="text-lg text-darkGrey  dark:text-whiteTamkin text-left w-full">
+          <p class="text-[12px] lg:text-[14px] text-darkGrey  dark:text-whiteTamkin text-center  lg:text-left w-full">
             Let’s get this conversation started tell us about yourself, and we’ll get in touch as soon as we can
           </p>
       
-          <div class="w-full space-y-6 pr-[24px]">
+          <div class="w-full space-y-6 lg:pr-[24px]">
             
             <div class="w-full relative">
                 <input type="text" placeholder="{{$t('Name')}}" id="Name" class="input_floating_label peer w-full"
@@ -163,12 +163,13 @@ const v$ = useVuelidate(rules, state);
           </div>
         </div>
 
-        <div class="flex flex-col items-start justify-center space-y-[10px] w-2/4">
-            <div class=" text-darkGrey  dark:text-whiteTamkin text-[18px] font-[400]  leading-[26px] font-[Mali mt-[90px]">
+        <div class="hidden lg:flex flex-col items-start justify-center space-y-[10px] w-2/4  ">
+            <div class=" text-darkGrey  dark:text-whiteTamkin text-[14px] lg:text-[18px] font-[400]  leading-[26px] 
+            font-[Mali] mt-[130px] 2xl:mt-[110px] ">
                 You will have more surprises and enjoy  with us 
             </div>
             <div class="w-full h-full">
-                <img  src="/assets/pngs/desk.png"  class="h-[303px] w-full" />
+                <img  src="/assets/pngs/desk.png"  class="h-full 2xl:h-[303px] w-full" />
             </div>
         </div>
       </div>

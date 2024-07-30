@@ -103,7 +103,7 @@ const marketStore = useMarketStore();
             :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
 
 
-             class="cursor-pointer group w-[35px] mt-[4px] h-[35px] ml-auto hover:border-0 bg-white  dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center dark:border-light border"
+             class="cursor-pointer group w-[35px] mt-[4px] h-[35px] ml-auto hover:border-0 bg-white  dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center dark:border-darkborder border"
            > 
            <svg
            :class="[marketStore.cartItems.includes(char) ? 'text-white' :'text-tamkin']"
@@ -159,7 +159,7 @@ const marketStore = useMarketStore();
             :class="[marketStore.cartItems.includes(char) ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd' :'']"
               class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white dark:bg-tamkinDarkPrimary 
               hover:bg-gradient-to-b
-               from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border dark:border-light"
+               from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border dark:border-darkborder"
             >
               <svg
                   :class="[marketStore.cartItems.includes(char) ? 'text-white' :'text-tamkin']"

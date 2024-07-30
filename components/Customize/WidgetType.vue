@@ -143,8 +143,10 @@ const {widgetType} = storeToRefs(customizeStore)
           v-if="!collapseStore.collapses.includes('widget_type_card')"
         >
     
-<div class="flex items-start flex-col justify-center w-full  mx-auto ipad-max:flex-col ">
-    <div class="flex  items-center justify-between lg:flex-row flex-col lg:space-y-0 space-y-[10px] lg:space-x-[20px] w-full">
+<div class="flex md:items-center md:space-x-10  lg:space-x-0 items-start lg:flex-col flex-col md:flex-row justify-center w-full  mx-auto  ">
+    <div class="md:mt-[10px]  flex md:justify-center items-center justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0
+     space-y-[10px] 
+    lg:space-x-[20px] w-full">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
         <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] 
       dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder 
@@ -209,7 +211,8 @@ const {widgetType} = storeToRefs(customizeStore)
       </div>
 
     </div>
-    <div class="flex  items-center justify-between lg:flex-row flex-col lg:space-y-0 space-y-[10px] lg:space-x-[20px] w-full mt-[10px]">
+    <div class="flex  items-center md:justify-center  justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0 space-y-[10px] 
+    lg:space-x-[20px] w-full mt-[10px]">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
         <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder
          border-b-[2px] border-lightGrey">

@@ -226,7 +226,7 @@ watch([currentColor],()=>{},{immediate:true})
 </div>
 
 
-<div class="relative lg:mt-0 mt-[24px]">
+<div class="relative lg:mt-0 mt-[24px] md:mx-auto">
   <div class="absolute " :class="[buttonPositionDesktop === 'top_left' ? 'top-[30px] ipad-max:left-[60px] left-[70px]' :'',
   buttonPositionDesktop === 'middle_left' ? 'ipad-max:top-[60px] top-[80px] ipad-max:left-[60px] left-[70px]':'',
     buttonPositionDesktop === 'bottom_left' ? 'ipad-max:top-[120px] top-[110px] ipad-max:left-[60px] left-[70px]':'',
@@ -375,27 +375,27 @@ watch([currentColor],()=>{},{immediate:true})
 </div>
 
 
-<div class="relative lg:mt-0 mt-[24px]">
-  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] left-[0] lg:left-[50px]' :'',
-  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] left-[0] lg:left-[50px]':'',
-  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[150px] lg:top-[140px] left-[0] lg:left-[50px]':'',
+<div class="relative lg:mt-0 mt-[24px] md:mx-auto">
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'top-[30px] md:left-[10px] left-[0] lg:left-[50px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] md:left-[10px] left-[0] lg:left-[50px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] lg:left-[50px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] left-[65px] lg:left-[120px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] left-[65px] lg:left-[120px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[150px] lg:top-[140px] left-[65px] lg:left-[120px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[30px] md:left-[75px] left-[65px] lg:left-[120px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[80px] md:left-[75px] left-[65px] lg:left-[120px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] lg:left-[120px]':'',
   ]">
   <div class="w-[18px] h-[18px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">
     <img  src="/assets/imgs/icons/ios_access.svg"  class="w-[12px] h-[12px]"/>
         </div>
   </div>
-  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'ipad-max:top-[50px] top-[50px] lg:top-[30px] right-[150px] ipad-max:right-[170px] lg:right-[250px]' :'',
-  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] ipad-max:right-[170px] right-[150px] lg:right-[250px]':'',
-  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px] ipad-max:right-[170px] right-[150px] lg:right-[250px]':'',
+  <div class="absolute " :class="[buttonPositionMobile === 'top_left_mobile' ? 'ipad-max:top-[50px] top-[50px] lg:top-[30px] md:right-[160px] right-[150px] ipad-max:right-[170px] lg:right-[250px]' :'',
+  buttonPositionMobile === 'middle_left_mobile' ? 'top-[80px] ipad-max:right-[170px] md:right-[160px] right-[10px] lg:right-[250px]':'',
+  buttonPositionMobile === 'bottom_left_mobile' ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px] ipad-max:right-[170px] md:right-[160px] right-[150px] lg:right-[250px]':'',
 
-  buttonPositionMobile === 'top_right_mobile' ? 'top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] ipad-max:right-[20px] lg:right-[56px]':'',
-  buttonPositionMobile === 'middle_right_mobile' ? 'top-[90px] lg:top-[80px]  right-[5px] ipad-max:right-[20px] lg:right-[56px]':'',
-  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px] right-[5px] ipad-max:right-[20px] lg:right-[56px]':'',
+  buttonPositionMobile === 'top_right_mobile' ? 'top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]':'',
+  buttonPositionMobile === 'middle_right_mobile' ? 'top-[90px] lg:top-[80px]   right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]':'',
+  buttonPositionMobile === 'bottom_right_mobile' ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px]  right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]':'',
   ]">
   <div class="w-[22px] h-[22px]  rounded-full flex items-center justify-center" 
   :class="gradientClasses" :style="backgroundImageStyle">

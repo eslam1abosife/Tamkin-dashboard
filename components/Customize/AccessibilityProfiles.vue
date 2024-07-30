@@ -231,8 +231,8 @@ const getImagePath = (icon) => {
                         <span>{{element.name}}</span>
             </div>
             <div
-            class="text-[#585B5B] truncate whitespace-nowrap w-40 lg:w-auto ipad-max:w-40
-            
+            class="text-[#585B5B] truncate md:overflow-visible  md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis   w-20  lg:w-full
+                  
             dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
           >
               <span>

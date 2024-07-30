@@ -10,7 +10,7 @@ const collapseStore = useCollapseStore();
 
 
 <template>
-    <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px]"       >
+    <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] relative"       >
         <div class="flex items-start justify-start px-[15px] pt-[24px]">
           <div class="">
             <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">Connect with us</h1>
@@ -105,7 +105,7 @@ const collapseStore = useCollapseStore();
                 </defs>
                 <path
                   d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
+                  class="fill-white dark:!fill-darkSecondary"
                   filter="url(#shadow-sm)"
                 />
               </svg>
@@ -121,16 +121,16 @@ const collapseStore = useCollapseStore();
           <div
             :style="{ backgroundImage: `url(${banner})` }"
             style="width: 100%; background-size: cover"
-            class="rounded-lg h-[150px] lg:h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
+            class="rounded-lg h-[150px] lg:h-auto text-center flex items-center justify-center lg:flex-row md:flex-row flex-col w-full"
           >
-            <div class="hidden lg:block lg:h-full">
+            <div class="hidden lg:block md:block lg:h-full md:h-full">
               <img 
                 src="/assets/imgs/icons/man.svg"
                 alt="Character"
                 class=" h-full "
               />
             </div>
-            <div class="flex flex-col items-center justify-center px-[10px]">
+            <div class="flex flex-col items-center justify-center px-[10px] lg:space-y-0 space-y-4">
               <h2
                 class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
               >
@@ -139,7 +139,7 @@ const collapseStore = useCollapseStore();
               <button
                 class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
                 space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
-                flex items-center justify-center px-[12px]"
+                flex items-center justify-center px-[12px] whitespace-nowrap"
               
               >
                 <div class="">Sign up to keep up with the latest news from us</div>

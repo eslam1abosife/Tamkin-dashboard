@@ -119,10 +119,12 @@ const editDonePicture = ref(false)
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start lg:rtl:space-x-reverse space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center 
+      lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start lg:rtl:space-x-reverse space-x-[16px]"
     >
       <div
-        class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] 
+        class="flex items-center justify-between flex-row rtl:space-x-reverse 
+        space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] 
         border-[1px] border-lightGrey dark:border-darkborder"
       >
    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full">
@@ -291,15 +293,15 @@ const editDonePicture = ref(false)
       </div>
     </div>
 
-    <section class="w-full mx-auto mt-[24px]">
+    <section class=" mx-auto mt-[24px]">
       <div
-        class="flex flex-col items-start justify-center rounded-[10px] w-full pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
+        class="flex flex-col items-start justify-center rounded-[10px]  pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div
-          class=" flex items-stretch justify-center lg:justify-start lg:flex-row flex-col px-[10px] lg:px-0  w-full"
+          class=" flex items-center justify-between lg:flex-nowrap flex-wrap w-full   "
         >
-          <div class="w-full p-[16px]">
+          <div class="p-[16px] ">
             <div
               class="text-[16px] font-[600] py-[24px]  text-[#021328] dark:text-whiteTamkin"
               style="line-height: 30px"
@@ -308,13 +310,12 @@ const editDonePicture = ref(false)
             </div>
           </div>
 
-          <div
-            class="flex items-center justify-center lg:justify-between rtl:space-x-reverse ipad-max:space-x-[10px] lg:space-x-[66px] lg:p-[16px] w-full"
-          >
-          <div class="py-[17px] search_input w-full ">
+        <div class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px] " >
+          
+          <div class="py-[17px] search_input ">
             <input
               type="text"
-              class="input_dashboard_search w-full !h-[40px]"
+              class="input_dashboard_search w-full"
               v-model="search"
               placeholder="Search ..."
             />
@@ -332,17 +333,19 @@ const editDonePicture = ref(false)
             </div>
           
         </div>
-            <div class="">
+            <div class="lg:w-[250px] w-2/4">
               <button
-                class="btn-dashboard hover_tamkin w-[150px]"
+                class="btn-dashboard hover_tamkin"
                 @click="openModal('invitemember')"
               >
                 Invite Member
               </button>
             </div>
-          </div>
         </div>
-        <table class="table-auto  divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
+        
+        </div>
+        <table class="table-auto  divide-y last:border-b dark:last:border-b-darkborder w-full
+         divide-gray-200 dark:divide-darkborder">
           <thead class="w-full">
             <tr class="">
               <th
@@ -365,13 +368,14 @@ const editDonePicture = ref(false)
           </thead>
           <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
             <tr class="">
-              <td class=" lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                <div class="flex items-center justify-start  space-x-[16px] rtl:space-x-reverse ">
+              <td class=" lg:pr-0 pr-[100px] rtl:lg:pr-[16px]  ltr:lg:pl-[16px] text-[14px] font-[400]
+               text-darkGrey dark:text-whiteTamkin">
+                <div class="flex items-center justify-start space-x-[10px]  lg:space-x-[16px] rtl:space-x-reverse ">
                   <div class="inline">
                     <img 
                       src="/assets/imgs/icons/avatar_table.svg"
                       
-                      class="lg:h-full h-[30px] mt-3 hidden lg:block"
+                      class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap">Ali Ahmed</div>
@@ -468,34 +472,30 @@ const editDonePicture = ref(false)
       </div>
 
       <div class="py-[4px]" v-if="!dataAvailable"></div>
-      <div class="flex justify-between items-center py-[16px]" v-if="dataAvailable">
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span
-            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
-            >Per Page</span
-          >
-          <button
-            v-for="option in perPageOptions"
-            :key="option"
-            :style="
-              perPage === option
-                ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
-                : ''
-            "
-            :class="[
-              'px-3 py-1 rounded-md text-white  focus:outline-none !text-[13px]',
-              perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
-            ]"
-            @click="changePerPage(option)"
-          >
-            {{ option }}
-          </button>
+      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]" v-if="dataAvailable">
+        <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+          <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
+            Per Page
+          </span>
+          <div class="flex space-x-2 rtl:space-x-reverse">
+            <button
+              v-for="option in perPageOptions"
+              :key="option"
+              :style="perPage === option ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="[
+                'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
+                perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
+              ]"
+              @click="changePerPage(option)"
+            >
+              {{ option }}
+            </button>
+          </div>
         </div>
         <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span
-            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
-            >Page</span
-          >
+          <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
+            Page
+          </span>
           <button
             @click="prevPage"
             class="p-[4px] rounded-md bg-transparent !text-[13px] dark:text-whiteTamkin text-darkGrey hover:bg-light-grey"
@@ -516,22 +516,20 @@ const editDonePicture = ref(false)
               />
             </svg>
           </button>
-          <button
-            v-for="page in visiblePages"
-            :key="page"
-            :style="
-              currentPage === page
-                ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
-                : ''
-            "
-            :class="[
-              'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
-              currentPage === page ? 'text-white' : 'hover:bg-light-grey',
-            ]"
-            @click="goToPage(page)"
-          >
-            {{ page }}
-          </button>
+          <div class="flex space-x-2 rtl:space-x-reverse">
+            <button
+              v-for="page in visiblePages"
+              :key="page"
+              :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :class="[
+                'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
+                currentPage === page ? 'text-white' : 'hover:bg-light-grey',
+              ]"
+              @click="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          </div>
           <button
             @click="nextPage"
             class="p-[4px] rounded-md bg-transparent text-darkGrey dark:text-whiteTamkin hover:bg-light-grey"

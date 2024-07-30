@@ -163,8 +163,8 @@ ipad-max:leading-[10px] whitespace-nowrap
         <div
           v-if="currentIndex === 0"
           key="1"
-          class="flex items-center lg:flex-row flex-col justify-center lg:justify-between
-           ipad-max:flex-wrap ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] ipad-max:space-x-0 mt-[32px]"
+         class="flex items-center lg:flex-row md:flex-row md:space-x-[10px] flex-col justify-center lg:justify-between
+         ipad-max:space-x-[4px] ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px]  mt-[32px]"
         >
           <div
             class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
@@ -538,8 +538,8 @@ ipad-max:leading-[10px] whitespace-nowrap
         <div
           v-else-if="currentIndex === 1"
           key="2"
-          class="flex items-center justify-between h-full w-full rtl:space-x-reverse lg:space-x-[36px] ipad-max:space-x-0 
-        ipad-max:flex-wrap  mt-[32px] lg:flex-nowrap flex-wrap ipad-max:rtl:space-x-reverse space-x-0"
+          class="flex items-center lg:flex-row md:flex-row md:space-x-[10px] flex-col justify-center lg:justify-between
+         ipad-max:space-x-[4px] ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px]  mt-[32px]"
         >
           <div
             class="flex items-center flex-col custom-border-tamkin 

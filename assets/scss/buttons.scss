@@ -41,9 +41,9 @@
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
-  @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[20px]
+  @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[40px]
   disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white disabled:hover:bg-tamkin-disabled disabled:cursor-not-allowed
-  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full ;
+  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[40px] flex items-center justify-center space-x-[4px] w-full ;
 
   &:not(.normal_hover, .no_hover, .hover_tamkin):hover {
     @apply bg-white;
@@ -106,13 +106,13 @@
 }
 
 .btn__icon__dashboard {
-  @apply hover:bg-gradient-to-b text-[15px] dark:from-transparent dark:to-transparent hover:from-tamkinLight 
-  hover:to-tamkinLight max-w-[190px]
-   h-[45px] rounded-[10px] p-[16px] text-white flex items-center rtl:space-x-reverse space-x-[4px];
+  @apply hover:bg-gradient-to-b text-[15px] dark:from-darkSecondary dark:to-darkSecondary hover:from-tamkinLight 
+  hover:to-tamkinLight lg:max-w-[190px]
+   h-[45px] rounded-[10px] p-[16px] text-white flex items-center justify-center md:space-x-[16px] rtl:space-x-reverse space-x-[4px];
 }
 
 .btn_bordered_dashboard {
-  @apply border-[1px] border-tamkin text-tamkin bg-white dark:bg-tamkinDarkPrimary h-[30px] ipad-max:!h-[20px] lg:h-[40px]
+  @apply border-[1px] border-tamkin text-tamkin bg-white dark:bg-tamkinDarkPrimary h-[40px] ipad-max:!h-[40px] lg:h-[40px]
    rounded-[10px] p-[6px] text-[10px] ipad-max:text-[10px] lg:text-[14px] 
    flex items-center justify-center cursor-pointer;
   
