@@ -53,7 +53,10 @@ const toggleCheckbox = (name: string) => {
 };
 
 onBeforeMount(() => {
+  
   [
+    "tamkin_player",
+    "media_player",
     "page_str",
     "screen_reader",
     "hide_images",
@@ -76,11 +79,18 @@ onBeforeMount(() => {
     "Seizure",
     "visuallyImpraired",
     "color_blind",
+    "reading_mode",
+"text_align",
     "motor_active",
   ].forEach((name) => {
     checkboxStore.addCheckbox(name);
   });
   checkboxStore.initializeCheckboxes([
+    "text_align",
+
+    "tamkin_player",
+    "reading_mode",
+    "media_player",
     "page_str",
     "screen_reader",
     "hide_images",
@@ -111,18 +121,31 @@ const initialOrderKey = 'initialCardsOrder';
 
 // Initialize cards
 checkboxStore.initializeCardsMenu([
+  {
+  icon:'tamkin_player.svg',
+  name:'Tamkin Player',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'tamkin_player'
+ },
+ {
+  icon:'media_player.svg',
+  name:'Media Player',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'media_player'
+ },
+    {
+  icon:'language sign.svg',
+  name:'Screen Reader',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'screen_reader'
+ },
  {
   icon:'page_str.svg',
   name:'Page Structure',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'page_str'
  },
- {
-  icon:'language sign.svg',
-  name:'Screen Reader',
-  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-  checkboxId:'screen_reader'
- },
+ 
  {
   icon:'hide_images.svg',
   name:'Hide Images',
@@ -172,15 +195,30 @@ checkboxStore.initializeCardsMenu([
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'bigger_text'
  },
-
+ {
+  icon:'df_friendly.svg',
+  name:'Dyslexia Friendly',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'df_friendly'
+ },
  {
   icon:'pause.svg',
   name:'Pause Animation',
   description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
   checkboxId:'pause_animation'
  },
-
- 
+ {
+  icon:'text_align.svg',
+  name:'Text Align',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'text_align'
+ },
+ {
+  icon:'reading_mode.svg',
+  name:'Reading Mode',
+  description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+  checkboxId:'reading_mode'
+ },
  {
   icon:'tooltip.svg',
   name:'Tooltip',
@@ -315,10 +353,10 @@ onBeforeRouteLeave((to, from, next) => {
       section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."/>
      
-      <div class="mt-[64px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]">
-        <div class="flex items-center justify-start  pt-[24px]">
+      <div class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative">
+        <div class="flex items-center justify-start  pt-[24px] xs:px-[15px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">Adjust the Main Menu</h1>
+            <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Adjust the Main Menu</h1>
           </div>
 
           <div
@@ -327,8 +365,7 @@ onBeforeRouteLeave((to, from, next) => {
             :class="[
               menus.includes('adjustMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto  
-             rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -338,8 +375,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 menus.includes('adjustMenu')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -350,19 +386,24 @@ onBeforeRouteLeave((to, from, next) => {
 
             <div
               v-if="menus.includes('adjustMenu')"
-              class="mini_SizeMenu shadow divide-y"
+              class="mini_SizeMenu shadow divide-y divide-darkGrey"
             >
             <div
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -373,13 +414,15 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('adjustMenu')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('adjustMenu') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -391,12 +434,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -416,30 +483,33 @@ onBeforeRouteLeave((to, from, next) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkborder dark:bg-opacity-20"
           >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full">
               <img 
                 src="/assets/imgs/addons/left_item.svg"
                 
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle"
+                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
               />
 
               <img 
                 :src="getImagePath(element.icon)"
-                
+                class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+                lg:leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+                  class="text-[#585B5B] truncate whitespace-nowrap w-40
+                  
+                  dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
                  {{ element.description }}
@@ -492,7 +562,7 @@ onBeforeRouteLeave((to, from, next) => {
           </draggable>
 </div>
   
-<div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+<div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] dark:text-whiteTamkin ">
   Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis dolore. Exercitationem et omnis ea quidem
 
 </div>
@@ -502,10 +572,11 @@ onBeforeRouteLeave((to, from, next) => {
       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]" >
-        <div class="flex items-center justify-start pt-[24px]">
+      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary 
+      rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative" >
+        <div class="flex items-center justify-start pt-[24px] ">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">
+            <h1 class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">
               Manage your Accessibility Profiles
             </h1>
           </div>
@@ -516,7 +587,7 @@ onBeforeRouteLeave((to, from, next) => {
             :class="[
               menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
             ]"
-            class="relative ltr:ml-auto   rtl:mr-auto  flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -526,8 +597,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 menus.includes('ManageMenu')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -544,13 +614,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -561,11 +636,16 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('ManageCard')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[menus.includes('ManageMenu') ? '!fill-white' : '']"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -577,13 +657,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -603,30 +706,34 @@ onBeforeRouteLeave((to, from, next) => {
         item-key="name" class="w-full"  handle=".handle">
           <template #item="{element}" >
           <div  
-            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]"
+            class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkborder 
+            dark:bg-opacity-20"
           >
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
+            <div class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full">
               <img 
                 src="/assets/imgs/addons/left_item.svg"
                 
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle"
+                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
               />
 
               <img 
                 :src="getImagePath(element.icon)"
-                
+                      class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               />
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+                lg:leading-[16.39px]">
                   <span>{{element.name}}</span>
                 </div>
                 <div
-                  class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+                  class="text-[#585B5B] truncate whitespace-nowrap w-40
+                  
+                  dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
                  {{ element.description }}
@@ -686,12 +793,13 @@ onBeforeRouteLeave((to, from, next) => {
       
       </div>
 
-      <div class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px]">
+      <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px]
+       shadow-md -shadow-y-[1px] relative">
         <div class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]">
           <div>
-            <h1 class="text-[18px] font-[500] leading-[30px]">Live Translation</h1>
+            <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Live Translation</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+            <p class="xs:text-[10px] text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]">
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
             </p>
@@ -706,7 +814,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto ltr:mr-[15px]  rtl:mr-auto rtl:ml-[15px] mt-[-24px] flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control top-[21px] "
           >
             <svg
               width="18"
@@ -716,8 +824,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 menus.includes('LiveTranslationAddons')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -753,13 +860,16 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('LiveTranslationAddonsCard')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      menus.includes('LiveTranslationAddons') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -799,36 +909,61 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">Vertical View</div>
               </div>
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-        class="flex items-center justify-center px-[25px] mt-[64px] w-full space-x-44"
+        class="flex items-center justify-center lg:flex-nowrap 
+        flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 ipad-max:space-x-10 lg:space-x-44"
         v-if="
           horizontalView &&
           !collapseStore.collapses.includes('LiveTranslationAddonsCard')
         "
       >
         <div
-          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
+          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] 
+          relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 1200 : "100.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
-          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+          <div class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]">
             For 1 million characters
           </div>
-          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+          <div class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]">
             Almost 50 Page
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
@@ -836,25 +971,26 @@ onBeforeRouteLeave((to, from, next) => {
             <div>
               <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
-            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin">Live translation</div>
           </div>
-          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
+          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white">Upgrade Now</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
             <img  src="/assets/imgs/addons/live_icon.svg"  />
           </div>
         </div>
       
         <div
-          class="w-full max-w-[270px] flex flex-col items-center bg-selected justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
+          class="w-full max-w-[270px] flex flex-col items-center  justify-start h-[267px] relative custom-border 
+          rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 2400 : "200.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
-          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+          <div class="text-[14px] font-[500] text-[#021328]  dark:text-whiteTamkin mt-[12px]">
             For 1 million characters
           </div>
-          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+          <div class="text-[13px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin mt-[12px]">
             Almost 100 Page
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
@@ -862,7 +998,7 @@ onBeforeRouteLeave((to, from, next) => {
             <div>
               <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
-            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black  dark:text-whiteTamkin">Live translation</div>
           </div>
           <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
@@ -871,16 +1007,17 @@ onBeforeRouteLeave((to, from, next) => {
         </div>
       
         <div
-          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected"
+          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative
+           custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
         >
-          <div class="text-[20px] font-[600] text-[#021328] mt-[48px]">
+          <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]  dark:text-whiteTamkin mt-[48px]">
             ${{ annual_prices ? 3600 : "300.00" }}
             <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
           </div>
-          <div class="text-[14px] font-[500] text-[#021328] mt-[12px]">
+          <div class="text-[14px] font-[500] text-[#021328]  dark:text-whiteTamkin mt-[12px]">
             For 2 million characters
           </div>
-          <div class="text-[13px] font-[500] text-[#A7A7A7] mt-[12px]">
+          <div class="text-[13px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin mt-[12px]">
             Almost 500 Page
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
@@ -888,9 +1025,9 @@ onBeforeRouteLeave((to, from, next) => {
             <div>
               <img  src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]"  />
             </div>
-            <div class="text-[12px] leading-[14.16px] font-[500] text-black">Live translation</div>
+            <div class="text-[12px] leading-[14.16px] font-[500] text-black  dark:text-whiteTamkin">Live translation</div>
           </div>
-          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey hover:!text-white">Upgrade Now</button>
+          <button class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white">Upgrade Now</button>
           <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
             <img  src="/assets/imgs/addons/live_icon.svg"  />
           </div>
@@ -921,17 +1058,18 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 1200 : "100.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 1 million characters
               </div>
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-auto w-2/4  mt-[24px] 
+              !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>
@@ -954,17 +1092,18 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] ">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 2400 : "200.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 1 million characters
               </div>
             </div>
 
             <button
-              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin !h-[40px] w-[140px] mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+              class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin lg:w-[140px] w-2/4
+                mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Active
             </button>
@@ -987,11 +1126,11 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div class="flex flex-col items-start justify-center py-[14px] mx-[15px] relative">
-              <div class="text-[20px] font-[600] text-[#021328]">
+              <div class="text-[14px] lg:text-[20px] font-[600] text-[#021328]">
                 ${{ annual_prices ? 3600 : "300.00"
                 }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
               </div>
-              <div class="text-[14px] font-[500] text-[#585B5B]">
+              <div class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B]">
                 For 2 million characters
               </div>
             </div>
@@ -999,7 +1138,8 @@ onBeforeRouteLeave((to, from, next) => {
               <img  src="/assets/imgs/addons/start.svg"  class="w-full h-full"/>
             </div>
             <button
-              class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard !h-[40px] mt-[24px] !text-darkGrey hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
+               class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-auto w-2/4  mt-[24px] 
+              !text-darkGrey !p-1 hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
             >
               Upgrade Now
             </button>

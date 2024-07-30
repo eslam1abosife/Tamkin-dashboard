@@ -1,6 +1,4 @@
-
 export default function() {
-
     // Create the container for the spinner
     function createSpinnerContainer() {
         const container = document.createElement('div');

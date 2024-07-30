@@ -47,10 +47,18 @@ export default defineNuxtConfig({
   '@vueuse/nuxt',
   '@nuxtjs/device',
   '@vueuse/motion/nuxt',
+  '@nuxtjs/color-mode'
   // "@nuxt/image",
   // "nuxt-svgo"
 ],
+colorMode: {
+  preference: 'light', // default value of $colorMode.preference
+  fallback: 'light', // fallback value if not system preference found
 
+  classSuffix: '',
+
+  storageKey: 'tamkin-color-mode'
+},
   // image: {
   //   // inject: true,
   //   formats: {

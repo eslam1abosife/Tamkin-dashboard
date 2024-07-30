@@ -1,8 +1,16 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import {useModalStore} from '@/stores/modal'
+import { useModalManager } from '@/composables/useModalManager';
 
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const state = reactive({
     email: "",
   firstName: "",
@@ -21,19 +29,16 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore()
 
-const props = defineProps({
-  showModal:Boolean
-})
 
 </script>
 
 <template>
   <div  
-  v-if="modalStore.inviteMemberModal"
-    class="fixed z-[9999] top-[100px] bg-white rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12 "
+  v-if="isOpen('invitemember')"
+    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlInviteMemberModal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -49,7 +54,7 @@ const props = defineProps({
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
     Invite Member
 </h1>
 
@@ -134,7 +139,9 @@ const props = defineProps({
 
 
 <div class="mt-[32px] w-2/6 mx-auto">
-    <button class=" btn-dashboard text-center mx-auto  " @click="modalStore.controlInviteMemberUpdateModal">
+  
+    <button class=" btn-dashboard text-center mx-auto  " @click="navigateTo('invitemember','team','invitememberupdate')">
+      <!-- modalStore.controlInviteMemberUpdateModal -->
         Invite Member
       </button>
 </div>

@@ -1,17 +1,25 @@
-$colors: (
+
+  $colors: (
   "primary": (start: #2dada3,
     end: #71dad2,
     light: #daf3f1,
   ),
 );
+.btn-action-translate{
+  @apply bg-white dark:bg-darkSecondary dark:text-whiteTamkin border-translate border-s flex items-center justify-center  rounded-[9px]  text-darkGrey h-[33px] py-[4px] px-[32px];
 
+  &:hover{
+    @apply bg-gradient-to-r from-[#35C0B4]/10 via-[#E42AD2]/10 to-[#4F75FD]/10 ;
+  }
+
+}
 .btn-grad-action {
   @apply h-[40px] lg:h-[50px] disabled:bg-gradient-to-b disabled:from-gray-300 disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed md:w-[400px] xl:w-[580px] font-[600] text-[16px] lg:text-[20px] w-full text-white rounded-[10px] transition-all duration-200 hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
   line-height: 24px;
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
   &:hover {
-    @apply bg-gradient-to-b from-tamkinLight to-tamkinLight;
+    @apply bg-gradient-to-b from-tamkinLight to-tamkinLight dark:from-darkTamkin dark:to-darkTamkin; 
 
   }
 }
@@ -32,39 +40,41 @@ $colors: (
 }
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-  border: 1px solid;
-  @apply border-[1px] border-tamkin text-white h-[40px] rounded-[10px] p-[16px]   text-[15px]
-  flex items-center justify-center space-x-[4px] w-full;
-  &:not(.normal_hover,.no_hover,.hover_tamkin):hover {
-    background: white !important;
+
+  @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[20px]
+  disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white disabled:hover:bg-tamkin-disabled disabled:cursor-not-allowed
+  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full ;
+
+  &:not(.normal_hover, .no_hover, .hover_tamkin):hover {
+    @apply bg-white;
   }
-&.no_hover:hover{
-@apply cursor-pointer;
-}
 
+  &.no_hover:hover {
+    @apply cursor-pointer;
+  }
 
-&:not(.normal_hover,.no_hover,.hover_light,.hover_tamkin):hover {
-  @apply text-darkGrey;
+  &:not(.normal_hover, .no_hover, .hover_light, .hover_tamkin):hover {
+    @apply text-darkGrey dark:text-whiteTamkin;
   }
 
   &.normal_hover:hover {
-    @apply text-darkGrey bg-white disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed #{!important};
-
+    @apply text-darkGrey dark:text-whiteTamkin bg-white dark:bg-tamkinDarkPrimary disabled:bg-gradient-to-b disabled:border-0 disabled:from-lightGrey disabled:to-lightGrey disabled:text-white disabled:cursor-not-allowed;
   }
 
   &.hover_light:hover {
-    @apply text-darkGrey bg-[#DAF3F1] border-0 #{!important};
-
+    @apply text-darkGrey bg-[#DAF3F1] border-0;
   }
+
   &.hover_tamkin:hover {
-    background: linear-gradient(180deg, white 0%, white 100%);
-
-    @apply text-tamkin;
-
+    @apply text-tamkin bg-tamkin-white dark:bg-p disabled:bg-tamkin-disabled disabled:text-white;
   }
+
+  
 }
+
 .btn-dashboard-normal {
-  @apply border-[1px] border-tamkin text-[15px] text-white h-[40px] rounded-[10px] p-[16px] flex items-center space-x-[4px] #{!important};
+  @apply border-[1px] border-tamkin text-[15px] text-white h-[40px] rounded-[10px] p-[16px] 
+  flex items-center space-x-[4px] #{!important};
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
   &:hover {
@@ -76,7 +86,7 @@ $colors: (
   }
 
   &.normal_hover:hover {
-    @apply text-darkGrey bg-tamkinLight #{!important};
+    @apply text-darkGrey bg-tamkinLight dark:bg-tamkinDarkPrimary dark:text-white #{!important};
   }
 }
 
@@ -96,12 +106,14 @@ $colors: (
 }
 
 .btn__icon__dashboard {
-  @apply hover:bg-gradient-to-b text-[15px] hover:from-tamkinLight hover:to-tamkinLight max-w-[190px]
+  @apply hover:bg-gradient-to-b text-[15px] dark:from-transparent dark:to-transparent hover:from-tamkinLight 
+  hover:to-tamkinLight max-w-[190px]
    h-[45px] rounded-[10px] p-[16px] text-white flex items-center rtl:space-x-reverse space-x-[4px];
 }
 
 .btn_bordered_dashboard {
-  @apply border-[1px] border-tamkin text-tamkin h-[40px] rounded-[10px] p-[6px] text-[14px]
+  @apply border-[1px] border-tamkin text-tamkin bg-white dark:bg-tamkinDarkPrimary h-[30px] ipad-max:!h-[20px] lg:h-[40px]
+   rounded-[10px] p-[6px] text-[10px] ipad-max:text-[10px] lg:text-[14px] 
    flex items-center justify-center cursor-pointer;
   
   &.error {
@@ -114,7 +126,7 @@ $colors: (
   }
 
   &.normal_hover:hover {
-    @apply text-darkGrey bg-tamkinLight cursor-pointer #{!important};
+    @apply text-darkGrey bg-tamkinLight dark:bg-tamkinDarkPrimary/40 dark:text-white cursor-pointer #{!important};
   }
 
   /* Responsive adjustments */
@@ -147,7 +159,8 @@ $colors: (
 
 .btn__embed_table {
 
-  @apply space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px];
+  @apply space-x-[10px] font-[500] text-[15px] bg-transparent border-[1px] dark:text-whiteTamkin
+   border-tamkin flex items-center justify-evenly rounded-[10px] p-[12px] h-[36px];
 
   &:hover {
     background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
@@ -188,9 +201,11 @@ input[type="radio"]:checked + label span {
 
 .radio-tamkin{
 
-  @apply w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-tamkin;
+  @apply w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin;
 }
 .radio-normal{
 
-  @apply w-[24px] h-[24px] bg-white inline-block mr-1 rounded-full border border-lightGrey;
+  @apply w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-lightGrey;
 }
+
+

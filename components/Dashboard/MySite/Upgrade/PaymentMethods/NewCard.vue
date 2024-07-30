@@ -163,7 +163,7 @@ const checkInput = (event) =>{
     <div class="flex items-center justify-center ">
       <div
         @click="modalStore.backControl"
-        class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white border-[1px]
+        class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]
         border-linecolor rounded-full w-[30px] h-[30px]"        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
       >
         <svg
@@ -180,17 +180,17 @@ const checkInput = (event) =>{
         </svg>
       </div>
       <h1
-        class="text-[18px] leading-[36px] font-[600] text-darkGrey  rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
+        class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
       >
         Billing Info
       </h1>
     </div>
     <div
-      class="flex flex-col items-start justify-center bg-white rounded-[10px] mt-[33px] "
+      class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px] "
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <h1
-        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[31px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[31px]"
       >
         Billing Info
       </h1>
@@ -199,7 +199,8 @@ const checkInput = (event) =>{
         class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
       >
         <div
-          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+           space-y-[25px] mb-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="w-full relative">
@@ -443,7 +444,7 @@ const checkInput = (event) =>{
       </div>
 
       <h1
-        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey mt-[0px]"
+        class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[0px]"
       >
         Billing address
       </h1>
@@ -698,59 +699,43 @@ const checkInput = (event) =>{
         </div>
       </div>
 
-      <div
-        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse
-         space-x-[24px] w-full px-[20px]"
-      >
-        <div class="lg:py-[17px] search_input w-full lg:w-3/4 ">
+      <div class="flex items-center justify-between  rtl:space-x-reverse space-x-[24px] w-full  px-[20px] ">
+        <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[10px]">
           <input
             type="text"
-            class="input_dashboard_search w-full text-darkGrey !h-[40px]" 
-            v-model="promo"
+            class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
+          v-model="promo"
             placeholder="Promo Code"
             :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
           />
-          <div
-            class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px]"
-            v-if="validPromo"
-          >
-            <img  src="/assets/imgs/promo_valid.svg"  />
-            <div class="text-[15px] font-[500] text-darkGrey">
-              <span class="text-[#021328] font-[700]">12%</span> Discount
-              (-$2,444 )
-            </div>
-            <img  src="/assets/imgs/promo_valid_.svg" class=""  />
+         <div class="absolute top-[-8px] lg:top-[8px] rtl:right-[7.5px] ltr:left-[7.5px] p-[16px] 
+         flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="validPromo">
+          <img  src="/assets/imgs/promo_valid.svg" />
+          <div class="text-[15px] font-[500] text-darkGrey ">
+                  <span class="text-[#021328]  font-[700]">12%</span> Discount (-$2,444 )
           </div>
+          <img  src="/assets/imgs/promo_valid_.svg" class="" />
+      
+         </div>
           <div
             v-if="isPromoFilled"
             @click="clearInput"
-            class="absolute top-[-8px] lg:top-[-30px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[39px]"
+            class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]" 
           >
             <img  src="/assets/imgs/close_promo.svg"  />
           </div>
         </div>
-        <div class="text-center ">
-          <button
-            class="btn-dashboard  w-6/6 mx-auto text-center ]"
-            @click="addPromoCode"
-            v-if="!validPromo"
-          >
-            Apply Code
-          </button>
-          <button
-            v-else
-            class="btn_bordered_dashboard error w-6/6 mx-auto text-center"
-            @click="removePromoCode"
-          >
-            Remove Code
-          </button>
-        </div>
-      </div>
+            <div class="text-center mt-[10px]">
+              <button class="btn-dashboard  w-6/6 mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+              <button v-else class="btn_bordered_dashboard 
+      error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
+            </div>
+       </div>
       <table class="min-w-full">
         <thead>
           <tr>
             <th
-              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
+              class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b text-[16px] leading-[30px] text-darkGrey  dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
               colspan="12"
             >
               Summary
@@ -759,41 +744,41 @@ const checkInput = (event) =>{
         </thead>
         <tbody>
           <tr
-            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"
+            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             v-if="validPromo"
           >
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
               colspan="2"
             >
               Subtotal
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
               $50,444.00
             </td>
           </tr>
           <tr
             v-if="validPromo"
-            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]"
+            class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
           >
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
               colspan="2"
             >
               Discount
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
               $50,444.00
             </td>
           </tr>
-          <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE]">
+          <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
             <td
-              class="py-2 px-5 border-b text-right font-[500] w-full"
+              class="py-2 px-5 border-b text-right font-[500] w-full  dark:text-whiteTamkin"
               colspan="2"
             >
               Total
             </td>
-            <td class="py-2 px-5 border-b text-right w-full font-[500]" colspan="2">
+            <td class="py-2 px-5 border-b text-right w-full font-[500]  dark:text-whiteTamkin"  colspan="2">
               $50,444.00
             </td>
           </tr>
@@ -801,13 +786,13 @@ const checkInput = (event) =>{
       </table>
       <div class="mt-[39px] mx-auto mb-[34px]">
         <button
-          class="btn-dashboard hover_tamkin lg:w-[535px] w-full"
+          class="btn-dashboard hover_tamkin lg:w-[535px]  !h-[40px]  w-full"
           @click="modalStore.paymentSuccessModal"
           v-if="!modalStore.loading"
         >
           Confirm Payment
         </button>
-        <button class="processing_payment lg:w-[535px] w-full" v-else>
+        <button class="processing_payment lg:w-[535px]  !h-[40px] w-full" v-else>
           Payment Processing...
         </button>
       </div>

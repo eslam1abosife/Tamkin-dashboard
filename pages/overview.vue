@@ -43,95 +43,38 @@ definePageMeta({
       <LazyOverviewConnectwithus   v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewCurrentplan :plan-type="'free'" :is-installed="false"  v-if="!overviewStore.showUpgradeState"/>
       <LazyOverviewCurrentplan :plan-type="'pro'" :is-installed="true"  v-if="overviewStore.showUpgradeState"/>
-      <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/>
+      <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
   
-    <LazyOverviewExclusiveinvestorpackage v-if="!overviewStore.showUpgradeState"/>
+    <!-- <LazyOverviewExclusiveinvestorpackage v-if="!overviewStore.showUpgradeState"/> -->
  
 
    <OverviewAccessibilitydetails v-if="overviewStore.showUpgradeState"/>
 
     <OverviewLivetranslation  v-if="overviewStore.showUpgradeState"/>
   
-        <div
-          v-if="overviewStore.showUpgradeState"
-          class="bg-gradient-to-r custom-border rounded-big4x from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
-        >
-          <h1 class="text-[20px] leading-[33px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
-            Buy Tamkin Token – TSLT and Join in our Investor Program
-          </h1>
-          <div class="relative mb-6 w-full">
-            <div class="absolute right-0 top-10">
-              <img  src="/assets/imgs/overview/10p.svg"  />
-            </div>
-            <div class="absolute top-[-80px] transform translate-x-[50%] z-[1]">
-              <img  src="/assets/imgs/overview/svg_opacity.svg"  />
-            </div>
-            <!-- Timeline bar -->
-            <div
-              class="absolute left-4 top-[6px] h-full 2xl:h-[230px] w-[9px] z-[20] bg-tamkin rounded-full"
-            ></div>
-            <!-- Icons and Text -->
-            <div class="flex items-start relative z-[50]">
-              <!-- Icons -->
-              <div class="relative flex items-center justify-center ">
-                <div class="absolute left-[5px] top-10 w-[27px] h-[27px]">
-                  <img  src="/assets/imgs/icons/investor.svg" alt="Icon 1" class="w-[27px] h-[27px]" />
-                </div>
-                <div class="absolute left-[5px] top-40 w-[27px] max-h-[27px]">
-                  <img  src="/assets/imgs/icons/investor.svg" alt="Icon 2" class="w-[27px] h-[27px]" />
-                </div>
-              </div>
-              <!-- Text content -->
-              <div class="flex flex-col space-y-[16px] ml-14 w-2/4 mt-[16px]">
-                <div>
-                  <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
-                    Win Investor Package
-                  </h2>
-                  <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
-                    Investors participating in the Investor Program will receive an exclusive package with many additional benefits and special access to advanced tools and services.
-                  </p>
-                </div>
-                <div>
-                  <h2 class="text-[14px] leading-[21px] font-[500] mb-2">
-                    Monthly profits
-                  </h2>
-                  <p class="text-[#585B5B] text-[13px] leading-[24px] font-[500]">
-                    This program includes 10% of Tamkin profits, distributed monthly in USDT to investors who participate in and maintain the program on their tokens without selling.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Big number and buttons -->
-          <div class="flex items-center justify-end w-full relative z-[50]">
-            <div class="flex space-x-4">
-              <button class="btn-dashboard rounded-full h-[40px] w-[156px]">Buy Tamkin</button>
-              <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Program</button>
-              <button class="btn_bordered_dashboard rounded-full bg-white w-[156px] h-[40px] !p-[4px] text-[15px] leading-[22.5px]">Investor Package</button>
-            </div>
-          </div>
-        </div>
-      
+        <LazyOverviewTamkintokenbanner v-if="overviewStore.showUpgradeState"/>
+
 
            <div v-if="overviewStore.showUpgradeState"
-        class="bg-white custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse space-x-[16px] 
-        rounded-[10px] h-[119px] mt-[32px] px-[15px] flex items-center justify-start mb-[32px]"
+        class="bg-white  dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] 
+        rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] 
+        flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
      
       >
         <div>
           <img  src="/assets/imgs/overview/plan-calender.svg"  />
         </div>
-        <div class="flex flex-col items-start justify-center w-full">
-          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey">
+        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+          <div class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin">
             <h1>Monthly Plan</h1>
           </div>
-          <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]" @click="showExpired = !showExpired">
+          <div class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]" @click="showExpired = !showExpired">
             <transition name="fade" mode="out-in">
               <template v-if="!showExpired">
                 <div class="flex items-center" key="not-expired">
-                  <div class="text-[13px] leading-[24px] font-[400] w-[130px]">Package Expires in</div>
+                  <div class="text-[13px] leading-[24px] font-[400] w-[130px]  dark:text-whiteTamkin">Package Expires in</div>
                   <div class="flex items-center justify-center custom-border-tamkin padding-override-1 
-                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]">
+                  h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]  dark:text-whiteTamkin">
                     Aug 20,2024
                   </div>
                 </div>
@@ -155,7 +98,8 @@ definePageMeta({
         <div class="relative">
           <div
           v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-10px] transform left-[30%] h-[19px] bg-[#B36B8A] text-white w-[69px] text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[30%] 
+            h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
           >
             SAVE 12%
           </div>

@@ -8,10 +8,10 @@ const {isChecked,toggleCheckbox} = customizeStore
 
 <template>
   <div
-    class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y"
+    class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
   >
     <div
-      class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
+      class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]">
       <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
         <img 
           src="/assets/imgs/customize/xl.svg"
@@ -19,11 +19,11 @@ const {isChecked,toggleCheckbox} = customizeStore
           
         />
         <div class="flex flex-col items-start justify-center w-full">
-          <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+          <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
             <span>Oversized Widget</span>
           </div>
           <div
-            class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+            class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
           >
             <span>
               An XL Oversized Widget provides a larger, more prominent display
@@ -74,7 +74,7 @@ const {isChecked,toggleCheckbox} = customizeStore
         </div>
       </div>
     </div>
-    <div class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
+    <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]">
      
     <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
       <img 
@@ -83,11 +83,11 @@ const {isChecked,toggleCheckbox} = customizeStore
         
       />
       <div class="flex flex-col items-start justify-center w-full">
-        <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+        <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
           <span>3 Column Layout Widget</span>
         </div>
         <div
-          class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+          class="text-[#585B5B] dark:text-whiteTamkin  text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
         >
           <span>
             Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid 
@@ -137,7 +137,7 @@ const {isChecked,toggleCheckbox} = customizeStore
     </div>
   </div>
   <div
-  class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px]">
+  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px]">
   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
     <img 
       src="/assets/imgs/customize/accessibillity.svg"
@@ -145,11 +145,11 @@ const {isChecked,toggleCheckbox} = customizeStore
       
     />
     <div class="flex flex-col items-start justify-center w-full">
-      <div class="text-[#23262F] font-[500] text-[14px] leading-[16.39px]">
+      <div class="text-[#23262F] dark:text-whiteTamkin  font-[500] text-[14px] leading-[16.39px]">
         <span>Accessibility Profiles</span>
       </div>
       <div
-        class="text-[#585B5B] font-[500] text-[12px] leading-[13.66px] mt-[8px]"
+        class="text-[#585B5B]  dark:text-whiteTamkin  font-[500] text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
       >
         <span>
             You can choose specific features to be shown to you

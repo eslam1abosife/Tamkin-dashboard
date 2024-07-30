@@ -41,12 +41,12 @@ const prev = () => {
 
 
     <div
-    class="mt-[64px] bg-white rounded-[10px] h-full shadow-md -shadow-y-[1px]"
+    class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
     
   >
     <div
       class="flex items-center justify-start rounded-[10px] h-[212px] w-full
-       rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-[#c8fdf9]"
+       rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#35b4a9] to-tamkinEnd lg:to-[#c8fdf9]"
     >
       <div class="flex flex-col items-start justify-center w-full px-[15px]">
         <div>
@@ -60,19 +60,22 @@ const prev = () => {
         </div>
 
         <div
-          class="h-[55px]   bg-white bg-opacity-75 rounded-[41px] w-[500px]
-          flex items-center justify-between p-2 space-x-[10px] mt-[24px]  "
+          class="h-[55px]   bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[10px]
+          flex items-center justify-between  w-full  p-2 mt-[24px]  "
         >
           <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px] ">
             <div>
-              <img  src="/assets/imgs/freeplan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'free'"/>
-              <img  src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'pro'"/>
-              <img  src="/assets/imgs/overview/advanced_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'advanced'"/>
-              <img  src="/assets/imgs/plat_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'platinum'"/>
-              <img  src="/assets/imgs/overview/enterprise_plan.svg" class="w-[22px] h-[22px] "  v-if="planType === 'enterprise'"/>
-              <!-- <img  src="/assets/imgs/proplan.svg" class="w-[22px] h-[22px] mr-[13px]"  v-else/> -->
+              <img  src="/assets/imgs/freeplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'free'"/>
+              <img  src="/assets/imgs/proplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'pro'"/>
+              <img  src="/assets/imgs/overview/advanced_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'advanced'"/>
+              <img  src="/assets/imgs/plat_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'platinum'"/>
+              <img  src="/assets/imgs/overview/enterprise_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'enterprise'"/>
+              <!-- <img  src="/assets/imgs/proplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] mr-[13px]"  v-else/> -->
             </div>
-            <div class="text-[14px] font-[500] leading-[22.5px] text-darkGrey">
+            <div class="text-[10px]   lg:text-[14px] font-[500]
+            ipad-max:text-[12px]
+ipad-max:leading-[10px] whitespace-nowrap
+            lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
               {{ planType === 'free' ? 'Free Widget' : planType === 'pro' ? 'Pro- Widget':planType === 'platinum' ?'Platinum Widget':planType ==='advanced' ?'Advanced Widget':planType === 'enterprise'?'EnterPrise Widget' :''}}
             </div>
             <!-- <div class=" text-[15px] font-[500] leading-[22.5px] text-darkGrey" >
@@ -81,7 +84,9 @@ const prev = () => {
           </div>
 
           <div
-            class=" text-[14px] font-[500] leading-[22.5px] text-darkGrey flex items-center 
+            class="text-[10px] ipad-max:text-[12px] lg:text-[14px]
+             font-[500] ipad-max:leading-[10px] whitespace-nowrap 
+             lg:leading-[22.5px] text-darkGrey  dark:text-whiteTamkin flex items-center 
             justify-evenly rtl:space-x-reverse space-x-[4px] "
             v-if="!isInstalled"
          
@@ -89,7 +94,7 @@ const prev = () => {
             <div > 
               <img 
                 src="/assets/imgs/payment_methods/declined.svg"
-                class="w-[22px] h-[22px]"
+                class="lg:w-[22px]  lg:h-[22px] w-[10px] h-[10px]"
                 
               />
             </div>
@@ -122,27 +127,28 @@ const prev = () => {
       <div
         class="flex items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-y-0 space-y-3 w-full mt-[32px]"
       >
-        <div class="text-[15px] leading-[22.5px] font-[500]">
+        <div class="text-[15px] leading-[22.5px] font-[500] dark:text-whiteTamkin">
           Accessibility Widget Pricing
         </div>
 
         <div
-          class="inline-flex items-center rounded-full bg-tamkinLight p-1 border border-gray-300"
+          class="inline-flex items-center rounded-full bg-tamkinLight  dark:bg-transparent dark:border-darkGrey p-1 border border-gray-300"
         >
           <button
             @click="switchBetweenMonthlyAndAnnual('monthly')"
-            :class="[pricingType === 'monthly' ? 'bg-white rounded-full' : '']"
-            class="py-2 px-4 transition-all ease-in-out text-darkGrey font-[500] text-[14px] leading-[22.5px]"
+            :class="[pricingType === 'monthly' ? 'bg-white dark:bg-light rounded-full' : '']"
+            class="py-2 px-4 transition-all ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[14px] leading-[22.5px]"
           >
             Monthly
           </button>
           <button
-            :class="[pricingType === 'annual' ? 'bg-white rounded-full' : '']"
+            :class="[pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '']"
             @click="switchBetweenMonthlyAndAnnual('annual')"
-            class="py-2 px-2 transition-all ease-in-out text-darkGrey font-[500] text-[14px] leading-[22.5px] mr-[4px]"
+            class="py-2 px-2 transition-all ease-in-out text-darkGrey  dark:text-whiteTamkin 
+            font-[500] text-[14px] leading-[22.5px] mr-[4px]"
           >
             Annual
-            <span class="!text-black text-[11px] leading-[18px] font-[600]"
+            <span class="!text-black dark:!text-whiteTamkin/80 text-[11px] leading-[18px] font-[600]"
               >SAVE 12%</span
             >
           </button>
@@ -158,11 +164,11 @@ const prev = () => {
           v-if="currentIndex === 0"
           key="1"
           class="flex items-center lg:flex-row flex-col justify-center lg:justify-between
-           ipad-max:flex-wrap ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse space-x-[36px] mt-[32px]"
+           ipad-max:flex-wrap ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] ipad-max:space-x-0 mt-[32px]"
         >
           <div
             class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
-             !rounded-b-none mt-[35px] group hover:bg-selected w-full"
+             !rounded-b-none mt-[35px] group hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
@@ -173,8 +179,8 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[18px] leading-[30px]">Free Widget</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin">Free Widget</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
                 <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
@@ -183,20 +189,21 @@ const prev = () => {
                     </div>
                   </div>
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
                 >
                   $ 00
-                  <span class="!font-[500] !text-darkGrey !text-[18px]">/month</span>
+                  <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]">/month</span>
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 100K </span>Page views/mo
                 </p>
               </div>
             </div>
 
             <div
-              class="flex group-hover:bg-selected  flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse rounded-t-none rounded-[10px] p-4"
+              class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin  flex-col items-start justify-center w-full 
+              space-y-[10px] h-[305px] custom-border-collapse rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
                 <div>
@@ -269,7 +276,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>
@@ -277,15 +284,15 @@ const prev = () => {
           </div>
 
           <div
-            class="flex items-center flex-col custom-border-tamkin padding-override-1  group hover:bg-selected
+            class="flex items-center flex-col custom-border-tamkin padding-override-1  group hover:bg-selected dark:hover:bg-p dark:hover:bg-p
              justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
           <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[500] w-[83px]
-          h-[28px] rounded-[10px] text-white top-[-15px] rtl:right-[200px] 
+          h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-[200px] 
           ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 ">
-<div class=" text-white">
+<div class=" ">
  Best Deal
 </div>
          </div>
@@ -299,8 +306,8 @@ const prev = () => {
   
               <div class="order-2 relative w-full">
           
-                <h1 class="font-[600] text-[18px] leading-[30px]">Pro- Widget</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin">Pro- Widget</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
                 <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
@@ -309,15 +316,15 @@ const prev = () => {
                     </div>
                   </div>
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
                 >
                   $ {{ pricingType === "annual" ? "1000" : "150" }}
-                  <span class="!font-[500] !text-darkGrey !text-[18px]"
+                  <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 1M </span>Page views/mo
                 </p>
               </div>
@@ -325,7 +332,7 @@ const prev = () => {
 
             <div
               class="flex custom-border-collapse-tamkin
-               group-hover:bg-selected
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin dark:group-hover:bg-p dark:text-whiteTamkin
               flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
@@ -399,7 +406,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>
@@ -408,7 +415,7 @@ const prev = () => {
 
           <div
             class="flex items-center flex-col custom-border-tamkin 
-             group hover:bg-selected
+             group hover:bg-selected dark:hover:bg-p
             padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
@@ -424,21 +431,21 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[18px] leading-[30px]">Premium</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Premium</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
 
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
                 >
                   $ {{ pricingType === "annual" ? "1500" : "300" }}
-                  <span class="!font-[500] !text-darkGrey !text-[18px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 2M </span>Page views/mo
                 </p>
               </div>
@@ -446,7 +453,7 @@ const prev = () => {
 
             <div
               class="flex custom-border-collapse-tamkin 
-               group-hover:bg-selected
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
               flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
@@ -520,7 +527,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>
@@ -531,11 +538,12 @@ const prev = () => {
         <div
           v-else-if="currentIndex === 1"
           key="2"
-          class="flex items-center justify-between h-full w-full rtl:space-x-reverse space-x-[36px] mt-[32px] ipad-max:flex-wrap ipad-max:rtl:space-x-reverse space-x-0"
+          class="flex items-center justify-between h-full w-full rtl:space-x-reverse lg:space-x-[36px] ipad-max:space-x-0 
+        ipad-max:flex-wrap  mt-[32px] lg:flex-nowrap flex-wrap ipad-max:rtl:space-x-reverse space-x-0"
         >
           <div
             class="flex items-center flex-col custom-border-tamkin 
-             group hover:bg-selected
+             group hover:bg-selected dark:hover:bg-p
             padding-override-1 justify-start !rounded-t-[10px] mt-[35px] w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
@@ -551,21 +559,21 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[18px] leading-[30px]">Advanced</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Advanced</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
 
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
                 >
                   $ {{ pricingType === "annual" ? "4000" : "400" }}
-                  <span class="!font-[500] !text-darkGrey !text-[18px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 3M </span>Page views/mo
                 </p>
               </div>
@@ -573,7 +581,7 @@ const prev = () => {
 
             <div
               class="flex flex-col items-start justify-center
-               group-hover:bg-selected
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
               w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
@@ -647,7 +655,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>
@@ -656,7 +664,7 @@ const prev = () => {
 
           <div
             class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] 
-             group hover:bg-selected
+             group hover:bg-selected dark:hover:bg-p
             !rounded-b-none mt-[35px] w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
@@ -672,21 +680,21 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[18px] leading-[30px]">Platinum</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Platinum</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
 
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
                 >
                   $ {{ pricingType === "annual" ? "5000" : "500" }}
-                  <span class="!font-[500] !text-darkGrey !text-[18px]"
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
                     >/{{ pricingType === "annual" ? "year" : "month" }}</span
                   >
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 4M </span>Page views/mo
                 </p>
               </div>
@@ -694,7 +702,7 @@ const prev = () => {
 
             <div
               class="flex custom-border-collapse-tamkin
-               group-hover:bg-selected
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
               flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
@@ -768,7 +776,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>
@@ -777,7 +785,7 @@ const prev = () => {
 
           <div
             class="flex items-center flex-col custom-border-tamkin 
-             group hover:bg-selected
+             group hover:bg-selected dark:hover:bg-p
             padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
             style="padding: 16px, 10px, 16px, 10px"
           >
@@ -793,19 +801,19 @@ const prev = () => {
               class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
             >
               <div class="order-2 relative w-full">
-                <h1 class="font-[600] text-[18px] leading-[30px]">Enterprise</h1>
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174]">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Enterprise</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
 
                 <h3
-                  class="mt-[16px] text-black font-[600] text-[24px] leading-[29px]"
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
                 >
                   $ {{ pricingType === "annual" ? "5500" : "600" }}
-                  <span class="!font-[500] !text-darkGrey !text-[18px]">/month</span>
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin">/month</span>
                 </h3>
 
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey">
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
                   <span class="!font-[700]">UP to 5M </span>Page views/mo
                 </p>
               </div>
@@ -813,7 +821,7 @@ const prev = () => {
 
             <div
               class="flex custom-border-collapse-tamkin flex-col 
-               group-hover:bg-selected
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
               items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
             >
               <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
@@ -887,7 +895,7 @@ const prev = () => {
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[16px]">
+                <button class="btn-dashboard rounded-full mt-[10px]">
                   Upgrade Now
                 </button>
               </div>

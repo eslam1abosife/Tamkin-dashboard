@@ -2,10 +2,17 @@
 import VCodeBlock from "@wdns/vue-code-block";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
-import { useModalStore } from "@/stores/modal";
+import { useModalManager } from '@/composables/useModalManager';
 
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const collapseStore = useCollapseStore();
-const { openShareModal } = useModalStore();
 
 const code = ref(true);
 const advancedCode = ref(false);
@@ -80,24 +87,25 @@ const localePath = useLocalePath()
 <template>
   <div>
     
-    <div class=" bg-white rounded-[10px] shadow-md -shadow-y-[1px] mt-[64px]"    v-if="isLinkActive('/overview')"   >
+    <div class=" bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] mt-[64px]"    v-if="isLinkActive('/overview')"   >
       <div
         class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y "
       >
         <div
         
-          class="bg-white h-[87px] w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+          class="bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4
+           w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col space-x-[10px]"
         >
           <div>
             <img 
               src="/assets/imgs/overview/warning_overview.svg"
-              class="w-[43px] h-[36px]"
+              class="lg:w-[43px] lg:h-[36px] w-full h-full"
               
             />
           </div>
           <div
           
-            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] leading-[28px] text-darkGrey ml-auto"
+            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey  dark:text-whiteTamkin ml-auto"
           >
             Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
             and unlock the full potential of digital accessibility and ADA compliance
@@ -108,7 +116,7 @@ const localePath = useLocalePath()
     
     </div>
     <div
-      class="mt-[30px] bg-white rounded-[10px] px-[15px] relative shadow-md -shadow-y-[2px]"
+      class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] relative shadow-md -shadow-y-[2px]"
 
     >
       <DashboardToastSuccess
@@ -117,10 +125,11 @@ const localePath = useLocalePath()
         :message="'Copied to clipboard'"
       />
 
-      <div class="flex items-start justify-start l pt-[24px]">
+      <div class="flex items-start justify-between w-full pt-[24px]">
         <div>
-          <h1 class="text-[18px] font-[500] leading-[30px]">Widget Embed Code</h1>
-          <h2 class="text-left text-[14px] font-[400] leading-[28.5px] text-darkGrey ">
+          <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px]  dark:text-whiteTamkin ">Widget Embed Code</h1>
+          <h2 class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px]
+       text-darkGrey  lg:w-auto ipad-max:max-w-[400px] w-[290px] dark:text-whiteTamkin/90 ">
             Widget Embed Code allows you to easily integrate accessibility features into
             your website by adding a simple script to your site's HTML
           </h2>
@@ -144,7 +153,7 @@ const localePath = useLocalePath()
             :class="[
               collapseStore.menus.includes('widget_embded_code')
                 ? 'stroke-current !text-white !fill-white'
-                : '',
+                : 'dark:text-white',
             ]"
           >
             <path
@@ -163,15 +172,15 @@ const localePath = useLocalePath()
               @click="collapseStore.collapseCard('widget_embded_code_card')"
             >
               <div>
-                <img 
-                  src="/assets/imgs/addons/min_size.svg"
-                  
-                  :class="[
-                    collapseStore.menus.includes('widget_embded_code')
-                      ? '!fill-white'
-                      : '',
-                  ]"
-                />
+                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
               </div>
               <div class="text_mini">
                 {{
@@ -183,20 +192,37 @@ const localePath = useLocalePath()
             </div>
 
             <div class="arrow">
-              <img 
-                src="/assets/imgs/addons/arrow_menu.svg"
-                tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                "
-                
-                class="w-full h-full"
+              <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-darkTamkin"
+                filter="url(#shadow-sm)"
               />
+            </svg>
             </div>
           </div>
         </div>
       </div>
 
       <div
-        class="flex flex-col items-start justify-center px-[15px] divide-y"
+        class="flex flex-col items-start justify-center  divide-y"
         v-if="!collapseStore.collapses.includes('widget_embded_code_card')"
       >
         <div class="w-full h-full rounded-[10px]">
@@ -227,11 +253,11 @@ const localePath = useLocalePath()
               <div>Advanced View</div>
             </button>
             <div
-              @click="openShareModal"
+              @click="openModal('shareModal','overview')"
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent 
               bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary  dark:text-whiteTamkin rounded-md flex items-center justify-center">
                 <div class="rtl:pr-[16px] ltr:pl-[16px]">
                   <svg
                     width="22"
@@ -289,9 +315,10 @@ const localePath = useLocalePath()
 
             <div
               @click="copyCode"
-              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
+              class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r 
+              from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-whiteTamkin rounded-md flex items-center justify-center">
                 <div class="rtl:pr-[16px] ltr:pl-[16px]">
                   <svg
                     width="20"
@@ -344,7 +371,7 @@ const localePath = useLocalePath()
             </Client-only>
 
             <h2
-              class="text-left font-[500] text-[12px] text-[#979897] mb-[30px] mt-[20px]"
+              class="text-left font-[500] text-[12px] text-[#979897]  dark:text-whiteTamkin  mb-[30px] mt-[20px]"
               style="line-height: 23.4px"
             >
               Managing multiple sites for multiple clients ? Great! Make sure you use

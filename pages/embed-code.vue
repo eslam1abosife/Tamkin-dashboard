@@ -2,6 +2,7 @@
 import VCodeBlock from "@wdns/vue-code-block";
 import banner from '/assets/imgs/gradient_embded.png'
 import { Vue3Lottie } from 'vue3-lottie'
+import { useModalManager } from '@/composables/useModalManager';
 
 import embed from '/assets/animation/embed.json'
    
@@ -60,11 +61,16 @@ const props = defineProps({
   maxWidth: String,
 });
 
-import { useModalStore } from "@/stores/modal";
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-const { openShareModal } = useModalStore();
-// const {showShareModal} = storeToRefs(modalStore)
 
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 onBeforeMount(()=>{
   currentCode.value = `const foo = 'bar';`
   code.value = true
@@ -110,7 +116,7 @@ const clearInput = () => {
      <div class="flex flex-col lg:flex-row items-center justify-between">
 
       <h1
-      class="text-center text-[20px] font-[500] lg:order-1 order-2"
+      class="text-center text-[20px] font-[500] lg:order-1 order-2 dark:text-whiteTamkin"
       style="line-height: 43.2px"
     >
       Here’s your
@@ -135,7 +141,7 @@ const clearInput = () => {
 
       <div>
         <p
-        class="font-[400] text-[13px] text-center lg:mt-[-23px]"
+        class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90"
       
       >
         Insert the following embed code at the beginning of your site's
@@ -143,7 +149,7 @@ const clearInput = () => {
       </p>
       </div>
 
-        <div class="mt-[44px] w-full h-full bg-whiteTamkin rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+        <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
           <div
             class="flex items-center lg:flex-row flex-col justify-center lg:space-y-0 space-y-[16px] lg:justify-between mt-[30px] w-full lg:px-[15px]"
@@ -172,10 +178,10 @@ const clearInput = () => {
               <div>Advanced View</div>
             </button>
             <div
-             @click="openShareModal"
+             @click="openModal('shareModal','embed-code')"
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
                 <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="22"
@@ -236,7 +242,7 @@ const clearInput = () => {
               class="cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
             >
-              <div class="bg-white rounded-md flex items-center justify-center">
+              <div class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
                 <div class="ltr:pl-[16px] rtl:pr-[16px]">
                   <svg
                     width="20"
@@ -290,7 +296,7 @@ const clearInput = () => {
             </Client-only>
 
             <h2
-              class="text-left font-[500] text-[12px] text-[#979897] mb-[30px] mt-[20px]"
+              class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
               style="line-height: 23.4px"
             >
               Managing multiple sites for multiple clients ? Great! Make sure
@@ -306,13 +312,13 @@ const clearInput = () => {
         <div
           :style="{ backgroundImage: `url(${banner})` }"
           style="width: 100%; background-size: cover"
-          class="rounded-lg h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
+          class="rounded-lg h-[150px] lg:h-[250px] text-center flex items-center justify-center lg:flex-row flex-col w-full"
         >
-          <div class="h-full">
+          <div class="hidden lg:block lg:h-full">
             <img 
               src="/assets/imgs/icons/man.svg"
               alt="Character"
-              class=" h-full lg:block hidden m-auto"
+              class=" h-full "
             />
           </div>
           <div class="flex flex-col items-center justify-center px-[10px]">
@@ -339,12 +345,12 @@ const clearInput = () => {
       <div class="space-y-[14px] mb-[32px]">
         <div class="">
           <h1
-            class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px]"
+            class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px] dark:text-whiteTamkin"
           >
             Need help installing Tamkin ?
           </h1>
           <p
-            class="text-center text-[14px] mt-[8px] text-[#A7A7A7]"
+            class="text-center text-[14px] mt-[8px] text-[#A7A7A7] dark:text-whiteTamkin/90"
             style="line-height: 21px"
           >
             Our support team is help !
@@ -352,7 +358,8 @@ const clearInput = () => {
         </div>
   
         <div
-          class="lg:h-[60px] w-full bg-white flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
+          class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary 
+          flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
             <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
@@ -371,7 +378,7 @@ const clearInput = () => {
       </div>
       <div class="">
         <h1
-          class="text-center font-[500] mt-[43px] text-[#021328] text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]"
+          class="text-center font-[500] mt-[43px] text-[#021328] dark:text-whiteTamkin text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]"
         >
           Select your platform for a quick installation video
         </h1>
@@ -383,15 +390,15 @@ const clearInput = () => {
             <div
               class="inline-block min-w-full  align-middle md:px-6 lg:px-8"
             >
-              <div class="overflow-hidden rounded-[10px] bg-white " style="box-shadow: 0px 4px 24px 8px #51459F1A;
+              <div class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-darkborder">
                 <thead>
                   <tr>
                     <div class="flex items-center jutify-between">
                       <div class="w-2/4">
                         <div
-                          class="text-[16px] font-[600] p-[16px]"
+                          class="text-[16px] font-[600] p-[16px] dark:text-whiteTamkin"
                           style="line-height: 16px"
                         >
                           Installation Guides
@@ -427,10 +434,10 @@ const clearInput = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
                   <tr class="flex items-center justify-between">
                     <td
-                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"
                       style="line-height: 22.5px"
                     >
                       <div>
@@ -481,15 +488,85 @@ const clearInput = () => {
                                 height="25"
                                 rx="12.5"
                                 transform="rotate(-90 0 25)"
-                                fill="#F2F2F2"
-                                fill-opacity="0.52"
+                                    class="fill-[#F2F2F2] dark:fill-whiteTamkin"
+                                fill-opacity="1"
                               />
                               <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
                                 d="M9.00021 17.4998C9.00026 17.6975 9.05893 17.8908 9.16881 18.0552C9.2787 18.2197 9.43486 18.3478 9.61756 18.4235C9.80026 18.4991 10.0013 18.5189 10.1952 18.4804C10.3892 18.4418 10.5674 18.3466 10.7072 18.2068L15.7072 13.2068C15.8947 13.0193 16 12.765 16 12.4998C16 12.2346 15.8947 11.9803 15.7072 11.7928L10.7072 6.79279C10.5674 6.65298 10.3892 6.55777 10.1952 6.5192C10.0013 6.48064 9.80026 6.50044 9.61756 6.57611C9.43486 6.65178 9.2787 6.77992 9.16881 6.94433C9.05893 7.10874 9.00026 7.30204 9.00021 7.49979V17.4998Z"
-                                fill="#585B5B"
+                                class="fill-[#585B5B] dark:fill-darkTamkin"
                               />
+                            </svg>
+                          </div>
+                          <div class="">Installation Guides</div>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr class="flex items-center justify-between">
+                    <td
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"
+                      style="line-height: 22.5px"
+                    >
+                      <div>
+                        <svg
+                          width="28"
+                          height="31"
+                          viewBox="0 0 28 31"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21.4375 0.5H6.5625C2.93813 0.5 0 3.648 0 7.53125V23.4688C0 27.352 2.93813 30.5 6.5625 30.5H21.4375C25.0619 30.5 28 27.352 28 23.4688V7.53125C28 3.648 25.0619 0.5 21.4375 0.5Z"
+                            fill="#0073AA"
+                          />
+                          <path
+                            d="M4.61719 15.4996C4.61719 19.4787 6.77549 22.9175 9.90514 24.5471L5.42952 11.4085C4.89301 12.6957 4.61619 14.0898 4.61719 15.4996ZM20.3337 14.9923C20.3337 13.75 19.9172 12.8896 19.56 12.2199C19.0843 11.3918 18.6385 10.6906 18.6385 9.86254C18.6385 8.9384 19.2927 8.07824 20.2141 8.07824C20.2557 8.07824 20.2951 8.08375 20.3357 8.08621C18.6664 6.4477 16.4425 5.44727 13.9997 5.44727C10.722 5.44727 7.83807 7.24914 6.16047 9.97844C6.38053 9.98547 6.58802 9.99051 6.76422 9.99051C7.74564 9.99051 9.26475 9.86277 9.26475 9.86277C9.7705 9.8309 9.83022 10.6268 9.32491 10.6909C9.32491 10.6909 8.81664 10.755 8.25107 10.7868L11.6677 21.6756L13.721 15.0776L12.2592 10.7864C11.754 10.7547 11.2754 10.6906 11.2754 10.6906C10.7698 10.6588 10.829 9.83055 11.3347 9.86254C11.3347 9.86254 12.8841 9.99004 13.806 9.99004C14.7873 9.99004 16.3065 9.86254 16.3065 9.86254C16.8127 9.83055 16.8721 10.6265 16.3667 10.6906C16.3667 10.6906 15.8573 10.7547 15.2928 10.7864L18.6836 21.5928L19.6194 18.2421C20.0251 16.8516 20.3337 15.8529 20.3337 14.9923Z"
+                            fill="white"
+                          />
+                          <path
+                            d="M14.1647 16.3781L11.3496 25.1426C12.2103 25.4142 13.1029 25.5521 14.0001 25.5521C15.0613 25.5526 16.1148 25.3599 17.1157 24.9823C17.0897 24.9383 17.0674 24.892 17.049 24.8438L14.1647 16.3781ZM22.2329 10.6758C22.2755 11.0184 22.2967 11.3637 22.2961 11.7094C22.2961 12.7295 22.1182 13.8763 21.5826 15.3102L18.7167 24.1882C21.5061 22.4454 23.3823 19.2076 23.3823 15.499C23.3824 13.7511 22.9658 12.1076 22.2329 10.6758Z"
+                            fill="white"
+                          />
+                          <path
+                            d="M13.9998 3.78125C7.96906 3.78125 3.0625 9.03793 3.0625 15.4993C3.0625 21.9615 7.96906 27.2179 13.9998 27.2179C20.0302 27.2179 24.9375 21.9615 24.9375 15.4993C24.9373 9.03793 20.0302 3.78125 13.9998 3.78125ZM13.9998 26.6809C8.24556 26.6809 3.56398 21.6648 3.56398 15.4993C3.56398 9.33418 8.24545 4.31855 13.9998 4.31855C19.7537 4.31855 24.4349 9.33418 24.4349 15.4993C24.4349 21.6648 19.7537 26.6809 13.9998 26.6809Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                      <div>WordPress</div>
+                    </td>
+                    <td class="px-4 py-4 text-sm whitespace-nowrap">
+                      <div class="flex items-center gap-x-6">
+                        <button
+                          style="line-height: 22.5px"
+                          class="btn__embed_table"
+                        >
+                          <div>
+                            <svg
+                              width="25"
+                              height="25"
+                              viewBox="0 0 25 25"
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                y="25"
+                                width="25"
+                                height="25"
+                                rx="12.5"
+                                transform="rotate(-90 0 25)"
+                                class="fill-[#F2F2F2] dark:fill-whiteTamkin"
+                                fill-opacity="1"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M9.00021 17.4998C9.00026 17.6975 9.05893 17.8908 9.16881 18.0552C9.2787 18.2197 9.43486 18.3478 9.61756 18.4235C9.80026 18.4991 10.0013 18.5189 10.1952 18.4804C10.3892 18.4418 10.5674 18.3466 10.7072 18.2068L15.7072 13.2068C15.8947 13.0193 16 12.765 16 12.4998C16 12.2346 15.8947 11.9803 15.7072 11.7928L10.7072 6.79279C10.5674 6.65298 10.3892 6.55777 10.1952 6.5192C10.0013 6.48064 9.80026 6.50044 9.61756 6.57611C9.43486 6.65178 9.2787 6.77992 9.16881 6.94433C9.05893 7.10874 9.00026 7.30204 9.00021 7.49979V17.4998Z"
+                                class="fill-[#585B5B] dark:fill-darkTamkin"
+                                />
                             </svg>
                           </div>
                           <div>Installation Guides</div>
@@ -500,7 +577,7 @@ const clearInput = () => {
 
                   <tr class="flex items-center justify-between">
                     <td
-                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
+                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"
                       style="line-height: 22.5px"
                     >
                       <div>
@@ -551,84 +628,14 @@ const clearInput = () => {
                                 height="25"
                                 rx="12.5"
                                 transform="rotate(-90 0 25)"
-                                fill="#F2F2F2"
-                                fill-opacity="0.52"
-                              />
+                                   class="fill-[#F2F2F2] dark:fill-whiteTamkin"
+                                fill-opacity="1"
+                                />
                               <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
                                 d="M9.00021 17.4998C9.00026 17.6975 9.05893 17.8908 9.16881 18.0552C9.2787 18.2197 9.43486 18.3478 9.61756 18.4235C9.80026 18.4991 10.0013 18.5189 10.1952 18.4804C10.3892 18.4418 10.5674 18.3466 10.7072 18.2068L15.7072 13.2068C15.8947 13.0193 16 12.765 16 12.4998C16 12.2346 15.8947 11.9803 15.7072 11.7928L10.7072 6.79279C10.5674 6.65298 10.3892 6.55777 10.1952 6.5192C10.0013 6.48064 9.80026 6.50044 9.61756 6.57611C9.43486 6.65178 9.2787 6.77992 9.16881 6.94433C9.05893 7.10874 9.00026 7.30204 9.00021 7.49979V17.4998Z"
-                                fill="#585B5B"
-                              />
-                            </svg>
-                          </div>
-                          <div>Installation Guides</div>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr class="flex items-center justify-between">
-                    <td
-                      class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] text-darkGrey"
-                      style="line-height: 22.5px"
-                    >
-                      <div>
-                        <svg
-                          width="28"
-                          height="31"
-                          viewBox="0 0 28 31"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M21.4375 0.5H6.5625C2.93813 0.5 0 3.648 0 7.53125V23.4688C0 27.352 2.93813 30.5 6.5625 30.5H21.4375C25.0619 30.5 28 27.352 28 23.4688V7.53125C28 3.648 25.0619 0.5 21.4375 0.5Z"
-                            fill="#0073AA"
-                          />
-                          <path
-                            d="M4.61719 15.4996C4.61719 19.4787 6.77549 22.9175 9.90514 24.5471L5.42952 11.4085C4.89301 12.6957 4.61619 14.0898 4.61719 15.4996ZM20.3337 14.9923C20.3337 13.75 19.9172 12.8896 19.56 12.2199C19.0843 11.3918 18.6385 10.6906 18.6385 9.86254C18.6385 8.9384 19.2927 8.07824 20.2141 8.07824C20.2557 8.07824 20.2951 8.08375 20.3357 8.08621C18.6664 6.4477 16.4425 5.44727 13.9997 5.44727C10.722 5.44727 7.83807 7.24914 6.16047 9.97844C6.38053 9.98547 6.58802 9.99051 6.76422 9.99051C7.74564 9.99051 9.26475 9.86277 9.26475 9.86277C9.7705 9.8309 9.83022 10.6268 9.32491 10.6909C9.32491 10.6909 8.81664 10.755 8.25107 10.7868L11.6677 21.6756L13.721 15.0776L12.2592 10.7864C11.754 10.7547 11.2754 10.6906 11.2754 10.6906C10.7698 10.6588 10.829 9.83055 11.3347 9.86254C11.3347 9.86254 12.8841 9.99004 13.806 9.99004C14.7873 9.99004 16.3065 9.86254 16.3065 9.86254C16.8127 9.83055 16.8721 10.6265 16.3667 10.6906C16.3667 10.6906 15.8573 10.7547 15.2928 10.7864L18.6836 21.5928L19.6194 18.2421C20.0251 16.8516 20.3337 15.8529 20.3337 14.9923Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.1647 16.3781L11.3496 25.1426C12.2103 25.4142 13.1029 25.5521 14.0001 25.5521C15.0613 25.5526 16.1148 25.3599 17.1157 24.9823C17.0897 24.9383 17.0674 24.892 17.049 24.8438L14.1647 16.3781ZM22.2329 10.6758C22.2755 11.0184 22.2967 11.3637 22.2961 11.7094C22.2961 12.7295 22.1182 13.8763 21.5826 15.3102L18.7167 24.1882C21.5061 22.4454 23.3823 19.2076 23.3823 15.499C23.3824 13.7511 22.9658 12.1076 22.2329 10.6758Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M13.9998 3.78125C7.96906 3.78125 3.0625 9.03793 3.0625 15.4993C3.0625 21.9615 7.96906 27.2179 13.9998 27.2179C20.0302 27.2179 24.9375 21.9615 24.9375 15.4993C24.9373 9.03793 20.0302 3.78125 13.9998 3.78125ZM13.9998 26.6809C8.24556 26.6809 3.56398 21.6648 3.56398 15.4993C3.56398 9.33418 8.24545 4.31855 13.9998 4.31855C19.7537 4.31855 24.4349 9.33418 24.4349 15.4993C24.4349 21.6648 19.7537 26.6809 13.9998 26.6809Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-                      <div>WordPress</div>
-                    </td>
-                    <td class="px-4 py-4 text-sm whitespace-nowrap">
-                      <div class="flex items-center gap-x-6">
-                        <button
-                          style="line-height: 22.5px"
-                          class="btn__embed_table"
-                        >
-                          <div>
-                            <svg
-                              width="25"
-                              height="25"
-                              viewBox="0 0 25 25"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <rect
-                                y="25"
-                                width="25"
-                                height="25"
-                                rx="12.5"
-                                transform="rotate(-90 0 25)"
-                                fill="#F2F2F2"
-                                fill-opacity="0.52"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M9.00021 17.4998C9.00026 17.6975 9.05893 17.8908 9.16881 18.0552C9.2787 18.2197 9.43486 18.3478 9.61756 18.4235C9.80026 18.4991 10.0013 18.5189 10.1952 18.4804C10.3892 18.4418 10.5674 18.3466 10.7072 18.2068L15.7072 13.2068C15.8947 13.0193 16 12.765 16 12.4998C16 12.2346 15.8947 11.9803 15.7072 11.7928L10.7072 6.79279C10.5674 6.65298 10.3892 6.55777 10.1952 6.5192C10.0013 6.48064 9.80026 6.50044 9.61756 6.57611C9.43486 6.65178 9.2787 6.77992 9.16881 6.94433C9.05893 7.10874 9.00026 7.30204 9.00021 7.49979V17.4998Z"
-                                fill="#585B5B"
+                                class="fill-[#585B5B] dark:fill-darkTamkin"
                               />
                             </svg>
                           </div>

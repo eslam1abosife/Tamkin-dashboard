@@ -4,10 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 export const useMarketStore = defineStore('market', {
   state: () => ({
 currentTab:'character',
+selectedForPreview:[
+
+],
 cartItems:[],
+cartNotification:false,
+firstItemNotificationShown: false, // Add this flag
+
 showCart:false,
 requestModal:false,
 resetModal:false,
+showSaveFooter:false,
 characters:[
     {
         id:uuidv4(),
@@ -1514,44 +1521,91 @@ shoes:[
 ]
   }),
   actions: {
-    openResetModal(){
-        this.resetModal = !this.resetModal
-    },
-    openReqestModal(){
-        this.requestModal = !this.requestModal
-    },
-    openCart(){
-        this.showCart = !this.showCart
-    },
-    switchTabs(tab:string){
-        this.currentTab = tab
-    },
-    addToCart(item:any){
-        if(!this.cartItems.includes(item)){
-            this.cartItems.push(item)
-            this.animateCartIcon();
+    resetAll(){
+        this.selectedForPreview = []
+        this.showSaveFooter = false
 
-        }else{
-            this.removeFromCart(item)
-        }
+
     },
-    removeFromCart(item) {
-        const index = this.cartItems.indexOf(item);
-        if (index !== -1) {
-          this.cartItems.splice(index, 1);
+    closeCartNotification() {
+      this.cartNotification = !this.cartNotification;
+      this.firstItemNotificationShown = !this.firstItemNotificationShown;
+    },
+    selectItemforPreview(item) {
+        const existingItemIndex = this.selectedForPreview.findIndex(it => it.type === item.type);
+      
+        if (existingItemIndex !== -1) {
+          if (this.selectedForPreview[existingItemIndex].id === item.id) {
+            // If the same item is clicked again, remove it
+            this.selectedForPreview.splice(existingItemIndex, 1);
+            this.showSaveFooter = false;
+
+          } else {
+            // If an item of the same type is already selected but it's a different item, replace it with the new item
+            this.selectedForPreview.splice(existingItemIndex, 1, item);
+            this.showSaveFooter = true;
+
+          }
+
         } else {
-          alert('Item not found in cart');
+          // Otherwise, add the new item
+          this.selectedForPreview.push(item);
+          this.showSaveFooter = true;
         }
       },
-      animateCartIcon() {
-     if(process.client){
+      
+    openResetModal() {
+      this.resetModal = !this.resetModal;
+    },
+    openReqestModal() {
+      this.requestModal = !this.requestModal;
+    },
+    openCart() {
+      this.showCart = !this.showCart;
+    },
+    switchTabs(tab: string) {
+      this.currentTab = tab;
+    },
+    addToCart(item: any) {
+      if (!this.cartItems.includes(item)) {
+        this.cartItems.push(item);
+        this.animateCartIcon();
+  
+        // Show notification if it's the first item and the notification hasn't been shown yet
+        if (this.cartItems.length === 1 && !this.firstItemNotificationShown) {
+          this.showFirstItemNotification();
+          this.firstItemNotificationShown = true;
+        }
+      } else {
+        this.removeFromCart(item);
+      }
+    },
+    removeFromCart(item) {
+      const index = this.cartItems.indexOf(item);
+      if (index !== -1) {
+        this.cartItems.splice(index, 1);
+        // Reset the flag if the cart is empty
+        if (this.cartItems.length === 0) {
+          this.firstItemNotificationShown = false;
+        }
+      } else {
+        // alert('Item not found in cart');
+      }
+    },
+    animateCartIcon() {
+      if (process.client) {
         const cartIcon = document.querySelector('.animate_cart');
         cartIcon.classList.remove('animate-scale');
-        void cartIcon.offsetWidth;  // Trigger reflow
+        void cartIcon.offsetWidth; // Trigger reflow
         cartIcon.classList.add('animate-scale');
-     }
+      }
+    },
+    showFirstItemNotification() {
+      // Your notification logic here
+    //   alert('First item added to the cart!');
     }
   },
+  
   getters: {
     cartSubtotal(state) {
       return state.cartItems.reduce((sum, item) => sum + item.price, 0);

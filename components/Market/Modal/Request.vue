@@ -49,10 +49,11 @@ onBeforeUnmount(() => {
 
 <template>
     <div 
-    class="mysite_bg_modal fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
-       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
+    class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] 
+       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto h-full"
     >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -67,19 +68,19 @@ onBeforeUnmount(() => {
         />
       </svg>
     </div>
-    <div class="w-full h-screen mb-[60px] ">
-        <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey lg:px-0 px-[20px] lg:mt-0 mt-[60px]">
+    <div class="w-full ">
+      <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
         Request a specific character
       </h1>
       <div
-      class="flex flex-col items-start justify-center lg:overflow-x-hidden space-y-[20px]  overflow-x-scroll bg-white
-       w-full mx-auto  
-      px-[20px] rounded-[10px] mt-[33px] pt-[20px] h-full"
+      class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
+       w-full   h-full pb-[20px] 
+      px-[20px] rounded-[10px] mt-[16px] pt-[20px]  "
       style="box-shadow: 0px 4px 24px 8px #51459f14"
    >
         <!-- Your form content here -->
         <div class="w-full relative  ">
-          <input type="text" placeholder="Character Name" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
+          <input type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
             input_error: (v$.characterName.$error && v$.characterName.required.$invalid),
             error_text: (v$.characterName.$error && v$.characterName.required.$invalid),
             input_success: !v$.characterName.$error && !v$.characterName.$invalid,
@@ -89,14 +90,14 @@ onBeforeUnmount(() => {
           ]">
             Character Name*
           </label>
-          <div class="w-full lg:w-4/6 mt-2" v-if="(v$.characterName.$error && v$.characterName.required.$invalid)">
+          <div class="w-full lg:w-4/6 " v-if="(v$.characterName.$error && v$.characterName.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.characterName.$error && v$.characterName.required.$invalid">{{ $t("Character Name is Required") }}</span>
             </p>
           </div>
         </div>
         <div class="w-full relative">
-          <input type="number" placeholder="Character Age" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
+          <input type="number" placeholder="characterAge" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
             input_error: (v$.characterAge.$error && v$.characterAge.required.$invalid),
             error_text: (v$.characterAge.$error && v$.characterAge.required.$invalid),
             input_success: !v$.characterAge.$error && !v$.characterAge.$invalid,
@@ -106,14 +107,14 @@ onBeforeUnmount(() => {
           ]">
             Character Age*
           </label>
-          <div class="w-full lg:w-4/6 mt-2" v-if="(v$.characterAge.$error && v$.characterAge.required.$invalid)">
+          <div class="w-full lg:w-4/6 " v-if="(v$.characterAge.$error && v$.characterAge.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.characterAge.$error && v$.characterAge.required.$invalid">{{ $t("Character Age is Required") }}</span>
             </p>
           </div>
         </div>
         <div class="w-full flex-col flex items-start justify-start">
-          <h1 class="text-[16px] font-[600] text-darkGrey">Gender</h1>
+          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">Gender</h1>
           <div class="flex items-center justify-start space-x-[100px] w-full">
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -127,7 +128,7 @@ onBeforeUnmount(() => {
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px]">Male</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Male</h2>
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -141,14 +142,14 @@ onBeforeUnmount(() => {
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px]">Female</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Female</h2>
             </div>
           </div>
         </div>
         <div class="relative w-full">
           <textarea
             id="description"
-            placeholder="description*"
+            placeholder="description"
             class="input_floating_label_text_area peer w-full"
             v-model="v$.Description.$model"
             :class="{
@@ -171,23 +172,29 @@ onBeforeUnmount(() => {
             </p>
           </div>
         </div>
-        <div class="w-full">
-          <h1 class="text-left text-[16px] font-[500] text-darkGrey">Upload Character image</h1>
+        <div class="w-full ">
+          <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
           <div
             v-bind="getRootProps()"
-            class="w-full py-[32px] rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] mt-[24px] flex items-center justify-center flex-col space-y-[10px]"
+            class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
+            flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 grid-cols-12 space-x-[16px] p-3" v-if="acceptedFilesRef.length > 0">
+            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
-                class="upload-file-item col-span-4 relative"
+                style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
+"
+                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
               >
-                <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer border bg-white rounded-full border-black w-[26px] h-[26px] flex items-center justify-center"> 
-                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.21191 0.59375L8.78806 8.16989" stroke="#585B5B" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.34082 8.04297L8.66443 0.719362" stroke="#585B5B" stroke-linecap="round" stroke-linejoin="round"/>
+                <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
+                 border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
+                 transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
+                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+                   class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px] dark:text-whiteTamkin">
+                    <path d="M1.21191 0.59375L8.78806 8.16989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1.34082 8.04297L8.66443 0.719362" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
                 <img 
@@ -197,7 +204,7 @@ onBeforeUnmount(() => {
                   @click.stop
                 />
               </div>
-              <div class="upload-file-item relative col-span-4 cursor-pointer m-auto">
+              <div class="upload-file-item relative  cursor-pointer m-auto">
                 <img src="/assets/pngs/market/add_image.png" class="w-[83px] h-[83px]" alt="">
               </div>
             </div>
@@ -205,10 +212,10 @@ onBeforeUnmount(() => {
               <img src="/assets/pngs/market/upload_request.png" class="w-[84px] h-[52px]" />
             </div>
             <div class="w-full">
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey" v-if="isDragActive">
+              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
                 Drop the files here ...
               </h1>
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey" v-if="acceptedFilesRef.length === 0">
+              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
                 <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop media here
               </h1>
             </div>
@@ -220,8 +227,8 @@ onBeforeUnmount(() => {
           <div class="text-[20px] font-[600]">$80</div>
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
-          <button class="btn_bordered_dashboard">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]">Add To Cart</button>
+          <button class="btn_bordered_dashboard" @click="marketStore.openReqestModal">Cancel</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="marketStore.openReqestModal">Add To Cart</button>
         </div>
       </div>
     </div>

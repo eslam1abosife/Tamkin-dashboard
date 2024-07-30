@@ -1,96 +1,107 @@
 @layer components {
-    
+  .input_error {
+    @apply border-tamkingErrorInput !important;
+  }
 
-.input_error {
-    @apply  border-tamkingErrorInput #{!important} ;
-}
-.input_success {
-    @apply  border-tamkin #{!important} ;
-}
+  .input_success {
+    @apply border-tamkin !important;
+  }
 
-.input_floating_label_text_area {
-  @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] rounded-[10px]
-    py-[6px] bg-white h-[100px] border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-    focus:border-tamkin focus:ring-[1.5] placeholder:text-transparent pt-[20px];
-}
+  .input_floating_label_text_area {
+    @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] rounded-[10px]
+      py-[6px] bg-transparent h-[100px] border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
+      focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent pt-[20px];
+  }
 
-.floating_label_text_area {
-  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px]
-    top-[7px] lg:top-[8px] -translate-y-0 peer-focus:-translate-y-[19px] bg-white px-1 duration-100 ease-linear text-light
-     peer-focus:text-darkGrey
-    text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px]
-    2xl:peer-focus:text-[12px] transition-all  leading-[24px];
-}
+  .floating_label_text_area {
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] top-[3px] lg:top-[8px] -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];
 
-.input_floating_label {
-    @apply  lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] h-[40px] rounded-[10px] 
-    py-[6px] bg-white
-     border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-      focus:border-tamkin focus:ring-[1.5] focus:ring-tamkin placeholder:text-transparent;
-   &.error_text {
-    // @apply text-light; 
-   }
+  }
+
+  .input_floating_label {
+    @apply dark:!text-whiteTamkin lg:text-[12px] pt-[10px] rtl:pr-[20px] 
+    ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] h-[40px] rounded-[10px] text-[12px]
+     py-[6px] bg-white dark:bg-transparent
+      border-lightGrey dark:border-darkborder md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
+      focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent;
+
+    &.error_text {
+      // @apply text-light; 
+    }
   }
 
   .input_search_country {
-    @apply  lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px]  rounded-[10px] py-[14px] bg-white
-     border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] 
+    @apply lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] rounded-[10px] py-[14px] bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder
+      border-lightGrey dark:border-darkborder  md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px] 
       focus:ring-1 focus:border-transparent focus:ring-tamkin  focus:outline-none placeholder:text-transparent;
-   &.error_text {
-    // @apply text-light;
-   }
-  }
-  .input_dashboard {
-    @apply text-[12px] lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey lg:w-[300px] xl:w-[500px] 3xl:w-[800px] ipad-max:max-w-full  border-[1px] focus:border-tamkin focus:ring-0;
 
-  }
-  .floating_label {
-    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
-    top-[3px] lg:top-[8px] peer-focus:-translate-y-[18px] -translate-y-0 bg-white px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
-    2xl:peer-focus:text-[12px];
-    transition: all 0.2s ease-in-out;
-    line-height: 24px;
-  }
-
-  .floating_country{
-    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
-    top-[8px] lg:top-[8px] h-[40px] -translate-y-0  px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
-    2xl:peer-focus:text-[16px];
-    transition: all 0.2s ease-in-out;
-    line-height: 24px;
-  
-  
-  }
-  input:focus ~ .floating_label,
-  input:not(:placeholder-shown) ~ .floating_label {
-    @apply -translate-y-6 px-1 text-darkGrey text-[16px];
-  }
-  
-  .error_message {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px]  ltr:right-[14px] lg:ltr:right-[14px];
-    &.text_area{
-      @apply bottom-[6px] #{!important};
+    &.error_text {
+      // @apply text-light;
     }
   }
-  .error_message_password {
-    @apply font-[300] text-right text-[10px] lg:text-[12px] text-error absolute rtl:bottom-[1px] ltr:bottom-[1px]  rtl:left-[29px] ltr:right-[14px];
-    
+
+  .input_dashboard {
+    @apply ipad-max:h-[20px] text-[12px] lg:text-[14px] pl-[20px] lg:pl-[30px] h-[40px] lg:h-[45px] rounded-[8px] py-[14px] 
+    bg-white border-lightGrey dark:border-darkborder  lg:w-[300px] xl:w-[500px] 3xl:w-[800px] ipad-max:max-w-full border-[1px] focus:border-tamkin focus:ring-0;
   }
+
+  .floating_label {
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
+     lg:rtl:right-[30px] lg:ltr:left-[16px] top-[8px] ipad-max:top-[14px]
+      -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+      text-[13px] lg:text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[10px] 
+      ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] ipad-max:leading-[10px] leading-[24px];
+  }
+
+  .floating_country {
+    @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[30px] 
+      top-[8px] lg:top-[8px] h-[40px] -translate-y-0 px-1 duration-100 ease-linear text-light peer-focus:text-darkGrey 
+      text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
+      2xl:peer-focus:text-[16px] transition-all ease-in-out leading-[24px];
+  }
+
+  input:focus ~ .floating_label,
+  input:not(:placeholder-shown) ~ .floating_label {
+    @apply  -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-tamkinDarkPrimary text-[12px];
+  }
+
+  textarea:focus ~ .floating_label_text_area,
+  textarea:not(:placeholder-shown) ~ .floating_label_text_area {
+    @apply  -translate-y-[22px] px-1 transition-all ease-in-out text-darkGrey dark:!text-whiteTamkin bg-white dark:bg-tamkinDarkPrimary text-[12px];
+  }
+
+  .error_message {
+    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[29px] ltr:right-[14px] lg:ltr:right-[14px];
+
+    &.text_area {
+      @apply bottom-[6px] !important;
+    }
+  }
+
+  .error_message_password {
+    @apply font-[300] text-right text-[10px] lg:text-[12px] text-error absolute rtl:bottom-[1px] ltr:bottom-[1px] rtl:left-[29px] ltr:right-[14px];
+  }
+
   input::-ms-reveal,
   input::-ms-clear {
     display: none;
   }
 
-  .search_input{
-    @apply relative;
+  .search_input {
+    @apply relative w-full;
+
     .input_dashboard_search {
-      @apply placeholder:text-[#BCC0BF]  rtl:placeholder:text-right rtl:text-right
-       text-[14px] font-[500]  pl-[30px] rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px]
-        lg:h-[45px] rounded-[8px] py-[14px] bg-white border-lightGrey  border-[1px] focus:border-tamkin focus:ring-0;
-      line-height: 19.5px;
-      
+      @apply placeholder:text-[#BCC0BF]  dark:placeholder:text-whiteTamkin 
+       rtl:placeholder:text-right rtl:text-right text-[14px] font-[500] pl-[30px] 
+       rtl:lg:pr-[38px] ltr:lg:pl-[38px] h-[40px] placeholder:text-[14px] lg:h-[45px] rounded-[8px] py-[14px]
+        bg-white dark:bg-tamkinDarkPrimary border-lightGrey dark:border-darkborder border-[1px] focus:border-tamkin focus:ring-0
+         dark:text-whiteTamkin leading-[19.5px];
     }
+  }
+
+  /* Prevent selection for placeholder text */
+  input::placeholder,
+  textarea::placeholder {
+    @apply select-none;
   }
 }

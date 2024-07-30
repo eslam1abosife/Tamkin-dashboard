@@ -35,7 +35,7 @@ const controlSaveSite = ()=>{
 
 <template>
   <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
+    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="controlCancelButton">
@@ -53,11 +53,11 @@ const controlSaveSite = ()=>{
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
       {{ title }}
     </h1>
   
-    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey mt-[24px]">
+    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
 
       {{ subTitle }}
     </h2>

@@ -33,7 +33,7 @@ const clearInput = () => {
 
 <template>
   <div  v-if="showModal"
-    class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] w-10/12 "
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlTransferStep2Modal">
@@ -52,33 +52,34 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto" v-if="!SuccessStep2Transfer">
-  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="text-left font-[600] dark:text-whiteTamkin text-darkGrey text-[18px] leading-[36px]">
     Transfer License to another site
 </h1>
 
-<p class="mt-[4px] text-left font-[400] text-[#A7A7A7] text-[14px] leading-[24px]">
+<p class="mt-[4px] text-left font-[400] text-[#A7A7A7]  dark:text-whiteTamkin text-[14px] leading-[24px]">
     This action will move all widgets and features to the new site.</p>
 
 
 
-    <div class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 w-full mx-auto my-4">
+    <div class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 
+    w-full mx-auto my-4">
         <div class="flex items-center justify-center  mb-2">
-            <div class="text-gray-700 w-[60px] ">From</div>
-            <div class="flex items-center justify-center bg-white border-[1px] w-[161px]
+            <div class="text-gray-700 dark:text-whiteTamkin w-[60px] ">From</div>
+            <div class="flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] w-[161px]
             rounded-[10px] px-2 py-1 h-[41px]">
                 <img  src="/assets/imgs/tamkin_hand.svg" alt="Tamkin App" class="w-5 h-5 mr-1"/>
-                <span class="text-gray-700">Tamkin.App</span>
+                <span class="text-gray-700 dark:text-whiteTamkin">Tamkin.App</span>
             </div>
         </div>
         <div class="mb-2 ml-[10%]">
             <img  src="/assets/imgs/settings/arrow-down.svg" />
         </div>
         <div class="flex items-center justify-start ">
-            <div class="text-gray-700 w-[60px] ">To</div>
-            <div class="flex items-center justify-center bg-white custom-border-tamkin w-[161px] padding-override-1 
+            <div class="text-gray-700 w-[60px] dark:text-whiteTamkin">To</div>
+            <div class="flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin w-[161px] padding-override-1 
             rounded-[10px] px-2 py-1 h-[41px]">
                 <img  src="/assets/imgs/settings/pint.svg" alt="Pinterest App" class="w-5 h-5 mr-1"/>
-                <span class="text-turquoise-500">Pinterest.App</span>
+                <span class="text-turquoise-500 dark:text-whiteTamkin">Pinterest.App</span>
             </div>
         </div>
     </div>
@@ -96,13 +97,13 @@ const clearInput = () => {
 </div>
 </div>
 <div class="container mx-auto" v-else>
-    <h1 class="text-center font-[600] text-darkGrey text-[24px] leading-[36px]">
+    <h1 class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]">
         Successfully Transferred
     </h1>
     
     <Vue3Lottie :animationData="SuccessAnimation" :height="150" :width="150"
     class="  " />
-    <p class="mt-[16px] text-center font-[400] text-[#A7A7A7] text-[12px] leading-[24px]">
+    <p class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]">
         The license has been successfully transferred to the new site. You can now utilize the license at the new location.</p>
 
 

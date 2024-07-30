@@ -31,7 +31,7 @@ const clearInput = () => {
 
 <template>
   <div  v-if="showModal"
-    class="fixed z-[9999] top-[50px] bg-white rounded-[10px] p-[30px] lg:w-[640px] w-10/12 "
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlStep1TransferModal">
@@ -50,11 +50,11 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+  <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
     Transfer License
 </h1>
 
-<p class="mt-[16px] text-left font-[500] text-darkGrey text-[14px] leading-[24px]">
+<p class="mt-[16px] text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]">
     Are you sure you want to transfer your license from Tamkin.App to another site? Please select the destination site from the list below to proceed with the license transfer.</p>
 
 <div class="w-full ">
@@ -80,11 +80,11 @@ const clearInput = () => {
   </div>
 </div>
 
-<table class="min-w-full divide-y divide-gray-200  ">
+<table class="min-w-full divide-y divide-gray-200 dark:divide-light ">
   <thead>
     <tr>
-      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Website</th>
-      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  tracking-wider">Select</th>
+      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">Website</th>
+      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">Select</th>
 
     </tr>
   </thead>
@@ -92,7 +92,7 @@ const clearInput = () => {
     <tr v-for="permission in permissions " :key="permission.id">
       <td class="py-4  flex items-center space-x-4">
         <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
-        <span class="text-[13px] leading-[21px] font-[400] text-gray-900">{{permission.name}}</span>
+        <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
@@ -102,8 +102,9 @@ const clearInput = () => {
           
           :id="`checkbox_`+permission.id" :value="permission.id" 
           class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  ml-auto w-[18px] h-[18px]
+           border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-transparent rounded-[4px] peer-checked:bg-gradient-checked">
+            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </label>

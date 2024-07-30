@@ -54,18 +54,18 @@ const isLocationChecked = computed(() => {
 <template>
 
     <div
-    class="mt-[30px] bg-white rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px]" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
   
   >
     <div
       class="flex items-center justify-start px-[15px]"
     >
       <div class=" mt-[24px] ">
-        <h1 class="text-[18px] font-[500] leading-[30px]">
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
           Live Site Translations Button
         </h1>
 
-        <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
+        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
           The ‘Live Site Translations’ button instantly translates web content,
           bridging languages
         </p>
@@ -92,7 +92,7 @@ const isLocationChecked = computed(() => {
           :class="[
             collapseStore.menus.includes('live_site_translation_button')
               ? 'stroke-current !text-white !fill-white'
-              : '',
+              : 'dark:text-white',
           ]"
         >
           <path
@@ -110,13 +110,18 @@ const isLocationChecked = computed(() => {
         class="mini_wrap"
       >
         <div>
-          <img 
-            src="/assets/imgs/addons/annual_convert.svg"
-            
-            :class="[
-              collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-            ]"
+          <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+            class="fill-[#585B5B] dark:fill-whiteTamkin"
           />
+        </svg>
         </div>
         <div class="text_mini">
           Switch To Annual
@@ -127,19 +132,19 @@ const isLocationChecked = computed(() => {
             @click="collapseStore.collapseCard('live_site_translation_button_card')"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/min_size.svg"
+              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                 
-                :class="[
-                  collapseStore.menus.includes('live_site_translation_button')
-                    ? '!fill-white'
-                    : '',
-                ]"
-              />
+              >
+                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
             <div class="text_mini">
               {{
-                collapseStore.collapses.includes("live_site_translation_button_card")
+                !collapseStore.collapses.includes("live_site_translation_button_card")
                   ? "Minisize"
                   : "Maxsize"
               }}
@@ -147,30 +152,54 @@ const isLocationChecked = computed(() => {
           </div>
 
           <div class="arrow">
-            <img 
-              src="/assets/imgs/addons/arrow_menu.svg"
-           
-              
-              class="w-full h-full"
+            <svg
+            width="16"
+            class=""
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <filter
+                id="shadow-sm"
+                x="0"
+                y="-20%"
+                width="140%"
+                height="140%"
+              >
+                <feDropShadow
+                  dx="1"
+                  dy="1"
+                  stdDeviation="1"
+                  flood-color="rgba(0, 0, 0, 0.3)"
+                />
+              </filter>
+            </defs>
+            <path
+              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+              class="fill-white dark:!fill-darkTamkin"
+              filter="url(#shadow-sm)"
             />
+          </svg>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+      class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
       v-if="!collapseStore.collapses.includes('live_site_translation_button_card')"
     >
       <table class="min-w-full leading-normal">
-        <thead class="bg-[#FAFCFE]">
+        <thead class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
           <tr class="">
             <th
-              class="w-full border-b-2 border-gray-200 ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black"
+              class="w-full border-b-2 border-gray-200 dark:border-darkborder  ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
               Enable Live Site Translations Button
             </th>
             <th
-              class="ml-auto w-full py-3 border-b-2 border-gray-200 text-[14px] font-[400] leading-[18px] text-black"
+              class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
               <div class="flex items-center">
                 <label for="toggle_enable_live_button" class="toggle_wrap">
@@ -208,7 +237,7 @@ const isLocationChecked = computed(() => {
       </table>
 
       <div
-        class="flex items-center justify-between"
+        class="flex items-center lg:flex-nowrap flex-wrap justify-between"
         :class="[!customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '']"
       >
         <div
@@ -216,10 +245,11 @@ const isLocationChecked = computed(() => {
           :class="[
              liveTranlsationButtonLocation === 'default'
               ? 'custom-border'
-              : 'border-[1px]',
+              : 'border-[1px] dark:border-darkborder',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px]
+           w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -237,7 +267,7 @@ const isLocationChecked = computed(() => {
             </label>
           </div>
 
-          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey">
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
             Use translation button as default button
           </div>
         </div>
@@ -245,12 +275,13 @@ const isLocationChecked = computed(() => {
           :class="[
         liveTranlsationButtonLocation === 'above'
               ? 'custom-border'
-              : 'border-[1px]',
+              : 'border-[1px] dark:border-darkborder',
 
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
           @click="customizeStore.selectLiveTranslationButtonLocation('above')"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
+          w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -267,14 +298,14 @@ const isLocationChecked = computed(() => {
             </label>
           </div>
 
-          <div class="text-[14px] leading-[32px] font-[400] text-darkGrey">
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
             Position translation button above
           </div>
         </div>
       </div>
 
       <div
-        class="flex items-center justify-between mt-[33px]"
+        class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
         v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
       >
         <div
@@ -285,7 +316,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-transparent rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -303,7 +334,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -355,7 +386,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -407,7 +438,7 @@ const isLocationChecked = computed(() => {
       </div>
 
       <div
-        class="flex items-center justify-between mt-[33px]"
+        class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
         v-if="liveTranlsationButtonLocation === 'above'"
       >
         <div
@@ -418,7 +449,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF]  dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -453,7 +484,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] dark:border-darkborder bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
@@ -519,7 +550,7 @@ const isLocationChecked = computed(() => {
               : 'border-[1px]',
             !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"

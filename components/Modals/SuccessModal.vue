@@ -25,7 +25,7 @@ setTimeout(()=>{
 
 <template>
   <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[400px]  h-[220px] w-10/12" 
+    class="fixed z-[9999] top-1/4 bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[400px]  h-[220px] w-10/12" 
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlSuccessContactModal">
@@ -49,7 +49,9 @@ setTimeout(()=>{
         <img  :src="getImageUrl"  class="h-[90px] w-[90px]" />
 
     </div>
-    <h1 class="text-center font-[600] bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text text-[18px] leading-[36px]">
+    <h1 class="text-center font-[600] bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent
+    
+     bg-clip-text text-[18px] leading-[36px]">
       {{ title }}
     </h1>
   

@@ -14,6 +14,7 @@ const navStore = useNavbarStore();
 const { sideBarOpen } = storeToRefs(navStore);
 const chart12 = ref("");
 const chart2 = ref("");
+const colorMode = useColorMode();
 
 import {
   Chart as ChartJS,
@@ -155,22 +156,24 @@ const chartData = ref({
     },
   ],
 });
+const colors = ['red', 'blue', 'yellow', 'green'];
+
 
 const options = ref({
   responsive: false,
   maintainAspectRatio: true,
   plugins: {
     legend: {
-      display: false, // This will remove the legend
+      display: false,
     },
   },
   scales: {
     x: {
       border: {
-        display: false, // This will remove the border line on the y-axis
+        display: false,
       },
       grid: {
-        display: false, // This will remove the grid lines on the x-axis
+        display: false,
       },
       type: "time",
       time: {
@@ -183,6 +186,9 @@ const options = ref({
       ticks: {
         autoSkip: true,
         maxTicksLimit: 10,
+        color: (c) => {
+            return colorMode.preference === 'dark' ?'white' :'black'
+          },
         callback: function (value) {
           const date = new Date(value);
           const options = { month: "short", day: "numeric" };
@@ -192,17 +198,56 @@ const options = ref({
     },
     y: {
       grid: {
-        display: false, // This will remove the grid lines on the x-axis
+        display: false,
       },
       ticks: {
-        display: false, // This will remove the labels from the y-axis
+        display: false,
       },
       border: {
-        display: false, // This will remove the border line on the y-axis
+        display: false,
       },
     },
   },
 });
+
+const updateChartOptions = async (isDarkMode) => {
+  if (isDarkMode === 'dark') {
+        options.value.scales.x.ticks.color = '#ffffff';
+      } else {
+        options.value.scales.x.ticks.color = '#000000';
+      }
+
+
+      await nextTick();
+
+      // Update the chart instances
+      if (chart12.value) {
+        chart12.value.chart.update();
+      }
+      if (chart2.value) {
+        chart2.value.chart.update();
+      }
+
+ 
+};
+
+onMounted(async () => {
+  // Initial check for dark mode
+  // updateChartOptions(colorMode.preference);
+
+  // Watch for color mode changes
+  await nextTick();
+  updateChartOptions(colorMode.preference);
+
+});
+watch(
+      () => colorMode.preference,
+      async (newVal) => {
+        await nextTick();
+
+        updateChartOptions(newVal);
+      }
+    );
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
@@ -290,15 +335,15 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <div
-        class="mt-[64px] bg-white rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px]"
+        class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
 
       >
         <div
           class="flex items-center justify-start  "
         >
           <div class="pt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Select Date Range</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Select Date Range</h1>
+            <p class="font-[400] xs:text-[10px] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey mt-[10px] dark:text-whiteTamkin">
               Select Date Range specifies start and end dates to analyze or display data.
             </p>
           </div>
@@ -312,7 +357,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class="relative ltr:ml-auto  rtl:mr-auto flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -322,8 +367,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('select_date_range')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -340,13 +384,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -357,15 +406,17 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('select_date_range_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('select_date_range')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -377,13 +428,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
@@ -393,11 +467,13 @@ onBeforeRouteLeave((to, from, next) => {
           class="flex flex-col items-start justify-center  mt-[18px] pb-[16px] w-full"
          
         >
-          <div class="flex items-center justify-between w-full">
+          <div class="flex items-center justify-between  lg:space-y-0 space-y-4  lg:flex-nowrap flex-wrap w-full">
             <div
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]  w-full"
+              class="flex items-center justify-start 
+             lg:flex-nowrap flex-wrap
+              rtl:space-x-reverse lg:space-y-0 space-y-4 lg:space-x-[24px]  w-full"
             >
-              <div class="w-1/4">
+              <div class="w-full ipad-max:w-full lg:w-1/4">
                 <VueDatePicker
                   :enable-time-picker="false"
                   @blur="dateOpen = false"
@@ -409,6 +485,7 @@ onBeforeRouteLeave((to, from, next) => {
                   :input-class-name="
                     dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input'
                   "
+                  :dark="colorMode.preference === 'dark'"
                   placeholder="Select Period"
                   v-model="dateF"
                   :format="format"
@@ -454,7 +531,7 @@ onBeforeRouteLeave((to, from, next) => {
                   </template>
                   <template #input-icon>
                     <svg
-                      class="ml-auto w-[10px] h-[10px] text-darkGrey"
+                      class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
                       :class="[
                         dateOpen && dateF
                           ? 'rotate-90 !text-white '
@@ -478,12 +555,12 @@ onBeforeRouteLeave((to, from, next) => {
                   </template>
                 </VueDatePicker>
               </div>
-              <div class="relative ltr:text-left rtl:text-right w-1/4">
+              <div class="relative ltr:text-left rtl:text-right w-full lg:w-1/4 ipad-max:w-full">
                 <div>
                   <button
                     @click="toggleDropdown"
                     type="button"
-                    class="tamkin_date_input flex items-center justify-evenly text-darkGrey w-full"
+                    class="tamkin_date_input flex items-center justify-evenly text-darkGrey dark:text-whiteTamkin w-full"
                     id="options-menu"
                     :class="[isOpen ? 'bg_interval_open' : '']"
                     aria-haspopup="true"
@@ -516,7 +593,7 @@ onBeforeRouteLeave((to, from, next) => {
                   v-if="isOpen"
                   v-on-click-outside="() => toggleDropdown"
 
-                  class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-full z-[100] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  class="origin-top-right absolute rtl:left-0 ltr:right-0 mt-2 w-full z-[100] rounded-md shadow-lg bg-white dark:bg-tamkinDarkPrimary  ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="options-menu"
@@ -529,7 +606,7 @@ onBeforeRouteLeave((to, from, next) => {
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
                           : '',
                       ]"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
+                      class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                       role="menuitem"
                       @click="selectOption('7 Days')"
                       >7 Days</a
@@ -541,7 +618,7 @@ onBeforeRouteLeave((to, from, next) => {
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
                           : '',
                       ]"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
+                      class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                       role="menuitem"
                       @click="selectOption('14 Days')"
                       >14 Days</a
@@ -553,14 +630,14 @@ onBeforeRouteLeave((to, from, next) => {
                           ? 'custom-border-tamkin padding-override-1 no_bottom bg-tamkinLight'
                           : '',
                       ]"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
+                      class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                       role="menuitem"
                       @click="selectOption('1 Month')"
                       >1 Month</a
                     >
                     <a
                     
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
+                      class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                       role="menuitem"
                       :class="[
                         selectedInterval === '2 Months'
@@ -572,7 +649,7 @@ onBeforeRouteLeave((to, from, next) => {
                     >
                     <a
                     
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-tamkinLight"
+                      class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                       role="menuitem"
                       :class="[
                         selectedInterval === '3 Months'
@@ -586,9 +663,9 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
             </div>
-            <div class="mr-[-15px] px-[15px] ">
+            <div class="lg:mr-[-15px] lg:px-[15px] ">
               <button
-                class="btn-dashboard hover_tamkin flex items-center h-[19px]  !rounded-[13px] 
+                class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px]  !rounded-[13px] 
                 !text-[13px] !leading-[10px] justify-center w-[130px]"
               >
                 <div>Download CSV</div>
@@ -598,31 +675,34 @@ onBeforeRouteLeave((to, from, next) => {
 
          
         </div>
-        <div class="flex items-center justify-start space-x-[48px]   "  v-if="!collapseStore.collapses.includes('select_date_range_card')">
+        <div class="flex items-center justify-start lg:space-x-[48px] lg:flex-nowrap flex-wrap  "  v-if="!collapseStore.collapses.includes('select_date_range_card')">
           <div  class="container_chart mt-[30px] h-[255px]  w-full  p-[8px] relative custom-border-tamkin 
           padding-override-1 rounded-[8px] shadow-sm">
             <div class="custom-legend" >
-              <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
+              <div class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]">
                 <h3>Widget Loads</h3>
                 <p class="font-[400]">5 Times during 7 days</p>
               </div>
-              <div class="text-[20px] leading-[27px] font-[600]">
-                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
+              <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] " :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
                   <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"  class="w-[19px] h-[19px]" />
                   <div>+{{ percentageChange }}%</div>
                 </div>
               </div>
             </div>
-            <Line ref="chart12" :data="chartData" :options="options" :style="myStyles" :class="[navStore.sideBarOpen ? '':'mx-auto']"  />
+          
+              <Line ref="chart12" :data="chartData" :options="options" :style="myStyles" 
+            :class="[navStore.sideBarOpen ? '':'mx-auto']"  />
+           
           </div>
       
           <div   class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm">
             <div class="custom-legend">
-              <div class="text-[11px] leading-[15px] text-[#616161] font-[600]">
+              <div class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin">
                 <h3>Widget Opens</h3>
                 <p class="font-[400]">5 Times during 7 days</p>
               </div>
-              <div class="text-[20px] leading-[27px] font-[600]">
+              <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
                   <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-180' : 'rotate-90']"  class="w-[19px] h-[19px]" />
                   <div>-{{ percentageChange }}%</div>
@@ -636,13 +716,14 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px]"
+        class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
+         px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
         
       >
         <div class="flex items-center justify-start ">
           <div class="pt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Usage stats by function</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey mt-[10px]">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Usage stats by function</h1>
+            <p class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]">
               Usage stats by function show how each feature is used in a system or app.
             </p>
           </div>
@@ -665,8 +746,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('usage_stats')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -684,13 +764,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -701,13 +786,17 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('usage_stats_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('usage_stats') ? '!fill-white' : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -719,64 +808,191 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
           v-if="!collapseStore.collapses.includes('usage_stats_card')"
         >
-          <table class="min-w-full leading-normal">
+          <table class="min-w-full  leading-normal">
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black w-2/4"
+                  class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:text-left
+                   rtl:text-right text-[10px] lg:text-[14px] font-[400] leading-[18px] text-black w-2/4"
                 >
                   Function
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-left rtl:!text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] 
+                   ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
                 >
                   Time Enabled
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white rtl:!text-left ltr:!text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 dark:border-[#333333]
+                   dark:text-whiteTamkin  rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px]
+                    font-[400] lg:leading-[18px] text-black"
                 >
                   Percentage
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary h-[56px]">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/tamkin_player.svg"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] "
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Tamkin Player</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/media_player.svg"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Media player</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/language sign.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Screen Reader</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Screen Reader</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -800,34 +1016,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/page_str.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Page Structure</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Page Structure</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -851,34 +1067,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/hide_images.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Hide Images</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Hide Images</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -902,34 +1118,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 10, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/contrast.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Smart Contrast</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Smart Contrast</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -953,36 +1169,36 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 10, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/voice_navigation.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">
                         Voice Navigation
                       </p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1006,34 +1222,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/a-z.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Dictionary</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Dictionary</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1057,34 +1273,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/clip.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Highlight Links</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Highlight Links</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1108,34 +1324,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/line_height.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Line Height</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Line Height</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1159,34 +1375,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/saturation.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Saturation</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Saturation</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1210,34 +1426,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/text.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Bigger Text</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Bigger Text</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1261,34 +1477,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/pause.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Pause Animation</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Pause Animation</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1312,34 +1528,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/tooltip.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Tooltip</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Tooltip</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1363,34 +1579,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/cursor.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Cursor</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Cursor</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1414,34 +1630,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/text_spacing.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Text Spacing</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Text Spacing</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1465,34 +1681,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/contrast_plus.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Contrast +</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Contrast +</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1516,8 +1732,160 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/reading_mode.svg"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Reading Mode</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/df.svg"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Dyslexia Friendly</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                      80%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+                  >
+                    <div>
+                      <img 
+                        src="/assets/imgs/icons/text_align.svg"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                        
+                      />
+                    </div>
+                    <div class="">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Text Align</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                </td>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                    <svg viewBox="0 0 36 36">
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #bb67ff; stop-opacity: 1"
+                          />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #ff5a7b; stop-opacity: 1"
+                          />
+                        </linearGradient>
+                      </defs>
+                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                      <circle
+                        class="progress-circle"
+                        cx="18"
+                        cy="18"
+                        r="15.91549431"
+                        style="stroke-dasharray: 80, 100"
+                      ></circle>
+                    </svg>
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                      80%
                     </div>
                   </div>
                 </td>
@@ -1528,14 +1896,14 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] px-[15px] pb-[24px] mb-[30px] shadow-md -shadow-y-[1px]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] relative px-[15px] pb-[24px] mb-[30px] shadow-md -shadow-y-[1px]"
         
       >
         <div class="flex items-center justify-start ">
           <div class="pt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]">Usage stats by Profile</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Usage stats by Profile</h1>
 
-            <p class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px]">
+            <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin">
               Usage stats by profile show how each feature is used in a system or app.
             </p>
           </div>
@@ -1559,8 +1927,7 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('usage_stats_profile')
-                  ? 'stroke-current !text-white !fill-white'
-                  : '',
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
               ]"
             >
               <path
@@ -1578,13 +1945,18 @@ onBeforeRouteLeave((to, from, next) => {
             class="mini_wrap"
           >
             <div>
-              <img 
-                src="/assets/imgs/addons/annual_convert.svg"
-                
-                :class="[
-                  collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                ]"
+              <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                class="fill-[#585B5B] dark:fill-whiteTamkin"
               />
+            </svg>
             </div>
             <div class="text_mini">
               Switch To Annual
@@ -1595,15 +1967,17 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('usage_stats_profile_card')"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/min_size.svg"
-                    
-                    :class="[
-                      collapseStore.menus.includes('usage_stats_profile')
-                        ? '!fill-white'
-                        : '',
-                    ]"
-                  />
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
                 </div>
                 <div class="text_mini">
                   {{
@@ -1615,63 +1989,90 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-                <img 
-                  src="/assets/imgs/addons/arrow_menu.svg"
-                  tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                    "
-                  
-                  class="w-full h-full"
+                                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
                 />
+              </svg>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="w-full mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
           v-if="!collapseStore.collapses.includes('usage_stats_profile_card')"
         >
           <table class="min-w-full leading-normal">
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black w-2/4"
+                  class="py-3 border-b-2 border-gray-200 bg-white
+                   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin dark:border-darkborder 
+                   ltr:text-left rtl:text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black w-2/4"
                 >
                   Function
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-left rtl:!text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white dark:bg-tamkinDarkPrimary
+                   dark:text-whiteTamkin dark:border-darkborder ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
                 >
                   Time Enabled
                 </th>
                 <th
-                  class="py-3 border-b-2 border-gray-200 bg-white ltr:!text-right rtl:!text-left text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 border-gray-200 bg-white dark:bg-tamkinDarkPrimary
+                   dark:text-whiteTamkin dark:border-darkborder ltr:!text-right rtl:!text-left text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
                 >
                   Percentage
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/monitor_im.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Motor impaired</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Motor impaired</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1695,34 +2096,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/color_blind.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Color blind</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Color blind</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1746,36 +2147,36 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/vis_impaired.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">
                         Visually-impaired
                       </p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1799,36 +2200,36 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 10, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/seizure.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">
                         Seizure & Epileptic
                       </p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1852,34 +2253,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 10, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/blind.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Blind</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Blind</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1903,34 +2304,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/df.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Dyslexia</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Dyslexia</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -1954,36 +2355,36 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/congitive.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">
                         Congitive & Learning
                       </p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2007,34 +2408,34 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-[#FAFCFE] h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/addons/adhd.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">ADHD</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">ADHD</p>
                     </div>
                   </div>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
-                  <p class="text-[13px] leading-[19px] font-[400]">13</p>
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
+                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
                 </td>
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2058,7 +2459,7 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 30, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
@@ -2070,7 +2471,8 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
       <div
         
-        class="shadow-md -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey rounded-[10px]"
+        class="shadow-md -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] 
+        dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
       >
         <div class="flex items-center justify-start flex-1">
           <div>
@@ -2081,10 +2483,10 @@ onBeforeRouteLeave((to, from, next) => {
             />
           </div>
           <div class="ml-[13px]">
-            <h1 class="text-[16px] leading-[22px] font-[500] text-[#23262F]">
+            <h1 class="text-[12px] lg:text-[16px] leading-[22px] font-[500] text-[#23262F] dark:text-whiteTamkin">
               Google Analytics
             </h1>
-            <p class="text-[14px] leading-[19px] text-[#585B5B] font-[400] mt-[8px]">
+            <p class="text-[10px] lg:text-[14px] truncate  w-32 lg:leading-[19px] text-[#585B5B]  dark:text-whiteTamkin font-[400] mt-[8px]">
               Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit
               nesciunt esse sint aperiam aliquid
             </p>
@@ -2119,13 +2521,14 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] px-[15px]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] 
+        pt-[48px] mb-[40px] relative shadow-md -shadow-y-[1px] px-[15px]"
         
       >
-        <div class="flex items-center justify-start  ">
+        <div class="flex flex-col items-start  justify-start  w-full">
           <div >
             <h1
-              class="text-[18px] font-[500] leading-[30px]"
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
               :class="[
                 !collapseStore.collapses.includes('live_translation_stats_card')
                   ? 'mt-[-24px]'
@@ -2136,7 +2539,7 @@ onBeforeRouteLeave((to, from, next) => {
             </h1>
 
             <p
-              class="text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] "
+              class="text-[12px] lg:w-full ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin "
             >
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
@@ -2159,7 +2562,7 @@ onBeforeRouteLeave((to, from, next) => {
                   ? 'top-[-20px] right-[0]'
                   : 'top-[16px] right-[0]',
               ]"
-              class="absolute flex items-center justify-center cursor-pointer bg-[#F2F2F2] rounded-[10px] w-[36px] h-[36px]"
+              class="menu_button_control lg:!top-[-67px] ipad-max:!top-[-86px] xs:!top-[-100px]"
             >
               <svg
                 width="18"
@@ -2170,7 +2573,7 @@ onBeforeRouteLeave((to, from, next) => {
                 :class="[
                   collapseStore.menus.includes('live_translation_stats')
                     ? 'stroke-current !text-white !fill-white'
-                    : '',
+                    : 'dark:!text-white',
                 ]"
               >
                 <path
@@ -2189,13 +2592,18 @@ onBeforeRouteLeave((to, from, next) => {
               class="mini_wrap"
             >
               <div>
-                <img 
-                  src="/assets/imgs/addons/annual_convert.svg"
-                  
-                  :class="[
-                    collapseStore.menus.includes('select_date_range') ? '!fill-white' : '',
-                  ]"
+                <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
                 />
+              </svg>
               </div>
               <div class="text_mini">
                 Switch To Annual
@@ -2206,15 +2614,17 @@ onBeforeRouteLeave((to, from, next) => {
                   @click="collapseStore.collapseCard('live_translation_stats_card')"
                 >
                   <div>
-                    <img 
-                      src="/assets/imgs/addons/min_size.svg"
-                      
-                      :class="[
-                        collapseStore.menus.includes('live_translation_stats')
-                          ? '!fill-white'
-                          : '',
-                      ]"
-                    />
+                    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                    >
+                      <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+  
+  
                   </div>
                   <div class="text_mini">
                     {{
@@ -2226,85 +2636,101 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
 
                 <div class="arrow">
-                  <img 
-                    src="/assets/imgs/addons/arrow_menu.svg"
-                    tyle="box-shadow: 0px 2px 6px 0px #00000040;
-                "
-                    
-                    class="w-full h-full"
-                  />
+                                   <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
                 </div>
               </div>
             </div>
-            <div
-              v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
-              class="flex items-center justify-start ml-auto mr-[15px] h-[105px] rounded-[10px] w-[369px] 
-              custom-border !mt-[36px]"
-              style="
-                background: linear-gradient(
-                  180deg,
-                  #fefefe 0%,
-                  #eef5ff 47.07%,
-                  #f6f3fc 72.04%,
-                  #fef5f6 100%
-                );
-              "
-            >
-              <div
-                class="circular-progress big bg-white rounded-full rtl:mr-[10px] ltr:ml-[10px]"
-              >
-                <svg viewBox="0 0 36 36" class=" " width="60" height="60">
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style="stop-color: #bb67ff; stop-opacity: 1" />
-                      <stop offset="100%" style="stop-color: #ff5a7b; stop-opacity: 1" />
-                    </linearGradient>
-                  </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 80, 100"
-                  ></circle>
-                </svg>
-                <div class="progress-text text-[10px] leading-[13px] font-[500]">
-                  <div class="flex flex-col items-center justify-center">
-                    <div>5%</div>
-                    <div>1 M</div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="flex flex-col items-center justify-center w-full space-y-[8px] px-[24px]"
-              >
-                <div class="flex items-center justify-between w-full">
-                  <div class="text-[13px] font-[400] leading-[19px]">Used</div>
-                  <div class="text-[13px] font-[600] leading-[19px]">5.78%</div>
-                </div>
-
-                <div class="flex items-center justify-between w-full">
-                  <div class="text-[13px] font-[400] leading-[19px]">User Assistance</div>
-                  <div class="text-[13px] font-[600] leading-[19px]">20</div>
-                </div>
-                <div class="flex items-center justify-between w-full">
-                  <div class="text-[13px] font-[400] leading-[19px]">
-                    Pages Translated
-                  </div>
-                  <div class="text-[13px] font-[600] leading-[19px]">5</div>
-                </div>
+         
+          </div>
+          <div
+          v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
+          class="flex items-center justify-start ml-auto mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] 
+          custom-border  bg-tamkin-main-bg dark:bg-p"
+      
+        >
+          <div
+            class="circular-progress big bg-white dark:bg-transparent rounded-full rtl:mr-[10px] ltr:ml-[10px]"
+          >
+            <svg viewBox="0 0 36 36" class=" " width="60" height="60">
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color: #bb67ff; stop-opacity: 1" />
+                  <stop offset="100%" style="stop-color: #ff5a7b; stop-opacity: 1" />
+                </linearGradient>
+              </defs>
+              <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+              <circle
+                class="progress-circle"
+                cx="18"
+                cy="18"
+                r="15.91549431"
+                style="stroke-dasharray: 80, 100"
+              ></circle>
+            </svg>
+            <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+              <div class="flex flex-col items-center justify-center">
+                <div>5%</div>
+                <div>1 M</div>
               </div>
             </div>
           </div>
+  
+          <div
+            class=" flex flex-col items-center justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
+          >
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">Used</div>
+              <div class="text-[13px] font-[600] leading-[19px]">5.78%</div>
+            </div>
+  
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">User Assistance</div>
+              <div class="text-[13px] font-[600] leading-[19px]">20</div>
+            </div>
+            <div class="flex items-center justify-between w-full">
+              <div class="text-[13px] font-[400] leading-[19px]">
+                Pages Translated
+              </div>
+              <div class="text-[13px] font-[600] leading-[19px]">5</div>
+            </div>
+          </div>
         </div>
-
+        </div>
+     
         <div
-          class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden"
+          class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
           v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
         >
-          <h1 class="text-[18px] font-[500] leading-[26px] mb-[24px]">
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin">
             Translated languages
           </h1>
 
@@ -2312,38 +2738,38 @@ onBeforeRouteLeave((to, from, next) => {
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 w-full border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   languages
                 </th>
 
                 <th
-                  class="py-3 border-b-2 w-full border-gray-200 bg-white text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Usage
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/arabic.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">Arabic</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Arabic</p>
                     </div>
                   </div>
                 </td>
 
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2367,32 +2793,32 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-white h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-white h-[56px] dark:bg-tamkinDarkPrimary dark:border-darkborder ">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
                         src="/assets/imgs/english.svg"
-                        class="w-[36px] h-[36px]"
+                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[13px] leading-[19px] font-[400]">English</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">English</p>
                     </div>
                   </div>
                 </td>
 
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2416,7 +2842,7 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
@@ -2425,7 +2851,7 @@ onBeforeRouteLeave((to, from, next) => {
             </tbody>
           </table>
 
-          <h1 class="text-[18px] font-[500] leading-[26px] my-[24px]">
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin">
             Pages Translated
           </h1>
 
@@ -2433,34 +2859,34 @@ onBeforeRouteLeave((to, from, next) => {
             <thead>
               <tr>
                 <th
-                  class="py-3 border-b-2 w-full border-gray-200 bg-white ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder  bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Page
                 </th>
 
                 <th
-                  class="py-3 border-b-2 w-full border-gray-200 bg-white text-right text-[14px] font-[400] leading-[18px] text-black"
+                  class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin  text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
                   Usage
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-white h-[56px] dark:bg-tamkinDarkPrimary ">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="flex items-start flex-col justify-center">
-                    <div class="text-[13px] leading-[19px] font-[400] text-black">
+                    <div class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black">
                       /Page
                     </div>
                     <div class="">
-                      <p class="text-[10px] leading-[13px] font-[400] text-[#979897]">
+                      <p class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin">
                         Translated by 10 user
                       </p>
                     </div>
                   </div>
                 </td>
 
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2484,28 +2910,28 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 80, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       80%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-white h-[56px]">
-                <td class="border-b border-gray-200 text-sm">
+              <tr class="bg-white dark:bg-tamkinDarkPrimary  h-[56px]">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="flex items-start flex-col justify-center">
-                    <div class="text-[13px] leading-[19px] font-[400] text-black">
+                    <div class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black">
                       /Page
                     </div>
                     <div class="">
-                      <p class="text-[10px] leading-[13px] font-[400] text-[#979897]">
+                      <p class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin">
                         Translated by 10 user
                       </p>
                     </div>
                   </div>
                 </td>
 
-                <td class="border-b border-gray-200 text-sm">
+                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                     <svg viewBox="0 0 36 36">
                       <defs>
@@ -2529,7 +2955,7 @@ onBeforeRouteLeave((to, from, next) => {
                         style="stroke-dasharray: 10, 100"
                       ></circle>
                     </svg>
-                    <div class="progress-text text-[10px] leading-[13px] font-[500]">
+                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
                       10%
                     </div>
                   </div>
@@ -2556,8 +2982,7 @@ onBeforeRouteLeave((to, from, next) => {
   box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
 }
 .bg_interval_open {
-  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  @apply !text-white;
+  @apply !text-white bg-gradient-to-b from-tamkinStart to-tamkinEnd dark:bg-tamkinDarkPrimary;
 
   &.tamkin {
     @apply rounded-[10px] h-[32px];
@@ -2569,10 +2994,12 @@ onBeforeRouteLeave((to, from, next) => {
 
   box-shadow: 0px 0.77px 1.54px 0px #61616133;
 
-  @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full  h-[32px] rounded-[10px] border-[1px] border-[#585B5B8C] focus:!outline-0;
+  @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full  h-[32px] rounded-[10px] border-[1px] dark:border-darkborder border-[#585B5B8C] 
+  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin
+  focus:!outline-0;
 }
 .dp__pointer::placeholder {
-  @apply !text-darkGrey opacity-100 !font-[400] font-[Poppins];
+  @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins];
 }
 
 .dp__input.dp__input_icon_pad.dp__input_focus {
@@ -2601,13 +3028,16 @@ onBeforeRouteLeave((to, from, next) => {
 }
 
 .dp__calendar_item .dp__today {
-  @apply rounded-full bg-white font-[700] text-darkGrey border-[1px] border-[#616161];
+  @apply rounded-full bg-white dark:bg-tamkinDarkPrimary font-[700] text-darkGrey dark:text-whiteTamkin border-[1px] 
+  border-[#616161] dark:border-darkborder;
 }
 .dp__calendar_item .dp__today.dp__range_end {
-  @apply rounded-full bg-white font-[700] !text-white !border-0;
+  @apply rounded-full bg-white font-[700] !text-white !border-0 dark:bg-tamkinDarkPrimary
+  dark:!text-whiteTamkin;
 }
 .dp__calendar_item .dp__today.dp__range_start {
-  @apply rounded-full bg-white font-[700] !text-white !border-0;
+  @apply rounded-full bg-white font-[700] !text-white dark:bg-tamkinDarkPrimary
+  dark:!text-whiteTamkin !border-0;
 }
 
 .dp__calendar_item .dp__date_hover_start {
@@ -2661,5 +3091,37 @@ onBeforeRouteLeave((to, from, next) => {
 .dp__overlay_cell_pad:hover{
 
   @apply bg-tamkinLight text-darkGrey;
+}
+
+
+
+.dp__theme_dark {
+  --dp-background-color: #323E50;
+  --dp-text-color: #FFFEFE;
+  --dp-hover-color: #484848;
+  --dp-hover-text-color: #fff;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #005cb2;
+  --dp-primary-disabled-color: #61a8ea;
+  --dp-primary-text-color: #fff;
+  --dp-secondary-color: #a9a9a9;
+  --dp-border-color: #2d2d2d;
+  --dp-menu-border-color: #2d2d2d;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-border-color-focus: #aaaeb7;
+  --dp-disabled-color: #737373;
+  --dp-disabled-color-text: #d0d0d0;
+  --dp-scroll-bar-background: #212121;
+  --dp-scroll-bar-color: #484848;
+  --dp-success-color: #00701a;
+  --dp-success-color-disabled: #428f59;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #e53935;
+  --dp-marker-color: #e53935;
+  --dp-tooltip-color: #3e3e3e;
+  --dp-highlight-color: rgb(0 92 178 / 20%);
+  --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
+  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
+  --dp-range-between-border-color: var(--dp-hover-color, #fff);
 }
 </style>

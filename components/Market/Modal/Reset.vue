@@ -8,7 +8,7 @@ const marketStore = useMarketStore();
 
 <template>
   <div 
-    class="fixed z-[9999] top-1/4 bg-white rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" 
+    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" 
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="marketStore.openResetModal">
@@ -26,11 +26,11 @@ const marketStore = useMarketStore();
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey text-[18px] leading-[36px]">
+    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         Default Mode
     </h1>
   
-    <h2 class="text-[14px] font-[500] leading-[33px] text-darkGrey mt-[24px]">
+    <h2 class="text-[14px] font-[500] leading-[33px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
         Are you sure you want to return to default mode? This action will revert all your recent changes.
 
     </h2>
@@ -39,7 +39,7 @@ const marketStore = useMarketStore();
         <div>
             <img src="/assets/pngs/market/info.png" alt="">
         </div>
-        <div class="text-[13px] font-[400] text-[#898989]">
+        <div class="text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60">
             Make sure to save any important work before proceeding, as this cannot be undone.
         </div>
     </div>
@@ -47,7 +47,7 @@ const marketStore = useMarketStore();
   
   
     <div class="  mt-[20px] " >
-      <button class="btn_bordered_dashboard hover_tamkin "  @click="marketStore.openResetModal">
+      <button class="btn_bordered_dashboard hover_tamkin "  @click="()=>{marketStore.resetAll(),marketStore.openResetModal()}">
         Cancel
       </button>
     </div>
