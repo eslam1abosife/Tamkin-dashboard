@@ -226,14 +226,14 @@ const openModals = computed(() => {
 
     <!-- <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us"
       sub-title="We will contact you as soon as possible " icon="contact_success.svg" /> -->
- <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
-    <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
-    <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
+ <DashboardTeamEditUserModal :showModal="isOpen('editusermodal')" />
+    <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
+    <DashboardTeamInviteMember :showModal="isOpen('invitemember')" />
     
-    <DashboardTeamInvitememberupdate :showModal="isOpen('invitememberupdate')" />
-    <DashboardTeamEditteampicturemodal :showModal="isOpen('editteampic')" />
-    <DashboardTeamEdituserpermissionsmodal :showModal="isOpen('userpermissions')" />
-    <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
+    <DashboardTeamInviteMemberUpdate :showModal="isOpen('invitememberupdate')" />
+    <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
+    <DashboardTeamEditUserPermissionsModal :showModal="isOpen('userpermissions')" />
+    <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
     <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
     <!-- <DashboardTeamEditteampicturemodal :showModal="editPictureTeamModal" />
 
@@ -380,7 +380,7 @@ const openModals = computed(() => {
                 isLinkActive('/settings')
               "></div>
           <div class="relative px-[15px]">
-            <Navbaroverview v-if="
+            <NavbarOverview v-if="
               isLinkActive('/overview') ||
               isLinkActive('/settings') ||
               isLinkActive('/addons') ||
@@ -393,7 +393,7 @@ const openModals = computed(() => {
 
 
           <transition name="slide-up">
-            <DashboardAddonsSavefooter :show-footer="shouldShowFooter" @cancel_action="cancelAc" />
+            <DashboardAddonsSaveFooter :show-footer="shouldShowFooter" @cancel_action="cancelAc" />
           </transition>
           <NuxtPage class="" />
         </div>
