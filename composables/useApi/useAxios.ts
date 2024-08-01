@@ -19,7 +19,7 @@ export default function() {
         const instance = axios.create({
             baseURL: config.public.baseURL,
             headers: {
-                Authorization: `Bearer ${user.value ? user.value.sid : null}`
+                sid: user.value ? user.value.sid : null
             }
         });
 

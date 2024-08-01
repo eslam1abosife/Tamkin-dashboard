@@ -8,6 +8,15 @@ import { useSettingsStore } from "@/stores/settings.js";
 import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from '@/composables/useModalManager';
+import { useGetCurrentTeam } from "@/composables/useTeam";
+
+onMounted(() => {
+  if(!localStorage.getItem('currTeam')) {
+    const { getCurrentTeam } = useGetCurrentTeam();
+    getCurrentTeam();
+  }
+})
+
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
 const checkboxStore = useAddonStore();
