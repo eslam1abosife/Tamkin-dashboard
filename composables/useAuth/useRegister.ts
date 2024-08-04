@@ -1,14 +1,12 @@
 import { useApi } from "@/composables/useApi";
 import useLogin from './useLogin';
 import { useNuxtApp } from '#app';
-import { useRouter } from "#vue-router";
 
 export default function(state) {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const router = useRouter();
-    const { loginUser } = useLogin();
+    const { loginUser } = useLogin(state);
 
     const register = async () => {
         try {

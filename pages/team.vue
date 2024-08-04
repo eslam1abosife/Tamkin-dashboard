@@ -4,7 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import banner from "/assets/imgs/gradient_embded.png";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import { useGetAllMembers , useGetCurrentTeam , useGetTeamCountMembers} from '@/composables/useTeam';
+import { useGetAllMembers , useGetCurrentTeam , useGetTeamCountMembers, useResendInvite } from '@/composables/useTeam';
 
 
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
@@ -15,7 +15,7 @@ onMounted(async () => {
   if(!currTeam.value) {
     await getCurrentTeam();
   }
-  getAllTeamMember(currTeam.value.agency);
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
   getTeamCountMembers(currTeam.value.agency);
 })
 
@@ -52,8 +52,11 @@ const clearInput = () => {
 };
 
 const reInvite = ref(false)
-const reinviteUser = () => {
-  reInvite.value = true;
+const reinviteUser = (email) => {
+  const { resendInvite } = useResendInvite(email);
+  resendInvite(() => {
+    reInvite.value = true;
+  })
 };
 
 watch(reInvite, (newValue) => {
@@ -95,27 +98,29 @@ const visiblePages = computed(() => {
 const changePerPage = (option) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
 };
 
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value -= 1;
+    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value += 1;
+    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
   }
 };
 
 const goToPage = (page) => {
   currentPage.value = page;
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
 };
 
 const editDonePicture = ref(false);
-
-
 
 </script>
 
@@ -432,7 +437,7 @@ const editDonePicture = ref(false);
                 <div
                   class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
-                  <div @click="reinviteUser">
+                  <div @click="reinviteUser(member.member_email)">
                      <svg
                       width="22"
                       height="20"

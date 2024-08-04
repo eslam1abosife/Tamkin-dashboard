@@ -1,29 +1,22 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import { useRegister } from "@/composables/useAuth";
+import { useRegister, useGoogle } from "@/composables/useAuth";
 
 definePageMeta({
   layout: "auth",
 });
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-import { useAuthStore } from "@/stores/auth"; // import the auth store we just created
-
-const authStore = useAuthStore();
-const { loading } = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
 
 const state = reactive({
   email: "",
   password: "",
   full_name: "",
   confirm_password: "",
-  phone: ""
 });
 const rules = {
   email: { required, email },
   password: { required },
   full_name: { required },
-  phone: { required },
   confirm_password: { required, sameAs: sameAs(computed(() => state.password)) },
 };
 
@@ -41,6 +34,7 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
 const { register } = useRegister(state);
+const { loginWithGoogle } = useGoogle();
 
 </script>
 
@@ -81,29 +75,6 @@ const { register } = useRegister(state);
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.full_name.$error && v$.full_name.required.$invalid)">
                 <p class="error_message">
                   <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("email_address_is_required")
-                    }}</span>
-
-                </p>
-              </div>
-            </div>
-
-            <div class="w-full relative">
-              <input type="text" placeholder="{{$t('phone')}}" id="phone" class="input_floating_label peer"
-                     v-model="v$.phone.$model" :class="{
-            input_error:
-              (v$.phone.$error && v$.phone.required.$invalid),
-            input_success: !v$.phone.$error && !v$.phone.$invalid,
-          }" />
-              <label for="phone" class="floating_label" :class="[
-            (v$.phone.$error && v$.phone.required.$invalid)
-              ? '!text-error'
-              : '',
-          ]">
-                {{ $t("phone") }}*
-              </label>
-              <div class="w-full lg:w-4/6 mt-2" v-if="(v$.phone.$error && v$.phone.required.$invalid)">
-                <p class="error_message">
-                  <span v-if="v$.phone.$error && v$.phone.required.$invalid">{{ $t("email_address_is_required")
                     }}</span>
 
                 </p>
@@ -240,11 +211,11 @@ const { register } = useRegister(state);
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3 ">
       <button @click="register" class="btn-grad-action w-full" v-if="!loading"
-        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid || v$.phone.$invalid">
+        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid">
         {{ $t("register") }}
       </button>
 
-      <button style="line-height: 30px;" class="google_login_button ">
+      <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button ">
         <div class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
           <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("signUpWithGoogle") }}</div>
           <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />

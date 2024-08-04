@@ -10,7 +10,11 @@ export default function(state) {
 
     const forgetPassword = async () => {
         try {
-            const res = await api.post('/Account/RestPassword', state);
+            const res = await api.post('/Account/ForgetPassword', {
+                data: {
+                    email: state
+                }
+            });
             if(!res.data.succeeded) throw(res.data.message);
 
             console.log('data', res.data.data)

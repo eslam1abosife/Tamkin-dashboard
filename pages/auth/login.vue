@@ -3,6 +3,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { useGoogle, useLogin } from '@/composables/useAuth';
 import {useGetCurrentTeam} from "~/composables/useTeam";
+import { useRouter } from "#vue-router";
 
 definePageMeta({
   layout: "auth",
@@ -32,11 +33,13 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
 const { loginWithGoogle } = useGoogle();
 const { loginUser, loading , user } = useLogin(state);
 const { getCurrentTeam } = useGetCurrentTeam();
+const router = useRouter();
 
 const login = async () => {
   try {
     await loginUser();
-    await getCurrentTeam(user.sid);
+    await getCurrentTeam(user.value.sid);
+    router.push('/my-site');
   } catch(err) {
     console.log('err', err);
   }

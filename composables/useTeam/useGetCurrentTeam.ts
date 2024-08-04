@@ -28,8 +28,6 @@ export default function() {
         }
     };
 
-    console.log('currTeam', currTeam.value);
-
     return {
         getCurrentTeam,
         currTeam

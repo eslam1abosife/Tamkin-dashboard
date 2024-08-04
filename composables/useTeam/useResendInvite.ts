@@ -1,26 +1,22 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
-export default function() {
+export default function(email) {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const teamMembers = ref(null);
 
-    const getAllTeamMember = async (currTeamId, pageNo = 1, PgSize= 10) => {
-        if(!currTeamId) {
-            throw Error('Curr Team Id not exists!')
-        }
+    const resendInvite = async (onSuccess) => {
         try {
-            const res = await api.post('/Tamkin Agency Team/Get', {
-                "Where":{
-                    "agency": currTeamId
-                },
-                "PgNo": pageNo,
-                "PgSize": PgSize
+            const res = await api.post('/Team/Resendinvite', {
+                data: {
+                    email: email
+                }
             });
             if(!res.data.succeeded) throw(res.data.message);
-            teamMembers.value = res.data.data;
+            if(onSuccess) {
+                onSuccess();
+            }
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -28,12 +24,11 @@ export default function() {
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
             })
-            throw error;
         }
     };
 
     return {
-        teamMembers,
-        getAllTeamMember,
+        resendInvite,
+        loading
     }
 }

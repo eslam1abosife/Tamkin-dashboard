@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { useRuntimeConfig } from '#app';
 import useLoading from "@/composables/useApi/useLoading";
+import { useUserStore } from '@/stores/auth';
 
 export default function() {
     const { showLoadingSpinner, hideLoadingSpinner } = useLoading();
@@ -9,17 +10,14 @@ export default function() {
     function useApiInstance() {
         const config = useRuntimeConfig();
         const loading = ref(false);
-        const user = ref(null);
 
-        // Check if running on the client side
-        if (typeof window !== 'undefined') {
-            user.value = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-        }
+        const userStore = useUserStore();
+        userStore.checkIfLoggedIn();
 
         const instance = axios.create({
             baseURL: config.public.baseURL,
             headers: {
-                sid: user.value ? user.value.sid : null
+                sid: userStore.token ? userStore.token : null
             }
         });
 
