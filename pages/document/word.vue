@@ -1,0 +1,96 @@
+<script lang="ts" setup>
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
+definePageMeta({
+  layout: "dashboard",
+});
+
+const currentPlan = ref("freetrial");
+const changePlan = (plan: string) => {
+  currentPlan.value = plan;
+};
+
+
+function beforeEnterNotification(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterNotification(el, done) {
+  // Set the initial position and opacity
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+
+  // Trigger reflow to ensure the initial styles are applied
+  el.offsetHeight;
+
+  // Start the transition
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveNotification(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
+</script>
+
+<template>
+  <div class="w-full h-full relative">
+ 
+
+    <div class="space-y-[10px] mb-[16px]">
+      <div class="flex items-center justify-between w-full">
+        <h1
+        class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
+      >
+      Docx Documents 
+      </h1>
+
+      <div  style="box-shadow: 0px 4px 4px 0px #0000000F;
+" class="bg-[#F7F7F7] h-[41px]  flex space-x-[8px]  items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
+        <div>
+          <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
+        </div>
+        <div class="text-[12px] font-[500] text-darkGrey">
+          Tamkin.App
+        </div>
+      </div>
+      </div>
+      <h2 @click="$router.push('/translate')"
+        class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
+      >
+      Documents Services
+      </h2>
+    </div>
+
+
+
+  <TranslatedocsProjectWordProjectsettings/>
+
+  <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[24px] rounded-[10px] w-full mb-[16px]">
+    <div class="text-[15px] font-[500] text-darkGrey py-[16px]">
+      All Word Documents 
+    </div>
+  <TranslatedocsDox/>
+
+  <button class="btn-dashboard hover_tamkin w-[158px] mx-auto mt-[28px]">Load more</button>
+</div>
+  </div>
+</template>

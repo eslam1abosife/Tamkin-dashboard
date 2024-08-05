@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
           #fef5f6 100%
         );
       "
-      class="w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-light mt-[40px] flex items-center justify-center flex-col space-y-[30px]">
+      class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-light mt-[40px] flex items-center justify-center flex-col space-y-[30px]">
       <input v-bind="getInputProps()" />
 
       <div v-if="acceptedFilesRef.length > 0" v-for="file in acceptedFilesRef" :key="file.name"

@@ -17,7 +17,7 @@ const savedCards = ref([
 import visaIcon from '/assets/imgs/payment_methods/visa.svg'
 import masterIcon from '/assets/imgs/payment_methods/master.svg'
 const currentCard = ref('1')
-
+const loading = ref(false)
 const isPromoFilled = ref(false);
 const promo = ref("");
 const validPromo = ref(false)
@@ -60,10 +60,10 @@ const changepaymentMethod = (method:any)=>{
 }
 const continueCheckOut = ()=>{
   if(currentCard.value){
-    return navigateTo('card','add-site','successCard')
+    return navigateTo('cardModal','add-site','successPayment')
   }
   if(chooseOtherPaymentMethod.value === "by_crypto"){
-    return navigateTo('card','add-site','crypto')
+    return navigateTo('cardModal','add-site','crypto')
 
   }
 }
@@ -74,11 +74,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col items-start justify-center w-full" v-if="isOpen('card')">
+  <div class="flex flex-col items-start justify-center w-full" v-if="showModal">
   
     <div class="flex items-center justify-center ">
         <div
-     @click="navigateTo('card','add-site','paymentMethods')"
+     @click="navigateTo('cardModal','add-site','paymentMethods')"
 
 
   class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]
@@ -152,7 +152,7 @@ const props = defineProps({
     </div>
   <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full  px-[20px]">
     <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px] ">
-        <div class="cursor-pointer" @click="navigateTo('card','add-site','newCard')">
+        <div class="cursor-pointer" @click="navigateTo('cardModal','add-site','newCard')">
             <img  src="/assets/imgs/payment_methods/new_card.svg" />
            </div>
        <div class="text-[14px] font-[600] leading-[24px] text-darkGrey dark:text-whiteTamkin" >Add New Card</div>
@@ -335,11 +335,11 @@ const props = defineProps({
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
     <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="continueCheckOut()" 
-    v-if="!modalStore.loading && currentCard">
+    v-if="!loading && currentCard">
       Confirm Payment
     </button>
     <button class="btn-dashboard hover_tamkin   lg:w-[535px] w-full " @click="continueCheckOut()"
-     v-else-if="!modalStore.loading && !currentCard">
+     v-else-if="!loading && !currentCard">
       Change Payment Method
     </button>
     <button class="processing_payment   lg:w-[535px] w-full !h-[40px]" v-else disabled>

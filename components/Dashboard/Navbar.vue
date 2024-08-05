@@ -764,9 +764,9 @@ watch(
                 >
                   <nuxt-link
                     @click.stop
-                    :to="localePath('/qr-translate')"
+                    :to="localePath('/translate')"
                     :class="[
-                      isLinkActive('/qr-translate')
+                      isLinkActive('/translate')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                         : '',
                     ]"
@@ -776,21 +776,21 @@ watch(
                       class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
                       v-if="sideBarOpen"
                       :class="[
-                        isLinkActive('/qr-translate')
+                        isLinkActive('/translate')
                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                           : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
                       ]"
                     ></div>
                     <div
                       :class="[
-                        !sideBarOpen && isLinkActive('/qr-translate')
+                        !sideBarOpen && isLinkActive('/translate')
                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                           : sideBarOpen
                           ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
                           : '',
                       ]"
                     >
-                    QR Translator
+                  Media
                     </div>
                   </nuxt-link>
                 </li>

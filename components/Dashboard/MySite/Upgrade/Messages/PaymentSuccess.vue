@@ -8,7 +8,14 @@ definePageMeta({
   layout: "auth",
 });
 
-
+const {
+  isOpen:isModalOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const state = reactive({
   TXID: "",
 });
@@ -59,7 +66,7 @@ const props = defineProps({
 
    </div>
    <div class="mt-[16px]  mx-auto mb-[260px]">
-    <button class="btn-dashboard    lg:w-[400px] w-full " @click="modalStore.controlShowUpgradeModal" >
+    <button class="btn-dashboard    lg:w-[400px] w-full " @click="()=>{closeModal('upgrade'),closeModal('successPayment')}" >
         Back to My Site    </button>
   
   </div>

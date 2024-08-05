@@ -379,7 +379,7 @@ const editDonePicture = ref(false)
                       class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
                     />
                   </div>
-                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap">Ali Ahmed</div>
+                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer" @click="openModal('editname','team')">Ali Ahmed</div>
                   <div
                     class="order-1 flex items-center justify-center text-white
                      text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"

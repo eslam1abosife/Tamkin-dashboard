@@ -17,7 +17,7 @@ const props = defineProps({
 
 const goToPaymentMethod = (method:any)=>{
 if(selectedPaymentMethod.value === 'by_card'){
-return navigateTo('paymentMethods','add-site','card')
+return navigateTo('paymentMethods','add-site','cardModal')
 }
 if(selectedPaymentMethod.value === 'by_paypal'){
   

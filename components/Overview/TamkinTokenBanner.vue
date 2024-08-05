@@ -10,7 +10,7 @@
     <div
 
     class="shadow-md -shadow-y-[1px] bg-gradient-to-r custom-border rounded-big4x 
-    from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[32px] w-full"
+    from-[#E5D5FA]/60 to-[#F8D3E0]/60 p-8 rounded-[43px] mt-[6px] w-full"
      >
     <h1 class="text-[18px] leading-[30px] font-[600] text-[#1E1E1E] mb-6 mt-[16px]">
       Buy Tamkin Token – TSLT and Join in our Investor Program
@@ -19,7 +19,7 @@
       <div class="absolute right-0 top-10 lg:block hidden">
         <img  src="/assets/imgs/overview/10p.svg"  />
       </div>
-      <div class="absolute lg:top-[-80px] top-[50px] transform lg:translate-x-[50%] z-[1]">
+      <div class="absolute lg:top-[-100px] top-[50px] transform lg:translate-x-[50%] z-[1]">
         <img  src="/assets/imgs/overview/svg_opacity.svg"  />
       </div>
       <!-- Timeline bar -->

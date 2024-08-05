@@ -42,13 +42,17 @@ const {
 
 
       <DashboardMySiteUpgradeBilling :showModal="isOpen('upgrade') && isOpen('billing')"/>
-      <DashboardMySiteUpgradePaymentmethod :showModal="choosePaymentModal "/>
-      <DashboardMySiteUpgradePaymentmethodsCard :showModal="cardModal "/>
-      <DashboardMySiteUpgradePaymentmethodsCrypto :showModal="cryptoModal " />
-      <DashboardMySiteUpgradePaymentmethodsCryptosend :showModal="cryptoConfirmModal "/>
-      <DashboardMySiteUpgradePaymentmethodsCryptosuccess :showModal="cryptoSuccess "/>
-      <DashboardMySiteUpgradePaymentmethodsNewcard  :showModal="newcardModal "/>
-      <DashboardMySiteUpgradeMessagesPaymentsuccess :showModal="paymentSuccess " />
+      <DashboardMySiteUpgradePaymentmethod :showModal="isOpen('paymentMethods')"/>
+      <DashboardMySiteUpgradePaymentmethodsCard :showModal="isOpen('cardModal') "/>
+      <DashboardMySiteUpgradePaymentmethodsNewcard  :showModal="isOpen('newCard') "/>
+      <DashboardMySiteUpgradeMessagesPaymentsuccess  :showModal="isOpen('successPayment') " /> 
+      <DashboardMySiteUpgradePaymentmethodsCrypto  :showModal="isOpen('crypto') " />
+      <DashboardMySiteUpgradePaymentmethodsCryptosend  :showModal="isOpen('cryptosend') "/>
+       
+      <DashboardMySiteUpgradePaymentmethodsCryptosuccess :showModal="isOpen('cryptoSuccess') "/>
+      <!-- 
+  
+     -->
       <!-- 
 
     -->

@@ -1,6 +1,15 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
-import { useModalStore } from "@/stores/modal.js";
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const props = defineProps({
   showModal:Boolean
 })
@@ -19,7 +28,7 @@ const marketStore = useMarketStore();
      lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openCart">
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('mycart')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -174,7 +183,10 @@ const marketStore = useMarketStore();
             <!-- Actions -->
             <div class="mt-8 flex justify-end space-x-[20px]  py-3">
               <button class="btn_bordered_dashboard">Cancel</button>
-              <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="modalStore.controlPaymentMethodModalCar">Continue to payment</button>
+              <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="()=>{
+                openModal('upgrade','market') 
+                navigateTo('mycart','market','paymentMethods') 
+              }">Continue to payment</button>
             </div>
           </div>
           </div>

@@ -41,6 +41,7 @@ html {
   }
 
 @layer utilities{
+    
     .bg-selected {
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
     
@@ -362,6 +363,11 @@ html {
     border-radius: 19px !important;
 
 }
+.custom-border.rounded-full-border::before {
+
+    border-radius: 100% !important;
+
+}
 
 .custom-border.rounded-big4x::before {
 
@@ -520,7 +526,9 @@ html {
 .custom-border-tamkin.rounded-22-tamkin::before {
     border-radius: 22px !important;
 }
-
+.custom-border-tamkin.rounded-5-tamkin::before {
+    border-radius: 5px !important;
+}
 .custom-border-tamkin.no_bottom::before {
     border-top-left-radius: 0.5rem !important;
     /* Adjust the value as needed */
@@ -647,7 +655,7 @@ html {
 //     overflow: hidden;
 //   }
 .close_btn {
-    @apply absolute top-[-14px] right-[-12px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
+    @apply fixed z-[4000] lg:top-[-14px] top-4 right-4 lg:right-[-12px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
 
     &:hover {
         @apply text-white;
@@ -720,19 +728,26 @@ input[type=number] {
     @apply relative inline-flex items-center cursor-pointer w-full;
 
     .toggle_parent {
-        @apply w-[45px] lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full peer-checked:bg-green-500 transition-colors duration-200;
 
-        &.active {
+        @apply w-[45px] lg:w-[58px] h-[28px] bg-white dark:bg-transparent rounded-full
+         peer-checked:bg-green-500 transition-colors duration-200;
+&.small{@apply h-[20px] w-[45px] #{!important};}
+
+        &.translate {
+            @apply bg-[#F7F7F7] border-0 rounded-[8px] #{!important};
+        }
+
+        &:not(.translate).active {
             position: relative;
             margin: 0px;
             display: inline-block;
-
         }
-&.in_active{
-    @apply border-[1px] dark:border-light ;
-}
-        &.active::before {
 
+        &:not(.translate).in_active {
+            @apply border-[1px] dark:border-light;
+        }
+
+        &:not(.translate).active::before {
             content: "";
             position: absolute;
             inset: 0;
@@ -747,35 +762,53 @@ input[type=number] {
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
-
         }
 
         .toggle_inner {
-            @apply absolute rtl:right-[2px] ltr:left-[2px] inset-y-0 w-[24px] h-[24px] 
+            @apply absolute rtl:right-[2px] ltr:left-[4px] inset-y-0 w-[24px] h-[24px] 
            rounded-full transition-transform duration-200 transform;
-
-            &.active {
+        
+&.small{
+    @apply ltr:left-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
+}
+            &:not(.translate).active {
                 @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 left-[-5px] lg:ltr:left-[8px] #{!important};
             }
 
-            &.in_active {
+            &:not(.translate).in_active {
+
                 @apply border-[1px] border-lightGrey;
+
             }
+            &:not(.translate).active_small{
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 left-[5px]  #{!important};
+            }
+
+            &:not(.translate).in_active_small {
+
+                @apply border-[1px] border-lightGrey;
+
+            }
+            
         }
 
         .toggle_icon {
             @apply w-[24px] h-[24px] rounded-full flex items-center justify-center shadow-lg transform transition-transform;
 
-            &.active {
-                @apply bg-teal-400 rtl:translate-x-[-24px] ltr:translate-x-[10px];
+            &:not(.translate).active {
+                @apply bg-teal-400 rtl:translate-x-[-22px] ltr:translate-x-[10px];
+                
             }
 
-            &.in_active {
+            &:not(.translate).in_active {
                 @apply bg-gray-400 rtl:translate-x-[2px] ltr:-translate-x-[2px];
+                &.small{@apply  ltr:-translate-x-[-1px] #{!important};}
+
             }
         }
     }
 }
+
 .menu_button_control{
 
 
@@ -807,3 +840,5 @@ input[type=number] {
          border-lightGrey dark:border-darkborder ; 
     }
 }
+
+

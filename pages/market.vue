@@ -1,5 +1,15 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 definePageMeta({
   layout: "dashboard",
 });
@@ -103,10 +113,10 @@ function leaveNotification(el, done) {
 <template>
   <div class="relative">
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalCart v-if="marketStore.showCart" key="cart_popup" id="test" />
+      <MarketModalCart v-if="isOpen('mycart')" key="cart_popup" id="test" />
     </transition>
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalRequest v-if="marketStore.requestModal" key="request_modal_popup" />
+      <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
     </transition>
     <MarketModalReset v-if="resetModal" />
     <transition
@@ -131,7 +141,7 @@ function leaveNotification(el, done) {
         }"
       >
         <div
-          @click="marketStore.openCart"
+          @click="openModal('mycart','market')"
           class="cursor-pointer w-[35px] dark:border-[#333333] dark:border-[1px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
           :class="[
             marketStore.firstItemNotificationShown

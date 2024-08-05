@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-import { useModalStore } from "@/stores/modal";
 import  DashboardToastSuccess from "@/components/Dashboard/Toast/success.vue";
-// import QRCodeVue3 from "qrcode-vue3";
-
-const modalStore = useModalStore();
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 definePageMeta({
@@ -47,7 +51,7 @@ watch(copyCode, (newValue) => {
 
     <div class="flex items-center justify-center ">
         <div
-        @click="modalStore.backControl"
+        @click="navigateTo('cryptosend','add-site','crypto')"
 
       class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center   bg-white  dark:bg-tamkinDarkPrimary border-[1px]
    border-linecolor dark:border-light rounded-full w-[30px] h-[30px]"
@@ -196,11 +200,11 @@ input_success: !v$.TXID.$error && !v$.TXID.$invalid,
 </div>
 
    </div>
-   <div class="mt-[39px]  mx-auto mb-[34px]" v-if="!modalStore.loading">
-    <button class="btn-dashboard hover_tamkin !h-[40px]  lg:w-[535px] w-full " @click="modalStore.controlCryptoSuccessModal">
+   <div class="mt-[39px]  mx-auto mb-[34px]" v-if="!loading">
+    <button class="btn-dashboard hover_tamkin !h-[40px]  lg:w-[535px] w-full " @click="navigateTo('cryptosend','add-site','cryptoSuccess')">
       Confirm Payment
     </button>
-    <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[535px] w-full " @click="modalStore.backControl">
+    <button class="btn_bordered_dashboard normal_hover mx-auto  mt-[18px] lg:w-[535px] w-full " @click="navigateTo('cryptosend','add-site','crypto')">
       Cancel
     </button>
   </div>

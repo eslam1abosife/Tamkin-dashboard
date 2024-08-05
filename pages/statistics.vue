@@ -2521,7 +2521,7 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] 
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] 
         pt-[48px] mb-[40px] relative shadow-md -shadow-y-[1px] px-[15px]"
         
       >
@@ -2532,14 +2532,15 @@ onBeforeRouteLeave((to, from, next) => {
               :class="[
                 !collapseStore.collapses.includes('live_translation_stats_card')
                   ? 'mt-[-24px]'
-                  : 'mt-[24px]',
+                  : 'mt-[-24px]',
               ]"
             >
               Live Translation
             </h1>
 
             <p
-              class="text-[12px] lg:w-full ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin "
+              class="text-[12px] lg:w-3/4 ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400]
+             text-[#585B5B] mt-[10px] dark:text-whiteTamkin "
             >
               Live translation converts speech or text from one language to another
               instantly, facilitating real-time communication.
@@ -2547,7 +2548,7 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
-            class="flex flex-col items-center justify-center pt-[24px] space-y-[24px] relative w-full"
+            class="flex flex-col items-center justify-center mt-[-24px] space-y-[24px] relative w-full"
           >
             <div
               @click.stop="collapseStore.collapseMenu('live_translation_stats')"

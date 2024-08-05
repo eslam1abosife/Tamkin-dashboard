@@ -461,7 +461,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
               <div
-                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-[20%] lg:ml-[50%] pr-[15px]"
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-auto pr-[15px]"
               >
                 <div
                   class="h-[24px] w-[24px] rounded-full"

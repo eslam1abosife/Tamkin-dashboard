@@ -46,7 +46,7 @@
 
   @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[40px]
   disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white disabled:hover:bg-tamkin-disabled disabled:cursor-not-allowed
-  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[40px] flex items-center justify-center space-x-[4px] w-full ;
+  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full ;
 
   &:not(.normal_hover, .no_hover, .hover_tamkin):hover {
     @apply bg-white;
@@ -74,6 +74,90 @@
 
   
 }
+
+.btn-default {
+
+  @apply   bg-[#F7F7F7] text-darkGrey  rounded-[10px] ipad-max:h-[40px] flex items-center justify-center
+  disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white disabled:hover:bg-tamkin-disabled disabled:cursor-not-allowed
+   px-4 text-[10px] lg:text-[15px] h-[40px] font-[500] ;
+
+  &:hover{
+    .text{
+      @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent;
+
+    }
+
+  }
+  
+}
+.btn-translate {
+  @apply  dark:border-darkborder text-[10px] leading-[15px] text-darkGrey h-[30px] rounded-[5px] p-[16px]
+
+  flex items-center space-x-[4px] relative #{!important};
+  &.tamkin{
+    &::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 5px; 
+      padding: 1.4px; 
+      background:linear-gradient(180deg,#2DADA3,#71DAD2); 
+      -webkit-mask: 
+         linear-gradient(#fff 0 0) content-box, 
+         linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude; 
+    }
+  }
+  &.active_tamkin {
+    @apply text-white bg-tamkin-primary dark:bg-p disabled:bg-tamkin-disabled disabled:text-white #{!important};
+  }
+  &.hover_tamkin:hover {
+    @apply text-white bg-tamkin-primary dark:bg-p disabled:bg-tamkin-disabled disabled:text-white #{!important};
+  }
+&::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 5px; 
+  padding: 1.4px; 
+  background:linear-gradient(45deg,#d9d9d9,#d9d9d9); 
+  -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude; 
+}
+  
+
+  &:hover, &.active {
+    @apply border-transparent relative #{!important};
+
+  &::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 5px; 
+    padding: 1.4px; 
+    background:linear-gradient(180deg,#2DADA3,#71DAD2); 
+    -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude; 
+  }
+
+    .text {
+      @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent;
+    }
+    .text_normal_hover {
+      @apply text-white;
+    }
+  }
+}
+
+
+
 
 .btn-dashboard-normal {
   @apply border-[1px] border-tamkin text-[15px] text-white h-[40px] rounded-[10px] p-[16px] 
@@ -209,6 +293,27 @@ input[type="radio"]:checked + label span {
 .radio-normal{
 
   @apply w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-lightGrey;
+}
+
+
+.btn-border-tamkin {
+  position: relative;
+}
+
+.btn-border-tamkin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 5px; /* Default border radius */
+  padding: 1px; /* Control the border thickness */
+  background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  box-sizing: border-box !important; /* Include padding and border in the element's total width and height */
 }
 
 

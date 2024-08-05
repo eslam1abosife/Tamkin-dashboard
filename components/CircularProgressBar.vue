@@ -1,6 +1,6 @@
 <template>
   <div class="circle-container">
-    <svg viewBox="0 0 300 300" class="max-w-full max-h-full w-[150px] h-[150px] lg:w-[300px] lg:h-[300px]">
+    <svg viewBox="0 0 300 300" class="">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" style="stop-color:#2DADA3;stop-opacity:1" />
@@ -8,12 +8,13 @@
         </linearGradient>
       </defs>
       <circle class="circle-bg" cx="150" cy="150" r="110" />
-      <circle class="circle-progress" :stroke-dashoffset="offset" cx="150" cy="150" r="110" stroke="url(#gradient)" stroke-dasharray="691.2" />
+      <circle class="circle-progress" :stroke-dashoffset="offset" cx="150" cy="150" r="110" stroke="url(#gradient)"
+       stroke-dasharray="691.2" />
       <circle class="circle-dotted" cx="150" cy="150" r="85" stroke="url(#gradient)" />
     </svg>
     <div class="content">
       <div class="percentage-text">{{ percentage.toFixed(2) }}%</div>
-      <div class="value-text">1 M</div>
+      <div class="value-text" v-if="showText">1 M</div>
     </div>
   </div>
 </template>
@@ -25,7 +26,8 @@ const props = defineProps({
   initialPercentage: {
     type: Number,
     default: 30.78
-  }
+  },
+  showText:Boolean
 });
 
 const percentage = ref(props.initialPercentage);
@@ -63,12 +65,12 @@ svg {
 }
 
 .circle-bg {
-  stroke: #e5e7eb;
+  stroke: #E5F6FF;
 }
 
 .circle-progress {
   stroke-linecap: round;
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
   transform-origin: 50% 50%;
 }
 

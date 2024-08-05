@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-import {useModalStore} from '@/stores/modal'
 
-const {controlResetModal,controlDeleteModal} = useModalStore()
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 
 
 const props = defineProps({
@@ -35,7 +43,8 @@ const controlSaveSite = ()=>{
 
 <template>
   <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px]  w-10/12" :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
+    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px]  w-10/12"
+     :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="controlCancelButton">

@@ -1,6 +1,16 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
 const marketStore = useMarketStore();
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 </script>
 
 <template>
@@ -13,7 +23,7 @@ const marketStore = useMarketStore();
       <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
     </div>
     <div>
-      <button class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2" @click="marketStore.openReqestModal">
+      <button class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2" @click="openModal('requestmodal','market')">
         specific character
       </button>
     </div>

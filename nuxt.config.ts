@@ -3,6 +3,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr:true,
+  sourcemap: false,
 
   runtimeConfig: {
     public: {
@@ -23,9 +24,6 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
-  
-  
-  
   
 
   app: {
@@ -166,6 +164,7 @@ colorMode: {
   // plugins: [
   //   { src: '@/plugins/fontawsome.ts' },
   // ],
+  plugins: [{ src: '~/plugins/ckeditor.ts', mode: 'client' }],
 
   tailwindcss: {
     cssPath: ['~/assets/scss/main.scss', { injectPosition: "first" }],

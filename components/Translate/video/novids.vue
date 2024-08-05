@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-
+const scrollToSection = (sectionId) =>{
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
 
 </script>
 
@@ -14,7 +19,7 @@
             You don't have any videos
         </div>
         <div>
-            <button             class="btn-dashboard hover:bg-white hover:!text-tamkin mt-[16px] w-[158px] !h-[40px]"
+            <button          @click="scrollToSection('package')"   class="btn-dashboard hover_tamkin mt-[16px] w-[158px] !h-[40px]"
             >Translate now</button>
         </div>
             </div>
