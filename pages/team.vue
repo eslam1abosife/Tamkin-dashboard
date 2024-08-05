@@ -1,33 +1,30 @@
 <script lang="ts" setup>
+import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { useModalManager } from '@/composables/useModalManager';
+import { useGetAllMembers, useGetTeamCountMembers, useResendInvite, useRenameTeam, useGetCurrentTeam } from '@/composables/useTeam';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 
-import banner from "/assets/imgs/gradient_embded.png";
-import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
-import { useGetAllMembers , useGetCurrentTeam , useGetTeamCountMembers, useResendInvite } from '@/composables/useTeam';
-
-
-const { currTeam, getCurrentTeam } = useGetCurrentTeam();
-const { teamMembers, getAllTeamMember } = useGetAllMembers();
-const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
-
-onMounted(async () => {
-  if(!currTeam.value) {
-    await getCurrentTeam();
-  }
-  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
-  getTeamCountMembers(currTeam.value.agency);
-})
+import banner from '/assets/imgs/gradient_embded.png';
 
 const state = reactive({
-  teamName:''
-})
+  teamName: ''
+});
+
 const rules = {
-  teamName:{required}
-}
-const v$ = useVuelidate(state,rules)
-definePageMeta({
-  layout: "dashboard",
+  teamName: { required }
+};
+const v$ = useVuelidate(rules, state);
+
+const { teamMembers, getAllTeamMember } = useGetAllMembers();
+const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
+const user = ref(null);
+
+onMounted(async () => {
+  user.value = JSON.parse(localStorage.getItem('user') || '{}');
+
+  getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
+  getTeamCountMembers(user.value.agency);
 });
 
 const {
@@ -40,46 +37,43 @@ const {
 } = useModalManager();
 const editTeamNameMode = ref(false);
 
-const isSearchfilled = ref(false);
-const search = ref("");
-watch(search, (ov, nv) => {
-  return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
+const isSearchFilled = ref(false);
+const search = ref('');
+watch(search, (newValue) => {
+  isSearchFilled.value = newValue.length > 0;
 });
 const clearInput = () => {
-  search.value = "";
+  search.value = '';
 };
 
-const reInvite = ref(false)
-const reinviteUser = (email) => {
+const reInvite = ref(false);
+const reinviteUser = (email: string) => {
   const { resendInvite } = useResendInvite(email);
   resendInvite(() => {
     reInvite.value = true;
-  })
+  });
 };
 
 watch(reInvite, (newValue) => {
   if (newValue) {
-    // Reset copyDone after the hideIn duration
     setTimeout(() => {
       reInvite.value = false;
     }, 2000);
   }
 });
-       
+
 const dataAvailable = ref(true);
 
 const perPageOptions = ref([10, 20]);
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-const totalItems = ref(500); // Example total items, you can change this
+const totalItems = ref(500); // Example total items, update as needed
 
 const totalPages = computed(() => Math.ceil(totalItems.value / perPage.value));
 
 const visiblePages = computed(() => {
   const pages = [];
-  const maxVisiblePages = 5; // Adjust this number for more or fewer visible pages
+  const maxVisiblePages = 5;
   let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
   let endPage = startPage + maxVisiblePages - 1;
 
@@ -95,33 +89,64 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-const changePerPage = (option) => {
+const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
-  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
+  const user = JSON.parse(localStorage.getItem('user'));
+  getAllTeamMember(user.agency, currentPage.value, perPage.value);
 };
 
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value -= 1;
-    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
+    const user = JSON.parse(localStorage.getItem('user'));
+    getAllTeamMember(user.agency, currentPage.value, perPage.value);
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value += 1;
-    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
+    const user = JSON.parse(localStorage.getItem('user'));
+    getAllTeamMember(user.agency, currentPage.value, perPage.value);
   }
 };
 
-const goToPage = (page) => {
+const goToPage = (page: number) => {
   currentPage.value = page;
-  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
+  const user = JSON.parse(localStorage.getItem('user'));
+  getAllTeamMember(user.agency, currentPage.value, perPage.value);
 };
 
 const editDonePicture = ref(false);
 
+definePageMeta({
+  layout: 'dashboard',
+});
+
+const { currTeam, getCurrentTeam } = useGetCurrentTeam();
+
+const getCurrTeam = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getCurrentTeam(user.sid);
+  state.teamName = currTeam.value.team_name;
+}
+
+onMounted(() => {
+  getCurrTeam();
+});
+
+const doRenameTeam = async () => {
+  editTeamNameMode.value = true;
+  try {
+    const { renameTeam } = useRenameTeam(state.teamName);
+    await renameTeam();
+    getCurrTeam();
+    editTeamNameMode.value = false;
+  } catch(err) {
+    console.error(err);
+  }
+}
 </script>
 
 
@@ -205,7 +230,7 @@ const editDonePicture = ref(false);
           <div v-if="!editTeamNameMode" class="w-full">
             <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin" >
               Your team name <br />
-              <span class="font-bold">Tamkin</span>
+              <span class="font-bold" v-if="currTeam"> {{ currTeam.team_name }} </span>
             </h1>
           </div>
           <div v-else class="flex-grow w-full" >
@@ -260,7 +285,8 @@ const editDonePicture = ref(false);
           </div>
           <div v-else class="lg:w-1/4 rtl:ml-[29px] ltr:mr-[29px]">
             <button
-              @click="editTeamNameMode = !editTeamNameMode"
+              @click="doRenameTeam"
+              :disabled="v$.teamName.$invalid"
               class="btn_bordered_dashboard "
             >
               save
@@ -403,6 +429,7 @@ const editDonePicture = ref(false);
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"> {{ member.first_name + ' ' + member.last_name }} </div>
                   <div
+                      v-if="member.owner ===  member.member_email"
                     class="order-1 flex items-center justify-center text-white
                      text-[10px] font-[500] leading-[15px]  h-[23px] rounded-[17px] p-[10px]"
                     style="
@@ -413,7 +440,7 @@ const editDonePicture = ref(false);
                       );
                     "
                   >
-                    {{member.owner}}
+                    Owner
                   </div>
                 </div>
               </td>

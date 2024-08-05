@@ -1,7 +1,7 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp, useCookie } from '#app';
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
-
+import { useRouter } from '#vue-router';
 
 export default function(state) {
     const { useApiInstance } = useApi();
@@ -35,7 +35,8 @@ export default function(state) {
                 "type": "success",
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
-            })
+            });
+
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",

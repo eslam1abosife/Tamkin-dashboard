@@ -1,23 +1,29 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
-import { useRouter } from '#vue-router';
 
 export default function(state) {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const router = useRouter();
 
-    const register = async (onSuccess) => {
+    const verifyCode = async () => {
         try {
-            const res = await api.post('/Account/Register', {...state});
+            const res = await api.post('/Account/Confirm', {
+                data: {
+                    email: state.email,
+                    key: state.key
+                }
+            });
+
             if(!res.data.succeeded) throw(res.data.message);
 
-            router.push(`/auth/otp?from=register&code=${res.data.data}`);
+            $toast(`You account verified successfully!`, {
+                "theme": "colored",
+                "type": "success",
+                "autoClose": 4000,
+                "dangerouslyHTMLString": true
+            });
 
-            if(onSuccess) {
-                onSuccess(state);
-            }
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -30,7 +36,7 @@ export default function(state) {
     };
 
     return {
-        register,
+        verifyCode,
         loading
     }
 }

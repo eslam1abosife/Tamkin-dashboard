@@ -8,13 +8,13 @@ import { useSettingsStore } from "@/stores/settings.js";
 import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from '@/composables/useModalManager';
-import { useGetCurrentTeam } from "@/composables/useTeam";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 
 onMounted(() => {
-  if(!localStorage.getItem('currTeam')) {
-    const { getCurrentTeam } = useGetCurrentTeam();
-    getCurrentTeam();
+  if(localStorage.getItem('user')) {
+    const userStore = useUserStore();
+    const user = JSON.parse(localStorage.getItem('user'));
+    userStore.setUser(user.value);
   }
 })
 
@@ -231,6 +231,14 @@ const logout = () => {
   userStore.logout();
   router.push('/auth/login');
 }
+
+const userName = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? (user.full_name || user.display_name) : '';
+  }
+  return '';
+});
 </script>
 
 <template>
@@ -369,7 +377,7 @@ const logout = () => {
                 </div>
                 <div class="lg:block hidden">
                   <h2 class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]" >
-                    Ali Ahmed
+                    {{ userName }}
                   </h2>
                 </div>
                 <div class="lg:block hidden" @click="logout()">

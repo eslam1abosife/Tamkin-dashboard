@@ -16,8 +16,8 @@ export default function() {
                 "Where":{
                     "agency": currTeamId
                 },
-                "PgNo": pageNo,
-                "PgSize": PgSize
+                "PgNo": 0,
+                "PgSize": 100
             });
             if(!res.data.succeeded) throw(res.data.message);
             teamMembers.value = res.data.data;
