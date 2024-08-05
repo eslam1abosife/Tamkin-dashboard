@@ -24,7 +24,7 @@ const  breakpoints =  {
       },
       // 1024 and up
       1024: {
-        itemsToShow: 2.6,
+        itemsToShow: 3,
         snapAlign: 'start',
       }
     }
@@ -35,6 +35,14 @@ const plans = [
     description: "For Individuals and Small Teams",
     image: '/assets/imgs/freeplan.svg',
     features: [
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
     ],
@@ -48,6 +56,14 @@ const plans = [
     features: [
       { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
     ],
   },
   {
@@ -58,6 +74,14 @@ const plans = [
     features: [
       { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
     ],
   },
   {
@@ -66,6 +90,14 @@ const plans = [
     description: "For Individuals and Small Teams",
     image: "/assets/imgs/plat_plan.svg",
     features: [
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
+      { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
       { name: "All analytics features", active: true },
     ],
@@ -150,10 +182,10 @@ const prev = () => {
     </div>
     <ClientOnly>
       <carousel  :wrap-around="false" :breakpoints="breakpoints">
-        <Slide v-for="plan in plans" :key="plan" >
+        <Slide v-for="(plan,i) in plans" :key="i" >
           <div
-            class="carousel__item flex items-center custom-border  justify-start rtl:space-x-reverse 
-            space-x-[16px] relative w-full py-[62px] px-[10px] h-[149px] !rounded-[10px] mt-[35px]"
+            class=" flex items-center custom-border  justify-start rtl:space-x-reverse 
+            space-x-[16px] relative w-11/12 ipad-max:w-full py-[62px]  h-[149px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[
               selectedPlan && selectedPlan === plan.value
@@ -195,7 +227,7 @@ const prev = () => {
 
             <div
               v-if="collapsed"
-              class="flex flex-col pl-[42px] items-start justify-center space-y-[16px] left-[-16px] top-[90%] fixed z-[200] h-[350px] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+              class="flex flex-col pl-[42px] items-start justify-center space-y-[12px] left-[-16px] top-[90%] fixed z-[200] h-[350px] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
               :class="[
                 selectedPlan && selectedPlan === plan.value
                 ? 'bg-selected dark:bg-p '
@@ -299,7 +331,7 @@ const prev = () => {
   transform: translateX(60px);
 }
 .carousel__track{
-  @apply   relative space-x-[10px];
+  @apply   relative lg:ml-[-12px] 2xl:ml-[-14px] ipad-max:ml-[-10px] space-x-[10px];
 }
 .carousel__viewport {
   @apply  !overflow-visible relative space-x-[10px];

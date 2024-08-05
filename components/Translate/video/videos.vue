@@ -1,4 +1,15 @@
 <script lang="ts" setup>
+
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const currentMenuDrop = ref()
 
 const changeDropMenu = (menu:any)=>{
@@ -14,6 +25,8 @@ const changeDropMenu = (menu:any)=>{
 </script>
 <template>
    <div>
+    <TranslateModalsRename renameType="Video"/>
+
     <div class="grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px] ">
     
         <div class="h-[140px]  flex flex-col items-start justify-start rounded-[7px] shadow-lg group hover:border-tamkin
@@ -47,7 +60,7 @@ const changeDropMenu = (menu:any)=>{
         bg-white dark:bg-darkSecondary p-1 w-full rounded-[4px] h-[18px]">
             Download
         </div>
-        <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] w-full p-1 h-[18px]">
+        <div @click="openModal('renamemodal','translate')" class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] w-full p-1 h-[18px]">
             Rename
         </div>
         <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] p-1 w-full h-[18px]">

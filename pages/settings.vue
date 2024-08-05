@@ -1,19 +1,22 @@
 <script lang="ts" setup>
 import VCodeBlock from "@wdns/vue-code-block";
-import { useModalStore } from "@/stores/modal";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
+import { useModalManager } from '@/composables/useModalManager';
 
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const settingsStore = useSettingsStore();
 const {isChecked,toggleCheckbox} = settingsStore
 const collapseStore = useCollapseStore();
-const {
-  controlResetModal,
-  controlDeleteModal,
-  controlStep1TransferModal,
-  openShareModal,
-} = useModalStore();
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -524,7 +527,7 @@ onBeforeRouteLeave((to, from, next) => {
         >
           <button
             class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
-            @click="controlResetModal"
+            @click="openModal('resetModal','settings')"
           >
             <div>
               <svg
@@ -693,7 +696,7 @@ onBeforeRouteLeave((to, from, next) => {
               <div class="ml-auto w-full">
                 <button
                   class="btn_bordered_dashboard ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
-                  @click="controlStep1TransferModal"
+                  @click="openModal('transferstep1','settings')"
                 >
                   Transfer License
                 </button>
@@ -715,7 +718,7 @@ onBeforeRouteLeave((to, from, next) => {
               <div class="ml-auto w-full">
                 <button
                   class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
-                  @click="controlDeleteModal"
+                  @click="openModal('deleteModal','settings')"
                 >
                   Delete Site
                 </button>

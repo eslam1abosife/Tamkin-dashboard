@@ -14,10 +14,17 @@ import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 
 import { useModalStore } from "@/stores/modal";
 
-const modalStore = useModalStore();
 const props = defineProps({
   showModal: Boolean,
 });
+const {
+  isOpen:isModalOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const formatExpiryDate = () => {
   let value = state.expireDate.replace(/\D/g, "");
 
@@ -113,7 +120,7 @@ const countries = [
 const isOpen = ref(false);
 const search = ref("");
 const selectedCountry = ref(null);
-
+const loading = ref(false)
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
@@ -162,7 +169,7 @@ const checkInput = (event) =>{
   >
     <div class="flex items-center justify-center ">
       <div
-        @click="modalStore.backControl"
+        @click="navigateTo('newCard','add-site','cardModal')"
         class="cursor-pointer close_sidebar_btn group flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]
         border-linecolor rounded-full w-[30px] h-[30px]"        style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
       >
@@ -787,8 +794,8 @@ const checkInput = (event) =>{
       <div class="mt-[39px] mx-auto mb-[34px]">
         <button
           class="btn-dashboard hover_tamkin lg:w-[535px]  !h-[40px]  w-full"
-          @click="modalStore.paymentSuccessModal"
-          v-if="!modalStore.loading"
+          @click="navigateTo('newCard','add-site','successPayment')"
+          v-if="!loading"
         >
           Confirm Payment
         </button>

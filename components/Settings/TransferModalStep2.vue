@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
-import {useModalStore} from '@/stores/modal'
  import { Vue3Lottie } from 'vue3-lottie'
           import SuccessAnimation from '/assets/animation/forget_password_success.json'
-const modalStore = useModalStore()
-const {SuccessStep2Transfer} = storeToRefs(modalStore)
+          import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const props = defineProps({
   showModal:Boolean
 })
@@ -18,7 +25,7 @@ const permissions = ref( [
       ])
 
 
-
+const SuccessStep2Transfer = ref(false)
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -32,11 +39,11 @@ const clearInput = () => {
 </script>
 
 <template>
-  <div  v-if="showModal"
+  <div  v-if="isOpen('transferstep2')"
     class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlTransferStep2Modal">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('transferstep2')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -86,7 +93,7 @@ const clearInput = () => {
     
     
 <div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
-  <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="modalStore.controlTransferStep2Modal">
+  <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('transferstep2')">
 
     Cancel
   </button>

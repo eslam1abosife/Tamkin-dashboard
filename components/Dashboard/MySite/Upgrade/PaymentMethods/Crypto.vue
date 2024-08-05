@@ -1,7 +1,12 @@
 <script lang="ts" setup>
-import { useModalStore } from "@/stores/modal";
-
-const modalStore = useModalStore();
+const {
+  isOpen:isModalOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 import UAEFLAG from '/assets/imgs/flags/UAE.svg'
 import EGYPTFLAG from '/assets/imgs/flags/Element.svg'
 import SAUDIFLAG from '/assets/imgs/flags/Vector.svg'
@@ -74,7 +79,7 @@ const selectCryptoMethod = (method) => {
     selectedCrypto.value = method;
   isOpen.value = false;
 };
-
+const loading = ref(false)
 const filteredCryptoMethods = computed(() => {
   return cryptoMethods.filter((method) =>
   method.name.toLowerCase().includes(search.value.toLowerCase())
@@ -87,7 +92,7 @@ const filteredCryptoMethods = computed(() => {
   
     <div class="flex items-center justify-center ">
         <div
-        @click="modalStore.backControl"
+        @click="navigateTo('crypto','add-site','paymentMethods')"
 
      class="cursor-pointer  flex items-center justify-center    bg-white dark:bg-tamkinDarkPrimary border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
@@ -380,7 +385,8 @@ error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
   </table>
    </div>
    <div class="mt-[39px]  mx-auto mb-[34px]">
-    <button class="btn-dashboard hover_tamkin !h-[40px]   lg:w-[535px] w-full " @click="modalStore.confirmCryptoModal" v-if="!modalStore.loading">
+    <button class="btn-dashboard hover_tamkin !h-[40px]   lg:w-[535px] w-full " @click="navigateTo('crypto','add-site','cryptosend')"
+     v-if="!loading">
       Confirm Payment
     </button>
     <button class="processing_payment !h-[40px]  lg:w-[535px] w-full " v-else disabled>

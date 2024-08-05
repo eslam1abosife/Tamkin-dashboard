@@ -9,6 +9,8 @@ import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from '@/composables/useModalManager';
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
+import { useTranslateStore } from "~/stores/translate";
+const translateStore = useTranslateStore()
 
 onMounted(() => {
   if(localStorage.getItem('user')) {
@@ -95,7 +97,24 @@ const clearInput = () => {
 
 // }
 // const isCustomizeLinkActive = isLinkActive('/customize') && custmizeStore.force_change;
+const anyChangesInStylesTranslate = computed(() => {
+  return JSON.stringify(translateStore.styles) ;
+});
+const anyChangesInPlayerTranslate = computed(() => {
+  return JSON.stringify(translateStore.styles) ;
+});
+const showFooterSaveStyles = ref(false)
+const showFooterSavePlayer= ref(false)
 
+watch(anyChangesInStylesTranslate, (newValue, oldValue) => {
+
+},{deep:true});
+
+watch(anyChangesInPlayerTranslate, (newValue, oldValue) => {
+
+  showFooterSavePlayer.value = true
+
+});
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
     (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
@@ -111,14 +130,18 @@ const shouldShowFooter = computed(() => {
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
 
-
-
+ const translateStyle = isLinkActive('/translate/video') && translateStore.hasChanges && translateStore.subMode === 'style' && translateStore.currentMode === 'subtitles'
+const translatePlayer = isLinkActive('/translate/video') && translateStore.hasChangesPlayer
+ && translateStore.currentMode === 'player'
   return (
     isAddonsLinkActive ||
     isCustomizeLinkActive ||
     isSettingsLinkActive ||
     isStatsActive ||
-    isMarketChanges
+    isMarketChanges ||
+    translateStyle
+    ||translatePlayer
+
   );
 });
 
@@ -139,7 +162,8 @@ const cancelAc = () => {
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
-
+  const translateStyle = isLinkActive('/translate/video') && translateStore.hasChanges && translateStore.subMode === 'style' && translateStore.currentMode === 'subtitles'
+  const translatePlayer = isLinkActive('/translate/video') && translateStore.hasChangesPlayer
   if (isCustomizeLinkActive) {
     custmizeStore.cancelAll();
   }
@@ -154,6 +178,12 @@ const cancelAc = () => {
     settingsStore.cancelAll();
   }
 
+  if (translateStyle) {
+    translateStore.resetStyles();
+  }
+  if (translatePlayer) {
+    translateStore.resetPlayer();
+  }
   if (isStatsActive) {
     statsStore.google_enabled = false;
   }
@@ -197,9 +227,21 @@ const openModals = computed(() => {
     isOpen('translate_video') 
     ||
     isOpen('translate_audio') ||
-
     isOpen('renamemodal')||
-    isOpen('upgradeTranslatePackage')
+    isOpen('upgradeTranslatePackage') ||
+    isOpen('sharetranslate') ||
+    isOpen('moreinfo_translate')||
+    isOpen('translate_live_video')
+    ||
+    isOpen('translate_pdf_documents') ||
+    isOpen('translate_word_documents') ||
+    isOpen('transferstep1')||
+    isOpen('transferstep2')
+    ||isOpen('deleteModal') ||isOpen('resetModal') || isOpen('mycart')|| isOpen('requestmodal')
+    ||
+    isOpen('cardModal') ||
+    isOpen('translate_images') ||
+    isOpen('editname')
 || sideBarOpenMobile.value
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
@@ -225,7 +267,11 @@ const openModals = computed(() => {
   );
 });
 
-
+const closeSideBarOnMobileOverlay = ()=> {
+  if (sideBarOpenMobile.value) {
+    sideBarOpenMobile.value = false
+  }
+}
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
@@ -247,36 +293,38 @@ const userName = computed(() => {
   <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
     <div v-if="
     openModals
-    "  @click="sideBarOpenMobile = !sideBarOpenMobile" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    "  @click="closeSideBarOnMobileOverlay" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
     <div v-if="marketStore.firstItemNotificationShown"
       class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
     <!-- <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us"
       sub-title="We will contact you as soon as possible " icon="contact_success.svg" /> -->
- <DashboardTeamEditUserModal :showModal="isOpen('editusermodal')" />
-    <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
-    <DashboardTeamInviteMember :showModal="isOpen('invitemember')" />
-    
-    <DashboardTeamInviteMemberUpdate :showModal="isOpen('invitememberupdate')" />
-    <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
-    <DashboardTeamEditUserPermissionsModal :showModal="isOpen('userpermissions')" />
-    <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
+ <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
+    <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
+    <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
+    <DashboardTeamEditname/>
+    <DashboardTeamInvitememberupdate :showModal="isOpen('invitememberupdate')" />
+    <DashboardTeamEditteampicturemodal :showModal="isOpen('editteampic')" />
+    <DashboardTeamEdituserpermissionsmodal :showModal="isOpen('userpermissions')" />
+    <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
     <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
-    <!-- <DashboardTeamEditteampicturemodal :showModal="editPictureTeamModal" />
+    <!--
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
 
     <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
-    <LazyModalsConfirm :showModal="resetModal" title="Rest All Accessibility Settings"
+        -->
+    <ModalsConfirm :showModal="isOpen('resetModal')" title="Rest All Accessibility Settings"
       sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
-      confirm-btn-type="confirm" @control-confirm="modalStore.controlResetModal" @control-cancel="controlResetModal" />
-    <LazyModalsConfirm :showModal="deleteModal" title="Delete your site"
-      sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-      confirm-btn-type="delete" @control-delete="modalStore.controlDeleteModal" @control-cancel="controlDeleteModal" />
+      confirm-btn-type="confirm" @control-confirm="closeModal('resetModal')" @control-cancel="closeModal('resetModal')" />
 
-    <SettingsTransfermodalstep1 :show-modal="transferModalStep1" />
-    <SettingsTransfermodalstep2 :show-modal="transferStep2" /> -->
+      <ModalsConfirm :show-modal="isOpen('deleteModal')" title="Delete your site"
+      sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      confirm-btn-type="delete" @control-delete="closeModal('deleteModal')" @control-cancel="closeModal('deleteModal')" />
+
+    <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
+    <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
 
     <div class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] 
         border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full" :class="[

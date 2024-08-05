@@ -21,7 +21,7 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const props = defineProps({
-  showModal: Boolean,
+  renameType: String,
 });
 
 
@@ -48,7 +48,7 @@ const props = defineProps({
       </svg>
     </div>
     <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Rename Video
+        Rename {{renameType}}
     </h1>
     <div class="w-full relative mt-[40px]">
       <input

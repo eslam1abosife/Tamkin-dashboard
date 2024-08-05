@@ -26,7 +26,9 @@ const moveHideWidget = (v:string)=>{
               <span>Move / hide accessibility</span>
             </div>
             <div
-              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
+              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px]
+              
+              lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
                 Reposition or conceal accessibility features to simplify the interface              </span>

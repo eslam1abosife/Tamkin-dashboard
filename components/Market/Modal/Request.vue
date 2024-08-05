@@ -1,6 +1,15 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
+import { useModalManager } from '@/composables/useModalManager';
 
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 import { useMarketStore } from "@/stores/market.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -53,7 +62,7 @@ onBeforeUnmount(() => {
        lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto h-full"
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="marketStore.openReqestModal">
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal')">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -227,8 +236,8 @@ onBeforeUnmount(() => {
           <div class="text-[20px] font-[600]">$80</div>
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
-          <button class="btn_bordered_dashboard" @click="marketStore.openReqestModal">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="marketStore.openReqestModal">Add To Cart</button>
+          <button class="btn_bordered_dashboard" @click="closeModal('requestmodal')">Cancel</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="closeModal('requestmodal')">Add To Cart</button>
         </div>
       </div>
     </div>

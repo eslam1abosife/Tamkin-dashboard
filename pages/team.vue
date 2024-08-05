@@ -427,7 +427,11 @@ const doRenameTeam = async () => {
                       class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
                     />
                   </div>
+<<<<<<< HEAD
+                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer" @click="openModal('editname','team')">Ali Ahmed</div>
+=======
                   <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"> {{ member.first_name + ' ' + member.last_name }} </div>
+>>>>>>> ae40d3b8d3cc142f8532fe1396072946ed488f5c
                   <div
                       v-if="member.owner ===  member.member_email"
                     class="order-1 flex items-center justify-center text-white

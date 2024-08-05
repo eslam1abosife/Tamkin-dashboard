@@ -98,7 +98,7 @@ definePageMeta({
         <div class="relative">
           <div
           v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[30%] 
+            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] 
             h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
           >
             SAVE 12%

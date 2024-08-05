@@ -253,7 +253,7 @@ const {widgetType} = storeToRefs(customizeStore)
               <input
                 id="minu_widget"
                 type="radio"
-                name="plans_radio"
+                name="minu_widget"
                 class="hidden"
                 :checked="widgetType === 'minu_widget'"
   
@@ -261,7 +261,7 @@ const {widgetType} = storeToRefs(customizeStore)
                 @click.stop="customizeStore.selectWidgetType('minu_widget')"
                          
               />
-              <label for="round_widget" class="flex items-center cursor-pointer">
+              <label for="minu_widget" class="flex items-center cursor-pointer">
                 <span
                   class="radio-tamkin"
                 ></span>

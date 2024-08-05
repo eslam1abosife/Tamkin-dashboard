@@ -8,7 +8,14 @@ definePageMeta({
   layout: "auth",
 });
 
-
+const {
+  isOpen:isModalOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 const state = reactive({
   TXID: "",
 });
@@ -27,7 +34,11 @@ const props = defineProps({
   
     <div class="flex items-center justify-center ">
         <div
-        @click="modalStore.controlShowUpgradeModal"
+        @click="()=>{
+
+          closeModal('upgrade')
+          closeModal('cryptoSuccess')
+        }"
 
       class="cursor-pointer close_sidebar_btn group flex items-center justify-center   bg-white dark:bg-tamkinDarkPrimary border-[1px]
    border-linecolor rounded-full w-[30px] h-[30px]"
@@ -83,7 +94,11 @@ const props = defineProps({
 
    </div>
    <div class="mt-[16px]  mx-auto mb-[260px]">
-    <button class="btn-dashboard    lg:w-[535px] w-full " @click="modalStore.controlShowUpgradeModal">
+    <button class="btn-dashboard    lg:w-[535px] w-full " @click="()=>{
+
+      closeModal('upgrade')
+      closeModal('cryptoSuccess')
+    }">
         Back to My Site
     </button>
  

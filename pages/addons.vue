@@ -369,7 +369,7 @@ onBeforeRouteLeave((to, from, next) => {
                 fill="currentColor" />
             </svg>
 
-            <div v-if="menus.includes('adjustMenu')" class="mini_SizeMenu shadow divide-y divide-darkGrey">
+            <div v-if="menus.includes('adjustMenu')" class="mini_SizeMenu shadow divide-y ">
               <div class="mini_wrap">
                 <div>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

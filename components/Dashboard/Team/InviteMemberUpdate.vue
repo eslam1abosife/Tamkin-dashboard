@@ -163,7 +163,7 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/4" @click="closeModal('invitememberupdate')">
+  <button class=" btn-dashboard text-center w-1/4" @click="navigateTo('invitememberupdate','team','userpermissions')">
     Continue
   </button>
 
