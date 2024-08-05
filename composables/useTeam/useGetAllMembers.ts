@@ -1,18 +1,26 @@
 import { useApi } from "@/composables/useApi";
-import useLogin from './useLogin';
 import { useNuxtApp } from '#app';
 
-export default function(state) {
+export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const { loginUser } = useLogin(state);
+    const teamMembers = ref(null);
 
-    const register = async () => {
+    const getAllTeamMember = async (currTeamId, pageNo = 1, PgSize= 10) => {
+        if(!currTeamId) {
+            throw Error('Curr Team Id not exists!')
+        }
         try {
-            const res = await api.post('/Account/Register', state);
+            const res = await api.post('/Tamkin Agency Team/Get', {
+                "Where":{
+                    "agency": currTeamId
+                },
+                "PgNo": pageNo,
+                "PgSize": PgSize
+            });
             if(!res.data.succeeded) throw(res.data.message);
-            loginUser();
+            teamMembers.value = res.data.data;
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -20,11 +28,12 @@ export default function(state) {
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
             })
+            throw error;
         }
     };
 
     return {
-        register,
-        loading
+        teamMembers,
+        getAllTeamMember,
     }
 }

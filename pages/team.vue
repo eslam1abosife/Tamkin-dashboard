@@ -4,6 +4,21 @@ import { useModalManager } from '@/composables/useModalManager';
 import banner from "/assets/imgs/gradient_embded.png";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useGetAllMembers , useGetCurrentTeam , useGetTeamCountMembers, useResendInvite } from '@/composables/useTeam';
+
+
+const { currTeam, getCurrentTeam } = useGetCurrentTeam();
+const { teamMembers, getAllTeamMember } = useGetAllMembers();
+const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
+
+onMounted(async () => {
+  if(!currTeam.value) {
+    await getCurrentTeam();
+  }
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
+  getTeamCountMembers(currTeam.value.agency);
+})
+
 const state = reactive({
   teamName:''
 })
@@ -37,8 +52,11 @@ const clearInput = () => {
 };
 
 const reInvite = ref(false)
-const reinviteUser = () => {
-  reInvite.value = true;
+const reinviteUser = (email) => {
+  const { resendInvite } = useResendInvite(email);
+  resendInvite(() => {
+    reInvite.value = true;
+  })
 };
 
 watch(reInvite, (newValue) => {
@@ -80,25 +98,30 @@ const visiblePages = computed(() => {
 const changePerPage = (option) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
 };
 
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value -= 1;
+    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value += 1;
+    getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
   }
 };
 
 const goToPage = (page) => {
   currentPage.value = page;
+  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
 };
 
-const editDonePicture = ref(false)
+const editDonePicture = ref(false);
+
 </script>
 
 
@@ -268,7 +291,7 @@ const editDonePicture = ref(false)
             </h1>
           </div>
           <div class="">
-            <h1 class="font-[500] text-[15px] leading-[22.5px]">4</h1>
+            <h1 class="font-[500] text-[15px] leading-[22.5px]"> {{countMembers}} </h1>
           </div>
         </div>
         <div
@@ -368,21 +391,24 @@ const editDonePicture = ref(false)
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
-            <tr class="">
+            <tr class="" v-for="(member, index) in teamMembers" :key="index">
               <td class=" lg:pr-0 pr-[100px] rtl:lg:pr-[16px]  ltr:lg:pl-[16px] text-[14px] font-[400]
                text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start space-x-[10px]  lg:space-x-[16px] rtl:space-x-reverse ">
                   <div class="inline">
                     <img 
                       src="/assets/imgs/icons/avatar_table.svg"
-                      
                       class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
                     />
                   </div>
+<<<<<<< HEAD
                   <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer" @click="openModal('editname','team')">Ali Ahmed</div>
+=======
+                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"> {{ member.first_name + ' ' + member.last_name }} </div>
+>>>>>>> ae40d3b8d3cc142f8532fe1396072946ed488f5c
                   <div
                     class="order-1 flex items-center justify-center text-white
-                     text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                     text-[10px] font-[500] leading-[15px]  h-[23px] rounded-[17px] p-[10px]"
                     style="
                       background: linear-gradient(
                         180deg,
@@ -391,13 +417,13 @@ const editDonePicture = ref(false)
                       );
                     "
                   >
-                    Owner
+                    {{member.owner}}
                   </div>
                 </div>
               </td>
               <td class="py-4 ltr:text-left lg:pr-0 pr-[100px]  whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey
                dark:text-whiteTamkin">
-                <p>Ali Ahmed@gmail.com</p>
+                <p> {{member.member_email}} </p>
               </td>
               <td class="py-4 text-center text-[14px]  lg:pr-0 pr-[100px]  whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start">
@@ -415,7 +441,7 @@ const editDonePicture = ref(false)
                 <div
                   class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
-                  <div @click="reinviteUser">
+                  <div @click="reinviteUser(member.member_email)">
                      <svg
                       width="22"
                       height="20"

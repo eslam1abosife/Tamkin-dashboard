@@ -1,18 +1,24 @@
 import { useApi } from "@/composables/useApi";
-import useLogin from './useLogin';
 import { useNuxtApp } from '#app';
 
-export default function(state) {
+export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const { loginUser } = useLogin(state);
+    const countMembers = ref(null);
 
-    const register = async () => {
+    const getTeamCountMembers = async (currTeamId) => {
         try {
-            const res = await api.post('/Account/Register', state);
+            if(!currTeamId) {
+                throw Error('Curr Team Id not exists!')
+            }
+            const res = await api.post('/Team/GET/CountMembers', {
+                "Where":{
+                    "agency": currTeamId
+                }
+            });
             if(!res.data.succeeded) throw(res.data.message);
-            loginUser();
+            countMembers.value = res.data.data;
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -20,11 +26,12 @@ export default function(state) {
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
             })
+            throw error;
         }
     };
 
     return {
-        register,
-        loading
+        countMembers,
+        getTeamCountMembers,
     }
 }

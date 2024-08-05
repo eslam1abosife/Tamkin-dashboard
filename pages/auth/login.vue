@@ -2,6 +2,8 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { useGoogle, useLogin } from '@/composables/useAuth';
+import {useGetCurrentTeam} from "~/composables/useTeam";
+import { useRouter } from "#vue-router";
 
 definePageMeta({
   layout: "auth",
@@ -29,7 +31,19 @@ const togglePasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 
 const { loginWithGoogle } = useGoogle();
-const { loginUser, loading } = useLogin(state);
+const { loginUser, loading , user } = useLogin(state);
+const { getCurrentTeam } = useGetCurrentTeam();
+const router = useRouter();
+
+const login = async () => {
+  try {
+    await loginUser();
+    await getCurrentTeam(user.value.sid);
+    router.push('/my-site');
+  } catch(err) {
+    console.log('err', err);
+  }
+}
 
 </script>
 
@@ -159,7 +173,7 @@ const { loginUser, loading } = useLogin(state);
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full" @click="loginUser()" v-if="!loading"
+      <button class="btn-grad-action w-full" @click="login()" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid || loading">
         {{ $t("login_button") }}
       </button>

@@ -1,33 +1,22 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
-import { useRouter } from "#vue-router";
 
-export default function(state) {
+export default function(email) {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const router = useRouter();
 
-    const forgetPassword = async () => {
+    const resendInvite = async (onSuccess) => {
         try {
-            const res = await api.post('/Account/ForgetPassword', {
+            const res = await api.post('/Team/Resendinvite', {
                 data: {
-                    email: state
+                    email: email
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
-
-            console.log('data', res.data.data)
-
-            // redirect to homepage if user is authenticated
-            router.push('/auth/otp');
-
-            $toast(`You Received the OTP<br/>enter the otp`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+            if(onSuccess) {
+                onSuccess();
+            }
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -39,6 +28,7 @@ export default function(state) {
     };
 
     return {
-        forgetPassword,
+        resendInvite,
+        loading
     }
 }

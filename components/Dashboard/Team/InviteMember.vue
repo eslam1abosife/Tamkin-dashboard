@@ -2,6 +2,9 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
+import { useInviteMember } from '@/composables/useTeam';
+import { useGetCurrentTeam } from '@/composables/useTeam';
+
 
 const {
   isOpen,
@@ -12,28 +15,30 @@ const {
   navigateTo,
 } = useModalManager();
 const state = reactive({
-    email: "",
+  email: "",
   firstName: "",
   lastName: "",
-
-
 });
 const rules = {
   email: { required, email },
   firstName: { required },
   lastName: { required },
-
-
 };
 
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore()
 
-
+const submitInviteMember = () => {
+  const { currTeam } = useGetCurrentTeam();
+  const { inviteMember } = useInviteMember({...state, currTeamId: currTeam.value ? currTeam.value.agency : null });
+  inviteMember(
+      navigateTo('invitemember','team','invitememberupdate')
+  );
+}
 </script>
 
 <template>
-  <div  
+  <div
   v-if="isOpen('invitemember')"
     class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
@@ -81,11 +86,11 @@ const modalStore = useModalStore()
           <p class="error_message">
             <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{ $t("first_name_required")
               }}</span>
-    
+
           </p>
         </div>
       </div>
-    
+
       <div class="w-full relative">
         <input type="text" placeholder="{{$t('lastName')}}" id="lastName" class="input_floating_label peer"
           v-model="v$.lastName.$model" :class="{
@@ -104,7 +109,7 @@ const modalStore = useModalStore()
           <p class="error_message">
             <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{ $t("last_name_required")
               }}</span>
-    
+
           </p>
         </div>
       </div>
@@ -139,8 +144,8 @@ const modalStore = useModalStore()
 
 
 <div class="mt-[32px] w-2/6 mx-auto">
-  
-    <button class=" btn-dashboard text-center mx-auto  " @click="navigateTo('invitemember','team','invitememberupdate')">
+
+    <button @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
       <!-- modalStore.controlInviteMemberUpdateModal -->
         Invite Member
       </button>
