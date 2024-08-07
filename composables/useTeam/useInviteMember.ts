@@ -1,12 +1,13 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
-export default function(state) {
+export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
+    const memberData = ref(null);
 
-    const inviteMember = async (onSuccess) => {
+    const inviteMember = async (state, onSuccess = null) => {
         try {
             const res = await api.post('/Team/invite', {
                 Data: {
@@ -18,6 +19,7 @@ export default function(state) {
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
+            memberData.value = res.data.data;
             if(onSuccess) {
                 onSuccess();
             }
@@ -33,6 +35,7 @@ export default function(state) {
 
     return {
         inviteMember,
-        loading
+        loading,
+        memberData
     }
 }

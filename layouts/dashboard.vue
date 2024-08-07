@@ -41,6 +41,7 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  emitEvent
 } = useModalManager();
 const {
   initialPositionDesktop,
@@ -236,8 +237,9 @@ const openModals = computed(() => {
     isOpen('translate_pdf_documents') ||
     isOpen('translate_word_documents') ||
     isOpen('transferstep1')||
-    isOpen('transferstep2')
-    ||isOpen('deleteModal') ||isOpen('resetModal') || isOpen('mycart')|| isOpen('requestmodal')
+    isOpen('transferstep2') ||
+  isOpen('deleteTeamMember') ||
+    isOpen('deleteModal') ||isOpen('resetModal') || isOpen('mycart')|| isOpen('requestmodal')
     ||
     isOpen('cardModal') ||
     isOpen('translate_images') ||
@@ -299,13 +301,18 @@ const userName = computed(() => {
 
     <!-- <ModalsSuccessmodal :show-modal="modalStore.showSuccessModalContact" title="Thanks for contact us"
       sub-title="We will contact you as soon as possible " icon="contact_success.svg" /> -->
- <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
-    <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
-    <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
+ <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
+    <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
+    <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
     <DashboardTeamEditname/>
-    <DashboardTeamInvitememberupdate :showModal="isOpen('invitememberupdate')" />
-    <DashboardTeamEditteampicturemodal :showModal="isOpen('editteampic')" />
-    <DashboardTeamEdituserpermissionsmodal :showModal="isOpen('userpermissions')" />
+
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
+                   sub-title="Are you sure you want to delete that team member ?"
+                   confirm-btn-type="delete" @control-delete="emitEvent('deleteTeamMember')" @control-cancel="closeModal('deleteTeamMember')" />
+
+    <DashboardTeamInviteMemberUpdate :showModal="true" v-if="isOpen('invitememberupdate')" />
+    <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
+    <DashboardTeamEditUserPermissionsModal :showModal="true" v-if="isOpen('userpermissions')" />
     <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
     <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
     <!--

@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
+import { useGetAppInvites, useInviteApp } from "@/composables/useTeam";
+
+const { apps , getInviteApps } = useGetAppInvites();
+const { inviteApp } = useInviteApp();
 
 const {
   isOpen,
@@ -8,26 +12,35 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  getData
 } = useModalManager();
+
+
+const permissions = ref([]);
+
+onMounted(async () => {
+  await nextTick();
+  const state = getData();
+
+  await getInviteApps({
+    email: state.email,
+    agency: state.currTeamId
+  });
+
+  permissions.value = apps.value;
+})
 
 const props = defineProps({
   showModal:Boolean
 })
-const checked = ref([])
-const permissions = ref( [ 
-    { "id": "1", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-    { "id": "2", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-    { "id": "3", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-
-
-      ])
+const checked = ref([]);
 
       const checkAll = computed({
   get() {
     return permissions.value && checked.value.length === permissions.value.length;
   },
   set(value) {
-    checked.value = value ? permissions.value.map(lang => lang.id) : [];
+    checked.value = value ? permissions.value.map(lang => lang.app) : [];
   }
 });
 const isSearchfilled = ref(false);
@@ -40,6 +53,28 @@ const isSearchfilled = ref(false);
   const clearInput = () => {
     search.value = "";
   };
+
+  const filteredPermissions = computed(() => {
+    if(!search.value.trim()) return permissions.value;
+    return permissions.value.filter((permission) => permission.name.toLowerCase().includes(search.value.toLowerCase()))
+  });
+
+  const submitInviteApp = async () => {
+    try {
+      const state = getData();
+
+      await inviteApp({
+        email: state.email,
+        app_name: checked.value,
+        agency: state.currTeamId
+      });
+
+      navigateTo('invitememberupdate','team','userpermissions');
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
 </script>
 
 <template>
@@ -73,11 +108,11 @@ border-l-0 border-r-0 pt-[16px]">
 <div class="flex flex-col items-start justify-center">    
 <div>
 <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] ">
-  Ali Ahmed 
+  {{ getData().firstName + ' ' + getData().lastName }}
 </h2>
 </div><div>
 <h2 class="ltr:text-left rtl:text-right font-[400] text-[#878787] dark:text-whiteTamkin/80 text-[13px]  leading-[27px]">
-  Ali Ahmed @gmail.com
+  {{ getData().email }}
 </h2>
 </div>
 
@@ -89,7 +124,7 @@ border-l-0 border-r-0 pt-[16px]">
 
 </div>
 <p class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
-Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60">Ali Ahmed </span> can access
+Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60">  {{getData().firstName + ' ' + getData().lastName}} </span> can access
 </p>
 
 <div class="w-full ">
@@ -136,16 +171,16 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
     </tr>
   </thead>
   <tbody class="divide-y divide-gray-200">
-    <tr v-for="permission in permissions " :key="permission.id">
+    <tr v-for="permission in filteredPermissions " :key="permission.app">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
         <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
-          <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.id" :value="permission.id" 
+          <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.app" :value="permission.app"
           class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] 
+          <label :for="`checkbox_`+permission.app" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
            bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -163,7 +198,7 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/4" @click="navigateTo('invitememberupdate','team','userpermissions')">
+  <button class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
     Continue
   </button>
 

@@ -4,6 +4,20 @@ import { ref, computed } from 'vue';
 
 export const useModalStore = defineStore('modalStore', () => {
   const modals = ref({});
+  const sharedData = ref(null);
+
+  function setData (data) {
+    sharedData.value = data;
+    console.log('sharedData 2', sharedData.value);
+  }
+
+  function getData () {
+    return sharedData.value;
+  }
+
+  function clearData () {
+    sharedData.value = null;
+  }
 
   function openModal(modalId, view) {
     if (!modals.value[modalId]) {
@@ -47,5 +61,8 @@ export const useModalStore = defineStore('modalStore', () => {
     goBack,
     isOpen,
     currentView,
+    setData,
+    clearData,
+    getData
   };
 });

@@ -8,6 +8,7 @@ import { useRoute, useRouter } from '#vue-router';
 
 const route = useRoute();
 const router = useRouter();
+const { resendCode, code } = useResendCode();
 
 definePageMeta({
   layout: 'auth'
@@ -65,8 +66,7 @@ const formattedCountdown = computed(() => {
 
 const doResendCode = async () => {
   const email = JSON.parse(localStorage.getItem('registerd_user'))?.email;
-  const { resendCode } = useResendCode(email);
-  await resendCode();
+  await resendCode(email);
   clearInterval(intervalId);
   showResent.value = false;
   countdown.value = 5;
@@ -76,7 +76,7 @@ const doResendCode = async () => {
 const verifyCode = async (value: string) => {
   disableButton.value = false;
   const user = JSON.parse(localStorage.getItem('registerd_user'));
-  const { verifyCode } = useVerifyCode({email: user.email, key: route.query.code});
+  const { verifyCode } = useVerifyCode({email: user.email, key: code.value });
   const { loginUser } = useLogin(user);
   try {
     await verifyCode();

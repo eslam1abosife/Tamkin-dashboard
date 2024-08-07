@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onMounted } from 'vue';
 import { useModalManager } from '@/composables/useModalManager';
-import { useGetAllMembers, useGetTeamCountMembers, useResendInvite, useRenameTeam, useGetCurrentTeam } from '@/composables/useTeam';
+import { useGetAllMembers, useGetTeamCountMembers, useResendInvite, useRenameTeam, useGetCurrentTeam, useDeleteMember } from '@/composables/useTeam';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 
@@ -17,15 +17,18 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const { teamMembers, getAllTeamMember } = useGetAllMembers();
-const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
+// const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
 const user = ref(null);
 
-onMounted(async () => {
+const getTeamMembersAndThirCount = () => {
   user.value = JSON.parse(localStorage.getItem('user') || '{}');
-
   getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
-  getTeamCountMembers(user.value.agency);
+}
+
+onMounted( () => {
+  getTeamMembersAndThirCount();
 });
+
 
 const {
   isOpen,
@@ -34,7 +37,10 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  lastEventCall,
+  eventCounter
 } = useModalManager();
+
 const editTeamNameMode = ref(false);
 
 const isSearchFilled = ref(false);
@@ -147,6 +153,33 @@ const doRenameTeam = async () => {
     console.error(err);
   }
 }
+
+const currMemberEmail = ref(null);
+
+const openDeleteMember = (memberEmail) => {
+  navigateTo(null,'team','deleteTeamMember');
+  currMemberEmail.value = memberEmail;
+}
+
+watch(eventCounter, async () => {
+  if(lastEventCall.value === "deleteTeamMember") {
+    const { deleteMember } = useDeleteMember();
+    await deleteMember(currMemberEmail.value);
+    getTeamMembersAndThirCount();
+    closeModal('deleteTeamMember');
+  }
+});
+
+const filteredTeamMembers = computed(() => {
+  if(teamMembers.value) {
+    return teamMembers.value.filter((ele) => {
+      const name = ele.first_name + ' ' + ele.last_name;
+      return name.toLowerCase().includes(search.value.toLowerCase().trim()) || ele.member_email.toLowerCase().includes(search.value.toLowerCase().trim())
+    }) || teamMembers.value;
+  }
+  return [];
+})
+
 </script>
 
 
@@ -317,7 +350,7 @@ const doRenameTeam = async () => {
             </h1>
           </div>
           <div class="">
-            <h1 class="font-[500] text-[15px] leading-[22.5px]"> {{countMembers}} </h1>
+            <h1 v-if="teamMembers" class="font-[500] text-[15px] leading-[22.5px]"> {{ teamMembers.length }} </h1>
           </div>
         </div>
         <div
@@ -327,7 +360,7 @@ const doRenameTeam = async () => {
             <h1 class="text-[11px] font-[500] leading-[16px]">Active</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]">2</h1>
+            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0"> {{ teamMembers.filter(ele => ele.is_active).length }} </h1>
           </div>
         </div>
         <div
@@ -337,7 +370,7 @@ const doRenameTeam = async () => {
             <h1 class="text-[11px] font-[500] leading-[16px]">Pending</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]">2</h1>
+            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">{{ teamMembers.filter(ele => !ele.is_active).length }}</h1>
           </div>
         </div>
       </div>
@@ -417,7 +450,7 @@ const doRenameTeam = async () => {
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
-            <tr class="" v-for="(member, index) in teamMembers" :key="index">
+            <tr class="" v-for="(member, index) in filteredTeamMembers" :key="index">
               <td class=" lg:pr-0 pr-[100px] rtl:lg:pr-[16px]  ltr:lg:pl-[16px] text-[14px] font-[400]
                text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start space-x-[10px]  lg:space-x-[16px] rtl:space-x-reverse ">
@@ -427,11 +460,7 @@ const doRenameTeam = async () => {
                       class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
                     />
                   </div>
-<<<<<<< HEAD
-                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer" @click="openModal('editname','team')">Ali Ahmed</div>
-=======
-                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"> {{ member.first_name + ' ' + member.last_name }} </div>
->>>>>>> ae40d3b8d3cc142f8532fe1396072946ed488f5c
+                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap" @click="openModal('editname','team')"> {{ member.first_name + ' ' + member.last_name }} </div>
                   <div
                       v-if="member.owner ===  member.member_email"
                     class="order-1 flex items-center justify-center text-white
@@ -468,7 +497,7 @@ const doRenameTeam = async () => {
                 <div
                   class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
-                  <div @click="reinviteUser(member.member_email)">
+                  <div v-if="!member.is_active" @click="reinviteUser(member.member_email)">
                      <svg
                       width="22"
                       height="20"
@@ -501,7 +530,7 @@ const doRenameTeam = async () => {
                       />
                     </svg>
                   </div>
-                  <div>
+                  <div @click="openDeleteMember(member.member_email)">
                     <svg
                       width="20"
                       height="20"

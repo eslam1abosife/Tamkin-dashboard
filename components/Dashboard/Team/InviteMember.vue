@@ -26,13 +26,17 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore()
 
-const submitInviteMember = () => {
+const {inviteMember, memberData, loading} = useInviteMember();
+
+const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const {inviteMember} = useInviteMember({...state, currTeamId: user.agency});
-  inviteMember(
-      navigateTo('invitemember', 'team', 'invitememberupdate')
-  );
+  await inviteMember({...state, currTeamId: user.agency});
+  navigateTo('invitemember', 'team', 'invitememberupdate', {...state, currTeamId: user.agency})
 }
+
+onMounted(() => {
+  console.log('mounted');
+})
 </script>
 
 <template>
@@ -144,7 +148,9 @@ const submitInviteMember = () => {
 
       <div class="mt-[32px] w-2/6 mx-auto">
 
-        <button @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
+        <button
+            :disabled="v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || loading"
+            @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
           <!-- modalStore.controlInviteMemberUpdateModal -->
           Invite Member
         </button>
