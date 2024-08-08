@@ -3,7 +3,9 @@
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 const translateStore = useTranslateStore()
+import { Vue3Lottie } from 'vue3-lottie'
 
+import SuccessAnimation from '/assets/animation/forget_password_success.json'
 const languagesArr = [
     {
         id: 1,
@@ -41,7 +43,7 @@ setTimeout(()=>{
 
 <template>
 
-    <div class="w-2/4 flex flex-col items-start justify-start scrollable-div pr-[20px] h-[310px] ">
+    <div class="w-2/4 flex flex-col items-start justify-start scrollable-div pr-[20px] h-[310px]  ">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px] mt-[6px]" >
             <svg @click="translateStore.currentMode  = 'subtitles'" class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z" fill="#585B5B"/>
@@ -86,7 +88,10 @@ setTimeout(()=>{
         </div>
 
         <div class="flex flex-col items-center justify-center w-full space-y-[10px] mt-[32px]" v-if="doneVideo">
-         
+  
+  
+      <Vue3Lottie :animationData="SuccessAnimation" :height="150" :width="150"/>
+  
             <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
 
                 Done

@@ -25,7 +25,7 @@ const changeDropMenu = (menu:any)=>{
 </script>
 <template>
    <div>
-    <TranslateModalsRename renameType="Video"/>
+    <TranslateModalsRename renameType="Photo"/>
 
     <div class="grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px] ">
     

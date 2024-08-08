@@ -100,7 +100,7 @@ onBeforeUnmount(() => {
         </div>
         <span>Delete</span>
       </button>
-      <button class="btn-dashboard w-1/4" @click="showEditedState">Save</button>
+      <button class="btn-dashboard hover_tamkin w-1/4" @click="showEditedState">Save</button>
     </div>
   </div>
 </template>

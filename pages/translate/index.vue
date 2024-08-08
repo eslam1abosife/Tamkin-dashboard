@@ -54,7 +54,7 @@ function leaveNotification(el, done) {
 <template>
   <div class="w-full h-full relative">
     <TranslateModalsUpgrade/>
-  
+  <TranslateModalsShare/>
       <TranslateModalsTranslate v-if="isOpen('translate_video')" translate-type="video" key="video_modal" />
       <TranslateModalsTranslate v-if="isOpen('translate_audio')" translate-type="audio" />
       <TranslateModalsTranslate v-if="isOpen('translate_live_video')" translate-type="live video" />

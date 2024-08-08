@@ -51,7 +51,7 @@ const props = defineProps({
         <div class="bg-white h-[110px]  rounded-[10px] flex items-center justify-around  w-full mt-[18px] ">
        <ClientOnly>
 
-        <carousel :items-to-show="5" class="">
+        <carousel :items-to-show="5"  class="">
             <slide v-for="slide in 10" :key="slide">
                 <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center">
                     <img src="/assets/imgs/translatevideo/social/Facebook.svg" class="w-[40px] h-[40px]" alt="">
@@ -124,7 +124,7 @@ w-[100%] h-[40px] px-4 mt-[16px]">
   }
 
   .carousel__track{
-    @apply space-x-[-8px];
+    @apply space-x-[0px];
   }
   
   </style>

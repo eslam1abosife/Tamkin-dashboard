@@ -34,7 +34,7 @@ const {
     <div class="text-[14px] font-[500] text-[#6D6D6D] leading-[21px] ">
         Easily Translate  Images  for Enhanced Accessibility and Communication
     </div>
-    <button class="btn-action-translate mt-[12px]" @click="()=>{plan === 'freetrial_Ex' || 
+    <button class="btn-action-translate mt-[12px] w-2/4" @click="()=>{plan === 'freetrial_Ex' || 
         plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'photos') : openModal('translate_images', 'photos')}">Translate Now</button>
 
 

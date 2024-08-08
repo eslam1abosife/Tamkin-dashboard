@@ -183,8 +183,8 @@ ipad-max:leading-[10px] whitespace-nowrap
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
-                <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
-                    <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
+                <div class="absolute top-[41px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[12px] leading-[18.17px] font-[400] crossed-out">
                       <span>$18,000</span>
                     </div>
                   </div>
@@ -276,7 +276,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>
@@ -310,8 +310,8 @@ ipad-max:leading-[10px] whitespace-nowrap
                 <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
                   For Individuals and Small Teams
                 </h2>
-                <div class="absolute top-[46px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
-                    <div class="absolute  left-[10px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] crossed-out">
+                <div class="absolute top-[41px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[12px] leading-[18.17px] font-[400] crossed-out">
                       <span>$18,000</span>
                     </div>
                   </div>
@@ -406,7 +406,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>
@@ -527,7 +527,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>
@@ -655,7 +655,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>
@@ -776,7 +776,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>
@@ -895,7 +895,7 @@ ipad-max:leading-[10px] whitespace-nowrap
                 </div>
               </div>
               <div class="flex items-center justify-center mx-auto w-full">
-                <button class="btn-dashboard rounded-full mt-[10px]">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
                   Upgrade Now
                 </button>
               </div>

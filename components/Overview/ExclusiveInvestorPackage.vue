@@ -147,7 +147,7 @@
                   </div>
                 </div>
                 <div class="flex items-center justify-center mx-auto w-full">
-                  <button class="btn-dashboard rounded-full mt-[16px] font-[600]">
+                  <button class="btn-dashboard hover_tamkin  rounded-full mt-[16px] font-[600]">
                     Buy Tamkin
                   </button>
                 </div>
@@ -273,7 +273,7 @@
                   </div>
                 </div>
                 <div class="flex items-center justify-center mx-auto w-full">
-                  <button class="btn-dashboard rounded-full mt-[16px] font-[600]">
+                  <button class="btn-dashboard hover_tamkin  rounded-full mt-[16px] font-[600]">
                     Buy Tamkin
                   </button>
                 </div>
@@ -399,7 +399,7 @@
                   </div>
                 </div>
                 <div class="flex items-center justify-center mx-auto w-full">
-                  <button class="btn-dashboard rounded-full mt-[16px] font-[600]">
+                  <button class="btn-dashboard hover_tamkin  rounded-full mt-[16px] font-[600]">
                     Buy Tamkin
                   </button>
                 </div>

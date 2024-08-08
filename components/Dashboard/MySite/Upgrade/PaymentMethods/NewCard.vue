@@ -733,7 +733,7 @@ const checkInput = (event) =>{
           </div>
         </div>
             <div class="text-center mt-[10px]">
-              <button class="btn-dashboard  w-6/6 mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
+              <button class="btn-dashboard hover_tamkin w-6/6 mx-auto text-center " @click="addPromoCode" v-if="!validPromo">Apply Code</button>
               <button v-else class="btn_bordered_dashboard 
       error w-6/6 mx-auto text-center " @click="removePromoCode">Remove Code</button>
             </div>

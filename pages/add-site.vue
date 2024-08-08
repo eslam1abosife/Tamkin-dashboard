@@ -196,7 +196,14 @@ const prev = () => {
             <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
               <img :src="plan.image" class="w-[50px] h-[50px]" />
             </div>
-
+            <div v-if="plan.deal" class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[500] w-[83px]
+            h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-[200px] 
+            ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+  ">
+  <div class=" ">
+   Best Deal
+  </div>
+           </div>
             <div class="flex items-center justify-start relative w-full">
               <div class="order-2 mt-[22px] relative w-full">
                 <h1
@@ -227,7 +234,8 @@ const prev = () => {
 
             <div
               v-if="collapsed"
-              class="flex flex-col pl-[42px] items-start justify-center space-y-[12px] left-[-16px] top-[90%] fixed z-[200] h-[350px] w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
+              class="flex flex-col pl-[42px] items-start justify-center space-y-[12px] left-[-0]
+               top-[90%] fixed z-[200] h-[350px] w-11/12  custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
               :class="[
                 selectedPlan && selectedPlan === plan.value
                 ? 'bg-selected dark:bg-p '

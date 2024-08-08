@@ -104,7 +104,7 @@ const props = defineProps({
     </div>
 
     <div class="w-[190px] mx-auto">
-      <button class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
+      <button class="btn-dashboard hover_tamkin normal_hover mt-[40px] ">
         Send Embed Code
       </button>
     </div>

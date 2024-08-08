@@ -67,10 +67,10 @@ const {
                 <button class="btn-action-translate mt-4" @click="()=>{plan === 'freetrial_expired' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'translate') : openModal('translate_live_video', 'translate')}">Translate Now</button>
                 <!-- upgradeTranslatePackage -->
               </div>
-              <div class="flex items-start ipad-max:space-x-[0] lg:space-x-[35px] mt-4 lg:mt-0">
-                <img src="/assets/imgs/translatevideo/live_video_banner.png" class="w-full  h-[100px] ipad-max:w-11/12 
-                lg:w-full lg:h-full" alt="">
-                <img src="/assets/imgs/translatevideo/social_icons.png" class="w-[36px] h-full ipad-max:h-full lg:h-full" alt="">
+              <div class="flex items-center ipad-max:space-x-[0] lg:space-x-[35px] mt-4 lg:mt-0">
+                <img src="/assets/imgs/translatevideo/live_video_banner.png" class="w-full  h-[50px] ipad-max:w-11/12 
+                lg:w-full lg:h-[100px]" alt="">
+                <img src="/assets/imgs/translatevideo/social_icons.png" class="w-[36px] h-[120px] " alt="">
               </div>
             </div>
           </div>

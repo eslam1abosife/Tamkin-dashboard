@@ -1,13 +1,10 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
-import { useCustomizeStore } from "@/stores/customize.js";
 import { useAddonStore } from "@/stores/addons.js";
 import draggable from 'vuedraggable'
-const custmizeStore = useCustomizeStore()
 const checkboxStore = useAddonStore();
-const { force_change_menuCards,
-  force_change_profileCards } = storeToRefs(checkboxStore)
+
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
@@ -22,7 +19,6 @@ const isLinkActive = (path) => {
 const miniSizeLiveTranslation = ref(false);
 const verticalView = ref(false);
 const horizontalView = ref(true);
-const openResizeMenuLiveTranslataion = ref(false);
 const annual_prices = ref(false);
 
 const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {

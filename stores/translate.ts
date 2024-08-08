@@ -3,10 +3,16 @@ import { ref, reactive, computed } from 'vue';
 
 export const useTranslateStore = defineStore('translate', () => {
   const signLanguageChecked = ref(false);
-  const subtitleCheck = ref(false)
+  const subtitleCheck = ref(true)
+  const translateCheck = ref(true)
   const currentMode = ref('subtitles');
   const subMode = ref('');
-  
+  const changesOnSubTitles = ref(false)
+  const pdfTextEdit = ref(false)
+  const wordTextEdit = ref(false)
+  const photoEditFooter = ref(false)
+
+  const showProcessingFooter = ref(false)
   const styles = reactive({
     textAlign: '',
     color: '',
@@ -93,7 +99,10 @@ export const useTranslateStore = defineStore('translate', () => {
   const hasChangesPlayer = computed(() => {
     return JSON.stringify(initialPlayer) !== JSON.stringify(player);
   });
-  return { signLanguageChecked, styles, translationSubtitles, player, resetPlayer,currentMode,subtitleCheck, subMode, resetStyles, hasChanges ,initialPlayer,hasChangesPlayer};
+  return { signLanguageChecked,changesOnSubTitles,
+    pdfTextEdit,
+wordTextEdit,
+    styles,translateCheck,showProcessingFooter, translationSubtitles, player, resetPlayer,currentMode,subtitleCheck,photoEditFooter, subMode, resetStyles, hasChanges ,initialPlayer,hasChangesPlayer};
 });
 
 if (import.meta.hot) {

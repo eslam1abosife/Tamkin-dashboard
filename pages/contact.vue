@@ -1,6 +1,12 @@
 <script lang="ts" setup>
-import { useModalStore } from "@/stores/modal.js";
-const modalStore = useModalStore()
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 definePageMeta({
     layout:'dashboard'
 })
@@ -158,7 +164,7 @@ const v$ = useVuelidate(rules, state);
               </div>
               
             <div class="flex justify-center space-x-4">
-              <button class="btn-dashboard hover_tamkin w-2/6" @click="modalStore.controlSuccessContactModal">Submit</button>
+              <button class="btn-dashboard hover_tamkin w-2/6" @click="openModal('successContact','contact')">Submit</button>
             </div>
           </div>
         </div>

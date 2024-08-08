@@ -344,22 +344,22 @@ const editDonePicture = ref(false);
               placeholder="Search ..."
             />
             <div
-              class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
-            >
-              <img  src="/assets/imgs/icons/search.svg"  />
-            </div>
-            <div
-              v-if="isSearchfilled"
-              @click="clearInput"
-              class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
-            >
-              <img  src="/assets/imgs/icons/clear_search.svg"  />
-            </div>
+            class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+          >
+            <img src="/assets/imgs/icons/search.svg" />
+          </div>
+          <div
+          v-if="isSearchfilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+        >
+          <img  src="/assets/imgs/icons/clear_search.svg"  />
+        </div>
           
         </div>
             <div class="lg:w-[250px] w-2/4">
               <button
-                class="btn-dashboard hover_tamkin"
+                class="btn-dashboard hover_tamkin !h-[45px]"
                 @click="openModal('invitemember')"
               >
                 Invite Member

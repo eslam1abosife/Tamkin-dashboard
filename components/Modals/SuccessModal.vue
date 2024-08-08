@@ -21,6 +21,15 @@ setTimeout(()=>{
 
 },1500)
 })
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 </script>
 
 <template>
@@ -28,7 +37,7 @@ setTimeout(()=>{
     class="fixed z-[9999] top-1/4 bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[400px]  h-[220px] w-10/12" 
     style="left: 50%; transform: translate(-50%, 0)"
   >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="modalStore.controlSuccessContactModal">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('successContact')">
       <svg
         class="w-[12px] h-[12px]"
         width="14"

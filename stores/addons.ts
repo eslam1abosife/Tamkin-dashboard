@@ -265,7 +265,7 @@ export const useAddonStore = defineStore('addon', {
            checkboxId:'congitive'
           },
           {
-           icon:'ADHD.svg',
+           icon:'adhd.svg',
            name:'ADHD',
            description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
            checkboxId:'ADHD'

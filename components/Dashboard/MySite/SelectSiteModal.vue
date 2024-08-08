@@ -134,7 +134,7 @@ const clearInput = () => {
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" >
+  <button class=" btn-dashboard hover_tamkin text-center w-1/6" >
     Save
   </button>
 

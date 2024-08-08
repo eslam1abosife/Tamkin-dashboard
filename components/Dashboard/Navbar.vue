@@ -681,8 +681,8 @@ watch(
                           height="12"
                           :class="[
                             !showChildMenu[1]
-                              ? 'rotate-90 '
-                              : 'rotate-0 ',
+                              ? 'rotate-0 '
+                              : 'rotate-90 ',
                           ]"
                           viewBox="0 0 7 12"
                           class="w-full h-full"
@@ -790,10 +790,90 @@ watch(
                           : '',
                       ]"
                     >
-                  Media
+                 Media
                     </div>
                   </nuxt-link>
                 </li>
+
+                <li
+                class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                :class="[
+                  isLinkActive('/documentq') && sideBarOpen ? '' : '',
+                  sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                ]"
+              >
+                <nuxt-link
+                  @click.stop
+                  :to="localePath('/document')"
+                  :class="[
+                    isLinkActive('/document')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : '',
+                  ]"
+                  class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                >
+                  <div
+                    class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/document')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                        : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                    ]"
+                  ></div>
+                  <div
+                    :class="[
+                      !sideBarOpen && isLinkActive('/document')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : sideBarOpen
+                        ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                        : '',
+                    ]"
+                  >
+               Documents
+                  </div>
+                </nuxt-link>
+              </li>
+
+              <li
+              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+              :class="[
+                isLinkActive('/photos') && sideBarOpen ? '' : '',
+                sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+              ]"
+            >
+              <nuxt-link
+                @click.stop
+                :to="localePath('/photos')"
+                :class="[
+                  isLinkActive('/photos')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    : '',
+                ]"
+                class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+              >
+                <div
+                  class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/photos')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                      : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                  ]"
+                ></div>
+                <div
+                  :class="[
+                    !sideBarOpen && isLinkActive('/photos')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : sideBarOpen
+                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                      : '',
+                  ]"
+                >
+             Photos
+                </div>
+              </nuxt-link>
+            </li>
                 </ul>
               </ul>
             </div>

@@ -26,6 +26,19 @@ const languagesArr = [
     },
 
 ]
+const scrollToSection = (sectionId: string) => {
+  nextTick(() => {
+    const container = document.getElementById('scrollable-div');
+    const section = document.getElementById(sectionId);
+    if (container && section) {
+      container.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  });
+};
+
 const value = ref(50);
 
 const currentColor = ref('#3333')
@@ -54,16 +67,30 @@ const changeMode = (m:any)=>{
 translateStore.currentMode  = m
 translateStore.subMode = ''
 }
+watch(openSpacingMenu, (newMode) => {
+    nextTick(() => {
+      scrollToSection('menu_spacing');
+    });
 
+});
+
+watch(translateStore.styles, (newMode) => {
+    nextTick(() => {
+      scrollToSection('hightlight_menu');
+    });
+
+});
 onBeforeMount(()=>{
     translateStore.resetStyles()
 })
+
+
 </script>
 
 <template>
 
     <div v-if="translateStore.subMode  === 'style'"
-        class="w-2/4  !h-full flex flex-col items-start justify-start scrollable-div pr-[20px]">
+        class="w-2/4  !h-full flex flex-col items-start justify-start scrollable-div pr-[20px]" id="scrollable-div">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px] mt-[6px]">
             <svg class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg" @click="changeMode('subtitles')">
@@ -237,9 +264,13 @@ onBeforeMount(()=>{
                     ab
                 </button>
             </div>
-            <div class="flex items-center space-x-[24px]">
+            <div class="flex items-center space-x-[24px] relative">
 
-                <button @click="openSpacingMenu = !openSpacingMenu"
+                <button @click="()=>{
+                  
+                  
+                    openSpacingMenu = !openSpacingMenu
+                }"
                     :class="[openSpacingMenu ? 'border-tamkin' : 'border-[#D9D9D9]']"
                     class="btn-default font-[700] border-[1px] relative  text-darkGrey !bg-white h-[30px] w-[30px] !p-[7px]">
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,42 +279,43 @@ onBeforeMount(()=>{
                             fill="#585B5B" />
                     </svg>
 
-                    <div class="bg-white border-[1px] flex flex-col items-start  border-tamkin  rounded-[10px]  
-                  h-auto absolute z-[100] left-[-150px] top-10 p-[10px]" v-if="openSpacingMenu">
-                        <div class="font-[500] text-darkGrey text-[12px] text-left ">
-                            Spacing
-                        </div>
-                        <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
-                            <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap">
-                                Line Height
-                            </div>
-                            <div class="slider-container ">
-                                <input type="range" v-model="translateStore.styles.lineHeight" 
-                                @click.stop min="0" max="100" class="slider"
-                                    :style="{ '--pc': translateStore.styles.lineHeight + '%' }" />
-                            </div>
-
-                            <button class="btn-default font-[600] !text-[10px]  h-[24px] w-[24px] !p-[2px]">
-                                {{ translateStore.styles.lineHeight }}
-                            </button>
-                        </div>
-                        <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
-                            <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap">
-                                Letter Spacing
-                            </div>
-                            <div class="slider-container ">
-                                <input type="range" v-model="translateStore.styles.letterSpacing" @click.stop min="0" max="100"
-                                 class="slider"
-                                    :style="{ '--pc': translateStore.styles.letterSpacing + '%' }" />
-                            </div>
-
-                            <button class="btn-default font-[600] !text-[10px]  h-[24px] w-[24px] !p-[2px]">
-                                {{  translateStore.styles.letterSpacing  }}
-                            </button>
-                        </div>
-
-                    </div>
+                  
                 </button>
+                <div id="menu_spacing" class="bg-white border-[1px] flex flex-col items-start  border-tamkin  rounded-[10px]  
+                h-auto absolute z-[100] left-[-180px] top-10 p-[10px]" v-if="openSpacingMenu" >
+                      <div class="font-[500] text-darkGrey text-[12px] text-left ">
+                          Spacing
+                      </div>
+                      <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
+                          <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap"   > 
+                              Line Height
+                          </div>
+                          <div class="slider-container ">
+                              <input type="range" v-model="translateStore.styles.lineHeight" 
+                              @click.stop min="0" max="100" class="slider"
+                                  :style="{ '--pc': translateStore.styles.lineHeight + '%' }" />
+                          </div>
+
+                          <button class="btn-default font-[600] !text-[10px]  h-[24px] w-[24px] !p-[2px]">
+                              {{ translateStore.styles.lineHeight }}
+                          </button>
+                      </div>
+                      <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
+                          <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap">
+                              Letter Spacing
+                          </div>
+                          <div class="slider-container ">
+                              <input type="range" v-model="translateStore.styles.letterSpacing" @click.stop min="0" max="100"
+                               class="slider"
+                                  :style="{ '--pc': translateStore.styles.letterSpacing + '%' }" />
+                          </div>
+
+                          <button class="btn-default font-[600] !text-[10px]  h-[24px] w-[24px] !p-[2px]">
+                              {{  translateStore.styles.letterSpacing  }}
+                          </button>
+                      </div>
+
+                  </div>
 
 
             </div>
@@ -315,7 +347,7 @@ onBeforeMount(()=>{
 
                 </div>
             </div>
-            <div v-if="translateStore.styles.autoHighlight.enabled" class="custom-border-tamkin  padding-override-1 rounded-[10px] 
+            <div id="hightlight_menu" v-if="translateStore.styles.autoHighlight.enabled" class="custom-border-tamkin  padding-override-1 rounded-[10px] 
      bg-white flex items-center relative justify-between w-[100%] h-[40px]  mt-[10px]">
 
                 <div class="flex items-center space-x-[24px] text-[11px] font-[500] text-darkGrey p-4">
