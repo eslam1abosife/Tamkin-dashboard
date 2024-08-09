@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
-import { useGetAppInvites, useInviteApp } from "@/composables/useTeam";
+import { useGetAppInvites, useInviteApp, useGetTeamMemberInviteApps } from "@/composables/useTeam";
 
 const { apps , getInviteApps } = useGetAppInvites();
 const { inviteApp } = useInviteApp();
@@ -23,11 +23,11 @@ onMounted(async () => {
   const state = getData();
 
   await getInviteApps({
-    email: state.email,
     agency: state.currTeamId
   });
-
   permissions.value = apps.value;
+
+
 })
 
 const props = defineProps({
@@ -40,7 +40,7 @@ const checked = ref([]);
     return permissions.value && checked.value.length === permissions.value.length;
   },
   set(value) {
-    checked.value = value ? permissions.value.map(lang => lang.app) : [];
+    checked.value = value ? permissions.value.map(lang => lang.name) : [];
   }
 });
 const isSearchfilled = ref(false);
@@ -56,7 +56,7 @@ const isSearchfilled = ref(false);
 
   const filteredPermissions = computed(() => {
     if(!search.value.trim()) return permissions.value;
-    return permissions.value.filter((permission) => permission.name.toLowerCase().includes(search.value.toLowerCase()))
+    return permissions.value.filter((permission) => permission.title.toLowerCase().includes(search.value.toLowerCase()))
   });
 
   const submitInviteApp = async () => {
@@ -79,7 +79,7 @@ const isSearchfilled = ref(false);
 
 <template>
   <div  v-if="isOpen('invitememberupdate')"
-    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-[648px] w-10/12 "
+    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-[648px] w-10/12 max-h-[80vh]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitememberupdate')">
@@ -151,48 +151,48 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
     </div>
 </div>
 
-<table class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
-  <thead>
-    <tr>
-      <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
-      <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin 
+  <table class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
+      <thead>
+      <tr>
+        <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
+        <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin
        flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
-        <div class="">Select All</div>
-       <div>
-        <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-        <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin 
+          <div class="">Select All</div>
+          <div>
+            <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
+            <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin
         bg-whiteTamkin  dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-          <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </label>
-       </div>
-      </th>
-    </tr>
-  </thead>
-  <tbody class="divide-y divide-gray-200">
-    <tr v-for="permission in filteredPermissions " :key="permission.app">
-      <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-        <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
-        <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
-      </td>
-      <td class="py-4  text-right ">
-        <div>
-          <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.app" :value="permission.app"
-          class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="`checkbox_`+permission.app" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
+              <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </label>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+      <tr v-for="permission in filteredPermissions " :key="permission.name">
+        <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
+          <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
+          <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.title}}</span>
+        </td>
+        <td class="py-4  text-right ">
+          <div>
+            <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.name" :value="permission.name"
+                   class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+            <label :for="`checkbox_`+permission.name" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
            bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-          </label>
-         </div>
-      </td>
-    </tr>
-  
-  
-  </tbody>
-</table>
+              <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </label>
+          </div>
+        </td>
+      </tr>
+
+
+      </tbody>
+    </table>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('invitememberupdate')">
 

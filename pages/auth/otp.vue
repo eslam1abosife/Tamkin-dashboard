@@ -18,10 +18,11 @@ definePageMeta({
 const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
 const bindModal = ref("");
 const disableButton = ref(true);
+const verificationCode = ref(null);
 
 const handleOnChange = (value: string) => {
-  disableButton.value = true
-
+  disableButton.value = true;
+  verificationCode.value = value;
 };
 
 const clearInput = () => {
@@ -73,11 +74,24 @@ const doResendCode = async () => {
   startCountdown();
 }
 
-const verifyCode = async (value: string) => {
+const doVerifyCode = async () => {
   disableButton.value = false;
+
+  if (!disableButton) {
+    console.error('disableButton or code is not defined');
+    return;
+  }
+
   const user = JSON.parse(localStorage.getItem('registerd_user'));
-  const { verifyCode } = useVerifyCode({email: user.email, key: code.value });
+
+  if (!user || !user.email) {
+    console.error('User is undefined or does not have an email');
+    return;
+  }
+
+  const { verifyCode } = useVerifyCode({email: user.email, key: verificationCode.value });
   const { loginUser } = useLogin(user);
+
   try {
     await verifyCode();
     await loginUser();
@@ -87,9 +101,9 @@ const verifyCode = async (value: string) => {
   }
 };
 
-onMounted(() => {
-  doResendCode();
-});
+// onMounted(() => {
+//   doResendCode();
+// });
 
 </script>
 
@@ -117,7 +131,7 @@ onMounted(() => {
               lg:space-x-[16px] xl:space-x-[22px]"
                 ref="otpInput" input-classes="otp_field" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
                 inputType="letter-numeric" :num-inputs="6" v-model:value="bindModal" :should-auto-focus="true"
-                :should-focus-order="true" @on-change="handleOnChange" @on-complete="verifyCode" />
+                :should-focus-order="true" @on-change="handleOnChange" @on-complete="doVerifyCode" />
             </div>
 
 
@@ -126,7 +140,7 @@ onMounted(() => {
       </div>
 
       <div class="absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-        <button class="btn-grad-action w-full" :disabled="disableButton" @click="verifyCode">
+        <button class="btn-grad-action w-full" :disabled="disableButton" @click="doVerifyCode">
           {{ $t("verfiy") }}
         </button>
 

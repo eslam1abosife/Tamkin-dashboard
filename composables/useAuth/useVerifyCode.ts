@@ -25,6 +25,7 @@ export default function(state) {
             });
 
         } catch (error) {
+            console.log('error', error);
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
                 "type": "error",

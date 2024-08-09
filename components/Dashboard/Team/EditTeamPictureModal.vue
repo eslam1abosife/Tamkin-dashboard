@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
+import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composables/useTeam";
+const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 
 const {
   isOpen,
@@ -10,30 +12,79 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 const acceptedFilesRef = ref<File[]>([]);
+
+
 const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFilesRef.value = acceptedFiles;
   console.log(acceptedFiles);
 };
+
+
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 const props = defineProps({
   showModal: Boolean,
 });
+
+
 const fileURL = (file) => {
   return URL.createObjectURL(file);
 };
-const removeFile = () => {
+
+const removeFile = async () => {
   acceptedFilesRef.value = [];
-  modalStore.triggerupdatedPicture();
+  const { deleteTeamImg } = useDeleteTeamImg();
+  await deleteTeamImg();
+  closeModal('editteampic');
+  getCurrentTeam();
+
 };
-const showEditedState = () => {
-  closeModal('editteampic')
+
+const submit = () => {
+  if (acceptedFilesRef.value.length === 0) {
+    console.warn('No file selected');
+    return;
+  }
+
+  const file = acceptedFilesRef.value[0];
+  const reader = new FileReader();
+
+  reader.onloadend = async () => {
+    const base64String = (reader.result as string).split(',')[1];
+
+    const imgFile = {
+      uid: file.lastModified.toString(),
+      name: file.name,
+      base64: base64String,
+      field: 'some_field', // Adjust this as necessary
+      id: 0,
+      doctype: file.type.split('/')[1],
+      isPublic: true,
+      ext: `.${file.name.split('.').pop()}`,
+      size: file.size,
+      path: '/path/to/image', // Optional, if applicable
+      version: 1,
+      mdf: '', // Optionally calculate the MD5 checksum if required
+      mimType: file.type,
+      creator_ID: 1 // Adjust this as necessary
+    };
+    const { uploadTeamImg } = useUploadTeamImg();
+    await uploadTeamImg(imgFile);
+    getCurrentTeam();
+  };
+
+  reader.readAsDataURL(file);
+
+  closeModal('editteampic');
 };
+
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
     URL.revokeObjectURL(file);
   });
 });
+
 </script>
 
 <template>
@@ -69,6 +120,11 @@ onBeforeUnmount(() => {
         <img :src="fileURL(file)" :alt="file.name"
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px]" />
       </div>
+      <div v-else-if="currTeam.team_image"
+           class="upload-file-item">
+        <img :src="`https://tamkin.app/${currTeam.team_image}`"
+             class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px]" />
+      </div>
       <div v-else>
         <img src="/assets/imgs/icons/camera_modal.svg" />
       </div>
@@ -100,7 +156,7 @@ onBeforeUnmount(() => {
         </div>
         <span>Delete</span>
       </button>
-      <button class="btn-dashboard w-1/4" @click="showEditedState">Save</button>
+      <button class="btn-dashboard w-1/4" @click="submit">Save</button>
     </div>
   </div>
 </template>

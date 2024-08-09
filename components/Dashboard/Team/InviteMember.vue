@@ -2,7 +2,7 @@
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, sameAs} from "@vuelidate/validators";
 import {useModalManager} from '@/composables/useModalManager';
-import {useInviteMember} from '@/composables/useTeam';
+import {useInviteMember, useGetAllMembers} from '@/composables/useTeam';
 
 const {
   isOpen,
@@ -32,6 +32,8 @@ const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   await inviteMember({...state, currTeamId: user.agency});
   navigateTo('invitemember', 'team', 'invitememberupdate', {...state, currTeamId: user.agency})
+  const { getAllTeamMember } = useGetAllMembers();
+  getAllTeamMember(user.agency);
 }
 
 onMounted(() => {

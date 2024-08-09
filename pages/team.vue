@@ -23,12 +23,11 @@ const user = ref(null);
 const getTeamMembersAndThirCount = () => {
   user.value = JSON.parse(localStorage.getItem('user') || '{}');
   getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
-}
+};
 
-onMounted( () => {
-  getTeamMembersAndThirCount();
+onMounted(async () => {
+  await getTeamMembersAndThirCount();
 });
-
 
 const {
   isOpen,
@@ -38,7 +37,8 @@ const {
   goBack,
   navigateTo,
   lastEventCall,
-  eventCounter
+  eventCounter,
+  setData
 } = useModalManager();
 
 const editTeamNameMode = ref(false);
@@ -47,6 +47,7 @@ const isSearchFilled = ref(false);
 const search = ref('');
 watch(search, (newValue) => {
   isSearchFilled.value = newValue.length > 0;
+  currentPage.value = 1;
 });
 const clearInput = () => {
   search.value = '';
@@ -70,58 +71,29 @@ watch(reInvite, (newValue) => {
 
 const dataAvailable = ref(true);
 
-const perPageOptions = ref([10, 20]);
+const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-const totalItems = ref(500); // Example total items, update as needed
-
-const totalPages = computed(() => Math.ceil(totalItems.value / perPage.value));
-
-const visiblePages = computed(() => {
-  const pages = [];
-  const maxVisiblePages = 5;
-  let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
-  let endPage = startPage + maxVisiblePages - 1;
-
-  if (endPage > totalPages.value) {
-    endPage = totalPages.value;
-    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
-
-  return pages;
-});
 
 const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
-  const user = JSON.parse(localStorage.getItem('user'));
-  getAllTeamMember(user.agency, currentPage.value, perPage.value);
 };
 
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value -= 1;
-    const user = JSON.parse(localStorage.getItem('user'));
-    getAllTeamMember(user.agency, currentPage.value, perPage.value);
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value += 1;
-    const user = JSON.parse(localStorage.getItem('user'));
-    getAllTeamMember(user.agency, currentPage.value, perPage.value);
   }
 };
 
 const goToPage = (page: number) => {
   currentPage.value = page;
-  const user = JSON.parse(localStorage.getItem('user'));
-  getAllTeamMember(user.agency, currentPage.value, perPage.value);
 };
 
 const editDonePicture = ref(false);
@@ -136,7 +108,7 @@ const getCurrTeam = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   await getCurrentTeam(user.sid);
   state.teamName = currTeam.value.team_name;
-}
+};
 
 onMounted(() => {
   getCurrTeam();
@@ -149,20 +121,20 @@ const doRenameTeam = async () => {
     await renameTeam();
     getCurrTeam();
     editTeamNameMode.value = false;
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 const currMemberEmail = ref(null);
 
 const openDeleteMember = (memberEmail) => {
-  navigateTo(null,'team','deleteTeamMember');
+  navigateTo(null, 'team', 'deleteTeamMember');
   currMemberEmail.value = memberEmail;
-}
+};
 
 watch(eventCounter, async () => {
-  if(lastEventCall.value === "deleteTeamMember") {
+  if (lastEventCall.value === 'deleteTeamMember') {
     const { deleteMember } = useDeleteMember();
     await deleteMember(currMemberEmail.value);
     getTeamMembersAndThirCount();
@@ -171,16 +143,54 @@ watch(eventCounter, async () => {
 });
 
 const filteredTeamMembers = computed(() => {
-  if(teamMembers.value) {
+  if (teamMembers.value) {
     return teamMembers.value.filter((ele) => {
       const name = ele.first_name + ' ' + ele.last_name;
-      return name.toLowerCase().includes(search.value.toLowerCase().trim()) || ele.member_email.toLowerCase().includes(search.value.toLowerCase().trim())
+      return (
+          name.toLowerCase().includes(search.value.toLowerCase().trim()) ||
+          ele.member_email.toLowerCase().includes(search.value.toLowerCase().trim())
+      );
     }) || teamMembers.value;
   }
   return [];
-})
+});
 
+const paginatedFilteredTeamMembers = computed(() => {
+  const startIndex = (currentPage.value - 1) * perPage.value;
+  const endIndex = startIndex + perPage.value;
+  return filteredTeamMembers.value.slice(startIndex, endIndex);
+});
+
+const totalPages = computed(() => Math.ceil(filteredTeamMembers.value.length / perPage.value));
+
+
+const openEditUserModal = (member) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  setData({
+    ...member,
+    currTeamId: user.agency,
+    email: member.member_email,
+    firstName: member.first_name,
+    lastName: member.last_name,
+    from_edit: true,
+  });
+  openModal('editusermodal', 'team');
+};
+
+const openPermissions = (member) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  setData({
+    ...member,
+    currTeamId: user.agency,
+    email: member.member_email,
+    firstName: member.first_name,
+    lastName: member.last_name,
+    from_edit: true,
+  });
+  openModal('userpermissions', 'team');
+};
 </script>
+
 
 
 <template>
@@ -210,7 +220,7 @@ const filteredTeamMembers = computed(() => {
         border-[1px] border-lightGrey dark:border-darkborder"
       >
    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full">
-        <div      v-if="!editDonePicture">
+        <div      v-if="!currTeam?.team_image">
           <div
           class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer "
      
@@ -231,7 +241,7 @@ const filteredTeamMembers = computed(() => {
           class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
           <div class="relative ">
-            <img  src="/assets/imgs/avatar.png"  />
+            <img  :src="`https://tamkin.app/${currTeam.team_image}`"  />
             <div
               @click="openModal('editteampic','team')"
               class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
@@ -450,7 +460,7 @@ const filteredTeamMembers = computed(() => {
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
-            <tr class="" v-for="(member, index) in filteredTeamMembers" :key="index">
+            <tr class="" v-for="(member, index) in paginatedFilteredTeamMembers" :key="index">
               <td class=" lg:pr-0 pr-[100px] rtl:lg:pr-[16px]  ltr:lg:pl-[16px] text-[14px] font-[400]
                text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start space-x-[10px]  lg:space-x-[16px] rtl:space-x-reverse ">
@@ -484,7 +494,9 @@ const filteredTeamMembers = computed(() => {
               <td class="py-4 text-center text-[14px]  lg:pr-0 pr-[100px]  whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start">
                   <button
-                    @click="openModal('userpermissions','team')"
+                      :disabled="!member.is_active"
+                    @click="openPermissions(member)"
+                      :class="!member.is_active ? `opacity-40`: 'opacity-100'"
                     class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
@@ -497,11 +509,12 @@ const filteredTeamMembers = computed(() => {
                 <div
                   class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
-                  <div v-if="!member.is_active" @click="reinviteUser(member.member_email)">
+                  <button :disabled="member.is_active" :class="member.is_active ? `opacity-40`: 'opacity-100'" @click="reinviteUser(member.member_email)">
                      <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C] hover:text-tamkin cursor-pointer"
+                      class="text-[#8C8C8C]  cursor-pointer"
+                      :class="!member.is_active ? `hover:text-tamkin` : null"
                       viewBox="0 0 22 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -511,7 +524,7 @@ const filteredTeamMembers = computed(() => {
                         fill="currentColor"
                       />
                     </svg>
-                  </div>
+                  </button>
                   <div>
                     <svg
                       width="16"
@@ -519,7 +532,7 @@ const filteredTeamMembers = computed(() => {
                       viewBox="0 0 16 20"
                       fill="none"
                       class="text-[#8C8C8C] hover:text-[#2DADA3] cursor-pointer"
-                      @click="openModal('editusermodal','team')"
+                      @click="openEditUserModal(member)"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
@@ -599,24 +612,24 @@ const filteredTeamMembers = computed(() => {
               />
             </svg>
           </button>
-          <div class="flex space-x-2 rtl:space-x-reverse">
+          <div v-if="teamMembers" class="flex space-x-2 rtl:space-x-reverse">
             <button
-              v-for="page in visiblePages"
-              :key="page"
-              :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              v-for="i in totalPages"
+              :key="i"
+              :style="currentPage === i ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
               :class="[
                 'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
-                currentPage === page ? 'text-white' : 'hover:bg-light-grey',
+                currentPage === i ? 'text-white' : 'hover:bg-light-grey',
               ]"
-              @click="goToPage(page)"
+              @click="goToPage(i)"
             >
-              {{ page }}
+              {{ i }}
             </button>
           </div>
           <button
             @click="nextPage"
             class="p-[4px] rounded-md bg-transparent text-darkGrey dark:text-whiteTamkin hover:bg-light-grey"
-            :disabled="currentPage === totalPages"
+            :disabled="currentPage === teamMembers.length / perPage"
           >
             <svg
               width="20"

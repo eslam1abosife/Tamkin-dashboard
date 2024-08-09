@@ -1,33 +1,28 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
-import { useRouter } from "#vue-router";
 
-export default function(state) {
+export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const router = useRouter();
+    const inviteAppsForMember = ref(null);
 
-    const forgetPassword = async () => {
+    const getMemberInviteApps = async (state) => {
+        if(!state.agency) {
+            throw Error('Curr Team Id not exists!')
+        }
+        if(!state.email) {
+            throw Error('email not exists!')
+        }
         try {
-            const res = await api.post('/Account/ForgetPassword', {
+            const res = await api.post('/Tamkin Team Member App/Get', {
                 data: {
-                    email: state.email
+                    tamkin_agency: state.agency,
+                    member_email: state.email
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
-
-            console.log('data', res.data.data)
-
-            // redirect to homepage if user is authenticated
-            router.push('/auth/new-password');
-
-            $toast(`You Received the OTP<br/>enter the otp`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+            inviteAppsForMember.value = res.data.data;
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -35,10 +30,12 @@ export default function(state) {
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
             })
+            throw error;
         }
     };
 
     return {
-        forgetPassword,
+        inviteAppsForMember,
+        getMemberInviteApps,
     }
 }

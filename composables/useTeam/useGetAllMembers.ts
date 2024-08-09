@@ -1,11 +1,12 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
+const teamMembers = ref([]);
+
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const teamMembers = ref(null);
 
     const getAllTeamMember = async (currTeamId, pageNo = 1, PgSize= 10) => {
         if(!currTeamId) {

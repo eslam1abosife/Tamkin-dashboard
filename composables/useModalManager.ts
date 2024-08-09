@@ -34,6 +34,7 @@ export function useModalManager(cb = null) {
     getData,
     emitEvent,
     lastEventCall,
-    eventCounter
+    eventCounter,
+    setData
   };
 }

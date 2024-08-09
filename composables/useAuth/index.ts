@@ -4,6 +4,7 @@ import useRegister from './useRegister';
 import useForgetPassword from "./useForgetPassword";
 import useResendCode from "./useResendCode";
 import useVerifyCode from "./useVerifyCode";
+import useConfirmForgetPassword from "./useConfirmForgetPassword";
 
 export {
     useLogin,
@@ -11,5 +12,6 @@ export {
     useRegister,
     useForgetPassword,
     useResendCode,
-    useVerifyCode
+    useVerifyCode,
+    useConfirmForgetPassword
 }

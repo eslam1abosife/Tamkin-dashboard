@@ -8,21 +8,21 @@ export default function(state) {
     const { $toast } = useNuxtApp();
     const router = useRouter();
 
-    const forgetPassword = async () => {
+    const confirmForgetPassword = async (state) => {
         try {
-            const res = await api.post('/Account/ForgetPassword', {
+            const res = await api.post('/Account/ResetPassword', {
                 data: {
-                    email: state.email
+                    email: state.email,
+                    new_password: state.password,
+                    key: state.key
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
 
-            console.log('data', res.data.data)
-
             // redirect to homepage if user is authenticated
-            router.push('/auth/new-password');
+            router.push('/auth/login');
 
-            $toast(`You Received the OTP<br/>enter the otp`, {
+            $toast(`Your Password changed successfully!`, {
                 "theme": "colored",
                 "type": "success",
                 "autoClose": 4000,
@@ -39,6 +39,6 @@ export default function(state) {
     };
 
     return {
-        forgetPassword,
+        confirmForgetPassword,
     }
 }

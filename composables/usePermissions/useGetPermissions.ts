@@ -5,20 +5,13 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const apps = ref(null);
+    const permissions = ref(null);
 
-    const getInviteApps = async (state) => {
-        if(!state.agency) {
-            throw Error('Curr Team Id not exists!')
-        }
+    const getPermissions = async () => {
         try {
-            const res = await api.post('/Team/Get/Apps', {
-                where: {
-                    agency: state.agency,
-                }
-            });
+            const res = await api.post('/Team/Get/AllPermission');
             if(!res.data.succeeded) throw(res.data.message);
-            apps.value = res.data.data;
+            permissions.value = res.data.data;
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -31,7 +24,7 @@ export default function() {
     };
 
     return {
-        apps,
-        getInviteApps,
+        permissions,
+        getPermissions,
     }
 }

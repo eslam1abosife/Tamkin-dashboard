@@ -1,33 +1,26 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
-import { useRouter } from "#vue-router";
 
-export default function(state) {
+export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const router = useRouter();
 
-    const forgetPassword = async () => {
+    const updateUserPermission = async (state) => {
         try {
-            const res = await api.post('/Account/ForgetPassword', {
+            const res = await api.post('/Team/set/UpdatePermission', {
                 data: {
-                    email: state.email
+                    member_email: state.email,
+                    permissions: state.permissions
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
-
-            console.log('data', res.data.data)
-
-            // redirect to homepage if user is authenticated
-            router.push('/auth/new-password');
-
-            $toast(`You Received the OTP<br/>enter the otp`, {
+            $toast(`User permissions saved successfully!`, {
                 "theme": "colored",
                 "type": "success",
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
-            })
+            });
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -39,6 +32,7 @@ export default function(state) {
     };
 
     return {
-        forgetPassword,
+        updateUserPermission,
+        loading,
     }
 }
