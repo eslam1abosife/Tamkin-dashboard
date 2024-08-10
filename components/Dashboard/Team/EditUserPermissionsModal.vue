@@ -73,7 +73,7 @@ const savePermission = () => {
       />
     </svg>
   </div>
-<div class="container mx-auto h-full">
+<div class="container mx-auto h-full max-h-[100%] overflow-y-scroll">
   <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
     Permissions
 </h1>

@@ -238,7 +238,9 @@ const openModals = computed(() => {
     isOpen('translate_word_documents') ||
     isOpen('transferstep1')||
     isOpen('transferstep2') ||
-  isOpen('deleteTeamMember') ||
+    isOpen('deleteTeamMember') ||
+      isOpen('deleteApp') ||
+      isOpen('restoreApp') ||
     isOpen('deleteModal') ||isOpen('resetModal') || isOpen('mycart')|| isOpen('requestmodal')
     ||
     isOpen('cardModal') ||
@@ -310,10 +312,18 @@ const userName = computed(() => {
                    sub-title="Are you sure you want to delete that team member ?"
                    confirm-btn-type="delete" @control-delete="emitEvent('deleteTeamMember')" @control-cancel="closeModal('deleteTeamMember')" />
 
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteApp')" title="Delete That App"
+                   sub-title="Are you sure you want to delete that app ?"
+                   confirm-btn-type="delete" @control-delete="emitEvent('deleteApp')" @control-cancel="closeModal('deleteApp')" />
+
+    <ModalsConfirm :show-modal="true" v-if="isOpen('restoreApp')" title="Restore That App" :for-delete="false"
+                   sub-title="Are you sure you want to restore that app ?"
+                   confirm-btn-type="other" @control-other="emitEvent('restoreApp')" @control-cancel="closeModal('restoreApp')" />
+
     <DashboardTeamInviteMemberUpdate :showModal="true" v-if="isOpen('invitememberupdate')" />
     <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
     <DashboardTeamEditUserPermissionsModal :showModal="true" v-if="isOpen('userpermissions')" />
-    <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
+    <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
     <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
     <!--
 
@@ -435,13 +445,16 @@ const userName = computed(() => {
                     {{ userName }}
                   </h2>
                 </div>
-                <div class="lg:block hidden" @click="logout()">
+                <div class="lg:block hidden">
                   <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
                       class="dark:fill-white fill-[#585B5B]" />
                   </svg>
                 </div>
+                <button @click="logout()" class="w-5 h-5">
+                  <img src="/assets/imgs/logout.svg" alt="">
+                </button>
               </div>
             </div>
           </div>

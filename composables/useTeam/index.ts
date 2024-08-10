@@ -10,6 +10,7 @@ import useDeleteMember from "./useDeleteMember";
 import useGetTeamMemberInviteApps from "./useGetTeamMemberInviteApps";
 import useUploadTeamImg from "./useUploadTeamImg";
 import useDeleteTeamImg from "./useDeleteTeamImg";
+import useUpdateDefaultApp from "./useUpdateDefaultApp";
 
 export {
     useInviteMember,
@@ -23,5 +24,6 @@ export {
     useDeleteMember,
     useGetTeamMemberInviteApps,
     useUploadTeamImg,
-    useDeleteTeamImg
+    useDeleteTeamImg,
+    useUpdateDefaultApp
 }

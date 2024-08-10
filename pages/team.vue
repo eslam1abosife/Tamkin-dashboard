@@ -147,8 +147,8 @@ const filteredTeamMembers = computed(() => {
     return teamMembers.value.filter((ele) => {
       const name = ele.first_name + ' ' + ele.last_name;
       return (
-          name.toLowerCase().includes(search.value.toLowerCase().trim()) ||
-          ele.member_email.toLowerCase().includes(search.value.toLowerCase().trim())
+          name.toLowerCase().includes(search.value.toString().toLowerCase().trim()) ||
+          ele.member_email.toLowerCase().includes(search.value.toString().toLowerCase().trim())
       );
     }) || teamMembers.value;
   }
@@ -351,7 +351,7 @@ const openPermissions = (member) => {
          dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder"
       >
         <div>
-          <img  src="/assets/imgs/icons/team_members.svg"  />
+          <img src="/assets/imgs/icons/team_members.svg"  />
         </div>
         <div class="flex flex-col items-center justify-center text-darkGrey ">
           <div class="">
@@ -465,14 +465,20 @@ const openPermissions = (member) => {
                text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start space-x-[10px]  lg:space-x-[16px] rtl:space-x-reverse ">
                   <div class="inline">
-                    <img 
-                      src="/assets/imgs/icons/avatar_table.svg"
-                      class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
+                    <img
+                        v-if="member.image"
+                        :src="`https://tamkin.app/${member.image}`"
+                        class="lg:h-full h-[30px]  hidden lg:block md:hidden h-8 w-8"
+                    />
+                    <img
+                        v-else
+                      src="/assets/imgs/user.svg"
+                      class="lg:h-full h-[30px]  hidden lg:block md:hidden  h-8 w-8"
                     />
                   </div>
                   <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap" @click="openModal('editname','team')"> {{ member.first_name + ' ' + member.last_name }} </div>
                   <div
-                      v-if="member.owner ===  member.member_email"
+                      v-if="member.member_email === currTeam.owner_of_agency"
                     class="order-1 flex items-center justify-center text-white
                      text-[10px] font-[500] leading-[15px]  h-[23px] rounded-[17px] p-[10px]"
                     style="

@@ -47,7 +47,7 @@ const selectList = (Item) => {
 
 const filteredList = computed(() => {
     return props.list.filter((listItem) =>
-        listItem.name.toLowerCase().includes(search.value.toLowerCase())
+        listItem.name.toLowerCase().includes(search.value.toString().toLowerCase())
     );
 });
 </script>

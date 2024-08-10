@@ -215,8 +215,8 @@ const doRegister = async () => {
         <p>{{ $t('by_continuing_i_agree_to_tamkin') }}</p>
       </div>
       <div>
-        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
-        <a href="" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
+        <a href="https://tamkin.app/terms?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
+        <a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
 
       </div>
     </div>

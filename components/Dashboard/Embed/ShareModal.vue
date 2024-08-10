@@ -2,6 +2,10 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
+import { useShareEmbedCode } from "@/composables/useEmbedCode";
+import {useGetAppInvites} from "~/composables/useTeam";
+
+const { defaultApp, getInviteApps } = useGetAppInvites();
 
 const {
   isOpen,
@@ -10,6 +14,7 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  getData
 } = useModalManager();
 const state = reactive({
   email: "",
@@ -26,7 +31,23 @@ const props = defineProps({
   showModal: Boolean,
 });
 
+onMounted(async () => {
+  await nextTick();
+  const state = getData();
 
+  if(!defaultApp.value) {
+    await getInviteApps({
+      agency: state.currTeamId
+    });
+  }
+})
+
+const submit = async () => {
+  const { shareEmbedCode, loading } = useShareEmbedCode();
+  await shareEmbedCode({email: state.email , appName: defaultApp.value.name })
+  closeModal('shareModal')
+  console.log('submit')
+}
 </script>
 
 <template>
@@ -104,7 +125,7 @@ const props = defineProps({
     </div>
 
     <div class="w-[190px] mx-auto">
-      <button class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
+      <button @click="submit" class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
         Send Embed Code
       </button>
     </div>

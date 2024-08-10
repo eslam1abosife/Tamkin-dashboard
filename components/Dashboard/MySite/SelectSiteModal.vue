@@ -1,5 +1,15 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const { getInviteApps, defaultApp, apps } = useGetAppInvites();
+const { updateDefaultApp } = useUpdateDefaultApp();
+
+const getApps = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getInviteApps({agency: user.agency});
+}
+
 
 const {
   isOpen,
@@ -13,7 +23,7 @@ const {
 const props = defineProps({
   showModal:Boolean
 })
-const checked = ref('')
+const checked = ref('');
 const permissions = ref( [ 
     { "id": "1", "name": "Tamkin","image":'https://via.placeholder.com/24'},
     { "id": "2", "name": "Tamkin","image":'https://via.placeholder.com/24'},
@@ -41,6 +51,25 @@ watch(search, (ov, nv) => {
 const clearInput = () => {
   search.value = "";
 };
+
+const filteredApps = computed(() => {
+  return apps.value.filter(ele => ele.title.toString().toLowerCase().includes(search.value.toString().toLowerCase().trim()))
+});
+
+onMounted(async () => {
+  await getApps();
+  if(defaultApp.value) {
+    console.log(defaultApp.value.name);
+    console.log(checked.value);
+    checked.value = defaultApp.value.name;
+  }
+});
+
+const submit = () => {
+  updateDefaultApp(checked.value);
+  closeModal('selectSite');
+  getApps();
+}
 </script>
 
 <template>
@@ -63,7 +92,7 @@ const clearInput = () => {
       />
     </svg>
   </div>
-<div class="container mx-auto">
+<div class="container mx-auto max-h-[100%] overflow-y-scroll">
   <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
     Select Site
 </h1>
@@ -103,20 +132,21 @@ const clearInput = () => {
     </tr>
   </thead>
   <tbody class="divide-y divide-gray-200 dark:divide-light">
-    <tr v-for="permission in permissions " :key="permission.id">
+    <tr v-for="app in filteredApps " :key="app.name">
       <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-        <img :src="permission.image" alt="Logo" class="w-6 h-6">
-              <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
+        <img v-if="app.image" :src="app.image" alt="Logo" class="w-6 h-6">
+        <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6">
+        <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{app.title}}</span>
       </td>
       <td class="py-4  text-right ">
         <div>
           <input type="checkbox" 
-              @click="checked = `checkbox_`+permission.id"
-       :checked="checked === `checkbox_`+permission.id"
+              @click="checked = app.name"
+       :checked="checked === app.name"
           
-          :id="`checkbox_`+permission.id" :value="permission.id" 
+          :id="app.name" :value="app.name"
           class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  
+          <label :for="app.name" class="cursor-pointer relative block border-[1px]
           rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -131,10 +161,9 @@ const clearInput = () => {
 </table>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('selectSite','my-site')">
-
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" >
+  <button @click="submit" class=" btn-dashboard text-center w-1/6" >
     Save
   </button>
 

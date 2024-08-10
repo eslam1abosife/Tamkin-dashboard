@@ -1,28 +1,22 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
-const apps = ref([]);
-const defaultApp = ref(null);
+const installationGuide = ref([]);
 
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
 
-    const getInviteApps = async (state) => {
-        if(!state.agency) {
-            console.log("state", state);
-            throw Error('Curr Team Id not exists!');
-        }
+    const getInstallationGuides = async () => {
         try {
-            const res = await api.post('/Team/Get/Apps', {
-                where: {
-                    agency: state.agency,
-                }
+            const res = await api.post('/Tamkin Install Guid/GET', {
+                where: {},
+                PgNo: 0,
+                PgSize: 100
             });
             if(!res.data.succeeded) throw(res.data.message);
-            apps.value = res.data.data;
-            defaultApp.value = res.data.data.find(ele => ele.isdefault) || res.data.data?.[0]
+            installationGuide.value = res.data.data;
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -35,8 +29,8 @@ export default function() {
     };
 
     return {
-        apps,
-        defaultApp,
-        getInviteApps,
+        getInstallationGuides,
+        installationGuide,
+        loading
     }
 }

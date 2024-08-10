@@ -62,7 +62,7 @@ onMounted(() => {
         />
       </svg>
     </div>
-    <div class="container mx-auto">
+    <div class="container mx-auto max-h-[100%] overflow-y-scroll">
       <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         Invite Member
       </h1>
