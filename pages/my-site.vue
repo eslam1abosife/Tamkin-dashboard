@@ -488,9 +488,9 @@ const paginatedFilteredAppList = computed(() => {
                       </div>
                     </td>
                     <td
-                      class=" lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="capitalize lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      <template v-if="app.billing_duration === 'monthly'">Monthly</template>
+                      {{ app.billing_duration }}
                     </td>
                     <td
                       class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px]
