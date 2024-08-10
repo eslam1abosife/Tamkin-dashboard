@@ -10,7 +10,6 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL
     }
   },
-
   // vite: {
   //   server: {
   //     cors: true,
@@ -24,7 +23,14 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
-  
+
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['@tiptap/pm/state'],
+      },
+    },
+  },
 
   app: {
     head: {
@@ -118,6 +124,7 @@ colorMode: {
 
   //   }
   // },
+
   i18n: {
     defaultLocale: 'en',
     // Specify the directory where the language files are stored
