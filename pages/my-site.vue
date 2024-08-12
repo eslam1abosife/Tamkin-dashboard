@@ -3,7 +3,21 @@ import { Vue3Lottie } from "vue3-lottie";
 import mysiteAnimation from "/assets/animation/mysite.json";
 import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
+import {useGetAppInvites} from '@/composables/useTeam';
+import { useDeleteApp, useRestoreApp } from "@/composables/useMySite";
+const { getInviteApps, defaultApp, apps } = useGetAppInvites();
+
+const getApps = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getInviteApps({agency: user.agency});
+}
+onMounted( () => {
+  getApps();
+});
+
 import { required, email, sameAs } from "@vuelidate/validators";
+import {watch, computed, ref} from "vue";
+
 definePageMeta({
   layout: "dashboard",
 });
@@ -23,6 +37,9 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  lastEventCall,
+  eventCounter,
+  setData
 } = useModalManager();
 const dataAvailable = ref(true);
 const editTeamNameMode = ref(false);
@@ -31,6 +48,7 @@ const currentTab = ref("saved");
 
 const switchTab = (tab: any) => {
   currentTab.value = tab;
+  currentPage.value = 1;
 };
 
 const checked = ref([]);
@@ -54,6 +72,7 @@ const localePath = useLocalePath();
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
+  currentPage.value = 1;
   return search.value.length > 0
     ? (isSearchfilled.value = true)
     : (isSearchfilled.value = false);
@@ -61,12 +80,6 @@ watch(search, (ov, nv) => {
 const clearInput = () => {
   search.value = "";
 };
-const perPageOptions = ref([10, 20]);
-const perPage = ref(perPageOptions.value[0]);
-const currentPage = ref(1);
-const totalItems = ref(500); // Example total items, you can change this
-
-const totalPages = computed(() => Math.ceil(totalItems.value / perPage.value));
 
 const visiblePages = computed(() => {
   const pages = [];
@@ -86,7 +99,14 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-const changePerPage = (option) => {
+
+
+const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
+const perPage = ref(perPageOptions.value[0]);
+const currentPage = ref(1);
+const totalPages = computed(() => Math.ceil(appList.value.length / perPage.value));
+
+const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
 };
@@ -103,9 +123,68 @@ const nextPage = () => {
   }
 };
 
-const goToPage = (page) => {
+const goToPage = (page: number) => {
   currentPage.value = page;
 };
+
+
+const formatNumber = (num) => {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'k';
+  } else {
+    return num.toString();
+  }
+}
+
+const currAppName = ref(null);
+const openDeleteMember = (appName) => {
+  navigateTo(null, 'mysite', 'deleteApp');
+  currAppName.value = appName;
+};
+
+
+const openRestoreApp = (appName) => {
+  navigateTo(null, 'mysite', 'restoreApp');
+  currAppName.value = appName;
+}
+
+
+watch(eventCounter, async () => {
+  if (lastEventCall.value === 'deleteApp') {
+    const { deleteApp } = useDeleteApp();
+    await deleteApp(currAppName.value);
+    closeModal('deleteApp');
+    currentTab.value = 'deleted';
+  }
+  else if(lastEventCall.value === 'restoreApp') {
+    const { restoreApp } = useRestoreApp();
+    await restoreApp(currAppName.value);
+    closeModal('restoreApp');
+    currentTab.value = 'saved';
+  }
+  getApps();
+});
+
+const appList = computed(() => {
+  return apps.value
+      .filter((ele) => {
+        if(currentTab.value == 'deleted') {
+          return ele.status === 'deleted';
+        } else {
+          return ele.status !== 'deleted'
+        }
+      })
+      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()));
+})
+
+const paginatedFilteredAppList = computed(() => {
+  const startIndex = (currentPage.value - 1) * perPage.value;
+  const endIndex = startIndex + perPage.value;
+  return appList.value.slice(startIndex, endIndex);
+});
+
 </script>
 
 <template>
@@ -173,7 +252,7 @@ const goToPage = (page) => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                    Tamkin.App
+                    {{ defaultApp?.title }}
                   </h2>
                 </div>
                 <div>
@@ -381,20 +460,23 @@ const goToPage = (page) => {
                   </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
-                  <tr class="h-[50px]">
+                  <tr v-for="(app, index) in paginatedFilteredAppList" :key="index" class="h-[50px]">
                     <td class="w-[25%] ">
                       <div
-                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px]
+                        class="h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px]
                          ipad-max:space-x-[10px] lg:space-x-[16px]
                         ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey
                           dark:text-whiteTamkin"
                       >
-                        <img
-                          src="/assets/imgs/icons/avatar_table.svg"
-                          class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden"
-                        />
-                        <div class="order-1">Tamkin.App</div>
+                        <a href="#" class="gap-3 h-[50px] flex items-center justify-start">
+                          <img
+                              src="/assets/imgs/icons/avatar_table.svg"
+                              class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden"
+                          />
+                          <div class="order-1"> {{ app.title }} </div>
+                        </a>
                         <div
+                            v-if="defaultApp.name === app.name"
                           class="order-1 flex items-center justify-center
                            text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                           style="
@@ -406,9 +488,9 @@ const goToPage = (page) => {
                       </div>
                     </td>
                     <td
-                      class=" lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="capitalize lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      Monthly
+                      {{ app.billing_duration }}
                     </td>
                     <td
                       class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px]
@@ -427,9 +509,11 @@ const goToPage = (page) => {
                     </td>
 
                     <td
+
                       class="  lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                     >
                       <div
+                          v-if="app.status === 'active'"
                         style="
                           background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                         "
@@ -438,6 +522,16 @@ const goToPage = (page) => {
                       >
                         Active
                       </div>
+                      <div
+                          v-if="app.status === 'draft'"
+                          style="
+                          background: linear-gradient(#ffda10 0%, #FF5722 100%);
+                        "
+                          class="rounded-[17px] border-[1px] flex items-center justify-center
+                         border-[#ffda10] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+                      >
+                        Draft
+                      </div>
                     </td>
 
                     <td
@@ -445,13 +539,13 @@ const goToPage = (page) => {
                       rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey
                        dark:text-whiteTamkin"
                     >
-                      May 11 ,2024
+                      {{ new Date(app.creation).toDateString() }}
                     </td>
 
                     <td
                       class=" text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      2.35K
+                      {{ formatNumber(app.traffic) }}
                     </td>
 
                     <td
@@ -460,10 +554,10 @@ const goToPage = (page) => {
                       <div
                         class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] ml-auto"
                       >
-                        <div class="hover:opacity-50">
-                          <img src="/assets/imgs/installed.svg" />
-                        </div>
-                        <div>
+<!--                        <div class="hover:opacity-50">-->
+<!--                          <img src="/assets/imgs/installed.svg" />-->
+<!--                        </div>-->
+                        <button @click="openDeleteMember(app.name)">
                           <svg
                             width="18"
                             height="17"
@@ -477,7 +571,7 @@ const goToPage = (page) => {
                               fill="currentColor"
                             />
                           </svg>
-                        </div>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -595,14 +689,14 @@ const goToPage = (page) => {
                   </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
-                  <tr v-for="dSite in deletedSites" :key="dSite.id" class="h-[50px]">
+                  <tr  v-for="(app, index) in paginatedFilteredAppList" :key="index" class="h-[50px]">
                     <td
                       class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] 
                       rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      <img :src="dSite.image" class="h-[14px] w-[14px]" />
+                      <img src="/assets/imgs/app.svg" class="h-[20px] w-[20px]" />
                       <div class="order-1">
-                        {{ dSite.name }}
+                        {{ app.title }}
                       </div>
                     </td>
 
@@ -610,6 +704,7 @@ const goToPage = (page) => {
                       class="text-[14px] ltr:pr-[16px] rtl:pl-[16px] font-[400] dark:text-whiteTamkin text-darkGrey"
                     >
                       <button
+                          @click="openRestoreApp(app.name)"
                         class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center"
                       >
                         Restore

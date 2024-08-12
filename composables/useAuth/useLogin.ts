@@ -1,7 +1,7 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp, useCookie } from '#app';
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
-
+import { useRouter } from '#vue-router';
 
 export default function(state) {
     const { useApiInstance } = useApi();
@@ -20,11 +20,11 @@ export default function(state) {
             if(!res.data.succeeded) throw(res.data.message);
             user.value = res.data.data;
 
-            tokenCookie.value = user.value.sid;
+            tokenCookie.value = user.value?.sid;
             isLoggedInCookie.value = true;
             localStorage.setItem('user', JSON.stringify(user.value));
 
-            userStore.setToken(user.value.sid);
+            userStore.setToken(user.value?.sid);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
 
@@ -35,7 +35,8 @@ export default function(state) {
                 "type": "success",
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
-            })
+            });
+
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",

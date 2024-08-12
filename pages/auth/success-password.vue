@@ -7,11 +7,19 @@ import { required, email, sameAs } from "@vuelidate/validators";
 definePageMeta({
   layout: "auth",
 });
+<<<<<<< HEAD
+// import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
+// import { useAuthStore } from "@/stores/auth";
+=======
 import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 // import { useAuthStore } from "@/stores/auth"; // import the auth store we just created
+<<<<<<< HEAD
+>>>>>>> f74f36e (document/photo pages)
+=======
+>>>>>>> main
 
-const authStore = useAuthStore();
-const { loading } = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
+// const authStore = useAuthStore();
+// const { loading } = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
 
 const state = reactive({
   email: "",

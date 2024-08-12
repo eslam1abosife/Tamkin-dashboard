@@ -57,9 +57,9 @@ watch(width, (newWidth) => {
         <div class="absolute bottom-0 w-full mb-4">
 
           <ul class="flex items-center justify-evenly rtl:flex-row-reverse">
-            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
+            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
     $t('terms_of_use') }}</a></li>
-            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
+            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank">{{
     $t('privacy_statement') }}</a></li>
             <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
                 $t('CookiePolicy') }}</a></li>

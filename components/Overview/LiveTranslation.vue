@@ -19,7 +19,9 @@ const progress = ref(30.78);
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+              <h1
+                class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+              >
                 Live Translation Overview
               </h1>
 
@@ -34,9 +36,7 @@ const progress = ref(30.78);
           </div>
         </h1>
       </div>
-      <div
-      
-      >
+      <div>
         <button
           @click="$router.push('/statistics')"
           class="absolute right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
@@ -160,42 +160,42 @@ const progress = ref(30.78);
     >
       <!-- Donut Chart -->
       <div class="h-full ipad-max:mx-auto">
-        <Circularprogressbar svg-class="max-w-full max-h-full w-[150px] h-[150px] lg:w-[300px] lg:h-[300px]" :initial-percentage="progress" />
+        <CircularProgressBar
+          svg-class="max-w-full max-h-full w-[150px] h-[150px] lg:w-[300px] lg:h-[300px]"
+          :initial-percentage="progress"
+        />
       </div>
       <!-- Labels and Values -->
       <div
         class="flex flex-col items-start justify-center w-full space-y-[10px] mt-[32px] px-[4px]"
       >
         <div
-          class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap  justify-evenly lg:justify-between w-full"
+          class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap justify-evenly lg:justify-between w-full"
         >
           <div class="text-center">
-       <div class="flex items-center space-x-[10px]">
-        <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
-        <span class="text-gray-500 dark:text-whiteTamkin">Used</span>
-       </div>
+            <div class="flex items-center space-x-[10px]">
+              <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
+              <span class="text-gray-500 dark:text-whiteTamkin">Used</span>
+            </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">70%</span>
           </div>
           <div class="text-center">
             <div class="flex items-center space-x-[10px]">
+              <span
+                class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
+              ></span>
 
-            <span
-              class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
-            ></span>
-            
-            <span class="text-gray-500 dark:text-whiteTamkin">User Assistance</span>
-
+              <span class="text-gray-500 dark:text-whiteTamkin">User Assistance</span>
             </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">20</span>
           </div>
           <div class="text-center lg:mt-0 mt-[10px]">
             <div class="flex items-center space-x-[10px]">
-
-            <span
-              class="block w-3 h-3 rounded-full mx-auto "
-              style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
-            ></span>
-            <span class="text-gray-500 dark:text-whiteTamkin">Pages Translated</span>
+              <span
+                class="block w-3 h-3 rounded-full mx-auto"
+                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+              ></span>
+              <span class="text-gray-500 dark:text-whiteTamkin">Pages Translated</span>
             </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">5</span>
           </div>

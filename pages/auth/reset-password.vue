@@ -21,6 +21,10 @@ const rules = {
 };
 const v$ = useVuelidate(rules, state);
 const { forgetPassword } = useForgetPassword(state);
+const doForgetPassword = () => {
+  localStorage.setItem('registerd_email', state.email);
+  forgetPassword();
+}
 </script>
 
 <template>
@@ -85,7 +89,7 @@ const { forgetPassword } = useForgetPassword(state);
 
         <div
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-            <button class="btn-grad-action w-full" @click="forgetPassword" v-if="!loading"
+            <button class="btn-grad-action w-full" @click="doForgetPassword" v-if="!loading"
                 :disabled="v$.email.$invalid || loading">
                 {{ $t("continue") }}
             </button>

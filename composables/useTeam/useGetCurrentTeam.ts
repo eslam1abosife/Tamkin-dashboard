@@ -14,7 +14,7 @@ export default function() {
             if (sid) {
                 config.headers = { sid: sid };
             }
-            const res = await api.post('/Team/Get/CurrentTeam', null , config);
+            const res = await api.post('/Team/Get/CurrentAgency', null , config);
             if(!res.data.succeeded) throw(res.data.message);
             currTeam.value = res.data.data;
         } catch (error) {

@@ -12,7 +12,7 @@ export default function(state) {
         try {
             const res = await api.post('/Account/ForgetPassword', {
                 data: {
-                    email: state
+                    email: state.email
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
@@ -20,7 +20,7 @@ export default function(state) {
             console.log('data', res.data.data)
 
             // redirect to homepage if user is authenticated
-            router.push('/auth/otp');
+            router.push('/auth/new-password');
 
             $toast(`You Received the OTP<br/>enter the otp`, {
                 "theme": "colored",

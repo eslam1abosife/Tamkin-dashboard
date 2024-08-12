@@ -3,7 +3,7 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 
 const {
   isOpen,
@@ -14,7 +14,7 @@ const {
   navigateTo,
 } = useModalManager();
 const settingsStore = useSettingsStore();
-const {isChecked,toggleCheckbox} = settingsStore
+const { isChecked, toggleCheckbox } = settingsStore;
 const collapseStore = useCollapseStore();
 
 definePageMeta({
@@ -87,11 +87,13 @@ const widgetEnabledOnMobile = ref(false);
 const soundEffects = ref(false);
 
 onBeforeMount(() => {
-  ["enable_widget_on_this_site_sign", "widget_enabled_on_mobile_sign", "sound_effects_sign"].forEach(
-    (name) => {
-      settingsStore.addCheckbox(name);
-    }
-  );
+  [
+    "enable_widget_on_this_site_sign",
+    "widget_enabled_on_mobile_sign",
+    "sound_effects_sign",
+  ].forEach((name) => {
+    settingsStore.addCheckbox(name);
+  });
   settingsStore.initializeCheckboxes([
     "enable_widget_on_this_site_sign",
 
@@ -99,11 +101,9 @@ onBeforeMount(() => {
     "sound_effects_sign",
   ]);
 });
-let pendingNavigation =null
+let pendingNavigation = null;
 const detectUnsavedChanges = () => {
-  
-  return settingsStore.hasChanges()
-
+  return settingsStore.hasChanges();
 };
 
 const handleSaveAndMove = () => {
@@ -127,83 +127,86 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
-const localePath = useLocalePath()
-const route = useRoute()
+const localePath = useLocalePath();
+const route = useRoute();
 const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
 
   // If the pattern does not contain a wildcard, do an exact match
-  if (!pattern.includes('*')) {
+  if (!pattern.includes("*")) {
     return currentPath === pattern;
   }
 
   // Convert wildcard pattern to regex
-  const regex = new RegExp('^' + pattern.replace(/\/\*/g, '.*') + '$');
-  
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
   return regex.test(currentPath);
 };
 
 const shouldShowFooter = computed(() => {
+  const isSettingsLinkActive =
+    isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
 
-  const isSettingsLinkActive = isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
-
-
-  return (
-    isSettingsLinkActive
-    
-  
- 
-  );
+  return isSettingsLinkActive;
 });
 
 const cancelAc = () => {
+  const isSettingsLinkActive =
+    isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
 
-    const isSettingsLinkActive = isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
-
-
-
-    if (isSettingsLinkActive) {
-      settingsStore.cancelAll();
+  if (isSettingsLinkActive) {
+    settingsStore.cancelAll();
   }
 };
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    <LanguageServicesNavbar/>
+    <LanguageServicesNavbar />
     <transition name="slide-up">
       <DashboardAddonsSavefooter
         :show-footer="shouldShowFooter"
         @cancel_action="cancelAc"
       />
     </transition>
-    <LazyModalsConfirm :showModal="settingsStore.routeLeaveModal" title="Save  your changes"
-    sub-title="Do you want to save the changes before moving on?"
-    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
-    :savetoAllSitesBtn="true"
-    @control-cancel="handleSaveAndMove" />
+    <LazyModalsConfirm
+      :showModal="settingsStore.routeLeaveModal"
+      title="Save  your changes"
+      sub-title="Do you want to save the changes before moving on?"
+      confirm-btn-type="other"
+      @control-other="handleSaveAndMove"
+      cancelButtonName="Discard"
+      :savetoAllSitesBtn="true"
+      @control-cancel="handleSaveAndMove"
+    />
     <div class="w-full h-full relative">
-      <Headeraccess 
-      websiteImgName="tamkin_hand.svg"
-      website-title="Tamkin.App"
-      website-link="google.com"
-      section-title="Settings" 
-      section-sub-title="Settings let you customize your preferences and configurations"/>
-   
-
-   
+      <HeaderAccess
+        websiteImgName="tamkin_hand.svg"
+        website-title="Tamkin.App"
+        website-link="google.com"
+        section-title="Settings"
+        section-sub-title="Settings let you customize your preferences and configurations"
+      />
 
       <div
-        class="mt-[64px] md:mt-[94px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
-        :class="[               collapseStore.collapses.includes('general_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
-        
+        class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+        :class="[
+          collapseStore.collapses.includes('general_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
-        <div class="flex items-center justify-start  ">
-          <div class="pt-[24px] ">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
-            <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
+        <div class="flex items-center justify-start">
+          <div class="pt-[24px]">
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              General Settings
+            </h1>
+            <h2
+              class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+            >
               Accessibility Settings allow users to customize their website experience to
               ensure it is accessible and user-friendly
             </h2>
@@ -227,7 +230,8 @@ const cancelAc = () => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('general_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -245,17 +249,38 @@ const cancelAc = () => {
                 @click="collapseStore.collapseCard('general_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -268,42 +293,36 @@ const cancelAc = () => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex flex-col items-start justify-center  mt-[18px] divide-y "
+          class="flex flex-col items-start justify-center mt-[18px] divide-y"
           v-if="!collapseStore.collapses.includes('general_settings_card')"
         >
           <div
@@ -312,39 +331,46 @@ const cancelAc = () => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('enable_widget_on_this_site_sign') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked('enable_widget_on_this_site_sign') ? 'opacity-60' : '',
+                ]"
               >
-                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
-          lg:leading-[16.39px]">
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
                   <span>Sign language enabled on this site </span>
                 </div>
               </div>
               <div class="ml-auto">
                 <label for="toggle_Widget_enabled_on_this_site" class="toggle_wrap">
-               
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_this_site"
                     class="sr-only"
-                     :checked="isChecked('enable_widget_on_this_site_sign')"
+                    :checked="isChecked('enable_widget_on_this_site_sign')"
                     @change="toggleCheckbox('enable_widget_on_this_site_sign')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('enable_widget_on_this_site_sign') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('enable_widget_on_this_site_sign')
+                        ? 'active'
+                        : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('enable_widget_on_this_site_sign') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{ active: isChecked('enable_widget_on_this_site_sign') }"
+                    >
+                      <img
                         v-if="isChecked('enable_widget_on_this_site_sign')"
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/translatevideo/sign_inactive.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -361,8 +387,9 @@ const cancelAc = () => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('widget_enabled_on_mobile_sign') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
-          lg:leading-[16.39px]">
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
                   <span>Sign language enabled on mobile</span>
                 </div>
               </div>
@@ -371,27 +398,29 @@ const cancelAc = () => {
                   <input
                     type="checkbox"
                     id="widget_enabled_on_mobile_sign"
-
                     class="sr-only"
-                          :checked="isChecked('widget_enabled_on_mobile_sign')"
+                    :checked="isChecked('widget_enabled_on_mobile_sign')"
                     @change="toggleCheckbox('widget_enabled_on_mobile_sign')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('widget_enabled_on_mobile_sign') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('widget_enabled_on_mobile_sign') ? 'active' : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('widget_enabled_on_mobile_sign') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{ active: isChecked('widget_enabled_on_mobile_sign') }"
+                    >
+                      <img
                         v-if="isChecked('widget_enabled_on_mobile_sign')"
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/translatevideo/sign_inactive.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -408,8 +437,9 @@ const cancelAc = () => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('sound_effects_sign') ? 'opacity-60' : '']"
               >
-                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
-          lg:leading-[16.39px]">
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
                   <span> Sound effects</span>
                 </div>
               </div>
@@ -419,27 +449,26 @@ const cancelAc = () => {
                     type="checkbox"
                     id="sound_effects_sign"
                     class="sr-only"
-                
-           
-      :checked="isChecked('sound_effects_sign')"
+                    :checked="isChecked('sound_effects_sign')"
                     @change="toggleCheckbox('sound_effects_sign')"
                   />
                   <div
                     class="toggle_parent"
                     :class="[isChecked('sound_effects_sign') ? 'active' : 'in_active']"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('sound_effects_sign') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{ active: isChecked('sound_effects_sign') }"
+                    >
+                      <img
                         v-if="isChecked('sound_effects_sign')"
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/translatevideo/sign_inactive.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -448,21 +477,23 @@ const cancelAc = () => {
             </div>
           </div>
         </div>
-
-  
       </div>
 
-<OverviewWidgetembdedcode/>
+      <OverviewWidgetembdedcode />
 
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
-        
-                :class="[               collapseStore.collapses.includes('reset_all_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
+        :class="[
+          collapseStore.collapses.includes('reset_all_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
-        <div class="flex items-start justify-start  ">
+        <div class="flex items-start justify-start">
           <div class="">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin"
+            >
               Rest All Accessibility Settings
             </h1>
 
@@ -492,7 +523,8 @@ const cancelAc = () => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('reset_all_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -511,15 +543,38 @@ const cancelAc = () => {
                 @click="collapseStore.collapseCard('reset_all_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -532,49 +587,41 @@ const cancelAc = () => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center 
-          lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] 
-          lg:space-y-0 lg:space-x-[100px] "
+          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] lg:space-y-0 lg:space-x-[100px]"
           v-if="!collapseStore.collapses.includes('reset_all_settings_card')"
         >
           <button
             class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
-            @click="openModal('resetModal','settings')"
+            @click="openModal('resetModal', 'settings')"
           >
             <div>
               <svg
@@ -583,11 +630,11 @@ const cancelAc = () => {
                 viewBox="0 0 25 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class=" lg:w-full lg:h-full w-[16px] h-[16px]"
+                class="lg:w-full lg:h-full w-[16px] h-[16px]"
               >
                 <path
                   d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239"
-                class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
+                  class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -606,25 +653,29 @@ const cancelAc = () => {
                   </linearGradient>
                 </defs>
               </svg>
-          
             </div>
             <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
               Rest All Accessibility Settings
             </div>
           </button>
         </div>
-       
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative " 
-        
-                 :class="[               collapseStore.collapses.includes('license_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative"
+        :class="[
+          collapseStore.collapses.includes('license_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
-        <div class="flex items-start justify-start  pt-[24px] ">
+        <div class="flex items-start justify-start pt-[24px]">
           <div class="">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              License Settings
+            </h1>
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
@@ -653,7 +704,8 @@ const cancelAc = () => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('license_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -672,15 +724,38 @@ const cancelAc = () => {
                 @click="collapseStore.collapseCard('license_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -693,57 +768,53 @@ const cancelAc = () => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-darkTamkin"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0 "
+          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0"
           v-if="!collapseStore.collapses.includes('license_settings_card')"
         >
           <div
-            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[22px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full  ">
+            <div class="flex items-center justify-start space-x-[13px] w-full">
               <div class="flex flex-col items-start justify-center w-full">
-                <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
+                <div
+                  class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] w-full"
+                >
                   <span>Widget enabled on this site </span>
                 </div>
               </div>
               <div class="ml-auto w-full">
                 <button
-                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
-                  @click="openModal('transferstep1','settings')"
+                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                  @click="openModal('transferstep1', 'settings')"
                 >
                   Transfer License
                 </button>
@@ -752,11 +823,13 @@ const cancelAc = () => {
           </div>
 
           <div
-            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[4px] px-[15px] "
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
           >
-            <div class="flex items-center justify-start w-full ">
-              <div class="flex flex-col items-start justify-center w-full ">
-                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500]  text-[13px] lg:leading-[24px] lg:w-full w-40 truncate">
+            <div class="flex items-center justify-start w-full">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div
+                  class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
+                >
                   <span
                     >Delete site permanently removes your profile and data from the system
                   </span>
@@ -765,7 +838,7 @@ const cancelAc = () => {
               <div class="ml-auto w-full">
                 <button
                   class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
-                  @click="openModal('deleteModal','settings')"
+                  @click="openModal('deleteModal', 'settings')"
                 >
                   Delete Site
                 </button>
@@ -773,7 +846,6 @@ const cancelAc = () => {
             </div>
           </div>
         </div>
-     
       </div>
     </div>
   </div>

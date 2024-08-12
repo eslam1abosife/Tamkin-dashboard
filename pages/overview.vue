@@ -20,7 +20,7 @@ definePageMeta({
 <template>
   <div class="relative">
     <div class="">
-      <Headeraccess
+      <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         website-title="Tamkin.App"
         website-link="google.com"
@@ -28,27 +28,27 @@ definePageMeta({
         section-sub-title=" Overview provides system summary with key data and analytics for decision-making"
       />
 
-      <OverviewWidgetembdedcode v-if="!overviewStore.showUpgradeState" />
-      <LazyOverviewConnectwithus v-if="!overviewStore.showUpgradeState" />
-      <LazyOverviewCurrentplan
+      <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
+      <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
+      <LazyOverviewCurrentPlan
         :plan-type="'free'"
         :is-installed="false"
         v-if="!overviewStore.showUpgradeState"
       />
-      <LazyOverviewCurrentplan
+      <LazyOverviewCurrentPlan
         :plan-type="'pro'"
         :is-installed="true"
         v-if="overviewStore.showUpgradeState"
       />
       <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
 
-      <LazyOverviewExclusiveinvestorpackage v-if="!overviewStore.showUpgradeState" /> 
+      <OverviewExclusiveInvestorPackage v-if="!overviewStore.showUpgradeState" />
 
-      <OverviewAccessibilitydetails v-if="overviewStore.showUpgradeState" />
+      <OverviewAccessibilityDetails v-if="overviewStore.showUpgradeState" />
 
-      <OverviewLivetranslation v-if="overviewStore.showUpgradeState" />
+      <OverviewLiveTranslation v-if="overviewStore.showUpgradeState" />
 
-      <LazyOverviewTamkintokenbanner v-if="overviewStore.showUpgradeState" />
+      <OverviewTamkinTokenBanner v-if="overviewStore.showUpgradeState" />
 
       <div
         v-if="overviewStore.showUpgradeState"

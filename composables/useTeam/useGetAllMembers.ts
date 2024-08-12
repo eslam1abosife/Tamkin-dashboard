@@ -1,11 +1,12 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
+const teamMembers = ref([]);
+
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const teamMembers = ref(null);
 
     const getAllTeamMember = async (currTeamId, pageNo = 1, PgSize= 10) => {
         if(!currTeamId) {
@@ -16,8 +17,8 @@ export default function() {
                 "Where":{
                     "agency": currTeamId
                 },
-                "PgNo": pageNo,
-                "PgSize": PgSize
+                "PgNo": 0,
+                "PgSize": 100
             });
             if(!res.data.succeeded) throw(res.data.message);
             teamMembers.value = res.data.data;

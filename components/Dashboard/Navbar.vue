@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useElementHover } from "@vueuse/core";
+import {useGetCurrentTeam, useGetAllMembers } from "~/composables/useTeam";
+
 // import banner from 'assets/imgs/gradient_embded.png'
 
 const accessMenuHover = ref();
@@ -17,6 +19,15 @@ const props = defineProps({
   sideBarOpen: Boolean,
   mobileSidebar: Boolean,
 });
+
+const { currTeam, getCurrentTeam} = useGetCurrentTeam();
+const { teamMembers, getAllTeamMember } = useGetAllMembers();
+
+onMounted(async () => {
+  getCurrentTeam();
+  const user = JSON.parse(localStorage.getItem('user'));
+  getAllTeamMember(user.agency);
+})
 
 const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
 let closeTimeout = null;
@@ -246,9 +257,18 @@ watch(
         ]"
       >
         <img
-          src="/assets/imgs/team.png"
+            v-if="currTeam?.team_image"
+          :src="`https://tamkin.app/${currTeam?.team_image}`"
           :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
         />
+
+        <img
+            v-else
+            src="/assets/imgs/team.svg"
+            :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
+        />
+
+
 
         <div class="flex items-center rtl:space-x-reverse w-full">
           <div
@@ -256,10 +276,10 @@ watch(
             :class="[!sideBarOpen ? 'hidden' : 'block']"
           >
             <h2 class="font-[400] text-[14px]" style="line-height: 20px">
-              {{ $t("Tamkin") }}
+              {{ currTeam?.team_name }}
             </h2>
             <h3 class="font-[400] text-[12px]" style="line-height: 20px">
-              3 {{ $t("teamcount") }}
+              {{ teamMembers.length}} {{ $t("teamcount") }}
             </h3>
           </div>
           <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">

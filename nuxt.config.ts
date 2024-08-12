@@ -2,14 +2,30 @@
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  ssr:true,
+  ssr:false,
   sourcemap: false,
+
+
+  // runtimeConfig: {
+  //   public: {
+  //     baseURL: process.env.BASE_URL
+  //   }
+  // },
+  // optimizeDeps: {
+  //   include: ['@/ck-vue'],
+  // },
+  // build: {
+  //   commonjsOptions: {
+  //     include: ['@/ck-vue'],
+  //   },
+  // },
 
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL
     }
   },
+
   optimizeDeps: {
     include: ['@/ck-vue'],
   },
@@ -18,6 +34,7 @@ export default defineNuxtConfig({
       include: ['@/ck-vue'],
     },
   },
+
   // vite: {
   //   server: {
   //     cors: true,
@@ -31,7 +48,7 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
-  
+
 
   app: {
     head: {
@@ -125,6 +142,7 @@ colorMode: {
 
   //   }
   // },
+
   i18n: {
     defaultLocale: 'en',
     // Specify the directory where the language files are stored

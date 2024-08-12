@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import {useGetAllMembers, useGetCurrentTeam} from "~/composables/useTeam";
+const { currTeam, getCurrentTeam} = useGetCurrentTeam();
+const { teamMembers, getAllTeamMember } = useGetAllMembers();
+
 const props = defineProps({
 
   mobileSidebar:Boolean
@@ -24,6 +28,14 @@ const isLinkActive = (path) => {
   //   const localePath = this.$i18n.localePath(path);
   return route.path === localePath(path);
 };
+
+
+onMounted(async () => {
+  getCurrentTeam();
+  const user = JSON.parse(localStorage.getItem('user'));
+  getAllTeamMember(user.agency);
+})
+
 </script>
 
 <template>
@@ -72,10 +84,10 @@ const isLinkActive = (path) => {
           :class="[!sideBarOpenMobile ? 'hidden' : 'block']"
         >
           <h2 class="font-[400] text-[16px]" style="line-height: 24px">
-            {{ $t("Tamkin") }}
+            {{ currTeam?.team_name }}
           </h2>
           <h3 class="font-[400] text-[13px]" style="line-height: 19.5px">
-            3 {{ $t("teamcount") }}
+            {{ teamMembers.length}} {{ $t("teamcount") }}
           </h3>
         </div>
         <div class="order-3" :class="[!sideBarOpenMobile ? 'hidden' : 'block']">

@@ -2,6 +2,13 @@
 
 import { onMounted } from "vue";
 import VOtpInput from "vue3-otp-input";
+import { useResendCode, useVerifyCode, useLogin } from '@/composables/useAuth';
+import { useRoute, useRouter } from '#vue-router';
+
+
+const route = useRoute();
+const router = useRouter();
+const { resendCode, code } = useResendCode();
 
 definePageMeta({
   layout: 'auth'
@@ -10,14 +17,12 @@ definePageMeta({
 
 const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
 const bindModal = ref("");
-const disableButton = ref(true)
-const handleOnComplete = (value: string) => {
-  disableButton.value = false
-};
+const disableButton = ref(true);
+const verificationCode = ref(null);
 
 const handleOnChange = (value: string) => {
-  disableButton.value = true
-
+  disableButton.value = true;
+  verificationCode.value = value;
 };
 
 const clearInput = () => {
@@ -60,6 +65,46 @@ const formattedCountdown = computed(() => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
 
+const doResendCode = async () => {
+  const email = JSON.parse(localStorage.getItem('registerd_user'))?.email;
+  await resendCode(email);
+  clearInterval(intervalId);
+  showResent.value = false;
+  countdown.value = 5;
+  startCountdown();
+}
+
+const doVerifyCode = async () => {
+  disableButton.value = false;
+
+  if (!disableButton) {
+    console.error('disableButton or code is not defined');
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem('registerd_user'));
+
+  if (!user || !user.email) {
+    console.error('User is undefined or does not have an email');
+    return;
+  }
+
+  const { verifyCode } = useVerifyCode({email: user.email, key: verificationCode.value });
+  const { loginUser } = useLogin(user);
+
+  try {
+    await verifyCode();
+    await loginUser();
+    router.push('/my-site');
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// onMounted(() => {
+//   doResendCode();
+// });
+
 </script>
 
 
@@ -86,7 +131,7 @@ const formattedCountdown = computed(() => {
               lg:space-x-[16px] xl:space-x-[22px]"
                 ref="otpInput" input-classes="otp_field" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
                 inputType="letter-numeric" :num-inputs="6" v-model:value="bindModal" :should-auto-focus="true"
-                :should-focus-order="true" @on-change="handleOnChange" @on-complete="handleOnComplete" />
+                :should-focus-order="true" @on-change="handleOnChange" @on-complete="doVerifyCode" />
             </div>
 
 
@@ -95,12 +140,12 @@ const formattedCountdown = computed(() => {
       </div>
 
       <div class="absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-        <button class="btn-grad-action w-full" :disabled="disableButton">
+        <button class="btn-grad-action w-full" :disabled="disableButton" @click="doVerifyCode">
           {{ $t("verfiy") }}
         </button>
 
         <p class="mt-[8px] text-center font-[500] dark:text-whiteTamkin">{{ $t('didnt_receive_code') }} <span href="" class="text-error "
-            v-if="!showResent">{{ formattedCountdown }}</span> <a href="" class="text-tamkin underline "
+            v-if="!showResent">{{ formattedCountdown }}</span> <a @click.prevent="doResendCode" href="#" class="text-tamkin underline "
             v-else>{{ $t('resendCode') }}</a></p>
       </div>
 

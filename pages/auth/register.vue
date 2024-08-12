@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import { useRegister, useGoogle } from "@/composables/useAuth";
+import { useRegister, useGoogle, useLogin } from "@/composables/useAuth";
 
 definePageMeta({
   layout: "auth",
@@ -34,8 +34,20 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
 const { register } = useRegister(state);
+const { loginUser } = useLogin(state);
 const { loginWithGoogle } = useGoogle();
+const errorMsg = ref(null);
 
+const doRegister = async () => {
+  errorMsg.value = null;
+  try {
+    await register((user) => {
+      localStorage.setItem("registerd_user", JSON.stringify(user));
+    });
+  } catch (err) {
+    errorMsg.value = err;
+  }
+}
 </script>
 
 <template>
@@ -50,14 +62,14 @@ const { loginWithGoogle } = useGoogle();
          
           <h1 class="  text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{ $t("register") }}</h1>
 
-          <h3 class=" text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px] dark:text-whiteTamkin/90" style="line-height: 48px;">
+          <h3 class=" text-[16px] lg:text-[20px] font-[500] text-darkGrey dark:text-whiteTamkin/90" style="line-height: 48px;">
             {{ $t("sign_up_to_enjoy_features_of_tamkin") }}
 
           </h3>
 
+          <p class="text-[red] mb-5" v-if="errorMsg"> {{errorMsg}} </p>
 
-
-          <div class="space-y-[23px] w-full ">
+          <div class="space-y-[23px] w-full mt-[10px]">
             <div class="w-full relative">
               <input type="text" placeholder="{{$t('full name')}}" id="email" class="input_floating_label peer"
                 v-model="v$.full_name.$model" :class="{
@@ -203,14 +215,15 @@ const { loginWithGoogle } = useGoogle();
         <p>{{ $t('by_continuing_i_agree_to_tamkin') }}</p>
       </div>
       <div>
-        <a href="" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
-        <a href="" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
+        <a href="https://tamkin.app/terms?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('terms_of_use') }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
+        <a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('privacy_statement') }}</a>
 
       </div>
     </div>
 
+
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3 ">
-      <button @click="register" class="btn-grad-action w-full" v-if="!loading"
+      <button @click="doRegister" class="btn-grad-action w-full" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid">
         {{ $t("register") }}
       </button>

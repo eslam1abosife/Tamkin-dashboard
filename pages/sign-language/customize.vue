@@ -16,23 +16,18 @@ const {
   force_change_profileCards,
   forceChange_buttonShape,
   buttonPositionDesktop,
-buttonPositionMobile,
-widgetType
+  buttonPositionMobile,
+  widgetType,
 } = storeToRefs(customizeStore);
 
 definePageMeta({
   layout: "dashboard",
 });
-const localePath = useLocalePath()
+const localePath = useLocalePath();
 
 // const buttonShapeSelector = ref("type1");
 
-const route = useRoute()
-
-
-
-
-
+const route = useRoute();
 
 const isLinkActive = (path) => {
   return localePath(route.path) === localePath(path);
@@ -40,10 +35,15 @@ const isLinkActive = (path) => {
 let pendingNavigation = null;
 
 const detectUnsavedChanges = () => {
-  
-  return forceChange_buttonShape.value || force_change_profileCards.value || force_change_MainMenuCard.value ||
-   currentColor.value !== "#2dada3" || gradient1.value !== "#2dada3" || gradient2.value !== "#2dada3" || customizeStore.hasChanges()
-
+  return (
+    forceChange_buttonShape.value ||
+    force_change_profileCards.value ||
+    force_change_MainMenuCard.value ||
+    currentColor.value !== "#2dada3" ||
+    gradient1.value !== "#2dada3" ||
+    gradient2.value !== "#2dada3" ||
+    customizeStore.hasChanges()
+  );
 };
 
 const handleSaveAndMove = () => {
@@ -70,20 +70,17 @@ onBeforeRouteLeave((to, from, next) => {
 
 const shouldShowFooter = computed(() => {
   const isActive =
-
-    (isLinkActive("/sign-language/customize") && customizeStore.currentColor !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") && customizeStore.gradient1 !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") && customizeStore.gradient2 !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.currentColor !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.gradient1 !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.gradient2 !== "#2dada3") ||
     (isLinkActive("/sign-language/customize") && customizeStore.hasChanges());
 
-  return (
-    isActive
-    
-  
- 
-  );
+  return isActive;
 });
-const cancelAll = ()=>{
+const cancelAll = () => {
   customizeStore.initializeCheckboxes([
     "Contrast_id",
     "Background_id",
@@ -93,58 +90,55 @@ const cancelAll = ()=>{
     "move_access",
     "keyboard_checkbox",
     "constrast_checkbox",
-    "background_checkbox"
-,
-"language"
-
+    "background_checkbox",
+    "language",
   ]);
 
-currentColor.value = ''
-  gradient1.value = ''
-   gradient2.value = ''
-    colorMode.value = 'solid'
-     buttonPositionDesktop.value=    customizeStore.initialPositionDesktop 
+  currentColor.value = "";
+  gradient1.value = "";
+  gradient2.value = "";
+  colorMode.value = "solid";
+  buttonPositionDesktop.value = customizeStore.initialPositionDesktop;
 
-   buttonPositionMobile.value = 'top_left_mobile'
-    buttonSizeSlider.value ="2"
-        buttonShapeSelector.value = 'type1'
-      widgetType.value = 'full_widget'
-       currentColor.value = '#2dada3'
-      gradient1.value = '#2dada3'
-     gradient2.value = '#2dada3'
-     forceChange_buttonShape.value = false
-     force_change_profileCards.value= false
-force_change_MainMenuCard.value= false
-}
+  buttonPositionMobile.value = "top_left_mobile";
+  buttonSizeSlider.value = "2";
+  buttonShapeSelector.value = "type1";
+  widgetType.value = "full_widget";
+  currentColor.value = "#2dada3";
+  gradient1.value = "#2dada3";
+  gradient2.value = "#2dada3";
+  forceChange_buttonShape.value = false;
+  force_change_profileCards.value = false;
+  force_change_MainMenuCard.value = false;
+};
 
 const cancelAc = () => {
-
   const isAddonsLinkActive =
-  (isLinkActive("/sign-language/customize") && customizeStore.currentColor !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") && customizeStore.gradient1 !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") && customizeStore.gradient2 !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.currentColor !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.gradient1 !== "#2dada3") ||
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.gradient2 !== "#2dada3") ||
     (isLinkActive("/sign-language/customize") && customizeStore.hasChanges());
 
-
-    if (isAddonsLinkActive) {
-     cancelAll();
-    
+  if (isAddonsLinkActive) {
+    cancelAll();
   }
 };
 
-onMounted(()=>{
-    customizeStore.initializeCheckboxes([
-      "Contrast_id",
+onMounted(() => {
+  customizeStore.initializeCheckboxes([
+    "Contrast_id",
     "Background_id",
     "Position_id",
     "Keyboard_id",
-'custom_trigger_id',
-"move_access",
+    "custom_trigger_id",
+    "move_access",
     "keyboard_checkbox",
     "constrast_checkbox",
     "background_checkbox",
-    "language"
-
+    "language",
   ]);
   customizeStore.initializeCardsMenu(
     [
@@ -176,32 +170,35 @@ onMounted(()=>{
           "Manage your sign language tools and personalize them to enhance your communication experience.",
         checkboxId: "Keyboard_id",
       },
-    ]
+    ],
 
-
- 
-  , 'AdjustMainMenuCardsCustomize', 'initialCardsOrderCustomize');
-
- })
-
+    "AdjustMainMenuCardsCustomize",
+    "initialCardsOrderCustomize"
+  );
+});
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    <LanguageServicesNavbar/>
+    <LanguageServicesNavbar />
     <transition name="slide-up">
       <DashboardAddonsSavefooter
         :show-footer="shouldShowFooter"
         @cancel_action="cancelAc"
       />
     </transition>
-    <LazyModalsConfirm :showModal="customizeStore.routeLeaveModal" title="Save  your changes"
-    sub-title="Do you want to save the changes before moving on?"
-    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
-    :savetoAllSitesBtn="true"
-    @control-cancel="handleSaveAndMove" />
+    <LazyModalsConfirm
+      :showModal="customizeStore.routeLeaveModal"
+      title="Save  your changes"
+      sub-title="Do you want to save the changes before moving on?"
+      confirm-btn-type="other"
+      @control-other="handleSaveAndMove"
+      cancelButtonName="Discard"
+      :savetoAllSitesBtn="true"
+      @control-cancel="handleSaveAndMove"
+    />
     <div class="w-full h-full relative">
-<!--       
+      <!--       
         <transition name="slide-up">
           <DashboardAddonsSavefooter
             :show-footer="shouldShowFooter"
@@ -209,48 +206,34 @@ onMounted(()=>{
           />
         </transition> -->
 
-          <Headeraccess
-            websiteImgName="tamkin_hand.svg"
-            website-title="Tamkin.App"
-            website-link="google.com"
-            section-title="Addons"
-            section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
+      <HeaderAccess
+        websiteImgName="tamkin_hand.svg"
+        website-title="Tamkin.App"
+        website-link="google.com"
+        section-title="Addons"
+        section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
               experience."
-          />
-    
+      />
 
+      <LanguageServicesCustomizeButtoncolor />
 
+      <LanguageServicesCustomizeButtontype />
+      <LanguageServicesCustomizeSignlangmode />
+      <LanguageServicesCustomizeSignlanguagebackground />
+      <LanguageServicesCustomizeSignlanguagecontrast />
 
-    <LanguageServicesCustomizeButtoncolor/>
-
-
-  <LanguageServicesCustomizeButtontype/>
-<LanguageServicesCustomizeSignlangmode/>
-<LanguageServicesCustomizeSignlanguagebackground/>
-<LanguageServicesCustomizeSignlanguagecontrast/>
-
-<LanguageServicesCustomizeSignlanguagekeyboard/>
-  <!-- <CustomizeLiveButtonTranslation/> -->
-
-    
-
-       
-         
-   
-
-
+      <LanguageServicesCustomizeSignlanguagekeyboard />
+      <!-- <CustomizeLiveButtonTranslation/> -->
 
       <!-- <CustomizeAdjustMainMenu /> -->
       <!-- <CustomizeAccessibilityProfiles /> -->
       <!-- <CustomizeWidgetType /> -->
-      <LanguageServicesCustomizeLanguage class="!mt-[30px]"/>
+      <LanguageServicesCustomizeLanguage class="!mt-[30px]" />
 
-      <LazyLanguageServicesCustomizeAdjustMain/>
+      <LazyLanguageServicesCustomizeAdjustMain />
       <LanguageServicesCustomizeCustomtrigger />
- 
-
-</div>
-</div>
+    </div>
+  </div>
 </template>
 
 <style>

@@ -340,7 +340,7 @@ onBeforeRouteLeave((to, from, next) => {
       @control-other="handleSaveAndMove" cancelButtonName="Discard" :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
-      <Headeraccess websiteImgName="tamkin_hand.svg" website-title="Tamkin.App" website-link="google.com"
+      <HeaderAccess websiteImgName="tamkin_hand.svg" website-title="Tamkin.App" website-link="google.com"
         section-title="Addons" section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience." />
 

@@ -8,9 +8,18 @@ import { useSettingsStore } from "@/stores/settings.js";
 import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from "@/composables/useModalManager";
+import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
-const signLangStore = useSignLangStore();
 const translateStore = useTranslateStore();
+
+onMounted(() => {
+  if (localStorage.getItem("user")) {
+    const userStore = useUserStore();
+    const user = JSON.parse(localStorage.getItem("user"));
+    userStore.setUser(user.value);
+  }
+});
+
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
 const checkboxStore = useAddonStore();
@@ -45,6 +54,7 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  emitEvent,
 } = useModalManager();
 const {
   initialPositionDesktop,
@@ -150,6 +160,8 @@ const shouldShowFooter = computed(() => {
     isMarketChanges ||
     translateStyle ||
     translatePlayer ||
+    translateStyle ||
+    translatePlayer ||
     (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
   );
 });
@@ -171,6 +183,15 @@ const cancelAc = () => {
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
+
+  const translateStyle =
+    isLinkActive("/translate/video") &&
+    translateStore.hasChanges &&
+    translateStore.subMode === "style" &&
+    translateStore.currentMode === "subtitles";
+  const translatePlayer =
+    isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
+
   const translateStyle =
     isLinkActive("/translate/video") &&
     translateStore.hasChanges &&
@@ -210,6 +231,78 @@ const confirmWithSaveFn = () => {
 };
 
 const openModals = computed(() => {
+  return (
+    isOpen("shareModal") ||
+    isOpen("invitemember") ||
+    isOpen("invitememberupdate") ||
+    isOpen("editteampic") ||
+    isOpen("editusermodal") ||
+    isOpen("userpermissions") ||
+    isOpen("selectSite") ||
+    isOpen("upgrade") ||
+    isOpen("translate_video") ||
+    isOpen("translate_audio") ||
+    isOpen("renamemodal") ||
+    isOpen("upgradeTranslatePackage") ||
+    isOpen("sharetranslate") ||
+    isOpen("moreinfo_translate") ||
+    isOpen("translate_live_video") ||
+    isOpen("translate_pdf_documents") ||
+    isOpen("translate_word_documents") ||
+    isOpen("transferstep1") ||
+    isOpen("transferstep2") ||
+    isOpen("deleteTeamMember") ||
+    isOpen("deleteApp") ||
+    isOpen("restoreApp") ||
+    isOpen("deleteModal") ||
+    isOpen("resetModal") ||
+    isOpen("mycart") ||
+    isOpen("requestmodal") ||
+    isOpen("cardModal") ||
+    isOpen("translate_images") ||
+    isOpen("editname") ||
+    sideBarOpenMobile.value
+    // marketStore.firstItemNotificationShown ||
+    // marketStore.resetModal ||
+    // marketStore.requestModal ||
+    // showShareModal.value ||
+    // editPictureTeamModal.value ||
+    // editPermissionsModal.value ||
+    // inviteMemberModal.value ||
+    // selectSiteModal.value ||
+    // editUserModal.value ||
+    // InviteMemberUpdateModal.value ||
+    // showUpgradeModal.value ||
+    // resetModal.value ||
+    // deleteModal.value ||
+    // transferModalStep1.value ||
+    // transferStep2.value ||
+    // checkboxStore.routeLeaveModal ||
+    // custmizeStore.routeLeaveModal ||
+    // settingsStore.routeLeaveModal ||
+    // statsStore.routeLeaveModal ||
+    // modalStore.showSuccessModalContact ||
+    // marketStore.showCart
+  );
+});
+
+const closeSideBarOnMobileOverlay = () => {
+  if (sideBarOpenMobile.value) {
+    sideBarOpenMobile.value = false;
+  }
+};
+const logout = () => {
+  const userStore = useUserStore();
+  userStore.logout();
+  router.push("/auth/login");
+};
+
+const userName = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user ? user.full_name || user.display_name : "";
+  }
+
   return (
     isOpen("shareModal") ||
     isOpen("invitemember") ||
@@ -292,6 +385,7 @@ const closeSideBarOnMobileOverlay = () => {
       <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
       <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
       <!-- 
+>>>>>>> f74f36e (document/photo pages)
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
@@ -486,39 +580,32 @@ const closeSideBarOnMobileOverlay = () => {
                     </svg>
                   </div>
                 </div>
-                <div
-                  class="flex items-center justify-center rtl:space-x-reverse lg:space-x-[18px] lg:pr-[37px]"
-                >
-                  <div class="lg:block hidden">
-                    <img
-                      src="/assets//imgs/avatar.png"
-                      class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]"
-                    />
-                  </div>
-                  <div class="lg:block hidden">
-                    <h2
-                      class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
-                    >
-                      Ali Ahmed
-                    </h2>
-                  </div>
-                  <div class="lg:block hidden" @click="logout()">
-                    <svg
-                      width="7"
-                      height="12"
-                      viewBox="0 0 7 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-                        class="dark:fill-white fill-[#585B5B]"
-                      />
-                    </svg>
-                  </div>
+                <div class="lg:block hidden">
+                  <h2
+                    class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
+                  >
+                    {{ userName }}
+                  </h2>
                 </div>
+                <div class="lg:block hidden">
+                  <svg
+                    width="7"
+                    height="12"
+                    viewBox="0 0 7 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                      class="dark:fill-white fill-[#585B5B]"
+                    />
+                  </svg>
+                </div>
+                <button @click="logout()" class="w-5 h-5">
+                  <img src="/assets/imgs/logout.svg" alt="" />
+                </button>
               </div>
             </div>
           </nav>
@@ -541,12 +628,11 @@ const closeSideBarOnMobileOverlay = () => {
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
-                isLinkActive('/settings') ||
-                isLinkActive('/sign-language/*')
+                isLinkActive('/settings')
               "
             ></div>
             <div class="relative px-[15px]">
-              <Navbaroverview
+              <NavbarOverview
                 v-if="
                   isLinkActive('/overview') ||
                   isLinkActive('/settings') ||

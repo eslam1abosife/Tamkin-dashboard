@@ -62,18 +62,19 @@ onBeforeRouteLeave((to, from, next) => {
   }
 });
 
-
-const selectTab = ref('webplugins')
-const getSelectedTab = (tab:any)=>{
-selectTab.value = tab
-
-}
+const selectTab = ref("webplugins");
+const getSelectedTab = (tab: any) => {
+  selectTab.value = tab;
+};
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <LanguageServicesNavbar />
-    <LazyLanguageServicesStatsNavbar :selected-tab="selectTab" @select-tabs="getSelectedTab" />
+    <LazyLanguageServicesStatsNavbar
+      :selected-tab="selectTab"
+      @select-tabs="getSelectedTab"
+    />
     <!-- <transition name="slide-up">
       <DashboardAddonsSavefooter
         :show-footer="shouldShowFooter"
@@ -91,7 +92,7 @@ selectTab.value = tab
       @control-cancel="handleSaveAndMove"
     />
     <div class="w-full h-full relative">
-      <Headeraccess
+      <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         website-title="Tamkin.App"
         website-link="google.com"
@@ -99,96 +100,91 @@ selectTab.value = tab
         section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
           useful insights."
       />
-   
-    <div v-if="selectTab ==='webplugins'" >
-      <LanguageServicesStatsDaterange class="!mt-[120px]"/>
-      <LanguageServicesStatsTranslationq />
 
-      <LanguageServicesStatsUsage />
-      <div
-        
-      class="shadow-md mt-[30px] -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] 
-      dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
-    >
-      <div class="flex items-center justify-start flex-1">
-        <div>
-          <img 
-            src="/assets/imgs/google_analytics.svg"
-            
-            class="w-[71px] h-[63px]"
-          />
-        </div>
-        <div class="ml-[13px]">
-          <h1 class="text-[12px] lg:text-[16px] leading-[22px] font-[500] text-[#23262F] dark:text-whiteTamkin">
-            Google Analytics
-          </h1>
-          <p class="text-[10px] lg:text-[14px] truncate  w-32 lg:leading-[19px] text-[#585B5B]  dark:text-whiteTamkin font-[400] mt-[8px]">
-            Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit
-            nesciunt esse sint aperiam aliquid
-          </p>
-        </div>
-      </div>
-      <div class="ml-auto flex items-center">
-        <label for="toggle_google_a" class="toggle_wrap">
-          <input
-            type="checkbox"
-            id="toggle_google_a"
-            class="sr-only"
-            v-model="statsStore.google_enabled"
-          />
-          <div class="toggle_parent" :class="[statsStore.google_enabled ? 'active' : 'in_active']">
-            <div class="toggle_inner" :class="{ active: statsStore.google_enabled }">
-              <img 
-                v-if="statsStore.google_enabled"
-                src="/assets/imgs/addons/active_toggle.svg"
-                class="w-[28px] h-[28px]"
-                
-              />
-              <img 
-                v-else
-                src="/assets/imgs/addons/toggle.svg"
-                class="w-[28px] h-[28px]"
-                
-              />
+      <div v-if="selectTab === 'webplugins'">
+        <LanguageServicesStatsDaterange class="!mt-[120px]" />
+        <LanguageServicesStatsTranslationq />
+
+        <LanguageServicesStatsUsage />
+        <div
+          class="shadow-md mt-[30px] -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
+        >
+          <div class="flex items-center justify-start flex-1">
+            <div>
+              <img src="/assets/imgs/google_analytics.svg" class="w-[71px] h-[63px]" />
+            </div>
+            <div class="ml-[13px]">
+              <h1
+                class="text-[12px] lg:text-[16px] leading-[22px] font-[500] text-[#23262F] dark:text-whiteTamkin"
+              >
+                Google Analytics
+              </h1>
+              <p
+                class="text-[10px] lg:text-[14px] truncate w-32 lg:leading-[19px] text-[#585B5B] dark:text-whiteTamkin font-[400] mt-[8px]"
+              >
+                Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit
+                nesciunt esse sint aperiam aliquid
+              </p>
             </div>
           </div>
-        </label>
+          <div class="ml-auto flex items-center">
+            <label for="toggle_google_a" class="toggle_wrap">
+              <input
+                type="checkbox"
+                id="toggle_google_a"
+                class="sr-only"
+                v-model="statsStore.google_enabled"
+              />
+              <div
+                class="toggle_parent"
+                :class="[statsStore.google_enabled ? 'active' : 'in_active']"
+              >
+                <div class="toggle_inner" :class="{ active: statsStore.google_enabled }">
+                  <img
+                    v-if="statsStore.google_enabled"
+                    src="/assets/imgs/addons/active_toggle.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                  <img
+                    v-else
+                    src="/assets/imgs/addons/toggle.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <LanguageServicesStatsUsagereport />
+
+        <LanguageServicesStatsSignlanguageUsage />
       </div>
-    </div>
 
-    <LanguageServicesStatsUsagereport/>
+      <div v-if="selectTab === 'Media'">
+        <LanguageServicesStatsVideochart class="!mt-[120px]" />
+        <LanguageServicesStatsTranslationaccuracy />
+        <LanguageServicesStatsUploadedfiles />
+        <LanguageServicesOverviewUsagereports />
+        <LanguageServicesStatsSignlanguageUsage />
+      </div>
 
-      <LanguageServicesStatsSignlanguageUsage />
-    </div>
+      <div v-if="selectTab === 'Documents'">
+        <LanguageServicesStatsWordchart class="!mt-[120px]" />
+        <LanguageServicesStatsPdfchart />
+        <LanguageServicesStatsTranslationaccuracy />
+        <LanguageServicesStatsUploadedfiles />
+        <LanguageServicesOverviewUsagereports />
+        <LanguageServicesStatsSignlanguageUsage />
+      </div>
 
-    <div v-if="selectTab === 'Media'">
-     <LanguageServicesStatsVideochart class="!mt-[120px]"/>
-<LanguageServicesStatsTranslationaccuracy/>
-<LanguageServicesStatsUploadedfiles/>
-<LanguageServicesOverviewUsagereports/>
-<LanguageServicesStatsSignlanguageUsage />
-
-    </div>
-  
-
-    <div v-if="selectTab === 'Documents'">
-      <LanguageServicesStatsWordchart class="!mt-[120px]"/>
-      <LanguageServicesStatsPdfchart />
- <LanguageServicesStatsTranslationaccuracy/>
- <LanguageServicesStatsUploadedfiles/>
- <LanguageServicesOverviewUsagereports/>
- <LanguageServicesStatsSignlanguageUsage />
- 
-     </div>
-
-     <div v-if="selectTab === 'Images'">
-      <LanguageServicesStatsImageschart class="!mt-[120px]"/>
- <LanguageServicesStatsTranslationaccuracy/>
- <LanguageServicesStatsUploadedfiles/>
- <LanguageServicesOverviewUsagereports/>
- <LanguageServicesStatsSignlanguageUsage />
- 
-     </div>
+      <div v-if="selectTab === 'Images'">
+        <LanguageServicesStatsImageschart class="!mt-[120px]" />
+        <LanguageServicesStatsTranslationaccuracy />
+        <LanguageServicesStatsUploadedfiles />
+        <LanguageServicesOverviewUsagereports />
+        <LanguageServicesStatsSignlanguageUsage />
+      </div>
     </div>
   </div>
 </template>

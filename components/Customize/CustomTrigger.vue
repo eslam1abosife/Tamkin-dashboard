@@ -50,7 +50,7 @@ const selectLanguage = (lang: any) => {
 };
 const filterdLanguages = computed(() => {
   return languages.filter((lang) =>
-    lang.name.toLowerCase().includes(search.value.toLowerCase())
+    lang.name.toLowerCase().includes(search.value.toString().toLowerCase())
   );
 });
 

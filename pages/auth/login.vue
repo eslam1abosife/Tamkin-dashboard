@@ -32,19 +32,17 @@ const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'pa
 
 const { loginWithGoogle } = useGoogle();
 const { loginUser, loading , user } = useLogin(state);
-const { getCurrentTeam } = useGetCurrentTeam();
+
 const router = useRouter();
 
-const login = async () => {
+const doLogin = async () => {
   try {
     await loginUser();
-    await getCurrentTeam(user.value.sid);
     router.push('/my-site');
   } catch(err) {
-    console.log('err', err);
+    console.error(err);
   }
 }
-
 </script>
 
 <template>
@@ -173,7 +171,7 @@ const login = async () => {
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full" @click="login()" v-if="!loading"
+      <button class="btn-grad-action w-full" @click="doLogin()" v-if="!loading"
         :disabled="v$.email.$invalid || v$.password.$invalid || loading">
         {{ $t("login_button") }}
       </button>

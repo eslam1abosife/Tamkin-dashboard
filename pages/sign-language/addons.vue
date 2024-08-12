@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const signLangStore = useSignLangStore();
 
-
 definePageMeta({
   layout: "dashboard",
 });
@@ -49,39 +48,31 @@ const shouldShowFooter = computed(() => {
     (isLinkActive("/sign-language/addons") && signLangStore.force_change_menuCards) ||
     (isLinkActive("/sign-language/addons") && signLangStore.force_change_profileCards);
 
-  return (
-    isAddonsLinkActive
-    
-  
- 
-  );
+  return isAddonsLinkActive;
 });
 
 const cancelAc = () => {
-
   const isAddonsLinkActive =
     (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
     (isLinkActive("/sign-language/addons") && signLangStore.force_change_menuCards) ||
     (isLinkActive("/sign-language/addons") && signLangStore.force_change_profileCards);
 
-
-    if (isAddonsLinkActive) {
-      signLangStore.cancelAll();
+  if (isAddonsLinkActive) {
+    signLangStore.cancelAll();
   }
 };
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    
-    <LanguageServicesNavbar/>
+    <LanguageServicesNavbar />
     <transition name="slide-up">
-      <DashboardAddonsSavefooter
+      <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         @cancel_action="cancelAc"
       />
     </transition>
-    <LazyModalsConfirm
+    <ModalsConfirm
       :showModal="signLangStore.routeLeaveModal"
       title="Save  your changes"
       sub-title="Do you want to save the changes before moving on?"
@@ -92,7 +83,7 @@ const cancelAc = () => {
       @control-cancel="handleSaveAndMove"
     />
     <div class="w-full h-full relative">
-      <Headeraccess
+      <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         website-title="Tamkin.App"
         website-link="google.com"
@@ -100,8 +91,8 @@ const cancelAc = () => {
         section-sub-title="Customization empowers users to shape their digital environment"
       />
 
-     <LanguageServicesAddons/>
-<LanguageServicesNodata/>
+      <LanguageServicesAddons />
+      <LanguageServicesNodata />
     </div>
   </div>
 </template>
