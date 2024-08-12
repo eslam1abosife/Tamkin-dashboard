@@ -77,7 +77,7 @@ const filteredList = computed(() => {
                 class="mr-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
         </button>
         <div v-if="isOpen" 
-            class="absolute z-10 top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] ">
+            class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] ">
             <div class=" search_input w-full  rounded-t-[10px] " v-if="enableSearch">
                 <input type="text"
                     class="input_dashboard_search !pl-[48px] !w-full !rounded-b-none   !text-[12px] !placeholder:text-[12px]"

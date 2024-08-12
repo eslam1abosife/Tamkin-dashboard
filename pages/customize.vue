@@ -94,7 +94,7 @@ const imgStyle = computed(() => {
 
 onBeforeMount(() => {
   [
-    "language",
+"language",
 "enable_live_site",
     "oversized_widget",
     "move_access",
@@ -247,7 +247,7 @@ onBeforeRouteLeave((to, from, next) => {
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
-      <Headeraccess
+      <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         website-title="Tamkin.App"
         website-link="google.com"

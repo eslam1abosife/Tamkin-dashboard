@@ -325,7 +325,7 @@ onBeforeRouteLeave((to, from, next) => {
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
     <div class="w-full h-full relative">
-      <Headeraccess
+      <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         website-title="Tamkin.App"
         website-link="google.com"
@@ -685,7 +685,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] " :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
-                  <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"  class="w-[19px] h-[19px]" />
+                  <img  src="/assets/imgs/overview/up.svg" :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"  class="w-[19px] h-[19px]" />
                   <div>+{{ percentageChange }}%</div>
                 </div>
               </div>
@@ -704,7 +704,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]" :class="{ positive: percentageChange >= 0, negative: percentageChange < 0 }">
-                  <img  :src="upTamkin" :class="[percentageChange >= 0 ? 'rotate-180' : 'rotate-90']"  class="w-[19px] h-[19px]" />
+                  <img  src="/assets/imgs/overview/down.svg"   class="w-[19px] h-[19px]" />
                   <div>-{{ percentageChange }}%</div>
                 </div>
               </div>

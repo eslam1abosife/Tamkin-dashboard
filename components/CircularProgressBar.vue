@@ -1,6 +1,6 @@
 <template>
   <div class="circle-container">
-    <svg viewBox="0 0 300 300" class="">
+    <svg viewBox="0 0 300 300" :class="svgClass">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" style="stop-color:#2DADA3;stop-opacity:1" />
@@ -13,7 +13,7 @@
       <circle class="circle-dotted" cx="150" cy="150" r="85" stroke="url(#gradient)" />
     </svg>
     <div class="content">
-      <div class="percentage-text">{{ percentage.toFixed(2) }}%</div>
+      <div class="percentage-text">{{ formattedPercentage }}%</div>
       <div class="value-text" v-if="showText">1 M</div>
     </div>
   </div>
@@ -25,9 +25,10 @@ import { ref, computed, watch } from 'vue';
 const props = defineProps({
   initialPercentage: {
     type: Number,
-    default: 30.78
+    default: 30
   },
-  showText:Boolean
+  showText: Boolean,
+  svgClass:String
 });
 
 const percentage = ref(props.initialPercentage);
@@ -37,6 +38,10 @@ const circumference = 2 * Math.PI * radius;
 
 const offset = computed(() => {
   return circumference - (percentage.value / 100) * circumference;
+});
+
+const formattedPercentage = computed(() => {
+  return parseFloat(percentage.value.toFixed(2)).toString().replace(/\.00$/, '');
 });
 
 watch(() => props.initialPercentage, (newVal) => {
@@ -87,6 +92,7 @@ svg {
   align-items: center;
   justify-content: center;
   text-align: center;
+  inset:0;
 }
 
 .percentage-text, .value-text {

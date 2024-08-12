@@ -114,7 +114,7 @@ const clearInput = () => {
         The license has been successfully transferred to the new site. You can now utilize the license at the new location.</p>
 
 
-        <button class=" btn-dashboard text-center w-3/4 p-[0] mx-auto mt-[30px]" @click="modalStore.controlTransferStep2Modal">
+        <button class=" btn-dashboard hover_tamkin text-center w-3/4 p-[0] mx-auto mt-[30px]" @click="modalStore.controlTransferStep2Modal">
             Manage Your Site
           </button>
     </div>

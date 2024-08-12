@@ -298,40 +298,40 @@ const paginatedFilteredAppList = computed(() => {
         <div class="overflow-x-auto ">
           <div class="inline-block min-w-full align-middle ">
             <div
-              class="flex flex-col justify-start rounded-[10px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
+              class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
-              <div class="flex items-center justify-start lg:justify-between flex-row">
+              <div class="flex items-start justify-start lg:justify-between flex-row">
                 <div
-                  class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
+                  class="flex items-start rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
                 >
                   <div
-                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] pt-[16px] cursor-pointer"
+                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] p cursor-pointer"
                   >
                     <div
                       @click="switchTab('saved')"
                       :class="[
                         currentTab === 'saved'
                           ? 'border-b-[3px] border-tamkin  font-[600] '
-                          : 'border-b-[1px] border-[#C5C5C5] dark:border-darkborder',
+                          : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] pb-[16px] dark:text-whiteTamkin text-[#021328]"
+                      class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
                       My Sites (4)
                     </div>
                   </div>
                   <div
-                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] pt-[16px] cursor-pointer"
+                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px]  cursor-pointer"
                     @click="switchTab('deleted')"
                   >
                     <div
                       :class="[
                         currentTab === 'deleted'
                           ? 'border-b-[3px] border-tamkin  font-[600]'
-                          : 'border-b-[1px] border-[#C5C5C5] dark:border-darkborder',
+                          : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
                       ]"
-                      class="text-[14px] px-[4px] font-[400] pb-[16px] dark:text-white text-[#021328]"
+                      class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
                       Deleted Sites (4)

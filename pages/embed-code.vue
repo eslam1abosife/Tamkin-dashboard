@@ -435,10 +435,10 @@ const filteredInstallationGuide = computed(() => {
                             placeholder="Search ..."
                           />
                           <div
-                            class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                          >
-                            <img  src="/assets/imgs/icons/search.svg"  />
-                          </div>
+                      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                    >
+                      <img src="/assets/imgs/icons/search.svg" />
+                    </div>
                           <div
                             v-if="isSearchfilled"
                             @click="clearInput"
@@ -509,6 +509,7 @@ const filteredInstallationGuide = computed(() => {
             </div>
           </div>
         </div>
+        
       </section>
     </div>
   </div>

@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div class="main-container">
-      <div class="editor-container editor-container_document-editor" ref="editorContainerElement">
-        <div class="editor-container__menu-bar !bg-[#F6F6F6]" ref="editorMenuBarElement"></div>
+  <div class="overflow-y-hidden h-full " :class="[isMenusOpen?'max-h-[710px]':'max-h-[625px]']" style="resize:vertical;">
+    <div class="main-container relative " >
+      <div class="editor-container editor-container_document-editor relative f_h" ref="editorContainerElement">
+        <div class="editor-container__menu-bar !bg-[#F6F6F6] " ref="editorMenuBarElement"></div>
         <div class="editor-container__toolbar !bg-[#F6F6F6]" ref="editorToolbarElement"></div>
-        <div class="editor-container__editor-wrapper" @scroll="onScroll">
-          <div class="editor-container__editor">
-            <div ref="editorElement">
+        <div class="editor-container__editor-wrapper relative " @scroll="onScroll">
+          <div class="editor-container__editor relative " >
+            <div ref="editorElement ">
               <div class="zoom-wrapper relative">
                 <ckeditor
                   v-if="isLayoutReady"
@@ -24,153 +24,95 @@
             </div>
           </div>
         </div>
+        <TranslatedocsProjectWordToolbar
+        :wordCount="wordCount"
+        :currentPage="currentPage"
+        :totalPages="totalPages"
+        :initialZoomLevel="zoomLevel"
+        @zoom-change="changeZoom"
+      />
       </div>
+
     </div>
-    <TranslatedocsProjectWordToolbar
-      :wordCount="wordCount"
-      :currentPage="currentPage"
-      :totalPages="totalPages"
-      :initialZoomLevel="zoomLevel"
-      @zoom-change="changeZoom"
-    />
+
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { useTranslateStore } from "~/stores/translate";
+
+const translateStore = useTranslateStore()
+
 import { ref, onMounted } from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import {
-  DecoupledEditor,
-  AccessibilityHelp,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  AutoLink,
-  Autosave,
-  BlockQuote,
-  Bold,
-  CloudServices,
-  Code,
-  Essentials,
-  FindAndReplace,
-  FontBackgroundColor,
-  FontColor,
-  FontFamily,
-  FontSize,
-  Heading,
-  Highlight,
-  HorizontalLine,
-  ImageBlock,
-  ImageCaption,
-  ImageInline,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageStyle,
-  ImageTextAlternative,
-  ImageToolbar,
-  ImageUpload,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  PageBreak,
-  Paragraph,
-  RemoveFormat,
-  SelectAll,
-  SpecialCharacters,
-  SpecialCharactersArrows,
-  SpecialCharactersCurrency,
-  SpecialCharactersEssentials,
-  SpecialCharactersLatin,
-  SpecialCharactersMathematical,
-  SpecialCharactersText,
-  Strikethrough,
-  Subscript,
-  Superscript,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-  Undo,
-  WordCount
-} from 'ckeditor5';
-import 'ckeditor5/ckeditor5.css';
 
+// import  {DecoupledEditor} from '@/ck-vue/ckeditor';
+import '@/ck-vue/ckeditor'
+
+const EditorDec = window['DecoupledEditor']
+  
+ 
+import 'ckeditor5/ckeditor5.css';
+// import ResizableHeight from '@pikulinpw/ckeditor5-resizableheight';
+const props = defineProps({
+  isMenusOpen:Boolean
+})
 const config = ref({});
 const isLayoutReady = ref(false);
 const editorToolbarElement = ref(null);
 const editorMenuBarElement = ref(null);
-const editor = DecoupledEditor;
+const editor = EditorDec;
 
 const wordCount = ref(0);
 const currentPage = ref(1);
 const totalPages = ref(1);
 const zoomLevel = ref(100);
 const instance = ref(null);
-const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
 
 const selectedText = ref('');
 const popupVisible = ref(false);
 const popupStyle = ref({ top: '0px', left: '0px' });
 
+const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
+
 const breakContentIntoPages = (editorInstance) => {
-  const editorContent = document.querySelector('.editor-container__editor .ck-content');
-  if (editorContent) {
-    const contentHeight = editorContent.scrollHeight;
-    const numberOfPages = Math.ceil(contentHeight / PAGE_HEIGHT);
-
-    while (editorContent.firstChild) {
-      editorContent.removeChild(editorContent.firstChild);
+  editorInstance.model.change(writer => {
+    // Remove existing page breaks
+    for (const item of editorInstance.model.document.getRoot().getChildren()) {
+      if (item.name === 'pageBreak') {
+        writer.remove(item);
+      }
     }
 
-    let currentPage = document.createElement('div');
-    currentPage.classList.add('page');
-    editorContent.appendChild(currentPage);
+    // Calculate the height of the content and insert page breaks
+    const viewDocument = editorInstance.editing.view.document;
+    const viewRoot = viewDocument.getRoot();
+    const viewWriter = editorInstance.editing.view.writer;
+    const modelRoot = editorInstance.model.document.getRoot();
+    const pageHeight = PAGE_HEIGHT;
+    let currentHeight = 0;
 
-    let currentPageHeight = 0;
-    Array.from(editorInstance.ui.view.editable.element.childNodes).forEach((node) => {
-      const clonedNode = node.cloneNode(true);
-      currentPage.appendChild(clonedNode);
+    const range = editorInstance.model.createRangeIn(modelRoot);
+    for (const item of range.getItems()) {
+      const viewElement = editorInstance.editing.mapper.toViewElement(item);
 
-      if (currentPage.scrollHeight > PAGE_HEIGHT) {
-        currentPage.removeChild(clonedNode);
-        currentPage = document.createElement('div');
-        currentPage.classList.add('page');
-        editorContent.appendChild(currentPage);
-        currentPage.appendChild(clonedNode);
-        currentPageHeight = currentPage.scrollHeight;
-      } else {
-        currentPageHeight = currentPage.scrollHeight;
+      // Get the height of the view element
+      if (viewElement) {
+        const boundingRect = editorInstance.editing.view.domConverter.viewToDom(viewElement).getBoundingClientRect();
+        currentHeight += boundingRect.height;
+
+        // Insert a page break if the current height exceeds the page height
+        if (currentHeight > pageHeight) {
+          writer.insertElement('pageBreak', editorInstance.model.createPositionBefore(item));
+          currentHeight = boundingRect.height;
+        }
       }
-
-      if (currentPage.previousElementSibling && !currentPage.previousElementSibling.classList.contains('page-break')) {
-        const pageBreak = document.createElement('div');
-        pageBreak.classList.add('page-break');
-        currentPage.parentNode.insertBefore(pageBreak, currentPage);
-      }
-    });
-
-    if (!editorContent.lastChild.classList.contains('page-break')) {
-      const pageBreak = document.createElement('div');
-      pageBreak.classList.add('page-break');
-      editorContent.appendChild(pageBreak);
     }
-
-    totalPages.value = numberOfPages;
-  } else {
-    console.error('Editor content not found');
-  }
+  });
 };
-
 const updatePopupPosition = (editorInstance) => {
+  console.log('updatePopupPosition called'); // Debugging log
+
   const selection = editorInstance.model.document.selection;
   const range = selection.getFirstRange();
 
@@ -188,32 +130,34 @@ const updatePopupPosition = (editorInstance) => {
     const viewSelection = editorInstance.editing.view.document.selection;
     const domRange = editorInstance.editing.view.domConverter.viewRangeToDom(viewSelection.getFirstRange());
     const rects = domRange.getClientRects();
-    const ckContainer = document.querySelector('.ck');
+    const ckContainer = document.querySelector('.ck-content'); // Adjust to match the actual class
     const ckContainerRect = ckContainer.getBoundingClientRect();
-    const scrollY = ckContainer ? ckContainer.scrollTop : 0;
 
     if (rects.length > 0) {
       const firstRect = rects[0];
-      let topPosition = firstRect.top + window.scrollY - 120; // Adjust for popup height
-      let leftPosition = firstRect.left + window.scrollX - 50 + (firstRect.width / 2); // Center horizontally assuming popup width is 100px
+      let topPosition = firstRect.top - ckContainerRect.top +60; // Adjust for popup height (assuming 40px) and some extra space
+      let leftPosition = firstRect.left + window.scrollX - ckContainerRect.left + (firstRect.width / 2) +20; // Center horizontally assuming popup width is 100px
 
       // Ensure the popup stays within the ck container horizontally
-      if (leftPosition < ckContainerRect.left + window.scrollX) {
-        leftPosition = ckContainerRect.left + window.scrollX;
+      if (leftPosition < 0) {
+        leftPosition = 0;
       }
-      if (leftPosition + 500 > ckContainerRect.right + window.scrollX) { // Assuming popup width is 100px
-        leftPosition = ckContainerRect.right + window.scrollX - 500;
+      if (leftPosition + 100 > ckContainerRect.width) { // Assuming popup width is 100px
+        leftPosition = ckContainerRect.width -20;
       }
 
-     
-      // if (topPosition + 40 > ckContainerRect.bottom + window.scrollY) {
-      //   topPosition = ckContainerRect.bottom + window.scrollY - 40;
-      // }
+      // Ensure the popup stays within the ck container vertically
+      if (topPosition < 0) {
+        topPosition = 0;
+      }
 
       popupStyle.value = {
-        top: `${topPosition}px`,
+        top: `${topPosition -100}px`,
         left: `${leftPosition}px`,
+        position: 'absolute'
       };
+
+      console.log(`Popup Position - Top: ${topPosition}px, Left: ${leftPosition}px`); // Debugging log
     } else {
       popupVisible.value = false;
     }
@@ -224,19 +168,50 @@ const updatePopupPosition = (editorInstance) => {
 };
 
 
-
-
 const onReady = (editorInstance) => {
-  console.log(editorInstance);
+  // console.log('Editor is ready', editorInstance); // Debugging log
   instance.value = editorInstance;
+  editorInstance.enableReadOnlyMode('word-editor')
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'bold' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'italic' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'heading' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'fontSize' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'fontFamily' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'fontColor' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'fontBackgroundColor' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'underline' );
+  editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'strikethrough' );
+
+  
+
+
+
+
+
   editorToolbarElement.value.innerHTML = '';
   editorToolbarElement.value.appendChild(editorInstance.ui.view.toolbar.element);
-
+  editorInstance.model.document.on('change:data', (evt, data) => {
+    // alert('gg')
+    translateStore.wordTextEdit = true
+  });
   editorInstance.editing.view.document.on('selectionChange', (evt, data) => {
     console.log('Selection change event triggered');
+    updateWordCount(editorInstance)
     updatePopupPosition(editorInstance);
   });
+
+  editorInstance.editing.view.document.on('clipboardInput', () => {
+    console.log('Clipboard input event'); // Debugging log
+    updatePopupPosition(editorInstance);
+  });
+
+  editorInstance.model.document.on('selectionChange', () => {
+  updatePopupPosition(editorInstance);
+});
+  breakContentIntoPages(editorInstance);
+
 };
+
 
 const updatePageCount = (editorInstance) => {
   const editorContent = document.querySelector('.editor-container__editor .ck-content');
@@ -252,7 +227,8 @@ const updatePageCount = (editorInstance) => {
 };
 
 const onInput = (editorInstance) => {
-  // breakContentIntoPages(editorInstance);
+  breakContentIntoPages(editorInstance);
+
 };
 
 const updateWordCount = (editorInstance) => {
@@ -283,10 +259,13 @@ const onScroll = () => {
   currentPage.value = current;
 };
 
+  
 onMounted(() => {
   config.value = {
+    
     toolbar: {
       items: [
+      // 'restrictedEditing',
         'undo',
         'redo',
         '|',
@@ -330,72 +309,78 @@ onMounted(() => {
       ],
       shouldNotGroupWhenFull: true
     },
-    plugins: [
-      AccessibilityHelp,
-      Alignment,
-      Autoformat,
-      AutoImage,
-      AutoLink,
-      Autosave,
-      BlockQuote,
-      Bold,
-      CloudServices,
-      Code,
-      Essentials,
-      FindAndReplace,
-      FontBackgroundColor,
-      FontColor,
-      FontFamily,
-      FontSize,
-      Heading,
-      Highlight,
-      HorizontalLine,
-      ImageBlock,
-      ImageCaption,
-      ImageInline,
-      ImageInsertViaUrl,
-      ImageResize,
-      ImageStyle,
-      ImageTextAlternative,
-      ImageToolbar,
-      ImageUpload,
-      Indent,
-      IndentBlock,
-      Italic,
-      Link,
-      LinkImage,
-      List,
-      ListProperties,
-      PageBreak,
-      Paragraph,
-      RemoveFormat,
-      SelectAll,
-      SpecialCharacters,
-      SpecialCharactersArrows,
-      SpecialCharactersCurrency,
-      SpecialCharactersEssentials,
-      SpecialCharactersLatin,
-      SpecialCharactersMathematical,
-      SpecialCharactersText,
-      Strikethrough,
-      Subscript,
-      Superscript,
-      Table,
-      TableCaption,
-      TableCellProperties,
-      TableColumnResize,
-      TableProperties,
-      TableToolbar,
-      TextTransformation,
-      TodoList,
-      Underline,
-      Undo,
-      WordCount
-    ],
-    balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
+
+    // plugins: [
+    //   // ResizableHeight,
+    //   // RestrictedEditingMode,
+    //   // AccessibilityHelp,
+    //   // Alignment,
+    //   // Autoformat,
+    //   // AutoImage,
+    //   // AutoLink,
+    //   // Autosave,
+    //   // BlockQuote,
+    //   // Bold,
+    //   // CloudServices,
+    //   // Code,
+    //   // Essentials,
+    //   // FindAndReplace,
+    //   // FontBackgroundColor,
+    //   // FontColor,
+    //   // FontFamily,
+    //   // FontSize,
+    //   // Heading,
+    //   // Highlight,
+    //   // HorizontalLine,
+    //   // ImageBlock,
+    //   // ImageCaption,
+    //   // ImageInline,
+    //   // ImageInsertViaUrl,
+    //   // ImageResize,
+    //   // ImageStyle,
+    //   // ImageTextAlternative,
+    //   // ImageToolbar,
+    //   // ImageUpload,
+    //   // Indent,
+    //   // IndentBlock,
+    //   // Italic,
+    //   // Link,
+    //   // LinkImage,
+    //   // List,
+    //   // ListProperties,
+    //   // PageBreak,
+    //   // Paragraph,
+    //   // RemoveFormat,
+    //   // SelectAll,
+    //   // SpecialCharacters,
+    //   // SpecialCharactersArrows,
+    //   // SpecialCharactersCurrency,
+    //   // SpecialCharactersEssentials,
+    //   // SpecialCharactersLatin,
+    //   // SpecialCharactersMathematical,
+    //   // SpecialCharactersText,
+    //   // Strikethrough,
+    //   // Subscript,
+    //   // Superscript,
+    //   // Table,
+    //   // TableCaption,
+    //   // TableCellProperties,
+    //   // TableColumnResize,
+    //   // TableProperties,
+    //   // TableToolbar,
+    //   // TextTransformation,
+    //   // TodoList,
+    //   // Underline,
+    //   // Undo,
+    //   // WordCount
+    // ],
+  
     fontFamily: {
       supportAllValues: true
     },
+    restrictedEditing: {
+            allowedCommands: [ 'bold' ,'italic']
+        },
     fontSize: {
       options: [10, 12, 14, 'default', 18, 20, 22],
       supportAllValues: true
@@ -490,7 +475,9 @@ onMounted(() => {
       onUpdate: (stats) => {
         wordCount.value = stats.words;
       }
-    }
+    },
+
+
   };
 
   isLayoutReady.value = true;
@@ -501,106 +488,156 @@ onMounted(() => {
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @media print {
-	body {
-		margin: 0 !important;
-	}
+  body {
+    margin: 0 !important;
+  }
 }
 
 .main-container {
-	--ckeditor5-preview-height: 700px;
-	font-family: 'Lato';
-	width: 100%;
+  --ckeditor5-preview-height: 700px;
+  font-family: 'Lato';
+  width: 100%;
+  height: 100%;
 }
 
 .ck-content {
-	font-family: 'Lato';
-	line-height: 1.6;
-	word-break: break-word;
-	width: 100%;
+  font-family: 'Lato';
+  line-height: 1.6;
+  word-break: break-word;
+  width: 100%;
+  height: 100%;
 }
 
 .editor-container__editor-wrapper {
-	display: flex;
-	width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .editor-container_document-editor {
-	border: 1px solid var(--ck-color-base-border);
+  border: 1px solid var(--ck-color-base-border);
 }
 
 .editor-container_document-editor .editor-container__toolbar {
-	display: flex;
-	position: relative;
-	box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.078);
+  display: flex;
+  position: relative;
+  box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.078);
 }
 
 .editor-container_document-editor .editor-container__toolbar > .ck.ck-toolbar {
-	flex-grow: 1;
-	width: 0;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	border-top: 0;
-	border-left: 0;
-	border-right: 0;
+  flex-grow: 1;
+  width: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
 }
 
-
 .editor-container_document-editor .editor-container__editor-wrapper {
-	max-height: var(--ckeditor5-preview-height);
-	min-height: var(--ckeditor5-preview-height);
-	overflow-y: scroll;
-	background: var(--ck-color-base-foreground);
+ height: 100%;
+  overflow-y: scroll;
+  background: var(--ck-color-base-foreground);
 }
 
 .editor-container_document-editor .editor-container__editor {
-	margin-top: 28px;
-	margin-bottom: 28px;
-	height: 100%;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  height: 100%;
 }
 
 .editor-container_document-editor .editor-container__editor .ck.ck-editor__editable {
-	box-sizing: border-box;
-	min-height: 297mm;
-	height: fit-content;
-	width: auto;
-	border: 1px hsl(0, 0%, 82.7%) solid;
-	background: hsl(0, 0%, 100%);
-	box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.078);
-	flex: 1 1 auto;
+  box-sizing: border-box;
+  min-height: 100%;
+  height: fit-content;
+  width: auto;
+  border: 1px hsl(0, 0%, 82.7%) solid;
+  background: hsl(0, 0%, 100%);
+  box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.078);
+  flex: 1 1 auto;
+  
+  @screen lg {
+    padding: 7mm;
+    width: auto;
+    min-height: 100%;
+  height: fit-content;
 
-	@screen lg {
-		padding: 20mm 12mm;
-		width: 700px;
-		margin-left: 72px;
-		margin-right: 72px;
-	}
-
-	@screen ipad-max {
-		width: 400px;
-	}
+    margin-left: 72px;
+    margin-right: 72px;
+  }
+  
+  @screen ipad-max {
+    width: 400px;
+  }
 }
+
 .ck {
 }
+
 .popup {
-	position: absolute;
-	background: #35C0B4;
-	border-radius: 4px;
-text-align: center;
-	z-index: 50;
-	height: 30px;
-	font-size: 10px;
-	display: flex;
-	justify-items: center;
-	align-items: center;
-	color: white;
-  padding:10px;
+  position: absolute;
+  background: #35C0B4;
+  border-radius: 4px;
+  text-align: center;
+  z-index: 50;
+  height: 30px;
+  font-size: 10px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  color: white;
+  padding: 10px;
 }
 
-.ck.ck-toolbar__items{
-@apply bg-[#F6F6F6];
-}
-
-.ck.ck-toolbar{
+.ck.ck-toolbar__items {
   @apply bg-[#F6F6F6];
-  }
+}
+
+.ck.ck-toolbar {
+  @apply bg-[#F6F6F6];
+}
+
+.page-break {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-break-line {
+  width: 100%;
+  height: 2px;
+  background-color: darkgrey;
+  margin: 0 auto;
+}
+
+.page {
+  margin-top: 50px;
+}
+
+.ck-content{
+
+@screen xl {
+  zoom: .7;
+}
+
+@screen lg {
+  zoom: 0.6;
+}
+
+@screen 2xl{
+  zoom : .7;
+}
+@screen ipad-max {
+  zoom: 0.7;
+}
+
+}
+
+.f_h{
+
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
 </style>

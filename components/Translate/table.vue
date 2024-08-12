@@ -25,7 +25,7 @@ const changeTab = (tab: any) => {
             ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="font-[600] ipad-max:text-[13px] lg:text-[16px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
+        class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('translatev')"
       >
         Translate video (12)
@@ -36,7 +36,7 @@ const changeTab = (tab: any) => {
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="font-[600] ipad-max:text-[13px] lg:text-[16px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+        class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translateaudio')"
       >
         Translate Audio
@@ -47,7 +47,7 @@ const changeTab = (tab: any) => {
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
-        class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[16px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+        class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translatelive')"
       >
         Translate Live Video

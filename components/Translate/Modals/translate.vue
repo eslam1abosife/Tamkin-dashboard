@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
@@ -15,78 +15,43 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 const props = defineProps({
   translateType: String,
-
 });
 const modalStore = useModalStore();
 const acceptedFilesRef = ref<File[]>([]);
 const projectNameArr = [
-  {
-    id: 1,
-    name: 'Project 1'
-  },
-  {
-    id: 2,
-    name: 'Project 54'
-  },
-  {
-    id: 3,
-    name: 'Project 4'
-  },
-  {
-    id: 6,
-    name: 'Project 2'
-  },
-  {
-    id: 4,
-    name: 'Project 166'
-  },
-  {
-    id: 7,
-    name: 'Project 5'
-  }
-]
+  { id: 1, name: 'Project 1' },
+  { id: 2, name: 'Project 54' },
+  { id: 3, name: 'Project 4' },
+  { id: 6, name: 'Project 2' },
+  { id: 4, name: 'Project 166' },
+  { id: 7, name: 'Project 5' }
+];
 const languagesArr = [
-  {
-    id: 1,
-    name: 'English (USA)',
-    icon: USa
-  },
-  {
-    id: 2,
-    name: 'English (USA)',
-    icon: USa
-
-  },
-  {
-    id: 3,
-    name: 'English (USA)',
-    icon: USa
-
-  },
-
-]
+  { id: 1, name: 'English (USA)', icon: USa },
+  { id: 2, name: 'English (USA)', icon: USa },
+  { id: 3, name: 'English (USA)', icon: USa }
+];
 const handleSelectedItemProjectName = (item: any) => {
   console.log(item)
-}
+};
 
 const state = reactive({
   videoLink: "",
-  projectName: "",
-  documentLink:''
-
+  projectName:  "",
+  documentLink: ''
 });
 const rules = {
   videoLink: { required },
   projectName: { required },
-  documentLink:{required}
-
+  documentLink: { required }
 };
 const v$ = useVuelidate(rules, state);
 const thumbnail = ref(null);
-const videoDuration = ref(null)
-const progressPercentage = ref(0); // You can dynamically update this value based on actual progress
+const videoDuration = ref(null);
+const progressPercentage = ref(0);
 const audioDuration = ref(null);
 
 const dynamicWidth = computed(() => {
@@ -94,105 +59,119 @@ const dynamicWidth = computed(() => {
 });
 
 const blurWidth = computed(() => {
-  return 100 - progressPercentage.value; // The blur width decreases as the progress increases
+  return 100 - progressPercentage.value;
 });
+watch(acceptedFilesRef,()=>{
+if(acceptedFilesRef.value && acceptedFilesRef.value[0]){
+  // console.log(acceptedFilesRef.value)
+  state.projectName =  acceptedFilesRef.value[0].name;
+}else {
+  state.projectName = ""
+}
+})
 const onDrop = async (acceptedFiles) => {
   if (acceptedFiles.length > 0) {
     const file = acceptedFiles[0];
-    acceptedFilesRef.value.push(file);
-if(props.translateType === 'video'){
+    
+    acceptedFilesRef.value = [file];
 
-  const fileUrl = URL.createObjectURL(file);
-    thumbnail.value = await extractVideoThumbnail(fileUrl);
-    extractVideoDuration(file)
-    URL.revokeObjectURL(fileUrl); // Clean up the URL
-}else {
-  extractAudioDuration(file);
-
-}
+    if (props.translateType === 'video') {
+      const fileUrl = URL.createObjectURL(file);
+      thumbnail.value = await extractVideoThumbnail(fileUrl);
+      extractVideoDuration(file);
+      URL.revokeObjectURL(fileUrl);
+    } else {
+      extractAudioDuration(file);
+    }
   }
 };
+
+
 const extractVideoDuration = (file) => {
   const fileUrl = URL.createObjectURL(file);
   const video = document.createElement('video');
-
   video.src = fileUrl;
-
   video.addEventListener('loadedmetadata', () => {
     videoDuration.value = video.duration;
-    URL.revokeObjectURL(fileUrl); // Clean up the URL
+    URL.revokeObjectURL(fileUrl);
   });
-
   video.addEventListener('error', (e) => {
     console.error('Error loading video', e);
-    URL.revokeObjectURL(fileUrl); // Clean up the URL in case of error
+    URL.revokeObjectURL(fileUrl);
   });
 };
+
 const extractVideoThumbnail = (fileUrl) => {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video');
     video.src = fileUrl;
-
     video.addEventListener('loadeddata', () => {
-      video.currentTime = video.duration / 2; // Capture a frame from the middle of the video
+      video.currentTime = video.duration / 2;
     });
-
     video.addEventListener('seeked', () => {
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
       const dataUrl = canvas.toDataURL('image/png');
       resolve(dataUrl);
     });
-
     video.addEventListener('error', (e) => {
       reject(e);
     });
   });
 };
+
 const extractAudioDuration = (file) => {
   const fileUrl = URL.createObjectURL(file);
   const audio = document.createElement('audio');
-
   audio.src = fileUrl;
-
   audio.addEventListener('loadedmetadata', () => {
     audioDuration.value = audio.duration;
-    URL.revokeObjectURL(fileUrl); // Clean up the URL
+    URL.revokeObjectURL(fileUrl);
   });
-
   audio.addEventListener('error', (e) => {
     console.error('Error loading audio', e);
-    URL.revokeObjectURL(fileUrl); // Clean up the URL in case of error
+    URL.revokeObjectURL(fileUrl);
   });
 };
+
 const acceptedFilesType = computed(() => {
   return props.translateType === 'audio' ? { accept: 'audio/*' } : { accept: 'video/*' };
 });
 
-const { getRootProps, getInputProps, isDragActive } = useDropzone({
-  onDrop,
-  multiple: false,
-  maxFiles: 1,
-  ...acceptedFilesType.value
+const getRootProps = ref(null);
+const getInputProps = ref(null);
+const isDragActive = ref(false);
+
+watchEffect(() => {
+  const { getRootProps: rootProps, getInputProps: inputProps, isDragActive: dragActive } = useDropzone({
+    onDrop,
+    multiple: false,
+    maxFiles: 1,
+    accept: acceptedFilesType.value.accept
+  });
+
+  getRootProps.value = rootProps;
+  getInputProps.value = inputProps;
+  isDragActive.value = dragActive;
 });
+
 const fileURL = (file) => {
   return URL.createObjectURL(file);
 };
-const removeFile = (file: any) => {
-  acceptedFilesRef.value = acceptedFilesRef.value.filter((f) => f !== file);
-  //   modalStore.triggerupdatedPicture();
-};
-onBeforeUnmount(() => {
 
-  acceptedFilesRef.value.forEach((file) => {
-    URL.revokeObjectURL(file);
-  });
+const removeFile = () => {
+  acceptedFilesRef.value = [];
+  thumbnail.value = null;
+};
+
+
+onBeforeUnmount(() => {
+  acceptedFilesRef.value = URL.revokeObjectURL( acceptedFilesRef.value );
 });
+
 onUpdated(() => {
   const intervalId = setInterval(() => {
     if (progressPercentage.value >= 100) {
@@ -202,9 +181,11 @@ onUpdated(() => {
     }
   }, 1000);
 });
+
 function bytesToMB(bytes) {
   return (bytes / 1024 / 1024).toFixed(2);
 }
+
 function formatDuration(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = Math.floor(seconds % 60);
@@ -217,36 +198,29 @@ function formatAudioDuration(seconds) {
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
-
 const validatationForUpload = computed(() => {
- return acceptedFilesRef.value.length === 0
-})
+  return acceptedFilesRef.value.length === 0 ? false : props.translateType === 'live video' ? true : false;
+});
 
-const rendering = ref(false)
-
-const failedRender = ref(false)
-const router = useRouter()
-const widthVideoProcessing = ref(10)
- const moveForward = ()=>{
-
-      failedRender.value = false
-
-      rendering.value = true
-      setInterval(()=>{
-        widthVideoProcessing.value = widthVideoProcessing.value + 20
-      },1000)
-         setTimeout(()=>{
-      
-          if(props.translateType === 'live video' || props.translateType === 'video'){
-            router.push('/translate/video')
-          }else {
-            router.push('/translate/audio')
-          }
-          closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
-         },5000)
- }
-    
-
+const rendering = ref(false);
+const failedRender = ref(false);
+const router = useRouter();
+const widthVideoProcessing = ref(10);
+const moveForward = () => {
+  failedRender.value = false;
+  rendering.value = true;
+  setInterval(() => {
+    widthVideoProcessing.value = widthVideoProcessing.value + 20;
+  }, 1000);
+  setTimeout(() => {
+    if (props.translateType === 'live video' || props.translateType === 'video') {
+      router.push('/translate/video');
+    } else {
+      router.push('/translate/audio');
+    }
+    closeModal('translate_' + (props.translateType === 'live video' ? 'live_video' : props.translateType));
+  }, 5000);
+};
 </script>
 
 <template>
@@ -356,14 +330,16 @@ const widthVideoProcessing = ref(10)
             <img  src="/assets/imgs/translatevideo/live_vid.svg" 
              class="lg:w-[119px]  w-40 h-[81px] rounded-[7px] mr-[14px]" @click.stop />
           
-             <div>
-              <div class="max-w-xs w-24 lg:w-60 truncate">Live video name</div>
-              50 MB<br>
-            20:20
+             <div class="flex flex-col items-start justify-start space-y-[48px]">
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">Video name</div>
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">Platform Name</div>
+              <!-- <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">
+                <img src="/assets/imgs/translatevideo/social/Facebook.svg"  class="w-8 h-8" alt="">
+              </div> -->
             </div>
           </div>
         
-          <div class="w-full  md:w-auto ">
+          <div class="w-full  md:w-auto mb-[40px] ">
             <button class="text-red-500 hover:bg-[#FFF3F2]
              hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center" 
              @click.stop="v$.videoLink.$model = ''">
@@ -373,10 +349,12 @@ const widthVideoProcessing = ref(10)
         </div>
         
       </div>
-  <div class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]" v-if="translateType === 'video' ||translateType === 'audio'">
+  <div class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]" 
+  
+  v-if="translateType === 'video' && acceptedFilesRef.length === 0 ||translateType === 'audio' && acceptedFilesRef.length === 0" >
     OR
   </div>
-      <div class="w-full relative mt-[8px] " >
+      <div class="w-full relative  " v-if="acceptedFilesRef.length === 0" :class="[translateType === 'audio' || translateType ==='video' ? 'mt-[8px]' :'mt-[16px]']">
         <input type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full"
           v-model="v$.videoLink.$model" :class="{
             input_error: (v$.videoLink.$error && v$.videoLink.required.$invalid),
@@ -386,7 +364,7 @@ const widthVideoProcessing = ref(10)
         <label for="characterName" class="floating_label" :class="[
           (v$.videoLink.$error && v$.videoLink.required.$invalid) ? '!text-error' : '',
         ]">
-          Facebook, Instagram , YouTube...
+         {{translateType === 'audio' ? 'Audio Link' : translateType === 'video' ? 'Facebook, Instagram , YouTube...' :'Live video link'}}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.videoLink.$error && v$.videoLink.required.$invalid)">
           <p class="error_message">
@@ -451,13 +429,13 @@ const widthVideoProcessing = ref(10)
         </div>
     </div>
       <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap">
-        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full">
+        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full" :class="[!translateStore.subtitleCheck ? 'blur-[2px]' : '']">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             Original language
           </div>
-          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
+          <TranslateSelectInput    @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
-        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full">
+        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full" :class="[!translateStore.subtitleCheck ? 'blur-[2px]' : '']">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             Translate to
           </div>
@@ -492,7 +470,7 @@ const widthVideoProcessing = ref(10)
       :disabled="validatationForUpload" @click="moveForward">Translate</button>
     </div>
   </div>
-  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] pb-[16px] space-y-[20px] dark:bg-tamkinDarkPrimary 
+  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary 
   w-full mx-auto rounded-[10px] ipad-max:mt-[8px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-else-if="rendering && !failedRender">
     <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
      {{widthVideoProcessing+'%'}}
@@ -505,11 +483,11 @@ const widthVideoProcessing = ref(10)
         <div :style="{ width:  widthVideoProcessing+'%'}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>
       </div>
     </div>
-    <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-      Wait a few seconds please...
+    <div class="text-[14px] leading-[21px]  text-center font-[500] text-[#878787]">
+      Please wait while we process your request. This may take a few moments.
     </div>
   </div>
-  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] pb-[16px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] ipad-max:mt-[8px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
+  <div class="flex flex-col items-center justify-center px-[50px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] ipad-max:mt-[8px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
     <div class="flex items-center justify-center space-x-[10px] w-full">
       <div>
         <img src="/assets/imgs/translatevideo/limited.svg" class="w-[25px] h-[25px]" alt="" />

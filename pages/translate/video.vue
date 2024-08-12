@@ -55,7 +55,7 @@ function leaveNotification(el, done) {
   <div class="w-full h-full relative">
  
 
-    <div class="space-y-[10px] mb-[16px]">
+    <div class=" mb-[16px]">
       <div class="flex items-center justify-between w-full">
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"

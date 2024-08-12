@@ -96,29 +96,50 @@ const dynamicWidth = computed(() => {
 const blurWidth = computed(() => {
   return 100 - progressPercentage.value; // The blur width decreases as the progress increases
 });
+watch(acceptedFilesRef,()=>{
+if(acceptedFilesRef.value && acceptedFilesRef.value[0]){
+  // console.log(acceptedFilesRef.value)
+  state.projectName =  acceptedFilesRef.value[0].name;
+}else {
+  state.projectName = ""
+}
+})
 const onDrop = async (acceptedFiles) => {
   if (acceptedFiles.length > 0) {
     const file = acceptedFiles[0];
-    acceptedFilesRef.value.push(file);
+    
+    acceptedFilesRef.value = [file];
 
-  const fileUrl = URL.createObjectURL(file);
-    URL.revokeObjectURL(fileUrl); // Clean up the URL
-
+    const fileUrl = URL.createObjectURL(file);
+    URL.revokeObjectURL(fileUrl); 
   }
 };
-
-
 
 const acceptedFilesType = computed(() => {
   return props.translateType === 'PDF Documents' ? { accept: '.pdf' } : { accept: '.docx' };
 });
 
-const { getRootProps, getInputProps, isDragActive } = useDropzone({
-  onDrop,
-  multiple: false,
-  maxFiles: 1,
-  ...acceptedFilesType.value
+const getRootProps = ref(null);
+const getInputProps = ref(null);
+const isDragActive = ref(false);
+
+watchEffect(() => {
+  const { getRootProps: rootProps, getInputProps: inputProps, isDragActive: dragActive } = useDropzone({
+    onDrop,
+    multiple: false,
+    maxFiles: 1,
+    accept: acceptedFilesType.value.accept
+  });
+
+
+  getRootProps.value = rootProps;
+  getInputProps.value = inputProps;
+  isDragActive.value = dragActive.value;
 });
+
+
+
+
 const fileURL = (file) => {
   return URL.createObjectURL(file);
 };
@@ -142,6 +163,7 @@ onUpdated(() => {
   }, 1000);
 });
 
+const widthVideoProcessing = ref(10);
 
 
 const validatationForUpload = computed(() => {
@@ -155,12 +177,21 @@ const router = useRouter()
 function bytesToMB(bytes) {
   return (bytes / 1024 / 1024).toFixed(2);
 }
- const moveForward = ()=>{
-  rendering.value = false
-      failedRender.value = true
-      closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
-            router.push('/translate/video')
- }
+const moveForward = () => {
+  failedRender.value = false;
+  rendering.value = true;
+  setInterval(() => {
+    widthVideoProcessing.value = widthVideoProcessing.value + 20;
+  }, 1000);
+  setTimeout(() => {
+    if (props.translateType === 'PDF Documents' || props.translateType === 'word') {
+      router.push('/document/pdf');
+    } else {
+      router.push('/document/word');
+    }
+    closeModal('translate_'+(props.translateType === 'PDF Documents' ?'pdf_documents' :'word_documents'))
+    }, 5000);
+};
     
 
 </script>
@@ -257,7 +288,7 @@ function bytesToMB(bytes) {
         </div>
          <div>
           <h2 class="text-center text-[10px] text-[#6D6D6D]">
-            {{ translateType === 'audio' ? 'MP3, MOV, WEBM, MKV' : 'MP4, MOV, WEBM, MKV' }}
+            {{ translateType === 'PDF Documents' ? 'PDF files' : 'Word Files (Docx)' }}
           </h2>
          </div>
         </div>
@@ -342,15 +373,27 @@ function bytesToMB(bytes) {
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Number of speakers
-          </div>
-          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" placeholderinput="Auto-detect speakers" :list="projectNameArr" nameKey="name" idField="id" />
-        </div>
+  
       </div>
- 
-      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap">
+      <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
+        <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
+          Translate
+        </div>
+        <div class="ml-auto flex items-center ">
+            <label for="toggle_google_a" class="toggle_wrap">
+                <input type="checkbox" id="toggle_google_a" class="sr-only"
+                    v-model="translateStore.translateCheck" />
+                <div class="toggle_parent" :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']">
+                    <div class="toggle_inner" :class="{ active: translateStore.translateCheck }">
+                        <img v-if="translateStore.translateCheck" src="/assets/imgs/translatevideo/sign_active.svg"
+                            class="w-[28px] h-[28px]" />
+                        <img v-else src="/assets/imgs/translatevideo/sign_inactive.svg" class="w-[28px] h-[28px]" />
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap"  :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']">
         <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             Original language
@@ -364,28 +407,54 @@ function bytesToMB(bytes) {
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
       </div>
+
+      <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
+        <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
+            Sign language
+        </div>
+        <div class="ml-auto flex items-center ">
+            <label for="toggle_google_a2" class="toggle_wrap">
+                <input type="checkbox" id="toggle_google_a2" class="sr-only"
+                    v-model="translateStore.signLanguageChecked" />
+                <div class="toggle_parent" :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']">
+                    <div class="toggle_inner" :class="{ active: translateStore.signLanguageChecked }">
+                        <img v-if="translateStore.signLanguageChecked" src="/assets/imgs/translatevideo/sign_active.svg"
+                            class="w-[28px] h-[28px]" />
+                        <img v-else src="/assets/imgs/translatevideo/sign_inactive.svg" class="w-[28px] h-[28px]" />
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    
+    <TranslateSelectInput class="ipad-max:mt-0 mt-[10px] !w-full " :disabled="!translateStore.signLanguageChecked"
+        :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
+        @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
+        placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
       <TranslateVideoModalsTranslateSign />
       <button class="btn-dashboard hover_tamkin w-[217px] py-[16px] mt-4" 
-      :disabled="validatationForUpload" @click="rendering = !rendering">Translate</button>
+      :disabled="validatationForUpload" @click="moveForward">Translate</button>
     </div>
   </div>
-  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] pb-[16px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-else-if="rendering && !failedRender">
+  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] ipad-max:h-[500px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary 
+  w-full mx-auto rounded-[10px] ipad-max:mt-[8px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-else-if="rendering && !failedRender">
     <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
-     50%
+     {{widthVideoProcessing+'%'}}
     </div>
     <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-     <span class="capitalize"> {{translateType}}</span> is processing  
+      {{props.translateType === 'PDF Documents' ? 'PDF' :'Word'}} is processing  
     </div>
     <div class="relative pt-1 flex items-center justify-between w-full">
       <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">
-        <div :style="{ width:  '50%' }" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>
+        <div :style="{ width:  widthVideoProcessing+'%'}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>
       </div>
     </div>
-    <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-      Wait a few seconds please...
+    <div class="text-[14px] text-center leading-[21px] font-[500] text-[#878787]">
+      Please wait while we process your request. This may take a few moments.
     </div>
   </div>
-  <div class="flex flex-col items-center justify-center px-[50px] h-[600px] pb-[16px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
+  <div class="flex flex-col items-center justify-center px-[50px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
     <div class="flex items-center justify-center space-x-[10px] w-full">
       <div>
         <img src="/assets/imgs/translatevideo/limited.svg" class="w-[25px] h-[25px]" alt="" />

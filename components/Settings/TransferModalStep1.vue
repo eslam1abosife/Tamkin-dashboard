@@ -128,7 +128,7 @@ const clearInput = () => {
 
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" @click="navigateTo('transferstep1','settings','transferstep2')">
+  <button class=" btn-dashboard hover_tamkin text-center w-1/6" @click="navigateTo('transferstep1','settings','transferstep2')">
     Continue
   </button>
 

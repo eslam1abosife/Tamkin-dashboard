@@ -41,7 +41,6 @@ const changeMode = (m:any)=>{
 translateStore.currentMode  = m
 translateStore.subMode = ''
 }
-
 </script>
 
 <template>

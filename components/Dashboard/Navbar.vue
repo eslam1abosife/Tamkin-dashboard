@@ -8,11 +8,13 @@ import {useGetCurrentTeam, useGetAllMembers } from "~/composables/useTeam";
 const accessMenuHover = ref();
 const submenuHover = ref();
 const services = ref();
+const control = ref();
 const signLanguageHover = ref();
 const isHovered = useElementHover(accessMenuHover);
 const isSubmenuHovered = useElementHover(submenuHover);
 const isSignLanguageHoverd = useElementHover(signLanguageHover);
 const servicesHover =  useElementHover(services);
+const controlHover =  useElementHover(control);
 const props = defineProps({
   sideBarOpen: Boolean,
   mobileSidebar: Boolean,
@@ -41,7 +43,7 @@ function toggleSidebarMobile() {
 const showOnClick = ref(false);
 const showOnClickChild = ref(false);
 const showSubMenu = ref(new Array(6).fill(false)); // initialize an array of booleans to track the visibility of each submenu
-const showChildMenu = ref(new Array(2).fill(false));
+const showChildMenu = ref(new Array(3).fill(false));
 const openChildMenus = (id) => {
   clearTimeout(closeTimeoutChild); // Clear any previous timeout
 
@@ -158,12 +160,29 @@ watch(servicesHover, (isHovered) => {
     // Only handle hover if sidebar is closed
     if (isHovered) {
       showChildMenu.value[1] = true;
+      showChildMenu.value[2] = false;
+
     } else if (!showOnClickChild.value) {
       closeChildmenuWithDelay(1);
+      // closeChildmenuWithDelay(2);
     }
   }
 });
+watch(controlHover, (isHovered) => {
+  clearTimeout(closeTimeoutChild); // Clear any previous timeout
+  clearTimeout(closeTimeout); // Clear any previous timeout
 
+  if (!props.sideBarOpen) {
+    // Only handle hover if sidebar is closed
+    if (isHovered) {
+      showChildMenu.value[2] = true;
+      showChildMenu.value[1] = false;
+    } else if (!showOnClickChild.value) {
+      closeChildmenuWithDelay(2);
+      // closeChildmenuWithDelay(1);
+    }
+  }
+});
 watch(
   () => route.path, // Watch for changes in the route path
   (to) => {
@@ -179,6 +198,8 @@ watch(
   (first, second) => {
     showSubMenu.value[3] = false;
     showSubMenu.value[4] = false;
+    showChildMenu.value[1] = false;
+    showChildMenu.value[2] = false;
   }
 );
 
@@ -810,10 +831,388 @@ watch(
                           : '',
                       ]"
                     >
-                  Media
+                 Media
                     </div>
                   </nuxt-link>
                 </li>
+
+                <li
+                class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                :class="[
+                  isLinkActive('/documentq') && sideBarOpen ? '' : '',
+                  sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                ]"
+              >
+                <nuxt-link
+                  @click.stop
+                  :to="localePath('/document')"
+                  :class="[
+                    isLinkActive('/document')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : '',
+                  ]"
+                  class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                >
+                  <div
+                    class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/document')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                        : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                    ]"
+                  ></div>
+                  <div
+                    :class="[
+                      !sideBarOpen && isLinkActive('/document')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : sideBarOpen
+                        ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                        : '',
+                    ]"
+                  >
+               Documents
+                  </div>
+                </nuxt-link>
+              </li>
+
+              <li
+              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+              :class="[
+                isLinkActive('/photos') && sideBarOpen ? '' : '',
+                sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+              ]"
+            >
+              <nuxt-link
+                @click.stop
+                :to="localePath('/photos')"
+                :class="[
+                  isLinkActive('/photos')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    : '',
+                ]"
+                class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+              >
+                <div
+                  class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/photos')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                      : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                  ]"
+                ></div>
+                <div
+                  :class="[
+                    !sideBarOpen && isLinkActive('/photos')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : sideBarOpen
+                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                      : '',
+                  ]"
+                >
+             Photos
+                </div>
+              </nuxt-link>
+            </li>
+                </ul>
+
+                <li
+               
+                 ref="control"
+                  class="rounded-[10px] relative group w-full"
+                  :class="[
+                    isLinkActive('/sign-language/overview') && sideBarOpen ? '' : '',
+                    sideBarOpen ? 'w-full ' : '',
+                  ]"
+                >
+                  <nuxt-link
+                    @click="openChildMenus(2)"
+                    :class="[
+                      showChildMenu[2]
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : '',
+                    ]"
+                    class="relative w-full"
+                  >
+                    <div
+                      class="flex items-center justify-center dashboard-nav-link"
+                      :class="[
+                        sideBarOpen ? 'px-[10px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
+                      ]"
+                    >
+                      <div
+                        :class="[
+                          !sideBarOpen
+                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                            : !sideBarOpen
+                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                            : '',
+                        ]"
+                        class="flex items-center justify-start w-full"
+                      >
+                        <div
+                          class="w-[8px] h-[2px] rounded-[10px] "
+                          v-if="sideBarOpen"
+                          :class="[
+                            showChildMenu[2]
+                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                              : 'bg-darkGrey dark:bg-whiteTamkin',
+                          ]"
+                        ></div>
+                        <div
+                       
+                          :class="[
+                            showChildMenu[2] || !sideBarOpen 
+                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
+                              : 'text-darkGrey dark:text-white',
+                            sideBarOpen ? 'pl-[22px]' : '',
+                          ]"
+                        >
+                          Control
+                        </div>
+                      </div>
+
+                      <div class="">
+                        <svg
+                          width="7"
+                          height="12"
+                          :class="[
+                            !showChildMenu[2]
+                              ? 'rotate-90 '
+                              : 'rotate-0 ',
+                          ]"
+                          viewBox="0 0 7 12"
+                          class="w-full h-full"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                              <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            :class="
+                            showChildMenu[2] || !sideBarOpen
+                                ? 'fill_services '
+                                : 'dark:fill-white fill-[#585B5B]'
+                            "
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </nuxt-link>
+                </li>
+                <ul
+                    @mouseenter="controlHover = true"
+    @mouseleave="controlHover = false"
+                  class=" space-y-[10px] w-full"
+                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[50px] left-[270px]  rounded-[10px] rounded-tl-none ' : 'ml-[20px]']"
+                  v-if="showChildMenu[2]"
+                >
+                  <li
+                    class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                    :class="[
+                      isLinkActive('/sign-language/overview') && sideBarOpen ? '' : '',
+                      sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                    ]"
+                  >
+                    <nuxt-link
+                      @click.stop
+                      :to="localePath('/sign-language/overview')"
+                      :class="[
+                        isLinkActive('/sign-language/overview')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : '',
+                      ]"
+                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    >
+                      <div
+                        class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                        v-if="sideBarOpen"
+                        :class="[
+                          isLinkActive('/sign-language/overview')
+                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                            : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                        ]"
+                      ></div>
+                      <div
+                        :class="[
+                          !sideBarOpen && isLinkActive('/sign-language/overview')
+                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                            : sideBarOpen
+                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                            : '',
+                        ]"
+                      >
+                        Overview
+                      </div>
+                    </nuxt-link>
+                  </li>
+        
+                  <li
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                  :class="[
+                    isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                  ]"
+                >
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/sign-language/addons')"
+                    :class="[
+                      isLinkActive('/sign-language/addons')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : '',
+                    ]"
+                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                  >
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/sign-language/addons')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen && isLinkActive('/sign-language/addons')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      Addons
+                    </div>
+                  </nuxt-link>
+                </li>
+
+                <li
+                class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                :class="[
+                  isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
+                  sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                ]"
+              >
+                <nuxt-link
+                  @click.stop
+                  :to="localePath('/sign-language/statistics')"
+                  :class="[
+                    isLinkActive('/sign-language/statistics')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : '',
+                  ]"
+                  class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                >
+                  <div
+                    class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/sign-language/statistics')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                        : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                    ]"
+                  ></div>
+                  <div
+                    :class="[
+                      !sideBarOpen && isLinkActive('/sign-language/statistics')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : sideBarOpen
+                        ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                        : '',
+                    ]"
+                  >
+                  Statistics
+                  </div>
+                </nuxt-link>
+              </li>
+
+              <li
+              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+              :class="[
+                isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
+                sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+              ]"
+            >
+              <nuxt-link
+                @click.stop
+                :to="localePath('/sign-language/customize')"
+                :class="[
+                  isLinkActive('/sign-language/customize')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    : '',
+                ]"
+                class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+              >
+                <div
+                  class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/sign-language/customize')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                      : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                  ]"
+                ></div>
+                <div
+                  :class="[
+                    !sideBarOpen && isLinkActive('/sign-language/customize')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : sideBarOpen
+                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                      : '',
+                  ]"
+                >
+                Customize
+                </div>
+              </nuxt-link>
+            </li>
+
+            <li
+            class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+            :class="[
+              isLinkActive('/sign-language/settings') && sideBarOpen ? '' : '',
+              sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+            ]"
+          >
+            <nuxt-link
+              @click.stop
+              :to="localePath('/sign-language/settings')"
+              :class="[
+                isLinkActive('/sign-language/settings')
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                  : '',
+              ]"
+              class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+            >
+              <div
+                class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                v-if="sideBarOpen"
+                :class="[
+                  isLinkActive('/sign-language/settings')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                    : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                ]"
+              ></div>
+              <div
+                :class="[
+                  !sideBarOpen && isLinkActive('/sign-language/settings')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    : sideBarOpen
+                    ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                    : '',
+                ]"
+              >
+              Settings
+              </div>
+            </nuxt-link>
+          </li>
                 </ul>
               </ul>
             </div>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import { useModalManager } from '@/composables/useModalManager';
+import { useTranslateStore } from "~/stores/translate";
 
+const translateStore = useTranslateStore()
+const {showProcessingFooter} = storeToRefs(translateStore)
 const {
   isOpen,
   currentView,
@@ -49,13 +51,46 @@ function leaveNotification(el, done) {
     done();
   }, 500);
 }
+
+const localePath = useLocalePath()
+const route = useRoute()
+const processingDone = ref(false)
+
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
+
+const shouldShowFooter = computed(()=>{
+ return (translateStore.wordTextEdit && isLinkActive('/document/word'));
+    
+    
+})
+
+const cancelButtonFooter = ()=>{
+  translateStore.wordTextEdit = false
+}
+const cancelFooterproccess = ()=>{
+  translateStore.showProcessingFooter = false
+  processingDone.value = false
+}
+
+watch(showProcessingFooter,(ov,nv)=>{
+  if(showProcessingFooter.value === true){
+setTimeout(()=>{
+
+  processingDone.value = true
+},2000)
+  }
+})
+
+provide('process',processingDone)
 </script>
 
 <template>
   <div class="w-full h-full relative">
  
 
-    <div class="space-y-[10px] mb-[16px]">
+    <div class="mb-[16px]">
       <div class="flex items-center justify-between w-full">
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
@@ -73,14 +108,21 @@ function leaveNotification(el, done) {
         </div>
       </div>
       </div>
-      <h2 @click="$router.push('/translate')"
+      <h2 @click="$router.push('/document')"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
       Documents Services
       </h2>
     </div>
 
+    <transition name="slide-up">
+      <SaveTranslateFooter :showFooter="shouldShowFooter" @cancel_action="cancelButtonFooter"/>
 
+    </transition>
+    <transition name="slide-up">
+
+    <Processingfooter :done="processingDone"  :showFooter="translateStore.showProcessingFooter" @cancel_action="cancelFooterproccess"/>
+  </transition>
 
   <TranslatedocsProjectWordProjectsettings/>
 

@@ -28,308 +28,372 @@ watch(
   <div class="w-full">
     <div
       v-if="currentPlan === 'freetrial'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] 
-      flex flex-col items-start justify-center "
+      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
-      <div class="h-[200px] flex items-center justify-between w-full relative">
-        <div class="absolute left-[30%] bottom-[10px] ">
-            <img
-              src="/assets/imgs/translatephotos/vector.png"
-              class="w-[134px] h-[124px] opacity-20 "
-              alt=""
-            />
-          </div>
-          <div class="absolute left-[50%] bottom-[-80px] ">
-          <div class="bg-white bg-opacity-40 w-[150px] h-[150px] rounded-full">
-
-          </div>
-          </div>
-        <div class="flex flex-col items-start justify-center px-[15px]">
-          <div class="flex items-center space-x-[10px]">
-            <div>
-              <img
-                class="w-[40px] h-[40px]"
-                src="/assets/imgs/translatevideo/free_trial.png"
-                alt=""
-              />
-            </div>
-            <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
-              Free Trial
-            </div>
-          </div>
-
-          <div class="text-[12px] lg:text-[15px] font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
-            Enjoy a 14-day free trial, where you can translate up to 50 words and 50
-            minutes
-          </div>
-
+      <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
+        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
           <div
-          class=" h-[35px] flex items-center justify-start space-x-[25px] "
-          >
-            <div class="flex items-center justify-start">
-              <div>
-                <img
-                  src="/assets/imgs/translatedocs/words.svg"
-                  class="w-[40px] h-[40px] object-cover object-center block m-0 p-0"
-                  alt=""
-                />
-              </div>
-
-              <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">Words</span></div>
-            </div>
-            <div class="flex items-center justify-start ">
-              <div>
-                <img
-                  src="/assets/imgs/translatedocs/chars.svg"
-                  class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
-                  alt=""
-                />
-              </div>
-
-              <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">Characters</span></div>
-            </div>
-          </div>
-
-          <button
-            @click="changePlan('freetrial_Ex')"
-            class="btn-dashboard hover_tamkin mt-[8px] w-[158px] "
-          >
-            Upgrade now
-          </button>
+            class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
+          ></div>
         </div>
-   
-        <div class="lg:flex hidden  items-center ">
-  
-          <div class="w-full h-full relative mt-[40px] ">
-       
-            <img
-              src="/assets/imgs/translatephotos/hero.png"
-              class="w-[348px] h-[225px]"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      v-if="currentPlan === 'freetrial_Ex'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] 
-      flex flex-col items-start justify-center "
-    >
-      <div class="h-[200px] flex items-center justify-between w-full relative">
-        <div class="absolute left-[30%] bottom-[10px] ">
-            <img
-              src="/assets/imgs/translatephotos/vector.png"
-              class="w-[134px] h-[124px] opacity-20 "
-              alt=""
-            />
-          </div>
-        <div class="flex flex-col items-start justify-center px-[15px]">
-          <div class="flex items-center space-x-[10px]">
-            <div>
-              <img
-                class="w-[40px] h-[40px]"
-                src="/assets/imgs/translatevideo/free_trial.png"
-                alt=""
-              />
-            </div>
-            <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
-              Free Trial
-            </div>
-          </div>
-
-          <div class="text-[12px] lg:text-[15px] font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
-            Your free trial has expired. For more words and characters, you can purchase the package
-          </div>
-
-          <div
-          class=" h-[35px] flex items-center justify-start space-x-[25px] "
-          >
-            <div class="flex items-center justify-start space-x-[10px] ">
-              <div>
-                <img
-                  src="/assets/imgs/translatedocs/limited.svg"
-                  class="w-[19px] h-[19px] "
-                  alt=""
-                />
-              </div>
-
-              <div class="text-[12px] lg:text-[14px] font-[500] text-[#3C3F49]"><span class="font-[700] mr-1">50 </span>Words</div>
-            </div>
-            <div class="flex items-center justify-start space-x-[10px] ">
-              <div>
-                <img
-                  src="/assets/imgs/translatedocs/limited.svg"
-                  class="w-[19px] h-[19px]"
-                  alt=""
-                />
-              </div>
-
-              <div class="text-[12px] lg:text-[14px] font-[500] text-[#3C3F49]"><span class="font-[700] mr-1">50 </span>Characters</div>
-            </div>
-          </div>
-
-          <button
-            @click="changePlan('pro_pack')"
-            class="btn-dashboard hover_tamkin mt-[8px] w-[158px] "
-          >
-            Upgrade now
-          </button>
-        </div>
-   
-        <div class="lg:flex hidden  items-center ">
-  
-          <div class="w-full h-full relative mt-[40px]">
-       
-            <img
-              src="/assets/imgs/translatephotos/hero.png"
-              class="w-[348px] h-[225px]"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-    v-if="currentPlan === 'pro_pack'"
-    class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] 
-      flex flex-col items-start justify-center  "
-  >
-    <div class="h-[200px] flex items-center justify-between w-full relative">
-        <div class="absolute left-[30%] bottom-[10px] ">
-            <img
-              src="/assets/imgs/translatephotos/vector.png"
-              class="w-[134px] h-[124px] opacity-20 "
-              alt=""
-            />
-          </div>
-      <div class="flex flex-col items-start justify-center px-[15px]">
         <div class="flex items-center space-x-[10px]">
-          <div>
+          <img
+            class="w-[40px] h-[40px]"
+            src="/assets/imgs/translatevideo/free_trial.png"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]"
+          >
+            Free Trial
+          </div>
+        </div>
+
+        <div
+          class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
+        </div>
+
+        <div class="flex items-center space-x-[50px]">
+          <div class="flex items-center">
             <img
-              class="w-[40px] h-[40px]"
-              src="/assets/imgs/translatevideo/pro.png"
+              src="/assets/imgs/translatedocs/words.svg"
+              class="w-[40px] h-[40px] object-cover object-center block m-0 p-0"
               alt=""
             />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 <span class="font-[500]">WORDS</span>
+            </div>
           </div>
-          <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
-            PRO- Package          </div>
+          <div class="flex items-center">
+            <img
+              src="/assets/imgs/translatedocs/chars.svg"
+              class="w-[40px] h-[40px] object-cover object-center block m-0 p-0"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 <span class="font-[500]">Character</span>
+            </div>
+          </div>
         </div>
-
-        <div class="text-[12px] lg:text-[15px] font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-[500px]">
-            You are now on the Pro package. You can utilize the remaining words and character in your current plan. To access additional services, consider upgrading to a higher package.
-        </div>
-
-        <!-- <div
-        class=" h-[35px] flex items-center justify-start space-x-[25px] "
+        <button
+          @click="changePlan('freetrial_upgrade')"
+          class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          <div class="flex items-center justify-start space-x-[10px] ">
-            <div>
-              <img
-                src="/assets/imgs/translatedocs/limited.svg"
-                class="w-[19px] h-[19px] "
-                alt=""
-              />
-            </div>
+          Try it Now
+        </button>
+      </div>
 
-            <div class="text-[12px] lg:text-[14px] font-[500] text-[#3C3F49]"><span class="font-[700] mr-1">50 </span>Words</div>
-          </div>
-          <div class="flex items-center justify-start space-x-[10px] ">
-            <div>
-              <img
-                src="/assets/imgs/translatedocs/limited.svg"
-                class="w-[19px] h-[19px]"
-                alt=""
-              />
-            </div>
+      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+        <div class="relative h-full z-[10]">
+          <img src="/assets/imgs/translatephotos/hero.png" class="w-[340px] h-[221px]" />
+        </div>
+        <div
+        class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+      >
 
-            <div class="text-[12px] lg:text-[14px] font-[500] text-[#3C3F49]"><span class="font-[700] mr-1">50 </span>Characters</div>
+      </div>
+        <div
+          class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
+        >
+          <img
+            src="/assets/imgs/translatephotos/vector.png"
+            class="w-[134px] h-[124px] opacity-20"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="currentPlan === 'freetrial_upgrade'"
+      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+    >
+      <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
+        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+          <div
+            class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
+          ></div>
+        </div>
+        <div class="flex items-center space-x-[10px]">
+          <img
+            class="w-[40px] h-[40px]"
+            src="/assets/imgs/translatevideo/free_trial.png"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]"
+          >
+            Free Trial
           </div>
-        </div> -->
+        </div>
+
+        <div
+          class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
+        </div>
+
+        <div class="flex items-center space-x-[50px]">
+          <div class="flex items-center">
+            <img
+              src="/assets/imgs/translatedocs/words.svg"
+              class="w-[40px] h-[40px] object-cover object-center block m-0 p-0"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 / 50 <span class="font-[500]">WORDS</span>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <img
+              src="/assets/imgs/translatedocs/chars.svg"
+              class="w-[40px] h-[40px] object-cover object-center block m-0 p-0"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              50 / 50 <span class="font-[500]">Character</span>
+            </div>
+          </div>
+        </div>
 
         <button
-          @click="changePlan('pro_used')"
-          class="btn-dashboard hover_tamkin mt-[8px] w-[158px] "
+          @click="changePlan('freetrial_Ex')"
+          class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
+        >
+         Upgrade now
+        </button>
+      </div>
+
+      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+
+        <div
+            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+          >
+    
+          </div>
+           <div class="relative h-full z-[10]">
+          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px]"  />
+        </div>
+        <div
+          class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
+        >
+          <img
+            src="/assets/imgs/translatephotos/vector.png"
+            class="w-[134px] h-[124px] opacity-20"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="currentPlan === 'freetrial_Ex'"
+      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+    >
+      <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
+        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+          <div
+            class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
+          ></div>
+        </div>
+        <div class="flex items-center space-x-[10px]">
+          <img
+            class="w-[40px] h-[40px]"
+            src="/assets/imgs/translatevideo/free_trial.png"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]"
+          >
+            Free Trial
+          </div>
+        </div>
+
+        <div
+          class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
+        </div>
+
+        <div class="flex items-center space-x-[50px]">
+          <div class="flex items-center space-x-[10px]">
+            <img
+              src="/assets/imgs/translatedocs/limited.svg"
+              class="w-[19px] h-[19px]"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              <span class="font-[500]">WORDS</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-[10px]">
+            <img
+              src="/assets/imgs/translatedocs/limited.svg"
+              class="w-[19px] h-[19px]"
+              alt=""
+            />
+            <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
+              <span class="font-[500]">Character</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          @click="changePlan('pro_pack')"
+          class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
           Upgrade now
         </button>
       </div>
- 
-      <div class="lg:flex hidden  items-center ">
 
-        <div class="w-full h-full relative mt-[40px]">
-     
+      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+
+        <div
+            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+          >
+    
+          </div>
+           <div class="relative h-full z-[10]">
+          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px]"  />
+        </div>
+        <div
+          class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
+        >
           <img
-            src="/assets/imgs/translatephotos/hero.png"
-            class="w-[348px] h-[225px]"
+            src="/assets/imgs/translatephotos/vector.png"
+            class="w-[134px] h-[124px] opacity-20"
             alt=""
           />
         </div>
       </div>
     </div>
-  </div>
-
-  <div
-  v-if="currentPlan === 'pro_used'"
-  class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] 
-      flex flex-col items-start justify-center "
->
-  <div class="h-[200px] flex items-center justify-between w-full relative">
-    <div class="absolute left-[30%] bottom-[10px] ">
-        <img
-          src="/assets/imgs/translatephotos/vector.png"
-          class="w-[134px] h-[124px] opacity-20 "
-          alt=""
-        />
-      </div>
-    <div class="flex flex-col items-start justify-center px-[15px]">
-      <div class="flex items-center space-x-[10px]">
-        <div>
+    <div
+      v-if="currentPlan === 'pro_pack'"
+      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+    >
+      <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
+        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+          <div
+            class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
+          ></div>
+        </div>
+        <div class="flex items-center space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
-            src="/assets/imgs/translatevideo/pro.png"
+            src="/assets/imgs/translatevideo/free_trial.png"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]"
+          >
+            PRO- Package
+          </div>
+        </div>
+
+        <div
+          class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          You are now on the Pro package. You can utilize the remaining words and
+          character in your current plan. To access additional services, consider
+          upgrading to a higher package.
+        </div>
+
+        <button
+          @click="changePlan('pro_used')"
+          class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
+        >
+          Upgrade now
+        </button>
+      </div>
+
+      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+
+        <div
+            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+          >
+    
+          </div>
+           <div class="relative h-full z-[10]">
+          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px]" />
+        </div>
+        <div
+          class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
+        >
+          <img
+            src="/assets/imgs/translatephotos/vector.png"
+            class="w-[134px] h-[124px] opacity-20"
             alt=""
           />
         </div>
-        <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
-          PRO- Package          </div>
       </div>
+    </div>
 
-      <div class="text-[12px] lg:text-[15px] font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-[500px]">
-        Your available words and character have been used up. Please purchase a new package or add more words and character to continue using the service      </div>
-
-    
-        <div class="flex items-center space-x-[10px] w-full mt-[8px]">
-            <button
-            @click="changePlan('freetrial')"
-            class="btn_bordered_dashboard hover_tamkin  lg:!w-[158px] "
+    <div
+      v-if="currentPlan === 'pro_used'"
+      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+    >
+      <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
+        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+          <div
+            class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
+          ></div>
+        </div>
+        <div class="flex items-center space-x-[10px]">
+          <img
+            class="w-[40px] h-[40px]"
+            src="/assets/imgs/translatevideo/free_trial.png"
+            alt=""
+          />
+          <div
+            class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]"
           >
-          Buy more words
+            PRO- Package
+          </div>
+        </div>
+
+        <div
+          class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4"
+        >
+          Your available words and character have been used up. Please purchase a new
+          package or add more words and character to continue using the service
+        </div>
+
+        <div class="flex items-center space-x-[10px] w-full mt-[8px]">
+          <button
+            @click="changePlan('freetrial')"
+            class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]"
+          >
+            Buy more words
           </button>
           <button
-          @click="changePlan('pro')"
-          class="btn_bordered_dashboard hover_tamkin  !p-2 lg:!w-[158px] "
-        >
-        Buy more Minutes
-        </button>
-          </div>
+            @click="changePlan('pro')"
+            class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-[158px]"
+          >
+            Buy more Minutes
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+
+        <div
+            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+          >
     
-    </div>
-
-    <div class="lg:flex hidden  items-center ">
-
-      <div class="w-full h-full relative mt-[40px]">
-   
-        <img
-          src="/assets/imgs/translatephotos/hero.png"
-          class="w-[348px] h-[225px]"
-          alt=""
-        />
+          </div>
+           <div class="relative h-full z-[10]">
+          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px]"  />
+        </div>
+        <div
+          class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
+        >
+          <img
+            src="/assets/imgs/translatephotos/vector.png"
+            class="w-[134px] h-[124px] opacity-20"
+            alt=""
+          />
+        </div>
       </div>
     </div>
-  </div>
-</div>
   </div>
 </template>

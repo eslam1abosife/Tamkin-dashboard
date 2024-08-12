@@ -111,7 +111,8 @@ export const useCustomizeStore = defineStore('customize', {
     hasChanges() {
       return JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes) || 
       
-      this.buttonPositionDesktop !== 'top_left' || this.buttonPositionMobile !== 'top_left_mobile' || this.forceChange_buttonShape || this.force_change_profileCards || this.force_change_MainMenuCard 
+      this.buttonPositionDesktop !== 'top_left' || this.buttonPositionMobile !== 'top_left_mobile' || 
+      this.forceChange_buttonShape || this.force_change_profileCards || this.force_change_MainMenuCard 
 
         
     },

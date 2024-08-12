@@ -6,7 +6,8 @@
   ),
 );
 .btn-action-translate{
-  @apply bg-white dark:bg-darkSecondary dark:text-whiteTamkin border-translate border-s flex items-center justify-center  rounded-[9px]  text-darkGrey h-[33px] py-[4px] px-[32px];
+  @apply bg-white dark:bg-darkSecondary dark:text-whiteTamkin border-translate border-s 
+  flex items-center justify-center  rounded-[9px]  text-darkGrey h-[33px] py-[4px] text-[12px] px-[32px];
 
   &:hover{
     @apply bg-gradient-to-r from-[#35C0B4]/10 via-[#E42AD2]/10 to-[#4F75FD]/10 ;
@@ -200,7 +201,7 @@
 
 .btn_bordered_dashboard {
   @apply border-[1px] border-tamkin text-tamkin bg-white dark:bg-tamkinDarkPrimary h-[40px] ipad-max:!h-[40px] lg:h-[40px]
-   rounded-[10px] p-[6px] text-[10px] ipad-max:text-[10px] lg:text-[14px] 
+   rounded-[10px] p-[6px] text-[10px] lg:text-[15px] 
    flex items-center justify-center cursor-pointer;
   
   &.error {

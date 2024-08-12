@@ -1,14 +1,14 @@
 <template>
     
-   <div class="flex items-start justify-start flex-col w-full">
-    <div class="h-[300px]" v-if="showHideImage">
+   <div class="flex items-start justify-start flex-col">
 
+    <div class="w-full" v-if="!prop_player.showHideImage">
+        <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-5/6" alt="">
     </div>
-    <div class="w-full" v-else>
-        <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-[300px]" alt="">
-    </div>
-    <div ref="editorContainer" class="editor-container  w-full bg-white  mt-[16px] " @scroll="handleScroll">
-        <!-- <editor-content :editor="editor" class="prose  w-full  scrollable-div" :class="[]"></editor-content> -->
+    <div ref="editorContainer" class="editor-container  w-full  bg-white "  :class="[!prop_player.showHideImage ? ' lg:mt-[-30px] mt-[-60px]' :'']"
+ >
+        <editor-content :editor="editor" class="prose  w-full  scrollable-div " :class="[isMenusOpen ? 'lg:!h-[340px] 3xl:!h-[370px]':'!h-[282px] lg:!h-[250px]']"
+      ></editor-content>
       </div>
    </div>
  
@@ -23,12 +23,17 @@
   import Highlight from '@tiptap/extension-highlight';
   import Underline from '@tiptap/extension-underline';
   import Strike from '@tiptap/extension-strike';
- 
+  import { useTranslateStore } from "~/stores/translate";
+
   export default defineComponent({
  
  
     components: {
       EditorContent,
+    },
+    props:{
+      isMenusOpen:Boolean
+
     },
     setup() {
       const zoomLevel = ref(100);
@@ -36,8 +41,10 @@
       const totalPages = ref(1);
       const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
       const WORD_LIMIT = 250; // Example word limit per page
+const translateStore = useTranslateStore()
   
       const editor = new Editor({
+        editable:false,
         extensions: [
           StarterKit,
           TextStyle,
@@ -62,7 +69,17 @@
             class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
           },
         },
-      });
+        onUpdate() {
+         
+     
+            nextTick(() => {
+
+          translateStore.photoEditFooter = true
+      
+        })
+      }
+
+    })
   
   
   
@@ -74,14 +91,14 @@
 
    
 
-const showHideImage = inject('showHideImage')
+      const prop_player = inject('prop_player');
 
 
   
       return {
         editor,
         zoomLevel,
-        showHideImage,
+        prop_player,
         toggleStrike,
         toggleUnderline,
         currentPage,
@@ -92,61 +109,7 @@ const showHideImage = inject('showHideImage')
   </script>
   
   <style scoped>
-  .toolbar-item {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    font-size: 16px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .toolbar-item input {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-  }
-  .text-color::after {
-    content: '';
-    display: block;
-    width: 16px;
-    height: 2px;
-    background-color: red;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .highlight-color::after {
-    content: '';
-    display: block;
-    width: 16px;
-    height: 6px;
-    background-color: yellow;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .toolbar-item:hover {
-    background-color: #e5e5e5;
-  }
-  .editor-container {
-   
-    overflow: hidden;
-    transform: scale(1);
-    transform-origin: top left;
-    transition: transform 0.2s;
-  }
-  .page {
-    page-break-after: always;
-    padding: 20px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
+
+
   </style>
   

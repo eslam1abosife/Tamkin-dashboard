@@ -61,7 +61,7 @@
     <!-- Big number and buttons -->
     <div class="flex items-center justify-end w-full relative z-[50]">
       <div class="flex lg:space-x-4 lg:flex-nowrap flex-wrap lg:space-y-0 space-y-[10px] w-2/4">
-        <button class="btn-dashboard rounded-full h-[40px] w-3/4">Buy Tamkin</button>
+        <button class="btn-dashboard rounded-full h-[40px] hover_tamkin w-3/4">Buy Tamkin</button>
         <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px] ">Investor Program</button>
         <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px]">Investor Package</button>
       </div>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useModalManager } from '@/composables/useModalManager';
 
 const {
   isOpen,
@@ -49,6 +48,9 @@ function leaveNotification(el, done) {
     done();
   }, 500);
 }
+
+
+
 </script>
 
 <template>
@@ -84,11 +86,11 @@ function leaveNotification(el, done) {
     </div>
 
 
-    <div class="flex items-center justify-start space-x-[24px] mb-[16px]">
+    <div class="flex items-center justify-start space-x-[24px] mb-[16px]" v-if="currentPlan !== 'freetrial' ">
 
-        <div class="flex items-center justify-center  space-x-[8px] h-[72px] p-[24px] custom-border bg-white rounded-[10px]">
+        <div  class="flex items-center justify-center  space-x-[8px] h-[72px] p-[24px] custom-border bg-white rounded-[10px]">
 <div>
-    <img src="/assets/imgs/translatedocs/doc.svg" alt="">
+    <img src="/assets/imgs/translatedocs/doc_header.svg" alt="">
 </div>
 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
     Total  DOCX
@@ -99,7 +101,7 @@ function leaveNotification(el, done) {
         </div>
         <div class="flex items-center justify-center  space-x-[8px] h-[72px]  p-[24px] custom-border bg-white rounded-[10px]">
             <div>
-                <img src="/assets/imgs/translatedocs/pdf.svg" alt="">
+                <img src="/assets/imgs/translatedocs/pdf_header.svg" alt="">
             </div>
             <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
                 Total  PDF
@@ -109,6 +111,7 @@ function leaveNotification(el, done) {
             </div>
                     </div>
     </div>
+
     <TranslatedocsPackage :type="currentPlan" @change-plan="changePlan" />
     <TranslatedocsTypes :plan="currentPlan" />
     <TranslatePlan />

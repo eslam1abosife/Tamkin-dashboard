@@ -2,13 +2,13 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 
- import { Vue3Lottie } from 'vue3-lottie'
-          import SuccessAnimation from '/assets/animation/forget_password_success.json'
+import { Vue3Lottie } from "vue3-lottie";
+import SuccessAnimation from "/assets/animation/forget_password_success.json";
 definePageMeta({
   layout: "auth",
 });
-// import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
-// import { useAuthStore } from "@/stores/auth";
+
+import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
 
 // const authStore = useAuthStore();
 // const { loading } = storeToRefs(authStore); // make authenticated state reactive with storeToRefs
