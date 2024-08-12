@@ -94,7 +94,7 @@ const imgStyle = computed(() => {
 
 onBeforeMount(() => {
   [
-    "language",
+"language",
 "enable_live_site",
     "oversized_widget",
     "move_access",

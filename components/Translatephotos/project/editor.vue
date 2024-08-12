@@ -1,14 +1,14 @@
 <template>
     
-   <div class="flex items-start justify-start flex-col ">
+   <div class="flex items-start justify-start flex-col">
 
     <div class="w-full" v-if="!prop_player.showHideImage">
-        <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-[300px]" alt="">
+        <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-5/6" alt="">
     </div>
-    <div ref="editorContainer" class="editor-container  w-full bg-white  mt-[16px] " 
-    :class="[prop_player.showHideImage ? 'h-[600px]' :'h-[300px]']">
-        <editor-content :editor="editor" class="prose  w-full  scrollable-div " 
-        :class="[prop_player.showHideImage ? 'h-[600px]' :'h-[300px]']"></editor-content>
+    <div ref="editorContainer" class="editor-container  w-full  bg-white "  :class="[!prop_player.showHideImage ? ' lg:mt-[-30px] mt-[-60px]' :'']"
+ >
+        <editor-content :editor="editor" class="prose  w-full  scrollable-div " :class="[isMenusOpen ? 'lg:!h-[340px] 3xl:!h-[370px]':'!h-[282px] lg:!h-[250px]']"
+      ></editor-content>
       </div>
    </div>
  
@@ -30,6 +30,10 @@
  
     components: {
       EditorContent,
+    },
+    props:{
+      isMenusOpen:Boolean
+
     },
     setup() {
       const zoomLevel = ref(100);

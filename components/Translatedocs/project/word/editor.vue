@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="main-container !h-full relative">
+  <div class="overflow-y-hidden h-full " :class="[isMenusOpen?'max-h-[710px]':'max-h-[625px]']" style="resize:vertical;">
+    <div class="main-container relative " >
       <div class="editor-container editor-container_document-editor relative f_h" ref="editorContainerElement">
         <div class="editor-container__menu-bar !bg-[#F6F6F6] " ref="editorMenuBarElement"></div>
         <div class="editor-container__toolbar !bg-[#F6F6F6]" ref="editorToolbarElement"></div>
@@ -45,77 +45,23 @@ const translateStore = useTranslateStore()
 
 import { ref, onMounted } from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import {
-  DecoupledEditor,
-  AccessibilityHelp,
-  Alignment,
-  Autoformat,
-  AutoImage,
-  AutoLink,
-  Autosave,
-  BlockQuote,
-  Bold,
-  CloudServices,
-  Code,
-  Essentials,
-  FindAndReplace,
-  FontBackgroundColor,
-  FontColor,
-  FontFamily,
-  FontSize,
-  Heading,
-  Highlight,
-  HorizontalLine,
-  ImageBlock,
-  ImageCaption,
-  ImageInline,
-  ImageInsertViaUrl,
-  ImageResize,
-  ImageStyle,
-  ImageTextAlternative,
-  ImageToolbar,
-  ImageUpload,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  LinkImage,
-  List,
-  ListProperties,
-  PageBreak,
-  Paragraph,
-  RemoveFormat,
-  SelectAll,
-  SpecialCharacters,
-  SpecialCharactersArrows,
-  SpecialCharactersCurrency,
-  SpecialCharactersEssentials,
-  SpecialCharactersLatin,
-  SpecialCharactersMathematical,
-  SpecialCharactersText,
-  Strikethrough,
-  Subscript,
-  Superscript,
-  Table,
-  TableCaption,
-  TableCellProperties,
-  TableColumnResize,
-  TableProperties,
-  TableToolbar,
-  TextTransformation,
-  TodoList,
-  Underline,
-  Undo,
-  WordCount,
-  RestrictedEditingMode 
-} from 'ckeditor5';
-import 'ckeditor5/ckeditor5.css';
 
+// import  {DecoupledEditor} from '@/ck-vue/ckeditor';
+import '@/ck-vue/ckeditor'
+
+const EditorDec = window['DecoupledEditor']
+  
+ 
+import 'ckeditor5/ckeditor5.css';
+// import ResizableHeight from '@pikulinpw/ckeditor5-resizableheight';
+const props = defineProps({
+  isMenusOpen:Boolean
+})
 const config = ref({});
 const isLayoutReady = ref(false);
 const editorToolbarElement = ref(null);
 const editorMenuBarElement = ref(null);
-const editor = DecoupledEditor;
+const editor = EditorDec;
 
 const wordCount = ref(0);
 const currentPage = ref(1);
@@ -225,7 +171,7 @@ const updatePopupPosition = (editorInstance) => {
 const onReady = (editorInstance) => {
   // console.log('Editor is ready', editorInstance); // Debugging log
   instance.value = editorInstance;
-  // editorInstance.enableReadOnlyMode('word-editor')
+  editorInstance.enableReadOnlyMode('word-editor')
   editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'bold' );
   editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'italic' );
   editorInstance.plugins.get( 'RestrictedEditingModeEditing' ).enableCommand( 'heading' );
@@ -263,6 +209,7 @@ const onReady = (editorInstance) => {
   updatePopupPosition(editorInstance);
 });
   breakContentIntoPages(editorInstance);
+
 };
 
 
@@ -312,12 +259,13 @@ const onScroll = () => {
   currentPage.value = current;
 };
 
+  
 onMounted(() => {
   config.value = {
     
     toolbar: {
       items: [
-      'restrictedEditing',
+      // 'restrictedEditing',
         'undo',
         'redo',
         '|',
@@ -362,69 +310,70 @@ onMounted(() => {
       shouldNotGroupWhenFull: true
     },
 
-    plugins: [
-      RestrictedEditingMode,
-      AccessibilityHelp,
-      Alignment,
-      Autoformat,
-      AutoImage,
-      AutoLink,
-      Autosave,
-      BlockQuote,
-      Bold,
-      CloudServices,
-      Code,
-      Essentials,
-      FindAndReplace,
-      FontBackgroundColor,
-      FontColor,
-      FontFamily,
-      FontSize,
-      Heading,
-      Highlight,
-      HorizontalLine,
-      ImageBlock,
-      ImageCaption,
-      ImageInline,
-      ImageInsertViaUrl,
-      ImageResize,
-      ImageStyle,
-      ImageTextAlternative,
-      ImageToolbar,
-      ImageUpload,
-      Indent,
-      IndentBlock,
-      Italic,
-      Link,
-      LinkImage,
-      List,
-      ListProperties,
-      PageBreak,
-      Paragraph,
-      RemoveFormat,
-      SelectAll,
-      SpecialCharacters,
-      SpecialCharactersArrows,
-      SpecialCharactersCurrency,
-      SpecialCharactersEssentials,
-      SpecialCharactersLatin,
-      SpecialCharactersMathematical,
-      SpecialCharactersText,
-      Strikethrough,
-      Subscript,
-      Superscript,
-      Table,
-      TableCaption,
-      TableCellProperties,
-      TableColumnResize,
-      TableProperties,
-      TableToolbar,
-      TextTransformation,
-      TodoList,
-      Underline,
-      Undo,
-      WordCount
-    ],
+    // plugins: [
+    //   // ResizableHeight,
+    //   // RestrictedEditingMode,
+    //   // AccessibilityHelp,
+    //   // Alignment,
+    //   // Autoformat,
+    //   // AutoImage,
+    //   // AutoLink,
+    //   // Autosave,
+    //   // BlockQuote,
+    //   // Bold,
+    //   // CloudServices,
+    //   // Code,
+    //   // Essentials,
+    //   // FindAndReplace,
+    //   // FontBackgroundColor,
+    //   // FontColor,
+    //   // FontFamily,
+    //   // FontSize,
+    //   // Heading,
+    //   // Highlight,
+    //   // HorizontalLine,
+    //   // ImageBlock,
+    //   // ImageCaption,
+    //   // ImageInline,
+    //   // ImageInsertViaUrl,
+    //   // ImageResize,
+    //   // ImageStyle,
+    //   // ImageTextAlternative,
+    //   // ImageToolbar,
+    //   // ImageUpload,
+    //   // Indent,
+    //   // IndentBlock,
+    //   // Italic,
+    //   // Link,
+    //   // LinkImage,
+    //   // List,
+    //   // ListProperties,
+    //   // PageBreak,
+    //   // Paragraph,
+    //   // RemoveFormat,
+    //   // SelectAll,
+    //   // SpecialCharacters,
+    //   // SpecialCharactersArrows,
+    //   // SpecialCharactersCurrency,
+    //   // SpecialCharactersEssentials,
+    //   // SpecialCharactersLatin,
+    //   // SpecialCharactersMathematical,
+    //   // SpecialCharactersText,
+    //   // Strikethrough,
+    //   // Subscript,
+    //   // Superscript,
+    //   // Table,
+    //   // TableCaption,
+    //   // TableCellProperties,
+    //   // TableColumnResize,
+    //   // TableProperties,
+    //   // TableToolbar,
+    //   // TextTransformation,
+    //   // TodoList,
+    //   // Underline,
+    //   // Undo,
+    //   // WordCount
+    // ],
   
     fontFamily: {
       supportAllValues: true

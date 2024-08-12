@@ -10,7 +10,14 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL
     }
   },
-
+  optimizeDeps: {
+    include: ['@/ck-vue'],
+  },
+  build: {
+    commonjsOptions: {
+      include: ['@/ck-vue'],
+    },
+  },
   // vite: {
   //   server: {
   //     cors: true,

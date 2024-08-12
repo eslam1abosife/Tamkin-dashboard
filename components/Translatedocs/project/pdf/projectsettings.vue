@@ -165,7 +165,11 @@ const getPlayerPosition = (p: any) => {
 
 
 
-                <TranslatedocsProjectPdfEditor class="ipad-max:w-3/4 3xl:w-3/4 h-full col-span-8  " />
+                <TranslatedocsProjectPdfEditor
+                
+                :is-menus-open="      (translateStore.currentMode === 'signlang' && !bigpicMode) ||
+                    (translateStore.currentMode === 'translation' && !bigpicMode)"
+                class="ipad-max:w-3/4 3xl:w-3/4 h-full col-span-8  " />
 
                 <div class="  h-full col-span-4" >
                     <LazyTranslatedocsProjectModesSignlang class="w-full !overflow-y-hidden "

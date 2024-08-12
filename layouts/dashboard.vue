@@ -9,7 +9,7 @@ import { useStatsStore } from "@/stores/stats.js";
 import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from "@/composables/useModalManager";
 import { useTranslateStore } from "~/stores/translate";
-
+const signLangStore = useSignLangStore();
 const translateStore = useTranslateStore();
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
@@ -22,8 +22,21 @@ const navStoreRef = storeToRefs(navStore);
 const localePath = useLocalePath();
 const route = useRoute();
 const isLinkActive = (path) => {
-  return localePath(route.path) === localePath(path);
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
 };
+
+const { resetModal } = storeToRefs(marketStore);
 
 const {
   isOpen,
@@ -137,11 +150,7 @@ const shouldShowFooter = computed(() => {
     isMarketChanges ||
     translateStyle ||
     translatePlayer ||
-
-    (    translateStore.changesOnSubTitles && isLinkActive('/translate/video'))
-  
-  
- 
+    (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
   );
 });
 
@@ -199,23 +208,6 @@ const confirmWithSaveFn = () => {
     // checkboxStore.showSaveBeforeLeaveModal()
   }
 };
-const hasUnsavedChanges = () => {
-  return (
-    (isLinkActive(localePath("/addons")) && checkboxStore.hasChanges()) ||
-    (isLinkActive(localePath("/addons")) &&
-      (checkboxStore.force_change_menuCards ||
-        checkboxStore.force_change_profileCards)) ||
-    (isLinkActive(localePath("/customize")) &&
-      (custmizeStore.forceChange_buttonShape ||
-        force_change_profileCards.value ||
-        force_change_MainMenuCard.value ||
-        currentColor.value !== "#2dada3" ||
-        gradient1.value !== "#2dada3" ||
-        gradient2.value !== "#2dada3" ||
-        custmizeStore.hasChanges())) ||
-    (isLinkActive(localePath("/settings")) && settingsStore.hasChanges())
-  );
-};
 
 const openModals = computed(() => {
   return (
@@ -250,7 +242,9 @@ const openModals = computed(() => {
     sideBarOpenMobile.value ||
     settingsStore.routeLeaveModal ||
     checkboxStore.routeLeaveModal ||
-    isOpen('successContact')
+    signLangStore.routeLeaveModal ||
+    isOpen("successContact") ||
+    resetModal.value
   );
 });
 
@@ -282,8 +276,12 @@ const closeSideBarOnMobileOverlay = () => {
         class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"
       ></div>
 
-     <ModalsSuccessmodal :show-modal="isOpen('successContact')" title="Thanks for contact us"
-      sub-title="We will contact you as soon as possible " icon="contact_success.svg" /> 
+      <ModalsSuccessmodal
+        :show-modal="isOpen('successContact')"
+        title="Thanks for contact us"
+        sub-title="We will contact you as soon as possible "
+        icon="contact_success.svg"
+      />
       <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
       <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
       <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
@@ -543,7 +541,8 @@ const closeSideBarOnMobileOverlay = () => {
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
-                isLinkActive('/settings')
+                isLinkActive('/settings') ||
+                isLinkActive('/sign-language/*')
               "
             ></div>
             <div class="relative px-[15px]">

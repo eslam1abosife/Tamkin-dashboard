@@ -17,7 +17,7 @@ const changeTab = (tab: any) => {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
+  <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[12px] mt-[16px] rounded-[10px] w-full mb-[16px]">
     <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
 <div class="flex items-center justify-start  space-x-[24px]">
     <div

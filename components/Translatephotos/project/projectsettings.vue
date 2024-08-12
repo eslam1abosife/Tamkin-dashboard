@@ -272,97 +272,127 @@ provide("prop_player", state);
     <TranslateModalsMoreinfo />
 
     <ClientOnly>
-      <div class="flex items-start justify-center w-full mt-[42px] gap-4 h-full pb-[12px]">
-        <TranslatephotosProjectEditor
-          :class="[state.removePlayer ? 'w-full' : 'w-[70%]']"
+      <div         class="grid grid-cols-12 mt-[24px] gap-4 h-full"
+      >
+        <TranslatephotosProjectEditor 
+:is-menus-open="    (translateStore.currentMode === 'signlang' && !state.removePlayer) ||
+            (translateStore.currentMode === 'translation' && !state.removePlayer)"
+        :class="[
+          state.removePlayer ? 'h-full col-span-12 !mx-auto' : 'h-full col-span-8 ipad-max:col-span-7',
+              ]"
         />
 
-        <div class="h-auto">
+        <div class="h-full col-span-4 ipad-max:col-span-5" v-if="!state.removePlayer">
           <LazyTranslatedocsProjectModesSignlang
-            class="w-full !overflow-y-hidden mb-[8px]"
+            class="w-full !overflow-y-hidden h-auto"
             v-show="translateStore.currentMode === 'signlang'"
           />
           <LazyTranslatedocsProjectModesTranslation
-            class="w-full !overflow-y-hidden mb-[8px]"
+            class="w-full !overflow-y-hidden h-auto"
             v-show="translateStore.currentMode === 'translation'"
           />
 
           <div
-            class="flex flex-col space-y-[24px] items-start justify-start  "
-            v-if="!state.removePlayer"
-            :class="[
-              (translateStore.currentMode === 'signlang' && !bigpicMode) ||
-              (translateStore.currentMode === 'translation' && !bigpicMode)
-                ? ' ipad-max:mt-[-60px] mt-[-100px]'
-                : 'mt-0',
-            ]"
+          class="flex flex-col space-y-[24px] items-start justify-center w-full  "
+          :class="[
+            (translateStore.currentMode === 'signlang' && !state.removePlayer) ||
+            (translateStore.currentMode === 'translation' && !state.removePlayer)
+              ? ' ipad-max:mt-[-60px] mt-[-100px]'
+              : 'mt-0',
+          ]"
+        >
+          <div class="relative w-full">
+            <img
+              src="/assets/imgs/translatedocs/player.png"
+              alt=""
+              @click="state.removePlayer = !state.removePlayer"
+              class="transition-all ease-in-out  w-full h-full " 
+            />
+          </div>
 
+           
+            <div v-if="    (translateStore.currentMode === 'signlang' && !state.removePlayer) ||
+            (translateStore.currentMode === 'translation' && !state.removePlayer)"
+                    class="h-[54px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+                    flex flex-col items-center justify-center rounded-[10px]"
+                  >
+                  
+              
+                    <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+                      <div
+                      class="text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
+                    >
+                      Translation accuracy
+                    </div>
+                    
+                      <div class="flex items-center justify-center w-[50px] ">
+                        <Circularprogressbar :initialPercentage="85" class="w-full small_circle text-[12px]" />
+                      
+                      </div>
+
+                     
+                     
+             
+                    </div>
+                  </div>
+            <div v-else
+            class="h-[200px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+            flex flex-col items-center justify-center rounded-[10px]"
           >
-            <div class="relative" @click="state.removePlayer = !state.removePlayer">
+            <div class="absolute bottom-4 right-4">
               <img
-                src="/assets/imgs/translatedocs/player.png"
+                src="/assets/imgs/translatedocs/lines.svg"
+                class="w-[32px] h-[32px]"
                 alt=""
-                class="transition-all ease-in-out h-[350px] w-full"
               />
             </div>
+            <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
+              Sign Language Translation
+            </div>
+            <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+              <div class="flex flex-col items-center justify-center w-[120px]">
+                <Circularprogressbar :initialPercentage="85" class="w-full" />
+                <div
+                  class="mt-[12px] text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
+                >
+                  Translation accuracy
+                </div>
+              </div>
+              <div class="flex items-center jutify-center flex-col w-[150px] space-y-[9px]">
+                <div
+                  class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px]
+                   w-full flex flex-col items-center justify-center"
+                >
+                  <div>
+                    <img
+                      src="/assets/imgs/translatedocs/Checkmark.png"
+                      class="w-[19px] h-[19px]"
+                      alt=""
+                    />
+                  </div>
 
-            <div
-              class="h-[200px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] flex flex-col items-center 
-              justify-center rounded-[10px]"
-            >
-              <div class="absolute bottom-4 right-4">
-                <img
-                  src="/assets/imgs/translatedocs/lines.svg"
-                  class="w-[32px] h-[32px]"
-                  alt=""
-                />
-              </div>
-              <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
-                Sign Language Translation
-              </div>
-              <div class="flex items-center justify-evenly w-full gap-6 px-[8px]">
-                <div class="flex flex-col items-center justify-center w-1/4">
-                  <Circularprogressbar :initialPercentage="85" class="w-full" />
-                  <div
-                    class="mt-[12px] text-[8px] text-center whitespace-nowrap font-[500] text-[#021328]"
-                  >
-                    Translation accuracy
+                  <div class="text-[11px] text-center font-[500] text-[#021328]">
+                    Translated Words 1,250
                   </div>
                 </div>
-                <div class="flex items-center jutify-center flex-col w-2/4 space-y-[9px]">
-                  <div
-                    class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px] w-full flex flex-col items-center justify-center"
-                  >
-                    <div>
-                      <img
-                        src="/assets/imgs/translatedocs/Checkmark.png"
-                        class="w-[19px] h-[19px]"
-                        alt=""
-                      />
-                    </div>
-
-                    <div class="text-[9px] text-center font-[500] text-[#021328]">
-                      Translated Words 1,250
-                    </div>
+                <div
+                  class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px] w-full flex flex-col items-center justify-center"
+                >
+                  <div>
+                    <img
+                      src="/assets/imgs/translatedocs/limited.svg"
+                      class="w-[19px] h-[19px]"
+                      alt=""
+                    />
                   </div>
-                  <div
-                    class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px] w-full flex flex-col items-center justify-center"
-                  >
-                    <div>
-                      <img
-                        src="/assets/imgs/translatedocs/limited.svg"
-                        class="w-[19px] h-[19px]"
-                        alt=""
-                      />
-                    </div>
 
-                    <div class="text-[9px] text-center font-[500] text-[#021328]">
-                      Untranslated Words 1,250
-                    </div>
+                  <div class="text-[11px] text-center font-[500] text-[#021328]">
+                    Untranslated Words 1,250
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -379,7 +409,7 @@ provide("prop_player", state);
 }
 
 .scrollable-div::-webkit-scrollbar {
-  width: 10px;
+  width: 14px;
   /* Width of the scrollbar */
 }
 

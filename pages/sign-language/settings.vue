@@ -1,0 +1,793 @@
+<script lang="ts" setup>
+import VCodeBlock from "@wdns/vue-code-block";
+import { useCollapseStore } from "@/stores/collapse.js";
+import { vOnClickOutside } from "@vueuse/components";
+import { useSettingsStore } from "@/stores/settings";
+import { useModalManager } from '@/composables/useModalManager';
+
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
+const settingsStore = useSettingsStore();
+const {isChecked,toggleCheckbox} = settingsStore
+const collapseStore = useCollapseStore();
+
+definePageMeta({
+  layout: "dashboard",
+});
+const code = ref(true);
+const advancedCode = ref(false);
+const currentCode = ref(``);
+const copyDone = ref(false);
+const showAdancedCode = () => {
+  if (!advancedCode.value) {
+    code.value = false;
+    advancedCode.value = true;
+
+    currentCode.value = `const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+const foo = 'bar';
+`;
+  } else {
+    code.value = true;
+    advancedCode.value = false;
+
+    currentCode.value = `const foo = 'bar';`;
+  }
+};
+
+onBeforeMount(() => {
+  currentCode.value = `const foo = 'bar';`;
+  code.value = true;
+});
+const copyCode = () => {
+  copyDone.value = true;
+};
+
+watch(copyDone, (newValue) => {
+  if (newValue) {
+    // Reset copyDone after the hideIn duration
+    setTimeout(() => {
+      copyDone.value = false;
+    }, 2000);
+  }
+});
+
+const widgetEnabledOnSite = ref(false);
+const widgetEnabledOnMobile = ref(false);
+const soundEffects = ref(false);
+
+onBeforeMount(() => {
+  ["enable_widget_on_this_site_sign", "widget_enabled_on_mobile_sign", "sound_effects_sign"].forEach(
+    (name) => {
+      settingsStore.addCheckbox(name);
+    }
+  );
+  settingsStore.initializeCheckboxes([
+    "enable_widget_on_this_site_sign",
+
+    "widget_enabled_on_mobile_sign",
+    "sound_effects_sign",
+  ]);
+});
+let pendingNavigation =null
+const detectUnsavedChanges = () => {
+  
+  return settingsStore.hasChanges()
+
+};
+
+const handleSaveAndMove = () => {
+  settingsStore.saveAndMove();
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+
+const handleCancelLeave = () => {
+  settingsStore.routeLeaveModal = false; // Close the modal
+};
+
+onBeforeRouteLeave((to, from, next) => {
+  if (detectUnsavedChanges()) {
+    settingsStore.showSaveBeforeLeaveModal();
+    pendingNavigation = { next, to };
+  } else {
+    next(); // No unsaved changes, proceed normally
+  }
+});
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes('*')) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp('^' + pattern.replace(/\/\*/g, '.*') + '$');
+  
+  return regex.test(currentPath);
+};
+
+const shouldShowFooter = computed(() => {
+
+  const isSettingsLinkActive = isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
+
+
+  return (
+    isSettingsLinkActive
+    
+  
+ 
+  );
+});
+
+const cancelAc = () => {
+
+    const isSettingsLinkActive = isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
+
+
+
+    if (isSettingsLinkActive) {
+      settingsStore.cancelAll();
+  }
+};
+</script>
+
+<template>
+  <div class="relative h-full w-full">
+    <LanguageServicesNavbar/>
+    <transition name="slide-up">
+      <DashboardAddonsSavefooter
+        :show-footer="shouldShowFooter"
+        @cancel_action="cancelAc"
+      />
+    </transition>
+    <LazyModalsConfirm :showModal="settingsStore.routeLeaveModal" title="Save  your changes"
+    sub-title="Do you want to save the changes before moving on?"
+    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
+    :savetoAllSitesBtn="true"
+    @control-cancel="handleSaveAndMove" />
+    <div class="w-full h-full relative">
+      <Headeraccess 
+      websiteImgName="tamkin_hand.svg"
+      website-title="Tamkin.App"
+      website-link="google.com"
+      section-title="Settings" 
+      section-sub-title="Settings let you customize your preferences and configurations"/>
+   
+
+   
+
+      <div
+        class="mt-[64px] md:mt-[94px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
+        :class="[               collapseStore.collapses.includes('general_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
+        
+      >
+        <div class="flex items-center justify-start  ">
+          <div class="pt-[24px] ">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
+            <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
+              Accessibility Settings allow users to customize their website experience to
+              ensure it is accessible and user-friendly
+            </h2>
+          </div>
+
+          <div
+            @click.stop="collapseStore.collapseMenu('general_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('general_settings')"
+            :class="[
+              collapseStore.menus.includes('general_settings')
+                ? 'active_notification !text-darkGrey'
+                : '',
+            ]"
+            class="menu_button_control"
+          >
+            <svg
+              width="18"
+              height="5"
+              viewBox="0 0 18 5"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              :class="[
+                collapseStore.menus.includes('general_settings')
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ]"
+            >
+              <path
+                d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <div
+              v-if="collapseStore.menus.includes('general_settings')"
+              class="mini_SizeMenu"
+            >
+              <div
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('general_settings_card')"
+              >
+                <div>
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
+
+                </div>
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("general_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
+                </div>
+              </div>
+
+              <div class="arrow">
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col items-start justify-center  mt-[18px] divide-y "
+          v-if="!collapseStore.collapses.includes('general_settings_card')"
+        >
+          <div
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+          >
+            <div class="flex items-center justify-start space-x-[13px] w-full">
+              <div
+                class="flex flex-col items-start justify-center w-full"
+                :class="[!isChecked('enable_widget_on_this_site_sign') ? 'opacity-60' : '']"
+              >
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
+                  <span>Sign language enabled on this site </span>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <label for="toggle_Widget_enabled_on_this_site" class="toggle_wrap">
+               
+                  <input
+                    type="checkbox"
+                    id="toggle_Widget_enabled_on_this_site"
+                    class="sr-only"
+                     :checked="isChecked('enable_widget_on_this_site_sign')"
+                    @change="toggleCheckbox('enable_widget_on_this_site_sign')"
+                  />
+                  <div
+                    class="toggle_parent"
+                    :class="[isChecked('enable_widget_on_this_site_sign') ? 'active' : 'in_active']"
+                  >
+                    <div class="toggle_inner" :class="{ active: isChecked('enable_widget_on_this_site_sign') }">
+                      <img 
+                        v-if="isChecked('enable_widget_on_this_site_sign')"
+                        src="/assets/imgs/translatevideo/sign_active.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                      <img 
+                        v-else
+                        src="/assets/imgs/translatevideo/sign_inactive.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+          >
+            <div class="flex items-center justify-start space-x-[13px] w-full">
+              <div
+                class="flex flex-col items-start justify-center w-full"
+                :class="[!isChecked('widget_enabled_on_mobile_sign') ? 'opacity-60' : '']"
+              >
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
+                  <span>Sign language enabled on mobile</span>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <label for="widget_enabled_on_mobile_sign" class="toggle_wrap">
+                  <input
+                    type="checkbox"
+                    id="widget_enabled_on_mobile_sign"
+
+                    class="sr-only"
+                          :checked="isChecked('widget_enabled_on_mobile_sign')"
+                    @change="toggleCheckbox('widget_enabled_on_mobile_sign')"
+                  />
+                  <div
+                    class="toggle_parent"
+                    :class="[isChecked('widget_enabled_on_mobile_sign') ? 'active' : 'in_active']"
+                  >
+                    <div class="toggle_inner" :class="{ active: isChecked('widget_enabled_on_mobile_sign') }">
+                      <img 
+                        v-if="isChecked('widget_enabled_on_mobile_sign')"
+                        src="/assets/imgs/translatevideo/sign_active.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                      <img 
+                        v-else
+                        src="/assets/imgs/translatevideo/sign_inactive.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+          >
+            <div class="flex items-center justify-start space-x-[13px] w-full">
+              <div
+                class="flex flex-col items-start justify-center w-full"
+                :class="[!isChecked('sound_effects_sign') ? 'opacity-60' : '']"
+              >
+                <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
+          lg:leading-[16.39px]">
+                  <span> Sound effects</span>
+                </div>
+              </div>
+              <div class="ml-auto">
+                <label for="sound_effects_sign" class="toggle_wrap">
+                  <input
+                    type="checkbox"
+                    id="sound_effects_sign"
+                    class="sr-only"
+                
+           
+      :checked="isChecked('sound_effects_sign')"
+                    @change="toggleCheckbox('sound_effects_sign')"
+                  />
+                  <div
+                    class="toggle_parent"
+                    :class="[isChecked('sound_effects_sign') ? 'active' : 'in_active']"
+                  >
+                    <div class="toggle_inner" :class="{ active: isChecked('sound_effects_sign') }">
+                      <img 
+                        v-if="isChecked('sound_effects_sign')"
+                        src="/assets/imgs/translatevideo/sign_active.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                      <img 
+                        v-else
+                        src="/assets/imgs/translatevideo/sign_inactive.svg"
+                        class="w-[28px] h-[28px]"
+                        
+                      />
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  
+      </div>
+
+<OverviewWidgetembdedcode/>
+
+      <div
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+        
+                :class="[               collapseStore.collapses.includes('reset_all_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
+      >
+        <div class="flex items-start justify-start  ">
+          <div class="">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
+              Rest All Accessibility Settings
+            </h1>
+
+            <p
+              class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+            >
+              Reset all accessibility settings to their default configurations, restoring
+              original preferences and ensuring a standard user experience for all users
+            </p>
+          </div>
+
+          <div
+            @click.stop="collapseStore.collapseMenu('reset_all_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('reset_all_settings')"
+            :class="[
+              collapseStore.menus.includes('reset_all_settings')
+                ? 'active_notification !text-darkGrey'
+                : '',
+            ]"
+            class="menu_button_control"
+          >
+            <svg
+              width="18"
+              height="5"
+              viewBox="0 0 18 5"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              :class="[
+                collapseStore.menus.includes('reset_all_settings')
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ]"
+            >
+              <path
+                d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <div
+              v-if="collapseStore.menus.includes('reset_all_settings')"
+              style="box-shadow: 0px 2px 6px 0px #00000040"
+              class="mini_SizeMenu"
+            >
+              <div
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('reset_all_settings_card')"
+              >
+                <div>
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("reset_all_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
+                </div>
+              </div>
+
+              <div class="arrow">
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex items-center lg:flex-row flex-col justify-center 
+          lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] 
+          lg:space-y-0 lg:space-x-[100px] "
+          v-if="!collapseStore.collapses.includes('reset_all_settings_card')"
+        >
+          <button
+            class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
+            @click="openModal('resetModal','settings')"
+          >
+            <div>
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class=" lg:w-full lg:h-full w-[16px] h-[16px]"
+              >
+                <path
+                  d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239"
+                class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_3592_46947"
+                    x1="12.4998"
+                    y1="3"
+                    x2="12.4998"
+                    y2="21"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+          
+            </div>
+            <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
+              Rest All Accessibility Settings
+            </div>
+          </button>
+        </div>
+       
+      </div>
+
+      <div
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative " 
+        
+                 :class="[               collapseStore.collapses.includes('license_settings_card')
+ ? 'pb-[24px]' :'pb-[20px]'        ]"
+      >
+        <div class="flex items-start justify-start  pt-[24px] ">
+          <div class="">
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
+
+            <p
+              class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
+            >
+              Transfer License to Another Website allows you to move your existing
+              accessibility widget license to a different site, ensuring continued
+              accessibility compliance
+            </p>
+          </div>
+
+          <div
+            @click.stop="collapseStore.collapseMenu('license_settings')"
+            v-on-click-outside="() => collapseStore.removeMenu('license_settings')"
+            :class="[
+              collapseStore.menus.includes('license_settings')
+                ? 'active_notification !text-darkGrey'
+                : '',
+            ]"
+            class="menu_button_control"
+          >
+            <svg
+              width="18"
+              height="5"
+              viewBox="0 0 18 5"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              :class="[
+                collapseStore.menus.includes('license_settings')
+? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ]"
+            >
+              <path
+                d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <div
+              v-if="collapseStore.menus.includes('license_settings')"
+              style="box-shadow: 0px 2px 6px 0px #00000040"
+              class="mini_SizeMenu"
+            >
+              <div
+                class="mini_wrap"
+                @click="collapseStore.collapseCard('license_settings_card')"
+              >
+                <div>
+                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                
+                  >
+                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="text_mini">
+                  {{
+                    !collapseStore.collapses.includes("license_settings_card")
+                      ? "Minisize"
+                      : "Maxsize"
+                  }}
+                </div>
+              </div>
+
+              <div class="arrow">
+                <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0 "
+          v-if="!collapseStore.collapses.includes('license_settings_card')"
+        >
+          <div
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[22px] px-[15px]"
+          >
+            <div class="flex items-center justify-start space-x-[13px] w-full  ">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
+                  <span>Widget enabled on this site </span>
+                </div>
+              </div>
+              <div class="ml-auto w-full">
+                <button
+                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                  @click="openModal('transferstep1','settings')"
+                >
+                  Transfer License
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[4px] px-[15px] "
+          >
+            <div class="flex items-center justify-start w-full ">
+              <div class="flex flex-col items-start justify-center w-full ">
+                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500]  text-[13px] lg:leading-[24px] lg:w-full w-40 truncate">
+                  <span
+                    >Delete site permanently removes your profile and data from the system
+                  </span>
+                </div>
+              </div>
+              <div class="ml-auto w-full">
+                <button
+                  class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                  @click="openModal('deleteModal','settings')"
+                >
+                  Delete Site
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+     
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+.toggle {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #eef5ff 47.07%,
+    #f6f3fc 72.04%,
+    #fef5f6 100%
+  );
+  box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
+}
+</style>

@@ -266,6 +266,8 @@ const getPlayerPosition = (p: any) => {
 
         <TranslatedocsProjectWordEditor
         class="h-full"
+        :is-menus-open=" (translateStore.currentMode === 'signlang' && !bigpicMode) ||
+                        (translateStore.currentMode === 'translation' && !bigpicMode)"
           :class="[
             bigpicMode ? ' col-span-12 !mx-auto' : 'h-full col-span-8 ipad-max:col-span-7',
           ]"

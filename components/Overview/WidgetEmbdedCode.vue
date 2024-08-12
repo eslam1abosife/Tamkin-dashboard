@@ -87,7 +87,8 @@ const localePath = useLocalePath()
 <template>
   <div>
     
-    <div class=" bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] mt-[64px] md:mt-[94px]"    v-if="isLinkActive('/overview')"   >
+    <div class=" bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] mt-[64px] md:mt-[94px]"   
+     v-if="isLinkActive('/overview') || isLinkActive('/sign-language/overview')"   >
       <div
         class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y "
       >
@@ -105,7 +106,8 @@ const localePath = useLocalePath()
           </div>
           <div
           
-            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey  dark:text-whiteTamkin ml-auto"
+            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey 
+             dark:text-whiteTamkin ml-auto"
           >
             Please add Tamkin's embed code to your site to enable Tamkin's PRO Widget
             and unlock the full potential of digital accessibility and ADA compliance

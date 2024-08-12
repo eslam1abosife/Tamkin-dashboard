@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 
 const {
   isOpen,
@@ -141,7 +141,7 @@ function leaveNotification(el, done) {
         }"
       >
         <div
-          @click="openModal('mycart','market')"
+          @click="openModal('mycart', 'market')"
           class="cursor-pointer w-[35px] dark:border-[#333333] dark:border-[1px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
           :class="[
             marketStore.firstItemNotificationShown
@@ -262,176 +262,172 @@ function leaveNotification(el, done) {
             <!-- <img src="/assets/pngs/market/reset.png"  alt="" /> -->
           </div>
           <div
-          @click="toggleExpandHeader"
-
-          class="cursor-pointer w-[35px] h-[35px] bg-white  dark:bg-tamkinDarkPrimary  dark:border-[#333333] dark:border-[1px] rounded-lg group flex items-center justify-center"
-        >
-        <template v-if="expandedHeaderStep === 1 || expandedHeaderStep === 0">
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 17 17"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="text-darkGrey dark:text-whiteTamkin"
+            @click="toggleExpandHeader"
+            class="cursor-pointer w-[35px] h-[35px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-lg group flex items-center justify-center"
           >
-            <path
-              d="M10.25 6.875L16.5 0.625"
-              class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M11.5 0.625H16.5V5.625"
-              class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6.875 10.25L0.625 16.5"
-              class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M5.625 16.5H0.625V11.5"
-              class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear"
-                x1="13.375"
-                y1="0.625"
-                x2="13.375"
-                y2="6.875"
-                gradientUnits="userSpaceOnUse"
+            <template v-if="expandedHeaderStep === 1 || expandedHeaderStep === 0">
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-darkGrey dark:text-whiteTamkin"
               >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear"
-                x1="14"
-                y1="0.625"
-                x2="14"
-                y2="5.625"
-                gradientUnits="userSpaceOnUse"
+                <path
+                  d="M10.25 6.875L16.5 0.625"
+                  class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.5 0.625H16.5V5.625"
+                  class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.875 10.25L0.625 16.5"
+                  class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M5.625 16.5H0.625V11.5"
+                  class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear"
+                    x1="13.375"
+                    y1="0.625"
+                    x2="13.375"
+                    y2="6.875"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint1_linear"
+                    x1="14"
+                    y1="0.625"
+                    x2="14"
+                    y2="5.625"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint2_linear"
+                    x1="3.75"
+                    y1="10.25"
+                    x2="3.75"
+                    y2="16.5"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint3_linear"
+                    x1="3.125"
+                    y1="11.5"
+                    x2="3.125"
+                    y2="16.5"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </template>
+            <template v-else>
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 19 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-darkGrey"
               >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint2_linear"
-                x1="3.75"
-                y1="10.25"
-                x2="3.75"
-                y2="16.5"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint3_linear"
-                x1="3.125"
-                y1="11.5"
-                x2="3.125"
-                y2="16.5"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </template>
-        <template v-else>
-          <svg
-            width="19"
-            height="19"
-            viewBox="0 0 19 19"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="text-darkGrey"
-          >
-            <path
-              d="M1.375 17.625L7.625 11.375"
-              class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M2.625 11.375H7.625V16.375"
-              class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M17.625 1.375L11.375 7.625"
-              class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M16.375 7.625H11.375V2.625"
-              class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear"
-                x1="4.5"
-                y1="11.375"
-                x2="4.5"
-                y2="17.625"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint1_linear"
-                x1="5.125"
-                y1="11.375"
-                x2="5.125"
-                y2="16.375"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint2_linear"
-                x1="14.5"
-                y1="1.375"
-                x2="14.5"
-                y2="7.625"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-              <linearGradient
-                id="paint3_linear"
-                x1="13.875"
-                y1="2.625"
-                x2="13.875"
-                y2="7.625"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#2DADA3" />
-                <stop offset="1" stop-color="#71DAD2" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </template>
-       
-          
-        </div>
-        
+                <path
+                  d="M1.375 17.625L7.625 11.375"
+                  class="stroke-current group-hover:stroke-gradient-0 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M2.625 11.375H7.625V16.375"
+                  class="stroke-current group-hover:stroke-gradient-1 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M17.625 1.375L11.375 7.625"
+                  class="stroke-current group-hover:stroke-gradient-2 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16.375 7.625H11.375V2.625"
+                  class="stroke-current group-hover:stroke-gradient-3 dark:stroke-whiteTamkin"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear"
+                    x1="4.5"
+                    y1="11.375"
+                    x2="4.5"
+                    y2="17.625"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint1_linear"
+                    x1="5.125"
+                    y1="11.375"
+                    x2="5.125"
+                    y2="16.375"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint2_linear"
+                    x1="14.5"
+                    y1="1.375"
+                    x2="14.5"
+                    y2="7.625"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint3_linear"
+                    x1="13.875"
+                    y1="2.625"
+                    x2="13.875"
+                    y2="7.625"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#2DADA3" />
+                    <stop offset="1" stop-color="#71DAD2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </template>
+          </div>
         </div>
         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1]">
           <img src="/assets/pngs/market/man_standing.png" class="h-[600px]" alt="" />
@@ -495,5 +491,4 @@ function leaveNotification(el, done) {
 .animate-scale {
   animation: scale 0.5s;
 }
-
 </style>

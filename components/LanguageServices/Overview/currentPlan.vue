@@ -1,0 +1,922 @@
+<script lang="ts" setup>
+import { useOverviewStore } from "@/stores/overview";
+
+const overviewStore = useOverviewStore()
+
+const props = defineProps({
+    planType:{
+        type:String,
+        required:true
+    },
+    isInstalled:{
+        type:Boolean,
+        required:true
+    },
+ 
+})
+const pricingType = ref("monthly");
+const switchBetweenMonthlyAndAnnual = (v: any) => {
+  pricingType.value = v;
+};
+
+const currentIndex = ref(0);
+
+const back = ref(false);
+
+const next = () => {
+  back.value = false;
+  currentIndex.value++;
+};
+const prev = () => {
+  back.value = true;
+  if (currentIndex.value == 1) {
+    currentIndex.value--;
+  }
+};
+
+</script>
+
+
+<template>
+
+
+    <div
+    class="mt-[64px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full shadow-md -shadow-y-[1px]"
+    
+  >
+    <div
+      class="flex items-center justify-start rounded-[10px] h-[212px] w-full
+       " style="background: linear-gradient(270deg, rgba(38, 104, 121, 0.27) 0%, #423568 100%);
+"
+    >
+      <div class="flex flex-col items-start justify-center w-full px-[15px]">
+        <div>
+          <h1 class="text-white font-[500] text-[18px] leading-[30px]">
+            Your Current Plan
+          </h1>
+          <h3 class="text-white font-[500] text-[13px] leading-[21px]">
+            Your current plan provides comprehensive features tailored to meet your
+            needs.
+          </h3>
+        </div>
+
+        <div
+          class="h-[55px]   bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[10px]
+          flex items-center justify-between  w-full  p-2 mt-[24px]  "
+        >
+          <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px] ">
+            <div>
+              <img  src="/assets/imgs/freeplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'free'"/>
+              <img  src="/assets/imgs/proplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'pro'"/>
+              <img  src="/assets/imgs/overview/advanced_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'advanced'"/>
+              <img  src="/assets/imgs/plat_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'platinum'"/>
+              <img  src="/assets/imgs/overview/enterprise_plan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] "  v-if="planType === 'enterprise'"/>
+              <!-- <img  src="/assets/imgs/proplan.svg" class="lg:w-[22px] lg:h-[22px] w-[10px] h-[10px] mr-[13px]"  v-else/> -->
+            </div>
+            <div class="text-[10px]   lg:text-[14px] font-[500]
+            ipad-max:text-[12px]
+ipad-max:leading-[10px] whitespace-nowrap
+            lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
+              {{ planType === 'free' ? 'Free Widget' : planType === 'pro' ? 'Pro- Widget':planType === 'platinum' ?'Platinum Widget':planType ==='advanced' ?'Advanced Widget':planType === 'enterprise'?'EnterPrise Widget' :''}}
+            </div>
+            <!-- <div class=" text-[15px] font-[500] leading-[22.5px] text-darkGrey" >
+              Pro- Widget
+            </div> -->
+          </div>
+
+          <div
+            class="text-[10px] ipad-max:text-[12px] lg:text-[14px]
+             font-[500] ipad-max:leading-[10px] whitespace-nowrap 
+             lg:leading-[22.5px] text-darkGrey  dark:text-whiteTamkin flex items-center 
+            justify-evenly rtl:space-x-reverse space-x-[4px] "
+            v-if="!isInstalled"
+         
+          >
+            <div > 
+              <img 
+                src="/assets/imgs/payment_methods/declined.svg"
+                class="lg:w-[22px]  lg:h-[22px] w-[10px] h-[10px]"
+                
+              />
+            </div>
+            <div>Not installed</div>
+          </div>
+
+          <div class="">
+            <button 
+            @click="overviewStore.switchState"
+            class="btn_bordered_dashboard bg-white rounded-[19px] rtl:mr-auto ltr:ml-auto mx-[15px]  !p-[6px] w-full">
+              Upgrade Plans
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rtl:!mr-auto ltr:ml-auto h-full w-full lg:block hidden">
+        <img 
+          src="/assets/imgs/overview/current_plan_upgrade.svg"
+          class="w-full h-full"
+          
+        />
+      </div>
+    </div>
+
+    <div
+      class="flex items-center flex-col justify-center px-[15px]"
+       v-if="!overviewStore.showUpgradeState"
+    >
+      <div
+        class="flex items-center lg:flex-row flex-col justify-center lg:justify-between lg:space-y-0 space-y-3 w-full mt-[32px]"
+      >
+        <div class="text-[15px] leading-[22.5px] font-[500] dark:text-whiteTamkin">
+          Accessibility Widget Pricing
+        </div>
+
+        <div
+          class="inline-flex items-center rounded-full bg-tamkinLight  dark:bg-transparent dark:border-darkGrey p-1 border border-gray-300"
+        >
+          <button
+            @click="switchBetweenMonthlyAndAnnual('monthly')"
+            :class="[pricingType === 'monthly' ? 'bg-white dark:bg-light rounded-full' : '']"
+            class="py-2 px-4 transition-all ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[14px] leading-[22.5px]"
+          >
+            Monthly
+          </button>
+          <button
+            :class="[pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '']"
+            @click="switchBetweenMonthlyAndAnnual('annual')"
+            class="py-2 px-2 transition-all ease-in-out text-darkGrey  dark:text-whiteTamkin 
+            font-[500] text-[14px] leading-[22.5px] mr-[4px]"
+          >
+            Annual
+            <span class="!text-black dark:!text-whiteTamkin/80 text-[11px] leading-[18px] font-[600]"
+              >SAVE 12%</span
+            >
+          </button>
+        </div>
+      </div>
+      <transition-group
+        mode="in-out"
+        tag="div"
+        class="w-full overflow-x-hidden"
+        name="slide-fade"
+      >
+        <div
+          v-if="currentIndex === 0"
+          key="1"
+         class="flex items-center lg:flex-row md:flex-row md:space-x-[10px] flex-col justify-center lg:justify-between
+         ipad-max:space-x-[4px] ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px]  mt-[32px]"
+        >
+          <div
+            class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
+             !rounded-b-none mt-[35px] group hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+            <div class="absolute top-[-30px] left-[15px]">
+              <img  src="/assets/imgs/freeplan.svg" class="w-[50px] h-[50px]"  />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+              <div class="order-2 relative w-full">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin">Free Widget</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+                <div class="absolute top-[41px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[12px] leading-[18.17px] font-[400] crossed-out">
+                      <span>$18,000</span>
+                    </div>
+                  </div>
+                <h3
+                  class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
+                >
+                  $ 00
+                  <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]">/month</span>
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 100K </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin  flex-col items-start justify-center w-full 
+              space-y-[10px] h-[305px] custom-border-collapse rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center flex-col custom-border-tamkin padding-override-1  group hover:bg-selected dark:hover:bg-p dark:hover:bg-p
+             justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+          <div class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[500] w-[83px]
+          h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-[200px] 
+          ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
+">
+<div class=" ">
+ Best Deal
+</div>
+         </div>
+            <div class="absolute top-[-30px] left-[15px]">
+              <img  src="/assets/imgs/proplan.svg" class="w-[50px] h-[50px]"  />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+  
+              <div class="order-2 relative w-full">
+          
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin">Pro- Widget</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+                <div class="absolute top-[41px] left-[-8px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
+                    <div class="absolute  left-[10px] text-[#EA4335] text-[12px] leading-[18.17px] font-[400] crossed-out">
+                      <span>$18,000</span>
+                    </div>
+                  </div>
+                <h3
+                  class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
+                >
+                  $ {{ pricingType === "annual" ? "1000" : "150" }}
+                  <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
+                    >/{{ pricingType === "annual" ? "year" : "month" }}</span
+                  >
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 1M </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex custom-border-collapse-tamkin
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin dark:group-hover:bg-p dark:text-whiteTamkin
+              flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center flex-col custom-border-tamkin 
+             group hover:bg-selected dark:hover:bg-p
+            padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+            <div class="absolute top-[-30px] left-[15px]">
+              <img 
+                src="/assets/imgs/overview/prem_plan.svg"
+                class="w-[50px] h-[50px]"
+                
+              />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+              <div class="order-2 relative w-full">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Premium</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+
+                <h3
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
+                >
+                  $ {{ pricingType === "annual" ? "1500" : "300" }}
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
+                    >/{{ pricingType === "annual" ? "year" : "month" }}</span
+                  >
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 2M </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex custom-border-collapse-tamkin 
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
+              flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentIndex === 1"
+          key="2"
+          class="flex items-center lg:flex-row md:flex-row md:space-x-[10px] flex-col justify-center lg:justify-between
+         ipad-max:space-x-[4px] ipad-max:rtl:space-x-reverse  h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px]  mt-[32px]"
+        >
+          <div
+            class="flex items-center flex-col custom-border-tamkin 
+             group hover:bg-selected dark:hover:bg-p
+            padding-override-1 justify-start !rounded-t-[10px] mt-[35px] w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+            <div class="absolute top-[-30px] left-[15px]">
+              <img 
+                src="/assets/imgs/overview/advanced_plan.svg"
+                class="w-[50px] h-[50px]"
+                
+              />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+              <div class="order-2 relative w-full">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Advanced</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+
+                <h3
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
+                >
+                  $ {{ pricingType === "annual" ? "4000" : "400" }}
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
+                    >/{{ pricingType === "annual" ? "year" : "month" }}</span
+                  >
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 3M </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex flex-col items-start justify-center
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
+              w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center flex-col custom-border-tamkin padding-override-1 justify-start !rounded-t-[10px] 
+             group hover:bg-selected dark:hover:bg-p
+            !rounded-b-none mt-[35px] w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+            <div class="absolute top-[-30px] left-[15px]">
+              <img 
+                src="/assets/imgs/plat_plan.svg"
+                class="w-[50px] h-[50px]"
+                
+              />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+              <div class="order-2 relative w-full">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Platinum</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+
+                <h3
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
+                >
+                  $ {{ pricingType === "annual" ? "5000" : "500" }}
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin"
+                    >/{{ pricingType === "annual" ? "year" : "month" }}</span
+                  >
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 4M </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex custom-border-collapse-tamkin
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
+              flex-col items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center flex-col custom-border-tamkin 
+             group hover:bg-selected dark:hover:bg-p
+            padding-override-1 justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] w-full"
+            style="padding: 16px, 10px, 16px, 10px"
+          >
+            <div class="absolute top-[-30px] left-[15px]">
+              <img 
+                src="/assets/imgs/overview/enterprise_plan.svg"
+                class="w-[50px] h-[50px]"
+                
+              />
+            </div>
+
+            <div
+              class="flex items-center justify-center relative w-full px-[15px] mt-[48px]"
+            >
+              <div class="order-2 relative w-full">
+                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">Enterprise</h1>
+                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
+                  For Individuals and Small Teams
+                </h2>
+
+                <h3
+                  class="mt-[10px] text-black font-[600] text-[24px] leading-[29px]  dark:text-whiteTamkin"
+                >
+                  $ {{ pricingType === "annual" ? "5500" : "600" }}
+                  <span class="!font-[500] !text-darkGrey !text-[18px] dark:!text-whiteTamkin">/month</span>
+                </h3>
+
+                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin">
+                  <span class="!font-[700]">UP to 5M </span>Page views/mo
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex custom-border-collapse-tamkin flex-col 
+               group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
+              items-start justify-center w-full space-y-[10px] h-[305px] rounded-t-none rounded-[10px] p-4"
+            >
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_inactive.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]">
+                <div>
+                  <img  src="/assets/imgs/checked_list_active.svg"  />
+                </div>
+                <div>
+                  <h3 class="text-[14px] font-[400] leading-[20px]">
+                    All analytics features
+                  </h3>
+                </div>
+              </div>
+              <div class="flex items-center justify-center mx-auto w-full">
+                <button class="btn-dashboard rounded-full mt-[10px] hover_tamkin">
+                  Upgrade Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition-group>
+      <div class="flex items-center justify-center mx-auto rtl:space-x-reverse space-x-[8px] my-[32px]">
+        <div
+          :class="[currentIndex === 0 ? 'bg-tamkin' : 'bg-[#D9D9D9] ']"
+          class="w-[15px] h-[15px] rounded-full cursor-pointer"
+          @click="prev"
+        ></div>
+        <div
+          :class="[currentIndex === 1 ? 'bg-tamkin' : 'bg-[#D9D9D9] ']"
+          class="w-[15px] h-[15px] rounded-full cursor-pointer"
+          @click="next"
+        ></div>
+      </div>
+    </div>
+   
+  </div>
+</template>

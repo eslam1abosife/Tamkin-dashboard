@@ -20,7 +20,7 @@ const {
          mt-[24px] ">
 
 
-         <div class="bg-white  rounded-[10px] flex   items-center justify-start  h-[200px]  w-full p-[20px]">
+         <div class="bg-white  rounded-[10px] flex   items-center justify-start  h-[200px]  w-full p-[15px]">
 <div class="flex flex-col items-start justify-start space-y-[6px]">
     <div class="flex items-center justify-center h-[60px] w-[60px] dark:bg-tamkinDarkPrimary bg-white rounded-full custom-border rounded-full-border">
         <img src="/assets/imgs/translatephotos/img.png" class="w-[30px] h-[30px]" alt="">

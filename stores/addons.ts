@@ -121,158 +121,62 @@ export const useAddonStore = defineStore('addon', {
     cancelAll(){
  this.force_change_profileCards=false
  this.force_change_menuCards=false
-      // this.colorMode= 'solid',
-      this.initializeCardsMenu([
-        {
-         icon:'page_str.svg',
-         name:'Page Structure',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'page_str'
-        },
-        {
-         icon:'language sign.svg',
-         name:'Screen Reader',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'screen_reader'
-        },
-        {
-         icon:'hide_images.svg',
-         name:'Hide Images',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'hide_images'
-        },
-        {
-         icon:'contrast.svg',
-         name:'Smart Contrast',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'smart_contrast'
-        },
-        {
-         icon:'voice_navigation.svg',
-         name:'Voice Navigation',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'voice_navigation'
-        },
-        {
-         icon:'a-z.svg',
-         name:'Dictionary',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'dictionary'
-        },
-        {
-         icon:'clip.svg',
-         name:'Highlight Links',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'highlight_links'
-        },
-        {
-         icon:'line_height.svg',
-         name:'Line Height',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'line_height'
-        },
-        {
-         icon:'saturation.svg',
-         name:'Saturation',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'saturation'
-        },
-       
-        {
-         icon:'text.svg',
-         name:'Bigger Text',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'bigger_text'
-        },
-       
-        {
-         icon:'pause.svg',
-         name:'Pause Animation',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'pause_animation'
-        },
-       
-        
-        {
-         icon:'tooltip.svg',
-         name:'Tooltip',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'tool_tip'
-        },
-        {
-         icon:'cursor.svg',
-         name:'Cursor',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'cursor'
-        },
-        {
-         icon:'text_spacing.svg',
-         name:'Text Spacing',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'text_spacing'
-        },
-       
-        {
-         icon:'contrast_plus.svg',
-         name:'Contrast +',
-         description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-         checkboxId:'contrast_plus'
-        },
-         ], 'AdjustMainMenuCards', 'initialCardsOrder');
+ signLangStore.initializeCardsMenu([
+  {
+    icon: 'monitor_im.svg',
+    name: 'Motor impaired',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'motor_active'
+  },
+  {
+    icon: 'color_blind.svg',
+    name: 'Color blind',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'color_blind'
+  },
+  {
+    icon: 'vis_impaired.svg',
+    name: 'Visually-impaired',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'hide_images'
+  },
+  {
+    icon: 'seizure.svg',
+    name: 'Seizure & Epileptic',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'Seizure'
+  },
+  {
+    icon: 'blind.svg',
+    name: 'Blind',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'blind'
+  },
+  {
+    icon: 'df.svg',
+    name: 'Dyslexia',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'dyslexia'
+  },
+  {
+    icon: 'congitive.svg',
+    name: 'Congitive & Learning',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'congitive'
+  },
+  {
+    icon: 'adhd.svg',
+    name: 'ADHD',
+    description: 'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
+    checkboxId: 'ADHD'
+  },
+
+
+], 'manageProfileCards', 'initialManageProfileCards');
+
    
 
-         this.initializeCardsMenu([
-          {
-           icon:'monitor_im.svg',
-           name:'Motor impaired',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'motor_active'
-          },
-          {
-           icon:'color_blind.svg',
-           name:'Color blind',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'color_blind'
-          },
-          {
-           icon:'vis_impaired.svg',
-           name:'Visually-impaired',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'hide_images'
-          },
-          {
-           icon:'seizure.svg',
-           name:'Seizure & Epileptic',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'Seizure'
-          },
-          {
-           icon:'blind.svg',
-           name:'Blind',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'blind'
-          },
-          {
-           icon:'df.svg',
-           name:'Dyslexia',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'dyslexia'
-          },
-          {
-           icon:'congitive.svg',
-           name:'Congitive & Learning',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'congitive'
-          },
-          {
-           icon:'adhd.svg',
-           name:'ADHD',
-           description:'Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid',
-           checkboxId:'ADHD'
-          },
-         
-         
-           ], 'manageProfileCards', 'initialManageProfileCards');
+        
          
           
            this.initializeCheckboxes([

@@ -92,6 +92,7 @@ svg {
   align-items: center;
   justify-content: center;
   text-align: center;
+  inset:0;
 }
 
 .percentage-text, .value-text {

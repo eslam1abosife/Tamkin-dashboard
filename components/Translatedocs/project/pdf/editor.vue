@@ -1,5 +1,6 @@
 <template>
-    <div class="flex flex-col items-center p-3 w-full h-full bg-[#EEEEEE] rounded-[10px] overflow-y-auto relative">
+    <div class="flex flex-col items-center p-3 w-full  h-full bg-[#EEEEEE] rounded-[10px] overflow-y-hidden relative resize-y" 
+    :class="[isMenusOpen ? 'max-h-[710px]':'max-h-[620px]']">
       <div class="toolbar flex items-center justify-between divide-x divide-[#BDBDC7] w-full bg-white  rounded-[10px] rounded-t-lg shadow ">
         <div class="flex items-center justify-between w-3/4 pr-[10px]">
           <!-- Text Color -->
@@ -70,7 +71,7 @@
            </div>
      
       </bubble-menu>
-        <editor-content :editor="editor" class="relative prose !overflow-x-hidden scrollable-div !h-[500px]  w-full p-4"></editor-content>
+        <editor-content :editor="editor" class="relative prose !overflow-x-hidden scrollable-div !h-[520px]  w-full p-4"></editor-content>
       </div>
     </div>
   </template>
@@ -92,6 +93,9 @@
     components: {
       EditorContent,
       BubbleMenu
+    },
+    props:{
+      isMenusOpen:Boolean
     },
     setup() {
       const shouldShow = ({ editor, view, state, oldState, from, to }) =>{
