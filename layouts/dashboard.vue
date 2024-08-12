@@ -184,13 +184,8 @@ const cancelAc = () => {
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
-  const translateStyle =
-    isLinkActive("/translate/video") &&
-    translateStore.hasChanges &&
-    translateStore.subMode === "style" &&
-    translateStore.currentMode === "subtitles";
-  const translatePlayer =
-    isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
+  // const translatePlayer =
+  //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
 
   const translateStyle =
     isLinkActive("/translate/video") &&
@@ -286,11 +281,11 @@ const openModals = computed(() => {
   );
 });
 
-const closeSideBarOnMobileOverlay = () => {
-  if (sideBarOpenMobile.value) {
-    sideBarOpenMobile.value = false;
-  }
-};
+// const closeSideBarOnMobileOverlay = () => {
+//   if (sideBarOpenMobile.value) {
+//     sideBarOpenMobile.value = false;
+//   }
+// };
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();

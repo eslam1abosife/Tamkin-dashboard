@@ -1,37 +1,39 @@
 <script lang="ts" setup>
+import { reactive, ref, computed, watch, onMounted } from "vue";
 import { useModalManager } from "@/composables/useModalManager";
-
-import banner from "/assets/imgs/gradient_embded.png";
-import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
 import {
   useGetAllMembers,
-  useGetCurrentTeam,
   useGetTeamCountMembers,
   useResendInvite,
+  useRenameTeam,
+  useGetCurrentTeam,
+  useDeleteMember,
 } from "@/composables/useTeam";
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 
-const { currTeam, getCurrentTeam } = useGetCurrentTeam();
-const { teamMembers, getAllTeamMember } = useGetAllMembers();
-const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
-
-onMounted(async () => {
-  if (!currTeam.value) {
-    await getCurrentTeam();
-  }
-  getAllTeamMember(currTeam.value.agency, currentPage.value, perPage.value);
-  getTeamCountMembers(currTeam.value.agency);
-});
+import banner from "/assets/imgs/gradient_embded.png";
 
 const state = reactive({
   teamName: "",
 });
+
 const rules = {
   teamName: { required },
 };
-const v$ = useVuelidate(state, rules);
-definePageMeta({
-  layout: "dashboard",
+const v$ = useVuelidate(rules, state);
+
+const { teamMembers, getAllTeamMember } = useGetAllMembers();
+// const { getTeamCountMembers, countMembers } = useGetTeamCountMembers();
+const user = ref(null);
+
+const getTeamMembersAndThirCount = () => {
+  user.value = JSON.parse(localStorage.getItem("user") || "{}");
+  getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
+};
+
+onMounted(async () => {
+  await getTeamMembersAndThirCount();
 });
 
 const {
@@ -43,23 +45,23 @@ const {
   navigateTo,
   lastEventCall,
   eventCounter,
-  setData
+  setData,
 } = useModalManager();
 
 const editTeamNameMode = ref(false);
 
 const isSearchFilled = ref(false);
-const search = ref('');
+const search = ref("");
 watch(search, (newValue) => {
   isSearchFilled.value = newValue.length > 0;
   currentPage.value = 1;
 });
 const clearInput = () => {
-  search.value = '';
+  search.value = "";
 };
 
 const reInvite = ref(false);
-const reinviteUser = (email) => {
+const reinviteUser = (email: string) => {
   const { resendInvite } = useResendInvite(email);
   resendInvite(() => {
     reInvite.value = true;
@@ -102,6 +104,103 @@ const goToPage = (page: number) => {
 };
 
 const editDonePicture = ref(false);
+
+definePageMeta({
+  layout: "dashboard",
+});
+
+const { currTeam, getCurrentTeam } = useGetCurrentTeam();
+
+const getCurrTeam = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getCurrentTeam(user.sid);
+  state.teamName = currTeam.value.team_name;
+};
+
+onMounted(() => {
+  getCurrTeam();
+});
+
+const doRenameTeam = async () => {
+  editTeamNameMode.value = true;
+  try {
+    const { renameTeam } = useRenameTeam(state.teamName);
+    await renameTeam();
+    getCurrTeam();
+    editTeamNameMode.value = false;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const currMemberEmail = ref(null);
+
+const openDeleteMember = (memberEmail) => {
+  navigateTo(null, "team", "deleteTeamMember");
+  currMemberEmail.value = memberEmail;
+};
+
+watch(eventCounter, async () => {
+  if (lastEventCall.value === "deleteTeamMember") {
+    const { deleteMember } = useDeleteMember();
+    await deleteMember(currMemberEmail.value);
+    getTeamMembersAndThirCount();
+    closeModal("deleteTeamMember");
+  }
+});
+
+const filteredTeamMembers = computed(() => {
+  if (teamMembers.value) {
+    return (
+      teamMembers.value.filter((ele) => {
+        const name = ele.first_name + " " + ele.last_name;
+        return (
+          name.toLowerCase().includes(search.value.toString().toLowerCase().trim()) ||
+          ele.member_email
+            .toLowerCase()
+            .includes(search.value.toString().toLowerCase().trim())
+        );
+      }) || teamMembers.value
+    );
+  }
+  return [];
+});
+
+const paginatedFilteredTeamMembers = computed(() => {
+  const startIndex = (currentPage.value - 1) * perPage.value;
+  const endIndex = startIndex + perPage.value;
+  return filteredTeamMembers.value.slice(startIndex, endIndex);
+});
+
+const totalPages = computed(() =>
+  Math.ceil(filteredTeamMembers.value.length / perPage.value)
+);
+
+const openEditUserModal = (member) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  setData({
+    ...member,
+    currTeamId: user.agency,
+    email: member.member_email,
+    firstName: member.first_name,
+    lastName: member.last_name,
+    from_edit: true,
+  });
+  openModal("editusermodal", "team");
+};
+
+const openPermissions = (member) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  setData({
+    ...member,
+    currTeamId: user.agency,
+    email: member.member_email,
+    firstName: member.first_name,
+    lastName: member.last_name,
+    from_edit: true,
+  });
+  openModal("userpermissions", "team");
+};
 </script>
 
 <template>
@@ -136,7 +235,7 @@ const editDonePicture = ref(false);
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full"
         >
-          <div v-if="!editDonePicture">
+          <div v-if="!currTeam?.team_image">
             <div
               class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
               @click="openModal('editteampic', 'team')"
@@ -161,7 +260,7 @@ const editDonePicture = ref(false);
               class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
             >
               <div class="relative">
-                <img src="/assets/imgs/avatar.png" />
+                <img :src="`https://tamkin.app/${currTeam.team_image}`" />
                 <div
                   @click="openModal('editteampic', 'team')"
                   class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
@@ -247,7 +346,8 @@ const editDonePicture = ref(false);
           </div>
           <div v-else class="lg:w-1/4 rtl:ml-[29px] ltr:mr-[29px]">
             <button
-              @click="editTeamNameMode = !editTeamNameMode"
+              @click="doRenameTeam"
+              :disabled="v$.teamName.$invalid"
               class="btn_bordered_dashboard"
             >
               save
@@ -277,7 +377,9 @@ const editDonePicture = ref(false);
             </h1>
           </div>
           <div class="">
-            <h1 class="font-[500] text-[15px] leading-[22.5px]">{{ countMembers }}</h1>
+            <h1 v-if="teamMembers" class="font-[500] text-[15px] leading-[22.5px]">
+              {{ teamMembers.length }}
+            </h1>
           </div>
         </div>
         <div
@@ -287,7 +389,12 @@ const editDonePicture = ref(false);
             <h1 class="text-[11px] font-[500] leading-[16px]">Active</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0"> {{ teamMembers.filter(ele => ele.is_active).length }} </h1>
+            <h1
+              class="text-[16px] font-[500] leading-[18px]"
+              v-if="teamMembers && teamMembers.length > 0"
+            >
+              {{ teamMembers.filter((ele) => ele.is_active).length }}
+            </h1>
           </div>
         </div>
         <div
@@ -297,7 +404,12 @@ const editDonePicture = ref(false);
             <h1 class="text-[11px] font-[500] leading-[16px]">Pending</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">{{ teamMembers.filter(ele => !ele.is_active).length }}</h1>
+            <h1
+              class="text-[16px] font-[500] leading-[18px]"
+              v-if="teamMembers && teamMembers.length > 0"
+            >
+              {{ teamMembers.filter((ele) => !ele.is_active).length }}
+            </h1>
           </div>
         </div>
       </div>
@@ -329,21 +441,21 @@ const editDonePicture = ref(false);
                 placeholder="Search ..."
               />
               <div
-                class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
               >
                 <img src="/assets/imgs/icons/search.svg" />
               </div>
               <div
                 v-if="isSearchfilled"
                 @click="clearInput"
-                class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+                class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
               >
                 <img src="/assets/imgs/icons/clear_search.svg" />
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
               <button
-                class="btn-dashboard hover_tamkin !h-[45px]"
+                class="btn-dashboard hover_tamkin"
                 @click="openModal('invitemember')"
               >
                 Invite Member
@@ -381,7 +493,11 @@ const editDonePicture = ref(false);
           <tbody
             class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full"
           >
-            <tr class="" v-for="(member, index) in teamMembers" :key="index">
+            <tr
+              class=""
+              v-for="(member, index) in paginatedFilteredTeamMembers"
+              :key="index"
+            >
               <td
                 class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
               >
@@ -390,21 +506,28 @@ const editDonePicture = ref(false);
                 >
                   <div class="inline">
                     <img
-                      src="/assets/imgs/icons/avatar_table.svg"
-                      class="lg:h-full h-[30px] mt-3 hidden lg:block md:hidden"
+                      v-if="member.image"
+                      :src="`https://tamkin.app/${member.image}`"
+                      class="lg:h-full h-[30px] hidden lg:block md:hidden h-8 w-8"
+                    />
+                    <img
+                      v-else
+                      src="/assets/imgs/user.svg"
+                      class="lg:h-full h-[30px] hidden lg:block md:hidden h-8 w-8"
                     />
                   </div>
                   <div
-                    class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer"
+                    class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"
                     @click="openModal('editname', 'team')"
                   >
-                    Ali Ahmed
+                    {{ member.first_name + " " + member.last_name }}
                   </div>
                   <div
+                    v-if="member.member_email === currTeam.owner_of_agency"
                     class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
                     style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
                   >
-                    {{ member.owner }}
+                    Owner
                   </div>
                 </div>
               </td>
@@ -418,7 +541,9 @@ const editDonePicture = ref(false);
               >
                 <div class="flex items-center justify-start">
                   <button
-                    @click="openModal('userpermissions', 'team')"
+                    :disabled="!member.is_active"
+                    @click="openPermissions(member)"
+                    :class="!member.is_active ? `opacity-40` : 'opacity-100'"
                     class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
@@ -431,11 +556,15 @@ const editDonePicture = ref(false);
                 <div
                   class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                 >
-                  <div @click="reinviteUser(member.member_email)">
+                  <button
+                    :disabled="member.is_active"
+                    :class="member.is_active ? `opacity-40` : 'opacity-100'"
+                    @click="reinviteUser(member.member_email)"
+                  >
                     <svg
                       width="22"
                       height="20"
-                      class="text-[#8C8C8C]  cursor-pointer"
+                      class="text-[#8C8C8C] cursor-pointer"
                       :class="!member.is_active ? `hover:text-tamkin` : null"
                       viewBox="0 0 22 20"
                       fill="none"
@@ -454,7 +583,7 @@ const editDonePicture = ref(false);
                       viewBox="0 0 16 20"
                       fill="none"
                       class="text-[#8C8C8C] hover:text-[#2DADA3] cursor-pointer"
-                      @click="openModal('editusermodal', 'team')"
+                      @click="openEditUserModal(member)"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
@@ -545,10 +674,10 @@ const editDonePicture = ref(false);
           </button>
           <div v-if="teamMembers" class="flex space-x-2 rtl:space-x-reverse">
             <button
-              v-for="page in visiblePages"
-              :key="page"
+              v-for="i in totalPages"
+              :key="i"
               :style="
-                currentPage === page
+                currentPage === i
                   ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
                   : ''
               "
