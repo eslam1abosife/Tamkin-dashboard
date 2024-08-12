@@ -41,12 +41,18 @@ onMounted(async () => {
     });
   }
 })
+const { shareEmbedCode, loading } = useShareEmbedCode();
+const emit = defineEmits(['onSuccess']);
 
 const submit = async () => {
-  const { shareEmbedCode, loading } = useShareEmbedCode();
-  await shareEmbedCode({email: state.email , appName: defaultApp.value.name })
-  closeModal('shareModal')
-  console.log('submit')
+  try {
+    await shareEmbedCode({email: state.email , appName: defaultApp.value.name })
+    closeModal('shareModal');
+    emit('onSuccess', 'Sent Successfully');
+    console.log('submit')
+  }catch(err) {
+
+  }
 }
 </script>
 
@@ -125,8 +131,11 @@ const submit = async () => {
     </div>
 
     <div class="w-[190px] mx-auto">
-      <button @click="submit" class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
-        Send Embed Code
+      <button
+          :disabled="v$.email.$invalid || loading"
+          :class="(v$.email.$invalid || loading) && 'btn-inactive'"
+          @click="submit" class="btn-dashboard normal_hover mt-[40px] ">
+        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Send Code
       </button>
     </div>
   </div>

@@ -4,6 +4,8 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composables/useTeam";
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 
+const emit = defineEmits(['uploadSuccess', 'removeSuccess']);
+
 const {
   isOpen,
   currentView,
@@ -32,14 +34,22 @@ const fileURL = (file) => {
   return URL.createObjectURL(file);
 };
 
+const { deleteTeamImg, loading: deleteLoading } = useDeleteTeamImg();
+
 const removeFile = async () => {
   acceptedFilesRef.value = [];
-  const { deleteTeamImg } = useDeleteTeamImg();
-  await deleteTeamImg();
-  closeModal('editteampic');
-  getCurrentTeam();
-
+  if(!currTeam.value.team_image) {
+    return;
+  }
+  if(currTeam.value.team_image) {
+    await deleteTeamImg();
+    getCurrentTeam();
+    emit('removeSuccess')
+    closeModal('editteampic');
+  }
 };
+
+const { uploadTeamImg, loading: uploadLoading } = useUploadTeamImg();
 
 const submit = () => {
   if (acceptedFilesRef.value.length === 0) {
@@ -69,14 +79,13 @@ const submit = () => {
       mimType: file.type,
       creator_ID: 1 // Adjust this as necessary
     };
-    const { uploadTeamImg } = useUploadTeamImg();
     await uploadTeamImg(imgFile);
     getCurrentTeam();
+    emit('uploadSuccess');
+    closeModal('editteampic');
   };
-
   reader.readAsDataURL(file);
 
-  closeModal('editteampic');
 };
 
 onBeforeUnmount(() => {
@@ -91,6 +100,7 @@ onBeforeUnmount(() => {
   <div v-if="isOpen('editteampic')"
     class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)">
+
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editteampic')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -143,20 +153,36 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
-      <button class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error w-1/4"
-        @click="removeFile">
+      <button
+          :class="((!currTeam.team_image && acceptedFilesRef.length == 0) || deleteLoading) && 'btn-inactive'"
+          class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error w-1/4"
+          :disabled="!currTeam.team_image && acceptedFilesRef.length == 0"
+          @click="removeFile"
+      >
 
-        <div class="w-[18px] h-[18px]">
-          <svg class=" text-[#FF453F]" width="18" height="17" viewBox="0 0 18 17" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-              fill="currentColor" />
-          </svg>
-        </div>
-        <span>Delete</span>
+        <template v-if="!deleteLoading">
+          <div class="w-[18px] h-[18px]">
+            <svg :class="((!currTeam.team_image && acceptedFilesRef.length == 0) || deleteLoading) ? 'text-[#FFF]' : `text-[#FF453F]`" width="18" height="17" viewBox="0 0 18 17" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path
+                  d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                  fill="currentColor" />
+            </svg>
+          </div>
+          <span>Delete</span>
+        </template>
+
+        <template v-else>
+          <img class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Delete
+        </template>
+
       </button>
-      <button class="btn-dashboard w-1/4" @click="submit">Save</button>
+      <button
+          :disabled="(acceptedFilesRef.length == 0) || uploadLoading"
+          :class="((acceptedFilesRef.length == 0) || uploadLoading) && 'btn-inactive'"
+          class="btn-dashboard w-1/4" @click="submit">
+          <img v-if="uploadLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
+      </button>
     </div>
   </div>
 </template>

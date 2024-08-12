@@ -20,10 +20,17 @@ const rules = {
     email: { required, email },
 };
 const v$ = useVuelidate(rules, state);
-const { forgetPassword } = useForgetPassword(state);
-const doForgetPassword = () => {
+const { forgetPassword , loading } = useForgetPassword(state);
+const errorMsg = ref(null);
+
+const doForgetPassword = async () => {
   localStorage.setItem('registerd_email', state.email);
-  forgetPassword();
+  try {
+    await forgetPassword();
+  } catch(error) {
+    console.log('errrrrrrrror', error)
+    errorMsg.value = error;
+  }
 }
 </script>
 
@@ -75,6 +82,7 @@ const doForgetPassword = () => {
                                             }}</span>
                                     </p>
                                 </div>
+                                <h6 v-if="errorMsg" class="text-[red] mb-5 mt-5"> {{errorMsg}} </h6>
                             </div>
 
 
@@ -89,9 +97,13 @@ const doForgetPassword = () => {
 
         <div
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-            <button class="btn-grad-action w-full" @click="doForgetPassword" v-if="!loading"
+            <button class="btn-grad-action w-full"
+                    :class="(v$.email.$invalid || loading) && 'btn-inactive'"
+                    @click="doForgetPassword"
                 :disabled="v$.email.$invalid || loading">
-                {{ $t("continue") }}
+
+              <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("continue") : $t("continue_processing") }}
+
             </button>
         </div>
     </div>

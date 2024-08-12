@@ -38,5 +38,6 @@ export default function() {
         apps,
         defaultApp,
         getInviteApps,
+        loading
     }
 }

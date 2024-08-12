@@ -2,9 +2,10 @@
 import { useModalManager } from '@/composables/useModalManager';
 import {useGetAppInvites, useGetTeamMemberInviteApps, useInviteApp} from "@/composables/useTeam";
 
-const { apps , getInviteApps } = useGetAppInvites();
-const { inviteApp } = useInviteApp();
+const { apps , getInviteApps, loading: getAppsLoading } = useGetAppInvites();
+const { inviteApp, loading: submitInviteLoading } = useInviteApp();
 const { inviteAppsForMember, getMemberInviteApps } = useGetTeamMemberInviteApps();
+const emit = defineEmits(['onSuccess']);
 
 const {
   isOpen,
@@ -75,7 +76,7 @@ const submitInviteApp = async () => {
       app_name: checked.value,
       agency: state.currTeamId
     });
-
+    emit('onSuccess', 'User Apps Updated Successfully!');
     navigateTo('editusermodal','team',null);
   } catch(err) {
     console.error(err);
@@ -158,56 +159,62 @@ border-l-0 border-r-0 pt-[16px]">
         </div>
       </div>
 
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
-        <thead>
-        <tr>
-          <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
-          <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin
+      <div v-loading="getAppsLoading" class="min-h-[150px]">
+        <table v-if="filteredPermissions.length > 0" class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
+          <thead>
+          <tr>
+            <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
+            <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin
        flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
-            <div class="">Select All</div>
-            <div>
-              <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-              <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin
+              <div class="">Select All</div>
+              <div>
+                <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
+                <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin
         bg-whiteTamkin  dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </label>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200">
-        <tr v-for="permission in filteredPermissions " :key="permission.name">
-          <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-            <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6"/>
-            <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6"/>
-            <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.title}}</span>
-          </td>
-          <td class="py-4  text-right ">
-            <div>
-              <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.name" :value="permission.name"
-                     class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-              <label :for="`checkbox_`+permission.name" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
+                  <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </label>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+          <tr v-for="permission in filteredPermissions " :key="permission.name">
+            <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
+              <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6"/>
+              <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6"/>
+              <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.title}}</span>
+            </td>
+            <td class="py-4  text-right ">
+              <div>
+                <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.name" :value="permission.name"
+                       class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+                <label :for="`checkbox_`+permission.name" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
            bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </label>
-            </div>
-          </td>
-        </tr>
+                  <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </label>
+              </div>
+            </td>
+          </tr>
 
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+        <NoData v-else />
+      </div>
       <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[40px]">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('editusermodal')">
 
           Cancel
         </button>
-        <button class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
-          Continue
+        <button
+            :disabled="checked.length === 0"
+            :class="(checked.length === 0 || submitInviteLoading) && `btn-inactive`"
+            class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
+          <img v-if="submitInviteLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Continue
         </button>
 
       </div>

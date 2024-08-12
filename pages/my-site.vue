@@ -5,7 +5,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
 import {useGetAppInvites} from '@/composables/useTeam';
 import { useDeleteApp, useRestoreApp } from "@/composables/useMySite";
-const { getInviteApps, defaultApp, apps } = useGetAppInvites();
+const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -150,22 +150,45 @@ const openRestoreApp = (appName) => {
   currAppName.value = appName;
 }
 
+const toastAppear = ref(false);
+const toastMsg = ref(null);
 
 watch(eventCounter, async () => {
+  toastAppear.value = false;
+  toastMsg.value = null;
   if (lastEventCall.value === 'deleteApp') {
     const { deleteApp } = useDeleteApp();
     await deleteApp(currAppName.value);
     closeModal('deleteApp');
     currentTab.value = 'deleted';
+    toastMsg.value = 'deleted successfully!';
   }
   else if(lastEventCall.value === 'restoreApp') {
     const { restoreApp } = useRestoreApp();
     await restoreApp(currAppName.value);
     closeModal('restoreApp');
     currentTab.value = 'saved';
+    toastMsg.value = 'restored successfully!';
   }
+  currentPage.value = 1
+  toastAppear.value = true;
   getApps();
 });
+
+
+const deletedAppListLength = computed(() => {
+  return apps.value
+      .filter((ele) => ele.status === 'deleted')
+      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
+      .length;
+})
+
+const notDeletedAppListLength = computed(() => {
+  return apps.value
+      .filter((ele) => ele.status != 'deleted')
+      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
+      .length;
+})
 
 const appList = computed(() => {
   return apps.value
@@ -185,9 +208,13 @@ const paginatedFilteredAppList = computed(() => {
   return appList.value.slice(startIndex, endIndex);
 });
 
+
+
 </script>
 
 <template>
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+
   <div class=" w-full ">
     <div class="space-y-[10px] ">
       <h1
@@ -318,7 +345,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
-                      My Sites (4)
+                      My Sites ( {{ notDeletedAppListLength }} )
                     </div>
                   </div>
                   <div
@@ -334,7 +361,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
-                      Deleted Sites (4)
+                      Deleted Sites ( {{ deletedAppListLength }} )
                     </div>
                   </div>
                 </div>
@@ -362,8 +389,9 @@ const paginatedFilteredAppList = computed(() => {
                 </div>
               </div>
               <table
+                  v-loading="getSitesLoading"
                 class="table-auto  divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'saved'"
+                v-if="currentTab === 'saved' && paginatedFilteredAppList.length > 0"
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -658,8 +686,9 @@ const paginatedFilteredAppList = computed(() => {
               </table>
 
               <table
+                  v-loading="getSitesLoading"
                 class="min-w-full divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'deleted'"
+                v-else-if="currentTab === 'deleted' && paginatedFilteredAppList.length > 0"
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -713,6 +742,7 @@ const paginatedFilteredAppList = computed(() => {
                   </tr>
                 </tbody>
               </table>
+              <NoData v-loading="getSitesLoading" v-else />
             </div>
           </div>
         </div>
@@ -789,8 +819,7 @@ const paginatedFilteredAppList = computed(() => {
           </div>
         </div>
       </div>
-      <div class="py-[4px]" v-if="!dataAvailable"></div>
-      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]" v-if="dataAvailable">
+      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]" v-if="paginatedFilteredAppList.length > 0">
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
             Per Page

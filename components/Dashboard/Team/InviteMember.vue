@@ -26,14 +26,22 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore()
 
-const {inviteMember, memberData, loading} = useInviteMember();
+const {inviteMember, memberData, loading: submitLoading } = useInviteMember();
+const { getAllTeamMember } = useGetAllMembers();
+const emit = defineEmits(['onSuccess']);
+
+const errorMsg = ref(null);
 
 const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
-  await inviteMember({...state, currTeamId: user.agency});
-  navigateTo('invitemember', 'team', 'invitememberupdate', {...state, currTeamId: user.agency})
-  const { getAllTeamMember } = useGetAllMembers();
-  getAllTeamMember(user.agency);
+  try {
+    await inviteMember({...state, currTeamId: user.agency});
+    getAllTeamMember(user.agency);
+    emit('onSuccess', 'User added successfully!');
+    navigateTo('invitemember', 'team', 'invitememberupdate', {...state, currTeamId: user.agency})
+  } catch(err) {
+    errorMsg.value = err;
+  }
 }
 
 onMounted(() => {
@@ -69,7 +77,9 @@ onMounted(() => {
 
 
       <div class="space-y-[44px]">
-        <div class="w-full relative mt-[40px]">
+        <h6 v-if="errorMsg" class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
+
+        <div class="w-full relative !mt-[20px]">
           <input type="text" placeholder="{{$t('firstName')}}" id="firstName" class="input_floating_label peer"
                  v-model="v$.firstName.$model" :class="{
       input_error:
@@ -151,10 +161,11 @@ onMounted(() => {
       <div class="mt-[32px] w-2/6 mx-auto">
 
         <button
-            :disabled="v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || loading"
+            :disabled="v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading"
+            :class="(v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading) && `btn-inactive`"
             @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
           <!-- modalStore.controlInviteMemberUpdateModal -->
-          Invite Member
+          <img v-if="submitLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Invite Member
         </button>
       </div>
 

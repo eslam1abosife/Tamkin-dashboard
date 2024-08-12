@@ -11,7 +11,9 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
 const translateStore = useTranslateStore()
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
+const { getAvatarLetters } = useGetAvatarLetters();
 onMounted(() => {
   if(localStorage.getItem('user')) {
     const userStore = useUserStore();
@@ -299,28 +301,46 @@ const userName = computed(() => {
   }
   return '';
 });
+
+const userImg = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user && user.user_image) {
+      return `https://tamkin.app/${user.user_image}`;
+    }
+    else if (user && user.photoURL) {
+      return user.photoURL;
+    }
+    return null;
+  }
+  return null;
+});
+
+const toastMsg = ref(null);
+const toastAppear = ref(false);
+
+const openToast = (msg) => {
+  console.log('msg', msg);
+  toastMsg.value = msg;
+  toastAppear.value = true;
+  setTimeout(() => {
+    toastAppear.value = false;
+  },2000)
+}
+
 </script>
 
 <template>
-  <Html
-    class="dark:bg-p bg_dashboard"
-    :lang="htmlAttrs.lang"
-    :dir="htmlAttrs.dir"
-    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']"
-  >
-    <div
-      class="relative min-h-screen dark:!bg-p"
-      :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
-    >
-      <div
-        v-if="openModals"
-        @click="closeSideBarOnMobileOverlay"
-        class="absolute z-[200] bg-black bg-opacity-70 h-full w-full overflow-hidden"
-      ></div>
-      <div
-        v-if="marketStore.firstItemNotificationShown"
-        class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"
-      ></div>
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+
+  <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
+    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
+  <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
+    <div v-if="
+    openModals
+    "  @click="closeSideBarOnMobileOverlay" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    <div v-if="marketStore.firstItemNotificationShown"
+      class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
       <ModalsSuccessmodal
           :show-modal="isOpen('successContact')"
@@ -330,8 +350,8 @@ const userName = computed(() => {
       />
 
  <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
-    <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
-    <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
+    <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')" />
+    <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')" />
     <DashboardTeamEditname/>
 
     <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
@@ -347,9 +367,9 @@ const userName = computed(() => {
                    confirm-btn-type="other" @control-other="emitEvent('restoreApp')" @control-cancel="closeModal('restoreApp')" />
 
     <DashboardTeamInviteMemberUpdate :showModal="true" v-if="isOpen('invitememberupdate')" />
-    <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
-    <DashboardTeamEditUserPermissionsModal :showModal="true" v-if="isOpen('userpermissions')" />
-    <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
+    <DashboardTeamEditTeamPictureModal @uploadSuccess="openToast('Image Uploaded Successfully')" @removeSuccess="openToast('Image Deleted Successfully')" :showModal="true" v-if="isOpen('editteampic')" />
+    <DashboardTeamEditUserPermissionsModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('userpermissions')" />
+    <DashboardMySiteSelectSiteModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('selectSite')" />
     <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
     <!--
 
@@ -435,7 +455,7 @@ const userName = computed(() => {
           >
             <div
               class="flex ipad-max:w-[75%] items-center lg:space-x-0 space-x-[10px] lg:px-0 px-[20px] w-full"
-              :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']"
+              :class="[sideBarOpen ? 'lg:max-w-[78.5%]' : 'lg:max-w-[97%]']"
             >
               <div
                 class="flex items-center justify-between lg:hidden"
@@ -547,7 +567,11 @@ const userName = computed(() => {
                   </div>
                 </div>
                 <div class="lg:block hidden">
-                  <img src="/assets//imgs/avatar.png" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]" />
+                  <img v-if="userImg" :src="userImg" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full border" />
+                  <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
+                    <span> {{ getAvatarLetters(userName || '') }} </span>
+                  </div>
+
                 </div>
                 <div class="lg:block hidden">
                   <h2 class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]" >
@@ -561,8 +585,8 @@ const userName = computed(() => {
                       class="dark:fill-white fill-[#585B5B]" />
                   </svg>
                 </div>
-                <button @click="logout()" class="w-5 h-5">
-                  <img src="/assets/imgs/logout.svg" alt="" />
+                <button @click="logout()" class="lg:block hidden" >
+                  <img class="w-5 h-5" src="/assets/imgs/logout.svg" alt="" />
                 </button>
               </div>
             </div>

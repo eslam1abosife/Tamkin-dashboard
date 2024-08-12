@@ -25,13 +25,13 @@ export default function() {
         instance.interceptors.request.use(
             function (config) {
                 loading.value = true; // Set loading to true before request is sent
-                showLoadingSpinner();
+                // showLoadingSpinner();
                 console.log('Request sent:', config);
                 return config;
             },
             function (error) {
                 loading.value = false; // Set loading to false if request error occurs
-                hideLoadingSpinner();
+                // hideLoadingSpinner();
                 console.error('Request error (request interceptor):', error);
                 return Promise.reject(error);
             }
@@ -41,13 +41,13 @@ export default function() {
         instance.interceptors.response.use(
             function (response) {
                 loading.value = false; // Set loading to false when response is received
-                hideLoadingSpinner();
+                // hideLoadingSpinner();
                 console.log('Response received:', response);
                 return response;
             },
             function (error) {
                 loading.value = false; // Set loading to false if response error occurs
-                hideLoadingSpinner();
+                // hideLoadingSpinner();
                 if (error.response) {
                     console.error('Response error (response interceptor):', error.response.data);
                     console.error('Status:', error.response.status);

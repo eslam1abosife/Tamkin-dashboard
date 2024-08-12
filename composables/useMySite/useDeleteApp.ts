@@ -13,20 +13,8 @@ export default function() {
                     name: appName
                 }
             });
-            $toast(`You deleted the app successfully!`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

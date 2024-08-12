@@ -36,5 +36,6 @@ export default function() {
     return {
         teamMembers,
         getAllTeamMember,
+        loading
     }
 }

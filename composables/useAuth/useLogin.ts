@@ -38,13 +38,13 @@ export default function(state) {
             });
 
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            // $toast(`Oops!<br/>${ }`, {
+            //     "theme": "colored",
+            //     "type": "error",
+            //     "autoClose": 4000,
+            //     "dangerouslyHTMLString": true
+            // });
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

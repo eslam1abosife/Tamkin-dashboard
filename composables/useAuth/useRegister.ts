@@ -19,13 +19,7 @@ export default function(state) {
                 onSuccess(state);
             }
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

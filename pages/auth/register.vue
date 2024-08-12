@@ -33,7 +33,7 @@ const toggleConfirmPasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
-const { register } = useRegister(state);
+const { register, loading } = useRegister(state);
 const { loginUser } = useLogin(state);
 const { loginWithGoogle } = useGoogle();
 const errorMsg = ref(null);
@@ -223,9 +223,10 @@ const doRegister = async () => {
 
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3 ">
-      <button @click="doRegister" class="btn-grad-action w-full" v-if="!loading"
-        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid">
-        {{ $t("register") }}
+      <button @click="doRegister" class="btn-grad-action w-full"
+              :class="(v$.email.$invalid || v$.password.$invalid || loading || v$.confirm_password.$invalid) && 'btn-inactive'"
+        :disabled="v$.email.$invalid || v$.password.$invalid || loading || v$.confirm_password.$invalid">
+        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("register") : $t("register_processing") }}
       </button>
 
       <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button ">

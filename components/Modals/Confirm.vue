@@ -22,10 +22,14 @@ const props = defineProps({
 });
 const emit = defineEmits(['controlConfirm','controlDelete','controlCancel','controlOther','controlsaveAllSites'])
 
+const deleteLoading = ref(false);
+const saveLoading = ref(false);
+
 const controlConfirmButton = ()=>{
   emit('controlConfirm')
 }
 const controlDeleteButton = ()=>{
+  deleteLoading.value = true;
   emit('controlDelete')
 }
 const controlCancelButton = ()=>{
@@ -33,6 +37,7 @@ const controlCancelButton = ()=>{
 
 }
 const controlOtherBtn = ()=>{
+  saveLoading.value = true;
   emit('controlOther')
 
 }
@@ -90,13 +95,19 @@ const controlSaveSite = ()=>{
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'other' ">
-      <button class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
-        Save
+      <button
+          :disabled="saveLoading"
+          :class="(saveLoading) && 'btn-inactive'"
+          class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
+        <img v-if="saveLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'delete' ">
-      <button class="btn_bordered_dashboard error  "  @click="controlDeleteButton">
-        Confirm Delete
+      <button
+          :disabled="deleteLoading"
+          :class="(deleteLoading) && 'btn-inactive'"
+          class="btn_bordered_dashboard error"  @click="controlDeleteButton">
+        <img v-if="deleteLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Confirm Delete
       </button>
     </div>
   </div>

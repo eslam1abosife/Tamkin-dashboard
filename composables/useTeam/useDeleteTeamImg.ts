@@ -12,12 +12,6 @@ export default function() {
 
             if(!res.data.succeeded) throw(res.data.message);
 
-            $toast(`your team image deleted successfully!`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
         } catch (error) {
             $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
                 "theme": "colored",
@@ -25,6 +19,7 @@ export default function() {
                 "autoClose": 4000,
                 "dangerouslyHTMLString": true
             })
+            throw error;
         }
     };
 
