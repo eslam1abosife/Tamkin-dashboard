@@ -11,7 +11,7 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
 const translateStore = useTranslateStore();
-
+const signLangStore = useSignLangStore();
 onMounted(() => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
@@ -246,78 +246,6 @@ const openModals = computed(() => {
     isOpen("translate_word_documents") ||
     isOpen("transferstep1") ||
     isOpen("transferstep2") ||
-    isOpen("deleteTeamMember") ||
-    isOpen("deleteApp") ||
-    isOpen("restoreApp") ||
-    isOpen("deleteModal") ||
-    isOpen("resetModal") ||
-    isOpen("mycart") ||
-    isOpen("requestmodal") ||
-    isOpen("cardModal") ||
-    isOpen("translate_images") ||
-    isOpen("editname") ||
-    sideBarOpenMobile.value
-    // marketStore.firstItemNotificationShown ||
-    // marketStore.resetModal ||
-    // marketStore.requestModal ||
-    // showShareModal.value ||
-    // editPictureTeamModal.value ||
-    // editPermissionsModal.value ||
-    // inviteMemberModal.value ||
-    // selectSiteModal.value ||
-    // editUserModal.value ||
-    // InviteMemberUpdateModal.value ||
-    // showUpgradeModal.value ||
-    // resetModal.value ||
-    // deleteModal.value ||
-    // transferModalStep1.value ||
-    // transferStep2.value ||
-    // checkboxStore.routeLeaveModal ||
-    // custmizeStore.routeLeaveModal ||
-    // settingsStore.routeLeaveModal ||
-    // statsStore.routeLeaveModal ||
-    // modalStore.showSuccessModalContact ||
-    // marketStore.showCart
-  );
-});
-
-// const closeSideBarOnMobileOverlay = () => {
-//   if (sideBarOpenMobile.value) {
-//     sideBarOpenMobile.value = false;
-//   }
-// };
-const logout = () => {
-  const userStore = useUserStore();
-  userStore.logout();
-  router.push("/auth/login");
-};
-
-const userName = computed(() => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return user ? user.full_name || user.display_name : "";
-  }
-
-  return (
-    isOpen("shareModal") ||
-    isOpen("invitemember") ||
-    isOpen("invitememberupdate") ||
-    isOpen("editteampic") ||
-    isOpen("editusermodal") ||
-    isOpen("userpermissions") ||
-    isOpen("selectSite") ||
-    isOpen("upgrade") ||
-    isOpen("translate_video") ||
-    isOpen("translate_audio") ||
-    isOpen("renamemodal") ||
-    isOpen("upgradeTranslatePackage") ||
-    isOpen("sharetranslate") ||
-    isOpen("moreinfo_translate") ||
-    isOpen("translate_live_video") ||
-    isOpen("translate_pdf_documents") ||
-    isOpen("translate_word_documents") ||
-    isOpen("transferstep1") ||
-    isOpen("transferstep2") ||
     isOpen("deleteModal") ||
     isOpen("resetModal") ||
     isOpen("mycart") ||
@@ -334,6 +262,19 @@ const userName = computed(() => {
     isOpen("successContact") ||
     resetModal.value
   );
+});
+
+const logout = () => {
+  const userStore = useUserStore();
+  userStore.logout();
+  router.push("/auth/login");
+};
+
+const userName = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user ? user.full_name || user.display_name : "";
+  }
 });
 
 const closeSideBarOnMobileOverlay = () => {
