@@ -1,11 +1,9 @@
-import { defineNuxtRouteMiddleware } from 'nuxt/app';
+import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app';
 import { useUserStore } from '@/stores/auth';
 
 export default defineNuxtRouteMiddleware((to, from) => {
     const userStore = useUserStore();
     userStore.checkIfLoggedIn();
-
-    console.log('userStore.isLoggedIn', userStore.isLoggedIn);
 
     if (!userStore.isLoggedIn && !to.path.startsWith('/auth/')) {
         console.log('User is not logged in, redirecting to login');

@@ -291,6 +291,10 @@ const openModals = computed(() => {
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
+
   router.push('/auth/login');
 }
 
