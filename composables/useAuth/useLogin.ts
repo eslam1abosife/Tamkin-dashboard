@@ -30,12 +30,6 @@ export default function(state) {
 
             state.email = "";
             state.password = "";
-            $toast(`Hi ${res.data.data.user_id}<br/>Welcome Back`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
 
         } catch (error) {
             // $toast(`Oops!<br/>${ }`, {

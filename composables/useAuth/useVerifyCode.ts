@@ -17,27 +17,30 @@ export default function(state) {
 
             if(!res.data.succeeded) throw(res.data.message);
 
-            $toast(`You account verified successfully!`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-
         } catch (error) {
-            console.log('error', error);
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 
+    const checkForgetCode = async () => {
+        try {
+            const res = await api.post('/Account/CheckForgectPasswordCode', {
+                data: {
+                    email: state.email,
+                    key: state.key
+                }
+            });
+
+            if(!res.data.succeeded) throw(res.data.message);
+
+        } catch (error) {
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
+        }
+    }
+
     return {
         verifyCode,
-        loading
+        loading,
+        checkForgetCode
     }
 }

@@ -4,11 +4,12 @@ import { onMounted } from "vue";
 import VOtpInput from "vue3-otp-input";
 import { useResendCode, useVerifyCode, useLogin } from '@/composables/useAuth';
 import { useRoute, useRouter } from '#vue-router';
+import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 
 
 const route = useRoute();
 const router = useRouter();
-const { resendCode, code } = useResendCode();
+const { resendCode, loading: resendLoading } = useResendCode();
 
 definePageMeta({
   layout: 'auth'
@@ -18,7 +19,7 @@ definePageMeta({
 const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
 const bindModal = ref("");
 const disableButton = ref(true);
-const verificationCode = ref(null);
+const verificationCode = ref('');
 
 const handleOnChange = (value: string) => {
   disableButton.value = true;
@@ -66,40 +67,84 @@ const formattedCountdown = computed(() => {
 });
 
 const doResendCode = async () => {
-  const email = JSON.parse(localStorage.getItem('registerd_user'))?.email;
-  await resendCode(email);
-  clearInterval(intervalId);
-  showResent.value = false;
-  countdown.value = 5;
-  startCountdown();
-}
-
-const doVerifyCode = async () => {
-  disableButton.value = false;
-
-  if (!disableButton) {
-    console.error('disableButton or code is not defined');
-    return;
-  }
-
-  const user = JSON.parse(localStorage.getItem('registerd_user'));
-
-  if (!user || !user.email) {
-    console.error('User is undefined or does not have an email');
-    return;
-  }
-
-  const { verifyCode } = useVerifyCode({email: user.email, key: verificationCode.value });
-  const { loginUser } = useLogin(user);
-
+  errMsg.value = null;
+  const email = localStorage.getItem('registerd_email');
   try {
-    await verifyCode();
-    await loginUser();
-    router.push('/my-site');
-  } catch (err) {
+    await resendCode(email);
+    clearInterval(intervalId);
+    showResent.value = false;
+    countdown.value = 5;
+    startCountdown();
+    successMsg.value = 'resent Successfully!';
+    sentSuccessfully.value = true;
+    setTimeout(() => {
+      sentSuccessfully.value = false;
+    }, 2000);
+
+  } catch(err) {
+    errMsg.value = err;
     console.error(err);
   }
+
+
+
+}
+const sentSuccessfully = ref(false);
+const errMsg = ref(null);
+const successMsg = ref(null);
+const verifyLoading = ref(false);
+
+const doVerifyCode = async () => {
+  errMsg.value = null;
+  disableButton.value = false;
+
+  if (!verificationCode.value) {
+    console.error('Verification code is not defined');
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem('registerd_user')) || null;
+  const email = user?.email || localStorage.getItem('registerd_email');
+  console.log(user, email);
+
+  if (!email) {
+    console.error('Email is not defined');
+    return;
+  }
+
+  try {
+    const { verifyCode, loading } = useVerifyCode({ email, key: verificationCode.value });
+    verifyLoading.value = loading;
+
+    if (user) {
+      const { loginUser } = useLogin(user);
+
+      await verifyCode();
+      await loginUser();
+      successMsg.value = 'Logged in Successfully!';
+      sentSuccessfully.value = true;
+      router.push('/my-site');
+    } else {
+      const { checkForgetCode } = useVerifyCode({ email, key: verificationCode.value });
+
+      await checkForgetCode();
+      localStorage.setItem('curr_code', verificationCode.value);
+      router.push('/auth/new-password');
+    }
+
+    sentSuccessfully.value = true;
+    setTimeout(() => {
+      sentSuccessfully.value = false;
+    }, 2000);
+
+  } catch (err) {
+    console.error(err);
+    errMsg.value = err || 'An error occurred during verification.';
+  } finally {
+    verifyLoading.value = false;
+  }
 };
+
 
 // onMounted(() => {
 //   doResendCode();
@@ -109,6 +154,9 @@ const doVerifyCode = async () => {
 
 
 <template>
+  <DashboardToastSuccess v-if="sentSuccessfully" :hideIn="2000" :message="successMsg"
+                         class="top-[8%] !inset-x-[13%]" ></DashboardToastSuccess>
+
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
@@ -134,19 +182,29 @@ const doVerifyCode = async () => {
                 :should-focus-order="true" @on-change="handleOnChange" @on-complete="doVerifyCode" />
             </div>
 
-
+            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>
           </div>
         </div>
       </div>
 
       <div class="absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-        <button class="btn-grad-action w-full" :disabled="disableButton" @click="doVerifyCode">
-          {{ $t("verfiy") }}
+        <button
+            :class="{'btn-inactive': !verificationCode || verifyLoading}"
+            class="btn-grad-action w-full"
+            :disabled="!verificationCode || verifyLoading"
+            @click="doVerifyCode">
+          <img v-if="verifyLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{verifyLoading ? $t('verfiy_processing') : $t('verfiy') }}
         </button>
 
         <p class="mt-[8px] text-center font-[500] dark:text-whiteTamkin">{{ $t('didnt_receive_code') }} <span href="" class="text-error "
-            v-if="!showResent">{{ formattedCountdown }}</span> <a @click.prevent="doResendCode" href="#" class="text-tamkin underline "
-            v-else>{{ $t('resendCode') }}</a></p>
+            v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
+
+          <img class="inline" src="/assets/imgs/loading-green.svg" v-else-if="resendLoading" />
+
+          <a @click.prevent="doResendCode" href="#" class="text-tamkin underline "
+            v-else>{{ $t('resendCode') }}</a>
+        </p>
+
       </div>
 
     </div>

@@ -22,23 +22,15 @@ export default function(state) {
             // redirect to homepage if user is authenticated
             router.push('/auth/login');
 
-            $toast(`Your Password changed successfully!`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+
+            throw error ? error : 'There is something wrong';
         }
     };
 
     return {
         confirmForgetPassword,
+        loading
     }
 }

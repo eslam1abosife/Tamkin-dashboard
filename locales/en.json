@@ -42,6 +42,7 @@
     "sign_up": "Sign Up",
     "verification": "Verification",
     "verfiy": "Verify",
+    "verfiy_processing": "Verify Processing",
     "enter_verification_code": "Enter your 6 digits code that you received on your email.",
     "CookiePolicy":"Cookie Policy",
     "didnt_receive_code": "If you didn’t receive a code!",

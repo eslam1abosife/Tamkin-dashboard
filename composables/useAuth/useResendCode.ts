@@ -16,21 +16,10 @@ export default function() {
                     email
                 }
             });
+            if(!res.data.succeeded) throw(res.data.message);
             code.value = res.data.data.match(/\d+/)[0];
-            $toast(`You have received a verification code in your email`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

@@ -18,7 +18,7 @@ export default function(state) {
             if(!res.data.succeeded) throw(res.data.message);
 
             // redirect to homepage if user is authenticated
-            router.push('/auth/new-password');
+            router.push('/auth/otp?from=forget-password');
 
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';

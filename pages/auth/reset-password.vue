@@ -24,6 +24,7 @@ const { forgetPassword , loading } = useForgetPassword(state);
 const errorMsg = ref(null);
 
 const doForgetPassword = async () => {
+  errorMsg.value = null;
   localStorage.setItem('registerd_email', state.email);
   try {
     await forgetPassword();

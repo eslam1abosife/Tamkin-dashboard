@@ -43,6 +43,7 @@ const doRegister = async () => {
   try {
     await register((user) => {
       localStorage.setItem("registerd_user", JSON.stringify(user));
+      localStorage.setItem("registerd_email", user.email);
     });
   } catch (err) {
     errorMsg.value = err;

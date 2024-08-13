@@ -4,6 +4,7 @@ import {required, email} from "@vuelidate/validators";
 import {useGoogle, useLogin} from '@/composables/useAuth';
 import {useGetCurrentTeam} from "~/composables/useTeam";
 import {useRouter} from "#vue-router";
+import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 
 definePageMeta({
   layout: "auth",
@@ -35,10 +36,15 @@ const {loginUser, loading, user} = useLogin(state);
 
 const router = useRouter();
 const errorMsg = ref(null);
+const loginSuccessfully = ref(false);
 
 const doLogin = async () => {
   try {
     await loginUser();
+    loginSuccessfully.value = true;
+    setTimeout(() => {
+      loginSuccessfully.value = false;
+    }, 2000);
     router.push('/my-site');
   } catch (err) {
     errorMsg.value = err;
@@ -47,6 +53,11 @@ const doLogin = async () => {
 </script>
 
 <template>
+
+  <DashboardToastSuccess v-if="loginSuccessfully" :hideIn="2000" :message="'Login Done Successfully'"
+                         class="top-[8%] !inset-x-[13%]" ></DashboardToastSuccess>
+
+
   <div class="max-w-[600px] h-[600px] relative ">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
