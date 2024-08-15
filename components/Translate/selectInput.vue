@@ -8,7 +8,9 @@ const props = defineProps({
     iconKey: String,
     nameKey: String,
     idField: String,
-    disabled: Boolean
+    disabled: Boolean,
+    errorField:Boolean,
+    successField:Boolean
 })
 const emit = defineEmits(['getCurrentSelectedItem'])
 const isOpen = ref(false);
@@ -57,8 +59,11 @@ const filteredList = computed(() => {
     <div class="relative w-full " v-on-click-outside="closeOnOutSideClick">
         <button @click.prevent="toggleDropdown"   
             class="input_search_country !rounded-[10px] peer w-full  ltr:text-left rtl:text-right "
-            :class="[isOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '']">
-            <div class="floating_country px-[6px] !text-[#585B5B] !font-[500] text-[13px]"
+
+            :class="[isOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '',
+            errorField ? 'input_error' :'' ,successField ?  'input_success' :''
+            ]">
+            <div class="floating_country px-[6px] text-[#585B5B] !font-[500] text-[13px]"
                 :class="[selectedOption && selectedOption.name ? '!text-black' : 'text-light']">
                 <div class="flex items-center justify-start">
                     <img v-if="selectedOption && iconKey" :src="selectedOption[iconKey]"

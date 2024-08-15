@@ -2,23 +2,8 @@
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  ssr:false,
+  ssr:true,
   sourcemap: false,
-
-
-  // runtimeConfig: {
-  //   public: {
-  //     baseURL: process.env.BASE_URL
-  //   }
-  // },
-  // optimizeDeps: {
-  //   include: ['@/ck-vue'],
-  // },
-  // build: {
-  //   commonjsOptions: {
-  //     include: ['@/ck-vue'],
-  //   },
-  // },
 
   runtimeConfig: {
     public: {
@@ -49,6 +34,13 @@ export default defineNuxtConfig({
   //   },
   // },
 
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['@tiptap/pm/state'],
+      },
+    },
+  },
 
   app: {
     head: {

@@ -125,9 +125,7 @@ const submit = async () => {
     </div>
 
     <div class="w-[190px] mx-auto">
-
       <button @click="submit" class="btn-dashboard normal_hover mt-[40px] " :disabled="v$.email.$invalid">
-
         Send Embed Code
       </button>
     </div>

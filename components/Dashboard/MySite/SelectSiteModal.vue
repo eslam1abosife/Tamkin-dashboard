@@ -163,15 +163,7 @@ const submit = () => {
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('selectSite','my-site')">
     Cancel
   </button>
-<<<<<<< HEAD
-<<<<<<< HEAD
   <button @click="submit" class=" btn-dashboard text-center w-1/6" >
-=======
-  <button class=" btn-dashboard hover_tamkin text-center w-1/6" >
->>>>>>> f74f36e (document/photo pages)
-=======
-  <button class=" btn-dashboard hover_tamkin text-center w-1/6" >
->>>>>>> main
     Save
   </button>
 

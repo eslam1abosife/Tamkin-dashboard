@@ -11,7 +11,7 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
 const translateStore = useTranslateStore();
-const signLangStore = useSignLangStore();
+
 onMounted(() => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
@@ -246,24 +246,57 @@ const openModals = computed(() => {
     isOpen("translate_word_documents") ||
     isOpen("transferstep1") ||
     isOpen("transferstep2") ||
+    isOpen("deleteTeamMember") ||
+    isOpen("deleteApp") ||
+    isOpen("restoreApp") ||
     isOpen("deleteModal") ||
     isOpen("resetModal") ||
     isOpen("mycart") ||
     isOpen("requestmodal") ||
     isOpen("cardModal") ||
     isOpen("translate_images") ||
-    isOpen("editname") ||
-    statsStore.routeLeaveModal ||
-    custmizeStore.routeLeaveModal ||
+    isOpen("editname") || 
     sideBarOpenMobile.value ||
-    settingsStore.routeLeaveModal ||
-    checkboxStore.routeLeaveModal ||
-    signLangStore.routeLeaveModal ||
-    isOpen("successContact") ||
-    resetModal.value
+    isOpen('edit_card_billing_profile') ||
+    isOpen('withdraw_paymentmethods') ||
+    isOpen('bank_account_withdraw') ||
+    isOpen('details_bank_withdraw') ||
+    isOpen('success_bank_withdraw') ||
+    isOpen('crypto_step1') ||
+    isOpen('crypto_step_2_e') ||
+    isOpen('crypto_success_referral') ||
+    isOpen('paypal_withdraw_step1') ||
+    isOpen('paypal_withdraw_step2') ||
+    isOpen('success_paypal_withdraw') ||
+    // marketStore.firstItemNotificationShown ||
+    // marketStore.resetModal ||
+    // marketStore.requestModal ||
+    // showShareModal.value ||
+    // editPictureTeamModal.value ||
+    // editPermissionsModal.value ||
+    // inviteMemberModal.value ||
+    // selectSiteModal.value ||
+    // editUserModal.value ||
+    // InviteMemberUpdateModal.value ||
+    // showUpgradeModal.value ||
+    resetModal.value 
+    // deleteModal.value ||
+    // transferModalStep1.value ||
+    // transferStep2.value ||
+    // checkboxStore.routeLeaveModal ||
+    // custmizeStore.routeLeaveModal ||
+    // settingsStore.routeLeaveModal ||
+    // statsStore.routeLeaveModal ||
+    // modalStore.showSuccessModalContact ||
+    // marketStore.showCart
   );
 });
 
+// const closeSideBarOnMobileOverlay = () => {
+//   if (sideBarOpenMobile.value) {
+//     sideBarOpenMobile.value = false;
+//   }
+// };
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
@@ -275,13 +308,8 @@ const userName = computed(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     return user ? user.full_name || user.display_name : "";
   }
+  return "";
 });
-
-const closeSideBarOnMobileOverlay = () => {
-  if (sideBarOpenMobile.value) {
-    sideBarOpenMobile.value = false;
-  }
-};
 </script>
 
 <template>
@@ -311,17 +339,55 @@ const closeSideBarOnMobileOverlay = () => {
         sub-title="We will contact you as soon as possible "
         icon="contact_success.svg"
       />
-      <DashboardTeamEditusermodal :showModal="isOpen('editusermodal')" />
-      <DashboardEmbedSharemodal :showModal="isOpen('shareModal')" />
-      <DashboardTeamInvitemember :showModal="isOpen('invitemember')" />
+
+      <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
+      <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
+      <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
       <DashboardTeamEditname />
-      <DashboardTeamInvitememberupdate :showModal="isOpen('invitememberupdate')" />
-      <DashboardTeamEditteampicturemodal :showModal="isOpen('editteampic')" />
-      <DashboardTeamEdituserpermissionsmodal :showModal="isOpen('userpermissions')" />
-      <DashboardMySiteSelectsitemodal :showModal="isOpen('selectSite')" />
+
+      <ModalsConfirm
+        :show-modal="true"
+        v-if="isOpen('deleteTeamMember')"
+        title="Delete That Member"
+        sub-title="Are you sure you want to delete that team member ?"
+        confirm-btn-type="delete"
+        @control-delete="emitEvent('deleteTeamMember')"
+        @control-cancel="closeModal('deleteTeamMember')"
+      />
+
+      <ModalsConfirm
+        :show-modal="true"
+        v-if="isOpen('deleteApp')"
+        title="Delete That App"
+        sub-title="Are you sure you want to delete that app ?"
+        confirm-btn-type="delete"
+        @control-delete="emitEvent('deleteApp')"
+        @control-cancel="closeModal('deleteApp')"
+      />
+
+      <ModalsConfirm
+        :show-modal="true"
+        v-if="isOpen('restoreApp')"
+        title="Restore That App"
+        :for-delete="false"
+        sub-title="Are you sure you want to restore that app ?"
+        confirm-btn-type="other"
+        @control-other="emitEvent('restoreApp')"
+        @control-cancel="closeModal('restoreApp')"
+      />
+
+      <DashboardTeamInviteMemberUpdate
+        :showModal="true"
+        v-if="isOpen('invitememberupdate')"
+      />
+      <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
+      <DashboardTeamEditUserPermissionsModal
+        :showModal="true"
+        v-if="isOpen('userpermissions')"
+      />
+      <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
       <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
-      <!-- 
->>>>>>> f74f36e (document/photo pages)
+      <!--
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
@@ -401,11 +467,11 @@ const closeSideBarOnMobileOverlay = () => {
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="fixed top-0 flex z-[60] items-center justify-center lg:justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse lg:px-[40px] h-[70px]"
+            class="sticky top-0 flex z-[60] items-center justify-between w-full 
+            bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
           >
             <div
-              class="flex ipad-max:w-[75%] items-center lg:space-x-0 space-x-[10px] lg:px-0 px-[20px] w-full"
-              :class="[sideBarOpen ? 'lg:max-w-[82.5%]' : 'lg:max-w-[97%]']"
+              class="flex  items-center lg:space-x-0 space-x-[10px]  w-full "
             >
               <div
                 class="flex items-center justify-between lg:hidden"
@@ -428,10 +494,10 @@ const closeSideBarOnMobileOverlay = () => {
                 </svg>
               </div>
 
-              <div class="py-[17px] search_input relative flex-grow lg:block hidden">
+              <div class="py-[17px] search_input relative  w-full !ml-[40px]">
                 <input
                   type="text"
-                  class="input_dashboard_search w-full"
+                  class="input_dashboard_search 2xl:w-full lg:w-3/4 "
                   v-model="search"
                   placeholder="Search ..."
                 />
@@ -450,13 +516,13 @@ const closeSideBarOnMobileOverlay = () => {
               </div>
 
               <div
-                class="flex items-center justify-end lg:ml-auto space-x-[14px] lg:space-x-[43px] w-full"
-                :class="[sideBarOpen ? 'lg:max-w-[50%]' : 'lg:max-w-[50%]']"
+                class="flex items-center justify-end  lg:space-x-[20px] w-full"
+           
               >
-                <div class="py-[17px] search_input relative lg:hidden block">
+                <div class="py-[17px] search_input relative lg:hidden block w-1/4">
                   <input
                     type="text"
-                    class="input_dashboard_search w-full"
+                    class="input_dashboard_search w-1/4"
                     v-model="search"
                     placeholder="Search ..."
                   />
@@ -473,82 +539,20 @@ const closeSideBarOnMobileOverlay = () => {
                     <img src="/assets/imgs/icons/clear_search.svg" />
                   </div>
                 </div>
+                <Langswitcher/>
+
                 <Darkmode />
-                <div
-                  @click="showNotifiations = !showNotifiations"
-                  :class="[showNotifiations ? 'active_notification' : '']"
-                  class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] dark:border-darkborder rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary lg:w-[40px] w-[60px] h-[40px] ipad-max:w-[30px] ipad-max:h-[30px]"
-                >
-                  <div
-                    class="relative stroke-current dark:text-whiteTamkin text-darkGrey"
-                  >
-                    <div
-                      :class="[showNotifiations ? 'hidden' : '']"
-                      class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] ipad-max:w-[14px] ipad-max:h-[14px] w-[18px] h-[18px] rounded-full flex items-center justify-center"
-                    >
-                      <span
-                        class="ipad-max:text-[10px] text-[12px] font-[700] text-white"
-                        style="line-height: 68px"
-                        >5</span
-                      >
-                    </div>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 20 22"
-                      fill="none"
-                      :class="[showNotifiations ? 'active_bell' : '']"
-                      class="ipad-max:h-[14px] ipad-max:w-[14px]"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M11.7295 20C11.5537 20.3031 11.3014 20.5547 10.9978 20.7295C10.6941 20.9044 10.3499 20.9965 9.99953 20.9965C9.64915 20.9965 9.30492 20.9044 9.0013 20.7295C8.69769 20.5547 8.44534 20.3031 8.26953 20"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div class="lg:block hidden">
-                  <h2
-                    class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
-                  >
-                    {{ userName }}
-                  </h2>
-                </div>
-                <div class="lg:block hidden">
-                  <svg
-                    width="7"
-                    height="12"
-                    viewBox="0 0 7 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-                      class="dark:fill-white fill-[#585B5B]"
-                    />
-                  </svg>
-                </div>
-                <button @click="logout()" class="w-5 h-5">
-                  <img src="/assets/imgs/logout.svg" alt="" />
-                </button>
+                <NotificationBell/>
+                <!-- {{ userName }} -->
+            <Userprofilemenu/>
+            
               </div>
             </div>
           </nav>
 
-          <div class="pt-[85px] px-[20px] ipad-max:px-[20px] lg:px-[40px] relative">
+          <div class=" relative" :class="isLinkActive('/profile') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
             <div
-              class="absolute left-0 right-0 w-full h-[270px] z-[-1] top-0"
+              class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
                 background: linear-gradient(
@@ -564,7 +568,9 @@ const closeSideBarOnMobileOverlay = () => {
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
-                isLinkActive('/settings')
+                isLinkActive('/settings') ||
+
+                isLinkActive('/sign-language/*')
               "
             ></div>
             <div class="relative px-[15px]">

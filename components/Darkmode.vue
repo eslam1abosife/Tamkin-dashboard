@@ -4,12 +4,12 @@ const colorMode = useColorMode();
 const changeColorMode = (mode: any) => {
   colorMode.preference = mode;
 };
-
-
 </script>
 
 <template>
-  <div>
+  <div
+    class="bg-[#EFF1F6] h-[40px] w-[40px] rounded-full flex items-center justify-center"
+  >
     <div
       class=""
       @click="changeColorMode('dark')"
@@ -52,11 +52,13 @@ const changeColorMode = (mode: any) => {
     </div>
 
     <div
-    class="cursor-pointer dark:text-whiteTamkin"
-    @click="changeColorMode('light')"
-    v-if="colorMode.unknown"
-  >
-  <div class="border-gray-300 dark:border-whiteTamkin dark:border-t-tamkin h-6 w-6 animate-spin rounded-full border-4 border-t-tamkin" />
-  </div>
+      class="cursor-pointer dark:text-whiteTamkin"
+      @click="changeColorMode('light')"
+      v-if="colorMode.unknown"
+    >
+      <div
+        class="border-gray-300 dark:border-whiteTamkin dark:border-t-tamkin h-6 w-6 animate-spin rounded-full border-4 border-t-tamkin"
+      />
+    </div>
   </div>
 </template>

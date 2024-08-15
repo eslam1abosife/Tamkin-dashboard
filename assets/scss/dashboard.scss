@@ -526,6 +526,9 @@ html {
 .custom-border-tamkin.rounded-22-tamkin::before {
     border-radius: 22px !important;
 }
+.custom-border-tamkin.rounded-input::before {
+    border-radius: 10px !important;
+}
 .custom-border-tamkin.rounded-5-tamkin::before {
     border-radius: 5px !important;
 }
