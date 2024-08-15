@@ -356,7 +356,7 @@ const openToast = (msg) => {
  <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
     <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')" />
     <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')" />
-    <DashboardTeamEditname/>
+    <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')" />
 
     <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
                    sub-title="Are you sure you want to delete that team member ?"

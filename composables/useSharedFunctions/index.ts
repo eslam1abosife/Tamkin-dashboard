@@ -1,5 +1,7 @@
 import useGetAvatarLetters from "./useGetAvatarLetters";
+import useIncludeWord from "./useIncludeWord";
 
 export {
-    useGetAvatarLetters
+    useGetAvatarLetters,
+    useIncludeWord
 }

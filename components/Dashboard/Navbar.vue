@@ -257,7 +257,7 @@ watch(
         </div>
       </div>
       <div
-        class="tamkin_team_card"
+        class="tamkin_team_card "
         @click="$router.push(localePath('/team'))"
         :class="[
           !sideBarOpen ? 'border-none bg-transparent hidden' : '',
@@ -267,11 +267,11 @@ watch(
         <img
             v-if="currTeam?.team_image"
           :src="`https://tamkin.app/${currTeam?.team_image}`"
-            class=" rounded-full"
-          :class="[sideBarOpen ? 'h-[30px] w-[36px] ' : 'h-[24px] w-[24px]']"
+            class=" rounded-full object-cover"
+          :class="[sideBarOpen ? 'h-[35px] w-[35px] ' : 'h-[24px] w-[24px]']"
         />
 
-        <div v-else :class="[sideBarOpen ? 'h-[30px] w-[36px] ' : 'h-[24px] w-[24px]']" class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full">
+        <div v-else :class="[sideBarOpen ? 'h-[35px] w-[40px] leading-[35px]' : 'h-[24px] w-[24px]  leading-[24px]']" class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full object-cover">
           <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
         </div>
 

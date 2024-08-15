@@ -3,6 +3,9 @@ import {useVuelidate} from "@vuelidate/core";
 import {required, email, sameAs} from "@vuelidate/validators";
 import {useModalManager} from '@/composables/useModalManager';
 import {useInviteMember, useGetAllMembers} from '@/composables/useTeam';
+import { useIncludeWord } from '@/composables/useSharedFunctions';
+
+const { isIncludeWord } = useIncludeWord();
 
 const {
   isOpen,
@@ -77,7 +80,7 @@ onMounted(() => {
 
 
       <div class="space-y-[44px]">
-        <h6 v-if="errorMsg" class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
+        <h6 v-if="isIncludeWord(errorMsg, ['something wrong'])" class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
 
         <div class="w-full relative !mt-[20px]">
           <input type="text" placeholder="{{$t('firstName')}}" id="firstName" class="input_floating_label peer"
@@ -154,6 +157,9 @@ onMounted(() => {
                 }}</span>
             </p>
           </div>
+
+          <h6 v-if="isIncludeWord(errorMsg, ['member', 'agency'])" class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
+
         </div>
       </div>
 

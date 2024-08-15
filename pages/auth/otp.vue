@@ -22,6 +22,7 @@ const disableButton = ref(true);
 const verificationCode = ref('');
 
 const handleOnChange = (value: string) => {
+  console.log('changed', value)
   disableButton.value = true;
   verificationCode.value = value;
 };
@@ -35,7 +36,7 @@ const fillInput = (value: string) => {
   otpInput.value?.fillInput(value);
 };
 
-const countdown = ref(5); // countdown timer in seconds
+const countdown = ref(29); // countdown timer in seconds
 const showResent = ref(false);
 let intervalId: number | undefined;
 
@@ -73,14 +74,13 @@ const doResendCode = async () => {
     await resendCode(email);
     clearInterval(intervalId);
     showResent.value = false;
-    countdown.value = 5;
-    startCountdown();
+    countdown.value = 29;
     successMsg.value = 'resent Successfully!';
     sentSuccessfully.value = true;
     setTimeout(() => {
       sentSuccessfully.value = false;
     }, 2000);
-
+    startCountdown();
   } catch(err) {
     errMsg.value = err;
     console.error(err);
@@ -99,12 +99,13 @@ const doVerifyCode = async () => {
   disableButton.value = false;
 
   if (!verificationCode.value) {
+    console.log('verificationCode.value', verificationCode.value)
     console.error('Verification code is not defined');
     return;
   }
 
   const user = JSON.parse(localStorage.getItem('registerd_user')) || null;
-  const email = user?.email || localStorage.getItem('registerd_email');
+  const email = localStorage.getItem('registerd_email');
   console.log(user, email);
 
   if (!email) {
@@ -116,14 +117,14 @@ const doVerifyCode = async () => {
     const { verifyCode, loading } = useVerifyCode({ email, key: verificationCode.value });
     verifyLoading.value = loading;
 
-    if (user) {
-      const { loginUser } = useLogin(user);
+    if (user && route.query.from != 'forget-password') {
+      // const { loginUser } = useLogin(user);
 
       await verifyCode();
-      await loginUser();
-      successMsg.value = 'Logged in Successfully!';
-      sentSuccessfully.value = true;
-      router.push('/my-site');
+      // await loginUser();
+      // successMsg.value = 'Logged in Successfully!';
+      // sentSuccessfully.value = true;
+      router.push('/auth/success?from=register');
     } else {
       const { checkForgetCode } = useVerifyCode({ email, key: verificationCode.value });
 
@@ -135,7 +136,7 @@ const doVerifyCode = async () => {
     sentSuccessfully.value = true;
     setTimeout(() => {
       sentSuccessfully.value = false;
-    }, 2000);
+    }, 5000);
 
   } catch (err) {
     console.error(err);
@@ -154,14 +155,14 @@ const doVerifyCode = async () => {
 
 
 <template>
-  <DashboardToastSuccess v-if="sentSuccessfully" :hideIn="2000" :message="successMsg"
+  <DashboardToastSuccess v-if="sentSuccessfully" :hideIn="5000" :message="successMsg"
                          class="top-[8%] !inset-x-[13%]" ></DashboardToastSuccess>
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
         
@@ -177,33 +178,39 @@ const doVerifyCode = async () => {
             <div class="space-y-[16px] mt-[24px] ">
               <v-otp-input class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto space-x-[10px] 
               lg:space-x-[16px] xl:space-x-[22px]"
-                ref="otpInput" input-classes="otp_field" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
+                ref="otpInput" :input-classes="errMsg ? 'otp_field border-danger' : `otp_field`" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
                 inputType="letter-numeric" :num-inputs="6" v-model:value="bindModal" :should-auto-focus="true"
-                :should-focus-order="true" @on-change="handleOnChange" @on-complete="doVerifyCode" />
+                :should-focus-order="true" @on-change="handleOnChange" @update:value="verificationCode = $event" />
             </div>
 
-            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>
+<!--            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>-->
           </div>
         </div>
       </div>
 
-      <div class="absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
+      <div class=" absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
         <button
             :class="{'btn-inactive': !verificationCode || verifyLoading}"
-            class="btn-grad-action w-full"
+            class="btn-grad-action w-full  !mb-[8px]"
             :disabled="!verificationCode || verifyLoading"
             @click="doVerifyCode">
           <img v-if="verifyLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{verifyLoading ? $t('verfiy_processing') : $t('verfiy') }}
         </button>
 
-        <p class="mt-[8px] text-center font-[500] dark:text-whiteTamkin">{{ $t('didnt_receive_code') }} <span href="" class="text-error "
-            v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
-
-          <img class="inline" src="/assets/imgs/loading-green.svg" v-else-if="resendLoading" />
-
-          <a @click.prevent="doResendCode" href="#" class="text-tamkin underline "
-            v-else>{{ $t('resendCode') }}</a>
-        </p>
+        <div v-if="route.query.from !== 'forget-password'" class="flex gap-2 items-center  justify-center !mt-[0]">
+          <div>
+            <p class="flex gap-[5px] text-center font-[500] dark:text-whiteTamkin">
+              <span>{{ $t('didnt_receive_code') }}</span>
+              <span class="text-error w-[50px]"
+                    v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
+            </p>
+          </div>
+          <div class="w-[50px]">
+            <img class="inline" src="/assets/imgs/loading-green.svg" v-if="resendLoading" />
+            <a  @click.prevent="doResendCode" href="#" class="w-[50px] text-tamkin underline "
+                v-else-if="!(!showResent && !resendLoading) && !resendLoading">{{ $t('resendCode') }}</a>
+          </div>
+        </div>
 
       </div>
 
@@ -212,4 +219,8 @@ const doVerifyCode = async () => {
 </template>
 
 
-<style lang="scss"></style>
+<style lang="scss">
+.border-danger {
+  border-color: red !important;
+}
+</style>

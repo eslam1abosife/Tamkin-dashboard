@@ -2,6 +2,9 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useForgetPassword } from '@/composables/useAuth';
+import { useIncludeWord } from '@/composables/useSharedFunctions';
+
+const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
     layout: "auth",
@@ -40,7 +43,7 @@ const doForgetPassword = async () => {
         <div class="flex items-center justify-center w-full mt-[16px] ">
             <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
                 <div class="flex-1 lg:mx-[-5px] mx-auto">
-                    <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+                    <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
                 </div>
                 <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
                  
@@ -58,7 +61,7 @@ const doForgetPassword = async () => {
 
                         <div class="space-y-[23px] w-full ">
                             <div class="w-full relative">
-                                <input type="email" placeholder="{{$t('email')}}" id="email"
+                                <input @input="errorMsg = ''" type="email" placeholder="{{$t('email')}}" id="email"
                                     class="input_floating_label peer" v-model="v$.email.$model" :class="{
                         input_error:
                             (v$.email.$error && v$.email.required.$invalid) ||
@@ -83,7 +86,9 @@ const doForgetPassword = async () => {
                                             }}</span>
                                     </p>
                                 </div>
-                                <h6 v-if="errorMsg" class="text-[red] mb-5 mt-5"> {{errorMsg}} </h6>
+                                <h6 v-if="isIncludeWord(errorMsg, ['confirm', 'not found'])" class="text-[red] font-light text-[12px] !mt-[5px] text-start"> {{errorMsg}} </h6>
+                                <h6 v-else class="text-[red] !mt-[15px]"> {{errorMsg}} </h6>
+
                             </div>
 
 
@@ -100,7 +105,7 @@ const doForgetPassword = async () => {
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
             <button class="btn-grad-action w-full"
                     :class="(v$.email.$invalid || loading) && 'btn-inactive'"
-                    @click="doForgetPassword"
+                    @click.prevent="doForgetPassword"
                 :disabled="v$.email.$invalid || loading">
 
               <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("continue") : $t("continue_processing") }}

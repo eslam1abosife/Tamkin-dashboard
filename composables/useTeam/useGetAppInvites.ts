@@ -15,7 +15,7 @@ export default function() {
             throw Error('Curr Team Id not exists!');
         }
         try {
-            const res = await api.post('/Team/Get/Apps', {
+            const res = await api.post('/Tamkin Agency Apps/Get', {
                 where: {
                     agency: state.agency,
                 }

@@ -8,21 +8,26 @@ export default function() {
     const { $firebaseAuth, $firebaseProvider } = useNuxtApp();
     const { $toast } = useNuxtApp();
     const { useApiInstance } = useApi();
-    const { api , loading } = useApiInstance();
+    const { api } = useApiInstance();
     const router = useRouter();
     const user = ref(null);
     const userStore = useUserStore();
 
     const tokenCookie = useCookie('token', { secure: true, sameSite: 'strict' });
     const isLoggedInCookie = useCookie('isLoggedIn', { secure: true, sameSite: 'strict' });
+    const loading = ref(false);
 
     const loginWithGoogle = async () => {
+
         try {
             const result = await signInWithPopup($firebaseAuth, $firebaseProvider);
+
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
+            console.log('credential', credential);
             const token = credential.idToken;
 
+            loading.value = true;
             const res = await api.post('/Account/LoginWithGoogle', {
                 data: {
                     token,
@@ -40,27 +45,17 @@ export default function() {
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
 
-            $toast(`Hi ${res.data.data.user_id}<br/>Welcome Back`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
             router.push('/my-site');
 
         } catch (error) {
-            console.log(error);
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
             throw error;
+        } finally {
+            loading.value = false;
         }
     };
 
     return {
         loginWithGoogle,
+        loading
     };
 };

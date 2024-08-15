@@ -81,7 +81,7 @@
   }
 
   .error_message_password {
-    @apply font-[300] text-right text-[10px] lg:text-[12px] text-error absolute rtl:bottom-[1px] ltr:bottom-[1px] rtl:left-[29px] ltr:right-[14px];
+    @apply font-[300] text-right text-[10px] text-error absolute rtl:bottom-[1px] ltr:bottom-[1px] rtl:left-[29px] ltr:right-[14px];
   }
 
   input::-ms-reveal,

@@ -19,7 +19,7 @@ export const useModalStore = defineStore('modalStore', () => {
     sharedData.value = null;
   }
 
-  function openModal(modalId, view) {
+  function openModal(modalId, view, data) {
     if (!modals.value[modalId]) {
       modals.value[modalId] = {
         isOpen: ref(true),
@@ -28,6 +28,9 @@ export const useModalStore = defineStore('modalStore', () => {
     } else {
       modals.value[modalId].isOpen = true;
       modals.value[modalId].history.push(view);
+    }
+    if(data) {
+      setData(data);
     }
   }
 

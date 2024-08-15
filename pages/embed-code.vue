@@ -200,7 +200,9 @@ const filteredInstallationGuide = computed(() => {
               </div>
               <div>Advanced View</div>
             </button>
-            <div
+            <button
+                :disabled="!defaultApp"
+                :class="!defaultApp ? 'opacity-40' : 'opacity-100'"
              @click="openModal('shareModal','embed-code')"
               class="lg:order-2 md:order-2 order-3 cursor-pointer ipad-max:text-[12px] border-[2px]  mx-auto lg:m-0 md:mt-0 mt-4 lg:mt-0 md:w-auto w-full lg:w-auto
               rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
@@ -253,13 +255,14 @@ const filteredInstallationGuide = computed(() => {
                 </div>
 
                 <button
-                  class="h-[45px] btn px-4 py-2 rounded-md text-[14px]
-                   group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                    class="h-[45px] btn px-4 py-2 rounded-md text-[14px]"
+                    :disabled="!defaultApp"
+                    :class="defaultApp ? 'group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text' : null"
                 >
                   Share code with your team
                 </button>
               </div>
-            </div>
+            </button>
 
             <div @click="copyCode"
               class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
@@ -385,7 +388,7 @@ const filteredInstallationGuide = computed(() => {
           flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
-            <template v-if="!getMembersLoading">
+            <template v-if="!getMembersLoading && members.length > 0">
               <div v-for="(member, index) in members" :key="index">
                 <img v-if="member.user_image" :src="`https://tamkin.app/${member.user_image}`" class="w-10 h-10" />
                 <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
@@ -393,11 +396,12 @@ const filteredInstallationGuide = computed(() => {
                 </div>
               </div>
             </template>
-            <img v-else src="/assets/imgs/loading-green.svg" />
+            <img v-else-if="getMembersLoading" src="/assets/imgs/loading-green.svg" />
+            <h6 class="text-[red] text-[12px]" v-else-if="!getMembersLoading && members.length == 0">No Members Founded</h6>
           </div>
           <div class="">
             <a
-              href=""
+              href="#"
               class="text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline"
               >Schedule ameeting Withnour support team</a
             >
@@ -464,7 +468,7 @@ const filteredInstallationGuide = computed(() => {
                       style="line-height: 22.5px"
                     >
                       <div>
-                        <img class="w-14 h-14 object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
+                        <img class="w-[28px] h-[30px] object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
                       </div>
                       <div> {{ item.title }} </div>
                     </td>

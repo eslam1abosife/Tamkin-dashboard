@@ -209,7 +209,6 @@ const paginatedFilteredAppList = computed(() => {
 });
 
 
-
 </script>
 
 <template>
@@ -742,7 +741,11 @@ const paginatedFilteredAppList = computed(() => {
                   </tr>
                 </tbody>
               </table>
-              <NoData v-loading="getSitesLoading" v-else />
+              <NoData v-loading="getSitesLoading" v-else imgUrl="/assets/imgs/my-sites-no-data.svg" text="You don't have any sites now" >
+                <template #button>
+                  <NuxtLink to="/add-site" class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]">Add new site</NuxtLink>
+                </template>
+              </NoData>
             </div>
           </div>
         </div>

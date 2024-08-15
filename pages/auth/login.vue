@@ -5,6 +5,9 @@ import {useGoogle, useLogin} from '@/composables/useAuth';
 import {useGetCurrentTeam} from "~/composables/useTeam";
 import {useRouter} from "#vue-router";
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
+import { useIncludeWord } from '@/composables/useSharedFunctions';
+
+const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
   layout: "auth",
@@ -31,14 +34,15 @@ const togglePasswordVisibility = () => {
 
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 
-const {loginWithGoogle} = useGoogle();
-const {loginUser, loading, user} = useLogin(state);
+const { loginWithGoogle, loading: googleLoading } = useGoogle();
+const {loginUser, loading: loginLoading, user} = useLogin(state);
 
 const router = useRouter();
-const errorMsg = ref(null);
+const errorMsg = ref('');
 const loginSuccessfully = ref(false);
 
 const doLogin = async () => {
+  errorMsg.value = null;
   try {
     await loginUser();
     loginSuccessfully.value = true;
@@ -47,6 +51,15 @@ const doLogin = async () => {
     }, 2000);
     router.push('/my-site');
   } catch (err) {
+    errorMsg.value = err;
+  }
+}
+
+const doLoginWithGoogle = async () => {
+  errorMsg.value = null;
+  try {
+    await loginWithGoogle();
+  } catch(err) {
     errorMsg.value = err;
   }
 }
@@ -77,15 +90,28 @@ const doLogin = async () => {
                 $t("get_started")
               }}</a>
           </h3>
-          <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button">
+          <button
+              :disabled="googleLoading"
+              :class="(googleLoading) && 'btn-inactive'"
+              @click="doLoginWithGoogle" style="line-height: 30px;"
+              class="google_login_button">
             <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
-              <div class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{
-                  $t("login_with_google")
-                }}
-              </div>
-              <img src="/assets/imgs/google_login.png" class="w-[19px] h-[19px]"/>
+              <template v-if="googleLoading">
+                <img class="inline-block mx-2" src="/assets/imgs/loading.svg"/> <span class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("login_with_google") }}</span>
+              </template>
+              <template v-else>
+                <div class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{
+                    $t("login_with_google")
+                  }}
+                </div>
+                <img src="/assets/imgs/google_login.png" class="w-[19px] h-[19px]"/>
+              </template>
             </div>
           </button>
+
+          <h6 v-if="firebaseErrorMsg" class="text-[red] font-light text-[14px] !mt-[5px]"> {{ firebaseErrorMsg }} </h6>
+
+
           <div class="space-y-[23px] w-full">
             <div class="relative flex items-center mx-auto w-full mt-[23px]">
               <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
@@ -95,7 +121,7 @@ const doLogin = async () => {
               <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
             </div>
 
-            <h6 v-if="errorMsg" class="text-[red] font-light text-[14px] !mt-[5px]"> {{ errorMsg }} </h6>
+            <h6 v-if="isIncludeWord(errorMsg, ['firebase'])" class="text-[red] font-light text-[14px] !mt-[5px]"> {{ errorMsg }} </h6>
 
             <div class="space-y-[23px] w-full ">
               <div class="w-full relative">
@@ -129,6 +155,7 @@ const doLogin = async () => {
                       }}</span>
                   </p>
                 </div>
+                <h6 v-if="isIncludeWord(errorMsg, ['confirm', 'not found'])" class="text-[red] font-light text-[12px] !mt-[5px] text-start"> {{ errorMsg }} </h6>
               </div>
 
               <div class="w-full relative">
@@ -199,11 +226,11 @@ const doLogin = async () => {
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
       <button
-          :class="(v$.email.$invalid || v$.password.$invalid || loading) && 'btn-inactive'"
+          :class="(v$.email.$invalid || v$.password.$invalid || loginLoading) && 'btn-inactive'"
           class="btn-grad-action w-full" @click="doLogin()"
-          :disabled="v$.email.$invalid || v$.password.$invalid || loading">
+          :disabled="v$.email.$invalid || v$.password.$invalid || loginLoading">
 
-        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("login_button") : $t("login_button_processing") }}
+        <img v-if="loginLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loginLoading ? $t("login_button") : $t("login_button_processing") }}
       </button>
     </div>
   </div>

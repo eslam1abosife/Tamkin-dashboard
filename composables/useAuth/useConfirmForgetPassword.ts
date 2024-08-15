@@ -20,7 +20,7 @@ export default function(state) {
             if(!res.data.succeeded) throw(res.data.message);
 
             // redirect to homepage if user is authenticated
-            router.push('/auth/login');
+            router.push('/auth/success');
 
 
         } catch (error) {

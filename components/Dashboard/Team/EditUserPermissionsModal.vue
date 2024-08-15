@@ -21,7 +21,7 @@ onMounted(async () => {
   const state = getData();
   await getPermissions();
   if(state.from_edit) {
-    await getUserPermissions(state.member_email);
+    await getUserPermissions(state.name);
     if(userPermissions.value.length > 0) {
       checked.value = [...checked.value, ...userPermissions.value.map(ele => ele.tamkin_roles)];
     }

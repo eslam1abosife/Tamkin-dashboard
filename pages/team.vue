@@ -1,12 +1,20 @@
 <script lang="ts" setup>
-import { reactive, ref, computed, watch, onMounted } from 'vue';
-import { useModalManager } from '@/composables/useModalManager';
-import { useGetAllMembers, useGetTeamCountMembers, useResendInvite, useRenameTeam, useGetCurrentTeam, useDeleteMember } from '@/composables/useTeam';
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+import {reactive, ref, computed, watch, onMounted} from 'vue';
+import {useModalManager} from '@/composables/useModalManager';
+import {
+  useGetAllMembers,
+  useGetTeamCountMembers,
+  useResendInvite,
+  useRenameTeam,
+  useGetCurrentTeam,
+  useDeleteMember,
+  useEditMember
+} from '@/composables/useTeam';
+import {useVuelidate} from '@vuelidate/core';
+import {required} from '@vuelidate/validators';
+import {useGetAvatarLetters} from "@/composables/useSharedFunctions";
 
-const { getAvatarLetters } = useGetAvatarLetters();
+const {getAvatarLetters} = useGetAvatarLetters();
 
 import banner from '/assets/imgs/gradient_embded.png';
 
@@ -15,11 +23,11 @@ const state = reactive({
 });
 
 const rules = {
-  teamName: { required }
+  teamName: {required}
 };
 const v$ = useVuelidate(rules, state);
 
-const { teamMembers, getAllTeamMember, loading: getAllMembersLoading } = useGetAllMembers();
+const {teamMembers, getAllTeamMember, loading: getAllMembersLoading} = useGetAllMembers();
 
 const user = ref(null);
 
@@ -65,14 +73,14 @@ const reinviteUser = async (email: string) => {
   reInviteLoading.value = true;
   currEmail.value = email;
 
-  const { resendInvite } = useResendInvite(email);
+  const {resendInvite} = useResendInvite(email);
   try {
     await resendInvite(() => {
       reInvite.value = true;
     });
-  } catch(err) {
+  } catch (err) {
 
-  }finally {
+  } finally {
     reInviteLoading.value = false;
     console.log(reInviteLoading.value);
 
@@ -120,7 +128,7 @@ definePageMeta({
   layout: 'dashboard',
 });
 
-const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
+const {currTeam, getCurrentTeam, loading: getCurrTeamLoading} = useGetCurrentTeam();
 
 const getCurrTeam = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -132,7 +140,7 @@ onMounted(() => {
   getCurrTeam();
 });
 
-const { renameTeam , loading } = useRenameTeam();
+const {renameTeam, loading} = useRenameTeam();
 const renamedSuccessfullyToast = ref(false);
 
 const doRenameTeam = async () => {
@@ -157,12 +165,22 @@ const openDeleteMember = (memberEmail) => {
   currMemberEmail.value = memberEmail;
 };
 
+const memberDeletedSuccessfully = ref(false);
+
 watch(eventCounter, async () => {
   if (lastEventCall.value === 'deleteTeamMember') {
-    const { deleteMember } = useDeleteMember();
-    await deleteMember(currMemberEmail.value);
-    getTeamMembersAndThirCount();
-    closeModal('deleteTeamMember');
+    try {
+      const {deleteMember} = useDeleteMember();
+      await deleteMember(currMemberEmail.value);
+      await getTeamMembersAndThirCount();
+      memberDeletedSuccessfully.value = true;
+      setTimeout(() => {
+        memberDeletedSuccessfully.value = false;
+      }, 2000);
+      closeModal('deleteTeamMember');
+    } catch (err) {
+      console.error(err);
+    }
   }
 });
 
@@ -216,21 +234,28 @@ const openPermissions = (member) => {
 
 const isOwner = computed(() => {
   return (member) => {
-    return member.member_email === currTeam.value.owner_of_agency
+    return (member.email || member.member_email) === currTeam.value?.owner_of_agency
   };
 })
 
+
+let myUser = ref({});
+onMounted(() => {
+  myUser.value = JSON.parse(localStorage.getItem('user'));
+});
 
 
 </script>
 
 
-
 <template>
   <div class=" relative">
 
-    <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'"  class="!top-[70px]"  />
-    <DashboardToastSuccess v-if="renamedSuccessfullyToast" :hideIn="2000" :message="'Team Renamed successfully'"  class="!top-[70px]"  />
+    <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'" class="!top-[70px]"/>
+    <DashboardToastSuccess v-if="renamedSuccessfullyToast" :hideIn="2000" :message="'Team Renamed successfully'"
+                           class="!top-[70px]"/>
+    <DashboardToastSuccess v-if="memberDeletedSuccessfully" :hideIn="2000" :message="'Member Deleted successfully'"
+                           class="!top-[70px]"/>
 
     <div class="space-y-[10px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin">
@@ -255,30 +280,33 @@ const isOwner = computed(() => {
         border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
       >
         <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full">
-          <div      v-if="!currTeam?.team_image">
+          <div @click="openModal('editteampic','team')" v-if="!currTeam?.team_image">
             <div
                 class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer "
 
-                @click="openModal('editteampic','team')"
+
             >
-              <svg width="27" height="24" viewBox="0 0 27 24"  class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px]
+              <svg width="27" height="24" viewBox="0 0 27 24" class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px]
         ipad-max:w-[15px] ipad-max:h-[15px]
         " fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z" fill="white"/>
+                <path
+                    d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z"
+                    fill="white"/>
               </svg>
 
             </div>
 
           </div>
-          <div  class="" v-else>
+          <div @click="openModal('editteampic','team')" class="" v-else>
             <div
 
-                class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+                class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
             >
-              <div class="relative ">
-                <img  :src="`https://tamkin.app/${currTeam.team_image}`"  />
+              <div class=" ">
+                <img class="rounded-full w-[55px] h-[55px] object-cover border-[1px] border-[#2CA9A0]"
+                     :src="`https://tamkin.app/${currTeam.team_image}`"/>
                 <div
-                    @click="openModal('editteampic','team')"
+
                     class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
                 >
                   <svg
@@ -306,12 +334,12 @@ const isOwner = computed(() => {
           </div>
 
           <div v-if="!editTeamNameMode" class="w-full">
-            <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin" >
-              Your team name <br />
+            <h1 class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin">
+              Your team name <br/>
               <span class="font-bold" v-if="currTeam"> {{ currTeam.team_name }} </span>
             </h1>
           </div>
-          <div v-else class="flex-grow w-full" >
+          <div v-else class="flex-grow w-full">
             <div class=" relative ">
               <input
                   type="text"
@@ -365,8 +393,8 @@ const isOwner = computed(() => {
             <button
                 @click="doRenameTeam"
                 :disabled="v$.teamName.$invalid || loading"
-                class="btn_bordered_dashboard "
                 :class="(v$.teamName.$invalid || loading) && `btn-inactive`"
+                class="btn_bordered_dashboard "
             >
               <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
             </button>
@@ -388,7 +416,7 @@ const isOwner = computed(() => {
          dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder"
       >
         <div>
-          <img src="/assets/imgs/icons/team_members.svg"  />
+          <img src="/assets/imgs/icons/team_members.svg"/>
         </div>
         <div class="flex flex-col items-center justify-center text-darkGrey ">
           <div class="">
@@ -407,7 +435,8 @@ const isOwner = computed(() => {
             <h1 class="text-[11px] font-[500] leading-[16px]">Active</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0"> {{ teamMembers.filter(ele => ele.is_active).length }} </h1>
+            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">
+              {{ teamMembers.filter(ele => ele.is_active).length }} </h1>
           </div>
         </div>
         <div
@@ -417,7 +446,8 @@ const isOwner = computed(() => {
             <h1 class="text-[11px] font-[500] leading-[16px]">Pending</h1>
           </div>
           <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">{{ teamMembers.filter(ele => !ele.is_active).length }}</h1>
+            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">
+              {{ teamMembers.filter(ele => !ele.is_active).length }}</h1>
           </div>
         </div>
       </div>
@@ -440,7 +470,7 @@ const isOwner = computed(() => {
             </div>
           </div>
 
-          <div class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px] " >
+          <div class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px] ">
 
             <div class="py-[17px] search_input ">
               <input
@@ -452,14 +482,14 @@ const isOwner = computed(() => {
               <div
                   class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
               >
-                <img  src="/assets/imgs/icons/search.svg"  />
+                <img src="/assets/imgs/icons/search.svg"/>
               </div>
               <div
                   v-if="isSearchFilled"
                   @click="clearInput"
                   class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
               >
-                <img  src="/assets/imgs/icons/clear_search.svg"  />
+                <img src="/assets/imgs/icons/clear_search.svg"/>
               </div>
 
             </div>
@@ -509,12 +539,22 @@ const isOwner = computed(() => {
                         :src="`https://tamkin.app/${member.image}`"
                         class="lg:h-full h-[30px]  hidden lg:block md:hidden h-8 w-8"
                     />
-                    <div v-else class="avatar_img h-8 w-8 rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
+
+                    <img
+                        v-else-if="myUser.photoURL && member.member_email === myUser?.email"
+                        :src="myUser.photoURL"
+                        class="lg:h-full h-[30px]  hidden lg:block md:hidden h-8 w-8 rounded-full"
+                    />
+
+                    <div v-else
+                         class="avatar_img h-8 w-8 rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
                       <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
                     </div>
 
                   </div>
-                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap" @click="openModal('editname','team')"> {{ member.first_name + ' ' + member.last_name }} </div>
+                  <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"
+                       @click="openModal('editname','team', member)"> {{ member.first_name + ' ' + member.last_name }}
+                  </div>
                   <div
                       v-if="isOwner(member)"
                       class="order-1 flex items-center justify-center text-white
@@ -533,18 +573,18 @@ const isOwner = computed(() => {
               </td>
               <td class="py-4 ltr:text-left lg:pr-0 pr-[100px]  whitespace-nowrap rtl:text-right text-[14px] font-[400] text-darkGrey
                dark:text-whiteTamkin">
-                <p> {{member.member_email}} </p>
+                <p> {{ member.member_email }} </p>
               </td>
               <td class="py-4 text-center text-[14px]  lg:pr-0 pr-[100px]  whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin">
                 <div class="flex items-center justify-start">
                   <button
-                      :disabled="!member.is_active || isOwner(member)"
+                      :disabled="isOwner(myUser) && member.member_email === myUser?.email || (!isOwner(myUser) && !member.is_active)"
                       @click="openPermissions(member)"
-                      :class="!member.is_active || isOwner(member) ? `opacity-40`: 'opacity-100'"
+                      :class="(isOwner(myUser) && member.member_email === myUser?.email) || (!isOwner(myUser) && !member.is_active) ? 'opacity-40' : 'opacity-100'"
                       class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                   >
                     <div>Permissions</div>
-                    <img  src="/assets/imgs/icons/arow_down.svg"  />
+                    <img src="/assets/imgs/icons/arow_down.svg"/>
                   </button>
                 </div>
               </td>
@@ -593,7 +633,8 @@ const isOwner = computed(() => {
                       />
                     </svg>
                   </button>
-                  <button :disabled="isOwner(member)" :class="isOwner(member) ? `opacity-40`: 'opacity-100'" @click="!isOwner(member) ? openDeleteMember(member.member_email) : null ">
+                  <button :disabled="isOwner(member)" :class="isOwner(member) ? `opacity-40`: 'opacity-100'"
+                          @click="!isOwner(member) ? openDeleteMember(member.member_email) : null ">
                     <svg
                         width="20"
                         height="20"
@@ -617,10 +658,11 @@ const isOwner = computed(() => {
             </tbody>
           </table>
         </template>
-        <NoData v-else />
+        <NoData v-else/>
       </div>
 
-      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]" v-if="paginatedFilteredTeamMembers.length > 0">
+      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]"
+           v-if="paginatedFilteredTeamMembers.length > 0">
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
             Per Page

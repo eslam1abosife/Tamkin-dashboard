@@ -67,7 +67,7 @@ const doChangePassword = async () => {
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]"/>
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]"/>
         </div>
 
 

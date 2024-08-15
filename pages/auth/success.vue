@@ -46,7 +46,7 @@ const loginUser = async () => {
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
           
@@ -54,10 +54,9 @@ const loginUser = async () => {
           <h1 class="text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{ $t("successfully") }}</h1>
 
           <h3 class="text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px] dark:text-whiteTamkin/90" style="line-height: 30px;">
-            {{ $t("password_reset_successfully") }}
+            {{ $route.query.from === 'register' ? $t("register_done_successfully") : $t("password_reset_successfully") }}
           </h3>
 
-         
 
         </div>
         
@@ -69,7 +68,7 @@ const loginUser = async () => {
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full">
+      <button @click="$router.push('/auth/login')" class="btn-grad-action w-full">
         {{ $t("continue") }}
       </button>
     </div>
