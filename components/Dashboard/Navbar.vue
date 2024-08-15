@@ -2,6 +2,7 @@
 import { vOnClickOutside } from "@vueuse/components";
 import { useElementHover } from "@vueuse/core";
 import {useGetCurrentTeam, useGetAllMembers } from "~/composables/useTeam";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 // import banner from 'assets/imgs/gradient_embded.png'
 
@@ -14,6 +15,10 @@ const isHovered = useElementHover(accessMenuHover);
 const isSubmenuHovered = useElementHover(submenuHover);
 const isSignLanguageHoverd = useElementHover(signLanguageHover);
 const servicesHover =  useElementHover(services);
+
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
 const controlHover =  useElementHover(control);
 const props = defineProps({
   sideBarOpen: Boolean,
@@ -242,14 +247,17 @@ watch(
         />
       </div>
       <div
-        class="w-[28px] h-[28px] cursor-pointer"
+        class="w-[28px] h-[28px] cursor-pointer  rounded-full overflow-hidden"
         v-if="!sideBarOpen"
         @click="$router.push(localePath('/team'))"
       >
-        <img src="/assets/imgs/team.png" />
+        <img v-if="currTeam?.team_image" :src="`https://tamkin.app/${currTeam?.team_image}`"  />
+        <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[28px] h-[28px]">
+          <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
+        </div>
       </div>
       <div
-        class="tamkin_team_card"
+        class="tamkin_team_card "
         @click="$router.push(localePath('/team'))"
         :class="[
           !sideBarOpen ? 'border-none bg-transparent hidden' : '',
@@ -259,15 +267,13 @@ watch(
         <img
             v-if="currTeam?.team_image"
           :src="`https://tamkin.app/${currTeam?.team_image}`"
-          :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
+            class=" rounded-full object-cover"
+          :class="[sideBarOpen ? 'h-[35px] w-[35px] ' : 'h-[24px] w-[24px]']"
         />
 
-        <img
-            v-else
-            src="/assets/imgs/team.svg"
-            :class="[sideBarOpen ? 'h-[30px] w-[30px] ' : 'h-[24px] w-[24px]']"
-        />
-
+        <div v-else :class="[sideBarOpen ? 'h-[35px] w-[40px] leading-[35px]' : 'h-[24px] w-[24px]  leading-[24px]']" class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full object-cover">
+          <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
+        </div>
 
 
         <div class="flex items-center rtl:space-x-reverse w-full">
@@ -918,7 +924,7 @@ watch(
                 </ul>
 
                 <li
-               
+
                  ref="control"
                   class="rounded-[10px] relative group w-full"
                   :class="[
@@ -961,9 +967,9 @@ watch(
                           ]"
                         ></div>
                         <div
-                       
+
                           :class="[
-                            showChildMenu[2] || !sideBarOpen 
+                            showChildMenu[2] || !sideBarOpen
                               ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
                               : 'text-darkGrey dark:text-white',
                             sideBarOpen ? 'pl-[22px]' : '',
@@ -1053,7 +1059,7 @@ watch(
                       </div>
                     </nuxt-link>
                   </li>
-        
+
                   <li
                   class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[

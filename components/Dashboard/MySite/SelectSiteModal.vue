@@ -2,8 +2,8 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 
-const { getInviteApps, defaultApp, apps } = useGetAppInvites();
-const { updateDefaultApp } = useUpdateDefaultApp();
+const { getInviteApps, defaultApp, apps, loading: inviteAppLoading } = useGetAppInvites();
+const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -65,10 +65,17 @@ onMounted(async () => {
   }
 });
 
-const submit = () => {
-  updateDefaultApp(checked.value);
-  closeModal('selectSite');
-  getApps();
+const emit = defineEmits(['emit']);
+
+const submit = async () => {
+  try {
+    await updateDefaultApp(checked.value);
+    emit('onSuccess', 'Selected Successfully!');
+    closeModal('selectSite');
+    getApps();
+  } catch(err) {
+    console.log(err);
+  }
 }
 </script>
 
@@ -123,48 +130,53 @@ const submit = () => {
   </div>
 </div>
 
-<table class="min-w-full divide-y divide-gray-200  dark:divide-light">
-  <thead>
-    <tr>
-      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">Website</th>
-      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Select</th>
+  <div v-loading="inviteAppLoading">
+    <table v-if="filteredApps.length > 0" class="min-w-full divide-y divide-gray-200  dark:divide-light">
+      <thead>
+      <tr>
+        <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">Website</th>
+        <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Select</th>
 
-    </tr>
-  </thead>
-  <tbody class="divide-y divide-gray-200 dark:divide-light">
-    <tr v-for="app in filteredApps " :key="app.name">
-      <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-        <img v-if="app.image" :src="app.image" alt="Logo" class="w-6 h-6">
-        <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6">
-        <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{app.title}}</span>
-      </td>
-      <td class="py-4  text-right ">
-        <div>
-          <input type="checkbox" 
-              @click="checked = app.name"
-       :checked="checked === app.name"
-          
-          :id="app.name" :value="app.name"
-          class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-          <label :for="app.name" class="cursor-pointer relative block border-[1px]
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-light">
+      <tr v-for="app in filteredApps " :key="app.name">
+        <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
+          <img v-if="app.image" :src="app.image" alt="Logo" class="w-6 h-6">
+          <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6">
+          <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{app.title}}</span>
+        </td>
+        <td class="py-4  text-right ">
+          <div>
+            <input type="checkbox"
+                   @click="checked === app.name ? checked = null : checked = app.name"
+                   :checked="checked === app.name"
+                   :id="app.name" :value="app.name"
+                   class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+            <label :for="app.name" class="cursor-pointer relative block border-[1px]
           rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-            <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-          </label>
-         </div>
-      </td>
-    </tr>
-  
-  
-  </tbody>
-</table>
+              <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </label>
+          </div>
+        </td>
+      </tr>
+
+
+      </tbody>
+    </table>
+    <NoData v-else />
+  </div>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('selectSite','my-site')">
     Cancel
   </button>
-  <button @click="submit" class=" btn-dashboard text-center w-1/6" >
-    Save
+  <button
+      :class="(!checked || submitLoading) && 'btn-inactive'"
+      :disabled="(!checked || submitLoading)"
+      @click="submit" class=" btn-dashboard text-center w-1/6" >
+    <img v-if="submitLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
   </button>
 
 </div>

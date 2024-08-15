@@ -2,6 +2,7 @@
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, sameAs} from "@vuelidate/validators";
 import { useConfirmForgetPassword } from "@/composables/useAuth";
+import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 
 definePageMeta({
   layout: "auth",
@@ -32,25 +33,43 @@ const toggleConfirmPasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
-const { confirmForgetPassword } = useConfirmForgetPassword();
+const { confirmForgetPassword, loading } = useConfirmForgetPassword();
+const changedSuccessfully = ref(false);
+const errMsg = ref(null);
 
-const doChangePassword = () => {
-  const email = localStorage.getItem('registerd_email')
-  confirmForgetPassword({
-    email: email,
-    password: state.password,
-    key: state.key
-  })
+const doChangePassword = async () => {
+  errMsg.value = null;
+  const email = localStorage.getItem('registerd_email');
+  const key = localStorage.getItem('curr_code');
+  try {
+    await confirmForgetPassword({
+      email: email,
+      password: state.password,
+      key: key
+    });
+    changedSuccessfully.value = true;
+    setTimeout(() => {
+      changedSuccessfully.value = false;
+    }, 2000);
+  } catch(err) {
+    errMsg.value = err;
+  }
 }
 </script>
 
 <template>
+
+  <DashboardToastSuccess v-if="changedSuccessfully" :hideIn="2000" :message="'Password Updated Successfully'"
+                         class="top-[8%] !inset-x-[13%]" ></DashboardToastSuccess>
+
+
   <div class=" max-w-[600px] relative h-[600px]">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]"/>
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]"/>
         </div>
+
 
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full">
 
@@ -64,30 +83,9 @@ const doChangePassword = () => {
           </h3>
 
           <div class="space-y-[23px] w-full">
-
+            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>
 
             <div class="space-y-[23px] w-full flex flex-col items-center ">
-
-              <div class="w-full relative">
-                <input placeholder="{{$t('key')}}" id="key"
-                       class="input_floating_label peer" v-model="v$.key.$model" :class="{
-            input_error: v$.key.$error && v$.key.required.$invalid,
-            input_success: !v$.key.$error && !v$.key.$invalid,
-          }"/>
-                <label for="password" class="floating_label"
-                       :class="[(v$.key.$error && v$.key.required.$invalid) ? '!text-error' : '',]">
-                  {{ $t("key") }}*
-                </label>
-
-                <div class="w-full lg:w-4/6" v-if="v$.key.$error && v$.key.required.$invalid">
-                  <p class="error_message_password">
-                    <span v-if="v$.key.$error && v$.key.required.$invalid">{{
-                        $t("key_is_required")
-                      }}</span>
-                  </p>
-                </div>
-              </div>
-
 
               <div class="w-full relative">
                 <input :type="passwordFieldType" placeholder="{{$t('password')}}" id="password"
@@ -183,9 +181,10 @@ const doChangePassword = () => {
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button class="btn-grad-action w-full" @click="doChangePassword" v-if="!loading"
-              :disabled="v$.password.$invalid || v$.password_confirm.$invalid || v$.key.$invalid">
-        {{ $t("updatePassword") }}
+      <button class="btn-grad-action w-full" @click="doChangePassword"
+              :class="(v$.password.$invalid || v$.password_confirm.$invalid || loading) && 'btn-inactive'"
+              :disabled="v$.password.$invalid || v$.password_confirm.$invalid || loading">
+        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ $t("updatePassword") }}
       </button>
     </div>
 

@@ -10,8 +10,14 @@ import { useMarketStore } from "@/stores/market.js";
 import { useModalManager } from "@/composables/useModalManager";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
+<<<<<<< HEAD
 const translateStore = useTranslateStore();
+=======
+const translateStore = useTranslateStore()
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
 
+const { getAvatarLetters } = useGetAvatarLetters();
 onMounted(() => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
@@ -300,8 +306,17 @@ const openModals = computed(() => {
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
+<<<<<<< HEAD
   router.push("/auth/login");
 };
+=======
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
+
+  router.push('/auth/login');
+}
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
 
 const userName = computed(() => {
   if (process.client) {
@@ -310,28 +325,46 @@ const userName = computed(() => {
   }
   return "";
 });
+
+const userImg = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user && user.user_image) {
+      return `https://tamkin.app/${user.user_image}`;
+    }
+    else if (user && user.photoURL) {
+      return user.photoURL;
+    }
+    return null;
+  }
+  return null;
+});
+
+const toastMsg = ref(null);
+const toastAppear = ref(false);
+
+const openToast = (msg) => {
+  console.log('msg', msg);
+  toastMsg.value = msg;
+  toastAppear.value = true;
+  setTimeout(() => {
+    toastAppear.value = false;
+  },2000)
+}
+
 </script>
 
 <template>
-  <Html
-    class="dark:bg-p bg_dashboard"
-    :lang="htmlAttrs.lang"
-    :dir="htmlAttrs.dir"
-    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']"
-  >
-    <div
-      class="relative min-h-screen dark:!bg-p"
-      :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
-    >
-      <div
-        v-if="openModals"
-        @click="closeSideBarOnMobileOverlay"
-        class="absolute z-[200] bg-black bg-opacity-70 h-full w-full overflow-hidden"
-      ></div>
-      <div
-        v-if="marketStore.firstItemNotificationShown"
-        class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"
-      ></div>
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+
+  <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
+    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
+  <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
+    <div v-if="
+    openModals
+    "  @click="closeSideBarOnMobileOverlay" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    <div v-if="marketStore.firstItemNotificationShown"
+      class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
       <ModalsSuccessmodal
         :show-modal="isOpen('successContact')"
@@ -340,10 +373,17 @@ const userName = computed(() => {
         icon="contact_success.svg"
       />
 
+<<<<<<< HEAD
       <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
       <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
       <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
       <DashboardTeamEditname />
+=======
+ <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
+    <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')" />
+    <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')" />
+    <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')" />
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
 
       <ModalsConfirm
         :show-modal="true"
@@ -376,6 +416,7 @@ const userName = computed(() => {
         @control-cancel="closeModal('restoreApp')"
       />
 
+<<<<<<< HEAD
       <DashboardTeamInviteMemberUpdate
         :showModal="true"
         v-if="isOpen('invitememberupdate')"
@@ -388,6 +429,14 @@ const userName = computed(() => {
       <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
       <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
       <!--
+=======
+    <DashboardTeamInviteMemberUpdate :showModal="true" v-if="isOpen('invitememberupdate')" />
+    <DashboardTeamEditTeamPictureModal @uploadSuccess="openToast('Image Uploaded Successfully')" @removeSuccess="openToast('Image Deleted Successfully')" :showModal="true" v-if="isOpen('editteampic')" />
+    <DashboardTeamEditUserPermissionsModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('userpermissions')" />
+    <DashboardMySiteSelectSiteModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('selectSite')" />
+    <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
+    <!--
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
@@ -471,7 +520,12 @@ const userName = computed(() => {
             bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
           >
             <div
+<<<<<<< HEAD
               class="flex  items-center lg:space-x-0 space-x-[10px]  w-full "
+=======
+              class="flex ipad-max:w-[75%] items-center lg:space-x-0 space-x-[10px] lg:px-0 px-[20px] w-full"
+              :class="[sideBarOpen ? 'lg:max-w-[78.5%]' : 'lg:max-w-[97%]']"
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
             >
               <div
                 class="flex items-center justify-between lg:hidden"
@@ -542,10 +596,77 @@ const userName = computed(() => {
                 <Langswitcher/>
 
                 <Darkmode />
+<<<<<<< HEAD
                 <NotificationBell/>
                 <!-- {{ userName }} -->
             <Userprofilemenu/>
             
+=======
+                <div
+                  @click="showNotifiations = !showNotifiations"
+                  :class="[showNotifiations ? 'active_notification' : '']"
+                  class="cursor-pointer flex items-center justify-center border-[1px] border-[#EAEAEA] dark:border-darkborder rounded-[8px] bg-[#FFFEFE] dark:bg-tamkinDarkPrimary lg:w-[40px] w-[60px] h-[40px] ipad-max:w-[30px] ipad-max:h-[30px]"
+                >
+                  <div
+                    class="relative stroke-current dark:text-whiteTamkin text-darkGrey"
+                  >
+                    <div
+                      :class="[showNotifiations ? 'hidden' : '']"
+                      class="absolute bottom-[10px] ltr:left-[5px] rtl:right-[5px] bg-[#FB726D] ipad-max:w-[14px] ipad-max:h-[14px] w-[18px] h-[18px] rounded-full flex items-center justify-center"
+                    >
+                      <span
+                        class="ipad-max:text-[10px] text-[12px] font-[700] text-white"
+                        style="line-height: 68px"
+                        >5</span
+                      >
+                    </div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 22"
+                      fill="none"
+                      :class="[showNotifiations ? 'active_bell' : '']"
+                      class="ipad-max:h-[14px] ipad-max:w-[14px]"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 7C16 5.4087 15.3679 3.88258 14.2426 2.75736C13.1174 1.63214 11.5913 1 10 1C8.4087 1 6.88258 1.63214 5.75736 2.75736C4.63214 3.88258 4 5.4087 4 7C4 14 1 16 1 16H19C19 16 16 14 16 7Z"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M11.7295 20C11.5537 20.3031 11.3014 20.5547 10.9978 20.7295C10.6941 20.9044 10.3499 20.9965 9.99953 20.9965C9.64915 20.9965 9.30492 20.9044 9.0013 20.7295C8.69769 20.5547 8.44534 20.3031 8.26953 20"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="lg:block hidden">
+                  <img v-if="userImg" :src="userImg" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full border" />
+                  <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
+                    <span> {{ getAvatarLetters(userName || '') }} </span>
+                  </div>
+
+                </div>
+                <div class="lg:block hidden">
+                  <h2 class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]" >
+                    {{ userName }}
+                  </h2>
+                </div>
+                <div class="lg:block hidden">
+                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                      class="dark:fill-white fill-[#585B5B]" />
+                  </svg>
+                </div>
+                <button @click="logout()" class="lg:block hidden" >
+                  <img class="w-5 h-5" src="/assets/imgs/logout.svg" alt="" />
+                </button>
+>>>>>>> 3c2cbc234e9399144ed2cb024d6dce1388acffc2
               </div>
             </div>
           </nav>

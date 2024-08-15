@@ -2,6 +2,10 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
+import { useEditMember, useGetAllMembers } from "@/composables/useTeam";
+
+const { editMember, loading } = useEditMember();
+const { getAllTeamMember } = useGetAllMembers();
 
 const {
   isOpen,
@@ -10,26 +14,46 @@ const {
   closeModal,
   goBack,
   navigateTo,
+    getData
 } = useModalManager();
 const state = reactive({
     email: "",
   firstName: "",
   lastName: "",
-
-
 });
 const rules = {
   email: { required, email },
   firstName: { required },
   lastName: { required },
-
-
 };
 
 const v$ = useVuelidate(rules, state);
-const modalStore = useModalStore()
+const modalStore = useModalStore();
 
+onMounted(() => {
+  const memberData = getData();
 
+  state.email = memberData.member_email;
+  state.firstName = memberData.first_name;
+  state.lastName = memberData.last_name;
+});
+
+const errorMsg = ref('');
+
+const doEditMember = async () => {
+  try {
+    await editMember({
+      member_email: state.email,
+      first_name: state.firstName,
+      last_name: state.lastName,
+    });
+    const user = JSON.parse(localStorage.getItem('user'));
+    closeModal('editname');
+    await getAllTeamMember(user.agency);
+  } catch(err) {
+    errorMsg.value = err;
+  }
+}
 </script>
 
 <template>
@@ -62,8 +86,10 @@ const modalStore = useModalStore()
 
 
 
-<div class="space-y-[44px]">
-    <div class="w-full relative mt-[40px]">
+<div class="space-y-[44px] mb-[40px]">
+    <h6 v-if="errorMsg" class="text-[red] font-light text-[14px] text-center"> {{errorMsg}} </h6>
+
+    <div class="w-full relative !mt-[30px]">
         <input type="text" placeholder="{{$t('firstName')}}" id="firstName" class="input_floating_label peer"
           v-model="v$.firstName.$model" :class="{
       input_error:
@@ -104,7 +130,6 @@ const modalStore = useModalStore()
           <p class="error_message">
             <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{ $t("last_name_required")
               }}</span>
-    
           </p>
         </div>
       </div>
@@ -114,10 +139,12 @@ const modalStore = useModalStore()
 
 <div class="mt-[32px] w-2/6 mx-auto">
   
-    <button class=" btn-dashboard hover_tamkin text-center mx-auto  " @click="closeModal('editname')">
-      <!-- modalStore.controlInviteMemberUpdateModal -->
-        Save
-      </button>
+    <button
+        :class="(v$.firstName.$invalid || v$.lastName.$invalid || loading) && 'btn-inactive'"
+        :disabled="v$.firstName.$invalid || v$.lastName.$invalid || loading"
+    class=" btn-dashboard hover_tamkin text-center mx-auto" @click="doEditMember">
+      <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
+    </button>
 </div>
 
 

@@ -30,6 +30,7 @@ export default function() {
 
     return {
         getCurrentTeam,
-        currTeam
+        currTeam,
+        loading
     }
 }

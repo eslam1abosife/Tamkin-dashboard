@@ -30,21 +30,15 @@ export default function(state) {
 
             state.email = "";
             state.password = "";
-            $toast(`Hi ${res.data.data.user_id}<br/>Welcome Back`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
 
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            // $toast(`Oops!<br/>${ }`, {
+            //     "theme": "colored",
+            //     "type": "error",
+            //     "autoClose": 4000,
+            //     "dangerouslyHTMLString": true
+            // });
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

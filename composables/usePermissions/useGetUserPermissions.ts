@@ -7,11 +7,11 @@ export default function() {
     const { $toast } = useNuxtApp();
     const userPermissions = ref(null);
 
-    const getUserPermissions = async (userEmail) => {
+    const getUserPermissions = async (name) => {
         try {
-            const res = await api.post('/Team/Get/UserCurrentPermission', {
+            const res = await api.post('/Team/Get/UserPermission', {
                 data: {
-                    email: userEmail
+                    name: name
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
@@ -24,5 +24,6 @@ export default function() {
     return {
         userPermissions,
         getUserPermissions,
+        loading
     }
 }

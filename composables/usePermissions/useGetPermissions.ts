@@ -26,5 +26,6 @@ export default function() {
     return {
         permissions,
         getPermissions,
+        loading
     }
 }

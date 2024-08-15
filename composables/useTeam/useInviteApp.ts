@@ -9,7 +9,7 @@ export default function() {
     const inviteApp = async (state) => {
         try {
             const res = await api.post('/Team/post/inviteApp', {
-                Data: {
+                data: {
                     app_name: state.app_name,
                     email: state.email,
                     agency: state.agency

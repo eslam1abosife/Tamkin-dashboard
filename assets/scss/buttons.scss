@@ -14,11 +14,18 @@
   }
 
 }
+
+  .btn-inactive {
+    background: #D9D9D9 !important;
+    color: #fff !important;
+    border-color: #D9D9D9 !important;
+  }
+
 .btn-grad-action {
   @apply h-[40px] lg:text-[15px] disabled:bg-gradient-to-b disabled:from-gray-300
    disabled:to-gray-300 disabled:border-transparent disabled:text-white disabled:cursor-not-allowed 
    md:w-[400px] xl:w-[580px] font-[600] text-[16px] w-full text-white rounded-[10px] dark:border-darkborder
-    transition-all duration-200 hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
+    hover:text-black border-[1px] hover:border-tamkin bg-size-200 bg-pos-0 hover:bg-pos-100;
   line-height: 24px;
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 

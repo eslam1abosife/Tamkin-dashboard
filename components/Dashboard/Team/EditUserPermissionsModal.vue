@@ -13,15 +13,15 @@ const {
   getData
 } = useModalManager();
 
-const { getPermissions , permissions} = useGetPermissions();
-const { userPermissions, getUserPermissions } = useGetUserPermissions();
+const { getPermissions , permissions, loading: getAllPermissionsLoading } = useGetPermissions();
+const { userPermissions, getUserPermissions, loading: getUserPermissionsLoading } = useGetUserPermissions();
 
 onMounted(async () => {
   await nextTick();
   const state = getData();
   await getPermissions();
   if(state.from_edit) {
-    await getUserPermissions(state.member_email);
+    await getUserPermissions(state.name);
     if(userPermissions.value.length > 0) {
       checked.value = [...checked.value, ...userPermissions.value.map(ele => ele.tamkin_roles)];
     }
@@ -42,10 +42,12 @@ const checkAll = computed({
   }
 });
 
-const savePermission = () => {
-  const { updateUserPermission } = useUpdateUserPermission();
+const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
+const emit = defineEmits(['onSuccess']);
+const savePermission = async () => {
   try {
-    updateUserPermission({email: getData().email, permissions: checked.value});
+    await updateUserPermission({email: getData().email, permissions: checked.value});
+    emit('onSuccess', 'updated successfully!');
     closeModal('userpermissions');
   } catch(err) {
     console.error(err);
@@ -100,49 +102,54 @@ const savePermission = () => {
 </div>
 
 
-
-    <table class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
-        <thead>
-          <tr>
-            <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey  
+  <div v-loading="getAllPermissionsLoading || getUserPermissionsLoading" class="min-h-[150px]">
+    <table v-if="permissions && permissions.length > 0" class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
+      <thead>
+      <tr>
+        <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey
              flex items-center justify-start rtl:space-x-reverse space-x-[10px] ">
-             <div>
-              <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
-              <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </label>
-             </div>
-              <div class="text-[14px] leading-[22px] text-darkGrey dark:text-whiteTamkin">ALL Permissions</div>
-           
-            </th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-auto">
-          <tr v-for="permission in permissions " :key="permission.name">
-              <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-                <div>
-                    <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.name" :value="permission.name"
-                    class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
-                    <label :for="`checkbox_`+permission.name" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
-                      <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    </label>
-                   </div>
-                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey">{{permission.uniq_name}}</span>
-              </td>
-            </tr>
-        </tbody>
-      </table>
+          <div>
+            <input type="checkbox" id="checkbox" class="peer sr-only   m-auto"  v-model="checkAll" />
+            <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+              <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </label>
+          </div>
+          <div class="text-[14px] leading-[22px] text-darkGrey dark:text-whiteTamkin">ALL Permissions</div>
+
+        </th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-auto">
+      <tr v-for="permission in permissions " :key="permission.name">
+        <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
+          <div>
+            <input type="checkbox" v-model="checked" :id="`checkbox_`+permission.name" :value="permission.name"
+                   class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
+            <label :for="`checkbox_`+permission.name" class="relative block border-[1px]  ltr:ml-auto rtl:mr-auto w-[18px] h-[18px] border-tamkin bg-whiteTamkin rounded-[4px] peer-checked:bg-gradient-checked">
+              <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </label>
+          </div>
+          <span class="text-[14px] leading-[21px] font-[400] text-darkGrey">{{permission.uniq_name}}</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <NoData v-else />
+  </div>
 
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('userpermissions')">
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/6" @click="savePermission">
-    Save
+  <button
+      :disabled="checked.length === 0 || updatePermssionLoading"
+      :class="(checked.length === 0 || updatePermssionLoading) && `btn-inactive`"
+      class=" btn-dashboard text-center w-1/6" @click="savePermission()">
+    <img v-if="updatePermssionLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Save
   </button>
 
 </div>

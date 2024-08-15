@@ -2,6 +2,9 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useRegister, useGoogle, useLogin } from "@/composables/useAuth";
+import { useIncludeWord } from '@/composables/useSharedFunctions';
+
+const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
   layout: "auth",
@@ -33,9 +36,10 @@ const toggleConfirmPasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
 
-const { register } = useRegister(state);
+const { register, loading } = useRegister(state);
 const { loginUser } = useLogin(state);
-const { loginWithGoogle } = useGoogle();
+const { loginWithGoogle, loading: googleLoading } = useGoogle();
+
 const errorMsg = ref(null);
 
 const doRegister = async () => {
@@ -43,11 +47,22 @@ const doRegister = async () => {
   try {
     await register((user) => {
       localStorage.setItem("registerd_user", JSON.stringify(user));
+      localStorage.setItem("registerd_email", user.email);
     });
   } catch (err) {
     errorMsg.value = err;
   }
 }
+
+const doLoginWithGoogle = async () => {
+  errorMsg.value = null;
+  try {
+    await loginWithGoogle();
+  } catch(err) {
+    errorMsg.value = err;
+  }
+}
+
 </script>
 
 <template>
@@ -55,7 +70,7 @@ const doRegister = async () => {
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img  src="/assets/imgs/logo.png" alt="Tamkin logo" class="w-[160px] h-[81.28px]" />
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
         
@@ -67,11 +82,11 @@ const doRegister = async () => {
 
           </h3>
 
-          <p class="text-[red] mb-5" v-if="errorMsg"> {{errorMsg}} </p>
+          <p class="text-[red] mb-5" v-if="isIncludeWord(errorMsg, ['something wrong'])"> {{errorMsg}} </p>
 
           <div class="space-y-[23px] w-full mt-[10px]">
             <div class="w-full relative">
-              <input type="text" placeholder="{{$t('full name')}}" id="email" class="input_floating_label peer"
+              <input type="text" placeholder="{{$t('full name')}}" class="input_floating_label peer"
                 v-model="v$.full_name.$model" :class="{
             input_error:
               (v$.full_name.$error && v$.full_name.required.$invalid),
@@ -86,11 +101,12 @@ const doRegister = async () => {
               </label>
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.full_name.$error && v$.full_name.required.$invalid)">
                 <p class="error_message">
-                  <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("email_address_is_required")
+                  <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("fullname_is_required")
                     }}</span>
 
                 </p>
               </div>
+
             </div>
 
             <div class="w-full relative">
@@ -120,6 +136,8 @@ const doRegister = async () => {
                 </p>
               </div>
             </div>
+            <h6 v-if="isIncludeWord(errorMsg, ['email'])" class="text-[red] font-light text-[14px] !mt-[5px] text-start"> {{ errorMsg }} </h6>
+
 
             <div class="w-full relative">
               <input :type="passwordFieldType" placeholder="{{$t('password')}}" id="password"
@@ -142,6 +160,10 @@ const doRegister = async () => {
 
 
            </div>
+              <h6 v-if="isIncludeWord(errorMsg, ['password'])" class="text-[red] font-light text-[14px] !mt-[5px] text-start">
+                Password must be 8+ characters, with an uppercase letter, number, and special symbol
+              </h6>
+
              <div class="password_eye"
              v-else  @click="togglePasswordVisibility">
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
@@ -223,17 +245,23 @@ const doRegister = async () => {
 
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[560px] space-y-[16px] inset-0  lg:p-0 p-3 ">
-      <button @click="doRegister" class="btn-grad-action w-full" v-if="!loading"
-        :disabled="v$.email.$invalid || v$.password.$invalid ||  loading || v$.confirm_password.$invalid">
-        {{ $t("register") }}
+      <button @click="doRegister" class="btn-grad-action w-full"
+              :class="(v$.email.$invalid || v$.password.$invalid || loading || v$.confirm_password.$invalid) && 'btn-inactive'"
+        :disabled="v$.email.$invalid || v$.password.$invalid || loading || v$.confirm_password.$invalid">
+        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("register") : $t("register_processing") }}
       </button>
 
-      <button @click="loginWithGoogle" style="line-height: 30px;" class="google_login_button ">
-        <div class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
+      <button @click="doLoginWithGoogle" style="line-height: 30px;" class="google_login_button ">
+        <template v-if="googleLoading">
+          <img class="inline-block mx-2" src="/assets/imgs/loading.svg"/> <span class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("signUpWithGoogle") }}</span>
+        </template>
+        <div v-else class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
           <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("signUpWithGoogle") }}</div>
           <img  src="/assets/imgs/google_login.png"  class="w-[19px] h-[19px]" />
         </div>
       </button>
+      <p class="text-[red] font-light text-[14px] !mt-[5px] text-center" v-if="isIncludeWord(errorMsg, ['firebase'])"> {{errorMsg}} </p>
+
     
       <div class="text-center pb-[20px]">
         <span class="text-darkGrey text-[16px] font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1 dark:text-whiteTamkin">{{$t('already_have_an_account')}}</span>

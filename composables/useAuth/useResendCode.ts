@@ -7,7 +7,6 @@ export default function() {
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
     const router = useRouter();
-    const code = ref(null);
 
     const resendCode = async (email) => {
         try {
@@ -16,21 +15,9 @@ export default function() {
                     email
                 }
             });
-            code.value = res.data.data.match(/\d+/)[0];
-            $toast(`You have received a verification code in your email`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
+            if(!res.data.succeeded) throw(res.data.message);
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

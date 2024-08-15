@@ -16,10 +16,12 @@ export default function() {
         }
         try {
             const res = await api.post('/Tamkin Team Member App/Get', {
-                data: {
-                    tamkin_agency: state.agency,
+                "Where":{
+                    tamkin_agency: state.agency ,
                     member_email: state.email
                 }
+                ,"PgNo":0
+                ,"PgSize":1000
             });
             if(!res.data.succeeded) throw(res.data.message);
             inviteAppsForMember.value = res.data.data;

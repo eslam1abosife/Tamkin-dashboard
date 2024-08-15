@@ -17,28 +17,16 @@ export default function(state) {
             });
             if(!res.data.succeeded) throw(res.data.message);
 
-            console.log('data', res.data.data)
-
             // redirect to homepage if user is authenticated
-            router.push('/auth/new-password');
+            router.push('/auth/otp?from=forget-password');
 
-            $toast(`You Received the OTP<br/>enter the otp`, {
-                "theme": "colored",
-                "type": "success",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 
     return {
-        forgetPassword,
+        loading,
+        forgetPassword
     }
 }

@@ -4,11 +4,13 @@ import banner from '/assets/imgs/gradient_embded.png'
 import { Vue3Lottie } from 'vue3-lottie'
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers } from "@/composables/useEmbedCode";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
+const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
 import { useGetAppInvites } from "~/composables/useTeam";
 
-const { getMembers, members } = useGetMembers();
+const { getMembers, members , loading: getMembersLoading} = useGetMembers();
 
 const code = ref(true);
 const advancedCode = ref(false)
@@ -108,7 +110,7 @@ const clearInput = () => {
 };
 
 const { apps , defaultApp ,getInviteApps } = useGetAppInvites();
-const { getInstallationGuides, installationGuide } = useGetInstallationGuide();
+const { getInstallationGuides, installationGuide, loading: getInstallationLoading } = useGetInstallationGuide();
 getInstallationGuides();
 
 onMounted(async () => {
@@ -198,7 +200,9 @@ const filteredInstallationGuide = computed(() => {
               </div>
               <div>Advanced View</div>
             </button>
-            <div
+            <button
+                :disabled="!defaultApp"
+                :class="!defaultApp ? 'opacity-40' : 'opacity-100'"
              @click="openModal('shareModal','embed-code')"
               class="lg:order-2 md:order-2 order-3 cursor-pointer ipad-max:text-[12px] border-[2px]  mx-auto lg:m-0 md:mt-0 mt-4 lg:mt-0 md:w-auto w-full lg:w-auto
               rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group"
@@ -251,13 +255,14 @@ const filteredInstallationGuide = computed(() => {
                 </div>
 
                 <button
-                  class="h-[45px] btn px-4 py-2 rounded-md text-[14px]
-                   group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text"
+                    class="h-[45px] btn px-4 py-2 rounded-md text-[14px]"
+                    :disabled="!defaultApp"
+                    :class="defaultApp ? 'group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text' : null"
                 >
                   Share code with your team
                 </button>
               </div>
-            </div>
+            </button>
 
             <div @click="copyCode"
               class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
@@ -383,14 +388,20 @@ const filteredInstallationGuide = computed(() => {
           flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
         >
           <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
-            <div v-for="(member, index) in members" :key="index">
-              <img v-if="member.user_image" :src="`https://tamkin.app/${member.user_image}`" class="w-10 h-10" />
-              <img v-else src="/assets/imgs/user.svg" class="w-10 h-10" />
-            </div>
+            <template v-if="!getMembersLoading && members.length > 0">
+              <div v-for="(member, index) in members" :key="index">
+                <img v-if="member.user_image" :src="`https://tamkin.app/${member.user_image}`" class="w-10 h-10" />
+                <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
+                  <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
+                </div>
+              </div>
+            </template>
+            <img v-else-if="getMembersLoading" src="/assets/imgs/loading-green.svg" />
+            <h6 class="text-[red] text-[12px]" v-else-if="!getMembersLoading && members.length == 0">No Members Founded</h6>
           </div>
           <div class="">
             <a
-              href=""
+              href="#"
               class="text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline"
               >Schedule ameeting Withnour support team</a
             >
@@ -411,49 +422,44 @@ const filteredInstallationGuide = computed(() => {
             <div
               class="inline-block min-w-full  align-middle md:px-6 lg:px-8"
             >
-              <div class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary" style="box-shadow: 0px 4px 24px 8px #51459F1A;
-">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-darkborder">
-                <thead>
-                  <tr>
-                    <div class="flex items-center jutify-between">
-                      <div class="w-2/4">
-                        <div
-                          class="text-[16px] font-[600] p-[16px] dark:text-whiteTamkin"
-                          style="line-height: 16px"
-                        >
-                          Installation Guides
-                        </div>
-                      </div>
+              <div v-loading="getInstallationLoading" class="overflow-hidden rounded-[10px] bg-white  dark:bg-tamkinDarkPrimary" style="box-shadow: 0px 4px 24px 8px #51459F1A;">
 
-                      <div class="w-full lg:w-3/6 p-[16px]">
-                        <div class="py-[17px] search_input">
-                          <input
-                            type="text"
-                            class="input_dashboard_search w-full"
-                            v-model="search"
-                            placeholder="Search ..."
-                          />
-                          <div
-                      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                <div  class="flex items-center jutify-between">
+                  <div class="w-2/4">
+                    <div
+                        class="text-[16px] font-[600] p-[16px] dark:text-whiteTamkin"
+                        style="line-height: 16px"
                     >
-                      <img src="/assets/imgs/icons/search.svg" />
+                      Installation Guides
                     </div>
-                          <div
-                            v-if="isSearchfilled"
-                            @click="clearInput"
-                            class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
-                          >
-                            <img  src="/assets/imgs/icons/clear_search.svg"  />
-                          </div>
-                        </div>
+                  </div>
+
+                  <div class="w-full lg:w-3/6 p-[16px]">
+                    <div class="py-[17px] search_input">
+                      <input
+                          type="text"
+                          class="input_dashboard_search w-full"
+                          v-model="search"
+                          placeholder="Search ..."
+                      />
+                      <div
+                          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                      >
+                        <img src="/assets/imgs/icons/search.svg" />
+                      </div>
+                      <div
+                          v-if="isSearchfilled"
+                          @click="clearInput"
+                          class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+                      >
+                        <img  src="/assets/imgs/icons/clear_search.svg"  />
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    <th scope="col" class="relative py-3.5 ">
-                      <span class="sr-only">Actions</span>
-                    </th>
-                  </tr>
+                <table v-if="filteredInstallationGuide.length > 0" class="min-w-full divide-y divide-gray-200 dark:divide-darkborder">
+                <thead>
                 </thead>
                 <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
                   <tr class="flex items-center justify-between" v-for="(item, index) in filteredInstallationGuide" :key="index">
@@ -462,7 +468,7 @@ const filteredInstallationGuide = computed(() => {
                       style="line-height: 22.5px"
                     >
                       <div>
-                        <img class="w-14 h-14 object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
+                        <img class="w-[28px] h-[30px] object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
                       </div>
                       <div> {{ item.title }} </div>
                     </td>
@@ -505,6 +511,7 @@ const filteredInstallationGuide = computed(() => {
                   </tr>
                 </tbody>
               </table>
+                <NoData v-else />
               </div>
             </div>
           </div>

@@ -4,22 +4,24 @@ import { useNuxtApp } from '#app';
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
-    const { $toast } = useNuxtApp();
 
-    const deleteApp = async (appName) => {
+    const editMember = async (state) => {
         try {
-            const res = await api.post('/mySite/set/AppStatusDelete', {
+            const res = await api.post('/Team/EditMember', {
                 data: {
-                    name: appName
+                    first_name: state.first_name,
+                    last_nmae: state.last_name,
+                    email: state.member_email
                 }
             });
+            if(!res.data.succeeded) throw(res.data.message);
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 
     return {
-        deleteApp,
+        editMember,
         loading
     }
 }

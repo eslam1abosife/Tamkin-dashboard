@@ -2,16 +2,18 @@ import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
 const teamMembers = ref([]);
+const loading = ref(false);
 
 export default function() {
     const { useApiInstance } = useApi();
-    const { api , loading } = useApiInstance();
+    const { api } = useApiInstance();
     const { $toast } = useNuxtApp();
 
     const getAllTeamMember = async (currTeamId, pageNo = 1, PgSize= 10) => {
         if(!currTeamId) {
             throw Error('Curr Team Id not exists!')
         }
+        loading.value = true;
         try {
             const res = await api.post('/Tamkin Agency Team/Get', {
                 "Where":{
@@ -30,11 +32,14 @@ export default function() {
                 "dangerouslyHTMLString": true
             })
             throw error;
+        } finally {
+            loading.value = false;
         }
     };
 
     return {
         teamMembers,
         getAllTeamMember,
+        loading
     }
 }

@@ -2,8 +2,9 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useInviteApp, useGetTeamMemberInviteApps } from "@/composables/useTeam";
 
-const { apps , getInviteApps } = useGetAppInvites();
-const { inviteApp } = useInviteApp();
+const { apps , getInviteApps, loading: getAppsLoading } = useGetAppInvites();
+const { inviteApp, loading: submitInviteLoading } = useInviteApp();
+const emit = defineEmits(['onSuccess']);
 
 const {
   isOpen,
@@ -68,7 +69,7 @@ const isSearchfilled = ref(false);
         app_name: checked.value,
         agency: state.currTeamId
       });
-
+      emit('onSuccess', 'User Apps Updated Successfully!');
       navigateTo('invitememberupdate','team','userpermissions');
     } catch(err) {
       console.error(err);
@@ -150,8 +151,8 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
       </div>
     </div>
 </div>
-
-  <table class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
+  <div v-loading="getAppsLoading" class="min-h-[150px]">
+    <table v-if="filteredPermissions.length > 0" class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
       <thead>
       <tr>
         <th class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">Website</th>
@@ -194,13 +195,17 @@ Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/
 
       </tbody>
     </table>
+    <NoData v-else />
+  </div>
 <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('invitememberupdate')">
-
     Cancel
   </button>
-  <button class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
-    Continue
+  <button
+      :disabled="checked.length === 0"
+      :class="(checked.length === 0 || submitInviteLoading) && `btn-inactive`"
+      class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
+    <img v-if="submitInviteLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> Continue
   </button>
 
 </div>
