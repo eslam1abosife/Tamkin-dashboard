@@ -88,7 +88,15 @@ const closeMenu = () => {
   </div>
    
   </div>
-
+  <div @click="$router.push(localePath('/orders'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
+    <div>
+        <img src="/imgs/cart.png" class="w-[13px] h-[13px]" alt="">
+      </div>
+      <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
+    Orders
+      </div>
+ 
+</div>
   <div @click="$router.push(localePath('/referral'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
       <div>
           <img src="/imgs/ref.png" class="w-[11px] h-[13px]" alt="">

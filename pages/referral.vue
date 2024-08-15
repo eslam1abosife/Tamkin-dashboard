@@ -169,7 +169,7 @@ Send your unique referral link to friends
     Refer Clients
   </div>
     <div class="text-[14px] font-[400] leading-[19px] text-[#021328">
-    Refer new clients and earn 5% for each successful referral who completes the registration process
+    Refer new clients and earn <span class="!font-[700]">5%</span> for each successful referral who completes the registration process
   </div>
 
   <div

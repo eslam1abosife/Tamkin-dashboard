@@ -13,11 +13,11 @@ const {
 const props = defineProps({
   showModal:Boolean
 })
-const modalStore = useModalStore()
+// const modalStore = useModalStore()
 
-onMounted(()=>{
-  modalStore.currentPage = 'market'
-})
+// onMounted(()=>{
+//   modalStore.currentPage = 'market'
+// })
 const marketStore = useMarketStore();
 
 </script>
