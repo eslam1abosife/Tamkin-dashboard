@@ -235,7 +235,7 @@ src="/imgs/copy.svg"
                 dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
               "
               :dark="colorMode.preference === 'dark'"
-              placeholder="Select Period"
+              placeholder="Select Date"
               v-model="dateF"
               :format="format"
               :position="langStore.direction === 'rtl' ? 'right' : 'left'"
@@ -399,11 +399,9 @@ src="/imgs/copy.svg"
 
 <style>
 .tamkin_date_input_ref {
-  box-shadow: 0px 1.54px 3.08px 0px #61616133;
 
-  box-shadow: 0px 0.77px 1.54px 0px #61616133;
 
-  @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full  h-[40px] rounded-[5px] border-[px]
+  @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full  h-[40px] rounded-[10px] border-[px]
    dark:border-darkborder border-[#D9D9D9] 
   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin
   focus:!outline-0;

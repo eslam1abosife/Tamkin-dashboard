@@ -1,63 +1,63 @@
 <script lang="ts" setup>
-import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
-import { useModalManager } from '@/composables/useModalManager';
-import { useEditMember, useGetAllMembers } from "@/composables/useTeam";
+// import { useVuelidate } from "@vuelidate/core";
+// import { required, email, sameAs } from "@vuelidate/validators";
+// import { useModalManager } from '@/composables/useModalManager';
+// import { useEditMember, useGetAllMembers } from "@/composables/useTeam";
 
-const { editMember, loading } = useEditMember();
-const { getAllTeamMember } = useGetAllMembers();
+// const { editMember, loading } = useEditMember();
+// const { getAllTeamMember } = useGetAllMembers();
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-    getData
-} = useModalManager();
-const state = reactive({
-    email: "",
-  firstName: "",
-  lastName: "",
-});
-const rules = {
-  email: { required, email },
-  firstName: { required },
-  lastName: { required },
-};
+// const {
+//   isOpen,
+//   currentView,
+//   openModal,
+//   closeModal,
+//   goBack,
+//   navigateTo,
+//     getData
+// } = useModalManager();
+// const state = reactive({
+//     email: "",
+//   firstName: "",
+//   lastName: "",
+// });
+// const rules = {
+//   email: { required, email },
+//   firstName: { required },
+//   lastName: { required },
+// };
 
-const v$ = useVuelidate(rules, state);
-const modalStore = useModalStore();
+// const v$ = useVuelidate(rules, state);
+// const modalStore = useModalStore();
 
-onMounted(() => {
-  const memberData = getData();
+// onMounted(() => {
+//   const memberData = getData();
 
-  state.email = memberData.member_email;
-  state.firstName = memberData.first_name;
-  state.lastName = memberData.last_name;
-});
+//   state.email = memberData.member_email;
+//   state.firstName = memberData.first_name;
+//   state.lastName = memberData.last_name;
+// });
 
-const errorMsg = ref('');
+// const errorMsg = ref('');
 
-const doEditMember = async () => {
-  try {
-    await editMember({
-      member_email: state.email,
-      first_name: state.firstName,
-      last_name: state.lastName,
-    });
-    const user = JSON.parse(localStorage.getItem('user'));
-    closeModal('editname');
-    await getAllTeamMember(user.agency);
-  } catch(err) {
-    errorMsg.value = err;
-  }
-}
+// const doEditMember = async () => {
+//   try {
+//     await editMember({
+//       member_email: state.email,
+//       first_name: state.firstName,
+//       last_name: state.lastName,
+//     });
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     closeModal('editname');
+//     await getAllTeamMember(user.agency);
+//   } catch(err) {
+//     errorMsg.value = err;
+//   }
+// }
 </script>
 
 <template>
-  <div  
+  <!-- <div  
   v-if="isOpen('editname')"
     class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[350px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)"
@@ -149,7 +149,7 @@ const doEditMember = async () => {
 
 
 </div>
-  </div>
+  </div> -->
 </template>
 
 <style lang="scss">

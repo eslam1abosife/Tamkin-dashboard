@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full !mt-[32px]">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full w-full py-[16px]">
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">

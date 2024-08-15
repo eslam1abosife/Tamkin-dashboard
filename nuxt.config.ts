@@ -2,7 +2,7 @@
 
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  ssr:true,
+  ssr:false,
   sourcemap: false,
 
   runtimeConfig: {
@@ -62,15 +62,15 @@ export default defineNuxtConfig({
   '@nuxtjs/device',
   '@vueuse/motion/nuxt',
   '@nuxtjs/color-mode',
-  '@element-plus/nuxt'
+  // '@element-plus/nuxt'
   // "@nuxt/image",
   // "nuxt-svgo"
 ],
-  elementPlus: {
-    icon: 'ElIcon',
-    importStyle: 'scss',
-    components: ['ElLoading']
-  },
+  // elementPlus: {
+  //   icon: 'ElIcon',
+  //   importStyle: 'scss',
+  //   components: ['ElLoading']
+  // },
 colorMode: {
   preference: 'light', // default value of $colorMode.preference
   fallback: 'light', // fallback value if not system preference found

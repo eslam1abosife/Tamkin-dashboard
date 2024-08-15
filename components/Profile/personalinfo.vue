@@ -5,8 +5,8 @@
 
 <template>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full !mt-[32px] ">
-        <div>
+  <div class="grid grid-cols-1 md:grid-cols-2  h-full w-full py-[16px]">
+    <div>
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Full Name</h3>
           <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">Alec M. Thompson</p>
         </div>

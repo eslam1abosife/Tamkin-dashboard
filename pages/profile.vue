@@ -51,6 +51,7 @@ watch(copyDone, (newValue) => {
     }, 2000);
   }
 });
+
 provide('currentMode',currentMode)
 </script>
 
@@ -92,7 +93,7 @@ provide('currentMode',currentMode)
     </div>
 
     <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
-      <div class="flex items-start justify-between w-full space-x-[40px]">
+      <div class="grid grid-cols-12 ">
         <div class="flex flex-col items-start justify-start space-y-[10px] col-span-4">
         <ProfileOwner v-if="currentTab === 'personal' || currentTab === 'security'"/>
 
@@ -179,8 +180,8 @@ provide('currentMode',currentMode)
         </div>
 
         <div
-          class="w-full  bg-white/60 shadow-sm  rounded-[10px] px-[30px] pt-[24px] backdrop-blur-md 
-          h-[409px]  flex flex-col items-start justify-start space-y-[10px]"
+          class="w-full  bg-white/60 shadow-sm  rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md 
+         flex flex-col items-start justify-start space-y-[10px]"
         >
           <div class="flex items-start justify-between w-full">
             <div

@@ -111,6 +111,7 @@ const openMenu = (menu: any) => {
 <template>
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
+    <ProfileBillingModalsAddnewCard/>
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
         Billing & Invoices
@@ -125,11 +126,24 @@ const openMenu = (menu: any) => {
     <div class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">Payment Methods</div>
-        <button class="btn-dashboard hover_tamkin  w-[159px]">
-          <div>
-            <img src="/imgs/add.png" class="w-[20px] h-[20px]" alt="" />
-          </div>
-          <div class="!text-[12px] !leading-[21px] !font-[600]">Add New Card</div>
+        <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openModal('add_new_card_billing','billing')">
+          <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="27" height="27" rx="13.5" fill="white"/>
+            <rect x="1" y="1" width="27" height="27" rx="13.5" stroke="url(#paint0_linear_9024_12875)"/>
+            <path d="M8 14.5C8 14.2411 8.10287 13.9927 8.28597 13.8096C8.46908 13.6265 8.71742 13.5236 8.97637 13.5236H13.5236V8.97637C13.5236 8.71742 13.6265 8.46908 13.8096 8.28597C13.9927 8.10287 14.2411 8 14.5 8C14.7589 8 15.0073 8.10287 15.1904 8.28597C15.3735 8.46908 15.4764 8.71742 15.4764 8.97637V13.5236H20.0236C20.2826 13.5236 20.5309 13.6265 20.714 13.8096C20.8971 13.9927 21 14.2411 21 14.5C21 14.7589 20.8971 15.0073 20.714 15.1904C20.5309 15.3735 20.2826 15.4764 20.0236 15.4764H15.4764V20.0236C15.4764 20.2826 15.3735 20.5309 15.1904 20.714C15.0073 20.8971 14.7589 21 14.5 21C14.2411 21 13.9927 20.8971 13.8096 20.714C13.6265 20.5309 13.5236 20.2826 13.5236 20.0236V15.4764H8.97637C8.71742 15.4764 8.46908 15.3735 8.28597 15.1904C8.10287 15.0073 8 14.7589 8 14.5Z" fill="url(#paint1_linear_9024_12875)"/>
+            <defs>
+            <linearGradient id="paint0_linear_9024_12875" x1="14.5" y1="0.5" x2="14.5" y2="28.5" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2DADA3"/>
+            <stop offset="1" stop-color="#71DAD2"/>
+            </linearGradient>
+            <linearGradient id="paint1_linear_9024_12875" x1="14.5" y1="8" x2="14.5" y2="21" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#2DADA3"/>
+            <stop offset="1" stop-color="#71DAD2"/>
+            </linearGradient>
+            </defs>
+            </svg>
+            
+          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
         </button>
       </div>
 

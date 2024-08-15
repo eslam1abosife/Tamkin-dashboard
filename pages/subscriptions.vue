@@ -107,7 +107,7 @@ const handleSelectedItemProjectName = (item: any) => {
 <div class="grid grid-cols-12 mt-[16px] gap-4 ">
   <div class="flex flex-col items-start justify-center ipad-max:col-span-12 col-span-8 ">
     <div class="flex items-center justify-center  space-x-[16px] w-full ">
-      <div class="bg-white rounded-[10px] p-[10px] w-full ">
+      <div class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]">
         <div class="flex items-center justify-start space-x-2 mb-4">
           <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
           <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
@@ -144,16 +144,16 @@ const handleSelectedItemProjectName = (item: any) => {
         </div>
       </div>
       
-      <div class="bg-white rounded-[10px] p-[10px] w-full">
+      <div class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]">
         <div class="flex items-center justify-start space-x-2 mb-4">
-          <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
+          <img src="/imgs/basic_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
+          <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Basic Plan</h3>
         </div>
       
         <div class="space-y-2  ">
           <p class="space-x-1">
             <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-            <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
+            <span class="text-[#F94334] font-[600] text-[13px] leading-[19px]">Expired</span>
           </p>
       
           <p class="space-x-1">
@@ -173,94 +173,73 @@ const handleSelectedItemProjectName = (item: any) => {
       
         <div class="mt-4 flex space-x-4">
           <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-2/4  !h-[30px] ">
-            Upgrade Now
+            Renew Subscription
           </button>
-          <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-2/4 !h-[30px] ">
-            Cancel Subscription
-          </button>
+       
         </div>
       </div>
     
     </div>
     <div class="flex items-center justify-center mt-[16px] space-x-[16px] w-full ">
     
-    <div class="bg-white rounded-[10px] p-[10px] w-full">
-      <div class="flex items-center justify-start space-x-2 mb-4">
-        <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-        <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
+   
+      <div class="flex items-center justify-center  flex-wrap w-full space-y-[16px]">
+        <div class="bg-white shadow-sm shadow-y-[-0.2px]  rounded-[10px] p-[10px] w-full relative">
+          <div class="absolute right-[50px] bottom-[25px]">
+            <img src="/imgs/calender.png" class="w-[178px] h-[178px]" alt="">
+          </div>
+          <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] space-x-[4px] bg-[#F8FAFE]  rounded-[7px] flex items-center justify-center 
+          text-[14px] font-[500] leading-[40px] ">
+            <div class="text-tamkin"> Active </div> 
+            <div>
+              until Dec 09, 2021
+            </div>
+          </div>
+          <div class="flex items-center justify-start space-x-2 mb-4">
+            <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
+            <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
+          </div>
+        
+          <div class="space-y-2  ">
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
+              <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
+            </p>
+        
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
+            </p>
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
+            </p>
+      
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
+            </p>
+          </div>
+        
+          <div class="mt-4 flex space-x-4">
+            <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/6  !h-[30px] ">
+              Upgrade Now
+            </button>
+            <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-1/6 !h-[30px] ">
+              Cancel Subscription
+            </button>
+          </div>
+        </div>
+        
+    
+      
+      
       </div>
-    
-      <div class="space-y-2  ">
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-          <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
-        </p>
-    
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-        </p>
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-        </p>
-    
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-        </p>
-      </div>
-    
-      <div class="mt-4 flex space-x-4">
-        <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-2/4  !h-[30px] ">
-          Upgrade Now
-        </button>
-        <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-2/4 !h-[30px] ">
-          Cancel Subscription
-        </button>
-      </div>
-    </div>
-    <div class="bg-white rounded-[10px] p-[10px] w-full">
-      <div class="flex items-center justify-start space-x-2 mb-4">
-        <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-        <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
-      </div>
-    
-      <div class="space-y-2  ">
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-          <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
-        </p>
-    
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-        </p>
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-        </p>
-    
-        <p class="space-x-1">
-          <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-          <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-        </p>
-      </div>
-    
-      <div class="mt-4 flex space-x-4">
-        <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-2/4  !h-[30px] ">
-          Upgrade Now
-        </button>
-        <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-2/4 !h-[30px] ">
-          Cancel Subscription
-        </button>
-      </div>
-    </div>
     </div>
   </div>
 
   <div class="h-[520px]  flex flex-col pt-[12px] space-y-[16px] items-center justify-start bg-gradient-to-t
-   from-[#EAFDFC] via-[#FFF7ED] to-[#E1E9FF] col-span-4 ipad-max:col-span-12 rounded-[10px] drop-shadow-lg -shadow-y-1">
+   from-[#EAFDFC] via-[#FFF7ED] to-[#E1E9FF] col-span-4 ipad-max:col-span-12 rounded-[10px] shadow-md shadow-y-[-0.2px]">
 <div class="text-[16px] font-[500] leading-[32px] text-black">
   Unlock More Features
 </div>
@@ -336,171 +315,7 @@ const handleSelectedItemProjectName = (item: any) => {
 
 
 
-<div class="grid grid-cols-12 gap-4 mt-[30px]">
 
-  <div class="col-span-8  ipad-max:col-span-12 flex flex-col items-start justify-start w-full">
-
-    <div class="flex items-center justify-center  flex-wrap w-full space-y-[16px]">
-      <div class="bg-white border-[1px] border-[#A7A7A7] rounded-[10px] p-[10px] w-full relative">
-        <div class="absolute right-[50px] bottom-[25px]">
-          <img src="/imgs/calender.png" class="w-[178px] h-[178px]" alt="">
-        </div>
-        <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] space-x-[4px] bg-[#F8FAFE]  rounded-[7px] flex items-center justify-center 
-        text-[14px] font-[500] leading-[40px] ">
-          <div class="text-tamkin"> Active </div> 
-          <div>
-            until Dec 09, 2021
-          </div>
-        </div>
-        <div class="flex items-center justify-start space-x-2 mb-4">
-          <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
-        </div>
-      
-        <div class="space-y-2  ">
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-            <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
-          </p>
-      
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-    
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-          </p>
-        </div>
-      
-        <div class="mt-4 flex space-x-4">
-          <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/6  !h-[30px] ">
-            Upgrade Now
-          </button>
-          <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-1/6 !h-[30px] ">
-            Cancel Subscription
-          </button>
-        </div>
-      </div>
-      
-  
-      <div class="h-[165px] rounded-[10px] w-full bg-gradient-to-r p-[30px] from-[#D3E2FF]  to-[#FFF2E1] flex items-start justify-between">
-  <div class="flex flex-col items-start justify-start w-3/4">
-  <div class="text-[16px] font-[500]  leading-[32px] text-black ">
-    We need your attention!
-  
-  </div>
-  
-  <div class="relative flex items-center w-full mt-[32px]">
-    <div
-      class="relative w-full drop-shadow-sm h-[8px] bg-white rounded-[9px] overflow-hidden"
-    >
-      <div class="h-full bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[9px]" style="width: 77%"></div>
-    </div>
-    <span
-    class="absolute left-[-14px] top-[-29px] text-black font-[500] text-[12px] leading-[18px]"
-    style="transform: translateX(50%);"
-    >Days</span
-  >
-    <span
-      class="absolute right-[40px] top-[-29px] text-black font-[500] text-[12px] leading-[18px]"
-      style="transform: translateX(50%);"
-      >15 Of 30 Days</span
-    >
-  </div>
-  
-  <div class="text-[10px] font-[500] leading-[18px] mt-[8px] text-[#616161]">
-    18 days remaining until your plan requires update
-  </div>
-  
-  </div>
-  
-  <div class="mt-[-14px]">
-    <img src="/imgs/attention.png"  class="w-[90px] h-[138px]" alt="">
-  </div>
-      </div>
-    
-    </div>
-  </div>
-
-  <div class="h-[520px] flex flex-col pt-[12px] space-y-[16px] items-center justify-start bg-gradient-to-t
-  from-[#EAFDFC] via-[#FFF7ED] to-[#E1E9FF] col-span-4 ipad-max:col-span-12 rounded-[10px] drop-shadow-lg -shadow-y-1">
-<div class="text-[16px] font-[500] leading-[32px] text-black">
- Unlock More Features
-</div>
-<div>
- <img src="/imgs/features_hero.png"  class="w-[73px] h-[52px]" alt="">
-</div>
-<div class="text-[16px] font-[500] leading-[32px] text-black">
- Premium
-</div>
-
-<div class="text-[10px] font-[400] leading-[20px] text-black">
- Upgrade to unlock exclusive features and enhanced support
-</div>
-
-<div class="text-[16px] font-[500] leading-[32px] text-black">
- Let’s talk
-</div>
-
-
-<div class="pl-[36px] self-start  text-[16px] font-[500] leading-[32px] text-black">
-
- Includes
-</div>
-
-<div class="flex flex-col items-start justify-center self-start pl-[36px] space-y-2">
-<div class="flex items-center justify-center space-x-[4px]">
- <div>
-   <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
- </div>
- <div class="text-[11px] font-[500] leading-[20px] text-black">
-   Aut molestiae dolor et ut nam dicta.
- </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
- <div>
-   <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
- </div>
- <div class="text-[11px] font-[500] leading-[20px] text-black">
-   Aut molestiae dolor et ut nam dicta.
- </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
- <div>
-   <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
- </div>
- <div class="text-[11px] font-[500] leading-[20px] text-black">
-   Aut molestiae dolor et ut nam dicta.
- </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
- <div>
-   <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
- </div>
- <div class="text-[11px] font-[500] leading-[20px] text-black">
-   Aut molestiae dolor et ut nam dicta.
- </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
- <div>
-   <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
- </div>
- <div class="text-[11px] font-[500] leading-[20px] text-black">
-   Aut molestiae dolor et ut nam dicta.
- </div>
-</div>
-</div>
-
-
-<button class="btn-dashboard hover_tamin w-[110px] !text-[12px] font-[500]">Contact Us</button>
- </div>
-</div>
 
 
 

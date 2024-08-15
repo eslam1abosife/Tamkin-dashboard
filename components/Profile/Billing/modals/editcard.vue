@@ -474,8 +474,8 @@ Edit your saved card details
           </div>
         </div> -->
 
-<div class="flex items-center justify-start space-x-[14px] w-full mb-[20px]" >
-    <div class="w-3/4">
+<div class="flex items-center justify-between  w-full mb-[20px]" >
+    <div class=" ">
         <label for="remember_me"
         class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
         <input type="checkbox"
@@ -489,12 +489,15 @@ Edit your saved card details
     </div>
 
 
-    <button class="btn_bordered_dashboard error ml-auto !text-[13px] !p-1 w-[200px]"
-   >
+  <div class=" ml-auto">
+    <button class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    >
+ 
+ 
+     <span>Delete Payment Method</span>
+    </button>
+  </div>
 
-
-    <span>Delete Payment Method</span>
-  </button>
 
 </div>
 
