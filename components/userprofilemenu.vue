@@ -2,7 +2,6 @@
 import { vOnClickOutside } from "@vueuse/components";
 const localePath = useLocalePath();
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
 const { getAvatarLetters } = useGetAvatarLetters();
 
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
@@ -16,35 +15,38 @@ const closeMenu = () => {
     isMenuOpen.value =false
 }
 
-const userName = () => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user ? (user.full_name || user.display_name) : '';
-  }
-  return '';
-}
-
 const isOwner = () => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user.role_profile_name.toString().toLowerCase().includes('owner of agency');
-  }
-  return false
+    const userStore = useUserStore();
+    const user = userStore.user;
+    if(user) {
+      return user.role_profile_name.toString().toLowerCase().includes('owner of agency');
+    }
+    return false;
 };
 
 const userImg = computed(() => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.user_image) {
-      return `https://tamkin.app/${user.user_image}`;
-    }
-    else if (user && user.photoURL) {
-      return user.photoURL;
+    const userStore = useUserStore();
+    const user = userStore.user;
+    if(user) {
+      if (user.user_image) {
+        return `https://tamkin.app/${user.user_image}`;
+      }
+      else if (user.photoURL) {
+        return user.photoURL;
+      }
     }
     return null;
-  }
-  return null;
 });
+
+
+const userName = () => {
+  const userStore = useUserStore();
+  const user = userStore.user;
+  if(user) {
+    return userStore.user?.full_name || userStore.user?.displayName
+  }
+  return '';
+}
 
 const logout = () => {
   const userStore = useUserStore();
@@ -69,7 +71,6 @@ const logout = () => {
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
             <div >
-
               <img v-if="userImg" :src="userImg"
                    class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" />
 

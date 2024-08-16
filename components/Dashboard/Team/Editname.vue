@@ -3,7 +3,8 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
 import { useEditMember, useGetAllMembers } from "@/composables/useTeam";
-
+import { useUserStore } from "@/stores/auth"; // Import the Pinia store
+const userStore = useUserStore();
 const { editMember, loading } = useEditMember();
 const { getAllTeamMember } = useGetAllMembers();
 
@@ -50,6 +51,7 @@ const doEditMember = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
     user.full_name = user.displayName = state.firstName + ' ' + state.lastName;
     localStorage.setItem('user', JSON.stringify(user));
+    userStore.setUser(user);
     closeModal('editname');
     await getAllTeamMember(user.agency);
   } catch (err) {

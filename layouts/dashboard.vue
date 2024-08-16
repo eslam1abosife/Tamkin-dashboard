@@ -345,6 +345,14 @@ const openToast = (msg) => {
   }, 2000)
 }
 
+
+onMounted(() => {
+  const userStore = useUserStore();
+  const user = JSON.parse(localStorage.getItem('user'));
+  if(user) {
+    userStore.user = user;
+  }
+})
 </script>
 
 <template>
@@ -520,7 +528,7 @@ const openToast = (msg) => {
                 <Darkmode />
                 <NotificationBell/>
                 <!-- {{ userName }} -->
-            <Userprofilemenu/>
+            <Userprofilemenu />
 
               </div>
             </div>
