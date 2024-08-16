@@ -17,7 +17,7 @@ onMounted(() => {
 
 <template>
 
-    <div v-if="isVisible" class="mx-[50%] fixed  inset-0  z-[2000] w-[273px]  rounded-[5px]
+    <div v-if="isVisible" class="inset-x-auto fixed  inset-0  z-[2000] w-[273px]  rounded-[5px]
      rtl:space-x-reverse space-x-[8px] h-[37px] bg-[#DAF3F1] flex items-center justify-start" :class="[top ? `top-[${top}]` : '']">
         <div class="rtl:pr-[16px] ltr:pl-[16px]" >
             <img  src="/assets/imgs/success_toast.svg" />

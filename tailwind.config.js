@@ -4,6 +4,9 @@ export default {
   content: [],
   theme: {
     extend: {
+      boxShadow: {
+        'custom-light': '1px 1px 11.5px 0px #A3F6F0',
+      },
       order: {
         1: "1",
         2: "2",

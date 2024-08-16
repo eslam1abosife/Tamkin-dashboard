@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 
+import visaIcon from '/assets/imgs/payment_methods/visa.svg'
+import masterIcon from '/assets/imgs/payment_methods/master.svg'
 const {
   isOpen,
   currentView,
@@ -14,8 +16,6 @@ const savedCards = ref([
     {'id':2,number:'Tamkin  ****6792',type:'master'},
 ]);
 
-import visaIcon from '/assets/imgs/payment_methods/visa.svg'
-import masterIcon from '/assets/imgs/payment_methods/master.svg'
 const currentCard = ref('1')
 const loading = ref(false)
 const isPromoFilled = ref(false);

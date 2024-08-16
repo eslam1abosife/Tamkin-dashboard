@@ -231,8 +231,8 @@ const options = ref({
       class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('translation_acc_card')"
     >
-  <div class="flex items-center justify-between ">
-<div class="h-[92px] w-[215px] rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
+  <div class="flex items-center justify-between space-x-[40px] ">
+<div class="h-[92px] w-full rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
     <div class="flex items-center justify-start space-x-[4px]">
         <div class="bg-[#71DAD2] w-2 h-2 rounded-full">
 
@@ -248,7 +248,7 @@ const options = ref({
 </div>
 
 
-<div class="h-[92px] w-[215px] rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
+<div class="h-[92px] w-full  rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
     <div class="flex items-center justify-start space-x-[4px]">
         <div class="bg-[#FFBA6B] w-2 h-2 rounded-full">
 
@@ -263,7 +263,7 @@ const options = ref({
 </div>
 </div>
 
-<div class="h-[92px] w-[215px] rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
+<div class="h-[92px] w-full rounded-[23px] bg-[#F7FAFD] flex flex-col items-center justify-center space-y-[10px]">
     <div class="flex items-center justify-start space-x-[4px]">
         <div class="bg-[#A35EFE] w-2 h-2 rounded-full">
 
@@ -281,12 +281,12 @@ const options = ref({
 
 
   <div class="flex items-center justify-between w-full mt-[66px]">
-    <div class="flex flex-col items-start justify-center w-full ">
+    <div class="grid grid-cols-12  w-full">
 
 
-        <div class="rounded-[10px] w-full">
+        <div class="rounded-[10px] col-span-12  lg:w-[89%] ipad-max:w-full 2xl:w-[85%]">
             <div
-              class="flex justify-between bg-[#F7FAFD]  rounded-[10px] items-center mb-4  2xl:w-[77.5%] w-[85%] ipad-max:w-full relative h-[108px] px-[15px]"
+              class="flex justify-between bg-[#F7FAFD]  rounded-[10px] items-center mb-4  relative h-[108px] px-[15px]"
             >
               <div class="space-y-[16px]">
                 <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Translated content</h2>
@@ -300,9 +300,9 @@ const options = ref({
             </div>
            
           </div>
-          <div class="rounded-[10px] w-full">
+          <div class="rounded-[10px] col-span-12  lg:w-[89%] ipad-max:w-full 2xl:w-[85%]">
             <div
-              class="flex justify-between bg-[#F7FAFD] rounded-[10px] items-center mb-4  2xl:w-[77.5%] w-[85%] ipad-max:w-full  relative h-[108px] px-[15px]"
+              class="flex justify-between bg-[#F7FAFD] rounded-[10px] items-center mb-4   ipad-max:w-full  relative h-[108px] px-[15px]"
             >
               <div class="space-y-[16px]">
                 <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Untranslated content</h2>
@@ -320,7 +320,7 @@ const options = ref({
 
        <div class="flex flex-col items-center justify-start ">
        <div>
-        <Circularprogressbar svg-class="w-[250px] h-[250px] mt-[-60px]"/>
+        <Circularprogressbar svg-class="w-[250px] h-[250px] mt-[-60px]" />
        </div>
         <div class="text-[18px] font-[500] text-black">
             Translation accuracy
@@ -331,9 +331,13 @@ const options = ref({
   </div>
 
 </template>
-<style >
-
-.content{
-    @apply top-[25%];
+<style scoped>
+:deep(.percentage-text){
+  @apply !text-[30px];
 }
+
+:deep(.content){
+  @apply !top-[-40px];
+}
+
 </style>

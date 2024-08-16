@@ -407,7 +407,8 @@ const moveForward = () => {
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             Number of speakers
           </div>
-          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" placeholderinput="Auto-detect speakers" :list="projectNameArr" nameKey="name" idField="id" />
+          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" 
+          placeholderinput="Auto-detect speakers" :list="projectNameArr" nameKey="name" idField="id" />
         </div>
       </div>
       <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">

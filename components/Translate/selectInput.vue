@@ -8,10 +8,12 @@ const props = defineProps({
     iconKey: String,
     nameKey: String,
     idField: String,
-    disabled: Boolean
+    disabled: Boolean,
+    errorField:Boolean,
+    successField:Boolean
 })
 const emit = defineEmits(['getCurrentSelectedItem'])
-const isOpen = ref(false);
+const isListOpen = ref(false);
 const search = ref("");
 const selectedOption = ref(null);
 const getSelectedItem = (item) => {
@@ -20,7 +22,7 @@ const getSelectedItem = (item) => {
 const toggleDropdown = () => {
 
     if (!props.disabled) {
-        isOpen.value = !isOpen.value;
+        isListOpen.value = !isListOpen.value;
     }
 
 
@@ -29,7 +31,7 @@ const toggleDropdown = () => {
 const closeOnOutSideClick = () => {
 
 
-    isOpen.value = false
+    isListOpen.value = false
 
 
 
@@ -39,7 +41,7 @@ const closeOnOutSideClick = () => {
 const selectList = (Item) => {
     if (!props.disabled) {
         selectedOption.value = Item;
-        isOpen.value = false;
+        isListOpen.value = false;
         getSelectedItem(Item)
     }
 
@@ -57,8 +59,11 @@ const filteredList = computed(() => {
     <div class="relative w-full " v-on-click-outside="closeOnOutSideClick">
         <button @click.prevent="toggleDropdown"   
             class="input_search_country !rounded-[10px] peer w-full  ltr:text-left rtl:text-right "
-            :class="[isOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '']">
-            <div class="floating_country px-[6px] !text-[#585B5B] !font-[500] text-[13px]"
+
+            :class="[isListOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '',
+            errorField ? 'input_error' :'' ,successField ?  'input_success' :''
+            ]">
+            <div class="floating_country px-[6px] text-[#585B5B] !font-[500] text-[13px]"
                 :class="[selectedOption && selectedOption.name ? '!text-black' : 'text-light']">
                 <div class="flex items-center justify-start">
                     <img v-if="selectedOption && iconKey" :src="selectedOption[iconKey]"
@@ -73,10 +78,10 @@ const filteredList = computed(() => {
                 }}
             </div>
 
-            <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[isOpen ? 'rotate-90' : '']"
+            <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[isListOpen ? 'rotate-90' : '']"
                 class="mr-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
         </button>
-        <div v-if="isOpen" 
+        <div v-if="isListOpen" 
             class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] ">
             <div class=" search_input w-full  rounded-t-[10px] " v-if="enableSearch">
                 <input type="text"

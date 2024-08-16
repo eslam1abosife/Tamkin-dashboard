@@ -14,7 +14,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     // Redirect to login if the user is not logged in and trying to access a non-auth route
     if (!userStore.isLoggedIn && !to.path.startsWith('/auth/')) {
-        console.log('User is not logged in, redirecting to login', to.path);
         return navigateTo('/auth/login');
     }
 
