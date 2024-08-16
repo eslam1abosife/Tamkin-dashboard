@@ -78,7 +78,7 @@ const logout = () => {
                         <span>
                           {{
                             getAvatarLetters(
-                                userName
+                                userName()
                             )
                           }}
                         </span>
