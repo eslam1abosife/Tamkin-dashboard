@@ -18,12 +18,8 @@ export default function(email) {
                 onSuccess();
             }
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
+            
+            throw typeof(error) === 'string' ? error : 'There is something wrong'
         }
     };
 

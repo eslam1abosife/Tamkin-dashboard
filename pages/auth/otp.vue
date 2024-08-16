@@ -2,7 +2,7 @@
 
 import { onMounted } from "vue";
 import VOtpInput from "vue3-otp-input";
-import { useResendCode, useVerifyCode, useLogin } from '@/composables/useAuth';
+import { useResendCode, useVerifyCode, useForgetPassword } from '@/composables/useAuth';
 import { useRoute, useRouter } from '#vue-router';
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 
@@ -70,8 +70,15 @@ const formattedCountdown = computed(() => {
 const doResendCode = async () => {
   errMsg.value = null;
   const email = localStorage.getItem('registerd_email');
+  const { forgetPassword } = useForgetPassword({ email })
   try {
-    await resendCode(email);
+    resendLoading.value = true;
+
+    if (route.query.from != 'forget-password') {
+      await resendCode(email);
+    } else {
+      await forgetPassword(false);
+    }
     clearInterval(intervalId);
     showResent.value = false;
     countdown.value = 29;
@@ -81,9 +88,11 @@ const doResendCode = async () => {
       sentSuccessfully.value = false;
     }, 2000);
     startCountdown();
-  } catch(err) {
+  } catch (err) {
     errMsg.value = err;
     console.error(err);
+  } finally {
+    resendLoading.value = false;
   }
 
 
@@ -117,7 +126,7 @@ const doVerifyCode = async () => {
     const { verifyCode, loading } = useVerifyCode({ email, key: verificationCode.value });
     verifyLoading.value = loading;
 
-    if (user && route.query.from != 'forget-password') {
+    if (route.query.from != 'forget-password') {
       // const { loginUser } = useLogin(user);
 
       await verifyCode();
@@ -155,21 +164,24 @@ const doVerifyCode = async () => {
 
 
 <template>
-  <DashboardToastSuccess v-if="sentSuccessfully" :hideIn="5000" :message="successMsg"
-                         class="top-[8%] !inset-x-[13%]" ></DashboardToastSuccess>
+  <DashboardToastSuccess v-if="sentSuccessfully" :hideIn="5000" :message="successMsg" class="top-[8%] !inset-x-[13%]">
+  </DashboardToastSuccess>
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
+          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo"
+            class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
-        
 
-          <h1 class=" dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{ $t("verification") }}</h1>
 
-          <h3 class=" dark:text-whiteTamkin/90 text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]" style="line-height: 30px;">
+          <h1 class=" dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{
+    $t("verification") }}</h1>
+
+          <h3 class=" dark:text-whiteTamkin/90 text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]"
+            style="line-height: 30px;">
             {{ $t("enter_verification_code") }}
           </h3>
 
@@ -177,38 +189,37 @@ const doVerifyCode = async () => {
           <div class="space-y-[16px]">
             <div class="space-y-[16px] mt-[24px] ">
               <v-otp-input class="flex flex-row items-center justify-center rtl:flex-row-reverse mx-auto space-x-[10px] 
-              lg:space-x-[16px] xl:space-x-[22px]"
-                ref="otpInput" :input-classes="errMsg ? 'otp_field border-danger' : `otp_field`" :conditionalClass="['border-tamkin', 'two', 'three', 'four']"
-                inputType="letter-numeric" :num-inputs="6" v-model:value="bindModal" :should-auto-focus="true"
-                :should-focus-order="true" @on-change="handleOnChange" @update:value="verificationCode = $event" />
+              lg:space-x-[16px] xl:space-x-[22px]" ref="otpInput"
+                :input-classes="errMsg ? 'otp_field border-danger' : `otp_field`"
+                :conditionalClass="['border-tamkin', 'two', 'three', 'four']" inputType="letter-numeric" :num-inputs="6"
+                v-model:value="bindModal" :should-auto-focus="true" :should-focus-order="true"
+                @on-change="handleOnChange" @update:value="verificationCode = $event" />
             </div>
 
-<!--            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>-->
+            <!--            <h6 v-if="errMsg" class="text-[red] mb-5 mt-5"> {{errMsg}} </h6>-->
           </div>
         </div>
       </div>
 
       <div class=" absolute top-[500px] ipad-max:top-[500px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-        <button
-            :class="{'btn-inactive': !verificationCode || verifyLoading}"
-            class="btn-grad-action w-full  !mb-[8px]"
-            :disabled="!verificationCode || verifyLoading"
-            @click="doVerifyCode">
-          <img v-if="verifyLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{verifyLoading ? $t('verfiy_processing') : $t('verfiy') }}
+        <button :class="{ 'btn-inactive': !verificationCode || verifyLoading }"
+          class="btn-grad-action w-full  !mb-[8px]" :disabled="!verificationCode || verifyLoading"
+          @click="doVerifyCode">
+          <img v-if="verifyLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> {{ verifyLoading ?
+    $t('verfiy_processing') : $t('verfiy') }}
         </button>
 
-        <div v-if="route.query.from !== 'forget-password'" class="flex gap-2 items-center  justify-center !mt-[0]">
+        <div class="flex gap-2 items-center  justify-center !mt-[0]">
           <div>
             <p class="flex gap-[5px] text-center font-[500] dark:text-whiteTamkin">
               <span>{{ $t('didnt_receive_code') }}</span>
-              <span class="text-error w-[50px]"
-                    v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
+              <span class="text-error w-[50px]" v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
             </p>
           </div>
           <div class="w-[50px]">
             <img class="inline" src="/assets/imgs/loading-green.svg" v-if="resendLoading" />
-            <a  @click.prevent="doResendCode" href="#" class="w-[50px] text-tamkin underline "
-                v-else-if="!(!showResent && !resendLoading) && !resendLoading">{{ $t('resendCode') }}</a>
+            <a @click.prevent="doResendCode" href="#" class="w-[50px] text-tamkin underline "
+              v-else-if="!(!showResent && !resendLoading) && !resendLoading">{{ $t('resendCode') }}</a>
           </div>
         </div>
 

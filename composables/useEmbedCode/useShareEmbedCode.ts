@@ -8,11 +8,14 @@ export default function() {
 
     const shareEmbedCode = async (state) => {
         try {
+            const data = {
+                email: state.email
+            }
+            if(state.appName) {
+                data.app_name = state.appName
+            }
             const res = await api.post('/Apps/ShareEmbededCode', {
-                data:{
-                    app_name: state.appName,
-                    email: state.email
-                }
+                data
             });
 
             if(!res.data.succeeded) throw(res.data.message);

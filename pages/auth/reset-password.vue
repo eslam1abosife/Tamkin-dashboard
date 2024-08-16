@@ -23,18 +23,18 @@ const rules = {
     email: { required, email },
 };
 const v$ = useVuelidate(rules, state);
-const { forgetPassword , loading } = useForgetPassword(state);
+const { forgetPassword, loading } = useForgetPassword(state);
 const errorMsg = ref(null);
 
 const doForgetPassword = async () => {
-  errorMsg.value = null;
-  localStorage.setItem('registerd_email', state.email);
-  try {
-    await forgetPassword();
-  } catch(error) {
-    console.log('errrrrrrrror', error)
-    errorMsg.value = error;
-  }
+    errorMsg.value = null;
+    localStorage.setItem('registerd_email', state.email);
+    try {
+        await forgetPassword();
+    } catch (error) {
+        console.log('errrrrrrrror', error)
+        errorMsg.value = error;
+    }
 }
 </script>
 
@@ -43,11 +43,12 @@ const doForgetPassword = async () => {
         <div class="flex items-center justify-center w-full mt-[16px] ">
             <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
                 <div class="flex-1 lg:mx-[-5px] mx-auto">
-                    <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo" class="cursor-pointer w-[160px] h-[81.28px]" />
+                    <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo"
+                        class="cursor-pointer w-[160px] h-[81.28px]" />
                 </div>
                 <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
-                 
-                    
+
+
                     <h1 class="dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{
                         $t("forgot_password_prompt") }}</h1>
 
@@ -65,29 +66,37 @@ const doForgetPassword = async () => {
                                     class="input_floating_label peer" v-model="v$.email.$model" :class="{
                         input_error:
                             (v$.email.$error && v$.email.required.$invalid) ||
-                            (v$.email.$error && v$.email.email.$invalid),
-                        input_success: !v$.email.$error && !v$.email.$invalid,
+                            (v$.email.$error && v$.email.email.$invalid) ||
+                            isIncludeWord(errorMsg, ['confirm', 'not found']),
+                        input_success: !v$.email.$error && !v$.email.$invalid && !isIncludeWord(errorMsg, ['confirm', 'not found']),
                     }" />
                                 <label for="email" class="floating_label" :class="[
                         (v$.email.$error && v$.email.required.$invalid) ||
-                            (v$.email.$error && v$.email.email.$invalid)
+                            (v$.email.$error && v$.email.email.$invalid) || isIncludeWord(errorMsg, ['confirm', 'not found'])
                             ? '!text-error'
                             : '',
                     ]">
                                     {{ $t("email") }}*
                                 </label>
-                                <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
-                        (v$.email.$error && v$.email.email.$invalid)">
+                                <div class="w-full lg:w-4/6 mt-2"
+                                    v-if="(v$.email.$error && v$.email.required.$invalid) ||
+                        (v$.email.$error && v$.email.email.$invalid) || isIncludeWord(errorMsg, ['confirm', 'not found'])">
                                     <p class="error_message">
                                         <span v-if="v$.email.$error && v$.email.required.$invalid">{{
                         $t("email_address_is_required") }}</span>
                                         <span v-else-if="v$.email.required.$invalid ||
                         (v$.email.$error && v$.email.email.$invalid)">{{ $t("please_enter_valid_email_address")
                                             }}</span>
+
+                                        <span v-else-if="isIncludeWord(errorMsg, ['confirm', 'not found'])">
+                                            {{ errorMsg
+                                            }}</span>
+
+
                                     </p>
                                 </div>
-                                <h6 v-if="isIncludeWord(errorMsg, ['confirm', 'not found'])" class="text-[red] font-light text-[12px] !mt-[5px] text-start"> {{errorMsg}} </h6>
-                                <h6 v-else class="text-[red] !mt-[15px]"> {{errorMsg}} </h6>
+                                <h6 v-if="errorMsg && !isIncludeWord(errorMsg, ['confirm', 'not found'])"
+                                    class="text-[red] font-light text-[14px] !mt-[15px]"> {{ errorMsg }} </h6>
 
                             </div>
 
@@ -103,12 +112,11 @@ const doForgetPassword = async () => {
 
         <div
             class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-            <button class="btn-grad-action w-full"
-                    :class="(v$.email.$invalid || loading) && 'btn-inactive'"
-                    @click.prevent="doForgetPassword"
-                :disabled="v$.email.$invalid || loading">
+            <button class="btn-grad-action w-full" :class="(v$.email.$invalid || loading) && 'btn-inactive'"
+                @click.prevent="doForgetPassword" :disabled="v$.email.$invalid || loading">
 
-              <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg"/> {{ !loading ? $t("continue") : $t("continue_processing") }}
+                <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> {{ !loading ?
+                        $t("continue") : $t("continue_processing") }}
 
             </button>
         </div>

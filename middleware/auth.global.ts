@@ -1,15 +1,25 @@
 import { defineNuxtRouteMiddleware, navigateTo } from 'nuxt/app';
 import { useUserStore } from '@/stores/auth';
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
     const userStore = useUserStore();
-    userStore.checkIfLoggedIn();
 
+    // Check if the user is logged in (assuming this might be async)
+    await userStore.checkIfLoggedIn();
+
+    // Allow access to auth routes if the user is not logged in
+    if (!userStore.isLoggedIn && to.path.startsWith('/auth/')) {
+        return;
+    }
+
+    // Redirect to login if the user is not logged in and trying to access a non-auth route
     if (!userStore.isLoggedIn && !to.path.startsWith('/auth/')) {
-        console.log('User is not logged in, redirecting to login');
+        console.log('User is not logged in, redirecting to login', to.path);
         return navigateTo('/auth/login');
     }
-    else if(userStore.isLoggedIn && to.path.startsWith('/auth/')) {
+
+    // Redirect to the main site if the user is logged in and trying to access an auth route
+    if (userStore.isLoggedIn && to.path.startsWith('/auth/')) {
         return navigateTo('/my-site');
     }
 });

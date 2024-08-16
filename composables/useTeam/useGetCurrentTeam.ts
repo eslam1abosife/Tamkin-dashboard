@@ -18,13 +18,8 @@ export default function() {
             if(!res.data.succeeded) throw(res.data.message);
             currTeam.value = res.data.data;
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'The user not assigned to team'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
-            throw error;
+            
+            throw typeof(error) === 'string' ? error : 'The user not assigned to team';
         }
     };
 
