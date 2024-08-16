@@ -17,8 +17,9 @@ export default function(state) {
     const loginUser = async () => {
         try {
             const res = await api.post('/Account/Login', { Username: state.email, Password: state.password });
-            if(!res.data.succeeded) throw(res.data.message);
-            user.value = res.data.data;
+            if(!res.data.succeeded) throw(res.data?.message);
+            console.log('res.data', res.data)
+            user.value = res.data?.data;
 
             tokenCookie.value = user.value?.sid;
             isLoggedInCookie.value = true;
@@ -32,13 +33,8 @@ export default function(state) {
             state.password = "";
 
         } catch (error) {
-            // $toast(`Oops!<br/>${ }`, {
-            //     "theme": "colored",
-            //     "type": "error",
-            //     "autoClose": 4000,
-            //     "dangerouslyHTMLString": true
-            // });
-            throw typeof(error) === 'string' ? error : 'There is something wrong';
+            const errMsg = typeof(error) === 'string' ? error : 'There is something wrong';
+            throw errMsg;
         }
     };
 

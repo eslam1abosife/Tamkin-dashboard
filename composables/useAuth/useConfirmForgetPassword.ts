@@ -24,7 +24,6 @@ export default function(state) {
 
 
         } catch (error) {
-
             throw error ? error : 'There is something wrong';
         }
     };

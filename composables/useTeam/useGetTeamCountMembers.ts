@@ -20,13 +20,8 @@ export default function() {
             if(!res.data.succeeded) throw(res.data.message);
             countMembers.value = res.data.data;
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            })
-            throw error;
+            
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

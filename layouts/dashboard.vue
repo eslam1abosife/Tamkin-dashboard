@@ -126,7 +126,7 @@ const anyChangesInPlayerTranslate = computed(() => {
 const showFooterSaveStyles = ref(false);
 const showFooterSavePlayer = ref(false);
 
-watch(anyChangesInStylesTranslate, (newValue, oldValue) => {}, { deep: true });
+watch(anyChangesInStylesTranslate, (newValue, oldValue) => { }, { deep: true });
 
 watch(anyChangesInPlayerTranslate, (newValue, oldValue) => {
   showFooterSavePlayer.value = true;
@@ -258,7 +258,7 @@ const openModals = computed(() => {
     isOpen("requestmodal") ||
     isOpen("cardModal") ||
     isOpen("translate_images") ||
-    isOpen("editname") || 
+    isOpen("editname") ||
     sideBarOpenMobile.value ||
     isOpen('edit_card_billing_profile') ||
     isOpen('withdraw_paymentmethods') ||
@@ -284,7 +284,7 @@ const openModals = computed(() => {
     // editUserModal.value ||
     // InviteMemberUpdateModal.value ||
     // showUpgradeModal.value ||
-    resetModal.value 
+    resetModal.value
     // deleteModal.value ||
     // transferModalStep1.value ||
     // transferStep2.value ||
@@ -305,21 +305,25 @@ const closeSideBarOnMobileOverlay = () => {
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
-  router.push("/auth/login");
-};
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
 
-const userName = computed(() => {
+  router.push('/auth/login');
+}
+
+const userName = () => {
   if (process.client) {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return user ? user.full_name || user.display_name : "";
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? (user.full_name || user.display_name) : '';
   }
-  return "";
-});
+  return '';
+}
 
 const userImg = computed(() => {
   if (process.client) {
     const user = JSON.parse(localStorage.getItem('user'));
-    if(user && user.user_image) {
+    if (user && user.user_image) {
       return `https://tamkin.app/${user.user_image}`;
     }
     else if (user && user.photoURL) {
@@ -339,22 +343,22 @@ const openToast = (msg) => {
   toastAppear.value = true;
   setTimeout(() => {
     toastAppear.value = false;
-  },2000)
+  }, 2000)
 }
 
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg" class="!top-[70px]" />
 
   <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
     :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
   <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
-    <div v-if="
-    openModals
-    "  @click="closeSideBarOnMobileOverlay" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    <div v-if="openModals
+    " @click="closeSideBarOnMobileOverlay"
+      class="absolute z-[9999] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
     <div v-if="marketStore.firstItemNotificationShown"
-      class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
+      class="absolute z-[9999] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
       <ModalsSuccessmodal
         :show-modal="isOpen('successContact')"
@@ -363,125 +367,75 @@ const openToast = (msg) => {
         icon="contact_success.svg"
       />
 
-      <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
-      <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
-      <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
-      <DashboardTeamEditname />
+    <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
+    <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')" />
+    <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')" />
+    <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')" />
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('deleteTeamMember')"
-        title="Delete That Member"
-        sub-title="Are you sure you want to delete that team member ?"
-        confirm-btn-type="delete"
-        @control-delete="emitEvent('deleteTeamMember')"
-        @control-cancel="closeModal('deleteTeamMember')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
+      sub-title="Are you sure you want to delete that team member ?" confirm-btn-type="delete"
+      @control-delete="emitEvent('deleteTeamMember')" @control-cancel="closeModal('deleteTeamMember')" />
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('deleteApp')"
-        title="Delete That App"
-        sub-title="Are you sure you want to delete that app ?"
-        confirm-btn-type="delete"
-        @control-delete="emitEvent('deleteApp')"
-        @control-cancel="closeModal('deleteApp')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteApp')" title="Delete That App"
+      sub-title="Are you sure you want to delete that app ?" confirm-btn-type="delete"
+      @control-delete="emitEvent('deleteApp')" @control-cancel="closeModal('deleteApp')" />
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('restoreApp')"
-        title="Restore That App"
-        :for-delete="false"
-        sub-title="Are you sure you want to restore that app ?"
-        confirm-btn-type="other"
-        @control-other="emitEvent('restoreApp')"
-        @control-cancel="closeModal('restoreApp')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('restoreApp')" title="Restore That App" :for-delete="false"
+      sub-title="Are you sure you want to restore that app ?" confirm-btn-type="other"
+      @control-other="emitEvent('restoreApp')" @control-cancel="closeModal('restoreApp')" />
 
-      <DashboardTeamInviteMemberUpdate
-        :showModal="true"
-        v-if="isOpen('invitememberupdate')"
-      />
-      <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
-      <DashboardTeamEditUserPermissionsModal
-        :showModal="true"
-        v-if="isOpen('userpermissions')"
-      />
-      <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
-      <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
-      <!--
+    <DashboardTeamInviteMemberUpdate :showModal="true" v-if="isOpen('invitememberupdate')" />
+    <DashboardTeamEditTeamPictureModal @uploadSuccess="openToast('Image Uploaded Successfully')"
+      @removeSuccess="openToast('Image Deleted Successfully')" :showModal="true" v-if="isOpen('editteampic')" />
+    <DashboardTeamEditUserPermissionsModal @onSuccess="e => openToast(e)" :showModal="true"
+      v-if="isOpen('userpermissions')" />
+    <DashboardMySiteSelectSiteModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('selectSite')" />
+    <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
+    <!--
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
 
-      <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
+    <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
         -->
-      <ModalsConfirm
-        :showModal="isOpen('resetModal')"
-        title="Rest All Accessibility Settings"
-        sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
-        confirm-btn-type="confirm"
-        @control-confirm="closeModal('resetModal')"
-        @control-cancel="closeModal('resetModal')"
-      />
+    <ModalsConfirm :showModal="isOpen('resetModal')" title="Rest All Accessibility Settings"
+      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      confirm-btn-type="confirm" @control-confirm="closeModal('resetModal')"
+      @control-cancel="closeModal('resetModal')" />
 
-      <ModalsConfirm
-        :show-modal="isOpen('deleteModal')"
-        title="Delete your site"
-        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-        confirm-btn-type="delete"
-        @control-delete="closeModal('deleteModal')"
-        @control-cancel="closeModal('deleteModal')"
-      />
+    <ModalsConfirm :show-modal="isOpen('deleteModal')" title="Delete your site"
+      sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      confirm-btn-type="delete" @control-delete="closeModal('deleteModal')"
+      @control-cancel="closeModal('deleteModal')" />
 
-      <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
-      <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
+    <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
+    <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
 
-      <div
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
-        :class="[
-          sideBarOpenMobile
-            ? 'fixed inset-0 z-[9999] w-full h-screen '
-            : 'hidden lg:flex',
-          sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
-        ]"
-      >
-        <div
-          class="h-full w-full relative"
-          :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']"
-        >
-          <div
-            @click="toggleSidebar"
-            :class="[
-              !sideBarOpen
-                ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
-                : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
-            ]"
-            class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden"
-          >
-            <svg
-              width="9"
-              height="15"
-              viewBox="0 0 9 15"
-              fill="none"
-              class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-              />
-            </svg>
-          </div>
-
-          <DashboardNavbar
-            :side-bar-open="sideBarOpen"
-            :mobileSidebar="sideBarOpenMobile"
-            @toggleSidebarMobile="toggleSidebarMobile"
-            @toggleSidebar="toggleSidebar"
-          />
+    <div
+      class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
+      :class="[
+    sideBarOpenMobile
+      ? 'fixed inset-0 z-[9999] w-full h-screen '
+      : 'hidden lg:flex',
+    sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
+  ]">
+      <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
+        <div @click="toggleSidebar" :class="[
+    !sideBarOpen
+      ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
+      : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
+  ]" class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+            class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+          </svg>
         </div>
+
+        <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
+          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" />
       </div>
+    </div>
 
       <div
         class="flex items-start lg:flex-row flex-col md:justify-between lg:justify-between relative w-full"
@@ -490,7 +444,7 @@ const openToast = (msg) => {
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="sticky top-0 flex z-[60] items-center justify-between w-full 
+            class="sticky top-0 flex z-[60] items-center justify-between w-full
             bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
           >
             <div
@@ -540,7 +494,7 @@ const openToast = (msg) => {
 
               <div
                 class="flex items-center justify-end  lg:space-x-[20px] w-full"
-           
+
               >
                 <div class="py-[17px] search_input relative lg:hidden block w-1/4">
                   <input
@@ -568,7 +522,7 @@ const openToast = (msg) => {
                 <NotificationBell/>
                 <!-- {{ userName }} -->
             <Userprofilemenu/>
-            
+
               </div>
             </div>
           </nav>
@@ -619,9 +573,11 @@ const openToast = (msg) => {
             <slot />
           </div>
         </div>
-        <!-- end of upper nav and content -->
       </div>
+      <!-- end of upper nav and content -->
     </div>
+  </div>
+
   </Html>
 </template>
 
@@ -653,7 +609,8 @@ const openToast = (msg) => {
 .sidebar-enter,
 .sidebar-leave-to
 
-/* .sidebar-leave-active in <2.1.8 */ {
+/* .sidebar-leave-active in <2.1.8 */
+  {
   transform: translateX(-75px);
 }
 
