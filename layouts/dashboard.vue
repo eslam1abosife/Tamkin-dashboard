@@ -272,6 +272,7 @@ const openModals = computed(() => {
     isOpen('paypal_withdraw_step2') ||
     isOpen('success_paypal_withdraw') ||
     isOpen('add_new_card_billing') ||
+    isOpen('tracking_custom_order') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -609,12 +610,13 @@ const openToast = (msg) => {
             </div>
 
             <transition name="slide-up">
-              <DashboardAddonsSavefooter
+              <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 @cancel_action="cancelAc"
               />
             </transition>
-            <NuxtPage class="" />
+            <!-- <NuxtPage class="" /> -->
+            <slot />
           </div>
         </div>
         <!-- end of upper nav and content -->

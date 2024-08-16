@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+
+</script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full w-full py-[16px]">

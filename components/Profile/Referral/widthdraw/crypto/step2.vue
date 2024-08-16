@@ -41,10 +41,29 @@ const checked = ref('');
 const amount = ref('');
 
 const formatAmount = (event) => {
-  const value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
-  const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas as thousand separators
-  amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
+  let value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
+
+  if (value.length === 0) {
+    amount.value = '$0.00'; // Set default value when input is empty
+    return;
+  }
+
+  // Limit the total number of digits to 5
+  if (value.length > 5) {
+    value = value.slice(0, 5);
+  }
+
+  const integerPart = value.slice(0, -2) || '0'; // First 1-3 digits as integer part
+  const decimalPart = value.slice(-2); // Last 2 digits as decimal part
+
+  // Format the integer part with commas
+  const formattedInteger = parseInt(integerPart).toLocaleString();
+
+  // Reconstruct the formatted value
+  const formattedValue = `${formattedInteger}.${decimalPart}`;
+  amount.value = `$${formattedValue}`;
 };
+
 
 </script>
 
@@ -115,13 +134,13 @@ KA02928765333
   
 
 <div class="mt-[44px] mx-auto text-center relative">
-    <input
-      type="text"
-      v-model="amount"
-      @input="formatAmount"
-      class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
-      placeholder="$0.00"
-    />
+  <input
+  type="text"
+  v-model="amount"
+  @input="formatAmount"
+  class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
+  placeholder="$0.00"
+/>
   </div>
 
 

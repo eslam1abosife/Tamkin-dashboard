@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import UAEFLAG from "/assets/imgs/flags/UAE.svg";
+import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
+import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 const state = reactive({
 
     company:"",
@@ -29,14 +32,13 @@ const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
 const v$ = useVuelidate(rules, state);
-const projectNameArr = [
-  { id: 1, name: 'Project 1' },
-  { id: 2, name: 'Project 54' },
-  { id: 3, name: 'Project 4' },
-  { id: 6, name: 'Project 2' },
-  { id: 4, name: 'Project 166' },
-  { id: 7, name: 'Project 5' }
+
+const countries = [
+  { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
+  { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
+  { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
 ];
+
 const handleSelectedItemProjectName = (item: any) => {
   console.log(item)
 };
@@ -75,10 +77,10 @@ const handleSelectedItemProjectName = (item: any) => {
           <div class="w-full relative ">
 
 
-            <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" 
+            <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
             placeholderinput="Country*" 
-            
-            :errorField="v$.country.$error && v$.country.required.$invalid" :list="projectNameArr" nameKey="name" idField="id" 
+            iconKey="flag" 
+            :errorField="v$.country.$error && v$.country.required.$invalid" :list="countries" nameKey="name" idField="id" 
             
             :successField="!v$.country.$error && !v$.country.$invalid"
             />
@@ -120,7 +122,7 @@ const handleSelectedItemProjectName = (item: any) => {
             <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" 
             placeholderinput="Company specialization*" 
             
-            :errorField="v$.companyfield.$error && v$.companyfield.required.$invalid" :list="projectNameArr" nameKey="name" idField="id" 
+            :errorField="v$.companyfield.$error && v$.companyfield.required.$invalid" :list="countries" nameKey="name" idField="id" 
             
             :successField="!v$.companyfield.$error && !v$.companyfield.$invalid"
             />
@@ -139,7 +141,7 @@ const handleSelectedItemProjectName = (item: any) => {
         
       </div>
 
-      <div class="flex items-center justify-end space-x-[16px]  ml-auto  mt-[40px]">
+      <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
         <button class="btn-dashboard hover_tamkin w-[125px]">Update</button>

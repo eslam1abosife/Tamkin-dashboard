@@ -1,3 +1,4 @@
+import { useSignLangStore } from './signlang';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 
 interface Checkbox {
@@ -119,9 +120,10 @@ export const useAddonStore = defineStore('addon', {
     },
 
     cancelAll(){
+      // const signLangStore = useSignLangStore()
  this.force_change_profileCards=false
  this.force_change_menuCards=false
- signLangStore.initializeCardsMenu([
+ this.initializeCardsMenu([
   {
     icon: 'monitor_im.svg',
     name: 'Motor impaired',

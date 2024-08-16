@@ -111,7 +111,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
 </h1>
 
 <p class="mt-[16px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin  text-[14px] leading-[24px]">
-    Add Payment Method</p>
+  Ensure a Smooth, Secure, and Hassle-Free Withdrawal by Adding a Payment Method, Allowing You to Access Your Funds Quickly and Conveniently</p>
 
     <div class="flex flex-col items-start justify-center space-y-[12px] mt-[30px] w-full ">
         <div class="w-full">
@@ -208,9 +208,9 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         </div>
        </div>
 
-       <div class="mt-[93px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" :disabled="!selectedPaymentMethod" @click="goToPaymentMethod(selectedPaymentMethod)">
-          Continue to Payment
+          Continue 
       </button>
       </div>
 </div>
