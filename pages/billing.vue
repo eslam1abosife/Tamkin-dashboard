@@ -214,7 +214,7 @@ const openMenu = (menu: any) => {
                 <div class="  text-[13px] font-[500] leading-[20px] text-darkGrey">May 11, 2024</div>
               </td>
               <td class="py-4  space-y-[10px]  text-left">
-                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Credit Card</div>
+                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Card</div>
                 <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">********26789</div>
               </td>
          
@@ -241,6 +241,21 @@ const openMenu = (menu: any) => {
             </tr>
       
     
+            <tr class="border-t border-b border-gray-200">
+              <td class="py-4 space-y-[10px] ">
+                <a href="#" class="text-tamkin text-[14px] font-[500] leading-[19px] underline">Download Invoice # 1233563</a>
+                <div class="  text-[13px] font-[500] leading-[20px] text-darkGrey">May 11, 2024</div>
+              </td>
+              <td class="py-4  space-y-[10px]  text-left">
+                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Crypto</div>
+                <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">0x2d5jd....364432345</div>
+              </td>
+         
+              <td class="py-4  space-y-[10px]  text-right">
+                <div class=" text-darkGrey text-[14px] leading-[19px] font-[700]">-50$</div>
+                <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">Refund</div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

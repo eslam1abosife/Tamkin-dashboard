@@ -139,11 +139,11 @@ const openMenu = (menu: any) => {
             </tr>
           </thead>
           <tbody class="text-[#1C1C1C] text-[14px] font-[400] leading-[18px] ">
-            <tr class="border-b border-gray-200 hover:bg-gray-100 ">
+            <tr class="table-row: border-b border-gray-200 hover:bg-gray-100 cursor-pointer"  @click="$router.push(localePath('/orders/1'))" >
               <td class="py-3 px-6 text-left whitespace-nowrap ">
                 <span>#CM9801</span>
               </td>
-              <td class="py-3 px-6 text-left cursor-pointer" @click="$router.push(localePath('/orders/1'))" >
+              <td class="py-3 px-6 text-left " >
                 <div class="flex items-center space-x-[8px]">
                  <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                     <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
@@ -175,7 +175,7 @@ const openMenu = (menu: any) => {
                 </div>
               </td>
             </tr>
-            <tr class="border-b border-gray-200 hover:bg-gray-100 ">
+            <tr class="border-b border-gray-200 hover:bg-gray-100 cursor-pointer" @click="$router.push(localePath('/orders/1'))">
                 <td class="py-3 px-6 text-left whitespace-nowrap ">
                   <span>#CM9801</span>
                 </td>
@@ -212,7 +212,7 @@ const openMenu = (menu: any) => {
                 </td>
               </tr>
 
-              <tr class="border-b border-gray-200 hover:bg-gray-100 ">
+              <tr class="table-row  hover:bg-gray-100 cursor-pointer" @click="$router.push(localePath('/orders/1'))">
                 <td class="py-3 px-6 text-left whitespace-nowrap ">
                   <span>#CM9801</span>
                 </td>
@@ -252,6 +252,22 @@ const openMenu = (menu: any) => {
           </tbody>
         </table>
       </div>
+      <div class="bg-white w-full h-[450px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
+
+
+  
+
+
+        
+            <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="">
+            <div class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center">
+              There are no orders at the moment
+            </div>
+
+    
+
+     
+    </div>
 
       <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px] mt-[16px]">
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
@@ -345,4 +361,10 @@ const openMenu = (menu: any) => {
       
   </div>
 </template>
+
+<style>
+.table-row:last-child {
+  border-bottom: none !important;
+}
+</style>
 

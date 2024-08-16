@@ -1,4 +1,15 @@
 <script lang="ts" setup>
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  lastEventCall,
+  eventCounter,
+  setData,
+} = useModalManager();
 const marketStore = useMarketStore();
 
 definePageMeta({
@@ -10,15 +21,17 @@ definePageMeta({
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
-    <div class="space-y-[10px]">
+    <ProfileOrdersTracking/>
+    <LazyMarketModalRequest v-if="isOpen('requestmodal')"/>
+    <div class="space-y-[5px]">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
         Order details
       </h1>
 
-      <h2
-        class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
+      <h2 @click="$router.push('/orders')"
+        class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
         Orders
       </h2>
@@ -119,8 +132,8 @@ definePageMeta({
             </div>
           </div>
           <div class="flex items-end flex-col justify-start mt-[44px]  mr-[1px]">
-            <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">
-              Price <span class="px-1">$10</span>
+            <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin">
+               <span class="px-1">$10</span>
             </p>
           </div>
         </div>
@@ -145,8 +158,8 @@ definePageMeta({
               <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
 
               <div class="flex items-center justify-start space-x-[26px] mt-[12px] ">
-                <button class="text-tamkin underline font-[500] text-[13px] ">Edit request</button>
-                <button class="text-tamkin underline font-[500] text-[13px] ">Track</button>
+                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal','order-id')">Edit request</button>
+                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('tracking_custom_order','order-id')">Track</button>
 
               </div>
             </div>
@@ -154,7 +167,7 @@ definePageMeta({
           <div class="flex items-end flex-col justify-start mt-[16px] mr-[1px] ">
            
         
-            <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">$80</span></p>
+            <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin"> <span class="px-1">$80</span></p>
           </div>
         </div>
     

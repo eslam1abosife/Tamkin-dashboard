@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import UAEFLAG from "/assets/imgs/flags/UAE.svg";
+import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
+import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 const state = reactive({
 
     first_name:"",
@@ -28,6 +31,14 @@ const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
 const v$ = useVuelidate(rules, state);
+
+
+const countries = [
+  { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
+  { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
+  { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
+];
+
 const projectNameArr = [
   { id: 1, name: 'Project 1' },
   { id: 2, name: 'Project 54' },
@@ -119,10 +130,10 @@ const handleSelectedItemProjectName = (item: any) => {
           <div class="w-full relative ">
 
 
-<TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" 
+<TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
 placeholderinput="Country*" 
-
-:errorField="v$.country.$error && v$.country.required.$invalid" :list="projectNameArr" nameKey="name" idField="id" 
+iconKey="flag"
+:errorField="v$.country.$error && v$.country.required.$invalid" :list="countries" nameKey="name" idField="id" 
 
 :successField="!v$.country.$error && !v$.country.$invalid"
 />
@@ -186,7 +197,7 @@ placeholderinput="Country*"
         
       </div>
 
-      <div class="flex items-center justify-end space-x-[16px]  ml-auto  mt-[40px]">
+      <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
         <button class="btn-dashboard hover_tamkin w-[125px]">Update</button>

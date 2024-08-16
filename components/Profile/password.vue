@@ -170,7 +170,7 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
         </div>
       </div>
 </div>
-      <div class="mt-[52px] ml-auto">
+      <div class="h-full  mt-[130px] ml-auto">
         <button class="btn-dashboard hover_tamkin ml-auto">Update Password</button>
       </div>
 </div>
