@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-const localePath = useLocalePath()
+const localePath = useLocalePath();
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
+const { getAvatarLetters } = useGetAvatarLetters();
+
+import { useUserStore } from "@/stores/auth"; // Import the Pinia store
+import { useRouter } from "#vue-router";
+const router = useRouter();
 const isMenuOpen = ref(false)
 const openLangSwitchMenu = () => {
     isMenuOpen.value = !isMenuOpen.value
@@ -9,6 +15,47 @@ const openLangSwitchMenu = () => {
 const closeMenu = () => {
     isMenuOpen.value =false
 }
+
+const userName = () => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? (user.full_name || user.display_name) : '';
+  }
+  return '';
+}
+
+const isOwner = () => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.role_profile_name.toString().toLowerCase().includes('owner of agency');
+  }
+  return false
+};
+
+const userImg = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.user_image) {
+      return `https://tamkin.app/${user.user_image}`;
+    }
+    else if (user && user.photoURL) {
+      return user.photoURL;
+    }
+    return null;
+  }
+  return null;
+});
+
+const logout = () => {
+  const userStore = useUserStore();
+  userStore.logout();
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
+
+  router.push('/auth/login');
+}
+
 </script>
 
 <template>
@@ -22,21 +69,33 @@ const closeMenu = () => {
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
             <div >
-                <img
-                  src="/assets/imgs/avatar.png"
-                  class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]"
-                />
+
+              <img v-if="userImg" :src="userImg"
+                   class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" />
+
+              <div v-else
+                   class="avatar_img h-8 w-8 rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
+                        <span>
+                          {{
+                            getAvatarLetters(
+                                userName
+                            )
+                          }}
+                        </span>
+              </div>
+
               </div>
               <div class="flex flex-col items-start justify-center">
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
-                 user name here
+                 {{userName()}}
                 </h2>
                 <p
+                    v-if="isOwner()"
                 class="font-[400] text-[10px] dark:text-white whitespace-nowrap text-darkGrey leading-[14.4px]"
               >
-              Owner
+                  Owner
             </p>
               </div>
               <div >
@@ -121,7 +180,7 @@ const closeMenu = () => {
       <div>
           <img src="/imgs/logout.png" class="w-[13px] h-[13px]" alt="">
         </div>
-    <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
+    <div @click="logout" class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Logout
     </div>
    

@@ -100,7 +100,7 @@ const doResendCode = async () => {
 }
 const sentSuccessfully = ref(false);
 const errMsg = ref(null);
-const successMsg = ref(null);
+const successMsg = ref("sent Successfully");
 const verifyLoading = ref(false);
 
 const doVerifyCode = async () => {
