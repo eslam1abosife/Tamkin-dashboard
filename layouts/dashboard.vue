@@ -14,14 +14,16 @@ import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
 const translateStore = useTranslateStore();
 
-const { getAvatarLetters } = useGetAvatarLetters();
+// const { getAvatarLetters } = useGetAvatarLetters();
 onMounted(() => {
-  if (localStorage.getItem("user")) {
-    const userStore = useUserStore();
-    const user = JSON.parse(localStorage.getItem("user"));
-    userStore.setUser(user.value);
-  }
+  // if (localStorage.getItem("user")) {
+  //   const userStore = useUserStore();
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   userStore.setUser(user.value);
+  // }
 });
+
+
 
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
@@ -312,27 +314,27 @@ const logout = () => {
   router.push('/auth/login');
 }
 
-const userName = () => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user ? (user.full_name || user.display_name) : '';
-  }
-  return '';
-}
+// const userName = () => {
+//   if (process.client) {
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     return user ? (user.full_name || user.display_name) : '';
+//   }
+//   return '';
+// }
 
-const userImg = computed(() => {
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.user_image) {
-      return `https://tamkin.app/${user.user_image}`;
-    }
-    else if (user && user.photoURL) {
-      return user.photoURL;
-    }
-    return null;
-  }
-  return null;
-});
+// const userImg = computed(() => {
+//   if (process.client) {
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     if (user && user.user_image) {
+//       return `https://tamkin.app/${user.user_image}`;
+//     }
+//     else if (user && user.photoURL) {
+//       return user.photoURL;
+//     }
+//     return null;
+//   }
+//   return null;
+// });
 
 const toastMsg = ref(null);
 const toastAppear = ref(false);
@@ -432,7 +434,7 @@ const openToast = (msg) => {
           </svg>
         </div>
 
-        <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
+        <DashboardNavbar @click="sendMessage" :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
           @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" />
       </div>
     </div>
@@ -576,7 +578,7 @@ const openToast = (msg) => {
       </div>
       <!-- end of upper nav and content -->
     </div>
-  </div>
+   
 
   </Html>
 </template>

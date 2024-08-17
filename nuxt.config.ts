@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL
+      baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/'
     }
   },
 
@@ -40,6 +40,23 @@ export default defineNuxtConfig({
         external: ['@tiptap/pm/state'],
       },
     },
+
+    server: {
+      proxy: {
+        '/api': {
+          target: 'https://chat.tamkin.app',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+          configure: (proxy, options) => {
+            proxy.on('proxyRes', (proxyRes, req, res) => {
+              proxyRes.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+              proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
+            });
+          },
+        },
+      },
+    },
   },
 
   app: {
@@ -47,13 +64,39 @@ export default defineNuxtConfig({
       meta: [
         // Remove or comment out the existing viewport meta tag if present
         // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'viewport', content: 'width=device-width, user-scalable=no' }
+        { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+        
+      ],
+script: [
+        {
+          children: `
+            (function(d,t) {
+              var BASE_URL="https://chat.tamkin.app";
+              var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+              g.src=BASE_URL+"/packs/js/sdk.js";
+              g.defer = true;
+              g.async = true;
+              s.parentNode.insertBefore(g,s);
+              g.onload=function(){
+                window.chatwootSDK.run({
+                  websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
+                  baseUrl: BASE_URL
+                })
+              }
+            })(document,"script");
+          `,
+          defer: true,
+        async: true,
+        body: true
+        }
       ]
     }
   },
 
   modules:
 [
+
+  // "nuxt-security",
   '@nuxtjs/tailwindcss',
   '@nuxtjs/google-fonts',
   '@pinia/nuxt',
@@ -62,10 +105,41 @@ export default defineNuxtConfig({
   '@nuxtjs/device',
   '@vueuse/motion/nuxt',
   '@nuxtjs/color-mode',
+  // '@productdevbook/chatwoot'
+
   // '@element-plus/nuxt'
   // "@nuxt/image",
   // "nuxt-svgo"
 ],
+
+// chatwoot: {
+  
+//   init: {
+//     websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
+//     baseUrl:'https://chat.tamkin.app'
+//   },
+//   settings: {
+//     hideMessageBubble: false,
+
+//     locale: 'en',
+//     position: 'right',
+//     type: "expanded_bubble",
+//     launcherTitle: "Chat with us",
+//     showPopoutButton: true,
+
+//     // ... and more settings
+//   },
+//   // If this is loaded you can make it true, https://github.com/nuxt-modules/partytown
+//   partytown: false,
+// },
+// security: {
+//   // options
+//   corsHandler: {
+
+//   credentials:true
+ 
+// },
+// },
   // elementPlus: {
   //   icon: 'ElIcon',
   //   importStyle: 'scss',

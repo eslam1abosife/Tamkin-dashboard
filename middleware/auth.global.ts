@@ -21,4 +21,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (userStore.isLoggedIn && to.path.startsWith('/auth/')) {
         return navigateTo('/my-site');
     }
+
+ 
 });

@@ -59,13 +59,13 @@ const logout = () => {
 </script>
 
 <template>
-    <div class=" h-auto w-auto !mr-[40px]  flex items-center justify-center relative"
+    <div class=" h-auto w-[200px]  !mr-[40px]  flex items-center justify-center relative"
        @click.prevent="openLangSwitchMenu"
        
        v-on-click-outside="closeMenu">
 
 
-        <div class="cursor-pointer relative flex items-center justify-start space-x-[20px]  
+        <div class="cursor-pointer relative flex items-center justify-start space-x-[20px]  w-full 
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
             <div >
@@ -85,11 +85,11 @@ const logout = () => {
               </div>
 
               </div>
-              <div class="flex flex-col items-start justify-center">
+              <div class="flex flex-col items-start justify-center w-full">
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
-                 {{userName()}}
+                 {{userName()}} 
                 </h2>
                 <p
                     v-if="isOwner()"
@@ -110,7 +110,7 @@ const logout = () => {
         <div v-if="isMenuOpen" 
         style="box-shadow: 1px 1px 7.6px 0px #00000040;
 "
-        class=" p-[10px] absolute top-[60px] right-[-0.5px]  bg-white rounded-[10px] h-auto w-full rounded-b-[10px]
+        class=" p-[10px] w-full absolute top-[60px] right-[-0.5px]  bg-white rounded-[10px] h-auto w-full rounded-b-[10px]
          flex flex-col items-start justify-start ">
 
 
