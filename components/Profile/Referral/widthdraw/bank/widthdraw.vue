@@ -63,8 +63,8 @@ const formatAmount = (event) => {
 
 <template>
   <div v-if="isOpen('bank_account_withdraw')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-[513px] 
-    w-[600px]"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
+  ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('bank_account_withdraw')">
@@ -135,7 +135,7 @@ const formatAmount = (event) => {
         Available balance <span class="!font-[500]">$849</span>
       </div>
 
-      <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
+      <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="navigateTo('bank_account_withdraw','referral','success_bank_withdraw')">
           Withdraw
         </button>

@@ -78,7 +78,7 @@ onMounted(() => {
     v-if="copyDone"
     :hideIn="2000"
     :message="'Copied to clipboard'"
-    class="left-[50%] !top-[70px]"
+ 
   />
     <div
       class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
@@ -110,17 +110,19 @@ onMounted(() => {
     </div>
 
     <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
-      <div class="grid grid-cols-12 ">
-        <div class="flex flex-col items-start justify-start space-y-[10px] col-span-4">
+      <div class="grid grid-cols-12 gap-[40px] ipad-max:gap-4 ">
+        <div class="flex flex-col items-start justify-start space-y-[10px]  col-span-4">
         <ProfileOwner v-if="currentTab === 'personal' || currentTab === 'security'"/>
 
         <ProfileCompanycard v-if="currentTab === 'company'"/>
           <ProfileAboutcompany v-if="currentTab === 'company'"/>
           <div v-if="currentTab === 'personal' || currentTab === 'security'"
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px] flex flex-col items-start justify-start p-[15px] w-[329px] relative"
+            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px]
+             flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
 
-          <div class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-[160px] h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]">
+          <div class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full 
+          h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]">
 
           </div>
             <div class="flex items-center justify-start w-full space-x-[16px]">
@@ -131,7 +133,7 @@ onMounted(() => {
                   alt=""
                 />
               </div>
-              <div class="text-[16px] font-[600] leading-[22px] text-[#3D3D3D]">
+              <div class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]">
                 Investor member
               </div>
             </div>
@@ -142,7 +144,7 @@ onMounted(() => {
             >
               <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
                 <div
-                  class="text-[#878787] dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
+                  class="text-[#878787] truncate ipad-max:w-36 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
                 >
                   0x2d5jdska9erptjfew7364432
                 </div>
@@ -160,18 +162,19 @@ onMounted(() => {
             rounded-[10px] flex items-center justify-between px-[10px]"
           >
           <div class="flex items-center justify-between w-full ">
-            <div class="text-[14px] font-[600] leading-[21px] text-[#1E1E1E]">
+            <div class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E]">
               Token Balance
             </div>
 
-            <div class="text-[12px] font-[600] text-[#1E1E1E]">TSLT 5.000.00</div>
+            <div class="text-[12px]  ipad-max:text-[10px] font-[600] text-[#1E1E1E]">TSLT 5.000.00</div>
           </div>
           </div>
           
           </div>
 
           <div
-            class="bg-white/60 rounded-[10px] backdrop-blur-md  shadow-sm  h-auto flex flex-col items-start justify-start p-[15px] w-[329px]"
+            class="bg-white/60 rounded-[10px] backdrop-blur-md  shadow-sm  
+            h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
           >
             <div><h1  class="text-[12px] leading-[19px] font-[500]">
               Complete Your Profile
@@ -195,7 +198,7 @@ onMounted(() => {
         </div>
 
         <div
-          class="w-full  bg-white/60 shadow-sm  rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md 
+          class="w-full  bg-white/60 shadow-sm  rounded-[10px] col-span-8    px-[30px] pt-[16px] backdrop-blur-md 
          flex flex-col items-start justify-start space-y-[10px]"
         >
           <div class="flex items-start justify-between w-full">

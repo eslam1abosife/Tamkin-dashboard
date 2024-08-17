@@ -140,7 +140,7 @@ Send your unique referral link to friends
   Balance
 </div>
 
-<div class="absolute right-[16px]">
+<div class="absolute ipad-max:right-[-50px] right-[16px]">
   <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
 </div>
 </div>
@@ -175,12 +175,12 @@ Send your unique referral link to friends
   <div
 class="mt-[12px] border-[1px]  bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between  px-[10px]"
 >
-  <div class="text-[14px] font-[400] leading-[21px]">
+  <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[13px]">
     Referral Link
   </div>
 <div class="flex items-center justify-end space-x-[12px]">
   <div
-  class="ml-auto text-[14px] font-[500] leading-[21px] dark:text-whiteTamkin/70 "
+  class="ml-auto text-[14px] ipad-max:text-[13px] font-[500] leading-[21px] dark:text-whiteTamkin/70 "
 >
 https://example.com/ref/yourlink
 </div>
@@ -205,9 +205,9 @@ src="/imgs/copy.svg"
 
 
         <div class="bg-white w-full flex flex-col items-start justify-center my-[16px] p-[32px]  rounded-[10px]">
-         <div class="flex items-center justify-between w-full">
+         <div class="flex items-center justify-between ipad-max:space-x-[24px] w-full">
 
-          <div class="p-[10px] w-1/4 h-[42px] bg-[#F9F9F9]  rounded-[10px] flex items-center justify-center">
+          <div class="p-[10px] ipad-max:w-full w-1/4 h-[42px] bg-[#F9F9F9]  rounded-[10px] flex items-center justify-center">
             <div 
             @click="currentTab = 'rewards'"
             :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"

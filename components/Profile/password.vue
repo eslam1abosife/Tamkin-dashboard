@@ -187,7 +187,7 @@ const updatePassword = async () => {
       </div>
 </div>
 
-      <div class="h-full  mt-[130px] ml-auto">
+      <div class="h-full  mt-[310px] ml-auto">
         <button class="btn-dashboard hover_tamkin ml-auto" @click="updatePassword">Update Password</button>
       </div>
 </div>

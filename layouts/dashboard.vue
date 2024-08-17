@@ -16,16 +16,20 @@ import {useTranslateStore} from "~/stores/translate";
 import { useProfileStore } from "~/stores/profile";
 const translateStore = useTranslateStore();
 
-// const { getAvatarLetters } = useGetAvatarLetters();
+const profileStore = useProfileStore();
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
 onMounted(() => {
-  // if (localStorage.getItem("user")) {
-  //   const userStore = useUserStore();
-  //   const user = JSON.parse(localStorage.getItem("user"));
-  //   userStore.setUser(user.value);
-  // }
+  if (localStorage.getItem("user")) {
+    const userStore = useUserStore();
+    const user = JSON.parse(localStorage.getItem("user"));
+    userStore.setUser(user);
+  }
+
+  profileStore.setMember();
+  profileStore.setCompany();
 });
-
-
 
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
@@ -319,27 +323,26 @@ const logout = () => {
   router.push('/auth/login');
 }
 
-// const userName = () => {
-//   if (process.client) {
-//     const user = JSON.parse(localStorage.getItem('user'));
-//     return user ? (user.full_name || user.display_name) : '';
-//   }
-//   return '';
-// }
+const userName = () => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? (user.full_name || user.display_name) : '';
+  }
+  return '';
+}
 
-// const userImg = computed(() => {
-//   if (process.client) {
-//     const user = JSON.parse(localStorage.getItem('user'));
-//     if (user && user.user_image) {
-//       return `https://tamkin.app/${user.user_image}`;
-//     }
-//     else if (user && user.photoURL) {
-//       return user.photoURL;
-//     }
-//     return null;
-//   }
-//   return null;
-// });
+const userImg = computed(() => {
+  if (process.client) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.user_image) {
+      return `https://tamkin.app/${user.user_image}`;
+    } else if (user && user.photoURL) {
+      return user.photoURL;
+    }
+    return null;
+  }
+  return null;
+});
 
 const toastMsg = ref(null);
 const toastAppear = ref(false);
@@ -364,7 +367,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg" class="!top-[70px]"/>
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"/>
 
   <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
         :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
@@ -453,8 +456,8 @@ onMounted(() => {
           </svg>
         </div>
 
-        <DashboardNavbar @click="sendMessage" :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
-          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar" />
+        <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
+                         @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar"/>
       </div>
     </div>
 
@@ -596,8 +599,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
-   
-
+    <!-- end of upper nav and content -->
+  </div>
   </Html>
 </template>
 

@@ -81,8 +81,9 @@ const logout = () => {
         <div class="cursor-pointer relative flex items-center justify-start space-x-[20px]  w-full 
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
-            <div >
-                <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" alt="">
+            <div class="w-full">
+                <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`"
+                 class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" alt="">
                 <img
                   v-else
                   src="/assets/imgs/avatar.png"

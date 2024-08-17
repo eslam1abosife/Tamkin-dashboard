@@ -50,7 +50,8 @@ onMounted(async () => {
 
 <template>
   <div
-    class="bg-white/60 shadow-sm  rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] w-[329px]"
+    class="bg-white/60 shadow-sm  rounded-[10px] backdrop-blur-md h-auto flex flex-col
+     items-start justify-start p-[15px] ipad-max:w-full w-full"
   >
     <div class="flex items-center justify-between w-full">
       <div class="text-[16px] leading-[24px] font-[600]">Portfolio</div>
@@ -58,12 +59,12 @@ onMounted(async () => {
     
 
     <div
-      class="flex items-center justify-evenly space-x-[16px] "
+      class="flex items-center justify-evenly space-x-[16px]   ipad-max:flex-wrap"
       v-if="currentMode === 'normal'"
     >
       <div
         v-for="platform in socialPlatforms"
-        class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+        class="bg-[#F6F6F6] w-[33px] h-[33px] ipad-max:w-[15px] ipad-max:h-[15px] rounded-[4px] flex items-center justify-center"
       >
         <img :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
       </div>
