@@ -33,6 +33,9 @@ watch(width, (newWidth) => {
     authHeight.value = 300;
   }
 });
+
+const layoutStore = useLayoutStore()
+layoutStore.setLayout('auth')
 </script>
 
 

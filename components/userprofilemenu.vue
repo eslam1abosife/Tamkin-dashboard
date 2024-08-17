@@ -1,14 +1,74 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-const localePath = useLocalePath()
+const localePath = useLocalePath();
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+const { getAvatarLetters } = useGetAvatarLetters();
 
+const profileStore = useProfileStore();
+
+
+import { useUserStore } from "@/stores/auth"; // Import the Pinia store
+import { useRouter } from "#vue-router";
+const router = useRouter();
 const isMenuOpen = ref(false)
+
+const fullName = computed(() => {
+  return `${profileStore.member.first_name} ${profileStore.member.last_name}`
+})
+
+
+
+
 const openLangSwitchMenu = () => {
     isMenuOpen.value = !isMenuOpen.value
 }
 const closeMenu = () => {
     isMenuOpen.value =false
 }
+
+const isOwner = () => {
+    const userStore = useUserStore();
+    const user = userStore.user;
+    if(user) {
+      return user?.role_profile_name?.toString().toLowerCase().includes('owner of agency');
+    }
+    return false;
+};
+
+const userImg = computed(() => {
+    const userStore = useUserStore();
+    const user = userStore.user;
+    if(user) {
+      if (user.user_image) {
+        return `https://tamkin.app/${user.user_image}`;
+      }
+      else if (user.photoURL) {
+        return user.photoURL;
+      }
+    }
+    return null;
+});
+
+
+const userName = () => {
+  const userStore = useUserStore();
+  const user = userStore.user;
+  if(user) {
+    return userStore.user?.full_name || userStore.user?.displayName
+  }
+  return '';
+}
+
+const logout = () => {
+  const userStore = useUserStore();
+  userStore.logout();
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
+
+  router.push('/auth/login');
+}
+
 </script>
 
 <template>
@@ -22,7 +82,9 @@ const closeMenu = () => {
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
             <div >
+                <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`" class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" alt="">
                 <img
+                  v-else
                   src="/assets/imgs/avatar.png"
                   class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]"
                 />
@@ -31,12 +93,13 @@ const closeMenu = () => {
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
-                 user name here
+                 {{ fullName }}
                 </h2>
                 <p
+                    v-if="isOwner()"
                 class="font-[400] text-[10px] dark:text-white whitespace-nowrap text-darkGrey leading-[14.4px]"
               >
-              Owner
+              {{ profileStore.getRole }}
             </p>
               </div>
               <div >
@@ -88,7 +151,15 @@ const closeMenu = () => {
   </div>
    
   </div>
-
+  <div @click="$router.push(localePath('/orders'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
+    <div>
+        <img src="/imgs/cart.png" class="w-[13px] h-[13px]" alt="">
+      </div>
+      <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
+    Orders
+      </div>
+ 
+</div>
   <div @click="$router.push(localePath('/referral'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
       <div>
           <img src="/imgs/ref.png" class="w-[11px] h-[13px]" alt="">
@@ -113,7 +184,7 @@ const closeMenu = () => {
       <div>
           <img src="/imgs/logout.png" class="w-[13px] h-[13px]" alt="">
         </div>
-    <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
+    <div @click="logout" class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Logout
     </div>
    

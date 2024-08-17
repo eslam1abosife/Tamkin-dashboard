@@ -7,12 +7,12 @@ import usdtIcon from '/assets/imgs/crypto_methods_icons/2.svg'
 import ethIcon from '/assets/imgs/crypto_methods_icons/1.svg'
 const state = reactive({
 
-  bic: "",
+  walletAddress: "",
 
 });
 const rules = {
   
-    bic: { required },
+  walletAddress: { required },
 
 };
 
@@ -61,7 +61,7 @@ const filteredCryptoMethods = computed(() => {
 
 <template>
   <div  v-if="isOpen('crypto_step1')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-[500px] 
+    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-auto
     w-[600px] max-h-[80vh]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
@@ -163,27 +163,28 @@ const filteredCryptoMethods = computed(() => {
     Your address
  </div>
 
- <div class="w-full relative mt-[14px] rounded-[10px]  " :class="[v$.bic.$error && v$.bic.required.$invalid ? 'border-red-600 border-[1px] ' : 'custom-border-tamkin padding-override-1 rounded-input']">
+ <div class="w-full relative mt-[14px] rounded-[10px]  " 
+ :class="[v$.walletAddress.$error && v$.walletAddress.required.$invalid ? 'border-red-600 border-[1px] ' : 'custom-border-tamkin padding-override-1 rounded-input']">
     <div class="absolute top-[12px] pl-[10px]"><img  
         :src="selectedCrypto.code === 'BNB' ? 
         ethIcon : selectedCrypto.code === 'ETH'  ?
          bnbIcon : usdtIcon" class="w-[20px] h-[20px]"/></div>
-    <input type="text" placeholder="" id="bic" class=" peer  focus:outline-none focus:border-0  rounded-[10px] focus:ring-0 pl-[40px] border-transparent  w-full "
-      v-model="v$.bic.$model" :class="{
+    <input type="text" placeholder="" id="walletAddress" class=" peer  focus:outline-none focus:border-0  rounded-[10px] focus:ring-0 pl-[40px] border-transparent  w-full "
+      v-model="v$.walletAddress.$model" :class="{
   input_error:
-    (v$.bic.$error && v$.bic.required.$invalid),
-  input_success: !v$.bic.$error && !v$.bic.$invalid,
+    (v$.walletAddress.$error && v$.walletAddress.required.$invalid),
+  input_success: !v$.walletAddress.$error && !v$.walletAddress.$invalid,
 }" />
-    <label for="bic" class="floating_label !ml-[20px] " :class="[
-  (v$.bic.$error && v$.bic.required.$invalid)
+    <label for="walletAddress" class="floating_label !ml-[20px] " :class="[
+  (v$.walletAddress.$error && v$.walletAddress.required.$invalid)
     ? '!text-error'
     : '',
 ]">
-      {{ $t("BIC") }}*
+      {{ $t("Wallet Address") }}*
     </label>
-    <div class="w-full lg:w-4/6 " v-if="(v$.bic.$error && v$.bic.required.$invalid)">
+    <div class="w-full lg:w-4/6 " v-if="(v$.walletAddress.$error && v$.walletAddress.required.$invalid)">
       <p class="error_message">
-        <span v-if="v$.bic.$error && v$.bic.required.$invalid">{{ $t("BIC is required")
+        <span v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid">{{ $t("Wallet Address is required")
           }}</span>
 
       </p>

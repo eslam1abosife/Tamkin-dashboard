@@ -169,7 +169,7 @@ Send your unique referral link to friends
     Refer Clients
   </div>
     <div class="text-[14px] font-[400] leading-[19px] text-[#021328">
-    Refer new clients and earn 5% for each successful referral who completes the registration process
+    Refer new clients and earn <span class="!font-[700]">5%</span> for each successful referral who completes the registration process
   </div>
 
   <div
@@ -312,7 +312,7 @@ src="/imgs/copy.svg"
   <table class="min-w-full bg-white border-b table-fixed border-gray-200">
     <thead class="bg-gray-50">
       <tr>
-        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Type</th>
+        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Trans ID</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4">Date</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Amount</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4 ">Payment Methods</th>
@@ -322,7 +322,7 @@ src="/imgs/copy.svg"
     <tbody class="text-gray-700">
     
       <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Withdraw</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">********26789</td>
@@ -332,7 +332,7 @@ src="/imgs/copy.svg"
         </td>
       </tr>
       <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Withdraw</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">jbopw@gmail.com</td>
@@ -385,8 +385,35 @@ src="/imgs/copy.svg"
 
 
 
+<!-- NO REWARDS AVAILABLE-->
+<div class="flex flex-col items-center justify-center mx-auto mt-[44px]">
+  <div>
+    <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="">
+  </div>
+
+  <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
+    Currently, there are no rewards available
+  </div>
+
+  <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+</div>
+  <!-- NO REWARDS AVAILABLE-->
+
+  <!-- no Referrals available-->
+  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]">
+    <div>
+      <img src="/imgs/no_refs.png" class="w-[42px] h-[42px]" alt="">
+    </div>
   
+    <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
+      Currently, there are no referrals available
+    </div>
   
+    <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+  </div>
+
+  <!-- no Referrals available-->
+
 
                     </div>
      </div>
@@ -502,35 +529,42 @@ src="/imgs/copy.svg"
 }
 
 
+.dp__cell_inner.dp__cell_offset.dp__pointer.dp--past.dp__range_start{
+@apply text-white;
 
-.dp__theme_dark {
-  --dp-background-color: #323E50;
-  --dp-text-color: #FFFEFE;
-  --dp-hover-color: #484848;
-  --dp-hover-text-color: #fff;
-  --dp-hover-icon-color: #959595;
-  --dp-primary-color: #005cb2;
-  --dp-primary-disabled-color: #61a8ea;
-  --dp-primary-text-color: #fff;
-  --dp-secondary-color: #a9a9a9;
-  --dp-border-color: #2d2d2d;
-  --dp-menu-border-color: #2d2d2d;
-  --dp-border-color-hover: #aaaeb7;
-  --dp-border-color-focus: #aaaeb7;
-  --dp-disabled-color: #737373;
-  --dp-disabled-color-text: #d0d0d0;
-  --dp-scroll-bar-background: #212121;
-  --dp-scroll-bar-color: #484848;
-  --dp-success-color: #00701a;
-  --dp-success-color-disabled: #428f59;
-  --dp-icon-color: #959595;
-  --dp-danger-color: #e53935;
-  --dp-marker-color: #e53935;
-  --dp-tooltip-color: #3e3e3e;
-  --dp-highlight-color: rgb(0 92 178 / 20%);
-  --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
-  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
-  --dp-range-between-border-color: var(--dp-hover-color, #fff);
+}
+
+.dp__outer_menu_wrap {
+  @apply z-[10];
+}
+.dp__theme_light {
+  --dp-background-color: #fff;
+  --dp-text-color: #212121;
+  --dp-hover-color: #DAF3F1;
+  --dp-hover-text-color: #212121;
+  --dp-hover-icon-color: #2DADA3;
+  --dp-primary-color: #2DADA3;
+  --dp-primary-disabled-color: #6bacea;
+  --dp-primary-text-color: #f8f5f5;
+  --dp-secondary-color: #A7A7A7;
+  --dp-border-color: #ddd;
+  --dp-menu-border-color: #ddd;
+  --dp-border-color-hover: #DAF3F1;
+  --dp-border-color-focus: #DAF3F1;
+  --dp-disabled-color: #f6f6f6;
+  --dp-scroll-bar-background: #f3f3f3;
+  --dp-scroll-bar-color: #959595;
+  --dp-success-color: #76d275;
+  --dp-success-color-disabled: #a3d9b1;
+  --dp-icon-color: #2DADA3;
+  --dp-danger-color: #ff6f60;
+  --dp-marker-color: #ff6f60;
+  --dp-tooltip-color: #fafafa;
+  --dp-disabled-color-text: #DAF3F1;
+  --dp-highlight-color: rgb(25 118 210 / 10%);
+  --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+  --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
 }
 
 </style>

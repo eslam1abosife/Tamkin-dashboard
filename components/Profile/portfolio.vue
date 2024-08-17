@@ -3,6 +3,9 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { reactive, toRefs } from "vue";
 
+import { useGetSocialPlatforms } from "@/composables/useProfile";
+const { getSocialPlatforms, socialPlatforms } = useGetSocialPlatforms();
+
 // Reactive state
 const state = reactive({
   handlers: [{
@@ -39,6 +42,10 @@ const cancelUpdate = () => {
 
 const { handlers } = toRefs(state);
 const currentMode = inject('currentMode')
+
+onMounted(async () => {
+  await getSocialPlatforms();
+})
 </script>
 
 <template>
@@ -55,29 +62,21 @@ const currentMode = inject('currentMode')
       v-if="currentMode === 'normal'"
     >
       <div
+        v-for="platform in socialPlatforms"
         class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
       >
-        <img src="/imgs/fb.png" class="w-[25px] h-[25px]" alt="" />
-      </div>
-      <div
-        class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
-      >
-        <img src="/imgs/fb.png" class="w-[25px] h-[25px]" alt="" />
-      </div>
-      <div
-        class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
-      >
-        <img src="/imgs/fb.png" class="w-[25px] h-[25px]" alt="" />
+        <img :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
       </div>
     </div>
   </div>
     <div class="flex flex-col items-start justify-start w-full"       v-if="currentMode === 'editing'"
     >
-      <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]"     v-for="(handler, index) in handlers">
+      <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]"     v-for="(handler, index) in socialPlatforms">
         <div
           class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
         >
-          <img src="/imgs/fb.png" class="w-[25px] h-[25px]" alt="" />
+          <img :src="`https://tamkin.app/${handler.icon}`" class="w-[25px] h-[25px]" alt="" />
+          <!-- <img src="/imgs/fb.png" class="w-[25px] h-[25px]" alt="" /> -->
         </div>
 
         <!-- Iterate over handlers with v-for -->

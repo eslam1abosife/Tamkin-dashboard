@@ -10,8 +10,16 @@ const {
 definePageMeta({
   layout: "dashboard",
 });
+
+import { useProfileStore } from "~/stores/profile";
+const profileStore = useProfileStore();
+
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useGetProfileCompleteScore } from "@/composables/useProfile";
+
+const { getProfileCompleteScore, score } = useGetProfileCompleteScore();
+
 const state = reactive({
   email: "",
   Name: "",
@@ -52,7 +60,16 @@ watch(copyDone, (newValue) => {
   }
 });
 
+watch(currentTab, (newValue) => {
+  getProfileCompleteScore(newValue);
+})
+
 provide('currentMode',currentMode)
+
+onMounted(() => {
+  // profileStore.setCompany();
+  getProfileCompleteScore(currentTab.value);
+})
 </script>
 
 <template>
@@ -164,12 +181,10 @@ provide('currentMode',currentMode)
 
                 class="relative w-full overflow-visible h-[8px]  bg-[#E7ECEB] rounded-[9px] "
               >
-                <div class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light" style="width: 77%;
-              
-" ></div>
+                <div class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light" :style="`width: ${ score }%;`" ></div>
               </div>
               <span class="ml-2 text-black font-[500] text-[12px] leading-[21px]"
-                >77%</span
+                >{{ score }}%</span
               >
             </div>
           </div>
@@ -218,9 +233,9 @@ provide('currentMode',currentMode)
               Password and security
             </div>
           </div>
-<ProfileEditpersonal @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
-         <ProfilePersonalinfo v-if="currentMode === 'normal' && currentTab === 'personal'" />
-<ProfileEditcompany  @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
+          <ProfileEditpersonal @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
+          <ProfilePersonalinfo v-if="currentMode === 'normal' && currentTab === 'personal'" />
+          <ProfileEditcompany  @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
 
           <ProfileCompanyinfo  v-if="currentMode === 'normal' && currentTab === 'company'" />
           <ProfilePassword   v-if="currentTab === 'security'" /> 

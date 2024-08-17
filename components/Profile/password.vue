@@ -2,6 +2,10 @@
 
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { useChangeAccountPassword } from "@/composables/useProfile";
+
+const { changeAccountPassword } = useChangeAccountPassword();
+
 const state = reactive({
 
   oldpass: "",
@@ -11,7 +15,7 @@ const state = reactive({
 const rules = {
   oldpass: { required },
   password:{required},
-  password_confirm: { required, sameAs: sameAs(computed(() => state.new_password)) },
+  password_confirm: { required, sameAs: sameAs(computed(() => state.password)) },
 
 
 
@@ -32,6 +36,18 @@ const toggleConfirmPasswordVisibility = () => {
 const passwordFieldType = computed(() => (isPasswordVisible.value ? 'text' : 'password'));
 const oldPassfieldType = computed(() => (isOldPassVisible.value ? 'text' : 'password'));
 const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value ? 'text' : 'password'));
+
+
+const updatePassword = async () => {
+
+  const isValid = await v$.value.$validate();
+  if (isValid) {
+    await changeAccountPassword({
+      password: state.oldpass,
+      new_password: state.password,
+    });
+  }
+}
 </script>
 
 <template>
@@ -170,8 +186,9 @@ const ConfirmpasswordFieldType = computed(() => (isconfirmPasswordVisible.value 
         </div>
       </div>
 </div>
-      <div class="mt-[52px] ml-auto">
-        <button class="btn-dashboard hover_tamkin ml-auto">Update Password</button>
+
+      <div class="h-full  mt-[130px] ml-auto">
+        <button class="btn-dashboard hover_tamkin ml-auto" @click="updatePassword">Update Password</button>
       </div>
 </div>
 </template>

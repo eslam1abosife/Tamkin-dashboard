@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: useCookie('token').value || null,
     isLoggedIn: useCookie('isLoggedIn').value === 'true' || false,
-    user: null
+    user: {}
   }),
   actions: {
     checkIfLoggedIn() {
@@ -25,6 +25,9 @@ export const useUserStore = defineStore('user', {
     },
     setUser(user) {
       this.user = user;
+      if (user) {
+        this.token = user.sid;
+      }
     },
     logout() {
       this.token = null;

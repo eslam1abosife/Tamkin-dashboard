@@ -1,26 +1,34 @@
 <script lang="ts" setup>
-import { useWindowSize } from "@vueuse/core";
+import {useWindowSize} from "@vueuse/core";
 // import { useModalStore } from "@/stores/modal";
-import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+import {useGetAvatarLetters} from "@/composables/useSharedFunctions";
 
-import { useNavbarStore } from "@/stores/navbar";
-import { useAddonStore } from "@/stores/addons.js";
-import { useCustomizeStore } from "@/stores/customize.js";
-import { useSettingsStore } from "@/stores/settings.js";
-import { useStatsStore } from "@/stores/stats.js";
-import { useMarketStore } from "@/stores/market.js";
-import { useModalManager } from "@/composables/useModalManager";
-import { useUserStore } from "@/stores/auth"; // Import the Pinia store
-import { useTranslateStore } from "~/stores/translate";
+import {useNavbarStore} from "@/stores/navbar";
+import {useAddonStore} from "@/stores/addons.js";
+import {useCustomizeStore} from "@/stores/customize.js";
+import {useSettingsStore} from "@/stores/settings.js";
+import {useStatsStore} from "@/stores/stats.js";
+import {useMarketStore} from "@/stores/market.js";
+import {useModalManager} from "@/composables/useModalManager";
+import {useUserStore} from "@/stores/auth"; // Import the Pinia store
+import {useTranslateStore} from "~/stores/translate";
+
+import { useProfileStore } from "~/stores/profile";
 const translateStore = useTranslateStore();
 
+const profileStore = useProfileStore();
+
 const { getAvatarLetters } = useGetAvatarLetters();
+
 onMounted(() => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
     const user = JSON.parse(localStorage.getItem("user"));
-    userStore.setUser(user.value);
+    userStore.setUser(user);
   }
+
+  profileStore.setMember();
+  profileStore.setCompany();
 });
 
 const statsStore = useStatsStore();
@@ -28,7 +36,7 @@ const marketStore = useMarketStore();
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
 const settingsStore = useSettingsStore();
-import { storeToRefs } from "pinia"; // import storeToRefs helper hook from pinia
+import {storeToRefs} from "pinia"; // import storeToRefs helper hook from pinia
 const navStore = useNavbarStore();
 const navStoreRef = storeToRefs(navStore);
 const localePath = useLocalePath();
@@ -48,7 +56,7 @@ const isLinkActive = (path) => {
   return regex.test(currentPath);
 };
 
-const { resetModal } = storeToRefs(marketStore);
+const {resetModal} = storeToRefs(marketStore);
 
 const {
   isOpen,
@@ -72,7 +80,7 @@ const {
   gradient1,
 } = storeToRefs(custmizeStore);
 
-const { width, height } = useWindowSize();
+const {width, height} = useWindowSize();
 const head = useLocaleHead({
   addDirAttribute: true,
   addSeoAttributes: true,
@@ -88,21 +96,23 @@ const showNotifiations = ref(false);
 const toggleSidebar = () => {
   navStore.openNav();
 };
+
 function toggleSidebarMobile() {
   sideBarOpenMobile.value = !sideBarOpenMobile.value;
 }
+
 watch(search, (ov, nv) => {
   return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
+      ? (isSearchfilled.value = true)
+      : (isSearchfilled.value = false);
 });
 
 watch(
-  () => route.path,
-  (newPath, oldPath) => {
-    sideBarOpenMobile.value = false;
-  },
-  { immediate: true }
+    () => route.path,
+    (newPath, oldPath) => {
+      sideBarOpenMobile.value = false;
+    },
+    {immediate: true}
 );
 watchEffect(() => {
   if (width.value < 1000) {
@@ -126,63 +136,64 @@ const anyChangesInPlayerTranslate = computed(() => {
 const showFooterSaveStyles = ref(false);
 const showFooterSavePlayer = ref(false);
 
-watch(anyChangesInStylesTranslate, (newValue, oldValue) => {}, { deep: true });
+watch(anyChangesInStylesTranslate, (newValue, oldValue) => {
+}, {deep: true});
 
 watch(anyChangesInPlayerTranslate, (newValue, oldValue) => {
   showFooterSavePlayer.value = true;
 });
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
+      (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
+      (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
+      (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
   const isCustomizeLinkActive =
-    (isLinkActive("/customize") && currentColor.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient1.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient2.value !== "#2dada3") ||
-    (isLinkActive("/customize") && custmizeStore.hasChanges());
+      (isLinkActive("/customize") && currentColor.value !== "#2dada3") ||
+      (isLinkActive("/customize") && gradient1.value !== "#2dada3") ||
+      (isLinkActive("/customize") && gradient2.value !== "#2dada3") ||
+      (isLinkActive("/customize") && custmizeStore.hasChanges());
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
 
   const translateStyle =
-    isLinkActive("/translate/video") &&
-    translateStore.hasChanges &&
-    translateStore.subMode === "style" &&
-    translateStore.currentMode === "subtitles";
+      isLinkActive("/translate/video") &&
+      translateStore.hasChanges &&
+      translateStore.subMode === "style" &&
+      translateStore.currentMode === "subtitles";
   const translatePlayer =
-    isLinkActive("/translate/video") &&
-    translateStore.hasChangesPlayer &&
-    translateStore.currentMode === "player";
+      isLinkActive("/translate/video") &&
+      translateStore.hasChangesPlayer &&
+      translateStore.currentMode === "player";
   return (
-    isAddonsLinkActive ||
-    isCustomizeLinkActive ||
-    isSettingsLinkActive ||
-    isStatsActive ||
-    isMarketChanges ||
-    translateStyle ||
-    translatePlayer ||
-    translateStyle ||
-    translatePlayer ||
-    (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
+      isAddonsLinkActive ||
+      isCustomizeLinkActive ||
+      isSettingsLinkActive ||
+      isStatsActive ||
+      isMarketChanges ||
+      translateStyle ||
+      translatePlayer ||
+      translateStyle ||
+      translatePlayer ||
+      (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
   );
 });
 
 const cancelAc = () => {
   const isCustomizeLinkActive =
-    isLinkActive("/customize") &&
-    (custmizeStore.forceChange_buttonShape ||
-      force_change_profileCards.value ||
-      force_change_MainMenuCard.value ||
-      currentColor.value !== "#2dada3" ||
-      gradient1.value !== "#2dada3" ||
-      gradient2.value !== "#2dada3" ||
-      custmizeStore.hasChanges());
+      isLinkActive("/customize") &&
+      (custmizeStore.forceChange_buttonShape ||
+          force_change_profileCards.value ||
+          force_change_MainMenuCard.value ||
+          currentColor.value !== "#2dada3" ||
+          gradient1.value !== "#2dada3" ||
+          gradient2.value !== "#2dada3" ||
+          custmizeStore.hasChanges());
   const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
+      (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
+      (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
+      (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
   const isSettingsLinkActive = isLinkActive("/settings") && settingsStore.hasChanges();
   const isStatsActive = isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
@@ -191,12 +202,12 @@ const cancelAc = () => {
   //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
 
   const translateStyle =
-    isLinkActive("/translate/video") &&
-    translateStore.hasChanges &&
-    translateStore.subMode === "style" &&
-    translateStore.currentMode === "subtitles";
+      isLinkActive("/translate/video") &&
+      translateStore.hasChanges &&
+      translateStore.subMode === "style" &&
+      translateStore.currentMode === "subtitles";
   const translatePlayer =
-    isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
+      isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
   if (isCustomizeLinkActive) {
     custmizeStore.cancelAll();
   }
@@ -234,6 +245,7 @@ const openModals = computed(() => {
     isOpen("invitemember") ||
     isOpen("invitememberupdate") ||
     isOpen("editteampic") ||
+    isOpen("editMemberPic") ||
     isOpen("editusermodal") ||
     isOpen("userpermissions") ||
     isOpen("selectSite") ||
@@ -304,24 +316,27 @@ const closeSideBarOnMobileOverlay = () => {
 const logout = () => {
   const userStore = useUserStore();
   userStore.logout();
-  router.push("/auth/login");
-};
+  localStorage.removeItem('user');
+  localStorage.removeItem('registerd_email');
+  localStorage.removeItem('registerd_user');
 
-const userName = computed(() => {
+  router.push('/auth/login');
+}
+
+const userName = () => {
   if (process.client) {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return user ? user.full_name || user.display_name : "";
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? (user.full_name || user.display_name) : '';
   }
-  return "";
-});
+  return '';
+}
 
 const userImg = computed(() => {
   if (process.client) {
     const user = JSON.parse(localStorage.getItem('user'));
-    if(user && user.user_image) {
+    if (user && user.user_image) {
       return `https://tamkin.app/${user.user_image}`;
-    }
-    else if (user && user.photoURL) {
+    } else if (user && user.photoURL) {
       return user.photoURL;
     }
     return null;
@@ -338,71 +353,61 @@ const openToast = (msg) => {
   toastAppear.value = true;
   setTimeout(() => {
     toastAppear.value = false;
-  },2000)
+  }, 2000)
 }
 
+
+onMounted(() => {
+  const userStore = useUserStore();
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    userStore.user = user;
+  }
+})
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg" class="!top-[70px]"/>
 
   <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
-    :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
+        :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
   <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
-    <div v-if="
-    openModals
-    "  @click="closeSideBarOnMobileOverlay" class="absolute z-[200] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
+    <div v-if="openModals
+    " @click="closeSideBarOnMobileOverlay"
+         class="absolute z-[9999] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
     <div v-if="marketStore.firstItemNotificationShown"
-      class="absolute z-[200] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
+         class="absolute z-[9999] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
-      <ModalsSuccessmodal
+    <ModalsSuccessmodal
         :show-modal="isOpen('successContact')"
         title="Thanks for contact us"
         sub-title="We will contact you as soon as possible "
         icon="contact_success.svg"
-      />
+    />
 
-      <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')" />
-      <DashboardEmbedShareModal :showModal="isOpen('shareModal')" />
-      <DashboardTeamInviteMember :showModal="true" v-if="isOpen('invitemember')" />
-      <DashboardTeamEditname />
+    <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')"/>
+    <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')"/>
+    <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')"/>
+    <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')"/>
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('deleteTeamMember')"
-        title="Delete That Member"
-        sub-title="Are you sure you want to delete that team member ?"
-        confirm-btn-type="delete"
-        @control-delete="emitEvent('deleteTeamMember')"
-        @control-cancel="closeModal('deleteTeamMember')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
+                   sub-title="Are you sure you want to delete that team member ?" confirm-btn-type="delete"
+                   @control-delete="emitEvent('deleteTeamMember')" @control-cancel="closeModal('deleteTeamMember')"/>
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('deleteApp')"
-        title="Delete That App"
-        sub-title="Are you sure you want to delete that app ?"
-        confirm-btn-type="delete"
-        @control-delete="emitEvent('deleteApp')"
-        @control-cancel="closeModal('deleteApp')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteApp')" title="Delete That App"
+                   sub-title="Are you sure you want to delete that app ?" confirm-btn-type="delete"
+                   @control-delete="emitEvent('deleteApp')" @control-cancel="closeModal('deleteApp')"/>
 
-      <ModalsConfirm
-        :show-modal="true"
-        v-if="isOpen('restoreApp')"
-        title="Restore That App"
-        :for-delete="false"
-        sub-title="Are you sure you want to restore that app ?"
-        confirm-btn-type="other"
-        @control-other="emitEvent('restoreApp')"
-        @control-cancel="closeModal('restoreApp')"
-      />
+    <ModalsConfirm :show-modal="true" v-if="isOpen('restoreApp')" title="Restore That App" :for-delete="false"
+                   sub-title="Are you sure you want to restore that app ?" confirm-btn-type="other"
+                   @control-other="emitEvent('restoreApp')" @control-cancel="closeModal('restoreApp')"/>
 
       <DashboardTeamInviteMemberUpdate
         :showModal="true"
         v-if="isOpen('invitememberupdate')"
       />
       <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
+      <ProfileEditpicturemodal :showModal="isOpen('editMemberPic')" />
       <DashboardTeamEditUserPermissionsModal
         :showModal="true"
         v-if="isOpen('userpermissions')"
@@ -414,166 +419,141 @@ const openToast = (msg) => {
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
     <DashboardTeamEdituserpermissionsmodal :showModal="editPermissionsModal" /> -->
 
-      <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
+    <!-- <DashboardMySiteUpgradeModal :showModal="showUpgradeModal" />
         -->
-      <ModalsConfirm
-        :showModal="isOpen('resetModal')"
-        title="Rest All Accessibility Settings"
-        sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
-        confirm-btn-type="confirm"
-        @control-confirm="closeModal('resetModal')"
-        @control-cancel="closeModal('resetModal')"
-      />
+    <ModalsConfirm :showModal="isOpen('resetModal')" title="Rest All Accessibility Settings"
+                   sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+                   confirm-btn-type="confirm" @control-confirm="closeModal('resetModal')"
+                   @control-cancel="closeModal('resetModal')"/>
 
-      <ModalsConfirm
-        :show-modal="isOpen('deleteModal')"
-        title="Delete your site"
-        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-        confirm-btn-type="delete"
-        @control-delete="closeModal('deleteModal')"
-        @control-cancel="closeModal('deleteModal')"
-      />
+    <ModalsConfirm :show-modal="isOpen('deleteModal')" title="Delete your site"
+                   sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+                   confirm-btn-type="delete" @control-delete="closeModal('deleteModal')"
+                   @control-cancel="closeModal('deleteModal')"/>
 
-      <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
-      <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
+    <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')"/>
+    <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')"/>
 
-      <div
+    <div
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
-          sideBarOpenMobile
-            ? 'fixed inset-0 z-[9999] w-full h-screen '
-            : 'hidden lg:flex',
-          sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
-        ]"
-      >
-        <div
-          class="h-full w-full relative"
-          :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']"
+    sideBarOpenMobile
+      ? 'fixed inset-0 z-[9999] w-full h-screen '
+      : 'hidden lg:flex',
+    sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
+  ]">
+      <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
+        <div @click="toggleSidebar" :class="[
+    !sideBarOpen
+      ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
+      : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
+  ]"
+             class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+          <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+               class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"/>
+          </svg>
+        </div>
+
+        <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
+                         @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar"/>
+      </div>
+    </div>
+
+    <div
+        class="flex items-start lg:flex-row flex-col md:justify-between lg:justify-between relative w-full"
+    >
+      <!-- upper nav and content -->
+      <div class="relative top-0 w-full">
+        <nav
+            style="box-shadow: 0px 4px 24px 8px #51459f14"
+            class="sticky top-0 flex z-[60] items-center justify-between w-full
+            bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
         >
           <div
-            @click="toggleSidebar"
-            :class="[
-              !sideBarOpen
-                ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
-                : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
-            ]"
-            class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden"
-          >
-            <svg
-              width="9"
-              height="15"
-              viewBox="0 0 9 15"
-              fill="none"
-              class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-              />
-            </svg>
-          </div>
-
-          <DashboardNavbar
-            :side-bar-open="sideBarOpen"
-            :mobileSidebar="sideBarOpenMobile"
-            @toggleSidebarMobile="toggleSidebarMobile"
-            @toggleSidebar="toggleSidebar"
-          />
-        </div>
-      </div>
-
-      <div
-        class="flex items-start lg:flex-row flex-col md:justify-between lg:justify-between relative w-full"
-      >
-        <!-- upper nav and content -->
-        <div class="relative top-0 w-full">
-          <nav
-            style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="sticky top-0 flex z-[60] items-center justify-between w-full 
-            bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
+              class="flex  items-center lg:space-x-0 space-x-[10px]  w-full "
           >
             <div
-              class="flex  items-center lg:space-x-0 space-x-[10px]  w-full "
-            >
-              <div
                 class="flex items-center justify-between lg:hidden"
                 @click="toggleSidebarMobile"
                 style="transform: translateZ(0)"
-              >
-                <svg
+            >
+              <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="size-6"
-                >
-                  <path
+              >
+                <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                  />
-                </svg>
-              </div>
+                />
+              </svg>
+            </div>
 
-              <div class="py-[17px] search_input relative  w-full !ml-[40px]">
-                <input
+            <div class="py-[17px] search_input relative  w-full !ml-[40px]">
+              <input
                   type="text"
                   class="input_dashboard_search 2xl:w-full lg:w-3/4 "
                   v-model="search"
                   placeholder="Search ..."
-                />
-                <div
+              />
+              <div
                   class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                >
-                  <img src="/assets/imgs/icons/search.svg" />
-                </div>
-                <div
+              >
+                <img src="/assets/imgs/icons/search.svg"/>
+              </div>
+              <div
                   v-if="isSearchfilled"
                   @click="clearInput"
                   class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
-                >
-                  <img src="/assets/imgs/icons/clear_search.svg" />
-                </div>
-              </div>
-
-              <div
-                class="flex items-center justify-end  lg:space-x-[20px] w-full"
-           
               >
-                <div class="py-[17px] search_input relative lg:hidden block w-1/4">
-                  <input
+                <img src="/assets/imgs/icons/clear_search.svg"/>
+              </div>
+            </div>
+
+            <div
+                class="flex items-center justify-end  lg:space-x-[20px] w-full"
+
+            >
+              <div class="py-[17px] search_input relative lg:hidden block w-1/4">
+                <input
                     type="text"
                     class="input_dashboard_search w-1/4"
                     v-model="search"
                     placeholder="Search ..."
-                  />
-                  <div
+                />
+                <div
                     class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                  >
-                    <img src="/assets/imgs/icons/search.svg" />
-                  </div>
-                  <div
+                >
+                  <img src="/assets/imgs/icons/search.svg"/>
+                </div>
+                <div
                     v-if="isSearchfilled"
                     @click="clearInput"
                     class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
-                  >
-                    <img src="/assets/imgs/icons/clear_search.svg" />
-                  </div>
+                >
+                  <img src="/assets/imgs/icons/clear_search.svg"/>
                 </div>
-                <Langswitcher/>
-
-                <Darkmode />
-                <NotificationBell/>
-                <!-- {{ userName }} -->
-            <Userprofilemenu/>
-            
               </div>
-            </div>
-          </nav>
+              <Langswitcher/>
 
-          <div class=" relative" :class="isLinkActive('/profile') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
-            <div
+              <Darkmode/>
+              <NotificationBell/>
+              <!-- {{ userName }} -->
+              <Userprofilemenu/>
+
+            </div>
+          </div>
+        </nav>
+
+        <div class=" relative"
+             :class="isLinkActive('/profile') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
+          <div
               class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
@@ -594,9 +574,9 @@ const openToast = (msg) => {
 
                 isLinkActive('/sign-language/*')
               "
-            ></div>
-            <div class="relative px-[15px]">
-              <NavbarOverview
+          ></div>
+          <div class="relative px-[15px]">
+            <NavbarOverview
                 v-if="
                   isLinkActive('/overview') ||
                   isLinkActive('/settings') ||
@@ -605,21 +585,22 @@ const openToast = (msg) => {
                   isLinkActive('/addons') ||
                   isLinkActive('/statistics')
                 "
-              />
-            </div>
+            />
+          </div>
 
-            <transition name="slide-up">
-              <DashboardAddonsSavefooter
+          <transition name="slide-up">
+            <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 @cancel_action="cancelAc"
-              />
-            </transition>
-            <NuxtPage class="" />
-          </div>
+            />
+          </transition>
+          <!-- <NuxtPage class="" /> -->
+          <slot/>
         </div>
-        <!-- end of upper nav and content -->
       </div>
     </div>
+    <!-- end of upper nav and content -->
+  </div>
   </Html>
 </template>
 
@@ -651,7 +632,8 @@ const openToast = (msg) => {
 .sidebar-enter,
 .sidebar-leave-to
 
-/* .sidebar-leave-active in <2.1.8 */ {
+  /* .sidebar-leave-active in <2.1.8 */
+{
   transform: translateX(-75px);
 }
 

@@ -5,6 +5,7 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
+    const userStore = useUserStore();
 
     const uploadTeamImg = async (imgFile) => {
         try {
@@ -12,17 +13,16 @@ export default function() {
                 files: {
                     img: imgFile
                 }
+            }, {
+                headers: {
+                    sid: userStore.user.sid ?? null
+                }
             });
             if(!res.data.succeeded) throw(res.data.message);
 
         } catch (error) {
-            $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-                "theme": "colored",
-                "type": "error",
-                "autoClose": 4000,
-                "dangerouslyHTMLString": true
-            });
-            throw error;
+            
+            throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 

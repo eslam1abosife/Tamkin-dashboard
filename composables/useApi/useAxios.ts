@@ -17,7 +17,8 @@ export default function() {
         const instance = axios.create({
             baseURL: config.public.baseURL,
             headers: {
-                sid: userStore.token ? userStore.token : null
+                // sid: userStore.token ? userStore.token : null
+                sid: userStore.user.sid ? userStore.user.sid : null
             }
         });
 
