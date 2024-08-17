@@ -1,28 +1,36 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+
+import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+
+const { getCountries, countries } = useGetAllCountries();
+
+const { changeMemberInfo } = useChangeMemberInfo();
+
+const profileStore = useProfileStore();
+
+
 import UAEFLAG from "/assets/imgs/flags/UAE.svg";
 import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
 import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
+
 const state = reactive({
 
     first_name:"",
     last_name:"",
     phone:"",
     country:"",
-    city:"",
-address:""
+    // city:"",
+    // address:""
 });
 const rules = {
     first_name: { required },
-last_name:{required},
-phone:{required},
-country:{required},
-city:{required},
-address:{required}
-
-
-
+    last_name:{required},
+    phone:{required},
+    country:{required},
+    // city:{required},
+    // address:{required}
 };
 
 const emit = defineEmits(['cancelupdate'])
@@ -30,14 +38,24 @@ const emit = defineEmits(['cancelupdate'])
 const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
+const updatePersonalInfo = async () => {
+
+  const isValid = await v$.value.$validate();
+  if (isValid) {
+    await changeMemberInfo(state);
+    emit('cancelupdate')
+    profileStore.setMember();
+  }
+}
+
 const v$ = useVuelidate(rules, state);
 
 
-const countries = [
-  { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
-  { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
-  { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
-];
+// const countries = [
+//   { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
+//   { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
+//   { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
+// ];
 
 const projectNameArr = [
   { id: 1, name: 'Project 1' },
@@ -48,8 +66,13 @@ const projectNameArr = [
   { id: 7, name: 'Project 5' }
 ];
 const handleSelectedItemProjectName = (item: any) => {
+  state.country = item.name;
   console.log(item)
 };
+
+onMounted(async () => {
+  await getCountries();
+});
 </script>
 
 <template>
@@ -130,13 +153,15 @@ const handleSelectedItemProjectName = (item: any) => {
           <div class="w-full relative ">
 
 
-<TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
-placeholderinput="Country*" 
-iconKey="flag"
-:errorField="v$.country.$error && v$.country.required.$invalid" :list="countries" nameKey="name" idField="id" 
-
-:successField="!v$.country.$error && !v$.country.$invalid"
-/>
+            <TranslateSelectInput 
+              @getCurrentSelectedItem="handleSelectedItemProjectName" 
+              :enableSearch="true" 
+              placeholderinput="Country*" 
+              :errorField="v$.country.$error && v$.country.required.$invalid" 
+              :list="countries" nameKey="name" idField="name"
+              iconKey="image" 
+              :successField="!v$.country.$error && !v$.country.$invalid"
+            />
 
             <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
               <p class="error_message">
@@ -200,7 +225,7 @@ iconKey="flag"
       <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
-        <button class="btn-dashboard hover_tamkin w-[125px]">Update</button>
+        <button class="btn-dashboard hover_tamkin w-[125px]" @click="updatePersonalInfo">Update</button>
       </div>
 </div>
 

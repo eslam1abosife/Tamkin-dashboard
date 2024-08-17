@@ -4,6 +4,8 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composables/useTeam";
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 
+const profileStore = useProfileStore();
+
 const emit = defineEmits(['uploadSuccess', 'removeSuccess']);
 
 const {
@@ -32,9 +34,13 @@ const fileURL = (file) => {
 
 const { deleteTeamImg, loading: deleteLoading } = useDeleteTeamImg();
 
-const removeFile = () => {
+const removeFile = async () => {
   acceptedFilesRef.value = [];
   isImageDeleted.value = true; // Mark image for deletion
+
+  await deleteTeamImg();
+  closeModal('editteampic');
+  profileStore.setCompany();
 };
 
 const { uploadTeamImg, loading: uploadLoading } = useUploadTeamImg();
@@ -72,8 +78,9 @@ const submit = async () => {
         creator_ID: 1 // Adjust this as necessary
       };
       await uploadTeamImg(imgFile);
-      await getCurrentTeam();
-      emit('uploadSuccess');
+      // await getCurrentTeam();
+      profileStore.setCompany();
+      // emit('uploadSuccess');
       closeModal('editteampic');
     };
     reader.readAsDataURL(file);

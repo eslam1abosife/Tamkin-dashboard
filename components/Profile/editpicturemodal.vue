@@ -2,7 +2,12 @@
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
 import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composables/useTeam";
+import { useChangeMemberImage, useRemoveMemberImage } from "@/composables/useProfile";
+
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
+const { removeMemberImage, loading: deleteLoading } = useRemoveMemberImage();
+
+const profileStore = useProfileStore();
 
 const {
   isOpen,
@@ -14,6 +19,7 @@ const {
 } = useModalManager();
 
 const acceptedFilesRef = ref<File[]>([]);
+const isImageDeleted = ref(false); // Track deletion state
 
 
 const onDrop = (acceptedFiles, rejectedFiles) => {
@@ -34,12 +40,14 @@ const fileURL = (file) => {
 
 const removeFile = async () => {
   acceptedFilesRef.value = [];
-  const { deleteTeamImg } = useDeleteTeamImg();
-  await deleteTeamImg();
-  closeModal('editteampic');
-  getCurrentTeam();
+  // const { deleteTeamImg } = useDeleteTeamImg();
+  await removeMemberImage();
+  closeModal('editMemberPic');
+  profileStore.setMember();
 
 };
+
+const { changeMemberImage, loading: uploadLoading } = useChangeMemberImage();
 
 const submit = () => {
   if (acceptedFilesRef.value.length === 0) {
@@ -69,14 +77,15 @@ const submit = () => {
       mimType: file.type,
       creator_ID: 1 // Adjust this as necessary
     };
-    const { uploadTeamImg } = useUploadTeamImg();
-    await uploadTeamImg(imgFile);
-    getCurrentTeam();
+    // const { uploadTeamImg } = useUploadTeamImg();
+    await changeMemberImage(imgFile);
+    profileStore.setMember();
+    // getCurrentTeam();
+    closeModal('editMemberPic');
   };
 
   reader.readAsDataURL(file);
 
-  closeModal('editteampic');
 };
 
 onBeforeUnmount(() => {
@@ -88,10 +97,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="isOpen('editteampic')"
+  <div v-if="isOpen('editMemberPic')"
     class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)">
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editteampic')">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editMemberPic')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -100,7 +109,7 @@ onBeforeUnmount(() => {
       </svg>
     </div>
     <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-      Edit Team Picture
+      Edit Member Picture
     </h1>
 
     <div v-bind="getRootProps()" style="
@@ -120,9 +129,9 @@ onBeforeUnmount(() => {
         <img :src="fileURL(file)" :alt="file.name"
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px]" />
       </div>
-      <div v-else-if="currTeam.team_image"
+      <div v-else-if="profileStore.member.user_image"
            class="upload-file-item">
-        <img :src="`https://tamkin.app/${currTeam.team_image}`"
+        <img :src="`https://tamkin.app/${profileStore.member.user_image}`"
              class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px]" />
       </div>
       <div v-else>
@@ -144,7 +153,8 @@ onBeforeUnmount(() => {
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
       <button class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error w-1/4"
-        @click="removeFile">
+        @click="removeFile" :class="!profileStore.member.user_image && acceptedFilesRef.length === 0 && 'opacity-40'" 
+        :disabled="!profileStore.member.user_image && acceptedFilesRef.length === 0 || deleteLoading">
 
         <div class="w-[18px] h-[18px]">
           <svg class=" text-[#FF453F]" width="18" height="17" viewBox="0 0 18 17" fill="none"
@@ -156,7 +166,11 @@ onBeforeUnmount(() => {
         </div>
         <span>Delete</span>
       </button>
-      <button class="btn-dashboard w-1/4" @click="submit">Save</button>
+      <button :disabled="(acceptedFilesRef.length == 0 && !isImageDeleted) || uploadLoading || deleteLoading"
+        :class="(acceptedFilesRef.length == 0 && !isImageDeleted) || uploadLoading || deleteLoading && `btn-inactive`"
+        class="btn-dashboard w-1/4" @click="submit">
+        <img v-if="uploadLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Save
+      </button>
     </div>
   </div>
 </template>

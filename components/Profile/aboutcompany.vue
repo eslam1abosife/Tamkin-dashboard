@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+const currentMode = inject('currentMode')
+const profileStore = useProfileStore();
+
 import { ref, reactive, inject } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required,maxLength } from '@vuelidate/validators';
 
-const currentMode = inject('currentMode');
+// const currentMode = inject('currentMode');
 
 const maxcha = (max) => (value) => {
   return value.length <= max || `The maximum length is ${max} characters.`;
@@ -25,6 +28,16 @@ const v$ = useVuelidate(rules, state);
 const handleBlur = () => {
   v$.value.$touch();
 };
+
+
+onMounted(() => {
+  state.about = profileStore.company.about;
+  profileStore.setAbout(state.about);
+})
+
+watch(() => state.about, (newValue) => {
+  profileStore.setAbout(newValue);
+})
 </script>
 
 <template>
@@ -36,17 +49,14 @@ const handleBlur = () => {
     </div>
 
     <div class="text-[12px] leading-[18px] text-black" v-if="currentMode === 'normal'">
-      Our company specializes in delivering innovative solutions, combining technology and
-      creativity to enhance accessibility
+      {{ profileStore.company.about }}
     </div>
 
     <div class="w-full">
       <textarea
         v-if="currentMode === 'editing'"
-        v-model="state.about" 
-        class="w-full focus:border-tamkin focus:ring-0 text-[12px] text-black border 
-        
-        !p-2 !m-0 border-gray-300 rounded-lg resize-none"
+        v-model="state.about"
+        class="w-full  focus:border-tamkin focus:ring-0 text-[12px] text-black border !p-2 !m-0 border-gray-300 rounded-lg resize-none"
         rows="4"
         maxlength="120"
         :class="[v$.about.$error ? '!border-red-500' :'!border-tamkin']"

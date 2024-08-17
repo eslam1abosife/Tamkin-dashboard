@@ -5,19 +5,17 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
+
     const userStore = useUserStore();
 
-    const uploadTeamImg = async (imgFile) => {
+    const removeMemberImage = async () => {
         try {
-            const res = await api.post('/Team/post/UploadImage', {
-                files: {
-                    img: imgFile
-                }
-            }, {
+            const res = await api.post('/Profile/RemoveImageMember', {}, {
                 headers: {
-                    sid: userStore.user.sid ?? null
+                    sid: userStore.user.sid
                 }
-            });
+            } );
+
             if(!res.data.succeeded) throw(res.data.message);
 
         } catch (error) {
@@ -27,7 +25,7 @@ export default function() {
     };
 
     return {
-        uploadTeamImg,
+        removeMemberImage,
         loading
     }
 }

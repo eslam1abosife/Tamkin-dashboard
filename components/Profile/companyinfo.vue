@@ -1,5 +1,15 @@
 <script lang="ts" setup>
+  const profileStore = useProfileStore();
 
+  const createdDate = computed(() => {
+    const date = new Date(profileStore.company.creation ? profileStore.company.creation : 0);
+
+    return new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      }).format(date);
+  })
 
 </script>
 
@@ -8,35 +18,36 @@
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        Alec M. Thompson
+        <!-- {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }} -->
+        {{ profileStore.company.team_name ? profileStore.company.team_name : 'N/A' }}
       </p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Account ID </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        (44) 123 1234 123
+        {{ profileStore.company.name }}
       </p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Created</h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        United Arab Emirates
+        {{ createdDate }}
       </p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Business Email </h3>
-      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">24 Nov 2021</p>
+      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.company.owner_of_agency ? profileStore.company.owner_of_agency : 'N/A' }}</p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Phone</h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        alecthompson@mail.com
+        {{ profileStore.company.phone ? profileStore.company.phone : 'N/A' }}
       </p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
       <p class="text-[#15191f] font-medium text-[14px] leading-[24px]">
-        Alec M. Thompson
+        {{ profileStore.company.country ? profileStore.company.country : 'N/A' }}
       </p>
     </div>
 
@@ -44,12 +55,12 @@
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company specialization
      
            </h3>
-      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">24 Nov 2021</p>
+      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.company.company_specialization ? profileStore.company.company_specialization : 'N/A' }}</p>
     </div>
       <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Team</h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        alecthompson@mail.com
+        {{ profileStore.company.team_name ? profileStore.company.team_name : 'N/A' }}
       </p>
     </div>
 
