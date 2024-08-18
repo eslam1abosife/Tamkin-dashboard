@@ -22,7 +22,7 @@ const memberFullName = computed(() => {
     class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  flex flex-col items-start justify-center p-[15px] 
     space-y-[15px] ipad-max:w-full w-full h-[140px] lg:mt-[-60px]"
   >
-    <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]">
+    <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px] gap-4">
       <div>
         <div class="relative">
           <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`" 
@@ -36,7 +36,7 @@ const memberFullName = computed(() => {
         </div>
 
       </div>
-      <div class="flex flex-col items-start justify-center ipad-max:space-y-1 space-y-[8px]">
+      <div class="flex flex-col items-start justify-center ipad-max:space-y-1 space-y-[8px] !mx-0">
         <div
         class="text-[16px] ipad-max:text-[13px] ipad-max:whitespace-nowrap leading-[22px] text-[#3D3D3D] font-[600] mt-[16px]"
       >
@@ -48,7 +48,7 @@ const memberFullName = computed(() => {
       </div>
       <div
         class="w-[59px] h-[27px] ipad-max:w-[46px] ipad-max:h-[20px] shadow-inner rounded-[23px]
-         text-white bg-tamkin flex items-center justify-center  "
+         text-white bg-tamkin flex items-center justify-center !mx-0"
       >
         <div class="ipad-max:text-[11px] text-[14px]  font-[500]" v-if="profileStore.member.is_active">Active</div>
         <div class="ipad-max:text-[11px] text-[14px]  font-[500]" v-else>InActive</div>

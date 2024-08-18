@@ -90,7 +90,7 @@ const logout = () => {
                   class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]"
                 />
               </div>
-              <div class="flex flex-col items-start justify-center w-full">
+              <div class="flex flex-col items-start justify-center w-full !mx-0">
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
