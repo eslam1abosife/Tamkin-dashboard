@@ -6596,6 +6596,11 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
+libphonenumber-js@^1.10.51:
+  version "1.11.7"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.11.7.tgz"
+  integrity sha512-x2xON4/Qg2bRIS11KIN9yCNYUjhtiEjNyptjX0mX+pyKHecxuJVLIpfX1lq9ZD6CrC/rB+y4GBi18c6CEcUR+A==
+
 lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/lilconfig/-/lilconfig-2.1.0.tgz"
@@ -10384,7 +10389,15 @@ vue-router@^4.3.2, vue-router@^4.4.0:
   dependencies:
     "@vue/devtools-api" "^6.6.3"
 
-"vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.0.1, vue@^3.0.5, vue@^3.2, vue@^3.2.0, vue@^3.2.13, vue@^3.2.25, vue@^3.3.4, vue@^3.3.8, vue@^3.4.27, vue@^3.4.31, vue@^3.4.32, "vue@>= 3", "vue@>=2.7 || >=3", vue@>=3, vue@>=3.0.0, vue@>=3.2.0, vue@>=3.2.13, vue@3.4.38:
+vue-tel-input@^9.1.4:
+  version "9.1.4"
+  resolved "https://registry.npmjs.org/vue-tel-input/-/vue-tel-input-9.1.4.tgz"
+  integrity sha512-e2y8kYBe+iSEdPTEGGNxMzkNJuCEZBKv5HREw/CMAUMY7hlP8WP8wqebu060PJgDGv0JOSlkY/tnyXnAraX3DQ==
+  dependencies:
+    libphonenumber-js "^1.10.51"
+    vue "^3.4.21"
+
+"vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.0.1, vue@^3.0.5, vue@^3.2, vue@^3.2.0, vue@^3.2.13, vue@^3.2.25, vue@^3.3.4, vue@^3.3.8, vue@^3.4.21, vue@^3.4.27, vue@^3.4.31, vue@^3.4.32, "vue@>= 3", "vue@>=2.7 || >=3", vue@>=3, vue@>=3.0.0, vue@>=3.2.0, vue@>=3.2.13, vue@3.4.38:
   version "3.4.38"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.38.tgz"
   integrity sha512-f0ZgN+mZ5KFgVv9wz0f4OgVKukoXtS3nwET4c2vLBGQR50aI8G0cqbFtLlX9Yiyg3LFGBitruPHt2PxwTduJEw==

@@ -12,7 +12,7 @@ export default function() {
         try {
             const res = await api.post('/Profile/RemoveImageMember', {}, {
                 headers: {
-                    sid: userStore.user.sid
+                    sid: userStore.token
                 }
             } );
 

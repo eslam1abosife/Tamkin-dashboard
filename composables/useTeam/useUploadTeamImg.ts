@@ -15,14 +15,28 @@ export default function() {
                 }
             }, {
                 headers: {
-                    sid: userStore.user.sid ?? null
+                    sid: userStore.token ?? null
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
+            if (res.data.succeeded) {
+                $toast.success('Uploaded successfully!', {
+                    theme: 'colored',
+                    autoClose: 4000,
+                    dangerouslyHTMLString: true
+                });
+            }
 
         } catch (error) {
             
-            throw typeof(error) === 'string' ? error : 'There is something wrong';
+            // throw typeof(error) === 'string' ? error : 'There is something wrong';
+            $toast(`Oops!<br/>${  typeof(error) === 'string' ? error : 'There is something wrong' }`, {
+                "theme": "colored",
+                "type": "error",
+                "autoClose": 4000,
+                "dangerouslyHTMLString": true
+              });
+              throw error;
         }
     };
 

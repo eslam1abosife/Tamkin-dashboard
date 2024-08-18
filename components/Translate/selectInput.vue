@@ -10,12 +10,21 @@ const props = defineProps({
     idField: String,
     disabled: Boolean,
     errorField:Boolean,
-    successField:Boolean
+    successField:Boolean,
+    currentListValue:String
 })
+
+const currentMode = inject('currentMode')
+
 const emit = defineEmits(['getCurrentSelectedItem'])
 const isListOpen = ref(false);
 const search = ref("");
 const selectedOption = ref(null);
+
+const selectedListObj = computed(() => {
+    return props.list.find((item) => item[props.nameKey] === props.currentListValue)
+})
+
 const getSelectedItem = (item) => {
     emit('getCurrentSelectedItem', item)
 }
@@ -52,6 +61,14 @@ const filteredList = computed(() => {
         listItem.name.toLowerCase().includes(search.value.toString().toLowerCase())
     );
 });
+
+onMounted(() => {
+    selectedOption.value = selectedListObj.value;
+})
+
+watch((selectedListObj), (newValue) => {
+    selectedOption.value = newValue
+})
 </script>
 
 <template>

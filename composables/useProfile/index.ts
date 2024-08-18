@@ -11,6 +11,7 @@ import useChangeAccountPassword from "./useChangeAccountPassword";
 import useGetProfileCompleteScore from "./useGetProfileCompleteScore";
 import useChangeProfileAbout from "./useChangeProfileAbout";
 import useRemoveMemberImage from "./useRemoveMemberImage";
+import useAddSocialAccount from "./useAddSocialAccount";
 
 
 
@@ -27,5 +28,6 @@ export {
   useChangeAccountPassword,
   useGetProfileCompleteScore,
   useChangeProfileAbout,
-  useRemoveMemberImage
+  useRemoveMemberImage,
+  useAddSocialAccount
 }

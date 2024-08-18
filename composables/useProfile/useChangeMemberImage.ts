@@ -17,11 +17,18 @@ export default function() {
       },
       {
         headers: {
-          sid: userStore.user.sid
+          sid: userStore.token
         }
       }
     );
       if(!res.data.succeeded) throw(res.data.message);
+      if (res.data.succeeded) {
+        $toast.success('Uploaded successfully!', {
+            theme: 'colored',
+            autoClose: 4000,
+            dangerouslyHTMLString: true
+        });
+    }
 
     } catch (error) {
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {

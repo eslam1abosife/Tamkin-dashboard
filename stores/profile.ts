@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { useGetCurrentTeam, useGetMember, useChangeProfileAbout } from "@/composables/useProfile";
+import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
 
 
 export const useProfileStore = defineStore("profile", {
@@ -8,7 +8,7 @@ export const useProfileStore = defineStore("profile", {
       member: {},
       company: null,
       companySpecialization: null,
-      socialPlatforms: null,
+      socialPlatforms: [],
       isOwner: false,
       profileAbout: ''
     };
@@ -34,6 +34,9 @@ export const useProfileStore = defineStore("profile", {
     setAbout(about: string) {
       this.profileAbout = about;
     },
+    setSocialPlatforms(platforms: []) {
+      this.socialPlatforms = platforms;
+    },
 
     async updateProfileAbout() {
       const { changeProfileAbout } = useChangeProfileAbout();
@@ -42,11 +45,16 @@ export const useProfileStore = defineStore("profile", {
           about: this.profileAbout
         });
       }
+    },
+
+    async updateSocialPlatforms(currentTab: string) {
+      const { addSocialAccount } = useAddSocialAccount();
+      this.socialPlatforms.forEach(async (platform) => {
+        await addSocialAccount(platform, currentTab);
+      })
     }
 
   },
-
-
 
   getters: {
     getRole(state) {

@@ -190,7 +190,7 @@ onMounted(() => {
           </div>
 
       
-     <ProfilePortfolio/>
+     <ProfilePortfolio :currentTab="currentTab" />
         
         </div>
 

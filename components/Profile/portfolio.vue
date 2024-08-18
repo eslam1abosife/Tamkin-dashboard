@@ -6,6 +6,8 @@ import { reactive, toRefs } from "vue";
 import { useGetSocialPlatforms } from "@/composables/useProfile";
 const { getSocialPlatforms, socialPlatforms } = useGetSocialPlatforms();
 
+const profileStore = useProfileStore();
+
 // Reactive state
 const state = reactive({
   handlers: [{
@@ -25,8 +27,29 @@ const rules = {
   },
 };
 
+const profileSocialAccounts = computed(() => {
+  let socialAccounts = [];
+
+  if (props.currentTab === "personal") {
+    socialAccounts = profileStore?.member?.social_accounts;
+  } else {
+    socialAccounts = profileStore?.company?.social_accounts;
+  }
+
+  socialAccounts?.forEach((item: any) => {
+    const handler = socialPlatforms?.value.find((handler: any) => handler?.name === item?.social_platform);
+    if (handler) {
+      item['icon'] = handler?.icon;
+    }
+  });
+
+  return socialAccounts;
+});
+
 // Vuelidate instance
 const v$ = useVuelidate(rules, state);
+
+const props = defineProps(['currentTab'])
 
 // Emits
 const emit = defineEmits(["cancelupdate"]);
@@ -35,6 +58,11 @@ const emit = defineEmits(["cancelupdate"]);
 const cancelUpdate = () => {
   emit("cancelupdate");
 };
+
+const updateSocial = (event: object, handler: object) => {
+  console.log('social event ==> ', event);
+  console.log('social handler ==> ', handler);
+}
 
 // const addHandler = () => {
 //   state.handlers.push();
@@ -45,7 +73,28 @@ const currentMode = inject('currentMode')
 
 onMounted(async () => {
   await getSocialPlatforms();
+
+  const socialPayload = socialPlatforms.value.map((item: any) => {
+
+    return {
+      link: item.title,
+      socail_type: item.name
+    }
+  })
+  profileStore.setSocialPlatforms(socialPayload)
+
 })
+
+watch(profileSocialAccounts, (newValue) => {
+  console.log('newValue ==> ', newValue)
+    const socialPayload = newValue.map((item: any) => {
+      return {
+        link: item.link,
+        socail_type: item.social_platform
+      }
+    })
+    profileStore.setSocialPlatforms(socialPayload)
+}, { deep: true })
 </script>
 
 <template>
@@ -61,17 +110,22 @@ onMounted(async () => {
       class="flex items-center justify-evenly space-x-[16px] "
       v-if="currentMode === 'normal'"
     >
-      <div
-        v-for="platform in socialPlatforms"
+    <template v-if="profileSocialAccounts">
+      <a
+        v-for="(platform, index) in profileSocialAccounts"
+        :key="index"
+        :href="platform.link.startsWith('http') ? platform.link : `#`"
+        target="_blank"
         class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
       >
         <img :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
-      </div>
+      </a>
+    </template>
     </div>
   </div>
     <div class="flex flex-col items-start justify-start w-full"       v-if="currentMode === 'editing'"
     >
-      <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]"     v-for="(handler, index) in socialPlatforms">
+      <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]"     v-for="(handler, index) in profileSocialAccounts">
         <div
           class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
         >
@@ -88,7 +142,7 @@ onMounted(async () => {
           <input
             type="text"
             :id="`handler-${index}`"
-            v-model="handler.name"
+            v-model="handler.link"
             placeholder=""
             class="input_floating_label peer w-full"
             :class="{
@@ -99,6 +153,7 @@ onMounted(async () => {
                 !v$.handlers?.$each?.[index]?.name?.$error &&
                 !v$.handlers?.$each?.[index]?.name?.$invalid,
             }"
+            @input="updateSocial($event, handler)"
           />
           <label
             :for="`handler-${index}`"

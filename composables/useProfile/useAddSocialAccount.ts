@@ -6,6 +6,8 @@ export default function() {
   const { api , loading } = useApiInstance();
   const { $toast } = useNuxtApp();
 
+  const userStore = useUserStore();
+
   const addSocialAccount = async (data: Object, currentTab: string) => {
     let url = '';
 
@@ -14,15 +16,29 @@ export default function() {
     }else if (currentTab === 'company') {
       url = '/Profile/AddSocialAccountCompany';
     }
+
+    if (!url) return;
+
     try {
 
       const res = await api.post(url, {
         data: data
+      }, {
+
+        headers: {
+          sid: userStore.token
+        }
       })
     }catch (error) {
 
       throw error;
     }
   };
+
+
+  return {
+    addSocialAccount,
+    loading
+  }
 
 }

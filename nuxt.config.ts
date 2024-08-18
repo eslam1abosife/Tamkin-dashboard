@@ -187,7 +187,7 @@ colorMode: {
   // plugins: [
   //   { src: '@/plugins/fontawsome.ts' },
   // ],
-  plugins: [{ src: '~/plugins/ckeditor.ts', mode: 'client' }],
+  plugins: [{ src: '~/plugins/ckeditor.ts', mode: 'client' }, { src: '~/plugins/vue-tel-input.ts', mode: 'client' }],
 
   tailwindcss: {
     cssPath: ['~/assets/scss/main.scss', { injectPosition: "first" }],

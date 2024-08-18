@@ -6,6 +6,7 @@ export default function() {
   const { api , loading } = useApiInstance();
   const { $toast } = useNuxtApp();
 
+  const userStore = useUserStore();
 
   const changeAccountPassword = async (data: Object) => {
     try {
@@ -15,15 +16,18 @@ export default function() {
 
       if(!res.data.succeeded) throw(res.data.message);
 
-      // if(!res.data.succeeded) {
-      //   $toast(res.data.message, {
-      //     "theme": "colored",
-      //     "type": "error",
-      //     "autoClose": 4000,
-      //     "dangerouslyHTMLString": true
-      //   })
-      //   throw(res.data.message);
-      // }
+      if (res.data.succeeded) {
+
+        userStore.setToken(res.data.data.sid);
+
+        $toast.success('Password changed successfully', {
+          "theme": "colored",
+          "type": "success",
+          "autoClose": 4000,
+          "dangerouslyHTMLString": true
+        });
+      }
+      
     }catch (error) {
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
         "theme": "colored",

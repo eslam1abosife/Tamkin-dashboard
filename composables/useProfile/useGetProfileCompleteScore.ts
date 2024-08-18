@@ -25,7 +25,8 @@ export default function() {
     try {
       const res = await api.post(url, {}, {
         headers: {
-          sid: userStore.user.sid ?? user.sid
+          // sid: userStore.user.sid ?? user.sid
+          sid: userStore.token
         }
       });
       score.value = res.data.data;
