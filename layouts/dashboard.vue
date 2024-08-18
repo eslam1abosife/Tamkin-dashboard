@@ -367,7 +367,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg" class="!top-[70px]"/>
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"/>
 
   <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
         :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">

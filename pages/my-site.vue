@@ -212,7 +212,7 @@ const paginatedFilteredAppList = computed(() => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"  class="!top-[70px]"  />
+  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"   />
 
   <div class=" w-full ">
     <div class="space-y-[10px] ">

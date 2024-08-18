@@ -202,12 +202,12 @@ const clearFieldError = (condition) => {
                 <input :type="passwordFieldType" placeholder="{{$t('password')}}" id="password"
                   class="input_floating_label peer" v-model="v$.password.$model" :class="{
     input_error:
-      (v$.password.$error && v$.email.password.$invalid) ||
-      (v$.password.$error && v$.email.password.$invalid) ||
+      (v$.password.$error && v$.password.required.$invalid) ||
+   
       isIncludeWord(errorMsg, ['Error in Email Or Password']),
     error_text:
-      (v$.password.$error && v$.email.password.$invalid) ||
-      (v$.password.$error && v$.email.password.$invalid) ||
+      (v$.password.$error && v$.password.$invalid) ||
+      (v$.password.$error && v$.password.$invalid) ||
       isIncludeWord(errorMsg, ['Error in Email Or Password']),
     input_success:
       !v$.password.$error &&

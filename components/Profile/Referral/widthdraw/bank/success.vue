@@ -49,8 +49,9 @@ const formatAmount = (event) => {
 <template>
     <div
     v-if="isOpen('success_bank_withdraw')"
-    class="fixed z-[9999] ipad-max:top-[20px] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[30px]  w-full max-w-[600px] sm:max-w-[90%] md:max-w-[600px] lg:max-w-[600px]"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] 
+    p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
+  ipad-max:top-[0] w-full"    style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- Close Button -->
     <div
@@ -75,11 +76,11 @@ const formatAmount = (event) => {
   
     <!-- Modal Content -->
     <div class="mx-auto max-h-[100%] w-full">
-      <div class="flex flex-col items-center justify-center w-full">
-        <div class="bg-[#F1F1F1] w-[70px] h-[70px] my-[16px] rounded-full flex items-center justify-center">
+      <div class="flex flex-col items-center justify-start w-full">
+        <div class="bg-[#F1F1F1] w-[70px] h-[70px] my-[4px] rounded-full flex items-center justify-center">
           <img src="/imgs/success_bank.png" class="w-[60px] h-[50px]" alt="">
         </div>
-        <div class="mt-[8px] font-[700] text-[20px] leading-[36px] text-darkGrey">
+        <div class=" font-[700] text-[20px] leading-[36px] text-darkGrey">
           Congratulations
         </div>
   
@@ -87,7 +88,7 @@ const formatAmount = (event) => {
           Your withdrawal request will be taken into consideration and your funds will be transferred to your account
         </div>
   
-        <div class="flex items-center justify-between w-full mt-[16px]">
+        <div class="flex items-center justify-between w-full">
           <div class="text-[14px] font-[500] text-[#021328]">
             Oct 09, 2024
           </div>
@@ -123,7 +124,7 @@ const formatAmount = (event) => {
           </div>
         </div>
   
-        <div class="flex items-center justify-between w-full mt-[8px]">
+        <div class="flex items-center justify-between w-full ">
           <div class="text-[12px] font-[500] text-darkGrey">
             Account holder
           </div>

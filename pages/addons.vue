@@ -197,7 +197,7 @@ const cancelAc = () => {
       />
 
       <AddonsAdjustmain />
-
+<AddonsProfilecards/>
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
       >

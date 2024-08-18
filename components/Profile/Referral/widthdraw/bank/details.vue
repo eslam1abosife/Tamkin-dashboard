@@ -41,8 +41,8 @@ const checked = ref('');
 
 <template>
   <div  v-if="isOpen('details_bank_withdraw')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-[598px] 
-    wauto max-h-[80vh]"
+      class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
+  ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <!-- isOpen('withdraw_paymentmethods') -->
@@ -215,7 +215,7 @@ const checked = ref('');
       </div>
   
 
-       <div class="mt-[71px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="navigateTo('details_bank_withdraw','referral','bank_account_withdraw')">
           Continue
       </button>

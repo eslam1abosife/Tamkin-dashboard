@@ -5,12 +5,18 @@ import { Vue3Lottie } from 'vue3-lottie'
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers } from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+// const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
 
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
 import { useGetAppInvites } from "~/composables/useTeam";
 
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
+const tgl = ()=>{
+  if(process.client){
+    window.$chatwoot.toggle()
+  }
+}
 
 const code = ref(true);
 const advancedCode = ref(false)
@@ -112,11 +118,20 @@ const clearInput = () => {
 const { apps, defaultApp, getInviteApps } = useGetAppInvites();
 const { getInstallationGuides, installationGuide, loading: getInstallationLoading } = useGetInstallationGuide();
 getInstallationGuides();
+// const { $chatwoot } = useNuxtApp();
 
 onMounted(async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   await getInviteApps({ agency: user.agency });
   getMembers({ appName: defaultApp?.value?.name });
+  // window.addEventListener("chatwoot:ready", function () {
+    // window.$chatwoot.toggle();
+
+// window.$chatwoot.toggleBubbleVisibility("show")
+// window.$chatwoot.toggleBubbleVisibility("show");
+// });
+
+
 })
 const openVideoLink = (videoLink) => {
   window.open(videoLink, '_blank');
@@ -124,6 +139,7 @@ const openVideoLink = (videoLink) => {
 const filteredInstallationGuide = computed(() => {
   return installationGuide.value.filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
 });
+
 </script>
 
 <template>
@@ -271,7 +287,7 @@ const filteredInstallationGuide = computed(() => {
             <button class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
             space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px] 
             flex items-center justify-center px-[12px] whitespace-nowrap">
-              <div class="">Sign up to keep up with the latest news from us</div>
+              <div class="" @click.prevent="tgl">Sign up to keep up with the latest news from us</div>
               <div>
                 <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" />
               </div>
@@ -293,11 +309,11 @@ const filteredInstallationGuide = computed(() => {
 
         <div class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary 
           flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between">
-          <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
+          <div class="flex items-center rtl:space-x-reverse space-x-[-16px] flex-1">
             <template v-if="!getMembersLoading && members.length > 0">
               <div v-for="(member, index) in members" :key="index">
                 <img draggable="false" v-if="member.image" :src="`https://tamkin.app/${member.image}`"
-                  class="w-10 h-10" />
+                  class="w-10 h-10 rounded-full" />
                 <div v-else
                   class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
                   <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
@@ -308,9 +324,9 @@ const filteredInstallationGuide = computed(() => {
 
           </div>
           <div class="">
-            <a href="#"
-              class="text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline">Schedule
-              ameeting Withnour support team</a>
+            <button @click.prevent="tgl"
+              class="bg-transparent text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline">Schedule
+              ameeting Withnour support team</button>
           </div>
         </div>
       </div>

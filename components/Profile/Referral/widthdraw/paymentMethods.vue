@@ -85,8 +85,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
 
 <template>
   <div  v-if="isOpen('withdraw_paymentmethods')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] h-full
-    w-10/12 max-h-[80vh]"
+   class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
+  ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <!-- isOpen('withdraw_paymentmethods') -->
@@ -208,7 +208,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         </div>
        </div>
 
-       <div class="mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" :disabled="!selectedPaymentMethod" @click="goToPaymentMethod(selectedPaymentMethod)">
           Continue 
       </button>
