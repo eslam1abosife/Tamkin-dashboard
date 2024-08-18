@@ -120,6 +120,14 @@ const checkInput = (event) =>{
 const handleSelectedItemProjectName = (item: any) => {
   console.log(item)
 };
+const { $toast } = useNuxtApp();
+
+const addCard = ()=>{
+  closeModal('add_new_card_billing')
+
+$toast('Card Added successfully', { hideIn: 3000 });
+
+}
 
 </script>
 
@@ -612,11 +620,11 @@ const handleSelectedItemProjectName = (item: any) => {
           </div>
     
           <div class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] ml-auto space-x-[16px]">
-            <button class="btn_bordered_dashboard  ">
+            <button class="btn_bordered_dashboard  " @click="closeModal('add_new_card_billing')">
               Cancel
                       </button>
          
-        <button class="btn-dashboard hover_tamkin ">
+        <button class="btn-dashboard hover_tamkin " @click="addCard">
 Save
         </button>
       </div>

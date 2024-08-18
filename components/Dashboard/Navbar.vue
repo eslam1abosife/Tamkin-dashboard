@@ -231,16 +231,17 @@ watch(
   >
     <div class="flex flex-col items-start justify-start w-full  transition-all duration-100 ease-in-out">
       <div
-        class="self-start w-full"
+        class="self-start w-full cursor-pointer"
         :class="[sideBarOpen ? '' : 'mx-auto']"
         v-if="sideBarOpen"
+        @click="$router.push(localePath('/dashboard'))"
       >
         <img
           src="/assets//imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
         />
       </div>
-      <div class="mb-[10px] w-[55px] h-[55px] mt-[24px] " v-else>
+      <div class="mb-[10px] w-[55px] h-[55px] mt-[24px] cursor-pointer "        @click="$router.push(localePath('/dashboard'))" v-else>
         <img
           src="/assets//imgs/icons/tamkin_small.svg"
           class="w-[28px] h-[28px] "
@@ -261,7 +262,7 @@ watch(
         @click="$router.push(localePath('/team'))"
         :class="[
           !sideBarOpen ? 'border-none bg-transparent hidden' : '',
-          isLinkActive('/team') ? 'active' : '',
+          isLinkActive('/team') ? 'bg-tamkinLight' : '',
         ]"
       >
         <img
@@ -1566,63 +1567,7 @@ watch(
           </div>
         </div>
       </div>
-      <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
-      >
-        <div>
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-full h-full"
-          >
-            <g clip-path="url(#clip0_2978_5551)">
-              <path
-                d="M21.0833 2.40462C18.8524 0.832307 15.8818 0 12.5 0C9.11818 0 6.14764 0.832307 3.91673 2.40462C1.74473 3.93538 0.5 6.08769 0.5 8.30769V15.6923C0.5 17.9123 1.74473 20.0646 3.91673 21.5954C6.14764 23.1677 9.11818 24 12.5 24C15.8818 24 18.8524 23.1677 21.0833 21.5954C23.2553 20.0646 24.5 17.9123 24.5 15.6923V8.30769C24.5 6.08769 23.2553 3.93538 21.0833 2.40462ZM4.50145 4.05692C6.52291 2.63077 9.36364 1.84615 12.5 1.84615C15.6364 1.84615 18.4771 2.63077 20.4985 4.05692C22.2091 5.26308 23.1909 6.81231 23.1909 8.30769C23.1909 9.80308 22.2091 11.3523 20.4985 12.5585C18.4771 13.9846 15.6364 14.7692 12.5 14.7692C9.36364 14.7692 6.52291 13.9846 4.50145 12.5585C2.79091 11.3523 1.80909 9.80308 1.80909 8.30769C1.80909 6.81231 2.79091 5.26308 4.50145 4.05692ZM11.8455 16.6046V22.1431C9.74655 22.0692 7.80145 21.6385 6.17273 20.8954V15.4492C7.83855 16.1431 9.75636 16.5369 11.8455 16.6046ZM13.1545 16.6046C15.2436 16.5369 17.1615 16.1431 18.8273 15.4477V20.8938C17.1985 21.6369 15.2535 22.0677 13.1545 22.1415V16.6046ZM1.80909 15.6923V12.1538C2.43186 12.9889 3.1429 13.6823 3.91673 14.2092C4.21927 14.4215 4.53491 14.6205 4.86364 14.8062V20.1908C4.74036 20.1108 4.61927 20.0369 4.50145 19.9477C2.79091 18.7369 1.80909 17.1877 1.80909 15.6923ZM20.4985 19.9431C20.3807 20.0262 20.2596 20.1062 20.1364 20.1862V14.8015C20.4644 14.6159 20.78 14.4169 21.0833 14.2046C21.8569 13.6791 22.5679 12.9872 23.1909 12.1538V15.6923C23.1909 17.1877 22.2091 18.7369 20.4985 19.9431Z"
-                fill="currentColor"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_2978_5551">
-                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <span v-if="sideBarOpen">Coin Store</span>
-      </div>
-
-      <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
-      >
-        <div>
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-full h-full"
-          >
-            <g clip-path="url(#clip0_2978_5569)">
-              <path
-                d="M24.5 3H23V0H8V3H5V4.875L4.1 6H2V8.625L0.5 10.5V24H18.5L24.5 16.5V3ZM3.5 7.5H15.5V10.5H3.5V7.5ZM17 22.5H2V12H17V22.5ZM18.5 10.5H17V6H6.5V4.5H18.5V10.5ZM21.5 6.75L20 8.625V3H9.5V1.5H21.5V6.75Z"
-                fill="currentColor"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_2978_5569">
-                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <span v-if="sideBarOpen">Records</span>
-      </div>
+  
       <div
         class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
@@ -1651,34 +1596,7 @@ watch(
         </div>
         <span v-if="sideBarOpen">Packages</span>
       </div>
-      <div
-        class="dashboard-nav-link"
-        :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
-      >
-        <div>
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-full h-full"
-          >
-            <g clip-path="url(#clip0_2978_5605)">
-              <path
-                d="M12.5 0L24.5 6.00054V17.9995L12.5 24L0.5 17.9995V6.00054L12.5 0ZM12.5 2.48498L2.98447 7.24195V16.758L12.5 21.515L22.0155 16.758V7.24195L12.5 2.48498ZM12.5 8.77275C11.5116 8.77275 10.5637 9.11276 9.86482 9.71799C9.16593 10.3232 8.77329 11.1441 8.77329 12C8.77329 12.8559 9.16593 13.6768 9.86482 14.282C10.5637 14.8872 11.5116 15.2273 12.5 15.2273C13.4884 15.2273 14.4363 14.8872 15.1352 14.282C15.8341 13.6768 16.2267 12.8559 16.2267 12C16.2267 11.1441 15.8341 10.3232 15.1352 9.71799C14.4363 9.11276 13.4884 8.77275 12.5 8.77275ZM6.28882 12C6.28882 10.5735 6.94321 9.20536 8.10803 8.19665C9.27285 7.18793 10.8527 6.62125 12.5 6.62125C14.1473 6.62125 15.7271 7.18793 16.892 8.19665C18.0568 9.20536 18.7112 10.5735 18.7112 12C18.7112 13.4265 18.0568 14.7946 16.892 15.8034C15.7271 16.8121 14.1473 17.3788 12.5 17.3788C10.8527 17.3788 9.27285 16.8121 8.10803 15.8034C6.94321 14.7946 6.28882 13.4265 6.28882 12Z"
-                fill="currentColor"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_2978_5605">
-                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
-              </clipPath>
-            </defs>
-          </svg>
-        </div>
-        <span v-if="sideBarOpen">Settings</span>
-      </div>
+
       <div
         v-if="!sideBarOpen"
         class="cursor-pointer mt-[14px]"
@@ -1691,7 +1609,7 @@ watch(
       </div>
       <div
         v-if="sideBarOpen"
-        class="w-full mb-[24px] bg-cover bg-center rounded-[18px] mt-[4px] dark:border-[1px] dark:border-darkborder 
+        class="w-full ipad-max:mt-[24px] lg:mt-[100px] 2xl:mt-[100px] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
         dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div

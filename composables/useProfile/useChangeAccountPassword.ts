@@ -3,10 +3,11 @@ import { useNuxtApp } from '#app';
 
 export default function() {
   const { useApiInstance } = useApi();
-  const { api , loading } = useApiInstance();
+  const { api, loading } = useApiInstance();
   const { $toast } = useNuxtApp();
 
   const userStore = useUserStore();
+  const errorFields = ref([]);
 
   const changeAccountPassword = async (data: Object) => {
     try {
@@ -14,34 +15,36 @@ export default function() {
         data: data
       });
 
-      if(!res.data.succeeded) throw(res.data.message);
+      if (!res.data.succeeded) throw(res.data.message);
 
       if (res.data.succeeded) {
-
         userStore.setToken(res.data.data.sid);
-
-        $toast.success('Password changed successfully', {
-          "theme": "colored",
-          "type": "success",
-          "autoClose": 4000,
-          "dangerouslyHTMLString": true
-        });
+        $toast('Password updated successfully', { hideIn: 3000 });
       }
-      
-    }catch (error) {
-      $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
-        "theme": "colored",
-        "type": "error",
-        "autoClose": 4000,
-        "dangerouslyHTMLString": true
-      });
+
+    } catch (error) {
+      errorFields.value = [];
+
+      if (typeof error === 'string') {
+        console.log(errorFields)
+        if (error === 'Password inValid') {
+          errorFields.value.push({ field: 'old_password', message: error });
+        } else if (error === 'select New Password Strong') {
+          errorFields.value.push({ field: 'password', message: error });
+        } else {
+          errorFields.value.push({ field: 'general', message: 'There is something wrong' });
+        }
+      } else {
+        errorFields.value.push({ field: 'general', message: 'There is something wrong' });
+      }
+
       throw error;
     }
   };
 
   return {
     changeAccountPassword,
-    loading
-  }
-
+    loading,
+    errorFields,
+  };
 }

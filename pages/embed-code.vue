@@ -313,9 +313,10 @@ const filteredInstallationGuide = computed(() => {
             <template v-if="!getMembersLoading && members.length > 0">
               <div v-for="(member, index) in members" :key="index">
                 <img draggable="false" v-if="member.image" :src="`https://tamkin.app/${member.image}`"
-                  class="w-10 h-10 rounded-full" />
+                  class="w-10 h-10 object-top object-cover rounded-full" />
                 <div v-else
-                  class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[40px] h-[40px]">
+                  class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center
+                   select-none w-[40px] h-[40px]">
                   <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
                 </div>
               </div>

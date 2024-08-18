@@ -22,7 +22,9 @@ definePageMeta({
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
     <ProfileOrdersTracking/>
-    <LazyMarketModalRequest v-if="isOpen('requestmodal')"/>
+    <ProfileOrdersRequest/>
+<ProfileOrdersViewdetails/>
+
     <div class="space-y-[5px]">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
@@ -158,8 +160,9 @@ definePageMeta({
               <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
 
               <div class="flex items-center justify-start space-x-[26px] mt-[12px] ">
-                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal','order-id')">Edit request</button>
+                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_update','order-id')">Edit request</button>
                 <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('tracking_custom_order','order-id')">Track</button>
+                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_details','order-id')">View Details</button>
 
               </div>
             </div>

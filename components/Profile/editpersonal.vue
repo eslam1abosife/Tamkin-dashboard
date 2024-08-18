@@ -42,12 +42,13 @@ const telInputStyleClasses = computed(() => {
     }
   ]
 })
-
 const emit = defineEmits(['cancelupdate'])
 
 const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
+
+const {$toast} = useNuxtApp()
 const updatePersonalInfo = async () => {
 
   const isValid = await v$.value.$validate();
@@ -56,6 +57,7 @@ const updatePersonalInfo = async () => {
     emit('cancelupdate')
     profileStore.updateSocialPlatforms('personal')
     profileStore.setMember();
+    $toast('Personal Info updated Successfully', { hideIn: 3000});
   }
 }
 
@@ -88,6 +90,7 @@ onMounted(async () => {
   state.phone = profileStore.member.phone;
   state.country = profileStore.member.country;
 });
+
 </script>
 
 <template>
@@ -255,3 +258,28 @@ onMounted(async () => {
 </div>
 
 </template>
+
+<style>
+.vue-tel-input {
+@apply rounded-[10px] bg-white;
+}
+.vti__dropdown-list.below{
+@apply ipad-max:!w-[400px] lg:!w-[250px] 2xl:!w-[340px] rounded-[10px] bg-white border border-[#D9D9D9] top-[52px];
+
+}
+.vti__dropdown{
+  @apply rounded-[10px] bg-white;
+
+}
+.vti__dropdown-item{
+  @apply  px-[16px] py-2 text-[12px] !font-[Poppins] !font-[300] ;
+}
+
+.vti__dropdown-item.highlighted{
+  @apply   bg-tamkinLight ;
+}
+.vue-tel-input:focus-within{
+  @apply !shadow-none;
+}
+
+</style>

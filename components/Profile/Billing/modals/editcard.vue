@@ -11,7 +11,7 @@ import {
 import UAEFLAG from "/assets/imgs/flags/UAE.svg";
 import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
 import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
-
+const {$toast} = useNuxtApp()
 import { useModalStore } from "@/stores/modal";
 
 const props = defineProps({
@@ -187,6 +187,12 @@ watch(
       state.cardType = null;
     }
   })
+
+  const updateCard = ()=>{
+    closeModal('edit_card_billing_profile')
+    $toast('Card Updated Successfully', { hideIn: 3000});
+
+  }
 </script>
 
 <template>
@@ -490,9 +496,9 @@ Edit your saved card details
 
 
   <div class=" ml-auto">
-    <button class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    <button @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
- 
+    
  
      <span>Delete Payment Method</span>
     </button>
@@ -514,7 +520,7 @@ Edit your saved card details
            </button>
         <button
           class="btn-dashboard hover_tamkin w-[120px]"
-       @click="closeModal('edit_card_billing_profile')"
+       @click="updateCard"
         >
         Submit
         </button>
