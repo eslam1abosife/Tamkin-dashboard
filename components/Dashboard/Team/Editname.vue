@@ -30,6 +30,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 const modalStore = useModalStore();
+const toastEditMemeberName = ref(false)
 
 onMounted(() => {
   const memberData = getData();
@@ -38,9 +39,8 @@ onMounted(() => {
   state.firstName = memberData.first_name;
   state.lastName = memberData.last_name;
 });
-
 const errorMsg = ref('');
-
+const {$toast} = useNuxtApp()
 const doEditMember = async () => {
   try {
     await editMember({
@@ -54,14 +54,20 @@ const doEditMember = async () => {
     userStore.setUser(user);
     closeModal('editname');
     await getAllTeamMember(user.agency);
+    $toast('Member Name updated successfully', { hideIn: 3000});
+
   } catch (err) {
+
     errorMsg.value = err;
   }
 }
+
 </script>
 
 <template>
-  <div v-if="isOpen('editname')"
+
+   
+    <div v-if="isOpen('editname')"
     class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[350px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editname')">
@@ -144,6 +150,7 @@ const doEditMember = async () => {
 
     </div>
   </div>
+
 </template>
 
 <style lang="scss"></style>

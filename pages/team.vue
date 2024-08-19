@@ -261,7 +261,6 @@ const openPermissions = (member) => {
   });
   openModal("userpermissions", "team");
 };
-
 const isOwner = computed(() => {
   return (member) => {
     return (
@@ -280,9 +279,11 @@ onMounted(() => {
   <div class="relative">
     <DashboardToastSuccess v-if="reInvite" :hideIn="2000" :message="'Re-sent successfully'" class="!top-[70px]" />
     <DashboardToastSuccess v-if="renamedSuccessfullyToast" :hideIn="2000" :message="'Team Renamed successfully'"
-      class="!top-[70px]" />
+ />
     <DashboardToastSuccess v-if="memberDeletedSuccessfully" :hideIn="2000" :message="'Member Deleted successfully'"
-      class="!top-[70px]" />
+ />
+
+
 
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin">

@@ -112,7 +112,8 @@ watch((selectedListObj), (newValue) => {
                 </div>
             </div>
             <ul class="overflow-y-auto " :class="[filteredList.length > 0 ? 'h-[100px]' : 'h-auto']">
-                <li v-for="(listItem, i) in filteredList" :key="listItem.id" @click="selectList(listItem)" :class="[i === 0 && !enableSearch ? 'rounded-t-[10px]' : '', i === filteredList.length - 1 ? 'rounded-b-[10px]' : '',
+                <li v-for="(listItem, i) in filteredList" :key="listItem.id" @click="selectList(listItem)"
+                 :class="[i === 0 && !enableSearch ? 'rounded-t-[10px]' : '', i === filteredList.length - 1 ? 'rounded-b-[10px]' : '',
                 selectedOption && selectedOption[idField] === listItem[idField] ? '!bg-tamkinLight' : ''
 
                 ]" class="flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight group cursor-pointer">

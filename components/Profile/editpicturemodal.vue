@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
 
         <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-else>
           Select a high-quality image to represent your team and
-          <span class="font-[500] text-tamkin">upload it here.</span>
+          <span class="font-[500] text-tamkin">upload it here</span>
         </h1>
       </div>
     </div>

@@ -198,7 +198,7 @@ const openMenu = (menu: any) => {
         </div>
       </div>
     </div>
-    <div class="bg-white w-full mt-[24px] rounded-[10px] p-[24px] ">
+    <div class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
         Billing & Invoices
       </h1>

@@ -52,9 +52,11 @@
 .btn-dashboard {
   background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
 
-  @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[40px]
-  disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white disabled:hover:bg-tamkin-disabled disabled:cursor-not-allowed
-  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full ;
+  @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[40px] disabled:bg-lightGrey 
+  disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white  disabled:cursor-not-allowed
+  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full
+  
+  ;
 
   &:not(.normal_hover, .no_hover, .hover_tamkin):hover {
     @apply bg-white;

@@ -148,7 +148,7 @@ const openMenu = (menu: any) => {
                  <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                     <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                  </div>
-                  <span>Special Character</span>
+                   <span class="truncate w-20">Special Character</span>
                 </div>
               </td>
               <td class="py-3 px-6 text-left ">
@@ -184,7 +184,7 @@ const openMenu = (menu: any) => {
                    <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                       <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                    </div>
-                    <span>Special Character</span>
+                     <span class="truncate w-20">Special Character</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-left ">
@@ -221,12 +221,12 @@ const openMenu = (menu: any) => {
                    <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                       <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                    </div>
-                    <span>Special Character</span>
+                    <span class="truncate w-20">Special Character</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-left ">
                   <div class="flex items-center">
-                    <img src="/assets/imgs/payment_methods/Paypal.svg" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
+                    <img src="/assets/imgs/payment_methods/paypal.svg" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
                     <span>PayPal</span>
                   </div>
                 </td>

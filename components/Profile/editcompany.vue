@@ -47,6 +47,7 @@ const emit = defineEmits(['cancelupdate'])
 const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
+const { $toast } = useNuxtApp();
 
 const updateCompanyInfo = async () => {
 
@@ -56,6 +57,7 @@ const updateCompanyInfo = async () => {
     await profileStore.updateProfileAbout();
     profileStore.updateSocialPlatforms('company')
     await profileStore.setCompany();
+    $toast('Company Info updated Successfully', { hideIn: 3000});
     emit('cancelupdate')
   }
 }

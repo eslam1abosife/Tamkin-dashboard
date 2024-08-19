@@ -57,7 +57,7 @@ const isLinkActive = (path) => {
 };
 
 const {resetModal} = storeToRefs(marketStore);
-
+const {$toast} = useNuxtApp()
 const {
   isOpen,
   currentView,
@@ -284,6 +284,10 @@ const openModals = computed(() => {
     isOpen('paypal_withdraw_step2') ||
     isOpen('success_paypal_withdraw') ||
     isOpen('add_new_card_billing') ||
+    isOpen('tracking_custom_order') ||
+    isOpen('requestmodal_update') ||
+    isOpen('requestmodal_details') ||
+    isOpen('deleteModal_card') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -430,7 +434,14 @@ onMounted(() => {
                    sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
                    confirm-btn-type="delete" @control-delete="closeModal('deleteModal')"
                    @control-cancel="closeModal('deleteModal')"/>
-
+                   <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete PaymentMethod"
+                   sub-title="Are you sure you want to delete the Payment method ?"
+                   confirm-btn-type="delete" @control-delete="()=>{
+                    closeModal('deleteModal_card')
+                    $toast('Payment Method Deleted Successfully', { hideIn: 3000});
+ 
+                  }"
+                   @control-cancel="closeModal('deleteModal_card')"/>
     <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')"/>
     <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')"/>
 
@@ -495,10 +506,10 @@ onMounted(() => {
               </svg>
             </div>
 
-            <div class="py-[17px] search_input relative  w-full !ml-[40px]">
+            <div class="py-[17px] search_input  w-full !ml-[40px]">
               <input
                   type="text"
-                  class="input_dashboard_search 2xl:w-full lg:w-3/4 "
+                  class="input_dashboard_search w-full "
                   v-model="search"
                   placeholder="Search ..."
               />
@@ -510,7 +521,8 @@ onMounted(() => {
               <div
                   v-if="isSearchfilled"
                   @click="clearInput"
-                  class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
+                  class="absolute top-[40%] right-0
+                  lg:top-[16px] lg:p-[16px]"
               >
                 <img src="/assets/imgs/icons/clear_search.svg"/>
               </div>

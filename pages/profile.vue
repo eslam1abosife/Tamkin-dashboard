@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useClipboard } from '@vueuse/core'
+
 const {
   isOpen,
   currentView,
@@ -46,19 +48,16 @@ const changeTab = (tab: any) => {
 const changeMode = (mode : any)=>{
     currentMode.value = mode
 }
-const copyDone = ref(false);
-const copyCode = () => {
-  copyDone.value = true;
-};
 
-watch(copyDone, (newValue) => {
-  if (newValue) {
-    // Reset copyDone after the hideIn duration
-    setTimeout(() => {
-      copyDone.value = false;
-    }, 2000);
-  }
-});
+
+// watch(copied, (newValue) => {
+//   if (newValue) {
+//     // Reset copyDone after the hideIn duration
+//     setTimeout(() => {
+//       copyDone.value = false;
+//     }, 2000);
+//   }
+// });
 
 watch(currentTab, (newValue) => {
   getProfileCompleteScore(newValue);
@@ -70,16 +69,23 @@ onMounted(() => {
   // profileStore.setCompany();
   getProfileCompleteScore(currentTab.value);
 })
+
+
+const source = ref('0x2d5jdska9erptjfew7364432')
+const { text, copy, copied, isSupported } = useClipboard({ source })
+
 </script>
 
 <template>
   <div class="relative w-full h-full mb-[16px] !p-0">
-    <DashboardToastSuccess
-    v-if="copyDone"
+    <LazyDashboardToastSuccess
+    v-if="copied"
     :hideIn="2000"
     :message="'Copied to clipboard'"
  
   />
+
+
     <div
       class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
     >
@@ -96,11 +102,11 @@ onMounted(() => {
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
       <div class="absolute bottom-[22px] ltr:right-[40px] rtl:left-[5px]">
-        <button
+        <button  @click="changeMode('editing')"
           class="btn-default border-[1px] border-[#C5C5C5] !bg-white group hover:border-tamkin"
         >
           <div
-          @click="changeMode('editing')"
+         
             class="group-hover:bg-gradient-to-b group-hover:from-tamkinStart group-hover:to-tamkinEnd group-hover:bg-clip-text group-hover:text-transparent"
           >
             Edit Profile
@@ -125,6 +131,8 @@ onMounted(() => {
           h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]">
 
           </div>
+
+          
             <div class="flex items-center justify-start w-full space-x-[16px]">
               <div>
                 <img
@@ -146,12 +154,12 @@ onMounted(() => {
                 <div
                   class="text-[#878787] truncate ipad-max:w-36 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
                 >
-                  0x2d5jdska9erptjfew7364432
+                  {{ source }}
                 </div>
               </div>
-              <img
+              <img v-if="isSupported"
                 class="ml-auto cursor-pointer w-[18px] h-[18px]"
-                @click="copyCode"
+                @click="copy(source)"
                 src="/imgs/copy.png"
               />
             </div>
@@ -166,12 +174,60 @@ onMounted(() => {
               Token Balance
             </div>
 
-            <div class="text-[12px]  ipad-max:text-[10px] font-[600] text-[#1E1E1E]">TSLT 5.000.00</div>
+            <div class="text-[12px]  ipad-max:text-[10px] font-[600] text-[#1E1E1E]">5.000.00 TSLT</div>
           </div>
           </div>
           
           </div>
+          <div v-if="currentTab === 'personal' || currentTab === 'security'"
+          class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px]
+           flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+        >
 
+        <div class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full 
+        h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]">
+
+        </div>
+
+        
+          <div class="flex items-center justify-between w-full space-x-[16px]">
+       
+            <div class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]">
+              Investor Program
+            </div>
+            <div class="flex items-center justify-start">
+              <img
+                src="/assets/imgs/overview/silver.svg"
+                class="w-[24px] h-[24px]"
+                alt=""
+              />
+              <img
+              src="/assets/imgs/overview/silver.svg"
+              class="w-[24px] h-[24px]"
+              alt=""
+            />
+            <img
+            src="/assets/imgs/overview/silver.svg"
+            class="w-[24px] h-[24px]"
+            alt=""
+          />
+            </div>
+          </div>
+
+
+          <div class="my-[8px] text-[12px] font-[400] leading-[16px] text-darkGrey">
+            You are not investor member
+          </div>
+
+
+          <div class="my-[8px] text-[13px] font-[500] leading-[21px] text-black">
+            Buy Tamkin Token - TSLT and Join in our Investor Program
+          </div>
+
+<button class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin">Investor Program</button>
+        
+        
+        </div>
           <div
             class="bg-white/60 rounded-[10px] backdrop-blur-md  shadow-sm  
             h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
@@ -241,7 +297,7 @@ onMounted(() => {
           <ProfileEditcompany  @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
 
           <ProfileCompanyinfo  v-if="currentMode === 'normal' && currentTab === 'company'" />
-          <ProfilePassword   v-if="currentTab === 'security'" /> 
+          <ProfilePassword @close-editing-mode="currentTab = 'personal'"  v-if="currentTab === 'security'" /> 
         </div>
       </div>
     </div>
