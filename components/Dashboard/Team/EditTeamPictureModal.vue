@@ -79,7 +79,7 @@ const submit = async () => {
       };
       await uploadTeamImg(imgFile);
       // await getCurrentTeam();
-      profileStore.setCompany();
+      await profileStore.setCompany();
       // emit('uploadSuccess');
       closeModal('editteampic');
     };

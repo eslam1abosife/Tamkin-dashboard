@@ -79,7 +79,7 @@ const submit = () => {
     };
     // const { uploadTeamImg } = useUploadTeamImg();
     await changeMemberImage(imgFile);
-    profileStore.setMember();
+    await profileStore.setMember();
     // getCurrentTeam();
     closeModal('editMemberPic');
   };

@@ -85,6 +85,9 @@ const handleSelectedItemProjectName = (item: any) => {
 
 onMounted(async () => {
   await getCountries();
+});
+
+onMounted(() => {
   state.first_name = profileStore.member.first_name;
   state.last_name = profileStore.member.last_name;
   state.phone = profileStore.member.phone;

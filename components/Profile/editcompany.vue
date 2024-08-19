@@ -89,6 +89,9 @@ onMounted(async () => {
   await getCountries();
   await getAllCompanySpecializations();
 
+});
+
+onMounted(() => {
   state.company = profileStore.company.team_name
   state.country = profileStore.company.country
   state.phone = profileStore.company.phone
