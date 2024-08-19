@@ -272,9 +272,9 @@ const openMenu = (menu: any) => {
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           No payment methods have been added yet
         </div>
-        <button class="btn-dashboard hover_tamkin w-2/6 ipad-max:w-2/6 lg:w-2/6 2xl:w-auto space-x-[10px]">
+        <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]">
      
-          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Payment Methods</div>
+          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
         </button>
       </div>
     </div>

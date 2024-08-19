@@ -148,12 +148,12 @@ const openMenu = (menu: any) => {
                  <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                     <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                  </div>
-                   <span class="truncate w-20">Special Character</span>
+                   <span class="truncate w-28">Special Character</span>
                 </div>
               </td>
               <td class="py-3 px-6 text-left ">
                 <div class="flex items-center">
-                  <img src="/assets/imgs/payment_methods/crypto.svg" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
+                  <img src="/imgs/crypto.png" alt="Placeholder" class="w-[20px] h-[26px] mr-2 "/>
                   <span>Crypto</span>
                 </div>
               </td>
@@ -184,12 +184,12 @@ const openMenu = (menu: any) => {
                    <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                       <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                    </div>
-                     <span class="truncate w-20">Special Character</span>
+                     <span class="truncate w-28">Special Character</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-left ">
                   <div class="flex items-center">
-                    <img src="/assets/imgs/payment_methods/cc.svg" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
+                    <img src="/imgs/cc.png" alt="Placeholder" class="w-[20px] h-[28px] mr-2"/>
                     <span>Credit</span>
                   </div>
                 </td>
@@ -221,7 +221,7 @@ const openMenu = (menu: any) => {
                    <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                       <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                    </div>
-                    <span class="truncate w-20">Special Character</span>
+                    <span class="truncate w-28">Special Character</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-left ">

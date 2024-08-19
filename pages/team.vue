@@ -341,10 +341,10 @@ onMounted(() => {
               </span>
             </h1>
           </div>
-          <div v-else class="flex-grow w-full">
+          <div v-else class="w-full">
             <div class="relative">
               <input type="text" placeholder="{{$t('Your team name')}}" id="teamName"
-                class="input_floating_label peer w-full" v-model="v$.teamName.$model" :class="{
+                class="input_floating_label peer  ipad-max:w-full lg:w-[200px] 2xl:w-[350px]" v-model="v$.teamName.$model" :class="{
       input_error:
         v$.teamName.$error && v$.teamName.required.$invalid,
       input_success: !v$.teamName.$error && !v$.teamName.$invalid,
@@ -373,11 +373,19 @@ onMounted(() => {
               Edit Team
             </button>
           </div>
-          <div v-else class="lg:w-1/4 rtl:ml-[29px] ltr:mr-[29px]">
+          <div v-else class="">
             <button @click="doRenameTeam" :disabled="v$.teamName.$invalid || loading"
-              :class="(v$.teamName.$invalid || loading) && `btn-inactive`" class="btn_bordered_dashboard">
-              <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" />
-              Save
+            class="btn_bordered_dashboard ml-auto">
+              <div class="flex items-center justify-center">
+                <div :class="loading ? 'mr-2':''">
+                 Save
+                </div>
+           
+                 <svg  v-if="loading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+               </div>
             </button>
           </div>
         </div>

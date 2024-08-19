@@ -300,6 +300,9 @@ const openModals = computed(() => {
     // InviteMemberUpdateModal.value ||
     // showUpgradeModal.value ||
     resetModal.value 
+    ||checkboxStore.routeLeaveModal  ||
+    custmizeStore.routeLeaveModal ||
+    settingsStore.routeLeaveModal
     // deleteModal.value ||
     // transferModalStep1.value ||
     // transferStep2.value ||

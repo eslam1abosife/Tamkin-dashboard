@@ -618,7 +618,18 @@ $toast('Card Added successfully', { hideIn: 3000 });
        
             </div>
           </div>
-    
+          <div class=" px-[20px]">
+            <label for="remember_me"
+            class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
+            <input type="checkbox"
+              class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] 
+               text-tamkin ring-0 focus:ring-0 focus:outline-none"
+              id="remember_me" />
+              <div class="text-[14px] font-[400] text-black mt-1">
+                Set as primary card Submit
+              </div>
+           </label>
+        </div>
           <div class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] ml-auto space-x-[16px]">
             <button class="btn_bordered_dashboard  " @click="closeModal('add_new_card_billing')">
               Cancel
