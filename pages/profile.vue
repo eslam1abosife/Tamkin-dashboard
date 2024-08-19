@@ -102,11 +102,11 @@ const { text, copy, copied, isSupported } = useClipboard({ source })
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
       <div class="absolute bottom-[22px] ltr:right-[40px] rtl:left-[5px]">
-        <button
+        <button  @click="changeMode('editing')"
           class="btn-default border-[1px] border-[#C5C5C5] !bg-white group hover:border-tamkin"
         >
           <div
-          @click="changeMode('editing')"
+         
             class="group-hover:bg-gradient-to-b group-hover:from-tamkinStart group-hover:to-tamkinEnd group-hover:bg-clip-text group-hover:text-transparent"
           >
             Edit Profile
