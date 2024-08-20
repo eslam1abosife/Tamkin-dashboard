@@ -6,6 +6,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers } from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
+import { useClipboard } from '@vueuse/core'
 
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
@@ -21,7 +22,6 @@ const tgl = ()=>{
 const code = ref(true);
 const advancedCode = ref(false)
 const currentCode = ref(``)
-const copyDone = ref(false)
 const showAdancedCode = () => {
   if (!advancedCode.value) {
     code.value = false
@@ -82,28 +82,15 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 onBeforeMount(() => {
   currentCode.value = `const foo = 'bar';`
   code.value = true
 })
-onBeforeMount(() => {
-  currentCode.value = `const foo = 'bar';`
-  code.value = true
-})
 
 
-const copyCode = () => {
-  copyDone.value = true;
-};
 
-watch(copyDone, (newValue) => {
-  if (newValue) {
-    // Reset copyDone after the hideIn duration
-    setTimeout(() => {
-      copyDone.value = false;
-    }, 2000);
-  }
-});
+
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -146,6 +133,9 @@ onBeforeMount(() => {
     loadingBlock.value = false;
   }, 2000); 
 });
+
+const { text, copy, copied, isSupported } = useClipboard({ currentCode })
+
 </script>
 
 <template>
@@ -174,7 +164,7 @@ onBeforeMount(() => {
             <Vue3Lottie :animationData="embed" :height="120" :width="120" class="lg:hidden block" :noMargin="true" />
           </div>
         </div>
-        <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
+        <DashboardToastSuccess v-if="copied" :hideIn="2000" :message="'Copied to clipboard'" />
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">
@@ -235,7 +225,7 @@ onBeforeMount(() => {
               </div>
             </button>
 
-            <div @click="copyCode" class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
+            <div @click="copy(currentCode)" class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
               <div
                 class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
