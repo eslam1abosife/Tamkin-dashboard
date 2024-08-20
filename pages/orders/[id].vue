@@ -15,6 +15,13 @@ const marketStore = useMarketStore();
 definePageMeta({
   layout: "dashboard",
 });
+
+const openModalAndHideChat = ()=>{
+  if(process.client && !isOpen('requestmodal_update')){
+    window.$chatwoot.toggleBubbleVisibility('hide')
+    openModal('requestmodal_update','order-id')
+  }
+}
 </script>
 
 <template>
@@ -83,7 +90,7 @@ definePageMeta({
           class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center"
         >
 
-      <img src="/assets/imgs/payment_methods/cc.svg" class="w-[32px] h-[32px]" alt="">
+      <img src="/imgs/cc.png" class="w-[32px] h-[32px]" alt="">
           <div>Via Card : xxxx xxxx xxxx 9015</div>
         
         </div>
@@ -160,7 +167,7 @@ definePageMeta({
               <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
 
               <div class="flex items-center justify-start space-x-[26px] mt-[12px] ">
-                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_update','order-id')">Edit request</button>
+                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModalAndHideChat">Edit request</button>
                 <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('tracking_custom_order','order-id')">Track</button>
                 <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_details','order-id')">View Details</button>
 

@@ -93,7 +93,7 @@ const submit = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%] overflow-y-scroll">
+    <div class="container mx-auto max-h-[100%]">
       <h1
         class="rtl:text-right ltr:text-left font-[600] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
         Select Site
@@ -171,9 +171,19 @@ const submit = async () => {
           @click="closeModal('selectSite', 'my-site')">
           Cancel
         </button>
-        <button :class="(!checked || submitLoading) && 'btn-inactive'" :disabled="(!checked || submitLoading)"
-          @click="submit" class=" btn-dashboard text-center w-1/6">
-          <img v-if="submitLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Save
+        <button :class="(!checked || submitLoading) " :disabled="(!checked || submitLoading)"
+          @click="submit" class=" btn-dashboard hover_tamkin text-center w-1/6">
+          <div class="flex items-center justify-center">
+            <div :class="submitLoading ? 'mr-2':''">
+              Save
+            </div>
+       
+             <svg  v-if="submitLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
+          
         </button>
 
       </div>

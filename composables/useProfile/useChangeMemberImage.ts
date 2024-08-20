@@ -23,10 +23,11 @@ export default function() {
     );
       if(!res.data.succeeded) throw(res.data.message);
       if (res.data.succeeded) {
-        $toast.success('Uploaded successfully!', {
-            theme: 'colored',
-            autoClose: 4000,
-            dangerouslyHTMLString: true
+        $toast('Uploaded successfully!', {
+          "theme": "colored",
+          "type": "success",
+          "autoClose": 4000,
+          "dangerouslyHTMLString": true
         });
     }
 

@@ -61,7 +61,8 @@ const clearFieldError = (condition) => {
 
 <template>
   <div v-if="isOpen('invitemember')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12 "
+    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]
+     lg:w-[640px] lg:h-[446px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -71,7 +72,7 @@ const clearFieldError = (condition) => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%] overflow-y-scroll">
+    <div class="container mx-auto max-h-[100%]">
       <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         Invite Member
       </h1>
@@ -171,10 +172,19 @@ const clearFieldError = (condition) => {
       <div class="mt-[32px] w-2/6 mx-auto">
 
         <button :disabled="v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading"
-          :class="(v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading) && `btn-inactive`"
-          @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
+      
+          @click="submitInviteMember" class=" btn-dashboard hover_tamkin text-center mx-auto">
           <!-- modalStore.controlInviteMemberUpdateModal -->
-          <img v-if="submitLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Invite Member
+          <div class="flex items-center justify-center">
+            <div :class="submitLoading ? 'mr-2':''">
+             Invite Member
+            </div>
+       
+             <svg  v-if="submitLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
 

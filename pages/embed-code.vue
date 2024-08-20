@@ -6,16 +6,13 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
+import { useClipboard } from '@vueuse/core'
 
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
 import { useGetAppInvites } from "~/composables/useTeam";
 
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
-
-// const { getSummaryDetailedCode ,summaryCode,detailedCode,  loading: getCodeLoading} = useSummaryDetailedCode();
-
-
 const tgl = ()=>{
   if(process.client){
     window.$chatwoot.toggle()
@@ -81,6 +78,8 @@ onMounted(async () => {
 // window.$chatwoot.toggleBubbleVisibility("show")
 // window.$chatwoot.toggleBubbleVisibility("show");
 // });
+
+
 })
 const openVideoLink = (videoLink) => {
   window.open(videoLink, '_blank');
@@ -117,7 +116,7 @@ const filteredInstallationGuide = computed(() => {
             <Vue3Lottie :animationData="embed" :height="120" :width="120" class="lg:hidden block" :noMargin="true" />
           </div>
         </div>
-        <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
+        <DashboardToastSuccess v-if="copied" :hideIn="2000" :message="'Copied to clipboard'" />
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">
