@@ -499,8 +499,8 @@ onMounted(() => {
                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
                   <div class="flex items-center justify-start space-x-[10px] lg:space-x-[16px] rtl:space-x-reverse">
                     <div class="inline">
-                      <img v-if="member.image" :src="`https://tamkin.app/${member.image}`"
-                        class="lg:h-full h-[30px] hidden lg:block md:hidden h-8 w-8" />
+                      <img v-if="member.user_image" :src="`https://tamkin.app/${member.user_image}`"
+                        class="lg:h-full h-[30px] hidden lg:block md:hidden h-8 w-8 rounded-full" />
 
                       <img v-else-if="myUser.photoURL &&
       member.member_email === myUser?.email

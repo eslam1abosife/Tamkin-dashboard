@@ -30,11 +30,8 @@ const rules = {
 const profileSocialAccounts = computed(() => {
   let socialAccounts = [];
 
-  if (props.currentTab === "personal") {
-    socialAccounts = profileStore?.member?.social_accounts;
-  } else {
-    socialAccounts = profileStore?.company?.social_accounts;
-  }
+
+  socialAccounts = profileStore?.company?.social_accounts;
 
   socialAccounts?.forEach((item: any) => {
     const handler = socialPlatforms?.value.find((handler: any) => handler?.name === item?.social_platform);
@@ -115,7 +112,7 @@ watch(profileSocialAccounts, (newValue) => {
       <a
         v-for="(platform, index) in profileSocialAccounts"
         :key="index"
-        :href="platform.link.startsWith('http') ? platform.link : `#`"
+        :href="platform.link.startsWith('http') ? platform.link : `https://${platform.link}`"
         target="_blank"
         class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
       >
@@ -166,7 +163,7 @@ watch(profileSocialAccounts, (newValue) => {
                 : '',
             ]"
           >
-            {{ $t("Handle") }}*
+            {{ handler.social_platform }}*
           </label>
           <div
             class="w-full lg:w-4/6"

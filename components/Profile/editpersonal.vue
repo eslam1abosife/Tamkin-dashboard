@@ -85,6 +85,9 @@ const handleSelectedItemProjectName = (item: any) => {
 
 onMounted(async () => {
   await getCountries();
+});
+
+onMounted(() => {
   state.first_name = profileStore.member.first_name;
   state.last_name = profileStore.member.last_name;
   state.phone = profileStore.member.phone;
@@ -146,7 +149,8 @@ onMounted(async () => {
           </div>
 
           <div class="w-full relative ">
-            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true, styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" />
+            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true, 
+              styleClasses: ['input_floating_label bg-transparent'],maxlength:15 }" :styleClasses="telInputStyleClasses" />
             <input v-if="false" type="number" id="phone" placeholder="" class="input_floating_label peer w-full"
               v-model="v$.phone.$model" :class="{
           input_error:
@@ -245,14 +249,19 @@ onMounted(async () => {
       <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
-        <button class="btn-dashboard w-[125px]" @click="updatePersonalInfo" :class="{ 'opacity-50': memberInfoLoading, 'hover_tamkin': !memberInfoLoading }">
+        <button class="btn-dashboard w-[125px] hover_tamkin" :disabled="memberInfoLoading" @click="updatePersonalInfo" >
 
-          <svg v-if="memberInfoLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-
-          Update
+     
+          <div class="flex items-center justify-center">
+            <div :class="memberInfoLoading ? 'mr-2':''">
+           Update
+            </div>
+       
+             <svg  v-if="memberInfoLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
 </div>
