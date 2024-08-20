@@ -288,6 +288,7 @@ const openModals = computed(() => {
     isOpen('requestmodal_update') ||
     isOpen('requestmodal_details') ||
     isOpen('deleteModal_card') ||
+    isOpen('successContact') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -385,12 +386,6 @@ onMounted(() => {
     <div v-if="marketStore.firstItemNotificationShown"
          class="absolute z-[9999] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
-    <ModalsSuccessmodal
-        :show-modal="isOpen('successContact')"
-        title="Thanks for contact us"
-        sub-title="We will contact you as soon as possible "
-        icon="contact_success.svg"
-    />
 
     <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')"/>
     <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')"/>
