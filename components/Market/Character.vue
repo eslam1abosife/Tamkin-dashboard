@@ -74,14 +74,15 @@ const {
 
 
     </div>
-      <div class="flex flex-col justify-center items-evenly space-y-[10px]  p-1">
-        <h1 class="text-[11px] font-[500] text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2">
-          {{ char.description }}
+      <div class="flex flex-col justify-center items-evenly space-y-[10px] w-full p-1">
+        <h1 class="text-[11px] font-[500] w-full text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2">
+          text
+      
         </h1>
 
         <div
           v-if="char.specialOffer || char.discount || char.package"
-          class="flex flex-col "
+          class="flex flex-col !mt-[40px] "
         >
        
         
@@ -92,11 +93,11 @@ const {
             class="flex items-start flex-col justify-evenly  space-y-[7px] mt-[3px] "
           >
           <div
-          class="w-[55px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
+          class="w-[70px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
           font-[500]  text-darkGrey text-[11px] flex items-center justify-center"
           v-if="char.discount.percent"
         >
-          <div>%{{ char.discount.percent }} OFF</div>
+          <div>%3034 OFF</div>
         </div>
            <div class="flex items-center justify-center">
             <div class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]">

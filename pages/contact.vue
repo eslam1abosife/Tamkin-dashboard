@@ -59,6 +59,7 @@ const state = reactive({
           state.Company = "";
           state.Subject = "";
           state.Inquiry = "";
+          v$.value.$reset()
           openModal('successContact', 'contact', {})
           loadingContact.value = false
         }, 3000)
@@ -111,7 +112,7 @@ const state = reactive({
             <div class="w-full lg:w-4/6 mt-2" v-if="(v$.Name.$error && v$.Name.required.$invalid)">
               <p class="error_message">
                 <span v-if="v$.Name.$error && v$.Name.required.$invalid">{{
-                    $t("Please enter a valid Name")
+                    $t("Name is required")
                   }}</span>
 
               </p>
@@ -137,7 +138,7 @@ const state = reactive({
               (v$.email.$error && v$.email.email.$invalid)">
               <p class="error_message">
                 <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-                    $t("email_address_is_required")
+                    $t("Email Address is required")
                   }}</span>
                 <span v-else-if="v$.email.required.$invalid ||
                   (v$.email.$error && v$.email.email.$invalid)">{{
@@ -172,7 +173,7 @@ const state = reactive({
             <div class="w-full lg:w-4/6 mt-2" v-if="(v$.Subject.$error && v$.Subject.required.$invalid)">
               <p class="error_message">
                 <span v-if="v$.Subject.$error && v$.Subject.required.$invalid">{{
-                    $t("Please enter a valid Subject")
+                    $t("Subject is required")
                   }}</span>
 
               </p>
@@ -193,7 +194,7 @@ const state = reactive({
             <div class="w-full lg:w-4/6 mb-4" v-if="(v$.Inquiry.$error && v$.Inquiry.required.$invalid)">
               <p class="error_message text_area">
                 <span v-if="v$.Inquiry.$error && v$.Inquiry.required.$invalid">{{
-                    $t("Please enter an Inquiry")
+                    $t("An inquiry is required")
                   }}</span>
 
               </p>
