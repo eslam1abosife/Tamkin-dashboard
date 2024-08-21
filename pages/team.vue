@@ -394,13 +394,18 @@ onMounted(() => {
      <div class="flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
 ">
 
-<div class="flex flex-col items-start justify-start">
-<div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[10px]">
-<div>
-  Total Member
-</div>  
-<div>
-  {{ teamMembers.length }}
+<div class="flex flex-col items-start justify-start  ">
+<div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[10px]" >
+  <div>
+    <img src="/imgs/total_members.png"  class="w-[16px] h-[21px]" alt="">
+  </div>
+<div class="flex items-center justify-center space-x-[10px]">
+  <div>
+    Total Member
+  </div>  
+  <div>
+    {{ teamMembers.length }}
+  </div>
 </div>
 </div>
 <div class="flex items-center justify-center mt-[8px] space-x-[6px]">
@@ -408,7 +413,7 @@ onMounted(() => {
   
 </div>
 
-<div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[65px] flex">
+<div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[90px] flex">
  <div>
   Active
  </div>
@@ -423,7 +428,7 @@ onMounted(() => {
     
   </div>
   
-  <div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[48px] flex">
+  <div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px] flex">
    <div>
     Pending 
    </div>
