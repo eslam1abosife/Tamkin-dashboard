@@ -71,7 +71,7 @@ const doLoginWithGoogle = async () => {
   try {
     await loginWithGoogle();
   } catch (err) {
-    firebaseErrorMsg.value = 'تم الغاء الطلب بواسطة المستخدم';
+    firebaseErrorMsg.value = err;
   }
 };
 
