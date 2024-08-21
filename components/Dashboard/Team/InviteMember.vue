@@ -83,7 +83,7 @@ const clearFieldError = (condition) => {
           class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
 
         <div class="w-full relative !mt-[20px]">
-          <input type="text" placeholder="{{$t('firstName')}}" id="firstName" class="input_floating_label peer"
+          <input type="text" placeholder="" id="firstName" class="input_floating_label peer"
             v-model="v$.firstName.$model" :class="{
     input_error:
       (v$.firstName.$error && v$.firstName.required.$invalid),
@@ -99,7 +99,7 @@ const clearFieldError = (condition) => {
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.firstName.$error && v$.firstName.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{
-    $t("first_name_required")
+    $t("First name is required")
   }}</span>
 
             </p>
@@ -123,7 +123,7 @@ const clearFieldError = (condition) => {
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.lastName.$error && v$.lastName.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{
-    $t("last_name_required")
+    $t("Last name is required")
   }}</span>
 
             </p>
