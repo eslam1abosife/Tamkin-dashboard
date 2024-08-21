@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useGetOrderInvoiceDetails } from '~/composables/useMarket';
 const {
   isOpen,
   currentView,
@@ -8,9 +9,24 @@ const {
   navigateTo,
   lastEventCall,
   eventCounter,
-  setData,
+  setData
 } = useModalManager();
+
+
 const marketStore = useMarketStore();
+const trakingStatus =ref([])
+const orderDetails=ref({})
+
+import {  useRoute } from 'vue-router'
+const route = useRoute()
+onMounted(async() => {
+ 
+  const {getOrderInvoiceDetails} = useGetOrderInvoiceDetails();
+  console.log("result");
+  const result = await  getOrderInvoiceDetails(route.params.id);
+  console.log(result.data);
+  orderDetails.value= result.data;
+});
 
 definePageMeta({
   layout: "dashboard",
@@ -21,7 +37,7 @@ definePageMeta({
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
-    <ProfileOrdersTracking/>
+    <ProfileOrdersTracking  />
     <ProfileOrdersRequest/>
 <ProfileOrdersViewdetails/>
 
@@ -46,7 +62,9 @@ definePageMeta({
         class="flex items-center  justify-between  w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]"
       >
         <div class="text-[13px] font-[500] leading-[10px] text-[#23262F] ">
-          Order ID : <span class="!font-[600] text-tamkin">289422</span>
+          Order ID : 
+          <span class="!font-[600] text-tamkin">{{orderDetails.order_id}}</span>
+          <!-- <span class="!font-[600] text-tamkin">{{orderDetails.order_id}}</span> -->
         </div>
 
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
@@ -73,7 +91,9 @@ definePageMeta({
               />
             </svg>
 
-            <div>Feb 2, 2023</div>
+            <div>
+              {{orderDetails.order_date}}
+            </div>
           </div>
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
@@ -84,7 +104,7 @@ definePageMeta({
         >
 
       <img src="/assets/imgs/payment_methods/cc.svg" class="w-[32px] h-[32px]" alt="">
-          <div>Via Card : xxxx xxxx xxxx 9015</div>
+          <div>Via Card : {{orderDetails.Account}}</div>
         
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
@@ -95,7 +115,7 @@ definePageMeta({
       >
 
     <img src="/imgs/success.png" class="w-[32px] h-[32px]" alt="">
-        <div>Successful purchase</div>
+        <div>{{orderDetails.status}} purchase</div>
       
       </div>
       </div>
@@ -104,76 +124,78 @@ definePageMeta({
       </div>
       <div class="space-y-4 mt-[10px]">
         <!-- Item 1 -->
-        <div class="flex items-center border-b justify-between pb-4">
+      <!--   <template v-for=" item in orderDetails.items" :key="item.name">
+          <div class="flex items-center border-b justify-between pb-4">
           <div class="flex items-center space-x-4">
             <div
               class="rounded-lg bg-[#F8F8F8] dark:bg-tamkinDarkPrimary w-[97px] h-[101px] flex items-center justify-center border"
             >
-              <img src="/imgs/shirt.png" alt="Top" class="w-[47px] h-[50px]" />
+              <img :src="item.image" alt="Top" class="w-[47px] h-[50px]" />
             </div>
             <div>
               <div class="flex items-center justify-start space-x-[10px]">
                 <div>
                   <img
                     src="/assets/pngs/market/top_inactive.svg"
-                    alt="Top"
+                    :alt="item.type"
                     class="w-[26px] h-[26px]"
                   />
                 </div>
                 <div class="py-2">
                   <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">
-                    Top
+                    {{ item.category }}
                   </h3>
                 </div>
               </div>
               <p
                 class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize"
               >
-                Item name
+                {{ item.name }}
               </p>
             </div>
           </div>
           <div class="flex items-end flex-col justify-start mt-[44px]  mr-[1px]">
             <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin">
-               <span class="px-1">$10</span>
+               <span class="px-1">{{ item.Cost }} AED</span>
             </p>
           </div>
         </div>
-      </div>
-      <div class="space-y-4 pt-[14px]">
-        <!-- Item 1 -->
+        </template> -->
+  
+      
+        <template v-for=" item in orderDetails.items" :key="item.name">
         <div class="flex items-center border-b justify-between pb-4 " >
           <div class="flex items-center space-x-4">
            <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
-              <img src="/assets/pngs/market/special_character.png" alt="Top" class="w-[63px] h-[67px] ">
+              <img :src="item.type!=='Custom Character' ? item.image : item.image[0]?.image"  :alt="item.name" class="w-[63px] h-[67px] ">
            </div>
             <div>
              <div class="flex items-center justify-start space-x-[10px] ">
               <div>
                   <img src="/assets/pngs/market/top_inactive.svg" alt="Top" class="w-[26px] h-[26px] ">
-
               </div>
               <div class="py-2">
-                <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">Character</h3>
+                <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{ item.type }}</h3>
               </div>
              </div>
-              <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
+              <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >{{ item.name }}</p>
 
-              <div class="flex items-center justify-start space-x-[26px] mt-[12px] ">
-                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_update','order-id')">Edit request</button>
-                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('tracking_custom_order','order-id')">Track</button>
-                <button class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_details','order-id')">View Details</button>
-
+              <div v-if="item.type=='Custom Character'" class="flex items-center justify-start space-x-[26px] mt-[12px] ">
+                <button v-if="item.edit==true" class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_update','order-id'),setData(item)">Edit request</button>
+                <button v-if="item.trakin.length>0" class="text-tamkin underline font-[500] text-[13px] " @click="openModal('tracking_custom_order','order-id'),setData(item)">Track</button>
+                <button v-if="!item.edit" class="text-tamkin underline font-[500] text-[13px] " @click="openModal('requestmodal_details','order-id'),setData(item)">View Details</button>
               </div>
             </div>
           </div>
           <div class="flex items-end flex-col justify-start mt-[16px] mr-[1px] ">
            
         
-            <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin"> <span class="px-1">$80</span></p>
+            <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin"> 
+              <span class="px-1">{{ item.Cost }} AED</span>
+            </p>
           </div>
         </div>
-    
+      </template>
     
       </div>
 
@@ -188,38 +210,38 @@ definePageMeta({
               >
                 <td
                   class="py-2 px-5 border-b  dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
-                  colspan="2"
+                  colspan="4"
                 >
                 Subtotal
                 </td>
-                <td class="py-2   border-b dark:border-light text-right w-full font-[500]  dark:text-whiteTamkin" colspan="2">
-                120$
+                <td class="py-2   border-b dark:border-light text-right w-full font-[500]  dark:text-whiteTamkin" colspan="4">
+                  {{ orderDetails.subtotal }} AED
                 </td>
               </tr>
               <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"       
               >
                 <td 
-                  class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
-                  colspan="2"
+                  class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
+                  colspan="4"
                 >
                 Discount
   
                 </td>
-                <td class="py-2   border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="2">
-                 50$
+                <td class="py-2   border-b dark:border-light text-right  min-w-[100px] font-[500]  dark:text-whiteTamkin" colspan="4">
+                {{ orderDetails.discount }} AED
                 </td>
               </tr>
               <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p"         
               >
                 <td
                   class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
-                  colspan="2"
+                  colspan="4"
                 >
                 Total
   
                 </td>
-                <td class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="2">
-                  $80
+                <td class="py-2 border-b dark:border-light text-right w-full min-w-[100px] font-[500] dark:text-whiteTamkin" colspan="4">
+                  {{ orderDetails.total }} AED
                 </td>
               </tr>
             </tbody>

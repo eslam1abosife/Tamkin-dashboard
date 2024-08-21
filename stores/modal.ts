@@ -12,6 +12,7 @@ export const useModalStore = defineStore('modalStore', () => {
   }
 
   function getData () {
+    console.log('sharedData 5', sharedData.value);
     return sharedData.value;
   }
 
