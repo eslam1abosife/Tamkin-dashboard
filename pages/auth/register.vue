@@ -3,13 +3,18 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useRegister, useGoogle, useLogin } from "@/composables/useAuth";
 import { useIncludeWord } from '@/composables/useSharedFunctions';
-
+import { useRoute } from "vue-router";
 const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
   layout: "auth",
 });
-
+const route=useRoute();
+console.log(route);
+if(route.query?.ref && process.client){
+  console.log(route.query?.ref);
+  localStorage.setItem("ref", route.query?.ref );
+}
 const state = reactive({
   email: "",
   password: "",
