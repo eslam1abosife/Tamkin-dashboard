@@ -24,13 +24,15 @@ const orderDetails = ref({})
 const loadingBlock=ref(true)
 import { useRoute } from 'vue-router'
 const route = useRoute()
-onMounted(async () => {
-
+const getOrderDetails=async()=>{
   const { getOrderInvoiceDetails } = useGetOrderInvoiceDetails();
 
   const result = await getOrderInvoiceDetails(route.params.id);
 
   orderDetails.value = result.data;
+}
+onMounted(async () => {
+  await getOrderDetails()
   loadingBlock.value = false;
 });
 
@@ -53,6 +55,22 @@ const paymentImages = [
    "/assets/imgs/payment_methods/cc.svg" ,
    "/assets/imgs/payment_methods/paypal.svg"
 ];
+
+const statusImages = [
+   "/imgs/limited.svg" ,
+   "/imgs/under_review.png" ,
+   "/imgs/success.png" 
+];
+const getStatusImage=(status:string)=> {
+      switch (status) {
+        case 'Rejected':
+          return statusImages[0];
+        case 'Successful':
+          return statusImages[2];
+        default:
+          return statusImages[1];
+      }
+    };
 
     const getPaymentImage=(method:string)=> {
       switch (method) {
@@ -111,7 +129,11 @@ const GetBase64AndPrint=async(id)=>{
   const res = await PrintInvoice(id);
   printAndDownloadPDF(res.data.data.data)
 }
-
+const handleData = async() => {
+  loadingBlock.value = true;
+  await getOrderDetails()
+  loadingBlock.value = false;
+};
 </script>
 
 <template>
@@ -119,7 +141,7 @@ const GetBase64AndPrint=async(id)=>{
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
     <ProfileOrdersTracking />
-    <ProfileOrdersRequest />
+    <ProfileOrdersRequest  @updateData="handleData()"/>
     <ProfileOrdersViewdetails />
 
     <div class="space-y-[5px]">
@@ -144,11 +166,11 @@ const GetBase64AndPrint=async(id)=>{
 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 </svg>
-</div>
+    </div>
 
     <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px]" v-else>
       <div class="flex items-center  justify-between  w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]">
-        <div class="text-[13px] font-[500] leading-[10px] text-[#23262F] " @click="GetBase64AndPrint(orderDetails.order_id);">
+        <div class="text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer" @click="GetBase64AndPrint(orderDetails.order_id);">
           Order ID :
           <span class="!font-[600] text-tamkin">{{ orderDetails.order_id }}</span>
           
@@ -186,7 +208,7 @@ const GetBase64AndPrint=async(id)=>{
         </div>
         <div class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
 
-          <img src="/imgs/success.png" class="w-[32px] h-[32px]" alt="">
+          <img  :src="getStatusImage(orderDetails['order status'])" class="w-[32px] h-[32px]" alt="">
           <div>{{ orderDetails.status }} purchase</div>
 
         </div>
@@ -203,7 +225,7 @@ const GetBase64AndPrint=async(id)=>{
           <div class="flex items-center border-b justify-between pb-4 ">
             <div class="flex items-center space-x-4">
               <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
-                <img :src="item.type !== 'Custom Character' ? (baseImageURL + item.image) : (baseImageURL + item.image[0]?.image)" :alt="item.name"
+                <img :src="item.type !== 'Custom Character' ? (baseImageURL + item.image) : '/assets/pngs/market/special_character.png'" :alt="item.type !== 'Custom Character' ? item.name : 'special_character'"
                   class="w-[63px] h-[67px] ">
               </div>
               <div>
@@ -222,10 +244,10 @@ const GetBase64AndPrint=async(id)=>{
                   class="flex items-center justify-start space-x-[26px] mt-[12px] ">
                   <button v-if="item.edit == true" class="text-tamkin underline font-[500] text-[13px] "
                     @click="openModalAndHideChat(), setData(item)">Edit request</button>
-                  <button v-if="item.trakin.length > 0" class="text-tamkin underline font-[500] text-[13px] "
-                    @click="openModal('tracking_custom_order', 'order-id'), setData(item)">Track</button>
                   <button v-if="!item.edit" class="text-tamkin underline font-[500] text-[13px] "
                     @click="openModal('requestmodal_details', 'order-id'), setData(item)">View Details</button>
+                    <button  class="text-tamkin underline font-[500] text-[13px] " 
+                      @click="openModal('tracking_custom_order', 'order-id'), setData(item)">Track</button>
                 </div>
               </div>
             </div>
