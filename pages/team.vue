@@ -395,11 +395,11 @@ onMounted(() => {
 ">
 
 <div class="flex flex-col items-start justify-start  ">
-<div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[10px]" >
+<div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[8px]" >
   <div>
     <img src="/imgs/total_members.png"  class="w-[16px] h-[21px]" alt="">
   </div>
-<div class="flex items-center justify-center space-x-[10px]">
+<div class="flex items-center justify-center space-x-[20px]">
   <div>
     Total Member
   </div>  
@@ -408,7 +408,7 @@ onMounted(() => {
   </div>
 </div>
 </div>
-<div class="flex items-center justify-center mt-[8px] space-x-[6px]">
+<div class="flex items-center justify-center mt-[8px] space-x-[14px]">
 <div class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full">
   
 </div>
@@ -423,7 +423,7 @@ onMounted(() => {
 </div>
 
 </div>
-<div class="flex items-center justify-center mt-[8px] space-x-[6px]">
+<div class="flex items-center justify-center mt-[8px] space-x-[14px]">
   <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full">
     
   </div>
