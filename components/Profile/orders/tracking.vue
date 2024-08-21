@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
+
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 const state = reactive({
@@ -31,16 +32,37 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  getData
 } = useModalManager();
 
+const dataModal=ref({})
+watchEffect(() => {
+  if (isOpen('tracking_custom_order')) {
+     dataModal.value = getData();
+    if (dataModal.value.trakin[0].date) {
+      const [date,time]=dataModal.value.trakin[0].date.split(' ')
 
-const checked = ref('');
+    }
+  }
+});
 
 
+const traknames=[
+  'Order Review',
+  'Confirmed Order',
+  'processing Order',
+  'Receiving Order',
+  'Order Completed'
+]
+const DateSplit=(Date:string)=>{
+  const [date,time]=Date.split(' ')
+
+  return `${date} <br> ${time}`
+}
 </script>
 
 <template>
-  <div  v-if="isOpen('tracking_custom_order')"
+  <div  v-if="isOpen('tracking_custom_order')&& dataModal"
     class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-[598px] 
     w-[680px] max-h-[80vh]"
     style="left: 50%; transform: translate(-50%, 0)"
@@ -69,18 +91,18 @@ const checked = ref('');
 
 <div class="flex items-center justify-between w-full  mt-[10px]">
     <div >
-       <span class="text-[16px] font-[600] leading-[24px] text-darkGrey"> Order ID :</span> <span class="text-[16px] font-[500] leading-[24px] text-[#80889C]">#CM9801</span>
+       <span class="text-[16px] font-[600] leading-[24px] text-darkGrey"> Order ID :</span> <span class="text-[16px] font-[500] leading-[24px] text-[#80889C]">{{  dataModal.id || '' }}</span>
     </div>
 
-    <div class="flex flex-col items-start justify-start space-y-[8px]" >
+    <div class="flex flex-col items-start justify-start space-y-[8px]" v-if="dataModal.delivary_date">
       <div class="text-[13px] font-[500] leading-[19px] text-darkGrey">
          Expected Receive Date
       </div>
-        <div class="flex items-center space-x-[8px]">
+        <div class="flex items-center space-x-[8px]" >
             <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1V0.5C8.5 0.223858 8.72386 0 9 0C9.27614 0 9.5 0.223858 9.5 0.5V1H11C11 1 11.4142 1 11.7071 1.29289C11.7071 1.29289 12 1.58579 12 2V12C12 12 12 12.4142 11.7071 12.7071C11.7071 12.7071 11.4142 13 11 13H1C1 13 0.585785 13 0.292893 12.7071C0.292893 12.7071 0 12.4142 0 12V2C0 2 0 1.58579 0.292893 1.29289C0.292893 1.29289 0.585786 1 1 1H2.5V0.5C2.5 0.223858 2.72386 0 3 0C3.27614 0 3.5 0.223858 3.5 0.5V1H8.5ZM1 5V12H11V5H1ZM11 4H1V2H2.5V2.5C2.5 2.77614 2.72386 3 3 3C3.27614 3 3.5 2.77614 3.5 2.5V2H8.5V2.5C8.5 2.77614 8.72386 3 9 3C9.27614 3 9.5 2.77614 9.5 2.5V2H11V4Z" fill="black" fill-opacity="0.4"/>
                 </svg>
-                                  <span class="text-[12px] leading-[18px] font-[500] ">Feb 2, 2023</span>
+                                  <span class="text-[12px] leading-[18px] font-[500] ">{{ dataModal.delivary_date || '' }} </span>
         </div>
     </div>
 </div>
@@ -91,14 +113,16 @@ const checked = ref('');
     <div class="relative w-full">
       <!-- Vertical line -->
       <div class="absolute top-0 left-[105px] h-full w-1 bg-teal-500"></div>
+  <template v-for="index in 5">
+    <div class="relative flex items-start mb-8" >
+        <div class="w-[90px] text-center" v-if="dataModal.trakin[index-1]">
+          <p class="text-[12px] font-[500] text-[#1C1C1C] leading-[18px] whitespace-nowrap"  v-html="DateSplit(dataModal.trakin[index-1].date) ||''">
   
-      <!-- Order Review -->
-      <div class="relative flex items-start mb-8">
-        <div class="w-28 text-center pr-6">
-          <p class="text-[12px] font-[500] text-[#1C1C1C] leading-[18px] whitespace-nowrap">Feb 2, 2023<br>11:30 AM</p>
+       
+          </p>
         </div>
-        <div class="flex-shrink-0">
-          <div class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] text-white rounded-full flex items-center justify-center">
+        <div class="flex-shrink-0" v-if="dataModal.trakin[index-1]">
+          <div  class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] text-white rounded-full flex items-center justify-center">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="11" cy="11" r="11" fill="url(#paint0_linear_8989_149244)"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.7594 7.00028L6.48047 15.125L7.72068 16.694L17.9996 8.56931L16.7594 7.00028ZM5.56904 10.7461L4 11.9863L6.48042 15.1244L8.04946 13.8842L5.56904 10.7461Z" fill="#FFFEFE"/>
@@ -111,45 +135,11 @@ const checked = ref('');
                 </svg>
                 
           </div>
-        </div>
-        <div class="ml-6">
-          <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey ">Order Review</h4>
-          <p class="text-[13px] text-[#80889C] leading-[19px] font-[500]">We have received your order, and it has been successfully confirmed. We are now preparing your order for processing.</p>
-        </div>
-      </div>
-  
-      <!-- confirm order-->
-
-      <div class="relative flex items-start mb-8">
-        <div class="w-28 text-center pr-6">
-          <p class="text-[12px] font-[500] text-[#1C1C1C] leading-[18px] whitespace-nowrap">Feb 2, 2023<br>11:30 AM</p>
-        </div>
-        <div class="flex-shrink-0">
-          <div class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] text-white rounded-full flex items-center justify-center">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="11" fill="url(#paint0_linear_8989_149244)"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.7594 7.00028L6.48047 15.125L7.72068 16.694L17.9996 8.56931L16.7594 7.00028ZM5.56904 10.7461L4 11.9863L6.48042 15.1244L8.04946 13.8842L5.56904 10.7461Z" fill="#FFFEFE"/>
-                <defs>
-                <linearGradient id="paint0_linear_8989_149244" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#2DADA3"/>
-                <stop offset="1" stop-color="#71DAD2"/>
-                </linearGradient>
-                </defs>
-                </svg>
-                
-          </div>
-        </div>
-        <div class="ml-6">
-          <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey ">Confirmed Order</h4>
-          <p class="text-[13px] text-[#80889C] leading-[19px] font-[500]">We have received your order, and it has been successfully confirmed. We are now preparing your order for processing.Your order is currently being processed. We are preparing the items and ensuring their quality before shipment</p>
-        </div>
-      </div>
-
-
-      <!-- processing order-->
-      <div class="relative flex items-start mb-8">
-      
-        <div class="flex-shrink-0 pl-[90px]">
+         
+        
+              
+        </div> 
+        <div v-else class="flex-shrink-0 pl-[90px]">
           <div class="w-8 h-8 bg-white border-[1px] border-[#F2F2F2] text-white rounded-full flex items-center justify-center">
           
             <div class="w-[22px] h-[22px] rounded-full bg-[#DAF3F1]">
@@ -157,46 +147,15 @@ const checked = ref('');
             </div>
                 
           </div>
-        </div>
+          </div>
+        
         <div class="ml-6">
-          <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey ">Processing Order</h4>
+          <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey ">{{ traknames[index-1] }}</h4>
+          <p class="text-[13px] text-[#80889C] leading-[19px] font-[500]" v-if="dataModal.trakin[index-1]">{{ dataModal.trakin[index-1].description||'' }}</p>
         </div>
       </div>
+  </template>
 
-         <!-- Receiving order-->
-         <div class="relative flex items-start mb-8">
-      
-            <div class="flex-shrink-0 pl-[90px]">
-              <div class="w-8 h-8 bg-white border-[1px] border-[#F2F2F2] text-white rounded-full flex items-center justify-center">
-              
-                <div class="w-[22px] h-[22px] rounded-full bg-[#DAF3F1]">
-    
-                </div>
-                    
-              </div>
-            </div>
-            <div class="ml-6">
-              <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey ">Receiving Order</h4>
-            </div>
-          </div>
-
-
-              <!-- Complete order-->
-         <div class="relative flex items-start mb-8">
-      
-            <div class="flex-shrink-0 pl-[90px]">
-              <div class="w-8 h-8 bg-white border-[1px] border-[#F2F2F2] text-white rounded-full flex items-center justify-center">
-              
-                <div class="w-[22px] h-[22px] rounded-full bg-[#DAF3F1]">
-    
-                </div>
-                    
-              </div>
-            </div>
-            <div class="ml-6">
-              <h4 class="text-[16px] leading-[27px] font-[600] text-darkGrey "> Order Completed</h4>
-            </div>
-          </div>
     </div>
   </div>
   
