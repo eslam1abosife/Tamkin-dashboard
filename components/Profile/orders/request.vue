@@ -2,6 +2,10 @@
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
 import { useEditCustomerCharacter } from '~/composables/useMarket';
+import { useRuntimeConfig } from '#app'
+
+const config = useRuntimeConfig()
+const baseImageURL = config.public.baseImagerUrl
 const {
   isOpen,
   currentView,
@@ -45,6 +49,7 @@ const onDrop = (acceptedFiles, rejectedFiles) => {
 };
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true });
 const fileURL = (file) => {
+  console.log(file.image);
   return URL.createObjectURL(file);
 };
 
@@ -320,7 +325,7 @@ watchEffect(() => {
                   </svg>
                 </div>
                 <img 
-                  :src="fileURL(file)"
+                  :src="file.image ? (baseImageURL + file.image) : (fileURL(file))"
                   :alt="file.name"
                   class="w-[131px] h-[124px]"
                   @click.stop

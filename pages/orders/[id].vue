@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import { useGetOrderInvoiceDetails,usePrintInvoice } from '~/composables/useMarket';
+import { useRuntimeConfig } from '#app'
+
+const config = useRuntimeConfig()
+const baseImageURL = config.public.baseImagerUrl
+
 const {
   isOpen,
   currentView,
@@ -16,7 +21,7 @@ const {
 const marketStore = useMarketStore();
 const trakingStatus = ref([])
 const orderDetails = ref({})
-
+const loadingBlock=ref(true)
 import { useRoute } from 'vue-router'
 const route = useRoute()
 onMounted(async () => {
@@ -26,6 +31,7 @@ onMounted(async () => {
   const result = await getOrderInvoiceDetails(route.params.id);
 
   orderDetails.value = result.data;
+  loadingBlock.value = false;
 });
 
 definePageMeta({
@@ -41,6 +47,25 @@ const openModalAndHideChat = () => {
   }
 }
 
+
+const paymentImages = [
+"/assets/imgs/payment_methods/crypto.svg"  ,
+   "/assets/imgs/payment_methods/cc.svg" ,
+   "/assets/imgs/payment_methods/paypal.svg"
+];
+
+    const getPaymentImage=(method:string)=> {
+      switch (method) {
+        case 'Crypto':
+          return paymentImages[0];
+        case 'Credit':
+          return paymentImages[1];
+        case 'PayPal':
+          return paymentImages[2];
+        default:
+          return paymentImages[1];
+      }
+    };
 
 
 
@@ -113,9 +138,15 @@ const GetBase64AndPrint=async(id)=>{
 
 
 
+    <div v-if="loadingBlock" >
 
+<svg   class="absolute top-[150px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+</svg>
+</div>
 
-    <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px]">
+    <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px]" v-else>
       <div class="flex items-center  justify-between  w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]">
         <div class="text-[13px] font-[500] leading-[10px] text-[#23262F] " @click="GetBase64AndPrint(orderDetails.order_id);">
           Order ID :
@@ -146,8 +177,8 @@ const GetBase64AndPrint=async(id)=>{
         </div>
         <div class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
 
-          <img src="/assets/imgs/payment_methods/cc.svg" class="w-[32px] h-[32px]" alt="">
-          <div>Via Card : {{ orderDetails.Account }}</div>
+          <img v-if='orderDetails' :src="getPaymentImage(orderDetails['Payment Method'])" class="w-[32px] h-[32px]" alt="">
+          <div>Via  {{ orderDetails['Payment Method'] }} : {{ orderDetails.Account }}</div>
 
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
@@ -172,7 +203,7 @@ const GetBase64AndPrint=async(id)=>{
           <div class="flex items-center border-b justify-between pb-4 ">
             <div class="flex items-center space-x-4">
               <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
-                <img :src="item.type !== 'Custom Character' ? item.image : item.image[0]?.image" :alt="item.name"
+                <img :src="item.type !== 'Custom Character' ? (baseImageURL + item.image) : (baseImageURL + item.image[0]?.image)" :alt="item.name"
                   class="w-[63px] h-[67px] ">
               </div>
               <div>

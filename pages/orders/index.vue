@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { required, email, sameAs } from "@vuelidate/validators";
+import { watch, computed, ref } from "vue";
 import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { useGetOrderInvoice } from '~/composables/useMarket';
@@ -16,13 +18,15 @@ console.log(amr);
 const orders=ref([]);
 onMounted(async() => {
   getApps();
+  loadingBlock.value = true
   const {getOrderInvoice} = useGetOrderInvoice();
   const result =await getOrderInvoice() ;
   orders.value= result.data;
+  loadingBlock.value = false
 });
 const dateF = ref();
 const langStore = useLangSwitch();
-
+const loadingBlock=ref(true)
 const dateOpen = ref(false);
 
 const alertFn = () => {
@@ -37,8 +41,7 @@ const savedCards = ref([
   { id: 1, number: "Tamkin  ****3536", type: "visa" },
   { id: 2, number: "Tamkin  ****6792", type: "master" },
 ]);
-import { required, email, sameAs } from "@vuelidate/validators";
-import { watch, computed, ref } from "vue";
+
 
 definePageMeta({
   layout: "dashboard",
@@ -212,6 +215,8 @@ const setPageSize = (size:number) => {
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard/>
+    
+
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
         Orders
@@ -285,8 +290,7 @@ const setPageSize = (size:number) => {
         </table>
       </div>
 
-
-      <div v-else class="bg-white w-full h-[450px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
+      <div v-if="orders?.length==0 && !loadingBlock" class="bg-white w-full h-[450px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
         <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="">
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center">
           There are no orders at the moment
@@ -387,8 +391,13 @@ const setPageSize = (size:number) => {
         </div>
       </div>
       
-      
-      
+      <div v-if="loadingBlock" >
+
+      <svg   class="absolute top-[150px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    </div>
   </div>
 </template>
 
