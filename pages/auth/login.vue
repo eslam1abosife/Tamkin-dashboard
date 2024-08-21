@@ -274,12 +274,19 @@ const clearFieldError = (condition) => {
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0 lg:p-0 p-3">
-      <button :class="(v$.email.$invalid || v$.password.$invalid || loginLoading) &&
-    'btn-inactive'
-    " class="btn-grad-action w-full" @click="doLogin()"
+      <button class="btn-grad-action w-full" @click="doLogin()"
         :disabled="v$.email.$invalid || v$.password.$invalid || loginLoading">
-        <img v-if="loginLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" />
-        {{ !loginLoading ? $t("login_button") : $t("login_button_processing") }}
+      
+    <div class="flex items-center justify-center">
+     <div class="mr-4">
+      {{$t("login_button")}}
+     </div>
+
+      <svg  v-if="loginLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+     </svg>
+    </div>
       </button>
     </div>
   </div>

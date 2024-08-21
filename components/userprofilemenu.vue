@@ -89,8 +89,8 @@ const helpWindow = ()=>{
         <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full 
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
-            <div class="flex items-center justify-start space-x-[14px] gap-4">
-              <!-- <div class=""> -->
+            <div class="flex items-center justify-start w-full space-x-[14px]">
+              <div class="w-2/4">
                 <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`"
                  class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" alt="">
                 <!-- <img
@@ -100,16 +100,16 @@ const helpWindow = ()=>{
                 /> -->
                 <!-- User Img Skeleton Loader -->
                 <div v-else-if="!profileStore.member.user_image && !profileStore.member.first_name && !profileStore.member.last_name" class="user-img__skeleton animate-pulse flex space-x-4">
-                  <div class="rounded-full bg-gray-400 ipad-max:w-[30px] ipad-max:h-[30px] min-w-[40px] min-h-[40px]"></div>
+                  <div  class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full"></div>
                 </div>
-                <div v-else class="avatar_img ipad-max:w-[30px] ipad-max:h-[30px] min-w-[40px] min-h-[40px] rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
+                <div v-else class="avatar_img ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
                   <span>
                     {{
                       getAvatarLetters(profileStore.member.first_name + " " + profileStore.member.last_name)
                     }}
                   </span>
                 </div>
-              <!-- </div> -->
+              </div>
               <div class="flex flex-col items-start justify-center w-full !mx-0">
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
@@ -225,5 +225,6 @@ Privacy Policy 
         </div>
       
 
-    </div>
+    
+  </div>
 </template>

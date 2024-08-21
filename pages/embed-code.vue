@@ -6,6 +6,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers } from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
+import { useClipboard } from '@vueuse/core'
 
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
@@ -21,7 +22,6 @@ const tgl = ()=>{
 const code = ref(true);
 const advancedCode = ref(false)
 const currentCode = ref(``)
-const copyDone = ref(false)
 const showAdancedCode = () => {
   if (!advancedCode.value) {
     code.value = false
@@ -82,28 +82,12 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-onBeforeMount(() => {
-  currentCode.value = `const foo = 'bar';`
-  code.value = true
-})
-onBeforeMount(() => {
-  currentCode.value = `const foo = 'bar';`
-  code.value = true
-})
 
 
-const copyCode = () => {
-  copyDone.value = true;
-};
 
-watch(copyDone, (newValue) => {
-  if (newValue) {
-    // Reset copyDone after the hideIn duration
-    setTimeout(() => {
-      copyDone.value = false;
-    }, 2000);
-  }
-});
+
+
+
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -139,6 +123,17 @@ const openVideoLink = (videoLink) => {
 const filteredInstallationGuide = computed(() => {
   return installationGuide.value.filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
 });
+const loadingBlock = ref(true);
+
+onBeforeMount(() => {
+  setTimeout(() => {
+    loadingBlock.value = false;
+    currentCode.value = `const foo = 'bar';`
+  code.value = true
+  }, 2000); 
+});
+
+const { text, copy, copied, isSupported } = useClipboard({ currentCode })
 
 </script>
 
@@ -168,7 +163,7 @@ const filteredInstallationGuide = computed(() => {
             <Vue3Lottie :animationData="embed" :height="120" :width="120" class="lg:hidden block" :noMargin="true" />
           </div>
         </div>
-        <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
+        <DashboardToastSuccess v-if="copied" :hideIn="2000" :message="'Copied to clipboard'" />
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">
@@ -229,7 +224,7 @@ const filteredInstallationGuide = computed(() => {
               </div>
             </button>
 
-            <div @click="copyCode" class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
+            <div @click="copy(currentCode)" class="cursor-pointer lg:order-3  order-2 ipad-max:text-[12px] border-[2px] rounded-lg border-transparent
                bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
               <div
                 class="bg-white dark:bg-tamkinDarkPrimary dark:text-white rounded-md flex items-center justify-center">
@@ -257,10 +252,30 @@ const filteredInstallationGuide = computed(() => {
             </div>
           </div>
 
-          <div class="mt-[36px] px-[15px] w-full min-h-[50px]">
-            <Client-only>
-              <VCodeBlock dir="ltr" :code="currentCode" highlightjs lang="javascript" theme="neon-bunny" />
+          <div class="mt-[36px] px-[15px] w-full min-h-[50px] relative">
+
+
+            <svg  v-if="loadingBlock" class="absolute top-[5px] left-[50%] z-[200] mx-auto animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+
+        
+            <Client-only loading="loading..">
+  
+            
+                <VCodeBlock   
+               
+                  dir="ltr"
+                  :code="currentCode"
+                  highlightjs
+                  lang="javascript"
+                  theme="neon-bunny"
+                  :copyButton="false"
+                />
+      
             </Client-only>
+
 
             <h2 class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
               style="line-height: 23.4px">

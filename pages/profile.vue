@@ -295,7 +295,6 @@ const { text, copy, copied, isSupported } = useClipboard({ source })
           <ProfileEditpersonal @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
           <ProfilePersonalinfo v-if="currentMode === 'normal' && currentTab === 'personal'" />
           <ProfileEditcompany  @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
-
           <ProfileCompanyinfo  v-if="currentMode === 'normal' && currentTab === 'company'" />
           <ProfilePassword @close-editing-mode="currentTab = 'personal'"  v-if="currentTab === 'security'" /> 
         </div>

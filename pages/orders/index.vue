@@ -18,11 +18,6 @@ onMounted(async() => {
   getApps();
   const {getOrderInvoice} = useGetOrderInvoice();
   const result =await getOrderInvoice() ;
-  
-
-  console.log("result");
-  console.log(result.data);
-  console.log(result);
   orders.value= result.data;
 });
 const dateF = ref();

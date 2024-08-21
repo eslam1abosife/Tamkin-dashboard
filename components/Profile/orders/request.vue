@@ -32,7 +32,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const marketStore = useMarketStore();
+const loadingUpdate = ref(false) 
 const acceptedFilesRef = ref<File[]>([]);
   const base64ImagesRef = ref<{ Base64: string }[]>([]);
   const deletedIdsRef = ref<string[]>([]);
@@ -41,7 +41,7 @@ const acceptedFilesRef = ref<File[]>([]);
 const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFilesRef.value.push(...acceptedFiles);
   acceptedFiles.forEach(file => convertToBase64(file));
-//   console.log(acceptedFiles);
+
 };
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true });
 const fileURL = (file) => {
@@ -54,9 +54,9 @@ const fileURL = (file) => {
 // };
 
 const removeFile = (file: File) => {
-  console.log(file)
+
   const index = acceptedFilesRef.value.findIndex(f => f === file);
-  console.log(index)
+
   if (index !== -1) {
     // Check if the file's ID is in the customFileIds array
     if (customFileIds.value.includes(file.name)) {
@@ -88,15 +88,34 @@ onBeforeUnmount(() => {
 });
 const {$toast} = useNuxtApp()
 const noUpload=ref(false)
+
+
+
+
+ 
+const closeAndShowChat = ()=>{
+
+window.$chatwoot.toggleBubbleVisibility('show')
+closeModal('requestmodal_update')
+
+}
+
+
+
+
+
+
 const updateData = async()=>{
 
   // if(base64ImagesRef.value.length==0 && acceptedFilesRef.value.length==0){
   //    noUpload.value=true; 
   //   return;
   // }
+  loadingUpdate.value = true
+  
   const {EditCustomCharacter} = useEditCustomerCharacter();
   
-  console.log( base64ImagesRef);
+
 
   const FormData={
     id:requestData.value.id,
@@ -108,12 +127,9 @@ const updateData = async()=>{
     delted_images:deletedIdsRef.value
   }
   const result = await  EditCustomCharacter(FormData);
-
+  loadingUpdate.value = false
 closeModal('requestmodal_update')
 $toast('Request Updated Successfully', { hideIn: 3000});
-
-
-
 
 
 }
@@ -127,7 +143,7 @@ watchEffect(() => {
     state.characterAge = requestData.value.age;
     state.gender = requestData.value.gender;
     state.Description = requestData.value.description;
-    console.log(requestData.value)
+    
     if(requestData.value.image.length>0 && !isFilesPopulated){
       for(let i=0; i<requestData.value.image.length; i++) {
       const customFile = new File([""], requestData.value.image[i].name, {
@@ -157,7 +173,7 @@ watchEffect(() => {
        lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto "
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal_update')">
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeAndShowChat">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -336,7 +352,18 @@ watchEffect(() => {
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
           <button class="btn_bordered_dashboard" @click="closeModal('requestmodal_update')">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData">Update</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate">
+            <div class="flex items-center justify-center">
+              <div :class="loadingUpdate ? 'mr-4':''">
+               Update
+              </div>
+         
+               <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+             </div>
+          </button>
         </div>
       </div>
     </div>
