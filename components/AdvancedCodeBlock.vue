@@ -1,7 +1,8 @@
 <template v-loading="getCodeLoading">
   <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
 
-  <div  class="flex items-center  lg:flex-nowrap flex-wrap md:flex-nowrap justify-between mt-[30px] w-full  px-[15px] " style="padding: 30px, 16px, 20px, 15px">
+<div class="flex flex-col items-center justify-center w-full">
+    <div  class="flex items-center  lg:flex-nowrap flex-wrap md:flex-nowrap justify-between mt-[30px] w-full  px-[15px] " style="padding: 30px, 16px, 20px, 15px">
       <button @click="showAdvancedCode()" class="btn__icon__dashboard text-[14px] order-1 " style="
                 background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
               ">
@@ -67,7 +68,7 @@
             </svg>
           </div>
 
-          <button class="h-[45px] text-[14px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart
+          <button @click="copy(summaryCode)" class="h-[45px] text-[14px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart
                   group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text">
             Copy
           </button>
@@ -75,10 +76,29 @@
       </div>
     </div>
 
-  <div class="mt-[36px] px-[15px] w-full min-h-[50px]">
-      <Client-only>
-        <VCodeBlock dir="ltr" :code="currentCode" highlightjs lang="javascript" theme="neon-bunny" />
-      </Client-only>
+  <div class="mt-[36px] px-[15px] w-full min-h-[50px] relative ">
+
+
+    <svg  v-if="loadingBlock" class="absolute top-[5px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+
+
+    <Client-only loading="loading.." >
+
+    
+        <VCodeBlock   
+       class="ipad-max:max-w-[660px]"
+          dir="ltr"
+          :code="currentCode"
+          highlightjs
+          lang="javascript"
+          theme="neon-bunny"
+          :copyButton="false"
+        />
+
+    </Client-only>
 
       <h2 class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
           style="line-height: 23.4px">
@@ -87,6 +107,7 @@
         all of your sites !
       </h2>
     </div>
+</div>
 
 </template>
 
@@ -95,6 +116,7 @@ import { ref, onBeforeMount, onMounted } from 'vue';
 import { useSummaryDetailedCode } from "@/composables/useEmbedCode";
 import { useModalManager } from '@/composables/useModalManager';
 import VCodeBlock from "@wdns/vue-code-block";
+import { useClipboard } from '@vueuse/core'
 
 
 const { getSummaryDetailedCode, summaryCode, detailedCode, loading: getCodeLoading } = useSummaryDetailedCode();
@@ -102,7 +124,9 @@ const currentCode = ref('');
 const advancedCode = ref(false);
 const code = ref(true);
 const copyDone = ref(false)
-
+const  loadingBlock =ref(true)
+const { text, copy, copied, isSupported } = useClipboard({ summaryCode })
+let copyCodeP = inject('copyP')
 const copyCode = () => {
   copyDone.value = true;
 };
@@ -131,7 +155,9 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
-  getSummaryDetailedCode();
+  copyCodeP = copied.value
+ await getSummaryDetailedCode();
+  loadingBlock.value = false
 });
 
 function showAdvancedCode() {

@@ -6,7 +6,6 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
-import { useClipboard } from '@vueuse/core'
 
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
@@ -93,12 +92,12 @@ const filteredInstallationGuide = computed(() => {
 <template>
   <div class="relative w-full inset-0">
 
-    <div class=" mx-auto space-y-[32px] relative w-full">
+    <div class="  space-y-[32px] relative w-full">
       <!-- <DashboardEmbedShareModal/>
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->
 
-      <div class="flex items-center justify-center flex-col w-full">
-        <div class="flex flex-col lg:flex-row items-center justify-between">
+      <div class="flex items-center justify-center flex-col w-full ">
+        <div class="flex flex-col lg:flex-row items-center justify-between  ">
 
           <h1 class="text-center text-[20px] font-[500] lg:order-1 order-2 dark:text-whiteTamkin"
             style="line-height: 43.2px">
@@ -116,7 +115,6 @@ const filteredInstallationGuide = computed(() => {
             <Vue3Lottie :animationData="embed" :height="120" :width="120" class="lg:hidden block" :noMargin="true" />
           </div>
         </div>
-        <DashboardToastSuccess v-if="copied" :hideIn="2000" :message="'Copied to clipboard'" />
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">

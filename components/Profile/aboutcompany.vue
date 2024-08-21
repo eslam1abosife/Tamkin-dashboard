@@ -12,6 +12,8 @@ const maxcha = (max) => (value) => {
   return value.length <= max || `The maximum length is ${max} characters.`;
 };
 
+const emit = defineEmits(['updateProfile'])
+
 const state = reactive({
   about: '', // Initial state is empty
 });
@@ -29,7 +31,9 @@ const handleBlur = () => {
   v$.value.$touch();
 };
 
-
+const updateProfile = ()=>{
+  emit('updateProfile',state)
+}
 onMounted(() => {
   state.about = profileStore.company.about;
   profileStore.setAbout(state.about);
@@ -49,8 +53,8 @@ watch(() => state.about, (newValue) => {
     <div class="text-[14px] font-[500] text-black leading-[24px]">About</div>
     </div>
 
-    <div class="text-[12px] leading-[18px] text-black" v-if="currentMode === 'normal'">
-      {{ profileStore.company.about }}
+    <div class="w-full " style="overflow-wrap: break-word;" v-if="currentMode === 'normal'">
+   <p class="text-[12px] leading-[18px] !whitespace-normal text-black ">   {{ profileStore.company.about }}</p>
     </div>
 
     <div class="w-full">
