@@ -5,6 +5,7 @@ import useForgetPassword from "./useForgetPassword";
 import useResendCode from "./useResendCode";
 import useVerifyCode from "./useVerifyCode";
 import useConfirmForgetPassword from "./useConfirmForgetPassword";
+import useSetPasswordToNewMember from "./useSetPasswordToNewMember";
 
 export {
     useLogin,
@@ -13,5 +14,6 @@ export {
     useForgetPassword,
     useResendCode,
     useVerifyCode,
-    useConfirmForgetPassword
+    useConfirmForgetPassword,
+    useSetPasswordToNewMember
 }
