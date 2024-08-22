@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
+import { useEditCustomerCharacter } from '~/composables/useMarket';
+import { useRuntimeConfig } from '#app'
+import { defineEmits } from 'vue';
 
+const emit = defineEmits(['updateData']);
+const config = useRuntimeConfig()
+const baseImageURL = config.public.baseImagerUrl
 const {
   isOpen,
   currentView,
@@ -9,67 +15,181 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  getData
 } = useModalManager();
 import { useMarketStore } from "@/stores/market.js";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
+import { formatDate } from "@vueuse/core";
 const state = reactive({
   characterName: "",
   characterAge:"",
   gender:"",
-  Description:''
+  Description:'',
+  // Image:'',
 });
 const rules = {
     characterName: { required },
     characterAge: { required },
     gender:{required},
-    Description:{required}
+    Description:{required},
+    // image: { required},
 };
 
 const v$ = useVuelidate(rules, state);
-
-const marketStore = useMarketStore();
+let isFilesPopulated = false;
+const loadingUpdate = ref(false) 
 const acceptedFilesRef = ref<File[]>([]);
+  const base64ImagesRef = ref<{ Base64: string }[]>([]);
+  const deletedIdsRef = ref<string[]>([]);
+    const customFileIds =ref([])
+
 const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFilesRef.value.push(...acceptedFiles);
-//   console.log(acceptedFiles);
+  acceptedFiles.forEach(file => convertToBase64(file));
+
 };
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true });
 const fileURL = (file) => {
+  console.log(file.image);
   return URL.createObjectURL(file);
 };
 
-const removeFile = (file:any) => {
-  acceptedFilesRef.value = acceptedFilesRef.value.filter(f=>f!==file)
-//   modalStore.triggerupdatedPicture();
+// const removeFile = (file:any) => {
+//   acceptedFilesRef.value = acceptedFilesRef.value.filter(f=>f!==file)
+// //   modalStore.triggerupdatedPicture();
+// };
+
+const removeFile = (file: File) => {
+
+  const index = acceptedFilesRef.value.findIndex(f => f === file);
+
+  if (index !== -1) {
+    // Check if the file's ID is in the customFileIds array
+    if (customFileIds.value.includes(file.name)) {
+   
+      deletedIdsRef.value.push(file.name);  // Store the ID of the deleted custom file
+    }
+    acceptedFilesRef.value.splice(index, 1); // Remove the file from the array
+  
+    base64ImagesRef.value.splice(index, 1);  // Remove the corresponding Base64 entry
+  }
 };
 
 // const showEditedState = () => {
 //   modalStore.controlTeamEditPictureModal();
 //   modalStore.triggerupdatedPicture();
 // };
-
+const convertToBase64 = (file) => {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64String = e.target.result.split(',')[1]; // Extract Base64 part
+    base64ImagesRef.value.push({ Base64: base64String });
+  };
+  reader.readAsDataURL(file);
+};
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
     URL.revokeObjectURL(file);
   });
 });
-const {$toast} = useNuxtApp()
 
-const updateData = ()=>{
+
+
+const {$toast} = useNuxtApp()
+const noUpload=ref(false)
+
+
+
+
+ 
+const closeAndShowChat = ()=>{
+
+window.$chatwoot.toggleBubbleVisibility('show')
 closeModal('requestmodal_update')
-$toast('Request Updated Successfully', { hideIn: 3000});
+isFilesPopulated=false;
+acceptedFilesRef.value=[]
 
 }
+
+
+
+
+
+
+const updateData = async()=>{
+
+  // if(base64ImagesRef.value.length==0 && acceptedFilesRef.value.length==0){
+  //    noUpload.value=true; 
+  //   return;
+  // }
+  loadingUpdate.value = true
+  
+  const {EditCustomCharacter} = useEditCustomerCharacter();
+  
+
+
+  const FormData={
+    id:requestData.value.id,
+    name:state.characterName,
+    age:state.characterAge,
+    gender:state.gender=='Male',
+    description:state.Description,
+    images:base64ImagesRef.value.length>0 ? base64ImagesRef.value : [{ Base64 :''}],
+    delted_images:deletedIdsRef.value
+  }
+  const result = await  EditCustomCharacter(FormData);
+  emit('updateData', 'refresh');
+  loadingUpdate.value = false
+  closeModal('requestmodal_update')
+  $toast('Request Updated Successfully', { hideIn: 3000});
+
+
+}
+const requestData=({})
+const price=ref('')
+
+watchEffect(() => {
+  if (isOpen('requestmodal_update')) {
+    requestData.value = getData();
+    console.log("hello")
+    console.log(requestData.value)
+    state.characterName = requestData.value.name;
+    state.characterAge = requestData.value.age;
+    state.gender = requestData.value.gender;
+    state.Description = requestData.value.description;
+    
+    if(requestData.value.image.length>0 && !isFilesPopulated){
+      console.log("Asdasdadad")
+      for(let i=0; i<requestData.value.image.length; i++) {
+      const customFile = new File([""], requestData.value.image[i].name, {
+        type: "image/jpeg", // or the appropriate MIME type
+        lastModified: new Date().getTime(),
+      });
+      customFile.id = requestData.value.image[i].id;
+      customFile.image =  requestData.value.image[i].image;
+      acceptedFilesRef.value.unshift(customFile);
+    }
+     customFileIds.value = requestData.value.image.map(image => image.name);
+    }
+    isFilesPopulated = true; 
+    price.value = requestData.value.Cost;
+  }
+  if(base64ImagesRef.value.length>0 || acceptedFilesRef.value.length>0 && noUpload.value==true){
+     noUpload.value=false; 
+    
+  }
+});
+
 </script>
 
 <template>
-    <div v-if="isOpen('requestmodal_update')"
+    <div v-if="isOpen('requestmodal_update') && requestData "
     class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] 
-       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto h-full"
+       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto "
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal_update')">
+  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeAndShowChat">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -96,7 +216,7 @@ $toast('Request Updated Successfully', { hideIn: 3000});
    >
         <!-- Your form content here -->
         <div class="w-full relative  ">
-          <input type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
+          <input  type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
             input_error: (v$.characterName.$error && v$.characterName.required.$invalid),
             error_text: (v$.characterName.$error && v$.characterName.required.$invalid),
             input_success: !v$.characterName.$error && !v$.characterName.$invalid,
@@ -113,7 +233,7 @@ $toast('Request Updated Successfully', { hideIn: 3000});
           </div>
         </div>
         <div class="w-full relative">
-          <input type="number" placeholder="characterAge" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
+          <input   type="number" placeholder="characterAge" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
             input_error: (v$.characterAge.$error && v$.characterAge.required.$invalid),
             error_text: (v$.characterAge.$error && v$.characterAge.required.$invalid),
             input_success: !v$.characterAge.$error && !v$.characterAge.$invalid,
@@ -138,8 +258,9 @@ $toast('Request Updated Successfully', { hideIn: 3000});
                 type="radio"
                 name="gender_radio"
                 class="hidden"
-                value="male"
+                value="Male"
                 v-model="v$.gender.$model"
+                :checked="v$.gender.$model=='Male'"
               />
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal']"></span>
@@ -152,8 +273,9 @@ $toast('Request Updated Successfully', { hideIn: 3000});
                 type="radio"
                 name="gender_radio"
                 class="hidden"
-                value="female"
+                value="Female"
                 v-model="v$.gender.$model"
+                :checked="v$.gender.$model=='Female'"
               />
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal']"></span>
@@ -214,7 +336,7 @@ $toast('Request Updated Successfully', { hideIn: 3000});
                   </svg>
                 </div>
                 <img 
-                  :src="fileURL(file)"
+                  :src="file.image ? (baseImageURL + file.image) : (fileURL(file))"
                   :alt="file.name"
                   class="w-[131px] h-[124px]"
                   @click.stop
@@ -237,14 +359,27 @@ $toast('Request Updated Successfully', { hideIn: 3000});
             </div>
           </div>
         </div>
-        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[136px] h-[40px] bg-[#EFF6FF]
-         rounded-[10px]">
+        <div class="!text-error" v-if="noUpload"> please Uplaod atleast one image </div>
+
+        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+         rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>
-          <div class="text-[20px] font-[600]">$80</div>
+          <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
-          <button class="btn_bordered_dashboard" @click="closeModal('requestmodal_update')">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData">Update</button>
+          <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate">
+            <div class="flex items-center justify-center">
+              <div :class="loadingUpdate ? 'mr-4':''">
+               Update
+              </div>
+         
+               <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+             </div>
+          </button>
         </div>
       </div>
     </div>

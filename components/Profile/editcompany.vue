@@ -42,47 +42,36 @@ const telInputStyleClasses = computed(() => {
   ]
 })
 
-const emit = defineEmits(['cancelupdate'])
+const emit = defineEmits(['cancelupdate','updateProfile'])
+const props = defineProps({
+loadingUpdate:Boolean
 
+})
 const cancelUpdate = ()=>{
     emit('cancelupdate')
 }
 const { $toast } = useNuxtApp();
 
-const updateCompanyInfo = async () => {
+const updateProfile = async () => {
 
   const isValid = await v$.value.$validate();
   if (isValid) {
-    await changeCompanyInfo(state);
-    await profileStore.updateProfileAbout();
-    profileStore.updateSocialPlatforms('company')
-    await profileStore.setCompany();
-    $toast('Company Info updated Successfully', { hideIn: 3000});
-    emit('cancelupdate')
+    emit('updateProfile',state)
+    // emit('cancelupdate')
   }
 }
 
 const v$ = useVuelidate(rules, state);
 
-// const countries = [
-//   { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
-//   { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
-//   { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
-// ];
-
-// const handleSelectedItemProjectName = (item: any) => {
-//   state.country = item.name;
-//   console.log(item)
-// };
 
 const handleSelectedCountry = (item: any) => {
   state.country = item.name;
-  console.log(item)
+  // console.log(item)
 };
 
 const handleSelectedSpecialization = (item: any) => {
   state.company_specialization = item.name;
-  console.log(item)
+  // console.log(item)
 };
 
 onMounted(async () => {
@@ -152,7 +141,7 @@ onMounted(() => {
             </div>
           </div>
           <div class="w-full relative ">
-            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true, styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" />
+            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true,maxlength:15 , styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" />
 
             <input v-if="false" type="number" id="phone" placeholder="" class="input_floating_label peer w-full"
               v-model="v$.phone.$model" :class="{
@@ -206,14 +195,18 @@ onMounted(() => {
       <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
-        <button class="btn-dashboard  w-[125px]" @click="updateCompanyInfo" :class="{ 'opacity-50': companyInfoLoading, 'hover_tamkin': !companyInfoLoading }">
+        <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingUpdate" @click="updateProfile" >
 
-          <svg v-if="companyInfoLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-
-          Update
+          <div class="flex items-center justify-center">
+            <div :class="loadingUpdate ? 'mr-2':''">
+           Update
+            </div>
+       
+             <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
 </div>

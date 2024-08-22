@@ -7,7 +7,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/'
+      baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
+      baseImagerUrl: 'https://tamkin.app/'
     }
   },
 
@@ -64,7 +65,7 @@ export default defineNuxtConfig({
       meta: [
         // Remove or comment out the existing viewport meta tag if present
         // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'viewport', content: 'width=device-width, user-scalable=no' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         
       ],
 script: [

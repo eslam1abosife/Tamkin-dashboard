@@ -213,10 +213,20 @@ border-l-0 border-r-0 pt-[16px]">
 
           Cancel
         </button>
-        <button :disabled="checked.length === 0"
-          :class="(checked.length === 0 || submitInviteLoading) && `btn-inactive`"
-          class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
-          <img v-if="submitInviteLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Continue
+        <button :disabled="checked.length === 0 || submitInviteLoading"
+          class=" btn-dashboard hover_tamkin text-center w-1/4" @click="submitInviteApp()">
+
+          <div class="flex items-center justify-center">
+            <div :class="submitInviteLoading ? 'mr-2':''">
+              Continue
+            </div>
+       
+             <svg  v-if="submitInviteLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
+          
         </button>
 
       </div>

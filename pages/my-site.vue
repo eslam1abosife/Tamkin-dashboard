@@ -307,7 +307,7 @@ const paginatedFilteredAppList = computed(() => {
       </div>
       <div
         class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
-        ltr:right-0 ipad-max:top-[119px] top-[119px] md:top-[60px] lg:top-[119px] ipad-max:w-1/4 "
+        ltr:right-0  top-[119px] md:top-[60px] lg:top-[50px] ipad-max:w-1/4 "
       >
         <Vue3Lottie
           :animationData="mysiteAnimation"

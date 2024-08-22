@@ -25,13 +25,13 @@ export default function() {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
             console.log('credential', credential);
-            const token = credential.idToken;
+            const token = credential.accessToken;
 
             loading.value = true;
             const res = await api.post('/Account/LoginWithGoogle', {
                 data: {
-                    token,
-                    display_name: result.user.displayName
+                    token
+                    // display_name: result.user.displayName
                 }
             });
 

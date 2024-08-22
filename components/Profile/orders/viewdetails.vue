@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
-
+import { useRuntimeConfig } from '#app'
+const config = useRuntimeConfig()
+const baseImageURL = config.public.baseImagerUrl
 const {
   isOpen,
   currentView,
@@ -9,6 +11,7 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  getData
 } = useModalManager();
 import { useMarketStore } from "@/stores/market.js";
 import { useVuelidate } from "@vuelidate/core";
@@ -60,12 +63,41 @@ const updateData = ()=>{
 closeModal('requestmodal_details')
 
 }
+
+
+
+const requestData=({})
+const price=ref('')
+let isFilesPopulated = false;
+watchEffect(() => {
+  if (isOpen('requestmodal_details')) {
+    requestData.value = getData();
+    state.characterName = requestData.value.name;
+    state.characterAge = requestData.value.age;
+    state.gender = requestData.value.gender;
+    state.Description = requestData.value.description;
+    if(requestData.value.image.length>0 && !isFilesPopulated){
+    for(let i=0; i<requestData.value.image.length; i++) {
+      const customFile = new File([""], requestData.value.image[i].name, {
+        type: "image/jpeg", // or the appropriate MIME type
+        lastModified: new Date().getTime(),
+      });
+      customFile.id = requestData.value.image[i].id;
+      customFile.image =  requestData.value.image[i].image;
+      acceptedFilesRef.value.unshift(customFile);
+    }
+  }
+    isFilesPopulated = true; 
+    price.value = requestData.value.Cost;
+  }
+});
+
 </script>
 
 <template>
-    <div v-if="isOpen('requestmodal_details')"
+    <div v-if="isOpen('requestmodal_details') && requestData"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0]   rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] 
-       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto h-full"
+       lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto"
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
   dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal_details')">
@@ -137,8 +169,9 @@ closeModal('requestmodal_details')
                 type="radio"
                 name="gender_radio"
                 class="hidden peer "
-                value="male "
+                value="Male "
                 v-model="v$.gender.$model"
+                :checked="v$.gender.$model=='Male'"
               />
               <label for="gender_radio_1" class="flex items-center cursor-pointer ">
                 <span  :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal',
@@ -149,12 +182,14 @@ closeModal('requestmodal_details')
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
+              disabled
                 id="gender_radio_2"
                 type="radio"
                 name="gender_radio"
                 class="hidden"
-                value="female"
+                value="Female"
                 v-model="v$.gender.$model"
+                :checked="v$.gender.$model=='Female'"
               />
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal',
@@ -208,7 +243,7 @@ closeModal('requestmodal_details')
 "
                 class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
               >
-                <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
+                <div @click.stop class="absolute top-[-10px] right-[-10px] cursor-pointer
                  border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
                  transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
                   <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +253,7 @@ closeModal('requestmodal_details')
                   </svg>
                 </div>
                 <img 
-                  :src="fileURL(file)"
+                  :src="baseImageURL + file.image"
                   :alt="file.name"
                   class="w-[131px] h-[124px]"
                   @click.stop
@@ -241,10 +276,10 @@ closeModal('requestmodal_details')
             </div>
           </div>
         </div>
-        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[136px] h-[40px] bg-[#EFF6FF]
-         rounded-[10px]">
+        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+         rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>
-          <div class="text-[20px] font-[600]">$80</div>
+          <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
    
       </div>

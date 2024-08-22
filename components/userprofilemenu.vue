@@ -82,15 +82,15 @@ const helpWindow = ()=>{
 <template>
     <div class=" h-auto w-[220px]  !mr-[40px]  flex items-center justify-center relative"
        @click.prevent="openLangSwitchMenu"
-       
+
        v-on-click-outside="closeMenu">
 
 
-        <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full 
+        <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
-            <div class="flex items-center justify-start space-x-[14px] gap-4">
-              <!-- <div class=""> -->
+            <div class="flex items-center justify-start w-full space-x-[14px]">
+              <div class="w-2/4">
                 <img v-if="profileStore.member.user_image" :src="`https://tamkin.app/${profileStore.member.user_image}`"
                  class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full" alt="">
                 <!-- <img
@@ -100,21 +100,21 @@ const helpWindow = ()=>{
                 /> -->
                 <!-- User Img Skeleton Loader -->
                 <div v-else-if="!profileStore.member.user_image && !profileStore.member.first_name && !profileStore.member.last_name" class="user-img__skeleton animate-pulse flex space-x-4">
-                  <div class="rounded-full bg-gray-400 ipad-max:w-[30px] ipad-max:h-[30px] min-w-[40px] min-h-[40px]"></div>
+                  <div  class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full"></div>
                 </div>
-                <div v-else class="avatar_img ipad-max:w-[30px] ipad-max:h-[30px] min-w-[40px] min-h-[40px] rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
+                <div v-else class="avatar_img ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
                   <span>
                     {{
                       getAvatarLetters(profileStore.member.first_name + " " + profileStore.member.last_name)
                     }}
                   </span>
                 </div>
-              <!-- </div> -->
+              </div>
               <div class="flex flex-col items-start justify-center w-full !mx-0">
                 <h2
                   class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
-                 {{ fullName }} 
+                 {{ fullName }}
                 </h2>
                 <p
                     v-if="isOwner()"
@@ -128,12 +128,12 @@ const helpWindow = ()=>{
                 <svg :class="[isMenuOpen ? 'rotate-90':'rotate-0']" width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6.00075 4.50016L1.75775 8.74316L0.34375 7.32816L3.17275 4.50016L0.34375 1.67216L1.75775 0.257164L6.00075 4.50016Z" fill="#23262F"/>
                     </svg>
-                    
+
               </div>
-             
+
         </div>
 
-        <div v-if="isMenuOpen" 
+        <div v-if="isMenuOpen"
         style="box-shadow: 1px 1px 7.6px 0px #00000040;
 "
         class=" p-[10px] w-full absolute top-[60px] right-[-0.5px]  bg-white rounded-[10px] h-auto w-full rounded-b-[10px]
@@ -147,7 +147,7 @@ const helpWindow = ()=>{
     <div  class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       My Account
     </div>
-   
+
   </div>
 
 
@@ -159,7 +159,7 @@ const helpWindow = ()=>{
       Subscriptions
   </div>
 
-   
+
   </div>
 
 
@@ -171,7 +171,7 @@ const helpWindow = ()=>{
         <div   class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Billing & Invoices
   </div>
-   
+
   </div>
   <div @click="$router.push(localePath('/orders'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
     <div>
@@ -180,7 +180,7 @@ const helpWindow = ()=>{
       <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
     Orders
       </div>
- 
+
 </div>
   <div @click="$router.push(localePath('/referral'))" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
       <div>
@@ -189,7 +189,7 @@ const helpWindow = ()=>{
         <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Referral
         </div>
-   
+
   </div>
 <hr class="bg-[#EAEAEA] w-full !p-0">
   <div @click="helpWindow" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
@@ -199,7 +199,7 @@ const helpWindow = ()=>{
     <div class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Help
     </div>
-   
+
   </div>
 
   <div class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
@@ -209,21 +209,22 @@ const helpWindow = ()=>{
     <div @click="logout" class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Logout
     </div>
-   
+
   </div>
 
 
   <div class="my-[13px] flex items-center justify-center w-full">
 <div class="text-[10px] leading-[12px] font-[500] text-black underline">
-Privacy Policy 
+  <a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank" class="text-tamkin underline" @click.stop>Privacy Policy </a>
 </div>
 <div class="text-[10px] leading-[12px] font-[500] text-black ">•</div>
 <div class="text-[10px] leading-[12px] font-[500] text-black underline">
- Terms of Service
+  <a href="https://tamkin.app/terms?_lang=en" target="_blank" class="text-tamkin underline" @click.stop> Terms of Service</a>
 </div>
   </div>
         </div>
-      
 
-    </div>
+
+
+  </div>
 </template>

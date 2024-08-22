@@ -15,10 +15,15 @@ definePageMeta({
 
 import { useProfileStore } from "~/stores/profile";
 const profileStore = useProfileStore();
-
+import {  useChangeCompanyInfo, useChangeProfileAbout } from "@/composables/useProfile";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useGetProfileCompleteScore } from "@/composables/useProfile";
+const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo();
+import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+
+const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
+const { changeProfileAbout, loading: aboutLoading } = useChangeProfileAbout();
 
 const { getProfileCompleteScore, score } = useGetProfileCompleteScore();
 
@@ -70,10 +75,25 @@ onMounted(() => {
   getProfileCompleteScore(currentTab.value);
 })
 
+const { $toast } = useNuxtApp();
 
 const source = ref('0x2d5jdska9erptjfew7364432')
 const { text, copy, copied, isSupported } = useClipboard({ source })
+const updateProfile = async (companyData)=>{
 
+  await changeCompanyInfo(companyData);
+  await changeProfileAbout({
+          about: companyData
+        });
+    profileStore.updateSocialPlatforms('company')
+    await changeMemberInfo(companyData);
+    await profileStore.updateSocialPlatforms('personal')
+    await profileStore.setMember();
+ 
+    $toast('Profile updated Successfully', { hideIn: 3000});
+    currentMode.value = 'normal'
+    currentTab.value = 'personal'
+}
 </script>
 
 <template>
@@ -121,7 +141,7 @@ const { text, copy, copied, isSupported } = useClipboard({ source })
         <ProfileOwner v-if="currentTab === 'personal' || currentTab === 'security'"/>
 
         <ProfileCompanycard v-if="currentTab === 'company'"/>
-          <ProfileAboutcompany v-if="currentTab === 'company'"/>
+          <ProfileAboutcompany @update-profile="updateProfile" v-if="currentTab === 'company'"/>
           <div v-if="currentTab === 'personal' || currentTab === 'security'"
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px]
              flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
@@ -292,13 +312,13 @@ const { text, copy, copied, isSupported } = useClipboard({ source })
               Password and security
             </div>
           </div>
-          <ProfileEditpersonal @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
+          <ProfileEditpersonal :loadingUpdate="memberInfoLoading" @update-profile="updateProfile" @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
           <ProfilePersonalinfo v-if="currentMode === 'normal' && currentTab === 'personal'" />
-          <ProfileEditcompany  @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
-
+          <ProfileEditcompany :loadingUpdate="companyInfoLoading || aboutLoading" @update-profile="updateProfile" @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
           <ProfileCompanyinfo  v-if="currentMode === 'normal' && currentTab === 'company'" />
           <ProfilePassword @close-editing-mode="currentTab = 'personal'"  v-if="currentTab === 'security'" /> 
         </div>
+        
       </div>
     </div>
   </div>

@@ -341,10 +341,10 @@ onMounted(() => {
               </span>
             </h1>
           </div>
-          <div v-else class="flex-grow w-full">
+          <div v-else class="w-full">
             <div class="relative">
               <input type="text" placeholder="{{$t('Your team name')}}" id="teamName"
-                class="input_floating_label peer w-full" v-model="v$.teamName.$model" :class="{
+                class="input_floating_label peer  ipad-max:w-full lg:w-[200px] 2xl:w-[350px]" v-model="v$.teamName.$model" :class="{
       input_error:
         v$.teamName.$error && v$.teamName.required.$invalid,
       input_success: !v$.teamName.$error && !v$.teamName.$invalid,
@@ -373,62 +373,78 @@ onMounted(() => {
               Edit Team
             </button>
           </div>
-          <div v-else class="lg:w-1/4 rtl:ml-[29px] ltr:mr-[29px]">
+          <div v-else class="">
             <button @click="doRenameTeam" :disabled="v$.teamName.$invalid || loading"
-              :class="(v$.teamName.$invalid || loading) && `btn-inactive`" class="btn_bordered_dashboard">
-              <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" />
-              Save
+            class="btn_bordered_dashboard ml-auto">
+              <div class="flex items-center justify-center">
+                <div :class="loading ? 'mr-2':''">
+                 Save
+                </div>
+           
+                 <svg  v-if="loading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+               </div>
             </button>
           </div>
         </div>
       </div>
 
-      <div v-loading="getAllMembersLoading" :style="{
-      backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(${banner})`,
-    }" style="
-          box-shadow: 0px 4px 24px 8px #51459f14;
-          padding: 30px, 16px, 30px, 16px;
-          background-size: cover;
-        "
-        class="w-full flex items-center justify-between rtl:space-x-reverse space-x-[30px] px-[16px] py-[23px] dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder">
-        <div>
-          <img src="/assets/imgs/icons/team_members.svg" />
-        </div>
-        <div class="flex flex-col items-center justify-center text-darkGrey">
-          <div class="">
-            <h1 class="font-[600] text-[15px] lg:leading-[22.5px] text-center">
-              Total Member
-            </h1>
-          </div>
-          <div class="">
-            <h1 v-if="teamMembers" class="font-[500] text-[15px] leading-[22.5px]">
-              {{ teamMembers.length }}
-            </h1>
-          </div>
-        </div>
-        <div
-          class="bg-white dark:bg-tamkinDarkPrimary w-[63px] h-[48px] border-[0.5px] border-[#48D916] rounded-[9px] p-[10px] text-[#48D916] flex flex-col items-center justify-center">
-          <div>
-            <h1 class="text-[11px] font-[500] leading-[16px]">Active</h1>
-          </div>
-          <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">
-              {{ teamMembers.filter((ele) => ele.is_active).length }}
-            </h1>
-          </div>
-        </div>
-        <div
-          class="bg-white dark:bg-tamkinDarkPrimary w-[63px] h-[48px] border-[0.5px] border-[#EA4335] rounded-[9px] p-[10px] text-[#EA4335] flex flex-col items-center justify-center">
-          <div>
-            <h1 class="text-[11px] font-[500] leading-[16px]">Pending</h1>
-          </div>
-          <div>
-            <h1 class="text-[16px] font-[500] leading-[18px]" v-if="teamMembers && teamMembers.length > 0">
-              {{ teamMembers.filter((ele) => !ele.is_active).length }}
-            </h1>
-          </div>
-        </div>
-      </div>
+     <div class="flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;
+">
+
+<div class="flex flex-col items-start justify-start  ">
+<div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[8px]" >
+  <div>
+    <img src="/imgs/total_members.png"  class="w-[16px] h-[21px]" alt="">
+  </div>
+<div class="flex items-center justify-center space-x-[20px]">
+  <div>
+    Total Member
+  </div>  
+  <div>
+    {{ teamMembers.length }}
+  </div>
+</div>
+</div>
+<div class="flex items-center justify-center mt-[8px] space-x-[14px]">
+<div class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full">
+  
+</div>
+
+<div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[90px] flex">
+ <div>
+  Active
+ </div>
+ <div>
+  {{ teamMembers.filter((ele) => ele.is_active).length }}
+ </div>
+</div>
+
+</div>
+<div class="flex items-center justify-center mt-[8px] space-x-[14px]">
+  <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full">
+    
+  </div>
+  
+  <div class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px] flex">
+   <div>
+    Pending 
+   </div>
+   <div>
+    {{ teamMembers.filter((ele) => !ele.is_active).length }}
+   </div>
+  </div>
+  
+  </div>
+</div>
+
+<div class="-mt-[45px]">
+  <img src="/imgs/total_members_hero.png"  class="w-[203px] h-[151px]" alt="">
+</div>
+
+     </div>
     </div>
 
     <section class="mx-auto mt-[24px]" v-loading="getAllMembersLoading">
@@ -509,7 +525,7 @@ onMounted(() => {
                         </span>
                       </div>
                     </div>
-                    <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap"
+                    <div class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer"
                       @click="openModal('editname', 'team', member)">
                       {{ member.first_name + " " + member.last_name }}
                     </div>
@@ -546,7 +562,7 @@ onMounted(() => {
                 <td class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
                   <div
                     class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]">
-                    <button class="flex justify-center w-[40px] !p-0 !m-0" :disabled="member.is_active ||
+                    <button class="flex justify-center w-[40px] !p-0 !m-0 group" :disabled="member.is_active ||
       isOwner(member) ||
       (reInviteLoading &&
         currEmail === member.member_email) ||
@@ -567,7 +583,7 @@ onMounted(() => {
                       <svg v-if="!(
       reInviteLoading && currEmail === member.member_email
     )
-      " width="22" height="20" class="text-[#8C8C8C] cursor-pointer" :class="member.is_active ||
+      " width="22" height="20" class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed" :class="member.is_active ||
       isOwner(member) ||
       (reInviteLoading &&
         currEmail === member.member_email) ||
@@ -583,9 +599,9 @@ onMounted(() => {
                       </svg>
                       <img v-else class="inline-block mx-2" src="/assets/imgs/loading-green.svg" />
                     </button>
-                    <button class="flex justify-center w-[40px] !p-0 !m-0" :disabled="isOwner(member)"
+                    <button class="flex justify-center w-[40px] !p-0 !m-0 group" :disabled="isOwner(member)"
                       :class="isOwner(member) ? `opacity-40` : 'opacity-100'">
-                      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" class="text-[#8C8C8C] cursor-pointer"
+                      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
                         :class="!isOwner(member) && `hover:text-[#2DADA3]`" @click="
       !isOwner(member) ? openEditUserModal(member) : null
       " xmlns="http://www.w3.org/2000/svg">
@@ -594,14 +610,14 @@ onMounted(() => {
                           fill="currentColor" />
                       </svg>
                     </button>
-                    <button class="flex justify-center w-[40px] !p-0 !m-0" :disabled="isOwner(member)"
+                    <button class="flex justify-center w-[40px] !p-0 !m-0 group" :disabled="isOwner(member)"
                       :class="isOwner(member) ? `opacity-40` : 'opacity-100'" @click="
       !isOwner(member)
         ? openDeleteMember(member.member_email)
         : null
       ">
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"
-                        class="text-[#8C8C8C] cursor-pointer" :class="!isOwner(member) && `hover:text-[#E80902]`"
+                        class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed" :class="!isOwner(member) && `hover:text-[#E80902]`"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M3.52941 4.70588C3.52941 3.4578 4.02521 2.26085 4.90773 1.37832C5.79026 0.495797 6.98722 0 8.23529 0C9.48337 0 10.6803 0.495797 11.5629 1.37832C12.4454 2.26085 12.9412 3.4578 12.9412 4.70588C12.9412 5.95396 12.4454 7.15092 11.5629 8.03344C10.6803 8.91597 9.48337 9.41177 8.23529 9.41177C6.98722 9.41177 5.79026 8.91597 4.90773 8.03344C4.02521 7.15092 3.52941 5.95396 3.52941 4.70588ZM0 12.9412C0 11.6318 1.06235 10.5882 2.36353 10.5882H9.71412C8.75628 11.7465 8.2332 13.2029 8.23529 14.7059C8.23529 16.2388 8.76824 17.6471 9.65882 18.7565C9.19373 18.8012 8.71922 18.8235 8.23529 18.8235C6.05294 18.8235 4.02 18.3694 2.51177 17.4082C0.98 16.4318 0 14.9294 0 12.9412ZM20 14.7059C20 16.11 19.4422 17.4565 18.4494 18.4494C17.4565 19.4422 16.11 20 14.7059 20C13.3018 20 11.9552 19.4422 10.9624 18.4494C9.96954 17.4565 9.41177 16.11 9.41177 14.7059C9.41177 13.3018 9.96954 11.9552 10.9624 10.9624C11.9552 9.96954 13.3018 9.41177 14.7059 9.41177C16.11 9.41177 17.4565 9.96954 18.4494 10.9624C19.4422 11.9552 20 13.3018 20 14.7059ZM16.8871 13.3576C16.9975 13.2472 17.0596 13.0974 17.0596 12.9412C17.0596 12.785 16.9975 12.6352 16.8871 12.5247C16.7766 12.4143 16.6268 12.3522 16.4706 12.3522C16.3144 12.3522 16.1646 12.4143 16.0541 12.5247L14.7059 13.8741L13.3576 12.5247C13.2472 12.4143 13.0974 12.3522 12.9412 12.3522C12.785 12.3522 12.6352 12.4143 12.5247 12.5247C12.4143 12.6352 12.3522 12.785 12.3522 12.9412C12.3522 13.0974 12.4143 13.2472 12.5247 13.3576L13.8741 14.7059L12.5247 16.0541C12.47 16.1088 12.4266 16.1737 12.397 16.2452C12.3674 16.3167 12.3522 16.3932 12.3522 16.4706C12.3522 16.5479 12.3674 16.6245 12.397 16.696C12.4266 16.7674 12.47 16.8324 12.5247 16.8871C12.5794 16.9418 12.6443 16.9851 12.7158 17.0147C12.7872 17.0443 12.8638 17.0596 12.9412 17.0596C13.0185 17.0596 13.0951 17.0443 13.1666 17.0147C13.238 16.9851 13.303 16.9418 13.3576 16.8871L14.7059 15.5376L16.0541 16.8871C16.1088 16.9418 16.1737 16.9851 16.2452 17.0147C16.3167 17.0443 16.3932 17.0596 16.4706 17.0596C16.5479 17.0596 16.6245 17.0443 16.696 17.0147C16.7674 16.9851 16.8324 16.9418 16.8871 16.8871C16.9418 16.8324 16.9851 16.7674 17.0147 16.696C17.0443 16.6245 17.0596 16.5479 17.0596 16.4706C17.0596 16.3932 17.0443 16.3167 17.0147 16.2452C16.9851 16.1737 16.9418 16.1088 16.8871 16.0541L15.5376 14.7059L16.8871 13.3576Z"

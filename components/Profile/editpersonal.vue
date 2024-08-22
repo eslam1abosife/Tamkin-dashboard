@@ -4,19 +4,19 @@ import { required, email, sameAs } from "@vuelidate/validators";
 
 import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
 
+
 const { getCountries, countries } = useGetAllCountries();
 
-const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
 
 const profileStore = useProfileStore();
+const props = defineProps({
+loadingUpdate:Boolean
+
+})
 
 
-import UAEFLAG from "/assets/imgs/flags/UAE.svg";
-import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
-import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 
 const state = reactive({
-
     first_name:"",
     last_name:"",
     phone:"",
@@ -42,7 +42,7 @@ const telInputStyleClasses = computed(() => {
     }
   ]
 })
-const emit = defineEmits(['cancelupdate'])
+const emit = defineEmits(['cancelupdate','updateProfile'])
 
 const cancelUpdate = ()=>{
     emit('cancelupdate')
@@ -53,11 +53,10 @@ const updatePersonalInfo = async () => {
 
   const isValid = await v$.value.$validate();
   if (isValid) {
-    await changeMemberInfo(state);
-    emit('cancelupdate')
-    profileStore.updateSocialPlatforms('personal')
-    profileStore.setMember();
-    $toast('Personal Info updated Successfully', { hideIn: 3000});
+    emit('updateProfile',state)
+
+ 
+    // $toast('Personal Info updated Successfully', { hideIn: 3000});
   }
 }
 
@@ -149,7 +148,14 @@ onMounted(() => {
           </div>
 
           <div class="w-full relative ">
-            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true, styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" />
+            <vue-tel-input v-model="v$.phone.$model" :validCharactersOnly="true" :inputOptions="{ showDialCode: true, 
+              styleClasses: ['input_floating_label bg-transparent'],maxlength:15 }" :styleClasses="telInputStyleClasses" mode="international">
+            
+              <template v-slot:arrow-icon="{ open }">
+                <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[open ? 'rotate-90' : '']"
+                class="mr-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
+               
+            </template></vue-tel-input>
             <input v-if="false" type="number" id="phone" placeholder="" class="input_floating_label peer w-full"
               v-model="v$.phone.$model" :class="{
           input_error:
@@ -248,14 +254,19 @@ onMounted(() => {
       <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
 
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
-        <button class="btn-dashboard w-[125px]" @click="updatePersonalInfo" :class="{ 'opacity-50': memberInfoLoading, 'hover_tamkin': !memberInfoLoading }">
+        <button class="btn-dashboard w-[125px] hover_tamkin" :disabled="loadingUpdate" @click="updatePersonalInfo" >
 
-          <svg v-if="memberInfoLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-
-          Update
+     
+          <div class="flex items-center justify-center">
+            <div :class="loadingUpdate ? 'mr-2':''">
+           Update
+            </div>
+       
+             <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
 </div>
@@ -264,8 +275,11 @@ onMounted(() => {
 
 <style>
 .vue-tel-input {
-@apply rounded-[10px] bg-white;
+@apply rounded-[10px] bg-white h-[40px];
 }
+
+
+
 .vti__dropdown-list.below{
 @apply ipad-max:!w-[400px] lg:!w-[250px] 2xl:!w-[340px] rounded-[10px] bg-white border border-[#D9D9D9] top-[52px];
 

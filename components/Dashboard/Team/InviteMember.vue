@@ -14,6 +14,8 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  setData,
+  getData
 } = useModalManager();
 const state = reactive({
   email: "",
@@ -38,9 +40,10 @@ const errorMsg = ref(null);
 const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   try {
-    await inviteMember({ ...state, currTeamId: user.agency });
-    getAllTeamMember(user.agency);
-    emit('onSuccess', 'User added successfully!');
+    setData({...state})
+    // await inviteMember({ ...state, currTeamId: user.agency });
+    // getAllTeamMember(user.agency);
+    // emit('onSuccess', 'User added successfully!');
     navigateTo('invitemember', 'team', 'invitememberupdate', { ...state, currTeamId: user.agency })
   } catch (err) {
     errorMsg.value = err;
@@ -48,7 +51,11 @@ const submitInviteMember = async () => {
 }
 
 onMounted(() => {
-  console.log('mounted');
+  // console.log('mounted');
+  const message=getData()
+  if(message?.error){
+    errorMsg.value = message?.error;
+  }
 });
 
 const clearFieldError = (condition) => {
@@ -61,9 +68,10 @@ const clearFieldError = (condition) => {
 
 <template>
   <div v-if="isOpen('invitemember')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12 "
+    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]
+     lg:w-[640px] lg:h-[446px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember')">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember'),setData(null)">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -71,7 +79,7 @@ const clearFieldError = (condition) => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%] overflow-y-scroll">
+    <div class="container mx-auto max-h-[100%]">
       <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         Invite Member
       </h1>
@@ -82,7 +90,7 @@ const clearFieldError = (condition) => {
           class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errorMsg }} </h6>
 
         <div class="w-full relative !mt-[20px]">
-          <input type="text" placeholder="{{$t('firstName')}}" id="firstName" class="input_floating_label peer"
+          <input type="text" placeholder="" id="firstName" class="input_floating_label peer"
             v-model="v$.firstName.$model" :class="{
     input_error:
       (v$.firstName.$error && v$.firstName.required.$invalid),
@@ -98,7 +106,7 @@ const clearFieldError = (condition) => {
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.firstName.$error && v$.firstName.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{
-    $t("first_name_required")
+    $t("First name is required")
   }}</span>
 
             </p>
@@ -122,7 +130,7 @@ const clearFieldError = (condition) => {
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.lastName.$error && v$.lastName.required.$invalid)">
             <p class="error_message">
               <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{
-    $t("last_name_required")
+    $t("Last name is required")
   }}</span>
 
             </p>
@@ -171,10 +179,19 @@ const clearFieldError = (condition) => {
       <div class="mt-[32px] w-2/6 mx-auto">
 
         <button :disabled="v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading"
-          :class="(v$.email.$invalid || v$.firstName.$invalid || v$.lastName.$invalid || submitLoading) && `btn-inactive`"
-          @click="submitInviteMember" class=" btn-dashboard text-center mx-auto">
+      
+          @click="submitInviteMember" class=" btn-dashboard hover_tamkin text-center mx-auto">
           <!-- modalStore.controlInviteMemberUpdateModal -->
-          <img v-if="submitLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Invite Member
+          <div class="flex items-center justify-center">
+            <div :class="submitLoading ? 'mr-2':''">
+             Invite Member
+            </div>
+       
+             <svg  v-if="submitLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
 
