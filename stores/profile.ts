@@ -42,7 +42,6 @@ export const useProfileStore = defineStore("profile", () => {
 */
 
 export const useProfileStore = defineStore("profile", {
-<<<<<<< HEAD
   state: () => ({
     member: {},
     company: null,
@@ -54,20 +53,6 @@ export const useProfileStore = defineStore("profile", {
     currentTab: 'personal',
     investor:''
   }),
-=======
-  state: () => {
-    return {
-      member: { 
-        first_name: "abdallah",
-        last_name: "ali",
-        user_image:'/files/Integrationsde17eb.svg', 
-      },
-      company: null,
-      companySpecialization: null,
-      socialPlatforms: [],
-      isOwner: false,
-      profileAbout: '',
->>>>>>> 2bc613d33a961d74ecb0f21ce2a9c684f8f3e36c
 
       
       def_social_platform:[
