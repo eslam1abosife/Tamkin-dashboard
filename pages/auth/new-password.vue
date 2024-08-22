@@ -18,6 +18,7 @@ const state = reactive({
   password: "",
   password_confirm: "",
   key: "",
+  email: "",
 });
 
 const rules = {
@@ -55,13 +56,11 @@ const doChangePassword = async () => {
   errMsg.value = null;
   const email = localStorage.getItem("registerd_email");
   const key = localStorage.getItem("curr_code");
-  const urlEmail = route.query.email as string;
-
+  
   try {
-
-    if (urlEmail) {
+    if (state.email) {
       await setPasswordToNewMember({
-        email   : urlEmail,
+        email   : state.email,
         password: state.password
       });
     } else {
@@ -76,6 +75,11 @@ const doChangePassword = async () => {
     errMsg.value = err;
   }
 };
+
+
+onMounted(() => {
+  state.email = route.query.email;
+});
 </script>
 
 <template>
