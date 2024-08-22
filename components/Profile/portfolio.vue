@@ -107,6 +107,7 @@ const { handlers } = toRefs(state);
     <div class="flex items-center justify-between w-full">
       <div class="text-[16px] leading-[24px] font-[600]">Portfolio</div>
 
+<<<<<<< HEAD
       <div
         class="flex items-center justify-evenly space-x-[16px] ipad-max:flex-wrap"
         v-if="currentMode === 'normal'"
@@ -124,6 +125,22 @@ const { handlers } = toRefs(state);
           </a>
         </template>
       </div>
+=======
+    <div
+      class="flex items-center justify-evenly space-x-[16px]   ipad-max:flex-wrap"
+      v-if="currentMode === 'normal'"
+    >
+    <a
+        v-for="(platform, index) in profileStore.getPortfolioView"
+       
+        :key="index"
+        :href="platform.link"
+        target="_blank"
+        class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+      >
+        <img   :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
+      </a>
+>>>>>>> 2bc613d33a961d74ecb0f21ce2a9c684f8f3e36c
     </div>
 
     <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing'">

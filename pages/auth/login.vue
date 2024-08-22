@@ -51,7 +51,7 @@ const doLogin = async () => {
     setTimeout(() => {
       loginSuccessfully.value = false;
     }, 2000);
-    router.push("/my-site");
+    router.push("/overview");
   } catch (error) {
     const errMsg =
       typeof error === "string" ? error : "There is something wrong";
@@ -203,7 +203,7 @@ const clearFieldError = (condition) => {
                   class="input_floating_label peer" v-model="v$.password.$model" :class="{
     input_error:
       (v$.password.$error && v$.password.required.$invalid) ||
-   
+
       isIncludeWord(errorMsg, ['Error in Email Or Password']),
     error_text:
       (v$.password.$error && v$.password.$invalid) ||
@@ -276,7 +276,7 @@ const clearFieldError = (condition) => {
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0 lg:p-0 p-3">
       <button class="btn-grad-action w-full" @click="doLogin()"
         :disabled="v$.email.$invalid || v$.password.$invalid || loginLoading">
-      
+
     <div class="flex items-center justify-center">
      <div class="mr-4">
       {{$t("login_button")}}
