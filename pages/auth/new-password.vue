@@ -56,14 +56,17 @@ const doChangePassword = async () => {
   errMsg.value = null;
   const email = localStorage.getItem("registerd_email");
   const key = localStorage.getItem("curr_code");
-  
+
   try {
+    console.log('state.email',state.email)
     if (state.email) {
+      console.log("if")
       await setPasswordToNewMember({
         email   : state.email,
         password: state.password
       });
     } else {
+      console.log("else")
       await confirmForgetPassword({
         email   : email,
         password: state.password,
@@ -154,6 +157,7 @@ onMounted(() => {
                   </p>
                 </div>
               </div>
+              <input type="text" v-model="state.email"  />
 
               <div class="w-full relative">
                 <input :type="ConfirmpasswordFieldType" placeholder="{{ $t('confirm_password') }}" id="password_confirm"
