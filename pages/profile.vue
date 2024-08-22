@@ -15,17 +15,24 @@ definePageMeta({
 
 import { useProfileStore } from "~/stores/profile";
 const profileStore = useProfileStore();
-import {  useChangeCompanyInfo, useChangeProfileAbout } from "@/composables/useProfile";
+const {currentTab} = storeToRefs(profileStore)
+import {  useChangeCompanyInfo, useChangeProfileAbout,useChangeMemberImage,useRemoveMemberImage } from "@/composables/useProfile";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useGetProfileCompleteScore } from "@/composables/useProfile";
 const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo();
 import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+import { useGetSocialPlatforms } from "@/composables/useProfile";
+import { useGetCurrentTeam, useGetMember, useAddSocialAccount } from "@/composables/useProfile";
 
+const { getMember, member } = useGetMember();
+const { getSocialPlatforms, socialPlatforms } = useGetSocialPlatforms();
 const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
-const { changeProfileAbout, loading: aboutLoading } = useChangeProfileAbout();
 
 const { getProfileCompleteScore, score } = useGetProfileCompleteScore();
+import { useGetInvestor } from "@/composables/useProfile";
+
+const { getInvestor, loading : lod } = useGetInvestor();
 
 const state = reactive({
   email: "",
@@ -44,10 +51,9 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 const currentMode = ref('normal')
-const currentTab = ref("personal");
 
 const changeTab = (tab: any) => {
-  currentTab.value = tab;
+ currentTab.value = tab;
 };
 
 const changeMode = (mode : any)=>{
@@ -70,29 +76,58 @@ watch(currentTab, (newValue) => {
 
 provide('currentMode',currentMode)
 
-onMounted(() => {
-  // profileStore.setCompany();
-  getProfileCompleteScore(currentTab.value);
+onMounted(async () => {
+  // profileStore.setCompany();=
+  getProfileCompleteScore(profileStore.currentTab);
+  await getSocialPlatforms();
+
+await getInvestor()
 })
 
 const { $toast } = useNuxtApp();
 
-const source = ref('0x2d5jdska9erptjfew7364432')
+const source = profileStore.investor.wallet_addressss
 const { text, copy, copied, isSupported } = useClipboard({ source })
-const updateProfile = async (companyData)=>{
+const imagetoUpload = ref()
+const isRemoving = ref(false)
+const isUploading = ref(false)
+const aboutCompany = ref()
+const updateProfileImage = async (imgfile)=>{
+  imagetoUpload.value = imgfile
+}
+const remvoeProfileImage = async(isremoving)=>{
+  isremoving.value = isremoving
+}
+const uploadingNew = (isUploading)=>{
+isUploading.value = isUploading
+}
+const getAbout = async (about)=>{
+  aboutCompany.value = about
+}
+const profileLoader = ref(false)
 
-  await changeCompanyInfo(companyData);
-  await changeProfileAbout({
-          about: companyData
-        });
-    profileStore.updateSocialPlatforms('company')
+const updatep = async (companyData)=>{
+  profileLoader.value = true
+  await changeCompanyInfo({...companyData,about:aboutCompany.value});
+
+   
     await changeMemberInfo(companyData);
-    await profileStore.updateSocialPlatforms('personal')
-    await profileStore.setMember();
- 
+
+
+
+   
+
+
     $toast('Profile updated Successfully', { hideIn: 3000});
+
     currentMode.value = 'normal'
-    currentTab.value = 'personal'
+   currentTab.value = 'personal'
+    profileLoader.value = false
+    await profileStore.updateSocialPlatforms()
+    await profileStore.setCompany();
+    await profileStore.setMember();
+  
+ 
 }
 </script>
 
@@ -104,8 +139,9 @@ const updateProfile = async (companyData)=>{
     :message="'Copied to clipboard'"
  
   />
-
-
+  <ProfileEditpicturemodal @update-profile-image="updateProfileImage"  :showModal="isOpen('editMemberPic')" />
+<ProfileEditcompanypicture/>
+<!-- {{ profileStore?.member }} -->
     <div
       class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
     >
@@ -138,11 +174,11 @@ const updateProfile = async (companyData)=>{
     <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
       <div class="grid grid-cols-12 gap-[40px] ipad-max:gap-4 ">
         <div class="flex flex-col items-start justify-start space-y-[10px]  col-span-4">
-        <ProfileOwner v-if="currentTab === 'personal' || currentTab === 'security'"/>
+        <ProfileOwner v-if="currentTab === 'personal' ||currentTab === 'security'"/>
 
         <ProfileCompanycard v-if="currentTab === 'company'"/>
-          <ProfileAboutcompany @update-profile="updateProfile" v-if="currentTab === 'company'"/>
-          <div v-if="currentTab === 'personal' || currentTab === 'security'"
+          <ProfileAboutcompany @update-about="getAbout" v-if="currentTab === 'company'"/>
+          <div v-if="currentTab === 'personal' ||currentTab === 'security' || profileLoader.investor"
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px]
              flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
@@ -153,7 +189,7 @@ const updateProfile = async (companyData)=>{
           </div>
 
           
-            <div class="flex items-center justify-start w-full space-x-[16px]">
+            <div  class="flex items-center justify-start w-full space-x-[16px]">
               <div>
                 <img
                   src="/assets/imgs/overview/silver.svg"
@@ -167,19 +203,19 @@ const updateProfile = async (companyData)=>{
             </div>
   
 
-            <div
+            <div 
               class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
             >
               <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
                 <div
-                  class="text-[#878787] truncate ipad-max:w-36 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
+                  class="text-[#878787] truncate ipad-max:w-36 w-44 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
                 >
-                  {{ source }}
+                  {{ profileStore.investor.wallet_address }}
                 </div>
               </div>
               <img v-if="isSupported"
                 class="ml-auto cursor-pointer w-[18px] h-[18px]"
-                @click="copy(source)"
+                @click="copy(profileStore.investor.wallet_address)"
                 src="/imgs/copy.png"
               />
             </div>
@@ -194,12 +230,12 @@ const updateProfile = async (companyData)=>{
               Token Balance
             </div>
 
-            <div class="text-[12px]  ipad-max:text-[10px] font-[600] text-[#1E1E1E]">5.000.00 TSLT</div>
+            <div class="text-[12px]  ipad-max:text-[10px] font-[600] text-[#1E1E1E]">{{profileStore.investor.tslt_amount}} TSLT</div>
           </div>
           </div>
           
           </div>
-          <div v-if="currentTab === 'personal' || currentTab === 'security'"
+          <div v-else-if="currentTab === 'personal' ||currentTab === 'security'"
           class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm  h-[183px]
            flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
         >
@@ -269,8 +305,12 @@ const updateProfile = async (companyData)=>{
           </div>
 
       
-     <ProfilePortfolio :currentTab="currentTab" />
-        
+
+  <ProfilePortfolio v-if="currentTab === 'personal'"/> 
+
+   <ProfilePortfoliocompany v-if="currentTab === 'company'"/>
+
+       
         </div>
 
         <div
@@ -280,7 +320,7 @@ const updateProfile = async (companyData)=>{
           <div class="flex items-start justify-between w-full">
             <div
               :class="[
-                currentTab === 'personal'
+               currentTab === 'personal'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -291,7 +331,7 @@ const updateProfile = async (companyData)=>{
             </div>
             <div
               :class="[
-                currentTab === 'company'
+               currentTab === 'company'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -302,7 +342,7 @@ const updateProfile = async (companyData)=>{
             </div>
             <div
               :class="[
-                currentTab === 'security'
+               currentTab === 'security'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -312,10 +352,17 @@ const updateProfile = async (companyData)=>{
               Password and security
             </div>
           </div>
-          <ProfileEditpersonal :loadingUpdate="memberInfoLoading" @update-profile="updateProfile" @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'personal'"/>
+          <keep-alive>
+
+          <ProfileEditpersonal :loading-personal="profileLoader" @update-personal-info="updatep" 
+          @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' &&currentTab === 'personal'"/>
+        </keep-alive>
           <ProfilePersonalinfo v-if="currentMode === 'normal' && currentTab === 'personal'" />
-          <ProfileEditcompany :loadingUpdate="companyInfoLoading || aboutLoading" @update-profile="updateProfile" @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' && currentTab === 'company'"/>
-          <ProfileCompanyinfo  v-if="currentMode === 'normal' && currentTab === 'company'" />
+          <keep-alive>
+         
+            <ProfileEditcompany :loadingUpdate="profileLoader " @update-profile="updatep" @cancelupdate="changeMode('normal')" v-if="currentMode === 'editing' &&currentTab === 'company'"/>
+        </keep-alive>
+            <ProfileCompanyinfo  v-if="currentMode === 'normal' &&currentTab === 'company'" />
           <ProfilePassword @close-editing-mode="currentTab = 'personal'"  v-if="currentTab === 'security'" /> 
         </div>
         

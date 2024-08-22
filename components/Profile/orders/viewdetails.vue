@@ -117,7 +117,7 @@ watchEffect(() => {
     </div>
     <div class="w-full ">
       <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
-        Request a specific character
+        Request a specific Character Details
       </h1>
       <div
       class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
@@ -125,157 +125,57 @@ watchEffect(() => {
       px-[20px] rounded-[10px] mt-[16px] pt-[20px]  "
       style="box-shadow: 0px 4px 24px 8px #51459f14"
    >
-        <!-- Your form content here -->
-        <div class="w-full relative  ">
-          <input  disabled type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full" v-model="v$.characterName.$model" :class="{
-            input_error: (v$.characterName.$error && v$.characterName.required.$invalid),
-            error_text: (v$.characterName.$error && v$.characterName.required.$invalid),
-            input_success: !v$.characterName.$error && !v$.characterName.$invalid,
-          }" />
-          <label for="characterName" class="floating_label" :class="[
-            (v$.characterName.$error && v$.characterName.required.$invalid) ? '!text-error' : '',
-          ]">
-            Character Name*
-          </label>
-          <div class="w-full lg:w-4/6 " v-if="(v$.characterName.$error && v$.characterName.required.$invalid)">
-            <p class="error_message">
-              <span v-if="v$.characterName.$error && v$.characterName.required.$invalid">{{ $t("Character Name is Required") }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="w-full relative">
-          <input  disabled type="number" placeholder="characterAge" id="characterAge" class="input_floating_label peer w-full" v-model="v$.characterAge.$model" :class="{
-            input_error: (v$.characterAge.$error && v$.characterAge.required.$invalid),
-            error_text: (v$.characterAge.$error && v$.characterAge.required.$invalid),
-            input_success: !v$.characterAge.$error && !v$.characterAge.$invalid,
-          }" />
-          <label for="characterAge" class="floating_label" :class="[
-            (v$.characterAge.$error && v$.characterAge.required.$invalid) ? '!text-error' : '',
-          ]">
-            Character Age*
-          </label>
-          <div class="w-full lg:w-4/6 " v-if="(v$.characterAge.$error && v$.characterAge.required.$invalid)">
-            <p class="error_message">
-              <span v-if="v$.characterAge.$error && v$.characterAge.required.$invalid">{{ $t("Character Age is Required") }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="w-full flex-col flex items-start justify-start">
-          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">Gender</h1>
-          <div class="flex items-center justify-start space-x-[100px] w-full">
-            <div class="flex items-center justify-start mt-[16px]">
-              <input disabled
-                id="gender_radio_1"
-                type="radio"
-                name="gender_radio"
-                class="hidden peer "
-                value="Male "
-                v-model="v$.gender.$model"
-                :checked="v$.gender.$model=='Male'"
-              />
-              <label for="gender_radio_1" class="flex items-center cursor-pointer ">
-                <span  :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal',
-                { 'bg-gray-100': true } 
-                ]"></span>
-              </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Male</h2>
-            </div>
-            <div class="flex items-center justify-start mt-[16px]">
-              <input
-              disabled
-                id="gender_radio_2"
-                type="radio"
-                name="gender_radio"
-                class="hidden"
-                value="Female"
-                v-model="v$.gender.$model"
-                :checked="v$.gender.$model=='Female'"
-              />
-              <label for="gender_radio_2" class="flex items-center cursor-pointer">
-                <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal',
-                { 'bg-gray-100': true } 
-                ]"></span>
-              </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Female</h2>
-            </div>
-          </div>
-        </div>
-        <div class="relative w-full">
-          <textarea
-          disabled
-            id="description"
-            placeholder="description"
-            class="input_floating_label_text_area peer w-full"
-            v-model="v$.Description.$model"
-            :class="{
-              input_error: (v$.Description.$error && v$.Description.required.$invalid),
-              input_success: !v$.Description.$error && !v$.Description.$invalid,
-            }"
-          ></textarea>
-          <label
-            for="description"
-            class="floating_label_text_area"
-            :class="[
-              (v$.Description.$error && v$.Description.required.$invalid) ? '!text-error' : '',
-            ]"
-          >
-            Description*
-          </label>
-          <div class="w-full lg:w-4/6" v-if="(v$.Description.$error && v$.Description.required.$invalid)">
-            <p class="error_message text_area">
-              <span v-if="v$.Description.$error && v$.Description.required.$invalid">{{ $t("Please enter a Description") }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="w-full ">
-          <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
-          <div
-            v-bind="getRootProps()"
-            class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed bg-gray-100 border-[#C8CFEB] dark:border-light mt-[16px] 
-            flex items-center justify-center flex-col space-y-[10px]"
-          >
-            <input  disabled v-bind="getInputProps()" />
-            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
-              <div
-                v-for="file in acceptedFilesRef"
-                :key="file.name"
-                style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-"
-                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
-              >
-                <div @click.stop class="absolute top-[-10px] right-[-10px] cursor-pointer
-                 border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
-                 transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
-                  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg"
-                   class="transition-all ease-in-out group-hover:text-[#EA4335] w-[10px] h-[10px] dark:text-whiteTamkin">
-                    <path d="M1.21191 0.59375L8.78806 8.16989" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.34082 8.04297L8.66443 0.719362" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <img 
-                  :src="baseImageURL + file.image"
-                  :alt="file.name"
-                  class="w-[131px] h-[124px]"
-                  @click.stop
-                />
-              </div>
-              <div class="upload-file-item relative  cursor-not-allowed  m-auto">
-                <img src="/assets/pngs/market/add_image.png" class="w-[83px] h-[83px]" alt="">
-              </div>
-            </div>
-            <div v-else-if="acceptedFilesRef.length === 0">
-              <img src="/assets/pngs/market/upload_request.png" class="w-[84px] h-[52px]" />
-            </div>
-            <div class="w-full">
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
-                Drop the files here ...
-              </h1>
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-                <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop media here
-              </h1>
-            </div>
-          </div>
-        </div>
+
+<div class="flex flex-col items-start justify-center space-y-[16px]">
+  <div class="flex flex-col items-start justify-start space-y-[12px]">
+    <div class="text-[16px] font-[500] leading-[24px]">
+      Character Name
+     </div>
+     <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
+      {{state.characterName}}
+     </div>
+   </div>
+   <div class="flex flex-col items-start justify-start space-y-[12px]">
+    <div class="text-[16px] font-[500] leading-[24px]">
+      Character Age
+     </div>
+     <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
+      {{ state.characterAge }}
+     </div>
+   </div>
+   <div class="flex flex-col items-start justify-start space-y-[12px]">
+    <div class="text-[16px] font-[500] leading-[24px]">
+      Gender
+     </div>
+     <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
+      {{state.gender}}
+     </div>
+   </div>
+   <div class="flex flex-col items-start justify-start space-y-[12px]">
+    <div class="text-[16px] font-[500] leading-[24px]">
+      Description
+     </div>
+     <div class="text-[14px]  text-[#878787] font-[400] leading-[21px]">
+{{ state.Description }}     </div>
+   </div>
+</div>
+     
+<div class="text-[16px] font-[500] leading-[24px]">
+  Character Images
+</div>
+     <div class="w-full  p-[12px] border-[2px] border-[#C8CFEB] rounded-[10px] border-dashed grid grid-cols-4 mx-auto gap-4 ">
+       
+      <div class=" rounded-[6px] bg-[#F0F0F0] !m-auto"     v-for="file in acceptedFilesRef"
+      :key="file.name"
+>
+        <img   :src="baseImageURL + file.image"
+        :alt="file.name"
+ class="h-[120px] w-[120px] object-cover object-top" alt="">
+      </div>
+   
+     </div>
+   
+       
         <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>

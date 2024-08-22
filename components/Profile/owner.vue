@@ -7,7 +7,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-
+const currentMode = inject('currentMode')
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const { getAvatarLetters } = useGetAvatarLetters();
 

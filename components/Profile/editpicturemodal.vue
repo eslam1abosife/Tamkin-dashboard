@@ -32,26 +32,29 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 const props = defineProps({
   showModal: Boolean,
 });
-
+const loadingDelete = ref(false)
 
 const fileURL = (file) => {
   return URL.createObjectURL(file);
 };
 
 const removeFile = async () => {
+  loadingDelete.value = true
   acceptedFilesRef.value = [];
   // const { deleteTeamImg } = useDeleteTeamImg();
   await removeMemberImage();
-  closeModal('editMemberPic');
-  profileStore.setMember();
+  // closeModal('editMemberPic');
+ await profileStore.setMember();
+ loadingDelete.value = false
 
 };
 
 const { changeMemberImage, loading: uploadLoading } = useChangeMemberImage();
+const {$toast} = useNuxtApp()
 
 const submit = () => {
   if (acceptedFilesRef.value.length === 0) {
-    console.warn('No file selected');
+    // console.warn('No file selected');
     return;
   }
 
@@ -79,9 +82,10 @@ const submit = () => {
     };
     // const { uploadTeamImg } = useUploadTeamImg();
     await changeMemberImage(imgFile);
-    await profileStore.setMember();
-    // getCurrentTeam();
     closeModal('editMemberPic');
+    await profileStore.setMember();
+    $toast('Profile Image updated successfully',{hideIn:3000})
+    // getCurrentTeam();
   };
 
   reader.readAsDataURL(file);
@@ -122,7 +126,7 @@ onBeforeUnmount(() => {
         );
       "
       class="w-full lg:w-[359px] h-[345px] border-[1px] border-dashed border-[#A7A7A7] dark:border-light mt-[40px] flex items-center justify-center flex-col space-y-[30px]">
-      <input v-bind="getInputProps()" />
+      <input v-bind="getInputProps()"  :disabled="deleteLoading || loadingDelete || uploadLoading " />
 
       <div v-if="acceptedFilesRef.length > 0" v-for="file in acceptedFilesRef" :key="file.name"
         class="upload-file-item">
@@ -152,9 +156,9 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
-      <button class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error w-1/4"
-        @click="removeFile" :class="!profileStore.member.user_image && acceptedFilesRef.length === 0 && 'opacity-40'" 
-        :disabled="!profileStore.member.user_image && acceptedFilesRef.length === 0 || deleteLoading">
+      <button class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error max-w-[160px]"
+        @click="removeFile"  
+        :disabled="!profileStore.member.user_image && acceptedFilesRef.length === 0 || deleteLoading || loadingDelete || uploadLoading">
 
         <div class="w-[18px] h-[18px]">
           <svg class=" text-[#FF453F]" width="18" height="17" viewBox="0 0 18 17" fill="none"
@@ -164,12 +168,31 @@ onBeforeUnmount(() => {
               fill="currentColor" />
           </svg>
         </div>
-        <span>Delete</span>
+        <div class="flex items-center justify-center">
+          <div :class="deleteLoading || loadingDelete ? 'mr-2':''">
+         Delete
+          </div>
+     
+           <svg  v-if="deleteLoading || loadingDelete" class="animate-spin  h-5 w-5 text-darkGrey" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+         </div>
       </button>
-      <button :disabled="(acceptedFilesRef.length == 0 && !isImageDeleted) || uploadLoading || deleteLoading"
-        :class="(acceptedFilesRef.length == 0 && !isImageDeleted) || uploadLoading || deleteLoading && `btn-inactive`"
-        class="btn-dashboard w-1/4" @click="submit">
-        <img v-if="uploadLoading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Save
+      <button :disabled="(acceptedFilesRef.length == 0 && !isImageDeleted) || uploadLoading || deleteLoading || loadingDelete"
+    
+        class="btn-dashboard hover_tamkin w-1/4" @click="submit">
+
+        <div class="flex items-center justify-center">
+          <div :class="uploadLoading ? 'mr-2':''">
+         Save
+          </div>
+     
+           <svg  v-if="uploadLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+         </div>
       </button>
     </div>
   </div>

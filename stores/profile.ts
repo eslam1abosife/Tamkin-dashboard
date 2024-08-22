@@ -1,59 +1,68 @@
 import { defineStore } from "pinia";
 import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
 
-
 export const useProfileStore = defineStore("profile", {
-  state: () => {
-    return {
-      member: {},
-      company: null,
-      companySpecialization: null,
-      socialPlatforms: [],
-      isOwner: false,
-      profileAbout: ''
-    };
-  },
+  state: () => ({
+    member: {},
+    company: null,
+    companySpecialization: null,
+    socialPlatforms: [],
+    memberSocialPlatform: [],
+    isOwner: false,
+    profileAbout: '',
+    currentTab: 'personal',
+    investor:''
+  }),
 
   actions: {
     async setMember() {
       const { getMember, member } = useGetMember();
-
       await getMember();
-
       this.member = member.value;
+      console.log(this.member)
     },
 
     async setCompany() {
-      const { getCurrentTeam, currTeam } = useGetCurrentTeam()
-
+      const { getCurrentTeam, currTeam } = useGetCurrentTeam();
       await getCurrentTeam();
-
       this.company = currTeam.value;
     },
 
     setAbout(about: string) {
       this.profileAbout = about;
     },
-    setSocialPlatforms(platforms: []) {
+
+    setSocialPlatforms(platforms: any[]) {
       this.socialPlatforms = platforms;
+    },
+
+    setMemberPlatforms(platforms: any[]) {
+      this.memberSocialPlatform = platforms;
     },
 
     async updateProfileAbout() {
       const { changeProfileAbout } = useChangeProfileAbout();
       if (this.profileAbout) {
-        await changeProfileAbout({
-          about: this.profileAbout
-        });
+        await changeProfileAbout({ about: this.profileAbout });
       }
     },
 
-    async updateSocialPlatforms(currentTab: string) {
+    async updateSocialPlatforms() {
       const { addSocialAccount } = useAddSocialAccount();
-      this.socialPlatforms.forEach(async (platform) => {
-        await addSocialAccount(platform, currentTab);
-      })
-    }
 
+      if (this.currentTab === 'company') {
+        
+        await addSocialAccount(this.setSocialPlatforms, 'company');
+      } else if (this.currentTab === 'personal') {
+        const socialPersonal = this.member.social_accounts.map(val=>{
+          return {
+            link:val.link,
+            type:val.social_platform
+          }
+        })
+        await addSocialAccount(socialPersonal, 'personal');
+      }
+    }
   },
 
   getters: {
@@ -63,12 +72,11 @@ export const useProfileStore = defineStore("profile", {
       if (state.member.member_email === userStore.user.user_id) {
         role = 'owner';
         this.isOwner = true;
-      }else {
+      } else {
         role = 'member';
         this.isOwner = false;
       }
-
       return role;
-    },
+    }
   }
 });

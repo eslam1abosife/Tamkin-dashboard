@@ -28,7 +28,7 @@ const rules = {
 
 
 const profileSocialAccounts = computed(() => {
-  const socialAccounts = socialPlatforms.value
+  const socialAccounts = profileStore?.company?.social_accounts 
 
   if (!socialAccounts || !Array.isArray(socialAccounts)) {
     return []; 
@@ -112,7 +112,7 @@ const { handlers } = toRefs(state);
         v-if="currentMode === 'normal'"
       >
       
-        <template v-if="profileSocialAccounts">
+        <template v-if="profileStore.member.social_accounts">
           <a
             v-for="(platform, index) in profileStore.member.social_accounts"
             :key="index"

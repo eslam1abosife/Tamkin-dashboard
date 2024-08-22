@@ -12,7 +12,7 @@ const maxcha = (max) => (value) => {
   return value.length <= max || `The maximum length is ${max} characters.`;
 };
 
-const emit = defineEmits(['updateProfile'])
+const emit = defineEmits(['updateAbout'])
 
 const state = reactive({
   about: '', // Initial state is empty
@@ -31,12 +31,13 @@ const handleBlur = () => {
   v$.value.$touch();
 };
 
-const updateProfile = ()=>{
-  emit('updateProfile',state)
+const updateAbout = ()=>{
+  emit('updateAbout',state.about)
 }
 onMounted(() => {
   state.about = profileStore.company.about;
   profileStore.setAbout(state.about);
+
 })
 
 watch(() => state.about, (newValue) => {
@@ -66,6 +67,7 @@ watch(() => state.about, (newValue) => {
         maxlength="120"
         :class="[v$.about.$error ? '!border-red-500' :'!border-tamkin']"
         @input="handleBlur"
+        @blur="updateAbout"
         placeholder="Type here..."
       ></textarea>
 

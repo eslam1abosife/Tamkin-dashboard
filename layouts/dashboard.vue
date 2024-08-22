@@ -289,6 +289,7 @@ const openModals = computed(() => {
     isOpen('requestmodal_details') ||
     isOpen('deleteModal_card') ||
     isOpen('successContact') ||
+    isOpen('edit_company_picture') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -409,7 +410,6 @@ onMounted(() => {
         v-if="isOpen('invitememberupdate')"
       />
       <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
-      <ProfileEditpicturemodal :showModal="isOpen('editMemberPic')" />
       <DashboardTeamEditUserPermissionsModal
         :showModal="true"
         v-if="isOpen('userpermissions')"

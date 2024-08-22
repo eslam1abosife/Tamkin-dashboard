@@ -19,7 +19,7 @@
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
         <!-- {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }} -->
-        {{ profileStore.company.team_name ? profileStore.company.team_name : 'N/A' }}
+        {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }}
       </p>
     </div>
     <div>
