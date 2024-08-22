@@ -3,7 +3,9 @@ import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
 import { useEditCustomerCharacter } from '~/composables/useMarket';
 import { useRuntimeConfig } from '#app'
+import { defineEmits } from 'vue';
 
+const emit = defineEmits(['updateData']);
 const config = useRuntimeConfig()
 const baseImageURL = config.public.baseImagerUrl
 const {
@@ -35,7 +37,7 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-
+let isFilesPopulated = false;
 const loadingUpdate = ref(false) 
 const acceptedFilesRef = ref<File[]>([]);
   const base64ImagesRef = ref<{ Base64: string }[]>([]);
@@ -91,6 +93,9 @@ onBeforeUnmount(() => {
     URL.revokeObjectURL(file);
   });
 });
+
+
+
 const {$toast} = useNuxtApp()
 const noUpload=ref(false)
 
@@ -102,6 +107,8 @@ const closeAndShowChat = ()=>{
 
 window.$chatwoot.toggleBubbleVisibility('show')
 closeModal('requestmodal_update')
+isFilesPopulated=false;
+acceptedFilesRef.value=[]
 
 }
 
@@ -132,24 +139,28 @@ const updateData = async()=>{
     delted_images:deletedIdsRef.value
   }
   const result = await  EditCustomCharacter(FormData);
+  emit('updateData', 'refresh');
   loadingUpdate.value = false
-closeModal('requestmodal_update')
-$toast('Request Updated Successfully', { hideIn: 3000});
+  closeModal('requestmodal_update')
+  $toast('Request Updated Successfully', { hideIn: 3000});
 
 
 }
 const requestData=({})
 const price=ref('')
-let isFilesPopulated = false;
+
 watchEffect(() => {
   if (isOpen('requestmodal_update')) {
     requestData.value = getData();
+    console.log("hello")
+    console.log(requestData.value)
     state.characterName = requestData.value.name;
     state.characterAge = requestData.value.age;
     state.gender = requestData.value.gender;
     state.Description = requestData.value.description;
     
     if(requestData.value.image.length>0 && !isFilesPopulated){
+      console.log("Asdasdadad")
       for(let i=0; i<requestData.value.image.length; i++) {
       const customFile = new File([""], requestData.value.image[i].name, {
         type: "image/jpeg", // or the appropriate MIME type
@@ -356,7 +367,7 @@ watchEffect(() => {
           <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
-          <button class="btn_bordered_dashboard" @click="closeModal('requestmodal_update')">Cancel</button>
+          <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
           <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate">
             <div class="flex items-center justify-center">
               <div :class="loadingUpdate ? 'mr-4':''">

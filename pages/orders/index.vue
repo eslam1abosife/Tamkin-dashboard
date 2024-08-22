@@ -120,7 +120,7 @@ const paymentImages = [
 ];
 const getStatusImage=(status:string)=> {
       switch (status) {
-        case 'Declined':
+        case 'Rejected':
           return statusImages[0];
         case 'Successful':
           return statusImages[2];
@@ -271,7 +271,7 @@ const setPageSize = (size:number) => {
                     <td class="px-6 py-3 text-left ">
                       <div class="flex items-center ml-1 space-x-[4px]">
                         <img :src="getStatusImage(order['order status'])"
-                         alt="Placeholder" :class="order['order status'] == 'Declined' ? 'w-[14px] h-[14px]':'w-[24px] h-[24px] ' "/>
+                         alt="Placeholder" :class="order['order status'] == 'Rejected' ? 'w-[14px] h-[14px]':'w-[24px] h-[24px] ' "/>
                         
                         <span class="">{{order['order status'] }}  </span>
                       </div>

@@ -14,6 +14,8 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  setData,
+  getData
 } = useModalManager();
 const state = reactive({
   email: "",
@@ -38,9 +40,10 @@ const errorMsg = ref(null);
 const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   try {
-    await inviteMember({ ...state, currTeamId: user.agency });
-    getAllTeamMember(user.agency);
-    emit('onSuccess', 'User added successfully!');
+    setData({...state})
+    // await inviteMember({ ...state, currTeamId: user.agency });
+    // getAllTeamMember(user.agency);
+    // emit('onSuccess', 'User added successfully!');
     navigateTo('invitemember', 'team', 'invitememberupdate', { ...state, currTeamId: user.agency })
   } catch (err) {
     errorMsg.value = err;
@@ -48,7 +51,11 @@ const submitInviteMember = async () => {
 }
 
 onMounted(() => {
-  console.log('mounted');
+  // console.log('mounted');
+  const message=getData()
+  if(message?.error){
+    errorMsg.value = message?.error;
+  }
 });
 
 const clearFieldError = (condition) => {
@@ -64,7 +71,7 @@ const clearFieldError = (condition) => {
     class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]
      lg:w-[640px] lg:h-[446px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember')">
+    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitemember'),setData(null)">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path

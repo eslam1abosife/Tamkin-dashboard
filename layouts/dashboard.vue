@@ -387,7 +387,7 @@ onMounted(() => {
          class="absolute z-[9999] bg-black bg-opacity-30 h-full w-full overflow-hidden"></div>
 
 
-    <DashboardTeamEditUserModal :showModal="true" v-if="isOpen('editusermodal')"/>
+    <DashboardTeamEditUserModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('editusermodal')"/>
     <DashboardEmbedShareModal @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('shareModal')"/>
     <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')"/>
     <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')"/>

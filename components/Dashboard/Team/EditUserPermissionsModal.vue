@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
-import { useGetPermissions, useUpdateUserPermission, useGetUserPermissions } from '@/composables/usePermissions';
+import {  useGetPermissions, useUpdateUserPermission, useGetUserPermissions } from '@/composables/usePermissions';
+import { useInviteMember, useGetAllMembers } from '@/composables/useTeam';
+
 
 const {
   isOpen,
@@ -10,7 +12,8 @@ const {
   closeModal,
   goBack,
   navigateTo,
-  getData
+  getData,
+  setData,
 } = useModalManager();
 
 const { getPermissions, permissions, loading: getAllPermissionsLoading } = useGetPermissions();
@@ -45,16 +48,36 @@ const checkAll = computed({
 
 const errMsg = ref(null);
 
-const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
+// const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
+const { inviteMember, memberData, loading: submitLoading } = useInviteMember();
+const { getAllTeamMember } = useGetAllMembers();
+
 const emit = defineEmits(['onSuccess']);
+
+const error_message=ref({error:''})
 const savePermission = async () => {
-  try {
-    await updateUserPermission({ email: getData().email, permissions: checked.value });
-    emit('onSuccess', 'updated successfully!');
+  try {  
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    const state=getData();
+
+    state.permissions=checked.value
+    
+    // await /* updateUserPermission */(state);
+    await inviteMember(state);
+    getAllTeamMember(user.agency);
+
+    emit('onSuccess', 'User added successfully!');
+
     closeModal('userpermissions');
-  } catch (err) {
+  } catch (err:any) {
     errMsg.value = err;
     console.error(err);
+    closeModal('userpermissions');
+    openModal('invitemember');
+    error_message.value.error=err
+    setData(error_message.value);
+
   }
 }
 </script>

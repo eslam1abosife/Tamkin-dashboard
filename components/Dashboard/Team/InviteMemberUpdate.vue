@@ -13,7 +13,8 @@ const {
   closeModal,
   goBack,
   navigateTo,
-  getData
+  getData,
+  setData
 } = useModalManager();
 
 
@@ -59,17 +60,21 @@ const filteredPermissions = computed(() => {
   if (!search.value.trim()) return permissions.value;
   return permissions.value.filter((permission) => permission.title.toString().toLowerCase().includes(search.value.toString().toLowerCase()))
 });
-
+const updatedState=ref({})
 const submitInviteApp = async () => {
   try {
-    const state = getData();
+    updatedState.value= getData();
+    updatedState.value.app_name = checked.value
+    
+    
+    setData(updatedState.value)
 
-    await inviteApp({
-      email: state.email,
-      app_name: checked.value,
-      agency: state.currTeamId
-    });
-    emit('onSuccess', 'User Apps Updated Successfully!');
+    // await inviteApp({
+    //   email: state.email,
+    //   app_name: checked.value,
+    //   agency: state.currTeamId
+    // });
+    // emit('onSuccess', 'User Apps Updated Successfully!');
     navigateTo('invitememberupdate', 'team', 'userpermissions');
   } catch (err) {
     errMsg.value = err;
