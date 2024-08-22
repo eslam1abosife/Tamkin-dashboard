@@ -1,5 +1,5 @@
-<script lang="ts" setup>
-import { useMarketStore } from "@/stores/market.js";
+<script setup>
+import { useMarketStore } from "@/stores/market";
 import { useModalManager } from '@/composables/useModalManager';
 
 const {
@@ -64,19 +64,19 @@ const marketStore = useMarketStore();
               <div class="flex items-center border-b justify-between pb-4 " v-for="cartItem in marketStore.cartItems" :key="cartItem.id">
                 <div class="flex items-center space-x-4 ">
                  <div class="rounded-lg bg-[#F8F8F8] dark:bg-tamkinDarkPrimary  w-[97px] h-[101px] flex items-center justify-center border">
-                    <img :src="cartItem.img" alt="Top" class="w-[63px] h-[67px] ">
+                    <img :src="cartItem.image" alt="Top" class="w-[63px] h-[67px] ">
                  </div>
                   <div>
                    <div class="flex items-center justify-start space-x-[10px] ">
                     <div>
-                        <img src="/assets/pngs/market/top_inactive.svg" alt="Top" class="w-[26px] h-[26px] ">
+                        <img :src="cartItem.category_image" alt="Top" class="w-[26px] h-[26px] ">
 
                     </div>
                     <div class="py-2">
-                        <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{cartItem.type}}</h3>
+                        <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{cartItem.category_title}}</h3>
                     </div>
                    </div>
-                    <p class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize">{{cartItem.type + ' Item'}}</p>
+                    <p class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize">{{ cartItem.title }}</p>
                   </div>
                 </div>
                 <div class="flex items-end flex-col justify-start space-y-[44px]">
@@ -84,7 +84,7 @@ const marketStore = useMarketStore();
                   <button @click="marketStore.removeFromCart(cartItem)" class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB]  w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
                   <img src="/assets/imgs/icons/bin.svg" alt="">
                   </button>
-                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">${{cartItem.discount.discountPrice ?cartItem.discount.discountPrice :cartItem.price }}</span></p>
+                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">${{cartItem.final_cost }}</span></p>
                 </div>
               </div>
           

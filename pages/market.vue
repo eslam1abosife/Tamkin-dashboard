@@ -1,15 +1,9 @@
-<script lang="ts" setup>
-import { useMarketStore } from "@/stores/market.js";
+<script setup>
+import { useMarketStore } from "@/stores/market";
 import { useModalManager } from "@/composables/useModalManager";
+import { useGetCharacters, useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
   layout: "dashboard",
 });
@@ -108,6 +102,16 @@ function leaveNotification(el, done) {
     done();
   }, 500);
 }
+
+const {getCharacters} = useGetCharacters();
+getCharacters();
+
+const { getCategoriesWithSkinItems, categoriesWithSkinItems, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
+getCategoriesWithSkinItems();
+
+const currentCategoryWithSkinItems = computed(() => {
+  return categoriesWithSkinItems.value.find((category) => category.name == marketStore.currentTab);
+});
 </script>
 
 <template>
@@ -435,17 +439,9 @@ function leaveNotification(el, done) {
       </div>
 
       <MarketNavbar />
-
+      
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
-      <MarketTop v-if="marketStore.currentTab === 'top'" />
-      <MarketBelt v-if="marketStore.currentTab === 'belt'" />
-      <MarketBottom v-if="marketStore.currentTab === 'bottom'" />
-      <MarketCap v-if="marketStore.currentTab === 'cap'" />
-      <MarketOutfit v-if="marketStore.currentTab === 'outfit'" />
-      <MarketBackground v-if="marketStore.currentTab === 'background'" />
-      <MarketTies v-if="marketStore.currentTab === 'ties'" />
-      <MarketGlasses v-if="marketStore.currentTab === 'glasses'" />
-      <MarketShoes v-if="marketStore.currentTab === 'shoes'" />
+      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>
   </div>
 </template>

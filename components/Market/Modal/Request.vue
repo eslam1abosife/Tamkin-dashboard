@@ -186,17 +186,14 @@ onBeforeUnmount(() => {
           <div
             v-bind="getRootProps()"
             class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
-            flex items-center justify-center flex-col space-y-[10px]"
-          >
+            flex items-center justify-center flex-col space-y-[10px]">
             <input v-bind="getInputProps()" />
             <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
-                style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-"
-                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2"
-              >
+                style="background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);"
+                class="rounded-[10px] upload-file-item  relative border-[2px] border-dashed border-tamkin p-2">
                 <div @click.stop="removeFile(file)" class="absolute top-[-10px] right-[-10px] cursor-pointer
                  border bg-white dark:bg-tamkinDarkPrimary rounded-full border-black dark:border-light shadow-xl 
                  transition-all ease-in-out group hover:border-[#EA4335] dark:hover:border-[#EA4335] w-[24px] h-[24px] flex items-center justify-center"> 
