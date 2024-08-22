@@ -108,17 +108,16 @@ watch(profileSocialAccounts, (newValue) => {
       class="flex items-center justify-evenly space-x-[16px]   ipad-max:flex-wrap"
       v-if="currentMode === 'normal'"
     >
-    <template v-if="profileSocialAccounts">
-      <a
-        v-for="(platform, index) in profileSocialAccounts"
+    <a
+        v-for="(platform, index) in profileStore.getPortfolioView"
+       
         :key="index"
-        :href="platform.link.startsWith('http') ? platform.link : `https://${platform.link}`"
+        :href="platform.link"
         target="_blank"
         class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
       >
-        <img :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
+        <img   :src="`https://tamkin.app/${platform.icon}`" class="w-[25px] h-[25px]" alt="" />
       </a>
-    </template>
     </div>
   </div>
     <div class="flex flex-col items-start justify-start w-full"       v-if="currentMode === 'editing'"
