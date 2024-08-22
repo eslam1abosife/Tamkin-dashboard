@@ -19,6 +19,15 @@ const translateStore = useTranslateStore();
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
+const { data: member, pending, error } = await useAsyncData('member', async () => {
+  await Promise.all([
+    profileStore.fetchMember(),
+    profileStore.getCurrentTeam()
+  ]);
+
+  return true 
+});
+// profileStore.member = member.value
 
 onMounted(() => {
   if (localStorage.getItem("user")) {
@@ -27,8 +36,8 @@ onMounted(() => {
     userStore.setUser(user);
   }
 
-  profileStore.setMember();
-  profileStore.setCompany();
+  // profileStore.setMember();
+  // profileStore.setCompany();
 });
 
 const statsStore = useStatsStore();

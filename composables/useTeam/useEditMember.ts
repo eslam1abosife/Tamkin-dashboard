@@ -4,6 +4,7 @@ import { useNuxtApp } from '#app';
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
+    const profileStore = useProfileStore()
 
     const editMember = async (state) => {
         try {
@@ -14,6 +15,7 @@ export default function() {
                     email: state.member_email
                 }
             });
+          
             if(!res.data.succeeded) throw(res.data.message);
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';

@@ -9,7 +9,7 @@ const { deleteCompanyImg, loading: loadingdel } = useDeleteCompanyImg();
 const profileStore = useProfileStore();
 
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
-
+const isDeleteAction = ref(false)
 const { isOpen, openModal, closeModal } = useModalManager();
 
 const acceptedFilesRef = ref<File[]>([]);
@@ -18,7 +18,7 @@ const isImageDeleted = ref(false); // Track deletion state
 const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFilesRef.value = acceptedFiles;
   console.log(acceptedFiles);
-  isImageDeleted.value = false; // Reset deletion state when a new image is added
+  isDeleteAction.value = false; // Reset deletion state when a new image is added
 };
 const loadingUpload = ref(false)
 const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -32,64 +32,84 @@ const fileURL = (file) => {
 const loadingDelete = ref(false);
 
 const removeFile = async () => {
+  loadingUpload.value = true
 
-  loadingDelete.value = true
+  // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await deleteCompanyImg();
-  //   closeModal('edit_company_picture');
-  profileStore.setCompany();
- loadingDelete.value = false
+  refreshNuxtData('member')
+    
+  // profileStore.setCompany();
+//  loadingDelete.value = false
+loadingUpload.value = false
+isDeleteAction.value = false
 };
 //
+watch(isDeleteAction,(ov,nv)=>{
+//  if( isDeleteAction.value){
+//   acceptedFilesRef.value = []
+//  }else {
+
+//  }
+
+})
 const {$toast} = useNuxtApp()
 
 const submit = async () => {
-    loadingUpload.value = true
-  if (isImageDeleted.value && currTeam.value.team_image) {
-    await deleteCompanyImg();
-    // await changeCompanyImage()
-    emit("removeSuccess");
-    closeModal("edit_company_picture");
-    return;
-  }
+    if(!isDeleteAction.value && acceptedFilesRef.value.length > 0){
+      loadingUpload.value = true
 
-  if (acceptedFilesRef.value.length > 0) {
-    const file = acceptedFilesRef.value[0];
-    const reader = new FileReader();
+const file = acceptedFilesRef.value[0];
+const reader = new FileReader();
 
-    reader.onloadend = async () => {
-      const base64String = (reader.result as string).split(",")[1];
+reader.onloadend = async () => {
+  const base64String = (reader.result as string).split(",")[1];
 
-      const imgFile = {
-        uid: file.lastModified.toString(),
-        name: file.name,
-        base64: base64String,
-        field: "some_field", // Adjust this as necessary
-        id: 0,
-        doctype: file.type.split("/")[1],
-        isPublic: true,
-        ext: `.${file.name.split(".").pop()}`,
-        size: file.size,
-        path: "/path/to/image", // Optional, if applicable
-        version: 1,
-        mdf: "", // Optionally calculate the MD5 checksum if required
-        mimType: file.type,
-        creator_ID: 1, // Adjust this as necessary
-      };
-      await changeCompanyImage(imgFile);
+  const imgFile = {
+    uid: file.lastModified.toString(),
+    name: file.name,
+    base64: base64String,
+    field: "some_field", // Adjust this as necessary
+    id: 0,
+    doctype: file.type.split("/")[1],
+    isPublic: true,
+    ext: `.${file.name.split(".").pop()}`,
+    size: file.size,
+    path: "/path/to/image", // Optional, if applicable
+    version: 1,
+    mdf: "", // Optionally calculate the MD5 checksum if required
+    mimType: file.type,
+    creator_ID: 1, // Adjust this as necessary
+  };
+  await changeCompanyImage(imgFile);
+  closeModal('edit_company_picture');
+refreshNuxtData('member')
+  // await getCurrentTeam();
+  // await profileStore.setCompany();
+  // emit('uploadSuccess');
 
-      // await getCurrentTeam();
-      await profileStore.setCompany();
-      // emit('uploadSuccess');
+$toast('Company Image updated successfully',{hideIn:3000})
 
-        closeModal('edit_company_picture');
-    $toast('Company Image updated successfully',{hideIn:3000})
+loadingUpload.value = false
 
-    loadingUpload.value = false
+};
+reader.readAsDataURL(file);
+    }else {
+ if(acceptedFilesRef.value.length>0){
+ isDeleteAction.value = false
 
-    };
-    reader.readAsDataURL(file);
-  }
+  acceptedFilesRef.value = []
+ isDeleteAction.value = false
+ }else {
+  removeFile()
+closeModal('edit_company_picture');
+
+  $toast('Company Image deleted successfully',{hideIn:3000})
+  
+ }
+
+    }
+
 };
 
 onBeforeUnmount(() => {
@@ -145,9 +165,7 @@ onBeforeUnmount(() => {
     >
       <input v-bind="getInputProps()"  :disabled="
 
-      loadingdel ||
-      loadingDelete ||
-      loading || loadingUpload
+      loadingUpload
     "/>
 
       <div
@@ -163,7 +181,7 @@ onBeforeUnmount(() => {
         />
       </div>
       <div
-        v-else-if="profileStore.company.agency_image && !isImageDeleted"
+        v-else-if="profileStore.company.agency_image && !isDeleteAction "
         class="upload-file-item"
       >
         <img
@@ -188,13 +206,19 @@ onBeforeUnmount(() => {
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
       <button
         class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error max-w-[160px]"
-        @click="removeFile"
+        @click="()=>{
+          
+          if(acceptedFilesRef.length > 0){
+            isDeleteAction = true 
+            acceptedFilesRef = []
+          isDeleteAction = false 
+           
+          }
+          isDeleteAction = !isDeleteAction 
+        }"
         :disabled="
-          (!profileStore.company.agency_image && acceptedFilesRef.length === 0) ||
-          loadingdel ||
-          loadingDelete ||
-          loading || loadingUpload
-        "
+        loadingUpload || isDeleteAction  || acceptedFilesRef.length === 0
+      "
       >
         <div class="w-[18px] h-[18px]">
           <svg
@@ -212,9 +236,9 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <div class="flex items-center justify-center">
-          <div :class="loadingdel || loadingDelete ? 'mr-2' : ''">Delete</div>
+          <div >Delete</div>
 
-          <svg
+          <!-- <svg
             v-if="loadingdel || loadingDelete"
             class="animate-spin h-5 w-5 text-darkGrey"
             xmlns="http://www.w3.org/2000/svg"
@@ -234,12 +258,12 @@ onBeforeUnmount(() => {
               fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
-          </svg>
+          </svg> -->
         </div>
       </button>
       <button
         :disabled="
-          (acceptedFilesRef.length == 0 ) || loadingdel || loadingDelete || loadingUpload
+           loadingUpload
         "
         class="btn-dashboard hover_tamkin w-1/4"
         @click="submit"

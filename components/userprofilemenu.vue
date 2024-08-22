@@ -100,9 +100,9 @@ const helpWindow = ()=>{
               </div>
               <div class="flex flex-col items-start justify-center w-full !mx-0">
                 <h2
-                  class="font-[400] ipad-max:text-[10px] text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
+                  class="font-[400] ipad-max:text-[10px] truncate w-20 text-[12px] dark:text-white whitespace-nowrap leading-[14.4px]"
                 >
-                 {{ fullName }}
+                 {{ profileStore.member.first_name  + ' ' + profileStore.member.last_name}}
                 </h2>
                 <p
                     v-if="isOwner()"

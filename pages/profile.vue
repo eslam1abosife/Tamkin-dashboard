@@ -27,15 +27,7 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { useGetProfileCompleteScore } from "@/composables/useProfile";
 const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo();
 import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
-import { useGetSocialPlatforms } from "@/composables/useProfile";
-import {
-  useGetCurrentTeam,
-  useGetMember,
-  useAddSocialAccount,
-} from "@/composables/useProfile";
 
-const { getMember, member } = useGetMember();
-const { getSocialPlatforms, socialPlatforms } = useGetSocialPlatforms();
 const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
 
 const { getProfileCompleteScore, score } = useGetProfileCompleteScore();
@@ -62,7 +54,7 @@ const v$ = useVuelidate(rules, state);
 const currentMode = ref("normal");
 
 const changeTab = (tab: any) => {
-  currentTab.value = tab;
+  profileStore.currentTab = tab
 };
 
 const changeMode = (mode: any) => {
@@ -78,18 +70,18 @@ const changeMode = (mode: any) => {
 //   }
 // });
 
-watch(currentTab, (newValue) => {
+watch(profileStore.currentTab, (newValue) => {
   getProfileCompleteScore(newValue);
 });
 
-provide("currentMode", currentMode);
+// provide("currentMode", currentMode);
 
 onMounted(async () => {
   // profileStore.setCompany();=
   getProfileCompleteScore(profileStore.currentTab);
-  await getSocialPlatforms();
+  // await getSocialPlatforms();
 
-  await getInvestor();
+  // await getInvestor();
 });
 
 const { $toast } = useNuxtApp();
@@ -103,12 +95,7 @@ const aboutCompany = ref();
 const updateProfileImage = async (imgfile) => {
   imagetoUpload.value = imgfile;
 };
-const remvoeProfileImage = async (isremoving) => {
-  isremoving.value = isremoving;
-};
-const uploadingNew = (isUploading) => {
-  isUploading.value = isUploading;
-};
+
 const getAbout = async (about) => {
   aboutCompany.value = about;
 };
@@ -116,19 +103,25 @@ const profileLoader = ref(false);
 
 const updatep = async (companyData) => {
   profileLoader.value = true;
+
   await changeCompanyInfo({ ...companyData, about: aboutCompany.value });
 
   await changeMemberInfo(companyData);
 
+
+  
+  await profileStore.updateSocialPlatforms(),
+
+currentMode.value = "normal"
+  profileStore.currentTab = 'personal'
+  
+  refreshNuxtData('member')
+  profileLoader.value = false;
   $toast("Profile updated Successfully", { hideIn: 3000 });
 
-  currentMode.value = "normal";
-  currentTab.value = "personal";
-  profileLoader.value = false;
-  await profileStore.updateSocialPlatforms();
-  await profileStore.setCompany();
-  await profileStore.setMember();
 };
+
+provide('currentMode',currentMode)
 </script>
 
 <template>
@@ -176,14 +169,14 @@ const updatep = async (companyData) => {
     <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
       <div class="grid grid-cols-12 gap-[40px] ipad-max:gap-4">
         <div class="flex flex-col items-start justify-start space-y-[10px] col-span-4">
-          <ProfileOwner v-if="currentTab === 'personal' || currentTab === 'security'" />
+          <ProfileOwner v-if="profileStore.currentTab === 'personal' || profileStore.currentTab === 'security'" />
 
-          <ProfileCompanycard v-if="currentTab === 'company'" />
-          <ProfileAboutcompany @update-about="getAbout" v-if="currentTab === 'company'" />
+          <ProfileCompanycard v-if="profileStore.currentTab === 'company'" />
+          <ProfileAboutcompany @update-about="getAbout" v-if="profileStore.currentTab === 'company'" />
           <div
             v-if="
-              currentTab === 'personal' ||
-              currentTab === 'security' ||
+              profileStore.currentTab === 'personal' ||
+              profileStore.currentTab === 'security' ||
               profileLoader.investor
             "
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
@@ -242,7 +235,7 @@ const updatep = async (companyData) => {
             </div>
           </div>
           <div
-            v-else-if="currentTab === 'personal' || currentTab === 'security'"
+            v-else-if="profileStore.currentTab === 'personal' || profileStore.currentTab === 'security'"
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
             <div
@@ -309,9 +302,9 @@ const updatep = async (companyData) => {
             </div>
           </div>
 
-          <ProfilePortfolio v-if="currentTab === 'personal'" />
+          <ProfilePortfolio v-if="profileStore.currentTab === 'personal'" />
 
-          <ProfilePortfoliocompany v-if="currentTab === 'company'" />
+          <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
         </div>
 
         <div
@@ -320,7 +313,7 @@ const updatep = async (companyData) => {
           <div class="flex items-start justify-between w-full">
             <div
               :class="[
-                currentTab === 'personal'
+                profileStore.currentTab === 'personal'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -331,7 +324,7 @@ const updatep = async (companyData) => {
             </div>
             <div
               :class="[
-                currentTab === 'company'
+                profileStore.currentTab === 'company'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -342,7 +335,7 @@ const updatep = async (companyData) => {
             </div>
             <div
               :class="[
-                currentTab === 'security'
+                profileStore.currentTab === 'security'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
               ]"
@@ -357,26 +350,26 @@ const updatep = async (companyData) => {
               :loading-personal="profileLoader"
               @update-personal-info="updatep"
               @cancelupdate="changeMode('normal')"
-              v-if="currentMode === 'editing' && currentTab === 'personal'"
+              v-if="currentMode === 'editing' && profileStore.currentTab === 'personal'"
             />
           </keep-alive>
           <ProfilePersonalinfo
-            v-if="currentMode === 'normal' && currentTab === 'personal'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'personal'"
           />
           <keep-alive>
             <ProfileEditcompany
               :loadingUpdate="profileLoader"
               @update-profile="updatep"
               @cancelupdate="changeMode('normal')"
-              v-if="currentMode === 'editing' && currentTab === 'company'"
+              v-if="currentMode === 'editing' && profileStore.currentTab === 'company'"
             />
           </keep-alive>
           <ProfileCompanyinfo
-            v-if="currentMode === 'normal' && currentTab === 'company'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'company'"
           />
           <ProfilePassword
-            @close-editing-mode="currentTab = 'personal'"
-            v-if="currentTab === 'security'"
+            @close-editing-mode="profileStore.currentTab = 'personal'"
+            v-if="profileStore.currentTab === 'security'"
           />
         </div>
       </div>

@@ -35,7 +35,7 @@ const props =  defineProps({
     </span>
   </div>
   
-  <div v-else
+  <div  v-else
     class="user-img__skeleton animate-pulse flex space-x-4">
     <div class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full">XX</div>
   </div>

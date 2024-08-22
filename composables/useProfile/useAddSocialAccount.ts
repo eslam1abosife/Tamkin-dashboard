@@ -12,13 +12,13 @@ const {currentTab : profiletab} = storeToRefs(profileStore)
   const addSocialAccount = async (data: Object, currentTab: string) => {
     let url = '';
 
-    if (profileStore.currentTab === 'personal') {
+    if (profiletab.value=== 'personal') {
       url = '/Profile/UpdateSocialAccountMember';
-    } else if (profileStore.currentTab === 'company') {
+    } else if (profiletab.value === 'company') {
       url = '/Profile/updateSocialAccounts';
     }
 // alert(profiletab.value)
-    console.log(data);
+    console.log(profiletab.value);
 
     console.log('here composable');
 
@@ -35,6 +35,8 @@ const {currentTab : profiletab} = storeToRefs(profileStore)
             sid: userStore.token
           }
         })
+
+      
     } catch (error) {
 
       throw error;
