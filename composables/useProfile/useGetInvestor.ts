@@ -11,8 +11,8 @@ const profileStore = useProfileStore()
       let data = {
         PgSize:1
       }
-      const res = await api.post('/Star Investor/Get',data);
-      profileStore.investor = res.data.data[0]
+      const res = await api.post('/Profile/GetInvestor',data);
+      profileStore.investor = Object.keys(res.data.data).length !== 0 ? res.data.data : null;
     }catch (error) {
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
         "theme": "colored",

@@ -15,6 +15,9 @@ import {useTranslateStore} from "~/stores/translate";
 
 import { useProfileStore } from "~/stores/profile";
 const translateStore = useTranslateStore();
+import { useGetInvestor } from "@/composables/useProfile";
+
+const { getInvestor, loading: lod } = useGetInvestor();
 
 const profileStore = useProfileStore();
 
@@ -22,7 +25,9 @@ const { getAvatarLetters } = useGetAvatarLetters();
 const { data: member, pending, error } = await useAsyncData('member', async () => {
   await Promise.all([
     profileStore.fetchMember(),
-    profileStore.getCurrentTeam()
+    profileStore.getCurrentTeam(),
+   getInvestor()
+
   ]);
 
   return true 

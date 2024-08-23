@@ -82,7 +82,7 @@ const { handlers } = toRefs(state);
           target="_blank"
           class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
         >
-          <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : platform.title)" class="w-[25px] h-[25px]" alt="" />
+          <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() :platform.title))" class="w-[25px] h-[25px]" alt="" />
         </a>
       </div>
     </div>

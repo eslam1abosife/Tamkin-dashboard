@@ -81,12 +81,11 @@ onMounted(async () => {
   getProfileCompleteScore(profileStore.currentTab);
   // await getSocialPlatforms();
 
-  // await getInvestor();
 });
 
 const { $toast } = useNuxtApp();
 
-const source = profileStore.investor.wallet_addressss;
+const source =    profileStore.investor   ? profileStore.investor.wallet_address:'none'
 const { text, copy, copied, isSupported } = useClipboard({ source });
 const imagetoUpload = ref();
 const isRemoving = ref(false);
@@ -175,9 +174,8 @@ provide('currentMode',currentMode)
           <ProfileAboutcompany @update-about="getAbout" v-if="profileStore.currentTab === 'company'" />
           <div
             v-if="
-              profileStore.currentTab === 'personal' ||
-              profileStore.currentTab === 'security' ||
-              profileLoader.investor
+            (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') && 
+            profileStore.investor && Object.keys(profileStore.investor).length !== 0 
             "
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
@@ -235,7 +233,8 @@ provide('currentMode',currentMode)
             </div>
           </div>
           <div
-            v-else-if="profileStore.currentTab === 'personal' || profileStore.currentTab === 'security'"
+            v-else-if="(profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
+           !profileStore.investor"
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
             <div

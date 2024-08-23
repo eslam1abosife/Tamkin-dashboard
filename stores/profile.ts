@@ -2,45 +2,6 @@ import { defineStore } from "pinia";
 import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
 
 
-/*
-const { useApiInstance } = useApi();
-    const { api , loading } = useApiInstance();
-
-  
-    axios.all([
-      api.post('/Team/EditMember', {
-        data: {
-            
-        }
-      }),
-      
-    
-    ]).then((responses) => {
-    });
-
-    */
-
-/*
-
-export const useProfileStore = defineStore("profile", () => {
-  const data = ref();
-
-  // Get data from server and set state to initialized.
-  // Set loading state while data is not yet available.
-  const { initialized, loading } = useInitializeStore(async () => {
-    const res = await myApi.fetchData();
-    data.value = res.data;
-  });
-
-  // Getter for accessing data.
-  const getData = computed(() => {
-    return data;
-  });
-
-  return { getData, initialized, loading };
-});
-*/
-
 export const useProfileStore = defineStore("profile", {
   state: () => ({
     member: {},

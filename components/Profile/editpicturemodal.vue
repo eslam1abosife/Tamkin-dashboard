@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
     <h1
       class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      Edit Company Picture
+      Edit Profile Picture
     </h1>
 
     <div
@@ -218,9 +218,9 @@ onBeforeUnmount(() => {
           }
           isDeleteAction = !isDeleteAction 
         }"
-        :disabled="
-        loadingUpload || isDeleteAction  || acceptedFilesRef.length === 0
-      "
+   
+        :disabled="loadingUpload || isDeleteAction || !profileStore.member.user_image || !acceptedFilesRef.length"
+
       >
         <div class="w-[18px] h-[18px]">
           <svg
