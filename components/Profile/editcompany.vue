@@ -70,19 +70,22 @@ const handleSelectedSpecialization = (item: any) => {
   state.company_specialization = item.name;
   // console.log(item)
 };
-
+watch(() => state, (newState) => {
+  // Perform any necessary actions with the updated state
+  profileStore.updatedCompanyPayload = state
+}, { deep: true });
 onMounted(async () => {
   await getCountries();
   // await getAllCompanySpecializations();
-
+  state.company=profileStore.company.agency_name
+    state.country=profileStore.company.country
+    state.phone=profileStore.company.phone
+    state.company_specialization= profileStore.company.company_specialization
 
 });
 
 
-state.company=profileStore.company.agency_name
-    state.country=profileStore.company.country
-    state.phone=profileStore.company.phone
-    state.company_specialization= profileStore.company.company_specialization
+
 </script>
 
 <template>

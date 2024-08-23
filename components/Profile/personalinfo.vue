@@ -61,7 +61,7 @@ const joiningDate = computed(() => {
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Mobile</h3>
           <div v-if="!profileStore.member.phone" class=" ">
         
-            <h3 class="text-darkGrey font-medium text-[14px] leading-[24px]"> Mobile not added</h3>
+            <h3 class="text-[#EA4335]  font-medium text-[14px] leading-[24px]"> Mobile not added</h3>
 
           </div>
           <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.phone }}</p>
@@ -70,8 +70,8 @@ const joiningDate = computed(() => {
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
           <div v-if="!profileStore.member.country" class=" ">
         
-            <h3 class="text-darkGrey font-medium text-[14px] leading-[24px]"> Country not added</h3>
-
+            <h3 class="text-[#EA4335]  font-medium text-[14px] leading-[24px]"> Country not added</h3>
+          
           </div>
           <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.country }}</p>
         </div>

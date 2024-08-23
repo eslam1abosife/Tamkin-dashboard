@@ -13,9 +13,10 @@ const getPlatformIconUrl = (type: string) => {
   );
   return platform ? `https://tamkin.app/${platform.icon}` : '';
 };
+
 // Reactive state
 const state = reactive({
-  handlerscompany: [] as Array<{ name: string; icon: string; handler: string }> 
+  handlerscompany: [] as Array<{ name: string; icon: string; handler: string }>
 });
 
 // Vuelidate rules
@@ -59,14 +60,32 @@ const updateSocial = (event: object, handler: any) => {
   // v$.value.$validate()
 };
 
+const normalizeUrl = (url: string) => {
+  try {
+    const { hostname } = new URL(url);
+    return hostname.replace(/^www\./, '').toLowerCase();
+  } catch (error) {
+    // Handle invalid URLs gracefully
+    return '';
+  }
+};
 
 
 onMounted(async () => {
   await getSocialPlatforms();
 });
 
-const { handlers } = toRefs(state);
-</script>
+const regex = ref(/^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:?#[@!$&'()*+,;=]*)?$/);
+const isValidUrl = (url: string): boolean => {
+  return regex.value.test(url);
+};
+
+const openLink = (link: string) => {
+  if (isValidUrl(link)) {
+    window.open(link, '_blank');
+  }
+};</script>
+
 <template>
   <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
     <div class="flex items-center justify-between w-full">
@@ -75,15 +94,15 @@ const { handlers } = toRefs(state);
         class="flex items-center justify-evenly space-x-[16px] ipad-max:flex-wrap"
         v-if="currentMode === 'normal'"
       >
-        <a
-          v-for="(platform, index) in (profileStore.company.social_accounts.length > 0 ? profileStore.company.social_accounts : profileStore.social_platforms)"
-          :key="index"
-          :href="platform.link.startsWith('http') ? platform.link : `https://${platform.link}`"
-          target="_blank"
-          class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
-        >
-          <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() :platform.title))" class="w-[25px] h-[25px]" alt="" />
-        </a>
+      <button 
+      :disabled="!isValidUrl(platform.link)"
+      v-for="(platform, index) in (profileStore.company.social_accounts.length > 0 ? profileStore.company.social_accounts : profileStore.social_platforms)"
+      :key="index"
+      @click="openLink(platform.link.startsWith('http') ? platform.link : `https://${platform.link}`)"
+      class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+    >
+      <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />
+    </button>
       </div>
     </div>
 
@@ -173,4 +192,5 @@ const { handlers } = toRefs(state);
     </div>
   </div>
 </template>
+
 

@@ -88,7 +88,7 @@ const source = profileStore.investor ? profileStore.investor.wallet_address : "n
 const { text, copy, copied, isSupported } = useClipboard({ source });
 const imagetoUpload = ref();
 const isRemoving = ref(false);
-const isUploading = ref(false);
+const userInfo = ref();
 const aboutCompany = ref();
 const updateProfileImage = async (imgfile) => {
   imagetoUpload.value = imgfile;
@@ -102,9 +102,9 @@ const profileLoader = ref(false);
 const updatep = async (companyData) => {
   profileLoader.value = true;
 
-  await changeCompanyInfo({ ...companyData, about: aboutCompany.value });
+  await changeCompanyInfo({ ...profileStore.updatedCompanyPayload, about: aboutCompany.value });
 
-  await changeMemberInfo(companyData);
+  await changeMemberInfo(profileStore.updateProfilePayload);
 
   await profileStore.updateSocialPlatforms(), (currentMode.value = "normal");
   profileStore.currentTab = "personal";
@@ -281,11 +281,11 @@ provide("currentMode", currentMode);
               Buy Tamkin Token - TSLT and Join in our Investor Program
             </div>
 
-            <button
+            <a href="https://investor.tamkin.app/login" target="_blank"
               class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin"
             >
               Investor Program
-            </button>
+          </a>
           </div>
           <div
             class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"

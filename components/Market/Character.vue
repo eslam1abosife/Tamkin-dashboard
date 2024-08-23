@@ -21,7 +21,8 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
 
 <template>
   <div
-    class="grid grid-cols-1 ipad-max:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 bg-white dark:bg-[#344153] pt-4 px-[15px] gap-4 lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+    class="grid grid-cols-1 ipad-max:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5
+     bg-white dark:bg-[#344153] pt-4 !pb-4 px-[15px] rounded-b-[10px]  gap-4 lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
     <div class="market_card_char !justify-center order-1">
       <div>
@@ -113,13 +114,14 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
         </h1>
 
         <!-- <div v-if="char.specialOffer || char.offer_cost > 0 || char.package" class="flex flex-col"> -->
-        <div  class="flex flex-col !mt-[40px]">
+        <div  class="flex flex-col !mt-[30px]">
           <!-- item with discount -->
           <div v-if="char.offer_cost > 0"
             class="flex items-center justify-between w-full">
             <div class="flex items-start flex-col justify-evenly space-y-[7px] mt-[3px]">
               <div
-                class="w-[80px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[11px] flex items-center justify-center"
+                class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
+                font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
               >
                 <div>%{{ (((char.cost - char.offer_cost) / char.cost) * 100).toFixed(2) }} OFF</div>
               </div>

@@ -95,13 +95,13 @@ loadingUpload.value = false
 
 };
 reader.readAsDataURL(file);
-    }else {
- if(acceptedFilesRef.value.length>0){
+}else if(isDeleteAction){
+  if(acceptedFilesRef.value.length>0){
  isDeleteAction.value = false
 
   acceptedFilesRef.value = []
  isDeleteAction.value = false
- }else {
+ }else if(currTeam.value.team_image.trim()) {
   removeFile()
 closeModal('editteampic');
 
@@ -181,14 +181,9 @@ onBeforeUnmount(() => {
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover"
         />
       </div>
-      <div
-        v-else-if="profileStore.company.agency_image && !isDeleteAction "
-        class="upload-file-item"
-      >
-        <img
-          :src="`https://tamkin.app/${profileStore.company.agency_image}`"
-          class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover"
-        />
+      <div v-else-if="currTeam.team_image && !isDeleteAction" class="upload-file-item">
+        <img :src="`https://tamkin.app/${currTeam.team_image}`"
+          class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover" />
       </div>
       <div v-else>
         <img src="/assets/imgs/icons/camera_modal.svg" />
@@ -206,7 +201,7 @@ onBeforeUnmount(() => {
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error max-w-[160px]"
+        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error group max-w-[160px]"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){
@@ -217,12 +212,12 @@ onBeforeUnmount(() => {
           }
           isDeleteAction = !isDeleteAction 
         }"
-        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.company.agency_image?.trim() && !acceptedFilesRef.length)"
+        :disabled="loadingUpload || isDeleteAction ||  ( !currTeam?.team_image?.trim() && !acceptedFilesRef.length)"
 
       >
         <div class="w-[18px] h-[18px]">
           <svg
-            class="text-[#FF453F]"
+            class="text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40"
             width="18"
             height="17"
             viewBox="0 0 18 17"

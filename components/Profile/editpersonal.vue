@@ -61,15 +61,18 @@ const handleSelectedItemProjectName = (item: any) => {
   // console.log(item);
 };
 
+watch(() => state, (newState) => {
+  // Perform any necessary actions with the updated state
+  profileStore.updateProfilePayload = state
+}, { deep: true });
 onMounted(async () => {
-  await getCountries();
-});
 
-onMounted(() => {
   state.first_name = profileStore.member.first_name;
   state.last_name = profileStore.member.last_name;
   state.phone = profileStore.member.phone;
   state.country = profileStore.member.country;
+  await getCountries();
+
 });
 </script>
 

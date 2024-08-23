@@ -96,13 +96,13 @@ loadingUpload.value = false
 
 };
 reader.readAsDataURL(file);
-    }else {
+    }else if(isDeleteAction){
  if(acceptedFilesRef.value.length>0){
  isDeleteAction.value = false
 
   acceptedFilesRef.value = []
  isDeleteAction.value = false
- }else {
+ }else if(profileStore.member.user_image.trim()){
   removeFile()
 closeModal('editMemberPic');
 
@@ -207,7 +207,7 @@ onBeforeUnmount(() => {
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error max-w-[160px]"
+        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard  group error max-w-[160px]"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){
@@ -225,8 +225,8 @@ onBeforeUnmount(() => {
       >
         <div class="w-[18px] h-[18px]">
           <svg
-            class="text-[#FF453F]"
-            width="18"
+          class="text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40"
+          width="18"
             height="17"
             viewBox="0 0 18 17"
             fill="none"

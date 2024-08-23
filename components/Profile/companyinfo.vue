@@ -40,29 +40,44 @@
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Phone</h3>
-      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        {{ profileStore.company.phone ? profileStore.company.phone : 'Phone not Added' }}
+      <p v-if="profileStore.company.phone" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
+   {{   profileStore.company.phone}}
       </p>
+
+      <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
+      Phone not Added
+       </p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
-      <p class="text-[#15191f] font-medium text-[14px] leading-[24px]">
+      <p v-if="profileStore.company.country " class="text-[#15191f] font-medium text-[14px] leading-[24px]">
 
-        {{ profileStore.company.country ? profileStore.company.country : 'Country not Added' }}
+        {{ profileStore.company.country   }}
       </p>
+      <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
+        Country not Added
+       </p>
     </div>
 
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company specialization
      
            </h3>
-      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.company.company_specialization ? profileStore.company.company_specialization : 'Specialization not Added' }}</p>
+      <p v-if="profileStore.company.company_specialization" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
+        {{ profileStore.company.company_specialization }}</p>
+   
+      <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
+        Specialization not Added
+         </p>
     </div>
       <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Team</h3>
-      <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        {{ profileStore.company.team_name ? profileStore.company.team_name : 'Team Name not Added' }}
+      <p v-if="profileStore.company.team_name" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
+       {{profileStore.company.team_name }}
       </p>
+      <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
+       Team not Added
+       </p>
     </div>
 
     

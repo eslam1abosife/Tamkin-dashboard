@@ -64,9 +64,9 @@ const scrollToItem = async (itemRef) => {
 };
 
 const switchTabAndScroll = async (tabName) => {
-  console.log(tabName);
+  // console.log(tabName);
   marketStore.switchTabs(tabName);
-  await nextTick(); // Ensure the DOM is updated
+  await nextTick(); 
   const itemRef = scrollItemRefs.value[tabName];
   scrollToItem(itemRef);
 };
@@ -83,7 +83,7 @@ const switchTabAndScroll = async (tabName) => {
       <div
       
        ref="character"
-      @click="() =>  switchTabAndScroll('character')"
+      @click="switchTabAndScroll('character')"
           :class="[marketStore.currentTab === 'character' ? 'bg-white dark:bg-[#344153]' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl  flex-grow"
       >
@@ -139,7 +139,7 @@ const switchTabAndScroll = async (tabName) => {
       <!-- dynamic -->
       <div v-for="category in categoriesHavingSkinItems" :key="category.name"
       :ref="category.name"
-      @click="() =>  switchTabAndScroll(category.name)"
+      @click="switchTabAndScroll(category.name)"
         :class="[marketStore.currentTab === category.name ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow">
         <div>

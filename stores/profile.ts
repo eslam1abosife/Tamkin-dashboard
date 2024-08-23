@@ -14,27 +14,28 @@ export const useProfileStore = defineStore("profile", {
     currentTab: 'personal',
     investor: '',
     currentTeam: '',
-
+    updateProfilePayload:'',
+    updatedCompanyPayload:'',
     social_platforms: [
       {
         title: "Facebook",
         icon: "",
-        link:''
+        link:'https://facebook.com'
       },
       {
         title: "Instagram",
         icon: "",
-        link:''
+        link:'https://instagram.com'
       },
       {
         title: "LinkedIn",
         icon: "",
-        link:''
+        link:'https://linkedin.com'
       },
       {
         title: "X",
         icon: "",
-        link:''
+        link:'https://x.com'
       }
     ]
   }),
@@ -42,7 +43,44 @@ export const useProfileStore = defineStore("profile", {
 
 
   actions: {
- 
+     normalizeDomain(input: string) {
+      try {
+        new URL(input);
+        return input;
+      } catch {
+        // If it's not a valid URL, process it
+        let normalizedInput = input.trim();
+    
+        // Ensure it starts with a scheme (http:// or https://)
+        if (!normalizedInput.startsWith('http://') && !normalizedInput.startsWith('https://')) {
+          // If input is just a domain (e.g., "example.com" or ".com")
+          if (normalizedInput.startsWith('.')) {
+            normalizedInput = `https://www${normalizedInput}`;
+          } else if (!normalizedInput.includes('.')) {
+            normalizedInput = `https://${normalizedInput}.com`;
+          } else {
+            normalizedInput = `https://${normalizedInput}`;
+          }
+        }
+    
+        // Ensure the URL has a path if needed
+        try {
+          const url = new URL(normalizedInput);
+          return url.href;
+        } catch {
+          // Return an empty string or a default URL if the conversion fails
+          return '';
+        }
+      }
+    },
+     isClickableLink (url: string){
+      try {
+        const { pathname } = new URL(url);
+        return pathname.length > 1; // Ensure the URL has a path
+      } catch {
+        return false; // Invalid URL
+      }
+    },
     async getCurrentTeam() {
       const { getCurrentTeam, currTeam } = useGetCurrentTeam()
 
@@ -99,36 +137,36 @@ export const useProfileStore = defineStore("profile", {
         if(this.company.social_accounts.length === 0){
           socialPersonal = this.social_platforms.map(val => {
            return {
-             link: val.link,
+             link: this.normalizeDomain(val.link),
              type: val.title
            }
          })
         }else {
           socialPersonal = this.company.social_accounts.map(val => {
            return {
-             link: val.link,
+             link: this.normalizeDomain(val.link),
              type: val.social_platform
            }
          })
         }
-        await addSocialAccount(socialPersonal);
+        await addSocialAccount(socialPersonal,'company');
       } else if (this.currentTab === 'personal') {
      if(this.member.social_accounts.length === 0){
        socialPersonal = this.social_platforms.map(val => {
         return {
-          link: val.link,
+          link:  this.normalizeDomain(val.link),
           type: val.title
         }
       })
      }else {
        socialPersonal = this.member.social_accounts.map(val => {
         return {
-          link: val.link,
+          link:  this.normalizeDomain(val.link),
           type: val.social_platform
         }
       })
      }
-        await addSocialAccount(socialPersonal);
+        await addSocialAccount(socialPersonal,'personal');
         refreshNuxtData('member')
       }
     },
