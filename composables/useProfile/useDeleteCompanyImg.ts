@@ -4,26 +4,22 @@ import { useNuxtApp } from '#app';
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
-    const profileStore = useProfileStore()
+    const { $toast } = useNuxtApp();
 
-    const editMember = async (state) => {
+    const deleteCompanyImg = async () => {
         try {
-            const res = await api.post('/Team/EditMember', {
-                data: {
-                    first_name: state.first_name,
-                    last_nmae: state.last_name,
-                    email: state.member_email
-                }
-            });
-          
+            const res = await api.post('/Profile/RemoveImageCompany');
+
             if(!res.data.succeeded) throw(res.data.message);
+
         } catch (error) {
+            
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
 
     return {
-        editMember,
+        deleteCompanyImg,
         loading
     }
 }

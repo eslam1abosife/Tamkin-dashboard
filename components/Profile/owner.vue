@@ -7,7 +7,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-
+const currentMode = inject('currentMode')
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const { getAvatarLetters } = useGetAvatarLetters();
 
@@ -55,7 +55,7 @@ const memberFullName = computed(() => {
 
   </div>
   <div class="flex flex-col items-start justify-start ipad-max:space-y-1 space-y-[8px] w-2/4">
-    <div class="text-[14px] 2xl:text-[16px] ipad-max:text-[13px] ipad-max:whitespace-nowrap leading-[22px] text-[#3D3D3D] font-[600] ">
+    <div class="text-[14px] 2xl:text-[16px] ipad-max:text-[13px] truncate w-44 ipad-max:whitespace-nowrap leading-[22px] text-[#3D3D3D] font-[600] ">
       {{ memberFullName }}
     </div>
   <div class="lg:text-[11px] 2xl:text-[13px]  ipad-max:text-[11px] font-[500] leading-[20px] text-[#878787]">{{ profileStore.getRole }}</div>

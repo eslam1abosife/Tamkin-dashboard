@@ -1,27 +1,27 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import { required, email } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
 import { useEditMember, useGetAllMembers } from "@/composables/useTeam";
-import { useUserStore } from "@/stores/auth"; // Import the Pinia store
+import { useUserStore } from "@/stores/auth";
+import { useProfileStore } from "@/stores/profile"; // Import your profile store
 const userStore = useUserStore();
+const profileStore = useProfileStore(); // Initialize profile store
 const { editMember, loading } = useEditMember();
 const { getAllTeamMember } = useGetAllMembers();
 
 const {
   isOpen,
-  currentView,
-  openModal,
   closeModal,
-  goBack,
-  navigateTo,
   getData
 } = useModalManager();
+
 const state = reactive({
   email: "",
   firstName: "",
   lastName: "",
 });
+
 const rules = {
   email: { required, email },
   firstName: { required },
@@ -29,8 +29,8 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
-const modalStore = useModalStore();
-const toastEditMemeberName = ref(false)
+const errorMsg = ref('');
+const {$toast} = useNuxtApp();
 
 onMounted(() => {
   const memberData = getData();
@@ -39,29 +39,43 @@ onMounted(() => {
   state.firstName = memberData.first_name;
   state.lastName = memberData.last_name;
 });
-const errorMsg = ref('');
-const {$toast} = useNuxtApp()
+
 const doEditMember = async () => {
+  v$.value.$validate(); // Trigger validation
+
+  if (v$.value.$invalid) {
+    // If the form is invalid, do not proceed
+    return;
+  }
+
   try {
     await editMember({
       member_email: state.email,
       first_name: state.firstName,
       last_name: state.lastName,
     });
+
+    // Update the profileStore with the new information
+    profileStore.updateUserProfile({
+      email: state.email,
+      firstName: state.firstName,
+      lastName: state.lastName,
+    });
+
     const user = JSON.parse(localStorage.getItem('user'));
-    user.full_name = user.displayName = state.firstName + ' ' + state.lastName;
+    user.full_name = user.displayName = `${state.firstName} ${state.lastName}`;
     localStorage.setItem('user', JSON.stringify(user));
     userStore.setUser(user);
+
     closeModal('editname');
+
     await getAllTeamMember(user.agency);
-    $toast('Member Name updated successfully', { hideIn: 3000});
+    $toast('Member Name updated successfully', { hideIn: 3000 });
 
   } catch (err) {
-
     errorMsg.value = err;
   }
 }
-
 </script>
 
 <template>

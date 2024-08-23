@@ -24,6 +24,7 @@ export default function() {
     )
 
     }catch (error) {
+      
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
         "theme": "colored",
         "type": "error",

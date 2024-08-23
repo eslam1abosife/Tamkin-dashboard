@@ -29,7 +29,7 @@ const joiningDate = computed(() => {
           <div v-if="!profileStore.member.first_name && !profileStore.member.last_name" class="skeleton-loader animate-pulse mt-2">
             <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
           </div>
-          <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ fullName }}</p>
+          <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px] truncate w-44">{{ fullName }}</p>
         </div>
         <div>
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">User ID</h3>
@@ -59,15 +59,19 @@ const joiningDate = computed(() => {
 
         <div>
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Mobile</h3>
-          <div v-if="!profileStore.member.phone" class="skeleton-loader animate-pulse mt-2">
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+          <div v-if="!profileStore.member.phone" class=" ">
+        
+            <h3 class="text-darkGrey font-medium text-[14px] leading-[24px]"> Mobile not added</h3>
+
           </div>
           <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.phone }}</p>
         </div>
         <div>
           <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
-          <div v-if="!profileStore.member.country" class="skeleton-loader animate-pulse mt-2">
-            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+          <div v-if="!profileStore.member.country" class=" ">
+        
+            <h3 class="text-darkGrey font-medium text-[14px] leading-[24px]"> Country not added</h3>
+
           </div>
           <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.country }}</p>
         </div>

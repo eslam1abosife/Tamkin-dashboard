@@ -80,7 +80,7 @@ watch((selectedListObj), (newValue) => {
             :class="[isListOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '',
             errorField ? 'input_error' :'' ,successField ?  'input_success' :''
             ]">
-            <div class="floating_country px-[6px] text-[#585B5B] ipad-max:!font-[400] !font-[400] lg:!font-[500] ipad-max:text-[10px] text-[13px]"
+            <div class="floating_country px-[6px] text-[#585B5B] ipad-max:!font-[400] !font-[400] lg:!font-[400] ipad-max:text-[10px] text-[13px]"
                 :class="[selectedOption && selectedOption.name ? '!text-black' : 'text-light']">
                 <div class="flex items-center justify-start">
                     <img v-if="selectedOption && iconKey" :src="selectedOption[iconKey]"
