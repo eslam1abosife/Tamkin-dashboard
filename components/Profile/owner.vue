@@ -43,7 +43,7 @@ const memberFullName = computed(() => {
           </div>
           <div
             v-else
-            class="avatar_img h-[60px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px]  rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+            class="avatar_img h-[60px]  ipad-max:text-[24px] lg:text-[32px]  w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px]  rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
           >
             <span>
               {{
