@@ -1,15 +1,9 @@
-<script lang="ts" setup>
-import { useMarketStore } from "@/stores/market.js";
+<script setup>
+import { useMarketStore } from "@/stores/market";
 import { useModalManager } from "@/composables/useModalManager";
+import { useGetCharacters, useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
   layout: "dashboard",
 });
@@ -20,8 +14,27 @@ const toggleExpandHeader = () => {
   expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 3;
   expandedHeader.value = expandedHeaderStep.value !== 2;
 };
+const {GetCustomCharacterCost} = useEditCustomerCharacter()
+const { getCartItems, cartItems } = useCart();
+const { getCharacters } = useGetCharacters();
+const { getCategoriesWithSkinItems, categoriesWithSkinItems, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
+onMounted(async () => {
+    GetCustomCharacterCost();
+    getCartItems();
+    getCharacters();
+    getCategoriesWithSkinItems();
+})
+
+const currentCategoryWithSkinItems = computed(() => {
+  return categoriesWithSkinItems.value.find((category) => category.name == marketStore.currentTab);
+});
+
 const marketStore = useMarketStore();
+watchEffect(() => {
+  marketStore.setCartItems(cartItems.value)
+})
 const cartItemCount = computed(() => marketStore.cartItems.length);
+// const cartItemCount = computed(() => cartItems.value.length);
 const showBadge = ref(false);
 const { resetModal } = storeToRefs(marketStore);
 watch(cartItemCount, (newCount, oldCount) => {
@@ -108,6 +121,21 @@ function leaveNotification(el, done) {
     done();
   }, 500);
 }
+
+/**
+ * todo
+ *  list skin categories
+ *  list characters and skin items
+ *  add to cart
+ *  remove from cart
+ * add custom character to cart ui
+ * list cart items to cart ui on market page load
+ * edit custom character from cart item
+ *! confirm order
+ *? take on, take off characters
+ ** select for preview
+ ** save clothes on characters
+ */
 </script>
 
 <template>
@@ -435,17 +463,9 @@ function leaveNotification(el, done) {
       </div>
 
       <MarketNavbar />
-
+      
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
-      <MarketTop v-if="marketStore.currentTab === 'top'" />
-      <MarketBelt v-if="marketStore.currentTab === 'belt'" />
-      <MarketBottom v-if="marketStore.currentTab === 'bottom'" />
-      <MarketCap v-if="marketStore.currentTab === 'cap'" />
-      <MarketOutfit v-if="marketStore.currentTab === 'outfit'" />
-      <MarketBackground v-if="marketStore.currentTab === 'background'" />
-      <MarketTies v-if="marketStore.currentTab === 'ties'" />
-      <MarketGlasses v-if="marketStore.currentTab === 'glasses'" />
-      <MarketShoes v-if="marketStore.currentTab === 'shoes'" />
+      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>
   </div>
 </template>

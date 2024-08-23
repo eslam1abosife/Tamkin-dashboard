@@ -1,83 +1,46 @@
 <script setup>
 import { useMarketStore } from "@/stores/market";
-const marketStore = useMarketStore();
-import { useModalManager } from "@/composables/useModalManager";
-import { useGetCharacters } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
 
-const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
-  useModalManager();
+const marketStore = useMarketStore();
 
-const openModalAndHideChat = () => {
-    if (process.client && !isOpen('requestmodal')) {
-        window.$chatwoot.toggleBubbleVisibility('hide')
-        openModal('requestmodal', 'market')
-    }
-}
-const {characters, loading: getInstallationLoading} = useGetCharacters();
-
+// define props
+const props = defineProps(["currentCategoryWithSkinItems"]);
 </script>
 
 <template>
   <div
-    class="grid grid-cols-1 ipad-max:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5
-     bg-white dark:bg-[#344153] pt-4 !pb-4 px-[15px] rounded-b-[10px]  gap-4 lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
-  >
-    <div class="market_card_char !justify-center order-1">
-      <div>
-        <img
-          src="/assets/pngs/market/add_char.png"
-          class="w-[94px] h-[106px]"
-          alt=""
-        />
-      </div>
-      <div>
-        <button
-          class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2"
-          @click="openModalAndHideChat(), setData(null)"
-        >
-          Specific Character
-        </button>
-      </div>
-    </div>
+    class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]">
     <div
+      v-if="currentCategoryWithSkinItems.category_items.length > 0"
       class="market_card_char order-1 cursor-pointer"
-      @click.stop="marketStore.selectItemforPreview(char)"
-      v-for="char in characters"
-      :key="char.name"
+      @click.stop="marketStore.selectItemforPreview(skin_item)"
+      v-for="skin_item in currentCategoryWithSkinItems.category_items"
+      :key="skin_item.name"
       :class="[
-        marketStore.selectedForPreview.includes(char)
+        marketStore.selectedForPreview.includes(skin_item)
           ? '!bg-selected custom-border-tamkin padding-override-1'
           : '',
-      ]"
-    >
-      <div
-        class="w-full bg-[#f2efef] dark:bg-[#3a4a60] flex items-center justify-center rounded-[10px] relative"
-        :style="'background-color: ' + char.background_color + '!important;'"
-      >
-        <div class="h-[120px] flex items-end justify-center">
-          <img
-            :src="fullUrl(char.image)"
-            :alt="char.text"
-            class="w-[94px] h-[120px]"
-          />
+      ]">
+      <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
+        <div class="h-[120px] flex items-center justify-center">
+          <img :src="fullUrl(skin_item.image)" class="w-[78px] h-[78px]" :alt="skin_item.text" />
         </div>
         <div
-          class="absolute top-0 left-0 w-[56px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-if="char.package"
-        >
-          <div class="text-[10px] font-[500] leading-[20px]">Package</div>
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+          v-if="skin_item.package">
+          <div class="text-[10px] font-[500] leading-[10px]">Package</div>
         </div>
         <div
-          v-if="char.specialOffer"
           class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
+          v-if="skin_item.specialOffer"
         >
-          <div class="text-[9px] leading-[20px]">Special Offer</div>
+          <div class="text-[9px] leading-[10px]">Special Offer</div>
         </div>
         <div
           class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-if="char.applied"
+          v-if="skin_item.applied"
           style="
             background: linear-gradient(
               90deg,
@@ -88,10 +51,10 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
             );
           "
         >
-          <div class="text-[10px] leading-[20px] font-[500]">Applied</div>
+          <div class="text-[9px] leading-[10px] font-[500]">Applied</div>
         </div>
         <div
-          class="absolute top-0 left-0 w-[66px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] dark:text-whiteTamkin justify-center"
+          class="absolute top-0 left-0 w-[64px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           style="
             background: linear-gradient(
               270deg,
@@ -101,55 +64,50 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               #fde7ea 100%
             );
           "
-          v-if="char.purchased"
+          v-if="skin_item.purchaser"
         >
-          <div class="text-[10px] font-[500] leading-[20px]">Purchased</div>
+          <div class="text-[10px] font-[500] leading-[10px]">Purchased</div>
         </div>
       </div>
-      <div class="flex flex-col justify-center w-full items-evenly space-y-[10px] p-1">
-        <h1
-          class="text-[11px] font-[500] w-full text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2"
-        >
-          {{ char.text }}
+      <div class="flex flex-col justify-center items-evenly w-full space-y-[10px] p-1">
+        <h1 class="text-[11px] font-[500] w-full text-darkGrey leading-[17px] mt-2">
+          {{ skin_item.text }}
         </h1>
-
-        <!-- <div v-if="char.specialOffer || char.offer_cost > 0 || char.package" class="flex flex-col"> -->
-        <div  class="flex flex-col !mt-[30px]">
-          <!-- item with discount -->
-          <div v-if="char.offer_cost > 0"
-            class="flex items-center justify-between w-full">
-            <div class="flex items-start flex-col justify-evenly space-y-[7px] mt-[3px]">
+        <!-- <div v-if="skin_item.specialOffer || skin_item.discount || skin_item.package" class="flex flex-col"> -->
+        <div class="flex flex-col !mt-[30px]">
+          <div
+            class="flex items-center justify-between w-full"
+            v-if="skin_item.offer_cost > 0">
+            <div
+              class="flex items-start flex-col justify-evenly space-y-[10px]">
               <div
+                v-if="skin_item.offer_cost > 0"
                 class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
-                font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
-              >
-                <div>%{{ (((char.cost - char.offer_cost) / char.cost) * 100).toFixed(2) }} OFF</div>
+                font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1">                               <div>%{{ (((skin_item.cost - skin_item.offer_cost) / skin_item.cost) * 100).toFixed(2) }} OFF</div>
               </div>
               <div class="flex items-center justify-center">
-                <div
-                  class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]"
-                >
-                  ${{ char.offer_cost }}
+                <div class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px]">
+                  ${{ skin_item.offer_cost }}
                 </div>
                 <div
                   class="text-[13px] font-[400] text-[#EC5A4E] line-through decoration-[1px] leading-[10px]"
                 >
-                  ${{ char.cost }}
+                  ${{ skin_item.cost }}
                 </div>
               </div>
             </div>
             <div
-              @click.stop="marketStore.addToCart(char, 'character')"
+              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file, )"
               :class="[
-                marketStore.isInCart(char.name)
+                marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="cursor-pointer group w-[35px] mt-[4px] h-[35px] ml-auto hover:border-0 bg-white dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center dark:border-darkborder border"
+              class="mt-[10px] cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
               <svg
                 :class="[
-                  marketStore.isInCart(char.name)
+                  marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"
@@ -193,27 +151,27 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               </svg>
             </div>
           </div>
-          <!-- item without a discount -->
           <div
-            class="flex items-end justify-between w-full mt-[5px]"
-            v-if="char.cost && (!char.offer_cost || char.offer_cost == 0)">
+            class="flex items-end justify-between w-full mt-[10px]"
+            v-if="skin_item.cost && (!skin_item.offer_cost || skin_item.offer_cost == 0)"
+          >
             <div
-              class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]"
+              class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px]"
             >
-              ${{ char.cost }}
+              ${{ skin_item.cost }}
             </div>
             <div
-              @click.stop="marketStore.addToCart(char, 'character')"
+              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)"
               :class="[
-                marketStore.isInCart(char.name)
+                marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border dark:border-darkborder"
+              class="cursor-pointer group w-[35px] h-[35px] ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
               <svg
                 :class="[
-                  marketStore.isInCart(char.name)
+                  marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"
@@ -258,9 +216,13 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
             </div>
           </div>
         </div>
-
-        <!-- <div v-else class="flex-grow"></div> -->
       </div>
     </div>
+
+    <!-- <div v-else class="w-full">
+      <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
+          No data found!
+      </div>
+    </div> -->
   </div>
 </template>

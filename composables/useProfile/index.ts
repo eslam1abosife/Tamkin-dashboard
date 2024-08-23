@@ -12,8 +12,8 @@ import useGetProfileCompleteScore from "./useGetProfileCompleteScore";
 import useChangeProfileAbout from "./useChangeProfileAbout";
 import useRemoveMemberImage from "./useRemoveMemberImage";
 import useAddSocialAccount from "./useAddSocialAccount";
-
-
+import useDeleteCompanyImg from './useDeleteCompanyImg'
+import useGetInvestor from './useGetInvestor'
 
 export {
   useGetCurrentTeam,
@@ -29,5 +29,7 @@ export {
   useGetProfileCompleteScore,
   useChangeProfileAbout,
   useRemoveMemberImage,
-  useAddSocialAccount
+  useAddSocialAccount,
+  useDeleteCompanyImg,
+  useGetInvestor
 }

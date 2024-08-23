@@ -5,17 +5,15 @@ export default function() {
   const { useApiInstance } = useApi();
   const { api , loading } = useApiInstance();
   const { $toast } = useNuxtApp();
-
-  const changeCompanyImage = async (imageFile: Object) => {
+const profileStore = useProfileStore()
+  const getInvestor = async () => {
     try {
-      const res = await api.post('/Profile/ChangeImageCompany', {
-        files: {
-          img: imageFile
-        }
-      });
-      if(!res.data.succeeded) throw(res.data.message);
-
-    } catch (error) {
+      let data = {
+        PgSize:1
+      }
+      const res = await api.post('/Profile/GetInvestor',data);
+      profileStore.investor = Object.keys(res.data.data).length !== 0 ? res.data.data : null;
+    }catch (error) {
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
         "theme": "colored",
         "type": "error",
@@ -27,7 +25,8 @@ export default function() {
   };
 
   return {
-    changeCompanyImage,
+    getInvestor,
     loading
   }
+
 }

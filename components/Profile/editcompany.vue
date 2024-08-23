@@ -5,27 +5,25 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { useGetAllCountries, useGetAllCompanySpecializations, useChangeCompanyInfo } from "@/composables/useProfile";
 
 const { getCountries, countries } = useGetAllCountries();
-const { getAllCompanySpecializations, companySpecializations } = useGetAllCompanySpecializations();
+const { fetchCompanySpecializations, companySpecializations, loading } = useGetAllCompanySpecializations();
 const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo();
 
 const profileStore = useProfileStore();
+const { data, pending, error } = useFetch(() => fetchCompanySpecializations());
 
 const state = reactive({
 
-    company:"",
-    country:"",
-    phone:"",
-    company_specialization:""
-    // city:"",
-    // address:"",
+    company:profileStore.company.agency_name,
+    country:profileStore.company.country,
+    phone:profileStore.company.phone,
+    company_specialization: profileStore.company.company_specialization
+
 
 });
 const rules = {
 company:{required},
 phone:{required},
 country:{required},
-// city:{required},
-// address:{required},
 company_specialization:{required}
 
 
@@ -53,9 +51,8 @@ const cancelUpdate = ()=>{
 const { $toast } = useNuxtApp();
 
 const updateProfile = async () => {
-
-  const isValid = await v$.value.$validate();
-  if (isValid) {
+  v$.value.$touch()
+  if (!v$.value.$invalid) {
     emit('updateProfile',state)
     // emit('cancelupdate')
   }
@@ -73,19 +70,22 @@ const handleSelectedSpecialization = (item: any) => {
   state.company_specialization = item.name;
   // console.log(item)
 };
-
+watch(() => state, (newState) => {
+  // Perform any necessary actions with the updated state
+  profileStore.updatedCompanyPayload = state
+}, { deep: true });
 onMounted(async () => {
   await getCountries();
-  await getAllCompanySpecializations();
+  // await getAllCompanySpecializations();
+  state.company=profileStore.company.agency_name
+    state.country=profileStore.company.country
+    state.phone=profileStore.company.phone
+    state.company_specialization= profileStore.company.company_specialization
 
 });
 
-onMounted(() => {
-  state.company = profileStore.company.team_name
-  state.country = profileStore.company.country
-  state.phone = profileStore.company.phone
-  state.company_specialization = profileStore.company.company_specialization
-});
+
+
 </script>
 
 <template>
@@ -141,14 +141,14 @@ onMounted(() => {
             </div>
           </div>
           <div class="w-full relative ">
-            <vue-tel-input v-model="v$.phone.$model" :inputOptions="{ showDialCode: true,maxlength:15 , styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" />
+            <vue-tel-input v-model="v$.phone.$model"     :dropdownOptions="{showFlags:false,showDialCodeInSelection:true}"
+            :inputOptions="{ showDialCode: true,maxlength:15 , styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" >
 
-            <input v-if="false" type="number" id="phone" placeholder="" class="input_floating_label peer w-full"
-              v-model="v$.phone.$model" :class="{
-          input_error:
-            (v$.phone.$error && v$.phone.required.$invalid),
-          input_success: !v$.phone.$error && !v$.phone.$invalid,
-        }" />
+            <template v-slot:arrow-icon="{ open }">
+              <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[open ? 'rotate-90' : '']"
+              class="ml-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
+             
+          </template></vue-tel-input>
             <label v-if="false" for="phone" class="floating_label" :class="[
           (v$.phone.$error && v$.phone.required.$invalid)
             ? '!text-error'
@@ -197,7 +197,7 @@ onMounted(() => {
         <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
         <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingUpdate" @click="updateProfile" >
 
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center space-x-[6px]">
             <div :class="loadingUpdate ? 'mr-2':''">
            Update
             </div>
@@ -213,3 +213,4 @@ onMounted(() => {
 
 
 </template>
+

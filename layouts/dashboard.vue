@@ -15,10 +15,24 @@ import {useTranslateStore} from "~/stores/translate";
 
 import { useProfileStore } from "~/stores/profile";
 const translateStore = useTranslateStore();
+import { useGetInvestor } from "@/composables/useProfile";
+
+const { getInvestor, loading: lod } = useGetInvestor();
 
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
+const { data: member, pending, error } = await useAsyncData('member', async () => {
+  await Promise.all([
+    profileStore.fetchMember(),
+    profileStore.getCurrentTeam(),
+   getInvestor()
+
+  ]);
+
+  return true 
+});
+// profileStore.member = member.value
 
 onMounted(() => {
   if (localStorage.getItem("user")) {
@@ -27,8 +41,8 @@ onMounted(() => {
     userStore.setUser(user);
   }
 
-  profileStore.setMember();
-  profileStore.setCompany();
+  // profileStore.setMember();
+  // profileStore.setCompany();
 });
 
 const statsStore = useStatsStore();
@@ -289,6 +303,7 @@ const openModals = computed(() => {
     isOpen('requestmodal_details') ||
     isOpen('deleteModal_card') ||
     isOpen('successContact') ||
+    isOpen('edit_company_picture') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -409,7 +424,6 @@ onMounted(() => {
         v-if="isOpen('invitememberupdate')"
       />
       <DashboardTeamEditTeamPictureModal :showModal="isOpen('editteampic')" />
-      <ProfileEditpicturemodal :showModal="isOpen('editMemberPic')" />
       <DashboardTeamEditUserPermissionsModal
         :showModal="true"
         v-if="isOpen('userpermissions')"

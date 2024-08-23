@@ -3,12 +3,10 @@ import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from "@/composables/useModalManager";
 import { useChangeCompanyImage } from "@/composables/useProfile";
 import { useDeleteCompanyImg } from "@/composables/useProfile";
-import { useChangeMemberImage, useRemoveMemberImage } from "@/composables/useProfile";
-
-const { removeMemberImage, loading: deleteLoading } = useRemoveMemberImage();
+const { changeCompanyImage, loading } = useChangeCompanyImage();
+const { deleteCompanyImg, loading: loadingdel } = useDeleteCompanyImg();
 
 const profileStore = useProfileStore();
-const { changeMemberImage, loading: uploadLoading } = useChangeMemberImage();
 
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
 const isDeleteAction = ref(false)
@@ -38,7 +36,7 @@ const removeFile = async () => {
 
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
-  await removeMemberImage();
+  await deleteCompanyImg();
   refreshNuxtData('member')
     
   // profileStore.setCompany();
@@ -83,30 +81,30 @@ reader.onloadend = async () => {
     mimType: file.type,
     creator_ID: 1, // Adjust this as necessary
   };
-  await changeMemberImage(imgFile);
-  closeModal('editMemberPic');
+  await changeCompanyImage(imgFile);
+  closeModal('edit_company_picture');
 refreshNuxtData('member')
   // await getCurrentTeam();
   // await profileStore.setCompany();
   // emit('uploadSuccess');
 
-$toast('Profile Image updated successfully',{hideIn:3000})
+$toast('Company Image updated successfully',{hideIn:3000})
 
 loadingUpload.value = false
 
 };
 reader.readAsDataURL(file);
-    }else if(isDeleteAction){
+    }else if(isDeleteAction.value){
  if(acceptedFilesRef.value.length>0){
  isDeleteAction.value = false
 
   acceptedFilesRef.value = []
  isDeleteAction.value = false
- }else if(profileStore.member.user_image.trim()){
+ }else if(profileStore.company.agency_image.trim()) {
   removeFile()
-closeModal('editMemberPic');
+closeModal('edit_company_picture');
 
-  $toast('Profile Image deleted successfully',{hideIn:3000})
+  $toast('Company Image deleted successfully',{hideIn:3000})
   
  }
 
@@ -123,14 +121,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    v-if="isOpen('editMemberPic')"
+    v-if="isOpen('edit_company_picture')"
     class="fixed z-[9999] ipad-max:top-[50px] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[418px] lg:h-[568px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('editMemberPic')"
+      @click="closeModal('edit_company_picture')"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -149,7 +147,7 @@ onBeforeUnmount(() => {
     <h1
       class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      Edit Profile Picture
+      Edit Company Picture
     </h1>
 
     <div
@@ -183,11 +181,11 @@ onBeforeUnmount(() => {
         />
       </div>
       <div
-        v-else-if="profileStore.member.user_image?.trim()  && !isDeleteAction "
+        v-else-if="profileStore.company.agency_image && !isDeleteAction "
         class="upload-file-item"
       >
         <img
-          :src="`https://tamkin.app/${profileStore.member.user_image}`"
+          :src="`https://tamkin.app/${profileStore.company.agency_image}`"
           class="w-[101px] h-[104px] border-[3px] border-[#2CA9A0] rounded-[25px] object-cover"
         />
       </div>
@@ -207,7 +205,7 @@ onBeforeUnmount(() => {
 
     <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard  group error max-w-[160px]"
+        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard group error max-w-[160px]"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){
@@ -218,9 +216,7 @@ onBeforeUnmount(() => {
           }
           isDeleteAction = !isDeleteAction 
         }"
-   
-        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.member.user_image?.trim() && !acceptedFilesRef.length)"
-
+        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.company.agency_image?.trim() && !acceptedFilesRef.length)"
 
       >
         <div class="w-[18px] h-[18px]">

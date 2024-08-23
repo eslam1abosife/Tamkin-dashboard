@@ -1,30 +1,32 @@
+// composables/useGetAllCompanySpecializations.ts
 import { useApi } from "@/composables/useApi";
-import { useNuxtApp } from '#app';
+import { ref } from "vue";
 
-const companySpecializations = ref([]);
-
-export default function() {
+export default function useGetAllCompanySpecializations() {
+  const companySpecializations = ref([]);
   const { useApiInstance } = useApi();
-  const { api , loading } = useApiInstance();
-  const { $toast } = useNuxtApp();
+  const { api, loading } = useApiInstance();
 
-  const getAllCompanySpecializations = async () => {
+  // Fetch function that returns a Promise
+  const fetchCompanySpecializations = async () => {
     try {
       const res = await api.post('/Company Specialization/Get', {
-        "PgNo":0,
-        "PgSize":5000
+        PgNo: 0,
+        PgSize: 5000,
       });
 
-      if(!res.data.succeeded) throw(res.data.message);
+      if (!res.data.succeeded) throw new Error(res.data.message);
       companySpecializations.value = res.data.data;
-    }catch (error) {
+
+      return companySpecializations.value;
+    } catch (error) {
       throw error;
     }
-  }
+  };
 
   return {
-    getAllCompanySpecializations,
+    fetchCompanySpecializations,  // For use with useFetch
     companySpecializations,
-    loading
-  }
+    loading,
+  };
 }
