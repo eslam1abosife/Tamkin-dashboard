@@ -28,7 +28,7 @@ export default function() {
             function (config) {
                 loading.value = true; // Set loading to true before request is sent
                 // showLoadingSpinner();
-                console.log('Request sent:', config);
+                // console.log('Request sent:', config);
                 return config;
             },
             function (error) {
@@ -44,20 +44,20 @@ export default function() {
             function (response) {
                 loading.value = false; // Set loading to false when response is received
                 // hideLoadingSpinner();
-                console.log('Response received:', response);
+                // console.log('Response received:', response);
                 return response;
             },
             function (error) {
                 loading.value = false; // Set loading to false if response error occurs
                 // hideLoadingSpinner();
                 if (error.response) {
-                    console.error('Response error (response interceptor):', error.response.data);
-                    console.error('Status:', error.response.status);
-                    console.error('Headers:', error.response.headers);
+                    // console.error('Response error (response interceptor):', error.response.data);
+                    // console.error('Status:', error.response.status);
+                    // console.error('Headers:', error.response.headers);
                 } else if (error.request) {
-                    console.error('No response received (response interceptor):', error.request);
+                    // console.error('No response received (response interceptor):', error.request);
                 } else {
-                    console.error('Error (response interceptor):', error.message);
+                    // console.error('Error (response interceptor):', error.message);
                 }
                 return Promise.reject(error);
             }

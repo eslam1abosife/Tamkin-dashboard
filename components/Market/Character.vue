@@ -6,9 +6,15 @@ import { useGetCharacters } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
 
-const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
   useModalManager();
 
+const openModalAndHideChat = () => {
+    if (process.client && !isOpen('requestmodal')) {
+        window.$chatwoot.toggleBubbleVisibility('hide')
+        openModal('requestmodal', 'market')
+    }
+}
 const {characters, loading: getInstallationLoading} = useGetCharacters();
 
 </script>
@@ -28,9 +34,9 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
       <div>
         <button
           class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2"
-          @click="openModal('requestmodal', 'market')"
+          @click="openModalAndHideChat(), setData(null)"
         >
-          specific character
+          Specific Character
         </button>
       </div>
     </div>
@@ -131,9 +137,9 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               </div>
             </div>
             <div
-              @click.stop="marketStore.addToCart(char, 'Character')"
+              @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
-                marketStore.cartItems.includes(char)
+                marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
@@ -141,7 +147,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
             >
               <svg
                 :class="[
-                  marketStore.cartItems.includes(char)
+                  marketStore.isInCart(char.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"
@@ -195,9 +201,9 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               ${{ char.cost }}
             </div>
             <div
-              @click.stop="marketStore.addToCart(char, 'Character')"
+              @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
-                marketStore.cartItems.includes(char)
+                marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
@@ -205,7 +211,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
             >
               <svg
                 :class="[
-                  marketStore.cartItems.includes(char)
+                  marketStore.isInCart(char.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"

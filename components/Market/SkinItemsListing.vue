@@ -7,28 +7,6 @@ const marketStore = useMarketStore();
 
 // define props
 const props = defineProps(["currentCategoryWithSkinItems"]);
-// category
-    // name
-    // text
-    // file
-    // skin_items
-        // name
-        // text
-        // image
-        // category (.name)
-        // cost
-        // offer_cost
-        // applied
-        // package
-        // purchaser
-        // code
-        // can_be_unweared
-        // can_be_weared_with_its_category_skins
-        // outfit_skins 
-        // is_default
-        // is_default_outfit
-        // is_part_of_default_outfit
-
 </script>
 
 <template>
@@ -119,9 +97,9 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               </div>
             </div>
             <div
-              @click.stop="marketStore.addToCart(skin_item, currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)"
+              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file, )"
               :class="[
-                marketStore.cartItems.includes(skin_item)
+                marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
@@ -129,7 +107,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             >
               <svg
                 :class="[
-                  marketStore.cartItems.includes(skin_item)
+                  marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"
@@ -183,9 +161,9 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               ${{ skin_item.cost }}
             </div>
             <div
-              @click.stop="marketStore.addToCart(skin_item, currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)"
+              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)"
               :class="[
-                marketStore.cartItems.includes(skin_item)
+                marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
@@ -193,7 +171,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             >
               <svg
                 :class="[
-                  marketStore.cartItems.includes(skin_item)
+                  marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
                 ]"

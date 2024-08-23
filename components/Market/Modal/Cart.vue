@@ -1,6 +1,13 @@
 <script setup>
 import { useMarketStore } from "@/stores/market";
 import { useModalManager } from '@/composables/useModalManager';
+import { useCart } from "@/composables/useMarket";
+import { useFullUrl } from "@/composables/useSharedFunctions";
+const { fullUrl } = useFullUrl();
+
+const props = defineProps({
+  showModal:Boolean
+})
 
 const {
   isOpen,
@@ -9,17 +16,26 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  setData
 } = useModalManager();
-const props = defineProps({
-  showModal:Boolean
-})
-// const modalStore = useModalStore()
+const openModalAndHideChat = () => {
+  if (process.client && !isOpen('requestmodal')) {
+    window.$chatwoot.toggleBubbleVisibility('hide')
+    openModal('requestmodal', 'market')
+  }
+}
 
-// onMounted(()=>{
-//   modalStore.currentPage = 'market'
-// })
 const marketStore = useMarketStore();
 
+const { createOrder, cartItems } = useCart();
+watchEffect(() => {
+  marketStore.setCartItems(cartItems.value)
+})
+const confirmOrder = async () => {
+  await createOrder();
+  openModal('upgrade','market') 
+  navigateTo('mycart','market','paymentMethods')
+}
 </script>
 
 <template>
@@ -57,14 +73,14 @@ const marketStore = useMarketStore();
          >
       
       
-         <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full " v-if="marketStore.cartItems.length >0 ">
+         <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full " v-if="marketStore.cartItems.length > 0">
             <!-- Items List -->
             <div class="space-y-4 mt-[10px]">
-              <!-- Item 1 -->
-              <div class="flex items-center border-b justify-between pb-4 " v-for="cartItem in marketStore.cartItems" :key="cartItem.id">
+              <!-- Item -->
+              <div class="flex items-center border-b justify-between pb-4 " v-for="cartItem in cartItems" :key="cartItem.name">
                 <div class="flex items-center space-x-4 ">
                  <div class="rounded-lg bg-[#F8F8F8] dark:bg-tamkinDarkPrimary  w-[97px] h-[101px] flex items-center justify-center border">
-                    <img :src="cartItem.image" alt="Top" class="w-[63px] h-[67px] ">
+                    <img :src="cartItem.image_url" alt="Top" class="w-[63px] h-[67px] ">
                  </div>
                   <div>
                    <div class="flex items-center justify-start space-x-[10px] ">
@@ -76,7 +92,9 @@ const marketStore = useMarketStore();
                         <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{cartItem.category_title}}</h3>
                     </div>
                    </div>
-                    <p class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize">{{ cartItem.title }}</p>
+                    <p class="text-darkGrey dark:text-whiteTamkin text-sm font-[500] text-left mt-[6px] capitalize">{{ cartItem.item_title }}</p>
+                    <button v-if="cartItem.type == 'custom_character'" class="text-tamkin underline font-[500] text-[13px]" @click="openModalAndHideChat(), setData(cartItem)">Edit request</button>
+
                   </div>
                 </div>
                 <div class="flex items-end flex-col justify-start space-y-[44px]">
@@ -84,40 +102,7 @@ const marketStore = useMarketStore();
                   <button @click="marketStore.removeFromCart(cartItem)" class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB]  w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
                   <img src="/assets/imgs/icons/bin.svg" alt="">
                   </button>
-                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">${{cartItem.final_cost }}</span></p>
-                </div>
-              </div>
-          
-          
-            </div>
-            <div class="space-y-4">
-              <!-- Item 1 -->
-              <div class="flex items-center border-b justify-between pb-4 " >
-                <div class="flex items-center space-x-4">
-                 <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
-                    <img src="/assets/pngs/market/special_character.png" alt="Top" class="w-[63px] h-[67px] ">
-                 </div>
-                  <div>
-                   <div class="flex items-center justify-start space-x-[10px] ">
-                    <div>
-                        <img src="/assets/pngs/market/top_inactive.svg" alt="Top" class="w-[26px] h-[26px] ">
-
-                    </div>
-                    <div class="py-2">
-                      <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">Character</h3>
-                    </div>
-                   </div>
-                    <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin" >Request a specific character</p>
-
-                    <button class="text-tamkin underline font-[500] text-[13px] " @click="marketStore.openReqestModal">Edit request</button>
-                  </div>
-                </div>
-                <div class="flex items-end flex-col justify-start space-y-[44px] ">
-                 
-                  <button class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
-                  <img src="/assets/imgs/icons/bin.svg" alt="">
-                  </button>
-                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">$80</span></p>
+                  <p class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin">Price <span class="px-1">${{ cartItem.cost }}</span></p>
                 </div>
               </div>
           
@@ -183,10 +168,7 @@ const marketStore = useMarketStore();
             <!-- Actions -->
             <div class="mt-8 flex justify-end space-x-[20px]  py-3">
               <button class="btn_bordered_dashboard">Cancel</button>
-              <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="()=>{
-                openModal('upgrade','market') 
-                navigateTo('mycart','market','paymentMethods') 
-              }">Continue to payment</button>
+              <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="()=>{ confirmOrder() }">Continue to payment</button>
             </div>
           </div>
           </div>
