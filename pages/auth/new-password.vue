@@ -157,7 +157,6 @@ onMounted(() => {
                   </p>
                 </div>
               </div>
-              <input type="text" v-model="state.email"  />
 
               <div class="w-full relative">
                 <input :type="ConfirmpasswordFieldType" placeholder="{{ $t('confirm_password') }}" id="password_confirm"
