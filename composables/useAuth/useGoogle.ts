@@ -30,7 +30,9 @@ export default function() {
             loading.value = true;
             const res = await api.post('/Account/LoginWithGoogle', {
                 data: {
-                    token
+                    token,
+                    ref: localStorage.getItem("ref") || "",
+                    
                     // display_name: result.user.displayName
                 }
             });

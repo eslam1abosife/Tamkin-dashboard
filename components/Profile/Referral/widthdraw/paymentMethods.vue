@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { useGetPaymentTypes } from "@/composables/useReferral";
+import { useRuntimeConfig } from '#app'
 
 const { getInviteApps, defaultApp, apps } = useGetAppInvites();
 const { updateDefaultApp } = useUpdateDefaultApp();
+const { getPaymentTypes } = useGetPaymentTypes();
 
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   await getInviteApps({agency: user.agency});
 }
-
+const config = useRuntimeConfig()
+const baseImageURL = config.public.baseImagerUrl
 
 const {
   isOpen,
@@ -28,8 +32,6 @@ const permissions = ref( [
     { "id": "1", "name": "Tamkin","image":'https://via.placeholder.com/24'},
     { "id": "2", "name": "Tamkin","image":'https://via.placeholder.com/24'},
     { "id": "3", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-
-
       ])
 
 //       const checkAll = computed({
@@ -57,9 +59,16 @@ const clearInput = () => {
 const filteredApps = computed(() => {
   return apps.value.filter(ele => ele.title.toString().toLowerCase().includes(search.value.toString().toLowerCase().trim()))
 });
-
+const paymentMethods=ref([])
 onMounted(async () => {
+  console.log("PaymentMethods")
+  console.log("PaymentMethods")
+  const result = await getPaymentTypes();
+  paymentMethods.value =result.data;
+
+  console.log(paymentMethods.value)
   await getApps();
+ 
   if(defaultApp.value) {
     console.log(defaultApp.value.name);
     console.log(checked.value);
@@ -109,12 +118,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
     Withdraw Money
 </h1>
-
+<!-- {{ paymentMethods }} -->
 <p class="mt-[16px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin  text-[14px] leading-[24px]">
   Ensure a Smooth, Secure, and Hassle-Free Withdrawal by Adding a Payment Method, Allowing You to Access Your Funds Quickly and Conveniently</p>
 
     <div class="flex flex-col items-start justify-center space-y-[12px] mt-[30px] w-full ">
-        <div class="w-full">
+        <!-- <div class="w-full">
             <div 
             @click="selectedPaymentMethod = 'by_bank'"
             :class="[selectedPaymentMethod == 'by_bank' ? 'custom-border-tamkin' : 'border-[1px] ']"
@@ -205,7 +214,41 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                   </div>
             </div>
             
+        </div>        -->
+        
+        <template v-for="method in paymentMethods" :key="method.name">
+          <div class=" w-full ">
+            <div 
+            @click="selectedPaymentMethod = method.title"
+            :class="[selectedPaymentMethod == method.title ? 'custom-border-tamkin' : 'border-[1px] ']"
+            class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
+            justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
+                    <div><img  :src="baseImageURL + method.icon"  class="w-[40px] h-[40px]"/></div>
+                    <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">{{ method.title }}</div>
+                </div>
+                <div class="order-1 mx-[4px]">
+                    <input
+                      :id="'radio_'+method.title"
+                      type="radio"
+                      name="radio"
+                      class="hidden"
+                      :value="method.title"
+                    v-model="selectedPaymentMethod"
+                    :checked="selectedPaymentMethod === method.title"
+    
+                    />
+                    <label :for="'radio_'+method.title" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
+                      <span
+                        class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"
+                      ></span>
+                    </label>
+                  </div>
+            </div>
+            
         </div>
+        </template>
+        
        </div>
 
        <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">

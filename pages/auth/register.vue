@@ -20,6 +20,7 @@ const state = reactive({
   password: "",
   full_name: "",
   confirm_password: "",
+  ref: localStorage.getItem("ref") || "",
 });
 const rules = {
   email: { required, email },

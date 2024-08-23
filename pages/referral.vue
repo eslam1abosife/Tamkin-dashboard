@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import {  useGetReferralLink,useGetAllReferrals} from '~/composables/useReferral';
+import { useClipboard } from '@vueuse/core'
+
 const {
   isOpen,
   currentView,
@@ -12,6 +15,10 @@ const {
 definePageMeta({
     layout:'dashboard'
 })
+const {getReferralLink} = useGetReferralLink();
+const {getAllReferrals} = useGetAllReferrals();
+const loadingBlock=ref(true)
+
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 const state = reactive({
@@ -32,7 +39,28 @@ const rules = {
 
 
 };
-
+const getStatus=(method:number)=> {
+      switch (method) {
+        case 0:
+          return 'draft';
+        case 1:
+          return 'success';
+        case 2:
+          return 'rejected';
+        
+      }
+    };
+    const getStatusStyle=(method:number)=> {
+      switch (method) {
+        case 0:
+          return 'bg-orange-400';
+        case 1:
+          return 'bg-tamkin';
+        case 2:
+          return 'bg-red';
+        
+      }
+    };
 const v$ = useVuelidate(rules, state);
 const currentTab = ref('rewards')
 const dateF = ref();
@@ -61,6 +89,28 @@ const format = (date) => {
     return `Selected date is ${formatDate(date)}`;
   }
 };
+
+const referralLink=ref('');
+const allReferrals=ref([])
+
+onMounted(async () => {
+  if(process.client){
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    const resultLink =await  getReferralLink();
+    const allReferralsResult =await  getAllReferrals(user.agency);
+
+
+        referralLink.value=resultLink.data;
+        allReferrals.value=allReferralsResult.data;
+      console.log(allReferrals.value)
+      loadingBlock.value=false
+  
+  }
+
+})
+const { text, copy, copied, isSupported } = useClipboard({ referralLink })
+
 </script>
 
 
@@ -72,10 +122,9 @@ const format = (date) => {
       <ProfileReferralWidthdrawCryptoStep2/>
       <ProfileReferralWidthdrawCryptoStep1/>
       <ProfileReferralWidthdrawCryptoSuccess/>
-
       <ProfileReferralWidthdrawBankSuccess/>
       <ProfileReferralWidthdrawBankWidthdraw/>
-<ProfileReferralWidthdrawBankDetails/>
+      <ProfileReferralWidthdrawBankDetails/>
   <ProfileReferralWidthdrawPaymentMethods/>
      <div class="flex items-center justify-center flex-col" >
         <div class="text-[18px] font-[600] leading-[28px] text-black text-center">
@@ -182,12 +231,13 @@ class="mt-[12px] border-[1px]  bg-white border-[#D9D9D9] w-full h-[54px] rounded
   <div
   class="ml-auto text-[14px] ipad-max:text-[13px] font-[500] leading-[21px] dark:text-whiteTamkin/70 "
 >
-https://example.com/ref/yourlink
+{{ referralLink }}
+<!-- https://example.com/ref/yourlink -->
 </div>
 
   <img
 class="ml-auto cursor-pointer w-[18px] h-[18px]"
-@click="copyCodeFn"
+@click="copy(referralLink)"
 src="/imgs/copy.svg"
 />
 </div>
@@ -308,7 +358,7 @@ src="/imgs/copy.svg"
          
 
 
-<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards'">
+<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock">
   <table class="min-w-full bg-white border-b table-fixed border-gray-200">
     <thead class="bg-gray-50">
       <tr>
@@ -346,7 +396,7 @@ src="/imgs/copy.svg"
 </div>
           
           
-<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'refs'">
+<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'refs'&& !loadingBlock">
   <table class="min-w-full bg-white border-b table-fixed border-gray-200">
     <thead class="bg-gray-50">
       <tr>
@@ -360,24 +410,19 @@ src="/imgs/copy.svg"
     </thead>
     <tbody class="text-gray-700">
     
+
+      <template v-for="referral in allReferrals" :key="referral.name">
+      
       <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">John Doe</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.name }}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.creation }}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.amount }} AED</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-orange-400"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Pending</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.docstatus)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(referral.docstatus)}}</span>
         </td>
       </tr>
-      <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">John Doe</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$1350</td>
-        <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-tamkin"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Successful</span>
-        </td>
-      </tr>
+      </template>
 
     </tbody>
   </table>
@@ -386,7 +431,7 @@ src="/imgs/copy.svg"
 
 
 <!-- NO REWARDS AVAILABLE-->
-<div class="flex flex-col items-center justify-center mx-auto mt-[44px]">
+<div class="flex flex-col items-center justify-center mx-auto mt-[44px]" v-if="currentTab === 'rewards' && !loadingBlock && allRewards?.length==0">
   <div>
     <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="">
   </div>
@@ -400,7 +445,7 @@ src="/imgs/copy.svg"
   <!-- NO REWARDS AVAILABLE-->
 
   <!-- no Referrals available-->
-  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]">
+  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]"  v-if="currentTab === 'refs'&& !loadingBlock && allReferrals?.length==0 ">
     <div>
       <img src="/imgs/no_refs.png" class="w-[42px] h-[42px]" alt="">
     </div>
@@ -413,7 +458,13 @@ src="/imgs/copy.svg"
   </div>
 
   <!-- no Referrals available-->
+      <div v-if="loadingBlock"  class="h-[150px] w-full relative">
 
+            <svg   class="absolute top-[70px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
 
                     </div>
      </div>
