@@ -216,9 +216,8 @@ onBeforeUnmount(() => {
           }
           isDeleteAction = !isDeleteAction 
         }"
-        :disabled="
-        loadingUpload || isDeleteAction  || acceptedFilesRef.length === 0
-      "
+        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.company.agency_image?.trim() && !acceptedFilesRef.length)"
+
       >
         <div class="w-[18px] h-[18px]">
           <svg

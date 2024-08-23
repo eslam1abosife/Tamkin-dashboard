@@ -526,10 +526,10 @@ onMounted(() => {
           <div
             class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px]"
           >
-            <div class="py-[17px] search_input">
+            <div class="py-[17px] search_input ">
               <input
                 type="text"
-                class="input_dashboard_search w-full"
+                class="input_dashboard_search w-full !h-[40px]"
                 v-model="search"
                 placeholder="Search ..."
               />

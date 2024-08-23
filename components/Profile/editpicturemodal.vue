@@ -183,7 +183,7 @@ onBeforeUnmount(() => {
         />
       </div>
       <div
-        v-else-if="profileStore.member.user_image && !isDeleteAction "
+        v-else-if="profileStore.member.user_image?.trim()  && !isDeleteAction "
         class="upload-file-item"
       >
         <img
@@ -219,7 +219,8 @@ onBeforeUnmount(() => {
           isDeleteAction = !isDeleteAction 
         }"
    
-        :disabled="loadingUpload || isDeleteAction || !profileStore.member.user_image || !acceptedFilesRef.length"
+        :disabled="loadingUpload || isDeleteAction ||  ( !profileStore.member.user_image?.trim() && !acceptedFilesRef.length)"
+
 
       >
         <div class="w-[18px] h-[18px]">

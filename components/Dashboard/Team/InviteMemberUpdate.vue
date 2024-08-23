@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useInviteApp, useGetTeamMemberInviteApps } from "@/composables/useTeam";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
 
 const { apps, getInviteApps, loading: getAppsLoading } = useGetAppInvites();
 const { inviteApp, loading: submitInviteLoading } = useInviteApp();
@@ -104,7 +107,17 @@ const submitInviteApp = async () => {
 
       <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 
 border-l-0 border-r-0 pt-[16px]">
-        <div> <img src="/assets/imgs/icons/avatar_table.svg" class="w-[56px] h-[56px]" /></div>
+       
+<div
+
+class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+>
+<span>
+  {{
+    getAvatarLetters(getData().firstName + ' ' + getData().lastName)
+  }}
+</span>
+</div>
         <div class="flex flex-col items-start justify-center">
           <div>
             <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] ">

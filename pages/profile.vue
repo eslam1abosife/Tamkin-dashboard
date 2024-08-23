@@ -54,7 +54,7 @@ const v$ = useVuelidate(rules, state);
 const currentMode = ref("normal");
 
 const changeTab = (tab: any) => {
-  profileStore.currentTab = tab
+  profileStore.currentTab = tab;
 };
 
 const changeMode = (mode: any) => {
@@ -80,12 +80,11 @@ onMounted(async () => {
   // profileStore.setCompany();=
   getProfileCompleteScore(profileStore.currentTab);
   // await getSocialPlatforms();
-
 });
 
 const { $toast } = useNuxtApp();
 
-const source =    profileStore.investor   ? profileStore.investor.wallet_address:'none'
+const source = profileStore.investor ? profileStore.investor.wallet_address : "none";
 const { text, copy, copied, isSupported } = useClipboard({ source });
 const imagetoUpload = ref();
 const isRemoving = ref(false);
@@ -107,20 +106,15 @@ const updatep = async (companyData) => {
 
   await changeMemberInfo(companyData);
 
+  await profileStore.updateSocialPlatforms(), (currentMode.value = "normal");
+  profileStore.currentTab = "personal";
 
-  
-  await profileStore.updateSocialPlatforms(),
-
-currentMode.value = "normal"
-  profileStore.currentTab = 'personal'
-  
-  refreshNuxtData('member')
   profileLoader.value = false;
   $toast("Profile updated Successfully", { hideIn: 3000 });
-
+  refreshNuxtData("member");
 };
 
-provide('currentMode',currentMode)
+provide("currentMode", currentMode);
 </script>
 
 <template>
@@ -168,16 +162,26 @@ provide('currentMode',currentMode)
     <div class="px-[20px] ipad-max:px-[20px] lg:px-[40px]">
       <div class="grid grid-cols-12 gap-[40px] ipad-max:gap-4">
         <div class="flex flex-col items-start justify-start space-y-[10px] col-span-4">
-          <ProfileOwner v-if="profileStore.currentTab === 'personal' || profileStore.currentTab === 'security'" />
+          <ProfileOwner
+            v-if="
+              profileStore.currentTab === 'personal' ||
+              profileStore.currentTab === 'security'
+            "
+          />
 
           <ProfileCompanycard v-if="profileStore.currentTab === 'company'" />
-          <ProfileAboutcompany @update-about="getAbout" v-if="profileStore.currentTab === 'company'" />
+          <ProfileAboutcompany
+            @update-about="getAbout"
+            v-if="profileStore.currentTab === 'company'"
+          />
           <div
             v-if="
-            (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') && 
-            profileStore.investor && Object.keys(profileStore.investor).length !== 0 
+              (profileStore.currentTab === 'personal' ||
+                profileStore.currentTab === 'security') &&
+              profileStore.investor &&
+              Object.keys(profileStore.investor).length !== 0
             "
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
             <div
               class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
@@ -233,9 +237,12 @@ provide('currentMode',currentMode)
             </div>
           </div>
           <div
-            v-else-if="(profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
-           !profileStore.investor"
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-[183px] flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+            v-else-if="
+              (profileStore.currentTab === 'personal' ||
+                profileStore.currentTab === 'security') &&
+              !profileStore.investor
+            "
+            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
           >
             <div
               class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"

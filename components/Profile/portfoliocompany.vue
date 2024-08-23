@@ -92,7 +92,7 @@ const { handlers } = toRefs(state);
         <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]" 
           v-for="(handler, index) in profileStore.social_platforms" :key="index">
           <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
-            <img :src="getPlatformIconUrl(handler.title)" class="w-[25px] h-[25px]" alt="" />
+            <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? handler.social_platform : (handler.title === 'LinkedIn' ? handler.title.toLowerCase() :handler.title))" class="w-[25px] h-[25px]" alt="" />
           </div>
           <div class="w-full relative">
             <input
