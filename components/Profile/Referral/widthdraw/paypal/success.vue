@@ -2,27 +2,11 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-const state = reactive({
-  bankName: "",
-  acc_holder: "",
-  account_number: "",
-  iban: "",
-  bic: "",
-  account_curreny: "",
-});
-const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
-};
-
-const v$ = useVuelidate(rules, state);
 
 
 
+
+const withDrawStore = useWithdrawStore()
 
 const {
   isOpen,
@@ -43,7 +27,16 @@ const formatAmount = (event) => {
   const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas as thousand separators
   amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
 };
+const closeModalAndReset = ()=>{
+  withDrawStore.transactionDetails = {}
+  withDrawStore.paypal.paypalEmail = ""
+  withDrawStore.withdrawAmount = 0
+  withDrawStore.selectedPaymentMethod = ""
+  withDrawStore.transactionDetails = ""
 
+  
+  closeModal('success_paypal_withdraw')
+}
 </script>
 
 <template>
@@ -56,7 +49,7 @@ const formatAmount = (event) => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('success_paypal_withdraw')"
+      @click="closeModalAndReset"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -119,7 +112,7 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Email@gmail.com
+           <!-- {{withDrawStore}} -->
           </div>
         </div>
   
@@ -146,7 +139,7 @@ const formatAmount = (event) => {
       </div>
   
       <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="closeModal('success_paypal_withdraw')">
+        <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           Done
         </button>
       </div>

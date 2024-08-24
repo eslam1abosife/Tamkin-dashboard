@@ -6,7 +6,7 @@ import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const { getAvatarLetters } = useGetAvatarLetters();
 
 const { apps, getInviteApps, loading: getAppsLoading } = useGetAppInvites();
-const { inviteApp, loading: submitInviteLoading } = useInviteApp();
+const { inviteApp } = useInviteApp();
 const emit = defineEmits(['onSuccess']);
 
 const {
@@ -20,7 +20,7 @@ const {
   setData
 } = useModalManager();
 
-
+const submitInviteLoading = ref(false)
 const permissions = ref([]);
 
 onMounted(async () => {
@@ -63,9 +63,14 @@ const filteredPermissions = computed(() => {
   if (!search.value.trim()) return permissions.value;
   return permissions.value.filter((permission) => permission.title.toString().toLowerCase().includes(search.value.toString().toLowerCase()))
 });
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const updatedState=ref({})
 const submitInviteApp = async () => {
   try {
+    submitInviteLoading.value = true
     updatedState.value= getData();
     updatedState.value.app_name = checked.value
     
@@ -78,9 +83,14 @@ const submitInviteApp = async () => {
     //   agency: state.currTeamId
     // });
     // emit('onSuccess', 'User Apps Updated Successfully!');
+    await delay(2000); // wait for 2 seconds
     navigateTo('invitememberupdate', 'team', 'userpermissions');
+    submitInviteLoading.value = false
+
   } catch (err) {
     errMsg.value = err;
+    submitInviteLoading.value = false
+
     console.error(err);
   }
 }
@@ -89,7 +99,8 @@ const submitInviteApp = async () => {
 
 <template>
   <div v-if="isOpen('invitememberupdate')"
-    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-[648px] w-10/12 max-h-[80vh]"
+    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
+    ipad-max:h-auto  w-10/12 h-auto"
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('invitememberupdate')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -99,81 +110,108 @@ const submitInviteApp = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%] overflow-y-scroll">
-      <h1
-        class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Invite Member
-      </h1>
-
-      <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 
-border-l-0 border-r-0 pt-[16px]">
-       
-<div
-
-class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
->
-<span>
-  {{
-    getAvatarLetters(getData().firstName + ' ' + getData().lastName)
-  }}
-</span>
-</div>
-        <div class="flex flex-col items-start justify-center">
-          <div>
-            <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] ">
-              {{ getData().firstName + ' ' + getData().lastName }}
-            </h2>
-          </div>
-          <div>
-            <h2
-              class="ltr:text-left rtl:text-right font-[400] text-[#878787] dark:text-whiteTamkin/80 text-[13px]  leading-[27px]">
-              {{ getData().email }}
-            </h2>
-          </div>
-
-        </div>
-
-        <div>
-
-        </div>
-
-      </div>
-      <p
-        class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
-        Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + ' '
-    + getData().lastName }} </span> can access
-      </p>
-
-      <div class="w-full ">
-
-        <div class="py-[17px]  search_input w-full">
-          <input type="text" class="input_dashboard_search w-full " v-model="search" placeholder="Search ..." />
+    <div class="container mx-auto max-h-[100%] ">
+      <div v-loading="getAppsLoading">
+        <h1
+          class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+          Invite Member
+        </h1>
+      
+        <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 
+        border-l-0 border-r-0 pt-[16px]">
+          <!-- Avatar Placeholder -->
           <div
-            class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
-            <img src="/assets/imgs/icons/search.svg" />
+            class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+            v-if="!getAppsLoading">
+            <span>
+              {{ getAvatarLetters(getData().firstName + ' ' + getData().lastName) }}
+            </span>
           </div>
-          <div v-if="isSearchfilled" @click="clearInput"
-            class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer">
-            <img src="/assets/imgs/icons/clear_search.svg" />
+          <div
+            class="w-[56px] h-[56px] rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"
+            v-else-if="true">
+          </div>
+      
+          <!-- Name and Email Placeholder -->
+          <div class="flex flex-col items-start justify-center">
+            <div v-if="!getAppsLoading">
+              <h2 class="ltr:text-left rtl:text-right font-[500] text-darkGrey dark:text-whiteTamkin text-[14px]">
+                {{ getData().firstName + ' ' + getData().lastName }}
+              </h2>
+            </div>
+            <div v-else class="h-4 w-2/3 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+      
+            <div v-if="!getAppsLoading">
+              <h2
+                class="ltr:text-left rtl:text-right font-[400] text-[#878787] dark:text-whiteTamkin/80 text-[13px] leading-[27px]">
+                {{ getData().email }}
+              </h2>
+            </div>
+            <div v-else class="mt-2 h-3 w-1/2 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+      
+          <div>
+            <!-- Placeholder for any additional content -->
           </div>
         </div>
+      
+        <p v-if="!getAppsLoading"
+          class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
+          Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60">
+            {{ getData().firstName + ' ' + getData().lastName }}
+          </span> can access
+        </p>
+        <div class="my-[16px] w-full h-[24px] rounded-[5px] bg-gray-300 dark:bg-gray-700  animate-pulse" v-else>
+
+          </div>
+        <!-- Search Input Section -->
+        <div class="w-full "  v-if="!getAppsLoading">
+          <div class="py-[17px] search_input  w-full relative">
+            <input type="text" class="input_dashboard_search w-full" v-model="search" placeholder="Search ..." />
+            <div
+              class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
+              <img src="/assets/imgs/icons/search.svg" />
+            </div>
+            <div v-if="isSearchfilled" @click="clearInput"
+              class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer">
+              <img src="/assets/imgs/icons/clear_search.svg" />
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full py-[17px] h-[45px] rounded-[5px] bg-gray-300 dark:bg-gray-700  animate-pulse" v-else>
+          
+        </div>
       </div>
+      
       <div v-loading="getAppsLoading" class="min-h-[150px]">
-        <table v-if="filteredPermissions.length > 0" class="min-w-full divide-y divide-gray-200 dark:divide-light  ">
+        <table
+          v-if="!getAppsLoading && filteredPermissions.length > 0"
+          class="min-w-full divide-y max-h-[100px] overflow-y-scroll divide-gray-200 dark:divide-light"
+        >
           <thead>
             <tr>
               <th
-                class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">
-                Website</th>
-              <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin
-       flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
+                class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
+              >
+                Website
+              </th>
+              <th
+                class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
+              >
                 <div class="">Select All</div>
                 <div>
-                  <input type="checkbox" id="checkbox" class="peer sr-only   m-auto" v-model="checkAll" />
-                  <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin
-        bg-whiteTamkin  dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <input type="checkbox" id="checkbox" class="peer sr-only m-auto" v-model="checkAll" />
+                  <label
+                    for="checkbox"
+                    class="relative block border-[1px] w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
+                  >
+                    <svg
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
@@ -182,31 +220,76 @@ class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid pl
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
-            <tr v-for="permission in filteredPermissions " :key="permission.name">
-              <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
+            <!-- Actual content -->
+            <tr v-for="permission in filteredPermissions" :key="permission.name">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
                 <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6" />
                 <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6" />
-                <span
-                  class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{ permission.title }}</span>
+                <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">
+                  {{ permission.title }}
+                </span>
               </td>
-              <td class="py-4  text-right ">
+              <td class="py-4 text-right">
                 <div>
-                  <input type="checkbox" v-model="checked" :id="`checkbox_` + permission.name" :value="permission.name"
-                    class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
-                  <label :for="`checkbox_` + permission.name" class="relative block border-[1px]  rtl:mr-auto ltr:ml-auto w-[18px] h-[18px]
-           bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <input
+                    type="checkbox"
+                    v-model="checked"
+                    :id="`checkbox_` + permission.name"
+                    :value="permission.name"
+                    class="peer sr-only rtl:mr-auto ltr:ml-auto"
+                    number
+                  />
+                  <label
+                    :for="`checkbox_` + permission.name"
+                    class="relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked"
+                  >
+                    <svg
+                      class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
                 </div>
               </td>
             </tr>
-
-
           </tbody>
         </table>
+    
+        <div v-else-if="getAppsLoading" class="min-w-full divide-y  divide-gray-200 dark:divide-light animate-pulse">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-light">
+            <thead>
+              <tr>
+                <th
+                  class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
+                >
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
+                </th>
+                <th
+                  class="py-3 text-right text-[14px] leading-[22.5px] font-[500] text-darkGrey dark:text-whiteTamkin flex items-center justify-end rtl:space-x-reverse space-x-[10px]"
+                >
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
+                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <tr v-for="n in 2" :key="n">
+                <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
+                  <div class="w-6 h-6 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
+                  <span class="block h-4 w-1/3 bg-gray-300 dark:bg-gray-700 rounded"></span>
+                </td>
+                <td class="py-4 text-right">
+                  <div class="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <!-- No data state -->
         <NoData v-else />
       </div>
       <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ errMsg }} </h6>
@@ -216,8 +299,8 @@ class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid pl
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('invitememberupdate')">
           Cancel
         </button>
-        <button :disabled="checked.length === 0"
-          class=" btn-dashboard text-center w-1/4" @click="submitInviteApp()">
+        <button :disabled="checked.length === 0 || submitInviteLoading"
+          class=" btn-dashboard hover_tamkin text-center w-1/4" @click="submitInviteApp()">
           <div class="flex items-center justify-center">
             <div :class="submitInviteLoading ? 'mr-2':''">
               Continue

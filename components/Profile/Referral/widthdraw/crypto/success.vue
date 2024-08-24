@@ -21,7 +21,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-
+const withDrawStore = useWithdrawStore()
 
 
 const {
@@ -44,6 +44,40 @@ const formatAmount = (event) => {
   amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
 };
 
+const formatDateOfReward = (dateof)=>{
+  const date = new Date(dateof); // Replace with your date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  year: 'numeric'
+}).format(date);
+
+return formattedDate
+}
+
+const openSupport = ()=>{
+  if(process.client){
+    window.$chatwoot.toggle()
+  }
+}
+
+const closeModalAndReset = ()=>{
+  withDrawStore.transactionDetails = {}
+  withDrawStore.setBankDetails({
+          bank_name: '',
+          account_holder: '',
+          account_number: '',
+          iban: '',
+          bic: '',
+          account_currency: '',
+        });
+  withDrawStore.withdrawAmount = 0
+  withDrawStore.selectedPaymentMethod = ""
+  withDrawStore.transactionDetails = ""
+  withDrawStore.cyrptoTransactionDetails = ""
+  
+  closeModal('crypto_success_referral')
+}
 </script>
 
 <template>
@@ -56,7 +90,7 @@ const formatAmount = (event) => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('crypto_success_referral')"
+      @click="closeModalAndReset"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -89,11 +123,11 @@ const formatAmount = (event) => {
   
         <div class="flex items-center justify-between w-full mt-[16px]">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Oct 09, 2024
+            {{     formatDateOfReward(withDrawStore.transactionDetails.creation)}}
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            $150
+           {{ withDrawStore.cyrptoTransactionDetails.symbols }}  {{withDrawStore.transactionDetails.amount}}
           </div>
         </div>
   
@@ -119,7 +153,8 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Emirates NBD
+            {{withDrawStore.cyrptoTransactionDetails.title}} -     {{withDrawStore.cyrptoTransactionDetails.symbols}}
+
           </div>
         </div>
   
@@ -129,7 +164,7 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-          BNB Smart chain 
+       {{withDrawStore.cyrptoTransactionDetails.network}}
           </div>
         </div>
   
@@ -139,7 +174,7 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            0x2d5jdska9erptjfew7364432
+            {{withDrawStore.transactionDetails.crypto_address}}
           </div>
         </div>
   
@@ -158,13 +193,13 @@ const formatAmount = (event) => {
           </div>
         </div>
   
-        <div class="mt-[10px] sm:mt-0">
+        <div class="mt-[10px] sm:mt-0 cursor-pointer" @click="openSupport">
           <img src="/imgs/support.png" class="w-[120px] h-[37px]" alt="">
         </div>
       </div>
   
       <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="closeModal('crypto_success_referral')">
+        <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           Done
         </button>
       </div>

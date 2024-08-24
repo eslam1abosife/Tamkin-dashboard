@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
+import { computed, reactive, ref, watch } from 'vue';
 
+// Reactive state for form fields
 const state = reactive({
   bankName: "",
   acc_holder: "",
@@ -12,17 +14,21 @@ const state = reactive({
   account_curreny: "",
 });
 
+// Validation rules
 const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
+  bankName: { required },
+  acc_holder: { required },
+  account_number: { required },
+  iban: { required },
+  bic: { required },
+  account_curreny: { required },
 };
 
+// Vuelidate instance
 const v$ = useVuelidate(rules, state);
+const withdrawloading = ref(false);
 
+// Modal manager
 const {
   isOpen,
   currentView,
@@ -31,10 +37,19 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-
+const withdrawStore = useWithdrawStore();
 const checked = ref('');
 const amount = ref('$0.00');
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0 );
 
+// Computed property to disable button if withdraw amount exceeds current amount
+const isButtonDisabled = computed(() => {
+  const withdrawAmount = parseFloat(withdrawStore.withdrawAmount).toFixed(2);
+  const currentAmount = parseFloat(withdrawStore.currentAmount.replace(/,/g, '')).toFixed(2);
+  return parseFloat(withdrawAmount) > parseFloat(currentAmount);
+});
+
+// Format amount function
 const formatAmount = (event) => {
   let value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
 
@@ -43,12 +58,12 @@ const formatAmount = (event) => {
     return;
   }
 
-  // Limit the total number of digits to 5
-  if (value.length > 5) {
-    value = value.slice(0, 5);
+  // Limit the total number of digits to 7 (5 before decimal, 2 after)
+  if (value.length > 7) { // Adjusted to 7 to account for up to 5 digits before decimal and 2 after
+    value = value.slice(0, 7);
   }
 
-  const integerPart = value.slice(0, -2) || '0'; // First 1-3 digits as integer part
+  const integerPart = value.slice(0, -2) || '0'; // First part as integer part
   const decimalPart = value.slice(-2); // Last 2 digits as decimal part
 
   // Format the integer part with commas
@@ -56,10 +71,63 @@ const formatAmount = (event) => {
 
   // Reconstruct the formatted value
   const formattedValue = `${formattedInteger}.${decimalPart}`;
-  amount.value = `$${formattedValue}`;
+
+  // Ensure the formatted value does not exceed currentAmount
+  const formattedNumericValue = parseFloat(formattedValue.replace('$', '').replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+
+  if (formattedNumericValue > currentAmountValue) {
+    amount.value = `$${currentAmountValue.toFixed(2)}`;
+    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  } else {
+    amount.value = `$${formattedValue}`;
+    withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  }
 };
 
+// Watch amount changes to update withdrawAmount in store
+watch(amount, (newValue) => {
+  const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
+  withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
+  console.log(isButtonDisabled.value); // For debugging
+});
+
+const isWithdrawDisabled = computed(() => {
+  // Extract numeric value from the formatted amount
+  const numericValue = parseFloat(amount.value.replace(/[^\d.]/g, ''));
+  const hasDecimals = amount.value.includes('.') && !amount.value.endsWith('.00');
+  
+  // Check if the numeric value is valid
+  const isAmountValid =  amount.value === '$0.00' || numericValue < withdrawStore.limitofWithdraw;
+  console.log('numer',isAmountValid)
+  
+  // The button should be disabled if loading, if the amount is invalid, or if it includes decimals
+  return withdrawloading.value || isAmountValid || hasDecimals;
+});
+
+
+// Complete withdrawal
+const completeWithDraw = async () => {
+  if (isWithdrawDisabled.value) return; // Prevent withdrawal if conditions are not met
+  withdrawloading.value = true;
+  await withdrawStore.withDrawBank();
+  navigateTo('bank_account_withdraw', 'referral', 'success_bank_withdraw');
+  withdrawloading.value = false;
+  amount.value = '$0.00'; // Reset amount value after successful withdrawal
+};
+watch(isWithdrawDisabled, (value) => {
+  console.log('Is withdraw disabled:', value);
+});
+// Close modal and reset store
+const closeAndreset = () => {
+  withdrawStore.transactionDetails = {};
+  withdrawStore.bankDetails = {};
+  withdrawStore.withdrawAmount = '0.00'; // Reset withdrawAmount to a string with two decimal places
+  closeModal('bank_account_withdraw');
+};
 </script>
+
+
 
 <template>
   <div v-if="isOpen('bank_account_withdraw')"
@@ -67,7 +135,7 @@ const formatAmount = (event) => {
   ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('bank_account_withdraw')">
+    <div  style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndreset">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -96,19 +164,19 @@ const formatAmount = (event) => {
           </div>
           <div class="flex items-start justify-start flex-col">
             <div class="text-[#021328] text-[14px] font-[500]">
-              Tamkin
+              {{withdrawStore.bankDetails.acc_holder}}
             </div>
             <div class="text-[#021328] text-[12px] font-[500]">
-              KA02928765333
+              {{withdrawStore.bankDetails.bic}}
             </div>
           </div>
         </div>
         <div class="flex items-start justify-start flex-col">
           <div class="text-[#021328] text-[14px] font-[500]">
-            Emirates NBD
+            {{withdrawStore.bankDetails.bankName}}
           </div>
           <div class="text-[#021328] text-[12px] font-[500]">
-            Eaco8738976520387537
+            {{withdrawStore.bankDetails.iban}}
           </div>
         </div>
       </div>
@@ -124,7 +192,9 @@ const formatAmount = (event) => {
       <div class="mt-[44px] mx-auto text-center relative">
         <input
           type="text"
+         :class="[Number(withdrawStore.currentAmount) === 0 ? 'text-lightGrey cursor-not-allowed':'']"
           v-model="amount"
+          :disabled="isInputDisabled"
           @input="formatAmount"
           class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
           placeholder="$0.00"
@@ -132,12 +202,21 @@ const formatAmount = (event) => {
       </div>
 
       <div class="text-center text-[14px] font-[600] text-darkGrey">
-        Available balance <span class="!font-[500]">$849</span>
+        Available balance <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
       </div>
 
       <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="navigateTo('bank_account_withdraw','referral','success_bank_withdraw')">
-          Withdraw
+        <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled">
+          <div class="flex items-center justify-center space-x-[6px]">
+            <div :class="withdrawloading ? 'mr-2':''">
+           Withdraw
+            </div>
+       
+             <svg  v-if="withdrawloading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
         </button>
       </div>
     </div>

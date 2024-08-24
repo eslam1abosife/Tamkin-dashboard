@@ -76,12 +76,15 @@ watch(profileStore.currentTab, (newValue) => {
 
 // provide("currentMode", currentMode);
 
-onMounted(async () => {
-  // profileStore.setCompany();=
-  getProfileCompleteScore(profileStore.currentTab);
-  // await getSocialPlatforms();
-});
 
+const { data, pending, error } = await useAsyncData('profile_', async () => {
+  await Promise.all([
+    getProfileCompleteScore(profileStore.currentTab)
+
+  ]);
+
+  return true 
+});
 const { $toast } = useNuxtApp();
 
 const source = profileStore.investor ? profileStore.investor.wallet_address : "none";
@@ -190,7 +193,7 @@ provide("currentMode", currentMode);
             <div class="flex items-center justify-start w-full space-x-[16px]">
               <div>
                 <img
-                  src="/assets/imgs/overview/silver.svg"
+                src="/imgs/investor/AA.svg"
                   class="w-[38px] h-[38px]"
                   alt=""
                 />
@@ -254,20 +257,20 @@ provide("currentMode", currentMode);
               >
                 Investor Program
               </div>
-              <div class="flex items-center justify-start">
+              <div class="flex items-center justify-start space-x-[8px]" >
                 <img
-                  src="/assets/imgs/overview/silver.svg"
+                  src="/imgs/investor/A1.svg"
                   class="w-[24px] h-[24px]"
                   alt=""
                 />
                 <img
-                  src="/assets/imgs/overview/silver.svg"
-                  class="w-[24px] h-[24px]"
+                src="/imgs/investor/AA.svg"
+                class="w-[24px] h-[24px]"
                   alt=""
                 />
                 <img
-                  src="/assets/imgs/overview/silver.svg"
-                  class="w-[24px] h-[24px]"
+                src="/imgs/investor/C.svg"
+                class="w-[24px] h-[24px]"
                   alt=""
                 />
               </div>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import {  useGetReferralLink,useGetAllReferrals} from '~/composables/useReferral';
+import {  useGetReferralLink,useGetAllReferrals,useGetRewards} from '~/composables/useReferral';
 import { useClipboard } from '@vueuse/core'
 
 const {
@@ -57,7 +57,7 @@ const getStatus=(method:number)=> {
         case 1:
           return 'bg-tamkin';
         case 2:
-          return 'bg-red';
+          return 'bg-red-600';
         
       }
     };
@@ -76,6 +76,7 @@ const alertFn = () => {
     dateOpen.value = true;
   }
 };
+const withdrawStore = useWithdrawStore()
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -109,7 +110,30 @@ onMounted(async () => {
   }
 
 })
+
+const { data, pending, error } = await useAsyncData('referral', async () => {
+  await Promise.all([
+    withdrawStore.getAllrewards(),
+    withdrawStore.gettotalAmount(),
+    withdrawStore.getcurrentLimit(),
+    withdrawStore.getcurrentRate(),
+  ]);
+
+  return true 
+});
 const { text, copy, copied, isSupported } = useClipboard({ referralLink })
+const formatDateOfReward = (dateof)=>{
+  const date = new Date(dateof); // Replace with your date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  year: 'numeric'
+}).format(date);
+
+return formattedDate
+}
+
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
 
 </script>
 
@@ -129,10 +153,10 @@ const { text, copy, copied, isSupported } = useClipboard({ referralLink })
      <div class="flex items-center justify-center flex-col" >
         <div class="text-[18px] font-[600] leading-[28px] text-black text-center">
             <div class="bg-gradient-to-r from-[#2EBEB3] via-[#7082FF]  to-[#F86CD9] text-transparent bg-clip-text">
-            Refer a Friend, Earn Rewards
+            Refer a Client, Earn Rewards
            </div>
 <div class="!font-[500]">
-  Share your unique referral link and earn rewards for every friend who joins.
+  Share your unique referral link and earn rewards for every Client who joins.
 </div>
         </div>
 
@@ -151,7 +175,7 @@ const { text, copy, copied, isSupported } = useClipboard({ referralLink })
         </div>
         <div class="text-[12px] font-[500] leading-[16px] text-black text-center mt-[10px]">
             Share Your Link<br>
-Send your unique referral link to friends
+Send your unique referral link to Clients
         </div>
     </div>
 
@@ -160,9 +184,9 @@ Send your unique referral link to friends
             <img src="/imgs/step_2_referral.png" class="w-[56px] h-[49px]" alt="">
         </div>
         <div class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
-            Friend Signs Up
+            Client Signs Up
            <br>
-           Your friend signs up using your link        </div>
+           Your Client signs up using your link        </div>
     </div>
 
     <div class="flex flex-col items-center justify-center w-full">
@@ -195,15 +219,15 @@ Send your unique referral link to friends
 </div>
 <div class="flex flex-col items-center justify-center space-y-[10px]">
   <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
-    $ 850
+    $ {{withdrawStore.currentAmount}}
   </div>
 <div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
   available
 </div>
-  <button class="btn-dashboard hover_tamkin w-[170px] " @click="openModal('withdraw_paymentmethods','referral')">Withdraw</button>
+  <button class="btn-dashboard hover_tamkin w-[170px] " :disabled="isInputDisabled" @click="openModal('withdraw_paymentmethods','referral')">Withdraw</button>
 
   <p class="text-[10px] font-[400] text-[#585B5B]  w-3/4 text-center mx-auto">
-    Please ensure that the amount meets the minimum requirement of $200
+    Please ensure that the amount meets the minimum requirement of ${{withdrawStore.limitofWithdraw}}
   </p>
 </div>
 
@@ -218,7 +242,7 @@ Send your unique referral link to friends
     Refer Clients
   </div>
     <div class="text-[14px] font-[400] leading-[19px] text-[#021328">
-    Refer new clients and earn <span class="!font-[700]">5%</span> for each successful referral who completes the registration process
+    Refer new clients and earn <span class="!font-[700]">{{Object.keys(withdrawStore.currentRate).length === 0  ? withdrawStore.currentRate : 0}} %</span> for each successful referral who completes the registration process
   </div>
 
   <div
@@ -243,9 +267,12 @@ src="/imgs/copy.svg"
 </div>
 
 
+
 </div>
   </div>
-
+<div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
+<span class="!font-[600]">30</span> users have signed up using your referral link
+</div>
   
   
   </div>
@@ -262,12 +289,13 @@ src="/imgs/copy.svg"
             @click="currentTab = 'rewards'"
             :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
             class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
-              My Rewards
+              Withdraw
             </div>
             <div 
 @click="currentTab = 'refs'"
-             :class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
-            class="cursor-pointer w-full h-[42px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
+:class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
+
+            class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
               My Referrals
             </div>
           </div>
@@ -362,7 +390,7 @@ src="/imgs/copy.svg"
   <table class="min-w-full bg-white border-b table-fixed border-gray-200">
     <thead class="bg-gray-50">
       <tr>
-        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Trans ID</th>
+        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Transaction ID</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4">Date</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Amount</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4 ">Payment Methods</th>
@@ -371,26 +399,17 @@ src="/imgs/copy.svg"
     </thead>
     <tbody class="text-gray-700">
     
-      <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
+      <tr class="border-t border-gray-200" v-for="reward in withdrawStore.rewards">
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.name}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{formatDateOfReward(reward.posting_date)}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.total_commission +' ' + reward.price_list_currency}}</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">********26789</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
           <span class="h-2 w-2 rounded-full bg-orange-400"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Pending</span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{reward.status}}</span>
         </td>
       </tr>
-      <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">jbopw@gmail.com</td>
-        <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-tamkin"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Completed</span>
-        </td>
-      </tr>
+     
     </tbody>
   </table>
 </div>

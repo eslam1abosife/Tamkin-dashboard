@@ -22,7 +22,7 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 
-
+const withDrawStore = useWithdrawStore()
 
 const {
   isOpen,
@@ -44,6 +44,39 @@ const formatAmount = (event) => {
   amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
 };
 
+const formatDateOfReward = (dateof)=>{
+  const date = new Date(dateof); // Replace with your date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  year: 'numeric'
+}).format(date);
+
+return formattedDate
+}
+
+const openSupport = ()=>{
+  if(process.client){
+    window.$chatwoot.toggle()
+  }
+}
+
+const closeModalAndReset = ()=>{
+  withDrawStore.transactionDetails = {}
+  withDrawStore.setBankDetails({
+          bank_name: '',
+          account_holder: '',
+          account_number: '',
+          iban: '',
+          bic: '',
+          account_currency: '',
+        });
+  withDrawStore.withdrawAmount = 0
+  withDrawStore.selectedPaymentMethod = ""
+  
+  closeModal('success_bank_withdraw')
+}
+
 </script>
 
 <template>
@@ -57,7 +90,7 @@ const formatAmount = (event) => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('success_bank_withdraw')"
+      @click="closeModalAndReset"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -90,17 +123,18 @@ const formatAmount = (event) => {
   
         <div class="flex items-center justify-between w-full">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Oct 09, 2024
+            {{formatDateOfReward(withDrawStore.transactionDetails.creation)}}
+
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            $150
+            {{withDrawStore.transactionDetails.amount}}
           </div>
         </div>
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: 080kwawo9kdhdjh8
+            Trans ID: {{withDrawStore.transactionDetails.name}}
           </div>
   
           <div class="text-[14px] font-[500] text-[#E38711]">
@@ -120,7 +154,8 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Emirates NBD
+            {{withDrawStore.transactionDetails.bank_name}}
+
           </div>
         </div>
   
@@ -130,7 +165,8 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Tamkin
+            {{withDrawStore.transactionDetails.account_holder}}
+
           </div>
         </div>
   
@@ -140,7 +176,8 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Eaco8738976520387537
+            {{withDrawStore.transactionDetails.iban}}
+
           </div>
         </div>
   
@@ -150,7 +187,8 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            373837363098
+            {{withDrawStore.transactionDetails.bic}}
+
           </div>
         </div>
       </div>
@@ -167,13 +205,13 @@ const formatAmount = (event) => {
           </div>
         </div>
   
-        <div class="mt-[10px] sm:mt-0">
+        <div class="mt-[10px] sm:mt-0 cursor-pointer" @click="openSupport">
           <img src="/imgs/support.png" class="w-[120px] h-[37px]" alt="">
         </div>
       </div>
   
       <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="closeModal('success_bank_withdraw')">
+        <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           Done
         </button>
       </div>

@@ -66,7 +66,7 @@ const memberFullName = computed(() => {
 
         <!-- Member Details -->
         <div class="flex flex-col items-start justify-start space-y-1 w-2/4 truncate">
-          <div class="text-[14px] lg:text-[14px] 2xl:text-[16px] ipad-max:text-[12px] truncate ipad-max:w-14 w-20 2xl:w-44 whitespace-nowrap leading-[22px] text-[#3D3D3D] font-[600]">
+          <div class="text-[14px] lg:text-[14px] 2xl:text-[16px] ipad-max:text-[12px] truncate ipad-max:w-14 w-32 2xl:w-44 whitespace-nowrap leading-[22px] text-[#3D3D3D] font-[600]">
             {{ memberFullName }}
           </div>
           <div class="text-[11px] lg:text-[13px] font-[500] ipad-max:text-[10px] leading-[20px] text-[#878787]">
