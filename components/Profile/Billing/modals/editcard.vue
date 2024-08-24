@@ -74,6 +74,7 @@ const state = reactive({
   state: "",
   zip: "",
   country: "",
+  is_primary: true,
 });
 const rules = {
   cardholdername: { required },
@@ -199,26 +200,37 @@ watch(
 watchEffect(() => {
   if (isModalOpen('edit_card_billing_profile')) {
     // dataModal.value = getData();
-    // console.log('getData in edit',getData());
-    state.firstName = billingStore.card.name;
+    console.log('billingStore.card',billingStore.card);
+    state.firstName = billingStore.card.card_holder_name;
+    state.is_primary = billingStore.card.is_primary;
   }
 });
 
   const { updateCard:update, savedCards } = useUpdateCard();
   const { getCards,updatedCards } = useGetCards();
+  const enableLoading = ref(false);
 
   const updateCard =async ()=>{
 
-    // console.log('update',dataModal.value)
+    enableLoading.value = true;
     await update({
       name            : billingStore.card.name,
-      is_primary      : billingStore.card.is_primary,
-      card_holder_name: billingStore.card.card_holder_name
+      is_primary      : state.is_primary,
+      card_holder_name: state.firstName
     });
     closeModal('edit_card_billing_profile')
     $toast('Card Updated Successfully', { hideIn: 3000});
+    enableLoading.value = false;
     getCards();
 
+  }
+
+  const handelCloseModal =async ()=>{
+
+    closeModal('edit_card_billing_profile')
+    // billingStore.card.card_holder_name = null
+
+    console.log('billingStore.card.card_holder_name',billingStore.card)
   }
 
 
@@ -252,7 +264,7 @@ watchEffect(() => {
     v-if="isModalOpen('edit_card_billing_profile')"
   >
   <!--  -->
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('edit_card_billing_profile')">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="handelCloseModal">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -292,7 +304,7 @@ Edit your saved card details
                 placeholder="{{$t('First Name')}}"
                 id="firstName"
                 class="input_floating_label peer w-full "
-                v-model="billingStore.card.card_holder_name"
+                v-model="state.firstName"
                 :class="{
                   input_error:
                     v$.cardholdername.$error && v$.cardholdername.required.$invalid,
@@ -534,7 +546,7 @@ Edit your saved card details
         <label for="remember_me"
         class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
         <input type="checkbox"
-               v-model="billingStore.card.is_primary"
+               v-model="state.is_primary"
           class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
            text-tamkin ring-0 focus:ring-0 focus:outline-none"
           id="remember_me" />
@@ -565,12 +577,10 @@ Edit your saved card details
 
 
       <div class="flex items-center justify-end space-x-[10px]  w-full">
-        <button class="btn_bordered_dashboard" @click="closeModal('edit_card_billing_profile')">
+        <button class="btn_bordered_dashboard" @click="handelCloseModal">
             Cancel
            </button>
-        <button
-          class="btn-dashboard hover_tamkin w-[120px]"
-       @click="updateCard"
+        <button :disabled="enableLoading" class="btn-dashboard hover_tamkin w-[120px]" @click="updateCard"
         >
         Submit
         </button>
