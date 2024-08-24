@@ -9,7 +9,7 @@ export default function() {
     const addNewCard = async (data) => {
         try {
             const res = await api.post('/Billing/AddNewCard',{
-                data:data
+                data :data
             });
             console.log('addNewCard',res.data);
 

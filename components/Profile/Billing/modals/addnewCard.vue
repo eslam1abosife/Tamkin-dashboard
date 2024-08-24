@@ -12,6 +12,10 @@ import UAEFLAG from "/assets/imgs/flags/UAE.svg";
 import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
 import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 import { useAddNewCard,useGetCards ,useDeleteCard } from "@/composables/useBilling";
+import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+
+const { getCountries, countries } = useGetAllCountries();
+const billingStore = useBillingStore();
 
 
 
@@ -87,12 +91,6 @@ const v$ = useVuelidate(rules, state);
 
 
 
-const countries = [
-  { code: "AE", name: "UAE", flag: UAEFLAG,id:1 },
-  { code: "EG", name: "Egypt", flag: EGYPTFLAG,id:2 },
-  { code: "SA", name: "KSA", flag: SAUDIFLAG,id:3 },
-];
-
 
 watch(
   state,
@@ -110,6 +108,9 @@ watch(
   { deep: true }
 );
 
+onMounted(async () => {
+  await getCountries();
+});
 const checkInput = (event) =>{
       const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab'];
 
@@ -118,6 +119,7 @@ const checkInput = (event) =>{
       }
     }
 
+const submitInviteLoading = ref(false);
 
 
 const handleSelectedItemProjectName = (item: any) => {
@@ -133,6 +135,7 @@ const { getCards } = useGetCards();
 const addCard = async ()=>{
 
   console.log('addCard data',state)
+  submitInviteLoading.value = true
   await addNewCard({
         card_number : state.cardNumber.replace(/\s+/g, ''),
         fname       : state.firstName,
@@ -151,6 +154,8 @@ const addCard = async ()=>{
   closeModal('add_new_card_billing')
 
   $toast('Card Added successfully', { hideIn: 3000 });
+
+  submitInviteLoading.value = false
 
 }
 
@@ -618,17 +623,18 @@ const addCard = async ()=>{
               </div>
               <div class="w-full lg:w-[330px] lg:mt-0 mt-[16px]">
 
-
-
-
-                  <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true"
-                  placeholderinput="Country*"
-
-                  :errorField="v$.country.$error && v$.country.required.$invalid" :list="countries"
-                   nameKey="name" idField="id"  iconKey="flag"
-
-                  :successField="!v$.country.$error && !v$.country.$invalid"
-                  />
+                <TranslateSelectInput
+                    @getCurrentSelectedItem="handleSelectedItemProjectName"
+                    :enableSearch="true"
+                    placeholderinput="Country*"
+                    :errorField="v$.country.$error && v$.country.required.$invalid"
+                    :list="countries"
+                    nameKey="name"
+                    idField="name"
+                    iconKey="image"
+                    :successField="!v$.country.$error && !v$.country.$invalid"
+                    :currentListValue="state.country"
+                />
 
                               <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
                                 <p class="error_message">
@@ -646,7 +652,7 @@ const addCard = async ()=>{
           <div class=" px-[20px]">
             <label for="remember_me"
             class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
-            <input type="checkbox"
+            <input type="checkbox" :checked="billingStore.cards?.length === 0"
               class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
@@ -660,8 +666,18 @@ const addCard = async ()=>{
               Cancel
                       </button>
 
-        <button class="btn-dashboard hover_tamkin " @click="addCard">
-Save
+        <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading">
+          <div class="flex items-center justify-center">
+            <div :class="submitInviteLoading ? 'mr-2':''">
+              Save
+            </div>
+
+            <svg  v-if="submitInviteLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+
         </button>
       </div>
 

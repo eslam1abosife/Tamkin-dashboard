@@ -264,7 +264,7 @@ const GetBase64AndPrint=async(id)=>{
                   </div>
                 </div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                  Tamkin &nbsp; &nbsp; ****{{ savedCard.card_number }}
+                  {{ savedCard.card_holder_name }}&nbsp; &nbsp; ****{{ savedCard.card_number }}
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
                   Expires on &nbsp;{{ savedCard.expiry_date }}
@@ -296,13 +296,13 @@ const GetBase64AndPrint=async(id)=>{
         </div>
       </div>
     </div>
-    <div class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
+    <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
         Billing & Invoices
       </h1>
 
 
-      <div v-if="invoicesStore.invoices?.length !== 0" class="overflow-x-auto" >
+      <div  class="overflow-x-auto" >
         <table class="min-w-full bg-white">
           <tbody class="text-gray-700">
           <!-- Loop through invoices -->
@@ -348,7 +348,7 @@ const GetBase64AndPrint=async(id)=>{
 </template>
 <style scoped>
 .left-44 {
-  left: 13rem;
+  left: 16rem;
 }
 </style>
 
