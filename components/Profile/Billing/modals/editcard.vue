@@ -546,7 +546,7 @@ Edit your saved card details
 
 
   <div class=" ml-auto">
-    <button @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    <button :disabled="!billingStore.card.deletion_allowed" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
 
 
