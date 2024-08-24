@@ -296,13 +296,13 @@ const GetBase64AndPrint=async(id)=>{
         </div>
       </div>
     </div>
-    <div class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
+    <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
         Billing & Invoices
       </h1>
 
 
-      <div v-if="invoicesStore.invoices?.length !== 0" class="overflow-x-auto" >
+      <div  class="overflow-x-auto" >
         <table class="min-w-full bg-white">
           <tbody class="text-gray-700">
           <!-- Loop through invoices -->
