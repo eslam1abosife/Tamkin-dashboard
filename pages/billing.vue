@@ -264,7 +264,7 @@ const GetBase64AndPrint=async(id)=>{
                   </div>
                 </div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                  Tamkin &nbsp; &nbsp; ****{{ savedCard.card_number }}
+                  {{ savedCard.card_holder_name }}&nbsp; &nbsp; ****{{ savedCard.card_number }}
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
                   Expires on &nbsp;{{ savedCard.expiry_date }}
@@ -348,7 +348,7 @@ const GetBase64AndPrint=async(id)=>{
 </template>
 <style scoped>
 .left-44 {
-  left: 13rem;
+  left: 16rem;
 }
 </style>
 
