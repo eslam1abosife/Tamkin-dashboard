@@ -31,6 +31,7 @@ const controlConfirmButton = ()=>{
 const controlDeleteButton = ()=>{
   deleteLoading.value = true;
   emit('controlDelete')
+  deleteLoading.value = false;
 }
 const controlCancelButton = ()=>{
   emit('controlCancel')
@@ -70,15 +71,15 @@ const controlSaveSite = ()=>{
     <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
       {{ title }}
     </h1>
-  
+
     <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
 
       {{ subTitle }}
     </h2>
 
-    
+
   <div class="flex items-center justify-end space-x-[16px]">
-  
+
     <div class="  mt-[40px] " >
       <button class="btn_bordered_dashboard hover_tamkin " @click="controlCancelButton">
         {{ cancelButtonName ? cancelButtonName :'Cancel' }}
@@ -97,31 +98,31 @@ const controlSaveSite = ()=>{
     <div class="  mt-[40px] " v-if="confirmBtnType === 'other' ">
       <button
           :disabled="saveLoading"
-    
+
           class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
           <div class="flex items-center justify-center">
             <div :class="saveLoading ? 'mr-2':''">
               Save
             </div>
-       
+
              <svg  v-if="saveLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
            </div>
-          
+
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'delete' ">
       <button
           :disabled="deleteLoading"
-         
+
           class="btn_bordered_dashboard error"  @click="controlDeleteButton">
           <div class="flex items-center justify-center">
             <div :class="deleteLoading ? 'mr-3':''">
               Confirm Delete
             </div>
-       
+
              <svg  v-if="deleteLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>

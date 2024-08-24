@@ -11,6 +11,9 @@ import {
 import UAEFLAG from "/assets/imgs/flags/UAE.svg";
 import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
 import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
+import { useAddNewCard,useGetCards ,useDeleteCard } from "@/composables/useBilling";
+
+
 
 
 const {
@@ -94,7 +97,7 @@ const countries = [
 watch(
   state,
   (newValue) => {
-   
+
     const formattedValue = newValue.cardNumber
       .replace(/\s+/g, "")
       .replace(/(.{4})/g, "$1 ")
@@ -119,13 +122,35 @@ const checkInput = (event) =>{
 
 const handleSelectedItemProjectName = (item: any) => {
   console.log(item)
+  state.country = item.name
 };
 const { $toast } = useNuxtApp();
 
-const addCard = ()=>{
+const { addNewCard } = useAddNewCard();
+
+const { getCards } = useGetCards();
+
+const addCard = async ()=>{
+
+  console.log('addCard data',state)
+  await addNewCard({
+        card_number : state.cardNumber.replace(/\s+/g, ''),
+        fname       : state.firstName,
+        lname       : state.lastName,
+        cvv         : state.cvv,
+        expiry_date : state.expireDate,
+        address     : state.address,
+        city        : state.city,
+        state       : state.state,
+        country     : state.country,
+        zip         : state.zip,
+        is_primary  : true
+  });
+  getCards();
+
   closeModal('add_new_card_billing')
 
-$toast('Card Added successfully', { hideIn: 3000 });
+  $toast('Card Added successfully', { hideIn: 3000 });
 
 }
 
@@ -133,10 +158,10 @@ $toast('Card Added successfully', { hideIn: 3000 });
 
 <template>
   <div v-if="isOpen('add_new_card_billing')"
-    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0]  rtl:lg:left-0 ltr:lg:right-0 
-    rounded-[10px] lg:p-[30px] 
+    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0]  rtl:lg:left-0 ltr:lg:right-0
+    rounded-[10px] lg:p-[30px]
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
-   
+
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
    dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModal('add_new_card_billing')">
@@ -158,10 +183,10 @@ $toast('Card Added successfully', { hideIn: 3000 });
 
         <div
         class="flex flex-col lg:items-start justify-center w-full"
-    
+
       >
         <div class="flex items-center justify-center ">
-   
+
           <h1
             class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
           >
@@ -177,7 +202,7 @@ $toast('Card Added successfully', { hideIn: 3000 });
           >
             Billing Info
           </h1>
-    
+
           <div
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
@@ -262,7 +287,7 @@ $toast('Card Added successfully', { hideIn: 3000 });
                 </div>
               </div>
             </div>
-    
+
             <div
               class="flex items-center justify-start lg:flex-row flex-col w-full"
             >
@@ -272,7 +297,7 @@ $toast('Card Added successfully', { hideIn: 3000 });
                   placeholder="{{$t('Card Number')}}"
                   id="cardNumber"
                   @keydown="checkInput"
-    
+
                   :maxlength="19"
                   class="input_floating_label peer w-full lg:w-[704px]"
                   v-model="v$.cardNumber.$model"
@@ -425,13 +450,13 @@ $toast('Card Added successfully', { hideIn: 3000 });
               </div>
             </div>
           </div>
-    
+
           <h1
             class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[0px]"
           >
             Billing address
           </h1>
-    
+
           <div
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
@@ -550,9 +575,9 @@ $toast('Card Added successfully', { hideIn: 3000 });
                 </div>
               </div>
             </div>
-    
+
             <div
-              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 
+              class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0
               space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
@@ -592,37 +617,37 @@ $toast('Card Added successfully', { hideIn: 3000 });
                 </div>
               </div>
               <div class="w-full lg:w-[330px] lg:mt-0 mt-[16px]">
-              
-          
 
 
-                  <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
-                  placeholderinput="Country*" 
-                  
+
+
+                  <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true"
+                  placeholderinput="Country*"
+
                   :errorField="v$.country.$error && v$.country.required.$invalid" :list="countries"
                    nameKey="name" idField="id"  iconKey="flag"
-                  
+
                   :successField="!v$.country.$error && !v$.country.$invalid"
                   />
-                  
+
                               <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
                                 <p class="error_message">
                                   <span v-if="v$.country.$error && v$.country.required.$invalid">{{ $t("Please enter The Country")
                                     }}</span>
-                      
+
                                 </p>
                               </div>
                             </div>
-             
-             
-       
+
+
+
             </div>
           </div>
           <div class=" px-[20px]">
             <label for="remember_me"
             class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
             <input type="checkbox"
-              class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] 
+              class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
               <div class="text-[14px] font-[400] text-black mt-1">
@@ -634,15 +659,15 @@ $toast('Card Added successfully', { hideIn: 3000 });
             <button class="btn_bordered_dashboard  " @click="closeModal('add_new_card_billing')">
               Cancel
                       </button>
-         
+
         <button class="btn-dashboard hover_tamkin " @click="addCard">
 Save
         </button>
       </div>
-    
-   
+
+
           <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
-      
+
       </div> -->
         </div>
       </div>

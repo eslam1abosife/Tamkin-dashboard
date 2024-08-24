@@ -1,16 +1,35 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
+import { useGetCards,useDeleteCard,useInvoices ,useInvoicePdf } from "@/composables/useBilling";
 import { useVuelidate } from "@vuelidate/core";
 import visaIcon from "/assets/imgs/payment_methods/visa.svg";
 import masterIcon from "/assets/imgs/payment_methods/master.svg";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import { required, email, sameAs } from "@vuelidate/validators";
+import { watch, computed, ref } from "vue";
+import { useFullUrl } from "@/composables/useSharedFunctions";
+
+
+const billingStore = useBillingStore();
+const invoicesStore = useInvoicesStore();
+
+const {$toast} = useNuxtApp();
+const { getCards } = useGetCards();
+const { deleteCard } = useDeleteCard();
+const { getInvoices } = useInvoices();
+const { invoicePdf } = useInvoicePdf();
+
+
+const { fullUrl } = useFullUrl();
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  await getInviteApps({ agency: user.agency });
+  // await getInviteApps({ agency: user.agency });
 };
 onMounted(() => {
   getApps();
+  getCards();
+  getInvoices();
 });
 const dateF = ref();
 const langStore = useLangSwitch();
@@ -25,16 +44,12 @@ const alertFn = () => {
   }
 };
 const colorMode = useColorMode();
-const savedCards = ref([
-  { id: 1, number: "Tamkin  ****3536", type: "visa" },
-  { id: 2, number: "Tamkin  ****6792", type: "master" },
-]);
-import { required, email, sameAs } from "@vuelidate/validators";
-import { watch, computed, ref } from "vue";
 
 definePageMeta({
   layout: "dashboard",
 });
+
+
 const state = reactive({
   teamName: "",
 });
@@ -55,6 +70,7 @@ const {
   eventCounter,
   setData,
 } = useModalManager();
+
 
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
@@ -106,12 +122,81 @@ const currentMenu = ref("");
 const openMenu = (menu: any) => {
   currentMenu.value = currentMenu.value === menu ? "" : menu;
 };
+
+const openCard = (card: any) => {
+  billingStore.card = card;
+  openModal('edit_card_billing_profile', 'billing')
+  console.log('billingStore.card=>',billingStore.card)
+};
+
+
+const handelDeleteCard = async (card: any) =>  {
+
+  await deleteCard()
+  await getCards()
+  closeModal('deleteModal_card')
+  $toast('Payment Method Deleted Successfully', { hideIn: 3000});
+
+  };
+
+const handelDownloadInv = async (inv: any) =>  {
+
+  // await invoicePdf(inv)
+// @click="$router.push(localePath('/orders/'+ order.name))"
+
+};
+
+// Function to convert Base64 string to Blob and open it
+function printAndDownloadPDF(base64String, fileName = "document.pdf") {
+  // Convert Base64 to binary data
+  const byteCharacters = atob(base64String);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+
+  // Create a Blob from the byte array
+  const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+  // Create a URL for the Blob
+  const blobUrl = URL.createObjectURL(blob);
+
+  // Open the Blob URL in a new window for printing
+  const printWindow = window.open(blobUrl);
+  if (printWindow) {
+    printWindow.focus();
+    printWindow.print();
+  }
+
+  // Create a link to download the file
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download = fileName;
+  link.click();
+
+  // Clean up the URL object
+  URL.revokeObjectURL(blobUrl);
+}
+
+const GetBase64AndPrint=async(id)=>{
+
+  const res = await invoicePdf(id);
+  console.log('resalt',invoicesStore.pdfLink)
+  printAndDownloadPDF(invoicesStore.pdfLink)
+  console.log('id',id)
+}
 </script>
 
 <template>
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard/>
+    <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete PaymentMethod"
+                   sub-title="Are you sure you want to delete the Payment method ?"
+                   confirm-btn-type="delete" @control-delete="handelDeleteCard()"
+                   @control-cancel="closeModal('deleteModal_card')"/>
+
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
         Billing & Invoices
@@ -123,7 +208,22 @@ const openMenu = (menu: any) => {
       </h2>
     </div>
 
-    <div class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="billingStore.cards?.length === 0" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+      <div class="text-[18px] font-[500] text-black">Payment Methods</div>
+
+      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]" @click="openModal('add_new_card_billing','billing')">
+        <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
+        <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
+          No payment methods have been added yet
+        </div>
+        <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]" >
+
+          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
+        </button>
+      </div>
+    </div>
+
+    <div v-if="billingStore.cards?.length !== 0" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">Payment Methods</div>
         <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openModal('add_new_card_billing','billing')">
@@ -142,42 +242,40 @@ const openMenu = (menu: any) => {
             </linearGradient>
             </defs>
             </svg>
-            
+
           <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
         </button>
       </div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px] w-full">
-        <div class="flex flex-col items-center justify-center w-full" v-for="savedCard in savedCards"
-          :key="savedCard.id">
-          <div @click="changeCurrentCard(savedCard)" :class="[
-            currentCard === savedCard.id ? 'custom-border-tamkin' : 'border-[1px] ',
+        <div class="flex flex-col items-center justify-center w-full" v-for="savedCard in billingStore.cards" :key="savedCard.is_primary">
+<!--          <div @click="changeCurrentCard(savedCard)" :class="[-->
+          <div  :class="[
+             savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ',
           ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-              <div><img :src="savedCard.type === 'visa' ? visaIcon : masterIcon" /></div>
+              <div><img :src=" fullUrl(savedCard.card_image)" class="w-[78px] h-[78px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
-                <div
-                  class="absolute top-[10px] left-44 w-[47px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center 
-                  justify-center  from-tamkinStart to-tamkinEnd"
-                  v-if="savedCard.id === 1">
+                <div class="absolute top-[10px] left-44 w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
+                   v-if="savedCard.is_primary">
                   <div class="text-[10px] font-[500] text-white">
                     Default
                   </div>
                 </div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                  {{ savedCard.number }}
+                  Tamkin &nbsp; &nbsp; ****{{ savedCard.card_number }}
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
-                  Expires on 12/2026
+                  Expires on &nbsp;{{ savedCard.expiry_date }}
                 </div>
               </div>
             </div>
 
             <div class="flex items-center justify-center space-x-[12px] px-[15px]">
 
-              <button @click="openModal('edit_card_billing_profile', 'billing')" class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg 
-                flex items-center justify-center group">
+              <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"  class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg
+                flex items-center justify-center group" :class="{ 'opacity-50 cursor-not-allowed': billingStore.cards?.length === 1 }">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M17.391 3.24601C17.4759 3.3749 17.5137 3.52914 17.4981 3.68269C17.4825 3.83624 17.4143 3.97969 17.3052 4.08882L9.08896 12.3042C9.00491 12.3882 8.90003 12.4483 8.78508 12.4784L5.36292 13.3722C5.24979 13.4017 5.13092 13.4011 5.0181 13.3705C4.90528 13.3398 4.80243 13.2802 4.71977 13.1976C4.6371 13.1149 4.57749 13.0121 4.54686 12.8992C4.51623 12.7864 4.51563 12.6675 4.54513 12.5544L5.43888 9.13314C5.46561 9.03068 5.51476 8.93544 5.58278 8.85429L13.8294 0.613027C13.9551 0.4875 14.1255 0.416992 14.3031 0.416992C14.4807 0.416992 14.6511 0.4875 14.7768 0.613027L17.3052 3.14055C17.3364 3.17348 17.3651 3.20873 17.391 3.24601ZM15.8832 3.61424L14.3031 2.03498L6.69013 9.64794L6.13154 11.7867L8.27028 11.2281L15.8832 3.61424Z"
@@ -202,84 +300,39 @@ const openMenu = (menu: any) => {
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
         Billing & Invoices
       </h1>
- 
 
-      <div class="overflow-x-auto">
+
+      <div v-if="invoicesStore.invoices?.length !== 0" class="overflow-x-auto" >
         <table class="min-w-full bg-white">
           <tbody class="text-gray-700">
-            <!-- Row 1 -->
-            <tr class="border-t border-b border-gray-200">
-              <td class="py-4 space-y-[10px] ">
-                <a href="#" class="text-tamkin text-[14px] font-[500] leading-[19px] underline">Download Invoice # 1233563</a>
-                <div class="  text-[13px] font-[500] leading-[20px] text-darkGrey">May 11, 2024</div>
-              </td>
-              <td class="py-4  space-y-[10px]  text-left">
-                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Card</div>
-                <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">********26789</div>
-              </td>
-         
-              <td class="py-4  space-y-[10px]  text-right">
-                <div class=" text-darkGrey text-[14px] leading-[19px] font-[700]">50$</div>
-                <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">Accessibility Mode</div>
-              </td>
-            </tr>
-      
-            <tr class="border-t border-b border-gray-200">
-              <td class="py-4 space-y-[10px] ">
-                <a href="#" class="text-tamkin text-[14px] font-[500] leading-[19px] underline">Download Invoice # 1233563</a>
-                <div class="  text-[13px] font-[500] leading-[20px] text-darkGrey">May 11, 2024</div>
-              </td>
-              <td class="py-4  space-y-[10px]  text-left">
-                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Paypal</div>
-                <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">email@gmail.com</div>
-              </td>
-         
-              <td class="py-4  space-y-[10px]  text-right">
-                <div class=" text-darkGrey text-[14px] leading-[19px] font-[700]">-50$</div>
-                <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">Refund</div>
-              </td>
-            </tr>
-      
-    
-            <tr class="border-t border-b border-gray-200">
-              <td class="py-4 space-y-[10px] ">
-                <a href="#" class="text-tamkin text-[14px] font-[500] leading-[19px] underline">Download Invoice # 1233563</a>
-                <div class="  text-[13px] font-[500] leading-[20px] text-darkGrey">May 11, 2024</div>
-              </td>
-              <td class="py-4  space-y-[10px]  text-left">
-                <div class="text-[14px] leading-[19px] text-darkGrey font-[500] ">Crypto</div>
-                <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">0x2d5jd....364432345</div>
-              </td>
-         
-              <td class="py-4  space-y-[10px]  text-right">
-                <div class=" text-darkGrey text-[14px] leading-[19px] font-[700]">-50$</div>
-                <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">Refund</div>
-              </td>
-            </tr>
+          <!-- Loop through invoices -->
+          <tr v-for="invoice in invoicesStore.invoices" :key="invoice.id" class="border-t border-b border-gray-200">
+            <td class="py-4 space-y-[10px]">
+              <div   @click="GetBase64AndPrint(invoice.name);"
+                 class="text-tamkin text-[14px] font-[500] leading-[19px] underline  cursor-pointer ">
+                Download Invoice # {{ invoice.name }}
+              </div>
+              <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
+                {{ invoice.order_date }}
+              </div>
+            </td>
+            <td class="py-4 space-y-[10px] text-left">
+              <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">{{ invoice.type_payment }}</div>
+              <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
+            </td>
+            <td class="py-4 space-y-[10px] text-right">
+              <div class="text-darkGrey text-[14px] leading-[19px] font-[700]">{{ invoice.cost }}$</div>
+              <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{ invoice.order_type }}</div>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
-      
 
       <button class="btn-dashboard hover_tamkin w-[180px] mt-[16px] ml-auto">Show All Invoices</button>
     </div>
 
-    <div class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
-      <div class="text-[18px] font-[500] text-black">Payment Methods</div>
-
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
-        <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
-        <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
-          No payment methods have been added yet
-        </div>
-        <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]">
-     
-          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
-        </button>
-      </div>
-    </div>
-
-    <div class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="invoicesStore.invoices?.length === 0" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Billing History
       </div>
 
@@ -288,9 +341,14 @@ const openMenu = (menu: any) => {
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           No prior billing transactions
         </div>
-    
+
       </div>
     </div>
   </div>
 </template>
+<style scoped>
+.left-44 {
+  left: 13rem;
+}
+</style>
 

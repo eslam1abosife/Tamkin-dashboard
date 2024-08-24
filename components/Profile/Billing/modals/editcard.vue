@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
+import { useUpdateCard,useGetCards,useDeleteCard } from "@/composables/useBilling";
+
 import {
   required,
   email,
@@ -11,8 +13,9 @@ import {
 import UAEFLAG from "/assets/imgs/flags/UAE.svg";
 import EGYPTFLAG from "/assets/imgs/flags/Element.svg";
 import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
-const {$toast} = useNuxtApp()
 import { useModalStore } from "@/stores/modal";
+const {$toast} = useNuxtApp()
+const billingStore = useBillingStore();
 
 const props = defineProps({
   showModal: Boolean,
@@ -24,6 +27,9 @@ const {
   closeModal,
   goBack,
   navigateTo,
+  eventCounter,
+  lastEventCall,
+  getData
 } = useModalManager();
 const formatExpiryDate = () => {
   let value = state.expireDate.replace(/\D/g, "");
@@ -58,6 +64,7 @@ const futureDate = (value) => {
 };
 const state = reactive({
   cardholdername: "",
+  firstName: "",
   lastName: "",
   cardNumber: "",
   cvv: "",
@@ -138,7 +145,7 @@ const filteredCountries = computed(() => {
 watch(
   state,
   (newValue) => {
-   
+
     const formattedValue = newValue.cardNumber
       .replace(/\s+/g, "")
       .replace(/(.{4})/g, "$1 ")
@@ -188,11 +195,53 @@ watch(
     }
   })
 
-  const updateCard = ()=>{
+// const dataModal=ref({})
+watchEffect(() => {
+  if (isModalOpen('edit_card_billing_profile')) {
+    // dataModal.value = getData();
+    // console.log('getData in edit',getData());
+    state.firstName = billingStore.card.name;
+  }
+});
+
+  const { updateCard:update, savedCards } = useUpdateCard();
+  const { getCards,updatedCards } = useGetCards();
+
+  const updateCard =async ()=>{
+
+    // console.log('update',dataModal.value)
+    await update({
+      name            : billingStore.card.name,
+      is_primary      : billingStore.card.is_primary,
+      card_holder_name: billingStore.card.card_holder_name
+    });
     closeModal('edit_card_billing_profile')
     $toast('Card Updated Successfully', { hideIn: 3000});
+    getCards();
 
   }
+
+
+  // watch(updatedCards, async (oldVal,newVal) => {
+  //   console.log('updateCard+++',newVal)
+  //    // getCards();
+  // })
+  watch(eventCounter, async () => {
+    if (lastEventCall.value === "deleteTeamMember") {
+      try {
+        // const { deleteCard } = useUpdateCard();
+
+        // await deleteCard(dataModal.value.name);
+
+        // closeModal('edit_card_billing_profile')
+        // $toast('Card Updated Successfully', { hideIn: 3000});
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  });
+
+
 </script>
 
 <template>
@@ -243,7 +292,7 @@ Edit your saved card details
                 placeholder="{{$t('First Name')}}"
                 id="firstName"
                 class="input_floating_label peer w-full "
-                v-model="v$.cardholdername.$model"
+                v-model="billingStore.card.card_holder_name"
                 :class="{
                   input_error:
                     v$.cardholdername.$error && v$.cardholdername.required.$invalid,
@@ -318,7 +367,7 @@ Edit your saved card details
           class="flex items-center justify-start lg:flex-row flex-col w-full"
         >
           <div class="w-full lg:w-[704px] relative">
-            <div class="absolute right-[20px] " :class="[state.cardType === 'mastercard' ? 'inset-y-[12px]' :'inset-y-[14px]']" v-if="!v$.cardNumber.$error && !v$.cardNumber.$invalid"> 
+            <div class="absolute right-[20px] " :class="[state.cardType === 'mastercard' ? 'inset-y-[12px]' :'inset-y-[14px]']" v-if="!v$.cardNumber.$error && !v$.cardNumber.$invalid">
                 <img src="/imgs/master.png" class="w-[24px] h-[16px]" alt="" v-if="state.cardType === 'mastercard'">
                 <img src="/imgs/visa.png" class="w-[30px] h-[12px]" alt="" v-if="state.cardType === 'visa'">
             </div>
@@ -485,7 +534,8 @@ Edit your saved card details
         <label for="remember_me"
         class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
         <input type="checkbox"
-          class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] 
+               v-model="billingStore.card.is_primary"
+          class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
            text-tamkin ring-0 focus:ring-0 focus:outline-none"
           id="remember_me" />
           <div class="text-[14px] font-[400] text-black mt-1">
@@ -498,8 +548,8 @@ Edit your saved card details
   <div class=" ml-auto">
     <button @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
-    
- 
+
+
      <span>Delete Payment Method</span>
     </button>
   </div>
@@ -511,7 +561,7 @@ Edit your saved card details
 
 
 
-  
+
 
 
       <div class="flex items-center justify-end space-x-[10px]  w-full">
@@ -524,12 +574,12 @@ Edit your saved card details
         >
         Submit
         </button>
-      
+
       </div>
 
       <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
-  
+
   </div> -->
- 
+
   </div>
 </template>

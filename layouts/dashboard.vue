@@ -30,7 +30,7 @@ const { data: member, pending, error } = await useAsyncData('member', async () =
 
   ]);
 
-  return true 
+  return true
 });
 // profileStore.member = member.value
 
@@ -284,7 +284,7 @@ const openModals = computed(() => {
     isOpen("requestmodal") ||
     isOpen("cardModal") ||
     isOpen("translate_images") ||
-    isOpen("editname") || 
+    isOpen("editname") ||
     sideBarOpenMobile.value ||
     isOpen('edit_card_billing_profile') ||
     isOpen('withdraw_paymentmethods') ||
@@ -315,7 +315,7 @@ const openModals = computed(() => {
     // editUserModal.value ||
     // InviteMemberUpdateModal.value ||
     // showUpgradeModal.value ||
-    resetModal.value 
+    resetModal.value
     ||checkboxStore.routeLeaveModal  ||
     custmizeStore.routeLeaveModal ||
     settingsStore.routeLeaveModal
@@ -446,14 +446,7 @@ onMounted(() => {
                    sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
                    confirm-btn-type="delete" @control-delete="closeModal('deleteModal')"
                    @control-cancel="closeModal('deleteModal')"/>
-                   <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete PaymentMethod"
-                   sub-title="Are you sure you want to delete the Payment method ?"
-                   confirm-btn-type="delete" @control-delete="()=>{
-                    closeModal('deleteModal_card')
-                    $toast('Payment Method Deleted Successfully', { hideIn: 3000});
- 
-                  }"
-                   @control-cancel="closeModal('deleteModal_card')"/>
+
     <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')"/>
     <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')"/>
 
