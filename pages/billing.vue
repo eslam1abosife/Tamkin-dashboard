@@ -27,7 +27,7 @@ const getApps = async () => {
 };
 onMounted(async () => {
   globalLoad.value = true
-  
+
  await getApps();
  await getCards();
  await getInvoices();
@@ -137,10 +137,16 @@ const openCard = (card: any) => {
 
 const handelDeleteCard = async (card: any) =>  {
 
+  billingStore.loadCards = true
   await deleteCard()
-  await getCards()
   closeModal('deleteModal_card')
+
   $toast('Payment Method Deleted Successfully', { hideIn: 3000});
+  // await getCards()
+
+  billingStore.cards = billingStore.cards.filter((item: any) => item.name !== billingStore.card.name)
+
+    billingStore.loadCards = false
 
   };
 
@@ -221,7 +227,7 @@ const increaseInvoices = ()=>{{
   loadingMoreInvoies.value = true
 setTimeout(()=>{
 
-  
+
   invoicescount.value = invoicesStore.invoices.length
   loadingMoreInvoies.value = false
 },1500)
@@ -310,8 +316,8 @@ function leaveNotification(el, done) {
   }, 500);
 }
 
- 
-   
+
+
 
 
 </script>
@@ -341,7 +347,7 @@ function leaveNotification(el, done) {
     <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Payment Methods</div>
 
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]" 
+      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
       @click="openAddNewCardModal">
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
@@ -360,7 +366,7 @@ function leaveNotification(el, done) {
 
        </div>
       </div>
-    
+
       <!-- Example for loading state if there are cards -->
       <div class="mt-[24px] space-y-[10px]">
         <div class="bg-gray-200 animate-pulse w-full h-[60px] rounded"></div> <!-- Placeholder for a card -->
@@ -368,7 +374,7 @@ function leaveNotification(el, done) {
         <!-- Add more placeholders as needed -->
       </div>
     </div>
-    
+
     <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">Payment Methods</div>
@@ -455,13 +461,13 @@ function leaveNotification(el, done) {
           <!-- Loop through invoices -->
           <tr v-for="invoice in computedInvoices" :key="invoice.id" class="border-t border-b border-gray-200">
             <td class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px] " >
-        
+
                 <!-- Spinner icon -->
               <div class="flex items-center justify-start space-x-[10px]">
-          
 
-          
-        
+
+
+
               <button   @click="GetBase64AndPrint(invoice.name);" :disabled="loadingInvoiceId === invoice.name"
                  class=" text-[14px] font-[500] leading-[19px] " :class="loadingInvoiceId === invoice.name ? 'cursor-not-allowed text-light ' :'text-tamkin underline  cursor-pointer'">
                 Download Invoice # {{ invoice.name }}
@@ -474,9 +480,9 @@ function leaveNotification(el, done) {
               <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
                 {{ invoice.order_date }}
               </div>
-            
+
             </td>
-          
+
             <td class="py-4 space-y-[10px] text-left">
               <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">{{ invoice.type_payment }}</div>
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
@@ -491,8 +497,8 @@ function leaveNotification(el, done) {
       </div>
 
       <button  :disabled="loadingMoreInvoies" class="btn-dashboard hover_tamkin w-[190px] mt-[16px] ml-auto" @click="increaseInvoices" v-if="invoicescount != invoicesStore.invoices.length">
-        
-     
+
+
         <div class="flex items-center justify-center w-full">
           <div :class="loadingMoreInvoies ? 'mr-2':''">
             Show All Invoices
@@ -503,7 +509,7 @@ function leaveNotification(el, done) {
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
         </div>
-      
+
       </button>
     </div>
 
@@ -511,7 +517,7 @@ function leaveNotification(el, done) {
       <div class="w-full h-[32px] bg-gray-200 animate-pulse pb-[16px]">
 
       </div>
-    
+
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white">
           <tbody class="text-gray-700">
@@ -534,13 +540,13 @@ function leaveNotification(el, done) {
           </tbody>
         </table>
       </div>
-    
+
 
           <div class="bg-gray-200 animate-pulse ml-auto  h-[40px] w-[190px] mt-[16px]  rounded-[10px]"></div> <!-- Placeholder for button text -->
-       
-   
+
+
     </div>
-    
+
     <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Invoices History
       </div>

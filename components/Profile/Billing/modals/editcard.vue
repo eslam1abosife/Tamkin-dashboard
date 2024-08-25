@@ -208,7 +208,9 @@ watchEffect(() => {
 
   const { updateCard:update, savedCards } = useUpdateCard();
   const { getCards,updatedCards } = useGetCards();
-  const enableLoading = ref(false);
+const invoiceStore = useInvoicesStore()
+
+const enableLoading = ref(false);
 
   const updateCard =async ()=>{
     loadingupdate.value = true
@@ -220,11 +222,13 @@ watchEffect(() => {
     });
     closeModal('edit_card_billing_profile')
     $toast('Card Updated Successfully', { hideIn: 3000});
-    enableLoading.value = false;
-    getCards();
+
+    invoiceStore.loadCards = true
+
+    await getCards();
+    invoiceStore.loadCards = false
+
     loadingupdate.value = false
-
-
   }
 
   const handelCloseModal =async ()=>{
@@ -232,7 +236,7 @@ watchEffect(() => {
     closeModal('edit_card_billing_profile')
     // billingStore.card.card_holder_name = null
 
-    console.log('billingStore.card.card_holder_name',billingStore.card)
+    console.log('billingStore.card Data',billingStore.card)
   }
 
 
@@ -559,8 +563,9 @@ Edit your saved card details
     </div>
 
 
-  <div class=" ml-auto relative ">
-    <button  @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335]  leading-[19px] underline text-[14px] font-[500] "
+  <div class=" ml-auto">
+<!--    <button :disabled="!billingStore.card.deletion_allowed" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "-->
+    <button :disabled="!billingStore.card" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
 
 
