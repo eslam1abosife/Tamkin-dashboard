@@ -246,7 +246,6 @@ const updatePassword = async () => {
 
       <div class="flex items-center justify-center">
         <div :class="loading ? 'mr-2' : ''"> Update Password</div>
-
         <svg
           v-if="loading"
           class="animate-spin h-5 w-5 text-white"
@@ -269,7 +268,6 @@ const updatePassword = async () => {
           ></path>
         </svg>
       </div>
-       
       </button>
     </div>
   </div>
