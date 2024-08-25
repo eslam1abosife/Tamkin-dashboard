@@ -39,7 +39,7 @@ const removeFile = async () => {
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await removeMemberImage();
-  refreshNuxtData('member')
+  await profileStore.fetchMember()
     
   // profileStore.setCompany();
 //  loadingDelete.value = false
@@ -58,61 +58,63 @@ watch(isDeleteAction,(ov,nv)=>{
 const {$toast} = useNuxtApp()
 
 const submit = async () => {
-    if(!isDeleteAction.value && acceptedFilesRef.value.length > 0){
-      loadingUpload.value = true
-
-const file = acceptedFilesRef.value[0];
-const reader = new FileReader();
-
-reader.onloadend = async () => {
-  const base64String = (reader.result as string).split(",")[1];
-
-  const imgFile = {
-    uid: file.lastModified.toString(),
-    name: file.name,
-    base64: base64String,
-    field: "some_field", // Adjust this as necessary
-    id: 0,
-    doctype: file.type.split("/")[1],
-    isPublic: true,
-    ext: `.${file.name.split(".").pop()}`,
-    size: file.size,
-    path: "/path/to/image", // Optional, if applicable
-    version: 1,
-    mdf: "", // Optionally calculate the MD5 checksum if required
-    mimType: file.type,
-    creator_ID: 1, // Adjust this as necessary
-  };
-  await changeMemberImage(imgFile);
-  closeModal('editMemberPic');
-refreshNuxtData('member')
-  // await getCurrentTeam();
-  // await profileStore.setCompany();
-  // emit('uploadSuccess');
-
-$toast('Profile Image updated successfully',{hideIn:3000})
-
-loadingUpload.value = false
-
-};
-reader.readAsDataURL(file);
-    }else if(isDeleteAction){
- if(acceptedFilesRef.value.length>0){
- isDeleteAction.value = false
-
-  acceptedFilesRef.value = []
- isDeleteAction.value = false
- }else if(profileStore.member.user_image.trim()){
-  removeFile()
-closeModal('editMemberPic');
-
-  $toast('Profile Image deleted successfully',{hideIn:3000})
-  
- }
-
+  if (isDeleteAction.value) {
+    // Handle delete action
+    if (acceptedFilesRef.value.length > 0) {
+      // Reset delete action and file list
+      isDeleteAction.value = false;
+      acceptedFilesRef.value = [];
+    } else if (profileStore.member.user_image.trim()) {
+      // Remove image if one exists
+      removeFile();
+      closeModal('editMemberPic');
+      $toast('Profile Image deleted successfully', { hideIn: 3000 });
     }
+  } else if (acceptedFilesRef.value.length > 0) {
+    // Handle upload action
+    loadingUpload.value = true;
 
+    const file = acceptedFilesRef.value[0];
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      const base64String = (reader.result as string).split(",")[1];
+
+      const imgFile = {
+        uid: file.lastModified.toString(),
+        name: file.name,
+        base64: base64String,
+        field: "some_field", // Adjust this as necessary
+        id: 0,
+        doctype: file.type.split("/")[1],
+        isPublic: true,
+        ext: `.${file.name.split(".").pop()}`,
+        size: file.size,
+        path: "/path/to/image", // Optional, if applicable
+        version: 1,
+        mdf: "", // Optionally calculate the MD5 checksum if required
+        mimType: file.type,
+        creator_ID: 1, // Adjust this as necessary
+      };
+      
+      await changeMemberImage(imgFile);
+      closeModal('editMemberPic');
+      await profileStore.fetchMember();
+      $toast('Profile Image updated successfully', { hideIn: 3000 });
+      loadingUpload.value = false;
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    // Close modal if no action required
+    closeModal('editMemberPic');
+  }
 };
+const closeModalMmp = ()=>{
+isDeleteAction.value = false
+
+  closeModal('editMemberPic');
+}
 
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
@@ -130,7 +132,7 @@ onBeforeUnmount(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('editMemberPic')"
+      @click="closeModalMmp"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -266,7 +268,7 @@ onBeforeUnmount(() => {
       </button>
       <button
         :disabled="
-           loadingUpload
+           loadingUpload 
         "
         class="btn-dashboard hover_tamkin w-1/4"
         @click="submit"

@@ -38,7 +38,7 @@ const removeFile = async () => {
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await deleteTeamImg();
-  refreshNuxtData('member')
+  await getCurrentTeam()
     
   // profileStore.setCompany();
 //  loadingDelete.value = false
@@ -84,7 +84,7 @@ reader.onloadend = async () => {
   };
   await uploadTeamImg(imgFile);
   closeModal('editteampic');
-refreshNuxtData('member')
+await getCurrentTeam()
   // await getCurrentTeam();
   // await profileStore.setCompany();
   // emit('uploadSuccess');

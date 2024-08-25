@@ -27,20 +27,21 @@ const memberFullName = computed(() => {
       <div class="flex items-center justify-start gap-4 w-full">
         <div class="relative">
           <!-- Placeholder Loader -->
-          <div v-if="!profileStore.member.user_image" class="h-[60px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-gray-300 animate-pulse"></div>
+          <div v-if="profileStore.loadingProfile"  class="h-[60px] w-[60px] 
+          lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-gray-300 animate-pulse"></div>
           
-          <!-- User Image -->
           <img
-            v-else
+            v-if="!profileStore.loadingProfile && profileStore.member.user_image"
             :src="`https://tamkin.app/${profileStore.member.user_image}`"
             class="h-[60px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full"
-            alt="User Image"
+           
           />
   
           <!-- Avatar Letters as Fallback -->
           <div
-            v-if="!profileStore.member.user_image && (profileStore.member.first_name || profileStore.member.last_name)"
-            class="avatar_img h-[60px] ipad-max:text-[24px] lg:text-[32px] w-[60px] lg:h-[80px] lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+            v-if="!profileStore.member.user_image && (profileStore.member.first_name || profileStore.member.last_name) && !profileStore.loadingProfile"
+            class="avatar_img h-[60px] ipad-max:text-[24px] lg:text-[32px] w-[60px] lg:h-[80px]
+             lg:w-[80px] ipad-max:w-[50px] ipad-max:h-[50px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
           >
             <span>
               {{
@@ -52,7 +53,7 @@ const memberFullName = computed(() => {
           </div>
   
           <!-- Edit Button -->
-          <div v-if="profileStore.member.user_image"
+          <div v-if="!profileStore.loadingProfile"
             @click="openModal('editMemberPic', 'profile')"
             class="absolute top-[50px] right-0 ipad-max:top-[30px] drop-shadow-md cursor-pointer bg-white w-[24px] h-[24px] lg:w-[24px] ipad-max:w-[16px] ipad-max:h-[16px] lg:h-[24px] rounded-full flex items-center justify-center"
           >

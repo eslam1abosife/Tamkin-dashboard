@@ -335,11 +335,11 @@ function leaveNotification(el, done) {
 
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        Billing & Invoices
+        Payments & Invoices
       </h1>
 
       <h2 class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
-        Billing & Invoices offer a detailed record of your payments and charges for easy
+        Payments & Invoices offer a detailed record of your payments and charges for easy
         financial tracking
       </h2>
     </div>
@@ -407,9 +407,9 @@ function leaveNotification(el, done) {
           ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
-              <div><img :src=" fullUrl(savedCard.card_image)" class="w-[78px] h-[78px]" /></div>
+              <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
-                <div class="absolute top-[10px] left-44 w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
+                <div class="absolute top-[10px] left-[185px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
                    v-if="savedCard.is_primary">
                   <div class="text-[10px] font-[500] text-white">
                     Default
@@ -451,7 +451,7 @@ function leaveNotification(el, done) {
 
     <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
-        Billing & Invoices
+        Payments & Invoices
       </h1>
 
 
@@ -548,13 +548,13 @@ function leaveNotification(el, done) {
     </div>
 
     <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
-      <div class="text-[18px] font-[500] text-black">Billing History
+      <div class="text-[18px] font-[500] text-black">Invoices History
       </div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
         <img src="/imgs/no_billing.png" class="w-[42px] h-[42px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
-          No prior billing transactions
+          No historical invoices
         </div>
 
       </div>

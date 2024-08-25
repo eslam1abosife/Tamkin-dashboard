@@ -97,8 +97,8 @@ const profileLoader = ref(false);
 
 const updatep = async (companyData) => {
   profileLoader.value = true;
-
-  await changeCompanyInfo({ ...profileStore.updatedCompanyPayload, about: aboutCompany.value });
+// console.log(profileStore.updatedCompanyPayload)
+  await changeCompanyInfo({ ...companyData, about: aboutCompany.value });
 
   await changeMemberInfo(profileStore.updateProfilePayload);
 
@@ -110,7 +110,6 @@ const updatep = async (companyData) => {
   await profileStore.fetchMember()
   await profileStore.getCurrentTeam()
   await getProfileCompleteScore(profileStore.currentTab)
-
 };
 
 provide("currentMode", currentMode);
@@ -353,7 +352,7 @@ onBeforeMount(async ()=>{
          v-if="!profileStore.loadingProfile && profileStore.member?.social_accounts?.length && profileStore.currentTab === 'personal'" 
        />
        
-        <!--   <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" /> -->
+          <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
         </div>
 
         <div

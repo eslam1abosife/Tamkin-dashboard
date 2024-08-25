@@ -15,7 +15,7 @@ const isHovered = useElementHover(accessMenuHover);
 const isSubmenuHovered = useElementHover(submenuHover);
 const isSignLanguageHoverd = useElementHover(signLanguageHover);
 const servicesHover =  useElementHover(services);
-
+const loadingTeamCard = ref(true)
 
 const { getAvatarLetters } = useGetAvatarLetters();
 
@@ -29,9 +29,11 @@ const { currTeam, getCurrentTeam} = useGetCurrentTeam();
 const { teamMembers, getAllTeamMember } = useGetAllMembers();
 
 onMounted(async () => {
-  getCurrentTeam();
+  
+  await getCurrentTeam();
   const user = JSON.parse(localStorage.getItem('user'));
-  getAllTeamMember(user.agency);
+  await  getAllTeamMember(user.agency);
+  loadingTeamCard.value = false
 })
 
 const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
@@ -74,7 +76,7 @@ const openMenuSub = (id) => {
     showOnClickChild.value = false;
   }
 
-  console.log(`Submenu ${id} visibility:`, showSubMenu.value[id]);
+  // console.log(`Submenu ${id} visibility:`, showSubMenu.value[id]);
 };
 
 
@@ -258,54 +260,88 @@ watch(
         </div>
       </div>
       <div
-        class="tamkin_team_card "
-        @click="$router.push(localePath('/team'))"
-        :class="[
-          !sideBarOpen ? 'border-none bg-transparent hidden' : '',
-          isLinkActive('/team') ? 'bg-tamkinLight' : '',
-        ]"
-      >
+      class="tamkin_team_card"
+      @click="()=>{
+        if(!loadingTeamCard){
+          $router.push(localePath('/team'))
+        }
+      }"
+      :class="[
+        !sideBarOpen ? 'border-none bg-transparent hidden' : '',
+        isLinkActive('/team') ? 'bg-tamkinLight' : '',
+        loadingTeamCard ? '!bg-gray-50 !cursor-not-allowed !border-[1px] !border-gray-200':''
+      ]"
+    >
+      <div class="relative flex items-center justify-center w-1/4">
         <img
-            v-if="currTeam?.team_image"
+          v-if="!loadingTeamCard && currTeam?.team_image "
           :src="`https://tamkin.app/${currTeam?.team_image}`"
-            class=" rounded-full object-cover"
-          :class="[sideBarOpen ? 'h-[35px] w-[35px] ' : 'h-[24px] w-[24px]']"
-        />
+          class="rounded-full object-cover transition-all"
+          :class="[sideBarOpen ? 'h-[35px] w-[35px]' : 'h-[24px] w-[24px]']"
 
-        <div v-else :class="[sideBarOpen ? 'h-[35px] w-[40px] leading-[35px]' : 'h-[24px] w-[24px]  leading-[24px]']" class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full object-cover">
+        />
+    
+        <!-- Skeleton Loader -->
+        <div
+          v-if="loadingTeamCard "
+          class="h-[35px] w-[35px] bg-gray-300 animate-pulse rounded-full"
+       
+        ></div>
+    
+        <!-- Placeholder Avatar -->
+        <div
+          v-if="!loadingTeamCard && !currTeam?.team_image "
+          :class="[sideBarOpen ? 'h-[35px] w-[35px] leading-[35px]' : 'h-[24px] w-[24px] leading-[24px]']"
+          class="avatar_img bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full"
+        >
           <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
         </div>
+      </div>
+    
+      <div class="flex items-center rtl:space-x-reverse w-full">
+        <div
+          class="order-2 ltr:ml-[12px] rtl:mr-[12px] w-full"
+          :class="[!sideBarOpen ? 'hidden' : 'block']"
+        >
+        <div class="h-[14px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse" v-if="loadingTeamCard">
 
+        </div>
+          <h2 class="font-[400] text-[14px]" style="line-height: 20px" v-else>
+            {{ currTeam?.team_name }}
+          </h2>
 
-        <div class="flex items-center rtl:space-x-reverse w-full">
-          <div
-            class="order-2 ltr:ml-[12px] rtl:mr-[12px] w-full"
-            :class="[!sideBarOpen ? 'hidden' : 'block']"
+        
+          <div class="h-[14px] mt-[8px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse" v-if="loadingTeamCard">
+
+          </div>
+          <h3 class="font-[400] text-[12px]" style="line-height: 20px" v-else>
+            {{ teamMembers.length }} {{ $t("teamcount") }}
+          </h3>
+
+          
+        </div>
+
+        <div class="h-[14px] w-[12px] rounded-[5px] bg-gray-200 animate-pulse order-3" v-if="loadingTeamCard">
+
+        </div>
+        <div v-else class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
+          <svg
+            class="arrow_svg"
+            width="7"
+            height="12"
+            viewBox="0 0 7 12"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <h2 class="font-[400] text-[14px]" style="line-height: 20px">
-              {{ currTeam?.team_name }}
-            </h2>
-            <h3 class="font-[400] text-[12px]" style="line-height: 20px">
-              {{ teamMembers.length}} {{ $t("teamcount") }}
-            </h3>
-          </div>
-          <div class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
-            <svg
-              class="arrow_svg"
-              width="7"
-              height="12"
-              viewBox="0 0 7 12"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-              />
-            </svg>
-          </div>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+            />
+          </svg>
         </div>
       </div>
+    </div>
+    
 
       <hr class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder  my-[28px]" />
       <button
