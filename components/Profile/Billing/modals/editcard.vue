@@ -582,14 +582,10 @@ Edit your saved card details
         <button class="btn_bordered_dashboard" @click="handelCloseModal">
             Cancel
            </button>
-<<<<<<< HEAD
         <button
           class="btn-dashboard hover_tamkin w-[120px]"
        @click="updateCard"
        :disabled="loadingupdate"
-=======
-        <button :disabled="enableLoading" class="btn-dashboard hover_tamkin w-[120px]" @click="updateCard"
->>>>>>> 902d2a1776c86c78f0a6efe1859a6881f3c30239
         >
         <div class="flex items-center justify-center">
           <div :class="loadingupdate ? 'mr-2':''">

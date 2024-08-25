@@ -45,26 +45,21 @@ const changeTab = (tab:any)=>{
   currentTab.value  =tab
   dateF.value = null
 }
-const getStatus=(method:number)=> {
-      switch (method) {
-        case 0:
-          return 'Pending';
-        case 1:
-          return 'Success';
-        case 2:
-          return 'Rejected';
-        
-      }
-    };
+
     const getStatusStyle=(method:number)=> {
       switch (method) {
-        case 0:
+        case 'Paid':
+        return 'bg-tamkin';
+        case 'Pending':
           return 'bg-orange-400';
-        case 1:
+        case 'Success':
           return 'bg-tamkin';
-        case 2:
+        case 'rejected':
           return 'bg-red-600';
-        
+        case 'Completed' :
+          return 'bg-tamkin'
+                  case 'Transfered' :
+          return 'bg-tamkin'
       }
     };
 const v$ = useVuelidate(rules, state);
@@ -456,8 +451,8 @@ src="/imgs/copy.svg"
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.amount +' ' +(reward.payment_type === "bank_account" ? reward.account_currency : reward.payment_type === "crypto" ? reward.crypto_currency : reward.payment_type === 'paypal' ? "USD":'')}}</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.payment_type === 'bank_account' ? reward.account_number:reward.payment_type === 'crypto' ? reward.crypto_address : reward.email_address}}</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(reward.docstatus)"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(reward.docstatus)}}</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(reward.status)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize">{{reward.status}}</span>
         </td>
       </tr>
      
@@ -498,8 +493,8 @@ src="/imgs/copy.svg"
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ formatDateOfReward(referral.modified )}}</td>
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.total_commission }} AED</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.docstatus)"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(referral.docstatus)}}</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.status)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize">{{referral.status}}</span>
         </td>
       </tr>
       </template>
