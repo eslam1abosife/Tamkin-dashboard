@@ -401,10 +401,8 @@ function leaveNotification(el, done) {
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px] w-full">
         <div class="flex flex-col items-center justify-center w-full" v-for="savedCard in billingStore.cards" :key="savedCard.is_primary">
-<!--          <div @click="changeCurrentCard(savedCard)" :class="[-->
-          <div  :class="[
-             savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ',
-          ]"
+
+          <div v-if="savedCard.is_active" :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
