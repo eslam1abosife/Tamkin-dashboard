@@ -11,7 +11,7 @@ export default function() {
     const getInvoices = async () => {
         try {
             const res = await api.post('/Billing/GetInvoices');
-            console.log(res.data.data);
+            // console.log(res.data.data);
             invoicesStore.invoices = res.data.data;
 
         } catch (error) {

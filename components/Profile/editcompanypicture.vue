@@ -37,7 +37,7 @@ const removeFile = async () => {
   // loadingDelete.value = true
   acceptedFilesRef.value = [];
   await deleteCompanyImg();
-  refreshNuxtData('member')
+  await profileStore.getCurrentTeam() 
     
   // profileStore.setCompany();
 //  loadingDelete.value = false
@@ -56,61 +56,70 @@ watch(isDeleteAction,(ov,nv)=>{
 const {$toast} = useNuxtApp()
 
 const submit = async () => {
-    if(!isDeleteAction.value && acceptedFilesRef.value.length > 0){
-      loadingUpload.value = true
+  if (!isDeleteAction.value && acceptedFilesRef.value.length > 0) {
+    // Handle file upload
+    loadingUpload.value = true;
 
-const file = acceptedFilesRef.value[0];
-const reader = new FileReader();
+    const file = acceptedFilesRef.value[0];
+    const reader = new FileReader();
 
-reader.onloadend = async () => {
-  const base64String = (reader.result as string).split(",")[1];
+    reader.onloadend = async () => {
+      const base64String = (reader.result as string).split(",")[1];
 
-  const imgFile = {
-    uid: file.lastModified.toString(),
-    name: file.name,
-    base64: base64String,
-    field: "some_field", // Adjust this as necessary
-    id: 0,
-    doctype: file.type.split("/")[1],
-    isPublic: true,
-    ext: `.${file.name.split(".").pop()}`,
-    size: file.size,
-    path: "/path/to/image", // Optional, if applicable
-    version: 1,
-    mdf: "", // Optionally calculate the MD5 checksum if required
-    mimType: file.type,
-    creator_ID: 1, // Adjust this as necessary
-  };
-  await changeCompanyImage(imgFile);
-  closeModal('edit_company_picture');
-refreshNuxtData('member')
-  // await getCurrentTeam();
-  // await profileStore.setCompany();
-  // emit('uploadSuccess');
+      const imgFile = {
+        uid: file.lastModified.toString(),
+        name: file.name,
+        base64: base64String,
+        field: "some_field", // Adjust this as necessary
+        id: 0,
+        doctype: file.type.split("/")[1],
+        isPublic: true,
+        ext: `.${file.name.split(".").pop()}`,
+        size: file.size,
+        path: "/path/to/image", // Optional, if applicable
+        version: 1,
+        mdf: "", // Optionally calculate the MD5 checksum if required
+        mimType: file.type,
+        creator_ID: 1, // Adjust this as necessary
+      };
+      
+      await changeCompanyImage(imgFile);
+      closeModal('edit_company_picture');
+      await profileStore.getCurrentTeam();
+      $toast('Company Image updated successfully', { hideIn: 3000 });
 
-$toast('Company Image updated successfully',{hideIn:3000})
+      loadingUpload.value = false;
+    };
 
-loadingUpload.value = false
-
-};
-reader.readAsDataURL(file);
-    }else if(isDeleteAction.value){
- if(acceptedFilesRef.value.length>0){
- isDeleteAction.value = false
-
-  acceptedFilesRef.value = []
- isDeleteAction.value = false
- }else if(profileStore.company.agency_image.trim()) {
-  removeFile()
-closeModal('edit_company_picture');
-
-  $toast('Company Image deleted successfully',{hideIn:3000})
-  
- }
-
+    reader.readAsDataURL(file);
+  } else if (isDeleteAction.value) {
+    // Handle image deletion
+    if (acceptedFilesRef.value.length > 0) {
+      // Cancel delete action if files are present
+      isDeleteAction.value = false;
+      acceptedFilesRef.value = [];
+    } else if (profileStore.company.agency_image.trim()) {
+      // Remove image if one exists
+      removeFile();
+      closeModal('edit_company_picture');
+      $toast('Company Image deleted successfully', { hideIn: 3000 });
     }
-
+  } else if (profileStore.company.agency_image.trim()) {
+    // Handle case where there's no action but an image exists
+    loadingUpload.value = true;
+    closeModal('edit_company_picture');
+    loadingUpload.value = false;
+  }else {
+    // Close modal if no action required
+    closeModal('edit_company_picture');
+  }
 };
+const closeModalcmp = ()=>{
+isDeleteAction.value = false
+
+  closeModal('edit_company_picture');
+}
+
 
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
@@ -128,7 +137,7 @@ onBeforeUnmount(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('edit_company_picture')"
+      @click="closeModalcmp"
     >
       <svg
         class="w-[12px] h-[12px]"

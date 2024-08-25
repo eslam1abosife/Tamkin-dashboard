@@ -25,7 +25,8 @@
     ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] lg:h-[40px] rounded-[10px] text-[12px]
      py-[6px] bg-white dark:bg-transparent
       border-lightGrey dark:border-darkborder md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
-      focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent   disabled:bg-gray-100 disabled:cursor-not-allowed;
+      focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent  
+       disabled:bg-gray-100 disabled:cursor-not-allowed;
       
     &.error_text {
       // @apply text-light; 

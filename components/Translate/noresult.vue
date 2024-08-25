@@ -26,7 +26,7 @@ const changeDropMenu = (menu:any)=>{
 <template>
    <div>
 
-    <div class="flex flex-col items-center space-y-[10px] justify-center mt-[60px] ">
+    <div class="flex flex-col items-center space-y-[10px] justify-center mt-[60px] w-full">
     
         <div>
             <img src="/assets/imgs/translatedocs/no_result.png" class="w-[114px] h-[68px]" alt="">

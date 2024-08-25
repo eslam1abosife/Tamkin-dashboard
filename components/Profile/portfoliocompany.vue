@@ -77,14 +77,26 @@ onMounted(async () => {
 
 const regex = ref(/^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:?#[@!$&'()*+,;=]*)?$/);
 const isValidUrl = (url: string): boolean => {
-  return regex.value.test(url);
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 const openLink = (link: string) => {
-  if (isValidUrl(link)) {
-    window.open(link, '_blank');
+  if (!link.startsWith("http")) {
+    link = `https://${link}`;
   }
-};</script>
+
+  if (isValidUrl(link)) {
+    window.open(link, "_blank");
+  }
+};
+
+
+</script>
 
 <template>
   <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
@@ -98,7 +110,7 @@ const openLink = (link: string) => {
       :disabled="!isValidUrl(platform.link)"
       v-for="(platform, index) in (profileStore.company.social_accounts.length > 0 ? profileStore.company.social_accounts : profileStore.social_platforms)"
       :key="index"
-      @click="openLink(platform.link.startsWith('http') ? platform.link : `https://${platform.link}`)"
+      @click="openLink(platform.link)"
       class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
     >
       <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />

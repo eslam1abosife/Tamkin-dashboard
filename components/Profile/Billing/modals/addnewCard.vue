@@ -59,7 +59,7 @@ const futureDate = (value) => {
 
   return year > currentYear || (year === currentYear && month >= currentMonth);
 };
-const state = reactive({
+let state = reactive({
   firstName: "",
   lastName: "",
   cardNumber: "",
@@ -70,6 +70,7 @@ const state = reactive({
   state: "",
   zip: "",
   country: "",
+  is_primary: false,
 });
 const rules = {
   firstName: { required },
@@ -123,18 +124,18 @@ const submitInviteLoading = ref(false);
 
 
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
+  // console.log(item)
   state.country = item.name
 };
 const { $toast } = useNuxtApp();
 
-const { addNewCard } = useAddNewCard();
+const { addNewCard,response } = useAddNewCard();
 
 const { getCards } = useGetCards();
-
+const invoiceStore = useInvoicesStore()
 const addCard = async ()=>{
 
-  console.log('addCard data',state)
+  // console.log('addCard data',state)
   submitInviteLoading.value = true
   await addNewCard({
         card_number : state.cardNumber.replace(/\s+/g, ''),
@@ -147,18 +148,50 @@ const addCard = async ()=>{
         state       : state.state,
         country     : state.country,
         zip         : state.zip,
-        is_primary  : true
+        is_primary  : state.is_primary
   });
-  getCards();
+  console.log('response',response.value)
 
   closeModal('add_new_card_billing')
+  if (response.value.statusCode == 200){
+    $toast('Card Added successfully', { hideIn: 3000 });
+  }else{
+    $toast(`Oops!${response.value.message}`, {
+      theme: 'colored',
+      type: 'error',
+      autoClose: 5000,
+      dangerouslyHTMLString: true
+    });
+  }
+  invoiceStore.loadCards = true
 
-  $toast('Card Added successfully', { hideIn: 3000 });
+  await getCards();
+
+  invoiceStore.loadCards = false
 
   submitInviteLoading.value = false
+   state.cardNumber= ""
+   state.firstName = ""
+   state.lastName = ""
+   state.cvv = ""
+   state.expireDate = ""
+   state.address = ""
+   state.city = ""
+   state.state = ""
+   state.country = ""
+   state.zip = ""
+   state.is_primary = false
+v$.value.$reset()
+}
+const closeModalCard = ()=>{
 
+
+if(process.client){
+  window.$chatwoot.toggleBubbleVisibility('show')
+  closeModal('add_new_card_billing')
 }
 
+}
 </script>
 
 <template>
@@ -169,7 +202,7 @@ const addCard = async ()=>{
 
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModal('add_new_card_billing')">
+   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModalCard">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -652,7 +685,7 @@ const addCard = async ()=>{
           <div class=" px-[20px]">
             <label for="remember_me"
             class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
-            <input type="checkbox" :checked="billingStore.cards?.length === 0"
+            <input  v-model="state.is_primary" type="checkbox" :checked="billingStore.cards?.length === 0"
               class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
@@ -666,7 +699,7 @@ const addCard = async ()=>{
               Cancel
                       </button>
 
-        <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading">
+        <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading || v$.$invalid">
           <div class="flex items-center justify-center">
             <div :class="submitInviteLoading ? 'mr-2':''">
               Save

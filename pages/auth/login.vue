@@ -41,7 +41,7 @@ const { loginUser, loading: loginLoading, user } = useLogin(state);
 const router = useRouter();
 const errorMsg = ref("");
 const loginSuccessfully = ref(false);
-
+const profileStore = useProfileStore()
 const doLogin = async () => {
   errorMsg.value = null;
   firebaseErrorMsg.value = null;
@@ -51,6 +51,8 @@ const doLogin = async () => {
     setTimeout(() => {
       loginSuccessfully.value = false;
     }, 2000);
+    await profileStore.fetchMember()
+
     router.push("/overview");
   } catch (error) {
     const errMsg =

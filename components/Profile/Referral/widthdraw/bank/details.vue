@@ -1,28 +1,37 @@
 <script lang="ts" setup>
+import { ref, toRefs } from 'vue';
 import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
-const state = reactive({
-  bankName: "",
-  acc_holder: "",
-  account_number: "",
-  iban: "",
-  bic: "",
-  account_curreny: "",
-});
+import { required } from "@vuelidate/validators";
+
+// Initialize store
+const withdrawStore = useWithdrawStore();
+
+// Ensure bankDetails is initialized
+if (!withdrawStore.bankDetails) {
+  withdrawStore.bankDetails = {
+    account_currency: '',
+    account_holder: '',
+    account_number: '',
+    bank_name: '',
+    bic: '',
+    iban: '',
+  };
+}
+
+const state = storeToRefs(withdrawStore);
+
+// Validation rules
 const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
+  bank_name: { required },
+  account_holder: { required },
+  account_number: { required },
+  iban: { required },
+  bic: { required },
+  account_currency: { required },
 };
 
-const v$ = useVuelidate(rules, state);
-
-
-
+const v$ = useVuelidate(rules, state.bankDetails);
 
 const {
   isOpen,
@@ -33,11 +42,35 @@ const {
   navigateTo,
 } = useModalManager();
 
-
 const checked = ref('');
+const loadingtowithdraw = ref(false);
 
+const withdraw = async () => {
+  loadingtowithdraw.value = true;
+  setTimeout(() => {
+    navigateTo('details_bank_withdraw', 'referral', 'bank_account_withdraw');
+    loadingtowithdraw.value = false;
+    v$.value.$reset()
+  }, 1500);
+};
+
+const closeAndReset = () => {
+  withdrawStore.selectedPaymentMethod = "";
+  withdrawStore.setBankDetails({
+    bank_name: '',
+    account_holder: '',
+    account_number: '',
+    iban: '',
+    bic: '',
+    account_currency: '',
+  });
+  closeModal('details_bank_withdraw');
+  v$.value.$reset()
+};
 
 </script>
+
+
 
 <template>
   <div  v-if="isOpen('details_bank_withdraw')"
@@ -45,8 +78,7 @@ const checked = ref('');
   ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <!-- isOpen('withdraw_paymentmethods') -->
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('details_bank_withdraw')">
+  <div  style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndReset">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -72,22 +104,22 @@ const checked = ref('');
 
     <div class="space-y-[26px] w-full mt-[32px]  pb-[30px]">
         <div class="w-full relative">
-          <input type="text" placeholder="{{$t('full name')}}" id="bankName" class="input_floating_label !top-[12px] peer  !h-[50px]"
-            v-model="v$.bankName.$model" :class="{
+          <input type="text" placeholder="{{$t('full name')}}" id="bank_name" class="input_floating_label !top-[12px] peer  !h-[50px]"
+            v-model="v$.bank_name.$model" :class="{
         input_error:
-          (v$.bankName.$error && v$.bankName.required.$invalid),
-        input_success: !v$.bankName.$error && !v$.bankName.$invalid,
+          (v$.bank_name.$error && v$.bank_name.required.$invalid),
+        input_success: !v$.bank_name.$error && !v$.bank_name.$invalid,
       }" />
-          <label for="bankName" class="floating_label !top-[12px]" :class="[
-        (v$.bankName.$error && v$.bankName.required.$invalid)
+          <label for="bank_name" class="floating_label !top-[12px]" :class="[
+        (v$.bank_name.$error && v$.bank_name.required.$invalid)
           ? '!text-error'
           : '',
       ]">
             {{ $t("Bank Name") }}*
           </label>
-          <div class="w-full lg:w-4/6 " v-if="(v$.bankName.$error && v$.bankName.required.$invalid)">
+          <div class="w-full lg:w-4/6 " v-if="(v$.bank_name.$error && v$.bank_name.required.$invalid)">
             <p class="error_message">
-              <span v-if="v$.bankName.$error && v$.bankName.required.$invalid">{{ $t("Bank name is required")
+              <span v-if="v$.bank_name.$error && v$.bank_name.required.$invalid">{{ $t("Bank name is required")
                 }}</span>
 
             </p>
@@ -95,22 +127,22 @@ const checked = ref('');
         </div>
 
         <div class="w-full relative">
-            <input type="text" placeholder="" id="acc_holder" class="input_floating_label !top-[12px] peer  !h-[50px]"
-              v-model="v$.acc_holder.$model" :class="{
+            <input type="text" placeholder="" id="account_holder" class="input_floating_label !top-[12px] peer  !h-[50px]"
+              v-model="v$.account_holder.$model" :class="{
           input_error:
-            (v$.acc_holder.$error && v$.acc_holder.required.$invalid),
-          input_success: !v$.acc_holder.$error && !v$.acc_holder.$invalid,
+            (v$.account_holder.$error && v$.account_holder.required.$invalid),
+          input_success: !v$.account_holder.$error && !v$.account_holder.$invalid,
         }" />
-            <label for="acc_holder" class="floating_label !top-[12px]" :class="[
-          (v$.bankName.$error && v$.bankName.required.$invalid)
+            <label for="account_holder" class="floating_label !top-[12px]" :class="[
+          (v$.account_holder.$error && v$.account_holder.required.$invalid)
             ? '!text-error'
             : '',
         ]">
               {{ $t("Account holder") }}*
             </label>
-            <div class="w-full lg:w-4/6 " v-if="(v$.acc_holder.$error && v$.acc_holder.required.$invalid)">
+            <div class="w-full lg:w-4/6 " v-if="(v$.account_holder.$error && v$.account_holder.required.$invalid)">
               <p class="error_message">
-                <span v-if="v$.acc_holder.$error && v$.acc_holder.required.$invalid">{{ $t("Account Holder Name is required")
+                <span v-if="v$.account_holder.$error && v$.account_holder.required.$invalid">{{ $t("Account Holder Name is required")
                   }}</span>
   
               </p>
@@ -189,22 +221,22 @@ const checked = ref('');
                 </div>
               </div>
               <div class="w-full  relative">
-                <input type="text" placeholder="" id="account_curreny" class="input_floating_label !top-[12px] peer  !h-[50px] w-full !h-[50px]"
-                  v-model="v$.account_curreny.$model" :class="{
+                <input type="text" placeholder="" id="account_currency" class="input_floating_label !top-[12px] peer  !h-[50px] w-full !h-[50px]"
+                  v-model="v$.account_currency.$model" :class="{
               input_error:
-                (v$.account_curreny.$error && v$.account_curreny.required.$invalid),
-              input_success: !v$.account_curreny.$error && !v$.account_curreny.$invalid,
+                (v$.account_currency.$error && v$.account_currency.required.$invalid),
+              input_success: !v$.account_currency.$error && !v$.account_currency.$invalid,
             }" />
-                <label for="account_curreny" class="floating_label !top-[12px]" :class="[
-              (v$.account_curreny.$error && v$.account_curreny.required.$invalid)
+                <label for="account_currency" class="floating_label !top-[12px]" :class="[
+              (v$.account_currency.$error && v$.account_currency.required.$invalid)
                 ? '!text-error'
                 : '',
             ]">
                   {{ $t("Account Currency") }}*
                 </label>
-                <div class="w-full lg:w-4/6 " v-if="(v$.account_curreny.$error && v$.account_curreny.required.$invalid)">
+                <div class="w-full lg:w-4/6 " v-if="(v$.account_currency.$error && v$.account_currency.required.$invalid)">
                   <p class="error_message">
-                    <span v-if="v$.account_curreny.$error && v$.account_curreny.required.$invalid">{{ $t("Account Currency is required")
+                    <span v-if="v$.account_currency.$error && v$.account_currency.required.$invalid">{{ $t("Account Currency is required")
                       }}</span>
       
                   </p>
@@ -216,8 +248,17 @@ const checked = ref('');
   
 
        <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin"  @click="navigateTo('details_bank_withdraw','referral','bank_account_withdraw')">
-          Continue
+        <button class="btn-dashboard hover_tamkin"  @click="withdraw" :disabled="v$.$invalid || loadingtowithdraw">
+          <div class="flex items-center justify-center space-x-[6px]">
+            <div :class="loadingtowithdraw ? 'mr-2':''">
+           Continue
+            </div>
+       
+             <svg  v-if="loadingtowithdraw" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
       </button>
       </div>
 </div>

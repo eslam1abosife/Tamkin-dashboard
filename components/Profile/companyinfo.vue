@@ -67,7 +67,7 @@
         {{ profileStore.company.company_specialization }}</p>
    
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
-        Specialization not Added
+      Specialization not Added
          </p>
     </div>
       <div>

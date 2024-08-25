@@ -3,25 +3,8 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import ethIcon from '/assets/imgs/crypto_methods_icons/1.svg'
+const withdrawStore = useWithdrawStore();
 
-const state = reactive({
-  bankName: "",
-  acc_holder: "",
-  account_number: "",
-  iban: "",
-  bic: "",
-  account_curreny: "",
-});
-const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
-};
-
-const v$ = useVuelidate(rules, state);
 
 
 
@@ -35,11 +18,14 @@ const {
   navigateTo,
 } = useModalManager();
 
-
+const withdrawloading =ref(false)
 const checked = ref('');
 
-const amount = ref('');
+const amount = ref('$0.00');
 
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
+
+// Format amount function
 const formatAmount = (event) => {
   let value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
 
@@ -48,12 +34,12 @@ const formatAmount = (event) => {
     return;
   }
 
-  // Limit the total number of digits to 5
-  if (value.length > 5) {
-    value = value.slice(0, 5);
+  // Limit the total number of digits to 7 (5 before decimal, 2 after)
+  if (value.length > 7) {
+    value = value.slice(0, 7);
   }
 
-  const integerPart = value.slice(0, -2) || '0'; // First 1-3 digits as integer part
+  const integerPart = value.slice(0, -2) || '0'; // First part as integer part
   const decimalPart = value.slice(-2); // Last 2 digits as decimal part
 
   // Format the integer part with commas
@@ -61,9 +47,51 @@ const formatAmount = (event) => {
 
   // Reconstruct the formatted value
   const formattedValue = `${formattedInteger}.${decimalPart}`;
-  amount.value = `$${formattedValue}`;
+
+  // Ensure the formatted value does not exceed currentAmount
+  const formattedNumericValue = parseFloat(formattedValue.replace('$', '').replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+
+  if (formattedNumericValue > currentAmountValue) {
+    amount.value = `$${currentAmountValue.toFixed(2)}`;
+    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  } else {
+    amount.value = `$${formattedValue}`;
+    withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  }
 };
 
+// Watch amount changes to update withdrawAmount in store
+watch(amount, (newValue) => {
+  const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
+  withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
+});
+
+// Computed property to check if withdraw button should be disabled
+const isWithdrawDisabled = computed(() => {
+  // Extract numeric value from the formatted amount
+  const numericValue = parseFloat(amount.value.replace(/[^\d.]/g, ''));
+
+  // Check if the numeric value is less than the limit
+  return numericValue < Number(withdrawStore.limitofWithdraw);
+});
+
+const completeWithDraw = async () => {
+  if (isWithdrawDisabled.value) return; // Prevent withdrawal if conditions are not met
+  withdrawloading.value = true;
+  await withdrawStore.withdrawcrypto();
+  navigateTo('crypto_step_2_e', 'referral', 'crypto_success_referral');
+  withdrawloading.value = false;
+  amount.value = '$0.00'
+};
+
+const closeAndReset = ()=>{
+  withdrawStore.selectedPaymentMethod = ""
+  withdrawStore.cryptoDetails.wallet = ""
+  withdrawStore.selectedCrypto = ""
+  amount.value = "$0.00"
+  closeModal('crypto_step_2_e')
+}
 
 </script>
 
@@ -74,7 +102,7 @@ const formatAmount = (event) => {
     style="left: 50%; transform: translate(-50%, 0)"
   >
 
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('crypto_step_2_e')">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndReset">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -101,21 +129,21 @@ const formatAmount = (event) => {
 
 <div class="flex items-center justify-start gap-4">
     <div>
-        <img :src="ethIcon" class="w-[39px] h-[39px]" alt="">
+        <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="w-[39px] h-[39px]" alt="">
     </div>
     <div class="flex items-start justify-start flex-col">
 <div class="text-[#021328] text-[14px] font-[500] ">
-Tamkin  
+{{withdrawStore.selectedCrypto.title}}  
 </div>
 
 <div class="text-[#021328] text-[12px]  font-[500] ">
-KA02928765333
+{{withdrawStore.selectedCrypto.network}}
 </div>
     </div>
 </div>
 <div class="flex items-start justify-start flex-col">
     <div class="text-[#021328] text-[14px] font-[500] ">
-        0x2d5jdska9erptjfew7364432
+        {{withdrawStore.cryptoDetails.wallet}}
     </div>
     
 
@@ -146,14 +174,23 @@ KA02928765333
 
   <div class="text-center text-[14px] font-[600] text-darkGrey">
 
-    Available balance  <span class="!font-[500]">$ 849</span>
+    Available balance  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
   </div>
   
   
 
        <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin"  @click="navigateTo('crypto_step_2_e','referral','crypto_success_referral')">
-         Withdraw
+        <button class="btn-dashboard hover_tamkin"  @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
+          <div class="flex items-center justify-center space-x-[6px]">
+            <div :class="withdrawloading ? 'mr-2':''">
+           Withdraw
+            </div>
+       
+             <svg  v-if="withdrawloading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+           </div>
       </button>
       </div>
 </div>

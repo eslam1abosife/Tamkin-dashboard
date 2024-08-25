@@ -16,7 +16,7 @@ import SAUDIFLAG from "/assets/imgs/flags/Vector.svg";
 import { useModalStore } from "@/stores/modal";
 const {$toast} = useNuxtApp()
 const billingStore = useBillingStore();
-
+const loadingupdate = ref(false)
 const props = defineProps({
   showModal: Boolean,
 });
@@ -208,11 +208,13 @@ watchEffect(() => {
 
   const { updateCard:update, savedCards } = useUpdateCard();
   const { getCards,updatedCards } = useGetCards();
-  const enableLoading = ref(false);
+const invoiceStore = useInvoicesStore()
+
+const enableLoading = ref(false);
 
   const updateCard =async ()=>{
-
-    enableLoading.value = true;
+    loadingupdate.value = true
+    // console.log('update',dataModal.value)
     await update({
       name            : billingStore.card.name,
       is_primary      : state.is_primary,
@@ -220,9 +222,13 @@ watchEffect(() => {
     });
     closeModal('edit_card_billing_profile')
     $toast('Card Updated Successfully', { hideIn: 3000});
-    enableLoading.value = false;
-    getCards();
 
+    invoiceStore.loadCards = true
+
+    await getCards();
+    invoiceStore.loadCards = false
+
+    loadingupdate.value = false
   }
 
   const handelCloseModal =async ()=>{
@@ -230,7 +236,7 @@ watchEffect(() => {
     closeModal('edit_card_billing_profile')
     // billingStore.card.card_holder_name = null
 
-    console.log('billingStore.card.card_holder_name',billingStore.card)
+    console.log('billingStore.card Data',billingStore.card)
   }
 
 
@@ -558,7 +564,7 @@ Edit your saved card details
 
 
   <div class=" ml-auto">
-    <button :disabled="!billingStore.card.deletion_allowed" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    <button :disabled="!billingStore.card.is_active" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
 
 
@@ -580,9 +586,21 @@ Edit your saved card details
         <button class="btn_bordered_dashboard" @click="handelCloseModal">
             Cancel
            </button>
-        <button :disabled="enableLoading" class="btn-dashboard hover_tamkin w-[120px]" @click="updateCard"
+        <button
+          class="btn-dashboard hover_tamkin w-[120px]"
+       @click="updateCard"
+       :disabled="loadingupdate"
         >
-        Submit
+        <div class="flex items-center justify-center">
+          <div :class="loadingupdate ? 'mr-2':''">
+            Submit
+          </div>
+
+          <svg  v-if="loadingupdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
         </button>
 
       </div>

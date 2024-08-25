@@ -28,23 +28,11 @@ const props = defineProps({
   showModal:Boolean
 })
 const checked = ref('');
-const permissions = ref( [ 
-    { "id": "1", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-    { "id": "2", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-    { "id": "3", "name": "Tamkin","image":'https://via.placeholder.com/24'},
-      ])
 
-//       const checkAll = computed({
-//   get() {
-//     return permissions.value && checked.value.length === permissions.value.length;
-//   },
-//   set(value) {
-//     checked.value = value ? permissions.value.map(lang => lang.id) : [];
-//   }
-// });
+const withdrawStore = useWithdrawStore()
 
 const isSearchfilled = ref(false);
-const selectedPaymentMethod = ref("");
+// const withdrawStore.selectedPaymentMethod = ref("");
 
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -52,43 +40,61 @@ watch(search, (ov, nv) => {
     ? (isSearchfilled.value = true)
     : (isSearchfilled.value = false);
 });
-const clearInput = () => {
-  search.value = "";
-};
 
-const filteredApps = computed(() => {
-  return apps.value.filter(ele => ele.title.toString().toLowerCase().includes(search.value.toString().toLowerCase().trim()))
-});
+
+
 const paymentMethods=ref([])
 onMounted(async () => {
-  console.log("PaymentMethods")
-  console.log("PaymentMethods")
+
   const result = await getPaymentTypes();
   paymentMethods.value =result.data;
 
-  console.log(paymentMethods.value)
+  // console.log(paymentMethods.value)
   await getApps();
  
   if(defaultApp.value) {
-    console.log(defaultApp.value.name);
-    console.log(checked.value);
+    // console.log(defaultApp.value.name);
+    // console.log(checked.value);
     checked.value = defaultApp.value.name;
   }
 });
-
+const loadingPayment = ref(false)
 
 const goToPaymentMethod = (method:any)=>{
-if(selectedPaymentMethod.value === 'by_bank'){
-return navigateTo('withdraw_paymentmethods','referrals','details_bank_withdraw')
-}
-if(selectedPaymentMethod.value === 'by_paypal'){
-  return navigateTo('withdraw_paymentmethods','referrals','paypal_withdraw_step1')
-  
-}
-if(selectedPaymentMethod.value === 'by_crypto'){
-  return navigateTo('withdraw_paymentmethods','referrals','crypto_step1')
+if(withdrawStore.selectedPaymentMethod.title === 'Bank Account'){
+  loadingPayment.value = true
+  setTimeout(()=>{
+    withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name
+ navigateTo('withdraw_paymentmethods','referrals','details_bank_withdraw')
+ loadingPayment.value = false
+  },1500)
+
 
 }
+if(withdrawStore.selectedPaymentMethod.title === 'PayPal'){
+  loadingPayment.value = true
+  setTimeout(()=>{
+    withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name
+    navigateTo('withdraw_paymentmethods','referrals','paypal_withdraw_step1')
+ loadingPayment.value = false
+  },1500)
+  
+}
+if(withdrawStore.selectedPaymentMethod.title === 'Crypto currency'){
+  loadingPayment.value = true
+  setTimeout(()=>{
+    withdrawStore.paymentMethodName = withdrawStore.selectedPaymentMethod.name
+     navigateTo('withdraw_paymentmethods','referrals','crypto_step1')
+
+ loadingPayment.value = false
+  },1500)
+
+}
+}
+
+const closeModalAndresetPaymentMethods = ()=>{
+  withdrawStore.selectedPaymentMethod = ""
+  closeModal('withdraw_paymentmethods')
 }
 </script>
 
@@ -99,7 +105,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <!-- isOpen('withdraw_paymentmethods') -->
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('withdraw_paymentmethods')">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModalAndresetPaymentMethods">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -125,8 +131,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
     <div class="flex flex-col items-start justify-center space-y-[12px] mt-[30px] w-full ">
         <!-- <div class="w-full">
             <div 
-            @click="selectedPaymentMethod = 'by_bank'"
-            :class="[selectedPaymentMethod == 'by_bank' ? 'custom-border-tamkin' : 'border-[1px] ']"
+            @click="withdrawStore.selectedPaymentMethod = 'by_bank'"
+            :class="[withdrawStore.selectedPaymentMethod == 'by_bank' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary
             flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -141,8 +147,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                       name="radio"
                       class="hidden"
                       value="by_card"
-                    v-model="selectedPaymentMethod"
-                    :checked="selectedPaymentMethod === 'by_bank'"
+                    v-model="withdrawStore.selectedPaymentMethod"
+                    :checked="withdrawStore.selectedPaymentMethod === 'by_bank'"
     
                     />
                     <label for="radio5" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
@@ -157,8 +163,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
      
         <div class=" w-full ">
             <div 
-            @click="selectedPaymentMethod = 'by_crypto'"
-            :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
+            @click="withdrawStore.selectedPaymentMethod = 'by_crypto'"
+            :class="[withdrawStore.selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -172,8 +178,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                       name="radio"
                       class="hidden"
                       value="by_crypto"
-                    v-model="selectedPaymentMethod"
-                    :checked="selectedPaymentMethod === 'by_crypto'"
+                    v-model="withdrawStore.selectedPaymentMethod"
+                    :checked="withdrawStore.selectedPaymentMethod === 'by_crypto'"
     
                     />
                     <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
@@ -187,8 +193,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         </div>
         <div class=" w-full ">
             <div 
-            @click="selectedPaymentMethod = 'by_paypal'"
-            :class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']"
+            @click="withdrawStore.selectedPaymentMethod = 'by_paypal'"
+            :class="[withdrawStore.selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -202,8 +208,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                       name="radio"
                       class="hidden"
                       value="by_paypal"
-                    v-model="selectedPaymentMethod"
-                    :checked="selectedPaymentMethod === 'by_paypal'"
+                    v-model="withdrawStore.selectedPaymentMethod"
+                    :checked="withdrawStore.selectedPaymentMethod === 'by_paypal'"
     
                     />
                     <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
@@ -219,8 +225,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
         <template v-for="method in paymentMethods" :key="method.name">
           <div class=" w-full ">
             <div 
-            @click="selectedPaymentMethod = method.title"
-            :class="[selectedPaymentMethod == method.title ? 'custom-border-tamkin' : 'border-[1px] ']"
+            @click="withdrawStore.selectedPaymentMethod = method"
+            :class="[withdrawStore.selectedPaymentMethod == method ? 'custom-border-tamkin' : 'border-[1px] ']"
             class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -234,8 +240,8 @@ if(selectedPaymentMethod.value === 'by_crypto'){
                       name="radio"
                       class="hidden"
                       :value="method.title"
-                    v-model="selectedPaymentMethod"
-                    :checked="selectedPaymentMethod === method.title"
+                    v-model="withdrawStore.selectedPaymentMethod"
+                    :checked="withdrawStore.selectedPaymentMethod === method"
     
                     />
                     <label :for="'radio_'+method.title" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
@@ -252,8 +258,18 @@ if(selectedPaymentMethod.value === 'by_crypto'){
        </div>
 
        <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" :disabled="!selectedPaymentMethod" @click="goToPaymentMethod(selectedPaymentMethod)">
-          Continue 
+        <button class="btn-dashboard hover_tamkin" :disabled="!withdrawStore.selectedPaymentMethod || loadingPayment"
+         @click="goToPaymentMethod(withdrawStore.selectedPaymentMethod)">
+         <div class="flex items-center justify-center space-x-[6px]">
+          <div :class="loadingPayment ? 'mr-2':''">
+         Continue
+          </div>
+     
+           <svg  v-if="loadingPayment" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+         </div> 
       </button>
       </div>
 </div>

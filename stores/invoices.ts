@@ -11,7 +11,8 @@ export const useInvoicesStore = defineStore('invoices', {
     state: () => ({
         invoice:{},
         invoices:[],
-        pdfLink :null
+        pdfLink :null,
+        loadCards:false
       }),
 
 

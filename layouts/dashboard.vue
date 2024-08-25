@@ -22,16 +22,15 @@ const { getInvestor, loading: lod } = useGetInvestor();
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
-const { data: member, pending, error } = await useAsyncData('member', async () => {
-  await Promise.all([
-    profileStore.fetchMember(),
-    profileStore.getCurrentTeam(),
-   getInvestor()
+// const { data: member, pending, error } = await useAsyncData('member', async () => {
+//   await Promise.all([
 
-  ]);
+   
 
-  return true
-});
+//   ]);
+
+//   return true
+// });
 // profileStore.member = member.value
 
 onMounted(() => {
@@ -407,9 +406,7 @@ onMounted(() => {
     <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')"/>
     <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')"/>
 
-    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
-                   sub-title="Are you sure you want to delete that team member ?" confirm-btn-type="delete"
-                   @control-delete="emitEvent('deleteTeamMember')" @control-cancel="closeModal('deleteTeamMember')"/>
+
 
     <ModalsConfirm :show-modal="true" v-if="isOpen('deleteApp')" title="Delete That App"
                    sub-title="Are you sure you want to delete that app ?" confirm-btn-type="delete"

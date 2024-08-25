@@ -18,7 +18,7 @@ const {
   getData,
   setData,
 } = useModalManager();
-
+const updatePermissonsLoading = ref(false)
 const { getPermissions, permissions, loading: getAllPermissionsLoading } = useGetPermissions();
 const { userPermissions, getUserPermissions, loading: getUserPermissionsLoading } = useGetUserPermissions();
 
@@ -60,6 +60,7 @@ const emit = defineEmits(['onSuccess']);
 const error_message=ref({error:''})
 const savePermission = async () => {
   try {  
+    updatePermissonsLoading.value = true
     const user = JSON.parse(localStorage.getItem('user'));
 
     const state=getData();
@@ -73,6 +74,9 @@ const savePermission = async () => {
     emit('onSuccess', 'User added successfully!');
 
     closeModal('userpermissions');
+
+    updatePermissonsLoading.value = false
+
   } catch (err:any) {
     errMsg.value = err;
     console.error(err);
@@ -87,7 +91,8 @@ const savePermission = async () => {
 
 <template>
   <div v-if="isOpen('userpermissions')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[550px] w-10/12 max-h-[80vh] "
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
+    lg:h-[550px] w-10/12 h-full "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('userpermissions')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -97,7 +102,7 @@ const savePermission = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto h-full max-h-[100%] overflow-y-scroll">
+    <div class="container mx-auto h-full max-h-[100%]">
       <h1
         class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         Permissions
@@ -135,9 +140,40 @@ const savePermission = async () => {
         </div>
 
       </div>
+      <template v-if="getAllPermissionsLoading || getUserPermissionsLoading" >
+     <div class="mt-[40px]">
+         <!-- Placeholder Loading -->
+         <div class="animate-pulse">
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+          <div class="flex items-center space-x-4 py-2">
+            <div class="w-4 h-4 bg-gray-300 rounded"></div>
+            <div class="w-full h-[21px] bg-gray-300 rounded"></div>
+          </div>
+        </div>
+     </div>
 
+      </template>
 
-      <div v-loading="getAllPermissionsLoading || getUserPermissionsLoading" class="min-h-[150px]">
+      <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading" class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[150px] overflow-y-scroll">
         <table v-if="permissions && permissions.length > 0"
           class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
           <thead>
@@ -188,14 +224,14 @@ const savePermission = async () => {
         <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('userpermissions')">
           Cancel
         </button>
-        <button :disabled="checked.length === 0 || updatePermssionLoading"
+        <button :disabled="checked.length === 0 || updatePermissonsLoading"
           class=" btn-dashboard hover_tamkin text-center w-1/6" @click="savePermission()">
           <div class="flex items-center justify-center">
-            <div :class="updatePermssionLoading ? 'mr-2':''">
-            Save
+            <div :class="updatePermissonsLoading ? 'mr-2':''">
+              Save
             </div>
        
-             <svg  v-if="updatePermssionLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+             <svg  v-if="updatePermissonsLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>

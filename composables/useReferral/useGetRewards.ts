@@ -7,19 +7,17 @@ export default function() {
   const { useApiInstance } = useApi();
   const { api , loading } = useApiInstance();
 //   const { $toast } = useNuxtApp();
-const userStore = useUserStore()
 
-  const getAllReferrals = async (agency) => {
+const profileStore = useProfileStore()
+  const getAllRewards = async () => {
     try {
-      const res = await api.post('/Sales Invoice/Get',{
-        "where":{
-          sales_partner:userStore.user.user_id,
+        const res = await api.post('/Tamkin Withdraw Requests/Get',{
+            "where":{
+              "agency":profileStore.company.name
 
-             status: "Paid"
-      },
-      "PgSize":3000
-      });
-
+            },
+          "PgSize":3000
+          });
     return{
         data: res.data.data
   
@@ -30,7 +28,7 @@ const userStore = useUserStore()
   }
 
   return {
-    getAllReferrals,
+    getAllRewards,
     loading
   }
 }

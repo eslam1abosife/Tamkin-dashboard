@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-import { useConfirmForgetPassword } from "@/composables/useAuth";
-import { useSetPasswordToNewMember } from "@/composables/useAuth";
+import { useSetPasswordToNewMember,useConfirmForgetPassword } from "@/composables/useAuth";
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
 import { useRoute } from 'vue-router';

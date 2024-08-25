@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import {  useGetReferralLink,useGetAllReferrals} from '~/composables/useReferral';
+import {  useGetReferralLink,useGetAllReferrals,useGetRewards} from '~/composables/useReferral';
 import { useClipboard } from '@vueuse/core'
 
 const {
@@ -38,27 +38,28 @@ const rules = {
   Inquiry:{required}
 
 
+
 };
-const getStatus=(method:number)=> {
-      switch (method) {
-        case 0:
-          return 'draft';
-        case 1:
-          return 'success';
-        case 2:
-          return 'rejected';
-        
-      }
-    };
+
+const changeTab = (tab:any)=>{
+  currentTab.value  =tab
+  dateF.value = null
+}
+
     const getStatusStyle=(method:number)=> {
       switch (method) {
-        case 0:
+        case 'Paid':
+        return 'bg-tamkin';
+        case 'Pending':
           return 'bg-orange-400';
-        case 1:
+        case 'Success':
           return 'bg-tamkin';
-        case 2:
-          return 'bg-red';
-        
+        case 'rejected':
+          return 'bg-red-600';
+        case 'Completed' :
+          return 'bg-tamkin'
+                  case 'Transfered' :
+          return 'bg-tamkin'
       }
     };
 const v$ = useVuelidate(rules, state);
@@ -76,6 +77,7 @@ const alertFn = () => {
     dateOpen.value = true;
   }
 };
+const withdrawStore = useWithdrawStore()
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -90,10 +92,16 @@ const format = (date) => {
   }
 };
 
-const referralLink=ref('');
+const source=ref('');
 const allReferrals=ref([])
 
-onMounted(async () => {
+const {$toast} = useNuxtApp()
+onMounted(async ()=>{
+  await withdrawStore.getAllrewards()
+    await withdrawStore.gettotalAmount()
+    await withdrawStore.getcurrentLimit()
+    await withdrawStore.getcurrentRate()
+
   if(process.client){
     const user = JSON.parse(localStorage.getItem('user'));
   
@@ -101,16 +109,90 @@ onMounted(async () => {
     const allReferralsResult =await  getAllReferrals(user.agency);
 
 
-        referralLink.value=resultLink.data;
+        source.value=resultLink.data;
         allReferrals.value=allReferralsResult.data;
-      console.log(allReferrals.value)
-      loadingBlock.value=false
+      // console.log(allReferrals.value)
   
   }
+  loadingBlock.value=false
+
 
 })
-const { text, copy, copied, isSupported } = useClipboard({ referralLink })
 
+const scrollToSection = (sectionId) =>{
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+const { text, copy, copied, isSupported } = useClipboard({ source })
+const formatDateOfReward = (dateof) => {
+  const date = new Date(dateof); // Convert to Date object
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  }).format(date);
+  
+  return formattedDate;
+}
+
+const stripTime = (date) => {
+  // Return a date with the time set to midnight
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+const filteredReferrals = computed(() => {
+  // If no filter date is selected, show all referrals
+  if (!dateF.value || dateF.value.length < 2) {
+    return allReferrals.value;
+  }
+
+  // Extract start and end dates from the array
+  const [startDateStr, endDateStr] = dateF.value;
+  const startDate = stripTime(new Date(startDateStr));
+  const endDate = stripTime(new Date(endDateStr));
+
+  // Filter referrals based on the selected date range
+  return allReferrals.value.filter((referral) => {
+    const referralDate = stripTime(new Date(referral.creation));
+    return referralDate >= startDate && referralDate <= endDate;
+  });
+});
+
+
+
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount)<  Number(withdrawStore.limitofWithdraw) );
+const copyLink = ()=>{
+  copy(source.value)
+
+$toast('Copied to Clipboard',{hideIn:3000})
+}
+
+
+const filteredWithdraw = computed(() => {
+  // If no filter date is selected, show all referrals
+  if (!dateF.value || dateF.value.length < 2) {
+    return withdrawStore.rewards;
+  }
+
+  // Extract start and end dates from the array
+  const [startDateStr, endDateStr] = dateF.value;
+  const startDate = stripTime(new Date(startDateStr));
+  const endDate = stripTime(new Date(endDateStr));
+
+  // Filter referrals based on the selected date range
+  return withdrawStore.rewards.filter((referral) => {
+    const referralDate = stripTime(new Date(referral.creation));
+    return referralDate >= startDate && referralDate <= endDate;
+  });
+});
+const isCurrentRateEmpty = computed(() => {
+  return (
+   withdrawStore.currentRate === '' || 
+    (typeof withdrawStore.currentRate === 'object' && Object.keys(withdrawStore.currentRate).length === 0)
+  );
+});
 </script>
 
 
@@ -129,10 +211,10 @@ const { text, copy, copied, isSupported } = useClipboard({ referralLink })
      <div class="flex items-center justify-center flex-col" >
         <div class="text-[18px] font-[600] leading-[28px] text-black text-center">
             <div class="bg-gradient-to-r from-[#2EBEB3] via-[#7082FF]  to-[#F86CD9] text-transparent bg-clip-text">
-            Refer a Friend, Earn Rewards
+            Refer a Client, Earn Rewards
            </div>
 <div class="!font-[500]">
-  Share your unique referral link and earn rewards for every friend who joins.
+  Share your unique referral link and earn rewards for every Client who joins.
 </div>
         </div>
 
@@ -143,7 +225,7 @@ const { text, copy, copied, isSupported } = useClipboard({ referralLink })
     How It Works
 </div>
 
-<div class="flex items-center justify-between w-full mt-[36px]">
+<div class="flex items-center justify-between w-full mt-[36px]" > 
 
     <div class="flex flex-col items-center justify-center w-full">
         <div>
@@ -151,7 +233,7 @@ const { text, copy, copied, isSupported } = useClipboard({ referralLink })
         </div>
         <div class="text-[12px] font-[500] leading-[16px] text-black text-center mt-[10px]">
             Share Your Link<br>
-Send your unique referral link to friends
+Send your unique referral link to Clients
         </div>
     </div>
 
@@ -160,16 +242,16 @@ Send your unique referral link to friends
             <img src="/imgs/step_2_referral.png" class="w-[56px] h-[49px]" alt="">
         </div>
         <div class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
-            Friend Signs Up
+            Client Signs Up
            <br>
-           Your friend signs up using your link        </div>
+           Your Client signs up using your link        </div>
     </div>
 
     <div class="flex flex-col items-center justify-center w-full">
         <div>
             <img src="/imgs/step_3_referral.png" class="w-[56px] h-[49px]" alt="">
         </div>
-        <div class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
+        <div  id="refer_clients" class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
             Earn Rewards<br>
             Receive your rewards when they join  </div>
     </div>
@@ -177,81 +259,92 @@ Send your unique referral link to friends
         </div>
      </div>
 
-     <div class="flex items-center justify-center flex-col" >
+     <div class="flex items-center justify-center flex-col"  >
       
 
+      <div class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px] rounded-[10px]">
 
-        <div class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px]  rounded-[10px] ">
-
-<div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[40px] ">
-<div class="flex items-center justify-between w-full p-[16px] relative">
-<div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-  Balance
-</div>
-
-<div class="absolute ipad-max:right-[-50px] right-[16px]">
-  <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
-</div>
-</div>
-<div class="flex flex-col items-center justify-center space-y-[10px]">
-  <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
-    $ 850
-  </div>
-<div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
-  available
-</div>
-  <button class="btn-dashboard hover_tamkin w-[170px] " @click="openModal('withdraw_paymentmethods','referral')">Withdraw</button>
-
-  <p class="text-[10px] font-[400] text-[#585B5B]  w-3/4 text-center mx-auto">
-    Please ensure that the amount meets the minimum requirement of $200
-  </p>
-</div>
-
-
-</div>
-<div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px]  relative p-[24px] ">
-  <div class="absolute right-[0]">
-    <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
-  </div>
-  <div class="flex items-start space-y-[22px] flex-col justify-start w-full relative">
-  <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-    Refer Clients
-  </div>
-    <div class="text-[14px] font-[400] leading-[19px] text-[#021328">
-    Refer new clients and earn <span class="!font-[700]">5%</span> for each successful referral who completes the registration process
-  </div>
-
-  <div
-class="mt-[12px] border-[1px]  bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between  px-[10px]"
->
-  <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[13px]">
-    Referral Link
-  </div>
-<div class="flex items-center justify-end space-x-[12px]">
-  <div
-  class="ml-auto text-[14px] ipad-max:text-[13px] font-[500] leading-[21px] dark:text-whiteTamkin/70 "
->
-{{ referralLink }}
-<!-- https://example.com/ref/yourlink -->
-</div>
-
-  <img
-class="ml-auto cursor-pointer w-[18px] h-[18px]"
-@click="copy(referralLink)"
-src="/imgs/copy.svg"
-/>
-</div>
-
-
-</div>
-  </div>
-
-  
-  
-  </div>
-
-
+        <div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px] ">
+          <div class="flex items-center justify-between w-full p-[16px] relative">
+            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
+              Balance
+            </div>
+      
+            <div class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] right-[16px]">
+              <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
+            </div>
+          </div>
+      
+          <!-- Loading placeholder -->
+          <div v-if="loadingBlock" class="animate-pulse flex flex-col items-center justify-center space-y-[10px]">
+            <div class="h-[20px] bg-gray-200 w-[60%] rounded"></div>
+            <div class="h-[11px] bg-gray-200 w-[30%] rounded"></div>
+            <div class="h-[34px] w-[170px] bg-gray-200 rounded"></div>
+            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
+            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
+          </div>
+      
+          <!-- Actual content -->
+          <div v-else class="flex flex-col items-center justify-center space-y-[10px]">
+            <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
+              $ {{withdrawStore.currentAmount}}
+            </div>
+            <div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
+              available
+            </div>
+            <button class="btn-dashboard hover_tamkin w-[170px]" :disabled="isInputDisabled" @click="openModal('withdraw_paymentmethods', 'referral')">Withdraw</button>
+      
+            <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] w-3/4 text-center mx-auto">
+              Please ensure that the amount meets the minimum requirement of <span class="!font-[600]">${{withdrawStore.limitofWithdraw}}</span>
+            </p>
+            <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto">
+              * Transaction fees are not included in our coverage.
+            </p>
+          </div>
         </div>
+      
+        <div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative p-[24px]">
+          <div class="absolute right-[0]">
+            <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
+          </div>
+      
+          <!-- Loading placeholder -->
+          <div v-if="loadingBlock" class="animate-pulse flex flex-col space-y-[22px] w-full">
+            <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
+            <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
+            <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
+            <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
+          </div>
+          
+          <!-- Actual content -->
+          <div v-else class="flex flex-col space-y-[22px] w-full">
+            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
+              Refer Clients
+            </div>
+            <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
+              Refer new clients and earn <span class="!font-[700]">
+                {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span> for each successful referral who completes the registration process
+            </div>
+            <div class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]">
+              <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
+                Referral Link
+              </div>
+              <div class="flex items-center justify-end space-x-[12px]">
+                <div class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70">
+                  {{ source }}
+                </div>
+                <img class="ml-auto z-[50] w-[18px] h-[18px] cursor-pointer" @click="copyLink" src="/imgs/copy.svg" />
+              </div>
+            </div>
+            <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
+              <span class="!font-[600]">{{ allReferrals.length }}</span> users have signed up using your referral link
+            </div>
+          </div>
+          
+        </div>
+      
+      </div>
+      
 
 
         <div class="bg-white w-full flex flex-col items-start justify-center my-[16px] p-[32px]  rounded-[10px]">
@@ -259,136 +352,142 @@ src="/imgs/copy.svg"
 
           <div class="p-[10px] ipad-max:w-full w-1/4 h-[42px] bg-[#F9F9F9]  rounded-[10px] flex items-center justify-center">
             <div 
-            @click="currentTab = 'rewards'"
+            @click="changeTab('rewards')"
             :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
             class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
-              My Rewards
+              Withdraw
             </div>
             <div 
-@click="currentTab = 'refs'"
-             :class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
-            class="cursor-pointer w-full h-[42px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
-              My Referrals
+@click="changeTab('refs')"
+:class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
+
+            class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
+               Referrals
             </div>
           </div>
 
           <div class="w-full ipad-max:w-full lg:w-1/4">
+       
             <VueDatePicker
-              :enable-time-picker="false"
-              @blur="dateOpen = false"
-              @focus="dateOpen = true"
-              class="relative"
-              :clearable="false"
-              disable-year-select
-              month-name-format="long"
-              :input-class-name="
-                dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
-              "
-              :dark="colorMode.preference === 'dark'"
-              placeholder="Select Date"
-              v-model="dateF"
-              :format="format"
-              :position="langStore.direction === 'rtl' ? 'right' : 'left'"
-              :auto-position="true"
-              range
-              :max-date="new Date()"
-              @update:model-value="handleDate" 
-            >
-              <template #action-row="{ closePicker, selectDate }">
-                <div
-                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+            :enable-time-picker="false"
+            @blur="dateOpen = false"
+            @focus="dateOpen = true"
+            class="relative"
+            :clearable="false"
+            disable-year-select
+            month-name-format="long"
+            :input-class-name="
+              dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
+            "
+            :dark="colorMode.preference === 'dark'"
+            placeholder="Select Date"
+            v-model="dateF"
+            range
+            :format="format"
+            :position="langStore.direction === 'rtl' ? 'right' : 'left'"
+            :auto-position="true"
+            
+          >
+            <template #action-row="{ closePicker, selectDate }">
+              <div
+                class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+              >
+                <button
+                  @click="()=>{
+                    
+                    dateF = '' 
+                    closePicker()
+                  }"
+                  class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                 >
-                  <button
-                    @click="closePicker"
-                    class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
-                  >
-                    <div>Cancel</div>
-                  </button>
-                  <button
-                    @click="selectDate"
-                    class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
-                  >
-                    <div>
-                      <svg
-                        class="group-hover:fill-tamkin"
-                        width="13"
-                        height="14"
-                        viewBox="0 0 13 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
-         3.97657L5.15274 8.92575Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </div>
-                    <div>Done</div>
-                  </button>
-                </div>
-              </template>
-              <template #input-icon>
-                <svg
-                  class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
-                  :class="[
-                    dateOpen && dateF
-                      ? 'rotate-90 !text-white '
-                      : dateOpen && !dateF
-                      ? 'rotate-90'
-                      : 'rotate-0',
-                  ]"
-                  width="11"
-                  height="16"
-                  viewBox="0 0 11 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <div>Clear</div>
+                </button>
+                <button
+                  @click="selectDate"
+                  class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
                 >
-                  <path
-                    d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
-                 8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
-                 1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </template>
-            </VueDatePicker>
+                  <div>
+                    <svg
+                      class="group-hover:fill-tamkin"
+                      width="13"
+                      height="14"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
+       3.97657L5.15274 8.92575Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                  <div>Done</div>
+                </button>
+              </div>
+            </template>
+            <template #input-icon>
+              <svg
+                class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
+                :class="[
+                  dateOpen && dateF
+                    ? 'rotate-90 !text-white '
+                    : dateOpen && !dateF
+                    ? 'rotate-90'
+                    : 'rotate-0',
+                ]"
+                width="11"
+                height="16"
+                viewBox="0 0 11 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
+               8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
+               1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </template>
+          </VueDatePicker>
           </div>
          </div>
          
 
 
-<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock">
-  <table class="min-w-full bg-white border-b table-fixed border-gray-200">
+<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock  && withdrawStore.rewards">
+  <table class="min-w-full bg-white border-b table-fixed border-gray-200" >
     <thead class="bg-gray-50">
       <tr>
-        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Trans ID</th>
+        <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Transaction ID</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4">Date</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Amount</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4 ">Payment Methods</th>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-2/4 px-4">Status</th>
       </tr>
     </thead>
-    <tbody class="text-gray-700">
+    <tbody class="text-gray-700" v-if="filteredWithdraw.length > 0">
     
-      <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">********26789</td>
+      <tr class="border-t border-gray-200" v-for="reward in filteredWithdraw">
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.name}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{formatDateOfReward(reward.modified)}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.amount +' ' +(reward.payment_type === "bank_account" ? reward.account_currency : reward.payment_type === "crypto" ? reward.crypto_currency : reward.payment_type === 'paypal' ? "USD":'')}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.payment_type === 'bank_account' ? reward.account_number:reward.payment_type === 'crypto' ? reward.crypto_address : reward.email_address}}</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-orange-400"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Pending</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(reward.status)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize">{{reward.status}}</span>
         </td>
       </tr>
-      <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">080kwawo9kdhdjh8</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">Oct 09, 2024</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">$150</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">jbopw@gmail.com</td>
-        <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-tamkin"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">Completed</span>
+     
+    </tbody>
+
+    <tbody v-else-if="dateF.length > 0 && filteredWithdraw.length === 0">
+      <tr>
+        <td colspan="5" class="py-6 text-center">
+          <div class="flex justify-center items-center">
+            <Noresult class="!mt-0" text="No results found for the selected date." />
+          </div>
         </td>
       </tr>
     </tbody>
@@ -408,22 +507,31 @@ src="/imgs/copy.svg"
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black   px-4 ">Status</th>
       </tr>
     </thead>
-    <tbody class="text-gray-700">
+    <tbody class="text-gray-700" v-if="filteredReferrals.length > 0">
     
 
-      <template v-for="referral in allReferrals" :key="referral.name">
+      <template v-for="referral in filteredReferrals" :key="referral.name">
       
       <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.name }}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.creation }}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.amount }} AED</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.customer_name }}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ formatDateOfReward(referral.modified )}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.total_commission }} AED</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.docstatus)"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(referral.docstatus)}}</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.status)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize">{{referral.status}}</span>
         </td>
       </tr>
       </template>
 
+    </tbody>
+    <tbody v-else-if="filteredReferrals.length === 0 && dateF">
+      <tr>
+        <td colspan="5" class="py-6 text-center">
+          <div class="flex justify-center items-center">
+            <Noresult class="!mt-0" text="No results found for the selected date." />
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -431,7 +539,8 @@ src="/imgs/copy.svg"
 
 
 <!-- NO REWARDS AVAILABLE-->
-<div class="flex flex-col items-center justify-center mx-auto mt-[44px]" v-if="currentTab === 'rewards' && !loadingBlock && allRewards?.length==0">
+<div class="flex flex-col items-center justify-center mx-auto mt-[44px]" 
+v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length ===0">
   <div>
     <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="">
   </div>
@@ -440,7 +549,7 @@ src="/imgs/copy.svg"
     Currently, there are no rewards available
   </div>
 
-  <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+  <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]" @click="scrollToSection('refer_clients')"> Refer Clients</button>
 </div>
   <!-- NO REWARDS AVAILABLE-->
 
@@ -454,17 +563,28 @@ src="/imgs/copy.svg"
       Currently, there are no referrals available
     </div>
   
-    <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+    <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]" @click="scrollToSection('refer_clients')"> Refer Clients</button>
   </div>
 
   <!-- no Referrals available-->
-      <div v-if="loadingBlock"  class="h-[150px] w-full relative">
-
-            <svg   class="absolute top-[70px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+  <div class="w-full mt-[16px]" v-if="loadingBlock">
+    <div class="bg-white border-b table-fixed border-gray-200">
+      <div class="h-[40px] flex items-center px-4 bg-gray-50 animate-pulse">
+        <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
+      </div>
+      <div v-for="i in 5" :key="i" class="border-t border-gray-200">
+        <div class="h-[60px] flex items-center px-4 space-x-4 bg-gray-50 animate-pulse">
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
         </div>
+      </div>
+    </div>
+  </div>
 
                     </div>
      </div>
@@ -499,43 +619,9 @@ src="/imgs/copy.svg"
   inset-inline-start: auto !important;
 }
 
-.dp__calendar_item .dp__range_start {
-  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  @apply rounded-full;
-}
 
-.dp__calendar_item .dp__range_between {
-  @apply bg-tamkinLight border-0;
-}
 
-.dp__calendar_item .dp__range_end {
-  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  @apply rounded-full;
-}
 
-.dp__calendar_item .dp__today {
-  @apply rounded-full bg-white dark:bg-tamkinDarkPrimary font-[700] text-darkGrey dark:text-whiteTamkin border-[1px] 
-  border-[#616161] dark:border-darkborder;
-}
-.dp__calendar_item .dp__today.dp__range_end {
-  @apply rounded-full bg-white font-[700] !text-white !border-0 dark:bg-tamkinDarkPrimary
-  dark:!text-whiteTamkin;
-}
-.dp__calendar_item .dp__today.dp__range_start {
-  @apply rounded-full bg-white font-[700] !text-white dark:bg-tamkinDarkPrimary
-  dark:!text-whiteTamkin !border-0;
-}
-
-.dp__calendar_item .dp__date_hover_start {
-  @apply bg-tamkinLight;
-}
-
-.dp__calendar_item .dp__date_hover {
-  @apply bg-tamkinLight;
-}
-.dp__inner_nav {
-  @apply text-tamkin;
-}
 
 .dp--arrow-btn-nav:hover {
   @apply text-tamkin;
@@ -617,5 +703,12 @@ src="/imgs/copy.svg"
   --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
   --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
 }
+.no_result_tamkin{
+  @apply w-full !mt-[-40px] !justify-start;
+}
 
+.dp__outer_menu_wrap {
+
+  @apply w-full;
+}
 </style>

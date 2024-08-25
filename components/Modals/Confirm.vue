@@ -22,17 +22,28 @@ const props = defineProps({
 });
 const emit = defineEmits(['controlConfirm','controlDelete','controlCancel','controlOther','controlsaveAllSites'])
 
-const deleteLoading = ref(false);
+const deleteisLoading = ref(false);
 const saveLoading = ref(false);
 
 const controlConfirmButton = ()=>{
   emit('controlConfirm')
 }
-const controlDeleteButton = ()=>{
-  deleteLoading.value = true;
-  emit('controlDelete')
-  deleteLoading.value = false;
-}
+const controlDeleteButton = async () => {
+  deleteisLoading.value = true;
+
+  // Simulate an async operation with a delay
+  await new Promise((resolve) => setTimeout(()=>{
+    emit('controlDelete');
+
+    resolve(true);
+  }, 2000)); // Simulate API call or operation
+};
+watch(() => props.showModal, (newVal) => {
+  if (newVal) {
+    deleteisLoading.value = false; // Reset when the modal opens
+    saveLoading.value = false; // Reset save loading as well
+  }
+});
 const controlCancelButton = ()=>{
   emit('controlCancel')
 
@@ -115,15 +126,15 @@ const controlSaveSite = ()=>{
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'delete' ">
       <button
-          :disabled="deleteLoading"
+          :disabled="deleteisLoading"
 
           class="btn_bordered_dashboard error"  @click="controlDeleteButton">
           <div class="flex items-center justify-center">
-            <div :class="deleteLoading ? 'mr-3':''">
+            <div :class="deleteisLoading ? 'mr-3':''">
               Confirm Delete
             </div>
 
-             <svg  v-if="deleteLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+             <svg  v-if="deleteisLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>

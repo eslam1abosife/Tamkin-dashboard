@@ -2,27 +2,11 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
-const state = reactive({
-  bankName: "",
-  acc_holder: "",
-  account_number: "",
-  iban: "",
-  bic: "",
-  account_curreny: "",
-});
-const rules = {
-    bankName: { required },
-    acc_holder: { required },
-    account_number: { required },
-    iban: { required },
-    bic: { required },
-    account_curreny: { required },
-};
-
-const v$ = useVuelidate(rules, state);
 
 
 
+
+const withDrawStore = useWithdrawStore()
 
 const {
   isOpen,
@@ -43,7 +27,40 @@ const formatAmount = (event) => {
   const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas as thousand separators
   amount.value = `$${formattedValue || '0.00'}`; // Ensure the format is $xxx,xxx or $0.0 if empty
 };
+const closeModalAndReset = ()=>{
+  withDrawStore.transactionDetails = {}
+  withDrawStore.paypal.paypalEmail = ""
+  withDrawStore.withdrawAmount = 0
+  withDrawStore.selectedPaymentMethod = ""
+  withDrawStore.transactionDetails = ""
 
+  
+  closeModal('success_paypal_withdraw')
+}
+
+
+    const getStatusStyle=(method:number)=> {
+      switch (method) {
+        case 'Pending':
+          return 'text-orange-400';
+        case 'Success':
+          return 'text-tamkin';
+        case 'Rejected':
+          return 'text-red-600';
+        
+      }
+    };
+
+    const formatDateOfReward = (dateof)=>{
+  const date = new Date(dateof); // Replace with your date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  year: 'numeric'
+}).format(date);
+
+return formattedDate
+}
 </script>
 
 <template>
@@ -56,7 +73,7 @@ const formatAmount = (event) => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('success_paypal_withdraw')"
+      @click="closeModalAndReset"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -89,21 +106,23 @@ const formatAmount = (event) => {
   
         <div class="flex items-center justify-between w-full mt-[16px]">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Oct 09, 2024
+            {{formatDateOfReward(withDrawStore.transactionDetails.modified)}}
+
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            $150
+            ${{withDrawStore.transactionDetails.amount}}
           </div>
         </div>
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: 080kwawo9kdhdjh8
+            Trans ID: {{withDrawStore.transactionDetails.name}}
           </div>
   
-          <div class="text-[14px] font-[500] text-[#E38711]">
-            Pending
+        
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
+            {{withDrawStore.transactionDetails.status}}
           </div>
         </div>
   
@@ -119,7 +138,7 @@ const formatAmount = (event) => {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            Email@gmail.com
+           {{withDrawStore.transactionDetails.email_address}}
           </div>
         </div>
   
@@ -146,7 +165,7 @@ const formatAmount = (event) => {
       </div>
   
       <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="closeModal('success_paypal_withdraw')">
+        <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           Done
         </button>
       </div>

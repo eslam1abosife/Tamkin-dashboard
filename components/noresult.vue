@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 
 import { useModalManager } from '@/composables/useModalManager';
-
+const props = defineProps({
+    text:String
+})
 const {
   isOpen,
   currentView,
@@ -24,7 +26,7 @@ const changeDropMenu = (menu:any)=>{
 
 </script>
 <template>
-   <div>
+ 
 
     <div class="flex flex-col items-center space-y-[10px] justify-center mt-[60px] ">
     
@@ -35,11 +37,11 @@ const changeDropMenu = (menu:any)=>{
             No results found
         </div>
         <div class="font-[400] text-[10px] leading-[16px]">
-            It seems we can’t find any results based on your search.
+            {{ text ? text :'It seems we can’t find any results based on your search.' }}
         </div>
                                   
             </div>
      
-   </div>
+
       </template>
       

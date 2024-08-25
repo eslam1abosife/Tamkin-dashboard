@@ -71,8 +71,8 @@ const handleSelectedSpecialization = (item: any) => {
   // console.log(item)
 };
 watch(() => state, (newState) => {
-  // Perform any necessary actions with the updated state
-  profileStore.updatedCompanyPayload = state
+  // Use a spread operator to create a new object
+  profileStore.updatedCompanyPayload = { ...newState };
 }, { deep: true });
 onMounted(async () => {
   await getCountries();
