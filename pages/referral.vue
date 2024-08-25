@@ -95,7 +95,13 @@ const format = (date) => {
 const source=ref('');
 const allReferrals=ref([])
 
-onMounted(async () => {
+const {$toast} = useNuxtApp()
+onMounted(async ()=>{
+  await withdrawStore.getAllrewards()
+    await withdrawStore.gettotalAmount()
+    await withdrawStore.getcurrentLimit()
+    await withdrawStore.getcurrentRate()
+
   if(process.client){
     const user = JSON.parse(localStorage.getItem('user'));
   
@@ -106,17 +112,11 @@ onMounted(async () => {
         source.value=resultLink.data;
         allReferrals.value=allReferralsResult.data;
       // console.log(allReferrals.value)
-      loadingBlock.value=false
   
   }
+  loadingBlock.value=false
 
-})
-const {$toast} = useNuxtApp()
-onMounted(async ()=>{
-  await withdrawStore.getAllrewards()
-    await withdrawStore.gettotalAmount()
-    await withdrawStore.getcurrentLimit()
-    await withdrawStore.getcurrentRate()
+
 })
 
 const scrollToSection = (sectionId) =>{
@@ -187,7 +187,12 @@ const filteredWithdraw = computed(() => {
     return referralDate >= startDate && referralDate <= endDate;
   });
 });
-
+const isCurrentRateEmpty = computed(() => {
+  return (
+   withdrawStore.currentRate === '' || 
+    (typeof withdrawStore.currentRate === 'object' && Object.keys(withdrawStore.currentRate).length === 0)
+  );
+});
 </script>
 
 
@@ -271,7 +276,7 @@ Send your unique referral link to Clients
           </div>
       
           <!-- Loading placeholder -->
-          <div v-if="!withdrawStore.limitofWithdraw" class="animate-pulse flex flex-col items-center justify-center space-y-[10px]">
+          <div v-if="loadingBlock" class="animate-pulse flex flex-col items-center justify-center space-y-[10px]">
             <div class="h-[20px] bg-gray-200 w-[60%] rounded"></div>
             <div class="h-[11px] bg-gray-200 w-[30%] rounded"></div>
             <div class="h-[34px] w-[170px] bg-gray-200 rounded"></div>
@@ -304,20 +309,21 @@ Send your unique referral link to Clients
           </div>
       
           <!-- Loading placeholder -->
-          <div v-if="Object.keys(withdrawStore.currentRate).length === 0" class="animate-pulse flex flex-col space-y-[22px] w-full">
+          <div v-if="loadingBlock" class="animate-pulse flex flex-col space-y-[22px] w-full">
             <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
             <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
             <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
             <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
           </div>
-      
+          
           <!-- Actual content -->
           <div v-else class="flex flex-col space-y-[22px] w-full">
             <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
               Refer Clients
             </div>
             <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
-              Refer new clients and earn <span class="!font-[700]">{{ withdrawStore.currentRate? withdrawStore.currentRate : 0 }} %</span> for each successful referral who completes the registration process
+              Refer new clients and earn <span class="!font-[700]">
+                {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span> for each successful referral who completes the registration process
             </div>
             <div class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]">
               <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
@@ -327,13 +333,14 @@ Send your unique referral link to Clients
                 <div class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70">
                   {{ source }}
                 </div>
-                <img class="ml-auto cursor-pointer w-[18px] h-[18px]" @click="copyLink" src="/imgs/copy.svg" />
+                <img class="ml-auto z-[50] w-[18px] h-[18px] cursor-pointer" @click="copyLink" src="/imgs/copy.svg" />
               </div>
             </div>
             <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
               <span class="!font-[600]">{{ allReferrals.length }}</span> users have signed up using your referral link
             </div>
           </div>
+          
         </div>
       
       </div>
@@ -449,7 +456,7 @@ Send your unique referral link to Clients
          
 
 
-<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock ">
+<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock  && withdrawStore.rewards">
   <table class="min-w-full bg-white border-b table-fixed border-gray-200" >
     <thead class="bg-gray-50">
       <tr>

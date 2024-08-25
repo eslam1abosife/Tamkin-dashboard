@@ -146,15 +146,17 @@ definePageMeta({
 });
 
 const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
-
+const loadingTeam = ref(true)
 const getCurrTeam = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getCurrentTeam(user.sid);
   state.teamName = currTeam.value.team_name;
 };
 
-onMounted(() => {
-  getCurrTeam();
+onMounted(async () => {
+  await getCurrTeam();
+  loadingTeam.value = false
+
 });
 
 const { renameTeam, loading } = useRenameTeam();
@@ -299,162 +301,179 @@ onMounted(() => {
     <div
       class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start lg:rtl:space-x-reverse space-x-[16px]"
     >
-      <div
-        v-loading="getCurrTeamLoading"
-        class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
-      >
+    <div
+    v-if="!getCurrTeamLoading"
+    class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+  >
+
+    <div
+      class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full"
+    >
+      <div @click="openModal('editteampic', 'team')" v-if="!currTeam?.team_image">
         <div
-          class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full"
+          class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
         >
-          <div @click="openModal('editteampic', 'team')" v-if="!currTeam?.team_image">
+          <svg
+            width="27"
+            height="24"
+            viewBox="0 0 27 24"
+            class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px] ipad-max:w-[15px] ipad-max:h-[15px]"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+      </div>
+      <div @click="openModal('editteampic', 'team')" class="" v-else>
+        <div
+          class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
+        >
+          <div class=" ">
+            <img
+              class="rounded-full w-[55px] h-[55px] object-cover border-[1px] border-[#2CA9A0]"
+              :src="`https://tamkin.app/${currTeam.team_image}`"
+            />
             <div
-              class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+              class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
             >
               <svg
-                width="27"
-                height="24"
-                viewBox="0 0 27 24"
-                class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px] ipad-max:w-[15px] ipad-max:h-[15px]"
-                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-[10px] h-[10px] text-[#021328] dark:text-whiteTamkin"
               >
                 <path
-                  d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z"
-                  fill="white"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
                 />
               </svg>
             </div>
           </div>
-          <div @click="openModal('editteampic', 'team')" class="" v-else>
-            <div
-              class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
-            >
-              <div class=" ">
-                <img
-                  class="rounded-full w-[55px] h-[55px] object-cover border-[1px] border-[#2CA9A0]"
-                  :src="`https://tamkin.app/${currTeam.team_image}`"
-                />
-                <div
-                  class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-[10px] h-[10px] text-[#021328] dark:text-whiteTamkin"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="!editTeamNameMode" class="w-full">
-            <h1
-              class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin"
-            >
-              Your team name <br />
-              <span class="font-bold" v-if="currTeam">
-                {{ currTeam.team_name }}
-              </span>
-            </h1>
-          </div>
-          <div v-else class="w-full">
-            <div class="relative">
-              <input
-                type="text"
-                placeholder="{{$t('Your team name')}}"
-                id="teamName"
-                class="input_floating_label peer ipad-max:w-full lg:w-[200px] 2xl:w-[350px]"
-                v-model="v$.teamName.$model"
-                :class="{
-                  input_error: v$.teamName.$error && v$.teamName.required.$invalid,
-                  input_success: !v$.teamName.$error && !v$.teamName.$invalid,
-                }"
-              />
-              <label
-                for="teamName"
-                class="floating_label"
-                :class="[
-                  v$.teamName.$error && v$.teamName.required.$invalid
-                    ? '!text-error'
-                    : '',
-                ]"
-              >
-                {{ $t("Your team name") }}*
-              </label>
-              <div
-                class="w-full lg:w-4/6"
-                v-if="v$.teamName.$error && v$.teamName.required.$invalid"
-              >
-                <div class="error_message">
-                  <span v-if="v$.teamName.$error && v$.teamName.required.$invalid">{{
-                    $t("teamName_is_required")
-                  }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-center flex-shrink-0">
-          <div v-if="!editTeamNameMode">
-            <button
-              @click="() => (editTeamNameMode = !editTeamNameMode)"
-              class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
-            >
-              Edit Team
-            </button>
-          </div>
-          <div v-else class="">
-            <button
-              @click="doRenameTeam"
-              :disabled="v$.teamName.$invalid || loading"
-              class="btn_bordered_dashboard ml-auto"
-            >
-              <div class="flex items-center justify-center">
-                <div :class="loading ? 'mr-2' : ''">Save</div>
-
-                <svg
-                  v-if="loading"
-                  class="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-          </div>
         </div>
       </div>
 
-      <div
+      <div v-if="!editTeamNameMode" class="w-full">
+        <h1
+          class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin"
+        >
+          Your team name <br />
+          <span class="font-bold" v-if="currTeam">
+            {{ currTeam.team_name }}
+          </span>
+        </h1>
+      </div>
+      <div v-else class="w-full">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="{{$t('Your team name')}}"
+            id="teamName"
+            class="input_floating_label peer ipad-max:w-full lg:w-[200px] 2xl:w-[350px]"
+            v-model="v$.teamName.$model"
+            :class="{
+              input_error: v$.teamName.$error && v$.teamName.required.$invalid,
+              input_success: !v$.teamName.$error && !v$.teamName.$invalid,
+            }"
+          />
+          <label
+            for="teamName"
+            class="floating_label"
+            :class="[
+              v$.teamName.$error && v$.teamName.required.$invalid
+                ? '!text-error'
+                : '',
+            ]"
+          >
+            {{ $t("Your team name") }}*
+          </label>
+          <div
+            class="w-full lg:w-4/6"
+            v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+          >
+            <div class="error_message">
+              <span v-if="v$.teamName.$error && v$.teamName.required.$invalid">{{
+                $t("teamName_is_required")
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center flex-shrink-0">
+      <div v-if="!editTeamNameMode">
+        <button
+          @click="() => (editTeamNameMode = !editTeamNameMode)"
+          class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
+        >
+          Edit Team
+        </button>
+      </div>
+      <div v-else class="">
+        <button
+          @click="doRenameTeam"
+          :disabled="v$.teamName.$invalid || loading"
+          class="btn_bordered_dashboard ml-auto"
+        >
+          <div class="flex items-center justify-center">
+            <div :class="loading ? 'mr-2' : ''">Save</div>
+
+            <svg
+              v-if="loading"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+    
+ <!-- Skeleton Loader -->
+ <div v-if="getCurrTeamLoading"       
+   class="flex items-center justify-between flex-row rtl:space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+ >
+  <!-- Avatar Skeleton -->
+  <div class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"></div>
+
+  <!-- Details Skeleton -->
+  <div class="flex flex-col justify-center w-4/6">
+    <div class="h-[19px] w-3/4 bg-gray-300 rounded-full mb-[8px] animate-pulse"></div>
+    <div class="h-[19px] w-2/4 bg-gray-300 rounded-full animate-pulse"></div>
+  </div>
+
+  <!-- Edit Button Skeleton -->
+  <div class="w-[100px] h-[30px] bg-gray-300 rounded-full animate-pulse"></div>
+</div>
+      <div v-if="!getCurrTeamLoading"
         class="flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
@@ -504,6 +523,44 @@ onMounted(() => {
           <img src="/imgs/total_members_hero.png" class="w-[203px] h-[151px]" alt="" />
         </div>
       </div>
+      <div v-if="getCurrTeamLoading" class="relative flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse">
+        <!-- Placeholder for the text and stats -->
+        <div class="flex flex-col items-start justify-start space-y-[8px] w-full">
+          <!-- Placeholder for the total members row -->
+          <div class="flex space-x-[8px]">
+            <div class="w-[16px] h-[21px] bg-gray-300 rounded"></div>
+            <div class="flex items-center justify-center space-x-[20px]">
+              <div class="w-[100px] h-[16px] bg-gray-300 rounded"></div>
+              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+            </div>
+          </div>
+      
+          <!-- Placeholder for the active status row -->
+          <div class="flex items-center justify-center space-x-[14px]">
+            <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px]">
+              <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
+              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+            </div>
+          </div>
+      
+          <!-- Placeholder for the pending status row -->
+          <div class="flex items-center justify-center space-x-[14px]">
+            <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px]">
+              <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
+              <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Placeholder for the image -->
+        <div class="pl-[20px]">
+          <div class="w-[203px] h-[70px] bg-gray-300 rounded animate-pulse"></div>
+        </div>
+      </div>
+      
+  
     </div>
 
     <section class="mx-auto mt-[24px]" v-loading="getAllMembersLoading">
@@ -511,7 +568,7 @@ onMounted(() => {
         class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-        <div class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+        <div v-if="!getCurrTeamLoading" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
           <div class="p-[16px]">
             <div
               class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
@@ -554,8 +611,29 @@ onMounted(() => {
             </div>
           </div>
         </div>
-
-        <template v-if="paginatedFilteredTeamMembers.length > 0">
+        <div v-if="getCurrTeamLoading" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+          <div class="p-[16px]">
+            <div class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin" style="line-height: 30px">
+              <div class="w-[150px] h-[24px] bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        
+          <div class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px]">
+            <div class="py-[17px] search_input relative">
+              <div class="w-full h-[40px] bg-gray-200 rounded  animate-pulse flex items-center pl-[40px]">
+                <div class="w-[24px] h-[24px] bg-gray-200 rounded-full absolute left-[10px]"></div>
+              </div>
+              <div  class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer">
+                <div class="w-[24px] h-[24px] bg-gray-200 animate-pulse  rounded-full"></div>
+              </div>
+            </div>
+            <div class="lg:w-[250px] w-2/4">
+                <div class="w-[120px]  bg-gray-200 rounded animate-pulse   h-[40px]"></div>
+            </div>
+          </div>
+        </div>
+        
+        <template v-if="paginatedFilteredTeamMembers.length > 0 && !getCurrTeamLoading">
           <table
             class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
           >
@@ -767,7 +845,50 @@ onMounted(() => {
             </tbody>
           </table>
         </template>
-        <NoData v-else />
+      
+        <div v-if="getCurrTeamLoading" class="relative overflow-x-auto w-full">
+          <table class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
+            <thead>
+              <tr>
+                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]">
+                  <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+                <th class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
+              <tr v-for="index in 2" :key="index">
+                <td                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="flex items-center justify-start space-x-[10px]">
+                    <div class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse" ></div>
+                    <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  </div>
+                </td>
+                <td class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse "></div>
+                </td>
+                <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </td>
+                <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                  <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+
+        <NoData v-if="paginatedFilteredTeamMembers.length ===  0 && !getCurrTeamLoading" />
       </div>
 
       <div
