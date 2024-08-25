@@ -23,6 +23,21 @@ const fullName = computed(() => {
 const fullName = profileStore.getFullName;
 
 
+const route = useRoute();
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
+};
 
 
 const openLangSwitchMenu = () => {
@@ -80,6 +95,14 @@ const helpWindow = ()=>{
   }
 }
 
+
+onBeforeMount(async ()=>{
+  if (Object.keys(profileStore.member).length === 0 && !isLinkActive('/profile')) {
+    await profileStore.fetchMember()
+}
+
+
+})
 </script>
 
 <template>
@@ -87,9 +110,23 @@ const helpWindow = ()=>{
        @click.prevent="openLangSwitchMenu"
 
        v-on-click-outside="closeMenu">
+       <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full
+        bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]" v-if="profileStore.loadingProfile" >
+       <div class="bg-[#EFF1F6] rounded-[10px] h-[50px] w-full p-[6px]  animate-pulse">
+        <div class="flex items-center justify-start w-full space-x-[14px]">
+          <div class="w-2/4">
 
-
-        <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full
+          <div class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px]  bg-gray-300 rounded-full"></div>
+          </div>
+          <div class="flex flex-col items-start justify-center w-full !mx-0">
+            <div class="h-[10px] bg-gray-300 rounded-full w-24"></div>
+            <div class="h-[12px] bg-gray-300 rounded-full mt-1 w-16"></div>
+          </div>
+          <div class="w-[16px] h-[16px] bg-gray-300 rounded-full"></div>
+        </div>
+       </div>
+       </div>
+        <div v-else class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full
         bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]">
 
             <div class="flex items-center justify-start w-full space-x-[14px]">
