@@ -272,7 +272,7 @@ watch(
         loadingTeamCard ? '!bg-gray-50 !cursor-not-allowed !border-[1px] !border-gray-200':''
       ]"
     >
-      <div class="relative flex items-center justify-center">
+      <div class="relative flex items-center justify-center w-1/4">
         <img
           v-if="!loadingTeamCard && currTeam?.team_image "
           :src="`https://tamkin.app/${currTeam?.team_image}`"
@@ -290,7 +290,7 @@ watch(
     
         <!-- Placeholder Avatar -->
         <div
-          v-else
+          v-if="!loadingTeamCard && !currTeam?.team_image "
           :class="[sideBarOpen ? 'h-[35px] w-[35px] leading-[35px]' : 'h-[24px] w-[24px] leading-[24px]']"
           class="avatar_img bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full"
         >
