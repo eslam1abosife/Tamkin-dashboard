@@ -92,7 +92,7 @@ const format = (date) => {
   }
 };
 
-const referralLink=ref('');
+const source=ref('');
 const allReferrals=ref([])
 
 onMounted(async () => {
@@ -103,15 +103,15 @@ onMounted(async () => {
     const allReferralsResult =await  getAllReferrals(user.agency);
 
 
-        referralLink.value=resultLink.data;
+        source.value=resultLink.data;
         allReferrals.value=allReferralsResult.data;
-      console.log(allReferrals.value)
+      // console.log(allReferrals.value)
       loadingBlock.value=false
   
   }
 
 })
-
+const {$toast} = useNuxtApp()
 onMounted(async ()=>{
   await withdrawStore.getAllrewards()
     await withdrawStore.gettotalAmount()
@@ -125,54 +125,66 @@ const scrollToSection = (sectionId) =>{
         section.scrollIntoView({ behavior: 'smooth' });
       }
     }
-const { text, copy, copied, isSupported } = useClipboard({ referralLink })
-const formatDateOfReward = (dateof)=>{
-  const date = new Date(dateof); // Replace with your date
-const formattedDate = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: '2-digit',
-  year: 'numeric'
-}).format(date);
-
-return formattedDate
+const { text, copy, copied, isSupported } = useClipboard({ source })
+const formatDateOfReward = (dateof) => {
+  const date = new Date(dateof); // Convert to Date object
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  }).format(date);
+  
+  return formattedDate;
 }
 
-const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
+const stripTime = (date) => {
+  // Return a date with the time set to midnight
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
 
 const filteredReferrals = computed(() => {
   // If no filter date is selected, show all referrals
-  if (!dateF.value) {
+  if (!dateF.value || dateF.value.length < 2) {
     return allReferrals.value;
   }
 
-  // Convert selectedDate to a Date object for comparison
-  const selected = new Date(dateF.value);
+  // Extract start and end dates from the array
+  const [startDateStr, endDateStr] = dateF.value;
+  const startDate = stripTime(new Date(startDateStr));
+  const endDate = stripTime(new Date(endDateStr));
 
-  // Filter referrals based on the selected date
+  // Filter referrals based on the selected date range
   return allReferrals.value.filter((referral) => {
-    // Parse and format the referral date using formatDateOfReward
-    const formattedReferralDate = formatDateOfReward(referral.modified);
-
-    // Format the selected date to match the referral date format
-    const formattedSelectedDate = formatDateOfReward(selected);
-
-    // Compare the formatted dates
-    return formattedReferralDate === formattedSelectedDate;
+    const referralDate = stripTime(new Date(referral.creation));
+    return referralDate >= startDate && referralDate <= endDate;
   });
 });
+
+
+
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount)<  Number(withdrawStore.limitofWithdraw) );
+const copyLink = ()=>{
+  copy(source.value)
+
+$toast('Copied to Clipboard',{hideIn:3000})
+}
+
+
 const filteredWithdraw = computed(() => {
-  if (!dateF.value) {
+  // If no filter date is selected, show all referrals
+  if (!dateF.value || dateF.value.length < 2) {
     return withdrawStore.rewards;
   }
 
-  const selected = new Date(dateF.value);
+  // Extract start and end dates from the array
+  const [startDateStr, endDateStr] = dateF.value;
+  const startDate = stripTime(new Date(startDateStr));
+  const endDate = stripTime(new Date(endDateStr));
 
+  // Filter referrals based on the selected date range
   return withdrawStore.rewards.filter((referral) => {
-    const formattedReferralDate = formatDateOfReward(referral.modified);
-
-    const formattedSelectedDate = formatDateOfReward(selected);
-
-    return formattedReferralDate === formattedSelectedDate;
+    const referralDate = stripTime(new Date(referral.creation));
+    return referralDate >= startDate && referralDate <= endDate;
   });
 });
 
@@ -245,86 +257,87 @@ Send your unique referral link to Clients
      <div class="flex items-center justify-center flex-col"  >
       
 
+      <div class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px] rounded-[10px]">
 
-        <div class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px]  rounded-[10px] ">
-
-<div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full
- rounded-[10px] space-y-[30px] ipad-max:space-y-[10px] ">
-<div class="flex items-center justify-between w-full p-[16px] relative">
-<div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-  Balance
-</div>
-
-<div class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] right-[16px]">
-  <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
-</div>
-</div>
-<div class="flex flex-col items-center justify-center space-y-[10px]">
-  <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
-    $ {{withdrawStore.currentAmount}}
-  </div>
-<div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
-  available
-</div>
-  <button class="btn-dashboard hover_tamkin w-[170px] " :disabled="isInputDisabled" @click="openModal('withdraw_paymentmethods','referral')">Withdraw</button>
-
-  <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B]  w-3/4 text-center mx-auto">
-    Please ensure that the amount meets the minimum requirement of <span class="!font-[600]">${{withdrawStore.limitofWithdraw}}</span>
-  </p>
-  <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto">
-    * Transaction fees are not included in our coverage.
-   </p>
-
-</div>
-
-
-</div>
-<div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px]  relative p-[24px] ">
-  <div class="absolute right-[0]">
-    <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
-  </div>
-  <div class="flex items-start space-y-[22px] flex-col justify-start w-full relative">
-  <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-    Refer Clients
-  </div>
-    <div class="text-[14px] font-[400] leading-[19px] text-[#021328">
-    Refer new clients and earn <span class="!font-[700]">{{Object.keys(withdrawStore.currentRate).length === 0  ? withdrawStore.currentRate : 0}} %</span> for each successful referral who completes the registration process
-  </div>
-
-  <div
-class="mt-[12px] border-[1px]  bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between  px-[10px]"
->
-  <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
-    Referral Link
-  </div>
-<div class="flex items-center justify-end space-x-[12px]">
-  <div
-  class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70 "
->
-{{ referralLink }}
-<!-- https://example.com/ref/yourlink -->
-</div>
-
-  <img
-class="ml-auto cursor-pointer w-[18px] h-[18px]"
-@click="copy(referralLink)"
-src="/imgs/copy.svg"
-/>
-</div>
-
-
-
-</div>
-  </div>
-<div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
-<span class="!font-[600]">{{allReferrals.length}}</span> users have signed up using your referral link
-</div>
-  
-  
-  </div>
-
-
+        <div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[30px] ipad-max:space-y-[10px] ">
+          <div class="flex items-center justify-between w-full p-[16px] relative">
+            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
+              Balance
+            </div>
+      
+            <div class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] right-[16px]">
+              <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
+            </div>
+          </div>
+      
+          <!-- Loading placeholder -->
+          <div v-if="!withdrawStore.limitofWithdraw" class="animate-pulse flex flex-col items-center justify-center space-y-[10px]">
+            <div class="h-[20px] bg-gray-200 w-[60%] rounded"></div>
+            <div class="h-[11px] bg-gray-200 w-[30%] rounded"></div>
+            <div class="h-[34px] w-[170px] bg-gray-200 rounded"></div>
+            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
+            <p class="h-[10px] bg-gray-200 w-3/4 rounded"></p>
+          </div>
+      
+          <!-- Actual content -->
+          <div v-else class="flex flex-col items-center justify-center space-y-[10px]">
+            <div class="text-[18px] font-[600] leading-[20px] text-[#021328]">
+              $ {{withdrawStore.currentAmount}}
+            </div>
+            <div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
+              available
+            </div>
+            <button class="btn-dashboard hover_tamkin w-[170px]" :disabled="isInputDisabled" @click="openModal('withdraw_paymentmethods', 'referral')">Withdraw</button>
+      
+            <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] w-3/4 text-center mx-auto">
+              Please ensure that the amount meets the minimum requirement of <span class="!font-[600]">${{withdrawStore.limitofWithdraw}}</span>
+            </p>
+            <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto">
+              * Transaction fees are not included in our coverage.
+            </p>
+          </div>
         </div>
+      
+        <div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative p-[24px]">
+          <div class="absolute right-[0]">
+            <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
+          </div>
+      
+          <!-- Loading placeholder -->
+          <div v-if="Object.keys(withdrawStore.currentRate).length === 0" class="animate-pulse flex flex-col space-y-[22px] w-full">
+            <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
+            <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
+            <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
+            <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
+          </div>
+      
+          <!-- Actual content -->
+          <div v-else class="flex flex-col space-y-[22px] w-full">
+            <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
+              Refer Clients
+            </div>
+            <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
+              Refer new clients and earn <span class="!font-[700]">{{ withdrawStore.currentRate? withdrawStore.currentRate : 0 }} %</span> for each successful referral who completes the registration process
+            </div>
+            <div class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]">
+              <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
+                Referral Link
+              </div>
+              <div class="flex items-center justify-end space-x-[12px]">
+                <div class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70">
+                  {{ source }}
+                </div>
+                <img class="ml-auto cursor-pointer w-[18px] h-[18px]" @click="copyLink" src="/imgs/copy.svg" />
+              </div>
+            </div>
+            <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
+              <span class="!font-[600]">{{ allReferrals.length }}</span> users have signed up using your referral link
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      
 
 
         <div class="bg-white w-full flex flex-col items-start justify-center my-[16px] p-[32px]  rounded-[10px]">
@@ -362,21 +375,25 @@ src="/imgs/copy.svg"
             :dark="colorMode.preference === 'dark'"
             placeholder="Select Date"
             v-model="dateF"
+            range
             :format="format"
             :position="langStore.direction === 'rtl' ? 'right' : 'left'"
             :auto-position="true"
             
-            :max-date="new Date()"
           >
             <template #action-row="{ closePicker, selectDate }">
               <div
                 class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
               >
                 <button
-                  @click="closePicker"
+                  @click="()=>{
+                    
+                    dateF = '' 
+                    closePicker()
+                  }"
                   class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                 >
-                  <div>Cancel</div>
+                  <div>Clear</div>
                 </button>
                 <button
                   @click="selectDate"
@@ -458,7 +475,7 @@ src="/imgs/copy.svg"
      
     </tbody>
 
-    <tbody v-else>
+    <tbody v-else-if="dateF.length > 0 && filteredWithdraw.length === 0">
       <tr>
         <td colspan="5" class="py-6 text-center">
           <div class="flex justify-center items-center">
@@ -500,7 +517,7 @@ src="/imgs/copy.svg"
       </template>
 
     </tbody>
-    <tbody v-else>
+    <tbody v-else-if="filteredReferrals.length === 0 && dateF">
       <tr>
         <td colspan="5" class="py-6 text-center">
           <div class="flex justify-center items-center">
@@ -515,7 +532,8 @@ src="/imgs/copy.svg"
 
 
 <!-- NO REWARDS AVAILABLE-->
-<div class="flex flex-col items-center justify-center mx-auto mt-[44px]" v-if="currentTab === 'rewards' && !loadingBlock && allRewards?.length==0">
+<div class="flex flex-col items-center justify-center mx-auto mt-[44px]" 
+v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length ===0">
   <div>
     <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="">
   </div>
@@ -542,13 +560,24 @@ src="/imgs/copy.svg"
   </div>
 
   <!-- no Referrals available-->
-      <div v-if="loadingBlock"  class="h-[150px] w-full relative">
-
-            <svg   class="absolute top-[70px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+  <div class="w-full mt-[16px]" v-if="loadingBlock">
+    <div class="bg-white border-b table-fixed border-gray-200">
+      <div class="h-[40px] flex items-center px-4 bg-gray-50 animate-pulse">
+        <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+        <div class="w-1/4 h-6 bg-gray-300 rounded mx-2"></div>
+      </div>
+      <div v-for="i in 5" :key="i" class="border-t border-gray-200">
+        <div class="h-[60px] flex items-center px-4 space-x-4 bg-gray-50 animate-pulse">
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
+          <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
         </div>
+      </div>
+    </div>
+  </div>
 
                     </div>
      </div>
@@ -669,5 +698,10 @@ src="/imgs/copy.svg"
 }
 .no_result_tamkin{
   @apply w-full !mt-[-40px] !justify-start;
+}
+
+.dp__outer_menu_wrap {
+
+  @apply w-full;
 }
 </style>

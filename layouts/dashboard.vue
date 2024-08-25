@@ -22,17 +22,15 @@ const { getInvestor, loading: lod } = useGetInvestor();
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
-const { data: member, pending, error } = await useAsyncData('member', async () => {
-  await Promise.all([
-    profileStore.fetchMember(),
-    profileStore.getCurrentTeam(),
-   getInvestor(),
+// const { data: member, pending, error } = await useAsyncData('member', async () => {
+//   await Promise.all([
+
    
 
-  ]);
+//   ]);
 
-  return true
-});
+//   return true
+// });
 // profileStore.member = member.value
 
 onMounted(() => {

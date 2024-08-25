@@ -77,14 +77,7 @@ const changeMode = (mode: any) => {
 // provide("currentMode", currentMode);
 
 
-const { data, pending, error } = await useAsyncData('profile_', async () => {
-  await Promise.all([
-    getProfileCompleteScore(profileStore.currentTab)
 
-  ]);
-
-  return true 
-});
 const { $toast } = useNuxtApp();
 
 const source = profileStore.investor ? profileStore.investor.wallet_address : "none";
@@ -114,10 +107,21 @@ const updatep = async (companyData) => {
 
   profileLoader.value = false;
   $toast("Profile updated Successfully", { hideIn: 3000 });
-  refreshNuxtData("member");
+  await profileStore.fetchMember()
+  await profileStore.getCurrentTeam()
+  await getProfileCompleteScore(profileStore.currentTab)
+
 };
 
 provide("currentMode", currentMode);
+
+onBeforeMount(async ()=>{
+  await profileStore.fetchMember()
+    await profileStore.getCurrentTeam()
+   await getInvestor()
+   await getProfileCompleteScore(profileStore.currentTab)
+
+})
 </script>
 
 <template>
@@ -148,7 +152,7 @@ provide("currentMode", currentMode);
       <div class="absolute inset-y-auto left-[260px] top-[-40px]">
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute bottom-[22px] ltr:right-[40px] rtl:left-[5px]">
+      <div class="absolute bottom-[22px] right-[40px] ">
         <button
           @click="changeMode('editing')"
           class="btn-default border-[1px] border-[#C5C5C5] !bg-white group hover:border-tamkin"
@@ -240,120 +244,168 @@ provide("currentMode", currentMode);
             </div>
           </div>
           <div
-            v-else-if="
-              (profileStore.currentTab === 'personal' ||
-                profileStore.currentTab === 'security') &&
-              !profileStore.investor
-            "
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
-          >
+          v-else-if="
+            (profileStore.currentTab === 'personal' ||
+              profileStore.currentTab === 'security') &&
+            !profileStore.investor
+          "
+          class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+        >
+          <div
+            class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
+          ></div>
+        
+          <!-- Content or Placeholder -->
+          <div v-if="!profileStore.loadingProfile" class="flex items-center justify-between w-full space-x-[16px]">
             <div
-              class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
-            ></div>
-
-            <div class="flex items-center justify-between w-full space-x-[16px]">
-              <div
-                class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
-              >
-                Investor Program
-              </div>
-              <div class="flex items-center justify-start space-x-[8px]" >
-                <img
-                  src="/imgs/investor/A1.svg"
-                  class="w-[24px] h-[24px]"
-                  alt=""
-                />
-                <img
+              class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
+            >
+              Investor Program
+            </div>
+            <div class="flex items-center justify-start space-x-[8px]">
+              <img
+                src="/imgs/investor/A1.svg"
+                class="w-[24px] h-[24px]"
+                alt=""
+              />
+              <img
                 src="/imgs/investor/AA.svg"
                 class="w-[24px] h-[24px]"
-                  alt=""
-                />
-                <img
+                alt=""
+              />
+              <img
                 src="/imgs/investor/C.svg"
                 class="w-[24px] h-[24px]"
-                  alt=""
-                />
-              </div>
+                alt=""
+              />
             </div>
-
+          </div>
+          <!-- Placeholder for title and images -->
+          <div v-else class="w-full flex items-center justify-between space-x-[16px]">
+            <div class="animate-pulse bg-gray-300 rounded h-6 w-32"></div>
+            <div class="flex items-center justify-start space-x-[8px]">
+              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
+              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
+              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
+            </div>
+          </div>
+        
+          <!-- Text and Button or Placeholders -->
+          <div v-if="!profileStore.loadingProfile">
             <div class="my-[8px] text-[12px] font-[400] leading-[16px] text-darkGrey">
               You are not investor member
             </div>
-
             <div class="my-[8px] text-[13px] font-[500] leading-[21px] text-black">
-              Buy Tamkin Token - TSLT and Join in our Investor Program
+              Buy Tamkin Token - TSLT and Join in our Investor Program
             </div>
-
             <a href="https://investor.tamkin.app/login" target="_blank"
               class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin"
             >
               Investor Program
-          </a>
+            </a>
           </div>
+          <!-- Placeholder for texts and button -->
+          <div v-else>
+            <div class="animate-pulse bg-gray-300 rounded h-4 w-48 my-2"></div>
+            <div class="animate-pulse bg-gray-300 rounded h-5 w-64 my-2"></div>
+            <div class="animate-pulse bg-gray-300 rounded h-8 w-[160px] my-2"></div>
+          </div>
+        </div>
+        
+     
           <div
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
-          >
-            <div>
-              <h1 class="text-[12px] leading-[19px] font-[500]">Complete Your Profile</h1>
+          class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+        >
+          <div>
+            <h1 v-if="!profileStore.loadingProfile" class="text-[12px] leading-[19px] font-[500]">Complete Your Profile</h1>
+            <div v-else class="animate-pulse h-[19px] bg-gray-300 rounded-full w-32 mb-[7px]"></div>
+          </div>
+          
+          <div class="flex items-center w-full mt-[7px]">
+            <div class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] rounded-[9px]">
+              <div v-if="!profileStore.loadingProfile" class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light" 
+              :style="`width: ${score}%;`"></div>
+              <div v-else class="h-[8px] bg-gray-300 rounded-[9px] animate-pulse"></div>
             </div>
-            <div class="flex items-center w-full mt-[7px]">
-              <div
-                class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] rounded-[9px]"
-              >
-                <div
-                  class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light"
-                  :style="`width: ${score}%;`"
-                ></div>
+            <span v-if="!profileStore.loadingProfile" class="ml-2 text-black font-[500] text-[12px] leading-[21px]">{{ score }}%</span>
+            <div v-else class="animate-pulse ml-2 h-[8px] bg-gray-300 rounded-full w-10"></div>
+          </div>
+        </div>
+        
+        <div v-if="profileStore.loadingProfile" class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
+          <div  class="w-full">
+            <div class="animate-pulse flex flex-col space-y-[10px]">
+              <!-- Placeholder for Header and Icons -->
+              <div class="flex items-center justify-between">
+                <div class="bg-gray-300 h-[24px] w-[80px] rounded"></div>
+                <div class="flex space-x-[16px]">
+                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                </div>
               </div>
-              <span class="ml-2 text-black font-[500] text-[12px] leading-[21px]"
-                >{{ score }}%</span
-              >
+            
             </div>
           </div>
+         </div>
 
-          <ProfilePortfolio v-if="profileStore.currentTab === 'personal'" />
-
-          <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
+         <ProfilePortfolio 
+         v-if="!profileStore.loadingProfile && profileStore.member?.social_accounts?.length && profileStore.currentTab === 'personal'" 
+       />
+       
+        <!--   <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" /> -->
         </div>
 
         <div
           class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
         >
-          <div class="flex items-start justify-between w-full">
-            <div
-              :class="[
-                profileStore.currentTab === 'personal'
-                  ? 'border-b-tamkin text-black'
-                  : 'text-[#878787]',
-              ]"
-              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-              @click="changeTab('personal')"
-            >
-              Personal Info
-            </div>
-            <div
-              :class="[
-                profileStore.currentTab === 'company'
-                  ? 'border-b-tamkin text-black'
-                  : 'text-[#878787]',
-              ]"
-              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-              @click="changeTab('company')"
-            >
-              Company Info
-            </div>
-            <div
-              :class="[
-                profileStore.currentTab === 'security'
-                  ? 'border-b-tamkin text-black'
-                  : 'text-[#878787]',
-              ]"
-              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-              @click="changeTab('security')"
-            >
-              Password and security
-            </div>
+        <div class="flex items-start justify-between w-full">
+          <!-- Personal Info Tab -->
+          <div v-if="!profileStore.loadingProfile" 
+            :class="[
+              profileStore.currentTab === 'personal'
+                ? 'border-b-tamkin text-black'
+                : 'text-[#878787]',
+            ]"
+            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+            @click="changeTab('personal')"
+          >
+            Personal Info
           </div>
+          <!-- Placeholder for Personal Info Tab -->
+          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
+        
+          <!-- Company Info Tab -->
+          <div v-if="!profileStore.loadingProfile" 
+            :class="[
+              profileStore.currentTab === 'company'
+                ? 'border-b-tamkin text-black'
+                : 'text-[#878787]',
+            ]"
+            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+            @click="changeTab('company')"
+          >
+            Company Info
+          </div>
+          <!-- Placeholder for Company Info Tab -->
+          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
+        
+          <!-- Password and Security Tab -->
+          <div v-if="!profileStore.loadingProfile" 
+            :class="[
+              profileStore.currentTab === 'security'
+                ? 'border-b-tamkin text-black'
+                : 'text-[#878787]',
+            ]"
+            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+            @click="changeTab('security')"
+          >
+            Password and security
+          </div>
+          <!-- Placeholder for Password and Security Tab -->
+          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[150px]"></div>
+        </div>
+        
           <keep-alive>
             <ProfileEditpersonal
               :loading-personal="profileLoader"

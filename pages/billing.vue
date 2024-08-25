@@ -19,17 +19,19 @@ const { getCards } = useGetCards();
 const { deleteCard } = useDeleteCard();
 const { getInvoices } = useInvoices();
 const { invoicePdf } = useInvoicePdf();
-
-
+const globalLoad = ref(false)
 const { fullUrl } = useFullUrl();
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   // await getInviteApps({ agency: user.agency });
 };
-onMounted(() => {
-  getApps();
-  getCards();
-  getInvoices();
+onMounted(async () => {
+  globalLoad.value = true
+  
+ await getApps();
+ await getCards();
+ await getInvoices();
+  globalLoad.value = false
 });
 const dateF = ref();
 const langStore = useLangSwitch();
@@ -85,6 +87,9 @@ const format = (date) => {
     return `Selected date is ${formatDate(date)}`;
   }
 };
+const loadingInvoiceId = ref(null);
+
+
 
 const checkAll = computed({
   get() {
@@ -126,7 +131,7 @@ const openMenu = (menu: any) => {
 const openCard = (card: any) => {
   billingStore.card = card;
   openModal('edit_card_billing_profile', 'billing')
-  console.log('billingStore.card=>',billingStore.card)
+  // console.log('billingStore.card=>',billingStore.card)
 };
 
 
@@ -180,11 +185,14 @@ function printAndDownloadPDF(base64String, fileName = "document.pdf") {
 }
 
 const GetBase64AndPrint=async(id)=>{
-
+  loadingInvoiceId.value = id;
   const res = await invoicePdf(id);
-  console.log('resalt',invoicesStore.pdfLink)
+
+  // console.log('resalt',invoicesStore.pdfLink)
   printAndDownloadPDF(invoicesStore.pdfLink)
-  console.log('id',id)
+  loadingInvoiceId.value = null;
+
+
 }
 
 const openAddNewCardModal = ()=>{
@@ -207,12 +215,113 @@ openModal('add_new_card_billing','billing')
 // }
 
 // }
+const loadingMoreInvoies =ref(false)
+const invoicescount = ref(3)
+const increaseInvoices = ()=>{{
+  loadingMoreInvoies.value = true
+setTimeout(()=>{
+
+  
+  invoicescount.value = invoicesStore.invoices.length
+  loadingMoreInvoies.value = false
+},1500)
+}}
+const computedInvoices = computed(()=>{
+  return invoicesStore.invoices.slice(0, invoicescount.value)
+})
+
+
+
+function beforeEnter(el) {
+  el.style.transform = "scale(0)";
+  el.style.opacity = "0";
+}
+
+function enter(el, done) {
+  el.offsetWidth; // Force reflow
+  el.style.transition = "all 0.5s ease";
+  el.style.transform = "scale(1)";
+  el.style.opacity = "1";
+  done();
+}
+
+function leave(el, done) {
+  el.style.transition = "all 0.5s ease";
+  el.style.transform = "scale(0)";
+  el.style.opacity = "0";
+  setTimeout(done, 500);
+}
+
+///7
+
+function beforeEnterCart(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterCart(el, done) {
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveCart(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
+
+///
+
+function beforeEnterNotification(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterNotification(el, done) {
+  // Set the initial position and opacity
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+
+  // Trigger reflow to ensure the initial styles are applied
+  el.offsetHeight;
+
+  // Start the transition
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveNotification(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
+
+ 
+   
+
+
 </script>
 
 <template>
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
-    <ProfileBillingModalsAddnewCard/>
+    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+      <ProfileBillingModalsAddnewCard/>
+    </transition>
     <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete PaymentMethod"
                    sub-title="Are you sure you want to delete the Payment method ?"
                    confirm-btn-type="delete" @control-delete="handelDeleteCard()"
@@ -229,7 +338,7 @@ openModal('add_new_card_billing','billing')
       </h2>
     </div>
 
-    <div v-if="billingStore.cards?.length === 0" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Payment Methods</div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]" 
@@ -244,8 +353,23 @@ openModal('add_new_card_billing','billing')
         </button>
       </div>
     </div>
+    <div v-if="billingStore.cards?.length === 0  && globalLoad || invoicesStore.loadCards" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
+      <div class="flex items-center justify-between w-full">
+        <div class="w-[160px] h-[27px] bg-gray-200 animate-pulse  rounded-[10px]"></div>
+       <div class="bg-gray-200 animate-pulse w-[159px] h-[40px] rounded-[10px]">
 
-    <div v-if="billingStore.cards?.length !== 0" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
+       </div>
+      </div>
+    
+      <!-- Example for loading state if there are cards -->
+      <div class="mt-[24px] space-y-[10px]">
+        <div class="bg-gray-200 animate-pulse w-full h-[60px] rounded"></div> <!-- Placeholder for a card -->
+        <div class="bg-gray-200 animate-pulse w-full h-[60px] rounded"></div> <!-- Placeholder for another card -->
+        <!-- Add more placeholders as needed -->
+      </div>
+    </div>
+    
+    <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">Payment Methods</div>
         <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openAddNewCardModal">
@@ -318,6 +442,7 @@ openModal('add_new_card_billing','billing')
         </div>
       </div>
     </div>
+
     <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
         Billing & Invoices
@@ -328,16 +453,30 @@ openModal('add_new_card_billing','billing')
         <table class="min-w-full bg-white">
           <tbody class="text-gray-700">
           <!-- Loop through invoices -->
-          <tr v-for="invoice in invoicesStore.invoices" :key="invoice.id" class="border-t border-b border-gray-200">
-            <td class="py-4 space-y-[10px]">
-              <div   @click="GetBase64AndPrint(invoice.name);"
-                 class="text-tamkin text-[14px] font-[500] leading-[19px] underline  cursor-pointer ">
+          <tr v-for="invoice in computedInvoices" :key="invoice.id" class="border-t border-b border-gray-200">
+            <td class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px] " >
+        
+                <!-- Spinner icon -->
+              <div class="flex items-center justify-start space-x-[10px]">
+          
+
+          
+        
+              <button   @click="GetBase64AndPrint(invoice.name);" :disabled="loadingInvoiceId === invoice.name"
+                 class=" text-[14px] font-[500] leading-[19px] " :class="loadingInvoiceId === invoice.name ? 'cursor-not-allowed text-light ' :'text-tamkin underline  cursor-pointer'">
                 Download Invoice # {{ invoice.name }}
+              </button>
+              <svg  v-if="loadingInvoiceId === invoice.name"  class="animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
               </div>
               <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
                 {{ invoice.order_date }}
               </div>
+            
             </td>
+          
             <td class="py-4 space-y-[10px] text-left">
               <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">{{ invoice.type_payment }}</div>
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
@@ -351,10 +490,58 @@ openModal('add_new_card_billing','billing')
         </table>
       </div>
 
-      <button class="btn-dashboard hover_tamkin w-[180px] mt-[16px] ml-auto">Show All Invoices</button>
+      <button  :disabled="loadingMoreInvoies" class="btn-dashboard hover_tamkin w-[190px] mt-[16px] ml-auto" @click="increaseInvoices" v-if="invoicescount != invoicesStore.invoices.length">
+        
+     
+        <div class="flex items-center justify-center w-full">
+          <div :class="loadingMoreInvoies ? 'mr-2':''">
+            Show All Invoices
+          </div>
+
+          <svg  v-if="loadingMoreInvoies" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+      
+      </button>
     </div>
 
-    <div v-if="invoicesStore.invoices?.length === 0" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="globalLoad" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px]">
+      <div class="w-full h-[32px] bg-gray-200 animate-pulse pb-[16px]">
+
+      </div>
+    
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white">
+          <tbody class="text-gray-700">
+            <!-- Placeholder for invoices -->
+            <tr class="border-t border-b border-gray-200">
+              <td class="py-4 space-y-[10px]">
+                <div class="bg-gray-200 animate-pulse w-[200px] h-[20px] rounded"></div> <!-- Placeholder for download link -->
+                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div> <!-- Placeholder for date -->
+              </td>
+              <td class="py-4 space-y-[10px] text-left">
+                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div> <!-- Placeholder for payment type -->
+                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div> <!-- Placeholder for card -->
+              </td>
+              <td class="py-4 space-y-[10px] text-right">
+                <div class="bg-gray-200 animate-pulse w-[100px] h-[20px] rounded"></div> <!-- Placeholder for cost -->
+                <div class="bg-gray-200 animate-pulse w-[150px] h-[16px] rounded"></div> <!-- Placeholder for order type -->
+              </td>
+            </tr>
+            <!-- Add more placeholder rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    
+
+          <div class="bg-gray-200 animate-pulse ml-auto  h-[40px] w-[190px] mt-[16px]  rounded-[10px]"></div> <!-- Placeholder for button text -->
+       
+   
+    </div>
+    
+    <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Billing History
       </div>
 

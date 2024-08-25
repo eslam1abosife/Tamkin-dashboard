@@ -131,7 +131,7 @@ const { $toast } = useNuxtApp();
 const { addNewCard } = useAddNewCard();
 
 const { getCards } = useGetCards();
-
+const invoiceStore = useInvoicesStore()
 const addCard = async ()=>{
 
   // console.log('addCard data',state)
@@ -149,9 +149,13 @@ const addCard = async ()=>{
         zip         : state.zip,
         is_primary  : true
   });
-  getCards();
-
   closeModal('add_new_card_billing')
+  invoiceStore.loadCards = true
+
+  await getCards();
+
+  invoiceStore.loadCards = false
+
 
   $toast('Card Added successfully', { hideIn: 3000 });
 

@@ -9,7 +9,8 @@ export const useProfileStore = defineStore("profile", {
     companySpecialization: null,
     socialPlatforms: [],
     memberSocialPlatform: [],
-    isOwner: false,
+    isOwner: null,
+    loadingProfile:false,
     profileAbout: '',
     currentTab: 'personal',
     investor: '',
@@ -82,14 +83,19 @@ export const useProfileStore = defineStore("profile", {
       }
     },
     async getCurrentTeam() {
+      this.loadingProfile = true
+
       const { getCurrentTeam, currTeam } = useGetCurrentTeam()
 
       await getCurrentTeam();
 
       this.company = currTeam.value;
+      this.loadingProfile = false
+
 
     },
     async fetchMember() {
+      this.loadingProfile = true
       // this.isLoading = true;
       try {
         const { getMember, member } = useGetMember();
@@ -99,6 +105,8 @@ export const useProfileStore = defineStore("profile", {
         // this.hasError = true;
       } finally {
         // this.isLoading = false;
+        this.loadingProfile = false
+
       }
     },
 

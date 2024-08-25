@@ -59,6 +59,7 @@ watch(
       icon: getPlatformIconUrl(account.social_platform),
       handler:account.link
     }));
+
   },
   { immediate: true }
 );
@@ -81,116 +82,129 @@ const updateSocial = (event: object, handler: any) => {
 
 
 
-onMounted(async () => {
-  await getSocialPlatforms();
-});
+// onMounted(async () => {
+//   await getSocialPlatforms();
+// });
 
-const { handlers } = toRefs(state);
+// const { handlers } = toRefs(state);
 </script>
 <template>
-  <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
-    <div class="flex items-center justify-between w-full">
-      <div class="text-[16px] leading-[24px] font-[600]">Portfolio</div>
-      <div
-        class="flex items-center justify-evenly space-x-[16px] ipad-max:flex-wrap"
-        v-if="currentMode === 'normal'"
-      >
-      <button 
-      :disabled="!isValidUrl(platform.link)"
-      v-for="(platform, index) in (profileStore.member.social_accounts.length > 0 ? profileStore.member.social_accounts : profileStore.social_platforms)"
-      :key="index"
-      @click="openLink(platform.link)"
-      class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
-    >
-      <img :src="getPlatformIconUrl(profileStore.member.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />
-    </button>
+  <div  class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
+  
+    <!-- Loader for Portfolio -->
+ 
+  
+    <!-- Portfolio Content -->
+      <!-- Header with Title and Icons -->
+      <div class="flex items-center justify-between w-full">
+        <div class="text-[16px] leading-[24px] font-[600]">Portfolio</div>
+        <div
+          class="flex items-center justify-evenly space-x-[16px] ipad-max:flex-wrap"
+          v-if="currentMode === 'normal'"
+        >
+          <button 
+            :disabled="!isValidUrl(platform.link)"
+            v-for="(platform, index) in (profileStore.member.social_accounts.length > 0 ? profileStore.member.social_accounts : profileStore.social_platforms)"
+            :key="index"
+            @click="openLink(platform.link)"
+            class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
+          >
+            <img :src="getPlatformIconUrl(profileStore.member.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />
+          </button>
+        </div>
       </div>
-    </div>
-
-    <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing'">
-      <div class="w-full" v-if="profileStore.company && profileStore.member.social_accounts.length === 0">
-        <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]" 
-          v-for="(handler, index) in profileStore.social_platforms" :key="index">
-          <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
-            <img :src="getPlatformIconUrl(profileStore.member.social_accounts.length > 0 ? handler.social_platform : (handler.title === 'LinkedIn' ? handler.title.toLowerCase() :handler.title))" class="w-[25px] h-[25px]" alt="" />
+  
+      <!-- Editing Mode Inputs -->
+      <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing'">
+        <!-- For Empty Social Accounts -->
+        <div class="w-full" v-if="profileStore.company && profileStore.member.social_accounts.length === 0">
+          <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]" 
+            v-for="(handler, index) in profileStore.social_platforms" :key="index">
+            <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
+              <img :src="getPlatformIconUrl(profileStore.member.social_accounts.length > 0 ? handler.social_platform : (handler.title === 'LinkedIn' ? handler.title.toLowerCase() :handler.title))" class="w-[25px] h-[25px]" alt="" />
+            </div>
+            <div class="w-full relative">
+              <input
+                type="text"
+                :id="`handler-${index}`"
+                v-model="handler.link"
+                placeholder=""
+                class="input_floating_label peer w-full"
+                :class="{
+                  input_error: v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid,
+                  input_success: !v$.profilehandlers?.$each?.[index]?.name?.$error && !v$.profilehandlers?.$each?.[index]?.name?.$invalid,
+                }"
+                @input="updateSocial($event, handler)"
+              />
+              <label
+                :for="`handler-${index}`"
+                class="floating_label"
+                :class="[
+                  v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
+                ]"
+              >
+                {{handler.title}}*
+              </label>
+              <div
+                class="w-full lg:w-4/6"
+                v-if="v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid"
+              >
+                <p class="error_message">
+                  <span>
+                    {{ $t("Please enter The handler") }}
+                  </span>
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="w-full relative">
-            <input
-              type="text"
-              :id="`handler-${index}`"
-              v-model="handler.link"
-              placeholder=""
-              class="input_floating_label peer w-full"
-              :class="{
-                input_error: v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid,
-                input_success: !v$.profilehandlers?.$each?.[index]?.name?.$error && !v$.profilehandlers?.$each?.[index]?.name?.$invalid,
-              }"
-              @input="updateSocial($event, handler)"
-            />
-            <label
-              :for="`handler-${index}`"
-              class="floating_label"
-              :class="[
-                v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
-              ]"
-            >
-              {{handler.title}}*
-            </label>
-            <div
-              class="w-full lg:w-4/6"
-              v-if="v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid"
-            >
-              <p class="error_message">
-                <span>
-                  {{ $t("Please enter The handler") }}
-                </span>
-              </p>
+        </div>
+  
+        <!-- For Populated Social Accounts -->
+        <div v-else class="w-full">
+          <div class="flex items-center justify-start space-x-[16px] my-[10px] w-full" 
+            v-for="(handler, index) in profileStore.member.social_accounts" :key="index">
+            <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
+              <img :src="getPlatformIconUrl(handler.social_platform)" class="w-[25px] h-[25px]" alt="" />
+            </div>
+            <div class="w-full relative">
+              <input
+                type="text"
+                :id="`handler-${index}`"
+                v-model="handler.link"
+                placeholder=""
+                class="input_floating_label peer w-full"
+                :class="{
+                  input_error: v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid,
+                  input_success: !v$.handlers?.$each?.[index]?.name?.$error && !v$.handlers?.$each?.[index]?.name?.$invalid,
+                }"
+                @input="updateSocial($event, handler)"
+              />
+              <label
+                :for="`handler-${index}`"
+                class="floating_label"
+                :class="[
+                  v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
+                ]"
+              >
+                {{handler.social_platform}}*
+              </label>
+              <div
+                class="w-full lg:w-4/6"
+                v-if="v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid"
+              >
+                <p class="error_message">
+                  <span>
+                    {{ $t("Please enter The handler") }}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-else class="w-full">
-        <div class="flex items-center justify-start space-x-[16px] my-[10px] w-full" 
-          v-for="(handler, index) in profileStore.member.social_accounts" :key="index">
-          <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
-            <img :src="getPlatformIconUrl(handler.social_platform)" class="w-[25px] h-[25px]" alt="" />
-          </div>
-          <div class="w-full relative">
-            <input
-              type="text"
-              :id="`handler-${index}`"
-              v-model="handler.link"
-              placeholder=""
-              class="input_floating_label peer w-full"
-              :class="{
-                input_error: v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid,
-                input_success: !v$.handlers?.$each?.[index]?.name?.$error && !v$.handlers?.$each?.[index]?.name?.$invalid,
-              }"
-              @input="updateSocial($event, handler)"
-            />
-            <label
-              :for="`handler-${index}`"
-              class="floating_label"
-              :class="[
-                v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
-              ]"
-            >
-              {{handler.social_platform}}*
-            </label>
-            <div
-              class="w-full lg:w-4/6"
-              v-if="v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid"
-            >
-              <p class="error_message">
-                <span>
-                  {{ $t("Please enter The handler") }}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  
   </div>
+  
+  
 </template>
 
