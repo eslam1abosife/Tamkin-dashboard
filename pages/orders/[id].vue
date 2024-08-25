@@ -32,7 +32,9 @@ const getOrderDetails=async()=>{
   orderDetails.value = result.data;
 }
 onMounted(async () => {
-  await getOrderDetails()
+  if(process.client){
+    await getOrderDetails()
+  }
   loadingBlock.value = false;
 });
 
@@ -63,12 +65,12 @@ const statusImages = [
 ];
 const getStatusImage=(status:string)=> {
       switch (status) {
-        case 'Rejected':
-          return statusImages[0];
+        case 'Pending':
+          return statusImages[1];
         case 'Successful':
           return statusImages[2];
         default:
-          return statusImages[1];
+          return statusImages[0];
       }
     };
 
