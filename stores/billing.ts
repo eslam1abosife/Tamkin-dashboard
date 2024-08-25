@@ -10,8 +10,9 @@ interface Checkbox {
 export const useBillingStore = defineStore('billing', {
     state: () => ({
         card:{},
-        cards:[]
-      }),
+        cards:[],
+        loadCards:false
+    }),
 
 
       actions: {

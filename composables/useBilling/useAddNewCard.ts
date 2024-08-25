@@ -5,13 +5,19 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
+    const response = ref();
+
 
     const addNewCard = async (data) => {
         try {
+            console.log('New Card data to store',data);
+
             const res = await api.post('/Billing/AddNewCard',{
                 data :data
             });
-            console.log('addNewCard',res.data);
+
+            console.log('add New Card',res.data);
+            response.value = res.data
 
         } catch (error) {
             console.error(error); // Better error handling
@@ -21,6 +27,7 @@ export default function() {
 
     return {
         addNewCard,
+        response,
         loading
     }
 }

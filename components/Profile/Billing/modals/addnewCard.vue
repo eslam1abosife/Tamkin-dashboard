@@ -70,6 +70,7 @@ let state = reactive({
   state: "",
   zip: "",
   country: "",
+  is_primary: false,
 });
 const rules = {
   firstName: { required },
@@ -128,7 +129,7 @@ const handleSelectedItemProjectName = (item: any) => {
 };
 const { $toast } = useNuxtApp();
 
-const { addNewCard } = useAddNewCard();
+const { addNewCard,response } = useAddNewCard();
 
 const { getCards } = useGetCards();
 const invoiceStore = useInvoicesStore()
@@ -147,29 +148,39 @@ const addCard = async ()=>{
         state       : state.state,
         country     : state.country,
         zip         : state.zip,
-        is_primary  : true
+        is_primary  : state.is_primary
   });
+  console.log('response',response.value)
+
   closeModal('add_new_card_billing')
+  if (response.value.statusCode == 200){
+    $toast('Card Added successfully', { hideIn: 3000 });
+  }else{
+    $toast(`Oops!${response.value.message}`, {
+      theme: 'colored',
+      type: 'error',
+      autoClose: 5000,
+      dangerouslyHTMLString: true
+    });
+  }
   invoiceStore.loadCards = true
 
   await getCards();
 
   invoiceStore.loadCards = false
 
-
-  $toast('Card Added successfully', { hideIn: 3000 });
-
   submitInviteLoading.value = false
-  state.cardNumber= ""
-      state.firstName = ""
-    state.lastName = ""
+   state.cardNumber= ""
+   state.firstName = ""
+   state.lastName = ""
    state.cvv = ""
- state.expireDate = ""
-state.address = ""
+   state.expireDate = ""
+   state.address = ""
    state.city = ""
-    state.state = ""
+   state.state = ""
    state.country = ""
    state.zip = ""
+   state.is_primary = false
 v$.value.$reset()
 }
 const closeModalCard = ()=>{
@@ -674,7 +685,7 @@ if(process.client){
           <div class=" px-[20px]">
             <label for="remember_me"
             class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
-            <input type="checkbox" :checked="billingStore.cards?.length === 0"
+            <input  v-model="state.is_primary" type="checkbox" :checked="billingStore.cards?.length === 0"
               class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />

@@ -30,14 +30,22 @@ const controlConfirmButton = ()=>{
 }
 const controlDeleteButton = async () => {
   deleteisLoading.value = true;
-  emit('controlDelete');
-  
+
   // Simulate an async operation with a delay
-  await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call or operation
-  
-  
-  // deleteisLoading.value = false;
+  await new Promise((resolve) => setTimeout(()=>{
+    emit('controlDelete');
+
+    resolve(true);
+  }, 2000)); // Simulate API call or operation
 };
+
+
+watch(() => props.showModal, (newVal) => {
+  if (newVal) {
+    deleteisLoading.value = false; // Reset when the modal opens
+    saveLoading.value = false; // Reset save loading as well
+  }
+});
 
 const controlCancelButton = ()=>{
   emit('controlCancel')
