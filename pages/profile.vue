@@ -70,9 +70,9 @@ const changeMode = (mode: any) => {
 //   }
 // });
 
-watch(profileStore.currentTab, (newValue) => {
-  getProfileCompleteScore(newValue);
-});
+// watch(profileStore.currentTab, (newValue) => {
+//   getProfileCompleteScore(newValue);
+// });
 
 // provide("currentMode", currentMode);
 

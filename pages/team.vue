@@ -184,10 +184,8 @@ const openDeleteMember = (memberEmail) => {
 
 const memberDeletedSuccessfully = ref(false);
 
-watch(eventCounter, async () => {
-  if (lastEventCall.value === "deleteTeamMember") {
-    try {
-      const { deleteMember } = useDeleteMember();
+const deleteMember =async ()=>{
+  const { deleteMember } = useDeleteMember();
       await deleteMember(currMemberEmail.value);
       await getTeamMembersAndThirCount();
       memberDeletedSuccessfully.value = true;
@@ -195,11 +193,7 @@ watch(eventCounter, async () => {
         memberDeletedSuccessfully.value = false;
       }, 2000);
       closeModal("deleteTeamMember");
-    } catch (err) {
-      console.error(err);
-    }
-  }
-});
+}
 
 const filteredTeamMembers = computed(() => {
   if (teamMembers.value) {
@@ -284,6 +278,10 @@ onMounted(() => {
       :message="'Member Deleted successfully'"
     />
 
+
+    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
+    sub-title="Are you sure you want to delete that team member ?" confirm-btn-type="delete"
+    @control-delete="deleteMember" @control-cancel="closeModal('deleteTeamMember')"/>
     <div class="space-y-[10px]">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin"

@@ -59,7 +59,7 @@ const futureDate = (value) => {
 
   return year > currentYear || (year === currentYear && month >= currentMonth);
 };
-const state = reactive({
+let state = reactive({
   firstName: "",
   lastName: "",
   cardNumber: "",
@@ -123,7 +123,7 @@ const submitInviteLoading = ref(false);
 
 
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
+  // console.log(item)
   state.country = item.name
 };
 const { $toast } = useNuxtApp();
@@ -134,7 +134,7 @@ const { getCards } = useGetCards();
 
 const addCard = async ()=>{
 
-  console.log('addCard data',state)
+  // console.log('addCard data',state)
   submitInviteLoading.value = true
   await addNewCard({
         card_number : state.cardNumber.replace(/\s+/g, ''),
@@ -156,9 +156,27 @@ const addCard = async ()=>{
   $toast('Card Added successfully', { hideIn: 3000 });
 
   submitInviteLoading.value = false
+  state.cardNumber= ""
+      state.firstName = ""
+    state.lastName = ""
+   state.cvv = ""
+ state.expireDate = ""
+state.address = ""
+   state.city = ""
+    state.state = ""
+   state.country = ""
+   state.zip = ""
+v$.value.$reset()
+}
+const closeModalCard = ()=>{
 
+
+if(process.client){
+  window.$chatwoot.toggleBubbleVisibility('show')
+  closeModal('add_new_card_billing')
 }
 
+}
 </script>
 
 <template>
@@ -169,7 +187,7 @@ const addCard = async ()=>{
 
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModal('add_new_card_billing')">
+   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModalCard">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -666,7 +684,7 @@ const addCard = async ()=>{
               Cancel
                       </button>
 
-        <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading">
+        <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading || v$.$invalid">
           <div class="flex items-center justify-center">
             <div :class="submitInviteLoading ? 'mr-2':''">
               Save

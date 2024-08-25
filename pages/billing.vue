@@ -186,6 +186,27 @@ const GetBase64AndPrint=async(id)=>{
   printAndDownloadPDF(invoicesStore.pdfLink)
   console.log('id',id)
 }
+
+const openAddNewCardModal = ()=>{
+
+
+if(process.client){
+  window.$chatwoot.toggleBubbleVisibility('hide')
+openModal('add_new_card_billing','billing')
+
+}
+
+}
+// const closeModalCard = ()=>{
+
+
+// if(process.client){
+//   window.$chatwoot.toggleBubbleVisibility('hide')
+// openModal('add_new_card_billing','billing')
+
+// }
+
+// }
 </script>
 
 <template>
@@ -211,7 +232,8 @@ const GetBase64AndPrint=async(id)=>{
     <div v-if="billingStore.cards?.length === 0" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Payment Methods</div>
 
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]" @click="openModal('add_new_card_billing','billing')">
+      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]" 
+      @click="openAddNewCardModal">
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           No payment methods have been added yet
@@ -226,7 +248,7 @@ const GetBase64AndPrint=async(id)=>{
     <div v-if="billingStore.cards?.length !== 0" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">Payment Methods</div>
-        <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openModal('add_new_card_billing','billing')">
+        <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openAddNewCardModal">
           <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1" y="1" width="27" height="27" rx="13.5" fill="white"/>
             <rect x="1" y="1" width="27" height="27" rx="13.5" stroke="url(#paint0_linear_9024_12875)"/>

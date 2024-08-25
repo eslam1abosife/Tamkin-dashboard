@@ -12,11 +12,11 @@ export default function () {
     try {
       const res = await api.post("/Tamkin Withdraw Requests/Add", {
        
-          email_address:withdrawStore.paypalEmail,
+          email_address:withdrawStore.paypal.paypalEmail,
           payment_type: withdrawStore.paymentMethodName,
           agency: profileStore.company.name,
           doctype:"Tamkin Withdraw Requests",
-
+        amount:withdrawStore.withdrawAmount
      
       });
 

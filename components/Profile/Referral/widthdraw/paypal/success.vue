@@ -37,6 +37,30 @@ const closeModalAndReset = ()=>{
   
   closeModal('success_paypal_withdraw')
 }
+
+
+    const getStatusStyle=(method:number)=> {
+      switch (method) {
+        case 'Pending':
+          return 'text-orange-400';
+        case 'Success':
+          return 'text-tamkin';
+        case 'Rejected':
+          return 'text-red-600';
+        
+      }
+    };
+
+    const formatDateOfReward = (dateof)=>{
+  const date = new Date(dateof); // Replace with your date
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: '2-digit',
+  year: 'numeric'
+}).format(date);
+
+return formattedDate
+}
 </script>
 
 <template>
@@ -82,21 +106,23 @@ const closeModalAndReset = ()=>{
   
         <div class="flex items-center justify-between w-full mt-[16px]">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Oct 09, 2024
+            {{formatDateOfReward(withDrawStore.transactionDetails.modified)}}
+
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            $150
+            ${{withDrawStore.transactionDetails.amount}}
           </div>
         </div>
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: 080kwawo9kdhdjh8
+            Trans ID: {{withDrawStore.transactionDetails.name}}
           </div>
   
-          <div class="text-[14px] font-[500] text-[#E38711]">
-            Pending
+        
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
+            {{withDrawStore.transactionDetails.status}}
           </div>
         </div>
   
@@ -112,7 +138,7 @@ const closeModalAndReset = ()=>{
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-           <!-- {{withDrawStore}} -->
+           {{withDrawStore.transactionDetails.email_address}}
           </div>
         </div>
   

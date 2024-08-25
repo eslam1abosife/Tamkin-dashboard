@@ -19,14 +19,24 @@ const state = reactive({
 });
 const regex = ref(/^https?:\/\/[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:?#[@!$&'()*+,;=]*)?$/);
 const isValidUrl = (url: string): boolean => {
-  return regex.value.test(url);
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 const openLink = (link: string) => {
+  if (!link.startsWith("http")) {
+    link = `https://${link}`;
+  }
+
   if (isValidUrl(link)) {
-    window.open(link, '_blank');
+    window.open(link, "_blank");
   }
 };
+
 // Vuelidate rules
 const rules = {
   profilehandlers: {
@@ -47,7 +57,7 @@ watch(
     state.profilehandlers = newAccounts.map(account => ({
       name: account.social_platform,
       icon: getPlatformIconUrl(account.social_platform),
-      handler: profileStore.normalizeDomain(account.link)
+      handler:account.link
     }));
   },
   { immediate: true }
@@ -89,7 +99,7 @@ const { handlers } = toRefs(state);
       :disabled="!isValidUrl(platform.link)"
       v-for="(platform, index) in (profileStore.member.social_accounts.length > 0 ? profileStore.member.social_accounts : profileStore.social_platforms)"
       :key="index"
-      @click="openLink(platform.link.startsWith('http') ? platform.link : `https://${platform.link}`)"
+      @click="openLink(platform.link)"
       class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center"
     >
       <img :src="getPlatformIconUrl(profileStore.member.social_accounts.length > 0 ? platform.social_platform : (platform.title === 'LinkedIn' ? platform.title.toLowerCase() : platform.title))" class="w-[25px] h-[25px]" alt="" />

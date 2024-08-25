@@ -7,13 +7,15 @@ export default function() {
   const { useApiInstance } = useApi();
   const { api , loading } = useApiInstance();
 //   const { $toast } = useNuxtApp();
-
+const userStore = useUserStore()
 
   const getAllReferrals = async (agency) => {
     try {
-      const res = await api.post('/Tamkin Withdraw Requests/Get',{
+      const res = await api.post('/Sales Invoice/Get',{
         "where":{
-          "agency":agency
+          sales_partner:userStore.user.user_id,
+
+             status: "Paid"
       },
       "PgSize":3000
       });

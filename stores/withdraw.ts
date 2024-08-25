@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { usewithdraWithBank ,useGetRewards,useGetCryptoList,useWithdrawcrypto} from "@/composables/useReferral";
+import { usewithdraWithBank ,useGetRewards,useGetCryptoList,useWithdrawcrypto,useWithdrawPaypal} from "@/composables/useReferral";
 import { useApi } from "@/composables/useApi";
 
 
@@ -57,9 +57,20 @@ export const useWithdrawStore = defineStore("withdraw", {
         this.bankDetails = {}
 this.withdrawAmount = 0
 this.paymentMethodName = ''
+this.getAllrewards()
 
     },
+    async withdrawpaypal(){
+      const { withdrawPaypal } = useWithdrawPaypal();
 
+      await withdrawPaypal()
+
+      // this.paypal.paypalEmail = {}
+this.withdrawAmount = 0
+this.paymentMethodName = ''
+this.getAllrewards()
+
+  },
     async withdrawcrypto(){
         const { withDrawcrypto } = useWithdrawcrypto();
 
@@ -67,6 +78,7 @@ this.paymentMethodName = ''
 
         this.selectedCrypto = ''
 this.cryptoDetails.wallet = ''
+this.getAllrewards()
 
     },
     async gettotalAmount(){

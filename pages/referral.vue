@@ -38,15 +38,21 @@ const rules = {
   Inquiry:{required}
 
 
+
 };
+
+const changeTab = (tab:any)=>{
+  currentTab.value  =tab
+  dateF.value = null
+}
 const getStatus=(method:number)=> {
       switch (method) {
         case 0:
-          return 'draft';
+          return 'Pending';
         case 1:
-          return 'success';
+          return 'Success';
         case 2:
-          return 'rejected';
+          return 'Rejected';
         
       }
     };
@@ -111,16 +117,19 @@ onMounted(async () => {
 
 })
 
-const { data, pending, error } = await useAsyncData('referral', async () => {
-  await Promise.all([
-    withdrawStore.getAllrewards(),
-    withdrawStore.gettotalAmount(),
-    withdrawStore.getcurrentLimit(),
-    withdrawStore.getcurrentRate(),
-  ]);
+onMounted(async ()=>{
+  await withdrawStore.getAllrewards()
+    await withdrawStore.gettotalAmount()
+    await withdrawStore.getcurrentLimit()
+    await withdrawStore.getcurrentRate()
+})
 
-  return true 
-});
+const scrollToSection = (sectionId) =>{
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
 const { text, copy, copied, isSupported } = useClipboard({ referralLink })
 const formatDateOfReward = (dateof)=>{
   const date = new Date(dateof); // Replace with your date
@@ -134,6 +143,43 @@ return formattedDate
 }
 
 const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
+
+const filteredReferrals = computed(() => {
+  // If no filter date is selected, show all referrals
+  if (!dateF.value) {
+    return allReferrals.value;
+  }
+
+  // Convert selectedDate to a Date object for comparison
+  const selected = new Date(dateF.value);
+
+  // Filter referrals based on the selected date
+  return allReferrals.value.filter((referral) => {
+    // Parse and format the referral date using formatDateOfReward
+    const formattedReferralDate = formatDateOfReward(referral.modified);
+
+    // Format the selected date to match the referral date format
+    const formattedSelectedDate = formatDateOfReward(selected);
+
+    // Compare the formatted dates
+    return formattedReferralDate === formattedSelectedDate;
+  });
+});
+const filteredWithdraw = computed(() => {
+  if (!dateF.value) {
+    return withdrawStore.rewards;
+  }
+
+  const selected = new Date(dateF.value);
+
+  return withdrawStore.rewards.filter((referral) => {
+    const formattedReferralDate = formatDateOfReward(referral.modified);
+
+    const formattedSelectedDate = formatDateOfReward(selected);
+
+    return formattedReferralDate === formattedSelectedDate;
+  });
+});
 
 </script>
 
@@ -167,7 +213,7 @@ const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0
     How It Works
 </div>
 
-<div class="flex items-center justify-between w-full mt-[36px]">
+<div class="flex items-center justify-between w-full mt-[36px]" > 
 
     <div class="flex flex-col items-center justify-center w-full">
         <div>
@@ -193,7 +239,7 @@ Send your unique referral link to Clients
         <div>
             <img src="/imgs/step_3_referral.png" class="w-[56px] h-[49px]" alt="">
         </div>
-        <div class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
+        <div  id="refer_clients" class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]">
             Earn Rewards<br>
             Receive your rewards when they join  </div>
     </div>
@@ -201,19 +247,20 @@ Send your unique referral link to Clients
         </div>
      </div>
 
-     <div class="flex items-center justify-center flex-col" >
+     <div class="flex items-center justify-center flex-col"  >
       
 
 
         <div class="bg-white w-full grid grid-cols-12 gap-4 my-[16px] p-[32px]  rounded-[10px] ">
 
-<div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full rounded-[10px] space-y-[40px] ">
+<div class="h-[247px] col-span-4 bg-gradient-to-t from-[#FEF5F5] via-[#E8FFFD] to-[#CCE4FF] w-full
+ rounded-[10px] space-y-[30px] ipad-max:space-y-[10px] ">
 <div class="flex items-center justify-between w-full p-[16px] relative">
 <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
   Balance
 </div>
 
-<div class="absolute ipad-max:right-[-50px] right-[16px]">
+<div class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] right-[16px]">
   <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="">
 </div>
 </div>
@@ -226,9 +273,13 @@ Send your unique referral link to Clients
 </div>
   <button class="btn-dashboard hover_tamkin w-[170px] " :disabled="isInputDisabled" @click="openModal('withdraw_paymentmethods','referral')">Withdraw</button>
 
-  <p class="text-[10px] font-[400] text-[#585B5B]  w-3/4 text-center mx-auto">
-    Please ensure that the amount meets the minimum requirement of ${{withdrawStore.limitofWithdraw}}
+  <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B]  w-3/4 text-center mx-auto">
+    Please ensure that the amount meets the minimum requirement of <span class="!font-[600]">${{withdrawStore.limitofWithdraw}}</span>
   </p>
+  <p class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto">
+    * Transaction fees are not included in our coverage.
+   </p>
+
 </div>
 
 
@@ -248,12 +299,12 @@ Send your unique referral link to Clients
   <div
 class="mt-[12px] border-[1px]  bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between  px-[10px]"
 >
-  <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[13px]">
+  <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
     Referral Link
   </div>
 <div class="flex items-center justify-end space-x-[12px]">
   <div
-  class="ml-auto text-[14px] ipad-max:text-[13px] font-[500] leading-[21px] dark:text-whiteTamkin/70 "
+  class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70 "
 >
 {{ referralLink }}
 <!-- https://example.com/ref/yourlink -->
@@ -271,7 +322,7 @@ src="/imgs/copy.svg"
 </div>
   </div>
 <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
-<span class="!font-[600]">30</span> users have signed up using your referral link
+<span class="!font-[600]">{{allReferrals.length}}</span> users have signed up using your referral link
 </div>
   
   
@@ -286,108 +337,108 @@ src="/imgs/copy.svg"
 
           <div class="p-[10px] ipad-max:w-full w-1/4 h-[42px] bg-[#F9F9F9]  rounded-[10px] flex items-center justify-center">
             <div 
-            @click="currentTab = 'rewards'"
+            @click="changeTab('rewards')"
             :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
             class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
               Withdraw
             </div>
             <div 
-@click="currentTab = 'refs'"
+@click="changeTab('refs')"
 :class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
 
             class="cursor-pointer w-full h-[32px]  rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]">
-              My Referrals
+               Referrals
             </div>
           </div>
 
           <div class="w-full ipad-max:w-full lg:w-1/4">
+       
             <VueDatePicker
-              :enable-time-picker="false"
-              @blur="dateOpen = false"
-              @focus="dateOpen = true"
-              class="relative"
-              :clearable="false"
-              disable-year-select
-              month-name-format="long"
-              :input-class-name="
-                dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
-              "
-              :dark="colorMode.preference === 'dark'"
-              placeholder="Select Date"
-              v-model="dateF"
-              :format="format"
-              :position="langStore.direction === 'rtl' ? 'right' : 'left'"
-              :auto-position="true"
-              range
-              :max-date="new Date()"
-              @update:model-value="handleDate" 
-            >
-              <template #action-row="{ closePicker, selectDate }">
-                <div
-                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+            :enable-time-picker="false"
+            @blur="dateOpen = false"
+            @focus="dateOpen = true"
+            class="relative"
+            :clearable="false"
+            disable-year-select
+            month-name-format="long"
+            :input-class-name="
+              dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
+            "
+            :dark="colorMode.preference === 'dark'"
+            placeholder="Select Date"
+            v-model="dateF"
+            :format="format"
+            :position="langStore.direction === 'rtl' ? 'right' : 'left'"
+            :auto-position="true"
+            
+            :max-date="new Date()"
+          >
+            <template #action-row="{ closePicker, selectDate }">
+              <div
+                class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+              >
+                <button
+                  @click="closePicker"
+                  class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                 >
-                  <button
-                    @click="closePicker"
-                    class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
-                  >
-                    <div>Cancel</div>
-                  </button>
-                  <button
-                    @click="selectDate"
-                    class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
-                  >
-                    <div>
-                      <svg
-                        class="group-hover:fill-tamkin"
-                        width="13"
-                        height="14"
-                        viewBox="0 0 13 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
-         3.97657L5.15274 8.92575Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </div>
-                    <div>Done</div>
-                  </button>
-                </div>
-              </template>
-              <template #input-icon>
-                <svg
-                  class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
-                  :class="[
-                    dateOpen && dateF
-                      ? 'rotate-90 !text-white '
-                      : dateOpen && !dateF
-                      ? 'rotate-90'
-                      : 'rotate-0',
-                  ]"
-                  width="11"
-                  height="16"
-                  viewBox="0 0 11 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <div>Cancel</div>
+                </button>
+                <button
+                  @click="selectDate"
+                  class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
                 >
-                  <path
-                    d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
-                 8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
-                 1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </template>
-            </VueDatePicker>
+                  <div>
+                    <svg
+                      class="group-hover:fill-tamkin"
+                      width="13"
+                      height="14"
+                      viewBox="0 0 13 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.15274 8.92575L3.08759 6.86047L2.35742 7.59063L5.15274 10.3861L10.8321 4.70673L10.1019
+       3.97657L5.15274 8.92575Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                  <div>Done</div>
+                </button>
+              </div>
+            </template>
+            <template #input-icon>
+              <svg
+                class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
+                :class="[
+                  dateOpen && dateF
+                    ? 'rotate-90 !text-white '
+                    : dateOpen && !dateF
+                    ? 'rotate-90'
+                    : 'rotate-0',
+                ]"
+                width="11"
+                height="16"
+                viewBox="0 0 11 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.1409 7.60957C10.3911 7.80973 10.3911 8.19027 10.1409
+               8.39043L1.44125 15.3501C1.11387 15.612 0.628906 15.3789 0.628906 14.9597L0.628907 
+               1.04031C0.628907 0.62106 1.11387 0.387973 1.44125 0.649878L10.1409 7.60957Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </template>
+          </VueDatePicker>
           </div>
          </div>
          
 
 
-<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock">
-  <table class="min-w-full bg-white border-b table-fixed border-gray-200">
+<div class="overflow-x-auto w-full mt-[16px]" v-if="currentTab === 'rewards' && !loadingBlock ">
+  <table class="min-w-full bg-white border-b table-fixed border-gray-200" >
     <thead class="bg-gray-50">
       <tr>
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-1/4 px-4">Transaction ID</th>
@@ -397,19 +448,29 @@ src="/imgs/copy.svg"
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black  w-2/4 px-4">Status</th>
       </tr>
     </thead>
-    <tbody class="text-gray-700">
+    <tbody class="text-gray-700" v-if="filteredWithdraw.length > 0">
     
-      <tr class="border-t border-gray-200" v-for="reward in withdrawStore.rewards">
+      <tr class="border-t border-gray-200" v-for="reward in filteredWithdraw">
         <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.name}}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{formatDateOfReward(reward.posting_date)}}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.total_commission +' ' + reward.price_list_currency}}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">********26789</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{formatDateOfReward(reward.modified)}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.amount +' ' +(reward.payment_type === "bank_account" ? reward.account_currency : reward.payment_type === "crypto" ? reward.crypto_currency : reward.payment_type === 'paypal' ? "USD":'')}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{reward.payment_type === 'bank_account' ? reward.account_number:reward.payment_type === 'crypto' ? reward.crypto_address : reward.email_address}}</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
-          <span class="h-2 w-2 rounded-full bg-orange-400"></span>
-          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{reward.status}}</span>
+          <span class="h-2 w-2 rounded-full " :class="getStatusStyle(reward.docstatus)"></span>
+          <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(reward.docstatus)}}</span>
         </td>
       </tr>
      
+    </tbody>
+
+    <tbody v-else>
+      <tr>
+        <td colspan="5" class="py-6 text-center">
+          <div class="flex justify-center items-center">
+            <Noresult class="!mt-0" text="No results found for the selected date." />
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -427,15 +488,15 @@ src="/imgs/copy.svg"
         <th class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black   px-4 ">Status</th>
       </tr>
     </thead>
-    <tbody class="text-gray-700">
+    <tbody class="text-gray-700" v-if="filteredReferrals.length > 0">
     
 
-      <template v-for="referral in allReferrals" :key="referral.name">
+      <template v-for="referral in filteredReferrals" :key="referral.name">
       
       <tr class="border-t border-gray-200">
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.name }}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.creation }}</td>
-        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.amount }} AED</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.customer_name }}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ formatDateOfReward(referral.modified )}}</td>
+        <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">{{ referral.total_commission }} AED</td>
         <td class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black">
           <span class="h-2 w-2 rounded-full " :class="getStatusStyle(referral.docstatus)"></span>
           <span class="text-[14px] leading-[19px] text-[#021328] font-[600]">{{getStatus(referral.docstatus)}}</span>
@@ -443,6 +504,15 @@ src="/imgs/copy.svg"
       </tr>
       </template>
 
+    </tbody>
+    <tbody v-else>
+      <tr>
+        <td colspan="5" class="py-6 text-center">
+          <div class="flex justify-center items-center">
+            <Noresult class="!mt-0" text="No results found for the selected date." />
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -459,7 +529,7 @@ src="/imgs/copy.svg"
     Currently, there are no rewards available
   </div>
 
-  <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+  <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]" @click="scrollToSection('refer_clients')"> Refer Clients</button>
 </div>
   <!-- NO REWARDS AVAILABLE-->
 
@@ -473,7 +543,7 @@ src="/imgs/copy.svg"
       Currently, there are no referrals available
     </div>
   
-    <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"> Refer Clients</button>
+    <button class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]" @click="scrollToSection('refer_clients')"> Refer Clients</button>
   </div>
 
   <!-- no Referrals available-->
@@ -518,43 +588,9 @@ src="/imgs/copy.svg"
   inset-inline-start: auto !important;
 }
 
-.dp__calendar_item .dp__range_start {
-  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  @apply rounded-full;
-}
 
-.dp__calendar_item .dp__range_between {
-  @apply bg-tamkinLight border-0;
-}
 
-.dp__calendar_item .dp__range_end {
-  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-  @apply rounded-full;
-}
 
-.dp__calendar_item .dp__today {
-  @apply rounded-full bg-white dark:bg-tamkinDarkPrimary font-[700] text-darkGrey dark:text-whiteTamkin border-[1px] 
-  border-[#616161] dark:border-darkborder;
-}
-.dp__calendar_item .dp__today.dp__range_end {
-  @apply rounded-full bg-white font-[700] !text-white !border-0 dark:bg-tamkinDarkPrimary
-  dark:!text-whiteTamkin;
-}
-.dp__calendar_item .dp__today.dp__range_start {
-  @apply rounded-full bg-white font-[700] !text-white dark:bg-tamkinDarkPrimary
-  dark:!text-whiteTamkin !border-0;
-}
-
-.dp__calendar_item .dp__date_hover_start {
-  @apply bg-tamkinLight;
-}
-
-.dp__calendar_item .dp__date_hover {
-  @apply bg-tamkinLight;
-}
-.dp__inner_nav {
-  @apply text-tamkin;
-}
 
 .dp--arrow-btn-nav:hover {
   @apply text-tamkin;
@@ -636,5 +672,7 @@ src="/imgs/copy.svg"
   --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
   --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
 }
-
+.no_result_tamkin{
+  @apply w-full !mt-[-40px] !justify-start;
+}
 </style>

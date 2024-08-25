@@ -40,14 +40,7 @@ const {
 const withdrawStore = useWithdrawStore();
 const checked = ref('');
 const amount = ref('$0.00');
-const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0 );
-
-// Computed property to disable button if withdraw amount exceeds current amount
-const isButtonDisabled = computed(() => {
-  const withdrawAmount = parseFloat(withdrawStore.withdrawAmount).toFixed(2);
-  const currentAmount = parseFloat(withdrawStore.currentAmount.replace(/,/g, '')).toFixed(2);
-  return parseFloat(withdrawAmount) > parseFloat(currentAmount);
-});
+const isInputDisabled = computed(() => Number(withdrawStore.currentAmount) === 0);
 
 // Format amount function
 const formatAmount = (event) => {
@@ -59,7 +52,7 @@ const formatAmount = (event) => {
   }
 
   // Limit the total number of digits to 7 (5 before decimal, 2 after)
-  if (value.length > 7) { // Adjusted to 7 to account for up to 5 digits before decimal and 2 after
+  if (value.length > 7) {
     value = value.slice(0, 7);
   }
 
@@ -89,20 +82,15 @@ const formatAmount = (event) => {
 watch(amount, (newValue) => {
   const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
   withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
-  console.log(isButtonDisabled.value); // For debugging
 });
 
+// Computed property to check if withdraw button should be disabled
 const isWithdrawDisabled = computed(() => {
   // Extract numeric value from the formatted amount
   const numericValue = parseFloat(amount.value.replace(/[^\d.]/g, ''));
-  const hasDecimals = amount.value.includes('.') && !amount.value.endsWith('.00');
-  
-  // Check if the numeric value is valid
-  const isAmountValid =  amount.value === '$0.00' || numericValue < withdrawStore.limitofWithdraw;
-  console.log('numer',isAmountValid)
-  
-  // The button should be disabled if loading, if the amount is invalid, or if it includes decimals
-  return withdrawloading.value || isAmountValid || hasDecimals;
+
+  // Check if the numeric value is less than the limit
+  return numericValue < Number(withdrawStore.limitofWithdraw);
 });
 
 
@@ -164,7 +152,7 @@ const closeAndreset = () => {
           </div>
           <div class="flex items-start justify-start flex-col">
             <div class="text-[#021328] text-[14px] font-[500]">
-              {{withdrawStore.bankDetails.acc_holder}}
+              {{withdrawStore.bankDetails.account_holder}}
             </div>
             <div class="text-[#021328] text-[12px] font-[500]">
               {{withdrawStore.bankDetails.bic}}
@@ -173,7 +161,7 @@ const closeAndreset = () => {
         </div>
         <div class="flex items-start justify-start flex-col">
           <div class="text-[#021328] text-[14px] font-[500]">
-            {{withdrawStore.bankDetails.bankName}}
+            {{withdrawStore.bankDetails.bank_name}}
           </div>
           <div class="text-[#021328] text-[12px] font-[500]">
             {{withdrawStore.bankDetails.iban}}
@@ -206,7 +194,7 @@ const closeAndreset = () => {
       </div>
 
       <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled">
+        <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="withdrawloading ? 'mr-2':''">
            Withdraw

@@ -11,9 +11,10 @@ export default function() {
 const profileStore = useProfileStore()
   const getAllRewards = async () => {
     try {
-        const res = await api.post('/Sales Invoice/Get',{
+        const res = await api.post('/Tamkin Withdraw Requests/Get',{
             "where":{
-                "sales_partner":profileStore.member.email_address
+              "agency":profileStore.company.name
+
             },
           "PgSize":3000
           });

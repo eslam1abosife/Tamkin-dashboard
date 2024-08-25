@@ -12,7 +12,7 @@ export default function(state) {
         try {
             const res = await api.post('/Account/SetNewPasswordToNewMember', {
                 data: {
-                    email       : state.email,
+                    email : state.email,
                     new_password: state.password
                 }
             });

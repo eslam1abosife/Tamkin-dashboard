@@ -76,7 +76,17 @@ const closeModalAndReset = ()=>{
   
   closeModal('success_bank_withdraw')
 }
-
+const getStatusStyle=(method:number)=> {
+      switch (method) {
+        case 'Pending':
+          return 'text-orange-400';
+        case 'Success':
+          return 'text-tamkin';
+        case 'Rejected':
+          return 'text-red-600';
+        
+      }
+    };
 </script>
 
 <template>
@@ -137,8 +147,8 @@ const closeModalAndReset = ()=>{
             Trans ID: {{withDrawStore.transactionDetails.name}}
           </div>
   
-          <div class="text-[14px] font-[500] text-[#E38711]">
-            Pending
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.cyrptoTransactionDetails.status)">
+            {{withDrawStore.cyrptoTransactionDetails.status}}
           </div>
         </div>
   

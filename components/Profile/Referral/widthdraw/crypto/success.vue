@@ -78,6 +78,18 @@ const closeModalAndReset = ()=>{
   
   closeModal('crypto_success_referral')
 }
+
+const getStatusStyle=(method:number)=> {
+      switch (method) {
+        case 'Pending':
+          return 'text-orange-400';
+        case 'Success':
+          return 'text-tamkin';
+        case 'Rejected':
+          return 'text-red-600';
+        
+      }
+    };
 </script>
 
 <template>
@@ -133,11 +145,11 @@ const closeModalAndReset = ()=>{
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: 080kwawo9kdhdjh8
+            Trans ID: {{ withDrawStore.cyrptoTransactionDetails.name }}
           </div>
   
-          <div class="text-[14px] font-[500] text-[#E38711]">
-            Pending
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.cyrptoTransactionDetails.status)">
+            {{withDrawStore.cyrptoTransactionDetails.status}}
           </div>
         </div>
   

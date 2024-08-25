@@ -20,8 +20,9 @@ const {
 const isLoading = ref(false);
 const isInputDisabled = computed(() => Number(withdrawStore.withdrawAmount) === 0);
 
-const amount = ref('');
+const amount = ref('$0.00');
 
+// Format amount function
 const formatAmount = (event) => {
   let value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
 
@@ -30,12 +31,12 @@ const formatAmount = (event) => {
     return;
   }
 
-  // Limit the total number of digits to 5
-  if (value.length > 5) {
-    value = value.slice(0, 5);
+  // Limit the total number of digits to 7 (5 before decimal, 2 after)
+  if (value.length > 7) {
+    value = value.slice(0, 7);
   }
 
-  const integerPart = value.slice(0, -2) || '0'; // First 1-3 digits as integer part
+  const integerPart = value.slice(0, -2) || '0'; // First part as integer part
   const decimalPart = value.slice(-2); // Last 2 digits as decimal part
 
   // Format the integer part with commas
@@ -43,13 +44,35 @@ const formatAmount = (event) => {
 
   // Reconstruct the formatted value
   const formattedValue = `${formattedInteger}.${decimalPart}`;
-  amount.value = `$${formattedValue}`;
+
+  // Ensure the formatted value does not exceed currentAmount
+  const formattedNumericValue = parseFloat(formattedValue.replace('$', '').replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+
+  if (formattedNumericValue > currentAmountValue) {
+    amount.value = `$${currentAmountValue.toFixed(2)}`;
+    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  } else {
+    amount.value = `$${formattedValue}`;
+    withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  }
 };
 
+// Watch amount changes to update withdrawAmount in store
 watch(amount, (newValue) => {
-  const cleanedValue = newValue.replace('$', '');
-  withdrawStore.withdrawAmount = cleanedValue;
+  const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas
+  withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
 });
+
+// Computed property to check if withdraw button should be disabled
+const isWithdrawDisabled = computed(() => {
+  // Extract numeric value from the formatted amount
+  const numericValue = parseFloat(amount.value.replace(/[^\d.]/g, ''));
+
+  // Check if the numeric value is less than the limit
+  return numericValue < Number(withdrawStore.limitofWithdraw);
+});
+
 const closeAndreset = ()=>{
   withdrawStore.transactionDetails = {}
   withdrawStore.paypal = {
@@ -60,7 +83,7 @@ const closeAndreset = ()=>{
 }
 const completeWithDraw = async () => {
   isLoading.value = true;
-  await withdrawStore.withDrawBank();
+  await withdrawStore.withdrawpaypal();
   navigateTo('paypal_withdraw_step2', 'referral', 'success_paypal_withdraw');
   isLoading.value = false;
   amount.value = '$0.00'
@@ -144,7 +167,7 @@ const completeWithDraw = async () => {
   
 
        <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
-        <button :disabled="isLoading || isInputDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
+        <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'mr-2':''">
            Withdraw
