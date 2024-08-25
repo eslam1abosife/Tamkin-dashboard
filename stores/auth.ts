@@ -34,6 +34,8 @@ export const useUserStore = defineStore('user', {
       this.isLoggedIn = false;
       this.user = null;
 
+  
+
       // Clear cookies
       useCookie('token').value = null;
       useCookie('isLoggedIn').value = 'false';

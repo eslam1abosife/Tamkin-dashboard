@@ -38,7 +38,12 @@ const controlDeleteButton = async () => {
   
   // deleteisLoading.value = false;
 };
-
+watch(() => props.showModal, (newVal) => {
+  if (newVal) {
+    deleteisLoading.value = false; // Reset when the modal opens
+    saveLoading.value = false; // Reset save loading as well
+  }
+});
 const controlCancelButton = ()=>{
   emit('controlCancel')
 

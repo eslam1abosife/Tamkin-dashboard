@@ -55,7 +55,9 @@ const isOwner = () => {
     }
     return false;
 };
-
+      const invocieStore = useInvoicesStore()
+      const billingStore = useBillingStore()
+      const withdrawStore = useWithdrawStore()
 const userImg = computed(() => {
     const userStore = useUserStore();
     const user = userStore.user;
@@ -88,6 +90,12 @@ const logout = () => {
   localStorage.removeItem('registerd_user');
 
   router.push('/auth/login');
+
+
+      profileStore.$reset()
+      invocieStore.$reset()
+      billingStore.$reset()
+      withdrawStore.$reset()
 }
 const helpWindow = ()=>{
   if(process.client){
