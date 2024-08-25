@@ -19,6 +19,7 @@ const state = reactive({
   password_confirm: "",
   key: "",
   email: "",
+  agency: "",
 });
 
 const rules = {
@@ -59,16 +60,18 @@ const doChangePassword = async () => {
 
   try {
     console.log('state.email',state.email)
-    if (state.email) {
+    if (state.email &&  state.agency) {
       console.log("if")
       await setPasswordToNewMember({
         email   : state.email,
+        agency   : state.agency,
         password: state.password
       });
     } else {
       console.log("else")
       await confirmForgetPassword({
         email   : email,
+        agency   : state.agency,
         password: state.password,
         key: key,
       });
@@ -82,6 +85,7 @@ const doChangePassword = async () => {
 
 onMounted(() => {
   state.email = route.query.email;
+  state.agency = route.query.agency;
 });
 </script>
 
