@@ -70,7 +70,7 @@ let state = reactive({
   state: "",
   zip: "",
   country: "",
-  is_primary: false,
+  is_primary: null,
 });
 const rules = {
   firstName: { required },
@@ -148,7 +148,7 @@ const addCard = async ()=>{
         state       : state.state,
         country     : state.country,
         zip         : state.zip,
-        is_primary  : state.is_primary
+        is_primary  : state.is_primary ? state.is_primary : false
   });
   console.log('response',response.value)
 

@@ -52,6 +52,7 @@ const doLogin = async () => {
       loginSuccessfully.value = false;
     }, 2000);
     await profileStore.fetchMember()
+    await profileStore.getCurrentTeam()
 
     router.push("/overview");
   } catch (error) {
@@ -72,6 +73,7 @@ const doLoginWithGoogle = async () => {
   firebaseErrorMsg.value = null;
   try {
     await loginWithGoogle();
+    await profileStore.fetchMember()
   } catch (err) {
     firebaseErrorMsg.value = err;
   }

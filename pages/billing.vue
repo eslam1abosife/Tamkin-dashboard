@@ -451,7 +451,7 @@ function leaveNotification(el, done) {
 
     <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
-        Payments & Invoices
+        Invoices History
       </h1>
 
 

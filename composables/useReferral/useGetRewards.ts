@@ -9,15 +9,19 @@ export default function() {
 //   const { $toast } = useNuxtApp();
 
 const profileStore = useProfileStore()
+const user = JSON.parse(localStorage.getItem('user'));
+
   const getAllRewards = async () => {
     try {
         const res = await api.post('/Tamkin Withdraw Requests/Get',{
             "where":{
-              "agency":profileStore.company.name
+              "agency":user.agency
 
             },
           "PgSize":3000
           });
+
+
     return{
         data: res.data.data
   

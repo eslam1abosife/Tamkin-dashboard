@@ -46,9 +46,9 @@ const ConfirmpasswordFieldType = computed(() =>
   isconfirmPasswordVisible.value ? "text" : "password"
 );
 
-const { confirmForgetPassword, loading } = useConfirmForgetPassword();
+const { confirmForgetPassword, loading } = useConfirmForgetPassword(state);
 
-const { setPasswordToNewMember } = useSetPasswordToNewMember();
+const { setPasswordToNewMember } = useSetPasswordToNewMember(state);
 const errMsg = ref(null);
 
 const doChangePassword = async () => {
@@ -57,7 +57,7 @@ const doChangePassword = async () => {
   const key = localStorage.getItem("curr_code");
 
   try {
-    console.log('state.email',state.email)
+    // console.log('state.email',state.email)
     if (state.email) {
       console.log("if")
       await setPasswordToNewMember({
@@ -65,13 +65,22 @@ const doChangePassword = async () => {
         password: state.password
       });
     } else {
-      console.log("else")
+  
       await confirmForgetPassword({
         email   : email,
         password: state.password,
         key: key,
       });
     }
+
+//     if() {
+  
+//   await confirmForgetPassword({
+//     email   : email,
+//     password: state.password,
+//     key: key,
+//   });
+// }
 
   } catch (err) {
     errMsg.value = err;
@@ -80,6 +89,7 @@ const doChangePassword = async () => {
 
 
 onMounted(() => {
+  // console.log(route.query.email)
   state.email = route.query.email;
 });
 </script>

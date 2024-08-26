@@ -8,7 +8,7 @@ export default function() {
   const { api , loading } = useApiInstance();
 //   const { $toast } = useNuxtApp();
 const userStore = useUserStore()
-
+const withdrawStore = useWithdrawStore()
   const getAllReferrals = async (agency) => {
     try {
       const res = await api.post('/Sales Invoice/Get',{
@@ -19,6 +19,7 @@ const userStore = useUserStore()
       },
       "PgSize":3000
       });
+      withdrawStore.Allrefs = res.data.data
 
     return{
         data: res.data.data

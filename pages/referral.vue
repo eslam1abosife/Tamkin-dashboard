@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import {  useGetReferralLink,useGetAllReferrals,useGetRewards} from '~/composables/useReferral';
+import {  useGetReferralLink,useGetRewards,useGetAllReferrals} from '~/composables/useReferral';
 import { useClipboard } from '@vueuse/core'
 
 const {
@@ -43,7 +43,7 @@ const rules = {
 
 const changeTab = (tab:any)=>{
   currentTab.value  =tab
-  dateF.value = null
+  dateF.value = []
 }
 
     const getStatusStyle=(method:number)=> {
@@ -64,7 +64,7 @@ const changeTab = (tab:any)=>{
     };
 const v$ = useVuelidate(rules, state);
 const currentTab = ref('rewards')
-const dateF = ref();
+const dateF = ref([]);
 const colorMode = useColorMode();
 const langStore = useLangSwitch();
 
@@ -77,7 +77,7 @@ const alertFn = () => {
     dateOpen.value = true;
   }
 };
-const withdrawStore = useWithdrawStore()
+// const withdrawStore = useWithdrawStore()
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -93,10 +93,11 @@ const format = (date) => {
 };
 
 const source=ref('');
-const allReferrals=ref([])
+const withdrawStore = useWithdrawStore()
 
 const {$toast} = useNuxtApp()
 onMounted(async ()=>{
+  
   await withdrawStore.getAllrewards()
     await withdrawStore.gettotalAmount()
     await withdrawStore.getcurrentLimit()
@@ -106,12 +107,12 @@ onMounted(async ()=>{
     const user = JSON.parse(localStorage.getItem('user'));
   
     const resultLink =await  getReferralLink();
-    const allReferralsResult =await  getAllReferrals(user.agency);
+ await  getAllReferrals()
 
 
         source.value=resultLink.data;
-        allReferrals.value=allReferralsResult.data;
-      // console.log(allReferrals.value)
+        // withdrawStore.Allrefs.value=withdrawStore.AllrefsResult.data;
+      // console.log(withdrawStore.Allrefs.value)
   
   }
   loadingBlock.value=false
@@ -145,7 +146,7 @@ const stripTime = (date) => {
 const filteredReferrals = computed(() => {
   // If no filter date is selected, show all referrals
   if (!dateF.value || dateF.value.length < 2) {
-    return allReferrals.value;
+    return withdrawStore.Allrefs;
   }
 
   // Extract start and end dates from the array
@@ -154,7 +155,7 @@ const filteredReferrals = computed(() => {
   const endDate = stripTime(new Date(endDateStr));
 
   // Filter referrals based on the selected date range
-  return allReferrals.value.filter((referral) => {
+  return withdrawStore.Allrefs.filter((referral) => {
     const referralDate = stripTime(new Date(referral.creation));
     return referralDate >= startDate && referralDate <= endDate;
   });
@@ -337,7 +338,7 @@ Send your unique referral link to Clients
               </div>
             </div>
             <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
-              <span class="!font-[600]">{{ allReferrals.length }}</span> users have signed up using your referral link
+              <span class="!font-[600]">{{ withdrawStore.Allrefs.length }}</span> users have signed up using your referral link
             </div>
           </div>
           
@@ -395,7 +396,7 @@ Send your unique referral link to Clients
                 <button
                   @click="()=>{
                     
-                    dateF = '' 
+                    dateF = [] 
                     closePicker()
                   }"
                   class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
@@ -524,7 +525,7 @@ Send your unique referral link to Clients
       </template>
 
     </tbody>
-    <tbody v-else-if="filteredReferrals.length === 0 && dateF">
+    <tbody v-else-if="filteredReferrals.length === 0 && dateF.length > 0">
       <tr>
         <td colspan="5" class="py-6 text-center">
           <div class="flex justify-center items-center">
@@ -554,7 +555,7 @@ v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length 
   <!-- NO REWARDS AVAILABLE-->
 
   <!-- no Referrals available-->
-  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]"  v-if="currentTab === 'refs'&& !loadingBlock && allReferrals?.length==0 ">
+  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]"  v-if="currentTab === 'refs'&& !loadingBlock && withdrawStore.Allrefs?.length==0 ">
     <div>
       <img src="/imgs/no_refs.png" class="w-[42px] h-[42px]" alt="">
     </div>
