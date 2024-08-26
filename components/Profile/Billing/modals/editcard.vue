@@ -564,7 +564,12 @@ Edit your saved card details
 
 
   <div class=" ml-auto">
-    <button :disabled="!billingStore.card.is_active || billingStore.card.is_primary" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    <button :disabled="!billingStore.card.is_active || billingStore.card.is_primary"
+            :class="(!billingStore.card.is_active || billingStore.card.is_primary) ? 'text-lightGrey cursor-not-allowed':''"
+            @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')"
+            class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+            :title="(!billingStore.card.is_active || billingStore.card.is_primary) ? 'This action is not allowed Because this card is primary ':''"
+
     >
 
 
