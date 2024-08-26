@@ -10,6 +10,7 @@ export default function () {
   const profileStore = useProfileStore();
   const withdraWithBank = async () => {
     try {
+      console.log(profileStore.company.name , 'here company man')
       const res = await api.post("/Tamkin Withdraw Requests/Add", {
        
           ...withdrawStore.bankDetails,

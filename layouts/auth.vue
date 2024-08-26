@@ -36,6 +36,23 @@ watch(width, (newWidth) => {
 
 const layoutStore = useLayoutStore()
 layoutStore.setLayout('auth')
+const localePath = useLocalePath();
+const route = useRoute();
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
+};
+
 </script>
 
 
@@ -73,8 +90,11 @@ layoutStore.setLayout('auth')
       </div>
       <div
         class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%]  dark:bg-darkSecondary 
-        3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 ">
+        3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative">
         <NuxtPage class="dark:bg-darkSecondary" />
+      <div>
+        <AuthLanguageSwitcher :class="[isLinkActive('/auth/register')?'mt-[120px]' : isLinkActive('/auth/otp') ? 'mt-[60px]' :'mt-[40px]']" class=" mx-auto"/>
+      </div>
       </div>
     </div>
 

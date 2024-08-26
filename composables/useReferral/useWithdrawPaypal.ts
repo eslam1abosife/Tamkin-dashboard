@@ -10,6 +10,7 @@ export default function () {
   const profileStore = useProfileStore();
   const withdrawPaypal = async () => {
     try {
+      
       const res = await api.post("/Tamkin Withdraw Requests/Add", {
        
           email_address:withdrawStore.paypal.paypalEmail,

@@ -33,12 +33,14 @@ export const useWithdrawStore = defineStore("withdraw", {
     cyrptoTransactionDetails:'',
     paypal:{
       paypalEmail:''
-    }
+    },
+    Allrefs:[]
   }),
 
 
 
   actions: {
+ 
     async setCryptoList(){
         const { getCryptoTypes } = useGetCryptoList();
         const d = await getCryptoTypes()

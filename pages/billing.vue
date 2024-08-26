@@ -413,8 +413,11 @@ function leaveNotification(el, done) {
                     Default
                   </div>
                 </div>
-                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                  {{ savedCard.card_holder_name }}&nbsp; &nbsp; ****{{ savedCard.card_number }}
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start space-x-[16px]">
+                  <div class="w-20 truncate">{{ savedCard.card_holder_name }}</div>
+                  <div>
+                    ****{{ savedCard.card_number }}
+                  </div>
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
                   Expires on &nbsp;{{ savedCard.expiry_date }}
@@ -449,7 +452,7 @@ function leaveNotification(el, done) {
 
     <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
-        Payments & Invoices
+        Invoices History
       </h1>
 
 

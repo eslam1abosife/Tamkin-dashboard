@@ -210,11 +210,11 @@ const closeAndReset = () => {
                 ? '!text-error'
                 : '',
             ]">
-                  {{ $t("BIC") }}*
+                  {{ $t("Swift") }}*
                 </label>
                 <div class="w-full lg:w-4/6 " v-if="(v$.bic.$error && v$.bic.required.$invalid)">
                   <p class="error_message">
-                    <span v-if="v$.bic.$error && v$.bic.required.$invalid">{{ $t("BIC is required")
+                    <span v-if="v$.bic.$error && v$.bic.required.$invalid">{{ $t("Swift is required")
                       }}</span>
       
                   </p>

@@ -47,9 +47,9 @@ const ConfirmpasswordFieldType = computed(() =>
   isconfirmPasswordVisible.value ? "text" : "password"
 );
 
-const { confirmForgetPassword, loading } = useConfirmForgetPassword();
+const { confirmForgetPassword, loading } = useConfirmForgetPassword(state);
 
-const { setPasswordToNewMember } = useSetPasswordToNewMember();
+const { setPasswordToNewMember } = useSetPasswordToNewMember(state);
 const errMsg = ref(null);
 
 const doChangePassword = async () => {
@@ -58,8 +58,8 @@ const doChangePassword = async () => {
   const key = localStorage.getItem("curr_code");
 
   try {
-    console.log('state.email',state.email)
-    if (state.email &&  state.agency) {
+    // console.log('state.email',state.email)
+    if (state.email) {
       console.log("if")
       await setPasswordToNewMember({
         email   : state.email,
@@ -67,7 +67,7 @@ const doChangePassword = async () => {
         password: state.password
       });
     } else {
-      console.log("else")
+  
       await confirmForgetPassword({
         email   : email,
         agency   : state.agency,
@@ -76,6 +76,15 @@ const doChangePassword = async () => {
       });
     }
 
+//     if() {
+  
+//   await confirmForgetPassword({
+//     email   : email,
+//     password: state.password,
+//     key: key,
+//   });
+// }
+
   } catch (err) {
     errMsg.value = err;
   }
@@ -83,6 +92,7 @@ const doChangePassword = async () => {
 
 
 onMounted(() => {
+  // console.log(route.query.email)
   state.email = route.query.email;
   state.agency = route.query.agency;
 });

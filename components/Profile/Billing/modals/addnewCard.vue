@@ -70,7 +70,7 @@ let state = reactive({
   state: "",
   zip: "",
   country: "",
-  is_primary: false,
+  is_primary: null,
 });
 const rules = {
   firstName: { required },
@@ -148,7 +148,7 @@ const addCard = async ()=>{
         state       : state.state,
         country     : state.country,
         zip         : state.zip,
-        is_primary  : state.is_primary
+        is_primary  : state.is_primary ? state.is_primary : false
   });
   console.log('response',response.value)
 
@@ -189,8 +189,22 @@ const closeModalCard = ()=>{
 if(process.client){
   window.$chatwoot.toggleBubbleVisibility('show')
   closeModal('add_new_card_billing')
-}
+  invoiceStore.loadCards = false
 
+  submitInviteLoading.value = false
+   state.cardNumber= ""
+   state.firstName = ""
+   state.lastName = ""
+   state.cvv = ""
+   state.expireDate = ""
+   state.address = ""
+   state.city = ""
+   state.state = ""
+   state.country = ""
+   state.zip = ""
+   state.is_primary = false
+}
+v$.value.$reset()
 }
 </script>
 
@@ -263,7 +277,7 @@ if(process.client){
                     }"
                   />
                   <label
-                    for="email"
+                    for="firstName"
                     class="floating_label"
                     :class="[
                       v$.firstName.$error && v$.firstName.required.$invalid
@@ -290,7 +304,7 @@ if(process.client){
                 <div class="relative">
                   <input
                     type="text"
-                    placeholder="{{$t('Last Name')}}"
+                    placeholder=""
                     id="lastName"
                     class="input_floating_label peer w-full lg:w-[330px]"
                     v-model="v$.lastName.$model"
@@ -301,7 +315,7 @@ if(process.client){
                     }"
                   />
                   <label
-                    for="email"
+                    for="lastName"
                     class="floating_label"
                     :class="[
                       v$.lastName.$error && v$.lastName.required.$invalid
@@ -695,7 +709,7 @@ if(process.client){
            </label>
         </div>
           <div class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] ml-auto space-x-[16px]">
-            <button class="btn_bordered_dashboard  " @click="closeModal('add_new_card_billing')">
+            <button class="btn_bordered_dashboard  " @click="closeModalCard">
               Cancel
                       </button>
 

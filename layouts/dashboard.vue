@@ -15,23 +15,23 @@ import {useTranslateStore} from "~/stores/translate";
 
 import { useProfileStore } from "~/stores/profile";
 const translateStore = useTranslateStore();
-import { useGetInvestor } from "@/composables/useProfile";
+import { useGetCurrentTeam, useGetInvestor } from "@/composables/useProfile";
 
 const { getInvestor, loading: lod } = useGetInvestor();
-
+const {getCurrentTeam,currTeam } =useGetCurrentTeam()
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
 // const { data: member, pending, error } = await useAsyncData('member', async () => {
-//   await Promise.all([
+
 
    
+// // console.log(res,'here res')
 
-//   ]);
 
-//   return true
+//   return currTeam.value
 // });
-// profileStore.member = member.value
+
 
 onMounted(() => {
   if (localStorage.getItem("user")) {
@@ -379,12 +379,26 @@ const openToast = (msg) => {
 }
 
 
-onMounted(() => {
+watch(() => route.path, (newPath) => {
+  if(!isLinkActive('/embed-code')){
+  window.$chatwoot.toggleBubbleVisibility("hide");
+  window.$chatwoot.toggle("close");
+
+ }else {
+  window.$chatwoot.toggleBubbleVisibility("show");
+  window.$chatwoot.toggle("close");
+
+ }
+}, { immediate: true });
+onMounted(async () => {
   const userStore = useUserStore();
   const user = JSON.parse(localStorage.getItem('user'));
   if (user) {
     userStore.user = user;
   }
+
+  const res = await getCurrentTeam()
+profileStore.company = currTeam.value
 })
 </script>
 

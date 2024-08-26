@@ -20,43 +20,56 @@ const {
 const isLoading = ref(false);
 const isInputDisabled = computed(() => Number(withdrawStore.withdrawAmount) === 0);
 
-const amount = ref('$0.00');
+const amount = ref('');
 
-// Format amount function
 const formatAmount = (event) => {
-  let value = event.target.value.replace(/[^\d]/g, ''); // Remove all non-numeric characters
+  let value = event.target.value.replace(/[^0-9.]/g, ''); // Remove all non-numeric and non-decimal characters
 
-  if (value.length === 0) {
-    amount.value = '$0.00'; // Set default value when input is empty
-    return;
+  // Ensure there's only one decimal point
+  const decimalParts = value.split('.');
+  if (decimalParts.length > 2) {
+    value = `${decimalParts[0]}.${decimalParts[1]}`; // Keep only the first decimal
   }
 
-  // Limit the total number of digits to 7 (5 before decimal, 2 after)
-  if (value.length > 7) {
-    value = value.slice(0, 7);
+  // Prevent more than 2 digits after the decimal point
+  if (decimalParts[1] && decimalParts[1].length > 2) {
+    decimalParts[1] = decimalParts[1].slice(0, 2);
+    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
   }
 
-  const integerPart = value.slice(0, -2) || '0'; // First part as integer part
-  const decimalPart = value.slice(-2); // Last 2 digits as decimal part
+  // Limit integer part to 5 digits
+  if (decimalParts[0].length > 5) {
+    decimalParts[0] = decimalParts[0].slice(0, 5);
+    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+  }
 
-  // Format the integer part with commas
-  const formattedInteger = parseInt(integerPart).toLocaleString();
-
-  // Reconstruct the formatted value
-  const formattedValue = `${formattedInteger}.${decimalPart}`;
+  // Format the integer part with commas (only when the user types the decimal point)
+  const formattedInteger = parseInt(decimalParts[0] || '0').toLocaleString();
+  const formattedValue = `${formattedInteger}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
 
   // Ensure the formatted value does not exceed currentAmount
-  const formattedNumericValue = parseFloat(formattedValue.replace('$', '').replace(/,/g, ''));
+  const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
   const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
 
   if (formattedNumericValue > currentAmountValue) {
-    amount.value = `$${currentAmountValue.toFixed(2)}`;
+    amount.value = currentAmountValue.toFixed(2);
     withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
   } else {
-    amount.value = `$${formattedValue}`;
+    amount.value = value; // Allow the user to see what they are typing without extra formatting
     withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   }
 };
+
+
+// Computed property to check if withdraw button should be disabled
+const isWithdrawDisabled = computed(() => {
+  // Extract numeric value from the amount, ensuring only valid numbers are parsed
+  const numericValue = parseFloat(amount.value.replace(/,/g, ''));
+
+  // Check if the numeric value is less than the minimum limit (e.g., 1)
+  return isNaN(numericValue) || numericValue < 1;
+});
+
 
 // Watch amount changes to update withdrawAmount in store
 watch(amount, (newValue) => {
@@ -64,21 +77,14 @@ watch(amount, (newValue) => {
   withdrawStore.withdrawAmount = parseFloat(cleanedValue).toFixed(2); // Ensure two decimal places
 });
 
-// Computed property to check if withdraw button should be disabled
-const isWithdrawDisabled = computed(() => {
-  // Extract numeric value from the formatted amount
-  const numericValue = parseFloat(amount.value.replace(/[^\d.]/g, ''));
 
-  // Check if the numeric value is less than the limit
-  return numericValue < Number(withdrawStore.limitofWithdraw);
-});
 
 const closeAndreset = ()=>{
   withdrawStore.transactionDetails = {}
-  withdrawStore.paypal = {
-    paypalEmail:''
-  }
   withdrawStore.withdrawAmount = 0
+  withdrawStore.selectedPaymentMethod = ""
+  withdrawStore.paypal.paypalEmail = ""
+
   closeModal('paypal_withdraw_step2')
 }
 const completeWithDraw = async () => {
@@ -87,6 +93,7 @@ const completeWithDraw = async () => {
   navigateTo('paypal_withdraw_step2', 'referral', 'success_paypal_withdraw');
   isLoading.value = false;
   amount.value = '$0.00'
+
 };
 </script>
 
@@ -154,7 +161,7 @@ const completeWithDraw = async () => {
       v-model="amount"
       @input="formatAmount"
       class="mx-auto focus:outline-none focus:border-0 focus:ring-0 text-[#021328] font-[600] border-0 text-center"
-      placeholder="$0.00"
+      placeholder="0"
     />
   </div>
 
