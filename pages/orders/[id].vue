@@ -22,6 +22,7 @@ const marketStore = useMarketStore();
 const trakingStatus = ref([])
 const orderDetails = ref({})
 const loadingBlock=ref(true)
+const loadingInvoiceId = ref(null)
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const getOrderDetails=async()=>{
@@ -59,7 +60,7 @@ const paymentImages = [
 ];
 
 const statusImages = [
-   "/imgs/limited.svg" ,
+   "/imgs/limited.png" ,
    "/imgs/under_review.png" ,
    "/imgs/success.png" 
 ];
@@ -69,8 +70,12 @@ const getStatusImage=(status:string)=> {
           return statusImages[1];
         case 'Successful':
           return statusImages[2];
-        default:
+          case 'Paid':
+          return statusImages[2];
+          case 'Cancelled':
           return statusImages[0];
+          default:
+          return statusImages[1];
       }
     };
 
@@ -90,10 +95,6 @@ const getStatusImage=(status:string)=> {
 
 
 
-//print invoice
-
-
-// Function to convert Base64 string to Blob and open it
 function printAndDownloadPDF(base64String, fileName = "document.pdf") {
     // Convert Base64 to binary data
     const byteCharacters = atob(base64String);
@@ -127,15 +128,98 @@ function printAndDownloadPDF(base64String, fileName = "document.pdf") {
 }
 
 const GetBase64AndPrint=async(id)=>{
+  loadingInvoiceId.value = id
   const { PrintInvoice } = usePrintInvoice();
   const res = await PrintInvoice(id);
   printAndDownloadPDF(res.data.data.data)
+  loadingInvoiceId.value = null
+
 }
 const handleData = async() => {
   loadingBlock.value = true;
   await getOrderDetails()
   loadingBlock.value = false;
 };
+
+
+function beforeEnter(el) {
+  el.style.transform = "scale(0)";
+  el.style.opacity = "0";
+}
+
+function enter(el, done) {
+  el.offsetWidth; // Force reflow
+  el.style.transition = "all 0.5s ease";
+  el.style.transform = "scale(1)";
+  el.style.opacity = "1";
+  done();
+}
+
+function leave(el, done) {
+  el.style.transition = "all 0.5s ease";
+  el.style.transform = "scale(0)";
+  el.style.opacity = "0";
+  setTimeout(done, 500);
+}
+
+///7
+
+function beforeEnterCart(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterCart(el, done) {
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveCart(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
+
+///
+
+function beforeEnterNotification(el) {
+  el.style.transform = "translateX(100%)";
+  el.style.opacity = "0";
+}
+
+function enterNotification(el, done) {
+  // Set the initial position and opacity
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+
+  // Trigger reflow to ensure the initial styles are applied
+  el.offsetHeight;
+
+  // Start the transition
+  setTimeout(() => {
+    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+    el.style.transform = "translateX(0)";
+    el.style.opacity = "1";
+    done();
+  }, 0);
+}
+
+function leaveNotification(el, done) {
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(50px)";
+  el.style.opacity = "0";
+  setTimeout(() => {
+    done();
+  }, 500);
+}
+
 </script>
 
 <template>
@@ -143,8 +227,15 @@ const handleData = async() => {
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
     <ProfileOrdersTracking />
+    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+      <ProfileOrdersViewdetails />
+    </transition>
+
+    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+
     <ProfileOrdersRequest  @updateData="handleData()"/>
-    <ProfileOrdersViewdetails />
+
+  </transition>
 
     <div class="space-y-[5px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
@@ -159,29 +250,97 @@ const handleData = async() => {
 
 
 
-
-
-
-    <div v-if="loadingBlock" >
-
-<svg   class="absolute top-[150px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-</svg>
+    <div v-if="loadingBlock" class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px] animate-pulse">
+      <div class="flex items-center justify-between w-full mt-[26px] pb-[24px] space-x-[24px] border-b-[1px] border-[#D9D9D9]">
+        <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
+        <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
+        <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
+      </div>
+    
+      <div class="h-[20px] bg-gray-300 rounded w-1/6 mt-[41px]"></div>
+    
+      <div class="space-y-4 mt-[10px]">
+        <template v-for="index in 3" :key="index">
+          <div class="flex items-center border-b justify-between pb-4">
+            <div class="flex items-center space-x-4">
+              <div class="rounded-lg bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border">
+                <div class="w-[63px] h-[67px] bg-gray-300 rounded"></div>
+              </div>
+              <div class="space-y-2">
+                <div class="h-[20px] bg-gray-300 rounded w-[60px]"></div>
+                <div class="h-[16px] bg-gray-300 rounded w-[100px]"></div>
+                <div class="h-[16px] bg-gray-300 rounded w-[80px]"></div>
+              </div>
+            </div>
+            <div class="h-[20px] bg-gray-300 rounded w-[50px]"></div>
+          </div>
+        </template>
+      </div>
+    
+      <div class="pb-[10px]">
+        <table class="min-w-full">
+          <tbody>
+            <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
+              <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[80px] ml-auto"></div>
+              </td>
+              <td class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[50px] ml-auto"></div>
+              </td>
+            </tr>
+            <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
+              <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[80px] ml-auto"></div>
+              </td>
+              <td class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[50px] ml-auto"></div>
+              </td>
+            </tr>
+            <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
+              <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[80px] ml-auto"></div>
+              </td>
+              <td class="py-2 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin" colspan="4">
+                <div class="h-[16px] bg-gray-300 rounded w-[50px] ml-auto"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px]" v-else>
       <div class="flex items-center  justify-between  w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]">
-        <div class="text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer" @click="GetBase64AndPrint(orderDetails.order_id);">
-          Order ID :
-          <span class="!font-[600] text-tamkin">{{ orderDetails.order_id }}</span>
-          
+     
+        <div class="flex items-center justify-start space-x-[8px]">
+          <div class="ipad-max:text-[10px] text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer">
+            Order ID :
+          </div>
+          <button    @click="GetBase64AndPrint(orderDetails.order_id)" :disabled="loadingInvoiceId === orderDetails.order_id"
+          class=" text-[14px] font-[500] leading-[19px] " :class="loadingInvoiceId === orderDetails.order_id ? 'cursor-not-allowed text-light ' :'text-tamkin underline  cursor-pointer'">
+         
+          <div class="flex items-start justify-center ipad-max:text-[10px]">
+            <div :class="loadingInvoiceId === orderDetails.order_id ? 'mr-2':''">
+              {{ orderDetails.order_id }}            </div>
+
+            <svg  v-if="loadingInvoiceId === orderDetails.order_id" class="animate-spin  h-4 w-4 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+       </button>
+  
         </div>
+     
 
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
           <div>Order Date :</div>
           <div class="flex items-center justify-start space-x-[8px]">
             <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -199,19 +358,25 @@ const handleData = async() => {
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
 
-          <img v-if='orderDetails' :src="getPaymentImage(orderDetails['Payment Method'])" class="w-[32px] h-[32px]" alt="">
+          <img v-if='orderDetails' :src="getPaymentImage(orderDetails['Payment Method'])"
+          
+          class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]" alt="">
           <div>Via  {{ orderDetails['Payment Method'] }} : {{ orderDetails.Account }}</div>
 
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
 
-          <img  :src="getStatusImage(orderDetails['order status'])" class="w-[32px] h-[32px]" alt="">
-          <div>{{ orderDetails.status }} purchase</div>
+          <img 
+          
+                  :class="orderDetails.status === 'Rejected' || orderDetails.status === 'Cancelled' ? 
+                            '!w-[24px] !h-[24px]' : ''"
+          :src="getStatusImage(orderDetails.status)" class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]" alt="">
+          <div>{{ orderDetails.status }}</div>
 
         </div>
       </div>
@@ -233,7 +398,7 @@ const handleData = async() => {
               <div>
                 <div class="flex items-center justify-start space-x-[10px] ">
                   <div>
-                    <img src="/assets/pngs/market/top_inactive.svg" alt="Top" class="w-[26px] h-[26px] ">
+                    <img :src="`https://tamkin.app/${ item.category_image }`" alt="Top" class="w-[26px] h-[26px] ">
                   </div>
                   <div class="py-2">
                     <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{ item.type }}</h3>
@@ -244,11 +409,11 @@ const handleData = async() => {
 
                 <div v-if="item.type == 'Custom Character'"
                   class="flex items-center justify-start space-x-[26px] mt-[12px] ">
-                  <button v-if="item.edit == true" class="text-tamkin underline font-[500] text-[13px] "
+                  <button v-if="item.edit == true" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
                     @click="openModalAndHideChat(), setData(item)">Edit request</button>
-                  <button v-if="!item.edit" class="text-tamkin underline font-[500] text-[13px] "
+                  <button v-if="!item.edit" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
                     @click="openModal('requestmodal_details', 'order-id'), setData(item)">View Details</button>
-                    <button  class="text-tamkin underline font-[500] text-[13px] " 
+                    <button  class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] " 
                       @click="openModal('tracking_custom_order', 'order-id'), setData(item)">Track</button>
                 </div>
               </div>

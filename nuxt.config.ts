@@ -222,20 +222,22 @@ colorMode: {
     // Specify the directory where the language files are stored
     langDir: './locales/',
     // Define the available locales
-    lazy:false,
+    lazy:true,
+    strategy: 'prefix_and_default',
+    detectBrowserLanguage: false,
     locales: [
       {
         code: 'en',
         iso: 'en-US',
         name: 'English',
-        file: 'en.json',
+        file: 'en.ts',
         dir: "ltr"
       },
       {
         code: 'ar',
         iso: 'ar-SA',
         name: 'Arabic',
-        file: 'ar.json',
+        file: 'ar.ts',
         dir: "rtl"
       }
     ],

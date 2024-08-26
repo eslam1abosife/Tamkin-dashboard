@@ -304,45 +304,47 @@ Send your unique referral link to Clients
           </div>
         </div>
       
-        <div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative p-[24px]">
-          <div class="absolute right-[0]">
-            <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
-          </div>
-      
-          <!-- Loading placeholder -->
-          <div v-if="loadingBlock" class="animate-pulse flex flex-col space-y-[22px] w-full">
-            <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
-            <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
-            <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
-            <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
-          </div>
-          
+        <div class="h-[247px] col-span-8 bg-[#AED1FE24] w-full rounded-[10px] relative z-[10] p-[24px]">
+                  <!-- Loading placeholder -->
+                  <div v-if="loadingBlock" class="animate-pulse flex flex-col space-y-[22px] w-full">
+                    <div class="h-[20px] bg-gray-200 w-[30%] rounded"></div>
+                    <div class="h-[19px] bg-gray-200 w-[80%] rounded"></div>
+                    <div class="h-[54px] bg-gray-200 w-full rounded-[10px]"></div>
+                    <div class="h-[21px] bg-gray-200 w-[40%] mt-[20px] rounded"></div>
+                  </div>
           <!-- Actual content -->
-          <div v-else class="flex flex-col space-y-[22px] w-full">
+          <div v-else class="flex flex-col space-y-[22px] w-full relative z-[20]">
             <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
               Refer Clients
             </div>
             <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
               Refer new clients and earn <span class="!font-[700]">
-                {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span> for each successful referral who completes the registration process
+                {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span> for each successful referral who completes the registration process.
             </div>
-            <div class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]">
+            <div class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] 
+            w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]">
               <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
                 Referral Link
               </div>
               <div class="flex items-center justify-end space-x-[12px]">
-                <div class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70">
+                <div class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap
+                 font-[500] leading-[21px] dark:text-whiteTamkin/70">
                   {{ source }}
                 </div>
-                <img class="ml-auto z-[50] w-[18px] h-[18px] cursor-pointer" @click="copyLink" src="/imgs/copy.svg" />
+                <img class="ml-auto w-[18px] h-[18px] cursor-pointer" @click="copyLink" src="/imgs/copy.svg" />
               </div>
             </div>
             <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
               <span class="!font-[600]">{{ withdrawStore.Allrefs.length }}</span> users have signed up using your referral link
             </div>
           </div>
-          
+        
+          <!-- Background image -->
+          <div class="absolute right-0 bottom-0 z-[10]">
+            <img src="/imgs/hero_refer.png" class="h-[220px]" alt="">
+          </div>
         </div>
+        
       
       </div>
       
@@ -378,7 +380,7 @@ Send your unique referral link to Clients
             disable-year-select
             month-name-format="long"
             :input-class-name="
-              dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input_ref'
+           'tamkin_date_input_ref'
             "
             :dark="colorMode.preference === 'dark'"
             placeholder="Select Date"
@@ -431,7 +433,7 @@ Send your unique referral link to Clients
               <svg
                 class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
                 :class="[
-                  dateOpen && dateF
+                  dateOpen && dateF.length > 0
                     ? 'rotate-90 !text-white '
                     : dateOpen && !dateF
                     ? 'rotate-90'
@@ -541,7 +543,7 @@ Send your unique referral link to Clients
 
 <!-- NO REWARDS AVAILABLE-->
 <div class="flex flex-col items-center justify-center mx-auto mt-[44px]" 
-v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length ===0">
+v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length ===0 && dateF.length === 0">
   <div>
     <img src="/imgs/no_rewards.png" class="w-[42px] h-[42px]" alt="">
   </div>
@@ -555,7 +557,8 @@ v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length 
   <!-- NO REWARDS AVAILABLE-->
 
   <!-- no Referrals available-->
-  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]"  v-if="currentTab === 'refs'&& !loadingBlock && withdrawStore.Allrefs?.length==0 ">
+  <div class="flex flex-col items-center justify-center mx-auto mt-[44px]" 
+   v-if="currentTab === 'refs'&& !loadingBlock && withdrawStore.Allrefs?.length==0 && dateF.length === 0 ">
     <div>
       <img src="/imgs/no_refs.png" class="w-[42px] h-[42px]" alt="">
     </div>
@@ -597,14 +600,7 @@ v-if="currentTab === 'rewards' && !loadingBlock && withdrawStore.rewards.length 
 </template>
 
 <style>
-.tamkin_date_input_ref {
 
-
-  @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full  h-[40px] rounded-[10px] border-[px]
-   dark:border-darkborder border-[#D9D9D9] 
-  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin
-  focus:!outline-0;
-}
 .dp__pointer::placeholder {
   @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins];
 }

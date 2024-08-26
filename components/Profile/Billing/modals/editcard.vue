@@ -568,7 +568,7 @@ Edit your saved card details
     >
 
 
-     <span>Delete Payment Method</span>
+     <span>Delete Card</span>
     </button>
   </div>
 

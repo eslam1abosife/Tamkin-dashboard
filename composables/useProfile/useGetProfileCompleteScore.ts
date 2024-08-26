@@ -12,9 +12,10 @@ export default function() {
   const getProfileCompleteScore = async (currentTab: string) => {
     let url = '';
     if (currentTab === 'personal') {
-      url = '/Profile/MemberCompleteProfile';
-    }else if (currentTab === 'company') {
       url = '/Profile/CompanyCompleteProfile';
+    }else if (currentTab === 'company') {
+      url = '/Profile/MemberCompleteProfile';
+
     }
 
     if (!url) return;

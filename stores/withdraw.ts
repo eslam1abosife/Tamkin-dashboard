@@ -40,10 +40,7 @@ export const useWithdrawStore = defineStore("withdraw", {
 
 
   actions: {
-    $reset() {
-      this.$state = this.$options.state(); // Reset state to initial values
-      this.rewards = []
-    },
+ 
     async setCryptoList(){
         const { getCryptoTypes } = useGetCryptoList();
         const d = await getCryptoTypes()

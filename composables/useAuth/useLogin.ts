@@ -18,7 +18,7 @@ export default function(state) {
         try {
             const res = await api.post('/Account/Login', { Username: state.email, Password: state.password });
             if(!res.data.succeeded) throw(res.data?.message);
-            console.log('res.data', res.data)
+            // console.log('res.data', res.data)
             user.value = res.data?.data;
 
             tokenCookie.value = user.value?.sid;
@@ -29,8 +29,7 @@ export default function(state) {
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
 
-            state.email = "";
-            state.password = "";
+         
 
         } catch (error) {
             const errMsg = typeof(error) === 'string' ? error : 'There is something wrong';

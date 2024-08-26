@@ -257,7 +257,7 @@ onBeforeMount(async ()=>{
 
   </div>
 
-  <div class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
+  <div @click="logout" class="cursor-pointer p-[10px] flex items-center justify-start w-full  space-x-[10px] hover:bg-tamkinLight rounded-[10px]">
       <div>
         <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7.22222 3.75V2.125C7.22222 1.69402 7.09345 1.2807 6.86424 0.975951C6.63503 0.671205 6.32415 0.5 6 0.5H1.72222C1.39807 0.5 1.08719 0.671205 0.857981 0.975951C0.628769 1.2807 0.5 1.69402 0.5 2.125V11.875C0.5 12.306 0.628769 12.7193 0.857981 13.024C1.08719 13.3288 1.39807 13.5 1.72222 13.5H6C6.32415 13.5 6.63503 13.3288 6.86424 13.024C7.09345 12.7193 7.22222 12.306 7.22222 11.875V10.25" stroke="#585B5B" stroke-linecap="round" stroke-linejoin="round"/>
@@ -265,7 +265,7 @@ onBeforeMount(async ()=>{
           </svg>
           
         </div>
-    <div @click="logout" class="text-[12px] leading-[18px] font-[500] text-darkGrey">
+    <div  class="text-[12px] leading-[18px] font-[500] text-darkGrey">
       Logout
     </div>
 

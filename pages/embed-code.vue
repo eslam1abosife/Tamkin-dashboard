@@ -14,6 +14,7 @@ import { useGetAppInvites } from "~/composables/useTeam";
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
 const tgl = ()=>{
   if(process.client){
+    window.$chatwoot.toggleBubbleVisibility("show");
     window.$chatwoot.toggle()
   }
 }

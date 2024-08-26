@@ -74,6 +74,7 @@ const doLoginWithGoogle = async () => {
   try {
     await loginWithGoogle();
     await profileStore.fetchMember()
+    await profileStore.getCurrentTeam()
   } catch (err) {
     firebaseErrorMsg.value = err;
   }
@@ -88,7 +89,7 @@ const clearFieldError = (condition) => {
 
 <template>
   <DashboardToastSuccess v-if="loginSuccessfully" :hideIn="2000" :message="'Login Done Successfully'"
-    class="top-[8%] !inset-x-[13%]"></DashboardToastSuccess>
+    class="top-[8%] left-0"></DashboardToastSuccess>
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px]">
@@ -98,15 +99,15 @@ const clearFieldError = (condition) => {
         </div>
         <div class="mx-auto text-center xl:w-auto ipad-max:w-full w-full">
           <h1 class="text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px">
-            {{ $t("login") }}
+            {{ $t("Login") }}
           </h1>
 
           <h3 class="text-[16px] lg:text-[20px] font-[500] text-darkGrey mb-[14px] dark:text-whiteTamkin/90"
             style="line-height: 48px">
             {{ $t("new_to_tamkin") }}
             <a @click="$router.push('/auth/register')"
-              class="cursor-pointer text-tamkin underline dark:brightness-[1] brightness-[0.8]">{{ $t("get_started")
-              }}</a>
+              class="cursor-pointer text-tamkin underline dark:brightness-[1] brightness-[0.8]">
+              {{$t("Register With Google")}}</a>
           </h3>
           <button :disabled="googleLoading" :class="googleLoading && 'btn-inactive'" @click="doLoginWithGoogle"
             style="line-height: 30px" class="google_login_button">
@@ -181,7 +182,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("email") }}*
+                  {{ $t("Email") }}*
                 </label>
                 <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
     (v$.email.$error && v$.email.email.$invalid) ||
@@ -225,7 +226,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("password") }}*
+                  {{ $t("Password") }}*
                 </label>
                 <div class="password_eye" v-if="!isPasswordVisible" @click="togglePasswordVisibility">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -268,7 +269,7 @@ const clearFieldError = (condition) => {
                 </div>
                 <div class="">
                   <a @click="$router.push('/auth/reset-password')"
-                    class="cursor-pointer text-[15px] font-[500] underline text-tamkin">{{ $t("forgot_password") }}</a>
+                    class="cursor-pointer text-[15px] font-[500] underline text-tamkin">{{ $t("Forget password ?") }}</a>
                 </div>
               </div>
             </div>

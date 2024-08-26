@@ -413,8 +413,11 @@ function leaveNotification(el, done) {
                     Default
                   </div>
                 </div>
-                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                  {{ savedCard.card_holder_name }}&nbsp; &nbsp; ****{{ savedCard.card_number }}
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start space-x-[16px]">
+                  <div class="w-20 truncate">{{ savedCard.card_holder_name }}</div>
+                  <div>
+                    ****{{ savedCard.card_number }}
+                  </div>
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
                   Expires on &nbsp;{{ savedCard.expiry_date }}

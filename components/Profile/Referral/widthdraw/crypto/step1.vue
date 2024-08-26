@@ -111,16 +111,16 @@ v$.value.$reset()
             class=" text-[16px] font-[400]  leading-[24px] ltr:text-left rtl:text-right mt-[10px] mb-[23px] dark:text-whiteTamkin text-[#3D3D3D]">
             Please choose other currency</p>
 
-          <div class="relative w-full  ">
+          <div class="relative w-full">
             <button @click="toggleDropdown"
               class=" input_search_country !rounded-[10px] !py-[6px] peer w-full  ltr:text-left rtl:text-right "
               :class="[isCryptoMenuOpen ? 'rounded-b-none' : '']">
               <span class="floating_label" v-if="!withdrawStore.selectedCrypto">Choose Crypto currency</span>
               <div class="flex items-center justify-start " v-else>
                 <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`"
-                  class="rtl:!mr-[16px] ltr:!ml-[-12px] w-[25px] h-[25px]" />
+                  class="rtl:!mr-[16px] ltr:!ml-[-20px] w-[25px] h-[25px]" />
                 <span
-                  class="rtl:mr-[16px] ltr:ml-[16px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin">{{
+                  class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin">{{
                     withdrawStore.selectedCrypto.title }} - <span
                     class="!text-light">{{ withdrawStore.selectedCrypto.symbols }}</span></span>
                 <div class="rtl:mr-auto ltr:ml-auto ">
@@ -130,12 +130,15 @@ v$.value.$reset()
                 </div>
 
 
-                <img src="/assets/imgs/menu-down.svg" :class="[isCryptoMenuOpen ? 'rotate-90' : '']"
-                  class=" rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[55px] mb-[2px] rtl:float-left ltr:float-right
+                <img v-if="withdrawStore.selectedCrypto"  src="/assets/imgs/menu-down.svg" :class="[isCryptoMenuOpen ? 'rotate-90' : '']"
+                  class=" rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right
                 stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]" />
               </div>
 
 
+              <img v-if="!withdrawStore.selectedCrypto" src="/assets/imgs/menu-down.svg" :class="[isCryptoMenuOpen ? 'rotate-90' : '']"
+              class=" rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right
+            stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]" />
             </button>
             <div v-if="isCryptoMenuOpen" class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light 
               border-[#C8CFEB] shadow w-full  py-[16px]">
@@ -143,12 +146,12 @@ v$.value.$reset()
               <ul>
                 <li @click="selectCryptoMethod(cryptoMethod)" v-for="cryptoMethod in filteredCryptoMethods"
                   :key="cryptoMethod.code"
-                  class="flex items-center  hover:bg-gray-100 dark:hover:bg-darkGrey py-[6px] px-[16px] cursor-pointer">
-                  <img :src="`http://tamkin.app/${cryptoMethod.icon}`" class="w-[30px] h-[30px]" />
-                  <span class="rtl:mr-[16px] ltr:ml-[16px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin">{{cryptoMethod.title }} -  <span class="!text-light">{{cryptoMethod.symbols}}</span></span>
+                  class="flex items-center  hover:bg-gray-100 dark:hover:bg-darkGrey py-[6px] px-[10px] cursor-pointer">
+                  <img :src="`http://tamkin.app/${cryptoMethod.icon}`"   class="w-[25px] h-[25px]" />
+                  <span class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin">{{cryptoMethod.title }} -  <span class="!text-light">{{cryptoMethod.symbols}}</span></span>
 
-                  <div class="rtl:mr-auto ltr:ml-auto rtl:ml-[72px] ltr:mr-[72px]">
-                    <div class=" text-[16px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin">
+                  <div class="rtl:mr-auto ltr:ml-auto rtl:ml-[72px] ltr:mr-[34px]">
+                    <div class=" text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin">
                       {{ cryptoMethod.network }}
                     </div>
                   </div>
@@ -169,19 +172,18 @@ v$.value.$reset()
         Your address
       </div>
 
-      <div class="w-full relative mt-[14px] rounded-[10px]  "
-        :class="[v$.wallet.$error && v$.wallet.required.$invalid ? 'border-red-600 border-[1px] ' : 'custom-border-tamkin padding-override-1 rounded-input']">
+      <div class="w-full relative mt-[14px] rounded-[10px]  " 
+        >
         <div class="absolute top-[12px] pl-[10px]"><img
             v-if="withdrawStore.selectedCrypto && withdrawStore.selectedCrypto.icon"
             :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="w-[20px] h-[20px]" /></div>
         <input type="text" placeholder="" id="walletAddress"
         :disabled="!withdrawStore.selectedCrypto"
-          class="    disabled:bg-gray-100 disabled:cursor-not-allowed peer  focus:outline-none focus:border-0  rounded-[10px] focus:ring-0 pl-[40px] border-transparent  w-full "
-          v-model="v$.wallet.$model" :class="{
-            input_error:
-              (v$.wallet.$error && v$.wallet.required.$invalid),
-            input_success: !v$.wallet.$error && !v$.wallet.$invalid,
-          }" />
+        :class="[(v$.wallet.$error && v$.wallet.required.$invalid) ? 'input_error' :(!v$.wallet.$error && !v$.wallet.$invalid) ?'input_success' :'border-[1px] border-lightGrey ' ]"
+          class=" 
+            disabled:bg-gray-100 disabled:cursor-not-allowed peer 
+             focus:outline-none h-[40px] focus:border-lightGrey rounded-[10px] focus:ring-0 pl-[40px]   w-full "
+          v-model="v$.wallet.$model" />
         <label for="walletAddress" class="floating_label !ml-[20px] " :class="[
           (v$.wallet.$error && v$.wallet.required.$invalid)
             ? '!text-error'

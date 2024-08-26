@@ -35,6 +35,14 @@ const goToStep2 = ()=>{
  },1500)
 
 }
+const closeAndreseStt = ()=>{
+
+  closeModal('paypal_withdraw_step1')
+  withdrawStore.transactionDetails = {}
+  withdrawStore.paypal.paypalEmail = ""
+  withdrawStore.withdrawAmount = 0
+  withdrawStore.selectedPaymentMethod = ""
+}
 </script>
 
 <template>
@@ -43,8 +51,7 @@ const goToStep2 = ()=>{
     wauto max-h-[80vh]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  <!-- isOpen('withdraw_paymentmethods') -->
-  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('paypal_withdraw_step1')">
+  <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndreseStt">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -87,7 +94,8 @@ const goToStep2 = ()=>{
             <p class="error_message">
               <span v-if="v$.paypalEmail.$error && v$.paypalEmail.required.$invalid">{{ $t("Paypal Email is Invalid")
                 }}</span>
-
+                <span v-if="v$.paypalEmail.$error && v$.paypalEmail.email.$invalid">{{ $t("Paypal Email is Invalid")
+                }}</span>
             </p>
           </div>
         </div>

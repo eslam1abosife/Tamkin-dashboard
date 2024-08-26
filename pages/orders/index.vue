@@ -8,16 +8,16 @@ import visaIcon from "/assets/imgs/payment_methods/visa.svg";
 import masterIcon from "/assets/imgs/payment_methods/master.svg";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  await getInviteApps({ agency: user.agency });
-};
+// const getApps = async () => {
+//   const user = JSON.parse(localStorage.getItem("user"));
+//   await getInviteApps({ agency: user.agency });
+// };
 import { useUserStore } from "#imports";
 const amr=useUserStore();
 console.log(amr);
 const orders=ref([]);
 onMounted(async() => {
-  getApps();
+  // getApps();
   loadingBlock.value = true
   const {getOrderInvoice} = useGetOrderInvoice();
   const result =await getOrderInvoice() ;
@@ -109,7 +109,7 @@ const projectNameArr = [
   { id: 6, name: "Canceled" },
 ];
 const statusImages = [
-   "/imgs/limited.svg" ,
+   "/imgs/limited.png" ,
    "/imgs/under_review.png" ,
    "/imgs/success.png" 
 ];
@@ -124,6 +124,10 @@ const getStatusImage=(status:string)=> {
           return statusImages[0];
         case 'Successful':
           return statusImages[2];
+          case 'Paid':
+          return statusImages[2];
+          case 'Cancelled':
+          return statusImages[0];
         default:
           return statusImages[1];
       }
@@ -226,7 +230,45 @@ const setPageSize = (size:number) => {
         Effortlessly track all your orders in one place, ensuring you stay updated on their status
       </h2>
     </div>
-
+    <div v-if="loadingBlock" class="animate-pulse mt-[24px]">
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white last:rounded-b-[10px]">
+          <thead class="bg-white border-b text-[12px] leading-[18px] text-[#999999]">
+            <tr>
+              <th class="py-3 px-6 text-left font-[500]">Order ID</th>
+              <th class="py-3 px-6 text-left font-[500]">Order items</th>
+              <th class="py-3 px-6 text-left font-[500]">Payment Method</th>
+              <th class="py-3 px-6 text-left font-[500]">Price</th>
+              <th class="py-3 px-6 text-left font-[500]">Order Status</th>
+              <th class="py-3 px-6 text-left font-[500]">Date Order</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Placeholder Rows -->
+            <tr v-for="n in 5" :key="n" class="border-t border-gray-200 table-row">
+              <td class="px-6 py-3 text-left whitespace-nowrap">
+                <div class="h-4 bg-gray-200 rounded"></div>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <div class="h-4 bg-gray-200 rounded w-2/4"></div>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
       <div v-if="orders?.length>0" class="overflow-x-auto mt-[24px]">
         <table class="min-w-full bg-white  last:rounded-b-[10px]">
           <thead class="bg-white  border-b  text-[12px] leading-[18px] text-[#999999] ">
@@ -268,14 +310,25 @@ const setPageSize = (size:number) => {
                       
                       <span>{{ order.price }} AED</span>
                     </td>
-                    <td class="px-6 py-3 text-left ">
-                      <div class="flex items-center ml-1 space-x-[4px]">
-                        <img :src="getStatusImage(order['order status'])"
-                         alt="Placeholder" :class="order['order status'] == 'Rejected' ? 'w-[14px] h-[14px]':'w-[24px] h-[24px] ' "/>
-                        
-                        <span class="">{{order['order status'] }}  </span>
+                    <td class="px-6 py-3 text-left">
+                      <div class="flex items-center ml-1 space-x-[8px]">
+                        <div 
+                          class="flex items-center justify-center" 
+                          :class="order['order status'] === 'Rejected' || order['order status'] === 'Cancelled' ? 'w-[24px] h-[24px]' : 'w-[24px] h-[24px]'"
+                        >
+                          <img 
+                            :src="getStatusImage(order['order status'])"
+                            alt="Placeholder"
+                            class="w-full h-full object-contain"
+                            :class="order['order status'] === 'Rejected' || order['order status'] === 'Cancelled' ? 
+                            '!w-[18px] !h-[18px]' : 'w-[24px] h-[24px]'"
+                          />
+                        </div>
+                        <span>{{ order['order status'] }}</span>
                       </div>
                     </td>
+                    
+
                     <td class="px-6 py-3 text-left ">
                       <div class="flex items-center space-x-[8px]">
                           <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -390,14 +443,7 @@ const setPageSize = (size:number) => {
           </button>
         </div>
       </div>
-      
-      <div v-if="loadingBlock" >
-
-      <svg   class="absolute top-[150px] left-[50%] z-[999] mx-auto animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-    </svg>
-    </div>
+   
   </div>
 </template>
 

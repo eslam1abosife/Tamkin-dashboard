@@ -314,7 +314,7 @@ watchEffect(() => {
           <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
           <div
             v-bind="getRootProps()"
-            class="w-full h-auto p-[20px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
+            class="w-full h-auto p-[10px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
@@ -338,7 +338,7 @@ watchEffect(() => {
                 <img 
                   :src="file.image ? (baseImageURL + file.image) : (fileURL(file))"
                   :alt="file.name"
-                  class="w-[131px] h-[124px]"
+                  class="w-[140px] h-[70px] object-cover rounded-[5px]"
                   @click.stop
                 />
               </div>
@@ -368,7 +368,7 @@ watchEffect(() => {
         </div>
         <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate">
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
               <div :class="loadingUpdate ? 'mr-4':''">
                Update
