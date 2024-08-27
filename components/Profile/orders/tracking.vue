@@ -127,7 +127,7 @@ const DateSplit = (dateString) => {
 
     <div class="flex flex-col items-start justify-start space-y-[8px]" >
       <div class="text-[13px] font-[500] leading-[19px] " :class="[!dataModal.trakin.some(item => item.level !== 'Reject') ? 'text-darkGrey' :'text-darkGrey/60']">
-         Expected Receive Date
+         {{$t('Expected Received Date')}}
       </div>
 
    
@@ -151,7 +151,7 @@ const DateSplit = (dateString) => {
       <!-- Vertical line -->
       <div class="absolute top-0 inset-x-[98px] h-full w-[12px] rounded-t-full  rounded-b-full bg-teal-500" :class="[dataModal.status === 'Reject' ? '!bg-[#DADADA]' :'']"></div>
   <template v-for="index in 5">
-    <div class="relative flex items-start mb-8"  >
+    <div class="relative flex items-start  gap-[10.5px] mb-8"  >
         <div class="w-[90px] text-center" v-if="dataModal.trakin[index-1]">
           <p class="text-[12px] font-[500] text-[#1C1C1C] leading-[18px] whitespace-nowrap" 
            v-html="DateSplit(dataModal.trakin[index-1].date) ||''" :class="[dataModal.status === 'Reject' ? '!text-[#F02F1F]' :'']">
@@ -159,7 +159,7 @@ const DateSplit = (dateString) => {
        
           </p>
         </div>
-        <div class="flex-shrink-0 pl-[10px]" v-if="dataModal.trakin[index-1]">
+        <div class="flex-shrink-0 " v-if="dataModal.trakin[index-1]">
           <div   :class="[dataModal.status === 'Reject' ? '!border-[#DADADA]' :'']" class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] text-white rounded-full flex items-center justify-center">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle 

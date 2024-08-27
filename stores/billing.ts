@@ -11,7 +11,8 @@ export const useBillingStore = defineStore('billing', {
     state: () => ({
         card:{},
         cards:[],
-        loadCards:false
+        loadCards:false,
+        addCardRes:{}
     }),
 
 

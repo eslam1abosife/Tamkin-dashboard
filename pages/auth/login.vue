@@ -41,26 +41,29 @@ const { loginUser, loading: loginLoading, user } = useLogin(state);
 const router = useRouter();
 const errorMsg = ref("");
 const loginSuccessfully = ref(false);
+const showToast = ref(false)
 const profileStore = useProfileStore()
 const doLogin = async () => {
+  loginSuccessfully.value = true;
+
   errorMsg.value = null;
   firebaseErrorMsg.value = null;
   try {
     await loginUser();
-    loginSuccessfully.value = true;
-    setTimeout(() => {
-      loginSuccessfully.value = false;
-    }, 2000);
+
     await profileStore.fetchMember()
     await profileStore.getCurrentTeam()
-
+    showToast.value = true
     router.push("/overview");
   } catch (error) {
+    loginSuccessfully.value = false;
+
     const errMsg =
       typeof error === "string" ? error : "There is something wrong";
     if (isIncludeWord(errMsg, ["confirm", "needs"])) {
       localStorage.setItem("registerd_email", state.email);
       router.push("/auth/otp?from=register");
+
     } else {
       errorMsg.value = error;
     }
@@ -88,8 +91,8 @@ const clearFieldError = (condition) => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="loginSuccessfully" :hideIn="2000" :message="'Login Done Successfully'"
-    class="top-[8%] left-0"></DashboardToastSuccess>
+  <DashboardToastSuccess v-if="showToast" :hideIn="2000" :message="'Login Done Successfully'"
+    class="top-[8%] !left-[15%]"></DashboardToastSuccess>
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px]">
@@ -280,14 +283,14 @@ const clearFieldError = (condition) => {
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0 lg:p-0 p-3">
       <button class="btn-grad-action w-full" @click="doLogin()"
-        :disabled="v$.email.$invalid || v$.password.$invalid || loginLoading">
+        :disabled="v$.email.$invalid || v$.password.$invalid || loginSuccessfully">
 
     <div class="flex items-center justify-center">
      <div class="mr-4">
       {{$t("login_button")}}
      </div>
 
-      <svg  v-if="loginLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <svg  v-if="loginSuccessfully" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
      </svg>

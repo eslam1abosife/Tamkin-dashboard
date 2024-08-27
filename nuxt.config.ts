@@ -243,6 +243,7 @@ colorMode: {
     ],
     // custom path example
   },
+  plugins: ['~/plugins/i18n.js'],
 
   googleFonts: {
     preload:true,

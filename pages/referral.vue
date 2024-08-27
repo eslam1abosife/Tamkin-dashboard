@@ -215,7 +215,7 @@ const isCurrentRateEmpty = computed(() => {
           Refer a Client, Earn Rewards
         </div>
         <div class="!font-[500]">
-          Share your unique referral link and earn rewards for every Client who joins.
+          {{ $t('Share your referral link and get a commission on all purchases made by customers you refer') }}
         </div>
       </div>
 
@@ -233,8 +233,8 @@ const isCurrentRateEmpty = computed(() => {
             <div
               class="text-[12px] font-[500] leading-[16px] text-black text-center mt-[10px]"
             >
-              Share Your Link<br />
-              Send your unique referral link to Clients
+              {{$t('Share Your Link')}}<br />
+              {{ $t('Send your unique referral link to Clients') }}
             </div>
           </div>
 
@@ -245,9 +245,9 @@ const isCurrentRateEmpty = computed(() => {
             <div
               class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
             >
-              Client Signs Up
+              {{$t('Client signed, purchased')}}
               <br />
-              Your Client signs up using your link
+              {{$t('Your client signed up with your link and made a purchase')}}
             </div>
           </div>
 
@@ -259,8 +259,8 @@ const isCurrentRateEmpty = computed(() => {
               id="refer_clients"
               class="text-[12px] font-[500] leading-[16px] whitespace-nowrap text-black text-center mt-[10px]"
             >
-              Earn Rewards<br />
-              Receive your rewards when they join
+              {{$t('Earn Rewards')}}<br />
+             {{$t('Receive rewards from every purchase he completes')}}
             </div>
           </div>
         </div>
@@ -347,11 +347,11 @@ const isCurrentRateEmpty = computed(() => {
               Refer Clients
             </div>
             <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
-              Refer new clients and earn
+             {{$t('Refer new clients and earn')}}
               <span class="!font-[700]">
                 {{ isCurrentRateEmpty ? 0 : withdrawStore.currentRate }}%</span
               >
-              for each successful referral who completes the registration process.
+             {{$t('for each successful referral who completes the registration process and purchase')}}
             </div>
             <div
               class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]"
@@ -503,27 +503,27 @@ const isCurrentRateEmpty = computed(() => {
                 <th
                   class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  Transaction ID
+                 {{ $t(' Transaction ID') }}
                 </th>
                 <th
                   class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  Date
+                  {{$t('Date')}}
                 </th>
                 <th
                   class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  Amount
+                  {{ $t('Amount') }}
                 </th>
                 <th
                   class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                  Payment Methods
+                  {{$t('Withdrawal Method')}}
                 </th>
                 <th
                   class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-2/4 px-4"
                 >
-                  Status
+                  {{$t('Status')}}
                 </th>
               </tr>
             </thead>
@@ -674,15 +674,10 @@ const isCurrentRateEmpty = computed(() => {
           </div>
 
           <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
-            Currently, there are no rewards available
+            {{$t('Currently, there are no withdrawals available')}}
           </div>
 
-          <button
-            class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"
-            @click="scrollToSection('refer_clients')"
-          >
-            Refer Clients
-          </button>
+       
         </div>
         <!-- NO REWARDS AVAILABLE-->
 
@@ -701,15 +696,10 @@ const isCurrentRateEmpty = computed(() => {
           </div>
 
           <div class="text-[14px] font-[400] leading-[19px] text-darkGrey mt-[10px]">
-            Currently, there are no referrals available
+            {{$t('Currently, there are no rewards available')}}
           </div>
 
-          <button
-            class="btn-dashboard hover_tamkin max-w-[151px] mt-[10px]"
-            @click="scrollToSection('refer_clients')"
-          >
-            Refer Clients
-          </button>
+      
         </div>
 
         <!-- no Referrals available-->

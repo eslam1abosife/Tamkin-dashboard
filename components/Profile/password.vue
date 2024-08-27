@@ -21,7 +21,11 @@ const rules = {
 
 };
 const isDuplicatePassword = computed(() => {
-  return state.oldpass === state.password || state.oldpass === state.password_confirm;
+  // Ensure the form is dirty and check for duplicate passwords
+  return v$.value.$anyDirty && (
+    state.oldpass === state.password || 
+    state.oldpass === state.password_confirm
+  );
 });
 const v$ = useVuelidate(rules, state);
 const isPasswordVisible = ref(false);

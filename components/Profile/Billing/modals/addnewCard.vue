@@ -152,9 +152,27 @@ const addCard = async ()=>{
   });
   console.log('response',response.value)
 
-  closeModal('add_new_card_billing')
+
   if (response.value.statusCode == 200){
+    closeModal('add_new_card_billing')
     $toast('Card Added successfully', { hideIn: 3000 });
+    invoiceStore.loadCards = true
+
+    await getCards();
+
+
+    state.cardNumber= ""
+    state.firstName = ""
+    state.lastName = ""
+    state.cvv = ""
+    state.expireDate = ""
+    state.address = ""
+    state.city = ""
+    state.state = ""
+    state.country = ""
+    state.zip = ""
+    state.is_primary = false
+    v$.value.$reset()
   }else{
     $toast(`Oops!${response.value.message}`, {
       theme: 'colored',
@@ -163,25 +181,9 @@ const addCard = async ()=>{
       dangerouslyHTMLString: true
     });
   }
-  invoiceStore.loadCards = true
-
-  await getCards();
-
   invoiceStore.loadCards = false
 
   submitInviteLoading.value = false
-   state.cardNumber= ""
-   state.firstName = ""
-   state.lastName = ""
-   state.cvv = ""
-   state.expireDate = ""
-   state.address = ""
-   state.city = ""
-   state.state = ""
-   state.country = ""
-   state.zip = ""
-   state.is_primary = false
-v$.value.$reset()
 }
 const closeModalCard = ()=>{
 
@@ -242,7 +244,7 @@ v$.value.$reset()
           <h1
             class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
           >
-          {{ $t('Card Info') }}
+          {{ $t('Add New Card') }}
           </h1>
         </div>
         <div
@@ -252,7 +254,7 @@ v$.value.$reset()
           <h1
             class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[31px]"
           >
-            Billing Info
+           {{$t('Card Info')}}
           </h1>
 
           <div
@@ -356,8 +358,10 @@ v$.value.$reset()
                   :class="{
                     input_error:
                       (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
-                      (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid),
-                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid,
+                      (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid) ||
+                      ( billingStore.addCardRes?.statusCode === 400 && billingStore.addCardRes?.message === 'You already have this card'),
+                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid ||
+                      ( billingStore.addCardRes?.statusCode === 200),
                   }"
                 />
                 <label
@@ -365,6 +369,7 @@ v$.value.$reset()
                   class="floating_label"
                   :class="[
                     v$.cardNumber.$error && v$.cardNumber.required.$invalid || v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid
+                    || (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')
                       ? '!text-error'
                       : '',
                   ]"
@@ -375,13 +380,18 @@ v$.value.$reset()
                   class="w-full lg:w-4/6"
                   v-if="
                     (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
-                    (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid)
+                    (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid) ||
+                    (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')
                   "
                 >
                   <p class="error_message">
                     <span
                       v-if="v$.cardNumber.$error && v$.cardNumber.required.$invalid"
                       >{{ $t("Card Number is required") }}</span
+                    >
+                    <span
+                      v-if="(billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')"
+                      >{{ billingStore.addCardRes?.message }}</span
                     >
                     <span
                       v-else-if="
@@ -704,7 +714,7 @@ v$.value.$reset()
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
               <div class="text-[14px] font-[400] text-black mt-1">
-                Set as primary card Submit
+              {{$t('Set as Primary Card')}}
               </div>
            </label>
         </div>

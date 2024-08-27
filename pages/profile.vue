@@ -75,7 +75,19 @@ const changeMode = (mode: any) => {
 // });
 
 // provide("currentMode", currentMode);
+const maxLength = 10;
 
+// Truncate the string from the middle
+const truncatedString = (text) => {
+
+  if (text.length > maxLength) {
+    const start = text.slice(0, 10); // Adjust the slice values as needed
+    const end = text.slice(-10); // Adjust the slice values as needed
+    return `${start}...${end}`;
+  }
+  return text;
+
+}
 const { $toast } = useNuxtApp();
 const isEmptyObject = (obj) =>{
       return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -216,10 +228,13 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 >
   <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
     <div
-      class="text-[#878787] truncate ipad-max:w-36 w-44 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
-    >
-      {{ profileStore.investor.wallet_address }}
-    </div>
+    class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
+  >
+    {{ truncatedString(profileStore.investor.wallet_address) }}
+  </div>
+
+  
+  
   </div>
   <img
     v-if="isSupported"
@@ -475,3 +490,29 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
     </div>
   </div>
 </template>
+
+
+<style>
+.middleEllipsis {
+  margin: 10px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.start {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+.end {
+  white-space: nowrap;
+  flex-basis: content;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+}
+
+</style>

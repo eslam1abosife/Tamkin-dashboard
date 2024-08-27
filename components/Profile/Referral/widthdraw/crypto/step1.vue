@@ -109,7 +109,7 @@ v$.value.$reset()
         <div class="w-full lg:mt-0 mt-[16px]">
           <p
             class=" text-[16px] font-[400]  leading-[24px] ltr:text-left rtl:text-right mt-[10px] mb-[23px] dark:text-whiteTamkin text-[#3D3D3D]">
-            Please choose other currency</p>
+            {{$t('Please choose withdrawal currency')}}</p>
 
           <div class="relative w-full">
             <button @click="toggleDropdown"
@@ -169,7 +169,7 @@ v$.value.$reset()
       </div>
 
       <div class="text-[14px] font-[600] text-[#021328] mt-[24px]">
-        Your address
+        {{$t('Wallet Address')}}
       </div>
 
       <div class="w-full relative mt-[14px] rounded-[10px]  " 
@@ -201,7 +201,7 @@ v$.value.$reset()
       </div>
 
       <div class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px]" v-if="withdrawStore.selectedCrypto">
-        Please ensure you enter the correct address on the {{withdrawStore.selectedCrypto.network}} network. Using an incorrect network may result in the
+        Please ensure you enter the correct address on the <span class="!font-[700]">{{withdrawStore.selectedCrypto.network}} network. </span>  Using an incorrect network may result in the
         permanent loss of your funds
       </div>
 

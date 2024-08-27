@@ -351,7 +351,7 @@ function leaveNotification(el, done) {
       @click="openAddNewCardModal">
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
-          {{$t('No payment methods have been added yet')}}
+          {{$t(`You haven't added any cards yet`)}}
         </div>
         <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]" >
 
@@ -408,14 +408,14 @@ function leaveNotification(el, done) {
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
-                <div class="absolute top-[10px] left-[185px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
+                <div class="absolute top-[10px] left-[250px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
                    v-if="savedCard.is_primary">
                   <div class="text-[10px] font-[500] text-white">
                     Default
                   </div>
                 </div>
                 <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start space-x-[16px]">
-                  <div class="w-20 truncate">{{ savedCard.card_holder_name }}</div>
+                  <div class="w-36 truncate">{{ savedCard.card_holder_name }}</div>
                   <div>
                     ****{{ savedCard.card_number }}
                   </div>
@@ -553,7 +553,7 @@ function leaveNotification(el, done) {
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
         <img src="/imgs/no_billing.png" class="w-[42px] h-[42px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
-          No historical invoices
+         {{$t('There are currently no invoices to show')}}
         </div>
 
       </div>

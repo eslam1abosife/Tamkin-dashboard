@@ -6,6 +6,7 @@ export default function() {
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
     const response = ref();
+    const billingStore = useBillingStore();
 
 
     const addNewCard = async (data) => {
@@ -18,6 +19,8 @@ export default function() {
 
             console.log('add New Card',res.data);
             response.value = res.data
+            billingStore.addCardRes = res.data; // Update state with the fetched data
+
 
         } catch (error) {
             console.error(error); // Better error handling

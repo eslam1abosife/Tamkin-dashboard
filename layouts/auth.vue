@@ -55,15 +55,9 @@ const isLinkActive = (path) => {
 
 
 onMounted(()=>{
-  if(isLinkActive('/auth/*')){
   window.$chatwoot.toggleBubbleVisibility("hide");
   window.$chatwoot.toggle("close");
 
- }else {
-  window.$chatwoot.toggleBubbleVisibility("show");
-  window.$chatwoot.toggle("close");
-
- }
 })
 </script>
 
@@ -109,12 +103,12 @@ onMounted(()=>{
         class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%]  dark:bg-darkSecondary 
         3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative">
         <NuxtPage class="dark:bg-darkSecondary" />
-        <div class="absolute lg:-bottom-40 2xl:py-0 lg:py-[10px] 2xl:-bottom-24 ipad-max:-bottom-4 !left-[40%] " :class="[isLinkActive('/auth/register') ? '2xl:-bottom-36 !py-[10px]':'']">
-          <AuthLanguageSwitcher class="mx-auto"/>
-        </div>
+       
       </div>
 
-     
+      <div class="absolute bottom-[16px] left-0 right-[50%]" :class="[isLinkActive('/auth/register') ? 'bottom-[-32px]' :'']" >
+        <AuthLanguageSwitcher class="mx-auto"/>
+      </div>
     </div>
    
   </div>

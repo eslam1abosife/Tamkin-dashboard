@@ -111,7 +111,7 @@ return formattedDate
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            ${{withDrawStore.transactionDetails.amount}}
+            ${{withDrawStore.transactionDetails.amount}} $
           </div>
         </div>
   
