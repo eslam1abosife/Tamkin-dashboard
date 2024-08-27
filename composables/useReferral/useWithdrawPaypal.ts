@@ -11,7 +11,7 @@ export default function () {
   const withdrawPaypal = async () => {
     try {
       
-      const res = await api.post("/Tamkin Withdraw Requests/Add", {
+      const res = await api.post("/Referral/WithdrawRequestsAdd", {
        
           email_address:withdrawStore.paypal.paypalEmail,
           payment_type: withdrawStore.paymentMethodName,

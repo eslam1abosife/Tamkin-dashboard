@@ -11,7 +11,7 @@ export default function () {
   const withdraWithBank = async () => {
     try {
       console.log(profileStore.company.name , 'here company man')
-      const res = await api.post("/Tamkin Withdraw Requests/Add", {
+      const res = await api.post("/Referral/WithdrawRequestsAdd", {
        
           ...withdrawStore.bankDetails,
           payment_type: withdrawStore.paymentMethodName,

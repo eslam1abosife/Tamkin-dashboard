@@ -1,7 +1,29 @@
 <template v-loading="getCodeLoading">
   <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
-
-<div class="flex flex-col items-center justify-center w-full">
+  <div class="flex flex-col items-center justify-center w-full" v-if="loadingBlock">
+    <div class="flex items-center lg:flex-nowrap flex-wrap md:flex-nowrap justify-between mt-[30px] w-full px-[15px]">
+      <div class="animate-pulse flex items-center justify-between space-x-4 w-full">
+        <div class="bg-gray-200 dark:bg-gray-700 h-8 w-24 rounded-md"></div>
+        <div class="bg-gray-200 dark:bg-gray-700 h-8 w-40 rounded-md"></div>
+        <div class="bg-gray-200 dark:bg-gray-700 h-8 w-20 rounded-md"></div>
+      </div>
+    </div>
+  
+    <div class="mt-[18px] w-full  relative">
+    
+  
+      <div class="mt-[20px] px-[15px] w-full  relative">
+        <!-- Placeholder for the code block loader -->
+        <div class="animate-pulse bg-gray-200 dark:bg-gray-700 h-[56px] w-full rounded-md"></div>
+  
+        <div class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px] w-2/4 h-[24px] rounded-[5px] bg-gray-200 animate-pulse"
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<div class="flex flex-col items-center justify-center w-full" v-else>
     <div  class="flex items-center  lg:flex-nowrap flex-wrap md:flex-nowrap justify-between mt-[30px] w-full  px-[15px] " style="padding: 30px, 16px, 20px, 15px">
       <button @click="showAdvancedCode()" class="btn__icon__dashboard text-[14px] order-1 " style="
                 background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);

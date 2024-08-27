@@ -138,7 +138,7 @@ const getStatusStyle=(method:number)=> {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-            {{withDrawStore.transactionDetails.amount}}
+            {{withDrawStore.transactionDetails.amount}} $
           </div>
         </div>
   
@@ -147,8 +147,8 @@ const getStatusStyle=(method:number)=> {
             Trans ID: {{withDrawStore.transactionDetails.name}}
           </div>
   
-          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.cyrptoTransactionDetails.status)">
-            {{withDrawStore.cyrptoTransactionDetails.status}}
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
+            {{withDrawStore.transactionDetails.status}}
           </div>
         </div>
   
@@ -193,7 +193,7 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            BIC
+            Swift
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">

@@ -7,6 +7,7 @@ import useGetRewards from "./useGetRewards";
 import useGetCryptoList from "./useGetCryptoList";
 import useWithdrawcrypto from './useWithdrawcrypto'
 import useWithdrawPaypal from './useWithdrawPaypal'
+import useGetCustomerCount from './useGetCustomerCount'
 export {
     useGetReferralLink,
     useGetAllReferrals,
@@ -15,7 +16,8 @@ export {
     useGetRewards,
     useGetCryptoList,
     useWithdrawcrypto,
-    useWithdrawPaypal
+    useWithdrawPaypal,
+    useGetCustomerCount
 
 
 }

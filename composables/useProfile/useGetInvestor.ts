@@ -12,7 +12,7 @@ const profileStore = useProfileStore()
         PgSize:1
       }
       const res = await api.post('/Profile/GetInvestor',data);
-      profileStore.investor = Object.keys(res.data.data).length !== 0 ? res.data.data : null;
+      profileStore.investor = Object.keys(res.data.data).length !== 0 ? res.data.data : {};
     }catch (error) {
       $toast(`Oops!<br/>${ typeof(error) === 'string' ? error : 'There is something wrong'}`, {
         "theme": "colored",

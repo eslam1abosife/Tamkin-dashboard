@@ -244,7 +244,7 @@ v$.value.$reset()
           <h1
             class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
           >
-            Billing Info
+          {{ $t('Add New Card') }}
           </h1>
         </div>
         <div
@@ -254,7 +254,7 @@ v$.value.$reset()
           <h1
             class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[31px]"
           >
-            Billing Info
+           {{$t('Card Info')}}
           </h1>
 
           <div
@@ -359,8 +359,8 @@ v$.value.$reset()
                     input_error:
                       (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
                       (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid) ||
-                      ( billingStore.addCardRes?.statusCode === 400 && billingStore.addCardRes?.message === 'You already have this card'),
-                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid ||
+                      ( billingStore.addCardRes?.statusCode == 400),
+                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid &&
                       ( billingStore.addCardRes?.statusCode === 200),
                   }"
                 />
@@ -646,7 +646,7 @@ v$.value.$reset()
                 <div class="relative">
                   <input
                     type="text"
-                    placeholder="{{$t('Zip / Postal Code')}}"
+                    placeholder=""
                     id="zip"
                     class="input_floating_label peer w-full lg:w-[330px]"
                     v-model="v$.zip.$model"
@@ -664,7 +664,7 @@ v$.value.$reset()
                         : '',
                     ]"
                   >
-                    {{ $t("Zip / Postal Code") }}*
+                    {{ $t("Postal Code") }}*
                   </label>
                   <div
                     class="w-full lg:w-4/6"
@@ -714,7 +714,7 @@ v$.value.$reset()
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
               <div class="text-[14px] font-[400] text-black mt-1">
-                Set as primary card Submit
+              {{$t('Set as Primary Card')}}
               </div>
            </label>
         </div>

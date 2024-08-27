@@ -26,7 +26,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useGetProfileCompleteScore } from "@/composables/useProfile";
 const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo();
-import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfile";
+import { useGetAllCountries, useChangeMemberInfo} from "@/composables/useProfile";
 
 const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
 
@@ -75,11 +75,23 @@ const changeMode = (mode: any) => {
 // });
 
 // provide("currentMode", currentMode);
+const maxLength = 10;
 
+// Truncate the string from the middle
+const truncatedString = (text) => {
 
+  if (text.length > maxLength) {
+    const start = text.slice(0, 10); // Adjust the slice values as needed
+    const end = text.slice(-10); // Adjust the slice values as needed
+    return `${start}...${end}`;
+  }
+  return text;
 
+}
 const { $toast } = useNuxtApp();
-
+const isEmptyObject = (obj) =>{
+      return Object.keys(obj).length === 0 && obj.constructor === Object;
+    }
 const source = profileStore.investor ? profileStore.investor.wallet_address : "none";
 const { text, copy, copied, isSupported } = useClipboard({ source });
 const imagetoUpload = ref();
@@ -97,7 +109,7 @@ const profileLoader = ref(false);
 
 const updatep = async (companyData) => {
   profileLoader.value = true;
-// console.log(profileStore.updatedCompanyPayload)
+  // console.log(profileStore.updatedCompanyPayload)
   await changeCompanyInfo({ ...companyData, about: aboutCompany.value });
 
   await changeMemberInfo(profileStore.updateProfilePayload);
@@ -107,20 +119,27 @@ const updatep = async (companyData) => {
 
   profileLoader.value = false;
   $toast("Profile updated Successfully", { hideIn: 3000 });
-  await profileStore.fetchMember()
-  await profileStore.getCurrentTeam()
-  await getProfileCompleteScore(profileStore.currentTab)
+  await profileStore.fetchMember();
+  await profileStore.getCurrentTeam();
+  await getProfileCompleteScore(profileStore.currentTab);
 };
-
+const loadingInvestor = ref(false)
 provide("currentMode", currentMode);
 
-onBeforeMount(async ()=>{
-  await profileStore.fetchMember()
-    await profileStore.getCurrentTeam()
-   await getInvestor()
-   await getProfileCompleteScore(profileStore.currentTab)
+onBeforeMount(async () => {
+  profileStore.loadingProfile = true
+  loadingInvestor.value = true
 
-})
+  await profileStore.fetchMember();
+
+  await profileStore.getCurrentTeam();
+  await getProfileCompleteScore(profileStore.currentTab);
+  loadingInvestor.value = true
+  await getInvestor();
+
+  profileStore.loadingProfile = false
+  loadingInvestor.value  = false
+});
 </script>
 
 <template>
@@ -151,7 +170,7 @@ onBeforeMount(async ()=>{
       <div class="absolute inset-y-auto left-[260px] top-[-40px]">
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute bottom-[22px] right-[40px] ">
+      <div class="absolute bottom-[22px] right-[40px]">
         <button
           @click="changeMode('editing')"
           class="btn-default border-[1px] border-[#C5C5C5] !bg-white group hover:border-tamkin"
@@ -180,231 +199,266 @@ onBeforeMount(async ()=>{
             @update-about="getAbout"
             v-if="profileStore.currentTab === 'company'"
           />
+        <!-- Display investor details -->
+<div
+v-if="
+  (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
+  !isEmptyObject(profileStore.investor) &&
+  !profileStore.loadingProfile && !loadingInvestor
+"
+class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+>
+<div
+  class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
+></div>
+
+<div class="flex items-center justify-start w-full space-x-[16px]">
+  <div>
+    <img src="/imgs/investor/AA.svg" class="w-[38px] h-[38px]" alt="" />
+  </div>
+  <div
+    class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
+  >
+    Investor member
+  </div>
+</div>
+
+<div
+  class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
+>
+  <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
+    <div
+    class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
+  >
+    {{ truncatedString(profileStore.investor.wallet_address) }}
+  </div>
+
+  
+  
+  </div>
+  <img
+    v-if="isSupported"
+    class="ml-auto cursor-pointer w-[18px] h-[18px]"
+    @click="copy(profileStore.investor.wallet_address)"
+    src="/imgs/copy.png"
+  />
+</div>
+
+<div
+  class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
+>
+  <div class="flex items-center justify-between w-full">
+    <div
+      class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E]"
+    >
+      Token Balance
+    </div>
+
+    <div class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E]">
+      {{ profileStore.investor.tslt_amount }} TSLT
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Display loading placeholder -->
+<div
+v-if="profileStore.loadingProfile || loadingInvestor"
+class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+>
+<div class="w-full flex items-center justify-between space-x-[16px]">
+  <div class="animate-pulse bg-gray-300 rounded h-6 w-32"></div>
+  <div class="flex items-center justify-start space-x-[8px]">
+    <div
+      class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"
+    ></div>
+    <div
+      class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"
+    ></div>
+    <div
+      class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"
+    ></div>
+  </div>
+</div>
+
+<div>
+  <div class="animate-pulse bg-gray-300 rounded h-4 w-48 my-2"></div>
+  <div class="animate-pulse bg-gray-300 rounded h-5 w-64 my-2"></div>
+  <div class="animate-pulse bg-gray-300 rounded h-8 w-[160px] my-2"></div>
+</div>
+</div>
+
+<!-- Display message when there is no investor and profile is not loading -->
+<div
+v-if="
+  (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
+  isEmptyObject(profileStore.investor) &&
+  !profileStore.loadingProfile && !loadingInvestor
+"
+class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+>
+<div
+  class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
+></div>
+
+<div
+  class="flex items-center justify-between w-full space-x-[16px]"
+>
+  <div
+    class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
+  >
+    Investor Program
+  </div>
+  <div class="flex items-center justify-start space-x-[8px]">
+    <img src="/imgs/investor/A1.svg" class="w-[24px] h-[24px]" alt="" />
+    <img src="/imgs/investor/AA.svg" class="w-[24px] h-[24px]" alt="" />
+    <img src="/imgs/investor/C.svg" class="w-[24px] h-[24px]" alt="" />
+  </div>
+</div>
+
+<div>
+  <div class="my-[8px] text-[12px] font-[400] leading-[16px] text-darkGrey">
+    You are not an investor member
+  </div>
+  <div class="my-[8px] text-[13px] font-[500] leading-[21px] text-black">
+    Buy Tamkin Token - TSLT and join our Investor Program
+  </div>
+  <a
+    href="https://investor.tamkin.app/login"
+    target="_blank"
+    class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin"
+  >
+    Investor Program
+  </a>
+</div>
+</div>
+
+
           <div
-            v-if="
-              (profileStore.currentTab === 'personal' ||
-                profileStore.currentTab === 'security') &&
-              profileStore.investor &&
-              Object.keys(profileStore.investor).length !== 0
-            "
-            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
+            class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
           >
-            <div
-              class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
-            ></div>
-
-            <div class="flex items-center justify-start w-full space-x-[16px]">
-              <div>
-                <img
-                src="/imgs/investor/AA.svg"
-                  class="w-[38px] h-[38px]"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
+            <div>
+              <h1
+                v-if="!profileStore.loadingProfile"
+                class="text-[12px] leading-[19px] font-[500]"
               >
-                Investor member
-              </div>
+                Complete Your Profile
+              </h1>
+              <div
+                v-else
+                class="animate-pulse h-[19px] bg-gray-300 rounded-full w-32 mb-[7px]"
+              ></div>
             </div>
 
-            <div
-              class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
-            >
-              <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
+            <div class="flex items-center w-full mt-[7px]">
+              <div
+                class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] rounded-[9px]"
+              >
                 <div
-                  class="text-[#878787] truncate ipad-max:w-36 w-44 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
-                >
-                  {{ profileStore.investor.wallet_address }}
+                  v-if="!profileStore.loadingProfile"
+                  class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light"
+                  :style="`width: ${score}%;`"
+                ></div>
+                <div v-else class="h-[8px] bg-gray-300 rounded-[9px] animate-pulse"></div>
+              </div>
+              <span
+                v-if="!profileStore.loadingProfile"
+                class="ml-2 text-black font-[500] text-[12px] leading-[21px]"
+                >{{ score }}%</span
+              >
+              <div
+                v-else
+                class="animate-pulse ml-2 h-[8px] bg-gray-300 rounded-full w-10"
+              ></div>
+            </div>
+          </div>
+
+          <div
+            v-if="profileStore.loadingProfile"
+            class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
+          >
+            <div class="w-full">
+              <div class="animate-pulse flex flex-col space-y-[10px]">
+                <!-- Placeholder for Header and Icons -->
+                <div class="flex items-center justify-between">
+                  <div class="bg-gray-300 h-[24px] w-[80px] rounded"></div>
+                  <div class="flex space-x-[16px]">
+                    <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                    <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                    <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
+                  </div>
                 </div>
               </div>
-              <img
-                v-if="isSupported"
-                class="ml-auto cursor-pointer w-[18px] h-[18px]"
-                @click="copy(profileStore.investor.wallet_address)"
-                src="/imgs/copy.png"
-              />
             </div>
+          </div>
 
-            <div
-              class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
-            >
-              <div class="flex items-center justify-between w-full">
-                <div
-                  class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E]"
-                >
-                  Token Balance
-                </div>
+          <ProfilePortfolio
+            v-if="
+              !profileStore.loadingProfile &&
+              profileStore.member?.social_accounts?.length &&
+              profileStore.currentTab === 'personal'
+            "
+          />
 
-                <div class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E]">
-                  {{ profileStore.investor.tslt_amount }} TSLT
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-          v-else-if="
-            (profileStore.currentTab === 'personal' ||
-              profileStore.currentTab === 'security') &&
-            !profileStore.investor
-          "
-          class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
-        >
-          <div
-            class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
-          ></div>
-        
-          <!-- Content or Placeholder -->
-          <div v-if="!profileStore.loadingProfile" class="flex items-center justify-between w-full space-x-[16px]">
-            <div
-              class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
-            >
-              Investor Program
-            </div>
-            <div class="flex items-center justify-start space-x-[8px]">
-              <img
-                src="/imgs/investor/A1.svg"
-                class="w-[24px] h-[24px]"
-                alt=""
-              />
-              <img
-                src="/imgs/investor/AA.svg"
-                class="w-[24px] h-[24px]"
-                alt=""
-              />
-              <img
-                src="/imgs/investor/C.svg"
-                class="w-[24px] h-[24px]"
-                alt=""
-              />
-            </div>
-          </div>
-          <!-- Placeholder for title and images -->
-          <div v-else class="w-full flex items-center justify-between space-x-[16px]">
-            <div class="animate-pulse bg-gray-300 rounded h-6 w-32"></div>
-            <div class="flex items-center justify-start space-x-[8px]">
-              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
-              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
-              <div class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"></div>
-            </div>
-          </div>
-        
-          <!-- Text and Button or Placeholders -->
-          <div v-if="!profileStore.loadingProfile">
-            <div class="my-[8px] text-[12px] font-[400] leading-[16px] text-darkGrey">
-              You are not investor member
-            </div>
-            <div class="my-[8px] text-[13px] font-[500] leading-[21px] text-black">
-              Buy Tamkin Token - TSLT and Join in our Investor Program
-            </div>
-            <a href="https://investor.tamkin.app/login" target="_blank"
-              class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin"
-            >
-              Investor Program
-            </a>
-          </div>
-          <!-- Placeholder for texts and button -->
-          <div v-else>
-            <div class="animate-pulse bg-gray-300 rounded h-4 w-48 my-2"></div>
-            <div class="animate-pulse bg-gray-300 rounded h-5 w-64 my-2"></div>
-            <div class="animate-pulse bg-gray-300 rounded h-8 w-[160px] my-2"></div>
-          </div>
-        </div>
-        
-     
-          <div
-          class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full"
-        >
-          <div>
-            <h1 v-if="!profileStore.loadingProfile" class="text-[12px] leading-[19px] font-[500]">Complete Your Profile</h1>
-            <div v-else class="animate-pulse h-[19px] bg-gray-300 rounded-full w-32 mb-[7px]"></div>
-          </div>
-          
-          <div class="flex items-center w-full mt-[7px]">
-            <div class="relative w-full overflow-visible h-[8px] bg-[#E7ECEB] rounded-[9px]">
-              <div v-if="!profileStore.loadingProfile" class="h-full bg-[#71DAD2] rounded-[9px] shadow-custom-light" 
-              :style="`width: ${score}%;`"></div>
-              <div v-else class="h-[8px] bg-gray-300 rounded-[9px] animate-pulse"></div>
-            </div>
-            <span v-if="!profileStore.loadingProfile" class="ml-2 text-black font-[500] text-[12px] leading-[21px]">{{ score }}%</span>
-            <div v-else class="animate-pulse ml-2 h-[8px] bg-gray-300 rounded-full w-10"></div>
-          </div>
-        </div>
-        
-        <div v-if="profileStore.loadingProfile" class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
-          <div  class="w-full">
-            <div class="animate-pulse flex flex-col space-y-[10px]">
-              <!-- Placeholder for Header and Icons -->
-              <div class="flex items-center justify-between">
-                <div class="bg-gray-300 h-[24px] w-[80px] rounded"></div>
-                <div class="flex space-x-[16px]">
-                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
-                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
-                  <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
-                </div>
-              </div>
-            
-            </div>
-          </div>
-         </div>
-
-         <ProfilePortfolio 
-         v-if="!profileStore.loadingProfile && profileStore.member?.social_accounts?.length && profileStore.currentTab === 'personal'" 
-       />
-       
           <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
         </div>
 
         <div
           class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
         >
-        <div class="flex items-start justify-between w-full">
-          <!-- Personal Info Tab -->
-          <div v-if="!profileStore.loadingProfile" 
-            :class="[
-              profileStore.currentTab === 'personal'
-                ? 'border-b-tamkin text-black'
-                : 'text-[#878787]',
-            ]"
-            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-            @click="changeTab('personal')"
-          >
-            Personal Info
+          <div class="flex items-start justify-between w-full">
+            <!-- Personal Info Tab -->
+            <div
+              v-if="!profileStore.loadingProfile"
+              :class="[
+                profileStore.currentTab === 'personal'
+                  ? 'border-b-tamkin text-black'
+                  : 'text-[#878787]',
+              ]"
+              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+              @click="changeTab('personal')"
+            >
+              Personal Info
+            </div>
+            <!-- Placeholder for Personal Info Tab -->
+            <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
+
+            <!-- Company Info Tab -->
+            <div
+              v-if="!profileStore.loadingProfile"
+              :class="[
+                profileStore.currentTab === 'company'
+                  ? 'border-b-tamkin text-black'
+                  : 'text-[#878787]',
+              ]"
+              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+              @click="changeTab('company')"
+            >
+              Company Info
+            </div>
+            <!-- Placeholder for Company Info Tab -->
+            <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
+
+            <!-- Password and Security Tab -->
+            <div
+              v-if="!profileStore.loadingProfile"
+              :class="[
+                profileStore.currentTab === 'security'
+                  ? 'border-b-tamkin text-black'
+                  : 'text-[#878787]',
+              ]"
+              class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
+              @click="changeTab('security')"
+            >
+              Password and security
+            </div>
+            <!-- Placeholder for Password and Security Tab -->
+            <div
+              v-else
+              class="animate-pulse bg-gray-300 rounded h-[24px] w-[150px]"
+            ></div>
           </div>
-          <!-- Placeholder for Personal Info Tab -->
-          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
-        
-          <!-- Company Info Tab -->
-          <div v-if="!profileStore.loadingProfile" 
-            :class="[
-              profileStore.currentTab === 'company'
-                ? 'border-b-tamkin text-black'
-                : 'text-[#878787]',
-            ]"
-            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-            @click="changeTab('company')"
-          >
-            Company Info
-          </div>
-          <!-- Placeholder for Company Info Tab -->
-          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
-        
-          <!-- Password and Security Tab -->
-          <div v-if="!profileStore.loadingProfile" 
-            :class="[
-              profileStore.currentTab === 'security'
-                ? 'border-b-tamkin text-black'
-                : 'text-[#878787]',
-            ]"
-            class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
-            @click="changeTab('security')"
-          >
-            Password and security
-          </div>
-          <!-- Placeholder for Password and Security Tab -->
-          <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[150px]"></div>
-        </div>
-        
+
           <keep-alive>
             <ProfileEditpersonal
               :loading-personal="profileLoader"
@@ -436,3 +490,29 @@ onBeforeMount(async ()=>{
     </div>
   </div>
 </template>
+
+
+<style>
+.middleEllipsis {
+  margin: 10px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.start {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+.end {
+  white-space: nowrap;
+  flex-basis: content;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+}
+
+</style>

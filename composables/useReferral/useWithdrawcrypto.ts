@@ -11,7 +11,7 @@ export default function () {
     const withDrawcrypto = async () => {
         try {
             
-            const res = await api.post("/Tamkin Withdraw Requests/Add", {
+            const res = await api.post("/Referral/WithdrawRequestsAdd", {
 
 
             
