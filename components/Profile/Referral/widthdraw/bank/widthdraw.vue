@@ -116,6 +116,7 @@ const closeAndreset = () => {
   withdrawStore.transactionDetails = {};
   withdrawStore.bankDetails = {};
   withdrawStore.withdrawAmount = '0.00'; // Reset withdrawAmount to a string with two decimal places
+  withdrawStore.selectedPaymentMethod = ""
   closeModal('bank_account_withdraw');
 };
 </script>
@@ -149,30 +150,34 @@ const closeAndreset = () => {
         Withdraw Money
       </h1>
 
-      <div class="mt-[32px] w-full h-[81px] px-[10px] py-[20px] grid grid-cols-2 rounded-[10px]
-        bg-[#F8F9FC] custom-border-tamkin padding-override-1">
-        <div class="flex items-center justify-start gap-4">
-          <div>
-            <img src="/imgs/bank_img.png" class="w-[39px] h-[39px]" alt="">
+      <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
+        <!-- Bank Image -->
+        <div class="col-span-1 flex items-center justify-center">
+          <img src="/imgs/bank_img.png" class="w-[39px] h-[39px] object-contain" alt="">
+        </div>
+      
+        <!-- Account Holder and BIC -->
+        <div class="flex items-start justify-start col-span-6 flex-col gap-1">
+          <div class="text-[#021328] text-[12px] font-[500]  w-full" :class="[ withdrawStore.bankDetails.account_holder.length > 30 ? 'truncate' :'']">
+            {{ withdrawStore.bankDetails.account_holder }}
           </div>
-          <div class="flex items-start justify-start flex-col ">
-            <div class="text-[#021328] text-[14px] font-[500] w-24 truncate">
-              {{withdrawStore.bankDetails.account_holder}}
-            </div>
-            <div class="text-[#021328] text-[12px] font-[500]  w-24 truncate">
-              {{withdrawStore.bankDetails.bic}}
-            </div>
+          <div class="text-[#021328] text-[10px] font-[500]  w-full">
+            {{ withdrawStore.bankDetails.bic }}
           </div>
         </div>
-        <div class="flex items-start justify-start flex-col">
-          <div class="text-[#021328] text-[14px] font-[500] w-64 truncate">
-            {{withdrawStore.bankDetails.bank_name}}
+      
+        <!-- Bank Name and IBAN -->
+        <div class="flex items-start col-span-5 justify-start flex-col gap-1">
+          <div class="text-[#021328] text-[12px] font-[500]  w-full">
+            {{ withdrawStore.bankDetails.bank_name }}
           </div>
-          <div class="text-[#021328] text-[12px] font-[500] w-24 truncate">
-            {{withdrawStore.bankDetails.iban}}
+          <div class="text-[#021328] text-[10px] font-[500]  w-full">
+            {{ withdrawStore.bankDetails.iban }}
           </div>
         </div>
       </div>
+      
+  
 
       <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
         Amount

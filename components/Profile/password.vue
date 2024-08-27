@@ -20,6 +20,9 @@ const rules = {
 
 
 };
+const isDuplicatePassword = computed(() => {
+  return state.oldpass === state.password || state.oldpass === state.password_confirm;
+});
 const v$ = useVuelidate(rules, state);
 const isPasswordVisible = ref(false);
 const isconfirmPasswordVisible = ref(false)
@@ -137,18 +140,25 @@ const updatePassword = async () => {
             class="input_floating_label peer w-full"
             v-model="v$.password.$model"
             :class="{
-              input_error: (v$.password.$error && v$.password.required.$invalid) ||
-                          errorFields.some(error => error.field === 'password'),
-              input_success: !v$.password.$error && !v$.password.$invalid &&
-                             !errorFields.some(error => error.field === 'password')
+              input_error: 
+                (v$.password.$error && v$.password.required.$invalid) ||
+                errorFields.some(error => error.field === 'password') || 
+                isDuplicatePassword,
+              
+              input_success: 
+                !v$.password.$error && 
+                !v$.password.$invalid &&
+                !errorFields.some(error => error.field === 'password') &&
+                !isDuplicatePassword
             }"
+            
           />
           <label
             for="password"
             class="floating_label"
             :class="[
               (v$.password.$error && v$.password.required.$invalid) ||
-              errorFields.some(error => error.field === 'password') ? '!text-error' : ''
+              errorFields.some(error => error.field === 'password') || isDuplicatePassword ? '!text-error' : ''
             ]"
           >
             {{ $t("password") }}*
@@ -184,6 +194,12 @@ const updatePassword = async () => {
               <span>{{ errorFields[0].message }}</span>
             </p>
           </div>
+          <div class="w-full lg:w-4/6" v-if="isDuplicatePassword">
+            <p class="error_message_password">
+              <span>  {{ $t('New password cannot be the same as the old password') }}</span>
+            </p>
+          </div>
+   
         </div>
 
         <!-- Confirm Password Input -->
@@ -242,7 +258,7 @@ const updatePassword = async () => {
     <div class="mt-auto ml-auto ">
 
       <button class="btn-dashboard hover_tamkin w-[200px]" @click="updatePassword" 
-      :disabled="loading">
+      :disabled="loading || v$.$invalid || isDuplicatePassword">
 
       <div class="flex items-center justify-center">
         <div :class="loading ? 'mr-2' : ''"> Update Password</div>

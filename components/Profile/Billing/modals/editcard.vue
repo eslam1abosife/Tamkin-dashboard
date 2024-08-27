@@ -557,14 +557,16 @@ Edit your saved card details
            text-tamkin ring-0 focus:ring-0 focus:outline-none"
           id="remember_me" />
           <div class="text-[14px] font-[400] text-black mt-1">
-            Set as primary card Submit
+            {{$t('Set as Primary Card')}}
           </div>
        </label>
     </div>
 
 
   <div class=" ml-auto">
-    <button :disabled="!billingStore.card.is_active || billingStore.card.is_primary" @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" class="bg-transparent text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
+    <button :disabled="!billingStore.card.is_active || billingStore.card.is_primary" 
+    @click="navigateTo('edit_card_billing_profile','billing','deleteModal_card')" 
+    class="bg-transparent disabled:cursor-not-allowed disabled:text-opacity-60 text-[#EA4335] leading-[19px] underline text-[14px] font-[500] "
     >
 
 

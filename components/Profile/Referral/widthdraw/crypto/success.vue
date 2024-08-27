@@ -139,13 +139,13 @@ const getStatusStyle=(method:number)=> {
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
-           {{ withDrawStore.cyrptoTransactionDetails.symbols }}  {{withDrawStore.transactionDetails.amount}}
+            {{withDrawStore.transactionDetails.amount}}     {{ withDrawStore.cyrptoTransactionDetails.symbols }} 
           </div>
         </div>
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: {{ withDrawStore.cyrptoTransactionDetails.name }}
+            Trans ID: {{ withDrawStore.transactionDetails.name }}
           </div>
   
           <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.cyrptoTransactionDetails.status)">

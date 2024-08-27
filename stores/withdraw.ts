@@ -9,7 +9,7 @@ import { useApi } from "@/composables/useApi";
 export const useWithdrawStore = defineStore("withdraw", {
   state: () => ({
     paymentMethodName:'',
-
+    refsCount:'',
     bankDetails:{
         bank_name: '',
         account_holder: '',

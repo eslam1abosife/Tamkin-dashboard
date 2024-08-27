@@ -242,7 +242,7 @@ v$.value.$reset()
           <h1
             class="text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
           >
-            Billing Info
+          {{ $t('Card Info') }}
           </h1>
         </div>
         <div
@@ -636,7 +636,7 @@ v$.value.$reset()
                 <div class="relative">
                   <input
                     type="text"
-                    placeholder="{{$t('Zip / Postal Code')}}"
+                    placeholder=""
                     id="zip"
                     class="input_floating_label peer w-full lg:w-[330px]"
                     v-model="v$.zip.$model"
@@ -654,7 +654,7 @@ v$.value.$reset()
                         : '',
                     ]"
                   >
-                    {{ $t("Zip / Postal Code") }}*
+                    {{ $t("Postal Code") }}*
                   </label>
                   <div
                     class="w-full lg:w-4/6"

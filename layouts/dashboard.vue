@@ -380,7 +380,7 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-  if(!isLinkActive('/embed-code')){
+  if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
   window.$chatwoot.toggleBubbleVisibility("hide");
   window.$chatwoot.toggle("close");
 
@@ -399,6 +399,8 @@ onMounted(async () => {
 
   const res = await getCurrentTeam()
 profileStore.company = currTeam.value
+
+
 })
 </script>
 

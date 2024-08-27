@@ -13,7 +13,7 @@ export const useProfileStore = defineStore("profile", {
     loadingProfile:false,
     profileAbout: '',
     currentTab: 'personal',
-    investor: '',
+    investor: {},
     currentTeam: '',
     updateProfilePayload:'',
     updatedCompanyPayload:'',

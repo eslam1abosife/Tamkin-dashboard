@@ -141,7 +141,7 @@ const handelDeleteCard = async (card: any) =>  {
   await deleteCard()
   closeModal('deleteModal_card')
 
-  $toast('Payment Method Deleted Successfully', { hideIn: 3000});
+  $toast('Card Deleted Successfully', { hideIn: 3000});
   // await getCards()
 
   billingStore.cards = billingStore.cards.filter((item: any) => item.name !== billingStore.card.name)
@@ -328,19 +328,19 @@ function leaveNotification(el, done) {
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <ProfileBillingModalsAddnewCard/>
     </transition>
-    <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete PaymentMethod"
-                   sub-title="Are you sure you want to delete the Payment method ?"
+    <ModalsConfirm :show-modal="isOpen('deleteModal_card')" title="Delete Card"
+                   sub-title="Are you sure you want to delete the card ?"
                    confirm-btn-type="delete" @control-delete="handelDeleteCard()"
                    @control-cancel="closeModal('deleteModal_card')"/>
 
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        Payments & Invoices
+        {{ $t('Payments & Invoices') }}
       </h1>
 
       <h2 class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
-        Payments & Invoices offer a detailed record of your payments and charges for easy
-        financial tracking
+   {{ $t('Payments & Invoices offer a detailed record of your payments and charges for easy financial tracking') }}
+
       </h2>
     </div>
 
@@ -351,7 +351,7 @@ function leaveNotification(el, done) {
       @click="openAddNewCardModal">
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
-          No payment methods have been added yet
+          {{$t('No payment methods have been added yet')}}
         </div>
         <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]" >
 
@@ -399,10 +399,11 @@ function leaveNotification(el, done) {
         </button>
       </div>
 
-      <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px] w-full">
-        <div class="flex flex-col items-center justify-center w-full" v-for="savedCard in billingStore.cards" :key="savedCard.is_primary">
+      <div class="flex flex-col items-start justify-start  w-full mt-[24px] space-y-[10px]">
+        <div class="flex flex-col items-center justify-start w-full " 
+        v-for="savedCard in billingStore.cards" :key="savedCard.name">
 
-          <div v-if="savedCard.is_active" :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
+          <div :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
@@ -427,7 +428,8 @@ function leaveNotification(el, done) {
 
             <div class="flex items-center justify-center space-x-[12px] px-[15px]">
 
-              <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"  class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg
+              <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"  
+              class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg
                 flex items-center justify-center group" :class="{ 'opacity-50 cursor-not-allowed': billingStore.cards?.length === 1 }">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
@@ -439,11 +441,7 @@ function leaveNotification(el, done) {
                 </svg>
 
               </button>
-              <!-- <button
-                class="text-red-500 hover:bg-[#FFF3F2] border-[1.5px] border-[#EAEAEA] hover:border-[#FACECB] w-[32px] h-[32px] rounded-lg flex items-center justify-center"
-              >
-                <img src="/assets/imgs/icons/bin.svg" alt="" />
-              </button> -->
+   
             </div>
           </div>
         </div>

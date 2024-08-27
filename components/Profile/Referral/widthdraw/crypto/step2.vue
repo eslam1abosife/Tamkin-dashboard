@@ -129,26 +129,26 @@ const closeAndReset = ()=>{
 </h1>
 
 
+<div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
 
-    <div class="mt-[32px]  h-[81px] px-[10px] py-[20px] grid grid-cols-4  rounded-[10px]
-     bg-[#F8F9FC] custom-border-tamkin padding-override-1">
 
-<div class="flex items-center justify-start gap-4">
-    <div>
-        <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="w-[39px] h-[39px]" alt="">
+
+
+    <div class=" col-span-1 w-[39px] h-[39px] ">
+        <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="" alt="">
     </div>
-    <div class="flex items-start justify-start flex-col ">
-<div class="text-[#021328] text-[14px] font-[500] ">
+    <div class="flex items-start justify-start flex-col col-span-4 ml-4" >
+<div class="text-[#021328] text-[12px] font-[500] ">
 {{withdrawStore.selectedCrypto.title}}  
 </div>
 
-<div class="text-[#021328] text-[12px]  font-[500] ">
+<div class="text-[#021328] text-[10px]  font-[500] ">
 {{withdrawStore.selectedCrypto.network}}
 </div>
     </div>
-</div>
-<div class="flex items-start justify-start flex-col ">
-    <div class="text-[#021328] text-[14px] font-[500] w-96 truncate">
+
+<div class="flex items-start justify-start flex-col col-span-5 ">
+    <div class="text-[#021328] text-[12px] font-[500] w-96 truncate">
         {{withdrawStore.cryptoDetails.wallet}}
     </div>
     

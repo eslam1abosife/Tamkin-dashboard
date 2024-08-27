@@ -200,9 +200,13 @@ v$.value.$reset()
         </div>
       </div>
 
-      <div class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px]">
-        Please ensure you enter the correct address on the Binance network. Using an incorrect network may result in the
+      <div class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px]" v-if="withdrawStore.selectedCrypto">
+        Please ensure you enter the correct address on the {{withdrawStore.selectedCrypto.network}} network. Using an incorrect network may result in the
         permanent loss of your funds
+      </div>
+
+      <div class="mt-[16px] w-full h-[36px]" v-if="!withdrawStore.selectedCrypto">
+
       </div>
 
       <div class="ipad-max:mt-[90px] mt-[90px] 2xl:mt-[118px] px-[20px] rtl:mr-auto ltr:ml-auto">

@@ -53,6 +53,18 @@ const isLinkActive = (path) => {
   return regex.test(currentPath);
 };
 
+
+onMounted(()=>{
+  if(isLinkActive('/auth/*')){
+  window.$chatwoot.toggleBubbleVisibility("hide");
+  window.$chatwoot.toggle("close");
+
+ }else {
+  window.$chatwoot.toggleBubbleVisibility("show");
+  window.$chatwoot.toggle("close");
+
+ }
+})
 </script>
 
 
@@ -74,30 +86,37 @@ const isLinkActive = (path) => {
             class="absolute inset-x-0 top-[50px] ipad-max:top-[40px]  " />
 
         </div>
-        <div class="absolute bottom-0 w-full mb-4">
+     <div class="flex items-center justify-center">
+      <div class="absolute bottom-0 w-full mb-4">
 
-          <ul class="flex items-center justify-evenly rtl:flex-row-reverse">
-            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
-    $t('terms_of_use') }}</a></li>
-            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank">{{
-    $t('privacy_statement') }}</a></li>
-            <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
-                $t('CookiePolicy') }}</a></li>
+        <ul class="flex items-center justify-evenly rtl:flex-row-reverse">
+          <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
+  $t('terms_of_use') }}</a></li>
+          <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank">{{
+  $t('privacy_statement') }}</a></li>
+          <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
+              $t('CookiePolicy') }}</a></li>
 
 
-          </ul>
-        </div>
+        </ul>
+       
+      </div>
+     
+    
+     </div>
       </div>
       <div
         class="ipad-max:max-w-[580px] ipad-max:p-3 mx-auto w-full max-w-[580px] 2xl:mt-0 ipad-max:mt-[0%]  dark:bg-darkSecondary 
         3xl:mt-[5%] col-span-12 md:col-span-12 lg:col-span-6 mt-[20px] order-1 rtl:order-1 relative">
         <NuxtPage class="dark:bg-darkSecondary" />
-      <div>
-        <AuthLanguageSwitcher :class="[isLinkActive('/auth/register')?'mt-[120px]' : isLinkActive('/auth/otp') ? 'mt-[60px]' :'mt-[40px]']" class=" mx-auto"/>
+        <div class="absolute lg:-bottom-40 2xl:py-0 lg:py-[10px] 2xl:-bottom-24 ipad-max:-bottom-4 !left-[40%] " :class="[isLinkActive('/auth/register') ? '2xl:-bottom-36 !py-[10px]':'']">
+          <AuthLanguageSwitcher class="mx-auto"/>
+        </div>
       </div>
-      </div>
-    </div>
 
+     
+    </div>
+   
   </div>
 
   </Html>
