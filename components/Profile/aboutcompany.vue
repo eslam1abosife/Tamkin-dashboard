@@ -47,7 +47,7 @@ watch(() => state.about, (newValue) => {
 
 <template>
   <div
-    class="bg-white/60 rounded-[10px] ipad-max:w-full backdrop-blur-md h-auto flex flex-col items-start 
+    class="bg-white/60  rounded-[10px] ipad-max:w-full backdrop-blur-md h-[176px] flex flex-col items-start 
     justify-center p-[15px] space-y-[10px] w-full lg:mt-[-60px]"
   >
   <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]">

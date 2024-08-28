@@ -301,9 +301,9 @@ const setPageSize = (size:number) => {
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left ">
                       <div class="flex items-center">
-                        <img :src="getPaymentImage(order['payment method'])" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
+                        <img :src="getPaymentImage(order['payment method'])" alt="Placeholder" class="w-[24px] h-[24px] rtl:ml-2 ltr:mr-2"/>
 
-                        <span>{{ order['payment method'] }}</span>
+                        <span>{{ $t(order['payment method']) }}</span>
                       </div>
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left ">
@@ -324,7 +324,7 @@ const setPageSize = (size:number) => {
                             '!w-[18px] !h-[18px]' : 'w-[24px] h-[24px]'"
                           />
                         </div>
-                        <span>{{ order['order status'] }}</span>
+                        <span>{{ $t(order['order status']) }}</span>
                       </div>
                     </td>
                     
@@ -346,17 +346,17 @@ const setPageSize = (size:number) => {
       <div v-if="orders?.length==0 && !loadingBlock" class="bg-white w-full h-[450px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
         <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="">
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center">
-          There are no orders at the moment
+          {{$t('There are no orders at the moment')}}
         </div>
 
       </div>
 
       <div v-if="orders.length>0" class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px] mt-[16px]">
-        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div class="flex items-center rtl:space-x-reverse  space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
-            Per Page
+            {{$t('Per Page')}}
           </span>
-          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2 ">
             <!-- Static buttons for per-page options -->
             <button
               :class="['px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]', { 'bg-[#2dada3]': pageSize === 10, 'bg-[#A7A7A7]': pageSize !== 10 }]"
@@ -378,9 +378,9 @@ const setPageSize = (size:number) => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:space-x-reverse  space-x-2">
           <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
-            Page
+            {{$t('Page')}}
           </span>
           <button
             class="p-[4px] rounded-md bg-transparent !text-[13px] dark:text-whiteTamkin text-darkGrey hover:bg-light-grey"
@@ -389,6 +389,8 @@ const setPageSize = (size:number) => {
             <svg
               width="20"
               height="20"
+              class="rtl:rotate-180"
+
               viewBox="0 0 20 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -401,10 +403,13 @@ const setPageSize = (size:number) => {
               />
             </svg>
           </button>
-          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2 ">
             <!-- Static buttons for page numbers -->
-            <button v-if="totalPages > 5 && currentPage > 3" @click="currentPage = 1" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">1</button>
-            <button v-if="totalPages > 5 && currentPage > 4" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">...</button>
+            <button v-if="totalPages > 5 && currentPage > 3" @click="currentPage = 1" 
+              class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex
+               items-center justify-center hover:bg-light-grey ">1</button>
+            <button v-if="totalPages > 5 && currentPage > 4" 
+              class="px-3 py-1 rounded-md w-[28px] h-[28px]  bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">...</button>
 
             <!-- Show page numbers around the current page -->
             <button
@@ -420,8 +425,12 @@ const setPageSize = (size:number) => {
             </button>
 
         <!-- Always show the last two pages -->
-            <button v-if="totalPages > 5 && currentPage < totalPages - 3" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">...</button>
-            <button v-if="totalPages > 5 && currentPage < totalPages - 2" @click="currentPage = totalPages" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">{{ totalPages }}</button>
+            <button v-if="totalPages > 5 && currentPage < totalPages - 3" 
+              class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex
+               items-center justify-center hover:bg-light-grey">...</button>
+            <button v-if="totalPages > 5 && currentPage < totalPages - 2" @click="currentPage = totalPages" class="px-3 
+              py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center 
+              justify-center hover:bg-light-grey">{{ totalPages }}</button>
           </div>
           <button
             class="p-[4px] rounded-md bg-transparent text-darkGrey dark:text-whiteTamkin hover:bg-light-grey"
@@ -429,6 +438,7 @@ const setPageSize = (size:number) => {
             <svg
               width="20"
               height="20"
+              class="rtl:rotate-180"
               viewBox="0 0 20 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

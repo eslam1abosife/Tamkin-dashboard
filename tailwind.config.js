@@ -87,7 +87,6 @@ export default {
     },
   },
   plugins: [
-    require('tailwindcss-rtl'),
     require("@tailwindcss/forms"),
     require("tailwind-extended-shadows"),
 

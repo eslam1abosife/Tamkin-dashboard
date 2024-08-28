@@ -7,7 +7,7 @@ export default function(state) {
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
     const router = useRouter();
-
+   const localePath = useLocalePath()
     const setPasswordToNewMember = async (state) => {
         try {
             const res = await api.post('/Account/SetNewPasswordToNewMember', {
@@ -20,7 +20,7 @@ export default function(state) {
             if(!res.data.succeeded) throw(res.data.message);
 
             // redirect to homepage if user is authenticated
-            router.push('/auth/success');
+            router.push(localePath('/auth/success'));
 
 
         } catch (error) {

@@ -155,7 +155,7 @@ const addCard = async ()=>{
 
   if (response.value.statusCode == 200){
     closeModal('add_new_card_billing')
-    $toast(t('Card Added successfully'), { hideIn: 3000 });
+    $toast(t('Card Added Successfully'), { hideIn: 3000 });
     invoiceStore.loadCards = true
 
     await getCards();
@@ -220,7 +220,7 @@ const hasCreditCardError = computed(() =>
 
 const hasCardExistsError = computed(() => 
   billingStore.addCardRes?.statusCode === 400 && 
-  billingStore.addCardRes?.message === 'You already have this card'
+  billingStore.addCardRes?.message === t('You already have this card')
 );
 
 const hasCardNumberError = computed(() => 
@@ -391,7 +391,7 @@ const hasAddCardError = computed(() =>
                   class="floating_label"
                   :class="[
                     v$.cardNumber.$error && v$.cardNumber.required.$invalid || v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid
-                    || (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')
+                    || (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == $t('You already have this card'))
                       ? '!text-error'
                       : '',
                   ]"
@@ -491,7 +491,7 @@ const hasAddCardError = computed(() =>
                         : '',
                     ]"
                   >
-                    {{ $t("CVV") }}*
+                    {{ $t("CVV*") }}
                   </label>
                   <div
                     class="w-full lg:w-4/6"
@@ -524,7 +524,7 @@ const hasAddCardError = computed(() =>
           <h1
             class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[0px]"
           >
-            Billing address
+           {{$t('Billing address')}}
           </h1>
 
           <div
@@ -721,7 +721,7 @@ const hasAddCardError = computed(() =>
               class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me" />
-              <div class="text-[14px] font-[400] text-black mt-1">
+              <div class="text-[14px] font-[400] text-black mt-1 font-[Almarai]">
               {{$t('Set as Primary Card')}}
               </div>
            </label>

@@ -74,12 +74,12 @@ const profileStore = useProfileStore();
   
           <div           v-if="!profileStore.loadingProfile"
            class="text-[11px] lg:text-[13px] font-[500] ipad-max:text-[10px] leading-[20px] text-[#878787]">
-            {{ profileStore.company.company_specialization ? profileStore.company.company_specialization : 'Specialization Not added' }}
+            {{ profileStore.company.company_specialization ? $t(profileStore.company.company_specialization) : $t('Specialization Not added') }}
           </div>
           <div  v-else class="bg-gray-200 animate-pulse h-[20px] w-[80px] rounded"></div>
 
           <div  v-if="!profileStore.loadingProfile" class="text-[#616161] text-[11px] lg:text-[13px] ipad-max:text-[10px] font-[500] leading-[18px]">
-            {{ profileStore.company.country ? profileStore.company.country : 'Country Not Added' }}
+            {{ profileStore.company.country ? $t(profileStore.company.country) : $t('Country Not Added') }}
           </div>
           <div  v-else class="bg-gray-200 animate-pulse h-[20px] w-[80px] rounded"></div>
         </div>

@@ -110,7 +110,7 @@ onMounted(() => {
 
         <div class="mx-auto text-center xl:w-auto ipad-max:w-full">
           <h1 class="dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px">
-            {{ $t("New Password") }}
+            {{ $t("New Password*") }}
           </h1>
 
           <h3 class="dark:text-whiteTamkin/90 text-[16px] lg:text-[20px]font-[500] text-darkGrey mb-[14px]"
@@ -136,14 +136,14 @@ onMounted(() => {
               ? '!text-error'
               : '',
           ]">
-                  {{ $t("password") }}*
+                  {{ $t("Password*") }}
                 </label>
 
                 <div class="w-full" v-if="(v$.password.$error && v$.password.required.$invalid) ||
             (v$.password.$error && v$.password.required.$invalid) || isIncludeWord(errMsg, ['password', 'Strong'])">
                   <p class="error_message">
                     <span v-if="isIncludeWord(errMsg, ['password'])">
-                      Password: 8+ chars, uppercase, number, symbol
+                      {{ $t('Password: 8+ chars, uppercase, number, symbol') }}
                     </span>
                   </p>
                 </div>
@@ -166,14 +166,14 @@ onMounted(() => {
 
                 <div class="w-full lg:w-4/6" v-if="v$.password.$error && v$.password.required.$invalid">
                   <p class="error_message_password">
-                    <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("password_is_required")
+                    <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("Password is required")
                       }}</span>
                   </p>
                 </div>
               </div>
 
               <div class="w-full relative">
-                <input :type="ConfirmpasswordFieldType" placeholder="{{ $t('confirm_password') }}" id="password_confirm"
+                <input :type="ConfirmpasswordFieldType" placeholder="" id="password_confirm"
                   class="input_floating_label peer" v-model="v$.password_confirm.$model" :class="{
             input_error:
               (v$.password_confirm.$error &&
@@ -191,7 +191,7 @@ onMounted(() => {
                 v$.password_confirm.sameAs.$invalid)
               ? '!text-error'
               : '',
-          ]">{{ $t("confirm_password") }}*</label>
+          ]">{{ $t("Confirm Password*") }}</label>
 
                 <div class="password_eye" v-if="!isconfirmPasswordVisible" @click="toggleConfirmPasswordVisibility">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -218,7 +218,7 @@ onMounted(() => {
             v$.password_confirm.sameAs.$invalid) ||
             (v$.password_confirm.$error &&
               v$.password_confirm.required.$invalid)
-            ">{{ $t("password_should_be_the_same") }}</span>
+            ">{{ $t("Password should be the same") }}</span>
                   </p>
                 </div>
               </div>
@@ -229,14 +229,14 @@ onMounted(() => {
     </div>
 
     <h6 v-if="errMsg && !isIncludeWord(errMsg, ['password', 'Strong'])"
-      class="text-center text-[red] font-light text-[14px] mb-5 mt-5">There is something wrong</h6>
+      class="text-center text-[red] font-light text-[14px] mb-5 mt-5">{{$t('There is something wrong')}}</h6>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0 lg:p-0 p-3">
       <button class="btn-grad-action w-full" @click="doChangePassword"  :disabled="v$.password.$invalid || v$.password_confirm.$invalid || loading
             ">
 
             <div class="flex items-center justify-center">
-              <div class="mr-4">
+              <div class="ltr:mr-4 rtl:ml-4">
                {{$t("Update Password")}}
               </div>
 

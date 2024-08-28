@@ -89,14 +89,14 @@ const doForgetPassword = async () => {
                                             }}</span>
 
                                         <span v-else-if="isIncludeWord(errorMsg, ['confirm', 'not found'])">
-                                            {{ errorMsg
+                                            {{ $t(errorMsg)
                                             }}</span>
 
 
                                     </p>
                                 </div>
                                 <h6 v-if="errorMsg && !isIncludeWord(errorMsg, ['confirm', 'not found'])"
-                                    class="text-[red] font-light text-[14px] !mt-[15px]"> {{ errorMsg }} </h6>
+                                    class="text-[red] font-light text-[14px] !mt-[15px]"> {{ $t(errorMsg) }} </h6>
 
                             </div>
 
@@ -117,7 +117,7 @@ const doForgetPassword = async () => {
 
            
                         <div class="flex items-center justify-center">
-                            <div class="mr-4">
+                            <div class="rtl:ml-4 ltr:mr-4">
                              {{$t("Continue")}}
                             </div>
                        

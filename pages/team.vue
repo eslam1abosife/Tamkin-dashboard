@@ -299,15 +299,15 @@ onMounted(() => {
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start  rtl:space-x-reverse space-x-[16px]"
     >
     <div
     v-if="!getCurrTeamLoading"
-    class="flex items-center justify-between flex-row rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+    class="flex items-center justify-between flex-row  rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
   >
 
     <div
-      class="flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[20px] w-full"
+      class="flex items-center justify-start  rtl:space-x-reverse space-x-[20px] w-full"
     >
       <div @click="openModal('editteampic', 'team')" v-if="!currTeam?.team_image">
         <div
@@ -459,7 +459,7 @@ onMounted(() => {
     
  <!-- Skeleton Loader -->
  <div v-if="getCurrTeamLoading"       
-   class="flex items-center justify-between flex-row rtl:rtl:space-x-reverse space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+   class="flex items-center justify-between flex-row  space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
  >
   <!-- Avatar Skeleton -->
   <div class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"></div>
@@ -497,7 +497,7 @@ onMounted(() => {
             ></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[84px] space-x-[90px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[90px] space-x-[90px] flex"
             >
               <div>{{$t('Active')}}</div>
               <div>
@@ -509,7 +509,7 @@ onMounted(() => {
             <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[50px]  space-x-[74px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[55px]  space-x-[74px] flex"
             >
               <div>{{$t('Pending')}}</div>
               <div>
@@ -674,7 +674,7 @@ onMounted(() => {
                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] lg:rtl:space-x-reverse space-x-[16px] rtl:rtl:space-x-reverse space-x-reverse"
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] lg:rtl:space-x-reverse space-x-[16px]  space-x-reverse"
                   >
                     <div class="inline">
                       <img
@@ -732,7 +732,7 @@ onMounted(() => {
                       :disabled="isOwner(member)"
                       @click="openPermissions(member)"
                       :class="isOwner(member) ? 'opacity-40' : 'opacity-100'"
-                      class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                      class="flex items-center  rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                     >
                       <div>{{$t('Permissions')}}</div>
                       <img src="/assets/imgs/icons/arow_down.svg" />
@@ -742,7 +742,7 @@ onMounted(() => {
 
                 <td class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
                   <div
-                    class="flex items-evenly justify-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                    class="flex items-evenly justify-center  rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                   >
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
@@ -896,13 +896,13 @@ onMounted(() => {
         class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
-        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div class="flex items-center  rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >
             {{ $t('Per Page') }}
           </span>
-          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2  ">
             <button
               v-for="option in perPageOptions"
               :key="option"
@@ -921,7 +921,7 @@ onMounted(() => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
+        <div class="flex items-center  rtl:space-x-reverse space-x-2">
           <span
             class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
           >
@@ -949,7 +949,7 @@ onMounted(() => {
               />
             </svg>
           </button>
-          <div v-if="teamMembers" class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
+          <div v-if="teamMembers" class="flex rtl:space-x-reverse space-x-2  ">
             <button
               v-for="i in totalPages"
               :key="i"

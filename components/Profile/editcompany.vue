@@ -47,6 +47,8 @@ loadingUpdate:Boolean
 })
 const cancelUpdate = ()=>{
     emit('cancelupdate')
+    resetcancel()
+
 }
 const { $toast } = useNuxtApp();
 
@@ -106,7 +108,12 @@ onMounted(async () => {
   await getCountries();
 });
 
-
+const resetcancel = () =>{
+  state.company=profileStore.company.agency_name
+    state.country=profileStore.company.country
+    state.phone=profileStore.company.phone
+    state.company_specialization= profileStore.company.company_specialization
+}
 
 </script>
 
