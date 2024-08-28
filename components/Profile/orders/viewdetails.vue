@@ -100,7 +100,7 @@ watchEffect(() => {
        lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto"
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal_details')">
+  dark:text-whiteTamkin !top-[24px] rtl:!left-[20px] ltr:!right-[20px] !cursor-pointer z-[999]" @click="closeModal('requestmodal_details')">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -176,7 +176,7 @@ watchEffect(() => {
      </div>
    
        
-        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse [20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price }} AED</div>

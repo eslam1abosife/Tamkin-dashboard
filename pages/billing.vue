@@ -346,7 +346,7 @@ function leaveNotification(el, done) {
     </div>
 
     <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
-      <div class="text-[18px] font-[500] text-black">Payment Methods</div>
+      <div class="text-[18px] font-[500] text-black">{{$t('Payment Methods')}}</div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
       @click="openAddNewCardModal">
@@ -490,7 +490,7 @@ function leaveNotification(el, done) {
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
             </td>
             <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
-              <div class="text-darkGrey text-[14px] leading-[19px] font-[700]">{{ invoice.cost }}$</div>
+              <div class="text-darkGrey text-[14px] leading-[19px] !font-[700]">{{ invoice.cost }}$</div>
               <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{$t( invoice.order_type) }}</div>
             </td>
           </tr>
@@ -498,7 +498,7 @@ function leaveNotification(el, done) {
         </table>
       </div>
 
-      <button  :disabled="loadingMoreInvoies" class="btn-dashboard hover_tamkin w-[190px] mt-[16px] ml-auto" @click="increaseInvoices" v-if="invoicescount != invoicesStore.invoices.length">
+      <button  :disabled="loadingMoreInvoies" class="btn-dashboard hover_tamkin w-[190px] mt-[16px] rtl:mr-auto ltr:ml-auto" @click="increaseInvoices" v-if="invoicescount != invoicesStore.invoices.length">
 
 
         <div class="flex items-center justify-center w-full">
@@ -551,7 +551,7 @@ function leaveNotification(el, done) {
 
     <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad"
     class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
-      <div class="text-[18px] font-[500] text-black">Invoices History
+      <div class="text-[18px] font-[500] text-black">{{ $t('Invoices History') }}
       </div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">

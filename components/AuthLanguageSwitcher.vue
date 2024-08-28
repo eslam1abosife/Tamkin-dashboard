@@ -34,7 +34,7 @@ const closeoutside = () => {
   >
 
 
-<div class="flex items-center justify-between space-x-[32px]">
+<div class="flex items-center justify-between rtl:space-x-reverse space-x-[32px]">
     <div v-if="locale ==='en'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
       English
     </div>
@@ -50,7 +50,8 @@ const closeoutside = () => {
 
 
 <div v-if="isMenuOpen" class=" absolute bottom-[40px] inset-x-auto drop-shadow-md bg-white rounded-[10px] h-auto w-full flex flex-col items-start justify-start p-[8px]">
-  <NuxtLink class="flex items-center justify-center gap-2" v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)">
+  <NuxtLink class="flex items-center justify-center gap-2" v-for="locale in availableLocales" :key="locale.code" 
+  :to="switchLocalePath(locale.code)">
  
     <div class=" font-[500] text-[10px] leading-[24px]">
   {{ locale.name }}

@@ -98,7 +98,7 @@ const clearFieldError = (condition) => {
           </h3>
 
           <p class="text-[red] font-light text-[14px] !mt-[5px] mb-5"
-            v-if="isIncludeWord(errorMsg, ['something wrong'])"> {{ errorMsg }} </p>
+            v-if="isIncludeWord(errorMsg, ['something wrong'])"> {{ $t(errorMsg) }} </p>
 
           <div class="space-y-[23px] w-full mt-[10px]">
             <div class="w-full relative">
@@ -117,7 +117,7 @@ const clearFieldError = (condition) => {
               </label>
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.full_name.$error && v$.full_name.required.$invalid)">
                 <p class="error_message">
-                  <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("fullname_is_required")
+                  <span v-if="v$.full_name.$error && v$.full_name.required.$invalid">{{ $t("Full name is required")
                     }}</span>
 
                 </p>
@@ -147,13 +147,13 @@ const clearFieldError = (condition) => {
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
             (v$.email.$error && v$.email.email.$invalid) || isIncludeWord(errorMsg, ['email'])">
                 <p class="error_message">
-                  <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("Email Address is required")
+                  <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("The email address is required")
                     }}</span>
                   <span v-else-if="v$.email.required.$invalid ||
-            (v$.email.$error && v$.email.email.$invalid)">{{ $t("please_enter_valid_email_address")
+            (v$.email.$error && v$.email.email.$invalid)">{{ $t("Please enter a valid email address")
                     }}</span>
 
-                  <span v-else-if="isIncludeWord(errorMsg, ['email'])"> {{ errorMsg }} </span>
+                  <span v-else-if="isIncludeWord(errorMsg, ['email'])"> {{ $t(errorMsg) }} </span>
                 </p>
               </div>
             </div>
@@ -178,7 +178,7 @@ const clearFieldError = (condition) => {
             (v$.password.$error && v$.password.required.$invalid) || isIncludeWord(errorMsg, ['password'])">
                 <p class="error_message">
                   <span v-if="isIncludeWord(errorMsg, ['password'])">
-                    Password: 8+ chars, uppercase, number, symbol
+                   {{ $t('Password: 8+ chars, uppercase, number, symbol') }}
                   </span>
                 </p>
               </div>
@@ -207,7 +207,7 @@ const clearFieldError = (condition) => {
               </div>
               <div class="w-full lg:w-4/6 mt-2" v-if="v$.password.$error && v$.password.required.$invalid">
                 <p class="error_message_password">
-                  <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("password_is_required")
+                  <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("Password is required")
                     }}</span>
                 </p>
               </div>
@@ -247,7 +247,7 @@ const clearFieldError = (condition) => {
                 <p class="error_message_password">
                   <span
                     v-if="v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid || v$.confirm_password.$error && v$.confirm_password.required.$invalid">{{
-            $t('password_should_be_the_same') }}</span>
+            $t('Password should be the same') }}</span>
 
 
                 </p>
@@ -281,7 +281,7 @@ const clearFieldError = (condition) => {
 
 
             <div class="flex items-center justify-center">
-              <div class="mr-4">
+              <div class="rtl:ml-4 ltr:mr-4">
                {{$t("Sign Up")}}
               </div>
          
@@ -297,7 +297,7 @@ const clearFieldError = (condition) => {
           <img class="inline-block mx-2" src="/assets/imgs/loading.svg" /> <span
             class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("Register With Google") }}</span>
         </template>
-        <div v-else class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
+        <div v-else class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] lg:rtl:space-x-reverse space-x-[8px]">
           <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("Register With Google")
             }}
           </div>
@@ -310,9 +310,9 @@ const clearFieldError = (condition) => {
 
       <div class="text-center pb-[20px]">
         <span
-          class="text-darkGrey text-[16px] font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1 dark:text-whiteTamkin">{{
+          class="text-darkGrey text-[16px] font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1 dark:text-whiteTamkin rtl:font-[Almarai]">{{
             $t('Already have an account??') }}</span>
-        <a class="text-[16px] font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400]"
+        <a class="text-[16px] font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400] rtl:font-[Almarai]"
           @click="$router.push(localePath('/auth/login'))">{{ $t('Login') }}</a>
       </div>
 

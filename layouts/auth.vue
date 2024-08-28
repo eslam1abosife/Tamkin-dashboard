@@ -85,11 +85,11 @@ onMounted(()=>{
 
         <ul class="flex items-center justify-evenly rtl:flex-row-reverse">
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
-  $t('Terms Of Use') }}</a></li>
+  $t('Terms of Use') }}</a></li>
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank">{{
-  $t('Privacy Statment') }}</a></li>
+  $t('Privacy Statement') }}</a></li>
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
-              $t('Cookie Policey') }}</a></li>
+              $t('Cookie Policy') }}</a></li>
 
 
         </ul>
@@ -106,8 +106,8 @@ onMounted(()=>{
        
       </div>
 
-      <div class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 right-[50%]" 
-      :class="[isLinkActive('/auth/register') ? 'bottom-[-32px] ipad-max:!bottom-[-180px]' :'']" >
+      <div class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 rtl:right-[-50%] ltr:right-[50%]" 
+      :class="[isLinkActive('/auth/register') ? 'bottom-[-50px] ipad-max:!bottom-[-180px]' :'']" >
         <AuthLanguageSwitcher class="mx-auto !z-50"/>
       </div>
     </div>

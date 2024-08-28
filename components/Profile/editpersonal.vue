@@ -43,6 +43,7 @@ const emit = defineEmits(["cancelupdate", "updatePersonalInfo"]);
 
 const cancelUpdate = () => {
   emit("cancelupdate");
+  resetcancel()
 };
 
 const updatePersonalInfo = async () => {
@@ -91,6 +92,13 @@ onMounted(async () => {
 
   await getCountries();
 });
+
+const resetcancel = () =>{
+  state.first_name = profileStore.member.first_name;
+  state.last_name = profileStore.member.last_name;
+  state.phone = profileStore.member.phone;
+  state.country = profileStore.member.country;
+}
 </script>
 
 <template>

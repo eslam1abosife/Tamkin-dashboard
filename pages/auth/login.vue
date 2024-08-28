@@ -36,7 +36,7 @@ const passwordFieldType = computed(() =>
   isPasswordVisible.value ? "text" : "password"
 );
 
-const { loginWithGoogle, loading: googleLoading } = useGoogle();
+const { loginWithGoogle, loading: googleLoading,handleFirebaseError } = useGoogle();
 const { loginUser, loading: loginLoading, user } = useLogin(state);
 
 const router = useRouter();
@@ -75,14 +75,22 @@ const firebaseErrorMsg = ref(null);
 const doLoginWithGoogle = async () => {
   errorMsg.value = null;
   firebaseErrorMsg.value = null;
+  
   try {
-    await loginWithGoogle();
-    await profileStore.fetchMember()
-    await profileStore.getCurrentTeam()
+    const error = await loginWithGoogle(); // Capture the error message, if any
+    if (error) {
+      firebaseErrorMsg.value = error; // Set the error message if login fails
+      return; // Exit if there's a login error
+    }
+
+    await profileStore.fetchMember();
+    await profileStore.getCurrentTeam();
   } catch (err) {
-    firebaseErrorMsg.value = err;
+    // Use handleFirebaseError function to parse the error
+    firebaseErrorMsg.value = handleFirebaseError(err); // Assign parsed error message
   }
 };
+
 
 const clearFieldError = (condition) => {
   if (condition) {
@@ -115,7 +123,7 @@ const clearFieldError = (condition) => {
           </h3>
           <button :disabled="googleLoading" :class="googleLoading && 'btn-inactive'" @click="doLoginWithGoogle"
             style="line-height: 30px" class="google_login_button">
-            <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] lg:rtl:space-x-reverse space-x-[12px]">
               <template v-if="googleLoading">
                 <img class="inline-block mx-2" src="/assets/imgs/loading.svg" />
                 <span class="font-[600] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("Login with Google")
@@ -130,9 +138,14 @@ const clearFieldError = (condition) => {
             </div>
           </button>
 
-          <h6 v-if="firebaseErrorMsg" class="text-[red] font-light text-[14px] !mt-[5px]">
-            {{ firebaseErrorMsg }}
+          <h6 v-if="firebaseErrorMsg" class="text-red-500 font-light text-[14px] !mt-[5px]">
+            {{ 
+              firebaseErrorMsg
+            }}
           </h6>
+          
+          
+          
 
           <div class="space-y-[23px] w-full">
             <div class="relative flex items-center mx-auto w-full mt-[23px]">
@@ -144,7 +157,7 @@ const clearFieldError = (condition) => {
             </div>
 
             <h6 v-if="isIncludeWord(errorMsg, ['firebase'])" class="text-[red] font-light text-[14px] !mt-[5px]">
-              {{ errorMsg }}
+              {{ $t(errorMsg) }}
             </h6>
 
             <h6 v-if="errorMsg &&
@@ -155,7 +168,7 @@ const clearFieldError = (condition) => {
     ]) &&
     !isIncludeWord(errorMsg, ['Error in Email Or Password'])
     " class="text-[red] font-light text-[14px] !mt-[5px]">
-              {{ errorMsg }}
+              {{ $t(errorMsg) }}
             </h6>
 
             <div class="space-y-[23px] w-full">
@@ -193,15 +206,15 @@ const clearFieldError = (condition) => {
     isIncludeWord(errorMsg, ['confirm', 'not found'])
     ">
                   <p class="error_message">
-                    <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("Email Address is required")
+                    <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("The email address is required")
                       }}</span>
                     <span v-else-if="v$.email.required.$invalid ||
     (v$.email.$error && v$.email.email.$invalid)
-    ">{{ $t("please_enter_valid_email_address") }}</span>
+    ">{{ $t("Please enter a valid email address") }}</span>
 
                     <span v-else-if="isIncludeWord(errorMsg, ['confirm', 'not found'])
     ">
-                      {{ errorMsg }}
+                      {{ $t(errorMsg) }}
                     </span>
                   </p>
                 </div>
@@ -252,11 +265,11 @@ const clearFieldError = (condition) => {
     isIncludeWord(errorMsg, ['Error in Email Or Password'])
     ">
                   <p class="error_message_password">
-                    <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("password_is_required")
+                    <span v-if="v$.password.$error && v$.password.required.$invalid">{{ $t("Password is required")
                       }}</span>
 
                     <span v-else-if="isIncludeWord(errorMsg, ['Error in Email Or Password'])
-    ">Password is not correct</span>
+    ">{{$t('Password is not correct')}}</span>
                   </p>
                 </div>
               </div>
@@ -287,7 +300,7 @@ const clearFieldError = (condition) => {
         :disabled="v$.email.$invalid || v$.password.$invalid || loginSuccessfully">
 
     <div class="flex items-center justify-center">
-     <div class="mr-4">
+     <div class="rtl:ml-4 ltr:mr-4">
       {{$t("Login")}}
      </div>
 

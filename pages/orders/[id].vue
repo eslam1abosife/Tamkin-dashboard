@@ -45,7 +45,7 @@ definePageMeta({
 
 const openModalAndHideChat = () => {
   if (process.client && !isOpen('requestmodal_update')) {
-    window.$chatwoot.toggleBubbleVisibility('hide')
+    // window.$chatwoot.toggleBubbleVisibility('hide')
     openModal('requestmodal_update', 'order-id')
 
 
@@ -141,31 +141,9 @@ const handleData = async() => {
   loadingBlock.value = false;
 };
 
-
-function beforeEnter(el) {
-  el.style.transform = "scale(0)";
-  el.style.opacity = "0";
-}
-
-function enter(el, done) {
-  el.offsetWidth; // Force reflow
-  el.style.transition = "all 0.5s ease";
-  el.style.transform = "scale(1)";
-  el.style.opacity = "1";
-  done();
-}
-
-function leave(el, done) {
-  el.style.transition = "all 0.5s ease";
-  el.style.transform = "scale(0)";
-  el.style.opacity = "0";
-  setTimeout(done, 500);
-}
-
-///7
-
 function beforeEnterCart(el) {
-  el.style.transform = "translateX(100%)";
+  const isRTL = document.documentElement.dir === 'rtl';
+  el.style.transform = isRTL ? "translateX(-100%)" : "translateX(100%)";
   el.style.opacity = "0";
 }
 
@@ -179,41 +157,9 @@ function enterCart(el, done) {
 }
 
 function leaveCart(el, done) {
+  const isRTL = document.documentElement.dir === 'rtl';
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
-}
-
-///
-
-function beforeEnterNotification(el) {
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
-}
-
-function enterNotification(el, done) {
-  // Set the initial position and opacity
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
-
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
-    done();
-  }, 0);
-}
-
-function leaveNotification(el, done) {
-  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(50px)";
+  el.style.transform = isRTL ? "translateX(-100%)" : "translateX(100%)";
   el.style.opacity = "0";
   setTimeout(() => {
     done();
@@ -226,15 +172,15 @@ function leaveNotification(el, done) {
   <div class="w-full relative">
     <LazyProfileBillingModalsEditcard />
     <ProfileBillingModalsAddnewCard />
+
+
     <ProfileOrdersTracking />
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <ProfileOrdersViewdetails />
     </transition>
 
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-
     <ProfileOrdersRequest  @updateData="handleData()"/>
-
   </transition>
 
     <div class="space-y-[5px]">
@@ -438,34 +384,34 @@ function leaveNotification(el, done) {
 
 
             <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
-              <td class="py-2 px-5 border-b  dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
+              <td class="py-2 px-5 border-b  dark:border-light rtl:text-left ltr:text-right font-[500] w-full  dark:text-whiteTamkin"
                 colspan="4">
                 {{ $t('Subtotal') }}
               </td>
-              <td class="py-2   border-b dark:border-light text-right w-full font-[500]  dark:text-whiteTamkin"
+              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500]  dark:text-whiteTamkin"
                 colspan="4">
                 {{ orderDetails.subtotal }} {{ $t('AED') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
-              <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
+              <td class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right t font-[500] w-full  dark:text-whiteTamkin"
                 colspan="4">
                 {{ $t('Discount') }}
 
               </td>
-              <td class="py-2   border-b dark:border-light text-right  min-w-[100px] font-[500]  dark:text-whiteTamkin"
+              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right   min-w-[100px] font-[500]  dark:text-whiteTamkin"
                 colspan="4">
                 {{ orderDetails.discount }} {{ $t('AED') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p">
-              <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
+              <td class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right  font-[500] w-full dark:text-whiteTamkin"
                 colspan="4">
                 {{$t('Total')}}
 
               </td>
               <td
-                class="py-2 border-b dark:border-light text-right w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right  w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
                 colspan="4">
                 {{ orderDetails.total }}  {{ $t('AED') }}
               </td>

@@ -1666,7 +1666,7 @@ watch(
           </div>
           <div class="w-full mx-auto">
             <button
-              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-1/4 w-4/6 !text-[12px] mx-auto"
+              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
               @click="$router.push(localePath('/contact'))"
             >
               {{$t('Contact Sales')}}

@@ -105,7 +105,7 @@ const noUpload=ref(false)
  
 const closeAndShowChat = ()=>{
 
-window.$chatwoot.toggleBubbleVisibility('show')
+// window.$chatwoot.toggleBubbleVisibility('show')
 closeModal('requestmodal_update')
 isFilesPopulated=false;
 acceptedFilesRef.value=[]
@@ -189,7 +189,7 @@ watchEffect(() => {
        lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto "
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeAndShowChat">
+  dark:text-whiteTamkin !top-[24px] rtl:!left-[20px]ltr:!right-[20px] !cursor-pointer z-[999]" @click="closeAndShowChat">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -251,7 +251,7 @@ watchEffect(() => {
         </div>
         <div class="w-full flex-col flex items-start justify-start">
           <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">{{$t('Gender')}}</h1>
-          <div class="flex items-center justify-start space-x-[100px] w-full">
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[100px] w-full">
             <div class="flex items-center justify-start mt-[16px]">
               <input
                 id="gender_radio_1"
@@ -265,7 +265,7 @@ watchEffect(() => {
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'male' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">{{$t('Male')}}</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Male')}}</h2>
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -280,7 +280,7 @@ watchEffect(() => {
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'female' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">{{$t('Female')}}</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Female')}}</h2>
             </div>
           </div>
         </div>
@@ -310,15 +310,15 @@ watchEffect(() => {
             </p>
           </div>
         </div>
-        <div class="w-full ">
-          <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
+        <div class="w-full">
+          <h1 class="rtl:text-right ltr:text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">{{$t('Upload Character image')}}</h1>
           <div
             v-bind="getRootProps()"
             class="w-full h-auto p-[10px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
+            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px] " v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
@@ -361,16 +361,16 @@ watchEffect(() => {
         </div>
         <div class="!text-error" v-if="noUpload"> {{$t('please Uplaod atleast one image')}} </div>
 
-        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>
           <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
-        <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
+        <div class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto  py-3">
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
           <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
-              <div :class="loadingUpdate ? 'mr-4':''">
+              <div :class="loadingUpdate ? 'rtl:ml-4 ltr:mr-4':''">
                {{$t('Update')}}
               </div>
          

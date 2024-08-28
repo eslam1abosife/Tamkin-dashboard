@@ -179,11 +179,11 @@ const doVerifyCode = async () => {
 
 
           <h1 class=" dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px;">{{
-    $t("verification") }}</h1>
+    $t("Verification") }}</h1>
 
           <h3 class=" dark:text-whiteTamkin/90 text-[16px] lg:text-[20px] font-[500] text-darkGrey  mb-[14px]"
             style="line-height: 30px;">
-            {{ $t("enter_verification_code") }}
+            {{ $t("Enter your 6 digits code that you received on your email.") }}
           </h3>
 
 
@@ -209,8 +209,8 @@ const doVerifyCode = async () => {
       
 
     <div class="flex items-center justify-center">
-      <div class="mr-4">
-       {{$t("verfiy_processing")}}
+      <div class="rtl:ml-4 ltr:mr-4">
+       {{$t("Continue")}}
       </div>
  
        <svg  v-if="verifyLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -223,14 +223,14 @@ const doVerifyCode = async () => {
         <div class="flex gap-2 items-center  justify-center !mt-[0]">
           <div>
             <p class="flex gap-[5px] text-center font-[500] dark:text-whiteTamkin">
-              <span>{{ $t('didnt_receive_code') }}</span>
+              <span>{{ $t(`If you didn’t receive a code!`) }}</span>
               <span class="text-error w-[50px]" v-if="!showResent && !resendLoading">{{ formattedCountdown }}</span>
             </p>
           </div>
-          <div class="w-[50px]">
+          <div class="rtl:w-[100px] w-[50px]">
             <img class="inline" src="/assets/imgs/loading-green.svg" v-if="resendLoading" />
-            <a @click.prevent="doResendCode" href="#" class="w-[50px] text-tamkin underline "
-              v-else-if="!(!showResent && !resendLoading) && !resendLoading">{{ $t('resendCode') }}</a>
+            <a @click.prevent="doResendCode" href="#" class="rtl:w-full w-[50px] text-tamkin underline "
+              v-else-if="!(!showResent && !resendLoading) && !resendLoading">{{ $t('Resend') }}</a>
           </div>
         </div>
 
