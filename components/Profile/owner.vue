@@ -72,7 +72,7 @@ const memberFullName = computed(() => {
           <div v-else class="bg-gray-300 animate-pulse h-[20px] w-[80px] rounded"></div>
           
           <div   v-if="!profileStore.loadingProfile" class="text-[11px] lg:text-[13px] font-[500] ipad-max:text-[10px] leading-[20px] text-[#878787]">
-            {{ profileStore.isOwner ? 'Owner' : 'Member' }}
+            {{ profileStore.isOwner ? $t('Owner') : $t('Member') }}
           </div>
           <div  v-else class="bg-gray-300 animate-pulse h-[20px] w-[80px] rounded"></div>
 

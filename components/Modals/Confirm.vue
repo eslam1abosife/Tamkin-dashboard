@@ -79,31 +79,31 @@ const controlSaveSite = ()=>{
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-      {{ title }}
+    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+      {{ $t(title) }}
     </h1>
 
     <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
 
-      {{ subTitle }}
+      {{ $t(subTitle) }}
     </h2>
 
 
-  <div class="flex items-center justify-end space-x-[16px]">
+  <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]">
 
     <div class="  mt-[40px] " >
       <button class="btn_bordered_dashboard hover_tamkin " @click="controlCancelButton">
-        {{ cancelButtonName ? cancelButtonName :'Cancel' }}
+        {{ cancelButtonName ? $t(cancelButtonName) : $t('Cancel') }}
       </button>
     </div>
     <div class="  mt-[40px] " v-if="savetoAllSitesBtn">
       <button class="btn_bordered_dashboard hover_tamkin " @click="controlSaveSite">
-        Save to all sites
+        {{$t('Save to all sites')}}
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'confirm' ">
       <button class="btn-dashboard hover_tamkin "  @click="controlConfirmButton">
-        Confirm Reset
+        {{$t('Confirm Reset')}}
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'other' ">
@@ -112,8 +112,8 @@ const controlSaveSite = ()=>{
 
           class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
           <div class="flex items-center justify-center">
-            <div :class="saveLoading ? 'mr-2':''">
-              Save
+            <div :class="saveLoading ? 'rtl:ml-2 ltr:mr-2':''">
+              {{$t('Save')}}
             </div>
 
              <svg  v-if="saveLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -130,8 +130,8 @@ const controlSaveSite = ()=>{
 
           class="btn_bordered_dashboard error"  @click="controlDeleteButton">
           <div class="flex items-center justify-center">
-            <div :class="deleteisLoading ? 'mr-3':''">
-              Confirm Delete
+            <div :class="deleteisLoading ? 'ltr:mr-3 rtl:ml-3':''">
+              {{$t('Confirm Delete')}}
             </div>
 
              <svg  v-if="deleteisLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

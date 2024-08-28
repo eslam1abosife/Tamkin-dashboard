@@ -205,7 +205,7 @@ const state = reactive({
             <button class="btn-dashboard hover_tamkin w-2/6" :disabled="v$.$invalid || loadingContact"
                     @click="submitContact">
               <div class="flex items-center justify-center">
-                <div :class="loadingContact ? 'mr-2':''">
+                <div :class="loadingContact ? 'rtl:ml-2 ltr:mr-2':''">
                   Submit
                 </div>
 

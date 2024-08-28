@@ -61,7 +61,7 @@ const openSupport = ()=>{
   }
 }
 
-const closeModalAndReset = ()=>{
+const closeModalAndReset = async ()=>{
   withDrawStore.transactionDetails = {}
   withDrawStore.setBankDetails({
           bank_name: '',
@@ -73,8 +73,9 @@ const closeModalAndReset = ()=>{
         });
   withDrawStore.withdrawAmount = 0
   withDrawStore.selectedPaymentMethod = ""
-  
+
   closeModal('success_bank_withdraw')
+
 }
 const getStatusStyle=(method:number)=> {
       switch (method) {
@@ -124,11 +125,11 @@ const getStatusStyle=(method:number)=> {
           <img src="/imgs/success_bank.png" class="w-[60px] h-[50px]" alt="">
         </div>
         <div class=" font-[700] text-[20px] leading-[36px] text-darkGrey">
-          Congratulations
+          {{$t('Congratulations')}}
         </div>
   
         <div class="text-[12px] font-[500] leading-[27px] text-darkGrey text-center">
-          Your withdrawal request will be taken into consideration and your funds will be transferred to your account
+          {{ $t('Your withdrawal request will be taken into consideration and your funds will be transferred to your account') }}
         </div>
   
         <div class="flex items-center justify-between w-full">
@@ -144,7 +145,7 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[4px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Trans ID: {{withDrawStore.transactionDetails.name}}
+            {{ $t('Trans ID') }}: {{withDrawStore.transactionDetails.name}}
           </div>
   
           <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
@@ -154,13 +155,13 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[24px]">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Account details
+            {{ $t('Account details') }}
           </div>
         </div>
   
         <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Bank
+            {{$t('Bank')}}
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
@@ -171,7 +172,7 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Account holder
+            {{$t('Account holder')}}
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
@@ -182,7 +183,7 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            IBAN
+            {{ $t('IBAN') }}
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
@@ -193,7 +194,7 @@ const getStatusStyle=(method:number)=> {
   
         <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
-            Swift
+            {{ $t('Swift') }}
           </div>
   
           <div class="text-[14px] font-[500] text-[#021328]">
@@ -208,10 +209,10 @@ const getStatusStyle=(method:number)=> {
       >
         <div class="flex flex-col items-start justify-start">
           <div class="text-[14px] font-[500] text-[#021328]">
-            Need help?
+            {{ $t('Need help?') }}
           </div>
           <div class="text-[12px] font-[500] w-full sm:w-3/4 leading-[27px] text-darkGrey">
-            If there is a problem with the transactions, make sure to contact your support
+           {{ $t('If there is a problem with the transactions, make sure to contact your support') }}
           </div>
         </div>
   
@@ -222,7 +223,7 @@ const getStatusStyle=(method:number)=> {
   
       <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
-          Done
+          {{$t('Done')}}
         </button>
       </div>
     </div>

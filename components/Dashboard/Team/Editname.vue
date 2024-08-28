@@ -9,7 +9,7 @@ const userStore = useUserStore();
 const profileStore = useProfileStore(); // Initialize profile store
 const { editMember, loading } = useEditMember();
 const { getAllTeamMember } = useGetAllMembers();
-
+const {t} = useI18n()
 const {
   isOpen,
   closeModal,
@@ -70,7 +70,7 @@ const doEditMember = async () => {
     closeModal('editname');
 
     await getAllTeamMember(user.agency);
-    $toast('Member Name updated successfully', { hideIn: 3000 });
+    $toast(t('Member Name updated successfully'), { hideIn: 3000 });
 
   } catch (err) {
     errorMsg.value = err;
@@ -93,8 +93,8 @@ const doEditMember = async () => {
       </svg>
     </div>
     <div class="container mx-auto">
-      <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Edit Name
+      <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+       {{ $t('Edit Name') }}
       </h1>
 
 
@@ -116,11 +116,11 @@ const doEditMember = async () => {
       ? '!text-error'
       : '',
   ]">
-            {{ $t("firstName") }}*
+            {{ $t("First Name*") }}
           </label>
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.firstName.$error && v$.firstName.required.$invalid)">
             <p class="error_message">
-              <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{ $t("first_name_required")
+              <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{ $t("First Name is required")
                 }}</span>
 
             </p>
@@ -139,11 +139,11 @@ const doEditMember = async () => {
       ? '!text-error'
       : '',
   ]">
-            {{ $t("lastName") }}*
+            {{ $t("Last Name*") }}
           </label>
           <div class="w-full lg:w-4/6 mt-2" v-if="(v$.lastName.$error && v$.lastName.required.$invalid)">
             <p class="error_message">
-              <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{ $t("last_name_required")
+              <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{ $t("Last Name is required")
                 }}</span>
             </p>
           </div>
@@ -159,8 +159,8 @@ const doEditMember = async () => {
           class=" btn-dashboard hover_tamkin text-center mx-auto" @click="doEditMember">
 
           <div class="flex items-center justify-center">
-            <div :class="loading ? 'mr-2':''">
-              Save
+            <div :class="loading ? 'rtl:ml-2 ltr:mr-2':''">
+              {{ $t('Save') }}
             </div>
        
              <svg  v-if="loading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

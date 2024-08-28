@@ -90,6 +90,7 @@ const doChangePassword = async () => {
   }
 };
 
+const localePath = useLocalePath()
 
 onMounted(() => {
   // console.log(route.query.email)
@@ -103,18 +104,18 @@ onMounted(() => {
     <div class="flex items-center justify-center w-full mt-[16px]">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo"
+          <img @click="$router.push(localePath('/'))" src="/assets/imgs/logo.png" alt="Tamkin logo"
             class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
 
         <div class="mx-auto text-center xl:w-auto ipad-max:w-full">
           <h1 class="dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px">
-            {{ $t("newPassprom") }}
+            {{ $t("New Password") }}
           </h1>
 
           <h3 class="dark:text-whiteTamkin/90 text-[16px] lg:text-[20px]font-[500] text-darkGrey mb-[14px]"
             style="line-height: 30px">
-            {{ $t("set_new_password") }}
+            {{ $t("Set the new password for your account so you can login and access all features.") }}
           </h3>
 
           <div class="space-y-[23px] w-full">
@@ -236,7 +237,7 @@ onMounted(() => {
 
             <div class="flex items-center justify-center">
               <div class="mr-4">
-               {{$t("updatePassword")}}
+               {{$t("Update Password")}}
               </div>
 
                <svg  v-if="loading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

@@ -5,7 +5,7 @@ import { useRegister, useGoogle, useLogin } from "@/composables/useAuth";
 import { useIncludeWord } from '@/composables/useSharedFunctions';
 import { useRoute } from "vue-router";
 const { isIncludeWord } = useIncludeWord();
-
+const localePath = useLocalePath()
 definePageMeta({
   layout: "auth",
 });
@@ -82,18 +82,18 @@ const clearFieldError = (condition) => {
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo"
+          <img @click="$router.push(localePath('/auth/login'))" src="/assets/imgs/logo.png" alt="Tamkin logo"
             class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
 
 
           <h1 class="  text-[20px] lg:text-[32px] mb-[3px] dark:text-whiteTamkin" style="line-height: 48px;">{{
-            $t("register") }}</h1>
+            $t("Sign Up") }}</h1>
 
           <h3 class=" text-[16px] lg:text-[20px] font-[500] text-darkGrey dark:text-whiteTamkin/90"
             style="line-height: 48px;">
-            {{ $t("sign_up_to_enjoy_features_of_tamkin") }}
+            {{ $t("Sign up to enjoy the feature of TAMKIN") }}
 
           </h3>
 
@@ -113,7 +113,7 @@ const clearFieldError = (condition) => {
               ? '!text-error'
               : '',
           ]">
-                {{ $t("full_name") }}*
+                {{ $t("Full Name*") }}
               </label>
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.full_name.$error && v$.full_name.required.$invalid)">
                 <p class="error_message">
@@ -142,12 +142,12 @@ const clearFieldError = (condition) => {
               ? '!text-error'
               : '',
           ]">
-                {{ $t("email") }}*
+                {{ $t("Email*") }}
               </label>
               <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
             (v$.email.$error && v$.email.email.$invalid) || isIncludeWord(errorMsg, ['email'])">
                 <p class="error_message">
-                  <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("email_address_is_required")
+                  <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("Email Address is required")
                     }}</span>
                   <span v-else-if="v$.email.required.$invalid ||
             (v$.email.$error && v$.email.email.$invalid)">{{ $t("please_enter_valid_email_address")
@@ -170,7 +170,7 @@ const clearFieldError = (condition) => {
           }" />
               <label for="password" class="floating_label"
                 :class="[(v$.password.$error && v$.password.required.$invalid) || isIncludeWord(errorMsg, ['password']) ? '!text-error' : '',]">
-                {{ $t("password") }}*
+                {{ $t("Password*") }}
               </label>
 
 
@@ -223,7 +223,7 @@ const clearFieldError = (condition) => {
           }" />
               <label for="password_confirm" class="floating_label" :class="[(v$.confirm_password.$error && v$.confirm_password.required.$invalid) ||
             (v$.confirm_password.$error && v$.confirm_password.sameAs.$invalid) ? '!text-error' : ''
-            ,]">{{ $t('confirm_password') }}*</label>
+            ,]">{{ $t('Confirm Password*') }}</label>
 
               <div class="password_eye" v-if="!isconfirmPasswordVisible" @click="toggleConfirmPasswordVisibility">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -262,13 +262,13 @@ const clearFieldError = (condition) => {
     </div>
     <div class="flex flex-col items-center justify-center ">
       <div class="text-[15px] font-[400] leading-5 text-secondary_text dark:text-whiteTamkin">
-        <p>{{ $t('by_continuing_i_agree_to_tamkin') }}</p>
+        <p>{{ $t('By continuing, I agree to TAMKIN') }}</p>
       </div>
       <div>
-        <a href="https://tamkin.app/terms?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('terms_of_use')
+        <a href="https://tamkin.app/terms?_lang=en" target="_blank" class="text-tamkin underline">{{ $t('Terms of Use')
           }}</a> <span class="text-[15px] font-[400] dark:text-whiteTamkin" style="line-height:22.5px">& </span>
         <a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank" class="text-tamkin underline">{{
-            $t('privacy_statement') }}</a>
+            $t('Privacy Statement') }}</a>
 
       </div>
     </div>
@@ -282,7 +282,7 @@ const clearFieldError = (condition) => {
 
             <div class="flex items-center justify-center">
               <div class="mr-4">
-               {{$t("register")}}
+               {{$t("Sign Up")}}
               </div>
          
                <svg  v-if="loading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -295,10 +295,10 @@ const clearFieldError = (condition) => {
       <button @click="doLoginWithGoogle" style="line-height: 30px;" class="google_login_button ">
         <template v-if="googleLoading">
           <img class="inline-block mx-2" src="/assets/imgs/loading.svg" /> <span
-            class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("signUpWithGoogle") }}</span>
+            class="font-[600] text-[14px] lg:text-[16px]  dark:text-whiteTamkin">{{ $t("Register With Google") }}</span>
         </template>
         <div v-else class="flex items-center justify-center space-x-[16px] lg:space-x-[8px]">
-          <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("signUpWithGoogle")
+          <div class="font-[600] text-[12px] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("Register With Google")
             }}
           </div>
           <img src="/assets/imgs/google_login.png" class="w-[19px] h-[19px]" />
@@ -311,9 +311,9 @@ const clearFieldError = (condition) => {
       <div class="text-center pb-[20px]">
         <span
           class="text-darkGrey text-[16px] font-[400] font-['Poppins'] leading-[27px] ltr:pr-1 rtl:pl-1 dark:text-whiteTamkin">{{
-            $t('already_have_an_account') }}</span>
+            $t('Already have an account??') }}</span>
         <a class="text-[16px] font-['Poppins'] underline leading-[27px] text-tamkin cursor-pointer font-[400]"
-          @click="$router.push('/auth/login')">{{ $t('loginRegisterPage') }}</a>
+          @click="$router.push(localePath('/auth/login'))">{{ $t('Login') }}</a>
       </div>
 
     </div>

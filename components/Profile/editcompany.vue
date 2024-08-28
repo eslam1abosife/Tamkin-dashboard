@@ -70,18 +70,40 @@ const handleSelectedSpecialization = (item: any) => {
   state.company_specialization = item.name;
   // console.log(item)
 };
+const localPhoneCompany =ref()
+const countryCodeCompany = ref()
+
+
+const getPhoneC = (number: string, phoneObject: { number: string }) => {
+  localPhoneCompany.value = phoneObject.nationalNumber; // Update local phone state
+  countryCodeCompany.value =phoneObject.countryCallingCode
+
+}
+watch(localPhoneCompany, (newPhone) => {
+  // localPhoneCompany.phone = newPhone; // Update the main state when local phone changes
+  // console.log(`00${countryCodeCompany.value}${localPhoneCompany.value}`)
+});
 watch(() => state, (newState) => {
   // Use a spread operator to create a new object
-  profileStore.updatedCompanyPayload = { ...newState };
+  profileStore.updatedCompanyPayload = { ...state ,phone:`00${countryCodeCompany.value}${localPhoneCompany.value}`};
 }, { deep: true });
+
+
+
 onMounted(async () => {
-  await getCountries();
-  // await getAllCompanySpecializations();
   state.company=profileStore.company.agency_name
     state.country=profileStore.company.country
     state.phone=profileStore.company.phone
     state.company_specialization= profileStore.company.company_specialization
+  // Extract country code and local phone from state.phone
+  const phoneMatch = state.phone.match(/^00(\d{1,3})(\d+)$/);
+  if (phoneMatch) {
+    countryCodeCompany.value = phoneMatch[1];
+    localPhoneCompany.value = phoneMatch[2];
+  }
 
+
+  await getCountries();
 });
 
 
@@ -107,7 +129,7 @@ onMounted(async () => {
             ? '!text-error'
             : '',
         ]">
-              {{ $t("Company") }}*
+              {{ $t("Company*") }}
             </label>
             <div class="w-full lg:w-4/6 " v-if="(v$.company.$error && v$.company.required.$invalid)">
               <p class="error_message">
@@ -125,11 +147,13 @@ onMounted(async () => {
               @getCurrentSelectedItem="handleSelectedCountry" 
               :enableSearch="true" 
               placeholderinput="Country*" 
+           
               :errorField="v$.country.$error && v$.country.required.$invalid" 
               :list="countries" nameKey="name" idField="name"
               iconKey="image"
               :successField="!v$.country.$error && !v$.country.$invalid"
               :currentListValue="state.country"
+
             />
             
             <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
@@ -141,8 +165,15 @@ onMounted(async () => {
             </div>
           </div>
           <div class="w-full relative ">
-            <vue-tel-input v-model="v$.phone.$model"     :dropdownOptions="{showFlags:false,showDialCodeInSelection:true}"
-            :inputOptions="{ showDialCode: true,maxlength:15 , styleClasses: ['input_floating_label bg-transparent'] }" :styleClasses="telInputStyleClasses" >
+            <vue-tel-input v-model="v$.phone.$model"     
+            @on-input="getPhoneC"
+
+                 :auto-format="false"
+
+            :dropdownOptions="{showFlags:false,showDialCodeInSelection:true}"
+            :inputOptions="{ showDialCode: false,maxlength:12 , styleClasses: ['input_floating_label bg-transparent'] }" 
+          mode="national"
+            :styleClasses="telInputStyleClasses" >
 
             <template v-slot:arrow-icon="{ open }">
               <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[open ? 'rotate-90' : '']"
@@ -154,7 +185,7 @@ onMounted(async () => {
             ? '!text-error'
             : '',
         ]">
-              {{ $t("Phone Number") }}*
+              {{ $t("Phone Number*") }}
             </label>
             <div class="w-full lg:w-4/6 " v-if="(v$.phone.$error && v$.phone.required.$invalid)">
               <p class="error_message">
@@ -192,13 +223,13 @@ onMounted(async () => {
         
       </div>
 
-      <div class="flex items-end justify-end space-x-[16px] absolute bottom-[24px]  right-[30px]">
+      <div class="flex items-end justify-end rtl:flex-row-reverse space-x-[16px] absolute bottom-[24px] rtl:left-[30px] ltr:right-[30px]">
 
-        <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
+        <button class="btn_bordered_dashboard" @click="cancelUpdate">{{$t('Cancel')}}</button>
         <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingUpdate" @click="updateProfile" >
 
-          <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="loadingUpdate ? 'mr-2':''">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
+            <div :class="loadingUpdate ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Update') }}
             </div>
        

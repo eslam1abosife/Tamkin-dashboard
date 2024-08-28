@@ -6,7 +6,7 @@ import { useDeleteCompanyImg } from "@/composables/useProfile";
 import { useChangeMemberImage, useRemoveMemberImage } from "@/composables/useProfile";
 
 const { removeMemberImage, loading: deleteLoading } = useRemoveMemberImage();
-
+const {t} = useI18n()
 const profileStore = useProfileStore();
 const { changeMemberImage, loading: uploadLoading } = useChangeMemberImage();
 
@@ -100,7 +100,7 @@ const submit = async () => {
       await changeMemberImage(imgFile);
       closeModal('editMemberPic');
       await profileStore.fetchMember();
-      $toast('Profile Image updated successfully', { hideIn: 3000 });
+      $toast(t('Profile Image updated successfully'), { hideIn: 3000 });
       loadingUpload.value = false;
     };
 

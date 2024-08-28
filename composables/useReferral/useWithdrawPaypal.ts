@@ -24,6 +24,7 @@ export default function () {
 
         withdrawStore.transactionDetails = res.data.data
         // withdrawStore.paypal.paypalEmail = ""
+        await withdrawStore.gettotalAmount();
 
       return {
         data: res.data.data,

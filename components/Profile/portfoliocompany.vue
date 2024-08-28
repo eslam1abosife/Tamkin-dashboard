@@ -145,7 +145,7 @@ const openLink = (link: string) => {
                 v$.handlerscompany?.$each?.[index]?.name?.$error && v$.handlerscompany?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
               ]"
             >
-              {{handler.title}}*
+              {{$t(`${handler.title}*`)}}
             </label>
             <div
               class="w-full lg:w-4/6"
@@ -186,7 +186,7 @@ const openLink = (link: string) => {
                 v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
               ]"
             >
-              {{handler.social_platform}}*
+              {{$t(`${handler.social_platform}*`)}}
             </label>
             <div
               class="w-full lg:w-4/6"

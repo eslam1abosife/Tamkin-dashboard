@@ -244,9 +244,9 @@ const closeModalAndresetPaymentMethods = () => {
                   <img :src="baseImageURL + method.icon" class="w-[40px] h-[40px]" />
                 </div>
                 <div
-                  class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin rtl:font-[Almarai]"
                 >
-                  {{ method.title }}
+                  {{ $t(method.title) }}
                 </div>
               </div>
               <div class="order-1 mx-[4px]">

@@ -55,8 +55,8 @@ const isLinkActive = (path) => {
 
 
 onMounted(()=>{
-  window.$chatwoot.toggleBubbleVisibility("hide");
-  window.$chatwoot.toggle("close");
+  // window.$chatwoot.toggleBubbleVisibility("hide");
+  // window.$chatwoot.toggle("close");
 
 })
 </script>
@@ -85,11 +85,11 @@ onMounted(()=>{
 
         <ul class="flex items-center justify-evenly rtl:flex-row-reverse">
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/terms?_lang=en" target="_blank">{{
-  $t('terms_of_use') }}</a></li>
+  $t('Terms Of Use') }}</a></li>
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="https://tamkin.app/privacy-policy?_lang=en" target="_blank">{{
-  $t('privacy_statement') }}</a></li>
+  $t('Privacy Statment') }}</a></li>
           <li class="text-white transition-all ease-in-out hover:-translate-y-1 hover:underline"><a href="">{{
-              $t('CookiePolicy') }}</a></li>
+              $t('Cookie Policey') }}</a></li>
 
 
         </ul>
@@ -106,8 +106,9 @@ onMounted(()=>{
        
       </div>
 
-      <div class="absolute bottom-[16px] left-0 right-[50%]" :class="[isLinkActive('/auth/register') ? 'bottom-[-32px]' :'']" >
-        <AuthLanguageSwitcher class="mx-auto"/>
+      <div class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 right-[50%]" 
+      :class="[isLinkActive('/auth/register') ? 'bottom-[-32px] ipad-max:!bottom-[-180px]' :'']" >
+        <AuthLanguageSwitcher class="mx-auto !z-50"/>
       </div>
     </div>
    

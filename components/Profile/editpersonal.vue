@@ -60,19 +60,36 @@ const handleSelectedItemProjectName = (item: any) => {
   state.country = item.name;
   // console.log(item);
 };
+const localPhone =ref()
+const countryCode = ref()
+const getPhone = (number: string, phoneObject: { number: string }) => {
+  // console.log(phoneObject)
+  localPhone.value = phoneObject.nationalNumber; // Update local phone state
+  countryCode.value =phoneObject.countryCallingCode
 
+};
+
+watch(localPhone, (newPhone) => {
+  // state.phone = newPhone; // Update the main state when local phone changes
+});
 watch(() => state, (newState) => {
   // Perform any necessary actions with the updated state
-  profileStore.updateProfilePayload = state
+  profileStore.updateProfilePayload = {...state,phone:`00${countryCode.value}${localPhone.value}`}
 }, { deep: true });
 onMounted(async () => {
-
   state.first_name = profileStore.member.first_name;
   state.last_name = profileStore.member.last_name;
   state.phone = profileStore.member.phone;
   state.country = profileStore.member.country;
-  await getCountries();
 
+  // Extract country code and local phone from state.phone
+  const phoneMatch = state.phone.match(/^00(\d{1,3})(\d+)$/);
+  if (phoneMatch) {
+    countryCode.value = phoneMatch[1];
+    localPhone.value = phoneMatch[2];
+  }
+
+  await getCountries();
 });
 </script>
 
@@ -100,7 +117,7 @@ onMounted(async () => {
             v$.first_name.$error && v$.first_name.required.$invalid ? '!text-error' : '',
           ]"
         >
-          {{ $t("firstName") }}*
+          {{ $t("First Name*") }}
         </label>
         <div
           class="w-full lg:w-4/6"
@@ -133,7 +150,7 @@ onMounted(async () => {
             v$.last_name.$error && v$.last_name.required.$invalid ? '!text-error' : '',
           ]"
         >
-          {{ $t("lastName") }}*
+          {{ $t("Last Name*") }}
         </label>
         <div
           class="w-full lg:w-4/6"
@@ -150,6 +167,7 @@ onMounted(async () => {
       <div class="w-full relative">
         <vue-tel-input
           v-model="v$.phone.$model"
+          @on-input="getPhone"
           :validCharactersOnly="true"
           :inputOptions="{
             showDialCode: true,
@@ -158,7 +176,8 @@ onMounted(async () => {
           }"
           :dropdownOptions="{ showFlags: false, showDialCodeInSelection: true }"
           :styleClasses="telInputStyleClasses"
-          mode="international"
+          :auto-format="false"
+          mode="national"
         >
           <template v-slot:arrow-icon="{ open }">
             <img
@@ -185,7 +204,7 @@ onMounted(async () => {
           class="floating_label"
           :class="[v$.phone.$error && v$.phone.required.$invalid ? '!text-error' : '']"
         >
-          {{ $t("Phone Number") }}*
+          {{ $t("Phone Number*") }}
         </label>
         <div class="w-full lg:w-4/6" v-if="v$.phone.$error && v$.phone.required.$invalid">
           <p class="error_message">
@@ -270,13 +289,13 @@ onMounted(async () => {
     </div>
  
     <div
-      class="flex items-end justify-end space-x-[16px] absolute bottom-[24px] right-[30px]"
+      class="flex items-end justify-end rtl:flex-row-reverse  space-x-[16px] absolute bottom-[24px] rtl:left-[30px] ltr:right-[30px]"
     >
-      <button class="btn_bordered_dashboard" @click="cancelUpdate">Cancel</button>
+      <button class="btn_bordered_dashboard" @click="cancelUpdate">{{$t('Cancel')}}</button>
       <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingPersonal" @click="updatePersonalInfo" >
 
-        <div class="flex items-center justify-center space-x-[6px]">
-          <div :class="loadingPersonal ? 'mr-2':''">
+        <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
+          <div :class="loadingPersonal ? 'rtl:ml-2 ltr:mr-2':''">
          {{ $t('Update') }}
           </div>
      

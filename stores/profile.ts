@@ -201,10 +201,10 @@ export const useProfileStore = defineStore("profile", {
       const userStore = useUserStore();
       let role = '';
       if (state.member.member_email === userStore.user.user_id) {
-        role = 'owner';
+        role = 'Owner';
         this.isOwner = true;
       } else {
-        role = 'member';
+        role = 'Member';
         this.isOwner = false;
       }
       return role;

@@ -8,7 +8,7 @@ import {
   useGetCustomerCount,
 } from "~/composables/useReferral";
 import { useClipboard } from "@vueuse/core";
-
+const {t} = useI18n()
 const {
   isOpen,
   currentView,
@@ -95,8 +95,15 @@ const format = (date) => {
 };
 const disabledIfPendingRecords = computed(() => {
   // Check if there is any record with a status of "Pending"
-  return withdrawStore.rewards.some(item => item.status === 'Pending');
+  const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
+
+  // Check if currentAmount is zero or less
+  const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
+
+  // Disable if either condition is true
+  return hasPendingRecords || isAmountZeroOrLess;
 });
+
 const source = ref("");
 const withdrawStore = useWithdrawStore();
 
@@ -167,7 +174,7 @@ const isInputDisabled = computed(
 const copyLink = () => {
   copy(source.value);
 
-  $toast("Copied to Clipboard", { hideIn: 3000 });
+  $toast(t('Copied to clipboard'), { hideIn: 3000 });
 };
 
 const filteredWithdraw = computed(() => {
@@ -324,7 +331,7 @@ const isCurrentRateEmpty = computed(() => {
             <p
               class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto"
             >
-              *{{ $t('Transaction fees are not included in our coverage.') }}
+              {{ $t('* Transaction fees are not included in our coverage.') }}
             </p>
           </div>
         </div>
@@ -411,6 +418,7 @@ const isCurrentRateEmpty = computed(() => {
 
           <div class="w-full ipad-max:w-full lg:w-1/4">
             <VueDatePicker
+            direction="ltr"
               :enable-time-picker="false"
               @blur="dateOpen = false"
               @focus="dateOpen = true"
@@ -517,12 +525,12 @@ const isCurrentRateEmpty = computed(() => {
                   {{ $t('Amount') }}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black ltr:w-1/4 rtl:w-1/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4  px-4"
                 >
                   {{$t('Withdrawal Method')}}
                 </th>
                 <th
-                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black ltr:w-2/4 rtl:!w-2/4 m px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-2/4 m px-4"
                 >
                   {{$t('Status')}}
                 </th>
@@ -566,7 +574,7 @@ const isCurrentRateEmpty = computed(() => {
                     :class="getStatusStyle(reward.status)"
                   ></span>
                   <span
-                    class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize"
+                    class="text-[14px] leading-[19px] text-[#021328] font-[600] whitespace-nowrap capitalize"
                     >{{ $t(reward.status) }}</span
                   >
                 </td>
@@ -638,7 +646,7 @@ const isCurrentRateEmpty = computed(() => {
                       :class="getStatusStyle(referral.status)"
                     ></span>
                     <span
-                      class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize"
+                      class="text-[14px] leading-[19px] text-[#021328] font-[600]  whitespace-nowrap capitalize"
                       >{{ $t(referral.status) }}</span
                     >
                   </td>
@@ -730,8 +738,16 @@ const isCurrentRateEmpty = computed(() => {
 </template>
 
 <style>
+.dp__menu {
+
+  @apply rtl:!inset-x-auto;
+}
+
+.dp__arrow_bottom{
+  @apply rtl:-rotate-45 rtl:bottom-[-6px];
+}
 .dp__pointer::placeholder {
-  @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins];
+  @apply !text-darkGrey dark:!text-whiteTamkin opacity-100 !font-[400] font-[Poppins] rtl:pb-1 rtl:!font-[Almarai];
 }
 
 .dp__input.dp__input_icon_pad.dp__input_focus {

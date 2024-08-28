@@ -105,7 +105,7 @@ const submitInviteApp = async () => {
     <div class="container mx-auto max-h-[100%] overflow-y-scroll">
       <h1
         class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Invite Member
+        {{$t('Invite Member')}}
       </h1>
 
       <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0
@@ -133,15 +133,15 @@ border-l-0 border-r-0 pt-[16px]">
       </div>
       <p
         class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
-        Select Website that <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + ''
-    + getData().lastName }} </span> can access
+        {{ $t('Select Website that') }} <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + ''
+    + getData().lastName }} </span> {{ $t('can access') }}
       </p>
 
 
       <div class="w-full ">
 
         <div class="py-[17px]  search_input w-full">
-          <input type="text" class="input_dashboard_search w-full " v-model="search" placeholder="Search ..." />
+          <input type="text" class="input_dashboard_search w-full " v-model="search" :placeholder="`${$t('Search')} ...`" />
           <div
             class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
             <img src="/assets/imgs/icons/search.svg" />
@@ -159,10 +159,10 @@ border-l-0 border-r-0 pt-[16px]">
             <tr>
               <th
                 class="py-3 ltr:text-left rtl:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">
-                Website</th>
+                {{$t('Website')}}</th>
               <th class="py-3   text-right text-[14px]  leading-[22.5px] font-[500] text-darkGrey  dark:text-whiteTamkin
        flex items-center justify-end rtl:space-x-reverse space-x-[10px] ">
-                <div class="">Select All</div>
+                <div class="">{{$t('Select All')}}</div>
                 <div>
                   <input type="checkbox" id="checkbox" class="peer sr-only   m-auto" v-model="checkAll" />
                   <label for="checkbox" class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin
@@ -182,7 +182,7 @@ border-l-0 border-r-0 pt-[16px]">
                 <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6" />
                 <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6" />
                 <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{
-    permission.title }}</span>
+   $t( permission.title) }}</span>
               </td>
               <td class="py-4  text-right ">
                 <div>
@@ -217,7 +217,7 @@ border-l-0 border-r-0 pt-[16px]">
           class=" btn-dashboard hover_tamkin text-center w-1/4" @click="submitInviteApp()">
 
           <div class="flex items-center justify-center">
-            <div :class="submitInviteLoading ? 'mr-2':''">
+            <div :class="submitInviteLoading ? 'rtl:ml-2 ltr:mr-2':''">
               Continue
             </div>
        

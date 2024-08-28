@@ -21,12 +21,16 @@ const rules = {
 
 };
 const isDuplicatePassword = computed(() => {
-  // Ensure the form is dirty and check for duplicate passwords
-  return v$.value.$anyDirty && (
-    state.oldpass === state.password || 
-    state.oldpass === state.password_confirm
+  // Ensure the form is dirty, the fields are not empty, and check if the old password is the same as the new password
+  return (
+    v$.value.$anyDirty && 
+    state.oldpass && 
+    state.password && 
+    state.oldpass === state.password
   );
 });
+
+
 const v$ = useVuelidate(rules, state);
 const isPasswordVisible = ref(false);
 const isconfirmPasswordVisible = ref(false)
@@ -99,7 +103,7 @@ const updatePassword = async () => {
               (errorFields.length > 0 && errorFields[0].field === 'old_password') ? '!text-error' : ''
             ]"
           >
-            {{ $t("Old Password") }}*
+            {{ $t("Old Password*") }}
           </label>
           <div class="password_eye"
           v-if="!isOldPassVisible" @click="toggleOldPassVisible">
@@ -138,9 +142,14 @@ const updatePassword = async () => {
         <div class="relative w-full">
           <input
             :type="passwordFieldType"
+
             placeholder="{{ $t('password') }}"
             id="password"
-            @input="errorFields = errorFields.filter(error => error.field !== 'password')"
+            @input="()=>{
+
+              errorFields = errorFields.filter(error => error.field !== 'password')
+              isDuplicatePassword = false
+            }"
             class="input_floating_label peer w-full"
             v-model="v$.password.$model"
             :class="{
@@ -165,7 +174,7 @@ const updatePassword = async () => {
               errorFields.some(error => error.field === 'password') || isDuplicatePassword ? '!text-error' : ''
             ]"
           >
-            {{ $t("password") }}*
+            {{ $t("Password*") }}
           </label>
           <div class="password_eye"
           v-if="!isPasswordVisible" @click="togglePasswordVisibility">
@@ -189,7 +198,7 @@ const updatePassword = async () => {
           <div class="w-full lg:w-4/6" v-if="v$.password.$error && v$.password.required.$invalid">
             <p class="error_message_password">
               <span v-if="v$.password.$error && v$.password.required.$invalid">
-                {{ $t("password_is_required") }}
+                {{ $t("Password is required") }}
               </span>
             </p>
           </div>
@@ -227,7 +236,7 @@ const updatePassword = async () => {
               (v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) ? '!text-error' : ''
             ]"
           >
-            {{ $t('confirm_password') }}*
+            {{ $t('Confirm Password*') }}
           </label>
           <div class="password_eye"
           v-if="!isconfirmPasswordVisible" @click="toggleConfirmPasswordVisibility">
@@ -251,7 +260,7 @@ const updatePassword = async () => {
           <div class="w-full lg:w-4/6" v-if="(v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid) || (v$.password_confirm.$error && v$.password_confirm.required.$invalid)">
             <p class="error_message_password">
               <span v-if="v$.password_confirm.$error && v$.password_confirm.sameAs.$invalid || v$.password_confirm.$error && v$.password_confirm.required.$invalid">
-                {{ $t('password_should_be_the_same') }}
+                {{ $t('Password should be the same') }}
               </span>
             </p>
           </div>
@@ -259,9 +268,9 @@ const updatePassword = async () => {
       </div>
     </div>
 
-    <div class="mt-auto ml-auto ">
+    <div class="mt-auto rtl:mr-auto ltr:ml-auto  ">
 
-      <button class="btn-dashboard hover_tamkin w-[200px]" @click="updatePassword" 
+      <button class="btn-dashboard hover_tamkin w-[200px] mt-[24px]" @click="updatePassword" 
       :disabled="loading || v$.$invalid || isDuplicatePassword">
 
       <div class="flex items-center justify-center">

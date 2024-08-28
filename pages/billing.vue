@@ -205,7 +205,7 @@ const openAddNewCardModal = ()=>{
 
 
 if(process.client){
-  window.$chatwoot.toggleBubbleVisibility('hide')
+  // window.$chatwoot.toggleBubbleVisibility('hide')
 openModal('add_new_card_billing','billing')
 
 }
@@ -259,9 +259,9 @@ function leave(el, done) {
 }
 
 ///7
-
 function beforeEnterCart(el) {
-  el.style.transform = "translateX(100%)";
+  const isRTL = document.documentElement.dir === 'rtl';
+  el.style.transform = isRTL ? "translateX(-100%)" : "translateX(100%)";
   el.style.opacity = "0";
 }
 
@@ -275,8 +275,9 @@ function enterCart(el, done) {
 }
 
 function leaveCart(el, done) {
+  const isRTL = document.documentElement.dir === 'rtl';
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(100%)";
+  el.style.transform = isRTL ? "translateX(-100%)" : "translateX(100%)";
   el.style.opacity = "0";
   setTimeout(() => {
     done();
@@ -353,9 +354,9 @@ function leaveNotification(el, done) {
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           {{$t(`You haven't added any cards yet`)}}
         </div>
-        <button class="btn-dashboard hover_tamkin w-auto space-x-[10px]" >
+        <button class="btn-dashboard hover_tamkin w-auto rtl:space-x-reverse space-x-[10px]" >
 
-          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
+          <div class="!text-[14px] !leading-[21px] !font-[600]">{{$t('Add New Card')}}</div>
         </button>
       </div>
     </div>
@@ -375,10 +376,11 @@ function leaveNotification(el, done) {
       </div>
     </div>
 
-    <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards" class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards" 
+    class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
-        <div class="text-[18px] font-[500] text-black">Payment Methods</div>
-        <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0  w-[159px]" @click="openAddNewCardModal">
+        <div class="text-[18px] font-[500] text-black">{{$t('Payment Methods')}}</div>
+        <button class="btn-dashboard hover_tamkin flex items-center !justify-center !p-0 rtl:space-x-reverse w-[159px]" @click="openAddNewCardModal">
           <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1" y="1" width="27" height="27" rx="13.5" fill="white"/>
             <rect x="1" y="1" width="27" height="27" rx="13.5" stroke="url(#paint0_linear_9024_12875)"/>
@@ -395,7 +397,7 @@ function leaveNotification(el, done) {
             </defs>
             </svg>
 
-          <div class="!text-[14px] !leading-[21px] !font-[600]">Add New Card</div>
+          <div class="!text-[14px] !leading-[21px] !font-[600]">{{$t('Add New Card')}}</div>
         </button>
       </div>
 
@@ -404,29 +406,30 @@ function leaveNotification(el, done) {
         v-for="savedCard in billingStore.cards" :key="savedCard.name">
 
           <div :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
-            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey pl-[16px]">
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
+            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px]
+             border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
+            <div class="flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
-                <div class="absolute top-[10px] left-[250px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
+                <div class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
                    v-if="savedCard.is_primary">
                   <div class="text-[10px] font-[500] text-white">
-                    Default
+                    {{ $t('Default') }}
                   </div>
                 </div>
-                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start space-x-[16px]">
+                <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
                   <div class="w-36 truncate">{{ savedCard.card_holder_name }}</div>
                   <div>
                     ****{{ savedCard.card_number }}
                   </div>
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
-                  Expires on &nbsp;{{ savedCard.expiry_date }}
+                  {{ $t('Expires on') }} &nbsp;{{ savedCard.expiry_date }}
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-center space-x-[12px] px-[15px]">
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[12px] px-[15px]">
 
               <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"  
               class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg
@@ -450,7 +453,7 @@ function leaveNotification(el, done) {
 
     <div v-if="invoicesStore.invoices?.length !== 0" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] ">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]">
-        Invoices History
+       {{$t('Invoices History')}}
       </h1>
 
 
@@ -462,14 +465,14 @@ function leaveNotification(el, done) {
             <td class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px] " >
 
                 <!-- Spinner icon -->
-              <div class="flex items-center justify-start space-x-[10px]">
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
 
 
 
 
               <button   @click="GetBase64AndPrint(invoice.name);" :disabled="loadingInvoiceId === invoice.name"
                  class=" text-[14px] font-[500] leading-[19px] " :class="loadingInvoiceId === invoice.name ? 'cursor-not-allowed text-light ' :'text-tamkin underline  cursor-pointer'">
-                Download Invoice # {{ invoice.name }}
+                {{$t('Download Invoice')}} # {{ invoice.name }}
               </button>
               <svg  v-if="loadingInvoiceId === invoice.name"  class="animate-spin  h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -482,13 +485,13 @@ function leaveNotification(el, done) {
 
             </td>
 
-            <td class="py-4 space-y-[10px] text-left">
-              <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">{{ invoice.type_payment }}</div>
+            <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
+              <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">{{ $t(invoice.type_payment) }}</div>
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
             </td>
-            <td class="py-4 space-y-[10px] text-right">
+            <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
               <div class="text-darkGrey text-[14px] leading-[19px] font-[700]">{{ invoice.cost }}$</div>
-              <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{ invoice.order_type }}</div>
+              <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{$t( invoice.order_type) }}</div>
             </td>
           </tr>
           </tbody>
@@ -499,8 +502,8 @@ function leaveNotification(el, done) {
 
 
         <div class="flex items-center justify-center w-full">
-          <div :class="loadingMoreInvoies ? 'mr-2':''">
-            Show All Invoices
+          <div :class="loadingMoreInvoies ? 'rtl:ml-2 ltr:mr-2':''">
+            {{$t('Show All Invoices')}}
           </div>
 
           <svg  v-if="loadingMoreInvoies" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -546,7 +549,8 @@ function leaveNotification(el, done) {
 
     </div>
 
-    <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" 
+    class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">Invoices History
       </div>
 

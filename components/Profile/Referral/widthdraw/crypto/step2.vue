@@ -53,7 +53,7 @@ const formatAmount = (event) => {
 
   // Ensure the formatted value does not exceed currentAmount
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
-  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
   if (formattedNumericValue > currentAmountValue) {
     amount.value = currentAmountValue.toFixed(2);
@@ -63,7 +63,6 @@ const formatAmount = (event) => {
     withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   }
 };
-
 
 // Computed property to check if withdraw button should be disabled
 const isWithdrawDisabled = computed(() => {
@@ -88,7 +87,9 @@ const completeWithDraw = async () => {
   await withdrawStore.withdrawcrypto();
   navigateTo('crypto_step_2_e', 'referral', 'crypto_success_referral');
   withdrawloading.value = false;
-  amount.value = '$0.00'
+  amount.value = ''
+  await withdrawStore.gettotalAmount();
+
 };
 
 const closeAndReset = ()=>{
@@ -158,11 +159,11 @@ const closeAndReset = ()=>{
 
 
 <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
-    Amount
+    {{$t('Amount')}}
 </div>
 
 <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-    How much would you like to withdraw ?
+    {{ $t('How much would you like to withdraw ?') }}
 </div>
 
   
@@ -180,7 +181,7 @@ const closeAndReset = ()=>{
 
   <div class="text-center text-[14px] font-[600] text-darkGrey">
 
-    Available balance  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
+    {{ $t('Available balance') }}  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
   </div>
   
   
@@ -188,8 +189,8 @@ const closeAndReset = ()=>{
        <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="withdrawloading ? 'mr-2':''">
-           Withdraw
+            <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">
+           {{ $t('Withdraw') }}
             </div>
        
              <svg  v-if="withdrawloading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

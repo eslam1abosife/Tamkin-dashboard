@@ -153,21 +153,24 @@ const closeAndReset = () => {
                 <img
                   v-if="withdrawStore.selectedCrypto"
                   src="/assets/imgs/menu-down.svg"
-                  :class="[isCryptoMenuOpen ? 'rotate-90' : '']"
-                  class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
+                  :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
+                  class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[10px] 
+                  ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current
+                   fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
                 />
               </div>
 
               <img
                 v-if="!withdrawStore.selectedCrypto"
                 src="/assets/imgs/menu-down.svg"
-                :class="[isCryptoMenuOpen ? 'rotate-90' : '']"
+                :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
                 class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
               />
             </button>
             <div
               v-if="isCryptoMenuOpen"
-              class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
+              class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] 
+              dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
             >
               <ul>
                 <li
@@ -205,7 +208,7 @@ const closeAndReset = () => {
       </div>
 
       <div class="w-full relative mt-[14px] rounded-[10px]">
-        <div class="absolute top-[12px] pl-[10px]">
+        <div class="absolute top-[12px] rtl:pr-[10px] ltr:pl-[10px]">
           <img
             v-if="withdrawStore.selectedCrypto && withdrawStore.selectedCrypto.icon"
             :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`"
@@ -224,7 +227,8 @@ const closeAndReset = () => {
               ? 'input_success'
               : 'border-[1px] border-lightGrey ',
           ]"
-          class="disabled:bg-gray-100 disabled:cursor-not-allowed peer focus:outline-none h-[40px] focus:border-lightGrey rounded-[10px] focus:ring-0 pl-[40px] w-full"
+          class="disabled:bg-gray-100 disabled:cursor-not-allowed peer focus:outline-none h-[40px] f
+          ocus:border-lightGrey rounded-[10px] focus:ring-0 rtl:pr-[40px] ltr:pl-[40px] w-full"
           v-model="v$.wallet.$model"
         />
         <label
@@ -269,7 +273,7 @@ const closeAndReset = () => {
           :disabled="isLoading || v$.$invalid || !withdrawStore.selectedCrypto"
         >
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2' : ''">Continue</div>
+            <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Continue')}}</div>
 
             <svg
               v-if="isLoading"

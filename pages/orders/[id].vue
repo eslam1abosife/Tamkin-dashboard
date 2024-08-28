@@ -239,19 +239,19 @@ function leaveNotification(el, done) {
 
     <div class="space-y-[5px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        Order details
+        {{ $t('Order details') }}
       </h1>
 
       <h2 @click="$router.push('/orders')"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
-        Orders
+        {{ $t('Orders') }}
       </h2>
     </div>
 
 
 
     <div v-if="loadingBlock" class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px] animate-pulse">
-      <div class="flex items-center justify-between w-full mt-[26px] pb-[24px] space-x-[24px] border-b-[1px] border-[#D9D9D9]">
+      <div class="flex items-center justify-between w-full mt-[26px] pb-[24px] rtl:space-x-reverse space-x-[24px] border-b-[1px] border-[#D9D9D9]">
         <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]"></div>
         <div class="h-[16px] bg-gray-300 rounded w-1/4"></div>
@@ -266,7 +266,7 @@ function leaveNotification(el, done) {
       <div class="space-y-4 mt-[10px]">
         <template v-for="index in 3" :key="index">
           <div class="flex items-center border-b justify-between pb-4">
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div class="rounded-lg bg-[#F8F8F8] w-[97px] h-[101px] flex items-center justify-center border">
                 <div class="w-[63px] h-[67px] bg-gray-300 rounded"></div>
               </div>
@@ -316,15 +316,15 @@ function leaveNotification(el, done) {
     <div class="w-full flex flex-col items-evenly justify-evenly px-[20px] h-full bg-white mt-[20px] rounded-[10px]" v-else>
       <div class="flex items-center  justify-between  w-full mt-[26px] pb-[24px] border-b-[1px] border-[#D9D9D9]">
      
-        <div class="flex items-center justify-start space-x-[8px]">
+        <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
           <div class="ipad-max:text-[10px] text-[13px] font-[500] leading-[10px] text-[#23262F] cursor-pointer">
-            Order ID :
+            {{ $t('Order ID') }} :
           </div>
           <button    @click="GetBase64AndPrint(orderDetails.order_id)" :disabled="loadingInvoiceId === orderDetails.order_id"
           class=" text-[14px] font-[500] leading-[19px] " :class="loadingInvoiceId === orderDetails.order_id ? 'cursor-not-allowed text-light ' :'text-tamkin underline  cursor-pointer'">
          
           <div class="flex items-start justify-center ipad-max:text-[10px]">
-            <div :class="loadingInvoiceId === orderDetails.order_id ? 'mr-2':''">
+            <div :class="loadingInvoiceId === orderDetails.order_id ? 'rtl:ml-2 ltr:mr-2':''">
               {{ orderDetails.order_id }}            </div>
 
             <svg  v-if="loadingInvoiceId === orderDetails.order_id" class="animate-spin  h-4 w-4 text-tamkin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -340,9 +340,9 @@ function leaveNotification(el, done) {
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
-          <div>Order Date :</div>
-          <div class="flex items-center justify-start space-x-[8px]">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center">
+          <div>{{ $t('Order Date') }} :</div>
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
             <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M8.5 1V0.5C8.5 0.223858 8.72386 0 9 0C9.27614 0 9.5 0.223858 9.5 0.5V1H11C11 1 11.4142 1 11.7071 1.29289C11.7071 1.29289 12 1.58579 12 2V12C12 12 12 12.4142 11.7071 12.7071C11.7071 12.7071 11.4142 13 11 13H1C1 13 0.585785 13 0.292893 12.7071C0.292893 12.7071 0 12.4142 0 12V2C0 2 0 1.58579 0.292893 1.29289C0.292893 1.29289 0.585786 1 1 1H2.5V0.5C2.5 0.223858 2.72386 0 3 0C3.27614 0 3.5 0.223858 3.5 0.5V1H8.5ZM1 5V12H11V5H1ZM11 4H1V2H2.5V2.5C2.5 2.77614 2.72386 3 3 3C3.27614 3 3.5 2.77614 3.5 2.5V2H8.5V2.5C8.5 2.77614 8.72386 3 9 3C9.27614 3 9.5 2.77614 9.5 2.5V2H11V4Z"
@@ -358,31 +358,31 @@ function leaveNotification(el, done) {
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center">
 
           <img v-if='orderDetails' :src="getPaymentImage(orderDetails['Payment Method'])"
           
           class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]" alt="">
-          <div>Via  {{ orderDetails['Payment Method'] }} : {{ orderDetails.Account }}</div>
+          <div>{{$t('Via')}}  {{ $t(orderDetails['Payment Method'] )}} : {{ orderDetails.Account }}</div>
 
         </div>
         <div class="h-[24px] w-[1px] bg-[#D9D9D9]">
 
         </div>
-        <div class="ipad-max:text-[10px] text-[13px] font-[500] space-x-[10px] text-[#23262F] flex items-center justify-center">
+        <div class="ipad-max:text-[10px] text-[13px] font-[500] rtl:space-x-reverse space-x-[10px] text-[#23262F] flex items-center justify-center">
 
           <img 
           
                   :class="orderDetails.status === 'Rejected' || orderDetails.status === 'Cancelled' ? 
                             '!w-[24px] !h-[24px]' : ''"
           :src="getStatusImage(orderDetails.status)" class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]" alt="">
-          <div>{{ orderDetails.status }}</div>
+          <div>{{ $t(orderDetails.status )}}</div>
 
         </div>
       </div>
 
       <div class="text-[14px] font-[500] leading-[20px] text-[#23262F] mt-[41px]">
-        Order Items
+        {{ $t('Order Items') }}
       </div>
       <div class="space-y-4 mt-[10px]">
 
@@ -390,31 +390,31 @@ function leaveNotification(el, done) {
 
         <template v-for=" item in orderDetails.items" :key="item.name">
           <div class="flex items-center border-b justify-between pb-4 ">
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center rtl:space-x-reverse space-x-4">
               <div class="rounded-lg bg-[#F8F8F8]  w-[97px] h-[101px] flex items-center justify-center border">
                 <img :src="item.type !== 'Custom Character' ? (baseImageURL + item.image) : '/assets/pngs/market/special_character.png'" :alt="item.type !== 'Custom Character' ? item.name : 'special_character'"
                   class="w-[63px] h-[67px] ">
               </div>
               <div>
-                <div class="flex items-center justify-start space-x-[10px] ">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] ">
                   <div>
                     <img :src="`https://tamkin.app/${ item.category_image }`" alt="Top" class="w-[26px] h-[26px] ">
                   </div>
                   <div class="py-2">
-                    <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{ item.type }}</h3>
+                    <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{ $t(item.type) }}</h3>
                   </div>
                 </div>
                 <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin">{{
-                  item.name }}</p>
+                  $t(item.name) }}</p>
 
                 <div v-if="item.type == 'Custom Character'"
-                  class="flex items-center justify-start space-x-[26px] mt-[12px] ">
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[26px] mt-[12px] ">
                   <button v-if="item.edit == true" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
-                    @click="openModalAndHideChat(), setData(item)">Edit request</button>
+                    @click="openModalAndHideChat(), setData(item)">{{$t('Edit request')}}</button>
                   <button v-if="!item.edit" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
-                    @click="openModal('requestmodal_details', 'order-id'), setData(item)">View Details</button>
+                    @click="openModal('requestmodal_details', 'order-id'), setData(item)">{{$t('View Details')}}</button>
                     <button  class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] " 
-                      @click="openModal('tracking_custom_order', 'order-id'), setData(item)">Track</button>
+                      @click="openModal('tracking_custom_order', 'order-id'), setData(item)">{{$t('Track')}}</button>
                 </div>
               </div>
             </div>
@@ -422,7 +422,7 @@ function leaveNotification(el, done) {
 
 
               <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin">
-                <span class="px-1">{{ item.Cost }} AED</span>
+                <span class="px-1">{{ item.Cost }} {{$t('AED')}}</span>
               </p>
             </div>
           </div>
@@ -440,34 +440,34 @@ function leaveNotification(el, done) {
             <tr class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
               <td class="py-2 px-5 border-b  dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
                 colspan="4">
-                Subtotal
+                {{ $t('Subtotal') }}
               </td>
               <td class="py-2   border-b dark:border-light text-right w-full font-[500]  dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.subtotal }} AED
+                {{ orderDetails.subtotal }} {{ $t('AED') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
               <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full  dark:text-whiteTamkin"
                 colspan="4">
-                Discount
+                {{ $t('Discount') }}
 
               </td>
               <td class="py-2   border-b dark:border-light text-right  min-w-[100px] font-[500]  dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.discount }} AED
+                {{ orderDetails.discount }} {{ $t('AED') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p">
               <td class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
                 colspan="4">
-                Total
+                {{$t('Total')}}
 
               </td>
               <td
                 class="py-2 border-b dark:border-light text-right w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.total }} AED
+                {{ orderDetails.total }}  {{ $t('AED') }}
               </td>
             </tr>
           </tbody>

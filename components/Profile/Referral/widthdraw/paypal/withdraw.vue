@@ -48,7 +48,7 @@ const closeAndreseStt = ()=>{
 <template>
   <div  v-if="isOpen('paypal_withdraw_step1')"
     class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px]  h-[400px] 
-    wauto max-h-[80vh]"
+    w-[600px] max-h-[80vh]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeAndreseStt">
@@ -114,7 +114,7 @@ const closeAndreseStt = ()=>{
        <div class="mt-[48px] px-[20px] rtl:mr-auto ltr:ml-auto" >
         <button :disabled="v$.$invalid || isLoading" class="btn-dashboard hover_tamkin"  @click="goToStep2">
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="isLoading ? 'mr-2':''">
+            <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Continue') }}
             </div>
        

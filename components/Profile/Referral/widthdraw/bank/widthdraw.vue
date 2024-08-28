@@ -69,7 +69,7 @@ const formatAmount = (event) => {
 
   // Ensure the formatted value does not exceed currentAmount
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
-  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
   if (formattedNumericValue > currentAmountValue) {
     amount.value = currentAmountValue.toFixed(2);
@@ -94,7 +94,7 @@ const isWithdrawDisabled = computed(() => {
   const numericValue = parseFloat(amount.value.replace(/,/g, ''));
 
   // Check if the numeric value is less than the minimum limit (e.g., 1)
-  return isNaN(numericValue) || numericValue < 1;
+  return isNaN(numericValue) || numericValue > withdrawStore.currentAmount || numericValue < 1;
 });
 
 
@@ -106,7 +106,9 @@ const completeWithDraw = async () => {
   await withdrawStore.withDrawBank();
   navigateTo('bank_account_withdraw', 'referral', 'success_bank_withdraw');
   withdrawloading.value = false;
-  amount.value = '$0.00'; // Reset amount value after successful withdrawal
+  amount.value = ''; // Reset amount value after successful withdrawal
+  await withdrawStore.gettotalAmount();
+
 };
 watch(isWithdrawDisabled, (value) => {
   console.log('Is withdraw disabled:', value);
@@ -205,8 +207,8 @@ const closeAndreset = () => {
 
       <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
-          <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="withdrawloading ? 'mr-2':''">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
+            <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">
            {{$t('Withdraw')}}
             </div>
        

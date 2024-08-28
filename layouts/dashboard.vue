@@ -380,15 +380,15 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-  if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
-  window.$chatwoot.toggleBubbleVisibility("hide");
-  window.$chatwoot.toggle("close");
+//   if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
+//   window.$chatwoot.toggleBubbleVisibility("hide");
+//   window.$chatwoot.toggle("close");
 
- }else {
-  window.$chatwoot.toggleBubbleVisibility("show");
-  window.$chatwoot.toggle("close");
+//  }else {
+//   window.$chatwoot.toggleBubbleVisibility("show");
+//   window.$chatwoot.toggle("close");
 
- }
+//  }
 }, { immediate: true });
 onMounted(async () => {
   const userStore = useUserStore();

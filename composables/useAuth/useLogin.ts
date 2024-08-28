@@ -23,11 +23,11 @@ export default function(state) {
 
             tokenCookie.value = user.value?.sid;
             isLoggedInCookie.value = true;
-            localStorage.setItem('user', JSON.stringify(user.value));
 
             userStore.setToken(user.value?.sid);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
+            localStorage.setItem('user', JSON.stringify(user.value));
 
          
 

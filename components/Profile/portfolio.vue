@@ -88,7 +88,8 @@ onMounted(async () => {
 const { handlers } = toRefs(state);
 </script>
 <template>
-  <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start rtl:flex-row-reverse p-[15px] ipad-max:w-full w-full">
+  <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start
+   justify-start  p-[15px] ipad-max:w-full w-full">
     <div class="flex items-center justify-between w-full">
       <div class="text-[16px] leading-[24px] font-[600]">{{$t('Portfolio')}}</div>
       <div
@@ -134,7 +135,7 @@ const { handlers } = toRefs(state);
                 v$.profilehandlers?.$each?.[index]?.name?.$error && v$.profilehandlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
               ]"
             >
-              {{handler.title}}*
+              {{$t(`${handler.title}*`)}}
             </label>
             <div
               class="w-full lg:w-4/6"
@@ -175,7 +176,7 @@ const { handlers } = toRefs(state);
                 v$.handlers?.$each?.[index]?.name?.$error && v$.handlers?.$each?.[index]?.name?.required.$invalid ? '!text-error' : '',
               ]"
             >
-              {{handler.social_platform}}*
+              {{$t(`${handler.social_platform}*`)}}
             </label>
             <div
               class="w-full lg:w-4/6"

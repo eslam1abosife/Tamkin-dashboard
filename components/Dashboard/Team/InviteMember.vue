@@ -106,9 +106,9 @@ const clearFieldError = (condition) => {
     </div>
     <div class="container mx-auto max-h-[100%]">
       <h1
-        class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+        class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
-        Invite Member
+        {{ $t('Invite Member') }}
       </h1>
 
       <div class="space-y-[44px]">
@@ -138,7 +138,7 @@ const clearFieldError = (condition) => {
               v$.firstName.$error && v$.firstName.required.$invalid ? '!text-error' : '',
             ]"
           >
-            {{ $t("firstName") }}*
+            {{ $t("First Name*") }}
           </label>
           <div
             class="w-full lg:w-4/6 mt-2"
@@ -171,7 +171,7 @@ const clearFieldError = (condition) => {
               v$.lastName.$error && v$.lastName.required.$invalid ? '!text-error' : '',
             ]"
           >
-            {{ $t("lastName") }}*
+            {{ $t("Last Name*") }}
           </label>
           <div
             class="w-full lg:w-4/6 mt-2"
@@ -222,7 +222,7 @@ const clearFieldError = (condition) => {
                 : '',
             ]"
           >
-            {{ $t("email") }}*
+            {{ $t("Email*") }}
           </label>
           <div
             class="w-full lg:w-4/6 mt-2"
@@ -235,14 +235,14 @@ const clearFieldError = (condition) => {
           >
             <p class="error_message">
               <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-                $t("email_address_is_required")
+                $t("Email Address is required")
               }}</span>
               <span
                 v-else-if="
                   v$.email.required.$invalid ||
                   (v$.email.$error && v$.email.email.$invalid)
                 "
-                >{{ $t("please_enter_valid_email_address") }}</span
+                >{{ $t("Please enter a valid email") }}</span
               >
 
               <span v-else-if="isIncludeWord(errorMsg, ['member', 'agency'])">{{
@@ -270,7 +270,7 @@ const clearFieldError = (condition) => {
         >
           <!-- modalStore.controlInviteMemberUpdateModal -->
           <div class="flex items-center justify-center">
-            <div :class="loadinginvite ? 'rtl:ml-2 ltr:mr-2' : ''">Invite Member</div>
+            <div :class="loadinginvite ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Invite Member')}}</div>
 
             <svg
               v-if="loadinginvite"

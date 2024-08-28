@@ -288,26 +288,26 @@ onMounted(() => {
       <h1
         class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin"
       >
-        Team Management
+        {{ $t('Team Management') }}
       </h1>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
       >
-        Manage your team and their account permissions here
+        {{ $t('Manage your team and their account permissions here') }}
       </h2>
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start lg:rtl:space-x-reverse space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[16px]"
     >
     <div
     v-if="!getCurrTeamLoading"
-    class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+    class="flex items-center justify-between flex-row rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
   >
 
     <div
-      class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full"
+      class="flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[20px] w-full"
     >
       <div @click="openModal('editteampic', 'team')" v-if="!currTeam?.team_image">
         <div
@@ -368,7 +368,7 @@ onMounted(() => {
         <h1
           class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin"
         >
-          Your team name <br />
+          {{$t('Your team name')}} <br />
           <span class="font-bold" v-if="currTeam">
             {{ currTeam.team_name }}
           </span>
@@ -418,7 +418,7 @@ onMounted(() => {
           @click="() => (editTeamNameMode = !editTeamNameMode)"
           class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
         >
-          Edit Team
+          {{ $t('Edit Team') }}
         </button>
       </div>
       <div v-else class="">
@@ -459,7 +459,7 @@ onMounted(() => {
     
  <!-- Skeleton Loader -->
  <div v-if="getCurrTeamLoading"       
-   class="flex items-center justify-between flex-row rtl:space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+   class="flex items-center justify-between flex-row rtl:rtl:space-x-reverse space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
  >
   <!-- Avatar Skeleton -->
   <div class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"></div>
@@ -479,39 +479,39 @@ onMounted(() => {
       >
         <div class="flex flex-col items-start justify-start">
           <div
-            class="text-[#021328] text-[16px] font-[600] leading-[22px] flex space-x-[8px]"
+            class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
           >
             <div>
               <img src="/imgs/total_members.png" class="w-[16px] h-[21px]" alt="" />
             </div>
-            <div class="flex items-center justify-center space-x-[20px]">
-              <div>Total Member</div>
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]">
+              <div>{{$t('Total Member')}}</div>
               <div>
                 {{ teamMembers.length }}
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-center mt-[8px] space-x-[14px]">
+          <div class="flex items-center justify-center mt-[8px] rtl:space-x-reverse space-x-[14px]">
             <div
               class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
             ></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[90px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[84px] space-x-[90px] flex"
             >
-              <div>Active</div>
+              <div>{{$t('Active')}}</div>
               <div>
                 {{ teamMembers.filter((ele) => ele.is_active).length }}
               </div>
             </div>
           </div>
-          <div class="flex items-center justify-center mt-[8px] space-x-[14px]">
+          <div class="flex items-center justify-center mt-[8px] rtl:space-x-reverse space-x-[14px]">
             <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[50px]  space-x-[74px] flex"
             >
-              <div>Pending</div>
+              <div>{{$t('Pending')}}</div>
               <div>
                 {{ teamMembers.filter((ele) => !ele.is_active).length }}
               </div>
@@ -527,27 +527,27 @@ onMounted(() => {
         <!-- Placeholder for the text and stats -->
         <div class="flex flex-col items-start justify-start space-y-[8px] w-full">
           <!-- Placeholder for the total members row -->
-          <div class="flex space-x-[8px]">
+          <div class="flex rtl:space-x-reverse space-x-[8px]">
             <div class="w-[16px] h-[21px] bg-gray-300 rounded"></div>
-            <div class="flex items-center justify-center space-x-[20px]">
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]">
               <div class="w-[100px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
           </div>
       
           <!-- Placeholder for the active status row -->
-          <div class="flex items-center justify-center space-x-[14px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]">
             <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
-            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px]">
+            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]">
               <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
           </div>
       
           <!-- Placeholder for the pending status row -->
-          <div class="flex items-center justify-center space-x-[14px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]">
             <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
-            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] space-x-[74px]">
+            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]">
               <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
@@ -574,22 +574,23 @@ onMounted(() => {
               class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
               style="line-height: 30px"
             >
-              All Members
+              {{ $t('All Members') }}
             </div>
           </div>
 
           <div
-            class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px]"
+            class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]"
           >
             <div class="py-[17px] search_input ">
               <input
                 type="text"
                 class="input_dashboard_search w-full !h-[40px]"
                 v-model="search"
-                placeholder="Search ..."
+                :placeholder="`${$t('Search')}...`"
               />
               <div
-                class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+                class="absolute top-[40%] 
+                rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
               >
                 <img src="/assets/imgs/icons/search.svg" />
               </div>
@@ -606,7 +607,7 @@ onMounted(() => {
                 class="btn-dashboard hover_tamkin"
                 @click="openModal('invitemember')"
               >
-                Invite Member
+                {{ $t('Invite Member') }}
               </button>
             </div>
           </div>
@@ -618,7 +619,7 @@ onMounted(() => {
             </div>
           </div>
         
-          <div class="flex items-center justify-between lg:justify-evenly px-[16px] space-x-[10px]">
+          <div class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]">
             <div class="py-[17px] search_input relative">
               <div class="w-full h-[40px] bg-gray-200 rounded  animate-pulse flex items-center pl-[40px]">
                 <div class="w-[24px] h-[24px] bg-gray-200 rounded-full absolute left-[10px]"></div>
@@ -642,22 +643,22 @@ onMounted(() => {
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
                 >
-                  Name
+                  {{$t('Name')}}
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Email
+                  {{ $t('Email') }}
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Permissions
+                  {{$t('Permissions')}}
                 </th>
                 <th
                   class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Action
+                  {{$t('Action')}}
                 </th>
               </tr>
             </thead>
@@ -673,7 +674,7 @@ onMounted(() => {
                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="flex items-center justify-start space-x-[10px] lg:space-x-[16px] rtl:space-x-reverse"
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] lg:rtl:space-x-reverse space-x-[16px] rtl:rtl:space-x-reverse space-x-reverse"
                   >
                     <div class="inline">
                       <img
@@ -714,7 +715,7 @@ onMounted(() => {
                         background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                       "
                     >
-                      Owner
+                      {{ $t('Owner') }}
                     </div>
                   </div>
                 </td>
@@ -731,9 +732,9 @@ onMounted(() => {
                       :disabled="isOwner(member)"
                       @click="openPermissions(member)"
                       :class="isOwner(member) ? 'opacity-40' : 'opacity-100'"
-                      class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                      class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                     >
-                      <div>Permissions</div>
+                      <div>{{$t('Permissions')}}</div>
                       <img src="/assets/imgs/icons/arow_down.svg" />
                     </button>
                   </div>
@@ -741,7 +742,7 @@ onMounted(() => {
 
                 <td class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
                   <div
-                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                    class="flex items-evenly justify-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                   >
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
@@ -868,7 +869,7 @@ onMounted(() => {
               <tr v-for="index in 2" :key="index">
                 <td                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-start space-x-[10px]">
+                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
                     <div class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse" ></div>
                     <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
                   </div>
@@ -895,13 +896,13 @@ onMounted(() => {
         class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >
-            Per Page
+            {{ $t('Per Page') }}
           </span>
-          <div class="flex space-x-2 rtl:space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
             <button
               v-for="option in perPageOptions"
               :key="option"
@@ -920,11 +921,11 @@ onMounted(() => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
           <span
             class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
           >
-            Page
+            {{ $t('Page') }}
           </span>
           <button
             @click="prevPage"
@@ -935,6 +936,8 @@ onMounted(() => {
               width="20"
               height="20"
               viewBox="0 0 20 20"
+              class="rtl:rotate-180"
+
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -946,7 +949,7 @@ onMounted(() => {
               />
             </svg>
           </button>
-          <div v-if="teamMembers" class="flex space-x-2 rtl:space-x-reverse">
+          <div v-if="teamMembers" class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
             <button
               v-for="i in totalPages"
               :key="i"
@@ -972,6 +975,7 @@ onMounted(() => {
             <svg
               width="20"
               height="20"
+              class="rtl:rotate-180"
               viewBox="0 0 20 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

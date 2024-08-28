@@ -7,7 +7,7 @@ const { changeCompanyImage, loading } = useChangeCompanyImage();
 const { deleteCompanyImg, loading: loadingdel } = useDeleteCompanyImg();
 
 const profileStore = useProfileStore();
-
+const {t} = useI18n()
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
 const isDeleteAction = ref(false)
 const { isOpen, openModal, closeModal } = useModalManager();
@@ -86,7 +86,7 @@ const submit = async () => {
       await changeCompanyImage(imgFile);
       closeModal('edit_company_picture');
       await profileStore.getCurrentTeam();
-      $toast('Company Image updated successfully', { hideIn: 3000 });
+      $toast(t('Company Image updated successfully'), { hideIn: 3000 });
 
       loadingUpload.value = false;
     };
@@ -154,7 +154,7 @@ onBeforeUnmount(() => {
       </svg>
     </div>
     <h1
-      class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+      class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
       {{ $t('Edit Company Picture') }}
     </h1>
@@ -212,9 +212,9 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard group error max-w-[160px]"
+        class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard group error max-w-[160px]"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){

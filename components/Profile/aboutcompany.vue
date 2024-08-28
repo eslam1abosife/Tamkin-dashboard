@@ -68,12 +68,12 @@ watch(() => state.about, (newValue) => {
         :class="[v$.about.$error ? '!border-red-500' :'!border-tamkin']"
         @input="handleBlur"
         @blur="updateAbout"
-        placeholder="Type here..."
+        :placeholder="$t('Type here')+'...'"
       ></textarea>
 
       <div v-if="v$.about.$error" class="text-red-500 text-[12px]">
         <span v-if="!v$.about.$pending && v$.about.$errors[0]">
-          {{ v$.about.$errors[0].$message }}
+          {{ $t('About the company is required') }}
         </span>
       </div>
     </div>

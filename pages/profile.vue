@@ -110,7 +110,7 @@ const profileLoader = ref(false);
 const updatep = async (companyData) => {
   profileLoader.value = true;
   // console.log(profileStore.updatedCompanyPayload)
-  await changeCompanyInfo({ ...companyData, about: aboutCompany.value });
+  await changeCompanyInfo({ ...profileStore.updatedCompanyPayload, about: aboutCompany.value });
 
   await changeMemberInfo(profileStore.updateProfilePayload);
 
@@ -147,14 +147,13 @@ onBeforeMount(async () => {
     <LazyDashboardToastSuccess
       v-if="copied"
       :hideIn="2000"
-      :message="'Copied to clipboard'"
+      :message="$t('Copied to clipboard')"
     />
     <ProfileEditpicturemodal
       @update-profile-image="updateProfileImage"
       :showModal="isOpen('editMemberPic')"
     />
     <ProfileEditcompanypicture />
-    <!-- {{ profileStore?.member }} -->
     <div
       class="h-[190px] bg-gradient-to-r from-[#2FAFA4] to-[#8FF2E9] w-full !mx-0 relative"
     >
@@ -212,7 +211,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
   class="absolute bg-gradient-to-br from-[#FBC558] to-[#F7AAFD] w-full h-[160px] rounded-full right-0 left-1/4 opacity-30 blur-xl z-[-1]"
 ></div>
 
-<div class="flex items-center justify-start w-full space-x-[16px]">
+<div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[16px]">
   <div>
     <img src="/imgs/investor/AA.svg" class="w-[38px] h-[38px]" alt="" />
   </div>
@@ -226,7 +225,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 <div
   class="mt-[12px] border-[1px] border-[#A7A7A7] w-full h-[40px] rounded-[10px] flex items-center justify-between px-[10px]"
 >
-  <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
+  <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[8px]">
     <div
     class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
   >
@@ -266,9 +265,9 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 v-if="profileStore.loadingProfile || loadingInvestor"
 class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
 >
-<div class="w-full flex items-center justify-between space-x-[16px]">
+<div class="w-full flex items-center justify-between rtl:space-x-reverse space-x-[16px]">
   <div class="animate-pulse bg-gray-300 rounded h-6 w-32"></div>
-  <div class="flex items-center justify-start space-x-[8px]">
+  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
     <div
       class="animate-pulse bg-gray-300 rounded-full h-[24px] w-[24px]"
     ></div>
@@ -302,14 +301,14 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 ></div>
 
 <div
-  class="flex items-center justify-between w-full space-x-[16px]"
+  class="flex items-center justify-between w-full rtl:space-x-reverse space-x-[16px]"
 >
   <div
     class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
   >
     {{$t('Investor Program')}}
   </div>
-  <div class="flex items-center justify-start space-x-[8px]">
+  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
     <img src="/imgs/investor/A1.svg" class="w-[24px] h-[24px]" alt="" />
     <img src="/imgs/investor/AA.svg" class="w-[24px] h-[24px]" alt="" />
     <img src="/imgs/investor/C.svg" class="w-[24px] h-[24px]" alt="" />
@@ -363,12 +362,12 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
               </div>
               <span
                 v-if="!profileStore.loadingProfile"
-                class="ml-2 text-black font-[500] text-[12px] leading-[21px]"
+                class="rtl:mr-2 ltr:ml-2 text-black font-[500] text-[12px] leading-[21px]"
                 >{{ score }}%</span
               >
               <div
                 v-else
-                class="animate-pulse ml-2 h-[8px] bg-gray-300 rounded-full w-10"
+                class="animate-pulse rtl:mr-2 ltr:ml-2 h-[8px] bg-gray-300 rounded-full w-10"
               ></div>
             </div>
           </div>
@@ -382,7 +381,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
                 <!-- Placeholder for Header and Icons -->
                 <div class="flex items-center justify-between">
                   <div class="bg-gray-300 h-[24px] w-[80px] rounded"></div>
-                  <div class="flex space-x-[16px]">
+                  <div class="flex rtl:space-x-reverse space-x-[16px]">
                     <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
                     <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>
                     <div class="bg-gray-300 h-[33px] w-[33px] rounded-[4px]"></div>

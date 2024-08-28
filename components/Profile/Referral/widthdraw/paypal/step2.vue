@@ -49,7 +49,7 @@ const formatAmount = (event) => {
 
   // Ensure the formatted value does not exceed currentAmount
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
-  const currentAmountValue = parseFloat(withdrawStore.currentAmount.replace(/,/g, ''));
+  const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
   if (formattedNumericValue > currentAmountValue) {
     amount.value = currentAmountValue.toFixed(2);
@@ -92,7 +92,8 @@ const completeWithDraw = async () => {
   await withdrawStore.withdrawpaypal();
   navigateTo('paypal_withdraw_step2', 'referral', 'success_paypal_withdraw');
   isLoading.value = false;
-  amount.value = '$0.00'
+  amount.value = '0'
+  await withdrawStore.gettotalAmount();
 
 };
 </script>
@@ -176,7 +177,7 @@ const completeWithDraw = async () => {
        <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="isLoading ? 'mr-2':''">
+            <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Withdraw') }}
             </div>
        

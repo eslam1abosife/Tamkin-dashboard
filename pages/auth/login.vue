@@ -6,6 +6,7 @@ import { useGetCurrentTeam } from "~/composables/useTeam";
 import { useRouter } from "#vue-router";
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
+const localePath = useLocalePath()
 
 const { isIncludeWord } = useIncludeWord();
 
@@ -51,10 +52,10 @@ const doLogin = async () => {
   try {
     await loginUser();
 
-    await profileStore.fetchMember()
-    await profileStore.getCurrentTeam()
+    // await profileStore.fetchMember()
+    // await profileStore.getCurrentTeam()
     showToast.value = true
-    router.push("/overview");
+    router.push(localePath("/overview"));
   } catch (error) {
     loginSuccessfully.value = false;
 
@@ -62,7 +63,7 @@ const doLogin = async () => {
       typeof error === "string" ? error : "There is something wrong";
     if (isIncludeWord(errMsg, ["confirm", "needs"])) {
       localStorage.setItem("registerd_email", state.email);
-      router.push("/auth/otp?from=register");
+      router.push(localePath("/auth/otp?from=register"));
 
     } else {
       errorMsg.value = error;
@@ -107,22 +108,22 @@ const clearFieldError = (condition) => {
 
           <h3 class="text-[16px] lg:text-[20px] font-[500] text-darkGrey mb-[14px] dark:text-whiteTamkin/90"
             style="line-height: 48px">
-            {{ $t("new_to_tamkin") }}
-            <a @click="$router.push('/auth/register')"
+            {{ $t("New to tamkin?") }}
+            <a @click="$router.push(localePath('/auth/register'))"
               class="cursor-pointer text-tamkin underline dark:brightness-[1] brightness-[0.8]">
-              {{$t("Register With Google")}}</a>
+              {{$t("Get Started")}}</a>
           </h3>
           <button :disabled="googleLoading" :class="googleLoading && 'btn-inactive'" @click="doLoginWithGoogle"
             style="line-height: 30px" class="google_login_button">
             <div class="flex items-center justify-center space-x-[16px] lg:space-x-[12px]">
               <template v-if="googleLoading">
                 <img class="inline-block mx-2" src="/assets/imgs/loading.svg" />
-                <span class="font-[600] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("login_with_google")
+                <span class="font-[600] text-[14px] lg:text-[16px] dark:text-whiteTamkin">{{ $t("Login with Google")
                   }}</span>
               </template>
               <template v-else>
                 <div class="font-[600] text-[14px] lg:text-[16px] dark:text-whiteTamkin">
-                  {{ $t("login_with_google") }}
+                  {{ $t("Login with Google") }}
                 </div>
                 <img src="/assets/imgs/google_login.png" class="w-[19px] h-[19px]" />
               </template>
@@ -137,7 +138,7 @@ const clearFieldError = (condition) => {
             <div class="relative flex items-center mx-auto w-full mt-[23px]">
               <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
               <span class="flex-shrink mx-4 text-secondary_text text-[20px] font-[500] dark:text-whiteTamkin">{{
-    $t("or")
+    $t("Or")
   }}</span>
               <div class="flex-grow border-t border-lightGrey dark:border-darkborder"></div>
             </div>
@@ -192,7 +193,7 @@ const clearFieldError = (condition) => {
     isIncludeWord(errorMsg, ['confirm', 'not found'])
     ">
                   <p class="error_message">
-                    <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("email_address_is_required")
+                    <span v-if="v$.email.$error && v$.email.required.$invalid">{{ $t("Email Address is required")
                       }}</span>
                     <span v-else-if="v$.email.required.$invalid ||
     (v$.email.$error && v$.email.email.$invalid)
@@ -268,10 +269,10 @@ const clearFieldError = (condition) => {
                     <input type="checkbox"
                       class="border-[1px] w-[18px] h-[18px] border-lightGrey dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
                       id="remember_me" />
-                    {{ $t("remember_me") }}</label>
+                    {{ $t("Remember me") }}</label>
                 </div>
                 <div class="">
-                  <a @click="$router.push('/auth/reset-password')"
+                  <a @click="$router.push(localePath('/auth/reset-password'))"
                     class="cursor-pointer text-[15px] font-[500] underline text-tamkin">{{ $t("Forget password ?") }}</a>
                 </div>
               </div>
@@ -287,7 +288,7 @@ const clearFieldError = (condition) => {
 
     <div class="flex items-center justify-center">
      <div class="mr-4">
-      {{$t("login_button")}}
+      {{$t("Login")}}
      </div>
 
       <svg  v-if="loginSuccessfully" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

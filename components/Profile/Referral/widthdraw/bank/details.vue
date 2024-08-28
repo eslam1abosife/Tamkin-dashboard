@@ -52,6 +52,7 @@ const withdraw = async () => {
     loadingtowithdraw.value = false;
     v$.value.$reset()
   }, 1500);
+
 };
 
 const closeAndReset = () => {
@@ -149,7 +150,7 @@ const closeAndReset = () => {
             </div>
           </div>
   
-          <div class="flex items-center justify-between w-full space-x-[30px]">
+          <div class="flex items-center justify-between w-full rtl:space-x-reverse space-x-[30px]">
             <div class="w-full relative">
                 <input type="text" placeholder="" id="account_number" class="input_floating_label !top-[12px] peer  !h-[50px] w-full !h-[50px] "
                   v-model="v$.account_number.$model" :class="{
@@ -197,7 +198,7 @@ const closeAndReset = () => {
           </div>
 
  
-          <div class="flex items-center justify-between w-full space-x-[30px]">
+          <div class="flex items-center justify-between w-full rtl:space-x-reverse space-x-[30px]">
             <div class="w-full relative">
                 <input type="text" placeholder="" id="bic" class="input_floating_label !top-[12px] peer  !h-[50px] w-full !h-[50px] "
                   v-model="v$.bic.$model" :class="{
@@ -249,8 +250,8 @@ const closeAndReset = () => {
 
        <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="withdraw" :disabled="v$.$invalid || loadingtowithdraw">
-          <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="loadingtowithdraw ? 'mr-2':''">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
+            <div :class="loadingtowithdraw ? 'rtl:ml-2 ltr:mr-2':''">
            {{$t('Continue')}}
             </div>
        

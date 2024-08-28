@@ -223,11 +223,11 @@ const setPageSize = (size:number) => {
 
     <div class="space-y-[10px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        Orders
+        {{$t('Orders')}}
       </h1>
 
       <h2 class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
-        Effortlessly track all your orders in one place, ensuring you stay updated on their status
+        {{$t('Effortlessly track all your orders in one place, ensuring you stay updated on their status')}}
       </h2>
     </div>
     <div v-if="loadingBlock" class="animate-pulse mt-[24px]">
@@ -235,33 +235,33 @@ const setPageSize = (size:number) => {
         <table class="min-w-full bg-white last:rounded-b-[10px]">
           <thead class="bg-white border-b text-[12px] leading-[18px] text-[#999999]">
             <tr>
-              <th class="py-3 px-6 text-left font-[500]">Order ID</th>
-              <th class="py-3 px-6 text-left font-[500]">Order items</th>
-              <th class="py-3 px-6 text-left font-[500]">Payment Method</th>
-              <th class="py-3 px-6 text-left font-[500]">Price</th>
-              <th class="py-3 px-6 text-left font-[500]">Order Status</th>
-              <th class="py-3 px-6 text-left font-[500]">Date Order</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order ID')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order items')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Payment Method')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Price')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order Status')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Date Order')}}</th>
             </tr>
           </thead>
           <tbody>
             <!-- Placeholder Rows -->
             <tr v-for="n in 5" :key="n" class="border-t border-gray-200 table-row">
-              <td class="px-6 py-3 text-left whitespace-nowrap">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap">
                 <div class="h-4 bg-gray-200 rounded"></div>
               </td>
-              <td class="px-6 py-3 text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left">
                 <div class="h-4 bg-gray-200 rounded w-3/4"></div>
               </td>
-              <td class="px-6 py-3 text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left">
                 <div class="h-4 bg-gray-200 rounded w-1/2"></div>
               </td>
-              <td class="px-6 py-3 text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left">
                 <div class="h-4 bg-gray-200 rounded w-1/4"></div>
               </td>
-              <td class="px-6 py-3 text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left">
                 <div class="h-4 bg-gray-200 rounded w-2/4"></div>
               </td>
-              <td class="px-6 py-3 text-left">
+              <td class="px-6 py-3 rtl:text-right ltr:text-left">
                 <div class="h-4 bg-gray-200 rounded w-1/3"></div>
               </td>
             </tr>
@@ -273,24 +273,24 @@ const setPageSize = (size:number) => {
         <table class="min-w-full bg-white  last:rounded-b-[10px]">
           <thead class="bg-white  border-b  text-[12px] leading-[18px] text-[#999999] ">
             <tr>
-              <th class="py-3 px-6 text-left font-[500]">Order ID</th>
-              <th class="py-3 px-6 text-left font-[500]">Order items</th>
-              <th class="py-3 px-6 text-left font-[500]">Payment Method</th>
-              <th class="py-3 px-6 text-left font-[500]">Price</th>
-              <th class="py-3 px-6 text-left font-[500]">Order Status</th>
-              <th class="py-3 px-6 text-left font-[500]">Date Order</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order ID')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order items')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Payment Method')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Price')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order Status')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Date Order')}}</th>
             </tr>
           </thead>
           <tbody class="text-[#1C1C1C] text-[14px] font-[400] leading-[18px] ">
         
               <template v-for="order in paginatedRows" :key="order.id">
                 <tr class="border-t border-gray-200  table-row cursor-pointer hover:bg-gray-100" @click="$router.push(localePath('/orders/'+ order.name))">
-                    <td class="px-6 py-3 text-left whitespace-nowrap ">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap ">
                       <!-- <span>#CM9801</span> -->
                       <span>{{ order.name }}</span>
                     </td>
-                    <td class="px-6 py-3 text-left ">
-                      <div class="flex items-center space-x-[8px]">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left ">
+                      <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
                       <div class="flex items-center justify-center border-[1px] border-[#E6E8EC] rounded-full w-[24px] h-[24px]">
                           <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                           
@@ -299,19 +299,19 @@ const setPageSize = (size:number) => {
                         <span class="w-20 truncate">{{ order.orderitems }}</span>
                       </div>
                     </td>
-                    <td class="px-6 py-3 text-left ">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left ">
                       <div class="flex items-center">
                         <img :src="getPaymentImage(order['payment method'])" alt="Placeholder" class="w-[24px] h-[24px] mr-2"/>
 
                         <span>{{ order['payment method'] }}</span>
                       </div>
                     </td>
-                    <td class="px-6 py-3 text-left ">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left ">
                       
                       <span>{{ order.price }} AED</span>
                     </td>
-                    <td class="px-6 py-3 text-left">
-                      <div class="flex items-center ml-1 space-x-[8px]">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left">
+                      <div class="flex items-center ml-1 rtl:space-x-reverse space-x-[8px]">
                         <div 
                           class="flex items-center justify-center" 
                           :class="order['order status'] === 'Rejected' || order['order status'] === 'Cancelled' ? 'w-[24px] h-[24px]' : 'w-[24px] h-[24px]'"
@@ -329,8 +329,8 @@ const setPageSize = (size:number) => {
                     </td>
                     
 
-                    <td class="px-6 py-3 text-left ">
-                      <div class="flex items-center space-x-[8px]">
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left ">
+                      <div class="flex items-center rtl:space-x-reverse space-x-[8px]">
                           <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1V0.5C8.5 0.223858 8.72386 0 9 0C9.27614 0 9.5 0.223858 9.5 0.5V1H11C11 1 11.4142 1 11.7071 1.29289C11.7071 1.29289 12 1.58579 12 2V12C12 12 12 12.4142 11.7071 12.7071C11.7071 12.7071 11.4142 13 11 13H1C1 13 0.585785 13 0.292893 12.7071C0.292893 12.7071 0 12.4142 0 12V2C0 2 0 1.58579 0.292893 1.29289C0.292893 1.29289 0.585786 1 1 1H2.5V0.5C2.5 0.223858 2.72386 0 3 0C3.27614 0 3.5 0.223858 3.5 0.5V1H8.5ZM1 5V12H11V5H1ZM11 4H1V2H2.5V2.5C2.5 2.77614 2.72386 3 3 3C3.27614 3 3.5 2.77614 3.5 2.5V2H8.5V2.5C8.5 2.77614 8.72386 3 9 3C9.27614 3 9.5 2.77614 9.5 2.5V2H11V4Z" fill="black" fill-opacity="0.4"/>
                               </svg>
@@ -352,11 +352,11 @@ const setPageSize = (size:number) => {
       </div>
 
       <div v-if="orders.length>0" class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px] mt-[16px]">
-        <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
             Per Page
           </span>
-          <div class="flex space-x-2 rtl:space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
             <!-- Static buttons for per-page options -->
             <button
               :class="['px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]', { 'bg-[#2dada3]': pageSize === 10, 'bg-[#A7A7A7]': pageSize !== 10 }]"
@@ -378,7 +378,7 @@ const setPageSize = (size:number) => {
             </button>
           </div>
         </div>
-        <div class="flex items-center rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
           <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
             Page
           </span>
@@ -401,7 +401,7 @@ const setPageSize = (size:number) => {
               />
             </svg>
           </button>
-          <div class="flex space-x-2 rtl:space-x-reverse">
+          <div class="flex rtl:space-x-reverse space-x-2 rtl:rtl:space-x-reverse space-x-reverse">
             <!-- Static buttons for page numbers -->
             <button v-if="totalPages > 5 && currentPage > 3" @click="currentPage = 1" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">1</button>
             <button v-if="totalPages > 5 && currentPage > 4" class="px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin flex items-center justify-center hover:bg-light-grey">...</button>

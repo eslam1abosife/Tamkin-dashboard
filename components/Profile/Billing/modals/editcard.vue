@@ -306,7 +306,8 @@ watch(eventCounter, async () => {
 
     <div class="flex flex-col items-start justify-center mt-[21px] w-full">
       <div
-        class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
+        class="flex items-center justify-start lg:flex-row flex-col
+         rtl:space-x-reverse  lg:space-x-[42px] lg:space-y-[0] space-y-[25px] mb-[25px] w-full"
       >
         <div class="w-full">
           <div class="w-full relative">
@@ -331,7 +332,7 @@ watch(eventCounter, async () => {
                   : '',
               ]"
             >
-              {{ $t("Card Holder Name") }}*
+              {{ $t("Card Holder Name*") }}
             </label>
             <div
               class="w-full lg:w-4/6"
@@ -444,7 +445,7 @@ watch(eventCounter, async () => {
           </div>
         </div>
         <div
-          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
+          class="flex items-center justify-start lg:flex-row flex-col lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
         >
           <div class="w-full lg:w-[330px]">
             <div class="relative">
@@ -556,7 +557,7 @@ watch(eventCounter, async () => {
         <div class=" ">
           <label
             for="remember_me"
-            class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"
+            class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"
           >
             <input
               type="checkbox"
@@ -564,13 +565,13 @@ watch(eventCounter, async () => {
               class="border-[1px] cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
               id="remember_me"
             />
-            <div class="text-[14px] font-[400] text-black mt-1">
+            <div class="text-[14px] font-[400] text-black mt-1 rtl:font-[Almarai]">
               {{ $t("Set as Primary Card") }}
             </div>
           </label>
         </div>
 
-        <div class="ml-auto">
+        <div class="rtl:mr-auto ltr:ml-auto">
           <button
             :disabled="billingStore.card.is_primary"
             :class="
@@ -590,15 +591,15 @@ watch(eventCounter, async () => {
       </div>
     </div>
 
-    <div class="flex items-center justify-end space-x-[10px] w-full">
-      <button class="btn_bordered_dashboard" @click="handelCloseModal">Cancel</button>
+    <div class="flex items-center justify-end rtl:space-x-reverse space-x-[10px] w-full">
+      <button class="btn_bordered_dashboard" @click="handelCloseModal">{{$t('Cancel')}}</button>
       <button
         class="btn-dashboard hover_tamkin w-[120px]"
         @click="updateCard"
         :disabled="loadingupdate"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingupdate ? 'rtl:ml-2 ltr:mr-2' : ''">Submit</div>
+          <div :class="loadingupdate ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Submit')}}</div>
 
           <svg
             v-if="loadingupdate"

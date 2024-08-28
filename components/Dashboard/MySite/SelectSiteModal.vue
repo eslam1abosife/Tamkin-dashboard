@@ -106,7 +106,7 @@ const submit = async () => {
       <div class="w-full ">
         <div class="py-[17px] search_input">
           <input type="text" class="input_dashboard_search w-full rtl:direction-rtl" v-model="search"
-            placeholder="Search ..." />
+            :placeholder="`${$t('Search')} ...`" />
           <div
             class="absolute top-[40%] ltr:lg:left-0 ltr:left-[10px] rtl:lg:right-0 rtl:right-[10px] lg:top-[16px] lg:p-[16px]">
             <img src="/assets/imgs/icons/search.svg" />
@@ -174,7 +174,7 @@ const submit = async () => {
         <button :class="(!checked || submitLoading) " :disabled="(!checked || submitLoading)"
           @click="submit" class=" btn-dashboard hover_tamkin text-center w-1/6">
           <div class="flex items-center justify-center">
-            <div :class="submitLoading ? 'mr-2':''">
+            <div :class="submitLoading ? 'rtl:ml-2 ltr:mr-2':''">
               Save
             </div>
        

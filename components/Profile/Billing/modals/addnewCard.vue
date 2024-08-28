@@ -17,6 +17,7 @@ import { useGetAllCountries, useChangeMemberInfo } from "@/composables/useProfil
 const { getCountries, countries } = useGetAllCountries();
 const billingStore = useBillingStore();
 
+const {t} = useI18n()
 
 
 
@@ -152,10 +153,9 @@ const addCard = async ()=>{
   });
   console.log('response',response.value)
 
-
   if (response.value.statusCode == 200){
     closeModal('add_new_card_billing')
-    $toast('Card Added successfully', { hideIn: 3000 });
+    $toast(t('Card Added successfully'), { hideIn: 3000 });
     invoiceStore.loadCards = true
 
     await getCards();
@@ -189,7 +189,7 @@ const closeModalCard = ()=>{
 
 
 if(process.client){
-  window.$chatwoot.toggleBubbleVisibility('show')
+  // window.$chatwoot.toggleBubbleVisibility('show')
   closeModal('add_new_card_billing')
   invoiceStore.loadCards = false
 
@@ -208,6 +208,28 @@ if(process.client){
 }
 v$.value.$reset()
 }
+
+
+const hasRequiredError = computed(() => 
+  v$.value.cardNumber.$error && v$.value.cardNumber.required.$invalid
+);
+
+const hasCreditCardError = computed(() => 
+  v$.value.cardNumber.$error && v$.value.cardNumber.creditCard.$invalid
+);
+
+const hasCardExistsError = computed(() => 
+  billingStore.addCardRes?.statusCode === 400 && 
+  billingStore.addCardRes?.message === 'You already have this card'
+);
+
+const hasCardNumberError = computed(() => 
+  hasRequiredError.value || hasCreditCardError.value
+);
+
+const hasAddCardError = computed(() => 
+  hasCardExistsError.value
+);
 </script>
 
 <template>
@@ -261,7 +283,7 @@ v$.value.$reset()
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
                space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
@@ -287,7 +309,7 @@ v$.value.$reset()
                         : '',
                     ]"
                   >
-                    {{ $t("firstName") }}*
+                    {{ $t("First Name*") }}
                   </label>
                   <div
                     class="w-full lg:w-4/6"
@@ -325,7 +347,7 @@ v$.value.$reset()
                         : '',
                     ]"
                   >
-                    {{ $t("lastName") }}*
+                    {{ $t("Last Name*") }}
                   </label>
                   <div
                     class="w-full lg:w-4/6"
@@ -351,7 +373,7 @@ v$.value.$reset()
                   placeholder="{{$t('Card Number')}}"
                   id="cardNumber"
                   @keydown="checkInput"
-
+            
                   :maxlength="19"
                   class="input_floating_label peer w-full lg:w-[704px]"
                   v-model="v$.cardNumber.$model"
@@ -374,44 +396,30 @@ v$.value.$reset()
                       : '',
                   ]"
                 >
-                  {{ $t("Card Number") }}*
+                  {{ $t("Card Number*") }}
                 </label>
                 <div
-                  class="w-full lg:w-4/6"
-                  v-if="
-                    (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
-                    (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid) ||
-                    (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')
-                  "
-                >
-                  <p class="error_message">
-                    <span
-                      v-if="v$.cardNumber.$error && v$.cardNumber.required.$invalid"
-                      >{{ $t("Card Number is required") }}</span
-                    >
-                    <span
-                      v-if="(billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')"
-                      >{{ billingStore.addCardRes?.message }}</span
-                    >
-                    <span
-                      v-else-if="
-                        v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid
-                      "
-                      >{{ $t("Card Number is Not correct") }}</span
-                    >
-                  </p>
-                </div>
+                class="w-full lg:w-4/6"
+                v-if="hasCardNumberError || hasAddCardError"
+              >
+              <p class="error_message">
+                <span v-if="hasRequiredError">{{ $t('Card Number is required') }}</span>
+                <span v-else-if="hasCreditCardError">{{ $t('Card Number is Not correct') }}</span>
+                <span v-else-if="hasCardExistsError">{{ billingStore.addCardRes?.message }}</span>
+              </p>
+              
+              </div>
               </div>
             </div>
             <div
-              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
                   <input
                     @input="formatExpiryDate"
                     type="text"
-                    placeholder="{{$t('MM / YY')}}"
+                    placeholder=""
                     id="expiryDate"
                     class="input_floating_label peer w-full lg:w-[330px]"
                     v-model="v$.expireDate.$model"
@@ -436,7 +444,7 @@ v$.value.$reset()
                         : '',
                     ]"
                   >
-                    {{ $t("MM / YY") }}*
+                    {{ $t("MM / YY*") }}
                   </label>
                   <div class="w-full lg:w-4/6" v-if="v$.expireDate.$error">
                     <p class="error_message">
@@ -562,7 +570,7 @@ v$.value.$reset()
               </div>
             </div>
             <div
-              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
@@ -640,7 +648,7 @@ v$.value.$reset()
 
             <div
               class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0
-              space-y-[16px] lg:rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+              space-y-[16px] lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
@@ -708,7 +716,7 @@ v$.value.$reset()
           </div>
           <div class=" px-[20px]">
             <label for="remember_me"
-            class="flex items-center space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
+            class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug ">
             <input  v-model="state.is_primary" type="checkbox" :checked="billingStore.cards?.length === 0"
               class="border-[1px]  cursor-pointer w-[18px] h-[18px] border-[#A7A7A7] dark:border-darkborder bg-transparent rounded-[4px]
                text-tamkin ring-0 focus:ring-0 focus:outline-none"
@@ -718,15 +726,15 @@ v$.value.$reset()
               </div>
            </label>
         </div>
-          <div class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] ml-auto space-x-[16px]">
+          <div class="mt-[39px] mb-[34px] flex items-center justify-end px-[20px] rtl:mr-auto ltr:ml-auto rtl:space-x-reverse space-x-[16px]">
             <button class="btn_bordered_dashboard  " @click="closeModalCard">
-              Cancel
+              {{ $t('Cancel') }}
                       </button>
 
         <button class="btn-dashboard hover_tamkin " @click="addCard" :disabled="submitInviteLoading || v$.$invalid">
           <div class="flex items-center justify-center">
-            <div :class="submitInviteLoading ? 'mr-2':''">
-              Save
+            <div :class="submitInviteLoading ? 'rtl:ml-2 ltr:mr-2':''">
+              {{$t('Save')}}
             </div>
 
             <svg  v-if="submitInviteLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

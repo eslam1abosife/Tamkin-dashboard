@@ -12,9 +12,13 @@ html {
     font-family: "Poppins", sans-serif;
     margin: 0;
     padding: 0;
+
 }
 
-
+[dir="rtl"] {
+        @apply font-[Almarai];
+  
+  }
 body{
     @apply dark:bg-darkSecondary;
 

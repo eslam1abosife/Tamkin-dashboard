@@ -34,10 +34,10 @@ const changeDropMenu = (menu:any)=>{
             <img src="/assets/imgs/translatedocs/no_result.png" class="w-[114px] h-[68px]" alt="">
         </div>
         <div class="text-[15px] font-[500] text-darkGrey leading-[16px]">
-            No results found
+            {{ $t('No results found') }}
         </div>
         <div class="font-[400] text-[10px] leading-[16px]">
-            {{ text ? text :'It seems we can’t find any results based on your search.' }}
+            {{ text ? $t(text) :$t('It seems we can’t find any results based on your search.') }}
         </div>
                                   
             </div>

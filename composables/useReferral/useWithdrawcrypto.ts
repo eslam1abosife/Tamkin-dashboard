@@ -38,6 +38,7 @@ export default function () {
                 bic: '',
                 account_currency: '',
             });
+            await withdrawStore.gettotalAmount();
 
             return {
                 data: res.data.data,

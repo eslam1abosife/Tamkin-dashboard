@@ -69,8 +69,8 @@ const submit = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-      Share Embed code with your team
+    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+      {{$t('Share Embed code with your team')}}
     </h1>
     <div class="w-full relative mt-[40px]">
       <input type="email" placeholder="{{$t('email')}}" id="email"
@@ -89,18 +89,18 @@ const submit = async () => {
       ? '!text-error'
       : '',
   ]">
-        {{ $t("email") }}*
+        {{ $t("Email*") }}
       </label>
       <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
     (v$.email.$error && v$.email.email.$invalid)
     ">
         <p class="error_message">
           <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-    $t("email_address_is_required")
+    $t("Email Address is required")
   }}</span>
           <span v-else-if="v$.email.required.$invalid ||
     (v$.email.$error && v$.email.email.$invalid)
-    ">{{ $t("please_enter_valid_email_address") }}</span>
+    ">{{ $t("Please enter a valid email address") }}</span>
         </p>
       </div>
     </div>
@@ -111,7 +111,7 @@ const submit = async () => {
       <button :disabled="v$.email.$invalid || loading"
         :class="[(v$.email.$invalid || loading) && 'btn-inactive', errMsg ? 'mt-[20px]' : 'mt-[40px]']" @click="submit"
         class="btn-dashboard normal_hover w-[190px] mx-auto">
-        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> Send Code
+        <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" /> {{ $t('Send Code') }}
       </button>
     </div>
   </div>

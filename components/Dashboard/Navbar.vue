@@ -315,7 +315,7 @@ watch(
 
           </div>
           <h3 class="font-[400] text-[12px]" style="line-height: 20px" v-else>
-            {{ teamMembers.length }} {{ $t("teamcount") }}
+            {{ teamMembers.length }} {{ $t("Team Members") }}
           </h3>
 
           
@@ -609,7 +609,7 @@ watch(
           </svg>
 
           <div
-            class="w-full  rtl:space-x-reverse  space-x-[50px] flex items-center justify-evenly"
+            class="w-full  rtl:space-x-reverse  ltr:space-x-[50px] rtl:space-x-[90px] flex items-center rtl:justify-start rtl:space-x-[20px] ltr:justify-evenly"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -619,7 +619,7 @@ watch(
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                   : '',
               ]"
-              class="rtl:mr-[-2px] ltr:ml-[-2px] whitespace-nowrap"
+              class="rtl:mr-[2px] ltr:ml-[-2px] whitespace-nowrap"
             >
               {{$t('Sign language')}}
             </div>
@@ -627,7 +627,7 @@ watch(
               <svg
                 width="7"
                 height="12"
-                :class="[showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 ']"
+                :class="[showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 rtl:rotate-180 ']"
                 viewBox="0 0 7 12"
                 class="w-full h-full ]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -652,7 +652,7 @@ watch(
           class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 rtl:right-[90px] ltr:left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
               : ' ',
             showSubMenu[4] ? 'block ' : 'hidden',
           ]"
@@ -752,7 +752,7 @@ watch(
                             showChildMenu[1] || !sideBarOpen 
                               ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
                               : 'text-darkGrey dark:text-white',
-                            sideBarOpen ? 'pl-[22px]' : '',
+                            sideBarOpen ? 'rtl:pr-[22px] ltr:pl-[22px]' : '',
                           ]"
                         >
                           {{ $t('Services') }}
@@ -766,7 +766,7 @@ watch(
                           :class="[
                             !showChildMenu[1]
                               ? 'rotate-90 '
-                              : 'rotate-0 ',
+                              : 'rotate-0 rtl:rotate-180 ',
                           ]"
                           viewBox="0 0 7 12"
                           class="w-full h-full"
@@ -797,7 +797,7 @@ watch(
                     @mouseenter="servicesHover = true"
     @mouseleave="servicesHover = false"
                   class=" space-y-[10px] w-full"
-                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] left-[270px]  rounded-[10px] rounded-tl-none ' : 'ml-[20px]']"
+                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none ' : 'rtl:mr-[20px] ltr:ml-[20px]']"
                   v-if="showChildMenu[1]"
                 >
                   <li
@@ -815,7 +815,7 @@ watch(
                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                           : '',
                       ]"
-                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                     >
                       <div
                         class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -854,7 +854,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -894,7 +894,7 @@ watch(
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                       : '',
                   ]"
-                  class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                  class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                 >
                   <div
                     class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -934,7 +934,7 @@ watch(
                     ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                     : '',
                 ]"
-                class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
               >
                 <div
                   class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1009,7 +1009,7 @@ watch(
                             showChildMenu[2] || !sideBarOpen
                               ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
                               : 'text-darkGrey dark:text-white',
-                            sideBarOpen ? 'pl-[22px]' : '',
+                            sideBarOpen ? 'rtl:pr-[22px] ltr:pl-[22px]' : '',
                           ]"
                         >
                           {{ $t('Control') }}
@@ -1023,7 +1023,7 @@ watch(
                           :class="[
                             !showChildMenu[2]
                               ? 'rotate-90 '
-                              : 'rotate-0 ',
+                              : 'rotate-0 rtl:rotate-180 ',
                           ]"
                           viewBox="0 0 7 12"
                           class="w-full h-full"
@@ -1054,7 +1054,7 @@ watch(
                     @mouseenter="controlHover = true"
     @mouseleave="controlHover = false"
                   class=" space-y-[10px] w-full"
-                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[50px] left-[270px]  rounded-[10px] rounded-tl-none ' : 'ml-[20px]']"
+                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[50px] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none ' : 'rtl:mr-[20px] ltr:ml-[20px]']"
                   v-if="showChildMenu[2]"
                 >
                   <li
@@ -1072,7 +1072,7 @@ watch(
                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                           : '',
                       ]"
-                      class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                      class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                     >
                       <div
                         class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1112,7 +1112,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1152,7 +1152,7 @@ watch(
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                       : '',
                   ]"
-                  class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                  class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                 >
                   <div
                     class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1192,7 +1192,7 @@ watch(
                     ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                     : '',
                 ]"
-                class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
               >
                 <div
                   class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1232,7 +1232,7 @@ watch(
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                   : '',
               ]"
-              class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+              class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
             >
               <div
                 class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1316,7 +1316,7 @@ watch(
           </div>
 
           <div
-            class="w-full rtl:space-x-reverse space-x-[65px] rtl:space-x-[90px] flex items-center justify-center"
+            class="w-full rtl:space-x-reverse ltr:space-x-[65px] rtl:space-x-[58px] flex items-center justify-start ltr:justify-center"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -1334,7 +1334,7 @@ watch(
               <svg
                 width="7"
                 height="12"
-                :class="[showSubMenu[3] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px] ']"
+                :class="[showSubMenu[3] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px] rtl:rotate-180 ']"
                 viewBox="0 0 7 12"
                 class="w-full h-full pr-[4px]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1419,7 +1419,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1457,7 +1457,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1496,7 +1496,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1535,7 +1535,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1574,7 +1574,7 @@ watch(
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
                         : '',
                     ]"
-                    class="relative flex items-center justify-start space-x-[10px] mr-auto w-full"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
                       class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
@@ -1666,7 +1666,7 @@ watch(
           </div>
           <div class="w-full mx-auto">
             <button
-              class="btn-dashboard hover_tamkin !h-[14px] !p-[13px] w-2/4 !text-[12px] mx-auto"
+              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-1/4 w-4/6 !text-[12px] mx-auto"
               @click="$router.push(localePath('/contact'))"
             >
               {{$t('Contact Sales')}}

@@ -6,7 +6,7 @@ import { useUploadTeamImg, useGetCurrentTeam, useDeleteTeamImg } from "@/composa
 const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 const { deleteTeamImg, loading: deleteLoading } = useDeleteTeamImg();
 const { uploadTeamImg, loading: uploadLoading } = useUploadTeamImg();
-
+const {t} = useI18n()
 const profileStore = useProfileStore();
 
 const emit = defineEmits(["uploadSuccess", "removeSuccess"]);
@@ -89,7 +89,7 @@ await getCurrentTeam()
   // await profileStore.setCompany();
   // emit('uploadSuccess');
 
-$toast('Team Image updated successfully',{hideIn:3000})
+$toast(t('Team Image updated successfully'),{hideIn:3000})
 
 loadingUpload.value = false
 
@@ -146,9 +146,9 @@ onBeforeUnmount(() => {
       </svg>
     </div>
     <h1
-      class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+      class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      Edit Team Picture
+      {{$t('Edit Team Picture')}}
     </h1>
 
     <div
@@ -193,15 +193,15 @@ onBeforeUnmount(() => {
         <h1
           class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
         >
-          Select a high-quality image to represent your team and
-          <span class="font-[500] text-[#2DADA3]">upload it here</span>
+          {{ $t('Select a high-quality image to represent your team and') }}
+          <span class="font-[500] text-[#2DADA3]">{{$t('upload it here')}}</span>
         </h1>
       </div>
     </div>
 
-    <div class="flex items-center justify-center space-x-[30px] mx-auto mt-[40px]">
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
       <button
-        class="flex items-center justify-center space-x-[6px] btn_bordered_dashboard error group max-w-[160px]"
+        class="flex items-center justify-center rtl:space-x-reverse space-x-[6px] btn_bordered_dashboard error group max-w-[160px]"
         @click="()=>{
           
           if(acceptedFilesRef.length > 0){
@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <div class="flex items-center justify-center">
-          <div >Delete</div>
+          <div >{{$t('Delete')}}</div>
 
           <!-- <svg
             v-if="loadingdel || loadingDelete"
@@ -264,7 +264,7 @@ onBeforeUnmount(() => {
         @click="submit"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">Save</div>
+          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
 
           <svg
             v-if="loadingUpload"

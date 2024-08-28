@@ -5,8 +5,9 @@ import VOtpInput from "vue3-otp-input";
 import { useResendCode, useVerifyCode, useForgetPassword } from '@/composables/useAuth';
 import { useRoute, useRouter } from '#vue-router';
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
+const localePath = useLocalePath()
 
-
+const {t} = useI18n()
 const route = useRoute();
 const router = useRouter();
 const { resendCode, loading: resendLoading } = useResendCode();
@@ -82,7 +83,7 @@ const doResendCode = async () => {
     clearInterval(intervalId);
     showResent.value = false;
     countdown.value = 29;
-    successMsg.value = 'resent Successfully!';
+    successMsg.value = t('resent Successfully!');
     sentSuccessfully.value = true;
     setTimeout(() => {
       sentSuccessfully.value = false;
@@ -133,13 +134,13 @@ const doVerifyCode = async () => {
       // await loginUser();
       // successMsg.value = 'Logged in Successfully!';
       // sentSuccessfully.value = true;
-      router.push('/auth/success?from=register');
+      router.push(localePath('/auth/success?from=register'));
     } else {
       const { checkForgetCode } = useVerifyCode({ email, key: verificationCode.value });
 
       await checkForgetCode();
       localStorage.setItem('curr_code', verificationCode.value);
-      router.push('/auth/new-password');
+      router.push(localePath('/auth/new-password'));
     }
 
     sentSuccessfully.value = true;
@@ -171,7 +172,7 @@ const doVerifyCode = async () => {
     <div class="flex items-center justify-center w-full mt-[16px] ">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3 ">
         <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img @click="$router.push('/')" src="/assets/imgs/logo.png" alt="Tamkin logo"
+          <img @click="$router.push(localePath('/auth/login'))" src="/assets/imgs/logo.png" alt="Tamkin logo"
             class="cursor-pointer w-[160px] h-[81.28px]" />
         </div>
         <div class="mx-auto text-center   xl:w-auto ipad-max:w-full w-full">
