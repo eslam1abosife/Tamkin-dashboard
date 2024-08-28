@@ -35,7 +35,7 @@
                 fill="white" />
           </svg>
         </div>
-        <div>Advanced View</div>
+        <div>{{$t('Advanced View')}}</div>
       </button>
       <button :class="'opacity-100'" @click="openModal('shareModal', 'embed-code')" class="lg:order-2 md:order-2 order-3 cursor-pointer ipad-max:text-[12px] border-[2px]  mx-auto lg:m-0 md:mt-0 mt-4 lg:mt-0 md:w-auto w-full lg:w-auto
               rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
@@ -66,7 +66,7 @@
 
           <button class="h-[45px] btn px-4 py-2 rounded-md text-[14px]"
                   :class="'group-hover:bg-gradient-to-r group-hover:to-tamkinStart group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text'">
-            Share code with your team
+            {{ $t('Share code with your team') }}
           </button>
         </div>
       </button>
@@ -92,7 +92,7 @@
 
           <button @click="copy(summaryCode)" class="h-[45px] text-[14px] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart
                   group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text">
-            Copy
+            {{ $t('Copy') }}
           </button>
         </div>
       </div>
@@ -124,9 +124,10 @@
 
       <h2 class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
           style="line-height: 23.4px">
-        Managing multiple sites for multiple clients ? Great! Make sure
-        you use <span class="text-darkGrey">the same embed code</span> on
-        all of your sites !
+
+          {{$t('Managing multiple sites for multiple clients ? Great! Make sure you use')}}
+         <span class="text-darkGrey">{{$t('the same embed code')}}</span> 
+         {{ $t('on all of your sites !') }}
       </h2>
     </div>
 </div>

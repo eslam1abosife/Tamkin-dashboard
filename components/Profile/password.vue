@@ -71,7 +71,7 @@ const updatePassword = async () => {
     <!-- Content Section -->
     <div class="flex-grow">
       <div class="text-[16px] font-[500] leading-[24px] text-[#3D3D3D]">
-        Change Your Password
+        {{$t('Change Your Password')}}
       </div>
 
       <div class="space-y-[23px] w-full flex flex-col items-center mt-[20px]">
@@ -129,7 +129,7 @@ const updatePassword = async () => {
           </div>
           <div class="w-full lg:w-4/6" v-if="(errorFields.length > 0 && errorFields[0].field === 'old_password') && !v$.oldpass.$error && !v$.oldpass.required.$invalid">
             <p class="error_message_password">
-              {{ errorFields[0].message }}
+              {{ $t(errorFields[0].message) }}
             </p>
           </div>
         </div>
@@ -195,7 +195,7 @@ const updatePassword = async () => {
           </div>
           <div class="w-full lg:w-4/6" v-if="(errorFields.length > 0 && errorFields[0].field === 'password') && !v$.password.$error && !v$.password.required.$invalid">
             <p class="error_message_password">
-              <span>{{ errorFields[0].message }}</span>
+              <span>{{ $t(errorFields[0].message) }}</span>
             </p>
           </div>
           <div class="w-full lg:w-4/6" v-if="isDuplicatePassword">
@@ -265,7 +265,7 @@ const updatePassword = async () => {
       :disabled="loading || v$.$invalid || isDuplicatePassword">
 
       <div class="flex items-center justify-center">
-        <div :class="loading ? 'mr-2' : ''"> Update Password</div>
+        <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''"> {{$t('Update Password')}}</div>
         <svg
           v-if="loading"
           class="animate-spin h-5 w-5 text-white"

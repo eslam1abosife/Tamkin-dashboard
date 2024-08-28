@@ -270,7 +270,7 @@ const clearFieldError = (condition) => {
         >
           <!-- modalStore.controlInviteMemberUpdateModal -->
           <div class="flex items-center justify-center">
-            <div :class="loadinginvite ? 'mr-2' : ''">Invite Member</div>
+            <div :class="loadinginvite ? 'rtl:ml-2 ltr:mr-2' : ''">Invite Member</div>
 
             <svg
               v-if="loadinginvite"

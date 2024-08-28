@@ -464,7 +464,8 @@ profileStore.company = currTeam.value
     <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')"/>
 
     <div
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
+        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] 
+        border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
     sideBarOpenMobile
       ? 'fixed inset-0 z-[9999] w-full h-screen '
@@ -474,10 +475,13 @@ profileStore.company = currTeam.value
       <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">
         <div @click="toggleSidebar" :class="[
     !sideBarOpen
-      ? ' rotate-180 lg:!top-[133px] ltr:lg:left-[62px]'
-      : 'top-[154px] rtl:lg:right-[94%] ltr:lg:left-[268px]',
+      ? '  ltr:rotate-180  lg:!top-[133px] rtl:lg:right-[62px] ltr:lg:left-[62px]'
+      : 'top-[154px] rtl:rotate-180 ltr:lg:left-[268px] rtl:lg:right-[268px]',
   ]"
-             class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden">
+             class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white
+              dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] 
+              dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px]
+               h-[24px] group z-[150] lg:flex hidden">
           <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
                class="fill-tamkin group-hover:stroke-white group-hover:fill-white w-[8px] h-[10px]"
                xmlns="http://www.w3.org/2000/svg">
@@ -491,17 +495,17 @@ profileStore.company = currTeam.value
     </div>
 
     <div
-        class="flex items-start lg:flex-row flex-col md:justify-between lg:justify-between relative w-full"
+        class="flex items-start lg:flex-row flex-col md:justify-between rtl:flex-row-reverse lg:justify-between relative w-full"
     >
       <!-- upper nav and content -->
       <div class="relative top-0 w-full">
         <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
             class="sticky top-0 flex z-[60] items-center justify-between w-full
-            bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  h-[70px]"
+            bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse  rtl:flex-row-reverse h-[70px]"
         >
           <div
-              class="flex  items-center lg:space-x-0 space-x-[10px]  w-full "
+              class="flex  items-center lg:space-x-0 space-x-[10px] rtl:space-x-reverse  w-full "
           >
             <div
                 class="flex items-center justify-between lg:hidden"
@@ -524,7 +528,7 @@ profileStore.company = currTeam.value
               </svg>
             </div>
 
-            <div class="py-[17px] search_input  w-full !ml-[40px]">
+            <div class="py-[17px] search_input  w-full rtl:!mr-[40px] ltr:!ml-[40px]">
               <input
                   type="text"
                   class="input_dashboard_search w-full "
@@ -539,7 +543,7 @@ profileStore.company = currTeam.value
               <div
                   v-if="isSearchfilled"
                   @click="clearInput"
-                  class="absolute top-[40%] right-0
+                  class="absolute top-[40%] rtl:left-0 cursor-pointer ltr:right-0
                   lg:top-[16px] lg:p-[16px]"
               >
                 <img src="/assets/imgs/icons/clear_search.svg"/>
@@ -547,7 +551,7 @@ profileStore.company = currTeam.value
             </div>
 
             <div
-                class="flex items-center justify-end  lg:space-x-[20px] w-full"
+                class="flex items-center justify-end rtl:lg:space-x-[40px]  ltr:lg:space-x-[20px] w-full"
 
             >
               <div class="py-[17px] search_input relative lg:hidden block w-1/4">
@@ -555,25 +559,28 @@ profileStore.company = currTeam.value
                     type="text"
                     class="input_dashboard_search w-1/4"
                     v-model="search"
-                    placeholder="Search ..."
+                    :placeholder="`${$t('Search ...')}`"
                 />
                 <div
-                    class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                    class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] 
+                    ltr:lg:left-0 rtl:lg:right-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                 >
                   <img src="/assets/imgs/icons/search.svg"/>
                 </div>
                 <div
                     v-if="isSearchfilled"
                     @click="clearInput"
-                    class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer"
+                    class="absolute top-[12px] lg:top-[16px]  rtl:!right-0 ltr:right-0 p-[16px] cursor-pointer"
                 >
                   <img src="/assets/imgs/icons/clear_search.svg"/>
                 </div>
               </div>
-              <Langswitcher/>
+          <div class="flex items-center justify-start rtl:space-x-[10px] rtl:space-x-reverse space-x-[20px] rtl:pr-[20px]">
+            <Langswitcher/>
 
-              <Darkmode/>
-              <NotificationBell/>
+            <Darkmode/>
+            <NotificationBell/>
+          </div>
               <!-- {{ userName }} -->
               <Userprofilemenu/>
 

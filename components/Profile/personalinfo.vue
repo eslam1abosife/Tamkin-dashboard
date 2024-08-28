@@ -26,7 +26,7 @@ const joiningDate = computed(() => {
     <div>
       <!-- Full Name -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Full Name</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Full Name')}}</h3>
         <p class="text-[#474E57] font-medium text-[14px] leading-[24px] truncate w-44">{{ fullName }}</p>
       </div>
       <div v-else class="skeleton-loader animate-pulse mt-2">
@@ -38,7 +38,7 @@ const joiningDate = computed(() => {
     <div>
       <!-- User ID -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">User ID</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('User ID')}}</h3>
         <p class="text-[#15191f] font-medium text-[14px] leading-[24px]">{{ profileStore.member.name }}</p>
       </div>
       <div v-else class="skeleton-loader animate-pulse mt-2">
@@ -50,7 +50,7 @@ const joiningDate = computed(() => {
     <div>
       <!-- Joining Date -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Joining Date</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Joining Date')}}</h3>
         <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ joiningDate }}</p>
       </div>
       <div v-else class="skeleton-loader animate-pulse mt-2">
@@ -62,7 +62,7 @@ const joiningDate = computed(() => {
     <div>
       <!-- Email -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Email</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Email')}}</h3>
         <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.member_email }}</p>
       </div>
       <div v-else class="skeleton-loader animate-pulse mt-2">
@@ -74,9 +74,9 @@ const joiningDate = computed(() => {
     <div>
       <!-- Mobile -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Mobile</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Mobile')}}</h3>
         <div v-if="!profileStore.member.phone" class="">
-          <h3 class="text-[#EA4335] font-medium text-[14px] leading-[24px]">Mobile not added</h3>
+          <h3 class="text-[#EA4335] font-medium text-[14px] leading-[24px]">{{$t('Mobile not added')}}</h3>
         </div>
         <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.phone }}</p>
       </div>
@@ -89,9 +89,9 @@ const joiningDate = computed(() => {
     <div>
       <!-- Country -->
       <div v-if="!profileStore.loadingProfile">
-        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
+        <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Country')}}</h3>
         <div v-if="!profileStore.member.country" class="">
-          <h3 class="text-[#EA4335] font-medium text-[14px] leading-[24px]">Country not added</h3>
+          <h3 class="text-[#EA4335] font-medium text-[14px] leading-[24px]">{{$t('Country not added')}}</h3>
         </div>
         <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.country }}</p>
       </div>

@@ -102,8 +102,8 @@ const filteredInstallationGuide = computed(() => {
 
           <h1 class="text-center text-[20px] font-[500] lg:order-1 order-2 dark:text-whiteTamkin"
             style="line-height: 43.2px">
-            Here’s your
-            <span class="bg-clip-text text-transparent bg-embded-code-gradient">Embed code...</span>
+            {{ $t('Here’s your') }}
+            <span class="bg-clip-text text-transparent bg-embded-code-gradient">{{$t('Embed code...')}}</span>
 
 
           </h1>
@@ -119,9 +119,9 @@ const filteredInstallationGuide = computed(() => {
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">
-            Insert the following embed code at the beginning of your site's
+          {{$t(`Insert the following embed code at the beginning of your site's`)}}
 
-            <head></head> tag, and you’re all set!
+            <head></head> {{ $t('tag, and you’re all set!') }}
           </p>
         </div>
         <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;">
@@ -139,12 +139,12 @@ const filteredInstallationGuide = computed(() => {
           <div class="flex flex-col items-center justify-center px-[10px] lg:space-y-0 space-y-4">
             <h2
               class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2">
-              Would you like to have early access to the platform?
+              {{$t('Would you like to have early access to the platform?')}}
             </h2>
             <button class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse
             space-x-[12px] py-2 rounded-[10px] font-[600] text-[10px] lg:leading-[40px] lg:text-[12px]
             flex items-center justify-center px-[12px] whitespace-nowrap">
-              <div class="" @click.prevent="tgl">Sign up to keep up with the latest news from us</div>
+              <div class="" @click.prevent="tgl">{{$t('Sign up to keep up with the latest news from us')}}</div>
               <div>
                 <img src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]" />
               </div>
@@ -157,10 +157,10 @@ const filteredInstallationGuide = computed(() => {
         <div class="">
           <h1
             class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px] dark:text-whiteTamkin">
-            Need help installing Tamkin ?
+            {{$t('Need help installing Tamkin ?')}}
           </h1>
           <p class="text-center text-[14px] mt-[8px] text-[#A7A7A7] dark:text-whiteTamkin/90" style="line-height: 21px">
-            Our support team is help !
+            {{ $t('Our support team is help !') }}
           </p>
         </div>
 
@@ -183,15 +183,16 @@ const filteredInstallationGuide = computed(() => {
           </div>
           <div class="">
             <button @click.prevent="tgl"
-              class="bg-transparent text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline">Schedule
-              ameeting Withnour support team</button>
+              class="bg-transparent text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline">
+            {{$t('Schedule a meeting With our support team')}}
+            </button>
           </div>
         </div>
       </div>
       <div class="">
         <h1
           class="text-center font-[500] mt-[43px] text-[#021328] dark:text-whiteTamkin text-[16px] lg:text-[24px] lg:leading-[36px] leading-[20px]">
-          Select your platform for a quick installation video
+          {{$t('Select your platform for a quick installation video')}}
         </h1>
       </div>
 
@@ -206,14 +207,14 @@ const filteredInstallationGuide = computed(() => {
                 <div class="flex items-center jutify-between">
                   <div class="w-2/4">
                     <div class="text-[16px] font-[600] p-[16px] dark:text-whiteTamkin" style="line-height: 16px">
-                      Installation Guides
+                      {{$t('Installation Guides')}}
                     </div>
                   </div>
 
                   <div class="w-full lg:w-3/6 p-[16px]">
                     <div class="py-[17px] search_input">
                       <input type="text" class="input_dashboard_search w-full" v-model="search"
-                        placeholder="Search ..." />
+                        :placeholder="`${$t('Search')} ...`" />
                       <div
                         class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
                         <img src="/assets/imgs/icons/search.svg" />

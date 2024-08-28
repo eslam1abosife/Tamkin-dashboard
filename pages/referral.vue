@@ -94,7 +94,8 @@ const format = (date) => {
   }
 };
 const disabledIfPendingRecords = computed(() => {
-  return withdrawStore.Allrefs.some((item) => item.status === "Pending");
+  // Check if there is any record with a status of "Pending"
+  return withdrawStore.rewards.some(item => item.status === 'Pending');
 });
 const source = ref("");
 const withdrawStore = useWithdrawStore();
@@ -212,7 +213,7 @@ const isCurrentRateEmpty = computed(() => {
         <div
           class="bg-gradient-to-r from-[#2EBEB3] via-[#7082FF] to-[#F86CD9] text-transparent bg-clip-text"
         >
-          Refer a Client, Earn Rewards
+          {{ $t('Refer a Client, Earn Rewards') }}
         </div>
         <div class="!font-[500]">
           {{ $t('Share your referral link and get a commission on all purchases made by customers you refer') }}
@@ -223,7 +224,7 @@ const isCurrentRateEmpty = computed(() => {
         style="box-shadow: 1px 1px 9.8px 0px #6a99d724"
         class="bg-white w-full flex flex-col items-center justify-center my-[16px] py-[32px] rounded-[10px]"
       >
-        <div class="text-black text-[18px] font-[500] leading-[28px]">How It Works</div>
+        <div class="text-black text-[18px] font-[500] leading-[28px]">{{$t('How It Works')}}</div>
 
         <div class="flex items-center justify-between w-full mt-[36px]">
           <div class="flex flex-col items-center justify-center w-full">
@@ -276,11 +277,11 @@ const isCurrentRateEmpty = computed(() => {
         >
           <div class="flex items-center justify-between w-full p-[16px] relative">
             <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-              Balance
+              {{ $t('Balance') }}
             </div>
 
             <div
-              class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] right-[16px]"
+              class="absolute ipad-max:right-[-50px] ipad-max:top-[-50px] rtl:left-[16px] ltr:right-[16px]"
             >
               <img src="/imgs/balance_img.png" class="w-[140px] h-[120px]" alt="" />
             </div>
@@ -304,26 +305,26 @@ const isCurrentRateEmpty = computed(() => {
               $ {{ withdrawStore.currentAmount }}
             </div>
             <div class="text-[11px] leading-[11px] font-[500] text-[#A5A5A5]">
-              available
+              {{ $t('available') }}
             </div>
             <button
               class="btn-dashboard hover_tamkin w-[170px]"
               :disabled="isInputDisabled || disabledIfPendingRecords"
               @click="openModal('withdraw_paymentmethods', 'referral')"
             >
-              Withdraw
+              {{$t('Withdraw')}}
             </button>
 
             <p
               class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] w-3/4 text-center mx-auto"
             >
-              Please ensure that the amount meets the minimum requirement of
+              {{$t('Please ensure that the amount meets the minimum requirement of')}}
               <span class="!font-[600]">${{ withdrawStore.limitofWithdraw }}</span>
             </p>
             <p
               class="text-[10px] ipad-max:text-[9px] font-[400] text-[#585B5B] text-center mx-auto"
             >
-              * Transaction fees are not included in our coverage.
+              *{{ $t('Transaction fees are not included in our coverage.') }}
             </p>
           </div>
         </div>
@@ -344,7 +345,7 @@ const isCurrentRateEmpty = computed(() => {
           <!-- Actual content -->
           <div v-else class="flex flex-col space-y-[22px] w-full relative z-[20]">
             <div class="text-[20px] font-[600] leading-[20px] text-[#021328]">
-              Refer Clients
+              {{$t('Refer Clients')}}
             </div>
             <div class="text-[14px] font-[400] leading-[19px] text-[#021328]">
              {{$t('Refer new clients and earn')}}
@@ -354,12 +355,13 @@ const isCurrentRateEmpty = computed(() => {
              {{$t('for each successful referral who completes the registration process and purchase')}}
             </div>
             <div
-              class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px] flex items-center justify-between px-[10px]"
+              class="mt-[12px] border-[1px] bg-white border-[#D9D9D9] w-full h-[54px] rounded-[10px]
+               flex items-center justify-between px-[10px] rtl:flex-row-reverse"
             >
               <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
-                Referral Link
+               {{$t('Referral Link')}}
               </div>
-              <div class="flex items-center justify-end space-x-[12px]">
+              <div class="flex items-center justify-end  space-x-[12px] rtl:flex-row-reverse">
                 <div
                   class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
                 >
@@ -373,8 +375,7 @@ const isCurrentRateEmpty = computed(() => {
               </div>
             </div>
             <div class="mt-[20px] text-[12px] font-[400] leading-[21px]">
-              <span class="!font-[600]">{{ withdrawStore.refsCount }}</span> users have
-              signed up using your referral link
+              <span class="!font-[600]">{{ withdrawStore.refsCount }}</span> {{$t('users have signed up using your referral link')}}
             </div>
           </div>
 
@@ -397,14 +398,14 @@ const isCurrentRateEmpty = computed(() => {
               :class="[currentTab === 'rewards' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
               class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
             >
-              Withdraw
+              {{ $t('Withdraw') }}
             </div>
             <div
               @click="changeTab('refs')"
               :class="[currentTab === 'refs' ? 'bg-[#DDF2F0]' : 'text-[#878787]']"
               class="cursor-pointer w-full h-[32px] rounded-[33px] flex items-center justify-center text-[16px] font-[500] leading-[22px]"
             >
-              Referrals
+              {{ $t('Referrals') }}
             </div>
           </div>
 
@@ -419,7 +420,7 @@ const isCurrentRateEmpty = computed(() => {
               month-name-format="long"
               :input-class-name="'tamkin_date_input_ref'"
               :dark="colorMode.preference === 'dark'"
-              placeholder="Select Date"
+              :placeholder="$t('Select Date')"
               v-model="dateF"
               range
               :format="format"
@@ -439,7 +440,7 @@ const isCurrentRateEmpty = computed(() => {
                     "
                     class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                   >
-                    <div>Clear</div>
+                    <div>{{$t('Clear')}}</div>
                   </button>
                   <button
                     @click="selectDate"
@@ -461,7 +462,7 @@ const isCurrentRateEmpty = computed(() => {
                         />
                       </svg>
                     </div>
-                    <div>Done</div>
+                    <div>{{$t('Done')}}</div>
                   </button>
                 </div>
               </template>
@@ -501,27 +502,27 @@ const isCurrentRateEmpty = computed(() => {
             <thead class="bg-gray-50">
               <tr>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
-                 {{ $t(' Transaction ID') }}
+                 {{ $t('Transaction ID') }}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{$t('Date')}}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
                 >
                   {{ $t('Amount') }}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-1/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black ltr:w-1/4 rtl:w-1/4 px-4"
                 >
                   {{$t('Withdrawal Method')}}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black w-2/4 px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black ltr:w-2/4 rtl:!w-2/4 m px-4"
                 >
                   {{$t('Status')}}
                 </th>
@@ -540,7 +541,7 @@ const isCurrentRateEmpty = computed(() => {
                     reward.amount +
                     " " +
                     (reward.payment_type === "bank_account"
-                      ? reward.account_currency
+                      ? 'USD'
                       : reward.payment_type === "crypto"
                       ? reward.symbols
                       : reward.payment_type === "paypal"
@@ -558,7 +559,7 @@ const isCurrentRateEmpty = computed(() => {
                   }}
                 </td>
                 <td
-                  class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black"
+                  class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black "
                 >
                   <span
                     class="h-2 w-2 rounded-full"
@@ -566,7 +567,7 @@ const isCurrentRateEmpty = computed(() => {
                   ></span>
                   <span
                     class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize"
-                    >{{ reward.status }}</span
+                    >{{ $t(reward.status) }}</span
                   >
                 </td>
               </tr>
@@ -595,25 +596,25 @@ const isCurrentRateEmpty = computed(() => {
             <thead class="bg-gray-50">
               <tr>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
                 >
-                  Referral Name
+                  {{ $t('Referral Name') }}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
                 >
-                  Date
+                  {{ $t('Date') }}
                 </th>
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4 w-2/6"
                 >
-                  Rewards Earned
+                  {{$t('Rewards Earned')}}
                 </th>
 
                 <th
-                  class="py-3 text-left text-[14px] font-[500] leading-[19px] text-black px-4"
+                  class="py-3 ltr:text-left rtl:text-right text-[14px] font-[500] leading-[19px] text-black px-4"
                 >
-                  Status
+                  {{$t('Status')}}
                 </th>
               </tr>
             </thead>
@@ -630,7 +631,7 @@ const isCurrentRateEmpty = computed(() => {
                     {{ referral.total_commission }} AED
                   </td>
                   <td
-                    class="py-4 px-4 flex items-center space-x-2 text-[14px] font-[500] leading-[19px] text-black"
+                    class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black"
                   >
                     <span
                       class="h-2 w-2 rounded-full"
@@ -638,7 +639,7 @@ const isCurrentRateEmpty = computed(() => {
                     ></span>
                     <span
                       class="text-[14px] leading-[19px] text-[#021328] font-[600] capitalize"
-                      >{{ referral.status }}</span
+                      >{{ $t(referral.status) }}</span
                     >
                   </td>
                 </tr>

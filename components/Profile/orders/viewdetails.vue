@@ -117,7 +117,7 @@ watchEffect(() => {
     </div>
     <div class="w-full ">
       <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
-        Request a specific Character Details
+        {{ $t('Request a specific Character Details') }}
       </h1>
       <div
       class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
@@ -129,7 +129,7 @@ watchEffect(() => {
 <div class="flex flex-col items-start justify-center space-y-[16px]">
   <div class="flex flex-col items-start justify-start space-y-[12px]">
     <div class="text-[16px] font-[500] leading-[24px]">
-      Character Name
+      {{$t('Character Name')}}
      </div>
      <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
       {{state.characterName}}
@@ -137,7 +137,7 @@ watchEffect(() => {
    </div>
    <div class="flex flex-col items-start justify-start space-y-[12px]">
     <div class="text-[16px] font-[500] leading-[24px]">
-      Character Age
+      {{$t('Character Age')}}
      </div>
      <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
       {{ state.characterAge }}
@@ -145,7 +145,7 @@ watchEffect(() => {
    </div>
    <div class="flex flex-col items-start justify-start space-y-[12px]">
     <div class="text-[16px] font-[500] leading-[24px]">
-      Gender
+      {{ $t('Gender') }}
      </div>
      <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
       {{state.gender}}
@@ -153,7 +153,7 @@ watchEffect(() => {
    </div>
    <div class="flex flex-col items-start justify-start space-y-[12px]">
     <div class="text-[16px] font-[500] leading-[24px]">
-      Description
+      {{$t('Description')}}
      </div>
      <div class="text-[14px]  text-[#878787] font-[400] leading-[21px]">
 {{ state.Description }}     </div>
@@ -161,7 +161,7 @@ watchEffect(() => {
 </div>
      
 <div class="text-[16px] font-[500] leading-[24px]">
-  Character Images
+  {{ $t('Character Images') }}
 </div>
      <div class="w-full  p-[12px] border-[2px] border-[#C8CFEB] rounded-[10px] border-dashed grid grid-cols-4 mx-auto gap-4 ">
        
@@ -178,7 +178,7 @@ watchEffect(() => {
        
         <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
-          <div class="text-darkGrey text-[16px] font-[500]">Price</div>
+          <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
    

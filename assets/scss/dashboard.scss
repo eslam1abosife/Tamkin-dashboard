@@ -658,7 +658,7 @@ html {
 //     overflow: hidden;
 //   }
 .close_btn {
-    @apply fixed z-[4000] lg:top-[-14px] top-4 right-4 lg:right-[-12px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
+    @apply fixed z-[4000] lg:top-[-14px] top-4 right-4 rtl:lg:right-[96%] ltr:lg:right-[-12px] bg-white rounded-full flex justify-center items-center w-[24px] h-[24px];
 
     &:hover {
         @apply text-white;

@@ -68,11 +68,11 @@ const closeAndreseStt = ()=>{
   </div>
 <div class=" mx-auto max-h-[100%] w-full">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Withdraw Money
+    {{$t('Withdraw Money')}}
 </h1>
 
 <p class="mt-[16px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin  text-[14px] leading-[24px]">
-    Enter your PayPal email address</p>
+    {{$t('Enter your PayPal email address')}}</p>
 
 
     <div class="space-y-[26px] w-full mt-[32px]  pb-[30px]">
@@ -88,7 +88,7 @@ const closeAndreseStt = ()=>{
           ? '!text-error'
           : '',
       ]">
-            {{ $t("Paypal Email Address") }}*
+            {{ $t("Paypal Email Address*") }}
           </label>
           <div class="w-full lg:w-4/6 " v-if="(v$.paypalEmail.$error && v$.paypalEmail.required.$invalid) ||(v$.paypalEmail.$error && v$.paypalEmail.email.$invalid)">
             <p class="error_message">
@@ -102,7 +102,7 @@ const closeAndreseStt = ()=>{
 
   
         <p class="w-3/4 mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin  text-[12px] leading-[24px]">
-            Ensure that you enter the correct PayPal email address. Incorrect details may result in a failed transaction
+            {{ $t('Ensure that you enter the correct PayPal email address. Incorrect details may result in a failed transaction') }}
 
  
     
@@ -115,7 +115,7 @@ const closeAndreseStt = ()=>{
         <button :disabled="v$.$invalid || isLoading" class="btn-dashboard hover_tamkin"  @click="goToStep2">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'mr-2':''">
-           Continue
+           {{ $t('Continue') }}
             </div>
        
              <svg  v-if="isLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

@@ -169,7 +169,7 @@ const getStatusStyle=(method:number)=> {
           </div>
         </div>
   
-        <div class="flex items-center justify-between w-full ">
+        <div class="flex items-center justify-between w-full mt-[8px]">
           <div class="text-[12px] font-[500] text-darkGrey">
             Account holder
           </div>

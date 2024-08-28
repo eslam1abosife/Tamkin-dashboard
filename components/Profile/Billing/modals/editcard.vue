@@ -296,12 +296,12 @@ watch(eventCounter, async () => {
       </svg>
     </div>
     <h1 class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin">
-      Edit Card
+      {{ $t('Edit Card') }}
     </h1>
     <h2
       class="text-[14px] leading-[27px] font-[500] text-darkGrey dark:text-whiteTamkin mt-[30px]"
     >
-      Edit your saved card details
+      {{$t('Edit your saved card details')}}
     </h2>
 
     <div class="flex flex-col items-start justify-center mt-[21px] w-full">
@@ -584,7 +584,7 @@ watch(eventCounter, async () => {
             class="bg-transparent disabled:cursor-not-allowed disabled:text-opacity-60 text-[#EA4335]
             leading-[19px] underline text-[14px] font-[500]"
           >
-            <span>Delete Card</span>
+            <span>{{$t('Delete Card')}}</span>
           </button>
         </div>
       </div>
@@ -598,7 +598,7 @@ watch(eventCounter, async () => {
         :disabled="loadingupdate"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingupdate ? 'mr-2' : ''">Submit</div>
+          <div :class="loadingupdate ? 'rtl:ml-2 ltr:mr-2' : ''">Submit</div>
 
           <svg
             v-if="loadingupdate"

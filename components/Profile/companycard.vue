@@ -85,7 +85,7 @@ const profileStore = useProfileStore();
         </div>
       </div>
 
-      <div class="absolute right-[15px]">
+      <div class="absolute rtl:left-[15px] ltr:right-[15px]">
         <div
           class="w-[46px] h-[20px] lg:w-[59px] lg:h-[27px] ipad-max:w-[46px] ipad-max:h-[20px] shadow-inner rounded-[23px] text-white bg-tamkin flex items-center justify-center"
         v-if="!profileStore.loadingProfile"
@@ -94,7 +94,7 @@ const profileStore = useProfileStore();
             class="text-[11px] lg:text-[12px] font-[500] ipad-max:text-[10px]"
             
           >
-            Active
+            {{ $t('Active') }}
           </div>
         
         </div>

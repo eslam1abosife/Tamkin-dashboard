@@ -17,13 +17,13 @@ export default function () {
           payment_type: withdrawStore.paymentMethodName,
           agency: profileStore.company.name,
           doctype:"Tamkin Withdraw Requests",
-        amount:withdrawStore.withdrawAmount
+        amount:Number(withdrawStore.withdrawAmount)
      
       });
 
 
         withdrawStore.transactionDetails = res.data.data
-        withdrawStore.paypal.paypalEmail = ""
+        // withdrawStore.paypal.paypalEmail = ""
 
       return {
         data: res.data.data,

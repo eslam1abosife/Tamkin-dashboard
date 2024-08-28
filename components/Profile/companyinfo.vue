@@ -16,67 +16,67 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 h-full w-full pt-[10px]">
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company </h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Company')}} </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px] truncate w-44">
         <!-- {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }} -->
         {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }}
       </p>
     </div>
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Account ID </h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Account ID')}} </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
         {{ profileStore.company.name }}
       </p>
     </div>
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Created</h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Created')}}</h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
         {{ createdDate }}
       </p>
     </div>
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Business Email </h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{ $t('Business Email') }} </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.company.owner_of_agency ? profileStore.company.owner_of_agency : 'N/A' }}</p>
     </div>
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Phone</h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Phone')}}</h3>
       <p v-if="profileStore.company.phone" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
    {{   profileStore.company.phone}}
       </p>
 
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
-      Phone not Added
+      {{ $t('Phone not Added') }}
        </p>
     </div>
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Country</h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Country')}}</h3>
       <p v-if="profileStore.company.country " class="text-[#15191f] font-medium text-[14px] leading-[24px]">
 
         {{ profileStore.company.country   }}
       </p>
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
-        Country not Added
+        {{ $t('Country not Added') }}
        </p>
     </div>
 
     <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Company specialization
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{ $t('Company specialization') }}
      
            </h3>
       <p v-if="profileStore.company.company_specialization" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
         {{ profileStore.company.company_specialization }}</p>
    
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
-      Specialization not Added
+    {{ $t('Specialization not Added') }}
          </p>
     </div>
       <div>
-      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">Team</h3>
+      <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Team')}}</h3>
       <p v-if="profileStore.company.team_name" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
        {{profileStore.company.team_name }}
       </p>
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
-       Team not Added
+       {{ $t('Team not Added') }}
        </p>
     </div>
 

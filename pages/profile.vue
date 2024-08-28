@@ -170,7 +170,7 @@ onBeforeMount(async () => {
       <div class="absolute inset-y-auto left-[260px] top-[-40px]">
         <img src="/imgs/profile_vector3.png" class="w-[294px] h-auto" alt="" />
       </div>
-      <div class="absolute bottom-[22px] right-[40px]">
+      <div class="absolute bottom-[22px] rtl:left-[40px] ltr:right-[40px]">
         <button
           @click="changeMode('editing')"
           class="btn-default border-[1px] border-[#C5C5C5] !bg-white group hover:border-tamkin"
@@ -178,7 +178,7 @@ onBeforeMount(async () => {
           <div
             class="group-hover:bg-gradient-to-b group-hover:from-tamkinStart group-hover:to-tamkinEnd group-hover:bg-clip-text group-hover:text-transparent"
           >
-            Edit Profile
+            {{$t('Edit Profile')}}
           </div>
         </button>
       </div>
@@ -219,7 +219,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
   <div
     class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
   >
-    Investor member
+    {{$t('Investor member')}}
   </div>
 </div>
 
@@ -238,7 +238,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
   </div>
   <img
     v-if="isSupported"
-    class="ml-auto cursor-pointer w-[18px] h-[18px]"
+    class="rtl:mr-auto ltr:ml-auto cursor-pointer w-[18px] h-[18px]"
     @click="copy(profileStore.investor.wallet_address)"
     src="/imgs/copy.png"
   />
@@ -251,7 +251,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
     <div
       class="text-[14px] ipad-max:text-[11px] font-[600] leading-[21px] text-[#1E1E1E]"
     >
-      Token Balance
+      {{ $t('Token Balance') }}
     </div>
 
     <div class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E]">
@@ -307,7 +307,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
   <div
     class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
   >
-    Investor Program
+    {{$t('Investor Program')}}
   </div>
   <div class="flex items-center justify-start space-x-[8px]">
     <img src="/imgs/investor/A1.svg" class="w-[24px] h-[24px]" alt="" />
@@ -318,17 +318,17 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 
 <div>
   <div class="my-[8px] text-[12px] font-[400] leading-[16px] text-darkGrey">
-    You are not an investor member
+    {{$t('You are not an investor member')}}
   </div>
   <div class="my-[8px] text-[13px] font-[500] leading-[21px] text-black">
-    Buy Tamkin Token - TSLT and join our Investor Program
+    {{ $t('Buy Tamkin Token - TSLT and join our Investor Program') }}
   </div>
   <a
     href="https://investor.tamkin.app/login"
     target="_blank"
     class="btn-dashboard w-[160px] !rounded-[10px] !text-[13px] !font-[600] !leading-[19px] hover_tamkin"
   >
-    Investor Program
+    {{$t('Investor Program')}}
   </a>
 </div>
 </div>
@@ -342,7 +342,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
                 v-if="!profileStore.loadingProfile"
                 class="text-[12px] leading-[19px] font-[500]"
               >
-                Complete Your Profile
+                {{$t('Complete Your Profile')}}
               </h1>
               <div
                 v-else
@@ -418,7 +418,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('personal')"
             >
-              Personal Info
+              {{ $t('Personal Info') }}
             </div>
             <!-- Placeholder for Personal Info Tab -->
             <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
@@ -434,7 +434,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('company')"
             >
-              Company Info
+             {{ $t('Company Info') }}
             </div>
             <!-- Placeholder for Company Info Tab -->
             <div v-else class="animate-pulse bg-gray-300 rounded h-[24px] w-[80px]"></div>
@@ -450,7 +450,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('security')"
             >
-              Password and security
+              {{ $t('Password and security') }}
             </div>
             <!-- Placeholder for Password and Security Tab -->
             <div

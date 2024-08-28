@@ -4,7 +4,6 @@ const props = defineProps({
     hideIn: Number,
     top: String
 });
-
 const isVisible = ref(true);
 
 onMounted(() => {
@@ -12,6 +11,9 @@ onMounted(() => {
     isVisible.value = false;
   }, props.hideIn);
 });
+
+
+
 </script>
 
 <template>

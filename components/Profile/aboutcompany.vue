@@ -51,7 +51,7 @@ watch(() => state.about, (newValue) => {
     justify-center p-[15px] space-y-[10px] w-full lg:mt-[-60px]"
   >
   <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]">
-    <div class="text-[14px] font-[500] text-black leading-[24px]">About</div>
+    <div class="text-[14px] font-[500] text-black leading-[24px]">{{$t('About')}}</div>
     </div>
 
     <div class="w-full " style="overflow-wrap: break-word;" v-if="currentMode === 'normal'">

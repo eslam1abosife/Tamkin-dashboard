@@ -147,7 +147,7 @@ const closeAndreset = () => {
 
     <div class="mx-auto max-h-[100%] w-full">
       <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Withdraw Money
+        {{ $t('Withdraw Money') }}
       </h1>
 
       <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
@@ -180,11 +180,11 @@ const closeAndreset = () => {
   
 
       <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
-        Amount
+        {{ $t('Amount') }}
       </div>
 
       <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-        How much would you like to withdraw?
+        {{ $t('How much would you like to withdraw?') }}
       </div>
 
       <div class="mt-[44px] mx-auto text-center relative">
@@ -200,14 +200,14 @@ const closeAndreset = () => {
       </div>
 
       <div class="text-center text-[14px] font-[600] text-darkGrey">
-        Available balance <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
+        {{ $t('Available balance') }} <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
       </div>
 
       <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="withdrawloading ? 'mr-2':''">
-           Withdraw
+           {{$t('Withdraw')}}
             </div>
        
              <svg  v-if="withdrawloading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

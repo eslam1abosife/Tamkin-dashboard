@@ -121,7 +121,7 @@ const completeWithDraw = async () => {
   </div>
 <div class=" mx-auto max-h-[100%] w-full">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Withdraw Money
+    {{$t('Withdraw Money')}}
 </h1>
 
 
@@ -146,11 +146,11 @@ const completeWithDraw = async () => {
 
 
 <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
-    Amount
+    {{ $t('Amount') }}
 </div>
 
 <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-    How much would you like to withdraw ?
+    {{$t('How much would you like to withdraw ?')}}
 </div>
 
   
@@ -168,7 +168,7 @@ const completeWithDraw = async () => {
 
   <div class="text-center text-[14px] font-[600] text-darkGrey">
 
-    Available balance  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
+    {{ $t('Available balance') }}  <span class="!font-[500]">$ {{withdrawStore.currentAmount}}</span>
   </div>
   
   
@@ -177,7 +177,7 @@ const completeWithDraw = async () => {
         <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'mr-2':''">
-           Withdraw
+           {{ $t('Withdraw') }}
             </div>
        
              <svg  v-if="isLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

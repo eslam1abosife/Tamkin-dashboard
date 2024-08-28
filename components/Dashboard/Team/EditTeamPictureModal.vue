@@ -264,7 +264,7 @@ onBeforeUnmount(() => {
         @click="submit"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingUpload ? 'mr-2' : ''">Save</div>
+          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">Save</div>
 
           <svg
             v-if="loadingUpload"

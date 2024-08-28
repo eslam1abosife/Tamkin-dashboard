@@ -280,7 +280,7 @@ const closeModalAndresetPaymentMethods = () => {
           @click="goToPaymentMethod(withdrawStore.selectedPaymentMethod)"
         >
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="loadingPayment ? 'mr-2' : ''">Continue</div>
+            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">Continue</div>
 
             <svg
               v-if="loadingPayment"

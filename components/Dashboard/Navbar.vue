@@ -324,7 +324,7 @@ watch(
         <div class="h-[14px] w-[12px] rounded-[5px] bg-gray-200 animate-pulse order-3" v-if="loadingTeamCard">
 
         </div>
-        <div v-else class="order-3" :class="[!sideBarOpen ? 'hidden' : 'block']">
+        <div v-else class="order-3 rtl:rotate-180" :class="[!sideBarOpen ? 'hidden' : 'block']">
           <svg
             class="arrow_svg"
             width="7"
@@ -372,7 +372,7 @@ watch(
             />
           </svg>
         </div>
-        <div class="order-2">Add Site</div>
+        <div class="order-2">{{$t('Add Site')}}</div>
       </button>
 
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
@@ -482,7 +482,7 @@ watch(
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen">Dashboard</span>
+        <span v-if="sideBarOpen">{{$t('Dashboard')}}</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
@@ -522,7 +522,7 @@ watch(
             />
           </svg>
         </div>
-        <span v-if="sideBarOpen">Embed Code</span>
+        <span v-if="sideBarOpen">{{$t('Embed Code')}}</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
@@ -566,7 +566,7 @@ watch(
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen">My Site</span>
+        <span v-if="sideBarOpen">{{$t('My Site')}}</span>
       </TamkinSideBarLink>
 
       <div
@@ -609,7 +609,7 @@ watch(
           </svg>
 
           <div
-            class="w-full space-x-[50px] flex items-center justify-evenly"
+            class="w-full  rtl:space-x-reverse  space-x-[50px] flex items-center justify-evenly"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -619,9 +619,9 @@ watch(
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                   : '',
               ]"
-              class="ml-[-2px] whitespace-nowrap"
+              class="rtl:mr-[-2px] ltr:ml-[-2px] whitespace-nowrap"
             >
-              Sign language
+              {{$t('Sign language')}}
             </div>
             <div v-if="sideBarOpen">
               <svg
@@ -672,7 +672,7 @@ watch(
                     : '',
                 ]"
               >
-                Sign language
+                {{ $t('Sign language') }}
               </div>
               <div v-if="!sideBarOpen">
                 <svg
@@ -755,7 +755,7 @@ watch(
                             sideBarOpen ? 'pl-[22px]' : '',
                           ]"
                         >
-                          Services
+                          {{ $t('Services') }}
                         </div>
                       </div>
 
@@ -835,7 +835,7 @@ watch(
                             : '',
                         ]"
                       >
-                        Market
+                        {{ $t('Market') }}
                       </div>
                     </nuxt-link>
                   </li>
@@ -874,7 +874,7 @@ watch(
                           : '',
                       ]"
                     >
-                 Media
+                 {{$t('Media')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -914,7 +914,7 @@ watch(
                         : '',
                     ]"
                   >
-               Documents
+               {{$t('Documents')}}
                   </div>
                 </nuxt-link>
               </li>
@@ -954,7 +954,7 @@ watch(
                       : '',
                   ]"
                 >
-             Photos
+             {{$t('Photos')}}
                 </div>
               </nuxt-link>
             </li>
@@ -1012,7 +1012,7 @@ watch(
                             sideBarOpen ? 'pl-[22px]' : '',
                           ]"
                         >
-                          Control
+                          {{ $t('Control') }}
                         </div>
                       </div>
 
@@ -1092,7 +1092,7 @@ watch(
                             : '',
                         ]"
                       >
-                        Overview
+                        {{$t('Overview')}}
                       </div>
                     </nuxt-link>
                   </li>
@@ -1132,7 +1132,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Addons
+                      {{ $t('Addons') }}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1172,7 +1172,7 @@ watch(
                         : '',
                     ]"
                   >
-                  Statistics
+                  {{$t('Statistics')}}
                   </div>
                 </nuxt-link>
               </li>
@@ -1212,7 +1212,7 @@ watch(
                       : '',
                   ]"
                 >
-                Customize
+                {{ $t('Customize') }}
                 </div>
               </nuxt-link>
             </li>
@@ -1252,7 +1252,7 @@ watch(
                     : '',
                 ]"
               >
-              Settings
+              {{ $t('Settings') }}
               </div>
             </nuxt-link>
           </li>
@@ -1316,7 +1316,7 @@ watch(
           </div>
 
           <div
-            class="w-full space-x-[65px] flex items-center justify-center"
+            class="w-full rtl:space-x-reverse space-x-[65px] rtl:space-x-[90px] flex items-center justify-center"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -1328,7 +1328,7 @@ watch(
                   : '',
               ]"
             >
-              Accessibility
+              {{ $t('Accessibility') }}
             </div>
             <div v-if="sideBarOpen">
               <svg
@@ -1375,7 +1375,7 @@ watch(
                 v-if="!sideBarOpen"
                 class="bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent"
               >
-                Accessibility
+                {{$t('Accessibility')}}
               </div>
               <div v-if="!sideBarOpen">
                 <svg
@@ -1439,7 +1439,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Overview
+                      {{$t('Overview')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1477,7 +1477,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Addons
+                      {{$t('Addons')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1516,7 +1516,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Statistics
+                      {{$t('Statistics')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1555,7 +1555,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Customize
+                      {{$t('Customize')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1594,7 +1594,7 @@ watch(
                           : '',
                       ]"
                     >
-                      Settings
+                      {{$t('Settings')}}
                     </div>
                   </nuxt-link>
                 </li>
@@ -1630,7 +1630,7 @@ watch(
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen">Packages</span>
+        <span v-if="sideBarOpen">{{$t('Packages')}}</span>
       </div>
 
       <div
@@ -1659,17 +1659,17 @@ watch(
             />
           </div>
           <div>
-            <h2 class="text-[14px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">Need Help?</h2>
+            <h2 class="text-[14px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">{{$t('Need Help?')}}</h2>
           </div>
           <div>
-            <h2 class="text-[11px] font-[400] text-[#64938f] dark:text-[#75B1A9]">Contact Our Sales Team</h2>
+            <h2 class="text-[11px] font-[400] text-[#64938f] dark:text-[#75B1A9]">{{$t('Contact Our Sales Team')}}</h2>
           </div>
           <div class="w-full mx-auto">
             <button
               class="btn-dashboard hover_tamkin !h-[14px] !p-[13px] w-2/4 !text-[12px] mx-auto"
               @click="$router.push(localePath('/contact'))"
             >
-              Contact Sales
+              {{$t('Contact Sales')}}
             </button>
           </div>
         </div>

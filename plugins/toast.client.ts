@@ -3,10 +3,14 @@ import Toast from '@/components/Dashboard/Toast/Success.vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide('toast', (message, options = {}) => {
+    const { t } = nuxtApp.$i18n; // Get the translation function
+
+    const translatedMessage = t(message); // Translate the message
+
     const toastApp = createApp({
       render() {
         return h(Toast, {
-          message,
+          message: translatedMessage, // Pass the translated message
           hideIn: options.hideIn || 3000, 
         });
       }

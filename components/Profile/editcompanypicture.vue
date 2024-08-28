@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
     <h1
       class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
     >
-      Edit Company Picture
+      {{ $t('Edit Company Picture') }}
     </h1>
 
     <div
@@ -206,8 +206,8 @@ onBeforeUnmount(() => {
         <h1
           class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin"
         >
-          Select a high-quality image to represent your team and
-          <span class="font-[500] text-[#2DADA3]">upload it here</span>
+          {{$t('Select a high-quality image to represent your team and')}}
+          <span class="font-[500] text-[#2DADA3]">{{$t('upload it here')}}</span>
         </h1>
       </div>
     </div>
@@ -244,7 +244,7 @@ onBeforeUnmount(() => {
           </svg>
         </div>
         <div class="flex items-center justify-center">
-          <div >Delete</div>
+          <div >{{$t('Delete')}}</div>
 
           <!-- <svg
             v-if="loadingdel || loadingDelete"
@@ -277,7 +277,7 @@ onBeforeUnmount(() => {
         @click="submit"
       >
         <div class="flex items-center justify-center">
-          <div :class="loadingUpload ? 'mr-2' : ''">Save</div>
+          <div :class="loadingUpload ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
 
           <svg
             v-if="loadingUpload"

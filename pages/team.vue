@@ -428,7 +428,7 @@ onMounted(() => {
           class="btn_bordered_dashboard ml-auto"
         >
           <div class="flex items-center justify-center">
-            <div :class="loading ? 'mr-2' : ''">Save</div>
+            <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''">Save</div>
 
             <svg
               v-if="loading"

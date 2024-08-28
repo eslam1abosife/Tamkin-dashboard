@@ -101,9 +101,9 @@ const openLink = (link: string) => {
 <template>
   <div class="bg-white/60 shadow-sm rounded-[10px] backdrop-blur-md h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full">
     <div class="flex items-center justify-between w-full">
-      <div class="text-[16px] leading-[24px] font-[600]">Portfolio</div>
+      <div class="text-[16px] leading-[24px] font-[600]">{{$t('Portfolio')}}</div>
       <div
-        class="flex items-center justify-evenly space-x-[16px] ipad-max:flex-wrap"
+        class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px] ipad-max:flex-wrap"
         v-if="currentMode === 'normal'"
       >
       <button 
@@ -120,7 +120,7 @@ const openLink = (link: string) => {
 
     <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing'">
       <div class="w-full" v-if="profileStore.company && profileStore.company.social_accounts.length === 0">
-        <div class="flex items-center justify-start space-x-[16px] w-full my-[10px]" 
+        <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full my-[10px]" 
           v-for="(handler, index) in profileStore.social_platforms" :key="index">
           <div class="bg-[#F6F6F6] w-[33px] h-[33px] rounded-[4px] flex items-center justify-center">
             <img :src="getPlatformIconUrl(profileStore.company.social_accounts.length > 0 ? handler.social_platform : (handler.title === 'LinkedIn' ? handler.title.toLowerCase() :handler.title))" class="w-[25px] h-[25px]" alt="" />

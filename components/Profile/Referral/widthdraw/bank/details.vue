@@ -95,11 +95,11 @@ const closeAndReset = () => {
   </div>
 <div class=" mx-auto max-h-[100%] w-full">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Withdraw Money
+    {{$t('Withdraw Money')}}
 </h1>
 
 <p class="mt-[16px] rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin  text-[14px] leading-[24px]">
-    Enter bank details</p>
+    {{$t('Enter bank details')}}</p>
 
 
     <div class="space-y-[26px] w-full mt-[32px]  pb-[30px]">
@@ -115,7 +115,7 @@ const closeAndReset = () => {
           ? '!text-error'
           : '',
       ]">
-            {{ $t("Bank Name") }}*
+            {{ $t("Bank Name*") }}
           </label>
           <div class="w-full lg:w-4/6 " v-if="(v$.bank_name.$error && v$.bank_name.required.$invalid)">
             <p class="error_message">
@@ -138,7 +138,7 @@ const closeAndReset = () => {
             ? '!text-error'
             : '',
         ]">
-              {{ $t("Account holder") }}*
+              {{ $t("Account holder*") }}
             </label>
             <div class="w-full lg:w-4/6 " v-if="(v$.account_holder.$error && v$.account_holder.required.$invalid)">
               <p class="error_message">
@@ -162,7 +162,7 @@ const closeAndReset = () => {
                 ? '!text-error'
                 : '',
             ]">
-                  {{ $t("Account Number") }}*
+                  {{ $t("Account Number*") }}
                 </label>
                 <div class="w-full lg:w-4/6 " v-if="(v$.account_number.$error && v$.account_number.required.$invalid)">
                   <p class="error_message">
@@ -184,7 +184,7 @@ const closeAndReset = () => {
                 ? '!text-error'
                 : '',
             ]">
-                  {{ $t("IBAN") }}*
+                  {{ $t("IBAN*") }}
                 </label>
                 <div class="w-full lg:w-4/6 " v-if="(v$.iban.$error && v$.iban.required.$invalid)">
                   <p class="error_message">
@@ -210,7 +210,7 @@ const closeAndReset = () => {
                 ? '!text-error'
                 : '',
             ]">
-                  {{ $t("Swift") }}*
+                  {{ $t("Swift*") }}
                 </label>
                 <div class="w-full lg:w-4/6 " v-if="(v$.bic.$error && v$.bic.required.$invalid)">
                   <p class="error_message">
@@ -232,7 +232,7 @@ const closeAndReset = () => {
                 ? '!text-error'
                 : '',
             ]">
-                  {{ $t("Account Currency") }}*
+                  {{ $t("Account Currency*") }}
                 </label>
                 <div class="w-full lg:w-4/6 " v-if="(v$.account_currency.$error && v$.account_currency.required.$invalid)">
                   <p class="error_message">
@@ -251,7 +251,7 @@ const closeAndReset = () => {
         <button class="btn-dashboard hover_tamkin"  @click="withdraw" :disabled="v$.$invalid || loadingtowithdraw">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="loadingtowithdraw ? 'mr-2':''">
-           Continue
+           {{$t('Continue')}}
             </div>
        
              <svg  v-if="loadingtowithdraw" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

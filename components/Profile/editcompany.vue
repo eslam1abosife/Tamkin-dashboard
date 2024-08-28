@@ -199,7 +199,7 @@ onMounted(async () => {
 
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="loadingUpdate ? 'mr-2':''">
-           Update
+           {{ $t('Update') }}
             </div>
        
              <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

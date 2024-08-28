@@ -136,10 +136,15 @@ function leaveNotification(el, done) {
  ** select for preview
  ** save clothes on characters
  */
+
+
+
+
 </script>
 
 <template>
   <div class="relative">
+    
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <MarketModalCart v-if="isOpen('mycart')" key="cart_popup" id="test" />
     </transition>
