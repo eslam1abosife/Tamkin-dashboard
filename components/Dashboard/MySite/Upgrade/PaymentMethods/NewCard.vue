@@ -642,7 +642,7 @@ const checkInput = (event) =>{
                     type="text"
                     class="input_dashboard_search w-full  "
                     v-model="search"
-                    placeholder="Search ..."
+                    :placeholder="`${$t('Search')} ...`" 
                   />
                   <div
                     class="absolute top-[33px] lg:top-[20px] lg:left-[20px] left-[30px] lg:p-[16px]"

@@ -71,7 +71,7 @@ const clearInput = () => {
       type="text"
       class="input_dashboard_search w-full"
       v-model="search"
-      placeholder="Search ..."
+      :placeholder="`${$t('Search')} ...`" 
     />
     <div
       class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
