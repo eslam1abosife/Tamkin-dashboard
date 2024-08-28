@@ -576,7 +576,7 @@ watch(eventCounter, async () => {
             :disabled="billingStore.card.is_primary"
             :class="
               billingStore.card.is_primary
-                ? 'text-darkGrey cursor-not-allowed'
+                ? 'text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40 cursor-not-allowed'
                 : ''
             "
             @click="
