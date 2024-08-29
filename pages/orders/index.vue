@@ -284,6 +284,8 @@ const setPageSize = (size:number) => {
           <tbody class="text-[#1C1C1C] text-[14px] font-[400] leading-[18px] ">
         
               <template v-for="order in paginatedRows" :key="order.id">
+           
+
                 <tr class="border-t border-gray-200  table-row cursor-pointer hover:bg-gray-100" @click="$router.push(localePath('/orders/'+ order.name))">
                     <td class="px-6 py-3 rtl:text-right ltr:text-left whitespace-nowrap ">
                       <!-- <span>#CM9801</span> -->
@@ -307,8 +309,7 @@ const setPageSize = (size:number) => {
                       </div>
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left ">
-                      
-                      <span>{{ order.price }} AED</span>
+                      <span>{{ order.price }} USD</span>
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left">
                       <div class="flex items-center ml-1 rtl:space-x-reverse space-x-[8px]">

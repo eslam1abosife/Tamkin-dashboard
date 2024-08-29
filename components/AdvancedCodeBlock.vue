@@ -122,12 +122,12 @@
 
     </Client-only>
 
-      <h2 class="text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
+      <h2 class="rtl:text-right ltr:text-left font-[500] text-[12px] text-[#979897] dark:text-whiteTamkin/90 mb-[30px] mt-[20px]"
           style="line-height: 23.4px">
 
-          {{$t('Managing multiple sites for multiple clients ? Great! Make sure you use')}}
-         <span class="text-darkGrey">{{$t('the same embed code')}}</span> 
-         {{ $t('on all of your sites !') }}
+          <div v-html="highlightedText"></div>
+         <span class="text-darkGrey">{{$t('')}}</span> 
+         {{ $t('') }}
       </h2>
     </div>
 </div>
@@ -141,19 +141,31 @@ import { useModalManager } from '@/composables/useModalManager';
 import VCodeBlock from "@wdns/vue-code-block";
 import { useClipboard } from '@vueuse/core'
 
-
+const {t} = useI18n()
 const { getSummaryDetailedCode, summaryCode, detailedCode, loading: getCodeLoading } = useSummaryDetailedCode();
 const currentCode = ref('');
 const advancedCode = ref(false);
 const code = ref(true);
 const copyDone = ref(false)
 const  loadingBlock =ref(true)
+const locale = useLocalePath()
 const { text, copy, copied, isSupported } = useClipboard({ summaryCode })
 let copyCodeP = inject('copyP')
 const copyCode = () => {
   copyDone.value = true;
 };
-
+const highlightPhrase = (text, phrase) => {
+  // Escape HTML characters to avoid injection issues
+  const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  // Create a RegExp to match the exact phrase
+  const regex = new RegExp(`(${escapedPhrase})`, 'gi')
+  // Replace the phrase with a span containing the class
+  return text.replace(regex, `<span class="text-darkGrey">$1</span>`)
+}
+const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين'
+const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !')
+// Use the function to get the highlighted text
+const highlightedText = computed(() => highlightPhrase(trn, phraseToHighlight))
 const {
         isOpen,
         currentView,

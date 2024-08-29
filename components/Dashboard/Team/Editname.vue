@@ -70,7 +70,7 @@ const doEditMember = async () => {
     closeModal('editname');
 
     await getAllTeamMember(user.agency);
-    $toast(t('Member Name updated successfully'), { hideIn: 3000 });
+    $toast(t('Member Name Updated Successfully'), { hideIn: 3000 });
 
   } catch (err) {
     errorMsg.value = err;
@@ -152,7 +152,7 @@ const doEditMember = async () => {
       </div>
 
 
-      <div class="mt-[32px] w-2/6 mx-auto">
+      <div class="mt-[50px] w-2/6 mx-auto">
 
         <button 
           :disabled="v$.firstName.$invalid || v$.lastName.$invalid || loading"

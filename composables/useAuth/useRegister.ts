@@ -23,7 +23,8 @@ const localePath = useLocalePath()
             const res = await api.post('/Account/Register', {...state});
             if(!res.data.succeeded) throw(res.data.message);
 
-            router.push(localePath(`/auth/otp?from=register`));
+
+            router.push({ path: localePath('/auth/otp'), query: { from: 'register' } });
 
             if(onSuccess) {
                 onSuccess(state);

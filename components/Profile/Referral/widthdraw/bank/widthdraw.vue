@@ -82,6 +82,7 @@ const formatAmount = (event) => {
 
 
 
+
 // Watch amount changes to update withdrawAmount in store
 watch(amount, (newValue) => {
   const cleanedValue = newValue.replace('$', '').replace(/,/g, ''); // Remove currency symbol and commas

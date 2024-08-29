@@ -104,14 +104,14 @@ const clearFieldError = (condition) => {
         />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%]">
+    <div class="flex items-center justify-start h-full flex-col w-full mx-auto max-h-[100%]">
       <h1
         class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
         {{ $t('Invite Member') }}
       </h1>
 
-      <div class="space-y-[44px]">
+      <div class="space-y-[44px] w-full ">
         <h6
           v-if="isIncludeWord(errorMsg, ['something wrong'])"
           class="text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"
@@ -141,12 +141,12 @@ const clearFieldError = (condition) => {
             {{ $t("First Name*") }}
           </label>
           <div
-            class="w-full lg:w-4/6 mt-2"
+            class="w-full lg:w-4/6 "
             v-if="v$.firstName.$error && v$.firstName.required.$invalid"
           >
             <p class="error_message">
               <span v-if="v$.firstName.$error && v$.firstName.required.$invalid">{{
-                $t("First name is required")
+                $t("First Name is required")
               }}</span>
             </p>
           </div>
@@ -174,12 +174,12 @@ const clearFieldError = (condition) => {
             {{ $t("Last Name*") }}
           </label>
           <div
-            class="w-full lg:w-4/6 mt-2"
+            class="w-full lg:w-4/6 "
             v-if="v$.lastName.$error && v$.lastName.required.$invalid"
           >
             <p class="error_message">
               <span v-if="v$.lastName.$error && v$.lastName.required.$invalid">{{
-                $t("Last name is required")
+                $t("Last Name is required")
               }}</span>
             </p>
           </div>
@@ -225,7 +225,7 @@ const clearFieldError = (condition) => {
             {{ $t("Email*") }}
           </label>
           <div
-            class="w-full lg:w-4/6 mt-2"
+            class="w-full lg:w-4/6 "
             v-if="
               (v$.email.$error && v$.email.required.$invalid) ||
               (v$.email.$error && v$.email.email.$invalid) ||
@@ -235,7 +235,7 @@ const clearFieldError = (condition) => {
           >
             <p class="error_message">
               <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-                $t("Email Address is required")
+                $t("The email address is required")
               }}</span>
               <span
                 v-else-if="
@@ -257,7 +257,7 @@ const clearFieldError = (condition) => {
         </div>
       </div>
 
-      <div class="mt-[32px] w-2/6 mx-auto">
+      <div class="mt-[82px] w-2/6 mx-auto">
         <button
           :disabled="
             v$.email.$invalid ||

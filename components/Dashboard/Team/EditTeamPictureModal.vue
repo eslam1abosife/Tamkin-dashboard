@@ -105,7 +105,7 @@ reader.readAsDataURL(file);
   removeFile()
 closeModal('editteampic');
 
-  $toast('Team Image deleted successfully',{hideIn:3000})
+  $toast(t('Team Image deleted successfully'),{hideIn:3000})
   
  }
 

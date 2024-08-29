@@ -367,7 +367,7 @@ watchEffect(() => {
           <div class="text-[16px] font-[600]">{{ price }} AED</div>
         </div>
         <div class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto  py-3">
-          <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
+          <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
           <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
               <div :class="loadingUpdate ? 'rtl:ml-4 ltr:mr-4':''">

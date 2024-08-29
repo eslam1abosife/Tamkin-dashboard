@@ -148,7 +148,7 @@ watchEffect(() => {
       {{ $t('Gender') }}
      </div>
      <div class="text-[14px]  text-[#585B5B] font-[400] leading-[21px]">
-      {{state.gender}}
+      {{$t(state.gender)}}
      </div>
    </div>
    <div class="flex flex-col items-start justify-start space-y-[12px]">
@@ -176,7 +176,8 @@ watchEffect(() => {
      </div>
    
        
-        <div class="custom-border flex items-center justify-center rtl:space-x-reverse [20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse 
+        space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price }} AED</div>

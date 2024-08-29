@@ -44,7 +44,7 @@ export default function() {
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
     
-            router.push(localePath('/my-site'));
+            router.push({path:localePath('/my-site')});
     
             return null; // No error, so return null
         } catch (error) {

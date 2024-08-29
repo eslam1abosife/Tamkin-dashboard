@@ -189,6 +189,13 @@ export const useProfileStore = defineStore("profile", {
       this.member.first_name = payload.firstName;
       this.member.last_name = payload.lastName;
     },
+    getRole() {
+      const userStore = useUserStore();
+      // console.log(userStore.user.role_profile_name);
+      
+      this.isOwner = userStore.user.role_profile_name === 'Owner of Agency';
+      return this.isOwner ? 'Owner' : 'Member';
+    }
   },
 
 
@@ -197,17 +204,7 @@ export const useProfileStore = defineStore("profile", {
       return `${this.member.first_name} ${this.member.last_name}`;
     },
 
-    getRole(state) {
-      const userStore = useUserStore();
-      let role = '';
-      if (state.member.member_email === userStore.user.user_id) {
-        role = 'Owner';
-        this.isOwner = true;
-      } else {
-        role = 'Member';
-        this.isOwner = false;
-      }
-      return role;
-    }
+  
   }
+    
 });

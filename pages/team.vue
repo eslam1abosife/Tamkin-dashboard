@@ -236,7 +236,7 @@ const openEditUserModal = (member) => {
   });
   openModal("editusermodal", "team");
 };
-
+const profileStore = useProfileStore()
 const openPermissions = (member) => {
   const user = JSON.parse(localStorage.getItem("user"));
   setData({
@@ -256,8 +256,10 @@ const isOwner = computed(() => {
 });
 
 let myUser = ref({});
-onMounted(() => {
+onMounted(async () => {
   myUser.value = JSON.parse(localStorage.getItem("user"));
+  await profileStore.getCurrentTeam()
+  await profileStore.fetchMember()
 });
 </script>
 
@@ -266,18 +268,18 @@ onMounted(() => {
     <DashboardToastSuccess
       v-if="reInvite"
       :hideIn="2000"
-      :message="'Re-sent successfully'"
+      :message="$t('Re-sent successfully')"
       class="!top-[70px]"
     />
     <DashboardToastSuccess
       v-if="renamedSuccessfullyToast"
       :hideIn="2000"
-      :message="'Team Renamed successfully'"
+      :message="$t('Team Renamed successfully')"
     />
     <DashboardToastSuccess
       v-if="memberDeletedSuccessfully"
       :hideIn="2000"
-      :message="'Member Deleted successfully'"
+      :message="$t('Member Deleted Successfully')"
     />
 
 
@@ -380,7 +382,7 @@ onMounted(() => {
             type="text"
             placeholder="{{$t('Your team name')}}"
             id="teamName"
-            class="input_floating_label peer ipad-max:w-full lg:w-[200px] 2xl:w-[350px]"
+            class="input_floating_label peer w-full"
             v-model="v$.teamName.$model"
             :class="{
               input_error: v$.teamName.$error && v$.teamName.required.$invalid,
@@ -404,7 +406,7 @@ onMounted(() => {
           >
             <div class="error_message">
               <span v-if="v$.teamName.$error && v$.teamName.required.$invalid">{{
-                $t("teamName_is_required")
+                $t("Team name is required")
               }}</span>
             </div>
           </div>
@@ -428,7 +430,7 @@ onMounted(() => {
           class="btn_bordered_dashboard ml-auto"
         >
           <div class="flex items-center justify-center">
-            <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''">Save</div>
+            <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
 
             <svg
               v-if="loading"
@@ -497,7 +499,7 @@ onMounted(() => {
             ></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[90px] space-x-[90px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px] space-x-[90px] flex"
             >
               <div>{{$t('Active')}}</div>
               <div>
@@ -674,7 +676,7 @@ onMounted(() => {
                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] lg:rtl:space-x-reverse space-x-[16px]  space-x-reverse"
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]  space-x-[16px]"
                   >
                     <div class="inline">
                       <img
@@ -703,9 +705,16 @@ onMounted(() => {
                       </div>
                     </div>
                     <div
-                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap cursor-pointer"
-                      @click="openModal('editname', 'team', member)"
+                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " :class="[member.member_email === user.user_id ? 'cursor-pointer' :'cursor-not-allowed']"
+                      @click="()=>{
+
+                        if(member.member_email === user.user_id){
+                    
+                          openModal('editname', 'team', member)
+                        }
+                      }"
                     >
+                    
                       {{ member.first_name + " " + member.last_name }}
                     </div>
                     <div
