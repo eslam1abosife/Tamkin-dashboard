@@ -78,7 +78,7 @@ const memberFullName = computed(() => {
 
           <div class="text-[#616161] text-[11px] lg:text-[13px] ipad-max:text-[10px] font-[500] leading-[18px]" 
           v-if="!profileStore.loadingProfile">
-            {{ profileStore.member.country ? profileStore.member.country : 'N/A' }}
+            {{ profileStore.member.country ? $t(profileStore.member.country) : $t('Country not Added') }}
           </div>
           <div v-else class="bg-gray-300 animate-pulse h-[20px] w-full  rounded"></div>
 

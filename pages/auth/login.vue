@@ -63,7 +63,8 @@ const doLogin = async () => {
       typeof error === "string" ? error : "There is something wrong";
     if (isIncludeWord(errMsg, ["confirm", "needs"])) {
       localStorage.setItem("registerd_email", state.email);
-      router.push(localePath("/auth/otp?from=register"));
+
+router.push({ path: localePath('/auth/otp'), query: { from: 'register' } });
 
     } else {
       errorMsg.value = error;
@@ -278,9 +279,10 @@ const clearFieldError = (condition) => {
               <div class="flex flex-row items-center justify-between">
                 <div>
                   <label for="remember_me"
-                    class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug">
+                    class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins']  rtl:!font-[Almarai] leading-snug">
                     <input type="checkbox"
-                      class="border-[1px] w-[18px] h-[18px] border-lightGrey dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
+                      class="border-[1px] w-[18px] h-[18px] border-lightGrey 
+                      dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none "
                       id="remember_me" />
                     {{ $t("Remember me") }}</label>
                 </div>

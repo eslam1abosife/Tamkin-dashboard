@@ -114,7 +114,7 @@ onBeforeMount(async ()=>{
 </script>
 
 <template>
-    <div class=" h-auto w-[220px]  !mr-[40px]  flex items-center justify-center relative"
+    <div class=" h-auto w-[220px]  rtl:!ml-[40px] ltr:!mr-[40px]  flex items-center justify-center relative"
        @click.prevent="openLangSwitchMenu"
 
        v-on-click-outside="closeMenu">
@@ -150,10 +150,10 @@ onBeforeMount(async ()=>{
                  {{ profileStore.member.first_name  + ' ' + profileStore.member.last_name}}
                 </h2>
                 <p
-                    v-if="isOwner()"
+                    
                 class="font-[400] text-[10px] dark:text-white whitespace-nowrap text-darkGrey leading-[14.4px]"
               >
-              {{ $t(profileStore.getRole) }}
+              {{ $t(profileStore.getRole()) }}
             </p>
               </div>
             </div>

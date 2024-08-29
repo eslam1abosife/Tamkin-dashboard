@@ -83,7 +83,8 @@ const submit = async () => {
 
 <template>
   <div v-if="isOpen('selectSite')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[530px] w-10/12 max-h-[80vh]"
+    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
+    lg:h-[530px] w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('selectSite')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -93,15 +94,16 @@ const submit = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%]">
+    
+    <div class="container mx-auto h-full max-h-[100%]">
       <h1
         class="rtl:text-right ltr:text-left font-[600] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Select Site
+       {{$t('Select Site')}}
       </h1>
 
       <p
         class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-[#A7A7A7] dark:text-whiteTamkin  text-[14px] leading-[24px]">
-        Select your default site</p>
+        {{$t('Select your default site')}}</p>
 
       <div class="w-full ">
         <div class="py-[17px] search_input">
@@ -118,16 +120,18 @@ const submit = async () => {
         </div>
       </div>
 
-      <div class="relative" v-loading="inviteAppLoading">
+      <div  v-loading="inviteAppLoading"    
+         class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-auto">
+
         <table v-if="filteredApps.length > 0" class="min-w-full divide-y divide-gray-200  dark:divide-light">
           <thead>
             <tr>
               <th
-                class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">
-                Website</th>
+                class="py-3  rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">
+                {{$t('Website')}}</th>
               <th
-                class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">
-                Select</th>
+                class="py-3  rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7]  dark:text-whiteTamkin tracking-wider">
+                {{$t('Select')}}</th>
 
             </tr>
           </thead>
@@ -139,7 +143,7 @@ const submit = async () => {
                 <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{ app.title
                   }}</span>
               </td>
-              <td class="py-4  text-right ">
+              <td class="py-4  rtl:text-lefet ltr:text-right ">
                 <div>
                   <input type="checkbox" @click="checked === app.name ? checked = null : checked = app.name"
                     :checked="checked === app.name" :id="app.name" :value="app.name"
@@ -161,21 +165,21 @@ const submit = async () => {
         </table>
         <NoData v-else />
         <h6 v-if="errMsg" class="absolute bottom-[-13px] left-[34%] text-center text-[red] font-light text-[14px]">{{
-    errMsg }}</h6>
+    $t(errMsg) }}</h6>
 
       </div>
 
 
-      <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
+      <div class="flex items-end h-full max-h-[200px] justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/6"
           @click="closeModal('selectSite', 'my-site')">
-          Cancel
+          {{$t('Cancel')}}
         </button>
         <button :class="(!checked || submitLoading) " :disabled="(!checked || submitLoading)"
           @click="submit" class=" btn-dashboard hover_tamkin text-center w-1/6">
           <div class="flex items-center justify-center">
             <div :class="submitLoading ? 'rtl:ml-2 ltr:mr-2':''">
-              Save
+              {{ $t('Save') }}
             </div>
        
              <svg  v-if="submitLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

@@ -47,7 +47,7 @@ watch(() => state.about, (newValue) => {
 
 <template>
   <div
-    class="bg-white/60  rounded-[10px] ipad-max:w-full backdrop-blur-md h-[176px] flex flex-col items-start 
+    class="bg-white/60  rounded-[10px] ipad-max:w-full backdrop-blur-md flex flex-col items-start 
     justify-center p-[15px] space-y-[10px] w-full lg:mt-[-60px]"
   >
   <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]">
@@ -58,11 +58,11 @@ watch(() => state.about, (newValue) => {
    <p class="text-[12px] leading-[18px] !whitespace-normal text-black ">   {{ profileStore.company.about }}</p>
     </div>
 
-    <div class="w-full">
+    <div class="w-full ">
       <textarea
         v-if="currentMode === 'editing'"
         v-model="state.about"
-        class="w-full  focus:border-tamkin focus:ring-0 text-[12px] text-black border !p-2 !m-0 border-gray-300 rounded-lg resize-none"
+        class="w-full  focus:border-tamkin max-h-[176px]  focus:ring-0 text-[12px] text-black border !p-2 !m-0 border-gray-300 rounded-lg resize-none"
         rows="4"
         maxlength="120"
         :class="[v$.about.$error ? '!border-red-500' :'!border-tamkin']"

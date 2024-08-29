@@ -219,13 +219,13 @@ const paginatedFilteredAppList = computed(() => {
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-        My Site
+        {{ $t('My Site') }}
       </h1>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-        Add New Site for TAMKIN to enjoy the features
+        {{ $t('Add your website domain to access Tamkin services, unlocking enhanced features and better online integration') }}
       </h2>
     </div>
 
@@ -237,19 +237,19 @@ const paginatedFilteredAppList = computed(() => {
           class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
           @click="$router.push(localePath('/add-site'))"
         >
-          Add New Site
+          {{$t('Add New Site')}}
         </button>
       </div>
       <div>
         <button
           class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500]"
         >
-          Upgrade Plans
+          {{ $t('Upgrade Plans') }}
         </button>
       </div>
     </div>
 
-    <div
+    <div v-if="!getSitesLoading"
       class=" ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] 
       items-center lg:flex-row flex-col justify-center lg:justify-start"
     >
@@ -263,7 +263,7 @@ const paginatedFilteredAppList = computed(() => {
             <h1
               class="font-[500] text-[16px] leading-[20px] text-darkGrey dark:text-whiteTamkin/90"
             >
-              Select your default site
+             {{$t('Select your default site')}}
             </h1>
           </div>
 
@@ -271,7 +271,7 @@ const paginatedFilteredAppList = computed(() => {
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]" />
+              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[20px]" />
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                 <div>
@@ -286,7 +286,7 @@ const paginatedFilteredAppList = computed(() => {
                     href=""
                     target="_blank"
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
-                    >Visit Site
+                    >{{ $t('Visit Site') }}
                     <img
                       src="/assets/imgs/icons/external_link.svg"
                       class="ltr:ml-[14px] rtl:mr-[14px]"
@@ -299,13 +299,23 @@ const paginatedFilteredAppList = computed(() => {
                 @click="openModal('selectSite','my-site')"
                 class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
               >
-                Select Site
+                {{$t('Select Site')}}
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div
+      <div v-if="getSitesLoading"  class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
+      ltr:right-0 top-[100px] md:top-[60px] lg:top-[80px] ipad-max:w-1/4">
+ 
+    
+       <div class="w-[300px] h-[200px] lg:h-[200px]  md:h-[150px] lg:block hidden md:block animate-pulse bg-gray-200 rounded-md">
+        
+
+       </div>
+       
+     </div>
+      <div v-else
         class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
         ltr:right-0  top-[119px] md:top-[60px] lg:top-[50px] ipad-max:w-1/4 "
       >
@@ -317,10 +327,60 @@ const paginatedFilteredAppList = computed(() => {
         />
         <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:h-[300px] md:h-[150px] lg:block hidden md:block" />
       </div>
+   
+      
     </div>
-
+    <div v-else class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col
+     justify-center lg:justify-start">
+  
+      <!-- Placeholder Container -->
+      <div class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-gray-700 lg:w-[73%] 2xl:w-[75%] md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459f1a">
+        
+        <!-- Placeholder Content -->
+        <div class="w-full space-y-[16px]">
+          
+          <!-- Header Placeholder -->
+          <div class="bg-gray-300 h-[20px] rounded-md">
+            <!-- Placeholder for Title -->
+          </div>
+          
+          <!-- Body Content Placeholder -->
+          <div class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between">
+            
+            <!-- Placeholder for Image and Text -->
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
+              <div class="w-[40px] h-[20px] bg-gray-300 rounded-md"></div>
+              <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
+                <div class="w-[100px] h-[14px] bg-gray-300 rounded-md"></div>
+                <div class="w-[120px] h-[14px] bg-gray-300 rounded-md"></div>
+              </div>
+            </div>
+            
+            <!-- Placeholder for Button -->
+            <div>
+              <div class="w-[100px] h-[30px] bg-gray-300 rounded-md"></div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <!-- Placeholder for Animation and Image -->
+      <div class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] ltr:right-0 top-[119px] md:top-[60px] lg:top-[50px] ipad-max:w-1/4">
+        <div class="absolute left-[25%] top-[125px] lg:top-[125px] lg:left-[25%] md:top-[55px] md:left-[20%] w-[39px] h-[32px] bg-gray-300 rounded-md">
+          <!-- Placeholder for Animation -->
+        </div>
+        <div class="h-[300px] lg:h-[300px] md:h-[150px] lg:block hidden md:block bg-gray-300 rounded-md">
+          <!-- Placeholder for Image -->
+        </div>
+      </div>
+      
+    </div>
+    
     <section class="w-full mx-auto mt-[24px] ">
-      <div class="flex flex-col" v-if="dataAvailable">
+      <div class="flex flex-col" v-if="dataAvailable && !getSitesLoading"  >
         <div class="overflow-x-auto ">
           <div class="inline-block min-w-full align-middle ">
             <div
@@ -344,7 +404,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
-                      My Sites ( {{ notDeletedAppListLength }} )
+                      {{$t('My Sites')}} ( {{ notDeletedAppListLength }} )
                     </div>
                   </div>
                   <div
@@ -360,7 +420,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
-                      Deleted Sites ( {{ deletedAppListLength }} )
+                      {{$t('Deleted Sites')}} ( {{ deletedAppListLength }} )
                     </div>
                   </div>
                 </div>
@@ -398,17 +458,17 @@ const paginatedFilteredAppList = computed(() => {
                       class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] 
                       ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      Sites URL
+                      {{$t('Sites URL')}}
                     </th>
                     <th
                       class="ltr:text-left lg:px-0 px-[100px] rtl:text-right   lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      Billing
+                      {{$t('Billing')}}
                     </th>
                     <th
                       class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      Products
+                      {{ $t('Package') }}
                     </th>
                     <th>
                       <div
@@ -416,12 +476,12 @@ const paginatedFilteredAppList = computed(() => {
                         space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px]
                          text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
-                        <div>Status</div>
+                        <div>{{$t('Status')}}</div>
                         <div>
                           <span
                             class="tooltip left"
                             id="saveButton"
-                            title="Estimated accessibility compliance level based on currently active solutions"
+                            :title="$t('The status shows the code is installed, embedded, and services are now visible and operational')"
                           >
                             <span id="saveButton_label" class="">
                               <svg
@@ -446,19 +506,19 @@ const paginatedFilteredAppList = computed(() => {
                     <th
                       class=" ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
-                      Date
+                      {{$t('Date')}}
                     </th>
 
                     <th>
                       <div
                         class="flex items-center lg:px-0 px-[100px] justify-center   rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
-                        <div>Traffic</div>
+                        <div>{{$t('Traffic')}}</div>
                         <div>
                           <span
                             class="tooltip right"
                             id="saveButton"
-                            title="Estimated accessibility compliance level based on currently active solutions"
+                            :title="$t('Monthly page views: The value indicates either the peak month or annual average')"
                           >
                             <span id="saveButton_label" class="">
                               <svg
@@ -482,7 +542,7 @@ const paginatedFilteredAppList = computed(() => {
                     <th
                       class="lg:px-0 px-[100px] text-center lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
-                      Action
+                      {{ $t('Action') }}
                     </th>
                   </tr>
                 </thead>
@@ -510,20 +570,20 @@ const paginatedFilteredAppList = computed(() => {
                             background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                           "
                         >
-                          Default
+                          {{ $t('Default') }}
                         </div>
                       </div>
                     </td>
                     <td
                       class="capitalize lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ app.billing_duration }}
+                      {{ $t(app.billing_duration) }}
                     </td>
                     <td
                       class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px]
                        font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                    <div class="flex items-center justify-start space-x-[10px]">
+                    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
                       <div class="w-[20px] h-[20px]">
                         <img
                           src="/assets/imgs/overview/prem_plan.svg"
@@ -531,7 +591,7 @@ const paginatedFilteredAppList = computed(() => {
                           alt=""
                         />
                       </div>
-                      <div>Premium</div>
+                      <div>{{$t('Premium')}}</div>
                     </div>
                     </td>
 
@@ -547,7 +607,7 @@ const paginatedFilteredAppList = computed(() => {
                         class="rounded-[17px] border-[1px] flex items-center justify-center
                          border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                       >
-                        Active
+                        {{ $t('Active') }}
                       </div>
                       <div
                           v-if="app.status === 'draft'"
@@ -557,7 +617,7 @@ const paginatedFilteredAppList = computed(() => {
                           class="rounded-[17px] border-[1px] flex items-center justify-center
                          border-[#ffda10] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                       >
-                        Draft
+                        {{ $t('Draft') }}
                       </div>
                     </td>
 
@@ -570,7 +630,7 @@ const paginatedFilteredAppList = computed(() => {
                     </td>
 
                     <td
-                      class=" text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class=" text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ formatNumber(app.traffic) }}
                     </td>
@@ -694,7 +754,7 @@ const paginatedFilteredAppList = computed(() => {
                     <th
                       class="px-4 h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      Sites URL
+                      {{ $t('Sites URL') }}
                     </th>
 
                     <!-- <th
@@ -735,22 +795,80 @@ const paginatedFilteredAppList = computed(() => {
                           @click="openRestoreApp(app.name)"
                         class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center"
                       >
-                        Restore
+                        {{ $t('Restore') }}
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <NoData v-loading="getSitesLoading" v-else imgUrl="/assets/imgs/my-sites-no-data.svg" text="You don't have any sites now" >
+              <noresult class="!my-[30px]" v-loading="getSitesLoading" v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 || currentTab === 'deleted' && search && paginatedFilteredAppList.length === 0" />
+
+              <NoData class="!mt-[30px] !mb-[-30px]" v-loading="getSitesLoading" v-if="currentTab === 'deleted' && paginatedFilteredAppList.length === 0 && !search" 
+              imgUrl="/assets/imgs/my-sites-no-data.svg" :text="$t('No sites have been deleted')" >
                 <template #button>
-                  <NuxtLink to="/add-site" class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]">Add new site</NuxtLink>
                 </template>
               </NoData>
+
+              <NoData v-loading="getSitesLoading" 
+              v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 && !search"
+              
+              imgUrl="/assets/imgs/my-sites-no-data.svg" text="You don't have any sites now" >
+                <template #button>
+                  <NuxtLink to="/add-site" class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]">
+                    {{$t('Add new site')}}</NuxtLink>
+                </template>
+              </NoData>
+
             </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col " v-else>
+      <div
+      class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
+      style="box-shadow: 0px 4px 24px 8px #51459f1a" v-if="getSitesLoading"
+    >
+      <div class="relative overflow-x-auto w-full" >
+        <table class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
+          <thead>
+            <tr>
+              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]">
+                <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </th>
+              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </th>
+              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </th>
+              <th class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
+            <tr v-for="index in 2" :key="index">
+              <td                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
+                  <div class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse" ></div>
+                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </div>
+              </td>
+              <td class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse "></div>
+              </td>
+              <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </td>
+              <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
+                <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="flex flex-col " v-if="!dataAvailable && !getSitesLoading">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
@@ -767,7 +885,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600] pb-[16px] text-[#021328]"
                       style="line-height: 21px"
                     >
-                      My Sites
+                      {{ $t('My Sites') }}
                     </div>
                   </div>
                 </div>
@@ -804,14 +922,14 @@ const paginatedFilteredAppList = computed(() => {
                     </div>
                     <div class="mx-auto">
                       <h2 class="text-[15px] leading-[22.5px] font-[400] text-darkGrey">
-                        You don't have any sites now
+                        {{ $t(`You don't have any sites now`) }}
                       </h2>
                       <div class="w-[140px] mt-[40px] mx-auto">
                         <button
                           @click="modalStore.controlSelectSiteModal"
                           class="btn-dashboard hover_tamkin text-[16px] mx-auto leading-[24px] font-[500]"
                         >
-                          Add New Site
+                          {{ $t('Add New Site') }}
                         </button>
                       </div>
                     </div>
@@ -822,10 +940,14 @@ const paginatedFilteredAppList = computed(() => {
           </div>
         </div>
       </div>
+    
+      
+      
+     
       <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]" v-if="paginatedFilteredAppList.length > 0">
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
-            Per Page
+           {{ $t('Per Page') }}
           </span>
           <div class="flex space-x-2 rtl:space-x-reverse">
             <button
@@ -844,7 +966,7 @@ const paginatedFilteredAppList = computed(() => {
         </div>
         <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
-            Page
+            {{$t('Page')}}
           </span>
           <button
             @click="prevPage"
@@ -855,6 +977,8 @@ const paginatedFilteredAppList = computed(() => {
               width="20"
               height="20"
               viewBox="0 0 20 20"
+              class="rtl:rotate-180"
+
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -888,6 +1012,7 @@ const paginatedFilteredAppList = computed(() => {
             <svg
               width="20"
               height="20"
+              class="rtl:rotate-180"
               viewBox="0 0 20 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

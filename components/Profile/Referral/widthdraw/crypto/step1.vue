@@ -7,7 +7,7 @@ import usdtIcon from "/assets/imgs/crypto_methods_icons/2.svg";
 import ethIcon from "/assets/imgs/crypto_methods_icons/1.svg";
 const withdrawStore = useWithdrawStore();
 const state = storeToRefs(withdrawStore);
-
+const { locale, locales } = useI18n()  
 const rules = {
   wallet: { required },
 };
@@ -110,7 +110,7 @@ const closeAndReset = () => {
       <h1
         class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
-        Withdraw Money
+       {{ $t('Withdraw Money') }}
       </h1>
 
       <div class="flex flex-col items-center justify-center w-full">
@@ -124,48 +124,53 @@ const closeAndReset = () => {
           <div class="relative w-full">
             <button
               @click="toggleDropdown"
-              class="input_search_country !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
+              class="input_search_country ltr:!pl-[10px] rtl:!pr-[10px] !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
               :class="[isCryptoMenuOpen ? 'rounded-b-none' : '']"
             >
               <span class="floating_label" v-if="!withdrawStore.selectedCrypto"
                 >{{$t('Choose Crypto currency')}}</span
               >
-              <div class="flex items-center justify-start" v-else>
-                <img
-                  :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`"
-                  class="rtl:!mr-[16px] ltr:!ml-[-20px] w-[25px] h-[25px]"
-                />
-                <span
-                  class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                  >{{ withdrawStore.selectedCrypto.title }} -
-                  <span class="!text-light">{{
-                    withdrawStore.selectedCrypto.symbols
-                  }}</span></span
+              <div class="flex items-center justify-between w-full space-x-[10px] rtl:space-x-reverse" v-else>
+                <div class="flex items-center justify-start space-x-[10px] rtl:space-x-reverse">
+                  <img
+                :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`"
+                class=" w-[25px] h-[25px]"
+              />
+              <span
+                class=" rtl:ml-auto ltr:mr-auto text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
+                >{{ withdrawStore.selectedCrypto.title }} -
+                <span class="!text-light">{{
+                  withdrawStore.selectedCrypto.symbols
+                }}</span></span
+              >
+               </div>
+            <div class="flex items-center justify-end ">
+              <div class="rtl:mr-auto ltr:ml-auto">
+                <div
+                  class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                 >
-                <div class="rtl:mr-auto ltr:ml-auto">
-                  <div
-                    class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
-                  >
-                    {{ withdrawStore.selectedCrypto.network }}
-                  </div>
+                  {{ withdrawStore.selectedCrypto.network }}
                 </div>
+              </div>
 
-                <img
-                  v-if="withdrawStore.selectedCrypto"
-                  src="/assets/imgs/menu-down.svg"
-                  :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
-                  class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[10px] 
-                  ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current
-                   fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
-                />
+              <img
+                v-if="withdrawStore.selectedCrypto"
+                src="/assets/imgs/menu-down.svg"
+                :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
+                class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] 
+                ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current
+                 fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
+              />
+            </div>
               </div>
 
               <img
                 v-if="!withdrawStore.selectedCrypto"
                 src="/assets/imgs/menu-down.svg"
                 :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
-                class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[20px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
-              />
+                class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] 
+                ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current
+                 fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"              />
             </button>
             <div
               v-if="isCryptoMenuOpen"
@@ -227,14 +232,16 @@ const closeAndReset = () => {
               ? 'input_success'
               : 'border-[1px] border-lightGrey ',
           ]"
-          class="disabled:bg-gray-100 disabled:cursor-not-allowed peer focus:outline-none h-[40px] f
-          ocus:border-lightGrey rounded-[10px] focus:ring-0 rtl:pr-[40px] ltr:pl-[40px] w-full"
+          class="disabled:bg-gray-100 disabled:cursor-not-allowed peer focus:outline-none h-[40px] 
+          focus:border-lightGrey rounded-[10px] focus:ring-0 rtl:pr-[42px] ltr:pl-[42px] w-full"
           v-model="v$.wallet.$model"
         />
         <label
           for="walletAddress"
-          class="floating_label !ml-[20px]"
-          :class="[v$.wallet.$error && v$.wallet.required.$invalid ? '!text-error' : '']"
+          class="floating_label !mr-0 !ml-0"
+          :class="[v$.wallet.$error && v$.wallet.required.$invalid ? '!text-error' : '',
+          withdrawStore.selectedCrypto ? 'rtl:!mr-[10px] ltr:!ml-[10px]':''
+          ]"
         >
           {{ $t("Wallet Address") }}*
         </label>
@@ -249,14 +256,22 @@ const closeAndReset = () => {
           </p>
         </div>
       </div>
-
       <div
         class="text-[12px] font-[500] leading-[18px] text-[#021328] mt-[16px]"
         v-if="withdrawStore.selectedCrypto"
       >
+
+     
         {{ $t("Please ensure you enter the correct address on the") }}
+    <span v-if="locale === 'ar'">
+      {{ $t("network") +' '}}
+    </span>
         <span class="!font-[700]"
-          >{{ withdrawStore.selectedCrypto.network }} {{ $t("network") }}.
+          >{{ withdrawStore.selectedCrypto.network }} {{ locale === 'ar'  ? '.':' ' }}
+        </span>
+
+        <span v-if="locale === 'en'">
+            {{ $t("network") }}.
         </span>
         
         {{ $t("Using an incorrect network may result in the permanent loss of your funds") }}
@@ -272,7 +287,7 @@ const closeAndReset = () => {
           @click="gotoStep2"
           :disabled="isLoading || v$.$invalid || !withdrawStore.selectedCrypto"
         >
-          <div class="flex items-center justify-center space-x-[6px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Continue')}}</div>
 
             <svg

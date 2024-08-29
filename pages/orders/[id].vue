@@ -4,7 +4,6 @@ import { useRuntimeConfig } from '#app'
 
 const config = useRuntimeConfig()
 const baseImageURL = config.public.baseImagerUrl
-
 const {
   isOpen,
   currentView,
@@ -16,8 +15,6 @@ const {
   eventCounter,
   setData
 } = useModalManager();
-
-
 const marketStore = useMarketStore();
 const trakingStatus = ref([])
 const orderDetails = ref({})
@@ -155,7 +152,7 @@ function enterCart(el, done) {
     done();
   }, 0);
 }
-
+const localePath = useLocalePath()
 function leaveCart(el, done) {
   const isRTL = document.documentElement.dir === 'rtl';
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
@@ -185,10 +182,10 @@ function leaveCart(el, done) {
 
     <div class="space-y-[5px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        {{ $t('Order details') }}
+        {{ $t('Order Details') }}
       </h1>
 
-      <h2 @click="$router.push('/orders')"
+      <h2 @click="$router.push({path:localePath('/orders')})"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
         {{ $t('Orders') }}
       </h2>

@@ -56,14 +56,35 @@ const getStatusStyle = (method: number) => {
       return "bg-orange-400";
     case "Success":
       return "bg-tamkin";
-    case "rejected":
+    case "Cancelled":
+      return "bg-red-600";
+      case "Rejected":
       return "bg-red-600";
     case "Completed":
       return "bg-tamkin";
     case "Transfered":
       return "bg-tamkin";
+      case "Submitted":
+      return "bg-green-400";
   }
 };
+const setStatuses = (status: string) => {
+  switch (status) {
+    case "Pending":
+      return "Pending"; // No class, just return the status itself
+    case "Submitted":
+      return "Confirmed"; // Replace Submitted with Confirmed
+    case "Cancelled":
+      return "Rejected"; // Replace Cancelled with Rejected
+    case "Transfered":
+      return "Successful"; // Replace Transfered with Successful
+      case "Confirmed":
+      return "Confirmed"; // Replace Submitted with Confirmed
+    default:
+      return ""; // Default case if status doesn't match any
+  }
+};
+
 const v$ = useVuelidate(rules, state);
 const currentTab = ref("rewards");
 const dateF = ref([]);
@@ -94,14 +115,14 @@ const format = (date) => {
   }
 };
 const disabledIfPendingRecords = computed(() => {
-  // Check if there is any record with a status of "Pending"
-  const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
+  // // Check if there is any record with a status of "Pending"
+  // const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
 
-  // Check if currentAmount is zero or less
-  const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
+  // // Check if currentAmount is zero or less
+  // const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
 
-  // Disable if either condition is true
-  return hasPendingRecords || isAmountZeroOrLess;
+  // // Disable if either condition is true
+  // return hasPendingRecords || isAmountZeroOrLess;
 });
 
 const source = ref("");
@@ -368,7 +389,7 @@ const isCurrentRateEmpty = computed(() => {
               <div class="text-[14px] font-[400] leading-[21px] ipad-max:text-[10px]">
                {{$t('Referral Link')}}
               </div>
-              <div class="flex items-center justify-end  space-x-[12px] rtl:flex-row-reverse">
+              <div class="flex items-center justify-end   space-x-[12px] rtl:flex-row-reverse">
                 <div
                   class="ml-auto text-[12px] 2xl:text-[14px] ipad-max:text-[8px] ipad-max:whitespace-nowrap font-[500] leading-[21px] dark:text-whiteTamkin/70"
                 >
@@ -421,7 +442,7 @@ const isCurrentRateEmpty = computed(() => {
             direction="ltr"
               :enable-time-picker="false"
               @blur="dateOpen = false"
-              @focus="dateOpen = true"
+              @open="dateOpen = !dateOpen"
               class="relative"
               :clearable="false"
               disable-year-select
@@ -437,7 +458,7 @@ const isCurrentRateEmpty = computed(() => {
             >
               <template #action-row="{ closePicker, selectDate }">
                 <div
-                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
+                  class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full rtl:!font-[Almarai]"
                 >
                   <button
                     @click="
@@ -476,13 +497,12 @@ const isCurrentRateEmpty = computed(() => {
               </template>
               <template #input-icon>
                 <svg
-                  class="ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
+                  class="rtl:mr-auto ltr:ml-auto w-[10px] h-[10px] text-darkGrey dark:text-whiteTamkin"
                   :class="[
-                    dateOpen && dateF.length > 0
-                      ? 'rotate-90 !text-white '
-                      : dateOpen && !dateF
-                      ? 'rotate-90'
-                      : 'rotate-0',
+              
+                        
+                  dateOpen   ? 'rotate-90  '
+                      : 'rotate-0 rtl:rotate-180 ',
                   ]"
                   width="11"
                   height="16"
@@ -575,7 +595,9 @@ const isCurrentRateEmpty = computed(() => {
                   ></span>
                   <span
                     class="text-[14px] leading-[19px] text-[#021328] font-[600] whitespace-nowrap capitalize"
-                    >{{ $t(reward.status) }}</span
+                    >{{ $t(setStatuses(reward.status)) }}
+                  
+                    </span
                   >
                 </td>
               </tr>
@@ -722,7 +744,7 @@ const isCurrentRateEmpty = computed(() => {
             </div>
             <div v-for="i in 5" :key="i" class="border-t border-gray-200">
               <div
-                class="h-[60px] flex items-center px-4 space-x-4 bg-gray-50 animate-pulse"
+                class="h-[60px] flex items-center px-4 rtl:space-x-reverse space-x-4 bg-gray-50 animate-pulse"
               >
                 <div class="w-1/4 h-6 bg-gray-300 rounded"></div>
                 <div class="w-1/4 h-6 bg-gray-300 rounded"></div>

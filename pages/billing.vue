@@ -205,7 +205,9 @@ const openAddNewCardModal = ()=>{
 
 
 if(process.client){
-  // window.$chatwoot.toggleBubbleVisibility('hide')
+ if(window.$chatwoot){
+   window.$chatwoot.toggleBubbleVisibility('hide')
+ }
 openModal('add_new_card_billing','billing')
 
 }
@@ -408,7 +410,7 @@ function leaveNotification(el, done) {
           <div :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px]
              border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
-            <div class="flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[13px]">
+            <div class="flex items-center justify-start  rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
                 <div class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
@@ -490,7 +492,7 @@ function leaveNotification(el, done) {
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
             </td>
             <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
-              <div class="text-darkGrey text-[14px] leading-[19px] !font-[700]">{{ invoice.cost }}$</div>
+              <div class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]">{{ invoice.cost }}$</div>
               <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{$t( invoice.order_type) }}</div>
             </td>
           </tr>

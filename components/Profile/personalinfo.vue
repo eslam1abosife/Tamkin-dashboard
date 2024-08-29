@@ -37,7 +37,7 @@ const joiningDate = computed(() => {
 
     <div>
       <!-- User ID -->
-      <div v-if="!profileStore.loadingProfile">
+      <div v-if="!profileStore.loadingProfile" class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
         <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('User ID')}}</h3>
         <p class="text-[#15191f] font-medium text-[14px] leading-[24px]">{{ profileStore.member.name }}</p>
       </div>
@@ -49,7 +49,7 @@ const joiningDate = computed(() => {
 
     <div>
       <!-- Joining Date -->
-      <div v-if="!profileStore.loadingProfile">
+      <div v-if="!profileStore.loadingProfile" >
         <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Joining Date')}}</h3>
         <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ joiningDate }}</p>
       </div>
@@ -61,7 +61,7 @@ const joiningDate = computed(() => {
 
     <div>
       <!-- Email -->
-      <div v-if="!profileStore.loadingProfile">
+      <div v-if="!profileStore.loadingProfile"  class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
         <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Email')}}</h3>
         <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.member_email }}</p>
       </div>
@@ -88,12 +88,12 @@ const joiningDate = computed(() => {
 
     <div>
       <!-- Country -->
-      <div v-if="!profileStore.loadingProfile">
+      <div v-if="!profileStore.loadingProfile" class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
         <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Country')}}</h3>
         <div v-if="!profileStore.member.country" class="">
           <h3 class="text-[#EA4335] font-medium text-[14px] leading-[24px]">{{$t('Country not added')}}</h3>
         </div>
-        <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.member.country }}</p>
+        <p v-else class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ $t(profileStore.member.country) }}</p>
       </div>
       <div v-else class="skeleton-loader animate-pulse mt-2">
         <div class="h-4 bg-gray-300 rounded-full dark:bg-gray-700 w-48 mb-2"></div>

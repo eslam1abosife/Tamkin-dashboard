@@ -148,8 +148,8 @@ const getStatusStyle=(method:number)=> {
             {{ $t('Trans ID') }}: {{ withDrawStore.transactionDetails.name }}
           </div>
   
-          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.cyrptoTransactionDetails.status)">
-            {{withDrawStore.cyrptoTransactionDetails.status}}
+          <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
+            {{$t(withDrawStore.transactionDetails.status)}}
           </div>
         </div>
   

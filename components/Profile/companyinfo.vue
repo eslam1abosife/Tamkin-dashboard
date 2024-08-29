@@ -22,7 +22,7 @@
         {{ profileStore.company.agency_name ? profileStore.company.agency_name : 'N/A' }}
       </p>
     </div>
-    <div>
+    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]"> 
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Account ID')}} </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">
         {{ profileStore.company.name }}
@@ -34,13 +34,13 @@
         {{ createdDate }}
       </p>
     </div>
-    <div>
+    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{ $t('Business Email') }} </h3>
       <p class="text-[#474E57] font-medium text-[14px] leading-[24px]">{{ profileStore.company.owner_of_agency ? profileStore.company.owner_of_agency : 'N/A' }}</p>
     </div>
     <div>
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Phone')}}</h3>
-      <p v-if="profileStore.company.phone" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
+      <p v-if="profileStore.company.phone" class="text-[#474E57] font-medium text-[14px] leading-[24px] truncate w-44">
    {{   profileStore.company.phone}}
       </p>
 
@@ -48,11 +48,11 @@
       {{ $t('Phone not Added') }}
        </p>
     </div>
-    <div>
+    <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Country')}}</h3>
       <p v-if="profileStore.company.country " class="text-[#15191f] font-medium text-[14px] leading-[24px]">
 
-        {{ profileStore.company.country   }}
+        {{ $t(profileStore.company.country )  }}
       </p>
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
         {{ $t('Country not Added') }}
@@ -64,13 +64,13 @@
      
            </h3>
       <p v-if="profileStore.company.company_specialization" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
-        {{ profileStore.company.company_specialization }}</p>
+        {{ $t(profileStore.company.company_specialization) }}</p>
    
       <p v-else class="text-[#EA4335] font-medium text-[14px] leading-[24px]">
     {{ $t('Specialization not Added') }}
          </p>
     </div>
-      <div>
+      <div class="rtl:-mr-12 ipad-max:ltr:!ml-[40px] lg:ltr:-ml-[85px]">
       <h3 class="text-[#A0AEC0] font-medium text-[14px] leading-[24px]">{{$t('Team')}}</h3>
       <p v-if="profileStore.company.team_name" class="text-[#474E57] font-medium text-[14px] leading-[24px]">
        {{profileStore.company.team_name }}

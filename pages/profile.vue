@@ -394,7 +394,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
           <ProfilePortfolio
             v-if="
               !profileStore.loadingProfile &&
-              profileStore.member?.social_accounts?.length &&
+             
               profileStore.currentTab === 'personal'
             "
           />
@@ -403,7 +403,9 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
         </div>
 
         <div
-          class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
+          class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] 
+          backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
+         
         >
           <div class="flex items-start justify-between w-full">
             <!-- Personal Info Tab -->

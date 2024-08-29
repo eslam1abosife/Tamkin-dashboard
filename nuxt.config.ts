@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   ssr:false,
   sourcemap: false,
 
@@ -256,7 +256,7 @@ colorMode: {
       Lato:[100,200,300,400,500,600,700],
       Manrope:[100,200,300,400,500,600,700],
       Mali:true,
-      Almarai:[100,200,300,400,500,600,700]
+      Almarai:[100,200,300,400,500,600,700,800]
     }
     },
 

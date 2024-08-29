@@ -122,7 +122,7 @@ return formattedDate
   
         
           <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
-            {{withDrawStore.transactionDetails.status}}
+            {{$t(withDrawStore.transactionDetails.status)}}
           </div>
         </div>
   

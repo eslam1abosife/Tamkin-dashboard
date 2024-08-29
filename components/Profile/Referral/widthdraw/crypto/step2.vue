@@ -126,7 +126,7 @@ const closeAndReset = ()=>{
   </div>
 <div class=" mx-auto max-h-[100%] w-full">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Withdraw Money
+    {{ $t('Withdraw Money') }}
 </h1>
 
 
@@ -138,9 +138,9 @@ const closeAndReset = ()=>{
     <div class=" col-span-1 w-[39px] h-[39px] ">
         <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="" alt="">
     </div>
-    <div class="flex items-start justify-start flex-col col-span-4 ml-4" >
-<div class="text-[#021328] text-[12px] font-[500] ">
-{{withdrawStore.selectedCrypto.title}}  
+    <div class="flex items-start justify-start flex-col col-span-4 ltr:ml-4 rtl:mr-4" >
+<div class="text-[#021328] text-[12px] font-[500]  ">
+{{withdrawStore.selectedCrypto.title}} - {{withdrawStore.selectedCrypto.symbols}}  
 </div>
 
 <div class="text-[#021328] text-[10px]  font-[500] ">
@@ -163,7 +163,7 @@ const closeAndReset = ()=>{
 </div>
 
 <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-    {{ $t('How much would you like to withdraw ?') }}
+    {{ $t('How much would you like to withdraw?') }}
 </div>
 
   
@@ -188,7 +188,7 @@ const closeAndReset = ()=>{
 
        <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
-          <div class="flex items-center justify-center space-x-[6px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Withdraw') }}
             </div>

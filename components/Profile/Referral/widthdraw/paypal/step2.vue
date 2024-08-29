@@ -151,7 +151,7 @@ const completeWithDraw = async () => {
 </div>
 
 <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-    {{$t('How much would you like to withdraw ?')}}
+  {{ $t('How much would you like to withdraw?') }}
 </div>
 
   

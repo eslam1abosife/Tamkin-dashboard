@@ -220,7 +220,7 @@ const hasCreditCardError = computed(() =>
 
 const hasCardExistsError = computed(() => 
   billingStore.addCardRes?.statusCode === 400 && 
-  billingStore.addCardRes?.message === t('You already have this card')
+  billingStore.addCardRes?.message === 'You already have this card'
 );
 
 const hasCardNumberError = computed(() => 
@@ -283,7 +283,7 @@ const hasAddCardError = computed(() =>
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+              class="flex items-center justify-start lg:flex-row flex-col  rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
                space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
@@ -373,25 +373,24 @@ const hasAddCardError = computed(() =>
                   placeholder="{{$t('Card Number')}}"
                   id="cardNumber"
                   @keydown="checkInput"
-            
+            @input="billingStore.addCardRes.message = null, billingStore.addCardRes.statusCode =0"
                   :maxlength="19"
                   class="input_floating_label peer w-full lg:w-[704px]"
                   v-model="v$.cardNumber.$model"
                   :class="{
-                    input_error:
-                      (v$.cardNumber.$error && v$.cardNumber.required.$invalid) ||
-                      (v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid) ||
-                      ( billingStore.addCardRes?.statusCode == 400),
-                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid &&
-                      ( billingStore.addCardRes?.statusCode === 200),
+                    input_error: 
+                      (v$.cardNumber.$error && (v$.cardNumber.required.$invalid || v$.cardNumber.creditCard.$invalid)) ||
+                      (billingStore.addCardRes?.statusCode === 400),
+                    input_success: !v$.cardNumber.$error && !v$.cardNumber.$invalid && !billingStore.addCardRes?.statusCode
                   }"
+                  
                 />
                 <label
                   for="cardNumber"
                   class="floating_label"
                   :class="[
                     v$.cardNumber.$error && v$.cardNumber.required.$invalid || v$.cardNumber.$error && v$.cardNumber.creditCard.$invalid
-                    || (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == $t('You already have this card'))
+                    || (billingStore.addCardRes?.statusCode == 400 && billingStore.addCardRes?.message == 'You already have this card')
                       ? '!text-error'
                       : '',
                   ]"
@@ -405,14 +404,14 @@ const hasAddCardError = computed(() =>
               <p class="error_message">
                 <span v-if="hasRequiredError">{{ $t('Card Number is required') }}</span>
                 <span v-else-if="hasCreditCardError">{{ $t('Card Number is Not correct') }}</span>
-                <span v-else-if="hasCardExistsError">{{ billingStore.addCardRes?.message }}</span>
+                <span v-else-if="hasCardExistsError">{{ $t(billingStore.addCardRes?.message) }}</span>
               </p>
               
               </div>
               </div>
             </div>
             <div
-              class="flex items-center justify-start lg:flex-row flex-col lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
+              class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[42px] lg:space-y-[0] space-y-[25px] my-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
@@ -570,7 +569,7 @@ const hasAddCardError = computed(() =>
               </div>
             </div>
             <div
-              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+              class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px]  rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
@@ -648,7 +647,7 @@ const hasAddCardError = computed(() =>
 
             <div
               class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0
-              space-y-[16px] lg:rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+              space-y-[16px]  rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
             >
               <div class="w-full lg:w-[330px]">
                 <div class="relative">
