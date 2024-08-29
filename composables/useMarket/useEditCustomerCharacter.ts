@@ -17,28 +17,6 @@ export default function() {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
-    const AddCustomCharacterToCart = async (state) => {
-        try {
-            const res = await api.post('/Market/AddProductFromCart', {
-                data: {
-                    item: {
-                        type: 'custom_character',
-                        name: state.name,
-                        age: state.age,
-                        gender: state.gender,
-                        description:state.description,
-                        images:state.images,
-                    }
-                }
-            });
-            if(!res.data.succeeded) throw(res.data.message);
-            return{
-                data:res
-            }
-        } catch (error) {
-            throw typeof(error) === 'string' ? error : 'There is something wrong';
-        }
-    };
     const EditCustomCharacter = async (state) => {
         try {
             const res = await api.post('/Market/EditCustomCharacter', {
@@ -62,7 +40,6 @@ export default function() {
     };
 
     return {
-        AddCustomCharacterToCart,
         EditCustomCharacter,
         GetCustomCharacterCost,
         customCharacterCost,
