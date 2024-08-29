@@ -1,21 +1,22 @@
 <script setup>
 import { useMarketStore } from "@/stores/market";
+import { usePlayerStore } from "@/stores/player";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
 
 const marketStore = useMarketStore();
-
-// define props
+const playerStore = usePlayerStore();
 const props = defineProps(["currentCategoryWithSkinItems"]);
 </script>
 
 <template>
   <div
     class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]">
+    <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div
       v-if="currentCategoryWithSkinItems.category_items.length > 0"
       class="market_card_char order-1 cursor-pointer"
-      @click.stop="marketStore.selectItemforPreview(skin_item)"
+      @click="playerStore.wearClothes(skin_item)" :role="marketStore.owned(skin_item) ? 'button' : ''"
       v-for="skin_item in currentCategoryWithSkinItems.category_items"
       :key="skin_item.name"
       :class="[
@@ -78,12 +79,13 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           <div
             class="flex items-center justify-between w-full"
             v-if="skin_item.offer_cost > 0">
-            <div
-              class="flex items-start flex-col justify-evenly space-y-[10px]">
+            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
               <div
-                v-if="skin_item.offer_cost > 0"
-                class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] 
-                font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1">                               <div>%{{ (((skin_item.cost - skin_item.offer_cost) / skin_item.cost) * 100).toFixed(2) }} OFF</div>
+                v-if="marketStore.cartable(skin_item) && skin_item.offer_cost > 0"
+                class="w-[80px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[11px] flex items-center justify-center"
+                class2="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
+                >
+                <div>%{{ (((skin_item.cost - skin_item.offer_cost) / skin_item.cost) * 100).toFixed(2) }} OFF</div>
               </div>
               <div class="flex items-center justify-center">
                 <div class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px]">
@@ -153,7 +155,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           </div>
           <div
             class="flex items-end justify-between w-full mt-[10px]"
-            v-if="skin_item.cost && (!skin_item.offer_cost || skin_item.offer_cost == 0)"
+            v-if="marketStore.cartable(skin_item) && skin_item.cost && (!skin_item.offer_cost || skin_item.offer_cost == 0)"
           >
             <div
               class="text-[13px] font-[600] text-darkGrey pr-[10px] leading-[10px]"

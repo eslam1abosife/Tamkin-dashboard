@@ -11,9 +11,11 @@ const navStore = useNavbarStore();
 const  glasses =  ref(null)
 const navStoreRef = storeToRefs(navStore);
 
-const { categoriesWithSkinItems } = useGetCategoriesWithSkinItems();
+
+const props = defineProps(["categoriesWithSkinItems"]);
+
 const categoriesHavingSkinItems = computed(() => {
-  return categoriesWithSkinItems.value.filter((category) => category.category_items.length > 0);
+  return props.categoriesWithSkinItems.filter((category) => category.category_items.length > 0);
 });
 
 const scrollItemRefs = ref({});

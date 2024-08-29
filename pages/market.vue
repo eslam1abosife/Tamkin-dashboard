@@ -1,5 +1,6 @@
 <script setup>
 import { useMarketStore } from "@/stores/market";
+import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCharacters, useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 
@@ -16,17 +17,44 @@ const toggleExpandHeader = () => {
 };
 const {GetCustomCharacterCost} = useEditCustomerCharacter()
 const { getCartItems, cartItems } = useCart();
-const { getCharacters } = useGetCharacters();
+const { getCharacters, characters } = useGetCharacters();
 const { getCategoriesWithSkinItems, categoriesWithSkinItems, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
+const playerStore = usePlayerStore();
+
 onMounted(async () => {
     GetCustomCharacterCost();
     getCartItems();
-    getCharacters();
     getCategoriesWithSkinItems();
+    await getCharacters();
+    playerStore.activeCharacter = characters.value[0]
+    // todo
+    // playerStore.activeCharacter = characters.value.find((character) => character.applied == 1);
+})
+  
+const categoriesWithSkinItemsFiltered = computed(() => {
+  if (!playerStore.activeCharacter?.allowed_skins) return []
+  return categoriesWithSkinItems.value.map((category) => {
+    return {
+      ...category,
+      category_items: category.category_items.filter(function (item) {
+          return playerStore.activeCharacter.allowed_skins.map((item) => item.skin_item).includes(item.name);
+      })
+    }
+  })
 })
 
 const currentCategoryWithSkinItems = computed(() => {
-  return categoriesWithSkinItems.value.find((category) => category.name == marketStore.currentTab);
+  // if (!playerStore.activeCharacter?.name || marketStore.currentTab == 'character') return null
+  return categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab);
+  // let allowed_skins_names_of_current_character = playerStore.activeCharacter.allowed_skins.map((item) => item.skin_item)
+  // currentCategory.category_items = currentCategory.category_items.filter((item) => allowed_skins_names_of_current_character.includes(item.name))
+  // console.log(
+  //   'activeCharacter',playerStore.activeCharacter,
+  //   'currentCategory',currentCategory,
+  //   'categoriesWithSkinItems', categoriesWithSkinItemsFiltered.value,
+  //   'marketStore.currentTab', marketStore.currentTab,
+  // );
+  // return currentCategory;
 });
 
 const marketStore = useMarketStore();
@@ -136,10 +164,6 @@ function leaveNotification(el, done) {
  ** select for preview
  ** save clothes on characters
  */
-
-
-
-
 </script>
 
 <template>
@@ -462,15 +486,13 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1]">
-          <img src="/assets/pngs/market/man_standing.png" class="h-[600px]" alt="" />
-        </div>
+        <MarketPlayer />
       </div>
 
-      <MarketNavbar />
+      <MarketNavbar :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
       
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
-      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
+      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.category_items?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>
   </div>
 </template>
