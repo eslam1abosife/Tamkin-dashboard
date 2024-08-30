@@ -7,6 +7,8 @@ import { useGetCharacters, useGetCategoriesWithSkinItems, useCart, useEditCustom
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const expandedHeader = ref(false);
 const expandedHeaderStep = ref(0); // Step counter

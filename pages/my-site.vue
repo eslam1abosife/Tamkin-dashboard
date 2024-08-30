@@ -20,6 +20,8 @@ import {watch, computed, ref} from "vue";
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const state = reactive({
   teamName: "",
@@ -271,7 +273,7 @@ const paginatedFilteredAppList = computed(() => {
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[20px]" />
+              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]" />
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                 <div>

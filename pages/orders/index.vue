@@ -45,6 +45,10 @@ const savedCards = ref([
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'orders',
+
+
 });
 const state = reactive({
   teamName: "",
@@ -308,8 +312,8 @@ const setPageSize = (size:number) => {
                         <span>{{ $t(order['payment method']) }}</span>
                       </div>
                     </td>
-                    <td class="px-6 py-3 rtl:text-right ltr:text-left ">
-                      <span>{{ order.price }} USD</span>
+                    <td class="px-6 py-3 rtl:text-right ltr:text-left uppercase ">
+                      <span>{{ order.price }} <span>{{order.currency ? order.currency : 'USD'}}</span></span>
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left">
                       <div class="flex items-center ml-1 rtl:space-x-reverse space-x-[8px]">

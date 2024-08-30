@@ -35,10 +35,10 @@ const closeoutside = () => {
 
 
 <div class="flex items-center justify-between rtl:space-x-reverse space-x-[32px]">
-    <div v-if="locale ==='en'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
+    <div v-if="locale ==='ar'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
       English
     </div>
-   <div v-if="locale ==='ar'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
+   <div v-if="locale ==='en'" class="text-[13px] font-[500] leading-[19px] text-[#585B5B]">
       Arabic
     </div>
 

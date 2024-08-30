@@ -3,7 +3,7 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useChangeAccountPassword } from "@/composables/useProfile";
-
+const {t} = useI18n()
 const { changeAccountPassword,errorFields,loading } = useChangeAccountPassword();
 const emit = defineEmits(['closeEditingMode'])
 const state = reactive({
@@ -60,7 +60,7 @@ const updatePassword = async () => {
       new_password: state.password,
     });
    await emit('closeEditingMode')
-    $toast('Password updated successfully', { hideIn: 3000});
+    $toast(t('Password updated successfully'), { hideIn: 3000});
  
 
   }
@@ -124,6 +124,7 @@ const updatePassword = async () => {
 
 
      </div>
+  
           <div class="w-full lg:w-4/6" v-if="v$.oldpass.$error && v$.oldpass.required.$invalid">
             <p class="error_message_password">
               <span v-if="v$.oldpass.$error && v$.oldpass.required.$invalid">

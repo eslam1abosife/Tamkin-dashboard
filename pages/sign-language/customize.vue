@@ -22,6 +22,8 @@ const {
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const localePath = useLocalePath();
 

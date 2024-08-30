@@ -55,7 +55,7 @@ const doLogin = async () => {
     // await profileStore.fetchMember()
     // await profileStore.getCurrentTeam()
     showToast.value = true
-    router.push(localePath("/overview"));
+    router.push({path:localePath("/overview")});
   } catch (error) {
     loginSuccessfully.value = false;
 
@@ -101,8 +101,7 @@ const clearFieldError = (condition) => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="showToast" :hideIn="2000" :message="'Login Done Successfully'"
-    class="top-[8%] !left-[15%]"></DashboardToastSuccess>
+
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px]">
@@ -200,7 +199,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("Email") }}*
+                  {{ $t("Email*") }}
                 </label>
                 <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
     (v$.email.$error && v$.email.email.$invalid) ||
@@ -244,7 +243,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("Password") }}*
+                  {{ $t("Password*") }}
                 </label>
                 <div class="password_eye" v-if="!isPasswordVisible" @click="togglePasswordVisibility">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

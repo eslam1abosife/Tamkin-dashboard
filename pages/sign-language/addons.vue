@@ -3,6 +3,8 @@ const signLangStore = useSignLangStore();
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const localePath = useLocalePath();
 const route = useRoute();

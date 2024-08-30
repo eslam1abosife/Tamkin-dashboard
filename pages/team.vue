@@ -32,7 +32,7 @@ const {
   getAllTeamMember,
   loading: getAllMembersLoading,
 } = useGetAllMembers();
-
+const userStore = useUserStore()
 const user = ref(null);
 
 const getTeamMembersAndThirCount = () => {
@@ -143,6 +143,9 @@ const editDonePicture = ref(false);
 
 definePageMeta({
   layout: "dashboard",
+  middleware:['auth','permissions'],
+  requiredPermission: 'team',
+
 });
 
 const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
@@ -258,8 +261,8 @@ const isOwner = computed(() => {
 let myUser = ref({});
 onMounted(async () => {
   myUser.value = JSON.parse(localStorage.getItem("user"));
-  await profileStore.getCurrentTeam()
-  await profileStore.fetchMember()
+  // await profileStore.getCurrentTeam()
+  // await profileStore.fetchMember()
 });
 </script>
 
@@ -499,7 +502,7 @@ onMounted(async () => {
             ></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px] space-x-[90px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px] space-x-[88px] flex"
             >
               <div>{{$t('Active')}}</div>
               <div>
@@ -705,10 +708,11 @@ onMounted(async () => {
                       </div>
                     </div>
                     <div
-                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " :class="[member.member_email === user.user_id ? 'cursor-pointer' :'cursor-not-allowed']"
+                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " 
+                      :class="[isOwner ? 'cursor-pointer' :'cursor-not-allowed']"
                       @click="()=>{
 
-                        if(member.member_email === user.user_id){
+                        if(isOwner){
                     
                           openModal('editname', 'team', member)
                         }

@@ -226,6 +226,7 @@ const closeModalAndresetPaymentMethods = () => {
             
         </div>        -->
 
+ 
         <template v-for="method in paymentMethods" :key="method.name">
           <div class="w-full">
             <div

@@ -37,7 +37,11 @@ const closeModalAndReset = ()=>{
   
   closeModal('success_paypal_withdraw')
 }
-
+const openSupport = ()=>{
+  if(process.client){
+    window.$chatwoot.toggle()
+  }
+}
 
     const getStatusStyle=(method:number)=> {
       switch (method) {
@@ -159,8 +163,15 @@ return formattedDate
           </div>
         </div>
   
-        <div class="mt-[10px] sm:mt-0">
-          <img src="/imgs/support.png" class="w-[120px] h-[37px]" alt="">
+        <div class="mt-[10px] sm:mt-0 cursor-pointer" @click="openSupport">
+          <div class="w-[110px] h-[37px] rounded-[10px] bg-white  flex items-center justify-center space-x-[10px] rtl:space-x-reverse cursor-pointer">
+            <div>
+              <img src="/imgs/support.svg" class="w-[20px] h-[24px]" alt="">
+            </div>
+            <div class="text-[16px] font-[600] leading-[27px] text-tamkin ">
+              {{ $t('Support') }}
+            </div>
+          </div>
         </div>
       </div>
   

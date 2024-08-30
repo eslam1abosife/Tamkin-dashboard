@@ -26,8 +26,8 @@ export default function() {
       errorFields.value = [];
 
       if (typeof error === 'string') {
-        console.log(errorFields)
-        if (error === 'Password inValid') {
+        // console.log(errorFields)
+        if (error === 'Invalid password') {
           errorFields.value.push({ field: 'old_password', message: error });
         } else if (error === 'select New Password Strong') {
           errorFields.value.push({ field: 'password', message: error });

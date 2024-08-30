@@ -38,31 +38,31 @@ const emit = defineEmits(["onSuccess"]);
 const errorMsg = ref(null);
 const loadinginvite = ref(false);
 const memberAlreadyInTeamError = ref(false)
-const userInTeam = ref('')
+const userInTeam = ref([])
 const submitInviteMember = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   try {
     loadinginvite.value = true;
- userInTeam.value = await checkuserInTeam(state.email)
-if(userInTeam.value.length === 0){
-  setData({ ...state });
-    // await inviteMember({ ...state, currTeamId: user.agency });
-    // getAllTeamMember(user.agency);
-    // emit('onSuccess', 'User added successfully!');
-    navigateTo("invitemember", "team", "invitememberupdate", {
-      ...state,
-      currTeamId: user.agency,
-    });
-    
-}else {
-  memberAlreadyInTeamError.value = true
-}
-   
+    userInTeam.value = await checkuserInTeam(state.email);
+    // console.log('userInTeam.value:', userInTeam.value);
+    // console.log('userInTeam.value.length:', userInTeam.value.length);
+
+    if (userInTeam.value.length === 0) {
+      setData({ ...state });
+      navigateTo("invitemember", "team", "invitememberupdate", {
+        ...state,
+        currTeamId: user.agency,
+      });
+    } else {
+      memberAlreadyInTeamError.value = true;
+    }
+
     loadinginvite.value = false;
   } catch (err) {
     errorMsg.value = err;
   }
 };
+
 
 onMounted(() => {
   // console.log('mounted');

@@ -27,6 +27,7 @@ export default function(state) {
             userStore.setToken(user.value?.sid);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
+            useCookie('user').value = JSON.stringify(user.value);
             localStorage.setItem('user', JSON.stringify(user.value));
 
          

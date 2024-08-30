@@ -24,6 +24,10 @@ const code = ref(true);
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'embed-code',
+
+
 });
 const props = defineProps({
   maxWidth: String,

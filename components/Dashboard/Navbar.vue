@@ -226,7 +226,7 @@ watch(
 
 <template>
   <div
-    class="flex-col items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto 
+    class="flex-col items-start justify-start lg:flex mx-auto   fixed rtl:lg:right-auto 
     rtl:right-0 ltr:left-0 px-6 h-screen z-[140]  transition-all duration-75 ease-in-out transform-gpu"
     :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
     style="box-sizing: border-box !important"
@@ -1645,7 +1645,7 @@ watch(
       </div>
       <div
         v-if="sideBarOpen"
-        class="w-full relative ipad-max:!top-[20px] lg:top-[150px] 2xl:top-[90px] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
+        class="w-full absolute ipad-max:-bottom-[28vh] lg:-bottom-[38vh] 2xl:-bottom-[32vh] 3xl:-bottom-[53vh] 4xl:-bottom-[53vh] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
         dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div

@@ -134,7 +134,7 @@ import 'vue-loading-overlay/dist/css/index.css';
        
       </div>
 
-      <div v-if="isLinkActive('/auth/register')  || isLinkActive('/auth/login') || isLinkActive('/auth/reset-password')  "
+      <div v-if=" isLinkActive('/auth/login')   "
        class="absolute bottom-[16px] ipad-max:bottom-[-100px] left-0 rtl:right-[-50%] ltr:right-[50%]" 
       :class="[isLinkActive('/auth/register') ? '!bottom-[-50px] ipad-max:!bottom-[-180px]' :'']" >
         <AuthLanguageSwitcher class="mx-auto !z-50"/>

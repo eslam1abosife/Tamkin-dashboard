@@ -14,6 +14,8 @@ const plan = ref("free");
 const upgradepackageimages = ref(false);
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const currentPlanchange = (p: any) => {
   plan.value = p;

@@ -51,7 +51,7 @@ const checkAll = computed({
 
 const errMsg = ref(null);
 
-// const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
+const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
 const { inviteMember, memberData, loading: submitLoading } = useInviteMember();
 const { getAllTeamMember } = useGetAllMembers();
 
@@ -67,8 +67,8 @@ const savePermission = async () => {
 
     state.permissions=checked.value
     
-    // await /* updateUserPermission */(state);
-    await inviteMember(state);
+    await updateUserPermission(state);
+    // await inviteMember(state);
     getAllTeamMember(user.agency);
 
     emit('onSuccess', 'User added successfully!');
@@ -78,10 +78,11 @@ const savePermission = async () => {
     updatePermissonsLoading.value = false
 
   } catch (err:any) {
+    console.log(err)
     errMsg.value = err;
-    console.error(err);
+    // console.error(err);
     closeModal('userpermissions');
-    openModal('invitemember');
+    // openModal('invitemember');
     error_message.value.error=err
     setData(error_message.value);
 
@@ -210,7 +211,7 @@ const savePermission = async () => {
                     </svg>
                   </label>
                 </div>
-                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey">{{ $t(permission.uniq_name) }}</span>
+                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey ">{{ $t(permission.title) }}</span>
               </td>
             </tr>
           </tbody>

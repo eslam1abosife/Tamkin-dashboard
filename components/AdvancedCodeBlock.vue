@@ -1,5 +1,5 @@
 <template v-loading="getCodeLoading">
-  <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="'Copied to clipboard'" />
+  <DashboardToastSuccess v-if="copyDone" :hideIn="2000" :message="$t('Copied to clipboard')" />
   <div class="flex flex-col items-center justify-center w-full" v-if="loadingBlock">
     <div class="flex items-center lg:flex-nowrap flex-wrap md:flex-nowrap justify-between mt-[30px] w-full px-[15px]">
       <div class="animate-pulse flex items-center justify-between space-x-4 w-full">

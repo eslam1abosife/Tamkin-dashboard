@@ -61,12 +61,12 @@ const {
     <h1 class="text-center font-[600] bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent
     
      bg-clip-text text-[18px] leading-[36px]">
-      {{ title }}
+      {{ $t(title) }}
     </h1>
   
     <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey ">
 
-      {{ subTitle }}
+      {{ $t(subTitle) }}
     </h2>
 
  </div>
