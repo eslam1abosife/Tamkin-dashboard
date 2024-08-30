@@ -66,9 +66,10 @@ const savePermission = async () => {
     const state=getData();
 
     state.permissions=checked.value
-    
+    if(state.from_edit){
     await updateUserPermission(state);
-    // await inviteMember(state);
+
+    }
     getAllTeamMember(user.agency);
 
     emit('onSuccess', 'User added successfully!');
@@ -76,6 +77,9 @@ const savePermission = async () => {
     closeModal('userpermissions');
 
     updatePermissonsLoading.value = false
+
+  await inviteMember(state);
+
 
   } catch (err:any) {
     console.log(err)

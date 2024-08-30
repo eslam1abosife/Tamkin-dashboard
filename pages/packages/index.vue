@@ -553,15 +553,15 @@ const boxShadowStyle = computed(() => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr>
+              <tr >
                 <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">Live Translations - addons <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i></td>
                 <td class="px-6 py-4 text-center"><i class="text-teal-500 fas fa-check-circle"></i></td>
                 <td class="px-6 py-4 text-center">-</td>
-                <td class="px-6 py-4 text-center">
+                <td class="px-6 py-4 text-left">
                   <img src="/assets/imgs/checked_list_active.svg" class="inline-block" style="vertical-align: middle;" />
                 </td>
               </tr>
-              <tr>
+              <tr >
                 <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">Live Translations - addons <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i></td>
                 <td class="px-6 py-4 text-center"><i class="text-teal-500 fas fa-check-circle"></i></td>
                 <td class="px-6 py-4 text-center">-</td>

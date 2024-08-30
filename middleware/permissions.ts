@@ -1,16 +1,21 @@
-// middleware/permissions.js
+import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
+
+   
   const profileStore = useProfileStore();
-  const { member } = storeToRefs(profileStore);
-  const userStore = useUserStore()
-  // Fetch user permissions (assuming this is an async action)
-  await profileStore.fetchMember(false);
+// console.log('profileStore',profileStore.member)
 
   // Extract member permissions
-  const memberPermissions = member.value?.permission.map(
+  const permissions = useCookie('permissions').value ? useCookie('permissions').value: [];
+
+  const memberPermissions = permissions.map(
     (permission) => permission.tamkin_roles
-  ) || [];
+  ) ;
+
+  // console.log(profileStore.member.permission)
   const roleProfileName = useCookie('user').value.role_profile_name ? useCookie('user').value.role_profile_name : null;
+
 // console.log('user', useCookie('user').value.role_profile_name)
   // Define the required permission for the current route (customize as needed)
   const requiredPermission = to.meta.requiredPermission;

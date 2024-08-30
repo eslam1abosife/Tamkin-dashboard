@@ -113,11 +113,13 @@ watch(reInvite, (newValue) => {
     }, 2000);
   }
 });
-
+const userRole = ref(useCookie('user').value.role_profile_name )
 const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-
+watch(() => useCookie('user').value.role_profile_name, (newRole) => {
+  roleProfileName.value = newRole;
+});
 const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
@@ -147,7 +149,7 @@ definePageMeta({
   requiredPermission: 'team',
 
 });
-
+const {user:userinStore} = storeToRefs(userStore) 
 const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
 const loadingTeam = ref(true)
 const getCurrTeam = async () => {
@@ -707,12 +709,13 @@ onMounted(async () => {
                         </span>
                       </div>
                     </div>
+
                     <div
                       class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " 
-                      :class="[isOwner ? 'cursor-pointer' :'cursor-not-allowed']"
+                      :class="[userinStore.role_profile_name === 'Owner of Agency' && userinStore.user_id === member.member_email ? 'cursor-pointer' :'cursor-not-allowed']"
                       @click="()=>{
 
-                        if(isOwner){
+                        if(userinStore.role_profile_name === 'Owner of Agency'  && userinStore.user_id === member.member_email ){
                     
                           openModal('editname', 'team', member)
                         }

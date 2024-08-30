@@ -51,7 +51,8 @@ const doLogin = async () => {
   firebaseErrorMsg.value = null;
   try {
     await loginUser();
-
+    await profileStore.fetchMember(true)
+    useCookie('permissions').value = profileStore.member?.permissions
     // await profileStore.fetchMember()
     // await profileStore.getCurrentTeam()
     showToast.value = true
