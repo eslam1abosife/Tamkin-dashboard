@@ -34,9 +34,12 @@ const props =  defineProps({
       }}
     </span>
   </div>
-  
-  <div  v-else
-    class="user-img__skeleton animate-pulse flex space-x-4">
-    <div class="ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full">XX</div>
-  </div>
+  <div v-else
+  class="avatar_img ipad-max:w-[30px] ipad-max:h-[30px] w-[40px] h-[40px] rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none">
+  <span>
+    {{
+      getAvatarLetters(member.first_name + " " + member.last_name)
+    }}
+  </span>
+</div>
 </template>

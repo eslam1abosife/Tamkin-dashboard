@@ -5,6 +5,10 @@ import { useGetAppInvites, useGetTeamMemberInviteApps, useInviteApp } from "@/co
 const { apps, getInviteApps, loading: getAppsLoading } = useGetAppInvites();
 const { inviteApp, loading: submitInviteLoading } = useInviteApp();
 const { inviteAppsForMember, getMemberInviteApps } = useGetTeamMemberInviteApps();
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
 const emit = defineEmits(['onSuccess']);
 
 const {
@@ -92,7 +96,8 @@ const submitInviteApp = async () => {
 
 <template>
   <div v-if="isOpen('editusermodal')"
-    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] ipad-max:h-auto lg:h-[648px] w-10/12 max-h-[80vh] "
+    class="fixed z-[9999] top-[50px]  bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
+    ipad-max:h-auto lg:h-auto w-10/12  "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('editusermodal')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -108,9 +113,25 @@ const submitInviteApp = async () => {
       </h1>
     
       <div class="flex items-center rtl:space-x-reverse space-x-[12px] justify-start ipad-max:mt-0 mt-[32px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+       
+       
         <div>
           <div v-if="getAppsLoading" class="w-[56px] h-[56px] bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
-          <img v-else src="/assets/imgs/icons/avatar_table.svg" class="w-[56px] h-[56px]" />
+          <div
+          class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
+          v-if="!getAppsLoading && !getData().user_image">
+          <span>
+            {{ getAvatarLetters(getData().firstName + ' ' + getData().lastName) }}
+          </span>
+        </div>
+
+       <div  v-if="!getAppsLoading && getData().user_image"> 
+        <img
+        v-if="getData().user_image"
+        :src="`https://tamkin.app/${getData().user_image}`"
+        class="w-[56px] h-[56px] rounded-full"
+      />
+       </div>
         </div>
         <div class="flex flex-col items-start justify-center">
           <div>
@@ -129,7 +150,7 @@ const submitInviteApp = async () => {
       </div>
     
       <p v-if="!getAppsLoading" class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
-        {{ $t('Select Website that') }} <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + '' + getData().lastName }} </span> {{ $t('can access') }}
+        {{ $t('Select Website that') }} <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + ' ' + getData().lastName }} </span> {{ $t('can access') }}
       </p>
     
       <div v-if="!getAppsLoading" class="w-full">
@@ -198,12 +219,12 @@ const submitInviteApp = async () => {
             </tr>
           </tbody>
         </table>
-        <NoData v-else />
+        <NoData class="!my-0 !py-0" v-else />
       </div>
     
       <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ errMsg }} </h6>
     
-      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[108px]">
+      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] " :class="[filteredPermissions.length === 0 ? 'mt-[30px] ':'mt-[108px]']">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('editusermodal')">
           {{$t('Cancel')}}
         </button>

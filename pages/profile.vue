@@ -11,6 +11,8 @@ const {
 } = useModalManager();
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 
 import { useProfileStore } from "~/stores/profile";

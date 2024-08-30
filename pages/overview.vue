@@ -14,6 +14,8 @@ const showExpired = ref(false);
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 </script>
 

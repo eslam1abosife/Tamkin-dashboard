@@ -115,7 +115,7 @@ acceptedFilesRef.value=[]
 
 
 
-
+const currency = ref('')
 
 const updateData = async()=>{
 
@@ -152,8 +152,9 @@ const price=ref('')
 watchEffect(() => {
   if (isOpen('requestmodal_update')) {
     requestData.value = getData();
-    console.log("hello")
-    console.log(requestData.value)
+    currency.value = requestData.value.currency;
+    // console.log("hello")
+    // console.log(requestData.value)
     state.characterName = requestData.value.name;
     state.characterAge = requestData.value.age;
     state.gender = requestData.value.gender;
@@ -363,8 +364,9 @@ watchEffect(() => {
 
         <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
+         
           <div class="text-darkGrey text-[16px] font-[500]">Price</div>
-          <div class="text-[16px] font-[600]">{{ price }} AED</div>
+          <div class="text-[16px] font-[600] uppercase">{{ price }} {{ currency ? currency : 'USD' }} </div>
         </div>
         <div class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto  py-3">
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>

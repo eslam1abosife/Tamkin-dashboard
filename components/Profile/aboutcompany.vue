@@ -58,7 +58,7 @@ watch(() => state.about, (newValue) => {
    <p class="text-[12px] leading-[18px] !whitespace-normal text-black ">   {{ profileStore.company.about }}</p>
     </div>
 
-    <div class="w-full ">
+    <div class="w-full relative">
       <textarea
         v-if="currentMode === 'editing'"
         v-model="state.about"
@@ -71,7 +71,7 @@ watch(() => state.about, (newValue) => {
         :placeholder="$t('Type here')+'...'"
       ></textarea>
 
-      <div v-if="v$.about.$error" class="text-red-500 text-[12px]">
+      <div v-if="v$.about.$error" class="text-red-500 text-[12px] absolute bottom-2 ltr:left-2 rtl:right-2">
         <span v-if="!v$.about.$pending && v$.about.$errors[0]">
           {{ $t('About the company is required') }}
         </span>

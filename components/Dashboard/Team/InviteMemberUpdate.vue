@@ -156,7 +156,7 @@ const submitInviteApp = async () => {
         </div>
       
         <p v-if="!getAppsLoading"
-          class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
+          class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] whitespa dark:text-whiteTamkin text-[14px] leading-[24px]">
           {{ $t('Select Website that') }} <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60">
             {{ getData().firstName + ' ' + getData().lastName }}
           </span> {{$t('can access')}}
@@ -295,7 +295,7 @@ const submitInviteApp = async () => {
       <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ errMsg }} </h6>
 
       <div
-        class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] mt-[40px]">
+        class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] " :class="[filteredPermissions.length === 0 ? 'mt-0':'mt-[40px]']">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('invitememberupdate')">
           {{ $t('Cancel') }}
         </button>

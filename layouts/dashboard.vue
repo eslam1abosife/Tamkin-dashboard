@@ -155,6 +155,8 @@ watch(anyChangesInStylesTranslate, (newValue, oldValue) => {
 watch(anyChangesInPlayerTranslate, (newValue, oldValue) => {
   showFooterSavePlayer.value = true;
 });
+const error = useError();
+
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
       (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
@@ -380,7 +382,8 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-if(process.client && window.$chatwoot){
+if(process.client ){
+if(window.$chatwoot){
   if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
   window.$chatwoot.toggleBubbleVisibility("hide");
   window.$chatwoot.toggle("close");
@@ -390,6 +393,7 @@ if(process.client && window.$chatwoot){
   window.$chatwoot.toggle("close");
 
  }
+}
 }
 }, { immediate: true });
 onMounted(async () => {
@@ -522,6 +526,8 @@ import 'vue-loading-overlay/dist/css/index.css';
 
         <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
                          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar"/>
+
+                         
       </div>
     </div>
 
@@ -620,8 +626,8 @@ import 'vue-loading-overlay/dist/css/index.css';
         </nav>
 
         <div class=" relative"
-             :class="isLinkActive('/profile') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
-          <div
+             :class="isLinkActive('/profile') || isLinkActive('/packages') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
+          <div 
               class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
@@ -634,25 +640,28 @@ import 'vue-loading-overlay/dist/css/index.css';
                 );
               "
               v-if="
-                isLinkActive('/addons') ||
+                (isLinkActive('/addons') ||
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
                 isLinkActive('/settings') ||
 
-                isLinkActive('/sign-language/*')
+                isLinkActive('/sign-language/*')) &&
+                !error
               "
           ></div>
           <div class="relative px-[15px]">
             <NavbarOverview
-                v-if="
-                  isLinkActive('/overview') ||
-                  isLinkActive('/settings') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/customize') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/statistics')
-                "
+            v-if="
+  (
+    isLinkActive('/overview') ||
+    isLinkActive('/settings') ||
+    isLinkActive('/addons') ||
+    isLinkActive('/customize') ||
+    isLinkActive('/statistics')
+  ) && !error
+"
+
             />
           </div>
 

@@ -14,6 +14,8 @@ const colorMode = useColorMode();
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 
 const isADHDChecked = ref(false);

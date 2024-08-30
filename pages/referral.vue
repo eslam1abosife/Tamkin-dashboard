@@ -19,6 +19,10 @@ const {
 } = useModalManager();
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'referral',
+
+
 });
 const { getReferralLink } = useGetReferralLink();
 const { getAllReferrals } = useGetAllReferrals();
@@ -115,14 +119,14 @@ const format = (date) => {
   }
 };
 const disabledIfPendingRecords = computed(() => {
-  // // Check if there is any record with a status of "Pending"
-  // const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
+  // Check if there is any record with a status of "Pending"
+  const hasPendingRecords = withdrawStore.rewards.some(item => item.status === 'Pending');
 
-  // // Check if currentAmount is zero or less
-  // const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
+  // Check if currentAmount is zero or less
+  const isAmountZeroOrLess = withdrawStore.currentAmount <= 0;
 
-  // // Disable if either condition is true
-  // return hasPendingRecords || isAmountZeroOrLess;
+  // Disable if either condition is true
+  return hasPendingRecords || isAmountZeroOrLess;
 });
 
 const source = ref("");
@@ -658,7 +662,7 @@ const isCurrentRateEmpty = computed(() => {
                     {{ formatDateOfReward(referral.modified) }}
                   </td>
                   <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
-                    {{ referral.total_commission }} AED
+                    {{ referral.total_commission }} {{referral.currency ? referral.currency :'USD'}}
                   </td>
                   <td
                     class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black"

@@ -94,21 +94,30 @@ export const useProfileStore = defineStore("profile", {
 
 
     },
-    async fetchMember() {
-      this.loadingProfile = true
+    async fetchMember(showLoader = false) {
+      if (showLoader) {
+        this.loadingProfile = true;
+      }
       // this.isLoading = true;
+    
       try {
         const { getMember, member } = useGetMember();
         await getMember();
+        const userStore = useUserStore()
+        const roleProfileName = userStore.user?.role_profile_name;
+    
+        this.isOwner = roleProfileName === 'Owner of Agency';
         this.member = member.value;
       } catch (error) {
         // this.hasError = true;
       } finally {
         // this.isLoading = false;
-        this.loadingProfile = false
-
+        if (showLoader) {
+          this.loadingProfile = false;
+        }
       }
     },
+    
 
     async setMember() {
       await getMember();
@@ -191,11 +200,13 @@ export const useProfileStore = defineStore("profile", {
     },
     getRole() {
       const userStore = useUserStore();
-      // console.log(userStore.user.role_profile_name);
-      
-      this.isOwner = userStore.user.role_profile_name === 'Owner of Agency';
+      // Ensure userStore.user is not null or undefined
+      const roleProfileName = userStore.user?.role_profile_name;
+    
+      this.isOwner = roleProfileName === 'Owner of Agency';
       return this.isOwner ? 'Owner' : 'Member';
     }
+    
   },
 
 

@@ -194,7 +194,7 @@ const closeAndReset = () => {
                     <span class="!text-light">{{ cryptoMethod.symbols }}</span></span
                   >
 
-                  <div class="rtl:mr-auto ltr:ml-auto rtl:ml-[72px] ltr:mr-[34px]">
+                  <div class="rtl:mr-auto ltr:ml-auto ">
                     <div
                       class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                     >
@@ -240,7 +240,7 @@ const closeAndReset = () => {
           for="walletAddress"
           class="floating_label !mr-0 !ml-0"
           :class="[v$.wallet.$error && v$.wallet.required.$invalid ? '!text-error' : '',
-          withdrawStore.selectedCrypto ? 'rtl:!mr-[10px] ltr:!ml-[10px]':''
+          withdrawStore.selectedCrypto ? 'rtl:!mr-[10px] ltr:!ml-[32px]':''
           ]"
         >
           {{ $t("Wallet Address") }}*

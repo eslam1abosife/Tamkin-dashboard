@@ -49,6 +49,10 @@ const colorMode = useColorMode();
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'payments-invoices',
+
+
 });
 
 
@@ -347,18 +351,18 @@ function leaveNotification(el, done) {
       </h2>
     </div>
 
-    <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">{{$t('Payment Methods')}}</div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
-      @click="openAddNewCardModal">
+     >
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           {{$t(`You haven't added any cards yet`)}}
         </div>
         <button class="btn-dashboard hover_tamkin w-auto rtl:space-x-reverse space-x-[10px]" >
 
-          <div class="!text-[14px] !leading-[21px] !font-[600]">{{$t('Add New Card')}}</div>
+          <div class="!text-[14px] !leading-[21px] !font-[600]"  @click="openAddNewCardModal">{{$t('Add New Card')}}</div>
         </button>
       </div>
     </div>
@@ -552,7 +556,7 @@ function leaveNotification(el, done) {
     </div>
 
     <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" 
-    class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    class="bg-white w-full h-[200px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">{{ $t('Invoices History') }}
       </div>
 

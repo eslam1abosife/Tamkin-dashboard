@@ -7,6 +7,8 @@ const { menus } = storeToRefs(collapseStore);
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const localePath = useLocalePath();
 const route = useRoute();

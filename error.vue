@@ -73,7 +73,7 @@ onBeforeMount(() => {
       </div>
       <div class="flex items-center justify-center h-full w-full mt-[100px]">
         <div class="flex items-center">
-          <div class="mr-[30px]">
+          <div class="rtl:ml-[30px] ltr:mr-[30px]">
             <img src="/imgs/notfound.png" class="w-[175px] h-[203px]" alt="Not Found">
           </div>
           <div class="flex flex-col items-start">
@@ -81,12 +81,12 @@ onBeforeMount(() => {
               {{ error.statusCode }}
             </div>
             <div class="text-[21px] font-[500] leading-[26px] text-black mb-[10px]">
-              {{ error.statusCode === 404 ? 'This page could not be found' : 'Something went wrong!' }}
+              {{ error.statusCode === 404 ? $t('This page could not be found') : $t(error.message) }}
             </div>
             <div class="text-[14px] font-[500] leading-[21px] text-black">
-              You can either stay and chill here, or go back to the beginning.
+              {{$t('You can either stay and chill here, or go back to the beginning.')}}
             </div>
-            <button class="btn-dashboard hover_tamkin mt-[32px] max-w-[151px]" @click="goBack">GO Back</button>
+            <button class="btn-dashboard hover_tamkin mt-[32px] max-w-[151px]" @click="goBack">{{$t('Go Back')}}</button>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ onBeforeMount(() => {
       </div>
       <div class="flex items-center justify-center h-full w-full">
         <div class="flex items-center">
-          <div class="mr-[30px]">
+          <div class="rtl:ml-[30px] ltr:mr-[30px]">
             <img src="/imgs/notfound.png" class="w-[175px] h-[203px]" alt="Not Found">
           </div>
           <div class="flex flex-col items-start">

@@ -21,6 +21,8 @@ const {
 } = storeToRefs(customizeStore);
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 
 const changeGradientColor1 = computed(() => {

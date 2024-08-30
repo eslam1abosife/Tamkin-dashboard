@@ -21,7 +21,8 @@ export default {
 
         "ipad-max": { min: "1023px", max: "1024px" },
         "ret-max": { min: "1381px", max: "1382px" },
-        "3xl": { min: "1900px" },
+        "3xl": { min: "1900px" ,max:"1900px"},
+        "4xl": { min: "1920px" },
       },
       borderImage: {
         "gradient-to-b": "linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%) 1",

@@ -58,10 +58,10 @@ const formatAmount = (event) => {
   }
 
   // Limit integer part to 5 digits
-  if (decimalParts[0].length > 5) {
-    decimalParts[0] = decimalParts[0].slice(0, 5);
-    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
-  }
+  // if (decimalParts[0].length > 5) {
+  //   decimalParts[0] = decimalParts[0].slice(0, 5);
+  //   value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+  // }
 
   // Format the integer part with commas (only when the user types the decimal point)
   const formattedInteger = parseInt(decimalParts[0] || '0').toLocaleString();
@@ -71,11 +71,23 @@ const formatAmount = (event) => {
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
   const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
+  // if (formattedNumericValue > currentAmountValue) {
+  //   amount.value = currentAmountValue.toFixed(2);
+  //   withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  // } else {
+  //   amount.value = value; // Allow the user to see what they are typing without extra formatting
+  //   withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  // }
+
+  
   if (formattedNumericValue > currentAmountValue) {
-    amount.value = currentAmountValue.toFixed(2);
-    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+    // Reset to currentAmountValue, ensuring no unnecessary '.00'
+    const valueToSet = currentAmountValue.toFixed(2).replace(/\.00$/, '');
+    amount.value = valueToSet;
+    withdrawStore.withdrawAmount = valueToSet;
   } else {
-    amount.value = value; // Allow the user to see what they are typing without extra formatting
+    // Use the formatted value for display and storage
+    amount.value = value;
     withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   }
 };

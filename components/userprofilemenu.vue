@@ -84,19 +84,29 @@ const userName = () => {
 
 const logout = () => {
   const userStore = useUserStore();
-  userStore.logout();
+  const profileStore = useProfileStore();
+  const invoiceStore = useInvoicesStore();
+  const billingStore = useBillingStore();
+  const withdrawStore = useWithdrawStore();
+    // Clear authentication state and reset stores
+    profileStore.$reset();
+  invoiceStore.$reset();
+  billingStore.$reset();
+  withdrawStore.$reset();
+  userStore.logout('any');
   localStorage.removeItem('user');
   localStorage.removeItem('registerd_email');
   localStorage.removeItem('registerd_user');
+  
 
-  router.push('/auth/login');
+
+router.push({ path: localePath('/auth/login'), query: { logout: 'true' } });
+  // Clear localStorage
 
 
-      profileStore.$reset()
-      invocieStore.$reset()
-      billingStore.$reset()
-      withdrawStore.$reset()
-}
+  
+};
+
 const helpWindow = ()=>{
   if(process.client){
     window.$chatwoot.toggle()
@@ -106,7 +116,7 @@ const helpWindow = ()=>{
 
 onBeforeMount(async ()=>{
   if (Object.keys(profileStore.member).length === 0 && !isLinkActive('/profile')) {
-    await profileStore.fetchMember()
+    await profileStore.fetchMember(true)
 }
 
 

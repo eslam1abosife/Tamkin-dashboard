@@ -114,6 +114,7 @@ script: [
   // "nuxt-svgo"
 ],
 
+
 // chatwoot: {
   
 //   init: {

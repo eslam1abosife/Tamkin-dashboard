@@ -19,6 +19,8 @@ const collapseStore = useCollapseStore();
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const code = ref(true);
 const advancedCode = ref(false);

@@ -20,6 +20,10 @@ import {watch, computed, ref} from "vue";
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
+  requiredPermission: 'subscriptions',
+
 });
 const state = reactive({
   teamName: "",

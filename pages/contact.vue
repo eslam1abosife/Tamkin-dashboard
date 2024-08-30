@@ -8,7 +8,10 @@ const {
   navigateTo,
 } = useModalManager();
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
+  middleware:['auth','permissions'],
+  requiredPermission: 'contact-sales',
+
 })
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, sameAs} from "@vuelidate/validators";
@@ -77,8 +80,8 @@ const state = reactive({
 
     <ModalsSuccessModal
         :show-modal="isOpen('successContact')"
-        :title="$t('Thanks for contact us')"
-        :sub-title="$t('We will contact you as soon as possible')"
+        :title="'thanks for contact us'"
+        :sub-title="'We will contact you as soon as possible'"
         icon="contact_success.svg"
     />
     <div
