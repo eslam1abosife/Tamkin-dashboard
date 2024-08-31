@@ -15,6 +15,7 @@ export default function() {
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);
+            return true
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }

@@ -44,6 +44,8 @@ const errorMsg = ref("");
 const loginSuccessfully = ref(false);
 const showToast = ref(false)
 const profileStore = useProfileStore()
+
+
 const doLogin = async () => {
   loginSuccessfully.value = true;
 
@@ -51,9 +53,10 @@ const doLogin = async () => {
   firebaseErrorMsg.value = null;
   try {
     await loginUser();
-    await profileStore.fetchMember(true)
-    useCookie('permissions').value = profileStore.member?.permissions
-    // await profileStore.fetchMember()
+await profileStore.fetchMember()
+
+
+    // wait profileStore.fetchMember()
     // await profileStore.getCurrentTeam()
     showToast.value = true
     router.push({path:localePath("/overview")});

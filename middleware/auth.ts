@@ -37,6 +37,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       await profileStore.getCurrentTeam(); // Ensure getCurrentTeam is awaited if it's asynchronous
     }
  
-    useCookie('permissions').value = profileStore.member.permission
+    // useCookie('permissions').value = profileStore.member.permission
   }
 });

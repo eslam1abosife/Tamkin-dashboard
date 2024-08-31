@@ -280,7 +280,7 @@ const closeAndReset = () => {
       <div class="mt-[16px] w-full h-[36px]" v-if="!withdrawStore.selectedCrypto"></div>
 
       <div
-        class="ipad-max:mt-[90px] mt-[90px] 2xl:mt-[118px] px-[20px] rtl:mr-auto ltr:ml-auto"
+        class="ipad-max:mt-[90px] mt-[91px] 2xl:mt-[119px] rtl:mr-auto ltr:ml-auto"
       >
         <button
           class="btn-dashboard hover_tamkin"

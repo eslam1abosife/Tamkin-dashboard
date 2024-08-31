@@ -22,24 +22,25 @@ const {getCurrentTeam,currTeam } =useGetCurrentTeam()
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
-// const { data: member, pending, error } = await useAsyncData('member', async () => {
-
+// const { data: member, pending, error:of } = await useAsyncData('member_t', async () => {
 
    
 // // console.log(res,'here res')
 
 
-//   return currTeam.value
+//   return true
 // });
 
 
-onMounted(() => {
+onMounted(async () => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
     const user = JSON.parse(localStorage.getItem("user"));
     userStore.setUser(user);
   }
 
+  // await profileStore.fetchMember()
+await profileStore.getCurrentTeam()
   // profileStore.setMember();
   // profileStore.setCompany();
 });
@@ -403,8 +404,9 @@ onMounted(async () => {
     userStore.user = user;
   }
 
-  const res = await getCurrentTeam()
-profileStore.company = currTeam.value
+//   const res = await getCurrentTeam()
+// profileStore.company = currTeam.value
+
 
 
 })

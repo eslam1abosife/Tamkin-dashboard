@@ -248,7 +248,7 @@ const closeAndReset = () => {
       </div>
   
 
-       <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="ipad-max:mt-[40px] mt-[74px]  rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="withdraw" :disabled="v$.$invalid || loadingtowithdraw">
           <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="loadingtowithdraw ? 'rtl:ml-2 ltr:mr-2':''">

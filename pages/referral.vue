@@ -105,6 +105,13 @@ const alertFn = () => {
   }
 };
 // const withdrawStore = useWithdrawStore()
+const  renderPaymentMethod = (reward)=>{
+ return  reward.payment_type === "bank_account"
+                      ? reward.account_number
+                      : reward.payment_type === "crypto"
+                      ? reward.crypto_address
+                      : reward.email_address
+}
 const format = (date) => {
   const options = { year: "numeric", month: "short", day: "2-digit" };
 
@@ -581,14 +588,11 @@ const isCurrentRateEmpty = computed(() => {
                       : "")
                   }}
                 </td>
-                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black">
-                  {{
-                    reward.payment_type === "bank_account"
-                      ? reward.account_number
-                      : reward.payment_type === "crypto"
-                      ? reward.crypto_address
-                      : reward.email_address
-                  }}
+                <td class="py-4 px-4 text-[14px] font-[500] leading-[19px] text-black" 
+                >
+               <div :class="[reward.payment_type === 'crypto' ? '!w-52 truncate':'']">
+               {{  renderPaymentMethod(reward) }}
+               </div>
                 </td>
                 <td
                   class="py-4 px-4 flex items-center space-x-2 rtl:space-x-reverse text-[14px] font-[500] leading-[19px] text-black "

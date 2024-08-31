@@ -29,7 +29,6 @@ const profileStore = useProfileStore()
             userStore.setUser(user.value);
             useCookie('user').value = JSON.stringify(user.value);
             localStorage.setItem('user', JSON.stringify(user.value));
-            
 
         } catch (error) {
             const errMsg = typeof(error) === 'string' ? error : 'There is something wrong';
