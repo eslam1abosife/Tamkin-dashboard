@@ -13,7 +13,7 @@ import { useGetAppInvites } from "~/composables/useTeam";
 
 const { getMembers, members, loading: getMembersLoading } = useGetMembers();
 const tgl = ()=>{
-  if(process.client){
+  if(process.client && window.$chatwoot){
     window.$chatwoot.toggleBubbleVisibility("show");
     window.$chatwoot.toggle()
   }
@@ -24,6 +24,10 @@ const code = ref(true);
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'embed-code',
+
+
 });
 const props = defineProps({
   maxWidth: String,
@@ -80,6 +84,7 @@ onMounted(async () => {
 // });
 
 
+
 })
 const openVideoLink = (videoLink) => {
   window.open(videoLink, '_blank');
@@ -92,7 +97,12 @@ const filteredInstallationGuide = computed(() => {
 
 <template>
   <div class="relative w-full inset-0">
-
+    <!-- <DashboardToastSuccess
+    v-if="true"
+    :hideIn="20044440"
+    type="error"
+    :message="$t('Member Deleted Successfully')"
+  /> -->
     <div class="  space-y-[32px] relative w-full">
       <!-- <DashboardEmbedShareModal/>
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->
@@ -103,7 +113,7 @@ const filteredInstallationGuide = computed(() => {
           <h1 class="text-center text-[20px] font-[500] lg:order-1 order-2 dark:text-whiteTamkin"
             style="line-height: 43.2px">
             {{ $t('Here’s your') }}
-            <span class="bg-clip-text text-transparent bg-embded-code-gradient">{{$t('Embed code...')}}</span>
+            <span class="bg-clip-text text-transparent bg-embded-code-gradient">{{$t('Embed code')}}...</span>
 
 
           </h1>
@@ -119,9 +129,9 @@ const filteredInstallationGuide = computed(() => {
 
         <div>
           <p class="font-[400] text-[13px] text-center lg:mt-[-23px] dark:text-whiteTamkin/90">
-          {{$t(`Insert the following embed code at the beginning of your site's`)}}
+          {{$t(`Insert the following embed code at the beginning of your site's tag, and you’re all set!`)}}
 
-            <head></head> {{ $t('tag, and you’re all set!') }}
+           
           </p>
         </div>
         <div class="mt-[44px] w-full h-full bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459F1A;">
@@ -216,11 +226,12 @@ const filteredInstallationGuide = computed(() => {
                       <input type="text" class="input_dashboard_search w-full" v-model="search"
                         :placeholder="`${$t('Search')} ...`" />
                       <div
-                        class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
+                        class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px]
+                         ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
                         <img src="/assets/imgs/icons/search.svg" />
                       </div>
                       <div v-if="isSearchfilled" @click="clearInput"
-                        class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer">
+                        class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer">
                         <img src="/assets/imgs/icons/clear_search.svg" />
                       </div>
                     </div>
@@ -235,7 +246,8 @@ const filteredInstallationGuide = computed(() => {
                     <tr class="flex items-center justify-between" v-for="(item, index) in filteredInstallationGuide"
                       :key="index">
                       <td
-                        class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] font-[500] dark:text-whiteTamkin text-darkGrey"
+                        class="flex items-center rtl:space-x-reverse space-x-[16px] px-4 py-4 text-[14px] 
+                        font-[500] dark:text-whiteTamkin text-darkGrey"
                         style="line-height: 22.5px">
                         <div>
                           <img class="w-[28px] h-[30px] object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
@@ -243,8 +255,8 @@ const filteredInstallationGuide = computed(() => {
                         <div> {{ item.title }} </div>
                       </td>
                       <td class="px-4 py-4 text-sm whitespace-nowrap">
-                        <div class="flex items-center gap-x-6">
-                          <button style="line-height: 22.5px" class="btn__embed_table"
+                        <div class="flex items-center rtl:space-x-reverse space-x-6">
+                          <button style="line-height: 22.5px" class="btn__embed_table rtl:space-x-reverse"
                             @click="openVideoLink(item.video_url)">
                             <div>
                               <svg width="25" height="25" viewBox="0 0 25 25" fill="none"

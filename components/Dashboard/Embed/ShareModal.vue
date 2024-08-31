@@ -96,7 +96,7 @@ const submit = async () => {
     ">
         <p class="error_message">
           <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-    $t("Email Address is required")
+    $t("The email address is required")
   }}</span>
           <span v-else-if="v$.email.required.$invalid ||
     (v$.email.$error && v$.email.email.$invalid)

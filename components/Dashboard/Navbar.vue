@@ -226,7 +226,7 @@ watch(
 
 <template>
   <div
-    class="flex-col items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto 
+    class="flex-col items-start justify-start lg:flex mx-auto   fixed rtl:lg:right-auto 
     rtl:right-0 ltr:left-0 px-6 h-screen z-[140]  transition-all duration-75 ease-in-out transform-gpu"
     :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
     style="box-sizing: border-box !important"
@@ -724,7 +724,7 @@ watch(
                     <div
                       class="flex items-center justify-center dashboard-nav-link"
                       :class="[
-                        sideBarOpen ? 'px-[10px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
+                        sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
                       ]"
                     >
                       <div
@@ -765,8 +765,8 @@ watch(
                           height="12"
                           :class="[
                             !showChildMenu[1]
-                              ? 'rotate-90 '
-                              : 'rotate-0 rtl:rotate-180 ',
+                              ? 'rotate-90 rtl:rotate-180'
+                              : 'rotate-0 rtl:rotate-90 ',
                           ]"
                           viewBox="0 0 7 12"
                           class="w-full h-full"
@@ -981,7 +981,7 @@ watch(
                     <div
                       class="flex items-center justify-center dashboard-nav-link"
                       :class="[
-                        sideBarOpen ? 'px-[10px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
+                        sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
                       ]"
                     >
                       <div
@@ -1022,8 +1022,8 @@ watch(
                           height="12"
                           :class="[
                             !showChildMenu[2]
-                              ? 'rotate-90 '
-                              : 'rotate-0 rtl:rotate-180 ',
+                            ? 'rotate-90 rtl:rotate-180'
+                            : 'rotate-0 rtl:rotate-90 ',
                           ]"
                           viewBox="0 0 7 12"
                           class="w-full h-full"
@@ -1636,7 +1636,7 @@ watch(
       <div
         v-if="!sideBarOpen"
         class="cursor-pointer mt-[14px]"
-        @click="$router.push(localePath('/contact'))"
+        @click="$router.push({path:localePath('/contact')})"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div class="w-[34px] h-[34px]">
@@ -1645,7 +1645,8 @@ watch(
       </div>
       <div
         v-if="sideBarOpen"
-        class="w-full ipad-max:mt-[24px] lg:mt-[100px] 2xl:mt-[100px] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
+        class="w-full absolute ipad-max:-bottom-[28vh] lg:-bottom-[38vh] 2xl:-bottom-[32vh] 3xl:-bottom-[53vh] 
+        4xl:-bottom-[58vh] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
         dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div
@@ -1667,7 +1668,7 @@ watch(
           <div class="w-full mx-auto">
             <button
               class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
-              @click="$router.push(localePath('/contact'))"
+              @click="$router.push({path:localePath('/contact')})"
             >
               {{$t('Contact Sales')}}
             </button>

@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   ssr:false,
   sourcemap: false,
 
@@ -102,17 +102,20 @@ script: [
   '@nuxtjs/tailwindcss',
   '@nuxtjs/google-fonts',
   '@pinia/nuxt',
+'@pinia-plugin-persistedstate/nuxt',
   '@nuxtjs/i18n',
   '@vueuse/nuxt',
   '@nuxtjs/device',
   '@vueuse/motion/nuxt',
   '@nuxtjs/color-mode',
+
   // '@productdevbook/chatwoot'
 
   // '@element-plus/nuxt'
   // "@nuxt/image",
   // "nuxt-svgo"
 ],
+
 
 // chatwoot: {
   
@@ -256,7 +259,7 @@ colorMode: {
       Lato:[100,200,300,400,500,600,700],
       Manrope:[100,200,300,400,500,600,700],
       Mali:true,
-      Almarai:[100,200,300,400,500,600,700]
+      Almarai:[100,200,300,400,500,600,700,800]
     }
     },
 

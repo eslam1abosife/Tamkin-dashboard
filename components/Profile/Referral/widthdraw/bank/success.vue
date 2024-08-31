@@ -149,7 +149,7 @@ const getStatusStyle=(method:number)=> {
           </div>
   
           <div class="text-[14px] font-[500] " :class="getStatusStyle(withDrawStore.transactionDetails.status)">
-            {{withDrawStore.transactionDetails.status}}
+            {{$t(withDrawStore.transactionDetails.status)}}
           </div>
         </div>
   
@@ -217,11 +217,18 @@ const getStatusStyle=(method:number)=> {
         </div>
   
         <div class="mt-[10px] sm:mt-0 cursor-pointer" @click="openSupport">
-          <img src="/imgs/support.png" class="w-[120px] h-[37px]" alt="">
+          <div class="w-[110px] h-[37px] rounded-[10px] bg-white  flex items-center justify-center space-x-[10px] rtl:space-x-reverse cursor-pointer">
+            <div>
+              <img src="/imgs/support.svg" class="w-[20px] h-[24px]" alt="">
+            </div>
+            <div class="text-[16px] font-[600] leading-[27px] text-tamkin ">
+              {{ $t('Support') }}
+            </div>
+          </div>
         </div>
       </div>
   
-      <div class="my-[16px] px-[20px] rtl:mr-auto ltr:ml-auto">
+      <div class="my-[16px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           {{$t('Done')}}
         </button>

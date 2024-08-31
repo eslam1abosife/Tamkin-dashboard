@@ -10,6 +10,8 @@ import {
 } from "vue3-carousel/dist/carousel.es.js";
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 const tags = ref([]);
 const  breakpoints =  {

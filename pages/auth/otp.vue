@@ -109,17 +109,17 @@ const doVerifyCode = async () => {
   disableButton.value = false;
 
   if (!verificationCode.value) {
-    console.log('verificationCode.value', verificationCode.value)
-    console.error('Verification code is not defined');
+    // console.log('verificationCode.value', verificationCode.value)
+    // console.error('Verification code is not defined');
     return;
   }
 
   const user = JSON.parse(localStorage.getItem('registerd_user')) || null;
   const email = localStorage.getItem('registerd_email');
-  console.log(user, email);
+  // console.log(user, email);
 
   if (!email) {
-    console.error('Email is not defined');
+    // console.error('Email is not defined');
     return;
   }
 
@@ -134,13 +134,16 @@ const doVerifyCode = async () => {
       // await loginUser();
       // successMsg.value = 'Logged in Successfully!';
       // sentSuccessfully.value = true;
-      router.push(localePath('/auth/success?from=register'));
-    } else {
+
+router.push({ path: localePath('/auth/success'), query: { from: 'register' } });
+} else {
       const { checkForgetCode } = useVerifyCode({ email, key: verificationCode.value });
 
       await checkForgetCode();
       localStorage.setItem('curr_code', verificationCode.value);
-      router.push(localePath('/auth/new-password'));
+      // router.push(localePath('/auth/new-password'));
+      router.push({ path: localePath('/auth/new-password')});
+
     }
 
     sentSuccessfully.value = true;

@@ -120,9 +120,9 @@ const DateSplit = (dateString) => {
         {{ $t("Order Tracking") }}
       </h1>
 
-      <div class="flex items-center justify-between w-full mt-[10px]">
+      <div class="flex items-center justify-between w-full mt-[10px] rtl:space-x-reverse space-x-[8px]">
         <div>
-          <span class="text-[16px] font-[600] leading-[24px] text-darkGrey">
+          <span class="text-[16px] font-[600] leading-[24px] text-darkGrey rtl:ml-2 ltr:mr-2">
             {{ $t("Order ID") }} :</span
           >
           <span class="text-[16px] font-[500] leading-[24px] text-[#80889C]">{{
@@ -164,7 +164,7 @@ const DateSplit = (dateString) => {
             <span class="text-[12px] leading-[18px] font-[500]">
               {{
                 !dataModal.delivary_date
-                  ? "Date to be determined."
+                  ? $t("Date to be Determined")
                   : dataModal.delivary_date
               }}
             </span>
@@ -178,7 +178,7 @@ const DateSplit = (dateString) => {
         <div class="relative w-full">
           <!-- Vertical line -->
           <div
-            class="absolute top-0 rtl:inset-x-[102px] ltr:inset-x-[98px] h-full w-[12px] rounded-t-full rounded-b-full bg-teal-500"
+            class="absolute top-0 rtl:inset-x-[110px] ltr:inset-x-[110px] h-full w-[12px] rounded-t-full rounded-b-full bg-teal-500"
             :class="[dataModal.status === 'Reject' ? '!bg-[#DADADA]' : '']"
           ></div>
           <template v-for="index in 5">
@@ -190,10 +190,11 @@ const DateSplit = (dateString) => {
                   :class="[dataModal.status === 'Reject' ? '!text-[#F02F1F]' : '']"
                 ></p>
               </div>
-              <div class="flex-shrink-0" v-if="dataModal.trakin[index - 1]">
+              <div class="flex-shrink-0 "  v-if="dataModal.trakin[index - 1]">
                 <div
                   :class="[dataModal.status === 'Reject' ? '!border-[#DADADA]' : '']"
-                  class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] text-white rounded-full flex items-center justify-center"
+                  class="w-8 h-8 bg-white border-[1px] border-[#71DAD2] 
+                  text-white rounded-full flex items-center justify-center"
                 >
                   <svg
                     width="22"
@@ -234,7 +235,7 @@ const DateSplit = (dateString) => {
                   </svg>
                 </div>
               </div>
-              <div v-else class="flex-shrink-0 rtl:pr-[92px] ltr:pl-[86px]">
+              <div v-else class="flex-shrink-0 rtl:pr-[100px] ltr:pl-[100px]">
                 <div
                   class="w-8 h-8 bg-white border-[1px] border-[#F2F2F2] text-white rounded-full flex items-center justify-center"
                 >
@@ -253,7 +254,7 @@ const DateSplit = (dateString) => {
                   {{ $t(traknames[index - 1] )}}
                 </h4>
                 <p
-                  class="text-[13px] text-[#80889C] leading-[19px] font-[500]"
+                  class="text-[13px] text-[#80889C] leading-[19px] font-[500] w-[400px]"
                   v-if="dataModal.trakin[index - 1]"
                   :class="[dataModal.status === 'Reject' ? '!text-[#F49E97]' : '']"
                 >

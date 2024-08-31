@@ -17,18 +17,13 @@ export default function() {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
-    const addItemToCart = async (item_name: string, type: string) => {
+    const addItemToCart = async (item_name: string, type: string, custom_character = {}) => {
         try {
-            const { data } = await api.post('/Market/AddProductFromCart', {
-                data: {
-                    item: {
-                        type: type,
-                        name: item_name
-                    }
-                }
-            });
+            const req = { data: { item: { type: type, name: item_name, ...custom_character } } }
+            const { data } = await api.post('/Market/AddProductFromCart', req);
             if(!data.succeeded) throw(data.message);
-            getCartItems();
+            return data.data.name
+            // getCartItems();
         } catch (error) {
             
             throw typeof(error) === 'string' ? error : 'There is something wrong';
@@ -44,7 +39,7 @@ export default function() {
                 }
             });
             if(!data.succeeded) throw(data.message);
-            getCartItems();
+            // getCartItems();
         } catch (error) {
             
             throw typeof(error) === 'string' ? error : 'There is something wrong';
@@ -53,7 +48,7 @@ export default function() {
 
     const createOrder = async () => {
         try {
-            const { data } = await api.post('/Market/ConfirmOrder');
+            const { data } = await api.post('/Market/ConfirmOrderItems');
             if(!data.succeeded) throw(data.message);
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';

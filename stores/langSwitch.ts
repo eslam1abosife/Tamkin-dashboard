@@ -14,7 +14,7 @@ export const useLangSwitch = defineStore('langSwitch', () => {
   });
 
   return {
-    direction
+    direction,
 
   };
 });

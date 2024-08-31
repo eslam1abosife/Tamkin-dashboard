@@ -12,6 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         return h(Toast, {
           message: translatedMessage, // Pass the translated message
           hideIn: options.hideIn || 3000, 
+          type:options.type || 'success',
         });
       }
     });

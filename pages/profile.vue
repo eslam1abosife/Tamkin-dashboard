@@ -11,6 +11,8 @@ const {
 } = useModalManager();
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 
 import { useProfileStore } from "~/stores/profile";
@@ -394,7 +396,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
           <ProfilePortfolio
             v-if="
               !profileStore.loadingProfile &&
-              profileStore.member?.social_accounts?.length &&
+             
               profileStore.currentTab === 'personal'
             "
           />
@@ -403,7 +405,9 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
         </div>
 
         <div
-          class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
+          class="w-full bg-white/60 shadow-sm rounded-[10px] col-span-8 px-[30px] pt-[16px] 
+          backdrop-blur-md flex flex-col items-start justify-start space-y-[10px]"
+         
         >
           <div class="flex items-start justify-between w-full">
             <!-- Personal Info Tab -->
@@ -467,18 +471,18 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
             />
           </keep-alive>
           <ProfilePersonalinfo
-            v-if="currentMode === 'normal' && profileStore.currentTab === 'personal'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'personal' "
           />
           <keep-alive>
             <ProfileEditcompany
               :loadingUpdate="profileLoader"
               @update-profile="updatep"
               @cancelupdate="changeMode('normal')"
-              v-if="currentMode === 'editing' && profileStore.currentTab === 'company'"
+              v-if="currentMode === 'editing' && profileStore.currentTab === 'company' && profileStore.isOwner"
             />
           </keep-alive>
           <ProfileCompanyinfo
-            v-if="currentMode === 'normal' && profileStore.currentTab === 'company'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'company' || currentMode === 'editing' && profileStore.currentTab === 'company' && !profileStore.isOwner"
           />
           <ProfilePassword
             @close-editing-mode="profileStore.currentTab = 'personal'"

@@ -10,7 +10,7 @@ export default function(state) {
     const router = useRouter();
     const user = ref(null);
     const userStore = useUserStore();
-
+const profileStore = useProfileStore()
     const tokenCookie = useCookie('token', { secure: true, sameSite: 'strict' });
     const isLoggedInCookie = useCookie('isLoggedIn', { secure: true, sameSite: 'strict' });
 
@@ -27,9 +27,8 @@ export default function(state) {
             userStore.setToken(user.value?.sid);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
+            useCookie('user').value = JSON.stringify(user.value);
             localStorage.setItem('user', JSON.stringify(user.value));
-
-         
 
         } catch (error) {
             const errMsg = typeof(error) === 'string' ? error : 'There is something wrong';

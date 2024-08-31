@@ -8,7 +8,10 @@ const {
   navigateTo,
 } = useModalManager();
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
+  middleware:['auth','permissions'],
+  requiredPermission: 'contact-sales',
+
 })
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, sameAs} from "@vuelidate/validators";
@@ -77,20 +80,20 @@ const state = reactive({
 
     <ModalsSuccessModal
         :show-modal="isOpen('successContact')"
-        title="Thanks for contact us"
-        sub-title="We will contact you as soon as possible "
+        :title="'thanks for contact us'"
+        :sub-title="'We will contact you as soon as possible'"
         icon="contact_success.svg"
     />
     <div
         class="flex items-start justify-between mx-auto px-6 py-12 shadow-md bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full max-h-[700px] ">
       <div class="flex flex-col items-center lg:items-start justify-center w-full space-y-6">
-        <div class="flex items-center justify-center space-x-4">
-          <h1 class="text-[14px] lg:text-[18px]  font-semibold text-[#021328] dark:text-whiteTamkin">Contact Sales</h1>
+        <div class="flex items-center justify-center rtl:space-x-reverse space-x-4">
+          <h1 class="text-[14px] lg:text-[18px]  font-semibold text-[#021328] dark:text-whiteTamkin">{{$t('Contact Sales')}}</h1>
           <img src="/assets/pngs/contact.png" class="w-[40px] h-[40px]" alt="Contact Sales Icon"/>
         </div>
 
-        <p class="text-[12px] lg:text-[14px] text-darkGrey  dark:text-whiteTamkin text-center  lg:text-left w-full">
-          Let’s get this conversation started tell us about yourself, and we’ll get in touch as soon as we can
+        <p class="text-[12px] lg:text-[14px] text-darkGrey  dark:text-whiteTamkin text-center  rtl:lg:text-right ltr:lg:text-left w-full">
+          {{ $t(`Let’s get this conversation started tell us about yourself, and we’ll get in touch as soon as we can`) }}
         </p>
 
         <div class="w-full space-y-6 lg:pr-[24px]">
@@ -107,12 +110,12 @@ const state = reactive({
                 ? '!text-error'
                 : '',
             ]">
-              {{ $t("Name") }}*
+              {{ $t("Name*") }}
             </label>
             <div class="w-full lg:w-4/6 mt-2" v-if="(v$.Name.$error && v$.Name.required.$invalid)">
               <p class="error_message">
                 <span v-if="v$.Name.$error && v$.Name.required.$invalid">{{
-                    $t("Name is required")
+                    $t("The name is required")
                   }}</span>
 
               </p>
@@ -132,17 +135,17 @@ const state = reactive({
                 ? '!text-error'
                 : '',
             ]">
-              {{ $t("email") }}*
+              {{ $t("Email*") }}
             </label>
             <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
               (v$.email.$error && v$.email.email.$invalid)">
               <p class="error_message">
                 <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-                    $t("Email Address is required")
+                    $t("The email address is required")
                   }}</span>
                 <span v-else-if="v$.email.required.$invalid ||
                   (v$.email.$error && v$.email.email.$invalid)">{{
-                    $t("please_enter_valid_email_address")
+                    $t("Please enter a valid email")
                   }}</span>
               </p>
             </div>
@@ -168,7 +171,7 @@ const state = reactive({
                 ? '!text-error'
                 : '',
             ]">
-              {{ $t("Subject") }}*
+              {{ $t("Subject*") }}
             </label>
             <div class="w-full lg:w-4/6 mt-2" v-if="(v$.Subject.$error && v$.Subject.required.$invalid)">
               <p class="error_message">
@@ -189,24 +192,24 @@ const state = reactive({
             <label for="Inquiry" class="floating_label_text_area" :class="[
               (v$.Inquiry.$error && v$.Inquiry.required.$invalid) ? '!text-error' : '',
             ]">
-              {{ $t("Inquiry") }}*
+              {{ $t("Inquiry*") }}
             </label>
             <div class="w-full lg:w-4/6 mb-4" v-if="(v$.Inquiry.$error && v$.Inquiry.required.$invalid)">
               <p class="error_message text_area">
                 <span v-if="v$.Inquiry.$error && v$.Inquiry.required.$invalid">{{
-                    $t("An inquiry is required")
+                    $t("Inquiry is required")
                   }}</span>
 
               </p>
             </div>
           </div>
 
-          <div class="flex justify-center space-x-4">
+          <div class="flex justify-center rtl:space-x-reverse space-x-4">
             <button class="btn-dashboard hover_tamkin w-2/6" :disabled="v$.$invalid || loadingContact"
                     @click="submitContact">
               <div class="flex items-center justify-center">
                 <div :class="loadingContact ? 'rtl:ml-2 ltr:mr-2':''">
-                  Submit
+                  {{$t('Submit')}}
                 </div>
 
                 <svg v-if="loadingContact" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -219,10 +222,10 @@ const state = reactive({
         </div>
       </div>
 
-      <div class="hidden lg:flex flex-col items-start justify-center space-y-[10px] w-2/4  ">
-        <div class=" text-darkGrey  dark:text-whiteTamkin text-[14px] lg:text-[18px] font-[400]  leading-[26px]
-            font-[Mali] mt-[130px] 2xl:mt-[110px] ">
-          You will have more surprises and enjoy with us
+      <div class="hidden lg:flex flex-col rtl:items-end ltr:items-start justify-center space-y-[10px] w-2/4  ">
+        <div class=" text-darkGrey  dark:text-whiteTamkin text-[14px] lg:text-[18px]  ltr:ml-[10px] rtl:mr-[10px] font-[400]  leading-[26px]
+            font-[Mali] rtl:font-[Almarai] ipad-max:mt-[130px] mt-[110px] ">
+          {{$t('You will have more surprises and enjoy with us')}}
         </div>
         <div class="w-full h-full">
           <img src="/assets/pngs/desk.png" class="h-full 2xl:h-[303px] w-full"/>

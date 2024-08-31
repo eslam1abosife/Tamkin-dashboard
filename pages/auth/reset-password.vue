@@ -83,9 +83,9 @@ const doForgetPassword = async () => {
                         (v$.email.$error && v$.email.email.$invalid) || isIncludeWord(errorMsg, ['confirm', 'not found'])">
                                     <p class="error_message">
                                         <span v-if="v$.email.$error && v$.email.required.$invalid">{{
-                        $t("Email Address is required") }}</span>
+                        $t("The email address is required") }}</span>
                                         <span v-else-if="v$.email.required.$invalid ||
-                        (v$.email.$error && v$.email.email.$invalid)">{{ $t("please_enter_valid_email_address")
+                        (v$.email.$error && v$.email.email.$invalid)">{{ $t("Please enter a valid email address")
                                             }}</span>
 
                                         <span v-else-if="isIncludeWord(errorMsg, ['confirm', 'not found'])">

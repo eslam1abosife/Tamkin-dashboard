@@ -4,7 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import {  useGetPermissions, useUpdateUserPermission, useGetUserPermissions } from '@/composables/usePermissions';
 import { useInviteMember, useGetAllMembers } from '@/composables/useTeam';
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
+const {t} = useI18n()
 const { getAvatarLetters } = useGetAvatarLetters();
 
 
@@ -51,39 +51,57 @@ const checkAll = computed({
 
 const errMsg = ref(null);
 
-// const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
+const { updateUserPermission, loading: updatePermssionLoading } = useUpdateUserPermission();
 const { inviteMember, memberData, loading: submitLoading } = useInviteMember();
 const { getAllTeamMember } = useGetAllMembers();
 
 const emit = defineEmits(['onSuccess']);
-
+const {$toast}= useNuxtApp()
 const error_message=ref({error:''})
+const profileStore = useProfileStore()
 const savePermission = async () => {
   try {  
+
     updatePermissonsLoading.value = true
     const user = JSON.parse(localStorage.getItem('user'));
 
     const state=getData();
 
     state.permissions=checked.value
-    
-    // await /* updateUserPermission */(state);
-    await inviteMember(state);
-    getAllTeamMember(user.agency);
+    if(state.from_edit === true){
+alert('here')
+    await updateUserPermission(state);
+    $toast(t( 'User Updated successfully!'),{hideIn:3000});
 
-    emit('onSuccess', 'User added successfully!');
+    }
+    
+    else if(state.from_edit === false) {
+// alert('here32')
+
+    // await updateUserPermission(state);
+      await inviteMember(state);
+    $toast(t( 'User Invited successfully!'),{hideIn:3000});
+
+    }
+
 
     closeModal('userpermissions');
 
     updatePermissonsLoading.value = false
 
+    // alert('it shpuld invite after this')
+
+  await getAllTeamMember(profileStore.member.agency);
+
+
   } catch (err:any) {
+    console.log('theres error man',err)
     errMsg.value = err;
-    console.error(err);
-    closeModal('userpermissions');
-    openModal('invitemember');
+    // console.error(err);
+    // closeModal('userpermissions');
+    // openModal('invitemember');
     error_message.value.error=err
-    setData(error_message.value);
+    // setData(error_message.value);
 
   }
 }
@@ -109,7 +127,7 @@ const savePermission = async () => {
       </h1>
 
       <div
-        class="flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[12px] justify-start mt-[40px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
+        class="flex items-center  rtl:space-x-reverse space-x-[12px] justify-start mt-[40px] border-[1px] border-t border-b-0 border-l-0 border-r-0 pt-[16px]">
         <div
 
         class="avatar_img w-[56px] h-[56px] rounded-full bg-[#2dada3] text-white grid place-content-center select-none"
@@ -141,7 +159,7 @@ const savePermission = async () => {
 
       </div>
       <template v-if="getAllPermissionsLoading || getUserPermissionsLoading" >
-     <div class="mt-[40px]">
+     <div class="mt-[28px]">
          <!-- Placeholder Loading -->
          <div class="animate-pulse">
           <div class="flex items-center rtl:space-x-reverse space-x-4 py-2">
@@ -173,13 +191,14 @@ const savePermission = async () => {
 
       </template>
 
-      <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading" class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[150px] overflow-y-scroll">
+      <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading"
+       class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-scroll">
         <table v-if="permissions && permissions.length > 0"
           class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
           <thead>
             <tr>
               <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey
-             flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[10px] ">
+             flex items-center justify-start  rtl:space-x-reverse space-x-[10px] ">
                 <div>
                   <input type="checkbox" id="checkbox" class="peer sr-only   m-auto" v-model="checkAll" />
                   <label for="checkbox"
@@ -195,9 +214,9 @@ const savePermission = async () => {
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-auto">
+          <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-scroll">
             <tr v-for="permission in permissions " :key="permission.name">
-              <td class="py-4  flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-4">
+              <td class="py-4  flex items-center  rtl:space-x-reverse space-x-4">
                 <div>
                   <input type="checkbox" v-model="checked" :id="`checkbox_` + permission.name" :value="permission.name"
                     class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
@@ -209,7 +228,7 @@ const savePermission = async () => {
                     </svg>
                   </label>
                 </div>
-                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey">{{ $t(permission.uniq_name) }}</span>
+                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey ">{{ $t(permission.title) }}</span>
               </td>
             </tr>
           </tbody>
@@ -220,12 +239,12 @@ const savePermission = async () => {
       <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errMsg }} </h6>
 
 
-      <div class="flex items-center justify-center  rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
+      <div class="flex items-center justify-center   rtl:space-x-reverse space-x-[30px] mx-auto mt-[41px]">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('userpermissions')">
           {{$t('Cancel')}}
         </button>
         <button :disabled="checked.length === 0 || updatePermissonsLoading"
-          class=" btn-dashboard hover_tamkin text-center w-1/6" @click="savePermission()">
+          class=" btn-dashboard hover_tamkin text-center w-1/6 " @click="savePermission()">
           <div class="flex items-center justify-center">
             <div :class="updatePermissonsLoading ? 'rtl:ml-2 ltr:mr-2':''">
               {{ $t('Save') }}

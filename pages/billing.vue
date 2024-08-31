@@ -49,6 +49,10 @@ const colorMode = useColorMode();
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'payments-invoices',
+
+
 });
 
 
@@ -205,7 +209,9 @@ const openAddNewCardModal = ()=>{
 
 
 if(process.client){
-  // window.$chatwoot.toggleBubbleVisibility('hide')
+ if(window.$chatwoot){
+   window.$chatwoot.toggleBubbleVisibility('hide')
+ }
 openModal('add_new_card_billing','billing')
 
 }
@@ -345,18 +351,18 @@ function leaveNotification(el, done) {
       </h2>
     </div>
 
-    <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    <div v-if="billingStore.cards?.length === 0 && !globalLoad" class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">{{$t('Payment Methods')}}</div>
 
       <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]"
-      @click="openAddNewCardModal">
+     >
         <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey  text-center">
           {{$t(`You haven't added any cards yet`)}}
         </div>
         <button class="btn-dashboard hover_tamkin w-auto rtl:space-x-reverse space-x-[10px]" >
 
-          <div class="!text-[14px] !leading-[21px] !font-[600]">{{$t('Add New Card')}}</div>
+          <div class="!text-[14px] !leading-[21px] !font-[600]"  @click="openAddNewCardModal">{{$t('Add New Card')}}</div>
         </button>
       </div>
     </div>
@@ -405,10 +411,10 @@ function leaveNotification(el, done) {
         <div class="flex flex-col items-center justify-start w-full "
         v-for="savedCard in billingStore.cards" :key="savedCard.name">
 
-          <div v-show="savedCard.is_active" :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
+          <div :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
             class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px]
              border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
-            <div class="flex items-center justify-start rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[13px]">
+            <div class="flex items-center justify-start  rtl:space-x-reverse space-x-[13px]">
               <div><img :src=" fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" /></div>
               <div class="flex flex-col items-start justify-start relative">
                 <div class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px]  rounded-[17px] bg-gradient-to-br flex items-center justify-center  from-tamkinStart to-tamkinEnd"
@@ -490,7 +496,7 @@ function leaveNotification(el, done) {
               <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">{{ invoice.card }}</div>
             </td>
             <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
-              <div class="text-darkGrey text-[14px] leading-[19px] !font-[700]">{{ invoice.cost }}$</div>
+              <div class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]">{{ invoice.cost }}$</div>
               <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">{{$t( invoice.order_type) }}</div>
             </td>
           </tr>
@@ -550,7 +556,7 @@ function leaveNotification(el, done) {
     </div>
 
     <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad"
-    class="bg-white w-full h-[300px] mt-[32px] rounded-[10px] p-[32px]">
+    class="bg-white w-full h-[200px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">{{ $t('Invoices History') }}
       </div>
 

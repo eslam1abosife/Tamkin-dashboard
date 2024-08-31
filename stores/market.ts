@@ -23,8 +23,6 @@ export const useMarketStore = defineStore('market', {
     resetAll(){
         this.selectedForPreview = []
         this.showSaveFooter = false
-
-
     },
     closeCartNotification() {
       this.cartNotification = !this.cartNotification;
@@ -67,67 +65,100 @@ export const useMarketStore = defineStore('market', {
     },
     setCartItems(items: any) {      
       items.forEach((item: any) => {
+        
         if (item.type == 'custom_character') {
           item.category_title = 'Custom Character'
           item.category_image = '/assets/pngs/market/character-grey.svg';
           // note that if overriding item.image, this will override the custom character image array
           item.image_url = '/assets/pngs/market/special_character.png';
         }else{
-          item.type = (item.skin_item || item.item_doc == 'Skin Item') ? 'skin_Item' : 'character';
+          item.type = (item.type == 'skin_Item' ||item.skin_item || item.item_doc == 'Skin Item') ? 'skin_Item' : 'character';
           item.image_url = fullUrl(item.image);
           item.category_image = fullUrl(item.category_image);
+          if (item.type == 'character'){
+            item.category_image = '/assets/pngs/market/character-grey.svg';
+          }
         }
       })
       this.cartItems = items;
     },
     convertFromItemToCartItem(item, type, category_title, category_image) {
-      item.item_name = item.name; // for coloring item addToCart icon in market listing
-      item.cost = item.offer_cost > 0 ? item.offer_cost : item.cost; // for calculating total
-      item.category_title = category_title; // for showing in cart
+      
+      let new_item = { ...item }
+      new_item.item_name = new_item.name; // for coloring item addToCart icon in market listing
+      new_item.category_title = category_title; // for showing in cart
+      new_item.type = type; // for use in setCartItems
       if (type == 'custom_character'){
-        item.item_title = item.name
-        item.category_image = '/assets/pngs/market/character-grey.svg';
-        item.image = '/assets/pngs/market/special_character.png';
+        const { customCharacterCost } = useEditCustomerCharacter();
+        new_item.cost = customCharacterCost.value
+        new_item.item_title = new_item.name
+        new_item.category_image = '/assets/pngs/market/character-grey.svg';
+        new_item.image_url = '/assets/pngs/market/special_character.png';
       }else{
-        item.category_image = fullUrl(category_image); // for showing in cart
-        item.image = fullUrl(item.image); // for showing in cart
-        item.item_title = item.text
+        new_item.cost = new_item.offer_cost > 0 ? new_item.offer_cost : new_item.cost; // for calculating total
+        new_item.category_image = fullUrl(category_image); // for showing in cart
+        new_item.image_url = fullUrl(new_item.image); // for showing in cart
+        new_item.item_title = new_item.text
         if (type == 'character'){
-          item.category_image = '/assets/pngs/market/character-grey.svg';
+          new_item.category_image = '/assets/pngs/market/character-grey.svg';
         }
       }
-      return item;
+      return new_item;
+    },
+    owned(item: any){
+        return item.applied || item.purchaser || item.package;
+    },
+    cartable(item: any){
+        return !this.owned(item)
     },
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
-      const { addItemToCart, getCartItems } = useCart();
-      const { AddCustomCharacterToCart } = useEditCustomerCharacter();
-      if (!this.cartItems.includes(item)) {
+      
+      const { addItemToCart /* , getCartItems */ } = useCart();
+      if (!this.isInCart(item.name)) {
         // add to item until the request finishes
         let cartItem = this.convertFromItemToCartItem(item, type, category_title, category_image);
-        this.cartItems.push(cartItem);
-
-        if (type == 'custom_character') {
-          await AddCustomCharacterToCart(item);
-        }else{
-          addItemToCart(item.name, type);
-        }
+        let cartItemsCount = this.cartItems.push(cartItem);
         this.animateCartIcon();
   
         // Show notification if it's the first item and the notification hasn't been shown yet
-        if (this.cartItems.length === 1 && !this.firstItemNotificationShown) {
+        if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
           this.showFirstItemNotification();
           this.firstItemNotificationShown = true;
         }
+        var cartItemName;
+        if (type == 'custom_character') {
+            cartItemName = await addItemToCart(item.name, type, item);
+        }else{
+            cartItemName = await addItemToCart(item.name, type);
+        }
+        this.cartItems[cartItemsCount - 1].name = cartItemName; // to be used when deleting the item
+
       } else {
-        this.removeFromCart(item, type);
+        this.removeFromCart(item, type, false);
       }
     },
-    removeFromCart(item, type: string = 'skin_Item') {
+    
+    // @param {boolean} [is_cart_item=true] - Whether the cart item is being deleted: from the cart or from the items listing.
+    removeFromCart(cartItem: any, type: string = 'skin_Item', is_cart_item: boolean = true): void {
       const { removeItemFromCart } = useCart();
-      const index = this.cartItems.indexOf(item);
-      if (index !== -1) {
-        this.cartItems.splice(index, 1);
-        removeItemFromCart(item.name, type);
+      let name_to_delete = cartItem.name; // 4e5fde354f
+      let item_name_to_check_in_cart = cartItem.item_name; // Fares, sara_clothes_orignal_hijab_blueblack_0027
+      if (!is_cart_item) {
+        item_name_to_check_in_cart = cartItem.name;
+        this.cartItems.forEach((it) => {
+          if (it.item_name == item_name_to_check_in_cart) {
+            name_to_delete = it.name;
+          }
+        })
+      }
+      if (this.isInCart(item_name_to_check_in_cart)) {
+        // let item_to_delete = this.cartItems.find((it) => it.name == name_to_delete);
+        const index = this.cartItems.findIndex((it) => it.name === name_to_delete);
+        if (index > -1) {
+          this.cartItems.splice(index, 1);
+        }
+        removeItemFromCart(name_to_delete, type);
+
         // Reset the flag if the cart is empty
         if (this.cartItems.length === 0) {
           this.firstItemNotificationShown = false;
@@ -154,6 +185,7 @@ export const useMarketStore = defineStore('market', {
   },
   
   getters: {
+    // the item_name like 'Fares', 'sara_clothes_orignal_hijab_blueblack_0027', 'ahmed mohsen custom char'
     cartItemsNames: (state) => state.cartItems.map((item) => item.item_name),
     cartSubtotal(state) {
       return state.cartItems.reduce((sum, item) => sum + parseFloat(item.cost), 0);

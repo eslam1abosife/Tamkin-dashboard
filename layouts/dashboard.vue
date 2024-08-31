@@ -22,24 +22,25 @@ const {getCurrentTeam,currTeam } =useGetCurrentTeam()
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
-// const { data: member, pending, error } = await useAsyncData('member', async () => {
-
+// const { data: member, pending, error:of } = await useAsyncData('member_t', async () => {
 
    
 // // console.log(res,'here res')
 
 
-//   return currTeam.value
+//   return true
 // });
 
 
-onMounted(() => {
+onMounted(async () => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
     const user = JSON.parse(localStorage.getItem("user"));
     userStore.setUser(user);
   }
 
+  // await profileStore.fetchMember()
+await profileStore.getCurrentTeam()
   // profileStore.setMember();
   // profileStore.setCompany();
 });
@@ -155,6 +156,8 @@ watch(anyChangesInStylesTranslate, (newValue, oldValue) => {
 watch(anyChangesInPlayerTranslate, (newValue, oldValue) => {
   showFooterSavePlayer.value = true;
 });
+const error = useError();
+
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
       (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
@@ -380,15 +383,19 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-//   if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
-//   window.$chatwoot.toggleBubbleVisibility("hide");
-//   window.$chatwoot.toggle("close");
+if(process.client ){
+if(window.$chatwoot){
+  if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
+  window.$chatwoot.toggleBubbleVisibility("hide");
+  window.$chatwoot.toggle("close");
 
-//  }else {
-//   window.$chatwoot.toggleBubbleVisibility("show");
-//   window.$chatwoot.toggle("close");
+ }else {
+  window.$chatwoot.toggleBubbleVisibility("show");
+  window.$chatwoot.toggle("close");
 
-//  }
+ }
+}
+}
 }, { immediate: true });
 onMounted(async () => {
   const userStore = useUserStore();
@@ -397,11 +404,15 @@ onMounted(async () => {
     userStore.user = user;
   }
 
-  const res = await getCurrentTeam()
-profileStore.company = currTeam.value
+//   const res = await getCurrentTeam()
+// profileStore.company = currTeam.value
+
 
 
 })
+const langloader = ref(true);
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 </script>
 
 <template>
@@ -409,7 +420,33 @@ profileStore.company = currTeam.value
 
   <Html class="dark:bg-p bg_dashboard" :lang="htmlAttrs.lang" :dir="htmlAttrs.dir"
         :class="[openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden']">
+       
+
+
   <div class="relative min-h-screen   dark:!bg-p  " :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']">
+    <div class="vl-parent">
+      <loading v-model:active="$langloader"
+               :can-cancel="false"
+               :is-full-page="true" opacity="0.95">
+               <template v-slot:default>
+                <div class="flex items-center justify-center flex-col space-y-2">
+                  <!-- Your custom loader icon or content -->
+                  <img src="/assets/imgs/logo.png" alt="Loading..." class="w-full h-24">
+                  
+<div role="status">
+  <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-tamkin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+  </svg>
+  <span class="sr-only">Loading...</span>
+</div>
+
+               
+                </div>
+              </template></loading>
+
+     
+  </div>
     <div v-if="openModals
     " @click="closeSideBarOnMobileOverlay"
          class="absolute z-[9999] bg-black  bg-opacity-70 h-full w-full overflow-hidden"></div>
@@ -491,6 +528,8 @@ profileStore.company = currTeam.value
 
         <DashboardNavbar :side-bar-open="sideBarOpen" :mobileSidebar="sideBarOpenMobile"
                          @toggleSidebarMobile="toggleSidebarMobile" @toggleSidebar="toggleSidebar"/>
+
+                         
       </div>
     </div>
 
@@ -551,7 +590,7 @@ profileStore.company = currTeam.value
             </div>
 
             <div
-                class="flex items-center justify-end rtl:lg:space-x-[40px]  ltr:lg:space-x-[20px] w-full"
+                class="flex items-center justify-end  rtl:space-x-reverse lg:space-x-[20px] w-full"
 
             >
               <div class="py-[17px] search_input relative lg:hidden block w-1/4">
@@ -575,7 +614,7 @@ profileStore.company = currTeam.value
                   <img src="/assets/imgs/icons/clear_search.svg"/>
                 </div>
               </div>
-          <div class="flex items-center justify-start rtl:space-x-[10px] rtl:space-x-reverse space-x-[20px] rtl:pr-[20px]">
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] ">
             <Langswitcher/>
 
             <Darkmode/>
@@ -589,8 +628,8 @@ profileStore.company = currTeam.value
         </nav>
 
         <div class=" relative"
-             :class="isLinkActive('/profile') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
-          <div
+             :class="isLinkActive('/profile') || isLinkActive('/packages') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
+          <div 
               class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
@@ -603,25 +642,28 @@ profileStore.company = currTeam.value
                 );
               "
               v-if="
-                isLinkActive('/addons') ||
+                (isLinkActive('/addons') ||
                 isLinkActive('/statistics') ||
                 isLinkActive('/overview') ||
                 isLinkActive('/customize') ||
                 isLinkActive('/settings') ||
 
-                isLinkActive('/sign-language/*')
+                isLinkActive('/sign-language/*')) &&
+                !error
               "
           ></div>
           <div class="relative px-[15px]">
             <NavbarOverview
-                v-if="
-                  isLinkActive('/overview') ||
-                  isLinkActive('/settings') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/customize') ||
-                  isLinkActive('/addons') ||
-                  isLinkActive('/statistics')
-                "
+            v-if="
+  (
+    isLinkActive('/overview') ||
+    isLinkActive('/settings') ||
+    isLinkActive('/addons') ||
+    isLinkActive('/customize') ||
+    isLinkActive('/statistics')
+  ) && !error
+"
+
             />
           </div>
 
@@ -676,5 +718,19 @@ profileStore.company = currTeam.value
 
 .sidebar {
   transform: translateX(100%);
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

@@ -84,19 +84,29 @@ const userName = () => {
 
 const logout = () => {
   const userStore = useUserStore();
-  userStore.logout();
+  const profileStore = useProfileStore();
+  const invoiceStore = useInvoicesStore();
+  const billingStore = useBillingStore();
+  const withdrawStore = useWithdrawStore();
+    // Clear authentication state and reset stores
+    profileStore.$reset();
+  invoiceStore.$reset();
+  billingStore.$reset();
+  withdrawStore.$reset();
+  userStore.logout('any');
   localStorage.removeItem('user');
   localStorage.removeItem('registerd_email');
   localStorage.removeItem('registerd_user');
+  
 
-  router.push('/auth/login');
+
+router.push({ path: localePath('/auth/login'), query: { logout: 'true' } });
+  // Clear localStorage
 
 
-      profileStore.$reset()
-      invocieStore.$reset()
-      billingStore.$reset()
-      withdrawStore.$reset()
-}
+  
+};
+
 const helpWindow = ()=>{
   if(process.client){
     window.$chatwoot.toggle()
@@ -104,9 +114,10 @@ const helpWindow = ()=>{
 }
 
 
-onBeforeMount(async ()=>{
-  if (Object.keys(profileStore.member).length === 0 && !isLinkActive('/profile')) {
-    await profileStore.fetchMember()
+onMounted(async ()=>{
+  if (!isLinkActive('/profile')) {
+    await profileStore.fetchMember(true)
+    useCookie('permissions').value = JSON.stringify(profileStore.member.permission)
 }
 
 
@@ -114,7 +125,7 @@ onBeforeMount(async ()=>{
 </script>
 
 <template>
-    <div class=" h-auto w-[220px]  !mr-[40px]  flex items-center justify-center relative"
+    <div class=" h-auto w-[220px]  rtl:!ml-[40px] ltr:!mr-[40px]  flex items-center justify-center relative"
        @click.prevent="openLangSwitchMenu"
 
        v-on-click-outside="closeMenu">
@@ -150,10 +161,10 @@ onBeforeMount(async ()=>{
                  {{ profileStore.member.first_name  + ' ' + profileStore.member.last_name}}
                 </h2>
                 <p
-                    v-if="isOwner()"
+                    
                 class="font-[400] text-[10px] dark:text-white whitespace-nowrap text-darkGrey leading-[14.4px]"
               >
-              {{ $t(profileStore.getRole) }}
+              {{ $t(profileStore.getRole()) }}
             </p>
               </div>
             </div>

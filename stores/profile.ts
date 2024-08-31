@@ -17,6 +17,7 @@ export const useProfileStore = defineStore("profile", {
     currentTeam: '',
     updateProfilePayload:'',
     updatedCompanyPayload:'',
+    permissions:[],
     social_platforms: [
       {
         title: "Facebook",
@@ -95,20 +96,33 @@ export const useProfileStore = defineStore("profile", {
 
     },
     async fetchMember() {
-      this.loadingProfile = true
-      // this.isLoading = true;
+    
+        this.loadingProfile = true;
+        // ths.isLoading = true;
+    
       try {
         const { getMember, member } = useGetMember();
         await getMember();
-        this.member = member.value;
+        this.member = member.value
+this.permissions = member.value.permission
+        // const userAllowDashboard = useCookie('ei_s', { expires: 0 });
+        // userAllowDashboard.value = JSON.stringify(this.member.name)
+        // alert('is cookie set')
+
+        const userStore = useUserStore()
+        const roleProfileName = userStore.user?.role_profile_name;
+        this.isOwner = roleProfileName === 'Owner of Agency';
       } catch (error) {
         // this.hasError = true;
-      } finally {
-        // this.isLoading = false;
-        this.loadingProfile = false
+        this.loadingProfile = false;
 
+      } finally {
+
+          this.loadingProfile = false;
+  
       }
     },
+    
 
     async setMember() {
       await getMember();
@@ -189,6 +203,15 @@ export const useProfileStore = defineStore("profile", {
       this.member.first_name = payload.firstName;
       this.member.last_name = payload.lastName;
     },
+    getRole() {
+      const userStore = useUserStore();
+      // Ensure userStore.user is not null or undefined
+      const roleProfileName = userStore.user?.role_profile_name;
+    
+      this.isOwner = roleProfileName === 'Owner of Agency';
+      return this.isOwner ? 'Owner' : 'Member';
+    }
+    
   },
 
 
@@ -197,17 +220,9 @@ export const useProfileStore = defineStore("profile", {
       return `${this.member.first_name} ${this.member.last_name}`;
     },
 
-    getRole(state) {
-      const userStore = useUserStore();
-      let role = '';
-      if (state.member.member_email === userStore.user.user_id) {
-        role = 'Owner';
-        this.isOwner = true;
-      } else {
-        role = 'Member';
-        this.isOwner = false;
-      }
-      return role;
-    }
-  }
+  
+  },
+  // persist: true
+
+    
 });

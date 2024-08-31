@@ -15,6 +15,8 @@ const {
 } = useModalManager();
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+
 });
 
 const currentPlan = ref("freetrial");

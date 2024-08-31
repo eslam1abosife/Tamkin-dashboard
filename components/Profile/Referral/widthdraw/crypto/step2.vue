@@ -42,10 +42,10 @@ const formatAmount = (event) => {
   }
 
   // Limit integer part to 5 digits
-  if (decimalParts[0].length > 5) {
-    decimalParts[0] = decimalParts[0].slice(0, 5);
-    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
-  }
+  // if (decimalParts[0].length > 5) {
+  //   decimalParts[0] = decimalParts[0].slice(0, 5);
+  //   value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+  // }
 
   // Format the integer part with commas (only when the user types the decimal point)
   const formattedInteger = parseInt(decimalParts[0] || '0').toLocaleString();
@@ -55,11 +55,23 @@ const formatAmount = (event) => {
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
   const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
+  // if (formattedNumericValue > currentAmountValue) {
+  //   amount.value = currentAmountValue.toFixed(2);
+  //   withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  // } else {
+  //   amount.value = value; // Allow the user to see what they are typing without extra formatting
+  //   withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  // }
+
+  
   if (formattedNumericValue > currentAmountValue) {
-    amount.value = currentAmountValue.toFixed(2);
-    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+    // Reset to currentAmountValue, ensuring no unnecessary '.00'
+    const valueToSet = currentAmountValue.toFixed(2).replace(/\.00$/, '');
+    amount.value = valueToSet;
+    withdrawStore.withdrawAmount = valueToSet;
   } else {
-    amount.value = value; // Allow the user to see what they are typing without extra formatting
+    // Use the formatted value for display and storage
+    amount.value = value;
     withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   }
 };
@@ -96,7 +108,7 @@ const closeAndReset = ()=>{
   withdrawStore.selectedPaymentMethod = ""
   withdrawStore.cryptoDetails.wallet = ""
   withdrawStore.selectedCrypto = ""
-  amount.value = "$0.00"
+  amount.value = ""
   closeModal('crypto_step_2_e')
 }
 
@@ -126,36 +138,34 @@ const closeAndReset = ()=>{
   </div>
 <div class=" mx-auto max-h-[100%] w-full">
   <h1 class="rtl:text-right ltr:text-left font-[700] text-darkGrey  dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Withdraw Money
+    {{ $t('Withdraw Money') }}
 </h1>
 
 
 <div class="mt-[32px] w-full h-[81px] p-[20px] grid grid-cols-12 gap-4 rounded-[10px] bg-[#F8F9FC] custom-border-tamkin padding-override-1">
+  <!-- Icon Column -->
+  <div class="col-span-1 w-[39px] h-[39px] flex items-center justify-center">
+    <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" alt="" class="w-full h-full object-cover">
+  </div>
 
-
-
-
-    <div class=" col-span-1 w-[39px] h-[39px] ">
-        <img :src="`http://tamkin.app/${withdrawStore.selectedCrypto.icon}`" class="" alt="">
+  <!-- Crypto Info Column -->
+  <div class="flex flex-col col-span-4 ltr:ml-4 rtl:mr-4">
+    <div class="text-[#021328] text-[12px] font-[500]">
+      {{withdrawStore.selectedCrypto.title}} - {{withdrawStore.selectedCrypto.symbols}}
     </div>
-    <div class="flex items-start justify-start flex-col col-span-4 ml-4" >
-<div class="text-[#021328] text-[12px] font-[500] ">
-{{withdrawStore.selectedCrypto.title}}  
+    <div class="text-[#021328] text-[10px] font-[500] mt-1">
+      {{withdrawStore.selectedCrypto.network}}
+    </div>
+  </div>
+
+  <!-- Wallet Address Column -->
+  <div class="flex flex-col col-span-7 ltr:ml-4 rtl:mr-4">
+    <div class="text-[#021328] text-[12px] font-[500] break-words">
+      {{withdrawStore.cryptoDetails.wallet}}
+    </div>
+  </div>
 </div>
 
-<div class="text-[#021328] text-[10px]  font-[500] ">
-{{withdrawStore.selectedCrypto.network}}
-</div>
-    </div>
-
-<div class="flex items-start justify-start flex-col col-span-5 ">
-    <div class="text-[#021328] text-[12px] font-[500] w-96 truncate">
-        {{withdrawStore.cryptoDetails.wallet}}
-    </div>
-    
-
-        </div>
-</div>
 
 
 <div class="text-[14px] font-[600] text-[#021328] mt-[14px]">
@@ -163,7 +173,7 @@ const closeAndReset = ()=>{
 </div>
 
 <div class="mt-2 text-[13px] font-[500] text-darkGrey leading-[15px]">
-    {{ $t('How much would you like to withdraw ?') }}
+    {{ $t('How much would you like to withdraw?') }}
 </div>
 
   
@@ -186,9 +196,9 @@ const closeAndReset = ()=>{
   
   
 
-       <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="mt-[91px]  rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin"  @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
-          <div class="flex items-center justify-center space-x-[6px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">
            {{ $t('Withdraw') }}
             </div>

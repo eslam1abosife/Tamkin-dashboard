@@ -1,8 +1,8 @@
 
 import { defineStore } from 'pinia';
 import { useCookie } from '#app';
-
 export const useUserStore = defineStore('user', {
+  
   state: () => ({
     token: useCookie('token').value || null,
     isLoggedIn: useCookie('isLoggedIn').value === 'true' || false,
@@ -29,17 +29,24 @@ export const useUserStore = defineStore('user', {
         this.token = user.sid;
       }
     },
-    logout() {
+    logout(pathurl) {
       this.token = null;
       this.isLoggedIn = false;
       this.user = null;
 
-  
+  const router = useRouter()
 
       // Clear cookies
-      useCookie('token').value = null;
-      useCookie('isLoggedIn').value = 'false';
-      useCookie('user').value = null;
+      useCookie('token').value = '';
+      useCookie('token').maxAge = -1;
+    
+      useCookie('isLoggedIn').value = '';
+      useCookie('isLoggedIn').maxAge = -1;
+    
+      useCookie('user').value = '';
+      useCookie('user').maxAge = -1;
+
+
     }
   },
 });

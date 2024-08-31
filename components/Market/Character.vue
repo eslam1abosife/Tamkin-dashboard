@@ -1,6 +1,8 @@
 <script setup>
 import { useMarketStore } from "@/stores/market";
 const marketStore = useMarketStore();
+import { usePlayerStore } from "@/stores/player";
+const playerStore = usePlayerStore();
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCharacters } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
@@ -41,9 +43,10 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
         </button>
       </div>
     </div>
+    <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
     <div
       class="market_card_char order-1 cursor-pointer"
-      @click.stop="marketStore.selectItemforPreview(char)"
+      @click="playerStore.changeCharacter(char)" :role="marketStore.owned(char) ? 'button' : ''"
       v-for="char in characters"
       :key="char.name"
       :class="[
@@ -116,7 +119,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
         <!-- <div v-if="char.specialOffer || char.offer_cost > 0 || char.package" class="flex flex-col"> -->
         <div  class="flex flex-col !mt-[30px]">
           <!-- item with discount -->
-          <div v-if="char.offer_cost > 0"
+          <div v-if="marketStore.cartable(char) && char.offer_cost > 0"
             class="flex items-center justify-between w-full">
             <div class="flex items-start flex-col justify-evenly space-y-[7px] mt-[3px]">
               <div
@@ -139,6 +142,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               </div>
             </div>
             <div
+              v-if="marketStore.cartable(char)"
               @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
                 marketStore.isInCart(char.name)
@@ -196,7 +200,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
           <!-- item without a discount -->
           <div
             class="flex items-end justify-between w-full mt-[5px]"
-            v-if="char.cost && (!char.offer_cost || char.offer_cost == 0)">
+            v-if="marketStore.cartable(char) && char.cost && (!char.offer_cost || char.offer_cost == 0)">
             <div
               class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]"
             >

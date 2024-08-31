@@ -44,6 +44,8 @@ const errorMsg = ref("");
 const loginSuccessfully = ref(false);
 const showToast = ref(false)
 const profileStore = useProfileStore()
+
+
 const doLogin = async () => {
   loginSuccessfully.value = true;
 
@@ -51,11 +53,13 @@ const doLogin = async () => {
   firebaseErrorMsg.value = null;
   try {
     await loginUser();
+await profileStore.fetchMember()
 
-    // await profileStore.fetchMember()
+
+    // wait profileStore.fetchMember()
     // await profileStore.getCurrentTeam()
     showToast.value = true
-    router.push(localePath("/overview"));
+    router.push({path:localePath("/overview")});
   } catch (error) {
     loginSuccessfully.value = false;
 
@@ -63,7 +67,8 @@ const doLogin = async () => {
       typeof error === "string" ? error : "There is something wrong";
     if (isIncludeWord(errMsg, ["confirm", "needs"])) {
       localStorage.setItem("registerd_email", state.email);
-      router.push(localePath("/auth/otp?from=register"));
+
+router.push({ path: localePath('/auth/otp'), query: { from: 'register' } });
 
     } else {
       errorMsg.value = error;
@@ -100,8 +105,7 @@ const clearFieldError = (condition) => {
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="showToast" :hideIn="2000" :message="'Login Done Successfully'"
-    class="top-[8%] !left-[15%]"></DashboardToastSuccess>
+
 
   <div class="max-w-[600px] h-[600px] relative">
     <div class="flex items-center justify-center w-full mt-[16px]">
@@ -199,7 +203,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("Email") }}*
+                  {{ $t("Email*") }}
                 </label>
                 <div class="w-full lg:w-4/6 mt-2" v-if="(v$.email.$error && v$.email.required.$invalid) ||
     (v$.email.$error && v$.email.email.$invalid) ||
@@ -243,7 +247,7 @@ const clearFieldError = (condition) => {
       ? '!text-error'
       : '',
   ]">
-                  {{ $t("Password") }}*
+                  {{ $t("Password*") }}
                 </label>
                 <div class="password_eye" v-if="!isPasswordVisible" @click="togglePasswordVisibility">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -278,9 +282,10 @@ const clearFieldError = (condition) => {
               <div class="flex flex-row items-center justify-between">
                 <div>
                   <label for="remember_me"
-                    class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug">
+                    class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins']  rtl:!font-[Almarai] leading-snug">
                     <input type="checkbox"
-                      class="border-[1px] w-[18px] h-[18px] border-lightGrey dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none"
+                      class="border-[1px] w-[18px] h-[18px] border-lightGrey 
+                      dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none "
                       id="remember_me" />
                     {{ $t("Remember me") }}</label>
                 </div>

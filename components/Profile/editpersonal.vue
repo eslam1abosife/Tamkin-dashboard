@@ -300,7 +300,7 @@ const resetcancel = () =>{
       class="flex items-end justify-end rtl:flex-row-reverse  space-x-[16px] absolute bottom-[24px] rtl:left-[30px] ltr:right-[30px]"
     >
       <button class="btn_bordered_dashboard" @click="cancelUpdate">{{$t('Cancel')}}</button>
-      <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingPersonal" @click="updatePersonalInfo" >
+      <button class="btn-dashboard hover_tamkin w-[125px]" :disabled="loadingPersonal || v$.$invalid" @click="updatePersonalInfo" >
 
         <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
           <div :class="loadingPersonal ? 'rtl:ml-2 ltr:mr-2':''">

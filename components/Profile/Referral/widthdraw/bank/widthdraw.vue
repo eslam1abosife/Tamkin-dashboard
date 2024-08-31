@@ -58,10 +58,10 @@ const formatAmount = (event) => {
   }
 
   // Limit integer part to 5 digits
-  if (decimalParts[0].length > 5) {
-    decimalParts[0] = decimalParts[0].slice(0, 5);
-    value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
-  }
+  // if (decimalParts[0].length > 5) {
+  //   decimalParts[0] = decimalParts[0].slice(0, 5);
+  //   value = `${decimalParts[0]}${decimalParts[1] ? `.${decimalParts[1]}` : ''}`;
+  // }
 
   // Format the integer part with commas (only when the user types the decimal point)
   const formattedInteger = parseInt(decimalParts[0] || '0').toLocaleString();
@@ -71,14 +71,27 @@ const formatAmount = (event) => {
   const formattedNumericValue = parseFloat(formattedValue.replace(/,/g, ''));
   const currentAmountValue = parseFloat(withdrawStore.currentAmount.toString().replace(/,/g, ''));
 
+  // if (formattedNumericValue > currentAmountValue) {
+  //   amount.value = currentAmountValue.toFixed(2);
+  //   withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+  // } else {
+  //   amount.value = value; // Allow the user to see what they are typing without extra formatting
+  //   withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
+  // }
+
+  
   if (formattedNumericValue > currentAmountValue) {
-    amount.value = currentAmountValue.toFixed(2);
-    withdrawStore.withdrawAmount = currentAmountValue.toFixed(2);
+    // Reset to currentAmountValue, ensuring no unnecessary '.00'
+    const valueToSet = currentAmountValue.toFixed(2).replace(/\.00$/, '');
+    amount.value = valueToSet;
+    withdrawStore.withdrawAmount = valueToSet;
   } else {
-    amount.value = value; // Allow the user to see what they are typing without extra formatting
+    // Use the formatted value for display and storage
+    amount.value = value;
     withdrawStore.withdrawAmount = formattedNumericValue.toFixed(2);
   }
 };
+
 
 
 
@@ -205,7 +218,7 @@ const closeAndreset = () => {
         {{ $t('Available balance') }} <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
       </div>
 
-      <div class="lg:mt-[120px] 2xl:mt-[188px] px-[20px] rtl:mr-auto ltr:ml-auto">
+      <div class="lg:mt-[120px] 2xl:mt-[188px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
           <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">

@@ -94,7 +94,8 @@ const closeModalAndresetPaymentMethods = () => {
 <template>
   <div
     v-if="isOpen('withdraw_paymentmethods')"
-    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] h-auto 2xl:h-[600px] lg:w-[640px] ipad-max:top-[20px] w-full"
+    class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]
+     p-[30px] h-auto  lg:w-[640px] ipad-max:top-[20px] w-full"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- isOpen('withdraw_paymentmethods') -->
@@ -117,7 +118,7 @@ const closeModalAndresetPaymentMethods = () => {
         />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%]">
+    <div class="h-full mx-auto max-h-[100%]">
       <h1
         class="rtl:text-right ltr:text-left font-[700] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
       >
@@ -131,7 +132,7 @@ const closeModalAndresetPaymentMethods = () => {
       </p>
 
       <div
-        class="flex flex-col items-start justify-center space-y-[12px] mt-[30px] w-full"
+        class="flex flex-col items-start justify-start space-y-[12px] mt-[30px] w-full"
       >
         <!-- <div class="w-full">
             <div 
@@ -226,6 +227,7 @@ const closeModalAndresetPaymentMethods = () => {
             
         </div>        -->
 
+ 
         <template v-for="method in paymentMethods" :key="method.name">
           <div class="w-full">
             <div
@@ -235,7 +237,8 @@ const closeModalAndresetPaymentMethods = () => {
                   ? 'custom-border-tamkin'
                   : 'border-[1px] ',
               ]"
-              class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
+              class="mx-auto w-full h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary 
+              flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]"
             >
               <div
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
@@ -273,14 +276,14 @@ const closeModalAndresetPaymentMethods = () => {
         </template>
       </div>
 
-      <div class="ipad-max:mt-[40px] mt-[69px] px-[20px] rtl:mr-auto ltr:ml-auto">
+      <div class=" rtl:mr-auto ltr:ml-auto mt-[40px] mb-[10px]">
         <button
-          class="btn-dashboard hover_tamkin"
+          class="btn-dashboard hover_tamkin  "
           :disabled="!withdrawStore.selectedPaymentMethod || loadingPayment"
           @click="goToPaymentMethod(withdrawStore.selectedPaymentMethod)"
         >
           <div class="flex items-center justify-center space-x-[6px]">
-            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">Continue</div>
+            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Continue')}}</div>
 
             <svg
               v-if="loadingPayment"

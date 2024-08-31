@@ -4,7 +4,6 @@ import { useRuntimeConfig } from '#app'
 
 const config = useRuntimeConfig()
 const baseImageURL = config.public.baseImagerUrl
-
 const {
   isOpen,
   currentView,
@@ -16,8 +15,6 @@ const {
   eventCounter,
   setData
 } = useModalManager();
-
-
 const marketStore = useMarketStore();
 const trakingStatus = ref([])
 const orderDetails = ref({})
@@ -41,6 +38,9 @@ onMounted(async () => {
 
 definePageMeta({
   layout: "dashboard",
+middleware:['auth','permissions'],
+requiredPermission: 'orders',
+
 });
 
 const openModalAndHideChat = () => {
@@ -155,7 +155,7 @@ function enterCart(el, done) {
     done();
   }, 0);
 }
-
+const localePath = useLocalePath()
 function leaveCart(el, done) {
   const isRTL = document.documentElement.dir === 'rtl';
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
@@ -185,10 +185,10 @@ function leaveCart(el, done) {
 
     <div class="space-y-[5px]">
       <h1 class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin">
-        {{ $t('Order details') }}
+        {{ $t('Order Details') }}
       </h1>
 
-      <h2 @click="$router.push('/orders')"
+      <h2 @click="$router.push({path:localePath('/orders')})"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey">
         {{ $t('Orders') }}
       </h2>
@@ -356,7 +356,7 @@ function leaveCart(el, done) {
                 <div v-if="item.type == 'Custom Character'"
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[26px] mt-[12px] ">
                   <button v-if="item.edit == true" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
-                    @click="openModalAndHideChat(), setData(item)">{{$t('Edit request')}}</button>
+                    @click="openModalAndHideChat(), setData({...item,currency:orderDetails.Currency })">{{$t('Edit request')}}</button>
                   <button v-if="!item.edit" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
                     @click="openModal('requestmodal_details', 'order-id'), setData(item)">{{$t('View Details')}}</button>
                     <button  class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] " 
@@ -367,8 +367,8 @@ function leaveCart(el, done) {
             <div class="flex items-end flex-col justify-start mt-[16px] mr-[1px] ">
 
 
-              <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin">
-                <span class="px-1">{{ item.Cost }} {{$t('AED')}}</span>
+              <p class="text-[#021328] text-[16px] font-[500] dark:text-whiteTamkin uppercase">
+                <span class="px-1">{{ item.Cost }} {{ $t(orderDetails.Currency ? orderDetails.Currency : 'USD')}}</span>
               </p>
             </div>
           </div>
@@ -388,9 +388,9 @@ function leaveCart(el, done) {
                 colspan="4">
                 {{ $t('Subtotal') }}
               </td>
-              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500]  dark:text-whiteTamkin"
+              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] uppercase  dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.subtotal }} {{ $t('AED') }}
+                {{ orderDetails.subtotal }} {{ $t(orderDetails.Currency ? orderDetails.Currency : 'USD') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
@@ -399,9 +399,9 @@ function leaveCart(el, done) {
                 {{ $t('Discount') }}
 
               </td>
-              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right   min-w-[100px] font-[500]  dark:text-whiteTamkin"
+              <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right   min-w-[100px] font-[500] uppercase  dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.discount }} {{ $t('AED') }}
+                {{ orderDetails.discount }} {{  $t(orderDetails.Currency ? orderDetails.Currency : 'USD') }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p">
@@ -411,9 +411,9 @@ function leaveCart(el, done) {
 
               </td>
               <td
-                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right  w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
+                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
                 colspan="4">
-                {{ orderDetails.total }}  {{ $t('AED') }}
+                {{ orderDetails.total }}  {{  $t(orderDetails.Currency ? orderDetails.Currency : 'USD') }}
               </td>
             </tr>
           </tbody>
