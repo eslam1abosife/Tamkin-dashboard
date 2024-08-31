@@ -382,7 +382,7 @@ function leaveNotification(el, done) {
       </div>
     </div>
 
-    <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards" 
+    <div v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards"
     class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">{{$t('Payment Methods')}}</div>
@@ -408,7 +408,7 @@ function leaveNotification(el, done) {
       </div>
 
       <div class="flex flex-col items-start justify-start  w-full mt-[24px] space-y-[10px]">
-        <div class="flex flex-col items-center justify-start w-full " 
+        <div class="flex flex-col items-center justify-start w-full "
         v-for="savedCard in billingStore.cards" :key="savedCard.name">
 
           <div :class="[ savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ', ]"
@@ -437,7 +437,7 @@ function leaveNotification(el, done) {
 
             <div class="flex items-center justify-center rtl:space-x-reverse space-x-[12px] px-[15px]">
 
-              <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"  
+              <button @click="openCard(savedCard)"  :disabled="billingStore.cards?.length === 1"
               class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg
                 flex items-center justify-center group" :class="{ 'opacity-50 cursor-not-allowed': billingStore.cards?.length === 1 }">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -450,7 +450,7 @@ function leaveNotification(el, done) {
                 </svg>
 
               </button>
-   
+
             </div>
           </div>
         </div>
@@ -555,7 +555,7 @@ function leaveNotification(el, done) {
 
     </div>
 
-    <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad" 
+    <div v-if="invoicesStore.invoices?.length === 0 && !globalLoad"
     class="bg-white w-full h-[200px] mt-[32px] rounded-[10px] p-[32px]">
       <div class="text-[18px] font-[500] text-black">{{ $t('Invoices History') }}
       </div>
