@@ -14,10 +14,10 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
     class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]">
     <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div
-      v-if="currentCategoryWithSkinItems.category_items.length > 0"
+      v-if="currentCategoryWithSkinItems.skin_items_list.length > 0"
       class="market_card_char order-1 cursor-pointer"
       @click="playerStore.wearClothes(skin_item)" :role="marketStore.owned(skin_item) ? 'button' : ''"
-      v-for="skin_item in currentCategoryWithSkinItems.category_items"
+      v-for="skin_item in currentCategoryWithSkinItems.skin_items_list"
       :key="skin_item.name"
       :class="[
         marketStore.selectedForPreview.includes(skin_item)
@@ -65,7 +65,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               #fde7ea 100%
             );
           "
-          v-if="skin_item.purchaser"
+          v-if="skin_item.is_purchased"
         >
           <div class="text-[10px] font-[500] leading-[10px]">Purchased</div>
         </div>

@@ -106,7 +106,7 @@ export const useMarketStore = defineStore('market', {
       return new_item;
     },
     owned(item: any){
-        return item.applied || item.purchaser || item.package;
+        return item.is_purchased;
     },
     cartable(item: any){
         return !this.owned(item)

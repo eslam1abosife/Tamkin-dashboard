@@ -4,11 +4,6 @@ import { Vue3Lottie } from 'vue3-lottie'
 
 import { usePlayerStore } from "@/stores/player";
 const playerStore = usePlayerStore();
-// import { useModalManager } from "@/composables/useModalManager";
-// import { useGetCharacters } from "@/composables/useMarket";
-// import { useFullUrl } from "@/composables/useSharedFunctions";
-// const { fullUrl } = useFullUrl();
-// const {$toast} = useNuxtApp();
 
 onMounted(() => {  
   doPlayerStuff();
@@ -34,11 +29,13 @@ function controlPlayerLoad() {
   }
   window.characterLoadFinished = () => {
     setTimeout(() => {
-      playerStore.toggleCamera()
+    //   playerStore.toggleCamera()
       playerStore.characterLoaded = true
       // for the first time when character loads
       // and the watcher takes over the subsequent changes in active character
       playerStore.wearSavedClothes()
+      console.log('....character load finished');
+      
     }, 100);
   }
 
