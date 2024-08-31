@@ -111,7 +111,7 @@ const closeAndreseStt = ()=>{
   
       
 
-       <div class="mt-[48px] px-[20px] rtl:mr-auto ltr:ml-auto" >
+       <div class="mt-[38px] px-[20px] rtl:mr-auto ltr:ml-auto" >
         <button :disabled="v$.$invalid || isLoading" class="btn-dashboard hover_tamkin"  @click="goToStep2">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2':''">

@@ -37,8 +37,14 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
     miniSizeLiveTranslation.value = false;
   }
 };
-
+const {$toast } = useNuxtApp()
+onMounted(()=>{
+  $toast('error',{hideIn:400000,type:'error'})
+})
 onBeforeMount(() => {
+ 
+
+
   [
     "tamkin_player",
     "media_player",

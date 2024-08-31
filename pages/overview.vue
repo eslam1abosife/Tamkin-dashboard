@@ -17,6 +17,7 @@ definePageMeta({
 middleware:['auth','permissions'],
 
 });
+
 </script>
 
 <template>

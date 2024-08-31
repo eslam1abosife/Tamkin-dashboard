@@ -113,11 +113,13 @@ watch(reInvite, (newValue) => {
     }, 2000);
   }
 });
-
+const userRole = ref(useCookie('user').value.role_profile_name )
 const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-
+watch(() => useCookie('user').value.role_profile_name, (newRole) => {
+  roleProfileName.value = newRole;
+});
 const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
@@ -147,7 +149,7 @@ definePageMeta({
   requiredPermission: 'team',
 
 });
-
+const {user:userinStore} = storeToRefs(userStore) 
 const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
 const loadingTeam = ref(true)
 const getCurrTeam = async () => {
@@ -314,9 +316,15 @@ onMounted(async () => {
     <div
       class="flex items-center justify-start  rtl:space-x-reverse space-x-[20px] w-full"
     >
-      <div @click="openModal('editteampic', 'team')" v-if="!currTeam?.team_image">
+      <div @click="()=>{
+        if(profileStore.isOwner){
+          openModal('editteampic', 'team')
+        }
+      }" v-if="!currTeam?.team_image" >
         <div
-          class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer"
+        :class="[profileStore.isOwner ? 'cursor-pointer bg-tamkin' : 'cursor-not-allowed bg-light']"
+          class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] 
+          lg:h-[65px]  rounded-full flex items-center justify-center "
         >
           <svg
             width="27"
@@ -333,7 +341,11 @@ onMounted(async () => {
           </svg>
         </div>
       </div>
-      <div @click="openModal('editteampic', 'team')" class="" v-else>
+      <div @click="()=>{
+        if(profileStore.isOwner){
+          openModal('editteampic', 'team')
+        }
+      }" class="" v-else>
         <div
           class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
         >
@@ -420,7 +432,13 @@ onMounted(async () => {
     <div class="flex items-center justify-center flex-shrink-0">
       <div v-if="!editTeamNameMode">
         <button
-          @click="() => (editTeamNameMode = !editTeamNameMode)"
+        :disabled="!profileStore.isOwner"
+          @click="() => {
+
+            if(profileStore.isOwner){
+              (editTeamNameMode = !editTeamNameMode)
+            }
+          }"
           class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
         >
           {{ $t('Edit Team') }}
@@ -502,7 +520,8 @@ onMounted(async () => {
             ></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px] space-x-[88px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px]
+               space-x-[90px] flex"
             >
               <div>{{$t('Active')}}</div>
               <div>
@@ -514,7 +533,7 @@ onMounted(async () => {
             <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
 
             <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[55px]  space-x-[74px] flex"
+              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[55px]  space-x-[78px] flex"
             >
               <div>{{$t('Pending')}}</div>
               <div>
@@ -608,9 +627,13 @@ onMounted(async () => {
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
-              <button
+              <button :disabled="!profileStore.isOwner"
                 class="btn-dashboard hover_tamkin"
-                @click="openModal('invitemember')"
+                @click="()=>{
+                  if(profileStore.isOwner){
+                    openModal('invitemember')
+                  }
+                }"
               >
                 {{ $t('Invite Member') }}
               </button>
@@ -707,16 +730,11 @@ onMounted(async () => {
                         </span>
                       </div>
                     </div>
+
                     <div
                       class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " 
-                      :class="[isOwner ? 'cursor-pointer' :'cursor-not-allowed']"
-                      @click="()=>{
-
-                        if(isOwner){
-                    
-                          openModal('editname', 'team', member)
-                        }
-                      }"
+                     
+                      
                     >
                     
                       {{ member.first_name + " " + member.last_name }}
@@ -743,8 +761,12 @@ onMounted(async () => {
                   <div class="flex items-center justify-start">
                     <button
                       :disabled="isOwner(member)"
-                      @click="openPermissions(member)"
-                      :class="isOwner(member) ? 'opacity-40' : 'opacity-100'"
+                      @click="()=>{
+                       if(profileStore.isOwner){
+                        openPermissions(member)
+                       } 
+                      }"
+                      :class="!profileStore.isOwner ?  ' !cursor-not-allowed opacity-40' : 'opacity-100'"
                       class="flex items-center  rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                     >
                       <div>{{$t('Permissions')}}</div>
@@ -761,14 +783,14 @@ onMounted(async () => {
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="
                         member.is_active ||
-                        isOwner(member) ||
+                        !profileStore.isOwner ||
                         (reInviteLoading && currEmail === member.member_email) ||
                         invitedUsers.findIndex((email) => email === member.member_email) >
                           -1
                       "
                       :class="[
                         member.is_active ||
-                        isOwner(member) ||
+                        !profileStore.isOwner ||
                         (reInviteLoading && currEmail === member.member_email) ||
                         invitedUsers.findIndex((email) => email === member.member_email) >
                           -1
@@ -784,8 +806,8 @@ onMounted(async () => {
                         class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
                         :class="
                           member.is_active ||
-                          isOwner(member) ||
-                          (reInviteLoading && currEmail === member.member_email) ||
+                          !profileStore.isOwner ||
+                          reInviteLoading ||
                           invitedUsers.findIndex(
                             (email) => email === member.member_email
                           ) > -1
@@ -810,16 +832,16 @@ onMounted(async () => {
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="isOwner(member)"
-                      :class="isOwner(member) ? `opacity-40` : 'opacity-100'"
+                      :class="!profileStore.isOwner ? `cursor-not-allowed opacity-40` : 'opacity-100'"
                     >
                       <svg
                         width="16"
                         height="20"
                         viewBox="0 0 16 20"
                         fill="none"
-                        class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
-                        :class="!isOwner(member) && `hover:text-[#2DADA3]`"
-                        @click="!isOwner(member) ? openEditUserModal(member) : null"
+                        class="text-[#8C8C8C]  group-disabled:cursor-not-allowed"
+                        :class="profileStore.isOwner ?  `cursor-pointer hover:text-[#2DADA3]` : 'cursor-not-allowed'"
+                        @click=" profileStore.isOwner ? openEditUserModal(member) : null"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
@@ -833,9 +855,9 @@ onMounted(async () => {
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="isOwner(member)"
-                      :class="isOwner(member) ? `opacity-40` : 'opacity-100'"
+                      :class="!profileStore.isOwner || isOwner(member)? `cursor-not-allowed opacity-40 ` : 'opacity-100'"
                       @click="
-                        !isOwner(member) ? openDeleteMember(member.member_email) : null
+                         profileStore.isOwner ? openDeleteMember(member.member_email) : null
                       "
                     >
                       <svg
@@ -843,8 +865,9 @@ onMounted(async () => {
                         height="20"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
-                        :class="!isOwner(member) && `hover:text-[#E80902]`"
+                        class="text-[#8C8C8C]   group-disabled:cursor-not-allowed"
+                        :class=" profileStore.isOwner  &&  !isOwner(member) ?
+                          `cursor-pointer  hover:text-[#E80902]` :'!cursor-not-allowed'"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path

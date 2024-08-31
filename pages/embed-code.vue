@@ -84,6 +84,7 @@ onMounted(async () => {
 // });
 
 
+
 })
 const openVideoLink = (videoLink) => {
   window.open(videoLink, '_blank');
@@ -96,7 +97,12 @@ const filteredInstallationGuide = computed(() => {
 
 <template>
   <div class="relative w-full inset-0">
-
+    <!-- <DashboardToastSuccess
+    v-if="true"
+    :hideIn="20044440"
+    type="error"
+    :message="$t('Member Deleted Successfully')"
+  /> -->
     <div class="  space-y-[32px] relative w-full">
       <!-- <DashboardEmbedShareModal/>
     <div class="fixed z-[999] bg-black bg-opacity-70 h-screen w-full">   </div> -->

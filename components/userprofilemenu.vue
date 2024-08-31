@@ -114,9 +114,10 @@ const helpWindow = ()=>{
 }
 
 
-onBeforeMount(async ()=>{
-  if (Object.keys(profileStore.member).length === 0 && !isLinkActive('/profile')) {
+onMounted(async ()=>{
+  if (!isLinkActive('/profile')) {
     await profileStore.fetchMember(true)
+    useCookie('permissions').value = JSON.stringify(profileStore.member.permission)
 }
 
 

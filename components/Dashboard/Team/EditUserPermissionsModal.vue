@@ -4,7 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import {  useGetPermissions, useUpdateUserPermission, useGetUserPermissions } from '@/composables/usePermissions';
 import { useInviteMember, useGetAllMembers } from '@/composables/useTeam';
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
+const {t} = useI18n()
 const { getAvatarLetters } = useGetAvatarLetters();
 
 
@@ -56,35 +56,52 @@ const { inviteMember, memberData, loading: submitLoading } = useInviteMember();
 const { getAllTeamMember } = useGetAllMembers();
 
 const emit = defineEmits(['onSuccess']);
-
+const {$toast}= useNuxtApp()
 const error_message=ref({error:''})
+const profileStore = useProfileStore()
 const savePermission = async () => {
   try {  
+
     updatePermissonsLoading.value = true
     const user = JSON.parse(localStorage.getItem('user'));
 
     const state=getData();
 
     state.permissions=checked.value
-    
+    if(state.from_edit === true){
+alert('here')
     await updateUserPermission(state);
-    // await inviteMember(state);
-    getAllTeamMember(user.agency);
+    $toast(t( 'User Updated successfully!'),{hideIn:3000});
 
-    emit('onSuccess', 'User added successfully!');
+    }
+    
+    else if(state.from_edit === false) {
+// alert('here32')
+
+    // await updateUserPermission(state);
+      await inviteMember(state);
+    $toast(t( 'User Invited successfully!'),{hideIn:3000});
+
+    }
+
 
     closeModal('userpermissions');
 
     updatePermissonsLoading.value = false
 
+    // alert('it shpuld invite after this')
+
+  await getAllTeamMember(profileStore.member.agency);
+
+
   } catch (err:any) {
-    console.log(err)
+    console.log('theres error man',err)
     errMsg.value = err;
     // console.error(err);
-    closeModal('userpermissions');
+    // closeModal('userpermissions');
     // openModal('invitemember');
     error_message.value.error=err
-    setData(error_message.value);
+    // setData(error_message.value);
 
   }
 }

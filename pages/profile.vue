@@ -471,18 +471,18 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
             />
           </keep-alive>
           <ProfilePersonalinfo
-            v-if="currentMode === 'normal' && profileStore.currentTab === 'personal'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'personal' "
           />
           <keep-alive>
             <ProfileEditcompany
               :loadingUpdate="profileLoader"
               @update-profile="updatep"
               @cancelupdate="changeMode('normal')"
-              v-if="currentMode === 'editing' && profileStore.currentTab === 'company'"
+              v-if="currentMode === 'editing' && profileStore.currentTab === 'company' && profileStore.isOwner"
             />
           </keep-alive>
           <ProfileCompanyinfo
-            v-if="currentMode === 'normal' && profileStore.currentTab === 'company'"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'company' || currentMode === 'editing' && profileStore.currentTab === 'company' && !profileStore.isOwner"
           />
           <ProfilePassword
             @close-editing-mode="profileStore.currentTab = 'personal'"

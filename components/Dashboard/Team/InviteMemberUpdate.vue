@@ -75,7 +75,10 @@ const submitInviteApp = async () => {
     updatedState.value.app_name = checked.value
     
     
-    setData(updatedState.value)
+    setData({
+      ...updatedState.value,
+      from_edit:false
+    })
 
     // await inviteApp({
     //   email: state.email,
@@ -83,7 +86,7 @@ const submitInviteApp = async () => {
     //   agency: state.currTeamId
     // });
     // emit('onSuccess', 'User Apps Updated Successfully!');
-    await delay(2000); // wait for 2 seconds
+    // await delay(2000); // wait for 2 seconds
     navigateTo('invitememberupdate', 'team', 'userpermissions');
     submitInviteLoading.value = false
 

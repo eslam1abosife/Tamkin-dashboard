@@ -104,7 +104,7 @@ const openLink = (link: string) => {
       <div class="text-[16px] leading-[24px] font-[600]">{{$t('Portfolio')}}</div>
       <div
         class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px] ipad-max:flex-wrap"
-        v-if="currentMode === 'normal'"
+        v-if="currentMode === 'normal' ||  !profileStore.isOwner"
       >
       <button 
       :disabled="!isValidUrl(platform.link)"
@@ -118,7 +118,7 @@ const openLink = (link: string) => {
       </div>
     </div>
 
-    <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing'">
+    <div class="flex flex-col items-start justify-start w-full" v-if="currentMode === 'editing' && profileStore.isOwner">
       <div class="w-full" v-if="profileStore.company && profileStore.company.social_accounts.length === 0">
         <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full my-[10px]" 
           v-for="(handler, index) in profileStore.social_platforms" :key="index">

@@ -17,6 +17,7 @@ export const useProfileStore = defineStore("profile", {
     currentTeam: '',
     updateProfilePayload:'',
     updatedCompanyPayload:'',
+    permissions:[],
     social_platforms: [
       {
         title: "Facebook",
@@ -94,27 +95,31 @@ export const useProfileStore = defineStore("profile", {
 
 
     },
-    async fetchMember(showLoader = false) {
-      if (showLoader) {
+    async fetchMember() {
+    
         this.loadingProfile = true;
-      }
-      // this.isLoading = true;
+        // ths.isLoading = true;
     
       try {
         const { getMember, member } = useGetMember();
         await getMember();
+        this.member = member.value
+this.permissions = member.value.permission
+        // const userAllowDashboard = useCookie('ei_s', { expires: 0 });
+        // userAllowDashboard.value = JSON.stringify(this.member.name)
+        // alert('is cookie set')
+
         const userStore = useUserStore()
         const roleProfileName = userStore.user?.role_profile_name;
-    
         this.isOwner = roleProfileName === 'Owner of Agency';
-        this.member = member.value;
       } catch (error) {
         // this.hasError = true;
+        this.loadingProfile = false;
+
       } finally {
-        // this.isLoading = false;
-        if (showLoader) {
+
           this.loadingProfile = false;
-        }
+  
       }
     },
     
@@ -216,6 +221,8 @@ export const useProfileStore = defineStore("profile", {
     },
 
   
-  }
+  },
+  // persist: true
+
     
 });

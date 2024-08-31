@@ -102,11 +102,13 @@ script: [
   '@nuxtjs/tailwindcss',
   '@nuxtjs/google-fonts',
   '@pinia/nuxt',
+'@pinia-plugin-persistedstate/nuxt',
   '@nuxtjs/i18n',
   '@vueuse/nuxt',
   '@nuxtjs/device',
   '@vueuse/motion/nuxt',
   '@nuxtjs/color-mode',
+
   // '@productdevbook/chatwoot'
 
   // '@element-plus/nuxt'

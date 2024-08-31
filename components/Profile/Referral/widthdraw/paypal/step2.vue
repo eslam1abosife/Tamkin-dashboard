@@ -186,7 +186,7 @@ const completeWithDraw = async () => {
   
   
 
-       <div class="mt-[101px] px-[20px] rtl:mr-auto ltr:ml-auto">
+       <div class="mt-[101px]  rtl:mr-auto ltr:ml-auto">
         <button :disabled="isLoading || isWithdrawDisabled" class="btn-dashboard hover_tamkin"  @click="completeWithDraw">
           <div class="flex items-center justify-center space-x-[6px]">
             <div :class="isLoading ? 'rtl:ml-2 ltr:mr-2':''">
