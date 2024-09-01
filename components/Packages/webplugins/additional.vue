@@ -35,13 +35,13 @@
         </div>
 
         <div
-          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center space-x-[14px] justify-evenly cursor-pointer"
+          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -75,13 +75,13 @@
         </div>
 
         <div
-          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center space-x-[14px] justify-evenly cursor-pointer"
+          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -115,13 +115,13 @@
         </div>
 
         <div
-          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center space-x-[14px] justify-evenly cursor-pointer"
+          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -156,13 +156,13 @@
         </div>
 
         <div
-          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center space-x-[14px] justify-evenly cursor-pointer"
+          class="text-[#18191F] text-[10px] font-[600] !mt-[24px] flex items-center rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -500,49 +500,43 @@ onMounted(async () => {
         class="flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-        <div class="flex flex-col items-start justify-start">
-          <div
-            class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
-          >
-            <div>
-              <img src="/imgs/total_members.png" class="w-[16px] h-[21px]" alt="" />
-            </div>
-            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]">
-              <div>{{$t('Total Member')}}</div>
-              <div>
-                {{ teamMembers.length }}
-              </div>
-            </div>
+      <div class="flex flex-col items-start justify-start">
+        <div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]">
+          <div>
+            <img src="/imgs/total_members.png" class="w-[16px] h-[21px]" alt="" />
           </div>
-          <div class="flex items-center justify-center mt-[8px] rtl:space-x-reverse space-x-[14px]">
-            <div
-              class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
-            ></div>
-
-            <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[88px]
-               space-x-[90px] flex"
-            >
-              <div>{{$t('Active')}}</div>
-              <div>
-                {{ teamMembers.filter((ele) => ele.is_active).length }}
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-center mt-[8px] rtl:space-x-reverse space-x-[14px]">
-            <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
-
-            <div
-              class="text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse rtl:space-x-[55px]  space-x-[78px] flex"
-            >
-              <div>{{$t('Pending')}}</div>
-              <div>
-                {{ teamMembers.filter((ele) => !ele.is_active).length }}
-              </div>
+          <div class="flex items-center justify-between w-full">
+            <div class="flex-grow ipad-max:text-[12px] lg:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap">{{$t('Total Member')}}</div>
+            <div class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right">
+              {{ teamMembers.length }}
             </div>
           </div>
         </div>
-
+        <div class="flex items-center justify-between mt-[8px] w-full">
+          <div class="flex items-center">
+            <div class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"></div>
+            <div class="rtl:mr-[12px] ltr:ml-[11px] flex-grow  ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap">
+              {{$t('Active')}}
+            </div>
+          </div>
+          <div class="ltr:ml-[50px] rtl:mr-[50px] text-right"> 
+            {{ teamMembers.filter((ele) => ele.is_active).length }}
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-[8px] w-full">
+          <div class="flex items-center">
+            <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
+            <div class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap">
+              {{$t('Pending')}}
+            </div>
+          </div>
+          <div class="ltr:ml-[50px] rtl:mr-[50px] text-right"> 
+            {{ teamMembers.filter((ele) => !ele.is_active).length }}
+          </div>
+        </div>
+      </div>
+      
+      
         <div class="-mt-[45px]">
           <img src="/imgs/total_members_hero.png" class="w-[203px] h-[151px]" alt="" />
         </div>
@@ -699,7 +693,8 @@ onMounted(async () => {
                 :key="index"
               >
                 <td
-                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] 
+                  text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]  space-x-[16px]"
@@ -732,7 +727,7 @@ onMounted(async () => {
                     </div>
 
                     <div
-                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap " 
+                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap max-w-44 truncate" 
                      
                       
                     >
@@ -741,7 +736,8 @@ onMounted(async () => {
                     </div>
                     <div
                       v-if="isOwner(member)"
-                      class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
+                      class="order-1 flex items-center justify-center text-white text-[10px]
+                       font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
                       style="
                         background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
                       "

@@ -90,6 +90,7 @@ export default {
   plugins: [
     require("@tailwindcss/forms"),
     require("tailwind-extended-shadows"),
+    require('tailwind-scrollbar'),
 
     function ({ addVariant, e }) {
       addVariant("disabled:hover", ({ modifySelectors, separator }) => {

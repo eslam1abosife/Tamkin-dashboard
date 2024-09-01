@@ -1605,6 +1605,7 @@ watch(
       </div>
   
       <div
+      @click="$router.push({path:localePath('/packages')})"
         class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >

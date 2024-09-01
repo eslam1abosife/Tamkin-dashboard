@@ -25,7 +25,7 @@ provide("pricingType", pricingType);
 <template>
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap">
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap" v-if="packagesStore.currentTab === 'webplugins'">
         Sign Language
         <span
           class="bg-gradient-to-br from-[#46A095] via-[#46A095] to-[#17159D] text-transparent bg-clip-text"
@@ -33,6 +33,10 @@ provide("pricingType", pricingType);
         >
       </div>
 
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap bg-gradient-to-l from-[#C520AB] 
+      via-[#1E4FB0] to-[#31A69F] text-transparent bg-clip-text" v-if="packagesStore.currentTab !== 'webplugins'">
+        Inclusive Media Services for All Users
+      </div>
       <div
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
@@ -42,7 +46,7 @@ provide("pricingType", pricingType);
     </div>
     <!-- SECONDARY NAV-->
 
-    <div class="flex items-center justify-center mt-[60px] space-x-[40px]">
+    <div class="flex items-center justify-center mt-[60px] rtl:space-x-reverse space-x-[40px]">
       <div
         @click="packagesStore.changeTab('webplugins')"
         :class="[
@@ -54,7 +58,7 @@ provide("pricingType", pricingType);
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[currentTab === 'webplugins' ? 'text-white ' : 'text-[#878787]']"
+          :class="[ packagesStore.currentTab  === 'webplugins' ? 'text-white ' : 'text-[#878787]']"
         >
           Web Plugins
         </div>
@@ -69,7 +73,7 @@ provide("pricingType", pricingType);
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[currentTab === 'Media' ? 'text-white ' : 'text-[#878787]']"
+          :class="[ packagesStore.currentTab  === 'Media' ? 'text-white ' : 'text-[#878787]']"
         >
           Media
         </div>
@@ -86,7 +90,7 @@ provide("pricingType", pricingType);
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[currentTab === 'Documents' ? 'text-white ' : 'text-[#878787]']"
+          :class="[ packagesStore.currentTab === 'Documents' ? 'text-white ' : 'text-[#878787]']"
         >
           Documents
         </div>
@@ -100,24 +104,24 @@ provide("pricingType", pricingType);
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[currentTab === 'Images' ? 'text-white ' : 'text-[#878787]']"
+          :class="[ packagesStore.currentTab === 'Images' ? 'text-white ' : 'text-[#878787]']"
         >
           Images
         </div>
       </div>
 
       <div
-        @click="packagesStore.changeTab('bundle')"
+        @click="packagesStore.changeTab('Bundle')"
         :class="[
-         packagesStore.currentTab === 'bundle' ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] ' : '',
+         packagesStore.currentTab === 'Bundle' ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] ' : '',
         ]"
         class="h-[24px] flex items-center justift-center rounded-[4px] p-[10px] cursor-pointer"
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[currentTab === 'bundle' ? 'text-white ' : 'text-[#878787]']"
+          :class="[packagesStore.currentTab === 'Bundle' ? 'text-white ' : 'text-[#878787]']"
         >
-          bundle
+        Bundle
         </div>
       </div>
     </div>
@@ -147,11 +151,11 @@ provide("pricingType", pricingType);
         </div>
       </button>
     </div>
-    <PackagesWebpluginsPricing v-if="currentTab === 'webplugins' ||packagesStore.currentTab === 'bundle'" />
-    <PackagesMediaPricing v-if="currentTab === 'Media'||packagesStore.currentTab === 'Documents'" /> 
-    <PackagesMediaServices  v-if="currentTab === 'Media'"/>
-    <PackagesDocumentsServices v-if="currentTab === 'Documents'"/>
-    <PackagesImagesServices v-if="currentTab === 'Images'"/>
+    <PackagesWebpluginsPricing v-if=" packagesStore.currentTab  === 'webplugins' ||packagesStore.currentTab === 'Bundle'" />
+    <PackagesMediaPricing v-if=" packagesStore.currentTab  === 'Media'||packagesStore.currentTab === 'Documents' ||  packagesStore.currentTab  === 'Images'" /> 
+    <PackagesMediaServices  v-if=" packagesStore.currentTab  === 'Media'"/>
+    <PackagesDocumentsServices v-if=" packagesStore.currentTab  === 'Documents'"/>
+    <PackagesImagesServices v-if=" packagesStore.currentTab  === 'Images'"/>
    
     <div></div>
     <!-- PACKAGES-->
@@ -162,7 +166,7 @@ provide("pricingType", pricingType);
       @click="openMoreDetails"
       :style="boxShadowStyle"
       :class="[moreDetails ? 'bg-[#35C0B4] !text-white ' : 'bg-white']"
-      class="hover:bg-[#35C0B4] hover:text-white group w-full mx-auto my-[29px] h-[37px] rounded-b-[10px] space-x-[20px] cursor-pointer flex items-center justify-center"
+      class="hover:bg-[#35C0B4] hover:text-white group w-full mx-auto my-[29px] h-[37px] rounded-b-[10px] rtl:space-x-reverse space-x-[20px] cursor-pointer flex items-center justify-center"
     >
       <div
         class="text-[14px] font-[500] leading-[21px] group-hover:text-white"
@@ -189,10 +193,10 @@ provide("pricingType", pricingType);
     </div>
 
     <div
-      class="overflow-x-auto w-full mx-auto rounded-[8px] mb-[32px]"
+      class="overflow-x-auto w-full mx-auto h-full  rounded-[8px] mb-[32px]"
       v-if="moreDetails"
     >
-      <table class="min-w-full bg-white">
+      <table class="min-w-full h-full bg-white">
         <thead class="bg-[#ECECF0] h-[50px] !rounded-b-[8px]">
           <tr>
             <th
@@ -216,8 +220,9 @@ provide("pricingType", pricingType);
               PRO PLUS
             </th>
           </tr>
+          
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-200 h-[200px]">
           <tr>
             <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
               <div
@@ -265,11 +270,40 @@ provide("pricingType", pricingType);
               />
             </td>
           </tr>
-
           <tr>
             <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
-              Live Translations - addons
-              <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i>
+              <div
+                class="flex items-center justify-start text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin relative"
+              >
+                <div>Live Translations - addons</div>
+                <div class="relative">
+                  <span
+                    class="tooltip packages"
+                    id="saveButton"
+                    :title="
+                      $t(
+                        'The status shows the code is installed, embedded, and services are now visible and operational'
+                      )
+                    "
+                  >
+                    <span id="saveButton_label" class="">
+                      <svg
+                        width="16"
+                        class="mx-[3px]"
+                        height="15"
+                        viewBox="0 0 16 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.35922 15C12.455 15 15.8594 11.6029 15.8594 7.5C15.8594 3.40427 12.4475 0 8.35169 0C4.24897 0 0.859375 3.40427 0.859375 7.5C0.859375 11.6029 4.25619 15 8.35922 15ZM8.35953 13.7501C4.88836 13.7501 2.11589 10.9705 2.11589 7.5C2.11589 4.03643 4.88084 1.2499 8.35169 1.2499C11.815 1.2499 14.6016 4.03675 14.6091 7.5C14.6164 10.9708 11.8222 13.7501 8.35891 13.7501M8.35169 8.83084C8.70433 8.83084 8.90292 8.63225 8.91014 8.25013L9.02057 4.36773C9.0281 3.99251 8.73382 3.71329 8.34416 3.71329C7.94697 3.71329 7.66775 3.9853 7.67496 4.3602L7.77065 8.25013C7.77787 8.62503 7.98399 8.83084 8.35169 8.83084ZM8.35169 11.2205C8.77053 11.2205 9.14544 10.8823 9.14544 10.456C9.14544 10.0221 8.77806 9.69108 8.35169 9.69108C7.91779 9.69108 7.55731 10.0293 7.55731 10.456C7.55731 10.8751 7.92501 11.2205 8.35169 11.2205Z"
+                          fill="#71DAD2"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+              </div>
             </td>
             <td class="px-6 py-4 text-center">
               <i class="text-teal-500 fas fa-check-circle"></i>
@@ -283,23 +317,7 @@ provide("pricingType", pricingType);
               />
             </td>
           </tr>
-          <tr>
-            <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
-              Live Translations - addons
-              <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i>
-            </td>
-            <td class="px-6 py-4 text-center">
-              <i class="text-teal-500 fas fa-check-circle"></i>
-            </td>
-            <td class="px-6 py-4 text-left">-</td>
-            <td class="px-6 py-4 text-center">
-              <img
-                src="/assets/imgs/checked_list_active.svg"
-                alt="Checked List"
-                class="mr-auto"
-              />
-            </td>
-          </tr>
+        
         </tbody>
       </table>
     </div>
@@ -307,7 +325,7 @@ provide("pricingType", pricingType);
     <!-- END SHOW MORE DETAILS-->
 
     <!--BUY MORE START  words-->
-    <div v-if="currentTab !== 'bundle'"
+    <div v-if=" packagesStore.currentTab  !== 'bundle'"
       class="w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-[315px] bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
       <div
@@ -356,7 +374,7 @@ provide("pricingType", pricingType);
     <!-- BUY MORE END-->
 
     <!-- BUY MORE MINUTES START-->
-    <div v-if="currentTab !== 'bundle'"
+    <div v-if=" packagesStore.currentTab  !== 'bundle'"
       class="w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-[315px] mt-[32px] bg-gradient-to-l from-[#D1F7F4] to-[#FFFFFF] rounded-[10px]"
     >
       <div
@@ -404,174 +422,13 @@ provide("pricingType", pricingType);
 
     <!-- Additional addons start-->
 
- <PackagesWebpluginsAdditional v-if="currentTab === 'webplugins'"/>
+ <PackagesWebpluginsAdditional v-if=" packagesStore.currentTab  === 'webplugins'"/>
 
     <!-- ADDTIONAL ADDONS END-->
 
     <!-- FAQ START-->
 
-    <div class="w-full h-[427px] bg-white p-[30px] mx-auto mt-[32px] relative">
-      <div class="absolute top-[180px] left-[100px]">
-        <img src="/imgs/Astronaut.png" class="w-[167px] h-[174px] opacity-30" alt="" />
-      </div>
-      <div class="text-[#18191F] text-[20px] leading-[32px] text-left font-[600]">
-        Frequently Asked Questions
-      </div>
-
-      <div class="flex items-center justify-center">
-        <div class="flex items-start justify-center flex-col w-full -mr-14 mt-[50px]">
-          <div
-            class="h-[45px] w-full bg-[#E8F2FF] py-[15px] cursor-pointer space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
-            style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
-          >
-            <div class="w-[15px] h-[15px] bg-[#5D5FEF] rounded-full"></div>
-            <div class="text-[12px] font-[400] leading-[14px] text-black">
-              Why did we decide to create a family of virtual translators?
-            </div>
-            <div class="!ml-auto !mr-[7px]">
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.46875 1.56641L6.44653 6.54418L1.46875 11.522"
-                  stroke="#5D5FEF"
-                  stroke-width="1.24444"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
-            class="h-[45px] w-full bg-white py-[15px] bg-opacity-40 bg-opacity-70 -mr-14 cursor-pointer space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
-            style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
-          >
-            <div class="w-[15px] h-[15px] bg-[#A5A6F6] rounded-full"></div>
-            <div class="text-[12px] font-[400] leading-[14px] text-black">
-              Why did we decide to create a family of virtual translators?
-            </div>
-            <div class="!ml-auto !mr-[7px]">
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.46875 1.56641L6.44653 6.54418L1.46875 11.522"
-                  class="stroke-[#A5A6F6]"
-                  stroke-width="1.24444"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
-            class="h-[45px] w-full bg-white py-[15px] bg-opacity-40 bg-opacity-70 -mr-14 cursor-pointer space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
-            style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
-          >
-            <div class="w-[15px] h-[15px] bg-[#A5A6F6] rounded-full"></div>
-            <div class="text-[12px] font-[400] leading-[14px] text-black">
-              Why did we decide to create a family of virtual translators?
-            </div>
-            <div class="!ml-auto !mr-[7px]">
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.46875 1.56641L6.44653 6.54418L1.46875 11.522"
-                  class="stroke-[#A5A6F6]"
-                  stroke-width="1.24444"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
-            class="h-[45px] w-full bg-white py-[15px] bg-opacity-40 bg-opacity-70 -mr-14 cursor-pointer space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
-            style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
-          >
-            <div class="w-[15px] h-[15px] bg-[#A5A6F6] rounded-full"></div>
-            <div class="text-[12px] font-[400] leading-[14px] text-black">
-              Why did we decide to create a family of virtual translators?
-            </div>
-            <div class="!ml-auto !mr-[7px]">
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.46875 1.56641L6.44653 6.54418L1.46875 11.522"
-                  class="stroke-[#A5A6F6]"
-                  stroke-width="1.24444"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
-            class="h-[45px] w-full bg-white py-[15px] bg-opacity-40 bg-opacity-70 -mr-14 cursor-pointer space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
-            style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
-          >
-            <div class="w-[15px] h-[15px] bg-[#A5A6F6] rounded-full"></div>
-            <div class="text-[12px] font-[400] leading-[14px] text-black">
-              Why did we decide to create a family of virtual translators?
-            </div>
-            <div class="!ml-auto !mr-[7px]">
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.46875 1.56641L6.44653 6.54418L1.46875 11.522"
-                  class="stroke-[#A5A6F6]"
-                  stroke-width="1.24444"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div
-          class="mt-[48px] relative z-[40] float-right h-[293px] w-full rounded-[10px] bg-[#FAFBFF]"
-          style="box-shadow: 0px 0px 2.49px 0.62px #00000026"
-        >
-          <div
-            class="px-14 text-center mt-[26px] text-[12px] font-[600] leading-[24px] text-black break-words w-full"
-          >
-            Why did we decide to create a family of virtual translators?
-          </div>
-
-          <div
-            class="px-24 mt-[28px] text-center text-[11px] font-[400] leading-[24px] text-black"
-          >
-            Why did we decide to create a family of virtual translators?Why did we decide
-            to create a family of virtual translators? Why did we decide to create a
-            famifly of virtual translators?Why did we decide to create a family of virtual
-            translators?
-          </div>
-        </div>
-      </div>
-    </div>
+<PackagesFaq/>
 
     <!-- FAQ END-->
 

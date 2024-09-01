@@ -336,7 +336,9 @@ html {
 
     }
 }
-
+.chatwoot-hidden {
+    display: none !important;
+  }
 .custom-border {
     position: relative;
     // padding: 20px 30px;

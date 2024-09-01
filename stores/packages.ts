@@ -5,7 +5,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 
 export const usePackgesStore = defineStore('packages', {
     state: () => ({
-    currentTab:''
+    currentTab:'webplugins'
     }),
 
 

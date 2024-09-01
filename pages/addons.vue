@@ -39,7 +39,7 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 };
 const {$toast } = useNuxtApp()
 onMounted(()=>{
-  $toast('error',{hideIn:400000,type:'error'})
+  // $toast('error',{hideIn:400000,type:'error'})
 })
 onBeforeMount(() => {
  

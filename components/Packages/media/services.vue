@@ -9,11 +9,11 @@
       Media services
     </div>
 
-    <div class="flex items-center justify-center space-x-[14px] px-[8px] mt-[46px]">
+    <div class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px] px-[8px] mt-[46px]">
       <div
         class="h-[165px] col-span-4 w-full p-[32px] rounded-[10px] bg-[#F7F8FF] flex flex-col items-start justify-center"
       >
-        <div class="flex items-center justity-center w-full space-x-[13px] mt-[10px]">
+        <div class="flex items-center justity-center w-full rtl:space-x-reverse  space-x-[13px] mt-[10px]">
           <div>
             <img
               src="/assets/imgs/translatevideo/play.svg"
@@ -39,13 +39,13 @@
         </div>
 
         <div
-          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse  space-x-[14px]"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rtl:rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@
       <div
         class="h-[165px] col-span-4 w-full p-[32px] rounded-[10px] bg-[#F7F8FF] flex flex-col items-start justify-center"
       >
-        <div class="flex items-center justity-center w-full space-x-[13px] mt-[10px]">
+        <div class="flex items-center justity-center w-full rtl:space-x-reverse  space-x-[13px] mt-[10px]">
           <div>
             <img
               src="/assets/imgs/translatevideo/audio.svg"
@@ -86,13 +86,13 @@
         </div>
 
         <div
-          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse  space-x-[14px]"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rtl:rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +107,7 @@
       <div
         class="h-[165px] col-span-4 w-full p-[32px] rounded-[10px] bg-[#F7F8FF] flex flex-col items-start justify-center"
       >
-        <div class="flex items-center justity-center w-full space-x-[13px] mt-[10px]">
+        <div class="flex items-center justity-center w-full rtl:space-x-reverse  space-x-[13px] mt-[10px]">
           <div>
             <img
               src="/assets/imgs/translatevideo/live.svg"
@@ -133,13 +133,13 @@
         </div>
 
         <div
-          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+          class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse  space-x-[14px]"
         >
           <div>Purchase Now</div>
           <svg
             width="9"
             height="15"
-            class="w-[4px] h-[6px]"
+            class="w-[4px] h-[6px] rtl:rotate-180"
             viewBox="0 0 9 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

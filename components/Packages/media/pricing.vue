@@ -21,26 +21,26 @@
               <p class="text-[10px] leading-[32px] font-[700] text-darkGrey">50 Words / 50 Minutes</p>
             </div>
             <ul class="mb-6 space-y-[25px] mx-auto text-center">
-              <li class="flex items-center justify-center space-x-[14px]">
+              <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                 <div>
                     <img src="/assets/imgs/checked_list_active.svg" />
                   </div>
                   <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                 </li>
         
-              <li class="flex items-center justify-center space-x-[14px]">
+              <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                 <div>
                     <img src="/assets/imgs/checked_list_active.svg" />
                   </div>
                   <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                 </li>
-              <li class="flex items-center justify-center space-x-[14px]">
+              <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                 <div>
                     <img src="/assets/imgs/checked_list_inactive.svg" />
                   </div>
                 <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
               </li>
-              <li class="flex items-center justify-center space-x-[14px]">
+              <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                 <div>
                     <img src="/assets/imgs/checked_list_inactive.svg" />
                   </div>
@@ -69,26 +69,26 @@
                         <p class="text-[10px] leading-[32px] font-[700] text-darkGrey">50 Words / 50 Minutes</p>
                       </div>
                       <ul class="mb-6 space-y-[25px] mx-auto text-center">
-                        <li class="flex items-center justify-center space-x-[14px]">
+                        <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                           <div>
                               <img src="/assets/imgs/checked_list_active.svg" />
                             </div>
                             <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                           </li>
                   
-                        <li class="flex items-center justify-center space-x-[14px]">
+                        <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                           <div>
                               <img src="/assets/imgs/checked_list_active.svg" />
                             </div>
                             <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                           </li>
-                        <li class="flex items-center justify-center space-x-[14px]">
+                        <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                           <div>
                               <img src="/assets/imgs/checked_list_inactive.svg" />
                             </div>
                           <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                         </li>
-                        <li class="flex items-center justify-center space-x-[14px]">
+                        <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                           <div>
                               <img src="/assets/imgs/checked_list_inactive.svg" />
                             </div>
@@ -117,26 +117,26 @@
                                   <p class="text-[10px] leading-[32px] font-[700] text-darkGrey">50 Words / 50 Minutes</p>
                                 </div>
                                 <ul class="mb-6 space-y-[25px] mx-auto text-center">
-                                  <li class="flex items-center justify-center space-x-[14px]">
+                                  <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                                     <div>
                                         <img src="/assets/imgs/checked_list_active.svg" />
                                       </div>
                                       <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                                     </li>
                             
-                                  <li class="flex items-center justify-center space-x-[14px]">
+                                  <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                                     <div>
                                         <img src="/assets/imgs/checked_list_active.svg" />
                                       </div>
                                       <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                                     </li>
-                                  <li class="flex items-center justify-center space-x-[14px]">
+                                  <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                                     <div>
                                         <img src="/assets/imgs/checked_list_inactive.svg" />
                                       </div>
                                     <span class="text-[13px] font-[400] leading-[20px] text-darkGrey">All analytics features</span>
                                   </li>
-                                  <li class="flex items-center justify-center space-x-[14px]">
+                                  <li class="flex items-center justify-center rtl:space-x-reverse  space-x-[14px]">
                                     <div>
                                         <img src="/assets/imgs/checked_list_inactive.svg" />
                                       </div>

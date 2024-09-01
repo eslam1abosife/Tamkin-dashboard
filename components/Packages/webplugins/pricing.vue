@@ -9,7 +9,7 @@ const pricingType = inject('pricingType')
 
         <div
           key="1"
-          class="flex items-center lg:flex-row md:flex-row md:space-x-[10px] flex-col justify-center h-full w-full mt-[32px]"
+          class="flex items-center lg:flex-row md:flex-row rtl:space-x-reverse  md:space-x-[10px] flex-col justify-center h-full w-full mt-[32px]"
         >
           <div
             class="flex items-center flex-col custom-border justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] group bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
@@ -160,7 +160,9 @@ const pricingType = inject('pricingType')
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div
-              class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-[200px] ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4"
+              class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500]
+               w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] 
+               rtl:right-[100px] ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4"
               style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
             >
               <div class=" ">Best Deal</div>

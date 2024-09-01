@@ -31,8 +31,11 @@ const { getAvatarLetters } = useGetAvatarLetters();
 
 //   return true
 // });
+onBeforeMount(async ()=>{
+await profileStore.getCurrentTeam()
 
 
+})
 onMounted(async () => {
   if (localStorage.getItem("user")) {
     const userStore = useUserStore();
@@ -40,26 +43,13 @@ onMounted(async () => {
     userStore.setUser(user);
   }
 
-  (function(d, t) {
-      var BASE_URL = "https://chat.tamkin.app";
-      var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-      g.src = BASE_URL + "/packs/js/sdk.js";
-      g.defer = true;
-      g.async = true;
-      s.parentNode.insertBefore(g, s);
-      g.onload = function() {
-        window.chatwootSDK.run({
-          websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
-          baseUrl: BASE_URL
-        });
-      };
-    })(document, "script");
-await profileStore.getCurrentTeam()
+
   // profileStore.setMember();
   // profileStore.setCompany();
 
-
 });
+  
+
 
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
@@ -327,6 +317,8 @@ const openModals = computed(() => {
     isOpen('deleteModal_card') ||
     isOpen('successContact') ||
     isOpen('edit_company_picture') ||
+    isOpen('notificationsModal') ||
+    
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -404,19 +396,15 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-if(process.client ){
-if(window.$chatwoot){
-  if(!isLinkActive('/embed-code') || isLinkActive('/auth/*')){
-  window.$chatwoot.toggleBubbleVisibility("hide");
-  window.$chatwoot.toggle("close");
+// if(process.client ){
+// if(window.$chatwoot){
+//   if(!isLinkActive('/embed-code')){
+//   window.$chatwoot.toggleBubbleVisibility("hide");
+//   window.$chatwoot.toggle("close");
 
- }else {
-  window.$chatwoot.toggleBubbleVisibility("show");
-  window.$chatwoot.toggle("close");
-
- }
-}
-}
+//  }
+// }
+// }
 }, { immediate: true });
 onMounted(async () => {
   const userStore = useUserStore();
@@ -480,7 +468,7 @@ import 'vue-loading-overlay/dist/css/index.css';
     <DashboardTeamInviteMember @onSuccess="e => openToast(e)" :showModal="true" v-if="isOpen('invitemember')"/>
     <DashboardTeamEditname :showModal="true" v-if="isOpen('editname')"/>
 
-
+<Notificationmodal/>
 
     <ModalsConfirm :show-modal="true" v-if="isOpen('deleteApp')" title="Delete That App"
                    sub-title="Are you sure you want to delete that app ?" confirm-btn-type="delete"
@@ -649,7 +637,7 @@ import 'vue-loading-overlay/dist/css/index.css';
         </nav>
 
         <div class=" relative"
-             :class="isLinkActive('/profile') || isLinkActive('/packages') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
+             :class="isLinkActive('/profile') || isLinkActive('/packages/*') || isLinkActive('/ar/packages/*')  ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
           <div 
               class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="
