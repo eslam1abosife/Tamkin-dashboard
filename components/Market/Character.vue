@@ -4,7 +4,7 @@ const marketStore = useMarketStore();
 import { usePlayerStore } from "@/stores/player";
 const playerStore = usePlayerStore();
 import { useModalManager } from "@/composables/useModalManager";
-import { useGetCharacters } from "@/composables/useMarket";
+import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
 
@@ -17,7 +17,7 @@ const openModalAndHideChat = () => {
         openModal('requestmodal', 'market')
     }
 }
-const {characters, loading: getInstallationLoading} = useGetCharacters();
+const { characters } = useGetCategoriesWithSkinItems();
 
 </script>
 
@@ -104,7 +104,7 @@ const {characters, loading: getInstallationLoading} = useGetCharacters();
               #fde7ea 100%
             );
           "
-          v-if="char.purchased"
+          v-if="char.is_purchased"
         >
           <div class="text-[10px] font-[500] leading-[20px]">Purchased</div>
         </div>

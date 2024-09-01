@@ -12,10 +12,10 @@ const  glasses =  ref(null)
 const navStoreRef = storeToRefs(navStore);
 
 
-const props = defineProps(["categoriesWithSkinItems"]);
+const props = defineProps(["categoriesWithSkinItems", "loading"]);
 
 const categoriesHavingSkinItems = computed(() => {
-  return props.categoriesWithSkinItems.filter((category) => category.category_items.length > 0);
+  return props.categoriesWithSkinItems.filter((category) => category.skin_items_list.length > 0);
 });
 
 const scrollItemRefs = ref({});
@@ -137,7 +137,8 @@ const switchTabAndScroll = async (tabName) => {
           Character
         </div>
       </div>
-      
+      <!-- loader -->
+      <MarketLoader v-if="loading" />
       <!-- dynamic -->
       <div v-for="category in categoriesHavingSkinItems" :key="category.name"
       :ref="category.name"

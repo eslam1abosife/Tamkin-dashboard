@@ -2,7 +2,7 @@
 import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
-import { useGetCharacters, useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
+import { useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
@@ -19,44 +19,34 @@ const toggleExpandHeader = () => {
 };
 const {GetCustomCharacterCost} = useEditCustomerCharacter()
 const { getCartItems, cartItems } = useCart();
-const { getCharacters, characters } = useGetCharacters();
-const { getCategoriesWithSkinItems, categoriesWithSkinItems, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
+const { getFullDataFormated, categoriesWithSkinItems, characters, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
 const playerStore = usePlayerStore();
 
 onMounted(async () => {
     GetCustomCharacterCost();
     getCartItems();
-    getCategoriesWithSkinItems();
-    await getCharacters();
+    // getCategoriesWithSkinItems();
+    // await getCharacters();
+    await getFullDataFormated();
     playerStore.activeCharacter = characters.value[0]
     // todo
     // playerStore.activeCharacter = characters.value.find((character) => character.applied == 1);
 })
   
 const categoriesWithSkinItemsFiltered = computed(() => {
-  if (!playerStore.activeCharacter?.allowed_skins) return []
+  if (!playerStore.activeCharacter?.allowed_skins_list) return []
   return categoriesWithSkinItems.value.map((category) => {
     return {
       ...category,
-      category_items: category.category_items.filter(function (item) {
-          return playerStore.activeCharacter.allowed_skins.map((item) => item.skin_item).includes(item.name);
+      skin_items_list: category.skin_items_list.filter(function (item) {
+          return playerStore.activeCharacter.allowed_skins_list.map((allowed) => allowed.skin_item).includes(item.name);
       })
     }
   })
 })
 
 const currentCategoryWithSkinItems = computed(() => {
-  // if (!playerStore.activeCharacter?.name || marketStore.currentTab == 'character') return null
   return categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab);
-  // let allowed_skins_names_of_current_character = playerStore.activeCharacter.allowed_skins.map((item) => item.skin_item)
-  // currentCategory.category_items = currentCategory.category_items.filter((item) => allowed_skins_names_of_current_character.includes(item.name))
-  // console.log(
-  //   'activeCharacter',playerStore.activeCharacter,
-  //   'currentCategory',currentCategory,
-  //   'categoriesWithSkinItems', categoriesWithSkinItemsFiltered.value,
-  //   'marketStore.currentTab', marketStore.currentTab,
-  // );
-  // return currentCategory;
 });
 
 const marketStore = useMarketStore();
@@ -161,10 +151,16 @@ function leaveNotification(el, done) {
  * add custom character to cart ui
  * list cart items to cart ui on market page load
  * edit custom character from cart item
+ * select for preview
+ * save clothes on characters
  *! confirm order
- *? take on, take off characters
- ** select for preview
- ** save clothes on characters
+ * take on, take off characters
+ ** window.changeBackgroundColor('#222222') if skin category is Background:color
+ ** window.changeBackgroundImage('https://sss.png') if skin category is Background:image
+ ** default mode button on character: resets character skins to all skins having is_default=1
+ ** set default character on init == char.is_used
+ ** add description to skin item and character
+ ** if skin item is alowed_for_all_characters == 1, then it can be used for any character + allowed_skins_list
  */
 </script>
 
@@ -491,10 +487,10 @@ function leaveNotification(el, done) {
         <MarketPlayer />
       </div>
 
-      <MarketNavbar :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
+      <MarketNavbar :loading="getInstallationLoading" :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
       
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
-      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.category_items?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
+      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.skin_items_list?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>
   </div>
 </template>

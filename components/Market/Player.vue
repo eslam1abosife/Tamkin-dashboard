@@ -4,11 +4,6 @@ import { Vue3Lottie } from 'vue3-lottie'
 
 import { usePlayerStore } from "@/stores/player";
 const playerStore = usePlayerStore();
-// import { useModalManager } from "@/composables/useModalManager";
-// import { useGetCharacters } from "@/composables/useMarket";
-// import { useFullUrl } from "@/composables/useSharedFunctions";
-// const { fullUrl } = useFullUrl();
-// const {$toast} = useNuxtApp();
 
 onMounted(() => {  
   doPlayerStuff();
@@ -34,11 +29,13 @@ function controlPlayerLoad() {
   }
   window.characterLoadFinished = () => {
     setTimeout(() => {
-      playerStore.toggleCamera()
+    //   playerStore.toggleCamera()
       playerStore.characterLoaded = true
       // for the first time when character loads
       // and the watcher takes over the subsequent changes in active character
       playerStore.wearSavedClothes()
+      console.log('....character load finished');
+      
     }, 100);
   }
 
@@ -57,8 +54,8 @@ function controlPlayerLoad() {
   <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1]">
     <!-- <img src="/assets/pngs/market/man_standing.png" class="h-[600px]" alt="" /> -->
 
-    <div style="height: 350px;" v-show="playerStore.characterLoaded" class="h-[600px]" id="tamkinSDK">
-      <tamkin-sdk charwidth="350" charheight="350"></tamkin-sdk>
+    <div style="height: 350px;margin-top: -20px" v-show="playerStore.characterLoaded" class="h-[600px]" id="tamkinSDK">
+      <tamkin-sdk charwidth="550" charheight="550"></tamkin-sdk>
     </div>
     <div v-if="!playerStore.characterLoaded" style="height:350px;" class=" d-flex align-items-center justify-content-center">
       <!-- <div class="spinner-border text-primary"></div> -->

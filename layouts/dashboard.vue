@@ -9,6 +9,7 @@ import {useCustomizeStore} from "@/stores/customize.js";
 import {useSettingsStore} from "@/stores/settings.js";
 import {useStatsStore} from "@/stores/stats.js";
 import {useMarketStore} from "@/stores/market.js";
+import {usePlayerStore} from "@/stores/player.js";
 import {useModalManager} from "@/composables/useModalManager";
 import {useUserStore} from "@/stores/auth"; // Import the Pinia store
 import {useTranslateStore} from "~/stores/translate";
@@ -62,6 +63,7 @@ await profileStore.getCurrentTeam()
 
 const statsStore = useStatsStore();
 const marketStore = useMarketStore();
+const playerStore = usePlayerStore();
 const checkboxStore = useAddonStore();
 const custmizeStore = useCustomizeStore();
 const settingsStore = useSettingsStore();
@@ -205,8 +207,6 @@ const shouldShowFooter = computed(() => {
       isMarketChanges ||
       translateStyle ||
       translatePlayer ||
-      translateStyle ||
-      translatePlayer ||
       (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
   );
 });
@@ -263,6 +263,12 @@ const cancelAc = () => {
     statsStore.google_enabled = false;
   }
 };
+const handleSave = (AppName: string) => {
+  if (isLinkActive(localePath("/market"))) {
+    playerStore.saveCharacterOptions(AppName);
+  }
+};
+
 const showConfirmModal = ref(false);
 const confirmWithSaveFn = () => {
   if (isLinkActive(localePath("/addons"))) {
@@ -686,6 +692,8 @@ import 'vue-loading-overlay/dist/css/index.css';
             <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 @cancel_action="cancelAc"
+                @Save="handleSave('default')"
+                @saveToAllSites="handleSave('all')"
             />
           </transition>
           <!-- <NuxtPage class="" /> -->
