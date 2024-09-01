@@ -3,9 +3,9 @@ html {
     overflow-y: scroll; /* Always show scrollbar to prevent jumping */
 
 
-     
+
   }
- 
+
   .grow-enter-active,
 .grow-leave-active {
   transition: all 0.5s ease;
@@ -41,14 +41,14 @@ html {
   }
 
 @layer utilities{
-    
+
     .bg-selected {
         background: linear-gradient(180deg, #FEFEFE 0%, #EEF5FF 47.07%, #F6F3FC 72.04%, #FEF5F6 100%);
-    
+
     }
     .bg-p {
         background: linear-gradient(180deg, #384558 0%, #384558 0%, #384558 0%, #384558 0%);
-    
+
     }
     .bg-p_secondary{
         background: linear-gradient(180deg, #323E50 0%, #323E50 0%, #323E50 0%, #323E50 0%);
@@ -57,7 +57,7 @@ html {
  .fill_miniArrow{
     fill : url(#shadow-sm);
  }
-   
+
     .gradient-fill {
         fill: url(#paint0_linear_6084_64126);
       }
@@ -91,12 +91,12 @@ html {
 @layer components {
     .bg-p {
         background: linear-gradient(180deg, #222F44 0%, #222F44 0%, #222F44 0%, #222F44 0%);
-    
+
     }
     .bg_dashboard {
-    
+
         @apply bg-tamkin-main-bg dark:bg-tamkin-main-bg-dark;
-        
+
       }
     .tamkin_team_card {
         @apply flex items-center justify-start py-[10px] px-[16px] dark:text-white
@@ -122,7 +122,7 @@ html {
 
     .dashboard-nav-link-has-menu {
         @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] p-1
-        bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] 
+        bg-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px]
          cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
@@ -145,7 +145,7 @@ html {
         line-height: 24px;
 
         &.closed_sidebar {
-            @apply flex items-center justify-center  w-[55px] 
+            @apply flex items-center justify-center  w-[55px]
              bg-whiteTamkin dark:bg-transparent text-darkGrey dark:text-white hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[18px] font-[400] #{!important};
 
         }
@@ -172,7 +172,7 @@ html {
         }
     }
     .dashboard-nav-link_sub_menu {
-        @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[260px] 
+        @apply flex items-center justify-start rtl:space-x-reverse space-x-[16px] w-full max-w-[260px]
          bg-whiteTamkin dark:bg-tamkinDarkPrimary dark:hover:bg-tamkinStart dark:text-white hover:bg-tamkinLight text-darkGrey  rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
@@ -419,7 +419,7 @@ html {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-  
+
 }
 
 .custom-border-collapse::after {
@@ -587,8 +587,8 @@ html {
     /* control the border thickness */
     background: linear-gradient(90deg, #35C0B4 0%, #E42AD2 47%, #4F75FD 100%);
 
-    
-    
+
+
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
@@ -598,7 +598,7 @@ html {
 }
 
 .border-translate.border-s::before{
-    border-radius: 1px !important; 
+    border-radius: 1px !important;
 }
 
 
@@ -609,7 +609,7 @@ html {
     position: relative;
     border-radius: 10px; /* Adjust if you need rounded corners for the main element */
   }
-  
+
   .border-translate-tab::before {
     content: "";
     position: absolute;
@@ -623,12 +623,12 @@ html {
     box-shadow: 0px 4px 4.5px 0px #E9EBEF;
 
   }
-  
+
   /* Adjusted for specific bottom border radius */
   .border-translate-tab.border-s::before {
     border-radius: 1px 1px 0 0 !important;
   }
-  
+
 .last-border-b:last-child {
     border-bottom: 1px solid #E5E7EB;
     /* Adjust the color to match your design */
@@ -677,7 +677,7 @@ html {
 }
 
 .close_btn_payment {
-    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white 
+    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white
     rounded-full flex justify-center items-center w-[30px] h-[30px];
 
     &:hover {
@@ -733,7 +733,7 @@ input[type=number] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  
+
 
 }
 
@@ -778,9 +778,9 @@ input[type=number] {
         }
 
         .toggle_inner {
-            @apply absolute rtl:right-[2px] ltr:left-[4px] inset-y-0 w-[24px] h-[24px] 
+            @apply absolute rtl:right-[2px] ltr:left-[4px] inset-y-0 w-[24px] h-[24px]
            rounded-full transition-transform duration-200 transform;
-        
+
 &.small{
     @apply ltr:left-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
 }
@@ -802,7 +802,7 @@ input[type=number] {
                 @apply border-[1px] border-lightGrey;
 
             }
-            
+
         }
 
         .toggle_icon {
@@ -810,7 +810,7 @@ input[type=number] {
 
             &:not(.translate).active {
                 @apply bg-teal-400 rtl:translate-x-[-22px] ltr:translate-x-[10px];
-                
+
             }
 
             &:not(.translate).in_active {
@@ -832,7 +832,7 @@ input[type=number] {
 &.active_notification{
     @apply shadow;
 }
-   
+
 }
 .mini_SizeMenu{
 
@@ -842,7 +842,7 @@ input[type=number] {
 
     .mini_wrap{
 
-        @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full 
+        @apply flex items-center justify-start cursor-pointer space-x-[8px] py-[16px] px-[12px] w-full
     }
 .text_mini{
     @apply text-[14px] leading-[21px] font-[400] dark:text-whiteTamkin;
@@ -850,7 +850,7 @@ input[type=number] {
 
     .arrow{
         @apply absolute top-[10px] rtl:left-[-10px] ltr:right-[-10px] z-[50] border-none rtl:rotate-180 border-[1px]
-         border-lightGrey dark:border-darkborder ; 
+         border-lightGrey dark:border-darkborder ;
     }
 }
 
@@ -860,65 +860,65 @@ input[type=number] {
   }
 .bg_interval_open {
     @apply text-white bg-gradient-to-b from-tamkinStart to-tamkinEnd dark:bg-tamkinDarkPrimary #{!important};
-  
+
     &.tamkin {
       @apply rounded-[10px] h-[32px];
     }
   }
-  
+
   .tamkin_date_input {
     box-shadow: 0px 1.54px 3.08px 0px #61616133, 0px 0.77px 1.54px 0px #61616133;
     @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px] w-full h-[32px] rounded-[10px] border-[1px] dark:border-darkborder
      border-[#585B5B8C] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin focus:outline-0 #{!important};
   }
-  
+
   .dp__pointer::placeholder {
     @apply text-darkGrey dark:!text-whiteTamkin opacity-100 font-[400] font-[Poppins] #{!important};
   }
-  
+
   .dp__input.dp__input_icon_pad.dp__input_focus {
-    @apply outline-0 ring-0 border-[1px] !border-[#585B5B8C] #{!important}; 
+    @apply outline-0 ring-0 border-[1px] !border-[#585B5B8C] #{!important};
   }
-  
+
   .dp__input {
     @apply rtl:pr-[14px] ltr:pl-[14px] text-[15px];
   }
-  
+
   .dp__input_wrap .dp__input_icon {
     @apply ltr:right-[14px] rtl:left-[14px];
     inset-inline-start: auto !important;
   }
-  
+
   .dp__calendar_item .dp__range_start,
   .dp__calendar_item .dp__range_end {
     background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
     @apply rounded-full;
   }
-  
+
   .dp__calendar_item .dp__range_between {
     @apply bg-tamkinLight border-0;
   }
-  
+
   .dp__calendar_item .dp__today {
-    @apply rounded-full bg-white dark:bg-tamkinDarkPrimary font-[700] text-darkGrey dark:text-whiteTamkin 
+    @apply rounded-full bg-white dark:bg-tamkinDarkPrimary font-[700] text-darkGrey dark:text-whiteTamkin
     border-[1px] border-[#616161] dark:border-darkborder;
   }
-  
+
   .dp__calendar_item .dp__today.dp__range_end,
   .dp__calendar_item .dp__today.dp__range_start {
     @apply rounded-full bg-white font-[700] text-white border-0 dark:bg-tamkinDarkPrimary dark:text-whiteTamkin #{!important};
   }
-  
+
   .dp__calendar_item .dp__date_hover_start,
   .dp__calendar_item .dp__date_hover {
     @apply bg-tamkinLight;
   }
-  
+
   .dp__inner_nav,
   .dp--arrow-btn-nav:hover {
     @apply text-tamkin;
   }
-  
+
   .dp__theme_dark {
     --dp-background-color: #323e50;
     --dp-text-color: #fffefe;

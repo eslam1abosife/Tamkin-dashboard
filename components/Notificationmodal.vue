@@ -1,16 +1,15 @@
-
-
 <script setup lang="ts">
+import { vOnClickOutside } from "@vueuse/components";
 import {
   useGetNotification,
-  useMarkAllNotification,
+  useMarkNotification,
 } from "@/composables/useNotificationBell";
 const { t, locale } = useI18n();
 
 const notificationBellStore = useNotificationBellStore();
 
 const { getNotification } = useGetNotification();
-const { markAllNotification } = useMarkAllNotification();
+const { markNotification } = useMarkNotification();
 
 import dayjs from "dayjs";
 // import 'dayjs/locale/ar-sa'; // Import the locale you need
@@ -123,10 +122,21 @@ function leaveCart(el, done) {
     done();
   }, 500);
 }
+const closeMenu = async () => {
+  closeModal('notificationsModal')
+  // await markNotification("all");
+  await getNotification();
+};
+
+const notificationSelected = async (name) => {
+  await markNotification(name);
+  await getNotification();
+};
+
 watch(isOpen('notificationsModal'),(nv,ov)=>{
     if(nv === true){
         window.$chatwoot.toggleBubbleVisibility("hide");
-    }if(!nv && process.client && window.$chatwoot){ 
+    }if(!nv && process.client && window.$chatwoot){
         window.$chatwoot.toggleBubbleVisibility("show");
 
     }
@@ -137,6 +147,7 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
 
     <div
     v-if="isOpen('notificationsModal')"
+    v-on-click-outside="closeMenu"
     class="fixed top-[0]  z-[9999]  rtl:left-[0] ltr:right-[0%] drop-shadow-xl bg-white  !rounded-r-[0]
     rounded-tl-[10px] h-full max-h-[100vh] w-[310px] rounded-b-[10px] flex flex-col items-start justify-start"
   >
@@ -146,10 +157,10 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
       <div class="flex items-center justify-start text-white">
         {{ $t("Notifications") }} ({{ notificationBellStore.notifications.length }})
       </div>
-      <div
+      <div @click="closeMenu"
         class="bg-white h-[24px] w-[24px] rounded-full flex items-center
          justify-center cursor-pointer hover:bg-gradient-to-r from-tamkinStart to-tamkinEnd group"
-         @click="closeMenu"
+
       >
         <svg
           width="14"
@@ -199,7 +210,7 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
         ></div>
 
         <!-- Content -->
-        <div class="flex-1 w-full">
+        <div class="flex-1 w-full"  @click="notificationSelected(notification.name)">
           <p
             :class="notification.status === 'Sent' ? 'text-darkGrey' : 'text-[#A7A7A7]'"
             class="font-[500] text-[13px] leading-[20px]"

@@ -15,7 +15,7 @@ export default {
         rtl: "rtl",
       },
       screens: {
-        xs: { min: "300px", max: "350px" }, 
+        xs: { min: "300px", max: "350px" },
 
         "ipad-min": "768px",
 
@@ -38,7 +38,6 @@ export default {
         tamkinLight: "#DAF3F1",
         whiteTamkin: "#FFFEFE",
         error: "#EA4335",
-        tamkinLight: "#DAF3F1",
         tamkingErrorInput: "#EF7267",
         lightMenuBarColor: "#F2F2F2",
         linecolor: "#C5C5C5",
@@ -90,7 +89,7 @@ export default {
   plugins: [
     require("@tailwindcss/forms"),
     require("tailwind-extended-shadows"),
-    require('tailwind-scrollbar'),
+    // require('tailwind-scrollbar'),
 
     function ({ addVariant, e }) {
       addVariant("disabled:hover", ({ modifySelectors, separator }) => {

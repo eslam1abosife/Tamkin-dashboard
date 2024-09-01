@@ -1,8 +1,8 @@
 import useGetNotification from "./useGetNotification";
-import useMarkAllNotification from "./useMarkAllNotification";
+import useMarkNotification from "./useMarkNotification";
 
 
 export {
     useGetNotification,
-    useMarkAllNotification
+    useMarkNotification
 }
