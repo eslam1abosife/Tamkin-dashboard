@@ -52,9 +52,15 @@ export const usePlayerStore = defineStore('player', {
         if (this.characterLoaded) {
           this.userSelectedClothes[this.activeCharacter.name] = {}
           this.hideAllClothes()
-          this.activeCharBackendWearedSkins.forEach(skin_item => {
-              this.showClothes(skin_item)
-          })
+        // if character has no is_weared use is_default instead
+        if (!this.activeCharBackendWearedSkins.length){
+            this.activeCharacter.allowed_skins_list.map(function (skin_item) {
+              skin_item.is_weared = skin_item.is_default;
+            })
+        }
+        this.activeCharBackendWearedSkins.forEach(skin_item => {
+            this.showClothes(skin_item)
+        })
         }
       },
       owned(item){
@@ -170,7 +176,7 @@ export const usePlayerStore = defineStore('player', {
         // it gets the items from userSelectedClothes
         else {
           let skins = this.activeCharCurrentlyWearedSkinsNames.map(item_name => ({ skin_item: item_name }));
-          let succeeded = await setCharacterOptions(skins, AppName);
+          let succeeded = await setCharacterOptions(skins, this.activeCharacter.name, AppName);
           if (succeeded){
             // emptying the selectedForPreview array and hide the save footer
             marketStore.resetAll();
@@ -233,8 +239,12 @@ export const usePlayerStore = defineStore('player', {
   },
   
   getters: {
+    activeCharBackendDefaultSkins: (state) => state.activeCharacter.allowed_skins_list.filter(skin_item => skin_item.is_default),
+    activeCharBackendDefaultSkinsNames: (state) => state.activeCharBackendDefaultSkins.map(skin_item => skin_item.name),
+
     activeCharBackendWearedSkins: (state) => state.activeCharacter.allowed_skins_list.filter(skin_item => skin_item.is_weared),
     activeCharBackendWearedSkinsNames: (state) => state.activeCharBackendWearedSkins.map(skin_item => skin_item.name),
+
     activeCharCurrentlyWearedSkinsNames: (state) => Object.values(state.userSelectedClothes[state.activeCharacter.name]).flat(),
     isClothesChanged: function(state){
       if (state.activeCharacter?.name) {

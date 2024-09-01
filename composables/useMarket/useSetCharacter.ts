@@ -19,10 +19,11 @@ export default function() {
         }
     };
 
-    const setCharacterOptions = async (items: Array<any>, AppName: string = 'all') => {
+    const setCharacterOptions = async (items: Array<any>, character: string, AppName: string = 'all') => {
         try {
             const res = await api.post('/Market/SetAppCharacterOption', {
-                AppName, 
+                AppName,
+                character,
                 items
             });
             // if(!res.data.succeeded) throw(res.data.message);

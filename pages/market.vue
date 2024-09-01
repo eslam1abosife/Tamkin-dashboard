@@ -151,10 +151,16 @@ function leaveNotification(el, done) {
  * add custom character to cart ui
  * list cart items to cart ui on market page load
  * edit custom character from cart item
+ * select for preview
+ * save clothes on characters
  *! confirm order
- *? take on, take off characters
- ** select for preview
- ** save clothes on characters
+ * take on, take off characters
+ ** window.changeBackgroundColor('#222222') if skin category is Background:color
+ ** window.changeBackgroundImage('https://sss.png') if skin category is Background:image
+ ** default mode button on character: resets character skins to all skins having is_default=1
+ ** set default character on init == char.is_used
+ ** add description to skin item and character
+ ** if skin item is alowed_for_all_characters == 1, then it can be used for any character + allowed_skins_list
  */
 </script>
 
