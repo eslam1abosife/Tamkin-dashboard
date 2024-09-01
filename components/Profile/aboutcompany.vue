@@ -43,6 +43,12 @@ onMounted(() => {
 watch(() => state.about, (newValue) => {
   profileStore.setAbout(newValue);
 })
+
+const ifuserhaspermissiontoEdit = computed(()=>{
+ return  profileStore.member.permission.some(
+      (permission) => permission.tamkin_roles === 'company-info'
+    )
+})
 </script>
 
 <template>
@@ -53,14 +59,13 @@ watch(() => state.about, (newValue) => {
   <div class="flex items-start 2xl:space-x-[50px] lg:space-x-[16px] w-full ipad-max:space-x-[16px]">
     <div class="text-[14px] font-[500] text-black leading-[24px]">{{$t('About')}}</div>
     </div>
-
-    <div class="w-full " style="overflow-wrap: break-word;" v-if="currentMode === 'normal'">
+    <div class="w-full " style="overflow-wrap: break-word;" v-if="currentMode === 'normal' || !ifuserhaspermissiontoEdit">
    <p class="text-[12px] leading-[18px] !whitespace-normal text-black ">   {{ profileStore.company.about }}</p>
     </div>
 
     <div class="w-full relative">
       <textarea
-        v-if="currentMode === 'editing'"
+        v-if="currentMode === 'editing'  && ifuserhaspermissiontoEdit"
         v-model="state.about"
         class="w-full  focus:border-tamkin max-h-[176px]  focus:ring-0 text-[12px] text-black border !p-2 !m-0 border-gray-300 rounded-lg resize-none"
         rows="4"

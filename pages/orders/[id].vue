@@ -358,7 +358,7 @@ function leaveCart(el, done) {
                   <button v-if="item.edit == true" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
                     @click="openModalAndHideChat(), setData({...item,currency:orderDetails.Currency })">{{$t('Edit request')}}</button>
                   <button v-if="!item.edit" class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] "
-                    @click="openModal('requestmodal_details', 'order-id'), setData(item)">{{$t('View Details')}}</button>
+                    @click="openModal('requestmodal_details', 'order-id'), setData({...item,currency:orderDetails.Currency})">{{$t('View Details')}}</button>
                     <button  class="text-tamkin underline font-[500] ipad-max:text-[10px] text-[13px] " 
                       @click="openModal('tracking_custom_order', 'order-id'), setData(item)">{{$t('Track')}}</button>
                 </div>

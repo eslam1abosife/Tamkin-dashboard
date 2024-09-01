@@ -69,29 +69,29 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         
       ],
-script: [
-        {
-          children: `
-            (function(d,t) {
-              var BASE_URL="https://chat.tamkin.app";
-              var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-              g.src=BASE_URL+"/packs/js/sdk.js";
-              g.defer = true;
-              g.async = true;
-              s.parentNode.insertBefore(g,s);
-              g.onload=function(){
-                window.chatwootSDK.run({
-                  websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
-                  baseUrl: BASE_URL
-                })
-              }
-            })(document,"script");
-          `,
-          defer: true,
-        async: true,
-        body: true
-        }
-      ]
+// script: [
+//         {
+//           children: `
+//             (function(d,t) {
+//               var BASE_URL="https://chat.tamkin.app";
+//               var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+//               g.src=BASE_URL+"/packs/js/sdk.js";
+//               g.defer = true;
+//               g.async = true;
+//               s.parentNode.insertBefore(g,s);
+//               g.onload=function(){
+//                 window.chatwootSDK.run({
+//                   websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
+//                   baseUrl: BASE_URL
+//                 })
+//               }
+//             })(document,"script");
+//           `,
+//           defer: true,
+//         async: true,
+//         body: true
+//         }
+//       ]
     }
   },
 

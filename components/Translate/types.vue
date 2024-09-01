@@ -29,6 +29,7 @@ const {
                   <div class="flex items-center justify-center bg-white dark:bg-darkSecondary rounded-[10px] w-[40px] h-[40px]">
                     <img src="/assets/imgs/translatevideo/play.svg" class="w-[30px] h-[30px]" alt="">
                   </div>
+                  
                   <h2 class="text-[14px] font-[600] leading-[21px] text-[#3D3D3D] dark:text-whiteTamkin mt-2">Translate video</h2>
                   <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">Put your live video link, and we'll translate it for you</p>
                   <button class="btn-action-translate mt-4" @click="openModal('translate_video', 'translate')">Translate Now</button>

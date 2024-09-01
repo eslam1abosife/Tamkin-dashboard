@@ -65,7 +65,7 @@ closeModal('requestmodal_details')
 }
 
 
-
+const currency = ref('')
 const requestData=({})
 const price=ref('')
 let isFilesPopulated = false;
@@ -76,6 +76,8 @@ watchEffect(() => {
     state.characterAge = requestData.value.age;
     state.gender = requestData.value.gender;
     state.Description = requestData.value.description;
+    currency.value = requestData.value.currency;
+
     if(requestData.value.image.length>0 && !isFilesPopulated){
     for(let i=0; i<requestData.value.image.length; i++) {
       const customFile = new File([""], requestData.value.image[i].name, {
@@ -180,7 +182,7 @@ watchEffect(() => {
         space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
-          <div class="text-[16px] font-[600]">{{ price }} AED</div>
+          <div class="text-[16px] font-[600] uppercase">{{ price }} {{currency ? currency :'USD'}}</div>
         </div>
    
       </div>

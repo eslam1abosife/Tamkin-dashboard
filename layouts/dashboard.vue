@@ -39,10 +39,25 @@ onMounted(async () => {
     userStore.setUser(user);
   }
 
-  // await profileStore.fetchMember()
+  (function(d, t) {
+      var BASE_URL = "https://chat.tamkin.app";
+      var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      g.src = BASE_URL + "/packs/js/sdk.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function() {
+        window.chatwootSDK.run({
+          websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
+          baseUrl: BASE_URL
+        });
+      };
+    })(document, "script");
 await profileStore.getCurrentTeam()
   // profileStore.setMember();
   // profileStore.setCompany();
+
+
 });
 
 const statsStore = useStatsStore();

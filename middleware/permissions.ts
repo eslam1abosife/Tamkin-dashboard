@@ -1,12 +1,13 @@
 import { useGetCurrentTeam, useGetMember, useChangeProfileAbout, useAddSocialAccount } from "@/composables/useProfile";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  if (import.meta.client) {
+  const userS = useUserStore()
+  if (import.meta.client  && userS.isLoggedIn) {
     const profileStore = useProfileStore();
     const profileCookie = useCookie('profile');
     const userCookie = useCookie('user');
     
-    console.log('cookie profile', profileCookie.value);
+    // console.log('cookie profile', profileCookie.value);
 
     // Check if member data is available
     if (!profileStore.member || !profileStore.member.permission) {

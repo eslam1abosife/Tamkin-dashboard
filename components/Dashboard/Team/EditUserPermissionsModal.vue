@@ -69,7 +69,7 @@ const savePermission = async () => {
 
     state.permissions=checked.value
     if(state.from_edit === true){
-alert('here')
+// alert('here')
     await updateUserPermission(state);
     $toast(t( 'User Updated successfully!'),{hideIn:3000});
 

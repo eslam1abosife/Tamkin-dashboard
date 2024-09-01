@@ -1645,8 +1645,9 @@ watch(
       </div>
       <div
         v-if="sideBarOpen"
-        class="w-full absolute ipad-max:-bottom-[28vh] lg:-bottom-[38vh] 2xl:-bottom-[32vh] 3xl:-bottom-[53vh] 
-        4xl:-bottom-[58vh] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
+        class="w-full absolute ipad-max:-bottom-[28vh] -bottom-[20vh]  h-[135px] lg:-bottom-[38vh] 2xl:-bottom-[30vh] 
+        3xl:-bottom-[54vh] 
+        4xl:top-[63vh] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
         dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
         <div

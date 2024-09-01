@@ -115,6 +115,7 @@ const resetcancel = () =>{
     state.company_specialization= profileStore.company.company_specialization
 }
 
+
 </script>
 
 <template>

@@ -758,7 +758,9 @@ onMounted(async () => {
                 <td
                   class="py-4 text-center text-[14px] lg:pr-0 pr-[100px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-start">
+                
+                  <div class="flex items-center justify-start" 
+                  v-if="(profileStore.isOwner)&& !isOwner(member)">
                     <button
                       :disabled="isOwner(member)"
                       @click="()=>{
@@ -766,34 +768,38 @@ onMounted(async () => {
                         openPermissions(member)
                        } 
                       }"
-                      :class="!profileStore.isOwner ?  ' !cursor-not-allowed opacity-40' : 'opacity-100'"
+                      :class="!profileStore.isOwner ?  ' cursor-not-allowed opacity-40' : 'opacity-100'"
                       class="flex items-center  rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                     >
                       <div>{{$t('Permissions')}}</div>
                       <img src="/assets/imgs/icons/arow_down.svg" />
                     </button>
                   </div>
+                  <div class="flex items-center justify-start"  v-else>
+                    -
+                  </div>
                 </td>
 
                 <td class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                  <div
+                  <div v-if="(profileStore.isOwner) && !isOwner(member)"
+            
                     class="flex items-evenly justify-center  rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                   >
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="
-                        member.is_active ||
-                        !profileStore.isOwner ||
-                        (reInviteLoading && currEmail === member.member_email) ||
-                        invitedUsers.findIndex((email) => email === member.member_email) >
-                          -1
-                      "
+                      member.is_active ||
+                      (!profileStore.isOwner ) ||
+                      (reInviteLoading && currEmail === member.member_email) ||
+                      invitedUsers.includes(member.member_email)
+                    "
+                    
                       :class="[
                         member.is_active ||
-                        !profileStore.isOwner ||
+                        (!profileStore.isOwner && isOwner(member)) ||
                         (reInviteLoading && currEmail === member.member_email) ||
-                        invitedUsers.findIndex((email) => email === member.member_email) >
-                          -1
+                        invitedUsers.includes(member.member_email)
+                        
                           ? `opacity-40`
                           : 'opacity-100',
                       ]"
@@ -876,6 +882,10 @@ onMounted(async () => {
                         />
                       </svg>
                     </button>
+                  </div>
+                  <div                     class="flex items-evenly justify-center  rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                  v-else>
+                    -
                   </div>
                 </td>
               </tr>

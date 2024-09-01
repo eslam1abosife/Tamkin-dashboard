@@ -142,6 +142,12 @@ onBeforeMount(async () => {
   profileStore.loadingProfile = false
   loadingInvestor.value  = false
 });
+
+const ifuserhaspermissiontoEdit = computed(()=>{
+ return  profileStore.member.permission.some(
+      (permission) => permission.tamkin_roles === 'company-info'
+    )
+})
 </script>
 
 <template>
@@ -198,7 +204,7 @@ onBeforeMount(async () => {
           <ProfileCompanycard v-if="profileStore.currentTab === 'company'" />
           <ProfileAboutcompany
             @update-about="getAbout"
-            v-if="profileStore.currentTab === 'company'"
+            v-if="profileStore.currentTab === 'company' "
           />
         <!-- Display investor details -->
 <div
@@ -478,11 +484,11 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
               :loadingUpdate="profileLoader"
               @update-profile="updatep"
               @cancelupdate="changeMode('normal')"
-              v-if="currentMode === 'editing' && profileStore.currentTab === 'company' && profileStore.isOwner"
+              v-if="currentMode === 'editing' && profileStore.currentTab === 'company' && ifuserhaspermissiontoEdit"
             />
           </keep-alive>
           <ProfileCompanyinfo
-            v-if="currentMode === 'normal' && profileStore.currentTab === 'company' || currentMode === 'editing' && profileStore.currentTab === 'company' && !profileStore.isOwner"
+            v-if="currentMode === 'normal' && profileStore.currentTab === 'company' || currentMode === 'editing' && profileStore.currentTab === 'company' && !ifuserhaspermissiontoEdit"
           />
           <ProfilePassword
             @close-editing-mode="profileStore.currentTab = 'personal'"
