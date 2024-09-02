@@ -124,6 +124,12 @@ function leaveCart(el, done) {
 }
 const closeMenu = async () => {
   closeModal('notificationsModal')
+  await markNotification("all");
+  await getNotification();
+};
+
+const closeMenuOutSide = async () => {
+  closeModal('notificationsModal')
   // await markNotification("all");
   await getNotification();
 };
@@ -147,7 +153,7 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
 
     <div
     v-if="isOpen('notificationsModal')"
-    v-on-click-outside="closeMenu"
+    v-on-click-outside="closeMenuOutSide"
     class="fixed top-[0]  z-[9999]  rtl:left-[0] ltr:right-[0%] drop-shadow-xl bg-white  !rounded-r-[0]
     rounded-tl-[10px] h-full max-h-[100vh] w-[310px] rounded-b-[10px] flex flex-col items-start justify-start"
   >

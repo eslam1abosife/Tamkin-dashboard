@@ -14,10 +14,10 @@ export default function() {
             let res = null;
 
             if (value == "all"){
-                //  res = await api.post('/Notification/Mark',{
-                //     "uid": "all"
-                // });
-                // console.log('mark All Notification res *>>>>>>*',res.data.data);
+                 res = await api.post('/Notification/Mark',{
+                    "uid": "all"
+                });
+                console.log('mark All Notification res *>>>>>>*',res.data.data);
             }else {
                 console.log('value',value)
                  res = await api.post('/Notification/Mark',{
