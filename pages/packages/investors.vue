@@ -25,29 +25,22 @@ provide("pricingType", pricingType);
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <div
-        class="text-[18px] font-[700] leading-[35px] bg-gradient-to-r from-[#0A1AAC] via-[#0C9489] to-[#C31C9E] text-transparent bg-clip-text whitespace-nowrap"
-        v-if="packagesStore.currentTab === 'webplugins'"
+        class="text-[18px] font-[700] leading-[35px] bg-gradient-to-r from-[#0A1AAC] via-[#0C9489]
+         to-[#C31C9E] text-transparent bg-clip-text whitespace-nowrap"
       >
-        Exclusive Investor Package
-      </div>
+      {{packagesStore.getPackageDetails('Investors',null).color_title}}       </div>
 
-      <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap bg-gradient-to-l from-[#C520AB] via-[#1E4FB0] to-[#31A69F] text-transparent bg-clip-text"
-        v-if="packagesStore.currentTab !== 'webplugins'"
-      >
-        Inclusive Media Services for All Users
-      </div>
+    
       <div
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
-        Enhance your website with our Web Plugins Package, offering seamless integration
-        of sign language support for an inclusive user experience.
+      {{packagesStore.getPackageDetails('Investors',null).description}}   
       </div>
     </div>
    
     <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[68px] ">
        <div class="flex items-center justify-center flex-col w-full px-[18px]">
-        <PackagesInveestorsPackages/>
+        <!-- <PackagesInveestorsPackages/> -->
         <!-- PACKAGES-->
     
         <!-- SHOW MORE DETAILS-->
@@ -57,10 +50,10 @@ provide("pricingType", pricingType);
         <!-- END SHOW MORE DETAILS-->
        </div>
     
-
+<!-- 
        <PackagesInveestorsInvestorPackage/>
        <PackagesInveestorsInvestorProgram/>
-       <PackagesInveestorsPackagePaid/>
+       <PackagesInveestorsPackagePaid/> -->
     
     
         <!-- FAQ START-->

@@ -11,7 +11,7 @@
     <div class="text-[#24292F] font-[600] text-[24px] leading-[32px] relative z-50">
         Accessibility Widget
     </div>
-    <div class="absolute z-[20] top-[-140px] right-[-40px]">
+    <div class="absolute z-[20] top-[-140px] rtl:left-[40px] ltr:right-[-40px]">
         <img src="/imgs/widget_access_hero_2.png" class="w-[400px] h-[600px]" alt="">
      </div>
 
@@ -40,13 +40,13 @@
   </div>
   
   <div
-    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
   >
     <div>Purchase Now</div>
     <svg
       width="9"
       height="15"
-      class="w-[4px] h-[6px]"
+      class="w-[4px] h-[6px] rtl:rotate-180" 
       viewBox="0 0 9 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -82,13 +82,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -124,13 +124,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -166,13 +166,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -210,13 +210,13 @@
   </div>
   
   <div
-    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
   >
     <div>Purchase Now</div>
     <svg
       width="9"
       height="15"
-      class="w-[4px] h-[6px]"
+      class="w-[4px] h-[6px] rtl:rotate-180" 
       viewBox="0 0 9 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -252,13 +252,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -294,13 +294,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -336,13 +336,13 @@
               </div>
               
               <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start space-x-[14px]"
+                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
               >
                 <div>Purchase Now</div>
                 <svg
                   width="9"
                   height="15"
-                  class="w-[4px] h-[6px]"
+                  class="w-[4px] h-[6px] rtl:rotate-180" 
                   viewBox="0 0 9 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

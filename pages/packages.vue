@@ -3,38 +3,79 @@ import { vOnClickOutside } from "@vueuse/components";
 const  packagesStore = usePackgesStore()
 const localePath = useLocalePath()
 const route = useRoute()
-definePageMeta({
-    layout:'dashboard'
-})
-const isLinkActive = (path) => {
-  const currentPath = localePath(route.path);
-  const pattern = localePath(path);
+const isLinkActive = (path: string) => {
+  const currentPath = route.path;
+  const localizedPath = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
-  if (!pattern.includes("*")) {
-    return currentPath === pattern;
-  }
-
-  // Convert wildcard pattern to regex
-  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
-
-  return regex.test(currentPath);
+  // Compare the current path with the localized path
+  return currentPath === localizedPath;
 };
-const shownavbatab = computed(()=>{
-  return isLinkActive('/packages/accessibility')  || isLinkActive('/packages/live-translation') || packagesStore.currentTab === 'webplugins'
- ||  isLinkActive('/packages/bundle') ||  
-  isLinkActive('/packages/investors') 
+definePageMeta({
+    layout:'dashboard',
+    middleware:['packages'],
 })
+const shownavbatab = computed(() => {
+  // Define paths in their localized form
+  const activeRoutes = [
+    '/packages/accessibility',
+    '/packages/live-translation',
+    '/packages/bundle',
+    '/packages/investors'
+  ].map(path => localePath(path)); // Transform paths to their localized versions
+
+  // Get the localized path of the current route
+  const currentLocalizedPath = localePath(route.path);
+
+  // Check if the current path is one of the active routes
+  const isActiveRoute = activeRoutes.includes(currentLocalizedPath);
+
+  // Check if the current tab matches the first category name and categories are not empty
+  const isCategoryMatch = packagesStore.categories.length > 0;
+
+  return isActiveRoute && isCategoryMatch;
+});
+
+
+onMounted(async ()=>{
+  await packagesStore.getPackagesTypes(); 
+  await packagesStore.getCategories()
+await packagesStore.getPacks()
+
+
+if(isLinkActive('/packages/bundle')){
+  const currentType = packagesStore.types.find((t) => t.title === 'Bundle')
+  packagesStore.currentType = currentType
+}
+if(isLinkActive('/packages/accessibility')){
+  const currentType = packagesStore.types.find((t) => t.title === 'Accessibility')
+  packagesStore.currentType = currentType
+}
+
+if(isLinkActive('/packages/investors')){
+  const currentType = packagesStore.types.find((t) => t.title === 'Investors')
+  packagesStore.currentType = currentType
+}
+
+if(isLinkActive('/packages/live-translation')){
+  const currentType = packagesStore.types.find((t) => t.title === 'Live Translation')
+  packagesStore.currentType = currentType
+}
+if(isLinkActive('/packages')){
+  const currentType = packagesStore.types.find((t) => t.title === 'Sign language')
+  packagesStore.currentType = currentType
+}
+
+
+})
+
+
 </script>
 
 <template>
 <div class="!px-0 w-full">
-  
-<!-- Display PackagesNavbar if URL matches '/packages/*' and currentTab is 'webplugins' -->
-<PackagesNavbar v-if="shownavbatab"/>
+<PackagesNavbar v-if="packagesStore.showNavbar   " />
 
-<!-- Display PackagesNavbartab if URL does not match '/packages/*' and currentTab is not 'webplugins' -->
-<PackagesNavbartab v-if="!shownavbatab"/>
+<PackagesNavbartab v-else-if="!packagesStore.showNavbar && packagesStore.currentTabTitle !== 'Plugins'"/>
 
   <NuxtPage/>
   

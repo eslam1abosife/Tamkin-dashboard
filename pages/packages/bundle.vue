@@ -25,9 +25,11 @@ provide("pricingType", pricingType);
 <template>
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <div class="text-[18px] font-[700] leading-[35px] text-black max-w-[500px] text-center " v-if="packagesStore.currentTab === 'webplugins'">
-        Comprehensive <span class="bg-gradient-to-br  from-[#2DADA3]  to-[#3A4D8F] text-transparent bg-clip-text">All-in-One Bundle Package</span> for Complete and Convenient Solutions
-
+      <div class="text-[18px] font-[700] leading-[35px] text-black max-w-[500px] text-center " >
+        
+     
+      
+    <div v-html="packagesStore.getPackageDetails('Bundle','All-in-One Bundle Package','bundle').color_title"></div>   
      
         
       </div>

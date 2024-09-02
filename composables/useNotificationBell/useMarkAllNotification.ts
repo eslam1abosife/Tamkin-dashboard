@@ -15,7 +15,7 @@ export default function() {
                 "uid": "all"
             });
 
-            console.log('mark All Notification res *>>>>>>*',res.data.data);
+            // console.log('mark All Notification res *>>>>>>*',res.data.data);
             // notificationBellStore.notifications = res.data.data; // Store notifications in the store
             } catch (error) {
             console.error(error);

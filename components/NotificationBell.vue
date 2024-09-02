@@ -32,17 +32,18 @@ const {
 
 
 const closeMenu = async () => {
+ if(isOpen('notificationsModal')){
   closeModal('notificationsModal')
   await markAllNotification();
 
   await getNotification();
+ }
 };
 const sentNotificationsCount = computed(() => {
   return notificationBellStore.notifications.filter(
     (notification) => notification.status === "Sent"
   ).length;
 });
-onBeforeMount(() => {});
 </script>
 
 <template>

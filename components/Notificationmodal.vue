@@ -137,11 +137,11 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
 
     <div
     v-if="isOpen('notificationsModal')"
-    class="fixed top-[0]  z-[9999]  rtl:left-[0] ltr:right-[0%] drop-shadow-xl bg-white  !rounded-r-[0]
-    rounded-tl-[10px] h-full max-h-[100vh] w-[310px] rounded-b-[10px] flex flex-col items-start justify-start"
+    class="fixed top-[0]  z-[9999]  rtl:left-[0] ltr:right-[0%] drop-shadow-xl bg-white  ltr:!rounded-r-[0]
+    rtl:rounded-l-0 rtl:rounded-r-[10px] ltr:rounded-tl-[10px] h-full max-h-[100vh] w-[310px] rounded-b-[10px] flex flex-col items-start justify-start"
   >
     <div
-      class="h-[69px] bg-[#35C0B4] !rounded-r-[0] p-[20px] flex items-center justify-between rounded-t-[10px] w-full"
+      class="h-[69px] bg-[#35C0B4] rtl:rounded-l-[0] ltr:!rounded-r-[0] p-[20px] flex items-center justify-between rounded-t-[10px] w-full"
     >
       <div class="flex items-center justify-start text-white">
         {{ $t("Notifications") }} ({{ notificationBellStore.notifications.length }})
@@ -149,7 +149,7 @@ watch(isOpen('notificationsModal'),(nv,ov)=>{
       <div
         class="bg-white h-[24px] w-[24px] rounded-full flex items-center
          justify-center cursor-pointer hover:bg-gradient-to-r from-tamkinStart to-tamkinEnd group"
-         @click="closeMenu"
+         @click.prevent="closeMenu"
       >
         <svg
           width="14"

@@ -17,7 +17,9 @@ const openMoreDetails = () => {
 const boxShadowStyle = computed(() => {
   return moreDetails.value ? { boxShadow: "0px 0px 5.6px 0px #C8FEF9" } : {};
 });
-
+const rect = computed(()=>{
+  return  packagesStore.currentTabTitle === 'Plugins'
+})
 
 provide("pricingType", pricingType);
 </script>
@@ -25,32 +27,119 @@ provide("pricingType", pricingType);
 <template>
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap" v-if="packagesStore.currentTab === 'webplugins'">
-        Sign Language
-        <span
-          class="bg-gradient-to-br from-[#46A095] via-[#46A095] to-[#17159D] text-transparent bg-clip-text"
-          >Web Plugins Package</span
-        >
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"  
+      
+      v-if="packagesStore.currentTabTitle === 'Plugins'"
+>
+       
+       <div 
+           
+       v-html="packagesStore.getTabDetails('Sign language','Web Plugins Package','bundle').color_title">
+
+       </div>
+      
       </div>
 
-      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap bg-gradient-to-l from-[#C520AB] 
-      via-[#1E4FB0] to-[#31A69F] text-transparent bg-clip-text" v-if="packagesStore.currentTab !== 'webplugins'">
-        Inclusive Media Services for All Users
+
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"  
+      
+      v-if="packagesStore.currentTabTitle === 'Media'"
+>
+       
+<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">{{packagesStore.getTabDetails('Media',null,'media').color_title}}</span>
+           
+  
+
+      
+      
       </div>
-      <div
+      
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"  
+      
+      v-if="packagesStore.currentTabTitle === 'Documents'"
+>
+       
+<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">
+  {{packagesStore.getTabDetails('Media',null,'media').color_title}}
+
+</span>
+           
+  
+
+      
+      
+      </div>
+
+          
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"  
+      
+      v-if="packagesStore.currentTabTitle === 'Images'"
+>
+       
+<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">
+  {{packagesStore.getTabDetails('Media',null,'media').color_title}}
+
+</span>
+           
+  
+
+      
+      
+      </div>
+
+
+           
+      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"  
+      
+      v-if="packagesStore.currentTabTitle === 'Bundle'"
+>
+       
+<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">
+  {{packagesStore.getTabDetails('Media',null,'media').color_title}}
+
+</span>
+           
+  
+
+      
+      
+      </div>
+
+      <div  v-if="packagesStore.currentTabTitle === 'Plugins'"
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
-        Enhance your website with our Web Plugins Package, offering seamless integration
-        of sign language support for an inclusive user experience.
+       {{packagesStore.getTabDetails('Sign language','Web Plugins Package',null).description}}
       </div>
+
+      <div  v-if="packagesStore.currentTabTitle === 'Media'"
+      class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+    >
+     {{packagesStore.getTabDetails('Sign language','Web Plugins Package',null).description}}
+    </div>
+    <div  v-if="packagesStore.currentTabTitle === 'Documents'"
+    class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+  >
+   {{packagesStore.getTabDetails('Sign language','Web Plugins Package',null).description}}
+  </div>
+  <div  v-if="packagesStore.currentTabTitle === 'Images'"
+  class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+>
+ {{packagesStore.getTabDetails('Sign language','Web Plugins Package',null).description}}
+</div>
+<div  v-if="packagesStore.currentTabTitle === 'Bundle'"
+class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+>
+{{packagesStore.getTabDetails('Sign language','Web Plugins Package',null).description}}
+</div>
     </div>
     <!-- SECONDARY NAV-->
 
     <div class="flex items-center justify-center mt-[60px] rtl:space-x-reverse space-x-[40px]">
-      <div
-        @click="packagesStore.changeTab('webplugins')"
+      <div 
+      v-for="cat in packagesStore.categories" :key="cat.name"
+        @click="packagesStore.changeTab(cat)"
         :class="[
-         packagesStore.currentTab === 'webplugins'
+         packagesStore.currentTab.name === cat.name
             ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] '
             : '',
         ]"
@@ -58,70 +147,9 @@ provide("pricingType", pricingType);
       >
         <div
           class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[ packagesStore.currentTab  === 'webplugins' ? 'text-white ' : 'text-[#878787]']"
+          :class="[ packagesStore.currentTab.name  === cat.name ? 'text-white ' : 'text-[#878787]']"
         >
-          Web Plugins
-        </div>
-      </div>
-
-      <div
-        @click="packagesStore.changeTab('Media')"
-        :class="[
-         packagesStore.currentTab === 'Media' ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] ' : '',
-        ]"
-        class="h-[24px] flex items-center justift-center rounded-[4px] p-[10px] cursor-pointer"
-      >
-        <div
-          class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[ packagesStore.currentTab  === 'Media' ? 'text-white ' : 'text-[#878787]']"
-        >
-          Media
-        </div>
-      </div>
-
-      <div
-        @click="packagesStore.changeTab('Documents')"
-        :class="[
-         packagesStore.currentTab === 'Documents'
-            ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] '
-            : '',
-        ]"
-        class="h-[24px] flex items-center justift-center rounded-[4px] p-[10px] cursor-pointer"
-      >
-        <div
-          class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[ packagesStore.currentTab === 'Documents' ? 'text-white ' : 'text-[#878787]']"
-        >
-          Documents
-        </div>
-      </div>
-      <div
-        @click="packagesStore.changeTab('Images')"
-        :class="[
-         packagesStore.currentTab === 'Images' ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] ' : '',
-        ]"
-        class="h-[24px] flex items-center justift-center rounded-[4px] p-[10px] cursor-pointer"
-      >
-        <div
-          class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[ packagesStore.currentTab === 'Images' ? 'text-white ' : 'text-[#878787]']"
-        >
-          Images
-        </div>
-      </div>
-
-      <div
-        @click="packagesStore.changeTab('Bundle')"
-        :class="[
-         packagesStore.currentTab === 'Bundle' ? 'bg-gradient-to-r from-[#2DADA3] to-[#3A4D8F] ' : '',
-        ]"
-        class="h-[24px] flex items-center justift-center rounded-[4px] p-[10px] cursor-pointer"
-      >
-        <div
-          class="text-[12px] font-[500] leading-[18px] text-center"
-          :class="[packagesStore.currentTab === 'Bundle' ? 'text-white ' : 'text-[#878787]']"
-        >
-        Bundle
+          {{cat.title}}
         </div>
       </div>
     </div>
@@ -129,7 +157,8 @@ provide("pricingType", pricingType);
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[100px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] 
+      dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[90px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('monthly')"
@@ -151,7 +180,7 @@ provide("pricingType", pricingType);
         </div>
       </button>
     </div>
-    <PackagesWebpluginsPricing v-if=" packagesStore.currentTab  === 'webplugins' ||packagesStore.currentTab === 'Bundle'" />
+    <PackagesWebpluginsPricing v-if=" packagesStore.currentTabTitle === 'Plugins'" />
     <PackagesMediaPricing v-if=" packagesStore.currentTab  === 'Media'||packagesStore.currentTab === 'Documents' ||  packagesStore.currentTab  === 'Images'" /> 
     <PackagesMediaServices  v-if=" packagesStore.currentTab  === 'Media'"/>
     <PackagesDocumentsServices v-if=" packagesStore.currentTab  === 'Documents'"/>
@@ -161,7 +190,6 @@ provide("pricingType", pricingType);
     <!-- PACKAGES-->
 
     <!-- SHOW MORE DETAILS-->
-
     <div
       @click="openMoreDetails"
       :style="boxShadowStyle"
@@ -191,7 +219,6 @@ provide("pricingType", pricingType);
         </svg>
       </div>
     </div>
-
     <div
       class="overflow-x-auto w-full mx-auto h-full  rounded-[8px] mb-[32px]"
       v-if="moreDetails"
@@ -321,7 +348,6 @@ provide("pricingType", pricingType);
         </tbody>
       </table>
     </div>
-
     <!-- END SHOW MORE DETAILS-->
 
     <!--BUY MORE START  words-->

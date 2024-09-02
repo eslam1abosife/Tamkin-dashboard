@@ -26,19 +26,17 @@ provide("pricingType", pricingType);
 <template>
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <div class="text-[18px] font-[700] leading-[35px] text-[#3B3E54] whitespace-nowrap" v-if="packagesStore.currentTab === 'webplugins'">
-        Advanced Live Translation <span class="text-[#0AACA1]">Package</span>
+      <div class="text-[18px] font-[700] leading-[35px]  whitespace-nowrap" >
+        <div v-html="packagesStore.getPackageDetails('Live Translation','Package','bundle').color_title"></div>   
+
       </div>
 
-      <div class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap bg-gradient-to-l from-[#C520AB] 
-      via-[#1E4FB0] to-[#31A69F] text-transparent bg-clip-text" v-if="packagesStore.currentTab !== 'webplugins'">
-        Inclusive Media Services for All Users
-      </div>
+   
       <div
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
-        Enhance your website with our Web Plugins Package, offering seamless integration
-        of sign language support for an inclusive user experience.
+      {{packagesStore.getPackageDetails('Accessibility','Web Plugins Package').description}}  
+
       </div>
     </div>
     <div
@@ -70,8 +68,8 @@ provide("pricingType", pricingType);
       <div class="flex items-center justify-center flex-col w-full px-[18px]">
         <div
         class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap  
-        mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 md:space-x-10 md:flex-nowrap ipad-max:space-x-10
-         lg:space-x-24 2xl:space-x-44 "
+        mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 md:rtl:space-x-reverse space-x-10 md:flex-nowrap ipad-max:rtl:space-x-reverse space-x-10
+         lg:rtl:space-x-reverse space-x-24 2xl:rtl:space-x-reverse space-x-44 "
     
       >
         <div
@@ -95,7 +93,7 @@ provide("pricingType", pricingType);
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div
-            class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
+            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
           >
             <div>
               <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
@@ -137,7 +135,7 @@ provide("pricingType", pricingType);
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div
-            class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
+            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
           >
             <div>
               <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
@@ -175,7 +173,7 @@ provide("pricingType", pricingType);
           </div>
           <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
           <div
-            class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
+            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
           >
             <div>
               <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
@@ -205,7 +203,7 @@ provide("pricingType", pricingType);
           :style="boxShadowStyle"
           :class="[moreDetails ? 'bg-[#35C0B4] !text-white  ' : 'bg-white  ']"
           class="hover:bg-[#35C0B4] hover:text-white group w-full mx-auto my-[29px]  h-[37px] 
-          rounded-b-[10px] space-x-[20px] cursor-pointer flex items-center justify-center"
+          rounded-b-[10px] rtl:space-x-reverse space-x-[20px] cursor-pointer flex items-center justify-center"
         >
           <div
             class="text-[14px] font-[500] leading-[21px] group-hover:text-white"

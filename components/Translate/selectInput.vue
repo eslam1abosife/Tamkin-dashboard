@@ -47,7 +47,7 @@ const selectList = (Item) => {
 
 const filteredList = computed(() => {
   return props.list.filter((listItem) =>
-    listItem.name.toLowerCase().includes(search.value.toString().toLowerCase())
+    listItem[props.nameKey].toLowerCase().includes(search.value.toString().toLowerCase())
   );
 });
 
@@ -59,6 +59,7 @@ watch(selectedListObj, (newValue) => {
   selectedOption.value = newValue;
 });
 </script>
+
 
 <template>
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
@@ -135,7 +136,7 @@ watch(selectedListObj, (newValue) => {
               ? '!bg-tamkinLight'
               : '',
           ]"
-          class="flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight group cursor-pointer"
+          class="last:rounded-b-[10px] flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight group cursor-pointer"
         >
           <img
             :src="listItem[iconKey]"

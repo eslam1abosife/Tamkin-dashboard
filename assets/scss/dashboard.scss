@@ -302,7 +302,7 @@ html {
     }
 
     &.packages {
-        @apply rtl:right-[-10px] ltr:left-[60%];
+        @apply rtl:right-[0px] ltr:left-[60%];
 
     }
     @apply text-[10px] leading-[15px] h-[50px] p-[10px] font-[500] flex items-center justify-start;
@@ -332,7 +332,7 @@ html {
 
     }
     &.packages {
-        @apply rtl:right-[-12px] ltr:left-[12px];
+        @apply rtl:right-[0] ltr:left-[12px];
 
     }
 }
