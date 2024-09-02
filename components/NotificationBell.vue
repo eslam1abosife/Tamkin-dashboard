@@ -2,12 +2,12 @@
 import { vOnClickOutside } from "@vueuse/components";
 import {
   useGetNotification,
-  useMarkAllNotification,
+  useMarkNotification,
 } from "@/composables/useNotificationBell";
 const notificationBellStore = useNotificationBellStore();
 
 const { getNotification } = useGetNotification();
-const { markAllNotification } = useMarkAllNotification();
+const { markNotification } = useMarkNotification();
 // import { formatDistanceToNow, parseISO } from 'date-fns';
 const isMenuOpen = ref(false);
 const clickedOutside = ref(false);
@@ -34,15 +34,16 @@ const {
 const closeMenu = async () => {
  if(isOpen('notificationsModal')){
   closeModal('notificationsModal')
-  await markAllNotification();
+  // await markNotification("all");
 
   await getNotification();
  }
 };
 const sentNotificationsCount = computed(() => {
-  return notificationBellStore.notifications.filter(
+  let count =  notificationBellStore.notifications.filter(
     (notification) => notification.status === "Sent"
   ).length;
+  return count > 0 ? count : null;
 });
 </script>
 
@@ -51,11 +52,11 @@ const sentNotificationsCount = computed(() => {
     class="h-[40px] w-[40px] rounded-full  flex items-center justify-center relative "
     :class="[isOpen('notificationsModal') ? 'active_notification' : 'bg-[#EFF1F6]']"
     @click.prevent="openModal('notificationsModal')"
-    v-on-click-outside="closeMenu"
+
   >
     <div class="cursor-pointer relative">
-      <div
-        class="h-[13px] w-[13px] !text-whiteTamkin bg-[#FB726D]   
+      <div v-show="sentNotificationsCount"
+        class="h-[13px] w-[13px] !text-whiteTamkin bg-[#FB726D]
         rounded-full flex items-center justify-center text-[10px] font-[500] absolute right-[-2px] top-[-5px]"
       >
         {{ sentNotificationsCount }}
@@ -84,7 +85,7 @@ const sentNotificationsCount = computed(() => {
       </svg>
     </div>
 
- 
+
   </div>
 </template>
 <style>
