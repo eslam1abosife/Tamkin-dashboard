@@ -124,6 +124,12 @@ function leaveCart(el, done) {
 }
 const closeMenu = async () => {
   closeModal('notificationsModal')
+  await markNotification("all");
+  await getNotification();
+};
+
+const closeMenuOutSide = async () => {
+  closeModal('notificationsModal')
   // await markNotification("all");
   await getNotification();
 };
