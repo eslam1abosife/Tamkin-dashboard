@@ -49,7 +49,7 @@ const sentNotificationsCount = computed(() => {
 
 <template>
   <div
-    class="h-[40px] w-[40px] rounded-full  flex items-center justify-center relative "
+    class="h-[40px] w-[40px] rounded-full  flex items-center justify-center relative cursor-pointer "
     :class="[isOpen('notificationsModal') ? 'active_notification' : 'bg-[#EFF1F6]']"
     @click.prevent="openModal('notificationsModal')"
 

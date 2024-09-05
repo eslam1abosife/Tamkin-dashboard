@@ -14,25 +14,25 @@ onMounted(() => {
 
 <template>
     <div 
-    class=" fixed z-[9999] top-[140px]  right-[110px]   rounded-[16px] shadow-xl
+    class=" fixed z-[9999] top-[140px]  rtl:right-[400px] ltr:right-[110px]   rounded-[16px] shadow-xl
        w-[246px] h-[220px]  bg-white "
     >
-<div class="flex items-center justify-evenly flex-col space-y-[10px]">
+<div class="flex items-center justify-evenly flex-col ">
     <div class="absolute shadow-2xl top-[15px]  right-[-15px]">
         <img src="/assets/pngs/market/Union.svg" alt="">
     </div>
     <Vue3Lottie :animationData="cartAnimate" :height="60" :width="60" :no-margin="true"
     />
         <div >
-            <h1 class="text-[14px] font-[500] text-tamkin">Your Item added here </h1>
+            <h1 class="text-[14px] font-[500] text-tamkin">{{$t('Your Item added here')}}</h1>
         </div>
     
-    <div>
-        <p class="text-[13px] font-[400] text-darkGrey text-center">click on the cart icon to check your items cart</p>
+    <div class=" p-[24px]">
+        <p class="text-[13px] font-[400] text-darkGrey text-center">{{$t('click on the cart icon to check your items cart')}}</p>
     </div>
     <div>
         <button class="btn-dashboard hover_tamkin" @click="marketStore.closeCartNotification">
-            Done
+            {{ $t('Done') }}
         </button>
     </div>
 </div>

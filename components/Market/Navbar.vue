@@ -33,25 +33,19 @@ onMounted(async () => {
 
   categoriesHavingSkinItems.value.forEach((category) => {
     scrollItemRefs.value[category.name] = null;
-  })
+  });
+
+  console.log(scrollItemRefs.value);  // Check the refs after they're initialized
 });
+
 
 
 const scrollToItem = async (itemRef) => {
   await nextTick(); // Ensure DOM updates
 
-  if (!scrollNav.value) {
-    console.error("scrollToItem: scrollContainer.value is undefined");
-    return;
-  }
-
-  if (!itemRef || !itemRef.value) {
-    console.error("scrollToItem: itemRef or itemRef.value is undefined");
-    return;
-  }
 
   const container = scrollNav.value;
-  const item = itemRef.value;
+  const item = itemRef;
 
   const containerRect = container.getBoundingClientRect();
   const itemRect = item.getBoundingClientRect();
@@ -66,12 +60,19 @@ const scrollToItem = async (itemRef) => {
 };
 
 const switchTabAndScroll = async (tabName) => {
-  // console.log(tabName);
   marketStore.switchTabs(tabName);
   await nextTick(); 
   const itemRef = scrollItemRefs.value[tabName];
+  console.log(itemRef)
+
+  if (!itemRef) {
+    console.error(`No ref found for tab: ${tabName}`);
+    return;
+  }
+
   scrollToItem(itemRef);
 };
+
 
 
 </script>
@@ -81,13 +82,13 @@ const switchTabAndScroll = async (tabName) => {
     ref="scrollNav"
     class="scroll-container w-full no-scrollbar  bg-[#F7F7F7] dark:bg-tamkinDarkPrimary  rounded-t-xl overflow-x-auto h-[60px]  relative z-[20]"
   >
-    <div class="w-[200px] flex items-center justify-between space-x-2">
+    <div class="w-[200px] flex items-center justify-between rtl:space-x-reverse space-x-2">
       <div
       
        ref="character"
       @click="switchTabAndScroll('character')"
           :class="[marketStore.currentTab === 'character' ? 'bg-white dark:bg-[#344153]' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl  flex-grow"
+        class="scroll-item cursor-pointer flex items-center justify-center rtl:space-x-reverse space-x-[10px] rounded-t-xl  flex-grow"
       >
         <div>
           <svg
@@ -134,18 +135,19 @@ const switchTabAndScroll = async (tabName) => {
               : 'dark:text-whiteTamkin',
           ]"
         >
-          Character
+          {{$t('Character')}}
         </div>
       </div>
       <!-- loader -->
       <MarketLoader v-if="loading" />
       <!-- dynamic -->
       <div v-for="category in categoriesHavingSkinItems" :key="category.name"
-      :ref="category.name"
-      @click="switchTabAndScroll(category.name)"
-        :class="[marketStore.currentTab === category.name ? 'bg-white dark:bg-darkSecondary' : '']"
-        class="scroll-item cursor-pointer flex items-center justify-center space-x-[10px] rounded-t-xl rounded-b-none flex-grow">
+       :ref="el => scrollItemRefs[category.text] = el"
+      @click="switchTabAndScroll(category.text)"
+        :class="[marketStore.currentTab === category.text ? 'bg-white dark:bg-darkSecondary' : '']"
+        class="scroll-item cursor-pointer flex items-center justify-center rtl:space-x-reverse space-x-[10px] rounded-t-xl rounded-b-none flex-grow">
         <div>
+
           <img
             class="w-[25px] h-[25px]"
             width="27"
@@ -160,7 +162,7 @@ const switchTabAndScroll = async (tabName) => {
               : 'dark:text-white',
           ]"
         >
-          {{ category.text }}
+          {{ $t(category.text )}}
         </div>
       </div>
       <!-- end dynamic -->

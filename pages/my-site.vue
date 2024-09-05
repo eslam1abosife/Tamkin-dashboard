@@ -803,21 +803,25 @@ const paginatedFilteredAppList = computed(() => {
                   </tr>
                 </tbody>
               </table>
-              <noresult class="!my-[30px]" v-loading="getSitesLoading" v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 || currentTab === 'deleted' && search && paginatedFilteredAppList.length === 0" />
+              <noresult class="!my-[30px]" v-loading="getSitesLoading" v-if="currentTab === 'saved' &&
+               paginatedFilteredAppList.length=== 0 && appList.length !== 0 ||
+                currentTab === 'deleted' && search && paginatedFilteredAppList.length === 0 &&  appList.length !== 0" />
 
-              <NoData class="!mt-[30px] !mb-[-30px]" v-loading="getSitesLoading" v-if="currentTab === 'deleted' && paginatedFilteredAppList.length === 0 && !search" 
+              <NoData class="!mt-[30px] !mb-[-30px]"
+               v-loading="getSitesLoading" v-if="currentTab === 'deleted' && paginatedFilteredAppList.length === 0 && 
+               !search" 
               imgUrl="/assets/imgs/my-sites-no-data.svg" :text="$t('No sites have been deleted')" >
                 <template #button>
                 </template>
               </NoData>
 
               <NoData v-loading="getSitesLoading" 
-              v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 && !search"
+              v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 && !search && appList.length === 0 "
               
               imgUrl="/assets/imgs/my-sites-no-data.svg" text="You don't have any sites now" >
                 <template #button>
                   <NuxtLink to="/add-site" class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]">
-                    {{$t('Add new site')}}</NuxtLink>
+                    {{$t('Add New Site')}}</NuxtLink>
                 </template>
               </NoData>
 

@@ -27,33 +27,33 @@ const marketStore = useMarketStore();
       </svg>
     </div>
     <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Default Mode
+        {{ $t('Default Mode') }}
     </h1>
   
     <h2 class="text-[14px] font-[500] leading-[33px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
-        Are you sure you want to return to default mode? This action will revert all your recent changes.
+        {{ $t('Are you sure you want to return to default mode? This action will revert all your recent changes.') }}
 
     </h2>
 
-    <div class="flex items-center justify-start space-x-[10px] mt-[6px]">
+    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] mt-[6px]">
         <div>
             <img src="/assets/pngs/market/info.png" alt="">
         </div>
         <div class="text-[13px] font-[400] text-[#898989] dark:text-whiteTamkin/60">
-            Make sure to save any important work before proceeding, as this cannot be undone.
+            {{ $t('Make sure to save any important work before proceeding, as this cannot be undone.') }}
         </div>
     </div>
-  <div class="flex items-center justify-end space-x-[16px]">
+  <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]">
   
   
     <div class="  mt-[20px] " >
       <button class="btn_bordered_dashboard hover_tamkin "  @click="()=>{marketStore.resetAll(),marketStore.openResetModal()}">
-        Cancel
+        {{ $t('Cancel') }}
       </button>
     </div>
     <div class="  mt-[20px] " >
       <button class="btn-dashboard hover_tamkin "   @click="marketStore.openResetModal">
-        Save 
+        {{$t('Save')}} 
       </button>
     </div>
 

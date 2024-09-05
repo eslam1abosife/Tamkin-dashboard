@@ -5,7 +5,7 @@ const packagesStore = usePackgesStore()
 
 <template>
 
-    <div class="w-full h-[427px] bg-white p-[30px] mx-auto mt-[32px] relative">
+    <div class="w-full h-auto bg-white p-[30px] mx-auto mt-[32px] relative">
         <div class="absolute top-[180px] left-[100px]">
           <img src="/imgs/Astronaut.png" class="w-[167px] h-[174px] opacity-30" alt="" />
         </div>
@@ -28,7 +28,7 @@ const packagesStore = usePackgesStore()
           packagesStore.selectedQuestion = faq
 
         }"
-        :class="[packagesStore.selectedQuestion.name === faq.name ? 'bg-[#E8F2FF]':'bg-white']"
+        :class="[packagesStore.selectedQuestion.name === faq.name ? 'bg-[#E8F2FF]':'bg-white/[60%]']"
               class="h-[45px] w-full  py-[15px] cursor-pointer rtl:space-x-reverse space-x-[9px] px-[10px] 
               flex items-center justify-start relative z-[50]"
               style="box-shadow: 0px 0px 0.62px 0.62px #00000026"

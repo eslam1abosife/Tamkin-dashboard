@@ -188,7 +188,7 @@ watchEffect(() => {
        lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden overflow-y-auto "
     >
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment dark:bg-tamkinDarkPrimary 
-  dark:text-whiteTamkin !top-[24px] !right-[20px] !cursor-pointer z-[999]" @click="closeAndShowChat">
+  dark:text-whiteTamkin !top-[24px]  !cursor-pointer z-[999]" @click="closeAndShowChat">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -205,7 +205,7 @@ watchEffect(() => {
     </div>
     <div class="w-full ">
       <h1 class="text-[16px] lg:text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey lg:px-0 px-[20px] ">
-        Request a specific character
+        {{ $t('Request a specific character') }}
       </h1>
       <div
       class="flex flex-col items-start justify-center space-y-[20px]  bg-white  dark:bg-tamkinDarkPrimary
@@ -223,7 +223,7 @@ watchEffect(() => {
           <label for="characterName" class="floating_label" :class="[
             (v$.characterName.$error && v$.characterName.required.$invalid) ? '!text-error' : '',
           ]">
-            Character Name*
+            {{ $t('Character Name*') }}
           </label>
           <div class="w-full lg:w-4/6 " v-if="(v$.characterName.$error && v$.characterName.required.$invalid)">
             <p class="error_message">
@@ -240,7 +240,7 @@ watchEffect(() => {
           <label for="characterAge" class="floating_label" :class="[
             (v$.characterAge.$error && v$.characterAge.required.$invalid) ? '!text-error' : '',
           ]">
-            Character Age*
+            {{$t('Character Age*')}}
           </label>
           <div class="w-full lg:w-4/6 " v-if="(v$.characterAge.$error && v$.characterAge.required.$invalid)">
             <p class="error_message">
@@ -249,8 +249,8 @@ watchEffect(() => {
           </div>
         </div>
         <div class="w-full flex-col flex items-start justify-start">
-          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">Gender</h1>
-          <div class="flex items-center justify-start space-x-[100px] w-full">
+          <h1 class="text-[16px] font-[600] text-darkGrey dark:text-whiteTamkin">{{$t('Gender')}}</h1>
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[100px] w-full">
             <div class="flex items-center justify-start mt-[16px]">
               <input
                 id="gender_radio_1"
@@ -264,7 +264,7 @@ watchEffect(() => {
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'Male' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Male</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Male')}}</h2>
             </div>
             <div class="flex items-center justify-start mt-[16px]">
               <input
@@ -279,7 +279,7 @@ watchEffect(() => {
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'Female' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
-              <h2 class="text-[14px] font-[400] text-darkGrey pl-[10px] dark:text-whiteTamkin">Female</h2>
+              <h2 class="text-[14px] font-[400] text-darkGrey rtl:pr-[10px] ltr:pl-[10px] dark:text-whiteTamkin">{{$t('Female')}}</h2>
             </div>
           </div>
         </div>
@@ -301,7 +301,7 @@ watchEffect(() => {
               (v$.Description.$error && v$.Description.required.$invalid) ? '!text-error' : '',
             ]"
           >
-            Description*
+            {{$t('Description*')}}
           </label>
           <div class="w-full lg:w-4/6" v-if="(v$.Description.$error && v$.Description.required.$invalid)">
             <p class="error_message text_area">
@@ -310,14 +310,14 @@ watchEffect(() => {
           </div>
         </div>
         <div class="w-full ">
-          <h1 class="text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">Upload Character image</h1>
+          <h1 class="rtl:text-right ltr:text-left text-[16px] font-[500] text-darkGrey dark:text-whiteTamkin">{{$t('Upload Character image')}}</h1>
           <div
             v-bind="getRootProps()"
             class="w-full h-auto p-[10px]  rounded-[10px] border-[1px] border-dashed border-[#C8CFEB] dark:border-light mt-[16px] 
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 space-x-[16px] " v-if="acceptedFilesRef.length > 0">
+            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px] " v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
@@ -350,27 +350,27 @@ watchEffect(() => {
             </div>
             <div class="w-full">
               <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
-                Drop the files here ...
+                {{ $t('Drop the files here ...') }}
               </h1>
               <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-                <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop media here
+                <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop media here') }}
               </h1>
             </div>
           </div>
         </div>
-        <div class="!text-error" v-if="noUpload"> please Uplaod atleast one image </div>
+        <div class="!text-error" v-if="noUpload"> {{$t('please Uplaod atleast one image')}} </div>
 
-        <div class="custom-border flex items-center justify-center space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
-          <div class="text-darkGrey text-[16px] font-[500]">Price</div>
-          <div class="text-[16px] font-[600]">{{ price }} AED</div>
+          <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
+          <div class="text-[16px] font-[600]">{{ price }} $</div>
         </div>
-        <div class="mt-8 flex justify-end space-x-[20px] ml-auto  py-3">
-          <button class="btn_bordered_dashboard" @click="closeAndShowChat">Cancel</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate">
+        <div class="mt-8 flex justify-end  space-x-[20px] rtl:mr-auto ltr:ml-auto rtl:flex-row-reverse  py-3">
+          <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
+          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
               <div :class="loadingUpdate ? 'mr-4':''">
-               {{ isUpdating ? 'Update' : 'Add To Cart' }}
+               {{ isUpdating ? $t('Update') : $t('Add To Cart') }}
               </div>
          
                <svg  v-if="loadingUpdate" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

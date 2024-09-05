@@ -141,8 +141,23 @@ export const usePackgesStore = defineStore('packages', {
 
       return typeObj ? typeObj.faqs : [];
     },
-    getPackageByTypeAndCategory() {
-      let filteredPackages = this.packages.filter(pkg => pkg.type === this.currentType.name);
+    getPackageByTypeAndCategory: (state) => (typeofpck) => {
+      let filteredPackages = state.packages.filter(pkg => pkg.type === state.currentType.name && 
+        pkg.package_type === typeofpck);
+      
+      if (state.currentTab !== null) {
+        filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
+      }
+    
+      return filteredPackages;
+    },
+    
+    getAddonsOrExtras(packageType) {
+      let filteredPackages = this.packages.filter(pkg => 
+        pkg.type === this.currentType.name && 
+        pkg.package_type === packageType
+      );
+      
       
       if (this.currentTab !== null) {
         filteredPackages = filteredPackages.filter(pkg => pkg.category === this.currentTab.name);

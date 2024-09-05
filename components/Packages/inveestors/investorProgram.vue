@@ -1,5 +1,13 @@
 <template>
-    <div class="bg-gradient-to-l  w-full from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] relative space-x-[80px] flex items-center justify-between p-6 rounded-lg shadow-lg mt-[32px]">
+<div class="w-full">
+  <div class="my-[32px] text-center w-2/4 mx-auto">
+   <span class="bg-gradient-to-r from-[#11A290] to-[#9747FF] text-transparent bg-clip-text text-[20px] font-[700] leading-[35px]">Join our Investor Program  </span><span class="text-[20px] font-[600] leading-[35px] text-darkGrey"> for tailored investment opportunities and expert support
+
+   </span>
+
+
+  </div>
+  <div class="bg-gradient-to-l  w-full from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] relative space-x-[80px] flex items-center justify-between p-6 rounded-lg shadow-lg mt-[32px]">
     <div class="flex items-start justify-center flex-col w-3/4">
         <h2 class="text-[16px] font-[600] leading-[22px] text-black">Investor Program</h2>
 
@@ -76,5 +84,6 @@
         
       
       </div>
+</div>
       
 </template>

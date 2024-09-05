@@ -18,6 +18,7 @@ export default function() {
             const res = await api.post('/Tamkin Agency Apps/Get', {
                 where: {
                     agency: state.agency,
+                    type:'website'
                 }
             });
             if(!res.data.succeeded) throw(res.data.message);

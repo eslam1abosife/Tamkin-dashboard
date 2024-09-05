@@ -318,7 +318,7 @@ const openModals = computed(() => {
     isOpen('successContact') ||
     isOpen('edit_company_picture') ||
     isOpen('notificationsModal') ||
-    
+    isOpen('join_to_investor') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -396,15 +396,15 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-// if(process.client ){
-// if(window.$chatwoot){
-//   if(!isLinkActive('/embed-code')){
-//   window.$chatwoot.toggleBubbleVisibility("hide");
-//   window.$chatwoot.toggle("close");
+if(process.client ){
+if(window.$chatwoot){
+  if(!isLinkActive('/embed-code')){
+  window.$chatwoot.toggleBubbleVisibility("hide");
+  window.$chatwoot.toggle("close");
 
-//  }
-// }
-// }
+ }
+}
+}
 }, { immediate: true });
 onMounted(async () => {
   const userStore = useUserStore();
@@ -637,7 +637,8 @@ import 'vue-loading-overlay/dist/css/index.css';
         </nav>
 
         <div class=" relative"
-             :class="isLinkActive('/profile') || isLinkActive('/packages/*') || isLinkActive('/ar/packages/*')  ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
+             :class="isLinkActive('/profile') || isLinkActive('/packages/*') || isLinkActive('/ar/packages/*')
+              || isLinkActive('/how-to-join') ? '' : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'">
           <div 
               class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
               style="

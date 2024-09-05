@@ -3,7 +3,7 @@ import { useNuxtApp } from '#app';
 
 const categoriesWithSkinItems = ref([]);
 const characters = ref([]);
-
+const loadingChars = ref(true)
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
@@ -26,12 +26,16 @@ export default function() {
 
     
     const getFullDataFormated = async () => {
+        
         try {
             const { data } = await api.post('/Market/GetFullDataFormated', {"AppName": "default"});
             if(!data.succeeded) throw(data.message);
             categoriesWithSkinItems.value = data.data.categories;
             characters.value = data.data.charachters;
+            loadingChars.value = false
         } catch (error) {
+            loadingChars.value = false
+
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
@@ -43,6 +47,7 @@ export default function() {
         getFullDataFormated,
         categoriesWithSkinItems,
         characters,
-        loading
+        loading,
+        loadingChars
     }
 }

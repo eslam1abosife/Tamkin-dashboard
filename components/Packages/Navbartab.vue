@@ -113,7 +113,7 @@ const changeColorBasedOnCurrenttab = computed(()=>{
 
        <div class="flex items-center justify-start flex-col my-[50px]">
         <div class="text-[20px] font-[600] leading-[32px] text-white">
-          Tamkin Your Communication Journey 
+          {{$t('Tamkin the bridge of communication between communities')}}
     
     
         </div>

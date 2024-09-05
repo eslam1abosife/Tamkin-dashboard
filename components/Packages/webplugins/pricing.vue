@@ -10,20 +10,20 @@ onMounted(()=>{
 
 
 <template>
-    <div class="flex items-center justify-center relative">
 
         <div
         
-          class="flex items-center lg:flex-row md:flex-row rtl:space-x-reverse  md:space-x-[10px] flex-col justify-center h-full w-full mt-[32px]"
+          class="grid grid-cols-12 gap-4 mt-[32px] "
         >
       
           <div 
 
-          v-for="pak in packagesStore.getPackageByTypeAndCategory" 
+          v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')" 
           
           :key="pak.name"
 
-            class="flex items-center flex-col custom-border justify-start !rounded-t-[10px] !rounded-b-none mt-[35px] group bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+            class="flex items-center flex-col custom-border justify-start !rounded-t-[10px]
+             !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full col-span-4"
             style="padding: 16px, 10px, 16px, 10px"
           >
             <div class="absolute top-[-30px] left-[15px]">
@@ -74,7 +74,7 @@ onMounted(()=>{
             <div
               class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse rounded-t-none rounded-[10px] p-4"
             >
-              <div v-for="item in pak.package_items" :key="item.name"
+              <div v-for="item in pak.package_items.filter(k=>k.section === 'Package')" :key="item.name"
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
               >
                 <div>
@@ -98,6 +98,6 @@ onMounted(()=>{
         
          
         </div>
-      </div>
+
 
 </template>

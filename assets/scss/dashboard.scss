@@ -2,6 +2,7 @@
 html {
     overflow-y: scroll; /* Always show scrollbar to prevent jumping */
 
+    // scrollbar-gutter: stable; 
 
 
   }
@@ -336,6 +337,7 @@ html {
 
     }
 }
+
 .chatwoot-hidden {
     display: none !important;
   }

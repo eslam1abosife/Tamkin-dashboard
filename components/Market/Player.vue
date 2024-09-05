@@ -14,12 +14,12 @@ function doPlayerStuff() {
 }
 function loadPlayerScripts() {
     const script1 = document.createElement('script');
-    script1.src = 'https://p.tamkin.app/mobile/runtime.9d44d3eba4706ace325c.bundle.js';
+    script1.src = 'https://p.tamkin.app/mobile/runtime.a6792ebd11ba6d755107.bundle.js';
     script1.defer = true;
     document.body.appendChild(script1);
 
     const script2 = document.createElement('script');
-    script2.src = 'https://p.tamkin.app/mobile/app.62d4ea469fcae45928a2.bundle.js';
+    script2.src = 'https://p.tamkin.app/mobile/app.af7ab7c5ada08b26b6a0.bundle.js';
     script2.defer = true;
     document.body.appendChild(script2);
 }

@@ -131,7 +131,7 @@ onMounted(() => {
         <!--  bundle IMAGES -->
     <div class="flex items-center justify-center flex-col my-[50px]">
       <div class="text-[20px] font-[600] leading-[32px] text-white">
-        Tamkin Your Communication Journey
+        {{$t('Tamkin the bridge of communication between communities')}}
       </div>
       <div class="flex items-center justify-center space-x-[22px] absolute bottom-0">
         

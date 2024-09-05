@@ -45,15 +45,13 @@ provide("pricingType", pricingType);
     
         <!-- SHOW MORE DETAILS-->
     
-      
     
         <!-- END SHOW MORE DETAILS-->
        </div>
     
-<!-- 
-       <PackagesInveestorsInvestorPackage/>
-       <PackagesInveestorsInvestorProgram/>
-       <PackagesInveestorsPackagePaid/> -->
+<PackagesInveestorsInvestorpackage/>
+       <PackagesInveestorsInvestorprogram/>
+       <PackagesInveestorsPackagePaid/>
     
     
         <!-- FAQ START-->

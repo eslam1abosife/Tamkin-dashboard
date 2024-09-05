@@ -3,7 +3,7 @@ import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
-
+const { locale} = useI18n()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
   layout: "dashboard",
@@ -87,7 +87,9 @@ function leave(el, done) {
 ///7
 
 function beforeEnterCart(el) {
-  el.style.transform = "translateX(100%)";
+  // Use translateX based on the text direction
+  const translateX = locale.value === 'ar' ? "-100%" : "100%";
+  el.style.transform = `translateX(${translateX})`;
   el.style.opacity = "0";
 }
 
@@ -101,8 +103,10 @@ function enterCart(el, done) {
 }
 
 function leaveCart(el, done) {
+  // Use translateX based on the text direction
+  const translateX = locale.value === 'ar' ? "-100%" : "100%";
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(100%)";
+  el.style.transform = `translateX(${translateX})`;
   el.style.opacity = "0";
   setTimeout(() => {
     done();
@@ -185,7 +189,7 @@ function leaveNotification(el, done) {
       <h1
         class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
       >
-        Market
+        {{ $t('Market') }}
       </h1>
       <div
         class="bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 rounded-[10px] w-full flex items-end justify-center relative"
@@ -264,7 +268,7 @@ function leaveNotification(el, done) {
         </div>
 
         <div
-          class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] space-x-[16px]"
+          class="flex items-center justify-evenly absolute bottom-[16px] right-[16px] rtl:space-x-reverse space-x-[16px]"
         >
           <div
             class="cursor-pointer w-[35px] h-[35px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-lg flex items-center justify-center"
