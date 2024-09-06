@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useMarketStore } from "@/stores/market.js";
-
 const marketStore = useMarketStore();
+import { usePlayerStore } from "@/stores/player.js";
+const playerStore = usePlayerStore();
 
 
 </script>
@@ -52,8 +53,8 @@ const marketStore = useMarketStore();
       </button>
     </div>
     <div class="  mt-[20px] " >
-      <button class="btn-dashboard hover_tamkin "   @click="marketStore.openResetModal">
-        {{$t('Save')}} 
+      <button class="btn-dashboard hover_tamkin" @click="playerStore.resetCharacterSkinsToDefault()">
+        {{$t('Save')}}
       </button>
     </div>
 

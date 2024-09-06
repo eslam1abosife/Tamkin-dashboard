@@ -4,7 +4,6 @@ import { useSetCharacter, useGetCategoriesWithSkinItems } from "@/composables/us
 import { useMarketStore } from "@/stores/market";
 
 const { fullUrl } = useFullUrl();
-const { $toast } = useNuxtApp();
 export const usePlayerStore = defineStore('player', {
   state: () => ({
     // player
@@ -14,53 +13,59 @@ export const usePlayerStore = defineStore('player', {
     userSelectedClothes: {},
     setActiveCharacterError: '',
     skinCategoryItems: {},
+    characters: [],
     activeCharacter: null,
     clothes: ['sara_clothes_orignal_belt_havana_0036','clothes_belt','fares_clothes_original_belt_Havana_0018','qasem_clothes_belt1_black_0025','sara_clothes_orignal_pants_grey_0031','clothes_orignal_pants_blueblack','clothes_pants_grey','fares_clothes_orignal_pants_blueblack_color_002','fares_clothes_pants_grey_Color_009','fares_clothes_shorts_jeans_Color_0012','qassem_clothes_pants_grey_Color_0023','sara_clothes_pants_white_0032','sara_clothes_hijab_white_0035','clothes_beret_grey','clothes_cap_jeans','fares_clothes_beret_grey_color1_004','fares_clothes_cap_jeans_color1_005','qassem_clothes_hair_black_Color_0021','qassem_CLOTHES_original_iqal_black_0026','qassem_CLOTHES_original_SHEMAGH_white_Color_0020','sara_clothes_orignal_hijab_blueblack_0027','clothes_glasses01_silver','clothes_glasses1','clothes_sunglasse_black','fares_clothes_glasses01_silver_Color_006','fares_clothes_original_glasses_0016','fares_clothes_sunglasse_black_color_007','default_outfit','sara_clothes_belt_shoes_white_0034','clothes_orignal_shoes_Havana','clothes_sneakers_yellow','fares_clothes_orignal_shoes_Havana_color_003','fares_clothes_sneakers_yellow_Color_008','qassem_CLOTHES_original_shoes_black_0024','sara_clothes_orignal_belt_shoes_havana_0029','clothes_tie1_blueblack','fares_clothes_original_tie1_blueblack_Color_0013','sara_clothes_tamkin_tshirt_aquamarine01_0033','clothes_orignal_shirt_aquamarine','clothes_shirt_purple','clothes_tamkin_tshirt_aquamarine','clothes_tshirt1_yellow','fares_clothes_original_BADGE_0017','fares_clothes_orignal_shirt_aquamarine_001','fares_clothes_shirt_black_color_0010','fares_clothes_shirt_purple_color_0011','fares_clothes_tamkin_tshirt_aquamarine_color_0015','fares_clothes_tshirt1_yellow_Color_0014','qassem__clothes_shirt_black_color_0022','qassem_CLOTHES_original_THWB_white_Color_0019','sara_clothes_orignal_jacket_blueblack_0028','sara_clothes_orignal_top_white_0030',],
 
   }),
 
   actions: {
+      toast(message, options) {
+        const { $toast } = useNuxtApp();
+        $toast(message, options)
+      },
       // player
       setActiveCharacter(character){
           try {
-          //   if (!this.owned(character))
-          //     $toast('You must buy this item first.', { hideIn: 3000 })
+            // if (!this.owned(character))
+            //   this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
             if (character.name == this.activeCharacter?.name)
-              $toast(character.text + ' is already your active character.', { hideIn: 3000 })
+              this.toast(character.text + ' is already your active character.', { hideIn: 3000 })
             // await this.$store.dispatch('market/setActiveCharacter', character.name)
             this.activeCharacter = character
-            $toast(character.text + ' has been set as your active character successfully.', { hideIn: 3000 })
+            this.toast(character.text + ' has been set as your active character successfully.', { hideIn: 3000 })
           } catch (error) {
             this.setActiveCharacterError = error.message || 'An error occurred.';
-            $toast('There is something wrong: ' + this.setActiveCharacterError, { hideIn: 3000 })
+            this.toast('There is something wrong: ' + this.setActiveCharacterError, { hideIn: 3000 })
           }
       },
       hideAllClothes(){
         this.activeCharacter.allowed_skins_list.forEach(skin_item => {
-          window.hideClothesVisibility(skin_item.name)
+          this.unwear(skin_item);
         })
       },
-      addToWearedClothes(category:string, skin_item_name:string){
-        if (!this.userSelectedClothes[this.activeCharacter.name])
-          this.userSelectedClothes[this.activeCharacter.name] = {}
-        if (!this.userSelectedClothes[this.activeCharacter.name][category])
-          this.userSelectedClothes[this.activeCharacter.name][category] = []
-        this.userSelectedClothes[this.activeCharacter.name][category].push(skin_item_name);      
+      addToWearedClothes(category:string, skin_item_name:string, character_name = null){
+        if (!character_name) character_name = this.activeCharacter.name
+
+        if (!this.userSelectedClothes[character_name])
+          this.userSelectedClothes[character_name] = {}
+        if (!this.userSelectedClothes[character_name][category])
+          this.userSelectedClothes[character_name][category] = []
+        this.userSelectedClothes[character_name][category].push(skin_item_name);      
       },
       wearSavedClothes(){
         // get the clothes of the active character and set it to the top character
         if (this.characterLoaded) {
-          this.userSelectedClothes[this.activeCharacter.name] = {}
-          this.hideAllClothes()
-        // if character has no is_weared use is_default instead
-        if (!this.activeCharBackendWearedSkins.length){
-            this.activeCharacter.allowed_skins_list.map(function (skin_item) {
+          this.unwearAllSkins()
+          // if character has no is_weared use is_default instead
+          if (!this.activeCharBackendWearedSkins.length){
+              this.activeCharacter.allowed_skins_list.map(function (skin_item) {
               skin_item.is_weared = skin_item.is_default;
-            })
-        }
-        this.activeCharBackendWearedSkins.forEach(skin_item => {
-            this.showClothes(skin_item)
-        })
+              })
+          }
+          this.activeCharBackendWearedSkins.forEach(skin_item => {
+              this.showClothes(skin_item)
+          })
         }
       },
       owned(item){
@@ -77,17 +82,12 @@ export const usePlayerStore = defineStore('player', {
         const marketStore = useMarketStore();
 
         // if (!this.owned(skin_item))
-        //   return $toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
+        //   return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         // if there is a character in the preview
         if (marketStore.selectedForPreview?.[0]?.allowed_skins_list){
           marketStore.resetAll();
         }
         this.showClothes(skin_item)
-        console.log('skin_item', skin_item.name);
-        console.log('this.activeCharBackendWearedSkinsNames',this.activeCharBackendWearedSkinsNames);
-        console.log('this.activeCharCurrentlyWearedSkinsNames',this.activeCharCurrentlyWearedSkinsNames);
-        console.log('this.isClothesChanged',this.isClothesChanged);
-        
         
         if (this.isClothesChanged) {
           // marketStore.selectItemforPreview(skin_item);
@@ -97,51 +97,51 @@ export const usePlayerStore = defineStore('player', {
           // marketStore.resetAll();
         }
       },
+      unwearAllSkins(){
+        this.hideAllClothes();
+        this.userSelectedClothes[this.activeCharacter.name] = {};
+      },
       showClothes(skin_item) {
-        let new_skin_code = skin_item.name
         let category  = skin_item.category
         let outfit_skins = skin_item.outfit_skins_list
         
         // if skin is an outfit
         if (outfit_skins && outfit_skins.length) {
-          this.hideAllClothes()
-          this.userSelectedClothes[this.activeCharacter.name] = {}
+          this.unwearAllSkins();
           outfit_skins.forEach(item => {
-            // this.userSelectedClothes[this.activeCharacter.name][item.category] = item.name
-            // window.showClothesVisibility(item.name)
             this.showClothes(this.getOriginalSkinItem(item.skin_item));
           })
         }else{
           // hide skin if he is wearing it already if it can be unweared (get unweared if clicked twice)
-          // skin_item.can_be_weared_with_its_category_skins
           let weared_skins_of_same_category = this.userSelectedClothes[this.activeCharacter.name]?.[category] || [];
-          // clicking twice on the same skin item should remove the skin if it can be unweared (unwearable) (ينفع يتخلع)
-          if (weared_skins_of_same_category && weared_skins_of_same_category.includes(new_skin_code) && skin_item.can_be_unweared){
-            this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(new_skin_code), 1);
-            window.hideClothesVisibility(new_skin_code)
+          if (weared_skins_of_same_category && weared_skins_of_same_category.includes(skin_item.name) && skin_item.can_be_unweared){
+            this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(skin_item.name), 1);
+            this.unwear(skin_item);
           }else{
             // if wearing skin of the same category, other than the weared one, unwear it first unless it can be weared with its category skins
             // get the already weared skin from categoriesWithSkinItems by code to check its can_be_weared_with_its_category_skins
             //! if the new skin is unfriendly
             if (!skin_item.can_be_weared_with_its_category_skins) {
-              const $this = this;
+              var $this = this;
               
-              // 1. has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
+              // 1. character has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
               if (weared_skins_of_same_category && weared_skins_of_same_category.some(skin => !this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins)) {
-                weared_skins_of_same_category.filter((skin) => !$this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins).forEach(skin => {
+                weared_skins_of_same_category.filter((skin) => !$this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins)
+                .forEach(skin => {
                   this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(skin), 1);
-                  window.hideClothesVisibility(skin)
+                  let skin_to_delete = $this.getOriginalSkinItem(skin);
+                  this.unwear(skin_to_delete);
                 })
               }
             }         
-            this.addToWearedClothes(category, new_skin_code)
-            window.showClothesVisibility(new_skin_code);
+            this.addToWearedClothes(category, skin_item.name)
+            this.wear(skin_item);
           }
         }
       },
-      async changeCharacter(character: any) {
+      async changeCharacter(character: any, preview = true) {
         // if (!this.owned(character))
-        //   return $toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
+        //   return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         this.activeCharacter = character;
         
         window.changeCharacter(character.name);
@@ -153,8 +153,52 @@ export const usePlayerStore = defineStore('player', {
           // character is loaded
           this.wearSavedClothes();
         }
+        // check if this is not the backend active character
         const marketStore = useMarketStore();
-        marketStore.selectItemforPreview(character);
+        if (character.name != this.backendActiveChar?.name && preview) {
+          marketStore.selectItemforPreview(character);
+        } else {
+          marketStore.resetAll();
+        }
+      },
+      async resetCharacterSkinsToDefault(AppName = 'default') {
+        var $this = this;
+        this.unwearAllSkins()
+        this.activeCharacter.allowed_skins_list.forEach(function (skin_item) {
+          skin_item.is_weared = skin_item.is_default;
+          if (skin_item.is_weared) {
+            $this.addToWearedClothes(skin_item.category, skin_item.name);
+            $this.wear(skin_item)
+          }
+        })
+        await this.saveCharacterOptions(AppName);
+        const marketStore = useMarketStore();
+        marketStore.resetModal = false;
+        // todo
+        // call api endpoint to set each skin_item.is_weared = skin_item.is_default
+        // then get fresh fomatted data
+      },
+      wear(skin_item: any) {
+        if (skin_item.category == 'Background') {
+          if (skin_item.background_color) {
+            window.changeBackgroundColor(skin_item.background_color)
+          } else if (skin_item.background_image) {
+            window.changeBackgroundImage(fullUrl(skin_item.background_image))
+          }
+        } else {
+          window.showClothesVisibility(skin_item.name);
+        }
+      },
+      unwear(skin_item: any) {
+        if (skin_item.category == 'Background') {
+          if (skin_item.background_color) {
+            window.changeBackgroundColor('')
+          } else if (skin_item.background_image) {
+            window.changeBackgroundImage('')
+          }
+        } else {
+          window.hideClothesVisibility(skin_item.name);
+        }
       },
       async saveCharacterOptions(AppName) {
         const { setAppCharacter, setCharacterOptions } = useSetCharacter();
@@ -166,9 +210,12 @@ export const usePlayerStore = defineStore('player', {
         if (item?.allowed_skins_list){
           let succeeded = await setAppCharacter(item.name, AppName);
           if (succeeded){
+            this.characters.map(function (character) {
+              character.is_used = character.name == item.name
+            })
             // emptying the selectedForPreview array
             marketStore.resetAll();
-            $toast('Character saved successfully.', { hideIn: 3000, type: 'success' })
+            this.toast('Character saved successfully.', { hideIn: 3000, type: 'success' })
           }
         }
         // if a skin item
@@ -184,8 +231,7 @@ export const usePlayerStore = defineStore('player', {
             this.activeCharacter.allowed_skins_list.map(function (skin_item) {
               skin_item.is_weared = $this.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name)
             })
-            const { $toast } = useNuxtApp();  
-            $toast('Character clothes saved successfully.', { hideIn: 3000, type: 'success' })
+            this.toast('Character clothes saved successfully.', { hideIn: 3000, type: 'success' })
           }
         }
 
@@ -252,6 +298,9 @@ export const usePlayerStore = defineStore('player', {
       }else{
         return false
       }
+    },
+    backendActiveChar: function (state) {
+      return state.characters.find(character => character.is_used) || state.characters[0]
     },
   },
 });

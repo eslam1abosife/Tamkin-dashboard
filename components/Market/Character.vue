@@ -48,7 +48,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
     <div
     class="market_card_char order-1 cursor-pointer"
     @click="playerStore.changeCharacter(char)" :role="marketStore.owned(char) ? 'button' : ''"
-    v-for="char in characters"
+    v-for="char in playerStore.characters"
     :key="char.name"
     :class="[
       marketStore.selectedForPreview.includes(char)
@@ -68,20 +68,8 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
         />
       </div>
       <div
-        class="absolute top-0 left-0 w-[56px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-        v-if="char.package"
-      >
-        <div class="text-[10px] font-[500] leading-[20px]">{{$t('Package')}}</div>
-      </div>
-      <div
-        v-if="char.specialOffer"
-        class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
-      >
-        <div class="text-[9px] leading-[20px]">{{$t('Special Offer')}}</div>
-      </div>
-      <div
         class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-        v-if="char.applied"
+        v-if="char.is_used"
         style="
           background: linear-gradient(
             90deg,
@@ -95,6 +83,18 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
         <div class="text-[10px] leading-[20px] font-[500]">{{$t('Applied')}}</div>
       </div>
       <div
+        class="absolute top-0 left-0 w-[56px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+        v-if="!char.is_used && char.is_package"
+      >
+        <div class="text-[10px] font-[500] leading-[20px]">{{$t('Package')}}</div>
+      </div>
+      <div
+        v-if="!char.is_used && char.is_special_offer"
+        class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
+      >
+        <div class="text-[9px] leading-[20px]">{{$t('Special Offer')}}</div>
+      </div>
+      <div
         class="absolute top-0 left-0 w-[66px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] dark:text-whiteTamkin justify-center"
         style="
           background: linear-gradient(
@@ -105,7 +105,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
             #fde7ea 100%
           );
         "
-        v-if="char.is_purchased"
+        v-if="!char.is_used && char.is_purchased"
       >
         <div class="text-[10px] font-[500] leading-[20px]">{{$t('Purchased')}}</div>
       </div>

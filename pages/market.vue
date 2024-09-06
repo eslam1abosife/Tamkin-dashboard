@@ -25,12 +25,13 @@ const playerStore = usePlayerStore();
 onMounted(async () => {
     GetCustomCharacterCost();
     getCartItems();
-    // getCategoriesWithSkinItems();
-    // await getCharacters();
     await getFullDataFormated();
-    playerStore.activeCharacter = characters.value[0]
-    // todo
-    // playerStore.activeCharacter = characters.value.find((character) => character.applied == 1);
+    playerStore.characters = characters.value
+    let activeChar = playerStore.backendActiveChar
+    playerStore.changeCharacter(activeChar, false);
+
+    console.log('backendActiveChar', );
+    
 })
   
 const categoriesWithSkinItemsFiltered = computed(() => {
@@ -159,12 +160,11 @@ function leaveNotification(el, done) {
  * save clothes on characters
  *! confirm order
  * take on, take off characters
- ** window.changeBackgroundColor('#222222') if skin category is Background:color
- ** window.changeBackgroundImage('https://sss.png') if skin category is Background:image
- ** default mode button on character: resets character skins to all skins having is_default=1
- ** set default character on init == char.is_used
- ** add description to skin item and character
- ** if skin item is alowed_for_all_characters == 1, then it can be used for any character + allowed_skins_list
+ * window.changeBackgroundColor('#222222') if skin category is Background:color
+ * window.changeBackgroundImage('https://sss.png') if skin category is Background:image
+ * set default character on init == char.is_used
+ *? default mode button on character: resets character skins to all skins having is_default=1
+ *? add description to skin item and character
  */
 </script>
 
