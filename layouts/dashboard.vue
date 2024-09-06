@@ -234,6 +234,7 @@ const cancelAc = () => {
   }
   if (isMarketChanges) {
     marketStore.resetAll();
+    playerStore.wearSavedClothes();
   }
   if (isAddonsLinkActive) {
     checkboxStore.cancelAll();

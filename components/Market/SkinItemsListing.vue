@@ -29,19 +29,8 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           <img :src="fullUrl(skin_item.image)" class="w-[78px] h-[78px]" :alt="skin_item.text" />
         </div>
         <div
-          class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-if="skin_item.package">
-          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Package')}}</div>
-        </div>
-        <div
-          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
-          v-if="skin_item.specialOffer"
-        >
-          <div class="text-[9px] leading-[10px]">{{$t('Special Offer')}}</div>
-        </div>
-        <div
           class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-if="skin_item.applied"
+          v-if="skin_item.is_weared"
           style="
             background: linear-gradient(
               90deg,
@@ -55,6 +44,17 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           <div class="text-[9px] leading-[10px] font-[500]">{{$t('Applied')}}</div>
         </div>
         <div
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+          v-if="!skin_item.is_weared && skin_item.is_package">
+          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Package')}}</div>
+        </div>
+        <div
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
+          v-if="!skin_item.is_weared && skin_item.is_special_offer"
+        >
+          <div class="text-[9px] leading-[10px]">{{$t('Special Offer')}}</div>
+        </div>
+        <div
           class="absolute top-0 left-0 w-[64px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           style="
             background: linear-gradient(
@@ -65,7 +65,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               #fde7ea 100%
             );
           "
-          v-if="skin_item.is_purchased"
+          v-if="!skin_item.is_weared && skin_item.is_purchased"
         >
           <div class="text-[10px] font-[500] leading-[10px]">{{$t('Purchased')}}</div>
         </div>
