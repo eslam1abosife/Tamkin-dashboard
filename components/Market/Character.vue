@@ -114,12 +114,12 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
       <h1
         class="text-[11px] font-[500] w-full text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2"
       >
-        {{ char.text }}
+        {{ $t(char.text )}}
       </h1>
       <p
       class="text-[10px] font-[300]  text-darkGrey dark:text-whiteTamkin leading-[17px] max-w-2/4 truncate "
     >
-      {{ char.description }} 
+      {{ $t(char.description) }} 
     </p>
 
       <!-- <div v-if="char.specialOffer || char.offer_cost > 0 || char.package" class="flex flex-col"> -->

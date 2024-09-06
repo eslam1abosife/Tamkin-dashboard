@@ -14,7 +14,9 @@ export const usePackgesStore = defineStore('packages', {
     currentFaq: '',
     selectedQuestion: '',
     showNavbar: true,
-    packages: []
+    packages: [],
+    sections:[],
+    features:[]
   }),
 
 
@@ -22,7 +24,10 @@ export const usePackgesStore = defineStore('packages', {
     async  getPacks(){
       const { getPackages } = useGetPackages()
       const packsdata = await getPackages();
-      this.packages = packsdata
+      // console.log('data is here',packsdata.packages)
+      this.packages = packsdata.packages
+      this.sections = packsdata.sections
+      this.features = packsdata.list_feature
     },
     setTabTitle(title) {
       this.currentTabTitle = title
@@ -141,35 +146,36 @@ export const usePackgesStore = defineStore('packages', {
 
       return typeObj ? typeObj.faqs : [];
     },
+    // },
     getPackageByTypeAndCategory: (state) => (typeofpck) => {
-      let filteredPackages = state.packages.filter(pkg => pkg.type === state.currentType.name && 
-        pkg.package_type === typeofpck);
-      
-      if (state.currentTab !== null) {
-        filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
-      }
+    let filteredPackages = state.packages.filter(pkg => pkg.type === state.currentType.name && 
+      pkg.package_type === typeofpck);
     
-      return filteredPackages;
+    if (state.currentTab) {
+      filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
+    }
+    console.log('yea man', filteredPackages)
+
+    return filteredPackages;
+
     },
     
-    getAddonsOrExtras(packageType) {
-      let filteredPackages = this.packages.filter(pkg => 
-        pkg.type === this.currentType.name && 
+    getAddonsOrExtras: (state) => (packageType) => {
+      let filteredPackages = state.packages.filter(pkg => 
+        pkg.type === state.currentType.name && 
         pkg.package_type === packageType
       );
       
       
-      if (this.currentTab !== null) {
-        filteredPackages = filteredPackages.filter(pkg => pkg.category === this.currentTab.name);
+      if (state.currentTab) {
+        filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
       }
+  // console.log('yea man', filteredPackages)
 
       return filteredPackages;
     }
   
 
-    // getPackageForTypeAndCategory(type,category){
-
-    // }
 
 
 

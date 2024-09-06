@@ -39,7 +39,6 @@ const shownavbatab = computed(() => {
 onMounted(async ()=>{
   await packagesStore.getPackagesTypes(); 
   await packagesStore.getCategories()
-await packagesStore.getPacks()
 
 
 if(isLinkActive('/packages/bundle')){

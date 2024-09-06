@@ -13,7 +13,7 @@ onMounted(()=>{
 
         <div
         
-          class="grid grid-cols-12 gap-4 mt-[32px] "
+          class="grid grid-cols-12 gap-8 mt-[32px] w-9/12 ml-auto "
         >
       
           <div 
