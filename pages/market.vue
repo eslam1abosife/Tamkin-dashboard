@@ -10,9 +10,27 @@ definePageMeta({
 middleware:['auth','permissions'],
 
 });
+const localePath = useLocalePath()
+const route = useRoute()
+const loadingSaveChanges = ref(false)
+const loadingSaveToAllChanges = ref(false)
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
+};
 const expandedHeader = ref(false);
 const expandedHeaderStep = ref(0); // Step counter
-
+const loadingCats = ref(true)
 const toggleExpandHeader = () => {
   expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 3;
   expandedHeader.value = expandedHeaderStep.value !== 2;
@@ -23,19 +41,21 @@ const { getFullDataFormated, categoriesWithSkinItems, characters, loading: getIn
 const playerStore = usePlayerStore();
 
 onMounted(async () => {
+  
     GetCustomCharacterCost();
     getCartItems();
     await getFullDataFormated();
     playerStore.characters = characters.value
     let activeChar = playerStore.backendActiveChar
     playerStore.changeCharacter(activeChar, false);
-
-    console.log('backendActiveChar', );
+    loadingCats.value= false
+    // console.log('backendActiveChar', );
     
 })
   
 const categoriesWithSkinItemsFiltered = computed(() => {
-  if (!playerStore.activeCharacter?.allowed_skins_list) return []
+  if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return []
+else if(!loadingCats.value){
   return categoriesWithSkinItems.value.map((category) => {
     return {
       ...category,
@@ -44,12 +64,37 @@ const categoriesWithSkinItemsFiltered = computed(() => {
       })
     }
   })
+}
 })
+const shouldShowFooter = computed(()=>{
+  const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
+  return isMarketChanges
+})
 const currentCategoryWithSkinItems = computed(() => {
   return categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab);
 });
+const handleSave = (AppName) => {
+  if (isLinkActive(localePath("/market"))) {
 
+    playerStore.saveCharacterOptions(AppName);
+
+
+
+  }
+
+};
+const cancelAc = () => {
+
+  const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
+
+
+  if (isMarketChanges) {
+    marketStore.resetAll();
+    playerStore.wearSavedClothes();
+  }
+
+};
 const marketStore = useMarketStore();
 watchEffect(() => {
   marketStore.setCartItems(cartItems.value)
@@ -58,13 +103,13 @@ const cartItemCount = computed(() => marketStore.cartItems.length);
 // const cartItemCount = computed(() => cartItems.value.length);
 const showBadge = ref(false);
 const { resetModal } = storeToRefs(marketStore);
-watch(cartItemCount, (newCount, oldCount) => {
-  if (newCount > 0 && newCount !== oldCount) {
-    showBadge.value = true;
-    setTimeout(() => (showBadge.value = false), 500); // Hide after animation
-  }
-});
-
+// watch(cartItemCount, (newCount, oldCount) => {
+//   if (newCount > 0 && newCount !== oldCount) {
+//     showBadge.value = true;
+//     // setTimeout(() => (showBadge.value = false), 500); // Hide after animation
+//   }
+// });
+// Notification Animation Functions
 function beforeEnter(el) {
   el.style.transform = "scale(0)";
   el.style.opacity = "0";
@@ -75,44 +120,65 @@ function enter(el, done) {
   el.style.transition = "all 0.5s ease";
   el.style.transform = "scale(1)";
   el.style.opacity = "1";
-  done();
+
+  // Add a transitionend listener to call done()
+  el.addEventListener('transitionend', function handler() {
+    el.removeEventListener('transitionend', handler);
+    done();
+  });
 }
 
 function leave(el, done) {
   el.style.transition = "all 0.5s ease";
   el.style.transform = "scale(0)";
   el.style.opacity = "0";
-  setTimeout(done, 500);
+  
+  // Add a transitionend listener to call done()
+  el.addEventListener('transitionend', function handler() {
+    el.removeEventListener('transitionend', handler);
+    done();
+  });
 }
 
-///7
-
+// Cart Animation Functions
 function beforeEnterCart(el) {
-  // Use translateX based on the text direction
   const translateX = locale.value === 'ar' ? "-100%" : "100%";
   el.style.transform = `translateX(${translateX})`;
   el.style.opacity = "0";
 }
 
 function enterCart(el, done) {
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
+  // Ensure styles are applied in the next frame
+  el.offsetWidth; // Force reflow
+
+  // Apply transition styles
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  el.style.transform = "translateX(0)";
+  el.style.opacity = "1";
+
+  // Add a transitionend listener to call done()
+  el.addEventListener('transitionend', function handler() {
+    el.removeEventListener('transitionend', handler);
     done();
-  }, 0);
+  });
 }
 
 function leaveCart(el, done) {
-  // Use translateX based on the text direction
   const translateX = locale.value === 'ar' ? "-100%" : "100%";
+
+  // Apply transition styles
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
   el.style.transform = `translateX(${translateX})`;
   el.style.opacity = "0";
-  setTimeout(() => {
+
+  // Add a transitionend listener to call done()
+  el.addEventListener('transitionend', function handler() {
+    el.removeEventListener('transitionend', handler);
     done();
-  }, 500);
+  });
 }
+
+
 
 ///
 
@@ -122,30 +188,38 @@ function beforeEnterNotification(el) {
 }
 
 function enterNotification(el, done) {
-  // Set the initial position and opacity
+  // Initial styles
   el.style.transform = "translateX(50px)";
   el.style.opacity = "0";
 
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
+  // Trigger a reflow to ensure initial styles are applied
+  el.offsetHeight; // Force reflow
 
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+  // Transition styles
+  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+
+  // Apply final styles to start transition
+  requestAnimationFrame(() => {
     el.style.transform = "translateX(0)";
     el.style.opacity = "1";
-    done();
-  }, 0);
+  });
+
+  // Call done when the transition ends
+  el.addEventListener('transitionend', done, { once: true });
 }
 
 function leaveNotification(el, done) {
+  // Set transition styles
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+
+  // Apply styles for leaving
   el.style.transform = "translateX(50px)";
   el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
+
+  // Call done when the transition ends
+  el.addEventListener('transitionend', done, { once: true });
 }
+
 
 /**
  * todo
@@ -172,7 +246,7 @@ function leaveNotification(el, done) {
   <div class="relative">
     
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalCart v-if="isOpen('mycart')" key="cart_popup" id="test" />
+      <MarketModalCart v-show="isOpen('mycart')" key="cart_popup" id="test" />
     </transition>
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
@@ -185,6 +259,15 @@ function leaveNotification(el, done) {
     >
       <MarketModalCartNotification v-if="marketStore.firstItemNotificationShown" />
     </transition>
+
+    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+   <MarketModalPaymentPaymentmethods/>
+  </transition>
+
+  <MarketModalPaymentCard/>
+  <ProfileBillingModalsAddnewCard/>
+
+
     <div class="w-full h-full relative">
       <h1
         class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
@@ -200,7 +283,7 @@ function leaveNotification(el, done) {
         }"
       >
         <div
-          @click="openModal('mycart', 'market')"
+          @click.prevent="openModal('mycart', 'market')"
           class="cursor-pointer w-[35px] dark:border-[#333333] dark:border-[1px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
           :class="[
             marketStore.firstItemNotificationShown
@@ -490,9 +573,21 @@ function leaveNotification(el, done) {
         </div>
         <MarketPlayer />
       </div>
+      <transition name="slide-up">
+        <DashboardAddonsSaveFooter
+            :show-footer="shouldShowFooter"
+            @cancel_action="cancelAc"
+            :disable-loading-save="playerStore.loadingChanges"
+            :disable-loading-to-all="playerStore.savetoallloading"
+            @Save="handleSave('default')"
+            @saveToAllSites="handleSave('all')"
+        />
+      </transition>
+<KeepAlive>
 
-      <MarketNavbar :loading="getInstallationLoading" :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
-      
+  <MarketNavbar :loading="loadingCats" :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
+
+</KeepAlive>      
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
       <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.skin_items_list?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>

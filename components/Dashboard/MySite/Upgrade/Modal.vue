@@ -42,7 +42,7 @@ const {
 
 
       <DashboardMySiteUpgradeBilling :showModal="isOpen('upgrade') && isOpen('billing')"/>
-      <DashboardMySiteUpgradePaymentmethod :showModal="isOpen('paymentMethods')"/>
+      <DashboardMySiteUpgradePaymentmethod :showModal="isOpen('upgrade') && isOpen('paymentMethods')"/>
       <DashboardMySiteUpgradePaymentmethodsCard :showModal="isOpen('cardModal') "/>
       <DashboardMySiteUpgradePaymentmethodsNewcard  :showModal="isOpen('newCard') "/>
       <DashboardMySiteUpgradeMessagesPaymentsuccess  :showModal="isOpen('successPayment') " /> 

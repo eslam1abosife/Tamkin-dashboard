@@ -13,7 +13,7 @@ const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData 
 
 const openModalAndHideChat = () => {
     if (process.client && !isOpen('requestmodal')) {
-        window.$chatwoot.toggleBubbleVisibility('hide')
+        // window.$chatwoot.toggleBubbleVisibility('hide')
         openModal('requestmodal', 'market')
     }
 }

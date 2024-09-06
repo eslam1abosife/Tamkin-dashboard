@@ -15,7 +15,6 @@ onMounted(()=>{
         
           class="grid grid-cols-12 gap-8 mt-[32px] w-9/12 ml-auto "
         >
-      
           <div 
 
           v-for="pak in packagesStore.getPackageByTypeAndCategory('Package')" 

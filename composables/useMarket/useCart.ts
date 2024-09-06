@@ -46,9 +46,12 @@ export default function() {
         }
     };
 
-    const createOrder = async () => {
+    const createOrder = async (paymentType) => {
         try {
-            const { data } = await api.post('/Market/ConfirmOrderItems');
+            const { data } = await api.post('/Market/ConfirmOrderItems',{
+                "pay_type":paymentType,  //Card|paypal
+                "card":null //Allow Null  
+            });
             if(!data.succeeded) throw(data.message);
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';

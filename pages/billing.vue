@@ -95,15 +95,7 @@ const loadingInvoiceId = ref(null);
 
 
 
-const checkAll = computed({
-  get() {
-    return deletedSites.value && checked.value.length === deletedSites.value.length;
-  },
-  set(value) {
-    checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
-  },
-});
-const localePath = useLocalePath();
+
 
 const isSearchfilled = ref(false);
 const search = ref("");
@@ -116,21 +108,14 @@ const clearInput = () => {
   search.value = "";
 };
 
-const projectNameArr = [
-  { id: 1, name: "Active" },
-  { id: 2, name: "Pending" },
-  { id: 3, name: "Expired" },
-  { id: 6, name: "Canceled" },
-];
+
 const handleSelectedItemProjectName = (item: any) => {
   console.log(item);
 };
 
 const currentMenu = ref("");
 
-const openMenu = (menu: any) => {
-  currentMenu.value = currentMenu.value === menu ? "" : menu;
-};
+
 
 const openCard = (card: any) => {
   billingStore.card = card;

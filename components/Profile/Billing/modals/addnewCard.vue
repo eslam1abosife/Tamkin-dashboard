@@ -111,6 +111,7 @@ watch(
 );
 
 onMounted(async () => {
+
   await getCountries();
 });
 const checkInput = (event) =>{
@@ -154,7 +155,13 @@ const addCard = async ()=>{
   console.log('response',response.value)
 
   if (response.value.statusCode == 200){
-    closeModal('add_new_card_billing')
+    if(currentView('add_new_card_billing') === 'Market'){
+      navigateTo('add_new_card_billing','market','cardModal_market')
+
+    }else {
+      closeModal('add_new_card_billing')
+    }
+
     $toast(t('Card Added Successfully'), { hideIn: 3000 });
     invoiceStore.loadCards = true
 
@@ -191,6 +198,7 @@ const closeModalCard = ()=>{
 if(process.client){
   // window.$chatwoot.toggleBubbleVisibility('show')
   closeModal('add_new_card_billing')
+
   invoiceStore.loadCards = false
 
   submitInviteLoading.value = false
@@ -230,10 +238,13 @@ const hasCardNumberError = computed(() =>
 const hasAddCardError = computed(() => 
   hasCardExistsError.value
 );
+
+
 </script>
 
 <template>
-  <div v-if="isOpen('add_new_card_billing')"
+  <div v-if="isOpen('add_new_card_billing')" 
+
     class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0]  rtl:lg:left-0 ltr:lg:right-0
     rounded-[10px] lg:p-[30px]
      lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"

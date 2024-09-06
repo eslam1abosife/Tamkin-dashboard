@@ -254,11 +254,7 @@ const cancelAc = () => {
     statsStore.google_enabled = false;
   }
 };
-const handleSave = (AppName: string) => {
-  if (isLinkActive(localePath("/market"))) {
-    playerStore.saveCharacterOptions(AppName);
-  }
-};
+
 
 const showConfirmModal = ref(false);
 const confirmWithSaveFn = () => {
@@ -320,6 +316,8 @@ const openModals = computed(() => {
     isOpen('edit_company_picture') ||
     isOpen('notificationsModal') ||
     isOpen('join_to_investor') ||
+    isOpen('cardModal_market') ||
+    isOpen('paymentMethods_market') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -682,8 +680,7 @@ import 'vue-loading-overlay/dist/css/index.css';
             <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 @cancel_action="cancelAc"
-                @Save="handleSave('default')"
-                @saveToAllSites="handleSave('all')"
+             
             />
           </transition>
           <!-- <NuxtPage class="" /> -->

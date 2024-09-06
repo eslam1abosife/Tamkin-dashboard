@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
   <div
     v-if="isVisible"
-    class="!inset-x-[50%] fixed inset-0 z-[2000] top-[70px] w-[300px] rounded-[5px] h-[37px] flex items-center justify-start"
+    class="!inset-x-[50%] fixed inset-0 z-[99999] top-[70px] w-[300px] rounded-[5px] h-[37px] flex items-center justify-start"
     :class="[
       type === 'success'
         ? 'bg-[#DAF3F1]'

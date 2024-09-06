@@ -4,6 +4,31 @@ export default {
   content: [],
   theme: {
     extend: {
+      animation: {
+        slideInLeft: 'slideInLeft 0.5s ease-in',
+        slideOutLeft: 'slideOutLeft 0.5s ease-out',
+        slideInRight: 'slideInRight 0.5s ease-out',
+        slideOutRight: 'slideOutRight 0.5s ease-in',
+      },
+      keyframes: {
+        slideInLeft: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        slideOutLeft: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        slideOutRight: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+    
       boxShadow: {
         'custom-light': '1px 1px 11.5px 0px #A3F6F0',
       },

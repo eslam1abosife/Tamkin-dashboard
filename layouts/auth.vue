@@ -55,10 +55,10 @@ const isLinkActive = (path) => {
 
 
 onMounted(()=>{
-if(process.client &&  window.$chatwoot){
-    window.$chatwoot.toggleBubbleVisibility("hide");
-  window.$chatwoot.toggle("close");
-}
+// if(process.client ){
+//     window.$chatwoot.toggleBubbleVisibility("hide");
+//   window.$chatwoot.toggle("close");
+// }
 
 })
 import Loading from 'vue-loading-overlay';

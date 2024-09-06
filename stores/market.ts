@@ -118,18 +118,22 @@ export const useMarketStore = defineStore('market', {
         // add to item until the request finishes
         let cartItem = this.convertFromItemToCartItem(item, type, category_title, category_image);
         let cartItemsCount = this.cartItems.push(cartItem);
-        this.animateCartIcon();
   
         // Show notification if it's the first item and the notification hasn't been shown yet
         if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
           this.showFirstItemNotification();
           this.firstItemNotificationShown = true;
         }
+this.animateCartIcon();
+      
         var cartItemName;
         if (type == 'custom_character') {
             cartItemName = await addItemToCart(item.name, type, item);
+     
         }else{
             cartItemName = await addItemToCart(item.name, type);
+    
+
         }
         this.cartItems[cartItemsCount - 1].name = cartItemName; // to be used when deleting the item
 

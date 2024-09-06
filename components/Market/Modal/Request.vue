@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
 const {$toast} = useNuxtApp()
 const noUpload=ref(false)
 const closeAndShowChat = ()=>{
-    window.$chatwoot.toggleBubbleVisibility('show')
+    // window.$chatwoot.toggleBubbleVisibility('show')
     closeModal('requestmodal')
     isFilesPopulated=false;
     acceptedFilesRef.value=[]
@@ -137,7 +137,7 @@ const updateData = async()=>{
 // without isInitialized, the watchEffect will be triggered (form reset happens)
 // with any change in the dropzone, meaning your changed data will be reset.
 const isInitialized = ref(false);
-  console.log('isInitialized.value = ', isInitialized.value , ' modal open = ',isOpen('requestmodal'));
+  // console.log('isInitialized.value = ', isInitialized.value , ' modal open = ',isOpen('requestmodal'));
 watchEffect(() => {
   console.log('effect is gone and request open is',isOpen('requestmodal'));
   

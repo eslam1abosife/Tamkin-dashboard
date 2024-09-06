@@ -155,9 +155,9 @@ const getFeaturesForSection = (sectionName) => {
                 </div>
                 </td>
 
-   
             <td class="  py-4 " v-if="filteredItem(name, 0)">
-              <div class="px-12 flex  justify-start"  v-if="filteredItem(name, 0).is_available && !filteredItem(name, 0).description">
+              <div class="px-12 flex  justify-start" 
+               v-if="filteredItem(name, 0).is_available && !filteredItem(name, 0).description">
                 <img
                
                 :src="

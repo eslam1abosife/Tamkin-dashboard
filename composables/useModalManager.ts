@@ -7,12 +7,12 @@ const eventCounter = ref(0);
 
 export function useModalManager(cb = null) {
   const modalStore = useModalStore();
-  const { currentView } = storeToRefs(modalStore);
-  const { openModal, closeModal, goBack, isOpen, setData, getData } = modalStore;
+  const { openModal, closeModal, goBack, isOpen, setData, getData,currentView } = modalStore;
 
   const navigateTo = (currentModalId, view, nextModalId, data = null ) => {
     closeModal(currentModalId);
     openModal(nextModalId, view);
+    currentView(currentModalId)
     if(data) {
       setData(data);
     }

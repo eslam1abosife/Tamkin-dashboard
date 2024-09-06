@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 
+import { useCart } from "@/composables/useMarket";
+
+const { createOrder, cartItems } = useCart();
 
 const {
   isOpen,
@@ -15,15 +18,15 @@ const props = defineProps({
   showModal:Boolean
 })
 
-const goToPaymentMethod = (method:any)=>{
+const goToPaymentMethod = async (method:any)=>{
 if(selectedPaymentMethod.value === 'by_card'){
-return navigateTo('paymentMethods','add-site','cardModal')
+return navigateTo('paymentMethods_market','market','cardModal_market')
 }
 if(selectedPaymentMethod.value === 'by_paypal'){
-  
+  await createOrder('paypal')
 }
 if(selectedPaymentMethod.value === 'by_crypto'){
-  return navigateTo('paymentMethods','add-site','crypto')
+//   return navigateTo('paymentMethods_market','add-site','crypto')
 
 }
 }
@@ -31,13 +34,12 @@ if(selectedPaymentMethod.value === 'by_crypto'){
 
 <template>
 
-  <div v-if="isOpen('paymentMethods')"
-    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
-     lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
-   
-  >
+  <div v-if="isOpen('paymentMethods_market')"
+
+  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
+>
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin" @click="closeModal('paymentMethods')">
+   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('paymentMethods_market')">
     <svg
       class="w-[12px] h-[12px]"
       width="14"
@@ -58,7 +60,7 @@ if(selectedPaymentMethod.value === 'by_crypto'){
   
         <div class="flex items-center justify-center">
             <div
-       @click="navigateTo('paymentMethods','add-site','billing')"
+       @click="navigateTo('paymentMethods_market','market','mycart')"
     
       class="cursor-pointer close_sidebar_btn group flex items-center justify-center   dark:bg-tamkinDarkPrimary bg-white border-[1px]
        border-linecolor rounded-full w-[30px] h-[30px]"

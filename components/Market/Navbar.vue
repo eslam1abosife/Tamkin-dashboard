@@ -35,7 +35,6 @@ onMounted(async () => {
     scrollItemRefs.value[category.name] = null;
   });
 
-  console.log(scrollItemRefs.value);  // Check the refs after they're initialized
 });
 
 
@@ -142,8 +141,11 @@ const switchTabAndScroll = async (tabName) => {
       <MarketLoader v-if="loading" />
       <!-- dynamic -->
       <div v-for="category in categoriesHavingSkinItems" :key="category.name"
-       :ref="el => scrollItemRefs[category.text] = el"
-      @click="switchTabAndScroll(category.text)"
+      :ref="el => {
+        if (el) {
+          scrollItemRefs[category.text] = el;
+        }
+      }"      @click="switchTabAndScroll(category.text)"
         :class="[marketStore.currentTab === category.text ? 'bg-white dark:bg-darkSecondary' : '']"
         class="scroll-item cursor-pointer flex items-center justify-center rtl:space-x-reverse space-x-[10px] rounded-t-xl rounded-b-none flex-grow">
         <div>
