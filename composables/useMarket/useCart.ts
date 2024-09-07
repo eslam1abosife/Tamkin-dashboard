@@ -46,11 +46,14 @@ export default function() {
         }
     };
 
-    const createOrder = async (paymentType) => {
+    const createOrder = async (paymentType,card =null) => {
         try {
             const { data } = await api.post('/Market/ConfirmOrderItems',{
+              data:{
                 "pay_type":paymentType,  //Card|paypal
-                "card":null //Allow Null  
+                "card":card, //Allow Null  ,
+                "coupon_code":null
+              }
             });
             if(!data.succeeded) throw(data.message);
         } catch (error) {

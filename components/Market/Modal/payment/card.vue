@@ -1,14 +1,19 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useFullUrl } from "@/composables/useSharedFunctions";
-
+import { useCart } from "@/composables/useMarket";
+import {useCouponCode} from "@/composables/useMarket";
+const { createOrder, cartItems } = useCart();
+const {ApplyCoupon} = useCouponCode()
 const billingStore = useBillingStore();
 const marketStore = useMarketStore()
 import { useGetCards,useDeleteCard,useInvoices ,useInvoicePdf } from "@/composables/useBilling";
 
 const { getCards } = useGetCards();
 const { fullUrl } = useFullUrl();
-
+const cardOptions = ref({
+  disabled: true,
+});
 
 const {
   isOpen,
@@ -37,9 +42,10 @@ const clearInput = () => {
     validPromo.value = false
 
 };
-const addPromoCode = ()=>{
+const addPromoCode = async ()=>{
    if(promo.value){
-    validPromo.value = !validPromo.value
+   const code = await ApplyCoupon(promo.value)
+   validPromo.value = !validPromo.value
    }
 }
 
@@ -62,9 +68,10 @@ const changepaymentMethod = (method:any)=>{
   currentCard.value = ''
 
 }
-const continueCheckOut = ()=>{
+const continueCheckOut = async()=>{
   if(currentCard.value){
-    return navigateTo('cardModal','add-site','successPayment')
+    
+    const res = await createOrder('Card',currentCard.value)
   }
   if(chooseOtherPaymentMethod.value === "by_crypto"){
     return navigateTo('cardModal','add-site','crypto')
@@ -75,11 +82,43 @@ watch(currentCard,(ov,nv)=>{})
 const props = defineProps({
   showModal:Boolean
 })
-
+const stripeKey = ref(
+  "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
+);
 onMounted(async ()=>{
 
     await getCards();
+
+    var stripe = Stripe(stripeKey.value);
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      alert('gg')
+        event.preventDefault();
+
+        stripe.createPaymentMethod('card', cardElement).then(function(result) {
+            if (result.error) {
+             alert(result.error)
+            } else {
+                // The payment method was successfully created.
+                var form = document.getElementById('payment-form');
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = currentCard.value;
+                input.value = result.paymentMethod.id;
+                form.appendChild(input);
+                form.submit()
+            }
+        });
+    });
+  
 })
+
+
+
 </script>
 
 <template>
@@ -87,6 +126,7 @@ onMounted(async ()=>{
 
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
+
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
      dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('cardModal_market')">
       <svg
@@ -104,7 +144,7 @@ onMounted(async ()=>{
       </svg>
     </div>
       <div class="w-full h-full">
-  
+    
         <div class="flex flex-col items-start justify-center w-full" >
     
           <div class="flex items-center justify-center ">
@@ -401,7 +441,7 @@ onMounted(async ()=>{
         </table>
          </div>
          <div class="mt-[39px] w-full  mx-auto mb-[34px] px-[20px]">
-          <button class="btn-dashboard hover_tamkin    w-full " @click="continueCheckOut()"  :disabled="!currentCard || billingStore.cards.length ===0"
+          <button class="btn-dashboard hover_tamkin    w-full "  id="payment-form"  :disabled="!currentCard || billingStore.cards.length ===0"
         >
 
         <div class="flex items-center justify-center">

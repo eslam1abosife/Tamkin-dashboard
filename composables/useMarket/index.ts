@@ -8,6 +8,7 @@ import useGetCharacters from "./useGetCharacters";
 import useSetCharacter from "./useSetCharacter";
 import useGetCategoriesWithSkinItems from "./useGetCategoriesWithSkinItems";
 import useCart from "./useCart";
+import useCouponCode from "./useCouponCode";
 
 export {
     useGetOrderInvoice ,
@@ -19,7 +20,8 @@ export {
     useGetCharacters,
     useSetCharacter,
     useGetCategoriesWithSkinItems,
-    useCart
+    useCart,
+    useCouponCode
 }
 
 export {

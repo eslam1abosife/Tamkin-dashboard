@@ -10,6 +10,15 @@ definePageMeta({
 middleware:['auth','permissions'],
 
 });
+
+useHead({
+  script: [
+    {
+      src: 'https://js.stripe.com/v3/',
+      defer: true,
+    }
+  ]
+})
 const localePath = useLocalePath()
 const route = useRoute()
 const loadingSaveChanges = ref(false)
@@ -265,9 +274,13 @@ function leaveNotification(el, done) {
   </transition>
 
   <MarketModalPaymentCard/>
+  
   <ProfileBillingModalsAddnewCard/>
-
-
+   <!--
+<MarketModalPaymentPaypal/> -->
+<!-- <MarketModalPaymentCard2 v-if="true"/> -->
+<div id="card-element">
+</div>
     <div class="w-full h-full relative">
       <h1
         class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
@@ -579,8 +592,8 @@ function leaveNotification(el, done) {
             @cancel_action="cancelAc"
             :disable-loading-save="playerStore.loadingChanges"
             :disable-loading-to-all="playerStore.savetoallloading"
-            @Save="handleSave('default')"
-            @saveToAllSites="handleSave('all')"
+            @save="handleSave('default')"
+            @save-to-all-sites="handleSave('all')"
         />
       </transition>
 <KeepAlive>

@@ -23,7 +23,10 @@ if(selectedPaymentMethod.value === 'by_card'){
 return navigateTo('paymentMethods_market','market','cardModal_market')
 }
 if(selectedPaymentMethod.value === 'by_paypal'){
-  await createOrder('paypal')
+return navigateTo('paymentMethods_market','market','paypal_market')
+
+  // const res = await createOrder('paypal')
+  // console.log(res.headers.location)
 }
 if(selectedPaymentMethod.value === 'by_crypto'){
 //   return navigateTo('paymentMethods_market','add-site','crypto')
