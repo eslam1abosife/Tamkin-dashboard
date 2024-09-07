@@ -29,7 +29,7 @@ return navigateTo('paymentMethods_market','market','paypal_market')
   // console.log(res.headers.location)
 }
 if(selectedPaymentMethod.value === 'by_crypto'){
-//   return navigateTo('paymentMethods_market','add-site','crypto')
+  return navigateTo('paymentMethods_market','market','crypto_market_step1')
 
 }
 }

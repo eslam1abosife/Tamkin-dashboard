@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
-import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useCart } from "@/composables/useMarket";
 
+
 const { createOrder, cartItems } = useCart();
-const billingStore = useBillingStore();
 const marketStore = useMarketStore()
-import { useGetCards,useDeleteCard,useInvoices ,useInvoicePdf } from "@/composables/useBilling";
 
 
 
@@ -20,57 +18,58 @@ const {
 } = useModalManager();
 
 
-const currentCard = ref('')
-const isPromoFilled = ref(false);
-const promo = ref("");
-const validPromo = ref(false)
+const loadingPayment = ref(false)
 const showMoreMethods = ref(false)
 const chooseOtherPaymentMethod = ref('')
-watch(promo, (ov, nv) => {
-  return promo.value.length > 0
-    ? (isPromoFilled.value = true)
-    : (isPromoFilled.value = false);
+watch(marketStore.promo, (ov, nv) => {
+  return marketStore.promo.length > 0
+    ? (marketStore.isPromoFilled = true)
+    : (marketStore.isPromoFilled = false);
 });
 const clearInput = () => {
-    promo.value = "";
-    validPromo.value = false
+  marketStore.promo = "";
+  marketStore.validPromo = false
 
 };
-const addPromoCode = ()=>{
-   if(promo.value){
-    validPromo.value = !validPromo.value
-   }
-}
 
-const removePromoCode = ()=>{
-   if(promo.value){
-    validPromo.value = !validPromo.value
-    promo.value =""
-   }
-}
+
 
 
 const changepaymentMethod = (method:any)=>{
   chooseOtherPaymentMethod.value = method
-  currentCard.value = ''
 
 }
 const continueCheckOut = async()=>{
+  loadingPayment.value = true
   if(!chooseOtherPaymentMethod.value){
       const res = await createOrder('paypal')
-  console.log(res.headers)
+//  console.log(res)
+      // redirecct to res.data.data is a url 
+      window.location.href = res
+
+      if(!res){
+        loadingPayment.value = false
+
+      }
   }
   if(chooseOtherPaymentMethod.value === "by_crypto"){
     return navigateTo('cardModal','add-site','crypto')
 
   }
 }
-watch(currentCard,(ov,nv)=>{})
 const props = defineProps({
   showModal:Boolean
 })
 
+const percentageOff = computed(() => {
+    const subtotal = marketStore.cartSubtotal;
+    const discount = marketStore.currentDiscount;
 
+    if (subtotal > 0) {
+      return (discount / subtotal) * 100;
+    }
+    return 0; 
+  })
 </script>
 
 <template>
@@ -148,47 +147,66 @@ const props = defineProps({
       <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
         <input
           type="text"
+        @input="marketStore.noDiscount = false"
           class="input_dashboard_search w-full text-darkGrey  dark:text-whiteTamkin !h-[40px]" 
-          v-model="promo"
+          v-model="marketStore.promo"
           placeholder="Promo Code"
-          :class="[validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '']"
+          :class="[marketStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+          marketStore.noDiscount ? '!bg-red-500/10 !text-red-500 !border-red-500':'']"
         />
+  
         <div
           class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
-          v-if="validPromo"
+          v-if="marketStore.validPromo"
         >
           <img  src="/assets/imgs/promo_valid.svg"  />
           <div class="text-[15px] font-[500] text-darkGrey">
-            <span class="text-[#021328] font-[700]">12%</span> Discount
-            (-$2,444 )
+            <span class="text-[#021328] font-[700]">{{percentageOff}}%</span> Discount
+            (-${{marketStore.currentDiscount}})
           </div>
           <img  src="/assets/imgs/promo_valid_.svg" class=""  />
         </div>
         <div
-          v-if="isPromoFilled"
+          v-if="marketStore.isPromoFilled && !marketStore.noDiscount"
           @click="clearInput"
           class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
         >
           <img  src="/assets/imgs/close_promo.svg"  />
         </div>
+        
       </div>
+      
       <div class="text-center mt-[16px] lg:mt-[24px] w-[150px]">
         <button
           class="btn-dashboard   hover_tamkin w-full mx-auto text-center "
-          @click="addPromoCode"
-          v-if="!validPromo"
+          @click="marketStore.addPromoCode"
+          :disabled="!marketStore.promo || marketStore.loadingPromo"
+          v-if="!marketStore.validPromo"
         >
-          Apply Code
+        <div class="flex items-center justify-center">
+          <div :class="marketStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2':''" >
+              {{ $t('Apply code') }}
+          </div>
+
+          <svg  v-if="marketStore.loadingPromo" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
         </button>
         <button
           v-else
           class="btn_bordered_dashboard error w-[140px]  mx-auto text-center"
-          @click="removePromoCode"
+          @click="marketStore.removePromoCode"
         >
           Remove Code
         </button>
       </div>
+      
       </div>
+      <div v-if="marketStore.noDiscount" class="!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500">
+        Coupon code not found
+                </div>
       <div class="flex items-center lg:flex-row flex-col lg:justify-end w-full  px-[20px]">
       
         <div class="flex items-center  rtl:space-x-reverse space-x-[11px] " @click="showMoreMethods = !showMoreMethods">
@@ -277,7 +295,8 @@ const props = defineProps({
           <tbody>
          
        
-            <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"           v-if="validPromo"
+            <tr class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"       
+                v-if="marketStore.validPromo"
             >
               <td
                 class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
@@ -286,10 +305,10 @@ const props = defineProps({
                 Subtotal
               </td>
               <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]" colspan="2">
-               {{marketStore.cartSubtotal}}
+               ${{marketStore.cartSubtotal}}
               </td>
             </tr>
-            <tr           v-if="validPromo"
+            <tr   v-if="marketStore.validPromo"
              class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
               <td
                 class="py-2 px-5 border-b dark:border-light text-right font-[500] w-full dark:text-whiteTamkin"
@@ -298,7 +317,7 @@ const props = defineProps({
               Discount
               </td>
               <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80" colspan="2">
-                $50,444.00
+                ${{marketStore.currentDiscount}}
               </td>
             </tr>
             <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
@@ -309,23 +328,23 @@ const props = defineProps({
                 Total
               </td>
               <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"  colspan="2">
-                ${{marketStore.cartSubtotal}}
+                ${{marketStore.cartSubtotal - marketStore.currentDiscount}}
               </td>
             </tr>
           </tbody>
         </table>
          </div>
          <div class="mt-[39px] w-full  mx-auto mb-[34px] px-[20px]">
-          <button class="btn-dashboard hover_tamkin    w-full " @click="continueCheckOut()"  
+          <button class="btn-dashboard hover_tamkin    w-full " @click="continueCheckOut()"   :disabled="loadingPayment"
         
         >
 
         <div class="flex items-center justify-center">
-            <div :class="false ? 'rtl:ml-2 ltr:mr-2':''">
+            <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2':''" >
                 {{ $t('Confirm Payment') }}
             </div>
 
-            <svg  v-if="false" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg  v-if="loadingPayment" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>

@@ -27,10 +27,28 @@ export default function() {
             throw typeof error === 'string' ? error : 'There is something wrong';
         }
     };
+    const addNewCardToStripe = async (id) => {
+        try {
 
+            const res = await api.post('/Billing/Stripe/AddCard',{
+                data :{
+                    "token_id":id
+                }
+            });
+
+            response.value = res.data
+            // billingStore.addCardRes = res.data; // Update state with the fetched data
+
+
+        } catch (error) {
+            console.error(error); // Better error handling
+            throw typeof error === 'string' ? error : 'There is something wrong';
+        }
+    };
     return {
         addNewCard,
         response,
-        loading
+        loading,
+        addNewCardToStripe
     }
 }

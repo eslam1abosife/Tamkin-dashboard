@@ -4,6 +4,9 @@ import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 import { rand } from '@vueuse/core';
 const { fullUrl } = useFullUrl();
+import {useCouponCode} from "@/composables/useMarket";
+
+
 
 export const useMarketStore = defineStore('market', {
   state: () => ({
@@ -12,14 +15,91 @@ export const useMarketStore = defineStore('market', {
     cartItems:[],
     cartNotification:false,
     firstItemNotificationShown: false, // Add this flag
-
     showCart:false,
     requestModal:false,
     resetModal:false,
     showSaveFooter:false,
+    promo:'',
+    noDiscount:false,
+    validPromo:false,
+    currentDiscount:0,
+    isPromoFilled:'',
+    selectedCrypto:'',
+    loadingPromo:false
   }),
 
   actions: {
+    /**
+     * Apply promo code to the current cart items and update the currentDiscount state
+     * @returns {Promise<void>}
+     */
+    removeMultipleFromCart(cartItemsToRemove: any[], type: string = 'skin_Item', is_cart_item: boolean = true): void {
+      const { removeItemFromCart } = useCart();
+    
+      // Iterate through each item in cartItemsToRemove array
+      cartItemsToRemove.forEach((cartItem) => {
+        let name_to_delete = cartItem.name; 
+        let item_name_to_check_in_cart = cartItem.item_name; 
+    
+        if (!is_cart_item) {
+          item_name_to_check_in_cart = cartItem.name;
+          this.cartItems.forEach((it) => {
+            if (it.item_name === item_name_to_check_in_cart) {
+              name_to_delete = it.name;
+            }
+          });
+        }
+    
+        // Check if the item is in the cart
+        if (this.isInCart(item_name_to_check_in_cart)) {
+          const index = this.cartItems.findIndex((it) => it.name === name_to_delete);
+          if (index > -1) {
+            // Remove the item
+            this.cartItems.splice(index, 1);
+          }
+          // Call the removeItemFromCart function
+          removeItemFromCart(name_to_delete, type);
+        } else {
+          console.warn(`Item ${item_name_to_check_in_cart} not found in cart`);
+        }
+      });
+    
+      // Reset the flag if the cart is empty
+      if (this.cartItems.length === 0) {
+        this.firstItemNotificationShown = false;
+      }
+    },
+    
+    async addPromoCode(){
+      this.loadingPromo = true
+      const {ApplyCoupon,noCodeFound} = useCouponCode()
+      const res = await ApplyCoupon(this.promo)
+      if(res){
+    
+       if(res.isValid){
+        this.validPromo = res.isValid
+        this.currentDiscount = Number(res.discount)
+        this.noDiscount = false
+        this.loadingPromo = false
+
+       }else {
+        this.noDiscount = !res.isValid
+        this.loadingPromo = false
+
+       }
+      }
+
+    },
+    
+     removePromoCode (){
+       if(this.promo){
+        this.validPromo = false
+        this.promo =""
+        this.noDiscount =false
+        this.currentDiscount = 0
+
+       }
+    },
     resetAll(){
         this.selectedForPreview = []
         this.showSaveFooter = false

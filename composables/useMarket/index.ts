@@ -9,19 +9,20 @@ import useSetCharacter from "./useSetCharacter";
 import useGetCategoriesWithSkinItems from "./useGetCategoriesWithSkinItems";
 import useCart from "./useCart";
 import useCouponCode from "./useCouponCode";
+import usePayWithCrypto from "./usePayWithCrypto";
 
 export {
     useGetOrderInvoice ,
     useGetOrderInvoiceDetails,
     useEditCustomerCharacter,
     usePrintInvoice,
-    
     useGetSkinCategories,
     useGetCharacters,
     useSetCharacter,
     useGetCategoriesWithSkinItems,
     useCart,
-    useCouponCode
+    useCouponCode,
+    usePayWithCrypto
 }
 
 export {

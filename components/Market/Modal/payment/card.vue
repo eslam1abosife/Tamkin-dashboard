@@ -67,56 +67,68 @@ const changepaymentMethod = (method:any)=>{
   chooseOtherPaymentMethod.value = method
   currentCard.value = ''
 
+  
 }
-const continueCheckOut = async()=>{
-  if(currentCard.value){
-    
-    const res = await createOrder('Card',currentCard.value)
-  }
-  if(chooseOtherPaymentMethod.value === "by_crypto"){
-    return navigateTo('cardModal','add-site','crypto')
+const stripeKey = ref(
+  "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
+);
 
-  }
-}
 watch(currentCard,(ov,nv)=>{})
 const props = defineProps({
   showModal:Boolean
 })
-const stripeKey = ref(
-  "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
-);
-onMounted(async ()=>{
 
-    await getCards();
+let stripe, elements, cardElement;
 
-    var stripe = Stripe(stripeKey.value);
-    var elements = stripe.elements();
-    var cardElement = elements.create('card');
-    cardElement.mount('#card-element');
+onMounted(async () => {
+  // Initialize Stripe.js with your public key
+  stripe = Stripe(stripeKey.value);
 
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-      alert('gg')
-        event.preventDefault();
+  // Create an instance of elements
+  elements = stripe.elements();
 
-        stripe.createPaymentMethod('card', cardElement).then(function(result) {
-            if (result.error) {
-             alert(result.error)
-            } else {
-                // The payment method was successfully created.
-                var form = document.getElementById('payment-form');
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = currentCard.value;
-                input.value = result.paymentMethod.id;
-                form.appendChild(input);
-                form.submit()
-            }
-        });
-    });
-  
-})
+  // Create an instance of the card element and mount it to the DOM
+  cardElement = elements.create('card');
+  cardElement.mount('#card-element');
+});
 
+const continueCheckOut = async () => {
+  // // Ensure the cardElement is mounted
+  // if (!cardElement) {
+  //   alert('Card element is not initialized.');
+  //   return;
+  // }
+
+  // // Create the Payment Method with Stripe
+  // const { paymentMethod, error } = await stripe.createPaymentMethod({
+  //   type: 'card',
+  //   card: cardElement,
+  // });
+
+  // if (error) {
+  //   // Handle errors (e.g., card validation issues)
+  //   alert(error.message);
+  // } else {
+  //   // Send the paymentMethod.id to your server for processing
+  //   alert('Payment Method ID: ' + paymentMethod.id);
+
+  //   // Optional: If you want to append the card ID as hidden input and submit a form
+  //   var form = document.getElementById('payment-form');
+  //   var input = document.createElement('input');
+  //   input.type = 'hidden';
+  //   input.name = 'paymentMethodId';
+  //   input.value = paymentMethod.id;
+  //   form.appendChild(input);
+
+  //   // You can also call your backend API to complete the payment process
+  //   // Example: await yourFunctionToSendData(paymentMethod.id);
+
+  //   // Perform your further actions, e.g., create an order, etc.
+  //   // if(currentCard.value){
+  //   //   const res = await createOrder('Card', currentCard.value);
+  //   // }
+  // }
+};
 
 
 </script>
@@ -441,7 +453,7 @@ onMounted(async ()=>{
         </table>
          </div>
          <div class="mt-[39px] w-full  mx-auto mb-[34px] px-[20px]">
-          <button class="btn-dashboard hover_tamkin    w-full "  id="payment-form"  :disabled="!currentCard || billingStore.cards.length ===0"
+          <button class="btn-dashboard hover_tamkin    w-full " @click="continueCheckOut"  :disabled="!currentCard || billingStore.cards.length ===0"
         >
 
         <div class="flex items-center justify-center">

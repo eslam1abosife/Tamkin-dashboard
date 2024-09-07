@@ -56,6 +56,7 @@ export default function() {
               }
             });
             if(!data.succeeded) throw(data.message);
+            return data.data
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
