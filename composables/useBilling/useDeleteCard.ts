@@ -11,8 +11,8 @@ export default function() {
     const deleteCard = async (name) => {
         try {
             name = billingStore.card.name
-            const res = await api.post('/Billing/DeleteCard',{
-                data : {name:name}
+            const res = await api.post('/Billing/Stripe/RemoveCard',{
+                data : {cardId:billingStore.card.id}
             });
 
             console.log('deleteCard--->',res.data);

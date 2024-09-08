@@ -170,8 +170,8 @@ function leaveCart(el, done) {
 
 <template>
   <div class="w-full relative">
-    <LazyProfileBillingModalsEditcard />
-    <ProfileBillingModalsAddnewCard />
+    <!-- <LazyProfileBillingModalsEditcard />
+    <ProfileBillingModalsAddnewCard /> -->
 
 
     <ProfileOrdersTracking />

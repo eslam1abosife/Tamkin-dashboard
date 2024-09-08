@@ -1,5 +1,5 @@
 
-import useGetCryptoList from "../useCrypto/useGetCryptoList";
+import useGetCryptoList from "../useMarket/useGetCryptoList";
 import useGetRate from "../useCrypto/useGetRate";
 
 export {

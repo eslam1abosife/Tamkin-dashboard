@@ -200,16 +200,22 @@ export const useMarketStore = defineStore('market', {
         let cartItemsCount = this.cartItems.push(cartItem);
   
         // Show notification if it's the first item and the notification hasn't been shown yet
+   
+      if(type !== 'custom_character'){
         if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
           this.showFirstItemNotification();
           this.firstItemNotificationShown = true;
         }
 this.animateCartIcon();
-      
+      }
         var cartItemName;
         if (type == 'custom_character') {
             cartItemName = await addItemToCart(item.name, type, item);
-     
+            if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
+              this.showFirstItemNotification();
+              this.firstItemNotificationShown = true;
+            }
+    this.animateCartIcon();
         }else{
             cartItemName = await addItemToCart(item.name, type);
     

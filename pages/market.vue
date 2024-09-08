@@ -250,7 +250,7 @@ function leaveNotification(el, done) {
   <div class="relative">
     
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalCart v-show="isOpen('mycart')" key="cart_popup" id="test" />
+      <MarketModalCart  v-if="isOpen('mycart')" key="cart_mycart"  />
     </transition>
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
@@ -270,9 +270,9 @@ function leaveNotification(el, done) {
 <MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')"/>
 <MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')"/>
 <MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')"/>
-  <!-- <MarketModalPaymentCard/>
+  <MarketModalPaymentCard/>
   
-  <ProfileBillingModalsAddnewCard/> -->
+  <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')"/>
   <MarketModalPaymentPaypal/>
    <!--
  -->
@@ -581,7 +581,7 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
-        <!-- <MarketPlayer /> -->
+        <MarketPlayer />
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter

@@ -149,33 +149,9 @@ const percentageOff = computed(() => {
         <div class="flex flex-col items-start justify-center w-full">
   
             <div class="flex items-center justify-center ">
-                <div
-                @click="()=>{
-        
-                  closeModal('crypto_market_success')
-                }"
-        
-              class="cursor-pointer close_sidebar_btn group flex items-center justify-center   bg-white dark:bg-tamkinDarkPrimary border-[1px]
-           border-linecolor rounded-full w-[30px] h-[30px]"
-        
-           style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
-        "
-          >
-            <svg
-              width="9"
-              height="15"
-              viewBox="0 0 9 15"
-              fill="none"
-              class="fill-tamkin group-hover:stroke-white group-hover:fill-white"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z"
-              />
-            </svg>
-          </div>
+          
           <h1 class="text-[18px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey  dark:text-whiteTamkin rtl:mr-[20px] ltr:ml-[20px] lg:mt-0 mt-[60px]">
-                Payment Process
+                {{ $t('Payment processes') }}
             </h1>
             </div>
             <div
@@ -192,14 +168,14 @@ const percentageOff = computed(() => {
          
         <div class="w-full my-[16px]">
             <h1 class="text-center text-tamkin text-[24px] leading-[40px] font-[500]">
-                Please Wait...
+                {{$t('Please Wait...')}}
             </h1>
         </div>
          <div class="w-full ">
           <p class="text-[14px] text-center leading-[40px] font-[500]   dark:text-whiteTamkin text-[#1E1E1E]">
             
-            the Coins balance will appear in your Coins Balance account only after transaction get confirmation and approved by our team.  
-        
+
+            {{ $t('Your request is currently under review. The status will be updated as soon as the transaction is confirmed and approved by our team for further processing') }}
         
         </p>
         </div>
@@ -210,7 +186,7 @@ const percentageOff = computed(() => {
            </div>
            <div class="mt-[16px]  mx-auto mb-[260px] w-full px-[20px]">
             <button class="btn-dashboard hover_tamkin w-full " @click="closeModal('crypto_market_success')">
-                Back to My Site
+                {{ $t('Done') }}
             </button>
          
           </div>

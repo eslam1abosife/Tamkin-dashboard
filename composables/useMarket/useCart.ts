@@ -7,7 +7,8 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-
+const marketStore = useMarketStore()
+const messageData = ref('')
     const getCartItems = async () => {
         try {
             const { data } = await api.post('/Market/GetCartItems');
@@ -52,10 +53,11 @@ export default function() {
               data:{
                 "pay_type":paymentType,  //Card|paypal
                 "card":card, //Allow Null  ,
-                "coupon_code":null
+                "coupon_code":marketStore.promo
               }
             });
-            if(!data.succeeded) throw(data.message);
+            // if(!data.succeeded) throw(data.message);
+            messageData.value = data.message
             return data.data
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
@@ -68,6 +70,7 @@ export default function() {
         createOrder,
         getCartItems,
         cartItems,
-        loading
+        loading,
+        messageData
     }
 }

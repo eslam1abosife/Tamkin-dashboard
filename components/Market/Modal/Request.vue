@@ -139,7 +139,6 @@ const updateData = async()=>{
 const isInitialized = ref(false);
   // console.log('isInitialized.value = ', isInitialized.value , ' modal open = ',isOpen('requestmodal'));
 watchEffect(() => {
-  console.log('effect is gone and request open is',isOpen('requestmodal'));
   
   if (isOpen('requestmodal') && !isInitialized.value) {
     isInitialized.value = true;
@@ -317,7 +316,8 @@ watchEffect(() => {
             flex items-center justify-center flex-col space-y-[10px]"
           >
             <input v-bind="getInputProps()" />
-            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px] " v-if="acceptedFilesRef.length > 0">
+            <div class="grid gap-4 lg:grid-cols-4 grid-cols-2 rtl:space-x-reverse space-x-[16px] " 
+            v-if="acceptedFilesRef.length > 0">
               <div
                 v-for="file in acceptedFilesRef"
                 :key="file.name"
@@ -338,7 +338,7 @@ watchEffect(() => {
                   :src="file.image ? (baseImageURL + file.image) : (fileURL(file))"
                   :alt="file.name"
                   class="w-[140px] h-[70px] object-cover rounded-[5px]"
-                  @click.stop
+                  
                 />
               </div>
               <div class="upload-file-item relative  cursor-pointer m-auto">
@@ -352,7 +352,8 @@ watchEffect(() => {
               <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="isDragActive">
                 {{ $t('Drop the files here ...') }}
               </h1>
-              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
+              <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-darkGrey dark:text-whiteTamkin" 
+              v-if="acceptedFilesRef.length === 0">
                 <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop media here') }}
               </h1>
             </div>
@@ -369,7 +370,7 @@ watchEffect(() => {
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
           <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
-              <div :class="loadingUpdate ? 'mr-4':''">
+              <div :class="loadingUpdate ? 'rtl:mr-4 ltr:mr-4':''">
                {{ isUpdating ? $t('Update') : $t('Add To Cart') }}
               </div>
          

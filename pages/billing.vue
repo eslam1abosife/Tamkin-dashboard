@@ -7,10 +7,7 @@ import {
   useInvoicePdf,
 } from "@/composables/useBilling";
 import { useVuelidate } from "@vuelidate/core";
-import visaIcon from "/assets/imgs/payment_methods/visa.svg";
-import masterIcon from "/assets/imgs/payment_methods/master.svg";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
 import { useFullUrl } from "@/composables/useSharedFunctions";
@@ -26,31 +23,21 @@ const { getInvoices } = useInvoices();
 const { invoicePdf } = useInvoicePdf();
 const globalLoad = ref(false);
 const { fullUrl } = useFullUrl();
-const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  // await getInviteApps({ agency: user.agency });
-};
-onMounted(async () => {
-  globalLoad.value = true;
 
-  await getApps();
+onMounted(async () => {
+  billingStore.loadCards = true;
+globalLoad.value = true
   await getCards();
   await getInvoices();
-  globalLoad.value = false;
+globalLoad.value = false
+  billingStore.loadCards = false;
 });
 const dateF = ref();
 const langStore = useLangSwitch();
 
 const dateOpen = ref(false);
 
-const alertFn = () => {
-  if (dateOpen.value) {
-    dateOpen.value = false;
-  } else {
-    dateOpen.value = true;
-  }
-};
-const colorMode = useColorMode();
+
 
 definePageMeta({
   layout: "dashboard",
@@ -58,14 +45,7 @@ definePageMeta({
   requiredPermission: "payments-invoices",
 });
 
-const state = reactive({
-  teamName: "",
-});
-const rules = {
-  teamName: { required },
-};
 
-const v$ = useVuelidate(rules, state);
 
 const {
   isOpen,
@@ -79,37 +59,13 @@ const {
   setData,
 } = useModalManager();
 
-const format = (date) => {
-  const options = { year: "numeric", month: "short", day: "2-digit" };
 
-  const formatDate = (d) => d.toLocaleDateString("en-US", options);
-
-  if (Array.isArray(date)) {
-    const start = formatDate(date[0]);
-    const end = formatDate(date[1]);
-    return ` ${start} - ${end}`;
-  } else {
-    return `Selected date is ${formatDate(date)}`;
-  }
-};
 const loadingInvoiceId = ref(null);
 
-const isSearchfilled = ref(false);
-const search = ref("");
-watch(search, (ov, nv) => {
-  return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
-});
-const clearInput = () => {
-  search.value = "";
-};
 
-const handleSelectedItemProjectName = (item: any) => {
-  console.log(item);
-};
 
-const currentMenu = ref("");
+
+
 
 const openCard = (card: any) => {
   billingStore.card = card;
@@ -119,25 +75,20 @@ const openCard = (card: any) => {
 
 const handelDeleteCard = async (card: any) => {
   billingStore.loadCards = true;
-  await deleteCard();
+  await deleteCard(billingStore.card.id);
   closeModal("deleteModal_card");
 
   $toast("Card Deleted Successfully", { hideIn: 3000 });
   // await getCards()
 
   billingStore.cards = billingStore.cards.filter(
-    (item: any) => item.name !== billingStore.card.name
+    (item: any) => item.id !== billingStore.card.id
   );
 
   billingStore.loadCards = false;
 };
 
-const handelDownloadInv = async (inv: any) => {
-  // await invoicePdf(inv)
-  // @click="$router.push(localePath('/orders/'+ order.name))"
-};
 
-// Function to convert Base64 string to Blob and open it
 function printAndDownloadPDF(base64String, fileName = "document.pdf") {
   // Convert Base64 to binary data
   const byteCharacters = atob(base64String);
@@ -187,15 +138,7 @@ const openAddNewCardModal = () => {
     openModal("add_new_card_billing", "billing");
   }
 };
-// const closeModalCard = ()=>{
 
-// if(process.client){
-//   window.$chatwoot.toggleBubbleVisibility('hide')
-// openModal('add_new_card_billing','billing')
-
-// }
-
-// }
 const loadingMoreInvoies = ref(false);
 const invoicescount = ref(3);
 const increaseInvoices = () => {
@@ -211,27 +154,8 @@ const computedInvoices = computed(() => {
   return invoicesStore.invoices.slice(0, invoicescount.value);
 });
 
-function beforeEnter(el) {
-  el.style.transform = "scale(0)";
-  el.style.opacity = "0";
-}
 
-function enter(el, done) {
-  el.offsetWidth; // Force reflow
-  el.style.transition = "all 0.5s ease";
-  el.style.transform = "scale(1)";
-  el.style.opacity = "1";
-  done();
-}
 
-function leave(el, done) {
-  el.style.transition = "all 0.5s ease";
-  el.style.transform = "scale(0)";
-  el.style.opacity = "0";
-  setTimeout(done, 500);
-}
-
-///7
 function beforeEnterCart(el) {
   const isRTL = document.documentElement.dir === "rtl";
   el.style.transform = isRTL ? "translateX(-100%)" : "translateX(100%)";
@@ -257,38 +181,7 @@ function leaveCart(el, done) {
   }, 500);
 }
 
-///
 
-function beforeEnterNotification(el) {
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
-}
-
-function enterNotification(el, done) {
-  // Set the initial position and opacity
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
-
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
-    done();
-  }, 0);
-}
-
-function leaveNotification(el, done) {
-  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
-}
 </script>
 
 <template>
@@ -325,7 +218,7 @@ function leaveNotification(el, done) {
     </div>
 
     <div
-      v-if="billingStore.cards?.length === 0 && !globalLoad"
+      v-if="billingStore.cards?.length === 0 && !billingStore.loadCards"
       class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="text-[18px] font-[500] text-black">{{ $t("Payment Methods") }}</div>
@@ -348,7 +241,7 @@ function leaveNotification(el, done) {
       </div>
     </div>
     <div
-      v-if="(billingStore.cards?.length === 0 && globalLoad) || invoicesStore.loadCards"
+      v-if=" billingStore.loadCards"
       class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">
@@ -367,7 +260,7 @@ function leaveNotification(el, done) {
     </div>
 
     <div
-      v-if="billingStore.cards?.length !== 0 && !invoicesStore.loadCards"
+      v-if="billingStore.cards?.length && !billingStore.loadCards"
       class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">
@@ -434,22 +327,23 @@ function leaveNotification(el, done) {
         <div
           class="flex flex-col items-center justify-start w-full"
           v-for="savedCard in billingStore.cards"
-          :key="savedCard.name"
+          :key="savedCard.id"
         >
           <div
-            :class="[savedCard.is_primary ? 'custom-border-tamkin' : 'border-[1px] ']"
-            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+            :class="[savedCard.isprimary ? 'custom-border-tamkin' : 'border-[1px] ']"
+            class="w-full h-[87px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between 
+            rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
           >
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
             >
               <div>
-                <img :src="fullUrl(savedCard.card_image)" class="w-[44px] h-[44px]" />
+                <img :src="fullUrl(savedCard.logo)" class="w-[44px] h-[44px]" />
               </div>
               <div class="flex flex-col items-start justify-start relative">
                 <div
                   class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gradient-to-br flex items-center justify-center from-tamkinStart to-tamkinEnd"
-                  v-if="savedCard.is_primary"
+                  v-if="savedCard.isprimary"
                 >
                   <div class="text-[10px] font-[500] text-white">
                     {{ $t("Default") }}
@@ -458,11 +352,11 @@ function leaveNotification(el, done) {
                 <div
                   class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[16px]"
                 >
-                  <div class="w-36 truncate">{{ savedCard.card_holder_name }}</div>
-                  <div>****{{ savedCard.card_number }}</div>
+                  <div class="w-36 truncate">{{ savedCard.holdername }}</div>
+                  <div>****{{ savedCard.last4 }}</div>
                 </div>
                 <div class="text-darkGrey text-[13px] font-[400] leading-[10px]">
-                  {{ $t("Expires on") }} &nbsp;{{ savedCard.expiry_date }}
+                  {{ $t("Expires on") }} &nbsp;{{ savedCard.expmonth }} / {{ savedCard.expyear }}
                 </div>
               </div>
             </div>
@@ -472,10 +366,10 @@ function leaveNotification(el, done) {
             >
               <button
                 @click="openCard(savedCard)"
-                :disabled="billingStore.cards?.length === 1"
+                :disabled="savedCard.isprimary"
                 class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg flex items-center justify-center group"
                 :class="{
-                  'opacity-50 cursor-not-allowed': billingStore.cards?.length === 1,
+                  'opacity-50 cursor-not-allowed':savedCard.isprimary,
                 }"
               >
                 <svg

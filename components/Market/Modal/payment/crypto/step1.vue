@@ -184,7 +184,7 @@ const finalAmount = computed(() => {
         <div class="flex items-center justify-center">
           <div
             @click="navigateTo('crypto_market_step1', 'market', 'paymentMethods_market')"
-            class="cursor-pointer flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
+            class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
             <svg
@@ -201,24 +201,26 @@ const finalAmount = computed(() => {
             </svg>
           </div>
           <h1
-            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
+            class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey
+             dark:text-whiteTamkin ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]"
           >
-            Payment Methods
+            {{$t("Payment processes")}}
           </h1>
         </div>
         <div
-          class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary w-full h-full rounded-[10px] mt-[33px] mb-[87px]"
+          class="flex flex-col items-start justify-center bg-white dark:bg-tamkinDarkPrimary 
+          w-full h-full rounded-[10px] mt-[33px] mb-[87px]" :class="[loadingData ? 'pb-[120px]':'']"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
             class="text-[18px] leading-[36px] font-[600] ltr:ml-[20px] rtl:mr-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
           >
-            Crypto Payment
+            {{ $t('Crypto Payment') }}
           </h1>
           <p
             class="ltr:ml-[20px] rtl:mr-[20px] text-[14px] font-[400] leading-[22.5px] mt-[14px] text-darkGrey dark:text-whiteTamkin"
           >
-            Choose the cryptocurrency you want to complete the payment process
+            {{ $t('Choose the cryptocurrency you want to complete the payment process') }}
           </p>
 
           <div
@@ -241,18 +243,18 @@ const finalAmount = computed(() => {
                     <div
                       class="text-[18px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ marketStore.selectedCrypto.title }}
+                      {{ marketStore.selectedCrypto.title }} - {{ marketStore.selectedCrypto.network}}
                     </div>
 
                     <div
                       class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin"
                       v-if="marketStore.selectedCrypto && marketStore.selectedCrypto.is_featured === 1"
                     >
-                      Pay Via {{ marketStore.selectedCrypto.code }} and get
+                      {{ $t('Pay Via') }} {{ marketStore.selectedCrypto.title }} {{$t('and get')}}
                       <span class="text-[14px] font-[700]"
                         >{{ marketStore.selectedCrypto.discount }}%</span
                       >
-                      discount
+                      {{$t('discount')}}
                     </div>
                   </div>
                 </div>
@@ -282,7 +284,7 @@ const finalAmount = computed(() => {
 
             <div class="flex items-center justify-between w-full px-[20px]">
               <div class="w-full mt-[20px]">
-                <div class="relative w-full">
+                <div class="relative w-full font-[Poppins]">
                   <button
                     @click="toggleDropdown"
                     class="input_search_country ltr:!pl-[10px] rtl:!pr-[10px] !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
@@ -304,7 +306,7 @@ const finalAmount = computed(() => {
                         />
                         <span
                           class="rtl:ml-auto ltr:mr-auto text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                          >{{ marketStore.selectedCrypto.title }} - {{ marketStore.selectedCrypto.network }}
+                          >{{ marketStore.selectedCrypto.title }} - <span class="!font-[300]">{{marketStore.selectedCrypto.network }}</span>
                         </span>
                         <!-- <span class="!text-light">{{ selectedCrypto.symbols }}</span> -->
                       </div>
@@ -313,7 +315,7 @@ const finalAmount = computed(() => {
                           <div
                             class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                           >
-                          {{ marketStore.selectedCrypto.coingecko_id }}
+                          {{ cryptostore.rates[marketStore.selectedCrypto.coingecko_id] }}
                         </div>
                         </div>
 
@@ -335,14 +337,14 @@ const finalAmount = computed(() => {
                   </button>
                   <div
                     v-if="isCryptoMenuOpen"
-                    class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
+                    class="absolute z-10 top-[52px]  bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
                   >
                     <ul>
                       <li
                         @click="selectCryptoMethod(cryptoMethod)"
                         v-for="cryptoMethod in filteredCryptoMethods"
                         :key="cryptoMethod.code"
-                        class="flex items-center hover:bg-gray-100 dark:hover:bg-darkGrey py-[6px] px-[10px] cursor-pointer"
+                        class="flex items-center rtl:font-[Poppins] hover:bg-gray-100 dark:hover:bg-darkGrey py-[6px] px-[10px] cursor-pointer"
                       >
                         <img
                           :src="`http://tamkin.app/${cryptoMethod.icon}`"
@@ -350,14 +352,14 @@ const finalAmount = computed(() => {
                         />
                         <span
                           class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                          >{{ cryptoMethod.title }} - {{cryptoMethod.network }}
+                          >{{ cryptoMethod.title }} - <span class="!font-[300]">{{cryptoMethod.network }}</span>
                         </span>
                         <!-- <span class="!text-light">{{ cryptoMethod.symbols }}</span> -->
                         <div class="rtl:mr-auto ltr:ml-auto">
                           <div
                             class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                           >
-                            {{ cryptoMethod.coingecko_id }}
+                            {{ cryptostore.rates[cryptoMethod.coingecko_id] }}
                           </div>
                         </div>
                       </li>
@@ -373,7 +375,8 @@ const finalAmount = computed(() => {
               <div
                 class="flex-1 w-full text-[14px] font-[400] leading-[24px] mt-[10px] dark:text-whiteTamkin text-[#A7A7A7] whitespace-pre-line"
               >
-                By Choosing this crypto Currency that equal
+                {{ $t('By Choosing this crypto Currency that equal') }}
+              <span class="!font-[600]">
                 {{
                   convertUsdToCrypto(
                     marketStore.cartTotal,
@@ -383,7 +386,8 @@ const finalAmount = computed(() => {
                   " " +
                   marketStore.selectedCrypto.title
                 }}
-                your payment will be :
+              </span>
+                {{$t('your payment will be')}} :
               </div>
 
               <div
@@ -401,7 +405,7 @@ const finalAmount = computed(() => {
                             {{convertUsdToCryptos(marketStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
                       {{
                         convertUsdToCrypto(
-                          marketStore.cartTotal,
+                          marketStore.cartTotal - marketStore.currentDiscount,
                           cryptostore.rates,
                           marketStore.selectedCrypto.title
                         )
@@ -425,7 +429,8 @@ const finalAmount = computed(() => {
               class="flex flex-col items-center justify-center space-y-[12px] mx-auto w-full"
             >
               <div
-                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
+                class="flex items-center lg:flex-row flex-col justify-center lg:justify-between 
+                rtl:space-x-reverse space-x-[24px] w-full px-[20px]"
               >
                 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
                   <input
@@ -433,7 +438,7 @@ const finalAmount = computed(() => {
                     @input="marketStore.noDiscount = false"
                     class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
                     v-model="marketStore.promo"
-                    placeholder="Promo Code"
+                    :placeholder="$t('Promo Code')"
                     :class="[
                       marketStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
                       marketStore.noDiscount
@@ -449,7 +454,7 @@ const finalAmount = computed(() => {
                     <img src="/assets/imgs/promo_valid.svg" />
                     <div class="text-[15px] font-[500] text-darkGrey">
                       <span class="text-[#021328] font-[700]">{{ marketStore.currentDiscount }}%</span>
-                      Discount (-${{ percentageOff }})
+                      {{ $t('Discount') }} (-${{ percentageOff }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
                   </div>
@@ -485,15 +490,15 @@ const finalAmount = computed(() => {
                     class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
                     @click="marketStore.removePromoCode"
                   >
-                    Remove Code
+                    {{$t('Remove Code')}}
                   </button>
                 </div>
               </div>
               <div
                 v-if="marketStore.noDiscount"
-                class="!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
+                class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
               >
-                Coupon code not found
+                {{ $t('Coupon code not found') }}
               </div>
             </div>
             <table class="min-w-full">
@@ -503,7 +508,7 @@ const finalAmount = computed(() => {
                     class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b dark:border-light dark:text-whiteTamkin text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
                     colspan="12"
                   >
-                    Summary
+                    {{$t('Summary')}}
                   </th>
                 </tr>
               </thead>
@@ -516,13 +521,13 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    Subtotal
+                    {{ $t('Promo Code') + ' : ' +marketStore.currentDiscount +'%' }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ marketStore.cartTotal }}
+                    ${{ percentageOff}}
                   </td>
                 </tr>
                 <tr
@@ -533,7 +538,7 @@ const finalAmount = computed(() => {
                     class="py-2 pr-4 border-b text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    Discount
+                    {{ $t('Discount') }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
@@ -551,7 +556,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    Total Crypto
+                    {{ $t('Total Crypto') }}
                   </td>
                   <td
                     class="py-2 px-4 border-b text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
@@ -559,10 +564,10 @@ const finalAmount = computed(() => {
                   >
                     {{
                       convertUsdToCrypto(
-                        finalAmount,
-                        cryptostore.rates,
-                        marketStore.selectedCrypto.title
-                      ) +
+                    marketStore.cartTotal - marketStore.currentDiscount,
+                    cryptostore.rates,
+                    marketStore.selectedCrypto.title
+                  ) +
                       " " +
                       marketStore.selectedCrypto.title
                     }}
@@ -575,7 +580,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    Total
+                    {{ $t('Total') }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
@@ -587,13 +592,59 @@ const finalAmount = computed(() => {
               </tbody>
             </table>
           </div>
-          <div class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full">
+
+          <div v-if="loadingData" class="flex flex-col items-center justify-start space-y-[12px] mt-[24px]  mx-auto w-full 
+          min-h-full">
+            <!-- Placeholder for Selected Crypto -->
+            <div class="flex flex-col items-center justify-center w-full px-[20px] min-h-full">
+              <div class="w-full h-[100px] cursor-pointer bg-gray-200 animate-pulse rounded-[10px] border-lightGrey">
+                <div class="flex items-center justify-between p-[16px]">
+                  <div class="flex items-center rtl:space-x-reverse space-x-[13px]">
+                    <div class="w-[25px] h-[25px] bg-gray-300 rounded-full"></div>
+                    <div class="flex flex-col justify-center space-y-[-4px]">
+                      <div class="w-[150px] h-[18px] bg-gray-300 rounded mb-[12px]"></div>
+                      <div class="w-[100px] h-[14px] bg-gray-300 rounded mt-[4px]"></div>
+                    </div>
+                  </div>
+                  <div class="w-[22px] h-[22px] bg-gray-300 rounded-full border border-tamkin"></div>
+                </div>
+              </div>
+            </div>
+        
+            <!-- Placeholder for Dropdown Button -->
+            <div class="flex items-center justify-between w-full px-[20px]">
+              <div class="w-full mt-[20px]">
+                <div class="relative w-full">
+                  <button class="w-full bg-gray-200 animate-pulse h-[40px] rounded-[10px] flex items-center 
+                  justify-between px-[16px]">
+                    <div class="w-[150px] h-[14px] bg-gray-300 rounded"></div>
+                    <div class="w-[10px] h-[10px] bg-gray-300 rounded"></div>
+                  </button>
+                  <div class="absolute z-10 top-[52px] bg-gray-200 animate-pulse rounded-[12px]
+                   border-light border-[#C8CFEB] shadow w-full py-[16px]">
+                    <ul>
+                      <li class="flex items-center hover:bg-gray-300 py-[6px] px-[10px] cursor-pointer">
+                        <div class="w-[25px] h-[25px] bg-gray-300 rounded-full"></div>
+                        <div class="w-[150px] h-[14px] bg-gray-300 rounded ml-[10px]"></div>
+                        <div class="ml-auto w-[100px] h-[14px] bg-gray-300 rounded"></div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+           
+        
+       
+          </div>
+          <div class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full" v-if="!loadingData">
             <button
               class="btn-dashboard hover_tamkin !h-[40px] w-full"
               :disabled="!marketStore.selectedCrypto"
               @click="navigateTo('crypto_market_step1', 'market', 'crypto_market_step2')"
             >
-              Continue
+              {{ $t('Continue') }}
             </button>
           </div>
           <!-- <div class="mt-[129px]  mx-auto mb-[34px]">
