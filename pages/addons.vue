@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-import {useGetAppInvites} from '@/composables/useTeam';
-import {useGetMainMenu} from "@/composables/useAccessibility";
+import { useGetAppInvites } from "@/composables/useTeam";
+import { useGetMainMenu } from "@/composables/useAccessibility";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 
 const { fullUrl } = useFullUrl();
@@ -14,8 +14,7 @@ const { defaultApp, loading: getSitesLoading } = useGetAppInvites();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const localePath = useLocalePath();
 const route = useRoute();
@@ -44,12 +43,11 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
     miniSizeLiveTranslation.value = false;
   }
 };
-const {$toast } = useNuxtApp()
-onMounted(()=>{
+const { $toast } = useNuxtApp();
+onMounted(() => {
   // $toast('error',{hideIn:400000,type:'error'})
-})
+});
 onBeforeMount(async () => {
-
   try {
     // Fetch dynamic data from the API
     const response = await getMainMenu();
@@ -60,47 +58,56 @@ onBeforeMount(async () => {
     checkboxStore.originalFeatures = features;
 
     // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
-    const accAddonsMainMenuFeature = features.find(item => item.title === 'Adjust the Main Menu' && item.type === 'acc-addons');
+    const accAddonsMainMenuFeature = features.find(
+      (item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+    );
 
     // console.log('accAddonsMainMenuFeature',accAddonsMainMenuFeature)
     if (accAddonsMainMenuFeature) {
-      checkboxStore.title = accAddonsMainMenuFeature.title
+      checkboxStore.title = accAddonsMainMenuFeature.title;
 
-      checkboxStore.checkboxIds =[ ...accAddonsMainMenuFeature.features.map(feature => feature.name)];
+      checkboxStore.checkboxIds = [
+        ...accAddonsMainMenuFeature.features.map((feature) => feature.name),
+      ];
 
       // Map over the features inside the found item
-      const dynamicCards = accAddonsMainMenuFeature.features.map(feature => ({
+      const dynamicCards = accAddonsMainMenuFeature.features.map((feature) => ({
         icon: feature.icon,
         name: feature.label,
         description: feature.description,
-        checkboxId: feature.name
+        checkboxId: feature.name,
       }));
 
       // Initialize store with dynamic data
-      checkboxStore.initializeCardsMenu(dynamicCards,   "AdjustMainMenuCards","initialCardsOrder");
+      checkboxStore.initializeCardsMenu(
+        dynamicCards,
+        "AdjustMainMenuCards",
+        "initialCardsOrder"
+      );
 
       [...checkboxStore.checkboxIds].forEach((name) => {
         checkboxStore.addCheckbox(name);
       });
       checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds]);
     } else {
-      console.warn('No matching feature found for Adjust the Main Menu.');
+      console.warn("No matching feature found for Adjust the Main Menu.");
     }
-
   } catch (error) {
-    console.error('Error fetching main menu data:', error);
+    console.error("Error fetching main menu data:", error);
   }
-
 });
 
 const handleSaveToAllSites = async () => {
   try {
-    console.log("Handling Save to All Sites logic...");
-    //toDo Add logic for saving to all sites
+
+    //  Adjust main menu feeatures with name and title 
+
+
+
 
     // $toast.success('Changes saved to all sites successfully.');
   } catch (error) {
-    console.error('Error saving to all sites:', error);
+    console.error("Error saving to all sites:", error);
     // $toast.error('Failed to save to all sites.');
   }
 };
@@ -108,16 +115,35 @@ const handleSaveToAllSites = async () => {
 // Define handleSave method to handle save actions
 const handleSave = async () => {
   try {
+    if(checkboxStore.originalFeatures){
     console.log("Handling Save logic...");
+const tobemappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
+    const orgAddonsMainMenuFeature =  tobemappedAdjustMainMenu.map((feature) => ({
+      name: feature.name,
+      title: feature.title,
+      type: feature.type,
+      active : feature.active,
+      description_on_show: feature.description_on_show,
+      description_on_hide: feature.description_on_hide,
+      features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
+        name: feature.name,
+        label: feature.label,
+        description: feature.description,
+        icon: feature.icon,
+      })),
 
+    
+    }))
+    console.log(orgAddonsMainMenuFeature[0])
+
+   }
 
     // $toast.success('Changes saved successfully.');
   } catch (error) {
-    console.error('Error saving changes:', error);
+    console.error("Error saving changes:", error);
     // $toast.error('Failed to save changes.');
   }
 };
-
 
 let pendingNavigation = null;
 
@@ -157,36 +183,27 @@ const shouldShowFooter = computed(() => {
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
 
-// alert(isAddonsLinkActive)
-  return (
-    isAddonsLinkActive
-
-  );
+  // alert(isAddonsLinkActive)
+  return isAddonsLinkActive;
 });
 
 const cancelAc = () => {
-
   const isAddonsLinkActive =
     (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
 
-
   // const translatePlayer =
   //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
-
-
 
   if (isAddonsLinkActive) {
     checkboxStore.cancelAll();
   }
-
 };
 </script>
 
 <template>
   <div class="relative h-full w-full">
-
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
@@ -205,7 +222,7 @@ const cancelAc = () => {
       :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove"
     />
-    <div class="w-full h-full relative" >
+    <div class="w-full h-full relative">
       <HeaderAccess
         websiteImgName="tamkin_hand.svg"
         :website-title="defaultApp?.title"
@@ -216,7 +233,7 @@ const cancelAc = () => {
       />
 
       <AddonsAdjustmain />
-<AddonsProfilecards/>
+      <AddonsProfilecards />
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
       >

@@ -27,6 +27,7 @@ export const useAddonStore = defineStore('addon', {
     title:[],
     checkboxIds:[],
     originalFeatures:[],
+    tobeSent:[]
   }),
   actions: {
     showSaveBeforeLeaveModal(){
