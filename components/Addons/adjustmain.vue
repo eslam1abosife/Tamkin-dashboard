@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import draggable from "vuedraggable";
 import { vOnClickOutside } from "@vueuse/components";
+import {useGetMainMenu} from "@/composables/useAccessibility";
+import { useFullUrl } from "@/composables/useSharedFunctions";
 
+const { fullUrl } = useFullUrl();
+const { getMainMenu } = useGetMainMenu();
 const checkboxStore = useAddonStore();
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
@@ -15,163 +19,13 @@ const toggleCheckbox = (name: string) => {
   checkboxStore.toggleCheckbox(name);
 };
 const getImagePath = (icon) => {
-  return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
+  return fullUrl(icon);
 };
 
-onMounted(() => {
-  checkboxStore.initializeCardsMenu(
-    [
-      {
-        icon: "tamkin_player.svg",
-        name: "Tamkin Player",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "tamkin_player",
-      },
-      {
-        icon: "media_player.svg",
-        name: "Media Player",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "media_player",
-      },
-      {
-        icon: "language sign.svg",
-        name: "Screen Reader",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "screen_reader",
-      },
-      {
-        icon: "page_str.svg",
-        name: "Page Structure",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "page_str",
-      },
 
-      {
-        icon: "hide_images.svg",
-        name: "Hide Images",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "hide_images",
-      },
-      {
-        icon: "contrast.svg",
-        name: "Smart Contrast",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "smart_contrast",
-      },
-      {
-        icon: "voice_navigation.svg",
-        name: "Voice Navigation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "voice_navigation",
-      },
-      {
-        icon: "a-z.svg",
-        name: "Dictionary",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "dictionary",
-      },
-      {
-        icon: "clip.svg",
-        name: "Highlight Links",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "highlight_links",
-      },
-      {
-        icon: "line_height.svg",
-        name: "Line Height",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "line_height",
-      },
-      {
-        icon: "saturation.svg",
-        name: "Saturation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "saturation",
-      },
-
-      {
-        icon: "text.svg",
-        name: "Bigger Text",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "bigger_text",
-      },
-      {
-        icon: "df_friendly.svg",
-        name: "Dyslexia Friendly",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "df_friendly",
-      },
-      {
-        icon: "pause.svg",
-        name: "Pause Animation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "pause_animation",
-      },
-      {
-        icon: "text_align.svg",
-        name: "Text Align",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "text_align",
-      },
-      {
-        icon: "reading_mode.svg",
-        name: "Reading Mode",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "reading_mode",
-      },
-      {
-        icon: "tooltip.svg",
-        name: "Tooltip",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "tool_tip",
-      },
-      {
-        icon: "cursor.svg",
-        name: "Cursor",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "cursor",
-      },
-      {
-        icon: "text_spacing.svg",
-        name: "Text Spacing",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "text_spacing",
-      },
-
-      {
-        icon: "contrast_plus.svg",
-        name: "Contrast +",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "contrast_plus",
-      },
-    ],
-    "AdjustMainMenuCards",
-    "initialCardsOrder"
-  );
-});
 </script>
 
-<template>
+<template >
   <div
     class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
@@ -180,7 +34,7 @@ onMounted(() => {
         <h1
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Adjust the Main Menu
+          {{ checkboxStore.title }}
         </h1>
       </div>
 
@@ -313,7 +167,7 @@ onMounted(() => {
         class="w-full"
         handle=".handle"
       >
-        <template #item="{ element }">
+        <template #item="{ element }" >
           <div
             class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkSecondary"
           >
