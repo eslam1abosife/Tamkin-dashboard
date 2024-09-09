@@ -111,7 +111,10 @@ const handleSaveToAllSites = async () => {
     // $toast.error('Failed to save to all sites.');
   }
 };
-
+const isChecked = (name: string) => {
+  const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
+  return checkbox && checkbox.value === true? "1"  : "0";
+};
 // Define handleSave method to handle save actions
 const handleSave = async () => {
   try {
@@ -127,9 +130,10 @@ const tobemappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) =>
       description_on_hide: feature.description_on_hide,
       features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
         name: feature.name,
-        label: feature.label,
         description: feature.description,
         icon: feature.icon,
+        sort : checkboxStore.AdjustMainMenuCards.indexOf(feature)+1,
+        value: isChecked(feature.checkboxId),
       })),
 
     
