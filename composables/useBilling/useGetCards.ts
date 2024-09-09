@@ -11,7 +11,7 @@ export default function() {
 
     const getCards = async () => {
         try {
-            const res = await api.post('/Billing/GetCards');
+            const res = await api.post('/Billing/Stripe/GetCards');
 
             billingStore.cards = res.data.data;
             // if (res && res.data) {

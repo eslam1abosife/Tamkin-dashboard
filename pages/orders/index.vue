@@ -221,8 +221,8 @@ const setPageSize = (size:number) => {
 
 <template>
   <div class="w-full relative">
-    <LazyProfileBillingModalsEditcard />
-    <ProfileBillingModalsAddnewCard/>
+    <!-- <LazyProfileBillingModalsEditcard /> -->
+    <!-- <ProfileBillingModalsAddnewCard/> -->
     
 
     <div class="space-y-[10px]">

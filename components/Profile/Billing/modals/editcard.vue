@@ -63,159 +63,35 @@ const futureDate = (value) => {
   return year > currentYear || (year === currentYear && month >= currentMonth);
 };
 const state = reactive({
-  cardholdername: "",
-  firstName: "",
-  lastName: "",
-  cardNumber: "",
-  cvv: "",
-  expireDate: "",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-  country: "",
-  is_primary: true,
+  holdername: "",
+
+  is_primary: false,
 });
 const rules = {
-  cardholdername: { required },
-  lastName: { required },
-  cardNumber: {
-    required,
-    creditCard: (value) => creditCardPattern2.test(value.replace(/\s+/g, "")), // Remove spaces before validation
-  },
-  cvv: { required, maxLength: maxLength(3), minLength: minLength(3), numeric },
-  expireDate: { required, validDate, futureDate },
-  address: { required },
-  city: { required },
-  state: { required },
-  zip: { required },
-  country: { required },
+  holdername: { required },
+
 };
 
 const v$ = useVuelidate(rules, state);
-const isPromoFilled = ref(false);
-const promo = ref("");
-const validPromo = ref(false);
-watch(promo, (ov, nv) => {
-  return promo.value.length > 0
-    ? (isPromoFilled.value = true)
-    : (isPromoFilled.value = false);
-});
-const clearInput = () => {
-  promo.value = "";
-  validPromo.value = false;
-};
-const addPromoCode = () => {
-  if (promo.value) {
-    validPromo.value = !validPromo.value;
-  }
-};
 
-const removePromoCode = () => {
-  if (promo.value) {
-    validPromo.value = !validPromo.value;
-    promo.value = "";
-  }
-};
-const creditCardPattern = /^[0-9]{16}$/;
 
-const countries = [
-  { code: "AE", name: "UAE", flag: UAEFLAG },
-  { code: "EG", name: "Egypt", flag: EGYPTFLAG },
-  { code: "SA", name: "KSA", flag: SAUDIFLAG },
-  // Add more countries as needed
-];
-const isOpen = ref(false);
-const search = ref("");
-const selectedCountry = ref(null);
-const loading = ref(false);
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-};
 
-const selectCountry = (country) => {
-  selectedCountry.value = country;
-  isOpen.value = false;
-};
 
-const filteredCountries = computed(() => {
-  return countries.filter((country) =>
-    country.name.toLowerCase().includes(search.value.toLowerCase())
-  );
-});
-watch(
-  state,
-  (newValue) => {
-    const formattedValue = newValue.cardNumber
-      .replace(/\s+/g, "")
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
-    // alert('gg')
-    if (newValue.cardNumber !== formattedValue) {
-      state.cardNumber = formattedValue;
-    }
-  },
-  { deep: true }
-);
 
-const checkInput = (event) => {
-  // Allow only numeric input
-  const allowedKeys = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "Backspace",
-    "ArrowLeft",
-    "ArrowRight",
-    "Delete",
-    "Tab",
-  ];
 
-  if (!allowedKeys.includes(event.key)) {
-    event.preventDefault();
-  }
-};
 
-const detectCardType = (number) => {
-  const cardPatterns = {
-    visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-    mastercard: /^5[1-5][0-9]{14}$/,
-  };
 
-  for (const [type, pattern] of Object.entries(cardPatterns)) {
-    if (pattern.test(number.replace(/\s+/g, ""))) {
-      return type;
-    }
-  }
-  return null;
-};
 
-watch(
-  () => state.cardNumber,
-  (newValue) => {
-    const cardType = detectCardType(newValue);
-    if (cardType) {
-      state.cardType = cardType;
-    } else {
-      state.cardType = null;
-    }
-  }
-);
+
+
 
 // const dataModal=ref({})
 watchEffect(() => {
   if (isModalOpen("edit_card_billing_profile")) {
     // dataModal.value = getData();
     console.log("billingStore.card", billingStore.card);
-    state.firstName = billingStore.card.card_holder_name;
-    state.is_primary = billingStore.card.is_primary;
+    state.holdername = billingStore.card.holdername;
+    state.is_primary = billingStore.card.isprimary;
   }
 });
 
@@ -229,32 +105,28 @@ const updateCard = async () => {
   loadingupdate.value = true;
   // console.log('update',dataModal.value)
   await update({
-    name: billingStore.card.name,
-    is_primary: state.is_primary,
-    card_holder_name: state.firstName,
+    card_id: billingStore.card.id,
+    is_primary: state.is_primary ? state.is_primary : false,
+    Holder_Name: state.holdername,
   });
   closeModal("edit_card_billing_profile");
   $toast("Card Updated Successfully", { hideIn: 3000 });
 
   invoiceStore.loadCards = true;
-
+billingStore.loadCards = true
   await getCards();
   invoiceStore.loadCards = false;
+  billingStore.loadCards = false
 
   loadingupdate.value = false;
 };
 
 const handelCloseModal = async () => {
   closeModal("edit_card_billing_profile");
-  // billingStore.card.card_holder_name = null
 
-  console.log("billingStore.card Data", billingStore.card);
 };
 
-// watch(updatedCards, async (oldVal,newVal) => {
-//   console.log('updateCard+++',newVal)
-//    // getCards();
-// })
+
 watch(eventCounter, async () => {
   if (lastEventCall.value === "deleteTeamMember") {
     try {
@@ -313,21 +185,21 @@ watch(eventCounter, async () => {
           <div class="w-full relative">
             <input
               type="text"
-              placeholder="{{$t('First Name')}}"
+              placeholder=""
               id="firstName"
               class="input_floating_label peer w-full"
-              v-model="state.firstName"
+              v-model="state.holdername"
               :class="{
                 input_error:
-                  v$.cardholdername.$error && v$.cardholdername.required.$invalid,
-                input_success: !v$.cardholdername.$error && !v$.cardholdername.$invalid,
+                  v$.holdername.$error && v$.holdername.required.$invalid,
+                input_success: !v$.holdername.$error && !v$.holdername.$invalid,
               }"
             />
             <label
               for="email"
               class="floating_label"
               :class="[
-                v$.cardholdername.$error && v$.cardholdername.required.$invalid
+                v$.holdername.$error && v$.holdername.required.$invalid
                   ? '!text-error'
                   : '',
               ]"
@@ -336,11 +208,11 @@ watch(eventCounter, async () => {
             </label>
             <div
               class="w-full lg:w-4/6"
-              v-if="v$.cardholdername.$error && v$.cardholdername.required.$invalid"
+              v-if="v$.holdername.$error && v$.holdername.required.$invalid"
             >
               <p class="error_message">
                 <span
-                  v-if="v$.cardholdername.$error && v$.cardholdername.required.$invalid"
+                  v-if="v$.holdername.$error && v$.holdername.required.$invalid"
                   >{{ $t("Card Holder name is required") }}</span
                 >
               </p>
@@ -554,7 +426,7 @@ watch(eventCounter, async () => {
         </div> -->
 
       <div class="flex items-center justify-between w-full mb-[20px]">
-        <div class=" ">
+        <div class=" " v-if="!billingStore.card.isprimary">
           <label
             for="remember_me"
             class="flex items-center rtl:space-x-reverse space-x-[8px] h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins'] leading-snug"
@@ -573,9 +445,9 @@ watch(eventCounter, async () => {
 
         <div class="rtl:mr-auto ltr:ml-auto">
           <button
-            :disabled="billingStore.card.is_primary"
+            :disabled="billingStore.card.isprimary"
             :class="
-              billingStore.card.is_primary
+              billingStore.card.isprimary
                 ? 'text-[#FF453F] group-disabled:!text-[#FF453F] group-disabled:!text-opacity-40 cursor-not-allowed'
                 : ''
             "

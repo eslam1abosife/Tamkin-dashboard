@@ -12,7 +12,7 @@ export const useBillingStore = defineStore('billing', {
         card:{},
         cards:[],
         loadCards:false,
-        addCardRes:{}
+        addCardRes:{},
     }),
 
 

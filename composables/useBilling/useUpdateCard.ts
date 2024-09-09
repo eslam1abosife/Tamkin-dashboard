@@ -10,7 +10,7 @@ export default function() {
 
     const updateCard = async (data) => {
         try {
-            const res = await api.post('/Billing/updateCard',{
+            const res = await api.post('/Billing/Stripe/UpdateCard',{
                 data
             });
 

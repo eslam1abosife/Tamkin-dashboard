@@ -11,14 +11,7 @@ middleware:['auth','permissions'],
 
 });
 
-useHead({
-  script: [
-    {
-      src: 'https://js.stripe.com/v3/',
-      defer: true,
-    }
-  ]
-})
+
 const localePath = useLocalePath()
 const route = useRoute()
 const loadingSaveChanges = ref(false)
@@ -48,8 +41,10 @@ const {GetCustomCharacterCost} = useEditCustomerCharacter()
 const { getCartItems, cartItems } = useCart();
 const { getFullDataFormated, categoriesWithSkinItems, characters, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
 const playerStore = usePlayerStore();
-
-onMounted(async () => {
+const stripeKey = ref(
+  "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
+);
+onBeforeMount(async () => {
   
     GetCustomCharacterCost();
     getCartItems();
@@ -59,7 +54,7 @@ onMounted(async () => {
     playerStore.changeCharacter(activeChar, false);
     loadingCats.value= false
     // console.log('backendActiveChar', );
-    
+ 
 })
   
 const categoriesWithSkinItemsFiltered = computed(() => {
@@ -255,7 +250,7 @@ function leaveNotification(el, done) {
   <div class="relative">
     
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalCart v-show="isOpen('mycart')" key="cart_popup" id="test" />
+      <MarketModalCart  v-if="isOpen('mycart')" key="cart_mycart"  />
     </transition>
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
       <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
@@ -272,15 +267,17 @@ function leaveNotification(el, done) {
     <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
    <MarketModalPaymentPaymentmethods/>
   </transition>
-
+<MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')"/>
+<MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')"/>
+<MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')"/>
   <MarketModalPaymentCard/>
   
-  <ProfileBillingModalsAddnewCard/>
+  <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')"/>
+  <MarketModalPaymentPaypal/>
    <!--
-<MarketModalPaymentPaypal/> -->
+ -->
 <!-- <MarketModalPaymentCard2 v-if="true"/> -->
-<div id="card-element">
-</div>
+
     <div class="w-full h-full relative">
       <h1
         class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"

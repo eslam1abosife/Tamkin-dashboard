@@ -318,6 +318,10 @@ const openModals = computed(() => {
     isOpen('join_to_investor') ||
     isOpen('cardModal_market') ||
     isOpen('paymentMethods_market') ||
+    isOpen('crypto_market_step1') ||
+    isOpen('paypal_market') ||
+    isOpen('crypto_market_success') ||
+    isOpen('crypto_market_step2') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||

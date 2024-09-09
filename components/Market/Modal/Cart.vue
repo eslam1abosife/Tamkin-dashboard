@@ -19,10 +19,8 @@ const {
   setData,
 } = useModalManager();
 const openModalAndHideChat = () => {
-  if (process.client && !isOpen("requestmodal")) {
-    window.$chatwoot.toggleBubbleVisibility("hide");
     openModal("requestmodal", "market");
-  }
+
 };
 
 const marketStore = useMarketStore();
