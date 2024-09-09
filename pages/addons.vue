@@ -120,8 +120,8 @@ const handleSave = async () => {
   try {
     if(checkboxStore.originalFeatures){
     console.log("Handling Save logic...");
-const tobemappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
-    const orgAddonsMainMenuFeature =  tobemappedAdjustMainMenu.map((feature) => ({
+const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
+    const orgAddonsMainMenuFeature =  toBeMappedAdjustMainMenu.map((feature) => ({
       name: feature.name,
       title: feature.title,
       type: feature.type,
@@ -134,7 +134,7 @@ const tobemappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) =>
         description: feature.description,
         icon: feature.icon,
         sort : checkboxStore.AdjustMainMenuCards.indexOf(feature)+1,
-        value: isChecked(feature.checkboxId),
+        value: isChecked(feature.checkboxId) ? 1 : 0,
       })),
 
 
