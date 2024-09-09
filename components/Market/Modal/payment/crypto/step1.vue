@@ -230,20 +230,22 @@ const finalAmount = computed(() => {
             <div class="flex flex-col items-center justify-center w-full px-[20px]">
               <div
                 v-if="marketStore.selectedCrypto"
-                class="w-full h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between rounded-[10px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]"
+                class="w-full h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] 
+                dark:bg-tamkinDarkPrimary flex items-center justify-between
+                 rounded-[10px] border-lightGrey rtl:pr-[11px] ltr:pl-[11px]"
               >
                 <div
-                  class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]"
+                  class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                 >
                   <img
                     :src="`http://tamkin.app/${marketStore.selectedCrypto.icon}`"
                     class="w-[25px] h-[25px]"
                   />
-                  <div class="flex items-start flex-col justify-center space-y-[-4px]">
+                  <div class="flex items-start flex-col justify-start space-y-[-4px]">
                     <div
                       class="text-[18px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ marketStore.selectedCrypto.title }} - {{ marketStore.selectedCrypto.network}}
+                      {{ marketStore.selectedCrypto.title }} - <span class="!font-[300]">{{ marketStore.selectedCrypto.network}}</span>
                     </div>
 
                     <div

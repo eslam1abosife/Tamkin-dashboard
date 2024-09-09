@@ -174,9 +174,7 @@ watchEffect(() => {
     }
   }
 
-  if(base64ImagesRef.value.length > 0 || acceptedFilesRef.value.length > 0 && noUpload.value == true){
-     noUpload.value=false; 
-  }
+
 });
 
 </script>
@@ -258,8 +256,9 @@ watchEffect(() => {
                 class="hidden"
                 value="Male"
                 v-model="v$.gender.$model"
-                :checked="v$.gender.$model=='Male'"
+                :checked="v$.gender.$model==='Male'"
               />
+              
               <label for="gender_radio_1" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'Male' ? 'radio-tamkin' : 'radio-normal']"></span>
               </label>
@@ -273,7 +272,7 @@ watchEffect(() => {
                 class="hidden"
                 value="Female"
                 v-model="v$.gender.$model"
-                :checked="v$.gender.$model=='Female'"
+                :checked="v$.gender.$model==='Female'"
               />
               <label for="gender_radio_2" class="flex items-center cursor-pointer">
                 <span :class="[v$.gender.$model === 'Female' ? 'radio-tamkin' : 'radio-normal']"></span>
@@ -340,6 +339,7 @@ watchEffect(() => {
                   class="w-[140px] h-[70px] object-cover rounded-[5px]"
                   
                 />
+                
               </div>
               <div class="upload-file-item relative  cursor-pointer m-auto">
                 <img src="/assets/pngs/market/add_image.png" class="w-[83px] h-[83px]" alt="">

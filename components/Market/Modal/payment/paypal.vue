@@ -2,7 +2,7 @@
 import { useModalManager } from "@/composables/useModalManager";
 import { useCart } from "@/composables/useMarket";
 
-const { createOrder, cartItems } = useCart();
+const { createOrder, cartItems,messageData } = useCart();
 const marketStore = useMarketStore();
 
 const {
@@ -13,7 +13,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-
+const {$toast} = useNuxtApp()
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
@@ -32,20 +32,21 @@ const changepaymentMethod = (method: any) => {
 };
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-  if (!chooseOtherPaymentMethod.value) {
-    const res = await createOrder("paypal");
+  const res = await createOrder("paypal");
+
+  if (messageData.value !== 'Not Found Any Products' && messageData.value !== 'You need to bill the other invoice before you can confirm this order') {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-    if (!res) {
-      loadingPayment.value = false;
-    }
+  
+    // loadingPayment.value = false;
+  }else {
+    $toast(messageData.value, { hideIn: 3000, type: 'error' });
     loadingPayment.value = false;
+  
   }
-  if (chooseOtherPaymentMethod.value === "by_crypto") {
-    return navigateTo("cardModal", "add-site", "crypto");
-  }
+
 };
 const props = defineProps({
   showModal: Boolean,

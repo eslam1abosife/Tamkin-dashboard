@@ -169,7 +169,9 @@ const handleSave = async () => {
     }
 
       $toast("Card added successfully!");
+      billingStore.loadCards = true
       await getCards();
+      billingStore.loadCards = false
 
     }
   // router.push('/success'); // Redirect on success
@@ -618,7 +620,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
             <button class="btn_bordered_dashboard" @click="closeModalCard">
               {{ $t("Cancel") }}
             </button>
-            <button class="btn-dashboard" @click="addNew" :disabled="loadingAddCard || cardErrors.length || v$.$invalid">
+            <button class="btn-dashboard hover_tamkin" @click="addNew" :disabled="loadingAddCard || cardErrors.length || v$.$invalid">
               <div class="flex items-center justify-center">
                 <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
       

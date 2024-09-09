@@ -8,9 +8,21 @@ const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModa
 definePageMeta({
   layout: "dashboard",
 middleware:['auth','permissions'],
+requiredPermission: 'sign-language-market',
 
 });
 
+// Function to check query parameters
+const checkPaymentStatus = () => {
+  if (route.query && route.query.paid) {
+    openModal('successPayment_market')
+  }
+}
+
+onMounted(()=>{
+  checkPaymentStatus()
+
+})
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -45,6 +57,7 @@ const stripeKey = ref(
   "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
 );
 onBeforeMount(async () => {
+
   
     GetCustomCharacterCost();
     getCartItems();
@@ -274,8 +287,10 @@ function leaveNotification(el, done) {
   
   <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')"/>
   <MarketModalPaymentPaypal/>
-   <!--
- -->
+  <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+
+  <MarketModalPaymentSuccessPay />
+</transition>
 <!-- <MarketModalPaymentCard2 v-if="true"/> -->
 
     <div class="w-full h-full relative">

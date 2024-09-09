@@ -112,7 +112,7 @@ const goToPaymentMethod = async (method: any) => {
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
                   <div class="text-[16px] leading-[44px] rtl:font-[Almarai] ltr:font-[Poppins] font-[600]  text-darkGrey dark:text-whiteTamkin">
-                    {{$t('Pay Via Crypto currency')}}</div>
+                    {{$t('Pay Via Crypto')}}</div>
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"

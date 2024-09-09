@@ -322,6 +322,7 @@ const openModals = computed(() => {
     isOpen('paypal_market') ||
     isOpen('crypto_market_success') ||
     isOpen('crypto_market_step2') ||
+    isOpen('successPayment_market') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||

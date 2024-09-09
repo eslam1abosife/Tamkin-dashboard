@@ -72,7 +72,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
       </div>
       <div class="flex flex-col justify-center items-evenly w-full space-y-[10px] p-1">
         <h1 class="text-[11px] font-[500] w-full text-darkGrey leading-[17px] mt-2">
-          {{ skin_item.text }}
+          {{ $t(skin_item.text) }}
         </h1>
         <p
         class="text-[10px] font-[300]  text-darkGrey dark:text-whiteTamkin leading-[17px] max-w-2/4 truncate "

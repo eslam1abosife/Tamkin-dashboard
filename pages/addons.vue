@@ -76,9 +76,10 @@ onBeforeMount(() => {
   ].forEach((name) => {
     checkboxStore.addCheckbox(name);
   });
+
+
   checkboxStore.initializeCheckboxes([
     "text_align",
-
     "tamkin_player",
     "reading_mode",
     "media_player",
