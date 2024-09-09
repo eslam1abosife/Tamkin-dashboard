@@ -13,7 +13,7 @@ const { menus } = storeToRefs(collapseStore);
 
 const isChecked = (name: string) => {
   const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
-  return checkbox && checkbox.value === "1" ? true: false;
+  return checkbox ? checkbox.value : false;
 };
 const toggleCheckbox = (name: string) => {
   checkboxStore.toggleCheckbox(name);
