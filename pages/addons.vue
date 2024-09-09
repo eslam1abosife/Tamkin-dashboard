@@ -100,7 +100,7 @@ onBeforeMount(async () => {
 const handleSaveToAllSites = async () => {
   try {
 
-    //  Adjust main menu feeatures with name and title 
+    //  Adjust main menu feeatures with name and title
 
 
 
@@ -132,7 +132,7 @@ const tobemappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) =>
         icon: feature.icon,
       })),
 
-    
+
     }))
     console.log(orgAddonsMainMenuFeature[0])
 
