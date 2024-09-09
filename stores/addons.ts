@@ -23,7 +23,10 @@ export const useAddonStore = defineStore('addon', {
     initialManageProfileCards: [] as Card[], // Initial order for the other draggable array
     force_change_profileCards : false,
     force_change_menuCards : false,
-    routeLeaveModal:false
+    routeLeaveModal:false,
+    title:[],
+    checkboxIds:[],
+    originalFeatures:[],
   }),
   actions: {
     showSaveBeforeLeaveModal(){
@@ -176,11 +179,11 @@ export const useAddonStore = defineStore('addon', {
 
 ], 'manageProfileCards', 'initialManageProfileCards');
 
-   
 
-        
-         
-          
+
+
+
+
            this.initializeCheckboxes([
             "language",
         "enable_live_site",

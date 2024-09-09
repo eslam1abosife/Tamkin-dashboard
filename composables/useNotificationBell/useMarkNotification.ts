@@ -17,7 +17,7 @@ export default function() {
                  res = await api.post('/Notification/Mark',{
                     "uid": "all"
                 });
-                console.log('mark All Notification res *>>>>>>*',res.data.data);
+                // console.log('mark All Notification res *>>>>>>*',res.data.data);
             }else {
                 console.log('value',value)
                  res = await api.post('/Notification/Mark',{

@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
+import {useGetAppInvites} from '@/composables/useTeam';
+import {useGetMainMenu} from "@/composables/useAccessibility";
+import { useFullUrl } from "@/composables/useSharedFunctions";
+
+const { fullUrl } = useFullUrl();
+const { getMainMenu } = useGetMainMenu();
 const checkboxStore = useAddonStore();
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
+const { defaultApp, loading: getSitesLoading } = useGetAppInvites();
 
 definePageMeta({
   layout: "dashboard",
@@ -41,74 +48,75 @@ const {$toast } = useNuxtApp()
 onMounted(()=>{
   // $toast('error',{hideIn:400000,type:'error'})
 })
-onBeforeMount(() => {
- 
+onBeforeMount(async () => {
 
+  try {
+    // Fetch dynamic data from the API
+    const response = await getMainMenu();
 
-  [
-    "tamkin_player",
-    "media_player",
-    "page_str",
-    "screen_reader",
-    "hide_images",
-    "smart_contrast",
-    "voice_navigation",
-    "dictionary",
-    "highlight_links",
-    "line_height",
-    "saturation",
-    "bigger_text",
-    "pause_animation",
-    "tool_tip",
-    "cursor",
-    "text_spacing",
-    "contrast_plus",
-    "dyslexia",
-    "ADHD",
-    "congitive",
-    "blind",
-    "Seizure",
-    "visuallyImpraired",
-    "color_blind",
-    "reading_mode",
-    "text_align",
-    "motor_active",
-  ].forEach((name) => {
-    checkboxStore.addCheckbox(name);
-  });
+    const features = response.features;
 
+    // Store the original features in the checkbox store for future edits
+    checkboxStore.originalFeatures = features;
 
-  checkboxStore.initializeCheckboxes([
-    "text_align",
-    "tamkin_player",
-    "reading_mode",
-    "media_player",
-    "page_str",
-    "screen_reader",
-    "hide_images",
-    "smart_contrast",
-    "voice_navigation",
-    "dictionary",
-    "highlight_links",
-    "line_height",
-    "saturation",
-    "bigger_text",
-    "pause_animation",
-    "tool_tip",
-    "cursor",
-    "text_spacing",
-    "contrast_plus",
-    "dyslexia",
-    "ADHD",
-    "congitive",
-    "blind",
-    "Seizure",
-    "visuallyImpraired",
-    "color_blind",
-    "motor_active",
-  ]);
+    // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
+    const accAddonsMainMenuFeature = features.find(item => item.title === 'Adjust the Main Menu' && item.type === 'acc-addons');
+
+    // console.log('accAddonsMainMenuFeature',accAddonsMainMenuFeature)
+    if (accAddonsMainMenuFeature) {
+      checkboxStore.title = accAddonsMainMenuFeature.title
+
+      checkboxStore.checkboxIds =[ ...accAddonsMainMenuFeature.features.map(feature => feature.name)];
+
+      // Map over the features inside the found item
+      const dynamicCards = accAddonsMainMenuFeature.features.map(feature => ({
+        icon: feature.icon,
+        name: feature.label,
+        description: feature.description,
+        checkboxId: feature.name
+      }));
+
+      // Initialize store with dynamic data
+      checkboxStore.initializeCardsMenu(dynamicCards,   "AdjustMainMenuCards","initialCardsOrder");
+
+      [...checkboxStore.checkboxIds].forEach((name) => {
+        checkboxStore.addCheckbox(name);
+      });
+      checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds]);
+    } else {
+      console.warn('No matching feature found for Adjust the Main Menu.');
+    }
+
+  } catch (error) {
+    console.error('Error fetching main menu data:', error);
+  }
+
 });
 
+const handleSaveToAllSites = async () => {
+  try {
+    console.log("Handling Save to All Sites logic...");
+    //toDo Add logic for saving to all sites
+
+    // $toast.success('Changes saved to all sites successfully.');
+  } catch (error) {
+    console.error('Error saving to all sites:', error);
+    // $toast.error('Failed to save to all sites.');
+  }
+};
+
+// Define handleSave method to handle save actions
+const handleSave = async () => {
+  try {
+    console.log("Handling Save logic...");
+
+
+    // $toast.success('Changes saved successfully.');
+  } catch (error) {
+    console.error('Error saving changes:', error);
+    // $toast.error('Failed to save changes.');
+  }
+};
 
 
 let pendingNavigation = null;
@@ -151,7 +159,7 @@ const shouldShowFooter = computed(() => {
 
 // alert(isAddonsLinkActive)
   return (
-    isAddonsLinkActive 
+    isAddonsLinkActive
 
   );
 });
@@ -167,7 +175,7 @@ const cancelAc = () => {
   // const translatePlayer =
   //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
 
- 
+
 
   if (isAddonsLinkActive) {
     checkboxStore.cancelAll();
@@ -182,7 +190,9 @@ const cancelAc = () => {
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
-       @cancel_action="cancelAc"
+        @Save="handleSave"
+        @saveToAllSites="handleSaveToAllSites"
+        @cancel_action="cancelAc"
       />
     </transition>
     <LazyModalsConfirm
@@ -195,11 +205,11 @@ const cancelAc = () => {
       :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove"
     />
-    <div class="w-full h-full relative">
+    <div class="w-full h-full relative" >
       <HeaderAccess
         websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
+        :website-title="defaultApp?.title"
+        :website-link="defaultApp?.app_domain"
         section-title="Addons"
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."
