@@ -21,7 +21,9 @@ const toggleCheckbox = (name: string) => {
 const getImagePath = (icon) => {
   return fullUrl(icon);
 };
+onMounted(()=>{
 
+})
 
 </script>
 

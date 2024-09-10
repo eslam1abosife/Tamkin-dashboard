@@ -46,6 +46,8 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 const { $toast } = useNuxtApp();
 onMounted(() => {
   // $toast('error',{hideIn:400000,type:'error'})
+  console.log(checkboxStore.checkboxes);
+
 });
 onBeforeMount(async () => {
   try {
@@ -62,15 +64,15 @@ onBeforeMount(async () => {
       (item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons"
     );
 
-    // console.log('accAddonsMainMenuFeature',accAddonsMainMenuFeature)
     if (accAddonsMainMenuFeature) {
       checkboxStore.title = accAddonsMainMenuFeature.title;
 
-      checkboxStore.checkboxIds = [
-        ...accAddonsMainMenuFeature.features.map((feature) => feature.name),
-      ];
+      checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map((feature) => feature.name);
 
-      // Map over the features inside the found item
+      // Get initial values (you might need to adjust this based on the structure of `features`)
+      const initialValues = accAddonsMainMenuFeature.features.map((feature) => feature.value === "1" || false);
+
+      // Initialize store with dynamic data
       const dynamicCards = accAddonsMainMenuFeature.features.map((feature) => ({
         icon: feature.icon,
         name: feature.label,
@@ -78,17 +80,10 @@ onBeforeMount(async () => {
         checkboxId: feature.name,
       }));
 
-      // Initialize store with dynamic data
-      checkboxStore.initializeCardsMenu(
-        dynamicCards,
-        "AdjustMainMenuCards",
-        "initialCardsOrder"
-      );
+      checkboxStore.initializeCardsMenu(dynamicCards, "AdjustMainMenuCards", "initialCardsOrder");
 
-      [...checkboxStore.checkboxIds].forEach((name) => {
-        checkboxStore.addCheckbox(name);
-      });
-      checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds]);
+      // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
+      checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds], initialValues);
     } else {
       console.warn("No matching feature found for Adjust the Main Menu.");
     }
@@ -96,6 +91,7 @@ onBeforeMount(async () => {
     console.error("Error fetching main menu data:", error);
   }
 });
+
 
 const handleSaveToAllSites = async () => {
   try {

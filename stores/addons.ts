@@ -39,10 +39,15 @@ export const useAddonStore = defineStore('addon', {
       this.routeLeaveModal = false
       this.cancelAll()
     },
-    initializeCheckboxes(names: string[]) {
-      this.checkboxes = names.map(name => ({ name, value: false }));
-      this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes)); // Deep copy the initial state
+    initializeCheckboxes(names: string[], values: boolean[]) {
+      this.checkboxes = names.map((name, index) => ({
+        name,
+        value: values[index] !== undefined ? values[index] : false, // Use provided value or default to false
+      }));
+    
+      this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes));
     },
+    
     addCheckbox(name: string) {
       if (!this.checkboxes.some(checkbox => checkbox.name === name)) {
         const newCheckbox = { name, value: false };
