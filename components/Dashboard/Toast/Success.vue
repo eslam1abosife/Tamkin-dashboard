@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
   <div
     v-if="isVisible"
-    class="!inset-x-[50%] fixed inset-0 z-[99999] top-[70px] w-full max-w-[500px]  rounded-[5px] h-[37px] flex items-center justify-start"
+    class="!inset-x-[50%] fixed inset-0 z-[99999] top-[70px] w-full max-w-[30%] rounded-[5px] h-[37px] flex items-center justify-start"
     :class="[
       type === 'success'
         ? 'bg-[#DAF3F1]'
@@ -59,8 +59,8 @@ onMounted(() => {
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
       </svg>
     </div>
-    <div>
-      <span class="text-[13px] font-[400] whitespace-nowrap">{{ message }}</span>
+    <div class="w-auto">
+      <span class="text-[13px] font-[400] ">{{ message }}</span>
     </div>
   </div>
 </template>

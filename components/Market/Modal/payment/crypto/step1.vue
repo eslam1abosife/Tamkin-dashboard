@@ -68,16 +68,27 @@ const toggleDropdown = () => {
 };
 
 const selectCryptoMethod = (method) => {
-  marketStore.selectedCrypto = method;
-  isCryptoMenuOpen.value = false;
+  if (marketStore.selectedCrypto !== method) {
+    marketStore.selectedCrypto = method;
+    isCryptoMenuOpen.value = false;
+    marketStore.promo = "";
+    marketStore.currentDiscount = 0;
+    marketStore.validPromo = false;
+    
+  } else {
+    marketStore.selectedCrypto = method;
+    isCryptoMenuOpen.value = false;
+
+  }
 };
 const loading = ref(false);
 const filteredCryptoMethods = computed(() => {
-  return cryptostore.list.filter((method) =>
-    method.title.toLowerCase().includes(search.value.toLowerCase())
-  );
+  return cryptostore.list
+    .filter((method) =>
+      method.title.toLowerCase().includes(search.value.toLowerCase())
+    )
+    .sort((a, b) => a.sort - b.sort);
 });
-
 const loadingData = ref(true);
 onBeforeMount(async () => {
   await cryptostore.setCryptoList();
@@ -86,7 +97,9 @@ onBeforeMount(async () => {
 
   const featuredRate = cryptostore.list.find((rate) => rate.is_featured === 1);
 
-    marketStore.selectedCrypto = featuredRate;
+    if(!marketStore.selectedCrypto) {
+      marketStore.selectedCrypto = featuredRate;
+    }
   
   // console.log()
 });
@@ -517,7 +530,7 @@ const finalAmount = computed(() => {
               <tbody>
                 <tr
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="marketStore.validPromo"
+                  v-if="false"
                 >
                   <td
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
@@ -588,7 +601,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                  ${{finalAmount}}
+                  ${{finalAmount.toFixed(2)}}
                 </td>
                 </tr>
               </tbody>

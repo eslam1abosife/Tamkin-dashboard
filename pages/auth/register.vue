@@ -10,7 +10,7 @@ definePageMeta({
   layout: "auth",
 });
 const route=useRoute();
-console.log(route);
+// console.log(route);
 if(route.query?.ref && process.client){
   console.log(route.query?.ref);
   localStorage.setItem("ref", route.query?.ref );
@@ -20,7 +20,7 @@ const state = reactive({
   password: "",
   full_name: "",
   confirm_password: "",
-  refer: localStorage.getItem("ref") || "",
+  refer: localStorage.getItem("ref") || null,
 });
 const rules = {
   email: { required, email },

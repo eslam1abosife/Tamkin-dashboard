@@ -121,7 +121,7 @@ const percentageOff = computed(() => {
     <div v-if="isModalOpen('crypto_market_success')"  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
 
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-     dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('cardModal_market')">
+     dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('crypto_market_success')">
       <svg
         class="w-[12px] h-[12px]"
         width="14"

@@ -12,6 +12,7 @@ import {
   useInvoices,
   useInvoicePdf,
 } from "@/composables/useBilling";
+const {t} = useI18n()
 const { getCards } = useGetCards();
 
  
@@ -66,16 +67,19 @@ const elementsOptions = ref({
   locale: "en",
   currency: "usd",
 });
-const elms = ref<any>(null); // Define type for elms
-const card = ref<any>(null); // Define type for card
+const elms = ref<any>(null); 
+const card = ref<any>(null); 
 const disabledPay = ref(true);
 const cardNumberElement = ref(null);
 const loadingAddCard = ref(false)
 const cardExpiryElement = ref(null);
 const cardCvcElement = ref(null);
 const router = useRouter();
-const { $toast } = useNuxtApp(); // Assuming you have a toast notification system
+const { $toast } = useNuxtApp();
 const cardErrors = ref([]);
+const cardIsEmpty = ref(true); 
+const expiryChange = ref(true)
+const cvvChange = ref(true)
 // Load Stripe
 onMounted(async () => {
   try {
@@ -103,29 +107,50 @@ const stripeElementReadyEV = () => {
 
 // Completed Stripe Event
 const completedStripe = (event: any) => {
+  if (event.error) {
+        cardErrors.value = [t(event.error.message)] // Update with new errors
+      } else {
+        cardErrors.value = [] // Clear errors if no errors
+      }
   if (event.complete) {
-    disabledPay.value = false;
+    cardIsEmpty.value = false;
   } else {
-    disabledPay.value = true;
+    cardIsEmpty.value = true;
   }
+};
+const expiryErrors = ref([])
+
+/**
+ * Handles changes to the expiry date input element.
+ * If the input is valid, resets the expiryChange flag and clears any errors.
+ * If the input is invalid, sets the expiryChange flag and displays the error message.
+ * @param {{complete: boolean, error: {message: string}}} event - Stripe expiry change event
+ */
+const handleExpiryChange = (event: any) => {
+  if (event.complete) {
+    expiryChange.value = false;
+  } else if(event.error) {
+    expiryErrors.value = [t(event.error.message)] 
+  }else {
+    expiryErrors.value = [] 
+  }
+
 };
 const profileStore = useProfileStore()
 const cvvErrors = ref([])
-const handleChange = (event: any) => {
-      // Check if there are any errors
-      if (event.error) {
-        cardErrors.value = [event.error.message] // Update with new errors
-      } else {
-        cardErrors.value = [] // Clear errors if no errors
-      }
-    }
+
     const handleChangeCVV = (event: any) => {
       // Check if there are any errors
       if (event.error) {
-        cvvErrors.value = [event.error.message] // Update with new errors
+        cvvErrors.value = [t(event.error.message)] // Update with new errors
       } else {
         cardErrors.value = [] // Clear errors if no errors
       }
+      if (event.complete) {
+    cvvChange.value = false;
+  } else {
+    cvvChange.value = true;
+  }
     }
 // Handle Save Card
 const handleSave = async () => {
@@ -351,19 +376,19 @@ const addNew = async () => {
             v-slot="{ elements, instance }"
             ref="elms"
             @ready="stripeElementReadyEV"
-            @change="completedStripe"
             :stripe-key="stripeKey"
           >
             <StripeElement
               ref="cardNumberElement"
               type="cardNumber"
+            @change="completedStripe"
+
               :class="{
                 input_error:
                  cardErrors && cardErrors.length > 0,
               }"
               :options="cardOptions"
               :elements="elements"
-              @change="handleChange"
               class="w-full input_floating_label "
             />
             <div
@@ -383,16 +408,46 @@ const addNew = async () => {
               ref="card"
               type="cardCvc"
               :options="cardOptions"
+            @change="handleChangeCVV"
+
               :elements="elements"
               class="w-2/4 input_floating_label relative"
             />
+            <div
+            class="w-full lg:w-4/6 absolute bottom-0  right-[17px]"
+            v-if="cvvErrors && cvvErrors.length > 0"
+          >
+            <p class="error_message">
+              <span
+               
+                >{{ cvvErrors[0] }}</span
+              >
+            </p>
+          </div>
             <StripeElement
             ref="card"
             type="cardExpiry"
             :options="cardOptions"
+            @change="handleExpiryChange"
+            :class="{
+              input_error:
+              expiryErrors && expiryErrors.length > 0,
+            }"
             :elements="elements"
             class="w-2/4 input_floating_label relative"
           />
+
+          <div
+          class="w-full lg:w-4/6 absolute bottom-0 right-[17px]"
+          v-if="expiryErrors && expiryErrors.length > 0"
+        >
+          <p class="error_message">
+            <span
+             
+              >{{ expiryErrors[0] }}</span
+            >
+          </p>
+        </div>
             </div>
           </StripeElements>
 </div>
@@ -620,7 +675,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
             <button class="btn_bordered_dashboard" @click="closeModalCard">
               {{ $t("Cancel") }}
             </button>
-            <button class="btn-dashboard hover_tamkin" @click="addNew" :disabled="loadingAddCard || cardErrors.length || v$.$invalid">
+            <button class="btn-dashboard hover_tamkin" @click="addNew" :disabled="cvvChange || expiryChange ||cardIsEmpty || loadingAddCard || cardErrors.length  || v$.$invalid">
               <div class="flex items-center justify-center">
                 <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
       

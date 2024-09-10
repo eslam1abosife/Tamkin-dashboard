@@ -4,7 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useCart } from "@/composables/useMarket";
 
 const { createOrder, cartItems } = useCart();
-
+const marketStore = useMarketStore()
 const {
   isOpen,
   currentView,
@@ -20,15 +20,24 @@ const props = defineProps({
 
 const goToPaymentMethod = async (method: any) => {
   if (selectedPaymentMethod.value === 'by_card') {
+    marketStore.promo = "";
+    marketStore.currentDiscount = 0;
+    marketStore.validPromo = false;
     return navigateTo('paymentMethods_market', 'market', 'cardModal_market')
   }
   if (selectedPaymentMethod.value === 'by_paypal') {
+    marketStore.promo = "";
+    marketStore.currentDiscount = 0;
+    marketStore.validPromo = false;
     return navigateTo('paymentMethods_market', 'market', 'paypal_market')
 
     // const res = await createOrder('paypal')
     // console.log(res.headers.location)
   }
   if (selectedPaymentMethod.value === 'by_crypto') {
+    marketStore.promo = "";
+    marketStore.currentDiscount = 0;
+    marketStore.validPromo = false;
     return navigateTo('paymentMethods_market', 'market', 'crypto_market_step1')
 
   }

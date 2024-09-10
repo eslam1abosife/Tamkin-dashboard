@@ -3,7 +3,9 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useCart } from "@/composables/useMarket";
 import { useCouponCode } from "@/composables/useMarket";
-const { createOrder, cartItems, messageData } = useCart();
+const {locale } = useI18n()
+
+const { createOrder, cartItems, messageData ,codeStatus} = useCart();
 const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
 const marketStore = useMarketStore();
@@ -116,11 +118,13 @@ const iframe = ref(null)
 onMounted(async () => {
   urlPayment.value = ''
   await getCards();
-
+if(billingStore.cards.length){
   const primaryCard = billingStore.cards.find((card) => card.isprimary === true);
   if (primaryCard) {
     currentCard.value = primaryCard.id;
   }
+}
+  
   window.addEventListener('message', handleIframeMessage);
   // window.addEventListener('failed', handleIframeMessage);
 
@@ -129,11 +133,13 @@ onMounted(async () => {
 });
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-  const res = await createOrder('Card', currentCard.value)
+  const res = await createOrder('Card', currentCard.value,locale.value);
   // return navigateTo('cardModal','add-site','crypto')
-  if (messageData.value !== 'Not Found Any Products' && messageData.value !== 'You need to bill the other invoice before you can confirm this order') {
+  if (codeStatus.value === 200) {
     urlPayment.value = res
-    // loadingPayment.value = false;
+
+    marketStore.removeMultipleFromCart(marketStore.cartItems);
+
   } else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
     loadingPayment.value = false;
@@ -293,7 +299,7 @@ onBeforeUnmount(() => {
                     <img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" />
                   </div>
                   <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                    Pay Via PayPal
+                    {{ $t('Pay Via PayPal') }}
                   </div>
                 </div>
                 <div class="order-1 mx-[4px]">
@@ -319,7 +325,7 @@ onBeforeUnmount(() => {
                     <img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" />
                   </div>
                   <div class="text-[16px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin">
-                    Pay Via Crypto currency
+                    {{ $t('Pay Via Crypto') }}
                   </div>
                 </div>
                 <div class="order-1 mx-[4px]">

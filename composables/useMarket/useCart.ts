@@ -1,14 +1,16 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
-const cartItems = ref([]);
 
 export default function() {
+const cartItems = ref([]);
+
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
 const marketStore = useMarketStore()
 const messageData = ref('')
+const codeStatus = ref(0)
     const getCartItems = async () => {
         try {
             const { data } = await api.post('/Market/GetCartItems');
@@ -47,17 +49,20 @@ const messageData = ref('')
         }
     };
 
-    const createOrder = async (paymentType,card =null) => {
+    const createOrder = async (paymentType,card =null,locale =null) => {
         try {
             const { data } = await api.post('/Market/ConfirmOrderItems',{
               data:{
                 "pay_type":paymentType,  //Card|paypal
                 "card":card, //Allow Null  ,
-                "coupon_code":marketStore.promo
+                "coupon_code":marketStore.promo,
+                "locale":locale
               }
             });
             // if(!data.succeeded) throw(data.message);
-            messageData.value = data.message
+            messageData.value = data.message ? data.message : 'Please try again later or contact support'
+            codeStatus.value = data.statusCode
+         
             return data.data
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
@@ -71,6 +76,7 @@ const messageData = ref('')
         getCartItems,
         cartItems,
         loading,
-        messageData
+        messageData,
+        codeStatus
     }
 }

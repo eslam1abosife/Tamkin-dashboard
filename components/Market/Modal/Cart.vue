@@ -76,7 +76,7 @@ const confirmOrder = async () => {
     >
       <div
         class="w-full  grid grid-cols-1 px-[20px] relative"
-        v-if="marketStore.cartItems.length > 0"
+        v-if="marketStore.cartItems.length "
       >
         <!-- Items List -->
         <div class="space-y-4 mt-[10px] "
@@ -84,7 +84,7 @@ const confirmOrder = async () => {
           <!-- Item -->
           <div
             class="flex items-center border-b justify-between pb-4"
-            v-for="(cartItem,index) in cartItems"
+            v-for="(cartItem,index) in marketStore.cartItems"
             :key="cartItem.name"
           >
             <div class="flex items-center rtl:space-x-reverse space-x-4">

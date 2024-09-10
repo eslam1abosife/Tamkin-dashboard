@@ -11,11 +11,21 @@ middleware:['auth','permissions'],
 requiredPermission: 'sign-language-market',
 
 });
-
+const router = useRouter()
 // Function to check query parameters
-const checkPaymentStatus = () => {
-  if (route.query && route.query.paid) {
+const checkPaymentStatus = async () => {
+  if (route.query && route.query.paid && route.query.locale) {
+  if(route.query.locale === 'ar'){
+   await router.push(`/ar/market?paid=${route.query.paid}&locale=ar`)
+    
+      openModal('successPayment_market')
+
+   
+
+  }else {
     openModal('successPayment_market')
+
+  }
   }
 }
 
@@ -89,7 +99,7 @@ const shouldShowFooter = computed(()=>{
   return isMarketChanges
 })
 const currentCategoryWithSkinItems = computed(() => {
-  return categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab);
+  return categoriesWithSkinItemsFiltered.value ? categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab) : [];
 });
 const handleSave = (AppName) => {
   if (isLinkActive(localePath("/market"))) {
@@ -117,16 +127,9 @@ watchEffect(() => {
   marketStore.setCartItems(cartItems.value)
 })
 const cartItemCount = computed(() => marketStore.cartItems.length);
-// const cartItemCount = computed(() => cartItems.value.length);
 const showBadge = ref(false);
 const { resetModal } = storeToRefs(marketStore);
-// watch(cartItemCount, (newCount, oldCount) => {
-//   if (newCount > 0 && newCount !== oldCount) {
-//     showBadge.value = true;
-//     // setTimeout(() => (showBadge.value = false), 500); // Hide after animation
-//   }
-// });
-// Notification Animation Functions
+
 function beforeEnter(el) {
   el.style.transform = "scale(0)";
   el.style.opacity = "0";

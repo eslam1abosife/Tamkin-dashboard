@@ -16,7 +16,7 @@ const {
   navigateTo,
 } = useModalManager();
 const { getCryptoList } = useGetCryptoList();
-const { paywithCrypto } = usePayWithCrypto();
+const { paywithCrypto ,messageData,codeStatus} = usePayWithCrypto();
 
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
@@ -132,10 +132,18 @@ onUnmounted(() => {
 const payCrypto = async () => {
   loadingPayment.value = true;
   await paywithCrypto(state.TXID);
+  if (codeStatus.value === 200) {
+
+
 
   navigateTo("crypto_market_step2", "market", "crypto_market_success");
   loadingPayment.value = false;
   marketStore.removeMultipleFromCart(marketStore.cartItems);
+  }else {
+    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+    loadingPayment.value = false;
+   
+  }
 };
 const percentageOff = computed(() => {
   const subtotal = marketStore.cartSubtotal;

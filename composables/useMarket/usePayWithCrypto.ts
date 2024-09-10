@@ -7,16 +7,20 @@ export default function() {
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
     const marketStore = useMarketStore()
+    const messageData = ref('')
+const codeStatus = ref(0)
     const paywithCrypto = async (hash) => {
         try {
             const res = await api.post('/Market/BuyWithCrypto', {
                 "code": marketStore.promo || null,
                 "hash": hash,
                 "crypto": marketStore.selectedCrypto.name,
-                "network": marketStore.selectedCrypto.network
+                "network": marketStore.selectedCrypto.network,
+                "date":new Date()
              
             });
-        
+            messageData.value = res.data.message ? res.data.message : 'Please try again later or contact support'
+            codeStatus.value = res.data.statusCode
          return res.data.data
             
         } catch (error) {
@@ -30,6 +34,8 @@ export default function() {
 
     return {
         loading,
-        paywithCrypto
+        paywithCrypto,
+        messageData,
+        codeStatus
     }
 }

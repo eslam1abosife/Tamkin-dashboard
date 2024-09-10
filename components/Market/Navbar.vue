@@ -15,7 +15,7 @@ const navStoreRef = storeToRefs(navStore);
 const props = defineProps(["categoriesWithSkinItems", "loading"]);
 
 const categoriesHavingSkinItems = computed(() => {
-  return props.categoriesWithSkinItems.filter((category) => category.skin_items_list.length > 0);
+  return props.categoriesWithSkinItems && props.categoriesWithSkinItems.length > 0 ?  props.categoriesWithSkinItems.filter((category) => category.skin_items_list.length > 0) :[];
 });
 
 const scrollItemRefs = ref({});
@@ -31,9 +31,11 @@ onMounted(async () => {
     });
   }
 
+if(categoriesHavingSkinItems.value.length >0){
   categoriesHavingSkinItems.value.forEach((category) => {
     scrollItemRefs.value[category.name] = null;
   });
+}
 
 });
 

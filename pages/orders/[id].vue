@@ -15,13 +15,23 @@ const {
   eventCounter,
   setData
 } = useModalManager();
+const cryptoStore = useCryptoStore()
 const marketStore = useMarketStore();
 const trakingStatus = ref([])
 const orderDetails = ref({})
 const loadingBlock=ref(true)
 const loadingInvoiceId = ref(null)
-import { useRoute } from 'vue-router'
 const route = useRoute()
+function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
+
+
+const rate = rates[selectedCrypto];
+if (rate) {
+  return (usdTotal / rate).toFixed(1);
+} else {
+  // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
+}
+}
 const getOrderDetails=async()=>{
   const { getOrderInvoiceDetails } = useGetOrderInvoiceDetails();
 
@@ -31,6 +41,7 @@ const getOrderDetails=async()=>{
 }
 onMounted(async () => {
   if(process.client){
+    await cryptoStore.getRates();
     await getOrderDetails()
   }
   loadingBlock.value = false;
@@ -73,6 +84,8 @@ const getStatusImage=(status:string)=> {
           case 'Paid':
           return statusImages[2];
           case 'Cancelled':
+          return statusImages[0];
+          case 'Declined':
           return statusImages[0];
           default:
           return statusImages[1];
@@ -319,10 +332,10 @@ function leaveCart(el, done) {
 
           <img 
           
-                  :class="orderDetails.status === 'Rejected' || orderDetails.status === 'Cancelled' ? 
+                  :class="orderDetails.status === 'Declined' || orderDetails.status === 'Cancelled' ? 
                             '!w-[24px] !h-[24px]' : ''"
           :src="getStatusImage(orderDetails.status)" class="w-[32px] h-[32px] ipad-max:w-[16px] ipad-max:h-[16px]" alt="">
-          <div>{{ $t(orderDetails.status )}}</div>
+          <div>{{ $t(orderDetails.status)}}</div>
 
         </div>
       </div>
@@ -402,6 +415,18 @@ function leaveCart(el, done) {
               <td class="py-2   border-b dark:border-light rtl:text-left ltr:text-right   min-w-[100px] font-[500] uppercase  dark:text-whiteTamkin"
                 colspan="4">
                 {{ orderDetails.discount }} {{  $t(orderDetails.Currency ? orderDetails.Currency : 'USD') }}
+              </td>
+            </tr>
+            <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p" v-if="orderDetails['Payment Method'] === 'Crypto'">
+              <td class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right  font-[500] w-full dark:text-whiteTamkin"
+                colspan="4">
+                {{$t('Total Crypto')}}
+
+              </td>
+              <td
+                class="py-2 border-b dark:border-light rtl:text-left ltr:text-right uppercase w-full min-w-[100px] font-[500] dark:text-whiteTamkin"
+                colspan="4">
+               {{convertUsdToCrypto(orderDetails.total, cryptoStore.rates, orderDetails.coingecko_id)}} {{ orderDetails.crypto_title }}
               </td>
             </tr>
             <tr class="text-[14px] leading-[24px]  bg-[#FAFCFE] dark:bg-p">

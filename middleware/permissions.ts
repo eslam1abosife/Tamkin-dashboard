@@ -17,7 +17,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     
     // Extract member permissions
     const permissions = profileStore.member.permission || [];
-    console.log(permissions);
+    // console.log(permissions);
     
     // Extract roles from permissions
     const memberPermissions = permissions.map(
@@ -25,7 +25,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     );
 
     // Get the user's role profile name from cookie
-    const roleProfileName = userCookie.value.role_profile_name || null;
+    const roleProfileName = useCookie('user').value.role_profile_name || null;
     console.log('user role profile name:', roleProfileName);
 
     // Define the required permission for the current route (customize as needed)

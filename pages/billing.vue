@@ -241,7 +241,7 @@ function leaveCart(el, done) {
       </div>
     </div>
     <div
-      v-if=" billingStore.loadCards"
+      v-if="billingStore.loadCards"
       class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">

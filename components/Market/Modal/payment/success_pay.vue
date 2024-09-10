@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import {useModalManager} from "@/composables/useModalManager";
 const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo,getData} = useModalManager();
@@ -87,14 +88,14 @@ const usepaystore = usePaymentStore()
 >
 
 <div>
-    <img  src="/assets/imgs/payment_methods/declined.svg" class="w-[60px] h-[60px]" />
+    <img  src="/assets/imgs/payment_methods/declined.svg" class="w-[40px] h-[40px]" />
 </div>
 
 
 <div class="flex flex-col items-center justify-center mx-auto  px-[70px]  w-full">
 
 <div class="w-full mt-[16px]">
-<h1 class="text-center text-[#D43139] text-[24px] leading-[40px] font-[500]">
+<h1 class="text-center text-[#D43139] text-[18px] leading-[40px] font-[500]">
     {{$t('Declined Transaction')}}
 </h1>
 </div>

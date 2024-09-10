@@ -652,7 +652,7 @@ watch(
           class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 rtl:right-[90px] ltr:left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 rtl:right-[90px] ltr:left-[65px] h-full bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
               : ' ',
             showSubMenu[4] ? 'block ' : 'hidden',
           ]"
@@ -703,6 +703,47 @@ watch(
                 class="space-y-[10px] w-full"
                 :class="[!sideBarOpen ? 'mt-[10px]' : '']"
               >
+              <li
+              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+              :class="[
+                isLinkActive('/market') && sideBarOpen ? '' : '',
+                sideBarOpen ? 'w-auto ' : '',
+              ]"
+            >
+              <nuxt-link
+                @click.stop
+                :to="localePath('/market')"
+                :class="[
+                  isLinkActive('/market')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    : '',
+                ]"
+                class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
+              >
+              <div
+              class="w-[8px] h-[2px] rounded-[10px] "
+              v-if="sideBarOpen"
+              :class="[
+                isLinkActive('/market')
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                  : 'bg-darkGrey dark:bg-whiteTamkin',
+                  
+              ]"
+            ></div>
+                <div
+                  :class="[
+                    !sideBarOpen && isLinkActive('/market')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : sideBarOpen
+                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                      : '',
+                       sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] '
+                  ]"
+                >
+                  {{ $t('Market') }}
+                </div>
+              </nuxt-link>
+            </li>
                 <li
                
                  ref="services"
@@ -738,7 +779,7 @@ watch(
                         class="flex items-center justify-start w-full"
                       >
                         <div
-                          class="w-[8px] h-[2px] rounded-[10px] "
+                          class="max-w-[8px] w-[8px] h-[2px] rounded-[10px] "
                           v-if="sideBarOpen"
                           :class="[
                             showChildMenu[1]
@@ -800,45 +841,7 @@ watch(
                   :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none ' : 'rtl:mr-[20px] ltr:ml-[20px]']"
                   v-if="showChildMenu[1]"
                 >
-                  <li
-                    class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                    :class="[
-                      isLinkActive('/market') && sideBarOpen ? '' : '',
-                      sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                    ]"
-                  >
-                    <nuxt-link
-                      @click.stop
-                      :to="localePath('/market')"
-                      :class="[
-                        isLinkActive('/market')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : '',
-                      ]"
-                      class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                    >
-                      <div
-                        class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                        v-if="sideBarOpen"
-                        :class="[
-                          isLinkActive('/market')
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                            : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                        ]"
-                      ></div>
-                      <div
-                        :class="[
-                          !sideBarOpen && isLinkActive('/market')
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                            : sideBarOpen
-                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                            : '',
-                        ]"
-                      >
-                        {{ $t('Market') }}
-                      </div>
-                    </nuxt-link>
-                  </li>
+                
                   <li
                   class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
@@ -1408,7 +1411,7 @@ watch(
                   class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
                     isLinkActive('/overview') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                    sideBarOpen ? 'w-full  ml-[10px]' : '',
                   ]"
                 >
                   <nuxt-link
@@ -1421,15 +1424,16 @@ watch(
                     ]"
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
+                  
                     <div
-                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                      v-if="sideBarOpen"
-                      :class="[
-                        isLinkActive('/overview')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin ',
-                      ]"
-                    ></div>
+                    class="w-[8px] h-[2px] rounded-[10px] "
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/overview')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
                     <div
                       :class="[
                         !sideBarOpen && isLinkActive('/overview')
@@ -1459,15 +1463,18 @@ watch(
                     ]"
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
+                 
+
                     <div
-                      class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                      v-if="sideBarOpen"
-                      :class="[
-                        isLinkActive('/addons')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                      ]"
-                    ></div>
+                    class="w-[8px] h-[2px] rounded-[10px] "
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/addons')
+
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
                     <div
                       :class="[
                         !sideBarOpen && isLinkActive('/addons')
@@ -1498,15 +1505,16 @@ watch(
                     ]"
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
-                    <div
-                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                      v-if="sideBarOpen"
-                      :class="[
-                        isLinkActive('/statistics')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                      ]"
-                    ></div>
+                  <div
+                  class="w-[8px] h-[2px] rounded-[10px] "
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/statistics')
+
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
                     <div
                       :class="[
                         !sideBarOpen && isLinkActive('/statistics')
@@ -1537,15 +1545,16 @@ watch(
                     ]"
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
-                    <div
-                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                      v-if="sideBarOpen"
-                      :class="[
-                        isLinkActive('/customize')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                      ]"
-                    ></div>
+                  <div
+                  class="w-[8px] h-[2px] rounded-[10px] "
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/customize')
+
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
                     <div
                       :class="[
                         !sideBarOpen && isLinkActive('/customize')
@@ -1576,15 +1585,16 @@ watch(
                     ]"
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
-                    <div
-                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                      v-if="sideBarOpen"
-                      :class="[
-                        isLinkActive('/settings')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                      ]"
-                    ></div>
+                  <div
+                  class="w-[8px] h-[2px] rounded-[10px] "
+                  v-if="sideBarOpen"
+                  :class="[
+                    isLinkActive('/settings')
+
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
                     <div
                       :class="[
                         !sideBarOpen && isLinkActive('/settings')

@@ -606,27 +606,7 @@ import 'vue-loading-overlay/dist/css/index.css';
                 class="flex items-center justify-end  rtl:space-x-reverse lg:space-x-[20px] w-full"
 
             >
-              <div class="py-[17px] search_input relative lg:hidden block w-1/4">
-                <input
-                    type="text"
-                    class="input_dashboard_search w-1/4"
-                    v-model="search"
-                    :placeholder="`${$t('Search ...')}`"
-                />
-                <div
-                    class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] 
-                    ltr:lg:left-0 rtl:lg:right-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                >
-                  <img src="/assets/imgs/icons/search.svg"/>
-                </div>
-                <div
-                    v-if="isSearchfilled"
-                    @click="clearInput"
-                    class="absolute top-[12px] lg:top-[16px]  rtl:!right-0 ltr:right-0 p-[16px] cursor-pointer"
-                >
-                  <img src="/assets/imgs/icons/clear_search.svg"/>
-                </div>
-              </div>
+      
           <div class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] ">
             <Langswitcher/>
 

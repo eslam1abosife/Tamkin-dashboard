@@ -36,6 +36,8 @@ export default function() {
             if (!res.data.succeeded) throw new Error(res.data.message);
     
             user.value = { ...result.user, ...res.data.data };
+            useCookie('user').value = JSON.stringify({ ...res.data.data});
+
             tokenCookie.value = user.value.sid;
             isLoggedInCookie.value = true;
     
@@ -43,7 +45,7 @@ export default function() {
             userStore.setToken(user.value.sid);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
-    
+
             router.push({path:localePath('/my-site')});
     
             return null; // No error, so return null

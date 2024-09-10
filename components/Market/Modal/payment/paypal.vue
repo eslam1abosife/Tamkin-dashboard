@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { useCart } from "@/composables/useMarket";
+const {locale } = useI18n()
 
-const { createOrder, cartItems,messageData } = useCart();
+const { createOrder, cartItems,messageData,codeStatus } = useCart();
 const marketStore = useMarketStore();
 
 const {
@@ -32,15 +33,15 @@ const changepaymentMethod = (method: any) => {
 };
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-  const res = await createOrder("paypal");
-
-  if (messageData.value !== 'Not Found Any Products' && messageData.value !== 'You need to bill the other invoice before you can confirm this order') {
+const res = await createOrder("paypal",null,locale.value);
+// alert(locale.value)
+  if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
   
-    // loadingPayment.value = false;
+    loadingPayment.value = false;
   }else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
     loadingPayment.value = false;
