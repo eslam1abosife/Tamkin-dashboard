@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites } from "@/composables/useTeam";
-import { useGetMainMenu } from "@/composables/useAccessibility";
+import { useGetMainMenu ,useSetOptions} from "@/composables/useAccessibility";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 
 const { fullUrl } = useFullUrl();
 const { getMainMenu } = useGetMainMenu();
+const { setOptions } = useSetOptions();
 const checkboxStore = useAddonStore();
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
@@ -78,6 +79,7 @@ onBeforeMount(async () => {
         name: feature.label,
         description: feature.description,
         checkboxId: feature.name,
+        value   : feature.value,
       }));
 
       checkboxStore.initializeCardsMenu(dynamicCards, "AdjustMainMenuCards", "initialCardsOrder");
@@ -116,7 +118,8 @@ const handleSave = async () => {
   try {
     if(checkboxStore.originalFeatures){
     console.log("Handling Save logic...");
-const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
+    const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
+
     const orgAddonsMainMenuFeature =  toBeMappedAdjustMainMenu.map((feature) => ({
       name: feature.name,
       title: feature.title,
@@ -125,18 +128,18 @@ const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) =>
       description_on_show: feature.description_on_show,
       description_on_hide: feature.description_on_hide,
       features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
-        name: feature.name,
-        label: feature.label,
-        description: feature.description,
-        icon: feature.icon,
+        name: feature.checkboxId,
         sort : checkboxStore.AdjustMainMenuCards.indexOf(feature)+1,
         value: isChecked(feature.checkboxId) ? 1 : 0,
+        is_selected: 1,
+        // label: feature.name,
+        // description: feature.description,
+        // icon: feature.icon,
       })),
-
-
     }))
     console.log(orgAddonsMainMenuFeature[0])
 
+      const response = await setOptions(orgAddonsMainMenuFeature[0]['features']);
    }
 
     // $toast.success('Changes saved successfully.');
