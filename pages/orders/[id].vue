@@ -363,7 +363,7 @@ function leaveCart(el, done) {
                     <h3 class="font-[500] text-[#878787] capitalize dark:text-whiteTamkin">{{ $t(item.type) }}</h3>
                   </div>
                 </div>
-                <p class="text-darkGrey text-sm font-[500] text-left mt-[6px] capitalize dark:text-whiteTamkin">{{
+                <p class="text-darkGrey text-sm font-[500] rtl:text-right ltr:text-left mt-[6px] capitalize dark:text-whiteTamkin">{{
                   $t(item.name) }}</p>
 
                 <div v-if="item.type == 'Custom Character'"

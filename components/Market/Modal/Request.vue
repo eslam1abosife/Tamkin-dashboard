@@ -4,7 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useEditCustomerCharacter, useCart } from '~/composables/useMarket';
 import { useRuntimeConfig } from '#app'
 import { defineEmits } from 'vue';
-
+const {t} = useI18n()
 const emit = defineEmits(['updateData']);
 const config = useRuntimeConfig()
 const baseImageURL = config.public.baseImagerUrl
@@ -49,7 +49,7 @@ const onDrop = (acceptedFiles, rejectedFiles) => {
   acceptedFiles.forEach(file => convertToBase64(file));
 
 };
-const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true });
+const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop,multiple:true , accept: "image/*"  });
 const fileURL = (file) => {
   console.log(file.image);
   return URL.createObjectURL(file);
@@ -114,7 +114,7 @@ const updateData = async()=>{
   if (!requestData.value?.name) {
     // if creating
     await marketStore.addToCart(FormData, 'custom_character', 'Custom Character')
-    msg = "Request Created Successfully";
+    // msg = t("Request Created Successfully")
   }else{
     // elseif updating
     FormData.id = requestData.value.id;
@@ -123,9 +123,9 @@ const updateData = async()=>{
     getCartItems();
 
     emit('updateData', 'refresh');
-    msg = "Request Updated Successfully";
+ 
   }
-  $toast(msg, { hideIn: 3000});
+  $toast(t("Request Updated Successfully"), { hideIn: 3000});
   loadingUpdate.value = false
   closeAndShowChat()
 }
@@ -359,7 +359,7 @@ watchEffect(() => {
             </div>
           </div>
         </div>
-        <div class="!text-error" v-if="noUpload"> {{$t('please Uplaod atleast one image')}} </div>
+        <div class="!text-error" v-if="noUpload"> {{$t('please Upload atleast one image')}} </div>
 
         <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
@@ -368,9 +368,9 @@ watchEffect(() => {
         </div>
         <div class="mt-8 flex justify-end  space-x-[20px] rtl:mr-auto ltr:ml-auto rtl:flex-row-reverse  py-3">
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
-          <button class="btn-dashboard hover_tamkin max-w-[195px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
+          <button class="btn-dashboard hover_tamkin max-w-[200px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
             <div class="flex items-center justify-center">
-              <div :class="loadingUpdate ? 'rtl:mr-4 ltr:mr-4':''">
+              <div :class="loadingUpdate ? 'rtl:ml-4 ltr:mr-4':''">
                {{ isUpdating ? $t('Update') : $t('Add To Cart') }}
               </div>
          

@@ -102,7 +102,7 @@ const usepaystore = usePaymentStore()
 <div class="w-full ">
 <p class="text-[16px] text-center leading-[40px] font-[500] mt-[16px] text-[#1E1E1E]">
 
-{{ $t('Your payment was declined. Please check details or contact your bank') }}
+{{ $t('Your payment was declined. Please check details or contact your bank') }}
 </p>
 </div>
 

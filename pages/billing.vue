@@ -366,11 +366,9 @@ function leaveCart(el, done) {
             >
               <button
                 @click="openCard(savedCard)"
-                :disabled="savedCard.isprimary"
+        
                 class="text-darkGrey hover:border-tamkin border-[#EAEAEA] w-[32px] h-[32px] border rounded-lg flex items-center justify-center group"
-                :class="{
-                  'opacity-50 cursor-not-allowed':savedCard.isprimary,
-                }"
+           
               >
                 <svg
                   width="18"

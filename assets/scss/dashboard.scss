@@ -679,7 +679,7 @@ html {
 }
 
 .close_btn_payment {
-    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[30px] bg-white
+    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[20px] bg-white
     rounded-full flex justify-center items-center w-[30px] h-[30px];
 
     &:hover {

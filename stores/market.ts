@@ -3,6 +3,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 import { rand } from '@vueuse/core';
+
 const { fullUrl } = useFullUrl();
 import {useCouponCode} from "@/composables/useMarket";
 
@@ -192,7 +193,8 @@ export const useMarketStore = defineStore('market', {
         return !this.owned(item)
     },
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
-      
+
+      const {$toast} = useNuxtApp()
       const { addItemToCart /* , getCartItems */ } = useCart();
       if (!this.isInCart(item.name)) {
         // add to item until the request finishes
@@ -211,11 +213,14 @@ this.animateCartIcon();
         var cartItemName;
         if (type == 'custom_character') {
             cartItemName = await addItemToCart(item.name, type, item);
-            if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
+            if (cartItemsCount === 1 ) {
               this.showFirstItemNotification();
               this.firstItemNotificationShown = true;
-            }
     this.animateCartIcon();
+
+            }else {
+              $toast(useNuxtApp().$i18n.t("Request Created Successfully"),{hideIn:3000})
+            }
         }else{
             cartItemName = await addItemToCart(item.name, type);
     

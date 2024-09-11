@@ -53,8 +53,8 @@ const codeStatus = ref(0)
         try {
             const { data } = await api.post('/Market/ConfirmOrderItems',{
               data:{
-                "pay_type":paymentType,  //Card|paypal
-                "card":card, //Allow Null  ,
+                "pay_type":paymentType, 
+                "card":card, 
                 "coupon_code":marketStore.promo,
                 "locale":locale
               }

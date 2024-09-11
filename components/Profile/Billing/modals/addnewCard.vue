@@ -12,7 +12,7 @@ import {
   useInvoices,
   useInvoicePdf,
 } from "@/composables/useBilling";
-const {t} = useI18n()
+const {t,locale} = useI18n()
 const { getCards } = useGetCards();
 
  
@@ -57,15 +57,13 @@ const stripeKey = ref(
 );
 const stripeLoaded = ref(false);
 const cardOptions = ref({ 
-  showIcon: true
-
+  showIcon: true,
   
   
 });
 const elementsOptions = ref({
-  mode: "setup",
-  locale: "en",
-  currency: "usd",
+  locale: locale.value
+
 });
 const elms = ref<any>(null); 
 const card = ref<any>(null); 
@@ -83,8 +81,7 @@ const cvvChange = ref(true)
 // Load Stripe
 onMounted(async () => {
   try {
-    const stripe = await loadStripe(stripeKey.value); // No template literal needed
-    await getCountries();
+    const stripe = await loadStripe(stripeKey.value);    await getCountries();
 
     if (stripe) {
       stripeLoaded.value = true;
@@ -109,6 +106,7 @@ const stripeElementReadyEV = () => {
 const completedStripe = (event: any) => {
   if (event.error) {
         cardErrors.value = [t(event.error.message)] // Update with new errors
+        console.log(event.error)
       } else {
         cardErrors.value = [] // Clear errors if no errors
       }
@@ -129,8 +127,11 @@ const expiryErrors = ref([])
 const handleExpiryChange = (event: any) => {
   if (event.complete) {
     expiryChange.value = false;
+    
   } else if(event.error) {
     expiryErrors.value = [t(event.error.message)] 
+    console.log(event.error)
+
   }else {
     expiryErrors.value = [] 
   }
@@ -143,11 +144,14 @@ const cvvErrors = ref([])
       // Check if there are any errors
       if (event.error) {
         cvvErrors.value = [t(event.error.message)] // Update with new errors
+        console.log(event.error)
+
       } else {
         cardErrors.value = [] // Clear errors if no errors
       }
       if (event.complete) {
     cvvChange.value = false;
+
   } else {
     cvvChange.value = true;
   }
@@ -181,7 +185,7 @@ const handleSave = async () => {
   const paymentMethodId = paymentMethod.id;
   await sendPaymentMethodIdToApi(paymentMethodId);
   if(response.value.data.succeeded === false){
-      cardErrors.value = ['This card cannot be used right now. please try with different card']// Update with new errors
+      cardErrors.value = [t('This card cannot be used right now. please try with different card')]// Update with new errors
       loadingAddCard.value  = false
 
     }else {
@@ -193,7 +197,7 @@ const handleSave = async () => {
       closeModal('add_new_card_billing')
     }
 
-      $toast("Card added successfully!");
+      $toast(t("Card added successfully!"));
       billingStore.loadCards = true
       await getCards();
       billingStore.loadCards = false
@@ -208,8 +212,8 @@ const sendPaymentMethodIdToApi = async (paymentMethodId: string) => {
     await addNewCardToStripe(paymentMethodId,state.is_primary);
  
   } catch (error) {
-    console.error("Failed to send payment method ID:", error);
-    $toast("Failed to save card");
+    // console.error("Failed to send payment method ID:", error);
+    $toast(t("Failed to save card"));
   }
 };
 
@@ -274,7 +278,7 @@ const addNew = async () => {
             {{ $t("Add New Card") }}
           </h1>
         </div>
-        <div
+        <div v-if="stripeLoaded"
           class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
@@ -371,18 +375,18 @@ const addNew = async () => {
 
           <StripeElements
             class="w-full relative"
-            dir="ltr"
+            
             v-if="stripeLoaded"
             v-slot="{ elements, instance }"
             ref="elms"
             @ready="stripeElementReadyEV"
             :stripe-key="stripeKey"
+            :elements-options="elementsOptions"
           >
             <StripeElement
               ref="cardNumberElement"
               type="cardNumber"
             @change="completedStripe"
-
               :class="{
                 input_error:
                  cardErrors && cardErrors.length > 0,
@@ -392,7 +396,7 @@ const addNew = async () => {
               class="w-full input_floating_label "
             />
             <div
-            class="w-full lg:w-4/6 absolute right-[17px]"
+            class="w-full lg:w-4/6 absolute rtl:left-[-17px] ltr:right-[17px]"
             v-if="cardErrors && cardErrors.length > 0"
           >
             <p class="error_message">
@@ -403,10 +407,11 @@ const addNew = async () => {
             </p>
           </div>
         
-            <div class="flex items-center justify-center mt-[14px] space-x-[20px]">
+            <div class="flex items-center justify-center mt-[14px] rtl:space-x-reverse space-x-[20px]">
               <StripeElement
               ref="card"
               type="cardCvc"
+              
               :options="cardOptions"
             @change="handleChangeCVV"
 
@@ -414,7 +419,7 @@ const addNew = async () => {
               class="w-2/4 input_floating_label relative"
             />
             <div
-            class="w-full lg:w-4/6 absolute bottom-0  right-[17px]"
+            class="w-full lg:w-4/6 absolute bottom-0  rtl:left-[-17px] ltr:right-[17px]"
             v-if="cvvErrors && cvvErrors.length > 0"
           >
             <p class="error_message">
@@ -427,6 +432,7 @@ const addNew = async () => {
             <StripeElement
             ref="card"
             type="cardExpiry"
+            
             :options="cardOptions"
             @change="handleExpiryChange"
             :class="{
@@ -438,7 +444,7 @@ const addNew = async () => {
           />
 
           <div
-          class="w-full lg:w-4/6 absolute bottom-0 right-[17px]"
+          class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[-17px] ltr:right-[17px]"
           v-if="expiryErrors && expiryErrors.length > 0"
         >
           <p class="error_message">
@@ -709,6 +715,53 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
 
       </div> -->
         </div>
+        <div v-if="!stripeLoaded"
+  class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
+  style="box-shadow: 0px 4px 24px 8px #51459f14"
+>
+  <h1
+    class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px] animate-pulse bg-gray-300 w-32 h-6 rounded"
+  ></h1>
+
+  <div
+    class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
+  >
+    <div
+      class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+      space-y-[25px] mb-[25px] w-full"
+    >
+      <div class="w-full animate-pulse">
+        <div class="w-full h-10 bg-gray-300 rounded"></div>
+        <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+      </div>
+
+      <div class="w-full lg:w-[330px] animate-pulse">
+        <div class="w-full h-10 bg-gray-300 rounded"></div>
+        <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center mt-[14px] space-x-[20px] animate-pulse">
+      <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
+      <div class="w-2/4 h-10 bg-gray-300 rounded"></div>
+    </div>
+
+    <h1
+      class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[14px] animate-pulse bg-gray-300 w-40 h-6 rounded"
+    ></h1>
+
+    <div class="w-full mt-[21px] animate-pulse">
+      <div class="w-full h-10 bg-gray-300 rounded"></div>
+      <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
+    </div>
+
+    <div class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full animate-pulse">
+      <div class="w-full h-10 bg-gray-300 rounded"></div>
+      <div class="w-full h-10 bg-gray-300 rounded"></div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
