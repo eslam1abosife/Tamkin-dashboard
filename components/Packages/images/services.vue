@@ -1,5 +1,14 @@
+<script lang="ts" setup>
+import { useFullUrl } from "@/composables/useSharedFunctions";
+
+const packagesStore= usePackgesStore()
+
+const { fullUrl } = useFullUrl();
+
+</script>
+
 <template>
-    <div
+    <div v-if="packagesStore.getAddonsOrExtras('Services').length"
       class="flex items-center flex-col justify-center relative w-full mt-[32px] h-[296px] 
       rounded-[10px] bg-gradient-to-l rounded-[10px]  from-[#F0EAF7] space-y-[24px] via-[#85C8D6]/[23%] to-[#DAD1FF] relative"
     >
@@ -8,29 +17,50 @@
         Images  services
       </div>
   
-      <div class="bg-white/[73%] w-5/6 rounded-[10px] h-[173px] p-[20px] flex  items-center justify-between space-y-[14px]"> 
+      <div 
+         v-for="srv in packagesStore.getAddonsOrExtras('Services')"
+      class="bg-white/[73%] w-5/6 rounded-[10px] h-[173px] p-[20px] relative flex  items-center justify-between space-y-[14px]"> 
 <div class="flex flex-col items-start justify-center">
   <div class="flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
     <div>
-      <img src="/imgs/image_services_icon.png" class="w-[31px] h-[26px]" alt="">
+      <img :src="fullUrl(srv.icon)" class="w-[31px] h-[26px]" alt="">
     </div>
   <div class="text-[#021328] font-[500] text-[14px] leading-[20px]">
-    Translate Images
+    {{srv.title}}
   </div>
   
   
   </div>
-  <div class="text-[#393767] font-[400] text-[11px] leading-[18px]">
-    Enhance Your Experience with the Translate video  Add-on - Purchase Now
+  <div class="text-[#393767] font-[400] text-[11px] leading-[18px] mt-2">
+    {{srv.description}}
   
   
   
   </div>
-  
+  <div v-if="srv.package_price_role[0].discount_month !== 0 || srv.package_price_role[0].discount_yearly !==0"
+  class="absolute top-[90px] left-[150px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]"
+>
+  <div
+    class="absolute right-[0] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] line-through"
+  >
+  <span v-if="packagesStore.discountType === 'month'">
+    ${{ srv.package_price_role[0].cost_before_month }}
+  </span>
+  <span v-if="packagesStore.discountType === 'year'">
+    ${{ srv.package_price_role[0].cost_before_yearly  }}
+  </span>
+  </div>
+</div>
   
   <div class="my-[8px]">
-    <span class="text-[12px] leading-[18px] font-[700]">$150</span
-    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
+    <span class="text-[12px] leading-[18px] font-[700]">$
+      {{ 
+        packagesStore.discountType === 'month' 
+          ? srv.package_price_role[0].cost_month
+          : srv.package_price_role[0].cost_yearly
+      }}
+      </span
+    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/{{packagesStore.discountType}}</span>
   </div>
   
   <div

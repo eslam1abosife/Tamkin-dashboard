@@ -1,28 +1,37 @@
 <script lang="ts" setup>
-import {useModalManager} from "@/composables/useModalManager";
 const router = useRouter()
 const route = useRoute()
-const {isOpen, currentView, openModal, closeModal, goBack, navigateTo,getData} = useModalManager();
-
-const setDefaultQuery = () => {
+const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
+const payStore = usePaymentStore()
+const setDefaultQuery = (tryagain) => {
+ if(tryagain){
   router.push({
-    path: route.path, // Stay on the same path
+    path: route.path, 
     query: {
       paid: undefined, 
       status: undefined
     }
   })
-  usepaystore.stateOfPayment = ''
+  
+return navigateTo('successPayment_market', 'market', 'paymentMethods_market')
+ }else {
+  router.push({
+    path: route.path, 
+    query: {
+      paid: undefined, 
+      status: undefined
+    }
+  })
   closeModal('successPayment_market')
+ }
 }
-const usepaystore = usePaymentStore()
 
 </script>
 
 <template>
   <div
   v-if="isOpen('successPayment_market')"
-  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full
+  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0  ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full
    h-full lg:h-screen lg:overflow-x-hidden"
 >
   <div
@@ -44,12 +53,10 @@ const usepaystore = usePaymentStore()
       />
     </svg>
   </div>
-
   <div class="w-full h-full">
-    <div v-if="$route.query && $route.query.paid === 'True' || usepaystore.stateOfPayment === 'paid'
-"
+    <div v-if="$route.query && $route.query.paid === 'True' || payStore.stateOfPayment === 'paid'"
     class="flex flex-col items-center justify-center bg-white dark:bg-tamkinDarkPrimary 
-     w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[87px]"
+     w-full h-full rounded-[10px] mt-[55px] pt-[55px] mb-[87px]"
     style="box-shadow: 0px 4px 24px 8px #51459f14"
   >
 
@@ -75,27 +82,27 @@ const usepaystore = usePaymentStore()
 
 
  </div>
- <div class="mt-[16px]  mx-auto mb-[260px]">
-  <button class="btn-dashboard  hover_tamkin  lg:w-[400px] w-full " @click="setDefaultQuery" >
+ <div class="mt-[16px]  mx-auto mb-[260px] px-[20px]">
+  <button class="btn-dashboard  hover_tamkin  lg:w-[400px] w-full " @click="setDefaultQuery(false)" >
       {{$t('Done')}}   </button>
 
 </div>
 
   </div>
-  <div v-if="$route.query && $route.query.paid === 'False' || usepaystore.stateOfPayment === 'failed'"
-  class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[33px] pt-[55px] mb-[40px]"
+  <div v-if="$route.query && $route.query.paid === 'False' || $route.query && $route.query.paid === 'false' || payStore.stateOfPayment === 'failed'"
+  class="flex flex-col items-center justify-center bg-white  w-full h-full rounded-[10px] mt-[55px] pt-[55px] mb-[40px]"
   style="box-shadow: 0px 4px 24px 8px #51459f14"
 >
 
 <div>
-    <img  src="/assets/imgs/payment_methods/declined.svg" class="w-[40px] h-[40px]" />
+    <img  src="/assets/imgs/payment_methods/declined.svg" class="w-[50px] h-[50px]" />
 </div>
 
 
 <div class="flex flex-col items-center justify-center mx-auto  px-[70px]  w-full">
 
 <div class="w-full mt-[16px]">
-<h1 class="text-center text-[#D43139] text-[18px] leading-[40px] font-[500]">
+<h1 class="text-center text-[#D43139] text-[24px] leading-[40px] font-[500]">
     {{$t('Declined Transaction')}}
 </h1>
 </div>
@@ -110,11 +117,14 @@ const usepaystore = usePaymentStore()
 
 
 </div>
-<div class="mt-[16px]  mx-auto mb-[260px]">
-
-<button class="btn-dashboard hover_tamkin mx-auto  mt-[18px] lg:w-[400px] w-full "
- @click="setDefaultQuery">
-   {{$t('Done')}}
+<div class="flex flex-col items-center justify-center space-y-[24px] w-full mt-[24px]  px-[20px] mx-auto mb-[260px]">
+  <button class="btn-dashboard hover_tamkin mx-auto   lg:w-[400px] w-full "
+  @click="setDefaultQuery(true)">
+    {{$t('Try again')}}
+   </button>
+<button class="btn_bordered_dashboard hover_tamkin mx-auto  lg:w-[400px] w-full "
+ @click="setDefaultQuery(false)">
+   {{$t('Back to Market')}}
   </button>
 </div>
 <!-- <div class="mt-[129px]  mx-auto mb-[34px]">

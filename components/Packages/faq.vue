@@ -5,16 +5,16 @@ const packagesStore = usePackgesStore()
 
 <template>
 
-    <div class="w-full h-auto bg-white p-[30px] mx-auto mt-[32px] relative">
+    <div class="w-full  min-h-[500px] bg-white p-[30px] mx-auto mt-[32px] relative">
         <div class="absolute top-[180px] left-[100px]">
           <img src="/imgs/Astronaut.png" class="w-[167px] h-[174px] opacity-30" alt="" />
         </div>
-        <div class="text-[#18191F] text-[20px] leading-[32px] text-left font-[600]">
+        <div class="text-[#18191F] text-[20px] leading-[32px] text-left px-[40px] font-[600]">
           Frequently Asked Questions
         </div>
   
-        <div class="flex items-center justify-center">
-          <div class="flex items-start justify-center flex-col w-full rtl:-ml-14 ltr:-mr-14 mt-[50px]">
+        <div class="grid grid-cols-2 gap-[-48px] h-[120%] max-h-[800px]"> 
+          <div class="flex items-start justify-center flex-col w-full  relative left-[40px] mt-[24px]">
             <div
 
             v-for="faq in packagesStore.getFaqBasedOnType" :key="faq.name"
@@ -28,7 +28,7 @@ const packagesStore = usePackgesStore()
           packagesStore.selectedQuestion = faq
 
         }"
-        :class="[packagesStore.selectedQuestion.name === faq.name ? 'bg-[#E8F2FF]':'bg-white/[60%]']"
+        :class="[packagesStore.selectedQuestion.name === faq.name ? 'bg-[#E8F2FF]':'bg-white/[80%]']"
               class="h-[45px] w-full  py-[15px] cursor-pointer rtl:space-x-reverse space-x-[9px] px-[10px] 
               flex items-center justify-start relative z-[50]"
               style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
@@ -62,17 +62,17 @@ const packagesStore = usePackgesStore()
         
           </div>
           <div v-if="packagesStore.selectedQuestion.name === packagesStore.currentFaq"
-            class="mt-[48px] relative z-[40] float-right h-[293px] w-full rounded-[10px] bg-[#FAFBFF]"
+            class=" relative z-[40]  right-[40px] h-[110%] max-h-[800px] w-full rounded-[10px] this bg-[#FAFBFF]"
             style="box-shadow: 0px 0px 2.49px 0.62px #00000026"
           >
             <div
-              class="px-14 text-center mt-[26px] text-[12px] font-[600] leading-[24px] text-black break-words w-full"
+              class="px-24 text-left mt-[32px] text-[12px] font-[600] leading-[24px] text-black break-words w-full"
             >
              {{packagesStore.selectedQuestion.question}}
             </div>
   
             <div
-              class="px-24 mt-[28px] text-center text-[11px] font-[400] leading-[24px] text-black"
+              class="px-24 mt-[28px] text-left text-[11px] font-[400] leading-[24px] text-black"
             >
             {{packagesStore.selectedQuestion.answer}}
 

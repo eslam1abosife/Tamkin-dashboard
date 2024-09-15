@@ -360,30 +360,7 @@ provide("pricingType", pricingType);
 
     
         <!-- FAQ END-->
-    
-        <div class="w-full h-[334px] bg-white rounded-[10px] relative mt-[32px] mx-auto">
-          <div
-            class="absolute z-20 w-[95%] h-[170px] top-[90px] bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
-          ></div>
-    
-          <div class="absolute right-[70px] top-[25px] z-50">
-            <img src="/imgs/av.png" alt="" />
-          </div>
-          <div
-            class="absolute h-[246px] z-50 w-[379px] left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
-          >
-            <div class="text-[20px] font-[600] leading-[24px] text-black text-left">
-              Have more questions?
-            </div>
-            <div class="text-[14px] font-[500] leading-[25px] text-black mt-[10px] text-left">
-              We're here to help reach out anytime for the answers and support you need!
-            </div>
-    
-            <button class="btn-dashboard hover_tamkin max-w-[136px] mt-[32px]">
-              Contact us
-            </button>
-          </div>
-        </div>
+
     </div>
 
   </div>

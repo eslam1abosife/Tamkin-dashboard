@@ -9,14 +9,15 @@ export default function() {
     const marketStore = useMarketStore()
     const messageData = ref('')
 const codeStatus = ref(0)
-    const paywithCrypto = async (hash) => {
+    const paywithCrypto = async (hash, price) => {
         try {
             const res = await api.post('/Market/BuyWithCrypto', {
                 "code": marketStore.promo || null,
                 "hash": hash,
                 "crypto": marketStore.selectedCrypto.name,
                 "network": marketStore.selectedCrypto.network,
-                "date":new Date()
+                "date":new Date(),
+                "amount":price
              
             });
             messageData.value = res.data.message ? res.data.message : 'Please try again later or contact support'

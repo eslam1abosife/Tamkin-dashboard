@@ -121,11 +121,11 @@ const updateData = async()=>{
     FormData.delted_images = deletedIdsRef.value;
     await EditCustomCharacter(FormData)
     getCartItems();
+    $toast(t("Request Updated Successfully"), { hideIn: 3000});
 
     emit('updateData', 'refresh');
  
   }
-  $toast(t("Request Updated Successfully"), { hideIn: 3000});
   loadingUpdate.value = false
   closeAndShowChat()
 }
@@ -361,7 +361,7 @@ watchEffect(() => {
         </div>
         <div class="!text-error" v-if="noUpload"> {{$t('please Upload atleast one image')}} </div>
 
-        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[150px] h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price }} $</div>

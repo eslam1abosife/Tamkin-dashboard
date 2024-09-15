@@ -65,21 +65,6 @@ const ChangeCurrentCryptoMethod = (method:any)=>{
 }
 
 
-function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
-    // Map selectedCrypto to standard name
-    const standardName = cryptoNameMapping[selectedCrypto];
-    if (!standardName) {
-        throw new Error(`Cryptocurrency ${selectedCrypto} not found in the mapping`);
-    }
-
-    const rate = rates[standardName];
-    if (rate) {
-        return usdTotal / rate;
-    } else {
-        throw new Error(`Cryptocurrency ${standardName} not found in the rates`);
-    }
-}
-
 const isOpen = ref(false);
 const search = ref('');
 
@@ -121,7 +106,12 @@ const percentageOff = computed(() => {
     <div v-if="isModalOpen('crypto_market_success')"  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
 
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-     dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('crypto_market_success')">
+     dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
+
+      closeModal('crypto_market_success')
+        marketStore.selectedPaymentMethod = '' 
+        marketStore.selectedCrypto = ''
+     }">
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -185,7 +175,11 @@ const percentageOff = computed(() => {
         
            </div>
            <div class="mt-[16px]  mx-auto mb-[260px] w-full px-[20px]">
-            <button class="btn-dashboard hover_tamkin w-full " @click="closeModal('crypto_market_success')">
+            <button class="btn-dashboard  hover_tamkin mx-auto lg:w-[400px] w-full"  @click="()=>{
+              closeModal('crypto_market_success')
+               marketStore.selectedPaymentMethod = '' 
+        marketStore.selectedCrypto = ''
+            }">
                 {{ $t('Done') }}
             </button>
          

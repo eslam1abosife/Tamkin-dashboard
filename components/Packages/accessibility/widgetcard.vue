@@ -1,7 +1,11 @@
+<script lang="ts" setup>
+const packagesStore = usePackgesStore();
+
+</script>
 <template>
-    <div
+    <div v-if="packagesStore.getAddonsOrExtras('Addons').length"
       class="flex items-center flex-col justify-center relative w-full  h-auto py-[50px] 
-      rounded-[10px] bg-gradient-to-r rounded-[10px]  from-[#ECDBF8] px-[24px] space-y-[24px] via-[#D0D0FD] to-[#F4E5DB] relative"
+      rounded-[10px] bg-gradient-to-r rounded-[10px]  from-[#ECDBF8] px-[24px] space-y-[24px] via-[#D0D0FD] to-[#F4E5DB] "
     >
      <div class="absolute z-[20] top-12">
         <img src="/imgs/access_widgets_hero.png" class="w-3/6 h-2/4" alt="">
@@ -15,346 +19,87 @@
         <img src="/imgs/widget_access_hero_2.png" class="w-[400px] h-[600px]" alt="">
      </div>
 
-    <div class="grid grid-cols-4 gap-4 relative z-50">
+    <div class="grid grid-cols-4 ipad-max:grid-cols-2 gap-4 relative z-50">
 
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-<div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-<div>
-    <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
+        <div 
+        v-for="addon in packagesStore.getAddonsOrExtras('Addons').sort((a, b) => a.sort - b.sort)" :key="addon.name"
+
+        class="h-[300px] w-full bg-white relative rounded-tl-[2px] rounded-br-[2px] p-[16px] rounded-tr-[22px] 
+        rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
+
+        <div class="flex flex-col items-center justify-start w-full">
+          <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
+            <div>
+              <img :src="`https://tamkin.app/${ addon.icon }`" class="w-[42px] h-[42px]" alt="" />
+            </div>
+            
+            
+            </div>
+            <div class="font-[600] text-[14px] text-center text-[#18191F] mt-[16px]">
+              {{$t(addon.title)}}
+            
+            </div>
+            <div class="text-[#393767] font-[400] text-[10px]  text-center mt-[6px]">
+              {{$t(addon.description)}}
+            
+            
+            </div>
+        </div>
+
+<div class="flex flex-col items-center justify-center w-full  ">
+
+<div class="absolute bottom-[60px]">
+  <div class="">
+
+    <span class="text-[16px] leading-[18px] font-[700] "> $ {{ 
+      packagesStore.discountType === 'month' 
+        ? addon.package_price_role[0].cost_month
+        : addon.package_price_role[0].cost_yearly
+    }}</span
+    ><span class="text-[16px] font-[500] leading-[15px] text-darkGrey">/{{packagesStore.discountType}}</span>
+
 </div>
-
-
+<div v-if="addon.package_price_role[0].discount_month !== 0 || addon.package_price_role[0].discount_yearly !==0 || (Number(addon.package_price_role[0].cost_month ) !== 0 &&  Number(addon.package_price_role[0].cost_yearly) !== 0)"
+class="flex items-center justify-center w-full"
+>
+<div v-if="(Number(addon.package_price_role[0].cost_month) !== 0 &&  Number(addon.package_price_role[0].cost_yearly) !== 0)"
+  class="text-[#EA4335] text-[14px] leading-[18.17px] font-[500] line-through"
+>
+<span v-if="packagesStore.discountType === 'month' &&addon.package_price_role[0].discount_month !==0">
+  ${{ addon.package_price_role[0].cost_before_month }}
+    <span class="text-[14px] font-[500] leading-[24px]">/{{ packagesStore.discountType }}</span>
+  </span>
+  <span v-if="packagesStore.discountType === 'year' &&addon.package_price_role[0].discount_yearly !==0">
+    ${{ addon.package_price_role[0].cost_before_yearly }}
+    <span class="text-[14px] font-[500] leading-[24px]">/{{ packagesStore.discountType }}</span>
+  </span>
 </div>
-<div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-    Screen Reader
 </div>
-<div class="text-[#393767] font-[400] text-[11px]  text-center ">
-    Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-
 </div>
-
-  
-<div class="my-[8px]">
-    <span class="text-[12px] leading-[18px] font-[700]">$150</span
-    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-  </div>
-  
   <div
-    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
+  class=" absolute bottom-[18px] text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center 
+  rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
+>
+  <div>Purchase Now</div>
+  <svg
+    width="9"
+     class="w-[5px]  h-[8px] rtl:rotate-180"
+    viewBox="0 0 9 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <div>Purchase Now</div>
-    <svg
-      width="9"
-      height="15"
-      class="w-[4px] h-[6px] rtl:rotate-180" 
-      viewBox="0 0 9 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-        class="fill-[#021328] group-hover:fill-white"
-      />
-    </svg>
-  </div>
+    <path
+      d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
+      class="fill-[#021328] group-hover:fill-white"
+    />
+  </svg>
+</div>
+</div>
         </div>
         
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
-                    
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
-                    
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
+   
     </div>
-    <div class="grid grid-cols-4 gap-4 relative z-50">
 
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-<div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-<div>
-    <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-</div>
-
-
-</div>
-<div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-    Screen Reader
-</div>
-<div class="text-[#393767] font-[400] text-[11px]  text-center ">
-    Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-
-</div>
-
-  
-<div class="my-[8px]">
-    <span class="text-[12px] leading-[18px] font-[700]">$150</span
-    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-  </div>
-  
-  <div
-    class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-  >
-    <div>Purchase Now</div>
-    <svg
-      width="9"
-      height="15"
-      class="w-[4px] h-[6px] rtl:rotate-180" 
-      viewBox="0 0 9 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-        class="fill-[#021328] group-hover:fill-white"
-      />
-    </svg>
-  </div>
-        </div>
-        
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
-                    
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
-                    
-        <div class="h-auto w-full bg-white rounded-tl-[2px] rounded-br-[2px] p-[40px] rounded-tr-[22px] rounded-bl-[22px]  flex flex-col items-center justify-start" style="box-shadow: 0px 4px 4px 0px #00000021;">
-            <div class="h-[45px] w-[45px] bg-[#F7F7F7] rounded-full flex flex-col items-center justify-center">
-            <div>
-                <img src="/imgs/screen_reader.png" class="w-[36px] h-[36px]" alt="">
-            </div>
-            
-            
-            </div>
-            <div class="font-[600] text-[14px] leading-[45px] text-[#18191F]">
-                Screen Reader
-            </div>
-            <div class="text-[#393767] font-[400] text-[11px]  text-center ">
-                Enhance Your Experience with the Screen Reader  Add-on - Purchase Now
-            
-            </div>
-            
-              
-            <div class="my-[8px]">
-                <span class="text-[12px] leading-[18px] font-[700]">$150</span
-                ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/month</span>
-              </div>
-              
-              <div
-                class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
-              >
-                <div>Purchase Now</div>
-                <svg
-                  width="9"
-                  height="15"
-                  class="w-[4px] h-[6px] rtl:rotate-180" 
-                  viewBox="0 0 9 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.72769 7.25391L-2.14577e-06 1.80922L1.63615 0.253906L9 7.25391L1.63615 14.2539L-2.14577e-06 12.6986L5.72769 7.25391Z"
-                    class="fill-[#021328] group-hover:fill-white"
-                  />
-                </svg>
-              </div>
-                    </div>
-    </div>
     </div>
   </template>
   

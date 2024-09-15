@@ -26,7 +26,9 @@ export const useMarketStore = defineStore('market', {
     currentDiscount:0,
     isPromoFilled:'',
     selectedCrypto:'',
-    loadingPromo:false
+    loadingPromo:false,
+    selectedPaymentMethod:'',
+    categoriesWithSkinItems:''
   }),
 
   actions: {
@@ -194,44 +196,51 @@ export const useMarketStore = defineStore('market', {
     },
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
 
-      const {$toast} = useNuxtApp()
-      const { addItemToCart /* , getCartItems */ } = useCart();
+      const { $toast } = useNuxtApp();
+      const { addItemToCart } = useCart();
+      
       if (!this.isInCart(item.name)) {
-        // add to item until the request finishes
+        // Add item until the request finishes
         let cartItem = this.convertFromItemToCartItem(item, type, category_title, category_image);
         let cartItemsCount = this.cartItems.push(cartItem);
-  
-        // Show notification if it's the first item and the notification hasn't been shown yet
-   
-      if(type !== 'custom_character'){
-        if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
-          this.showFirstItemNotification();
-          this.firstItemNotificationShown = true;
-        }
-this.animateCartIcon();
-      }
-        var cartItemName;
-        if (type == 'custom_character') {
-            cartItemName = await addItemToCart(item.name, type, item);
-            if (cartItemsCount === 1 ) {
-              this.showFirstItemNotification();
-              this.firstItemNotificationShown = true;
-    this.animateCartIcon();
-
-            }else {
-              $toast(useNuxtApp().$i18n.t("Request Created Successfully"),{hideIn:3000})
-            }
-        }else{
-            cartItemName = await addItemToCart(item.name, type);
     
-
+        // Show notification if it's the first item and the notification hasn't been shown yet
+        if (type !== 'custom_character') {
+          if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
+            this.showFirstItemNotification();
+            this.firstItemNotificationShown = true;
+          }
+          this.animateCartIcon();
         }
-        this.cartItems[cartItemsCount - 1].name = cartItemName; // to be used when deleting the item
-
+        // alert(cartItemsCount)
+    
+        var cartItemName;
+        if (type === 'custom_character') {
+          cartItemName = await addItemToCart(item.name, type, item);
+          
+          // Handle first item case separately for custom_character
+          if (cartItemsCount === 1) {
+            this.showFirstItemNotification();
+            this.firstItemNotificationShown = true;
+            this.animateCartIcon();
+          } else if(cartItemsCount > 1) {
+            // Only show toast if it's not the first item
+            $toast(useNuxtApp().$i18n.t("Request Created Successfully"), { hideIn: 3000 });
+          }
+    
+        } else {
+          cartItemName = await addItemToCart(item.name, type);
+        }
+    
+        this.cartItems[cartItemsCount - 1].name = cartItemName; // To be used when deleting the item
+    
       } else {
         this.removeFromCart(item, type, false);
       }
-    },
+    }
+,    
+    
+    
     
     // @param {boolean} [is_cart_item=true] - Whether the cart item is being deleted: from the cart or from the items listing.
     removeFromCart(cartItem: any, type: string = 'skin_Item', is_cart_item: boolean = true): void {

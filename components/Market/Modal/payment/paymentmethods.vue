@@ -13,19 +13,18 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const selectedPaymentMethod = ref("by_card");
 const props = defineProps({
   showModal: Boolean
 })
 
 const goToPaymentMethod = async (method: any) => {
-  if (selectedPaymentMethod.value === 'by_card') {
+  if (marketStore.selectedPaymentMethod === 'by_card') {
     marketStore.promo = "";
     marketStore.currentDiscount = 0;
     marketStore.validPromo = false;
     return navigateTo('paymentMethods_market', 'market', 'cardModal_market')
   }
-  if (selectedPaymentMethod.value === 'by_paypal') {
+  if (marketStore.selectedPaymentMethod === 'by_paypal') {
     marketStore.promo = "";
     marketStore.currentDiscount = 0;
     marketStore.validPromo = false;
@@ -34,7 +33,7 @@ const goToPaymentMethod = async (method: any) => {
     // const res = await createOrder('paypal')
     // console.log(res.headers.location)
   }
-  if (selectedPaymentMethod.value === 'by_crypto') {
+  if (marketStore.selectedPaymentMethod === 'by_crypto') {
     marketStore.promo = "";
     marketStore.currentDiscount = 0;
     marketStore.validPromo = false;
@@ -49,7 +48,10 @@ const goToPaymentMethod = async (method: any) => {
   <div v-if="isOpen('paymentMethods_market')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
-   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="closeModal('paymentMethods_market')">
+   dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
+    closeModal('paymentMethods_market')
+    marketStore.selectedPaymentMethod = ''
+   }">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -93,8 +95,8 @@ const goToPaymentMethod = async (method: any) => {
 
           <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
             <div class="w-full">
-              <div @click="selectedPaymentMethod = 'by_card'"
-                :class="[selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
+              <div @click="marketStore.selectedPaymentMethod = 'by_card'"
+                :class="[marketStore.selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
                 class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary
             flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -104,7 +106,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio5" type="radio" name="radio" class="hidden" value="by_card"
-                    v-model="selectedPaymentMethod" :checked="selectedPaymentMethod === 'by_card'" />
+                    v-model="marketStore.selectedPaymentMethod" :checked="marketStore.selectedPaymentMethod === 'by_card'" />
                   <label for="radio5" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -115,8 +117,8 @@ const goToPaymentMethod = async (method: any) => {
             </div>
 
             <div class=" w-full ">
-              <div @click="selectedPaymentMethod = 'by_crypto'"
-                :class="[selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
+              <div @click="marketStore.selectedPaymentMethod = 'by_crypto'"
+                :class="[marketStore.selectedPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
@@ -125,7 +127,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                    v-model="selectedPaymentMethod" :checked="selectedPaymentMethod === 'by_crypto'" />
+                    v-model="marketStore.selectedPaymentMethod" :checked="marketStore.selectedPaymentMethod === 'by_crypto'" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -135,8 +137,8 @@ const goToPaymentMethod = async (method: any) => {
 
             </div>
             <div class=" w-full ">
-              <div @click="selectedPaymentMethod = 'by_paypal'"
-                :class="[selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
+              <div @click="marketStore.selectedPaymentMethod = 'by_paypal'"
+                :class="[marketStore.selectedPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" /></div>
@@ -146,7 +148,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                    v-model="selectedPaymentMethod" :checked="selectedPaymentMethod === 'by_paypal'" />
+                    v-model="marketStore.selectedPaymentMethod" :checked="marketStore.selectedPaymentMethod === 'by_paypal'" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -157,7 +159,7 @@ const goToPaymentMethod = async (method: any) => {
             </div>
           </div>
           <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
-            <button class="btn-dashboard hover_tamkin" @click="goToPaymentMethod(selectedPaymentMethod)">
+            <button class="btn-dashboard hover_tamkin" :disabled="!marketStore.selectedPaymentMethod" @click="goToPaymentMethod(marketStore.selectedPaymentMethod)">
               {{ $t('Continue to Payment') }}
             </button>
           </div>

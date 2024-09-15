@@ -140,7 +140,7 @@ const switchTabAndScroll = async (tabName) => {
         </div>
       </div>
       <!-- loader -->
-      <MarketLoader v-if="loading" />
+      <MarketLoader v-if="categoriesHavingSkinItems.length === 0" />
       <!-- dynamic -->
       <div v-for="category in categoriesHavingSkinItems" :key="category.name"
       :ref="el => {

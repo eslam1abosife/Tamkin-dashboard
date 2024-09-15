@@ -198,7 +198,7 @@ const appList = computed(() => {
         if(currentTab.value == 'deleted') {
           return ele.status === 'deleted';
         } else {
-          return ele.status !== 'deleted'
+          return ele.status !== 'deleted' && ele.type !== 'Internal Services'
         }
       })
       .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()));

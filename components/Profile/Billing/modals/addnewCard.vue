@@ -58,9 +58,29 @@ const stripeKey = ref(
 const stripeLoaded = ref(false);
 const cardOptions = ref({ 
   showIcon: true,
-  
+  style: {
+  base: {
+    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
+    fontWeight: '400', // Set weight for Arabic and non-Arabic
+    colorTextPlaceholder: '#A7A7A7',
+
+  },
+}
+
   
 });
+const cardCvcOptions = ref({
+  placeholder: t('CVC'),
+  style: {
+  base: {
+    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
+    fontWeight: '400', // Set weight for Arabic and non-Arabic
+    colorTextPlaceholder: '#a7a7a7',
+
+  },
+}
+
+})
 const elementsOptions = ref({
   locale: locale.value
 
@@ -248,7 +268,8 @@ const addNew = async () => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] 
+    lg:p-[30px] lg:w-[600px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -333,13 +354,13 @@ const addNew = async () => {
                   </div>
                 </div>
               </div>
-              <div class="w-full lg:w-[330px]">
+              <div class="w-full ">
                 <div class="relative">
                   <input
                     type="text"
                     placeholder=""
                     id="lastName"
-                    class="input_floating_label peer w-full lg:w-[330px]"
+                    class="input_floating_label peer w-full "
                     v-model="v$.lastName.$model"
                     :class="{
                       input_error:
@@ -409,12 +430,12 @@ const addNew = async () => {
         
             <div class="flex items-center justify-center mt-[14px] rtl:space-x-reverse space-x-[20px]">
               <StripeElement
-              ref="card"
+              ref="card_cvc"
               type="cardCvc"
               
-              :options="cardOptions"
+              :options="cardCvcOptions"
             @change="handleChangeCVV"
-
+              placeholder="test"
               :elements="elements"
               class="w-2/4 input_floating_label relative"
             />
@@ -444,7 +465,7 @@ const addNew = async () => {
           />
 
           <div
-          class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[-17px] ltr:right-[17px]"
+          class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[-17px] ltr:right-[10px]"
           v-if="expiryErrors && expiryErrors.length > 0"
         >
           <p class="error_message">

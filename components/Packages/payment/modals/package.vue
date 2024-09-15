@@ -60,8 +60,9 @@ const levelsTraffic = ref([
 
 <template>
   <div  
-    class="mysite_bg_modal  dark:bg-p fixed z-[9999] top-[0] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
-     lg:w-[803px] w-full h-full lg:h-screen overflow-y-auto lg:overflow-x-hidden"
+    class="mysite_bg_modal  dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 
+    ltr:lg:right-0 rounded-[10px] lg:p-[30px] 
+     lg:w-[803px] w-full h-full overflow-y-auto lg:overflow-x-hidden"
    
   >
   <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]

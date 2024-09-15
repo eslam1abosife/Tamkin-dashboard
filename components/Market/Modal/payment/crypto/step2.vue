@@ -128,10 +128,30 @@ onUnmounted(() => {
 /**
  * Pay with selected cryptocurrency
  */
+ const finalAmount = computed(() => {
+  const cartTotal = marketStore.cartTotal;
+  const cryptoDiscount = marketStore.selectedCrypto?.discount || 0;
+  const couponDiscount = marketStore.currentDiscount;
 
+  // Apply coupon discount first
+  const amountAfterCoupon = cartTotal * (1 - couponDiscount / 100);
+
+  // Apply crypto discount to the amount after coupon
+  const finalTotal = amountAfterCoupon * (1 - cryptoDiscount / 100);
+
+  return finalTotal;
+});
 const payCrypto = async () => {
   loadingPayment.value = true;
-  await paywithCrypto(state.TXID);
+  await paywithCrypto(state.TXID, 
+
+ `${ convertUsdToCrypto(
+                    marketStore.cartTotal - marketStore.currentDiscount,
+                    cryptostore.rates,
+                    marketStore.selectedCrypto.title
+                  ) + ' '+ marketStore.selectedCrypto.title}`
+
+  );
   if (codeStatus.value === 200) {
 
 
@@ -154,6 +174,13 @@ const percentageOff = computed(() => {
   }
   return 0;
 });
+const cancelPayment =()=>{
+  marketStore.promo = ""
+  marketStore.validPromo = false
+  marketStore.currentDiscount = 0
+  marketStore.selectedCrypto = ""
+  closeModal('crypto_market_step2')
+}
 </script>
 
 <template>
@@ -164,7 +191,11 @@ const percentageOff = computed(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('crypto_market_step2')"
+      @click="()=>{
+        closeModal('crypto_market_step2')
+          marketStore.selectedPaymentMethod = '' 
+        marketStore.selectedCrypto = ''
+      }"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -224,7 +255,7 @@ const percentageOff = computed(() => {
               <span class="text-tamkin font-[600]">
                 {{
                   convertUsdToCrypto(
-                    marketStore.cartTotal - marketStore.currentDiscount,
+                    finalAmount,
                     cryptostore.rates,
                     marketStore.selectedCrypto.title
                   )
@@ -270,7 +301,7 @@ const percentageOff = computed(() => {
                     <span class="text-tamkin">
                       {{
                         convertUsdToCrypto(
-                          marketStore.cartTotal - marketStore.currentDiscount,
+                          finalAmount,
                           cryptostore.rates,
                           marketStore.selectedCrypto.title
                         )
@@ -379,7 +410,7 @@ const percentageOff = computed(() => {
               </button>
               <button
                 class="btn_bordered_dashboard normal_hover mx-auto mt-[18px] w-full"
-                @click="navigateTo('cryptosend', 'add-site', 'crypto')"
+                @click="cancelPayment"
               >
                 {{ $t('Cancel') }}
               </button>

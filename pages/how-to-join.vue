@@ -26,6 +26,7 @@ const hasError = ref(false);
 onMounted(() => {
   loading.value = false;
   hasError.value = !!error.value;
+  
 });
 const currentFaq = ref()
 

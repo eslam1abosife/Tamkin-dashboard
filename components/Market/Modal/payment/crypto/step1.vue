@@ -17,13 +17,7 @@ const isCryptoMenuOpen = ref(false);
 const isPromoFilled = ref(false);
 const promo = ref("");
 const validPromo = ref(false);
-const cryptoNameMapping = {
-  BNB: "binancecoin",
-  BTC: "bitcoin",
-  ETH: "ethereum",
-  "TSLT ": "tamkin",
-  USDT: "tether",
-};
+
 // watch(marketStore.promo, (ov, nv) => {
 //   return marketStore.promo
 //     ? (marketStore.isPromoFilled = true)
@@ -54,7 +48,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
   const rate = rates[marketStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(4);
+    return (usdTotal / rate).toFixed(2);
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -173,7 +167,11 @@ const finalAmount = computed(() => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('crypto_market_step1')"
+      @click="()=>{
+        closeModal('crypto_market_step1')
+        marketStore.selectedPaymentMethod = '' 
+        marketStore.selectedCrypto = ''
+      }"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -559,7 +557,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ discountAmount }}
+                    ${{ discountAmount.toFixed(2) }}
 
                   </td>
                 </tr>
@@ -579,7 +577,7 @@ const finalAmount = computed(() => {
                   >
                     {{
                       convertUsdToCrypto(
-                    marketStore.cartTotal - marketStore.currentDiscount,
+                    finalAmount,
                     cryptostore.rates,
                     marketStore.selectedCrypto.title
                   ) +
@@ -588,7 +586,7 @@ const finalAmount = computed(() => {
                     }}
                   </td>
                 </tr>
-                <tr
+                <tr v-if="false"
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td

@@ -14,37 +14,48 @@ const props = defineProps({
   currentListValue: String,
 });
 
-const currentMode = inject("currentMode");
-
 const emit = defineEmits(["getCurrentSelectedItem"]);
 const isListOpen = ref(false);
 const search = ref("");
 const selectedOption = ref(null);
 
+// Compute the initial selected option based on `currentListValue`
 const selectedListObj = computed(() => {
-  return props.list.find((item) => item[props.nameKey] === props.currentListValue);
+  return props.list.find((item) => item[props.nameKey] === props.currentListValue) || null;
 });
 
+// Update `selectedOption` when `currentListValue` changes
+watch(() => props.currentListValue, (newValue) => {
+  selectedOption.value = props.list.find((item) => item[props.nameKey] === newValue) || null;
+});
+
+// Emit the selected item when it's chosen
 const getSelectedItem = (item) => {
   emit("getCurrentSelectedItem", item);
 };
+
+// Toggle the dropdown visibility
 const toggleDropdown = () => {
   if (!props.disabled) {
     isListOpen.value = !isListOpen.value;
   }
 };
 
+// Close dropdown when clicking outside
 const closeOnOutSideClick = () => {
   isListOpen.value = false;
 };
-const selectList = (Item) => {
+
+// Select an item from the list
+const selectList = (item) => {
   if (!props.disabled) {
-    selectedOption.value = Item;
+    selectedOption.value = item;
     isListOpen.value = false;
-    getSelectedItem(Item);
+    getSelectedItem(item);
   }
 };
 
+// Filter the list based on search input
 const filteredList = computed(() => {
   return props.list.filter((listItem) =>
     listItem[props.nameKey].toLowerCase().includes(search.value.toString().toLowerCase())
@@ -52,32 +63,21 @@ const filteredList = computed(() => {
 });
 
 onMounted(() => {
+  // Ensure the initial value is set based on `currentListValue`
   selectedOption.value = selectedListObj.value;
 });
-
-watch(selectedListObj, (newValue) => {
-  selectedOption.value = newValue;
-});
 </script>
-
 
 <template>
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
     <button
       @click.prevent="toggleDropdown"
       class="input_search_country !rounded-[10px] peer w-full ltr:text-left rtl:text-right"
-      :class="[
-        isListOpen ? 'rounded-b-none' : '',
-        disabled
-          ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0'
-          : '',
-        errorField ? 'input_error' : '',
-        successField ? 'input_success' : '',
-      ]"
+      :class="[isListOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '', errorField ? 'input_error' : '', successField ? 'input_success' : '']"
     >
       <div
         class="floating_country px-[6px] text-[#585B5B] ipad-max:!font-[400] !font-[400] lg:!font-[600] ipad-max:text-[10px] text-[13px]"
-        :class="[selectedOption && selectedOption.name ? '!text-black' : 'text-light']"
+        :class="[selectedOption && selectedOption[nameKey] ? '!text-black' : 'text-light']"
       >
         <div class="flex items-center justify-start">
           <img
@@ -85,24 +85,19 @@ watch(selectedListObj, (newValue) => {
             :src="selectedOption[iconKey]"
             class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
           />
-
           <div :class="[errorField ? '!text-error' : '']">
-            {{ selectedOption ? $t(selectedOption.name ): $t(placeholderinput) }}
+            {{ selectedOption ? $t(selectedOption[nameKey]) : $t(placeholderinput) }}
           </div>
         </div>
         {{}}
       </div>
-
       <img
         src="/assets/imgs/payment_methods/country_arrow.svg"
         :class="[isListOpen ? 'rotate-90 ' : 'rtl:rotate-180']"
         class="rtl:ml-[0px] ltr:mr-[20px] mb-[0px] rtl:float-left ltr:float-right w-[14px] h-[8px]"
       />
     </button>
-    <div
-      v-if="isListOpen"
-      class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]"
-    >
+    <div v-if="isListOpen" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">
       <div class="search_input w-full rounded-t-[10px]" v-if="enableSearch">
         <input
           type="text"
@@ -113,44 +108,20 @@ watch(selectedListObj, (newValue) => {
         <div class="absolute top-[14px] rtl:right-[20px] ltr:left-[20px]">
           <img src="/assets/imgs/icons/search.svg" />
         </div>
-        <div
-          v-if="search"
-          @click="search = ''"
-          class="absolute top-[14px] cursor-pointer rtl:left-[20px] ltr:right-[20px]"
-        >
+        <div v-if="search" @click="search = ''" class="absolute top-[14px] cursor-pointer rtl:left-[20px] ltr:right-[20px]">
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul
-        class="overflow-y-auto"
-        :class="[filteredList.length > 0 ? 'h-[100px]' : 'h-auto']"
-      >
+      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'h-[100px]' : 'h-auto']">
         <li
           v-for="(listItem, i) in filteredList"
-          :key="listItem.id"
+          :key="listItem[idField]"
           @click="selectList(listItem)"
-          :class="[
-            i === 0 && !enableSearch ? 'rounded-t-[10px]' : '',
-            i === filteredList.length - 1 ? 'rounded-b-[10px]' : '',
-            selectedOption && selectedOption[idField] === listItem[idField]
-              ? '!bg-tamkinLight'
-              : '',
-          ]"
+          :class="[i === 0 && !enableSearch ? 'rounded-t-[10px]' : '', i === filteredList.length - 1 ? 'rounded-b-[10px]' : '', selectedOption && selectedOption[idField] === listItem[idField] ? '!bg-tamkinLight' : '']"
           class="last:rounded-b-[10px] flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight group cursor-pointer"
         >
-          <img
-            :src="listItem[iconKey]"
-            v-if="iconKey"
-            class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
-          />
-          <div
-            class="group-hover:text-tamkin"
-            :class="[
-              selectedOption && selectedOption[idField] === listItem[idField]
-                ? '!text-tamkin'
-                : '',
-            ]"
-          >
+          <img :src="listItem[iconKey]" v-if="iconKey" class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2" />
+          <div class="group-hover:text-tamkin" :class="[selectedOption && selectedOption[idField] === listItem[idField] ? '!text-tamkin' : '']">
             {{ $t(listItem[nameKey]) }}
           </div>
         </li>

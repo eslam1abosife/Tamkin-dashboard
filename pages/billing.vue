@@ -23,12 +23,33 @@ const { getInvoices } = useInvoices();
 const { invoicePdf } = useInvoicePdf();
 const globalLoad = ref(false);
 const { fullUrl } = useFullUrl();
+const cryptostore = useCryptoStore();
 
+function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
+
+
+  const rate = rates[selectedCrypto];
+  if (rate) {
+    return (usdTotal / rate).toFixed(2);
+  } else {
+    // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
+  }
+}
+const fetchRates = async () => {
+  try {
+    await cryptostore.getRates(); // Ensure getRates is a method that returns a promise
+    console.log('Rates updated');
+  } catch (error) {
+    console.error('Error fetching rates:', error);
+  }
+};
 onMounted(async () => {
   billingStore.loadCards = true;
 globalLoad.value = true
+
   await getCards();
   await getInvoices();
+  await fetchRates()
 globalLoad.value = false
   billingStore.loadCards = false;
 });
@@ -129,14 +150,20 @@ const GetBase64AndPrint = async (id) => {
   printAndDownloadPDF(invoicesStore.pdfLink);
   loadingInvoiceId.value = null;
 };
-
+const loadingAddnewCard = ref(false)
 const openAddNewCardModal = () => {
-  if (process.client) {
-    if (window.$chatwoot) {
-      window.$chatwoot.toggleBubbleVisibility("hide");
-    }
+  loadingAddnewCard.value = true
+  // if (process.client) {
+  //   if (window.$chatwoot) {
+  //     window.$chatwoot.toggleBubbleVisibility("hide");
+  //   }
+  setTimeout(()=>{
     openModal("add_new_card_billing", "billing");
-  }
+
+loadingAddnewCard.value = false
+  },500)
+
+  // }
 };
 
 const loadingMoreInvoies = ref(false);
@@ -180,6 +207,7 @@ function leaveCart(el, done) {
     done();
   }, 500);
 }
+
 
 
 </script>
@@ -229,13 +257,39 @@ function leaveCart(el, done) {
           {{ $t(`You haven't added any cards yet`) }}
         </div>
         <button
+          @click="openAddNewCardModal" :disabled="loadingAddnewCard"
           class="btn-dashboard hover_tamkin w-auto rtl:space-x-reverse space-x-[10px]"
         >
           <div
             class="!text-[14px] !leading-[21px] !font-[600]"
-            @click="openAddNewCardModal"
+          
           >
-            {{ $t("Add New Card") }}
+          <div class="flex items-center justify-center">
+            <div :class="loadingAddnewCard ? 'rtl:ml-2 ltr:mr-2' : ''">       {{ $t("Add New Card") }}</div>
+  
+            <svg
+              v-if="loadingAddnewCard"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
+     
           </div>
         </button>
       </div>
@@ -396,7 +450,7 @@ function leaveCart(el, done) {
     </div>
 
     <div
-      v-if="invoicesStore.invoices?.length !== 0"
+      v-if="invoicesStore.invoices?.length !== 0 && !globalLoad"
       class="bg-white w-full mt-[24px] rounded-[10px] p-[32px]"
     >
       <h1
@@ -411,10 +465,10 @@ function leaveCart(el, done) {
             <!-- Loop through invoices -->
             <tr
               v-for="invoice in computedInvoices"
-              :key="invoice.id"
+              :key="invoice.name"
               class="border-t border-b border-gray-200"
             >
-              <td
+              <td 
                 class="py-4 space-y-[10px] 2xl:w-[600px] lg:w-[550px] ipad-max:w-[400px] max-w-[600px]"
               >
                 <!-- Spinner icon -->
@@ -456,26 +510,37 @@ function leaveCart(el, done) {
                   </svg>
                 </div>
                 <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
-                  {{ invoice.order_date }}
+                  {{ new Date(invoice.order_date).toLocaleDateString() }}
                 </div>
               </td>
 
               <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
                 <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">
-                  {{ $t(invoice.type_payment) }}
+                  {{ $t(invoice.paymen_type) }}
                 </div>
                 <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">
-                  {{ invoice.card }}
+                  {{ invoice.paymen_card }}
                 </div>
               </td>
               <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
                 <div
                   class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >
-                  {{ invoice.cost }}$
+                {{ invoice.paymen_type === 'Crypto' ?
+                  convertUsdToCrypto(
+               invoice.cost,
+                cryptostore.rates,
+                invoice.crypto
+              ) +
+                  " " +
+                 invoice.crypto_title
+               
+               : ('$'+ invoice.cost)
+               
+                }}
                 </div>
                 <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">
-                  {{ $t(invoice.order_type) }}
+                  {{ $t(`${invoice.order_type }`)}}
                 </div>
               </td>
             </tr>

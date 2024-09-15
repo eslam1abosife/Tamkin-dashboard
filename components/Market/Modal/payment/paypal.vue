@@ -55,14 +55,28 @@ const props = defineProps({
 
 const percentageOff = computed(() => {
   const cartTotal = marketStore.cartTotal;
-  const discountPercentage = marketStore.currentDiscount;
+  const discountAmount = marketStore.currentDiscount;
 
-  if (discountPercentage > 0 && cartTotal > 0) {
-    // Calculate the discount amount based on the percentage
-    return cartTotal * (discountPercentage / 100);
+  if (discountAmount > 0 && cartTotal > 0) {
+    // Calculate the percentage of the discount relative to the total
+    const discountPercentage = (discountAmount / cartTotal) * 100;
+    return discountPercentage;
   }
   return 0;
 });
+const discountAmount = computed(() => {
+  const cartTotal = marketStore.cartTotal;
+  const discountPercentage = marketStore.currentDiscount;
+
+  if (discountPercentage > 0 && cartTotal > 0) {
+    // Calculate the amount of discount
+    const amountDiscounted = (discountPercentage / 100) * cartTotal;
+    return amountDiscounted;
+  }
+  return 0;
+});
+
+
 </script>
 
 <template>
@@ -153,8 +167,8 @@ const percentageOff = computed(() => {
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
                   <div class="text-[15px] font-[500] text-darkGrey">
-                    <span class="text-[#021328] font-[700]">{{ percentageOff }}%</span>
-                    {{ $t("Discount") }} (-${{ marketStore.currentDiscount }})
+                    <span class="text-[#021328] font-[700]">{{ marketStore.currentDiscount }}%</span>
+                    {{ $t("Discount") }} (-${{ discountAmount }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
                 </div>
@@ -261,7 +275,7 @@ const percentageOff = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ marketStore.currentDiscount }}
+                    ${{ discountAmount }}
                   </td>
                 </tr>
                 <tr
@@ -277,7 +291,7 @@ const percentageOff = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ marketStore.cartSubtotal - marketStore.currentDiscount }}
+                    ${{ marketStore.cartSubtotal - discountAmount }}
                   </td>
                 </tr>
               </tbody>

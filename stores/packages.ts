@@ -1,26 +1,45 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 
-import { useGetPackagesTypes, useGetCategory,useGetPackages } from '@/composables/usePackages'
+import { useGetPackagesTypes, useGetCategory,useGetPackages,useGetTokens } from '@/composables/usePackages'
+import {useJoinInvestor} from '@/composables/usePackages'
 
 
 export const usePackgesStore = defineStore('packages', {
   state: () => ({
     currentTab: '',
     intialTab: '',
-    currentTabTitle: '',
+    currentTabTitle: 'Plugins',
     types: [],
     categories: [],
-    currentType: '',
+    currentType: {
+      title:'Sign language'
+    },
     currentFaq: '',
     selectedQuestion: '',
     showNavbar: true,
     packages: [],
     sections:[],
-    features:[]
+    features:[],
+    discountType:'month',
+    loadingData:true,
+    traffic_level:'',
+    investorProgram:'',
+    investorUser:'',
+    loadingAccessibility:true
   }),
 
 
   actions: {
+    async getInvestorUser(){
+      const {isInestorUser} = useJoinInvestor()
+const res = await isInestorUser()
+this.investorUser = res[0]
+    },
+    async getProgramInvestor(){
+      const { getInvestorProgram } = useGetTokens()
+      const programdata = await getInvestorProgram();
+      this.investorProgram = programdata
+    },
     async  getPacks(){
       const { getPackages } = useGetPackages()
       const packsdata = await getPackages();
@@ -31,6 +50,13 @@ export const usePackgesStore = defineStore('packages', {
     },
     setTabTitle(title) {
       this.currentTabTitle = title
+    },
+    changeType(type) {
+      this.currentType = type
+
+      this.currentFaq = type.faqs[0].name
+      this.selectedQuestion = type.faqs[0]
+
     },
 
     changeTab(tab) {
@@ -47,26 +73,36 @@ export const usePackgesStore = defineStore('packages', {
       }
     },
 
-    async getPackagesTypes() {
+    async getPackagesTypes(title) {
       const { getPackagesTypes } = useGetPackagesTypes()
       const typesData = await getPackagesTypes();
       this.types = typesData
 
       if (this.types.length > 0) {
-        // this.currentType = this.types[0]
-        this.currentFaq = this.types[0].faqs[0].name
-        this.selectedQuestion = this.types[0].faqs[0]
+        this.currentType = this.types.find(type=>type.title === title)
+        if(this.currentType){
+          this.currentFaq = this.currentType.faqs[0].name
+          this.selectedQuestion = this.currentType.faqs[0]
+        }
       }
     },
     async getCategories() {
       const { getCategories } = useGetCategory()
       const categories = await getCategories();
       this.categories = categories
-      this.currentTab = this.categories[0]
-      this.intialTab = this.categories[0]
-      this.currentTabTitle = this.categories[0].title
 
-    }
+      if(this.currentType.title === 'Sign language'){
+        this.currentTab = this.categories[0]
+        this.intialTab = this.categories[0]
+        this.currentTabTitle = this.categories[0].title
+      }
+
+
+    },
+    setTrafficLevel(level) {
+      this.traffic_level = level;
+    },
+
   },
   getters: {
     getPackageDetails: (state) => (typeString, highlightText, page) => {
@@ -94,6 +130,10 @@ export const usePackgesStore = defineStore('packages', {
               color_title = color_title.replace(highlightText,
                 `<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${highlightText}</span>`);
               break;
+              case 'access':
+                color_title = color_title.replace(highlightText,
+                  `<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${highlightText}</span>`);
+                break;
 
           }
         }
@@ -148,13 +188,27 @@ export const usePackgesStore = defineStore('packages', {
     },
     // },
     getPackageByTypeAndCategory: (state) => (typeofpck) => {
-    let filteredPackages = state.packages.filter(pkg => pkg.type === state.currentType.name && 
-      pkg.package_type === typeofpck);
+      state.loadingData = true
+
+      let filteredPackages = state.packages
+      .filter(pkg => pkg.type === state.currentType.name && pkg.package_type === typeofpck)
+      .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
     
-    if (state.currentTab) {
-      filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
-    }
-    console.log('yea man', filteredPackages)
+    
+    if (state.currentTab.name) {
+      filteredPackages = filteredPackages
+      .filter(pkg => 
+        pkg.category === state.currentTab.name
+      )
+      // .filter((pkg, index, self) => 
+      //   index === self.findIndex(p => p.name === pkg.name) 
+      // );
+    
+      
+          }
+
+    // console.log('yea man', filteredPackages)
+    state.loadingData = false
 
     return filteredPackages;
 
@@ -168,20 +222,74 @@ export const usePackgesStore = defineStore('packages', {
       
       
       if (state.currentTab) {
-        filteredPackages = filteredPackages.filter(pkg => pkg.category === state.currentTab.name);
+        filteredPackages = filteredPackages.filter(pkg => 
+          pkg.category1 === state.currentTab.name || pkg.category === state.currentTab.name
+        )
+        .filter((pkg, index, self) => 
+          index === self.findIndex(p => p.name === pkg.name) 
+        );
       }
-  // console.log('yea man', filteredPackages)
 
       return filteredPackages;
-    }
+    },
+
+    getTraffiPrices: (state) => (packageType) => {
+      // Filter packages based on the current type and package type
+      let filteredPackages = state.packages.filter(pkg =>
+          pkg.type === state.currentType.name &&
+          pkg.package_type === packageType
+      );
   
-
-
-
-
-
+      // Map through each filtered package and extract the desired information from each package's package_price_role
+      const result = filteredPackages.flatMap(pkg => 
+          pkg.package_price_role.map(item => ({
+              name: item.title,
+              to_traffic: item.to_traffic,
+              id:item.name
+          }))
+      );
+ 
+      return result;
   },
 
+  getPackagesByPricingAndViews: (state) => (packageType, selectedTrafficTitle) => {
+    // Filter packages based on the current type and package type
+    const filteredB =  state.packages
+      .filter(pkg =>
+        pkg.type === state.currentType.name &&
+        pkg.package_type === packageType &&
+        pkg.package_price_role.some(item => item.title === selectedTrafficTitle)
+      ).sort((a, b) => a.sort - b.sort)
+      .map(pkg => {
+        // Find the specific `package_price_role` entry that matches the `selectedTrafficTitle`
+        const priceRole = pkg.package_price_role.find(item => item.title === selectedTrafficTitle);
+        // Return the package along with the desired fields from `package_price_role`
+        return {
+          ...pkg,
+          // Add fields from the matched price role
+          cost_before_month: priceRole.cost_before_month,
+          cost_year: priceRole.cost_year,
+          cost_month: priceRole.cost_month,
+          cost_3_month: priceRole.cost_3_month,
+          cost_investor: priceRole.cost_investor,
+          is_contact_us: priceRole.is_contact_us,
+          data_cost_month: priceRole.data_cost_month,
+          cost_yearly: priceRole.cost_yearly,
+          discount_month: priceRole.discount_month,
+          discount_3_month: priceRole.discount_3_month,
+          discount_yearly: priceRole.discount_yearly,
+        };
+      });
+      return filteredB
+},
+
+
+
+},
+
+persist: {
+  storage: sessionStorage,
+},
 
 
 });

@@ -92,6 +92,7 @@ const logout = () => {
     profileStore.$reset();
   invoiceStore.$reset();
   billingStore.$reset();
+  billingStore.cards = []
   withdrawStore.$reset();
   userStore.logout('any');
   localStorage.removeItem('user');

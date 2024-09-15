@@ -3,13 +3,15 @@ import { useVuelidate } from "@vuelidate/core";
 import { required,helpers ,minLength} from "@vuelidate/validators";
 import { useModalManager } from "@/composables/useModalManager";
 import { useShareEmbedCode } from "@/composables/useEmbedCode";
-import { useGetAppInvites } from "~/composables/useTeam";
+import {useJoinInvestor} from '@/composables/usePackages'
+import {useGetAppInvites} from '@/composables/useTeam';
 
-const { defaultApp, getInviteApps } = useGetAppInvites();
+const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
+const {joinInvestor,codeStatus} = useJoinInvestor()
 const isCryptoMenuOpen = ref(false);
 const selectedCrypto = ref("");
 const search = ref("");
-
+const cryptoStore = useCryptoStore()
 const {
   isOpen,
   currentView,
@@ -19,49 +21,62 @@ const {
   navigateTo,
   getData,
 } = useModalManager();
-
+const currentWebSite = ref('')
+const selectWebsite = (v)=>{
+  currentWebSite.value = v
+}
+const loadingReq = ref(false)
 const state = reactive({
   walletAddress: "",
-  password: "",
   hashAddresses: [],
-  amount:''
+  amount: ''
 });
-
+const isNonEmpty = (value) => value.trim().length > 0;
+const hashAddressRules = {
+  hash: { required, minLength: minLength(1) } // Requires at least 1 character
+};
 const rules = {
   walletAddress: { required },
-  password: { required },
-  amount:{required},
+  amount: { required },
   hashAddresses: {
-    required,
-    $each: helpers.forEach({
-          hash: {
-            required
-          }
-        })
-      
-    
+    $each: hashAddressRules,
+    required
   },
 };
+
 const removeHashAddress = (index) => {
   state.hashAddresses.splice(index, 1);
 };
+const packagesStore = usePackgesStore()
 const v$ = useVuelidate(rules, state);
 
 const props = defineProps({
   showModal: Boolean,
 });
 
+const profileStore = useProfileStore()
+ const pcks = ref([])
+ const selectedpcks = ref('')
+ const selectPackage = (pck)=>{
+  selectedpcks.value = pck.name
+ }
+ const data = getData();
+const appId = ref('')
 onMounted(async () => {
-    
-  await nextTick();
-  const data = getData();
-  withdrawStore.setCryptoList();
+  await packagesStore.getPacks()
 
-  if (!defaultApp.value) {
-    await getInviteApps({
-      agency: data.currTeamId,
-    });
-  }
+  await nextTick();
+  await cryptoStore.setCryptoList();
+  await cryptoStore.getRates();
+  const filteredPackages = packagesStore.packages
+  .filter(pkg => 
+    Array.isArray(pkg.package_price_role) &&
+    pkg.package_price_role.length > 0 &&
+    pkg.package_price_role.some(role => role.cost_investor > 0) &&
+    pkg.package_type === 'Package'
+  )
+await getInviteApps({agency: profileStore.company.name})
+  pcks.value = filteredPackages
 });
 
 const { shareEmbedCode, loading } = useShareEmbedCode();
@@ -72,13 +87,44 @@ const errMsg = ref(null);
 const withdrawStore = useWithdrawStore();
 
 const addHashAddress = () => {
-    
-  state.hashAddresses.push({ hash: '' });
+  state.hashAddresses.push({ hash: "" });
+  // v$.value.$touch(); // Trigger validation
+  v$.value.hashAddresses.$each.forEach(validation => validation.$touch()); // Touch each hash validation
 };
+const {$toast} = useNuxtApp()
+const submitForm = async ()=>{
+  v$.value.$touch();
+  if(v$.value.$error) return
+  loadingReq.value = true
+  const dataObj  = {
+    wallet: state.walletAddress,
+    amount: state.amount,
+    hashes: state.hashAddresses.map(hs=>hs.hash),
+    package: selectedpcks.value,
+    app:currentWebSite.value.name,
+    currency:filteredCryptoMethods.value.name
+  }
 
+const res = await joinInvestor(dataObj)
+if(codeStatus.value=== 200){
+
+  closeModal('join_to_investor')
+  $toast('Request Sent Successfully',{hideIn:3000})
+  loadingReq.value = false
+
+}else {
+  $toast('Error Sending Request, please try again',{hideIn:3000,type:'error',positionX:'30%'})
+  loadingReq.value = false
+
+  
+}
+// alert()
+  
+
+}
 const filteredCryptoMethods = computed(() => {
-  return withdrawStore.cryptoTypes.filter((method) =>
-    method.title.toLowerCase().includes(search.value.toLowerCase())
+  return cryptoStore.list.find((method) =>
+  method.title === 'TSLT'
   );
 });
 
@@ -98,7 +144,7 @@ const selectCryptoMethod = (method) => {
 
 <template>
   <div v-if="isOpen('join_to_investor')" 
-    class="fixed z-[9999] top-[40px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
+    class="fixed z-[9999] top-[16px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
     p-[30px] lg:w-[640px] h-auto w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
@@ -157,6 +203,31 @@ const selectCryptoMethod = (method) => {
 
 
     <div class="w-full">
+      <div class="w-full mt-[20px]">
+        <TranslateSelectInput
+        @getCurrentSelectedItem="selectWebsite"
+        :enableSearch="false"
+        placeholderinput="Add site"
+        :list="apps"
+        nameKey="title"
+        idField="name"
+        class=""
+       
+      />
+       </div>
+      <div class="w-full mt-[20px]">
+        <TranslateSelectInput
+        @getCurrentSelectedItem="selectPackage"
+        :enableSearch="false"
+        placeholderinput="Package"
+        :list="pcks"
+        nameKey="title"
+        idField="name"
+        class=""
+       
+      />
+       </div>
+
       <div class="w-full relative mt-[20px]">
         <input
           type="text"
@@ -192,92 +263,42 @@ const selectCryptoMethod = (method) => {
           </p>
         </div>
       </div>
-      <div class="w-full mt-[20px]">
-        <div class="relative w-full">
-          <button
-            @click="toggleDropdown"
-            class="input_search_country ltr:!pl-[10px] rtl:!pr-[10px] !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
-            :class="[isCryptoMenuOpen ? 'rounded-b-none' : '']"
-          >
-            <span class="floating_label" v-if="!selectedCrypto">{{
-              $t("Choose Crypto currency")
+      <div class="w-full relative mt-[20px]">
+        <input
+          type="number"
+          placeholder=""
+          id="email"
+          class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+          v-model="v$.amount.$model"
+          :class="{
+            input_error: v$.amount.$error && v$.amount.required.$invalid,
+            error_text: v$.amount.$error && v$.amount.required.$invalid,
+            input_success: !v$.amount.$error && !v$.amount.$invalid,
+          }"
+        />
+        <label
+          for="email"
+          class="floating_label"
+          :class="[
+            v$.amount.$error && v$.amount.required.$invalid
+              ? '!text-error'
+              : '',
+          ]"
+        >
+          {{ $t("Amount*") }}
+        </label>
+        <div
+          class="w-full lg:w-4/6 mt-2"
+          v-if="v$.amount.$error && v$.amount.required.$invalid"
+        >
+          <p class="error_message">
+            <span v-if="v$.amount.$error && v$.amount.required.$invalid">{{
+              $t("Amount is required")
             }}</span>
-            <div
-              class="flex items-center justify-between w-full space-x-[10px] rtl:space-x-reverse"
-              v-else
-            >
-              <div
-                class="flex items-center justify-start space-x-[10px] rtl:space-x-reverse"
-              >
-                <img
-                  :src="`http://tamkin.app/${selectedCrypto.icon}`"
-                  class="w-[25px] h-[25px]"
-                />
-                <span
-                  class="rtl:ml-auto ltr:mr-auto text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                  >{{ selectedCrypto.title }} -
-                  <span class="!text-light">{{ selectedCrypto.symbols }}</span></span
-                >
-              </div>
-              <div class="flex items-center justify-end">
-                <div class="rtl:mr-auto ltr:ml-auto">
-                  <div
-                    class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
-                  >
-                    {{ selectedCrypto.network }}
-                  </div>
-                </div>
-  
-                <img
-                  v-if="selectedCrypto"
-                  src="/assets/imgs/menu-down.svg"
-                  :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
-                  class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
-                />
-              </div>
-            </div>
-  
-            <img
-              v-if="!selectedCrypto"
-              src="/assets/imgs/menu-down.svg"
-              :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
-              class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
-            />
-          </button>
-          <div
-            v-if="isCryptoMenuOpen"
-            class="absolute z-10 top-[52px] bg-white dark:bg-tamkinDarkPrimary rounded-[12px] border-[1px] dark:border-light border-[#C8CFEB] shadow w-full py-[16px]"
-          >
-            <ul>
-              <li
-                @click="selectCryptoMethod(cryptoMethod)"
-                v-for="cryptoMethod in filteredCryptoMethods"
-                :key="cryptoMethod.code"
-                class="flex items-center hover:bg-gray-100 dark:hover:bg-darkGrey py-[6px] px-[10px] cursor-pointer"
-              >
-                <img
-                  :src="`http://tamkin.app/${cryptoMethod.icon}`"
-                  class="w-[25px] h-[25px]"
-                />
-                <span
-                  class="rtl:mr-[16px] ltr:ml-[10px] text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                  >{{ cryptoMethod.title }} -
-                  <span class="!text-light">{{ cryptoMethod.symbols }}</span></span
-                >
-  
-                <div class="rtl:mr-auto ltr:ml-auto">
-                  <div
-                    class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
-                  >
-                    {{ cryptoMethod.network }}
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          </p>
         </div>
       </div>
-   
+
   
       <div class="flex items-center justify-between w-full mt-[20px]">
         <div class="text-darkGrey font-[600] text-[14px] leading-[24x]">Add Hash</div>
@@ -322,7 +343,6 @@ const selectCryptoMethod = (method) => {
             :class="{
               input_error:v$.hashAddresses.$model[index].hash.$error ,
               error_text: v$.hashAddresses.$model[index].hash.$error,
-              input_success: !v$.hashAddresses.$model[index].hash.$error,
               '!w-[99%]' : state.hashAddresses.length > 1
             }"
           />
@@ -363,54 +383,27 @@ const selectCryptoMethod = (method) => {
       <div class="">
    
   
-        <div class="w-full relative mt-[4px]">
-          <input
-            type="number"
-            placeholder=""
-            id="email"
-            class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
-            v-model="v$.amount.$model"
-            :class="{
-              input_error: v$.amount.$error && v$.amount.required.$invalid,
-              error_text: v$.amount.$error && v$.amount.required.$invalid,
-              input_success: !v$.amount.$error && !v$.amount.$invalid,
-            }"
-          />
-          <label
-            for="email"
-            class="floating_label"
-            :class="[
-              v$.amount.$error && v$.amount.required.$invalid
-                ? '!text-error'
-                : '',
-            ]"
-          >
-            {{ $t("Amount*") }}
-          </label>
-          <div
-            class="w-full lg:w-4/6 mt-2"
-            v-if="v$.amount.$error && v$.amount.required.$invalid"
-          >
-            <p class="error_message">
-              <span v-if="v$.amount.$error && v$.amount.required.$invalid">{{
-                $t("Amount is required")
-              }}</span>
-            </p>
-          </div>
-        </div>
+      
         <button
-          :disabled="v$.walletAddress.$invalid || loading"
-          :class="[
-            (v$.walletAddress.$invalid || loading) && 'btn-inactive',
-            errMsg ? 'mt-[20px]' : 'mt-[40px]',
-          ]"
-          @click="submit"
-          class="btn-dashboard normal_hover w-full mx-auto"
+          :disabled=" v$.$invalid || loadingReq  "
+         
+          @click="submitForm"
+          class="btn-dashboard hover_tamkin w-full mx-auto"
         >
   
-        
-          <img v-if="loading" class="inline-block mx-2" src="/assets/imgs/loading.svg" />
-          {{ $t("Confirm") }}
+        <div class="flex items-center justify-center">
+          <div :class="loadingReq ? 'rtl:ml-2 ltr:mr-2' : ''">
+            {{ $t("Confirm") }}
+          </div>
+
+          <svg v-if="loadingReq" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+        </div>
         </button>
       </div>
     </div>

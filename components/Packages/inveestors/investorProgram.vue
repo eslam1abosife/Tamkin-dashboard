@@ -1,51 +1,65 @@
+<script lang="ts" setup>
+const localePath = useLocalePath()
+const pakcagesStore = usePackgesStore()
+onMounted(async ()=>{
+  await pakcagesStore.getProgramInvestor()
+})
+const dynamicWidth = computed(() => {
+  const percent = pakcagesStore.investorProgram.tokens_raised_percent;
+  return `${percent}%`; // Format as a percentage string
+});
+</script>
+
 <template>
-<div class="w-full">
-  <div class="my-[32px] text-center w-2/4 mx-auto">
-   <span class="bg-gradient-to-r from-[#11A290] to-[#9747FF] text-transparent bg-clip-text text-[20px] font-[700] leading-[35px]">Join our Investor Program  </span><span class="text-[20px] font-[600] leading-[35px] text-darkGrey"> for tailored investment opportunities and expert support
+<div class="w-full" v-if="pakcagesStore.investorProgram">
+  <div class="my-[48px] text-center w-2/4 mx-auto">
+   <span class="bg-gradient-to-r from-[#11A290] to-[#9747FF] text-transparent bg-clip-text text-[20px] 
+   font-[700] leading-[35px]">Join our Investor Program  </span><span class="text-[20px] font-[600] leading-[35px] text-darkGrey"> for tailored investment opportunities and expert support
 
    </span>
 
 
   </div>
-  <div class="bg-gradient-to-l  w-full from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] relative space-x-[80px] flex items-center justify-between p-6 rounded-lg shadow-lg mt-[32px]">
+  <div class="bg-gradient-to-l  w-full from-[#EEE4FF] via-[#BCD7FF]
+   to-[#F5FFFE] relative space-x-[80px] flex items-center justify-between p-6 rounded-lg  mt-[32px]">
     <div class="flex items-start justify-center flex-col w-3/4">
-        <h2 class="text-[16px] font-[600] leading-[22px] text-black">Investor Program</h2>
+        <h2 class="text-[16px] font-[600] leading-[22px] text-black">{{pakcagesStore.investorProgram.name}}</h2>
 
-        <div class="flex justify-between items-center mt-4 w-full">
+        <div class="flex justify-between items-center mt-4 w-3/4">
           <div>
-            <p class="text-[14px]  font-[500] text-gray-900 ">183</p>
+            <p class="text-[14px]  font-[500] text-gray-900 ">{{ pakcagesStore.investorProgram.dollar_symbol}}</p>
             <p class="text-[14px] text-darkGrey">Investors Count</p>
           
           </div>
           <div class="text-right">
-            <p class="text-[14px]  font-[500]  text-gray-900">47,098,179 TSLT</p>
+            <p class="text-[14px]  font-[500]  text-gray-900">{{pakcagesStore.investorProgram.tokens_raised}} {{pakcagesStore.investorProgram.token_symbol}}</p>
             <p class="text-[14px] text-darkGrey">Investors Tokens</p>
           </div>
        
         </div>
             
-        <div class="relative mt-6 w-full">
+        <div class="relative mt-6 w-3/4">
             <div class="h-4 bg-white rounded-full">
-              <div class="h-4 bg-gradient-to-t  from-tamkinEnd to-tamkinStart rounded-full" style="width: 36.99%"></div>
+              <div class="h-4 bg-gradient-to-t  from-tamkinEnd to-tamkinStart rounded-full" :style="{ width:dynamicWidth }"></div>
             </div>
-            <div class="absolute left-[36.99%] transform -translate-x-1/2 -top-8 text-center">
-              <span class=" px-2 py-1 rounded text-gray-700 text-sm font-semibold">36.99%</span>
+            <div class="absolute  transform -translate-x-1/2 -top-8 text-center" :style="{ left: dynamicWidth }">
+              <span class=" px-2 py-1 rounded text-gray-700 text-sm font-semibold">{{Number(pakcagesStore.investorProgram.tokens_raised_percent)}}%</span>
             </div>
           <div class="flex items-center justify-between w-full mt-4 ">
-            <p class="text-sm text-gray-500">Circulating supply</p>
-            <p class="text-right text-sm text-gray-500">47,098,179 TSLT</p>
+            <p class="text-sm text-gray-500">{{ pakcagesStore.investorProgram.softcap}}</p>
+            <p class="text-right text-sm text-gray-500">{{ pakcagesStore.investorProgram.tokens_for_sale}} {{ pakcagesStore.investorProgram.token_symbol}}</p>
           </div>
           </div>
           <div class="mt-6 flex justify-between items-center">
-            <button class="btn-dashboard hover_tamkin max-w-[250px]">
+            <nuxt-link :to="localePath({name: 'how-to-join'})" class="btn-dashboard hover_tamkin max-w-[250px]">
               Join to Investor Program
-            </button>
+            </nuxt-link>
           
           </div>
     </div>
     
         
-    <div class="relative w-[240px]  h-[210px] bg-[#A6D8E8] rounded-[10px]">
+    <div class="relative w-[240px] right-[-25px] h-[210px] bg-[#A6D8E8] rounded-[10px]">
         <div class="absolute right-8 top-[40px]">
             <img src="/imgs/man-invest.png" class="w-[128px] h-[224px]" alt="">
            </div>

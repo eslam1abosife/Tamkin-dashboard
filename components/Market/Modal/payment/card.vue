@@ -121,15 +121,18 @@ function onIframeLoad() {
 
 }
 const iframe = ref(null)
-
+const loadingCards = ref(true)
 onMounted(async () => {
   urlPayment.value = ''
   await getCards();
+  loadingCards.value = false
+
 if(billingStore.cards.length){
   const primaryCard = billingStore.cards.find((card) => card.isprimary === true);
   if (primaryCard) {
     currentCard.value = primaryCard.id;
   }
+
 }
   
   window.addEventListener('message', handleIframeMessage);
@@ -176,7 +179,10 @@ onBeforeUnmount(() => {
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
     v-if="!urlPayment" class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary
      dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('cardModal_market')">
+      @click="()=>{
+        closeModal('cardModal_market')
+        marketStore.selectedPaymentMethod = '' 
+      }">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -213,9 +219,35 @@ onBeforeUnmount(() => {
             {{ $t("Choose the payment method you want to complete this payment") }}
           </p>
 
-          <div class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full" v-if="!urlPayment">
-            <div class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px]">
-              <div v-for="savedCard in billingStore.cards" @click="changeCurrentCard(savedCard)" :key="savedCard.id"
+          <div class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px] mt-[24px]" v-if="loadingCards">
+            <div v-for="n in 3" :key="n"
+              class="w-full h-[87px] bg-gray-200 dark:bg-gray-700 animate-pulse flex items-center justify-between rounded-[10px] border-[1px] border-lightGrey rtl:pr-[16px] ltr:pl-[16px]">
+              <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-[10px] w-[44px] h-[30px]"></div>
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex flex-col items-start justify-start relative w-full">
+                    <div
+                      class="absolute top-[10px] rtl:right-[250px] ltr:left-[250px] w-[62px] h-[23px] rounded-[17px] bg-gray-300 dark:bg-gray-600">
+                    </div>
+                    <div
+                      class="text-[16px] leading-[44px] font-[600] font-[Inter] text-gray-300 dark:text-gray-500 flex items-center justify-start rtl:space-x-reverse space-x-[16px]">
+                      <div class="bg-gray-300 dark:bg-gray-600 rounded w-36 h-[16px]"></div>
+                      <div class="bg-gray-300 dark:bg-gray-600 rounded w-10 h-[16px]"></div>
+                    </div>
+                    <div class="bg-gray-300 dark:bg-gray-600 w-[100px] h-[10px] rounded mt-1"></div>
+                  </div>
+                  <div class="rtl:mr-auto ltr:ml-auto rtl:ml-[16px] ltr:mr-[16px]">
+                    <span
+                      class="w-[24px] h-[24px] bg-gray-300 dark:bg-gray-600 inline-block rounded-full border "></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div  class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full" v-if="!urlPayment" >
+            <div class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px]" 
+            v-if="billingStore.cards && billingStore.cards.length !==0 && !loadingCards">
+              <div v-for="savedCard in billingStore.cards" @click="changeCurrentCard(savedCard)" :key="savedCard.name"
                 :class="[
                   currentCard === savedCard.id ? 'custom-border-tamkin' : 'border-[1px] ',
                 ]"
@@ -257,16 +289,19 @@ onBeforeUnmount(() => {
               </div>
             </div>
 
-            <div v-if="billingStore.cards?.length === 0"
-              class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]">
-              <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
-                <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
-                <div class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center">
-                  {{ $t(`You haven't added any cards yet`) }}
-                </div>
+            <div v-if="billingStore.cards?.length === 0 && !loadingCards"
+            class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]">
+            <div class="flex flex-col items-center justify-center mt-[24px] space-y-[10px]">
+              <img src="/imgs/no_methods.png" class="w-[51px] h-[35px]" alt="" />
+              <div class="text-[14px] leading-[28px] font-[400] text-darkGrey text-center">
+                {{ $t(`You haven't added any cards yet`) }}
               </div>
             </div>
-            <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]">
+          </div>
+
+
+        
+            <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
                   navigateTo('cardModal_market', 'Market', 'add_new_card_billing')
@@ -291,6 +326,21 @@ onBeforeUnmount(() => {
                 </div>
               </div>
             </div>
+            <div v-else class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px] animate-pulse">
+              <!-- Left section for adding a new card -->
+              <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
+                <div class="cursor-pointer w-[40px] h-[40px] bg-gray-300 rounded-md"></div>
+                <div class="h-[24px] w-[150px] bg-gray-300 rounded-md"></div>
+              </div>
+            
+              <!-- Right section for showing more payment options -->
+              <div class="flex items-center rtl:space-x-reverse space-x-[11px] mt-[24px]">
+                <div class="h-[24px] w-[180px] bg-gray-300 rounded-md"></div>
+                <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
+              </div>
+            </div>
+            
+     
             <!-- here-->
 
             <!-- here-->

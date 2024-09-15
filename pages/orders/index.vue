@@ -243,7 +243,7 @@ const setPageSize = (size:number) => {
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order items')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Payment Method')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Price')}}</th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order Status')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('order_status')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Date Order')}}</th>
             </tr>
           </thead>
@@ -281,7 +281,7 @@ const setPageSize = (size:number) => {
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order items')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Payment Method')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Price')}}</th>
-              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order Status')}}</th>
+              <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('order_status')}}</th>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Date Order')}}</th>
             </tr>
           </thead>
@@ -307,9 +307,9 @@ const setPageSize = (size:number) => {
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left ">
                       <div class="flex items-center">
-                        <img :src="getPaymentImage(order['payment method'])" alt="Placeholder" class="w-[24px] h-[24px] rtl:ml-2 ltr:mr-2"/>
+                        <img :src="getPaymentImage(order.payment_method)" alt="Placeholder" class="w-[24px] h-[24px] rtl:ml-2 ltr:mr-2"/>
 
-                        <span>{{ $t(order['payment method']) }}</span>
+                        <span>{{ $t(order.payment_method) }}</span>
                       </div>
                     </td>
                     <td class="px-6 py-3 rtl:text-right ltr:text-left uppercase ">
@@ -319,17 +319,17 @@ const setPageSize = (size:number) => {
                       <div class="flex items-center ml-1 rtl:space-x-reverse space-x-[8px]">
                         <div 
                           class="flex items-center justify-center" 
-                          :class="order['order status'] === 'Rejected' || order['order status'] === 'Cancelled' ? 'w-[24px] h-[24px]' : 'w-[24px] h-[24px]'"
+                          :class="order.order_status === 'Rejected' || order.order_status === 'Cancelled' ? 'w-[24px] h-[24px]' : 'w-[24px] h-[24px]'"
                         >
                           <img 
-                            :src="getStatusImage(order['order status'])"
+                            :src="getStatusImage(order.order_status)"
                             alt="Placeholder"
                             class="w-full h-full object-contain"
-                            :class="order['order status'] === 'Declined' || order['order status'] === 'Cancelled' ? 
+                            :class="order.order_status === 'Declined' || order.order_status === 'Cancelled' ? 
                             '!w-[18px] !h-[18px]' : 'w-[24px] h-[24px]'"
                           />
                         </div>
-                        <span>{{ $t(order['order status']) }}</span>
+                        <span>{{ $t(order.order_status) }}</span>
                       </div>
                     </td>
                     
@@ -339,7 +339,7 @@ const setPageSize = (size:number) => {
                           <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1V0.5C8.5 0.223858 8.72386 0 9 0C9.27614 0 9.5 0.223858 9.5 0.5V1H11C11 1 11.4142 1 11.7071 1.29289C11.7071 1.29289 12 1.58579 12 2V12C12 12 12 12.4142 11.7071 12.7071C11.7071 12.7071 11.4142 13 11 13H1C1 13 0.585785 13 0.292893 12.7071C0.292893 12.7071 0 12.4142 0 12V2C0 2 0 1.58579 0.292893 1.29289C0.292893 1.29289 0.585786 1 1 1H2.5V0.5C2.5 0.223858 2.72386 0 3 0C3.27614 0 3.5 0.223858 3.5 0.5V1H8.5ZM1 5V12H11V5H1ZM11 4H1V2H2.5V2.5C2.5 2.77614 2.72386 3 3 3C3.27614 3 3.5 2.77614 3.5 2.5V2H8.5V2.5C8.5 2.77614 8.72386 3 9 3C9.27614 3 9.5 2.77614 9.5 2.5V2H11V4Z" fill="black" fill-opacity="0.4"/>
                               </svg>
-                              <span class="">{{ order['date order'] }}</span>
+                              <span class="">{{ order.date_order }}</span>
                       </div>
                     </td>
                   </tr>

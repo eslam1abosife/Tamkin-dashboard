@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   ssr:false,
   sourcemap: false,
 
@@ -35,7 +35,12 @@ export default defineNuxtConfig({
   //     },
   //   },
   // },
+  routeRules: {
+    // Set prerender to true to configure it to be prerendered
+    // "/packages/*": { prerender: false },
+    // "/ar/packages/*": { prerender: false },
 
+  },
   vite: {
     build: {
       rollupOptions: {
@@ -182,10 +187,10 @@ colorMode: {
   nitro: {
     compressPublicAssets:true,
 
-    prerender: {
-      crawlLinks: true,
-      failOnError: false, 
-    },
+    // prerender: {
+    //   crawlLinks: true,
+    //   failOnError: false, 
+    // },
   },
   watchers: {
     webpack: {
@@ -245,6 +250,7 @@ colorMode: {
       }
     ],
     // custom path example
+    
   },
   plugins: ['~/plugins/i18n.js'],
 

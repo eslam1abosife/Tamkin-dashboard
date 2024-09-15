@@ -287,12 +287,14 @@ html {
     top: 60%;
     /* changed from 60% to 100% */
     color: #fff;
-    content: attr(title);
+    content: attr(data-tamkin);
     position: absolute;
     z-index: 98;
-    width: 234px;
+    width: 300px;
+    height: auto;
     margin-top: 10px;
-
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words if necessary */
     &.right {
         @apply rtl:left-[-80%] ltr:right-[-40%];
     }
@@ -303,7 +305,7 @@ html {
     }
 
     &.packages {
-        @apply rtl:right-[0px] ltr:left-[60%];
+        @apply rtl:right-[0px] ltr:left-[-40%] top-[16px];
 
     }
     @apply text-[10px] leading-[15px] h-[50px] p-[10px] font-[500] flex items-center justify-start;
@@ -311,7 +313,7 @@ html {
 
 
 
-[title]:hover:after {
+[data-tamkin]:hover:after {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -333,7 +335,7 @@ html {
 
     }
     &.packages {
-        @apply rtl:right-[0] ltr:left-[12px];
+        @apply rtl:right-[0] ltr:left-[14%] top-[20px];
 
     }
 }

@@ -4,6 +4,7 @@ const props = defineProps({
   hideIn: Number,
   top: String,
   type: String,
+  positionX:String
 });
 const isVisible = ref(true);
 
@@ -17,7 +18,8 @@ onMounted(() => {
 <template>
   <div
     v-if="isVisible"
-    class="!inset-x-[50%] fixed inset-0 z-[99999] top-[70px] w-full max-w-[30%] rounded-[5px] h-[37px] flex items-center justify-start"
+
+    class=" fixed inset-0 z-[99999] top-[70px] w-full max-w-[30%] rounded-[5px] max-h-[40px] h-auto flex items-center justify-start"
     :class="[
       type === 'success'
         ? 'bg-[#DAF3F1]'
@@ -26,7 +28,12 @@ onMounted(() => {
         : type === 'warning'
         ? 'bg-orange-300'
         : 'bg-[#DAF3F1]',
+
     ]"
+    :style="{
+      insetInline: props.positionX ? props.positionX : '50%',
+      transform: props.positionX ? '' : 'translateX(-50%)'
+    }"
   >
     <div class="px-[8px]" v-if="type === 'success' || !type">
       <img src="/assets/imgs/success_toast.svg" />

@@ -5,21 +5,31 @@ definePageMeta({
 const pricingType = ref("monthly");
 const packagesStore = usePackgesStore();
 const switchBetweenMonthlyAndAnnual = (v: any) => {
-  pricingType.value = v;
+  packagesStore.discountType = v;
 };
 
-const rect = computed(() => {
-  return packagesStore.currentTabTitle === "Plugins";
-});
-onMounted(async ()=>{
- packagesStore.getPacks()
 
-})
+onMounted(async () => {
+
+  packagesStore.loadingData = true
+
+await  packagesStore.getPackagesTypes('Sign language')
+
+  await packagesStore.getPacks()
+await packagesStore.getCategories()
+packagesStore.loadingData = false
+
+
+// packagesStore.currentTab = packagesStore.categories[0]
+// packagesStore.intialTab = packagesStore.categories[0]
+//         packagesStore.currentTabTitle = packagesStore.categories[0].title
+
+});
 // provide("pricingType", pricingType);
 </script>
 
 <template>
-  <div class="w-full relative px-[40px]">
+  <div class="w-full relative px-[40px]" v-if="packagesStore.currentType.title === 'Sign language' ">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <!-- <PackagesPaymentModalsPackage/> -->
       <!-- <PackagesPaymentModalsAddons/> -->
@@ -78,7 +88,12 @@ onMounted(async ()=>{
           {{ packagesStore.getTabDetails("Media", null, "media").color_title }}
         </span>
       </div>
-
+      <div
+      class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center "
+    >
+      <div class="w-4/12 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+      <div class="w-6/12 h-[20px] bg-gray-300 rounded animate-pulse mt-[24px]"></div>
+    </div>
       <div
         v-if="packagesStore.currentTabTitle === 'Plugins'"
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
@@ -126,13 +141,12 @@ onMounted(async ()=>{
         }}
       </div>
     </div>
-    <!-- SECONDARY NAV-->
 
-    <div
+    <div v-if="!packagesStore.loadingData"
       class="flex items-center justify-center mt-[60px] rtl:space-x-reverse space-x-[40px]"
     >
       <div
-        v-for="cat in packagesStore.categories"
+        v-for="cat in packagesStore.categories.filter(c=>c.title !== 'Bundle')"
         :key="cat.name"
         @click="packagesStore.changeTab(cat)"
         :class="[
@@ -152,6 +166,13 @@ onMounted(async ()=>{
         </div>
       </div>
     </div>
+    <div v-if="packagesStore.loadingData" class="flex items-center justify-center mt-[60px] rtl:space-x-reverse space-x-[40px]">
+      <!-- Placeholder Loader -->
+      <div v-for="i in 3" :key="i" class="h-[24px] flex items-center justify-center rounded-[4px] p-[10px] cursor-pointer animate-pulse">
+        <div class="w-[100px] h-[18px] bg-gray-300 rounded"></div>
+      </div>
+    </div>
+    
     <!-- SECONDARY NAV-->
 
     <!-- PACKAGES-->
@@ -159,37 +180,91 @@ onMounted(async ()=>{
       class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[90px] p-[4px] border border-gray-300"
     >
       <button
-        @click="switchBetweenMonthlyAndAnnual('monthly')"
-        :class="[pricingType === 'monthly' ? 'bg-white dark:bg-light rounded-full' : '']"
+        @click="switchBetweenMonthlyAndAnnual('month')"
+        :class="[
+          packagesStore.discountType === 'month'
+            ? 'bg-white dark:bg-light rounded-full'
+            : '',
+        ]"
         class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
       >
         Monthly
       </button>
       <button
-        :class="[pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '']"
-        @click="switchBetweenMonthlyAndAnnual('annual')"
-        class="h-[22px] p-1 transition-all ease-in-out flex items-center justify-center"
+        @click="switchBetweenMonthlyAndAnnual('year')"
+        :class="[
+          packagesStore.discountType === 'year'
+            ? 'bg-white dark:bg-light rounded-full'
+            : '',
+        ]"
+        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
       >
-        <div class="text-darkGrey dark:text-whiteTamkin font-[500] text-[10px]">
-          Annual
-        </div>
-        <div class="ml-1 !text-black dark:!text-whiteTamkin/80 !text-[10px] !font-[600]">
-          SAVE 12%
-        </div>
+        Annual
+        <span class="text-black font-[800] pl-1">
+          {{
+            packagesStore.types.length ?  packagesStore.types.find(type => type.title === 'Sign language').discount_yearly :''
+          }}%</span
+        >
       </button>
     </div>
-    <div class="grid grid-cols-1 w-full">
+    <div class="grid grid-cols-1 w-full relative">
+      <div v-if="packagesStore.loadingData" class="grid grid-cols-3 lg:gap-4 2xl:gap-4 3xl:gap-0 mx-auto mt-[32px] w-full ipad-max:grid-cols-2">
+        <!-- Skeleton Loader -->
+        <div v-for="i in 3" :key="i" class="flex items-center flex-col mx-auto justify-start rounded-t-[10px] relative max-w-[400px] rounded-b-none mt-[35px] bg-white w-full p-6 animate-pulse">
+          
+          <!-- Icon Skeleton -->
+          <div class="absolute top-[-30px] left-[15px]">
+            <div class="w-[50px] h-[50px] bg-gray-300 rounded-full"></div>
+          </div>
+      
+          <div class="flex items-center justify-center w-full px-[15px] mt-[48px]">
+            <div class="order-2 w-full">
+              <!-- Title Skeleton -->
+              <div class="h-[30px] w-[150px] bg-gray-300 rounded-lg mb-2"></div>
+              <!-- Subtitle Skeleton -->
+              <div class="h-[15px] w-[100px] bg-gray-300 rounded-lg mb-4"></div>
+      
+              <!-- Price Skeleton -->
+              <div class="h-[29px] w-[120px] bg-gray-300 rounded-lg mb-2"></div>
+              <!-- Old Price Skeleton -->
+              <div class="h-[20px] w-[100px] bg-gray-200 rounded-lg mb-2"></div>
+              <!-- Description Skeleton -->
+              <div class="h-[32px] w-[200px] bg-gray-200 rounded-lg"></div>
+            </div>
+          </div>
+      
+          <div class="flex flex-col items-start justify-center w-full space-y-[10px] h-[260px] rounded-t-none rounded-[10px] p-4">
+            <!-- Feature List Skeleton -->
+            <div v-for="i in 3" :key="i" class="flex items-center justify-start space-x-[24px]">
+              <div class="w-[20px] h-[20px] bg-gray-300 rounded-full"></div>
+              <div class="h-[20px] w-[150px] bg-gray-200 rounded-lg"></div>
+            </div>
+          </div>
+      
+          <!-- Button Skeleton -->
+          <div class="flex items-center justify-center mx-auto w-full">
+            <div class="w-[205px] h-[48px] bg-gray-300 rounded-[19px]"></div>
+          </div>
+        </div>
+      </div>
       <PackagesWebpluginsPricing
-        v-if="packagesStore.currentTabTitle === 'Plugins' ||packagesStore.currentTabTitle === 'Bundle'"
-    
+        v-if="
+          (packagesStore.currentTabTitle === 'Plugins' && !packagesStore.loadingData)||
+          (packagesStore.currentTabTitle === 'Bundle'&& !packagesStore.loadingData ) 
+        "
       />
-      <PackagesMediaPricing v-else-if="packagesStore.currentTabTitle === 'Media' || packagesStore.currentTabTitle === 'Documents'
-      || packagesStore.currentTabTitle === 'Images'" />
 
-      <PackagesViewFeatures  />
+
+      
+      <PackagesMediaPricing
+        v-if="
+         ( packagesStore.currentTabTitle === 'Media' && !packagesStore.loadingData) ||
+         ( packagesStore.currentTabTitle === 'Documents' && packagesStore.loadingData) ||
+          (packagesStore.currentTabTitle === 'Images' && packagesStore.loadingData)
+        "
+      />
+      <!-- <PackagesViewFeatures /> -->
     </div>
-
-  
 
     <div></div>
     <!-- PACKAGES-->
@@ -200,27 +275,64 @@ onMounted(async ()=>{
 
     <!--BUY MORE START  words-->
 
-
     <div
- 
+      v-if="
+        packagesStore
+          .getAddonsOrExtras('Extra')
+          .filter((g) => g.custom_extra_type === 'words').length && !packagesStore.loadingData
+      "
       class="mt-[32px] w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-auto bg-gradient-to-l from-[#EEE4FF] via-[#BCD7FF] to-[#F5FFFE] rounded-[10px]"
     >
-      <div v-for="addon in packagesStore.getAddonsOrExtras('Extra').filter(g=>g.custom_extra_type === 'words')" :key="addon.name"
+      <div
+        v-for="addon in packagesStore
+          .getAddonsOrExtras('Extra')
+          .filter((g) => g.custom_extra_type === 'words')"
+        :key="addon.name"
         class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px]"
       >
         <div class="absolute top-[-24.5px]">
-          <img :src="`http://tamkin.app/${addon.icon}`" class="w-[49px] h-[70px]" alt="" />
+          <img
+            :src="`http://tamkin.app/${addon.icon}`"
+            class="w-auto h-auto"
+            alt=""
+          />
         </div>
-        <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">{{addon.title}}</div>
+        <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
+          {{ addon.title }}
+        </div>
         <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
-       {{ addon.description }}
+          {{ addon.description }}
         </div>
 
-        <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-black">
-          {{addon.title}}
+        <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-[#021328]">
+          {{ addon.sub_title }}
         </div>
-        <div class="text-[12px] font-[600] leading-[29px] text-darkGrey">$ {{addon.package_price_role[0].cost_month}}</div>
-        <button class="btn_bordered_dashboard absolute bottom-[24px]">
+       
+        <div class="text-[15px] font-[600] leading-[29px] text-darkGrey">
+          $
+
+          {{
+            packagesStore.discountType === "month"
+              ? addon.package_price_role[0].cost_month
+              : addon.package_price_role[0].cost_yearly
+          }}
+        </div>
+        
+        <div  
+        class="absolute bottom-[65px] lg:bottom-[75px] ipad-max:bottom-[80px] text-[#EA4335] text-[12px] leading-[18.17px] 
+        font-[400] line-through flex w-full"
+      >
+      <div v-if="packagesStore.discountType === 'month'" class="flex items-center justify-center w-full">
+        <div>{{ `$`+addon.package_price_role[0].cost_before_month }} </div>
+      
+      </div>
+      <div v-if="packagesStore.discountType === 'year'" class="flex items-center justify-center w-full">
+        <div>{{ `$`+addon.package_price_role[0].cost_before_yearly }} </div>
+      
+      </div>
+  
+      </div>
+        <button class="btn_bordered_dashboard absolute bottom-[24px] ipad-max:bottom-[12px]">
           Purchase Now
         </button>
       </div>
@@ -230,53 +342,137 @@ onMounted(async ()=>{
 
     <!-- BUY MORE MINUTES START-->
     <div
- 
+      v-if="
+        packagesStore
+          .getAddonsOrExtras('Extra')
+          .filter((g) => g.custom_extra_type === 'minutes').length && !packagesStore.loadingData
+      "
+      class="w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-auto mt-[32px] bg-gradient-to-l from-[#D1F7F4] to-[#FFFFFF] rounded-[10px]"
+    >
+    <div
+    v-for="addon in packagesStore
+      .getAddonsOrExtras('Extra')
+      .filter((g) => g.custom_extra_type === 'minutes')"
+    :key="addon.name"
+    class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px]"
+  >
+    <div class="absolute top-[-24.5px]">
+      <img
+        :src="`http://tamkin.app/${addon.icon}`"
+        class="w-[79px] h-[75px]"
+        alt=""
+      />
+    </div>
+    <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
+      {{ addon.title }}
+    </div>
+    <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
+      {{ addon.description }}
+    </div>
+
+    <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-[#021328]">
+      {{ addon.sub_title }}
+    </div>
+    <div
+    v-if="
+      addon.package_price_role[0].discount_month !== 0 ||
+      addon.package_price_role[0].discount_yearly !== 0
+    "
+    class="absolute bottom-[38.2%] right-[36.2%] text-[#EA4335] text-[12px] leading-[18.17px] font-[400]"
+  >
+    <div
+      class="absolute right-[0%] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] line-through"
+    >
+      <span v-if="packagesStore.discountType === 'month'">
+        ${{ addon.package_price_role[0].cost_before_month }}
+      </span>
+      <span v-if="packagesStore.discountType === 'year'">
+        ${{ addon.package_price_role[0].cost_before_yearly }}
+      </span>
+    </div>
+  </div>
+    <div class="text-[15px] font-[600] leading-[29px] text-darkGrey">
+      $
+
+      {{
+        packagesStore.discountType === "month"
+          ? addon.package_price_role[0].cost_month.toFixed(2)
+          : addon.package_price_role[0].cost_yearly
+      }}
+    </div>
+    <button class="btn_bordered_dashboard absolute bottom-[24px]">
+      Purchase Now
+    </button>
+  </div>
+    </div>
+
+    <div
+      v-if="
+        packagesStore
+          .getAddonsOrExtras('Extra')
+          .filter((g) => g.custom_extra_type === 'Characters').length &&
+        packagesStore.currentTabTitle === 'Documents' && !packagesStore.loadingData
+      "
       class="w-full p-[40px] grid gap-[30px] grid-cols-2 mx-auto h-[315px] mt-[32px] bg-gradient-to-l from-[#D1F7F4] to-[#FFFFFF] rounded-[10px]"
     >
       <div
-        v-for="ex in packagesStore.getAddonsOrExtras('Extra').filter(g=>g.custom_extra_type === 'minutes')" :key="ex.name"
+        v-for="ex in packagesStore
+          .getAddonsOrExtras('Extra')
+          .filter((g) => g.custom_extra_type === 'Characters')"
+        :key="ex.name"
         class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[245px]"
       >
-      <div class="absolute top-[-24.5px]">
-        <img :src="`http://tamkin.app/${ex.icon}`" class="w-[79px] h-[75px]" alt="" />
-      </div>
-      <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">{{ex.title}}</div>
-      <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
-     {{ ex.description }}
-      </div>
+        <div class="absolute top-[-24.5px]">
+          <img :src="`http://tamkin.app/${ex.icon}`" class="w-[79px] h-[75px]" alt="" />
+        </div>
+        <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
+          {{ ex.title }}
+        </div>
+        <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
+          {{ ex.description }}
+        </div>
 
-      <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-black">
-        {{ex.title}}
+        <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-black">
+          {{ ex.title }}
+        </div>
+        <div class="text-[12px] font-[600] leading-[29px] text-darkGrey">
+          $ {{ ex.package_price_role[0].cost_month }}
+        </div>
+        <button class="btn_bordered_dashboard absolute bottom-[24px]">
+          Purchase Now
+        </button>
       </div>
-      <div class="text-[12px] font-[600] leading-[29px] text-darkGrey">$ {{ex.package_price_role[0].cost_month}}</div>
-      <button class="btn_bordered_dashboard absolute bottom-[24px]">
-        Purchase Now
-      </button>
-      </div>
-   
     </div>
     <!-- BUY MORE MINUTES END-->
+    <PackagesMediaServices v-if="packagesStore.currentTabTitle === 'Media' && !packagesStore.loadingData" />
 
     <!-- Additional addons start-->
+    <PackagesWebpluginsAdditional
+      v-else-if="packagesStore.currentTabTitle === 'Plugins' && !packagesStore.loadingData"
+    />
+    <PackagesDocumentsServices v-if="packagesStore.currentTabTitle === 'Documents' && !packagesStore.loadingData" />
 
-    <PackagesWebpluginsAdditional v-if="packagesStore.currentTabTitle === 'Plugins'" />
-
+    <PackagesImagesServices v-if="packagesStore.currentTabTitle === 'Images' && !packagesStore.loadingData" />
     <!-- ADDTIONAL ADDONS END-->
 
     <!-- FAQ START-->
 
-    <PackagesFaq />
+    <PackagesFaq v-if="!packagesStore.loadingData"/>
 
     <!-- FAQ END-->
 
     <div class="w-full h-[334px] bg-white rounded-[10px] relative mt-[32px] mx-auto">
+      <!-- Gradient Overlay -->
       <div
-        class="absolute z-20 w-[95%] h-[170px] top-[90px] bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
+        class="absolute z-20 w-[95%] h-[170px] top-[50%] left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
       ></div>
-
+    
+      <!-- Image -->
       <div class="absolute right-[70px] top-[25px] z-50">
-        <img src="/imgs/av.png" alt="" />
+        <img src="/imgs/av.png" alt="" class="w-[300px] h-[295px]" />
       </div>
+      
+      <!-- Content Section -->
       <div
         class="absolute h-[246px] z-50 w-[379px] left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
       >
@@ -286,12 +482,13 @@ onMounted(async ()=>{
         <div class="text-[14px] font-[500] leading-[25px] text-black mt-[10px] text-left">
           We're here to help reach out anytime for the answers and support you need!
         </div>
-
-        <button class="btn-dashboard hover_tamkin max-w-[136px] mt-[32px]">
+    
+        <button class="btn-dashboard hover_tamkin max-w-[136px] mt-[30px]">
           Contact us
         </button>
       </div>
     </div>
+    
   </div>
 </template>
 

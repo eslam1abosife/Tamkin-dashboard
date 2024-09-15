@@ -9,17 +9,29 @@ export default function() {
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
 
-    const getInviteApps = async (state) => {
+    const getInviteApps = async (state,type = null) => {
         if(!state.agency) {
             console.log("state", state);
             throw Error('Curr Team Id not exists!');
         }
+        const withOutType ={
+            where: {
+                agency: state.agency,
+               
+            }
+        }
+        const withType =  {
+            where: {
+                agency: state.agency,
+                type:type
+               
+            }
+        }
+        const data = type === null ?withOutType : withType
+        
         try {
             const res = await api.post('/Tamkin Agency Apps/Get', {
-                where: {
-                    agency: state.agency,
-                    type:'website'
-                }
+                ...data
             });
             if(!res.data.succeeded) throw(res.data.message);
             apps.value = res.data.data;

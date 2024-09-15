@@ -15,19 +15,20 @@ const router = useRouter()
 // Function to check query parameters
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
-  if(route.query.locale === 'ar'){
-   await router.push(`/ar/market?paid=${route.query.paid}&locale=ar`)
-    
-      openModal('successPayment_market')
 
-   
+    if (route.query.locale === 'ar') {
+      await router.push(`/ar/market?paid=${route.query.paid}&locale=ar`);
 
-  }else {
-    openModal('successPayment_market')
-
+  
+      await nextTick();
+        openModal('successPayment_market');
+    } else {
+      
+      openModal('successPayment_market');
+    }
   }
-  }
-}
+};
+
 
 onMounted(()=>{
   checkPaymentStatus()
@@ -66,12 +67,20 @@ const playerStore = usePlayerStore();
 const stripeKey = ref(
   "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
 );
+// const { data, status, error, refresh, clear } = await useFetch(
+//   'fulldataformattedmarket',
+//   () =>    
+
+// )
+watch(locale, (newVal, oldVal) => {
+  loadingCats.value = true
+});
 onBeforeMount(async () => {
 
-  
+  loadingCats.value = true
+await  getFullDataFormated()
     GetCustomCharacterCost();
     getCartItems();
-    await getFullDataFormated();
     playerStore.characters = characters.value
     let activeChar = playerStore.backendActiveChar
     playerStore.changeCharacter(activeChar, false);
@@ -83,7 +92,7 @@ onBeforeMount(async () => {
 const categoriesWithSkinItemsFiltered = computed(() => {
   if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return []
 else if(!loadingCats.value){
-  return categoriesWithSkinItems.value.map((category) => {
+  return   marketStore.categoriesWithSkinItems.map((category) => {
     return {
       ...category,
       skin_items_list: category.skin_items_list.filter(function (item) {
@@ -286,7 +295,7 @@ function leaveNotification(el, done) {
 <MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')"/>
 <MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')"/>
 <MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')"/>
-  <MarketModalPaymentCard/>
+  <MarketModalPaymentCard v-if="isOpen('cardModal_market')"/>
   
   <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')"/>
   <MarketModalPaymentPaypal/>
@@ -599,7 +608,7 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
-        <MarketPlayer />
+        <!-- <MarketPlayer /> -->
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter
@@ -611,11 +620,10 @@ function leaveNotification(el, done) {
             @save-to-all-sites="handleSave('all')"
         />
       </transition>
-<KeepAlive>
-
   <MarketNavbar :loading="loadingCats" :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
 
-</KeepAlive>      
+
+     
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
       <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.skin_items_list?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
     </div>

@@ -166,7 +166,7 @@ const confirmOrder = async () => {
                   class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
-                  {{ marketStore.cartSubtotal }}
+                  ${{ marketStore.cartSubtotal }}
                 </td>
               </tr>
               <tr
@@ -183,7 +183,7 @@ const confirmOrder = async () => {
                   class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
-                  {{ marketStore.cartDiscount }}
+                  ${{ marketStore.cartDiscount }}
                 </td>
               </tr>
               <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
@@ -197,7 +197,7 @@ const confirmOrder = async () => {
                   class="py-2 px-1 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
-                  {{ marketStore.cartTotal }}
+                  ${{ marketStore.cartTotal }}
                 </td>
               </tr>
             </tbody>
