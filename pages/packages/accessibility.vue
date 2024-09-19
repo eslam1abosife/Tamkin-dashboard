@@ -13,34 +13,42 @@ const geteFilterInfo = (level: any) => {
   packagesStore.traffic_level = level.name;
 };
 
-onMounted(async () => {
+onUpdated(async () => {
   
   try {
 
-    await packagesStore.getPacks()
-    await packagesStore.getPackagesTypes("Accessibility");
-    const currentType = packagesStore.types.find((t) => t.title === 'Accessibility')
-  packagesStore.currentType = currentType
-    if (packagesStore.packages.length > 0) {
-      const trafficLevels = packagesStore.getTraffiPrices('Package');
-      
-      if (trafficLevels.length > 0) {
-        packagesStore.setTrafficLevel(trafficLevels[0].name);
-      }
-      packagesStore.loadingAccessibility = false
-    } else {
-      console.error("No packages found in store");
-    }
+   if(!packagesStore.traffic_level){
+    
 
-    packagesStore.currentTab = "";
-    packagesStore.currentTabTitle = "Plugins";
+    const trafficLevels = packagesStore.getTraffiPrices('Package');
+    // alert(trafficLevels[0].name)
+    packagesStore.setTrafficLevel(trafficLevels[0].name);
+   }
+
+
+  
+packagesStore.setFaq()
+    
+
+  
+
+ 
+
   } catch (error) {
     console.error("Error during onMounted:", error);
   }
 });
 
 
+onMounted(()=>{
+  packagesStore.loadingAccessibility = true
+  packagesStore.currentTab = "";
+  packagesStore.currentTabTitle = "Plugins";
+  packagesStore.loadingAccessibility = false
 
+    // alert(packagesStore.traffic_level)
+
+})
 
 
 const uniqueValues = (items) => {
@@ -62,65 +70,65 @@ const uniqueValues = (items) => {
   <div class="w-full relative px-[40px]" v-if="packagesStore.currentType.title === 'Accessibility'">  
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <div
-        class="text-[18px] font-[700] leading-[35px] bg-gradient-to-r from-[#2DADA3] to-[#3450E5] text-transparent bg-clip-text whitespace-nowrap"
+        class="text-[18px] font-[700] leading-[35px]  whitespace-nowrap"
       >
         <div
-          v-html="
-            packagesStore.getPackageDetails(
-              'Accessibility',
-              'Web Plugins Package',
-              'access'
-            ).color_title
-          "
+          v-html="$t(`${packagesStore.getPackageDetails().color_title}`)"
         ></div>
       </div>
       <div
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
-        {{ packagesStore.getPackageDetails("Accessibility", null, null).description }}
+        {{  $t(packagesStore.getPackageDetails("Accessibility", null, null).description) }}
       </div>
     </div>
+    <PackagesModalsCustomPackage/>
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute z-[50] right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+    class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto z-[40]
+    dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+  >
+    <button
+      @click="switchBetweenMonthlyAndAnnual('month')"
+      :class="[
+        packagesStore.discountType === 'month'
+          ? 'bg-white dark:bg-light rounded-full'
+          : '',
+      ]"
+      class="w-auto px-3 transition-all h-[32px] 
+      flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
     >
-      <button
-        @click="switchBetweenMonthlyAndAnnual('month')"
-        :class="[
-          packagesStore.discountType === 'month'
-            ? 'bg-white dark:bg-light rounded-full'
-            : '',
-        ]"
-        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+      {{ $t('Monthly') }}
+    </button>
+    <button
+      @click="switchBetweenMonthlyAndAnnual('year')"
+      :class="[
+        packagesStore.discountType === 'year'
+          ? 'bg-white dark:bg-light rounded-full'
+          : '',
+      ]"
+      class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out
+       text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px] "
+    >
+      <div>{{$t('Annual')}}</div>
+      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]" >
+        <div  class="text-black font-[800] !text-[10px]">{{ $t('SAVE')}}</div>
+      <div class="text-black font-[800] !text-[10px]">
+        {{
+          packagesStore.types.length ?  packagesStore.types.find(type => type.title === 'Accessibility').discount_yearly :''
+        }}%</div
       >
-        Monthly
-      </button>
-      <button
-        @click="switchBetweenMonthlyAndAnnual('year')"
-        :class="[
-          packagesStore.discountType === 'year'
-            ? 'bg-white dark:bg-light rounded-full'
-            : '',
-        ]"
-        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
-      >
-        Annual
-        <span class="text-black font-[800] pl-1">
-          {{
-            packagesStore.types.length
-              ? packagesStore.types.find((type) => type.title === "Accessibility")
-                  .discount_yearly
-              : ""
-          }}%</span
-        >
-      </button>
-    </div>
+      </div>
+    </button>
+  </div>
+
+
     <div
-      class="flex items-center justify-start w-full absolute left-[3.3%] top-[90px] p-[4px] rtl:space-x-reverse space-x-[14px]"
+      class="flex items-center justify-start w-full absolute rtl:right-[3.3%] left-[3.3%] top-[90px] p-[4px] rtl:space-x-reverse space-x-[14px]"
     >
       <div class="text-black dark:text-whiteTamkin font-[600] text-[14px]">
-        Choose Traffic level :
+        {{ $t('Choose Traffic level') }} :
       </div>
       <TranslateSelectInput
         @getCurrentSelectedItem="geteFilterInfo"
@@ -134,7 +142,7 @@ const uniqueValues = (items) => {
       />
     </div>
 
-    <div class="flex flex-col items-center justify-center w-full bg-white mt-[69px]">
+    <div class="flex flex-col items-center justify-center w-full bg-white mt-[74px]">
       <div class="w-full flex flex-col items-center justify-center px-[18px]">
         <div v-if="packagesStore.loadingAccessibility" class="grid grid-cols-3 lg:gap-4 2xl:gap-4 3xl:gap-0 mx-auto mt-[32px] w-full ipad-max:grid-cols-2">
           <!-- Skeleton Loader -->
@@ -184,6 +192,8 @@ const uniqueValues = (items) => {
       <PackagesFaq />
 
       <!-- FAQ END-->
+
+      <PackagesContact/>
     </div>
   </div>
 </template>

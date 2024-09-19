@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
-function getDayLabel(number) {
-  return number === 1 ? "day" : "days";
-}
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  getData,
+  setData
+} = useModalManager();
 const loadingchange = ref(false);
 const filteredPackages = computed(() => {
   return packagesStore.packages
@@ -14,7 +21,7 @@ const filteredPackages = computed(() => {
         pkg.package_price_role.some(
           (item) => item.title === packagesStore.traffic_level
         )
-    )
+    ).sort((a, b) => a.sort - b.sort)
     .map((pkg) => {
       const priceRole = pkg.package_price_role.find(
         (item) => item.title === packagesStore.traffic_level
@@ -38,7 +45,19 @@ const filteredPackages = computed(() => {
       };
     });
 });
+const dosomething = (p,contact)=>{
+  packagesStore.bundleSelectedPackage = p
 
+  if(contact && packagesStore.bundleSelectedPackage && packagesStore.bundleSelectedPackage.title){
+    openModal('custom_package') 
+    setData({
+      pcktitle:packagesStore.bundleSelectedPackage.title
+    })
+  }else {
+    packagesStore.currentPackage = p
+    openModal('add_package_modal_packages')
+  }
+}
 watch(packagesStore.traffic_level, () => {
   loadingchange.value = true;
   setTimeout(() => {
@@ -46,28 +65,35 @@ watch(packagesStore.traffic_level, () => {
 
   }, 1000);
 })
+
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full">
+  <div class="flex flex-col items-center justify-center w-full" v-if="filteredPackages.length > 0">
     <div
       v-if="!loadingchange"
-      class="grid grid-cols-3 lg:gap-4 2xl:gap-4 3xl:gap-0 mx-auto mt-[32px] w-full ipad-max:grid-cols-2"
+
+      class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+    
     >
+   
       <div
         v-for="pak in filteredPackages"
         :key="pak"
-        class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative max-w-[400px] !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
+        class="flex items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative  !rounded-b-none mt-[35px] group bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
         style="padding: 16px, 10px, 16px, 10px"
       >
+     
         <div
-          v-if="pak.is_best_deal"
-          class="absolute flex items-center justify-center text-[13px] leading-[17.76px] font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px] rtl:right-[200px] ltr:left-[100px] rtl:lg:right-[250px] ltr:lg:left-2/4"
-          style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+          v-if="pak.type_deal !== 'None'"
+          class="absolute flex items-center justify-center text-[13px] leading-[17.76px]
+          font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin 
+          top-[-15px]   rtl:lg:right-[250px] ltr:lg:left-[250px]"
+        style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
         >
-          <div class=" ">Best Deal</div>
+          <div class=" ">{{$t(pak.type_deal)}}</div>
         </div>
-        <div class="absolute top-[-30px] left-[15px]">
+        <div class="absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]">
           <img :src="`http://tamkin.app/${pak.icon}`" class="w-[50px] h-[50px]" />
         </div>
 
@@ -76,15 +102,19 @@ watch(packagesStore.traffic_level, () => {
             <h1
               class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin dark:text-whiteTamkin"
             >
-              {{ pak.title }}
+              {{ $t(pak.title) }}
             </h1>
             <h2
-              class="font-[400] text-[12px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
+              class="font-[400] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
             >
-              {{ pak.sub_title }}
+              {{ $t(pak.sub_title) }}
             </h2>
-            <h3
-              class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
+            <h3  v-if="packagesStore.traffic_level  === 'Over 1M page views/mo'" 
+            class="mt-[17px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]">
+              {{ $t('Custom') }}
+            </h3>
+            <h3 v-if="packagesStore.traffic_level  !== 'Over 1M page views/mo'"
+              class="mt-[10px] text-black dark:text-whiteTamkin font-[600] text-[24px] "
             >
               $
               {{
@@ -92,29 +122,39 @@ watch(packagesStore.traffic_level, () => {
               }}
 
               <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
-                >/{{ packagesStore.discountType }}</span
+                >/{{ $t(packagesStore.discountType) }}</span
               >
             </h3>
+            <div v-if="packagesStore.traffic_level  === 'Over 1M page views/mo'" class="my-[24px] 
+          "> 
+
+            </div>
             <div
-              class="text-[#EA4335] text-[16px] leading-[18.17px] font-[500] line-through px-[2px]"
+            v-if="packagesStore.traffic_level  !== 'Over 1M page views/mo' && 
+            (pak.package_price_role[0].cost_before_month !== 0 ||
+            pak.package_price_role[0].cost_before_yearly !== 0)
+          "
+              class="text-[#EA4335] text-[16px]  font-[500] line-through px-[2px]"
             >
-              <span v-if="packagesStore.discountType === 'month'">
-                ${{ pak.cost_before_month }}
-                <span class="text-[16px] font-[500] leading-[24px]"
-                  >/{{ packagesStore.discountType }}</span
-                >
+              <span v-if="packagesStore.discountType === 'month' &&  pak.package_price_role[0].cost_before_month !== 0 ">
+                $ {{ pak.cost_before_month }}
+             
               </span>
-              <span v-if="packagesStore.discountType === 'year'">
-                ${{ pak.cost_before_yearly }}
-                <span class="text-[16px] font-[500] leading-[24px]y"
-                  >/{{ packagesStore.discountType }}</span
-                >
+              <span v-if="packagesStore.discountType === 'year' &&  pak.package_price_role[0].cost_before_yearly !== 0">
+                $ {{ pak.cost_before_yearly }}
+              
               </span>
             </div>
+
+            <div v-if="packagesStore.discountType === 'month' &&
+            pak.package_price_role[0].cost_before_month === 0 || packagesStore.discountType === 'year' &&
+            pak.package_price_role[0].cost_before_yearly === 0" class="my-[24px]">
+        <!-- Content here will be displayed if either cost_before_month or cost_before_yearly is zero -->
+      </div>
             <p
-              class="font-[700] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"
+              class="font-[700] text-[12px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"
             >
-              {{ pak.description }}
+           {{ $t(packagesStore.traffic_level )}}
             </p>
           </div>
         </div>
@@ -140,17 +180,18 @@ watch(packagesStore.traffic_level, () => {
             </div>
             <div>
               <h3 class="text-[14px] font-[400] leading-[20px]">
-                {{ item.title }}
+                {{ $t(item.title) }}
               </h3>
             </div>
           </div>
 
           <div class="flex items-center justify-center mx-auto w-full">
             <button
+            @click="dosomething(pak,pak.is_contact_us)"
               :disabled="pak.cost_month === 0 || pak.cost_yearly === 0"
-              class="btn-dashboard hover_tamkin max-w-[205px] !rounded-[19px] mx-auto"
+              class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
             >
-              <span v-if="pak.is_contact_us"> Contact us </span>
+              <span v-if="pak.is_contact_us"> {{ $t('Contact us') }} </span>
               <span
                 v-else-if="
                   pak.trial_days > 0 ||
@@ -159,12 +200,12 @@ watch(packagesStore.traffic_level, () => {
               >
                 {{
                   pak.trial_days > 0
-                    ? `Try now for ${pak.trial_days} ${getDayLabel(pak.trial_days)}`
-                    : "Buy now"
+                    ? `${$t('Free Trial')}`
+                    : $t("Get Started")
                 }}
               </span>
               <span v-if="pak.cost_month === 0 || pak.cost_yearly === 0">
-                FREE Package
+                {{ $t('Free Package') }}
               </span>
             </button>
           </div>
@@ -172,6 +213,6 @@ watch(packagesStore.traffic_level, () => {
       </div>
     </div>
 
-    <PackagesFeatures v-if="!packagesStore.loadingAccessibility"/>
+    <PackagesFeatures v-if="!packagesStore.loadingAccessibility" :current-page="'accessibility'"/>
   </div>
 </template>

@@ -14,7 +14,7 @@ const { fullUrl } = useFullUrl();
     >
      
       <div class="text-[20px] leading-[30px] font-[500] text-[#3D3D3D] font-[700]">
-        Images  services
+        {{$t('Images  services')}}
       </div>
   
       <div 
@@ -26,13 +26,13 @@ const { fullUrl } = useFullUrl();
       <img :src="fullUrl(srv.icon)" class="w-[31px] h-[26px]" alt="">
     </div>
   <div class="text-[#021328] font-[500] text-[14px] leading-[20px]">
-    {{srv.title}}
+    {{$t(srv.title)}}
   </div>
   
   
   </div>
   <div class="text-[#393767] font-[400] text-[11px] leading-[18px] mt-2">
-    {{srv.description}}
+    {{$t(srv.description)}}
   
   
   
@@ -60,13 +60,13 @@ const { fullUrl } = useFullUrl();
           : srv.package_price_role[0].cost_yearly
       }}
       </span
-    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/{{packagesStore.discountType}}</span>
+    ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/{{$t(packagesStore.discountType)}}</span>
   </div>
   
   <div
     class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
   >
-    <div>Purchase Now</div>
+    <div>{{$t('Purchase Now')}}</div>
     <svg
       width="9"
       height="15"

@@ -2,6 +2,19 @@
 definePageMeta({
   layout: "dashboard",
 });
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  setData
+} = useModalManager();
+const openBuyModal = (pck)=>{
+  packagesStore.currentPackage = pck
+  openModal('add_package_modal_packages')
+}
 const pricingType = ref("monthly");
 const packagesStore = usePackgesStore();
 const switchBetweenMonthlyAndAnnual = (v: any) => {
@@ -13,94 +26,96 @@ onMounted(async () => {
 
   packagesStore.loadingData = true
 
-await  packagesStore.getPackagesTypes('Sign language')
+// await  packagesStore.getPackagesTypes('Sign language')
 
   await packagesStore.getPacks()
 await packagesStore.getCategories()
+
+
+packagesStore.currentTab = packagesStore.categories[0]
+packagesStore.intialTab = packagesStore.categories[0]
+        packagesStore.currentTabTitle = packagesStore.categories[0].title
+
 packagesStore.loadingData = false
 
-
-// packagesStore.currentTab = packagesStore.categories[0]
-// packagesStore.intialTab = packagesStore.categories[0]
-//         packagesStore.currentTabTitle = packagesStore.categories[0].title
-
 });
+
+onUpdated(()=>{
+packagesStore.setFaq()
+    
+})
+
+
 // provide("pricingType", pricingType);
 </script>
 
 <template>
   <div class="w-full relative px-[40px]" v-if="packagesStore.currentType.title === 'Sign language' ">
+    <!-- <DashboardToastSuccess message="test" :hide-in="50000"/> -->
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <!-- <PackagesPaymentModalsPackage/> -->
       <!-- <PackagesPaymentModalsAddons/> -->
       <!-- <PackagesPaymentModalsJoinInvestorStep1/> -->
       <div
         class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
-        v-if="packagesStore.currentTabTitle === 'Plugins'"
+  
       >
-        <div
-          v-html="
-            packagesStore.getTabDetails('Sign language', 'Web Plugins Package', 'bundle')
-              .color_title
-          "
-        ></div>
+      <div v-html="$t(`${packagesStore.getTabDetails().color_title}`)"></div>
+      <!-- <div class="flex items-center justify-center space-x-1 ">
+        <div class="rtl:order-2"> للغة الإشارة </div>
+        <div class="rtl:order-1 " style="background: linear-gradient(to bottom right, #46A095, #46A095, #17159D); -webkit-background-clip: text; background-clip: text; color: transparent;">باقة خدمات الويب</div>
+      </div> -->
+ 
       </div>
-
+  
+      
       <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
-        v-if="packagesStore.currentTabTitle === 'Media'"
-      >
-        <span
-          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
-          >{{ packagesStore.getTabDetails("Media", null, "media").color_title }}</span
-        >
-      </div>
-
-      <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
-        v-if="packagesStore.currentTabTitle === 'Documents'"
-      >
-        <span
-          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
-        >
-          {{ packagesStore.getTabDetails("Media", null, "media").color_title }}
-        </span>
-      </div>
-
-      <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
-        v-if="packagesStore.currentTabTitle === 'Images'"
-      >
-        <span
-          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
-        >
-          {{ packagesStore.getTabDetails("Media", null, "media").color_title }}
-        </span>
-      </div>
-
-      <div
-        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
-        v-if="packagesStore.currentTabTitle === 'Bundle'"
-      >
-        <span
-          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
-        >
-          {{ packagesStore.getTabDetails("Media", null, "media").color_title }}
-        </span>
-      </div>
-      <div
-      class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center "
+      class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
     >
-      <div class="w-4/12 h-[20px] bg-gray-300 rounded animate-pulse"></div>
-      <div class="w-6/12 h-[20px] bg-gray-300 rounded animate-pulse mt-[24px]"></div>
+      {{
+        $t(packagesStore.getTabDetails()
+        .description)
+      }}
     </div>
+      <!-- <div
+        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
+        v-if="packagesStore.currentTabTitle === 'Media'"
+      >
+        <span
+          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
+          >{{ $t(packagesStore.getTabDetails("Media", null, "media").color_title) }}</span
+        >
+      </div>
+
+
       <div
+        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
+        v-if="packagesStore.currentTabTitle === 'Images'"
+      >
+        <span
+          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
+        >
+          {{ $t(packagesStore.getTabDetails("Media", null, "media").color_title) }}
+        </span>
+      </div>
+
+      <div
+        class="text-[18px] font-[700] leading-[35px] text-black whitespace-nowrap"
+        v-if="packagesStore.currentTabTitle === 'Bundle'"
+      >
+        <span
+          class="bg-gradient-to-br from-[#31A69F] via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text"
+        >
+          {{ $t(packagesStore.getTabDetails("Media", null, "media").color_title )}}
+        </span>
+      </div> -->
+   
+      <!-- <div
         v-if="packagesStore.currentTabTitle === 'Plugins'"
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
         {{
-          packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
-            .description
+      $t(    packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
+      .description)
         }}
       </div>
 
@@ -109,8 +124,8 @@ packagesStore.loadingData = false
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
         {{
-          packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
-            .description
+          $t(packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
+          .description)
         }}
       </div>
       <div
@@ -118,8 +133,8 @@ packagesStore.loadingData = false
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
         {{
-          packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
-            .description
+          $t(packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
+          .description)
         }}
       </div>
       <div
@@ -127,8 +142,8 @@ packagesStore.loadingData = false
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
         {{
-          packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
-            .description
+          $t(packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
+          .description)
         }}
       </div>
       <div
@@ -136,10 +151,10 @@ packagesStore.loadingData = false
         class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
       >
         {{
-          packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
-            .description
+          $t(packagesStore.getTabDetails("Sign language", "Web Plugins Package", null)
+          .description)
         }}
-      </div>
+      </div> -->
     </div>
 
     <div v-if="!packagesStore.loadingData"
@@ -162,7 +177,7 @@ packagesStore.loadingData = false
             packagesStore.currentTab.name === cat.name ? 'text-white ' : 'text-[#878787]',
           ]"
         >
-          {{ cat.title }}
+          {{ $t(cat.title )}}
         </div>
       </div>
     </div>
@@ -177,7 +192,8 @@ packagesStore.loadingData = false
 
     <!-- PACKAGES-->
     <div
-      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[90px] p-[4px] border border-gray-300"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto
+      dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[90px] p-[4px] border border-gray-300"
     >
       <button
         @click="switchBetweenMonthlyAndAnnual('month')"
@@ -186,9 +202,10 @@ packagesStore.loadingData = false
             ? 'bg-white dark:bg-light rounded-full'
             : '',
         ]"
-        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+        class="w-auto px-3 transition-all h-[32px] 
+        flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
       >
-        Monthly
+        {{ $t('Monthly') }}
       </button>
       <button
         @click="switchBetweenMonthlyAndAnnual('year')"
@@ -197,14 +214,18 @@ packagesStore.loadingData = false
             ? 'bg-white dark:bg-light rounded-full'
             : '',
         ]"
-        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+        class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out
+         text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px] "
       >
-        Annual
-        <span class="text-black font-[800] pl-1">
+        <div>{{$t('Annual')}}</div>
+        <div class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]" >
+          <div  class="text-black font-[800] !text-[10px]">{{ $t('SAVE')}}</div>
+        <div class="text-black font-[800] !text-[10px]">
           {{
             packagesStore.types.length ?  packagesStore.types.find(type => type.title === 'Sign language').discount_yearly :''
-          }}%</span
+          }}%</div
         >
+        </div>
       </button>
     </div>
     <div class="grid grid-cols-1 w-full relative">
@@ -213,7 +234,7 @@ packagesStore.loadingData = false
         <div v-for="i in 3" :key="i" class="flex items-center flex-col mx-auto justify-start rounded-t-[10px] relative max-w-[400px] rounded-b-none mt-[35px] bg-white w-full p-6 animate-pulse">
           
           <!-- Icon Skeleton -->
-          <div class="absolute top-[-30px] left-[15px]">
+          <div class="absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]">
             <div class="w-[50px] h-[50px] bg-gray-300 rounded-full"></div>
           </div>
       
@@ -258,9 +279,8 @@ packagesStore.loadingData = false
       
       <PackagesMediaPricing
         v-if="
-         ( packagesStore.currentTabTitle === 'Media' && !packagesStore.loadingData) ||
-         ( packagesStore.currentTabTitle === 'Documents' && packagesStore.loadingData) ||
-          (packagesStore.currentTabTitle === 'Images' && packagesStore.loadingData)
+         ( packagesStore.currentTabTitle === 'Media' || packagesStore.currentTabTitle === 'Documents' ||packagesStore.currentTabTitle === 'Images') && !packagesStore.loadingData
+   
         "
       />
       <!-- <PackagesViewFeatures /> -->
@@ -286,7 +306,7 @@ packagesStore.loadingData = false
       <div
         v-for="addon in packagesStore
           .getAddonsOrExtras('Extra')
-          .filter((g) => g.custom_extra_type === 'words')"
+          .filter((g) => g.custom_extra_type === 'words').sort((a, b) => a.sort - b.sort)"
         :key="addon.name"
         class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px]"
       >
@@ -298,42 +318,42 @@ packagesStore.loadingData = false
           />
         </div>
         <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
-          {{ addon.title }}
+          {{ $t(addon.title) }}
         </div>
         <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
-          {{ addon.description }}
+          {{ $t(addon.description) }}
         </div>
 
         <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-[#021328]">
-          {{ addon.sub_title }}
+          {{ $t(addon.sub_title) }}
         </div>
        
         <div class="text-[15px] font-[600] leading-[29px] text-darkGrey">
           $
 
           {{
-            packagesStore.discountType === "month"
-              ? addon.package_price_role[0].cost_month
-              : addon.package_price_role[0].cost_yearly
+       
+           addon.package_price_role[0].cost_month.toFixed(0)
+            
           }}
         </div>
         
-        <div  
+        <!-- <div  
+        v-if="addon.package_price_role[0].discount_month || addon.package_price_role[0].discount_yearly"
         class="absolute bottom-[65px] lg:bottom-[75px] ipad-max:bottom-[80px] text-[#EA4335] text-[12px] leading-[18.17px] 
         font-[400] line-through flex w-full"
       >
-      <div v-if="packagesStore.discountType === 'month'" class="flex items-center justify-center w-full">
-        <div>{{ `$`+addon.package_price_role[0].cost_before_month }} </div>
+        <div v-if="packagesStore.discountType === 'month' && addon.package_price_role[0].discount_month" class="flex items-center justify-center w-full">
+          <div>{{ `$` + addon.package_price_role[0].cost_before_month }}</div>
+        </div>
       
-      </div>
-      <div v-if="packagesStore.discountType === 'year'" class="flex items-center justify-center w-full">
-        <div>{{ `$`+addon.package_price_role[0].cost_before_yearly }} </div>
+        <div v-if="packagesStore.discountType === 'year' && addon.package_price_role[0].discount_yearly" class="flex items-center justify-center w-full">
+          <div>{{ `$` + addon.package_price_role[0].cost_before_yearly }}</div>
+        </div>
+      </div> -->
       
-      </div>
-  
-      </div>
-        <button class="btn_bordered_dashboard absolute bottom-[24px] ipad-max:bottom-[12px]">
-          Purchase Now
+        <button @click="openBuyModal(addon)" class="btn_bordered_dashboard absolute bottom-[24px] ipad-max:bottom-[12px]">
+          {{ $t('Purchase Now') }}
         </button>
       </div>
     </div>
@@ -352,7 +372,7 @@ packagesStore.loadingData = false
     <div
     v-for="addon in packagesStore
       .getAddonsOrExtras('Extra')
-      .filter((g) => g.custom_extra_type === 'minutes')"
+      .filter((g) => g.custom_extra_type === 'minutes').sort((a, b) => a.sort - b.sort)"
     :key="addon.name"
     class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[303px]"
   >
@@ -363,45 +383,30 @@ packagesStore.loadingData = false
         alt=""
       />
     </div>
+    
     <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
-      {{ addon.title }}
+      {{ $t(addon.title )}}
     </div>
     <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
-      {{ addon.description }}
+      {{ $t(addon.description) }}
     </div>
 
     <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-[#021328]">
-      {{ addon.sub_title }}
+      {{ $t(addon.sub_title) }}
     </div>
-    <div
-    v-if="
-      addon.package_price_role[0].discount_month !== 0 ||
-      addon.package_price_role[0].discount_yearly !== 0
-    "
-    class="absolute bottom-[38.2%] right-[36.2%] text-[#EA4335] text-[12px] leading-[18.17px] font-[400]"
-  >
-    <div
-      class="absolute right-[0%] text-[#EA4335] text-[15px] leading-[18.17px] font-[400] line-through"
-    >
-      <span v-if="packagesStore.discountType === 'month'">
-        ${{ addon.package_price_role[0].cost_before_month }}
-      </span>
-      <span v-if="packagesStore.discountType === 'year'">
-        ${{ addon.package_price_role[0].cost_before_yearly }}
-      </span>
-    </div>
-  </div>
+
+  
     <div class="text-[15px] font-[600] leading-[29px] text-darkGrey">
       $
 
-      {{
-        packagesStore.discountType === "month"
-          ? addon.package_price_role[0].cost_month.toFixed(2)
-          : addon.package_price_role[0].cost_yearly
-      }}
+ 
+     
+           {{addon.package_price_role[0].cost_month}}
+         
     </div>
-    <button class="btn_bordered_dashboard absolute bottom-[24px]">
-      Purchase Now
+
+    <button @click="openBuyModal(addon)" class="btn_bordered_dashboard absolute bottom-[24px]">
+      {{ $t('Purchase Now') }}
     </button>
   </div>
     </div>
@@ -418,7 +423,7 @@ packagesStore.loadingData = false
       <div
         v-for="ex in packagesStore
           .getAddonsOrExtras('Extra')
-          .filter((g) => g.custom_extra_type === 'Characters')"
+          .filter((g) => g.custom_extra_type === 'Characters').sort((a, b) => a.sort - b.sort)"
         :key="ex.name"
         class="relative flex p-[40px] flex-col items-center justify-start space-y-[10px] bg-white/[48%] rounded-[10px] h-[245px]"
       >
@@ -426,20 +431,20 @@ packagesStore.loadingData = false
           <img :src="`http://tamkin.app/${ex.icon}`" class="w-[79px] h-[75px]" alt="" />
         </div>
         <div class="text-[16px] font-[600] leading-[32px] text-[#021328]">
-          {{ ex.title }}
+          {{ $t(ex.title) }}
         </div>
         <div class="text-[13px] leading-[19px] font-[500] text-black text-center">
-          {{ ex.description }}
+          {{ $t(ex.description) }}
         </div>
 
         <div class="my-[14px] text-[16px] font-[700] leading-[32px] text-black">
-          {{ ex.title }}
+          {{ $t(ex.title) }}
         </div>
         <div class="text-[12px] font-[600] leading-[29px] text-darkGrey">
           $ {{ ex.package_price_role[0].cost_month }}
         </div>
         <button class="btn_bordered_dashboard absolute bottom-[24px]">
-          Purchase Now
+          {{ $t('Purchase Now') }}
         </button>
       </div>
     </div>
@@ -461,33 +466,7 @@ packagesStore.loadingData = false
 
     <!-- FAQ END-->
 
-    <div class="w-full h-[334px] bg-white rounded-[10px] relative mt-[32px] mx-auto">
-      <!-- Gradient Overlay -->
-      <div
-        class="absolute z-20 w-[95%] h-[170px] top-[50%] left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
-      ></div>
-    
-      <!-- Image -->
-      <div class="absolute right-[70px] top-[25px] z-50">
-        <img src="/imgs/av.png" alt="" class="w-[300px] h-[295px]" />
-      </div>
-      
-      <!-- Content Section -->
-      <div
-        class="absolute h-[246px] z-50 w-[379px] left-0 bg-gradient-to-t from-[#F7C1D3]/[52%] to-[#A9CAF2]/[52%] top-[45px] rounded-r-[55px] flex items-start justify-center flex-col p-[32px]"
-      >
-        <div class="text-[20px] font-[600] leading-[24px] text-black text-left">
-          Have more questions?
-        </div>
-        <div class="text-[14px] font-[500] leading-[25px] text-black mt-[10px] text-left">
-          We're here to help reach out anytime for the answers and support you need!
-        </div>
-    
-        <button class="btn-dashboard hover_tamkin max-w-[136px] mt-[30px]">
-          Contact us
-        </button>
-      </div>
-    </div>
+  <PackagesContact/>
     
   </div>
 </template>

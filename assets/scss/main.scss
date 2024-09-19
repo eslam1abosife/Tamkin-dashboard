@@ -125,3 +125,59 @@ input:-webkit-autofill {
     100% { transform: translateX(100%); }
   }
   
+
+
+.multiselect {
+    @apply relative;
+  
+    .multiselect__tags {
+      @apply h-[40px] !text-darkGrey rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] 
+      bg-white dark:bg-transparent border-lightGrey  !font-[400] !font-[Poppins]
+      md:w-full lg:w-full text-[13px] lg:text-[12px] 2xl:text-[14px]  ipad-max:max-w-full w-full border-[1px]
+       focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent
+        disabled:bg-gray-100 disabled:cursor-not-allowed #{!important};
+  
+      &.error_text {
+        // @apply text-light; 
+      }
+    }
+  
+    .multiselect__placeholder {
+      @apply cursor-text rounded-[10px] !mb-0 duration-100 ease-linear text-light
+       peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px]
+        !font-[500] peer-focus:text-[12px] ipad-max:text-[10px] bg-transparent;
+    }
+  
+    .multiselect__input {
+      @apply h-auto !text-darkGrey; 
+    }
+  
+    .multiselect__input:focus {
+      outline: none !important;
+      @apply border-0 !ring-0 ring-transparent;
+    }
+  
+    .multiselect__input::placeholder {
+      @apply cursor-text rounded-[10px] duration-100 ease-linear text-light
+       peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] 
+       ipad-max:text-[10px] ipad-max:peer-focus:text-[12px] bg-transparent
+    }
+  
+    .multiselect__option--highlight {
+      @apply bg-tamkinLight !text-darkGrey;
+    }
+  
+    .multiselect__option--highlight::after {
+      content: attr(data-select);
+      @apply bg-tamkinLight text-darkGrey;
+    }
+  
+    .multiselect__tag {
+      @apply bg-tamkinLight text-darkGrey h-auto !rounded-[0px];
+    }
+    .multiselect__select::before{
+      @apply hidden #{!important};
+    }
+  }
+  
+  

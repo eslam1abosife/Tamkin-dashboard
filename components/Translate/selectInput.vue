@@ -76,8 +76,9 @@ onMounted(() => {
       :class="[isListOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '', errorField ? 'input_error' : '', successField ? 'input_success' : '']"
     >
       <div
-        class="floating_country px-[6px] text-[#585B5B] ipad-max:!font-[400] !font-[400] lg:!font-[600] ipad-max:text-[10px] text-[13px]"
-        :class="[selectedOption && selectedOption[nameKey] ? '!text-black' : 'text-light']"
+        class="floating_country px-[6px]   
+        ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
+        :class="[selectedOption && selectedOption[nameKey] ? '!text-[#585B5B] font-[400] ' : 'text-light']"
       >
         <div class="flex items-center justify-start">
           <img
@@ -101,7 +102,8 @@ onMounted(() => {
       <div class="search_input w-full rounded-t-[10px]" v-if="enableSearch">
         <input
           type="text"
-          class="input_dashboard_search rtl:!pr-[48px] ltr:!pl-[48px] !w-full !rounded-b-none !text-[12px] !placeholder:text-[12px]"
+          class="input_dashboard_search rtl:!pr-[48px] ltr:!pl-[48px] !w-full !rounded-b-none 
+          !text-[12px] !placeholder:text-[12px]"
           v-model="search"
           :placeholder="$t('Search') + '...'"
         />
@@ -112,7 +114,7 @@ onMounted(() => {
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'h-[100px]' : 'h-auto']">
+      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'min-h-auto' : 'h-auto']">
         <li
           v-for="(listItem, i) in filteredList"
           :key="listItem[idField]"
