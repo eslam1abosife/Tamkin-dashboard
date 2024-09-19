@@ -37,7 +37,7 @@ export const useMarketStore = defineStore('market', {
      * @returns {Promise<void>}
      */
     removeMultipleFromCart(cartItemsToRemove: any[], type: string = 'skin_Item', is_cart_item: boolean = true): void {
-      const { removeItemFromCart } = useCart();
+      const { removeItemFromCart ,getCartItems} = useCart();
     
       // Iterate through each item in cartItemsToRemove array
       cartItemsToRemove.forEach((cartItem) => {
@@ -65,7 +65,10 @@ export const useMarketStore = defineStore('market', {
         } else {
           console.warn(`Item ${item_name_to_check_in_cart} not found in cart`);
         }
+
+        
       });
+      getCartItems()
     
       // Reset the flag if the cart is empty
       if (this.cartItems.length === 0) {
@@ -197,7 +200,7 @@ export const useMarketStore = defineStore('market', {
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
 
       const { $toast } = useNuxtApp();
-      const { addItemToCart } = useCart();
+      const { addItemToCart ,cartItems} = useCart();
       
       if (!this.isInCart(item.name)) {
         // Add item until the request finishes

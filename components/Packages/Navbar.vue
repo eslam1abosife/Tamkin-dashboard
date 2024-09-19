@@ -19,14 +19,12 @@ if(process.client){
 const gotolink = (link: string) => {
 packagesStore.changeType(link)
 
-  packagesStore.selectedQuestion = ''
-  packagesStore.loadingData = true
-  packagesStore.loadingAccessibility = true
+  // packagesStore.selectedQuestion = ''
+  // packagesStore.loadingData = true
+  // packagesStore.loadingAccessibility = true
   // packagesStore.packages = []
-  if(packagesStore.currentType.title){
     router.push({ path: localePath(getLinkbasedOnTitle(link)) })
-  }
-            
+     
         
 }
 const changeColor = computed(() => {
@@ -60,7 +58,7 @@ const changeColor = computed(() => {
     : pageColor;
 });
 
-const debouncedGotolink = useDebounceFn(gotolink, 500) // 300ms debounce delay
+const debouncedGotolink = useDebounceFn(gotolink, 0) // 300ms debounce delay
 
 
 
@@ -75,37 +73,12 @@ const getLinkbasedOnTitle = (type) => {
   }
 };
 
-onMounted(async () => {
+onBeforeMount(async () => {
   // alert( isLinkActive("/packages/accessibility"))
-  onMounted(async ()=>{
 
 
 
-if(isLinkActive('/packages/bundle')){
-  const currentType = packagesStore.types.find((t) => t.title === 'Bundle')
-  packagesStore.currentType = currentType
-}
-if(isLinkActive('/packages/accessibility')){
-  const currentType = packagesStore.types.find((t) => t.title === 'Accessibility')
-  packagesStore.currentType = currentType
-}
 
-if(isLinkActive('/packages/investors')){
-  const currentType = packagesStore.types.find((t) => t.title === 'Investors')
-  packagesStore.currentType = currentType
-}
-
-if(isLinkActive('/packages/live-translation')){
-  const currentType = packagesStore.types.find((t) => t.title === 'Live Translation')
-  packagesStore.currentType = currentType
-}
-if(isLinkActive('/packages')){
-  const currentType = packagesStore.types.find((t) => t.title === 'Sign language')
-  packagesStore.currentType = currentType
-}
-
-
-})
 });
 
 const slugify = (title) => {
@@ -271,16 +244,17 @@ const slugify = (title) => {
       <div class="text-[20px] font-[600] leading-[32px] text-white">
         {{$t('Tamkin the bridge of communication between communities')}}
       </div>
-      <div class="flex items-center justify-center space-x-[22px] absolute bottom-0">
-        <div v-for="linkPackage in packagesStore.types" :key="linkPackage.name"
+
+      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[22px] absolute bottom-0">
+        <div v-for="linkPackage in packagesStore.types.filter(t=>t.title !== 'Live Translation').sort((a, b) => a.sort - b.sort)" :key="linkPackage.name"
           :class="[packagesStore.currentType.title === linkPackage.title ? 'bg-[#FFFFFF61]/[38%]' : '']"
           @click="debouncedGotolink(linkPackage)"
-          class="h-[57px] w-[100px] rounded-t-[10px] p-[10px] cursor-pointer space-y-[6px] flex items-center justify-center flex-col"
+          class="h-[57px] w-[110px] rounded-t-[10px]  cursor-pointer space-y-[6px] flex items-center justify-center flex-col"
         >
           <div>
             <img :src="`https://tamkin.app/${linkPackage.icon}`" class="w-[28px] h-[17px]" alt="" />
           </div>
-          <div class="text-[10px] font-[500] text-white">{{linkPackage.title}}</div>
+          <div class="text-[12px] font-[500] text-white">{{$t(linkPackage.title)}}</div>
         
         </div>
 

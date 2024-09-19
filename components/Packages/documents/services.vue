@@ -16,7 +16,7 @@ const { fullUrl } = useFullUrl();
         <img src="/imgs/doc_services.png" class="w-[142px] h-[86px]" alt="" />
       </div>
       <div class="text-[20px] leading-[30px] font-[500] text-[#3D3D3D] font-[700]">
-        Documents  services
+        {{ $t('Documents  services') }}
       </div>
   
       <div class="grid grid-cols-2 gap-4 px-[40px] mt-[46px]">
@@ -35,13 +35,13 @@ const { fullUrl } = useFullUrl();
             <div
               class="text-[14px] ipad-max:text-[12px] font-[500] ipad-max:leading-[10px] leading-[24px] text-[#585B5B]"
             >
-           {{srv.title}}
+           {{$t(srv.title)}}
             </div>
           </div>
           <div
             class="mt-[8px] ipad-max:text-[10px] text-[12px] ipad-max:leading-[14px] leading-[16px] font-[400] text-[#393767]"
           >
-            {{srv.description}}
+            {{$t(srv.description)}}
           </div>
           <div v-if="srv.package_price_role[0].discount_month !== 0 || srv.package_price_role[0].discount_yearly !==0"
           class="absolute top-[90px] left-[150px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]"
@@ -69,13 +69,13 @@ const { fullUrl } = useFullUrl();
               
               
               </span
-            ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/{{packagesStore.discountType}}</span>
+            ><span class="text-[10px] font-[500] leading-[15px] text-darkGrey">/{{$t(packagesStore.discountType)}}</span>
           </div>
   
           <div
             class="cursor-pointer text-[10px] font-[600] leading-[32px] flex items-center justify-start rtl:space-x-reverse space-x-[14px]"
           >
-            <div>Purchase Now</div>
+            <div>{{$t('Purchase Now')}}</div>
             <svg
               width="9"
               height="15"

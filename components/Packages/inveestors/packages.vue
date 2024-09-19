@@ -1,93 +1,170 @@
 <script lang="ts" setup>
-const localePath = useLocalePath()
-const pricingType = inject('pricingType')
-const packagesStore = usePackgesStore()
+const localePath = useLocalePath();
+const pricingType = inject("pricingType");
+const packagesStore = usePackgesStore();
+const cryptoStroe = useCryptoStore()
 function getDayLabel(number) {
-  return number === 1 ? 'day' : 'days';
+  return number === 1 ? "day" : "days";
 }
-onMounted(()=>{
+onMounted(async () => {
+  await cryptoStroe.getRates()
+});
+function convertUsdToCrypto(usdTotal, rates) {
+  const rate = rates['tamkin'];
+  if (rate) {
+    return (usdTotal / rate).toFixed(0);
+  } else {
+    // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
+  }
+}
+const filteredPackages = computed(() => {
+  return packagesStore.packages
+    .filter(
+      (pkg) =>
+        pkg.type === packagesStore.currentType.name &&
+        pkg.package_type === "Package" &&
+        pkg.package_price_role.some(
+          (item) => item.title === packagesStore.views_level
+        )
+    ).sort((a, b) => a.sort - b.sort)
+    .map((pkg) => {
+      const priceRole = pkg.package_price_role.find(
+        (item) => item.title === packagesStore.views_level
+      );
 
-})
+      return {
+        ...pkg,
+        cost_before_month: priceRole.cost_before_month,
+        cost_year: priceRole.cost_year,
+        cost_month: priceRole.cost_month,
+        cost_3_month: priceRole.cost_3_month,
+        cost_investor: priceRole.cost_investor,
+        is_contact_us: priceRole.is_contact_us,
+        data_cost_month: priceRole.data_cost_month,
+        cost_yearly: priceRole.cost_yearly,
+        discount_month: priceRole.discount_month,
+        discount_3_month: priceRole.discount_3_month,
+        discount_yearly: priceRole.discount_yearly,
+        cost_before_yearly: priceRole.cost_before_yearly,
+      };
+    });
+});
 </script>
 
 <template>
+  <div class="flex items-center flex-col justify-center w-full">
+    <div
+      class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center
+       lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+    >
+    <!-- {{ filteredPackages }} -->
+      <div
+        :class="[
+          packagesStore.investorUser && packagesStore.investorUser.package === pack.name
+            ? 'bg-selected'
+            : '',
+        ]"
+        v-for="pack in 
+          filteredPackages
+          .sort((a, b) => a.sort - b.sort)"
+        :key="pack.name"
+        class="flex items-center hover:bg-selected hover:dark:bg-p flex-col justify-start custom-border-tamkin
+         padding-override-1 !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
+        style="padding: 16px, 10px, 16px, 10px"
+      >
 
-    <div class="flex items-center flex-col justify-center  w-full">
+  
+      <div
+      v-if="pack.type_deal !== 'None'"
+       class="absolute flex items-center justify-center text-[13px] leading-[17.76px]
+        font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin 
+        top-[-15px]   rtl:lg:right-[250px] ltr:lg:left-[250px]"
+      style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+    >
+      <div class=" ">{{$t(pack.type_deal)}}</div>
+    </div>
+        <div class="absolute top-[-35px] rtl:right-[5px] ltr:left-[5px]">
+          <img class="w-[65px] h-[65px]" :src="`https://tamkin.app/${pack.icon}`" />
+        </div>
+
+        <div class="flex items-center justify-center relative w-full px-[15px] mt-[48px]">
+          <div class="order-2 relative w-full">
+            <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">
+              {{ $t(pack.title) }}
+            </h1>
+
+                <div
+                class="relative  text-black dark:text-whiteTamkin font-[600] text-[20px] leading-[29px] flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+              >
+                <div
+                  class="!font-[400] !text-[#536174] !text-[14px] leading-[19px] dark:!text-whiteTamkin"
+                >
+                  {{ $t(pack.sub_title) }}
+                </div>
+  <!-- {{  pack.package_price_role[0] }} -->
+                <div>$ {{ pack.cost_investor .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</div>
+              </div>
+            <h2
+              class="font-[500] my-[16px] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin"
+            >
+              {{ $t(pack.description) +' '}} <span class="font-[700]">{{ convertUsdToCrypto(pack.cost_investor, cryptoStroe.rates).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} TSLT</span> 
+            </h2>
+
+      
+      
+          </div>
+        </div>
+
         <div
-          class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+          class="flex flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4 dark:text-whiteTamkin"
         >
-        
-          <div  v-for="pack in packagesStore.getPackageByTypeAndCategory('Package').sort((a, b) => a.sort - b.sort)" :key="pack.name"
-            class="flex items-center    hover:bg-selected  hover:dark:bg-p flex-col justify-start custom-border-tamkin padding-override-1
-             !rounded-t-[10px] !rounded-b-none mt-[35px] w-full ipad-max:w-full"
-            style="padding: 16px, 10px, 16px, 10px"
+    
+          <div
+            v-for="item in pack.package_items
+              .filter((k) => k.section === 'Package')
+              .sort((a, b) => a.idx - b.idx)"
+            :key="item.name"
+            class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
           >
-            <div class="absolute top-[-35px] left-[5px]">
-              <img  class="w-[65px] h-[65px]"
-                :src="`https://tamkin.app/${pack.icon}`"
-           
-                
+            <div>
+              <img
+                :src="
+                  item.is_available
+                    ? '/assets/imgs/checked_list_active.svg'
+                    : '/assets/imgs/checked_list_inactive.svg'
+                "
               />
             </div>
-    
-            <div
-              class="flex items-center justify-center relative w-full px-[15px] mt-[48px] "
-            >
-            
-              <div class="order-2 relative w-full">
-             
-                <h1 class="font-[600] text-[18px] leading-[30px] dark:text-whiteTamkin">{{pack.title}}</h1>
-                <!-- <div class="absolute top-[46px] left-[100px] text-[#EA4335] text-[15px] leading-[18.17px] font-[400]">
-                  <div class="absolute  left-[10px] text-[#EA4335] text-[14px] leading-[18.17px] font-[400] crossed-out">
-                    <span>$18,000</span>
-                  </div>
-                </div> -->
-                <h2 class="font-[400] text-[10px] leading-[15px] text-[#536174] dark:text-whiteTamkin">
-                 {{pack.description}}
-                </h2>
-    
-                <div
-                  class="relative mt-[16px] text-black dark:text-whiteTamkin  font-[600] text-[20px] leading-[29px] flex items-center 
-                  justify-start rtl:space-x-reverse space-x-[10px]"
-                >
-                
-                  <div class="!font-[400] !text-[#536174] !text-[12px] leading-[19px] dark:!text-whiteTamkin">
-                   {{pack.sub_title}}
-                  </div>
-                
-                  <div>$ {{pack.package_price_role[0].cost_investor}}</div>
-                </div>
-                <p class="font-[500] text-[10px] leading-[32px] text-darkGrey  dark:text-whiteTamkin">
-                  <span class="!font-[700]">UP to 100K </span>Page views/mo
-                </p>
-              </div>
-            </div>
-    
-            <div
-              class="flex flex-col items-start justify-center w-full space-y-[10px] h-[305px] custom-border-collapse-tamkin
-               rounded-t-none rounded-[10px] p-4 dark:text-whiteTamkin"
-            >
-            <div v-for="item in pack.package_items.filter(k=>k.section === 'Package').sort((a, b) => a.idx - b.idx)"  :key="item.name"
-              class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
-            >
-              <div>
-                <img :src="item.is_available ? '/assets/imgs/checked_list_active.svg' : '/assets/imgs/checked_list_inactive.svg'" />
-              </div>
-              <div>
-                <h3 class="text-[14px] font-[400] leading-[20px]">
-                  {{item.title}}
-                </h3>
-              </div>
-            </div>
-              <div class="flex items-center justify-center mx-auto w-full">
-                <nuxt-link :to="localePath({name: 'how-to-join'})" class="btn-dashboard hover_tamkin  rounded-full mt-[16px] font-[600]">
-                  How to join
-                </nuxt-link>
-              </div>
+            <div>
+              <h3 class="text-[14px] font-[400] leading-[20px]">
+                {{ $t(item.title) }}
+              </h3>
             </div>
           </div>
-          
+          <div class="flex items-center justify-center mx-auto w-full">
+            <button
+              @click="$router.push({ path: localePath({ name: 'how-to-join' }) })"
+              :disabled="
+                packagesStore.investorUser &&
+                packagesStore.investorUser.package === pack.name
+              "
+              class="btn-dashboard hover_tamkin rounded-full mt-[16px] font-[600]"
+            >
+              {{
+                packagesStore.investorUser &&
+                packagesStore.investorUser.package === pack.name
+                  ? $t("Current Package")
+                  : packagesStore.investorUser &&
+                    packagesStore.investorUser.package !== pack.name
+                  ? $t("Buy more to upgrade")
+                  : $t("How To Join")
+              }}
+            </button>
+          </div>
         </div>
       </div>
+    </div>
 
+
+  </div>
 </template>

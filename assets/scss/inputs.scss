@@ -8,7 +8,7 @@
   }
 
   .input_floating_label_text_area {
-    @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[30px] rounded-[10px]
+    @apply lg:text-[14px] rtl:pr-[20px] ltr:pl-[20px] rtl:lg:pr-[30px] font-[500] ltr:lg:pl-[30px] rounded-[10px]
       py-[6px] bg-transparent h-[100px] dark:border-darkborder border-lightGrey md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
       focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent pt-[20px]  disabled:bg-gray-100 disabled:cursor-not-allowed;
   }
@@ -17,7 +17,7 @@
     @apply cursor-text rounded-[10px] absolute rtl:right-[0] 
     ltr:left-[15px] lg:rtl:right-[30px] lg:ltr:left-[18px] top-[3px] lg:top-[8px] 
     -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-    text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];
+    text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] leading-[24px];
 
   }
 
@@ -25,7 +25,7 @@
     @apply dark:!text-whiteTamkin lg:text-[12px] pt-[10px] rtl:pr-[20px] 
     ltr:pl-[20px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] lg:h-[40px] rounded-[10px] text-[12px]
      py-[6px] bg-white dark:bg-transparent
-      border-lightGrey dark:border-darkborder md:w-full lg:w-full xl:w-[580px] ipad-max:max-w-full w-full border-[1px]
+      border-lightGrey dark:border-darkborder md:w-full lg:w-full xl:w-[580px] font-[400] ipad-max:max-w-full w-full border-[1px]
       focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent  
        disabled:bg-gray-100 disabled:cursor-not-allowed;
       
@@ -53,7 +53,7 @@
     @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
      lg:rtl:right-[30px] lg:ltr:left-[16px] top-[8px] ipad-max:top-[14px]
       -translate-y-0 duration-100 ease-linear text-light peer-focus:text-darkGrey 
-      text-[13px] lg:text-[14px] 2xl:text-[14px] text-[400] peer-focus:text-[12px] ipad-max:text-[10px] 
+      text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] ipad-max:text-[10px] 
       ipad-max:peer-focus:text-[12px] bg-transparent 2xl:peer-focus:text-[12px] ipad-max:leading-[10px] leading-[24px];
   }
 
@@ -75,7 +75,7 @@
   }
 
   .error_message {
-    @apply font-[300] text-right text-[10px] text-error absolute bottom-[2px] rtl:left-[29px] ltr:right-[14px] lg:ltr:right-[14px];
+    @apply font-[300] text-right text-[10px] text-error absolute bottom-[4px] rtl:left-[10px] ltr:right-[10px];
 
     &.text_area {
       @apply bottom-[8px] !important;

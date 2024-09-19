@@ -213,7 +213,12 @@ const handleSave = async () => {
       if(currentView('add_new_card_billing') === 'Market'){
       navigateTo('add_new_card_billing','market','cardModal_market')
 
-    }else {
+    } else if(currentView('add_new_card_billing') === 'packages'){
+      navigateTo('add_new_card_billing','packages','cardModal_packages')
+
+    }
+    
+    else {
       closeModal('add_new_card_billing')
     }
 
@@ -273,7 +278,7 @@ const addNew = async () => {
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
-      class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+      class="close_btn_payment !cursor-pointer mr-[10px]  z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalCard"
     >
       <svg
@@ -294,7 +299,7 @@ const addNew = async () => {
       <div class="flex flex-col lg:items-start justify-center w-full">
         <div class="flex items-center justify-center">
           <h1
-            class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:lg:mr-[20px] ltr:lg:ml-[20px] lg:mt-0 mt-[60px]"
+            class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin  lg:mt-0 mt-[60px]"
           >
             {{ $t("Add New Card") }}
           </h1>
@@ -304,7 +309,8 @@ const addNew = async () => {
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <h1
-            class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin mt-[31px]"
+            class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey dark:text-whiteTamkin 
+            mt-[31px]"
           >
             {{ $t("Card Info") }}
           </h1>
@@ -480,7 +486,8 @@ const addNew = async () => {
 </div>
        
 <h1
-class="text-[16px] leading-[36px] font-[600] rtl:mr-[20px] ltr:ml-[20px] text-darkGrey  dark:text-whiteTamkin mt-[14px]"
+class="!text-[16px] !leading-[36px] !font-[600] rtl:mr-[20px] ltr:ml-[20px] !text-darkGrey dark:text-whiteTamkin 
+mt-[31px]"
 >
 {{$t('Billing Address')}}
 </h1>
@@ -648,16 +655,16 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
     </div>
   </div>
   <div class="w-full lg:mt-0 mt-[16px]">
-
+<!-- {{ countries }} -->
     <TranslateSelectInput
         @getCurrentSelectedItem="handleSelectedItemProjectName"
         :enableSearch="true"
         placeholderinput="Country*"
         :errorField="v$.country.$error && v$.country.required.$invalid"
-        :list="countries"
+        :list="countries.map(m=>{return {name:m.country_name,icon:m.icon,id:m.code}})"
         nameKey="name"
-        idField="code"
-        iconKey="image"
+        idField="id"
+        iconKey="icon"
         :successField="!v$.country.$error && !v$.country.$invalid"
         :currentListValue="state.country"
     />

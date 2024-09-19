@@ -19,7 +19,8 @@ onMounted(() => {
   <div
     v-if="isVisible"
 
-    class=" fixed inset-0 z-[99999] top-[70px] w-full max-w-[30%] rounded-[5px] max-h-[40px] h-auto flex items-center justify-start"
+    class=" fixed inset-0 z-[99999] top-[70px] w-full max-w-[30%] rounded-[5px] max-h-[50px] h-auto flex items-center 
+    justify-start"
     :class="[
       type === 'success'
         ? 'bg-[#DAF3F1]'
@@ -32,7 +33,7 @@ onMounted(() => {
     ]"
     :style="{
       insetInline: props.positionX ? props.positionX : '50%',
-      transform: props.positionX ? '' : 'translateX(-50%)'
+      transform: props.positionX ? '' : 'translateX(-30%)'
     }"
   >
     <div class="px-[8px]" v-if="type === 'success' || !type">
@@ -66,8 +67,8 @@ onMounted(() => {
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
       </svg>
     </div>
-    <div class="w-auto">
-      <span class="text-[13px] font-[400] ">{{ message }}</span>
+    <div class="w-full">
+      <div class="text-[13px] font-[400] whitespace-pre-line ">{{ message }}</div>
     </div>
   </div>
 </template>

@@ -121,7 +121,7 @@ const leave = (el) => {
               >
                {{ $t('Join To Investor') }}
               </button>
-              <button @click="$router.push({path:localePath('/packages')})"
+              <button @click="$router.push({path:localePath('/packages/investors')})"
                 class="btn_bordered_dashboard hover_tamkin !rounded-[19px] w-full !whitespace-nowrap"
               >
                 {{ $t('Back to package') }}

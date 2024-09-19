@@ -5,6 +5,7 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import {useJoinInvestor} from '@/composables/usePackages'
 import {useGetAppInvites} from '@/composables/useTeam';
+import Multiselect from 'vue-multiselect'
 
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const {joinInvestor,codeStatus} = useJoinInvestor()
@@ -12,6 +13,8 @@ const isCryptoMenuOpen = ref(false);
 const selectedCrypto = ref("");
 const search = ref("");
 const cryptoStore = useCryptoStore()
+const selectedWebsite = ref([])
+
 const {
   isOpen,
   currentView,
@@ -29,8 +32,19 @@ const loadingReq = ref(false)
 const state = reactive({
   walletAddress: "",
   hashAddresses: [],
-  amount: ''
+  amount: '',
+  firstHash:''
 });
+const addNewWebsite  = (newTag)=>{
+  apps.value.push({
+    title:newTag,
+    app_domain:newTag
+  })
+  selectedWebsite.value.push({
+    title:newTag,
+    app_domain:newTag
+  })
+}
 const isNonEmpty = (value) => value.trim().length > 0;
 const hashAddressRules = {
   hash: { required, minLength: minLength(1) } // Requires at least 1 character
@@ -40,8 +54,8 @@ const rules = {
   amount: { required },
   hashAddresses: {
     $each: hashAddressRules,
-    required
   },
+  firstHash:{required}
 };
 
 const removeHashAddress = (index) => {
@@ -62,21 +76,23 @@ const profileStore = useProfileStore()
  }
  const data = getData();
 const appId = ref('')
+const filteredPackages =computed(()=>{
+  return packagesStore.packages
+  .filter(pkg => 
+    Array.isArray(pkg.package_price_role) &&
+    pkg.package_price_role.length > 0 &&
+    pkg.package_price_role.some(role => role.cost_investor > 0) &&
+    pkg.package_type === 'Package'
+  ).sort((a, b) => a.sort - b.sort);
+})
 onMounted(async () => {
   await packagesStore.getPacks()
 
   await nextTick();
   await cryptoStore.setCryptoList();
   await cryptoStore.getRates();
-  const filteredPackages = packagesStore.packages
-  .filter(pkg => 
-    Array.isArray(pkg.package_price_role) &&
-    pkg.package_price_role.length > 0 &&
-    pkg.package_price_role.some(role => role.cost_investor > 0) &&
-    pkg.package_type === 'Package'
-  )
+  
 await getInviteApps({agency: profileStore.company.name})
-  pcks.value = filteredPackages
 });
 
 const { shareEmbedCode, loading } = useShareEmbedCode();
@@ -99,9 +115,10 @@ const submitForm = async ()=>{
   const dataObj  = {
     wallet: state.walletAddress,
     amount: state.amount,
-    hashes: state.hashAddresses.map(hs=>hs.hash),
+    hashes: [state.firstHash,...state.hashAddresses.map(hs=>hs.hash)],
     package: selectedpcks.value,
-    app:currentWebSite.value.name,
+    app:selectedWebsite.value.agency ? selectedWebsite.value.name : null,
+    url:selectedWebsite.value.url ? selectedWebsite.value.url : null,
     currency:filteredCryptoMethods.value.name
   }
 
@@ -111,7 +128,11 @@ if(codeStatus.value=== 200){
   closeModal('join_to_investor')
   $toast('Request Sent Successfully',{hideIn:3000})
   loadingReq.value = false
-
+state.amount = ''
+state.walletAddress = ''
+state.firstHash = ''
+state.hashAddresses = []
+v$.value.$reset()
 }else {
   $toast('Error Sending Request, please try again',{hideIn:3000,type:'error',positionX:'30%'})
   loadingReq.value = false
@@ -129,7 +150,6 @@ const filteredCryptoMethods = computed(() => {
 });
 
 
-
 const toggleDropdown = () => {
   isCryptoMenuOpen.value = !isCryptoMenuOpen.value;
 };
@@ -138,16 +158,20 @@ const selectCryptoMethod = (method) => {
   selectedCrypto.value = method;
   isCryptoMenuOpen.value = false;
 };
-
+const listofapps = computed(()=>{
+  
+  return apps.value.length > 1 ? apps.value.filter(app=>app.app_domain !== null) : []
+})
 </script>
 
 
 <template>
   <div v-if="isOpen('join_to_investor')" 
-    class="fixed z-[9999] top-[16px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
+    class="fixed z-[9999] lg:top-[5%] 4xl:top-[20%] 3xl:top-[20%] lg:!scale-[0.9] inset-x-auto top-[50px] ipad-max:top-0 ipad-max:!scale-[0.7]  lg:translate-x-[-50%] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
     p-[30px] lg:w-[640px] h-auto w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
+  
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
@@ -174,240 +198,301 @@ const selectCryptoMethod = (method) => {
     </h1>
 
     <div
-      class="h-[142px] mt-[20px] w-full rounded-[10px] flex flex-col items-center justify-center bg-gradient-to-r relative from-[#E1FFFD] via-[#E6E3FF] to-[#FFD6E7]"
-    >
-      <div class="absolute right-2 top-2 rotate-45 blur-[1.5px]">
-        <img src="/imgs/investor_coins.png" class="w-[87px] h-[87px]" alt="" />
+    class="h-[142px] mt-[14px] w-full rounded-[10px] flex flex-col items-center justify-center bg-gradient-to-r relative from-[#E1FFFD] via-[#E6E3FF] to-[#FFD6E7]"
+  >
+    <div class="absolute right-2 top-2 rotate-45 blur-[1.5px]">
+      <img src="/imgs/investor_coins.png" class="w-[87px] h-[87px]" alt="" />
+    </div>
+    <div class="absolute left-2 top-4 rotate-45 blur-[1.5px]">
+      <img src="/imgs/invest_coin.png" class="w-[32px] h-[40px]" alt="" />
+    </div>
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[18px]">
+      <div>
+        <img src="/imgs/investor/A1.svg" class="w-[36px] h-[36px]" alt="" />
       </div>
-      <div class="absolute left-2 top-4 rotate-45 blur-[1.5px]">
-        <img src="/imgs/invest_coin.png" class="w-[32px] h-[40px]" alt="" />
+      <div>
+        <img src="/imgs/investor/AA.svg" class="w-[36px] h-[36px]" alt="" />
       </div>
-      <div class="flex items-center justify-center space-x-[18px]">
-        <div>
-          <img src="/imgs/investor/A1.svg" class="w-[36px] h-[36px]" alt="" />
-        </div>
-        <div>
-          <img src="/imgs/investor/AA.svg" class="w-[36px] h-[36px]" alt="" />
-        </div>
-        <div>
-          <img src="/imgs/investor/C.svg" class="w-[36px] h-[36px]" alt="" />
-        </div>
+      <div>
+        <img src="/imgs/investor/C.svg" class="w-[36px] h-[36px]" alt="" />
       </div>
+    </div>
 
-      <div
-        class="text-[13px] leading-[19px] font-[500] text-darkGrey px-[45px] text-center mt-[14px]"
+    <div
+      class="text-[13px] leading-[19px] font-[500] text-darkGrey px-[45px] text-center mt-[14px]"
+    >
+     {{ $t('Based on the detailed information you’ve provided, a personalized package will be carefully determined to meet your specific needs and preferences') }}
+    </div>
+  </div>
+
+
+  <div class="w-full">
+    <div class="w-full mt-[14px]">
+      <multiselect 
+      v-model="selectedWebsite" :options="listofapps" :multiple="false" :taggable="true" @tag="addNewWebsite" 
+      :close-on-select="true"
+        :clear-on-select="false" :preserve-search="true" placeholder="Choose sites" label="title" class="mt-[24px] relative"
+        track-by="app_domain" :preselect-first="false">
+        <template #selection="{ values, search, isOpen }">
+          <span
+            class="multiselect__single !font-[500] !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
+            v-if="values.length" v-show="!isOpen">{{ values.length }} selected</span>
+
+            <img
+            src="/assets/imgs/payment_methods/country_arrow.svg"
+            :class="[isOpen ? 'rotate-90 ' : 'rtl:rotate-180']"
+
+          
+            class="absolute   w-[14px] h-[8px] inset-y-[15px] right-[19px]"
+          />
+        </template>
+        
+      </multiselect>
+      <!-- <TranslateSelectInput
+      @getCurrentSelectedItem="selectWebsite"
+      :enableSearch="false"
+      placeholderinput="Add site"
+      :list="apps"
+      nameKey="title"
+      idField="name"
+      class=""
+     
+    /> -->
+     </div>
+    <div class="w-full mt-[14px]">
+      <TranslateSelectInput
+      @getCurrentSelectedItem="selectPackage"
+      :enableSearch="false"
+      placeholderinput="Package"
+      :list="filteredPackages"
+      nameKey="title"
+      idField="name"
+      class=""
+     
+    />
+     </div>
+
+    <div class="w-full relative mt-[14px]">
+      <input
+        type="text"
+        placeholder=""
+        id="email"
+        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        v-model="v$.walletAddress.$model"
+        :class="{
+          input_error: v$.walletAddress.$error && v$.walletAddress.required.$invalid,
+          error_text: v$.walletAddress.$error && v$.walletAddress.required.$invalid,
+          input_success: !v$.walletAddress.$error && !v$.walletAddress.$invalid,
+        }"
+      />
+      <label
+        for="email"
+        class="floating_label"
+        :class="[
+          v$.walletAddress.$error && v$.walletAddress.required.$invalid
+            ? '!text-error'
+            : '',
+        ]"
       >
-       {{ $t('Based on the detailed information you’ve provided, a personalized package will be carefully determined to meet your specific needs and preferences') }}
+        {{ $t("Wallet Address*") }}
+      </label>
+      <div
+        class="w-full lg:w-4/6 mt-2"
+        v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid"
+      >
+        <p class="error_message">
+          <span v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid">{{
+            $t("Wallet Address is required")
+          }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="w-full relative mt-[14px]">
+      <input
+        type="number"
+        placeholder=""
+        id="amount"
+        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        v-model="v$.amount.$model"
+        :class="{
+          input_error: v$.amount.$error && v$.amount.required.$invalid,
+          error_text: v$.amount.$error && v$.amount.required.$invalid,
+          input_success: !v$.amount.$error && !v$.amount.$invalid,
+        }"
+      />
+      <label
+        for="amount"
+        class="floating_label"
+        :class="[
+          v$.amount.$error && v$.amount.required.$invalid
+            ? '!text-error'
+            : '',
+        ]"
+      >
+        {{ $t("Amount*") }}
+      </label>
+      <div
+        class="w-full lg:w-4/6 mt-2"
+        v-if="v$.amount.$error && v$.amount.required.$invalid"
+      >
+        <p class="error_message">
+          <span v-if="v$.amount.$error && v$.amount.required.$invalid">{{
+            $t("Amount is required")
+          }}</span>
+        </p>
       </div>
     </div>
 
 
-    <div class="w-full">
-      <div class="w-full mt-[20px]">
-        <TranslateSelectInput
-        @getCurrentSelectedItem="selectWebsite"
-        :enableSearch="false"
-        placeholderinput="Add site"
-        :list="apps"
-        nameKey="title"
-        idField="name"
-        class=""
-       
-      />
-       </div>
-      <div class="w-full mt-[20px]">
-        <TranslateSelectInput
-        @getCurrentSelectedItem="selectPackage"
-        :enableSearch="false"
-        placeholderinput="Package"
-        :list="pcks"
-        nameKey="title"
-        idField="name"
-        class=""
-       
-      />
-       </div>
+    <div class="flex items-center justify-between w-full mt-[14px]">
+      <div class="text-darkGrey font-[600] text-[14px] leading-[24x]">{{$t('Add Hash')}}</div>
 
-      <div class="w-full relative mt-[20px]">
+      <div @click="addHashAddress"
+        class="bg-gradient-to-br from-tamkinStart cursor-pointer hover:from-[#DAF3F1] hover:to-[#DAF3F1] group to-tamkinEnd h-[26px] w-[26px] rounded-[10px] flex items-center justify-center"
+      >
+        <svg
+          width="13"
+          height="14"
+          class="w-[11px] h-[11px]"
+          viewBox="0 0 13 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 7C0 6.74105 0.102867 6.49271 0.285971 6.3096C0.469075 6.1265 0.717418 6.02363 0.976367 6.02363H5.52363V1.47637C5.52363 1.21742 5.6265 0.969075 5.8096 0.785971C5.99271 0.602867 6.24105 0.5 6.5 0.5C6.75895 0.5 7.00729 0.602867 7.1904 0.785971C7.3735 0.969075 7.47637 1.21742 7.47637 1.47637V6.02363H12.0236C12.2826 6.02363 12.5309 6.1265 12.714 6.3096C12.8971 6.49271 13 6.74105 13 7C13 7.25895 12.8971 7.50729 12.714 7.6904C12.5309 7.8735 12.2826 7.97637 12.0236 7.97637H7.47637V12.5236C7.47637 12.7826 7.3735 13.0309 7.1904 13.214C7.00729 13.3971 6.75895 13.5 6.5 13.5C6.24105 13.5 5.99271 13.3971 5.8096 13.214C5.6265 13.0309 5.52363 12.7826 5.52363 12.5236V7.97637H0.976367C0.717418 7.97637 0.469075 7.8735 0.285971 7.6904C0.102867 7.50729 0 7.25895 0 7Z"
+            class="fill-[#FFFEFE] group-hover:fill-tamkin"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="w-full relative mt-[14px]">
+      <input
+        type="text"
+        placeholder=""
+        id="firstHash"
+        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        v-model="v$.firstHash.$model"
+        :class="{
+          input_error: v$.firstHash.$error && v$.firstHash.required.$invalid,
+          error_text: v$.firstHash.$error && v$.firstHash.required.$invalid,
+          input_success: !v$.firstHash.$error && !v$.firstHash.$invalid,
+        }"
+      />
+      <label
+        for="firstHash"
+        class="floating_label"
+        :class="[
+          v$.firstHash.$error && v$.firstHash.required.$invalid
+            ? '!text-error'
+            : '',
+        ]"
+      >
+        {{ $t("Hash*") }}
+      </label>
+      <div
+        class="w-full lg:w-4/6 "
+        v-if="v$.firstHash.$error && v$.firstHash.required.$invalid"
+      >
+        <p class="error_message">
+          <span v-if="v$.firstHash.$error && v$.firstHash.required.$invalid">{{
+            $t("Hash is required")
+          }}</span>
+        </p>
+      </div>
+    </div>
+  <div class="flex flex-col w-full overflow-auto overflow-x-hidden max-h-[100px]  ">
+         
+    <div v-for="(hashAddress, index) in state.hashAddresses" :key="index" class="w-full relative mt-[14px]">
+      <button 
+      
+      @click="removeHashAddress(index)" 
+
+      
+      class="text-red-500 hover:bg-[#FFF3F2]  absolute rtl:left-[16px] ltr:right-[16px] top-[3.5px]
+        w-[33px] h-[33px]  rounded-[5px] flex items-center justify-center">
+        <img src="/assets/imgs/icons/bin.svg" alt="">
+        </button>
         <input
           type="text"
           placeholder=""
           id="email"
-          class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
-          v-model="v$.walletAddress.$model"
+
+          class="input_floating_label peer  text-darkGrey dark:text-whiteTamkin"
+          v-model="hashAddress.hash"
           :class="{
-            input_error: v$.walletAddress.$error && v$.walletAddress.required.$invalid,
-            error_text: v$.walletAddress.$error && v$.walletAddress.required.$invalid,
-            input_success: !v$.walletAddress.$error && !v$.walletAddress.$invalid,
+            input_error:v$.hashAddresses.$model[index].hash.$error ,
+            error_text: v$.hashAddresses.$model[index].hash.$error,
+            '!w-[99%]' : state.hashAddresses.length > 1
           }"
         />
         <label
           for="email"
           class="floating_label"
           :class="[
-            v$.walletAddress.$error && v$.walletAddress.required.$invalid
-              ? '!text-error'
-              : '',
+            v$.hashAddresses.$model[index].hash.$error ? '!text-error' : '',
           ]"
         >
-          {{ $t("Wallet Address*") }}
+          {{ $t("Hash*") }} {{ index + 2 }}
         </label>
         <div
           class="w-full lg:w-4/6 mt-2"
-          v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid"
+          v-if="v$.hashAddresses.$model[index].hash.$error"
         >
           <p class="error_message">
-            <span v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid">{{
-              $t("Wallet Address is required")
-            }}</span>
+            {{
+              $t("Hash is required") + ' / ' + 'Hash ' + ' ' + (index + 1)
+            }}
           </p>
         </div>
       </div>
-      <div class="w-full relative mt-[20px]">
-        <input
-          type="number"
-          placeholder=""
-          id="email"
-          class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
-          v-model="v$.amount.$model"
-          :class="{
-            input_error: v$.amount.$error && v$.amount.required.$invalid,
-            error_text: v$.amount.$error && v$.amount.required.$invalid,
-            input_success: !v$.amount.$error && !v$.amount.$invalid,
-          }"
-        />
-        <label
-          for="email"
-          class="floating_label"
-          :class="[
-            v$.amount.$error && v$.amount.required.$invalid
-              ? '!text-error'
-              : '',
-          ]"
-        >
-          {{ $t("Amount*") }}
-        </label>
-        <div
-          class="w-full lg:w-4/6 mt-2"
-          v-if="v$.amount.$error && v$.amount.required.$invalid"
-        >
-          <p class="error_message">
-            <span v-if="v$.amount.$error && v$.amount.required.$invalid">{{
-              $t("Amount is required")
-            }}</span>
-          </p>
+      
+<!--        
+        <div class="form-group mt-4" :class="{ 'form-group--error': v$.hashAddresses.$error }"></div>
+        <div class="error" v-if="!v$.hashAddresses.required">
+          {{ $t('You must add at least one hash address') }}
         </div>
-      </div>
-
-  
-      <div class="flex items-center justify-between w-full mt-[20px]">
-        <div class="text-darkGrey font-[600] text-[14px] leading-[24x]">Add Hash</div>
-  
-        <div @click="addHashAddress"
-          class="bg-gradient-to-br from-tamkinStart cursor-pointer hover:from-[#DAF3F1] hover:to-[#DAF3F1] group to-tamkinEnd h-[26px] w-[26px] rounded-[10px] flex items-center justify-center"
-        >
-          <svg
-            width="13"
-            height="14"
-            class="w-[11px] h-[11px]"
-            viewBox="0 0 13 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 7C0 6.74105 0.102867 6.49271 0.285971 6.3096C0.469075 6.1265 0.717418 6.02363 0.976367 6.02363H5.52363V1.47637C5.52363 1.21742 5.6265 0.969075 5.8096 0.785971C5.99271 0.602867 6.24105 0.5 6.5 0.5C6.75895 0.5 7.00729 0.602867 7.1904 0.785971C7.3735 0.969075 7.47637 1.21742 7.47637 1.47637V6.02363H12.0236C12.2826 6.02363 12.5309 6.1265 12.714 6.3096C12.8971 6.49271 13 6.74105 13 7C13 7.25895 12.8971 7.50729 12.714 7.6904C12.5309 7.8735 12.2826 7.97637 12.0236 7.97637H7.47637V12.5236C7.47637 12.7826 7.3735 13.0309 7.1904 13.214C7.00729 13.3971 6.75895 13.5 6.5 13.5C6.24105 13.5 5.99271 13.3971 5.8096 13.214C5.6265 13.0309 5.52363 12.7826 5.52363 12.5236V7.97637H0.976367C0.717418 7.97637 0.469075 7.8735 0.285971 7.6904C0.102867 7.50729 0 7.25895 0 7Z"
-              class="fill-[#FFFEFE] group-hover:fill-tamkin"
-            />
-          </svg>
-        </div>
-      </div>
-    <div class="flex flex-col w-full overflow-auto overflow-x-hidden max-h-[100px]   ">
-           
-      <div v-for="(hashAddress, index) in state.hashAddresses" :key="index" class="w-full relative mt-[20px]">
-        <button 
-        
-        @click="removeHashAddress(index)" 
-  
-        
-        class="text-red-500 hover:bg-[#FFF3F2]  absolute rtl:left-[16px] ltr:right-[16px] top-[3.5px]
-          w-[33px] h-[33px]  rounded-[5px] flex items-center justify-center">
-          <img src="/assets/imgs/icons/bin.svg" alt="">
-          </button>
-          <input
-            type="text"
-            placeholder=""
-            id="email"
-
-            class="input_floating_label peer  text-darkGrey dark:text-whiteTamkin"
-            v-model="hashAddress.hash"
-            :class="{
-              input_error:v$.hashAddresses.$model[index].hash.$error ,
-              error_text: v$.hashAddresses.$model[index].hash.$error,
-              '!w-[99%]' : state.hashAddresses.length > 1
-            }"
-          />
-          <label
-            for="email"
-            class="floating_label"
-            :class="[
-              v$.hashAddresses.$model[index].hash.$error ? '!text-error' : '',
-            ]"
-          >
-            {{ $t("Hash Address*") }} {{ index + 1 }}
-          </label>
-          <div
-            class="w-full lg:w-4/6 mt-2"
-            v-if="v$.hashAddresses.$model[index].hash.$error"
-          >
-            <p class="error_message">
-              {{
-                $t("Hash Address is required") + ' / ' + 'Hash ' + ' ' + (index + 1)
-              }}
-            </p>
-          </div>
-        </div>
-   
-        
-       
-          <div class="form-group mt-4" :class="{ 'form-group--error': v$.hashAddresses.$error }"></div>
-          <div class="error" v-if="!v$.hashAddresses.required">
-            {{ $t('You must add at least one hash address') }}
-          </div>
-          <div class="error" v-else-if="v$.hashAddresses.$error">
-            {{ $t('Hash addresses list is invalid') }}
-          </div>
-    </div>
-    
-        
-  
-      <div class="">
-   
+        <div class="error" v-else-if="v$.hashAddresses.$error">
+          {{ $t('Hash addresses list is invalid') }}
+        </div> -->
+  </div>
   
       
-        <button
-          :disabled=" v$.$invalid || loadingReq  "
-         
-          @click="submitForm"
-          class="btn-dashboard hover_tamkin w-full mx-auto"
-        >
-  
-        <div class="flex items-center justify-center">
-          <div :class="loadingReq ? 'rtl:ml-2 ltr:mr-2' : ''">
-            {{ $t("Confirm") }}
-          </div>
 
-          <svg v-if="loadingReq" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-            fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-          </svg>
+    <div class="">
+ 
+
+    
+      <button
+        :disabled=" v$.$invalid || loadingReq  || !state.walletAddress || !state.amount || !selectedpcks
+|| !selectedWebsite"
+       
+        @click="submitForm"
+        class="btn-dashboard hover_tamkin w-full mx-auto mt-[14px]"
+      >
+
+      <div class="flex items-center justify-center">
+        <div :class="loadingReq ? 'rtl:ml-2 ltr:mr-2' : ''">
+          {{ $t("Confirm") }}
         </div>
-        </button>
+
+        <svg v-if="loadingReq" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+          fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
       </div>
+      </button>
     </div>
   </div>
-</template>
 
-<style lang="scss"></style>
+  </div>
+</template>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style lang="scss" scoped>
+
+
+
+</style>

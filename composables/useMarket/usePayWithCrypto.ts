@@ -12,7 +12,7 @@ const codeStatus = ref(0)
     const paywithCrypto = async (hash, price) => {
         try {
             const res = await api.post('/Market/BuyWithCrypto', {
-                "code": marketStore.promo || null,
+                "code": marketStore.validPromo ? marketStore.promo : null,
                 "hash": hash,
                 "crypto": marketStore.selectedCrypto.name,
                 "network": marketStore.selectedCrypto.network,

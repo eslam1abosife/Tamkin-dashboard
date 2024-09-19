@@ -70,16 +70,15 @@ const confirmOrder = async () => {
       }}
     </h1>
     <div
-      class="grid grid-cols-1 lg:overflow-x-hidden space-y-[20px] overflow-x-scroll bg-white
-       dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] h-full"
+      class="flex flex-col items-center justify-between lg:overflow-x-hidden space-y-[20px] overflow-x-scroll bg-white dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] h-full relative" 
       style="box-shadow: 0px 4px 24px 8px #51459f14"
     >
       <div
-        class="w-full  grid grid-cols-1 px-[20px] relative"
+        class="w-full  grid grid-cols-1 px-[20px]  "
         v-if="marketStore.cartItems.length "
       >
         <!-- Items List -->
-        <div class="space-y-4 mt-[10px] "
+        <div  v-if="marketStore.cartItems.length " class="space-y-4 mt-[10px]"
         >
           <!-- Item -->
           <div
@@ -139,88 +138,88 @@ const confirmOrder = async () => {
             </div>
           </div>
         </div>
-        <div class="absolute bottom-0 w-full px-[20px]">
-          <table class="min-w-full ">
-            <thead>
-              <tr>
-                <th
-                  class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey
-                   dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
-                  colspan="12"
-                >
-                  {{ $t("Summary") }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+      
+      </div>
+      <div class="sticky  bg-white bottom-0  inset-x-0 w-full px-[20px] "  v-if="marketStore.cartItems.length ">
+        <table class="min-w-full ">
+          <thead>
+            <tr>
+              <th
+                class="py-2 border-b dark:border-light text-[16px] leading-[30px] text-darkGrey
+                 dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right"
+                colspan="12"
               >
-                <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  {{ $t("Subtotal") }}
-                </td>
-                <td
-                  class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  ${{ marketStore.cartSubtotal }}
-                </td>
-              </tr>
-              <tr
-                class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                v-if="marketStore.cartDiscount"
-              >
-                <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  {{ $t("Discount") }}
-                </td>
-                <td
-                  class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  ${{ marketStore.cartDiscount }}
-                </td>
-              </tr>
-              <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
-                <td
-                  class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  {{ $t("Total") }}
-                </td>
-                <td
-                  class="py-2 px-1 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  ${{ marketStore.cartTotal }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Actions -->
-          <div class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] py-3">
-            <button class="btn_bordered_dashboard" @click="closeModal('mycart')">{{$t('Cancel')}}</button>
-            <button
-              class="btn-dashboard hover_tamkin max-w-[195px]"
-              @click="
-                () => {
-                  confirmOrder();
-                }
-              "
+                {{ $t("Summary") }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
             >
-              {{ $t("Continue to payment") }}
-            </button>
-          </div>
+              <td
+                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                colspan="2"
+              >
+                {{ $t("Subtotal") }}
+              </td>
+              <td
+                class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin"
+                colspan="2"
+              >
+                ${{ marketStore.cartSubtotal }}
+              </td>
+            </tr>
+            <tr
+              class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+              v-if="marketStore.cartDiscount"
+            >
+              <td
+                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                colspan="2"
+              >
+                {{ $t("Discount") }}
+              </td>
+              <td
+                class="py-2 px-1 border-b dark:border-light rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
+                colspan="2"
+              >
+                ${{ marketStore.cartDiscount }}
+              </td>
+            </tr>
+            <tr class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-p">
+              <td
+                class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right font-[500] w-full dark:text-whiteTamkin"
+                colspan="2"
+              >
+                {{ $t("Total") }}
+              </td>
+              <td
+                class="py-2 px-1 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin"
+                colspan="2"
+              >
+                ${{ marketStore.cartTotal }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Actions -->
+        <div class="mt-8 flex justify-end rtl:space-x-reverse space-x-[20px] py-3">
+          <button class="btn_bordered_dashboard" @click="closeModal('mycart')">{{$t('Cancel')}}</button>
+          <button
+            class="btn-dashboard hover_tamkin max-w-[195px]"
+            @click="
+              () => {
+                confirmOrder();
+              }
+            "
+          >
+            {{ $t("Continue to payment") }}
+          </button>
         </div>
       </div>
-
-      <div class="flex items-center justify-center flex-col w-full h-full" v-else>
+      <div class="flex items-center justify-center flex-col w-full h-full" v-else-if="marketStore.cartItems.length === 0" >
         <div>
           <img
             src="/assets/pngs/market/empty_cart.png"

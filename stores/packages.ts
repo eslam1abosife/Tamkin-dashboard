@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 
 import { useGetPackagesTypes, useGetCategory,useGetPackages,useGetTokens } from '@/composables/usePackages'
 import {useJoinInvestor} from '@/composables/usePackages'
+import {useCouponCode} from "@/composables/useMarket";
 
 
 export const usePackgesStore = defineStore('packages', {
@@ -9,6 +10,7 @@ export const usePackgesStore = defineStore('packages', {
     currentTab: '',
     intialTab: '',
     currentTabTitle: 'Plugins',
+    views_level:'',
     types: [],
     categories: [],
     currentType: {
@@ -25,7 +27,21 @@ export const usePackgesStore = defineStore('packages', {
     traffic_level:'',
     investorProgram:'',
     investorUser:'',
-    loadingAccessibility:true
+    loadingAccessibility:true,
+    isLoadingTypes:false,
+    currentPackage:'',
+    packagePayload:'',
+    selectedPaymentMethod:'',
+    bundleSelectedPackage:'',
+    urls:[],
+    promo : '',
+currentDiscount:0,
+validPromo : false,
+
+noDiscount:false,
+loadingPromo:false,
+selectedCrypto:''
+
   }),
 
 
@@ -34,6 +50,37 @@ export const usePackgesStore = defineStore('packages', {
       const {isInestorUser} = useJoinInvestor()
 const res = await isInestorUser()
 this.investorUser = res[0]
+    },
+    
+    async addPromoCode(){
+      this.loadingPromo = true
+      const {ApplyCoupon,noCodeFound} = useCouponCode()
+      const res = await ApplyCoupon(this.promo)
+      if(res){
+    
+       if(res.isValid){
+        this.validPromo = res.isValid
+        this.currentDiscount = Number(res.discount)
+        this.noDiscount = false
+        this.loadingPromo = false
+
+       }else {
+        this.noDiscount = !res.isValid
+        this.loadingPromo = false
+
+       }
+      }
+
+    },
+    
+     removePromoCode (){
+       if(this.promo){
+        this.validPromo = false
+        this.promo =""
+        this.noDiscount =false
+        this.currentDiscount = 0
+
+       }
     },
     async getProgramInvestor(){
       const { getInvestorProgram } = useGetTokens()
@@ -56,7 +103,6 @@ this.investorUser = res[0]
 
       this.currentFaq = type.faqs[0].name
       this.selectedQuestion = type.faqs[0]
-
     },
 
     changeTab(tab) {
@@ -73,19 +119,20 @@ this.investorUser = res[0]
       }
     },
 
-    async getPackagesTypes(title) {
-      const { getPackagesTypes } = useGetPackagesTypes()
+    async getPackagesTypes() {
+      if (this.isLoadingTypes) return; // Prevent multiple triggers while loading
+      this.isLoadingTypes = true;
+    
+      const { getPackagesTypes } = useGetPackagesTypes();
       const typesData = await getPackagesTypes();
-      this.types = typesData
-
-      if (this.types.length > 0) {
-        this.currentType = this.types.find(type=>type.title === title)
-        if(this.currentType){
-          this.currentFaq = this.currentType.faqs[0].name
-          this.selectedQuestion = this.currentType.faqs[0]
-        }
-      }
+      this.types = typesData;
+    
+ 
+      
+      this.isLoadingTypes = false;
     },
+    
+    
     async getCategories() {
       const { getCategories } = useGetCategory()
       const categories = await getCategories();
@@ -102,88 +149,76 @@ this.investorUser = res[0]
     setTrafficLevel(level) {
       this.traffic_level = level;
     },
+    setViewsLevel(level) {
+      this.views_level = level;
+    },
+    setFaq(){
+      const typeObj = this.types.find(_it => _it.name === this.currentType.name);
+     if(typeObj){
+      this.currentFaq = typeObj.faqs[0].name
+      this.selectedQuestion   = typeObj.faqs[0]
+     }
+    }
 
   },
   getters: {
+    getType: (state) => (type) => {
+     return  state.types.find((t) => t.title === type);
+    },
     getPackageDetails: (state) => (typeString, highlightText, page) => {
       const type = state.types.find((t) => t.name === state.currentType.name);
-      if (type) {
-        // alert(page)
-        let color_title = type.color_title;
-
-        if (highlightText && color_title.includes(highlightText)) {
-          let highlightedHtml =
-            `<span class="bg-gradient-to-br from-[#46A095] via-[#46A095] to-[#17159D] text-transparent bg-clip-text">${highlightText}</span>`;
-
-          switch (page) {
-            case 'signlang':
-              color_title = color_title.replace(highlightText, highlightedHtml);
-              break;
-            case 'bundle':
-              color_title = color_title.replace(highlightText,
-                `<span class="bg-gradient-to-br  from-[#2DADA3]  to-[#3A4D8F] text-transparent bg-clip-text">${highlightText}</span>`);
-              break;
-            case 'translate':
-              color_title = color_title.replace(highlightText, `<span class="text-[#0AACA1]">${highlightText}</span>`);
-              break;
-            case 'media':
-              color_title = color_title.replace(highlightText,
-                `<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${highlightText}</span>`);
-              break;
-              case 'access':
-                color_title = color_title.replace(highlightText,
-                  `<span class="bg-gradient-to-br  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${highlightText}</span>`);
-                break;
-
-          }
-        }
-
-        return {
-          color_title: color_title,
-          description: type.description,
-        };
-      }
-      return { color_title: '', description: '' };
+ 
+      return type
     },
-    getTabDetails: (state) => (tab, highlightText, page) => {
-      const type = state.categories.find((t) => t.name === state.currentTab.name);
-      if (type) {
-        // alert(type.color_title)
-        let color_title = type.color_title;
+getTabDetails: (state) => (tab, highlightText, page) => {
+  const type = state.categories.find((t) => t.name === state.currentTab.name);
+  if (type) {
+    let color_title = type.color_title;
 
-        if (highlightText && color_title.includes(highlightText)) {
-          let highlightedHtml =
-            `<span class="bg-gradient-to-br from-[#46A095] via-[#46A095] to-[#17159D] text-transparent bg-clip-text">${highlightText}</span>`;
+    if (highlightText && color_title.includes(highlightText)) {
+      const { $i18n } = useNuxtApp();
 
-          switch (page) {
-            case 'signlang':
-              color_title = color_title.replace(highlightText, highlightedHtml);
-              break;
-            case 'bundle':
-              color_title = color_title.replace(highlightText,
-                `<span class="bg-gradient-to-br  from-[#2DADA3]  to-[#3A4D8F] text-transparent bg-clip-text">${highlightText}</span>`);
-              break;
-            case 'translate':
-              color_title = color_title.replace(highlightText, `<span class="text-[#0AACA1]">${highlightText}</span>`);
-              break;
-            case 'media':
-              color_title = color_title.replace(highlightText,
-                `<span class="bg-gradient-to-r  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${highlightText}</span>`);
-              break;
+      // Ensure highlightText is a valid translation key
+      const translatedText = $i18n.t(highlightText);
 
-          }
-        }
+      // If the key does not exist, it will just return the highlightText itself
+      let highlightedHtml = `<span class="bg-gradient-to-br from-[#46A095] via-[#46A095] to-[#17159D] text-transparent bg-clip-text">${translatedText}</span>`;
 
-        return {
-          color_title: color_title,
-          description: type.description,
-        };
+      switch (page) {
+        case 'signlang':
+          color_title = color_title.replace(highlightText, highlightedHtml);
+          break;
+        case 'bundle':
+          color_title = color_title.replace(highlightText,
+            `<span class="bg-gradient-to-br  from-[#2DADA3]  to-[#3A4D8F] text-transparent bg-clip-text">${translatedText}</span>`);
+          break;
+        case 'translate':
+          color_title = color_title.replace(highlightText, `<span class="text-[#0AACA1]">${translatedText}</span>`);
+          break;
+        case 'media':
+          color_title = color_title.replace(highlightText,
+            `<span class="bg-gradient-to-r  from-[#31A69F]  via-[#1E4FB0] to-[#C520AB] text-transparent bg-clip-text">${translatedText}</span>`);
+          break;
       }
-      return { color_title: '', description: '' };
-    },
+    }
+
+    return {
+      color_title: color_title,
+      description: type.description,
+    };
+  }
+  return { color_title: '', description: '' };
+},
+// getTabDetails: (state) => (tab, highlightText, page) => {
+//   const type = state.categories.find((t) => t.name === state.currentTab.name);
+
+//   return type ? type : false
+
+// },
     getFaqBasedOnType() {
       const typeObj = this.types.find(_it => _it.name === this.currentType.name);
-
+      // this.currentFaq =  typeObj.faqs[0].name ;
+      // alert(this.currentFaq)
       return typeObj ? typeObj.faqs : [];
     },
     // },
@@ -195,7 +230,8 @@ this.investorUser = res[0]
       .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
     
     
-    if (state.currentTab.name) {
+    if (state.currentTab && state.currentTab.name !=='') {
+      console.log(filteredPackages)
       filteredPackages = filteredPackages
       .filter(pkg => 
         pkg.category === state.currentTab.name
@@ -234,20 +270,19 @@ this.investorUser = res[0]
     },
 
     getTraffiPrices: (state) => (packageType) => {
-      // Filter packages based on the current type and package type
       let filteredPackages = state.packages.filter(pkg =>
           pkg.type === state.currentType.name &&
           pkg.package_type === packageType
       );
-  
-      // Map through each filtered package and extract the desired information from each package's package_price_role
-      const result = filteredPackages.flatMap(pkg => 
-          pkg.package_price_role.map(item => ({
-              name: item.title,
-              to_traffic: item.to_traffic,
-              id:item.name
-          }))
-      );
+      const result = filteredPackages.flatMap(pkg =>
+        pkg.package_price_role.map(item => ({
+          name: item.title,
+          to_traffic: item.to_traffic,
+          id: item.name,
+          idx: item.idx
+        }))
+      ).sort((a, b) => a.idx - b.idx); 
+      
  
       return result;
   },
@@ -287,9 +322,9 @@ this.investorUser = res[0]
 
 },
 
-persist: {
-  storage: sessionStorage,
-},
+// persist: {
+//   storage: sessionStorage,
+// },
 
 
 });

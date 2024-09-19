@@ -305,7 +305,7 @@ html {
     }
 
     &.packages {
-        @apply rtl:right-[0px] ltr:left-[-40%] top-[16px];
+        @apply rtl:right-[0px] ltr:left-[0%] top-[16px];
 
     }
     @apply text-[10px] leading-[15px] h-[50px] p-[10px] font-[500] flex items-center justify-start;
@@ -335,7 +335,7 @@ html {
 
     }
     &.packages {
-        @apply rtl:right-[0] ltr:left-[14%] top-[20px];
+        @apply rtl:right-[20%] ltr:left-[50%] top-[20px];
 
     }
 }

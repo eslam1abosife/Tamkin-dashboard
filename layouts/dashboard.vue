@@ -323,6 +323,15 @@ const openModals = computed(() => {
     isOpen('crypto_market_success') ||
     isOpen('crypto_market_step2') ||
     isOpen('successPayment_market') ||
+    isOpen('custom_package') ||
+    isOpen('add_package_modal_packages') ||
+    isOpen('payment_methods_packages') ||
+    isOpen('cardModal_packages') ||
+    isOpen('success_pay_package') ||
+    isOpen('crypto_packages_step1') ||
+    isOpen('crypto_packages_step2') ||
+    isOpen('crypto_packages_success') ||
+    isOpen('paypal_packages') ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||

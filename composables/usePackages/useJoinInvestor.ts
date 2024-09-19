@@ -14,7 +14,8 @@ const codeStatus = ref(``)
                 "crypto_currency": investor.currency, // name of Tamkin Crypto Tokens
                 "transaction_hashes":investor.hashes,
                 "app": investor.app,
-                "amount": investor.amount
+                "amount": investor.amount,
+                "url":investor.url
             });
             codeStatus.value = res.data.statusCode
             return res.data.data

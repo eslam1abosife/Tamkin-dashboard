@@ -1,6 +1,18 @@
 <script lang="ts" setup>
 const packagesStore = usePackgesStore();
-
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  setData
+} = useModalManager();
+const openBuyModal = (pck)=>{
+  packagesStore.currentPackage = pck
+  openModal('add_package_modal_packages')
+}
 </script>
 <template>
     <div v-if="packagesStore.getAddonsOrExtras('Addons').length"
@@ -12,8 +24,8 @@ const packagesStore = usePackgesStore();
      </div>
 
     
-    <div class="text-[#24292F] font-[600] text-[24px] leading-[32px] relative z-50">
-        Accessibility Widget
+    <div class="text-[#24292F] font-[600] text-[24px] text-center relative z-50 top-[-24px]">
+        {{ $t('Accessibility Addons') }}
     </div>
     <div class="absolute z-[20] top-[-140px] rtl:left-[40px] ltr:right-[-40px]">
         <img src="/imgs/widget_access_hero_2.png" class="w-[400px] h-[600px]" alt="">
@@ -39,7 +51,7 @@ const packagesStore = usePackgesStore();
               {{$t(addon.title)}}
             
             </div>
-            <div class="text-[#393767] font-[400] text-[10px]  text-center mt-[6px]">
+            <div class="text-[#393767] font-[400] text-[12px]  text-center mt-[6px]">
               {{$t(addon.description)}}
             
             
@@ -56,7 +68,7 @@ const packagesStore = usePackgesStore();
         ? addon.package_price_role[0].cost_month
         : addon.package_price_role[0].cost_yearly
     }}</span
-    ><span class="text-[16px] font-[500] leading-[15px] text-darkGrey">/{{packagesStore.discountType}}</span>
+    ><span class="text-[16px] font-[500] leading-[15px] text-darkGrey">/ {{ $t(packagesStore.discountType)}}</span>
 
 </div>
 <div v-if="addon.package_price_role[0].discount_month !== 0 || addon.package_price_role[0].discount_yearly !==0 || (Number(addon.package_price_role[0].cost_month ) !== 0 &&  Number(addon.package_price_role[0].cost_yearly) !== 0)"
@@ -67,20 +79,20 @@ class="flex items-center justify-center w-full"
 >
 <span v-if="packagesStore.discountType === 'month' &&addon.package_price_role[0].discount_month !==0">
   ${{ addon.package_price_role[0].cost_before_month }}
-    <span class="text-[14px] font-[500] leading-[24px]">/{{ packagesStore.discountType }}</span>
+    <span class="text-[14px] font-[500] leading-[24px]">/ {{ $t(packagesStore.discountType) }}</span>
   </span>
   <span v-if="packagesStore.discountType === 'year' &&addon.package_price_role[0].discount_yearly !==0">
     ${{ addon.package_price_role[0].cost_before_yearly }}
-    <span class="text-[14px] font-[500] leading-[24px]">/{{ packagesStore.discountType }}</span>
+    <span class="text-[14px] font-[500] leading-[24px]">/ {{ $t(packagesStore.discountType) }}</span>
   </span>
 </div>
 </div>
 </div>
-  <div
+  <div @click="openBuyModal(addon)"
   class=" absolute bottom-[18px] text-[#18191F] text-[11px] font-[600] !mt-[24px] flex items-center 
   rtl:space-x-reverse space-x-[14px] justify-evenly cursor-pointer"
 >
-  <div>Purchase Now</div>
+  <div>{{$t('Purchase Now')}}</div>
   <svg
     width="9"
      class="w-[5px]  h-[8px] rtl:rotate-180"
