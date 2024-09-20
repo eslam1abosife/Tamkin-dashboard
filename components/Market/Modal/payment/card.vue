@@ -95,7 +95,7 @@ const handleIframeMessage = (event) => {
 
   if (event.data && event.data.event === 'paid') {
     usepaystore.stateOfPayment = 'paid'
-    marketStore.removeMultipleFromCart(marketStore.cartItems)
+    // marketStore.removeMultipleFromCart(marketStore.cartItems)
      navigateTo('cardModal_market','market','successPayment_market')
      urlPayment.value = ""
      loadingPayment.value = false

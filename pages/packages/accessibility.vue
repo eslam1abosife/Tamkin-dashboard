@@ -142,7 +142,7 @@ const uniqueValues = (items) => {
       />
     </div>
 
-    <div class="flex flex-col items-center justify-center w-full bg-white mt-[74px]">
+    <div class="flex flex-col items-center justify-center w-full bg-white mt-[85px]">
       <div class="w-full flex flex-col items-center justify-center px-[18px]">
         <div v-if="packagesStore.loadingAccessibility" class="grid grid-cols-3 lg:gap-4 2xl:gap-4 3xl:gap-0 mx-auto mt-[32px] w-full ipad-max:grid-cols-2">
           <!-- Skeleton Loader -->

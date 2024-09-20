@@ -155,7 +155,7 @@ const payCrypto = async () => {
   if (codeStatus.value === 200) {
 
 
-    marketStore.removeMultipleFromCart(marketStore.cartItems);
+    // marketStore.removeMultipleFromCart(marketStore.cartItems);
 
   navigateTo("crypto_market_step2", "market", "crypto_market_success");
   loadingPayment.value = false;

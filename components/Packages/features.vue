@@ -119,7 +119,18 @@ const normalpackeges = packagesStore
   return hasNormalPackages  || hasAccessNames;
 
 });
-
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
+const openBuyModal = (pck,contact)=>{
+  packagesStore.currentPackage = pck
+  openModal('add_package_modal_packages')
+}
 </script>
 
 <template>
@@ -182,7 +193,8 @@ const normalpackeges = packagesStore
               />
             </div>
           </div>
-          <button v-if="packagesStore.getPackageByTypeAndCategory('Package')[0]"
+          <button v-if="packagesStore.getPackageByTypeAndCategory('Package')[0]" 
+          @click="openBuyModal(packagesStore.getPackageByTypeAndCategory('Package')[0],packagesStore.getPackageByTypeAndCategory('Package')[0].is_contact_us)"
             class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
           >
             <span
@@ -249,6 +261,7 @@ const normalpackeges = packagesStore
             </div>
           </div>
           <button v-if=" packagesStore.getPackageByTypeAndCategory('Package')[1]"
+           @click="openBuyModal(packagesStore.getPackageByTypeAndCategory('Package')[1],packagesStore.getPackageByTypeAndCategory('Package')[1].is_contact_us)"
             class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
           >
             <span
@@ -316,6 +329,7 @@ const normalpackeges = packagesStore
           </div>
           <button
           v-if="packagesStore.getPackageByTypeAndCategory('Package')[2]"
+           @click="openBuyModal(packagesStore.getPackageByTypeAndCategory('Package')[2],packagesStore.getPackageByTypeAndCategory('Package')[2].is_contact_us)"
             class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"
           >
             <span

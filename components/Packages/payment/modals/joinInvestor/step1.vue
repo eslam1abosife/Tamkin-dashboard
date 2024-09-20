@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
-import { required,helpers ,minLength} from "@vuelidate/validators";
+import { required,helpers ,minLength, requiredIf} from "@vuelidate/validators";
 import { useModalManager } from "@/composables/useModalManager";
 import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import {useJoinInvestor} from '@/composables/usePackages'
 import {useGetAppInvites} from '@/composables/useTeam';
-import Multiselect from 'vue-multiselect'
+import { useCheckifSiteblocked, useGetTraffic,useGetPriceByTraffic } from "@/composables/usePackages";
+
+const { checkifBlockedSite, messageStatus, codeStatus:codeStatusBlocked } = useCheckifSiteblocked();
 
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const {joinInvestor,codeStatus} = useJoinInvestor()
@@ -25,15 +27,19 @@ const {
   getData,
 } = useModalManager();
 const currentWebSite = ref('')
-const selectWebsite = (v)=>{
-  currentWebSite.value = v
-}
+const selectWebsite = (v) => {
+    currentWebSite.value = v.title; // or ''
+
+  // state.website_new = '';
+};
+
 const loadingReq = ref(false)
 const state = reactive({
   walletAddress: "",
   hashAddresses: [],
   amount: '',
-  firstHash:''
+  firstHash:'',
+  website_new:''
 });
 const addNewWebsite  = (newTag)=>{
   apps.value.push({
@@ -52,10 +58,14 @@ const hashAddressRules = {
 const rules = {
   walletAddress: { required },
   amount: { required },
+
   hashAddresses: {
     $each: hashAddressRules,
   },
-  firstHash:{required}
+  firstHash:{required},
+  website_new: {
+        required: requiredIf(() => !currentWebSite.value),
+      },
 };
 
 const removeHashAddress = (index) => {
@@ -101,53 +111,86 @@ const emit = defineEmits(["onSuccess"]);
 const errMsg = ref(null);
 
 const withdrawStore = useWithdrawStore();
-
+const blockedError = ref(false)
 const addHashAddress = () => {
   state.hashAddresses.push({ hash: "" });
   // v$.value.$touch(); // Trigger validation
   v$.value.hashAddresses.$each.forEach(validation => validation.$touch()); // Touch each hash validation
 };
 const {$toast} = useNuxtApp()
-const submitForm = async ()=>{
-  v$.value.$touch();
-  if(v$.value.$error) return
-  loadingReq.value = true
-  const dataObj  = {
-    wallet: state.walletAddress,
-    amount: state.amount,
-    hashes: [state.firstHash,...state.hashAddresses.map(hs=>hs.hash)],
-    package: selectedpcks.value,
-    app:selectedWebsite.value.agency ? selectedWebsite.value.name : null,
-    url:selectedWebsite.value.url ? selectedWebsite.value.url : null,
-    currency:filteredCryptoMethods.value.name
+const submitForm = async () => {
+  v$.value.$touch(); // Trigger form validation
+
+  // If there are validation errors, stop the process
+  if (v$.value.$error) return;
+
+  let resbl;
+  loadingReq.value = true;
+
+  // Check if the website is provided
+  if (state.website_new !== '') {
+    // Call the checkifBlockedSite function to verify if it's blocked
+    resbl = await checkifBlockedSite(state.website_new);
+
+    // If the site is blocked, show a toast notification and stop submission
+    if (resbl.length > 0) {
+      blockedError.value = true
+  loadingReq.value = false;
+
+      return; // Stop further execution if the site is blocked
+    }
   }
 
-const res = await joinInvestor(dataObj)
-if(codeStatus.value=== 200){
+  // Proceed with the form submission
+  const dataObj = {
+    wallet: state.walletAddress,
+    amount: state.amount,
+    hashes: [state.firstHash, ...state.hashAddresses.map(hs => hs.hash)],
+    package: selectedpcks.value,
+    app: currentWebSite.value ? currentWebSite.value.name : null,
+    url: state.website_new ? state.website_new : null,
+    currency: filteredCryptoMethods.value.name,
+  };
 
-  closeModal('join_to_investor')
-  $toast('Request Sent Successfully',{hideIn:3000})
-  loadingReq.value = false
-state.amount = ''
-state.walletAddress = ''
-state.firstHash = ''
-state.hashAddresses = []
-v$.value.$reset()
-}else {
-  $toast('Error Sending Request, please try again',{hideIn:3000,type:'error',positionX:'30%'})
-  loadingReq.value = false
+  // Call joinInvestor to submit the form data
+  const res = await joinInvestor(dataObj);
 
-  
-}
-// alert()
-  
+  // Handle response
+  if (codeStatus.value === 200) {
+    closeModal('join_to_investor');
+    $toast('Request Sent Successfully', { hideIn: 3000 });
+    loadingReq.value = false;
 
-}
+    // Reset form fields
+    state.amount = '';
+    state.walletAddress = '';
+    state.firstHash = '';
+    state.hashAddresses = [];
+    v$.value.$reset();
+    currentWebSite.value = ''
+  } else {
+    $toast('Error Sending Request, please try again', {
+      hideIn: 3000,
+      type: 'error',
+      positionX: '30%',
+    });
+    loadingReq.value = false;
+  }
+};
+
 const filteredCryptoMethods = computed(() => {
   return cryptoStore.list.find((method) =>
   method.title === 'TSLT'
   );
 });
+/**
+ * Removes the protocol and www. from a given website URL
+ * @param {string} url - The website URL to clean
+ * @returns {string} The cleaned website URL
+ */
+const cleanWebsiteUrl = (url: string) => {
+  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
+};
 
 
 const toggleDropdown = () => {
@@ -160,8 +203,27 @@ const selectCryptoMethod = (method) => {
 };
 const listofapps = computed(()=>{
   
-  return apps.value.length > 1 ? apps.value.filter(app=>app.app_domain !== null) : []
+  return apps.value.length > 1 ? apps.value.filter(app=>app.app_domain !== null && app.status !== 'deleted') : []
 })
+const websiteExists = ref(false)
+watch(() => state.website_new, (newVal) => {
+  websiteExists.value = false;
+
+
+  if (newVal) {
+    const cleanedUrl = cleanWebsiteUrl(newVal);
+
+    if (listofapps.value.some(app => app.app_domain === cleanedUrl)) {
+      websiteExists.value = true;
+    }
+  }
+});
+const onInputWebsite = ()=>{
+  currentWebSite.value = ''
+  blockedError.value = false
+   
+}
+const lockedWebsite = ref(false)
 </script>
 
 
@@ -175,7 +237,12 @@ const listofapps = computed(()=>{
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('join_to_investor')"
+      @click="()=>{
+        closeModal('join_to_investor')
+        currentWebSite = ''
+        state.website_new = ''
+        v$.$reset()
+      }"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -227,38 +294,98 @@ const listofapps = computed(()=>{
 
 
   <div class="w-full">
-    <div class="w-full mt-[14px]">
-      <multiselect 
-      v-model="selectedWebsite" :options="listofapps" :multiple="false" :taggable="true" @tag="addNewWebsite" 
-      :close-on-select="true"
-        :clear-on-select="false" :preserve-search="true" placeholder="Choose sites" label="title" class="mt-[24px] relative"
-        track-by="app_domain" :preselect-first="false">
-        <template #selection="{ values, search, isOpen }">
-          <span
-            class="multiselect__single !font-[500] !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
-            v-if="values.length" v-show="!isOpen">{{ values.length }} selected</span>
-
-            <img
-            src="/assets/imgs/payment_methods/country_arrow.svg"
-            :class="[isOpen ? 'rotate-90 ' : 'rtl:rotate-180']"
-
-          
-            class="absolute   w-[14px] h-[8px] inset-y-[15px] right-[19px]"
-          />
-        </template>
-        
-      </multiselect>
-      <!-- <TranslateSelectInput
+    <div class="w-full mt-[14px] relative">
+      <TranslateSelectInput
+      :disabled="state.website_new !== ''"
       @getCurrentSelectedItem="selectWebsite"
       :enableSearch="false"
-      placeholderinput="Add site"
-      :list="apps"
+      placeholderinput="Choose Website"
+      :list="listofapps"
       nameKey="title"
-      idField="name"
+      idField="app_domain"
       class=""
-     
-    /> -->
+     :current-list-value="currentWebSite"
+    />
+    
+    <div
+    v-if="currentWebSite !== '' "
+    @click="()=>{
+      currentWebSite= ''
+    }"
+    class="absolute inset-y-[calc(30%-16px)] z-[40] rtl:left-0 ltr:right-[20px] p-[16px] cursor-pointer"
+  >
+    <img src="/assets/imgs/icons/clear_search.svg" />
+  </div>
      </div>
+     <div class="mx-auto text-center text-[14px] mt-[7px]">{{$t('OR')}}</div>
+   <div class="flex items-center justify-center space-x-[10px] w-full mt-[7px]">
+    <div class="w-3/4 relative ">
+      <div
+      v-if="blockedError || websiteExists || v$.website_new.$model "
+      @click="()=>{
+        v$.website_new.$model = ''
+        lockedWebsite = false
+        blockedError = false
+        v$.$reset()
+      }"
+      class="absolute inset-y-[calc(30%-16px)] z-[40] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+    >
+      <img src="/assets/imgs/icons/clear_search.svg" />
+    </div>
+      <input
+      :disabled="currentWebSite !== '' || lockedWebsite"
+      @input="onInputWebsite"
+        type="text"
+        placeholder=""
+        id="website_new"
+        class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
+        v-model="v$.website_new.$model"
+        :class="{
+          input_error: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists),
+          error_text: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists),
+          input_success: !v$.website_new.$invalid && !blockedError && !websiteExists,
+        }"
+        
+        
+      />
+   
+      <label
+        for="website_new"
+        class="floating_label"
+        :class="[
+          v$.website_new.$error && v$.website_new.required.$invalid || blockedError || websiteExists
+            ? '!text-error'
+            : '',
+        ]"
+      >
+        {{ $t("Website*") }}
+      </label>
+      <div
+        class="w-full lg:w-4/6 "
+        v-if="(v$.website_new.$error && v$.walletAddress.required.$invalid) || blockedError || websiteExists"
+      >
+        <p class="error_message !bottom-[1px]">
+          <span v-if="v$.website_new.required.$invalid">{{
+            $t("Website is required")
+          }}</span>
+          <span v-if="blockedError">{{
+            $t("Unable to add the current website because it is blocked.") 
+          }}</span>
+
+          <span v-if="websiteExists">{{
+            $t("Website Already added , Please select it form the list") 
+          }}</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="w-1/4">
+      <button class="btn-dashboard hover_tamkin w-[150px]"
+      :disabled="blockedError || websiteExists || currentWebSite !== '' || v$.website_new.$invalid "
+      @click="lockedWebsite = true" v-if="!lockedWebsite">{{$t('Add site')}}</button>
+      <button class="btn_bordered_dashboard error w-[150px]" @click="lockedWebsite = false" v-if="lockedWebsite">{{$t('Remove site')}}</button>
+    </div>
+   </div>
     <div class="w-full mt-[14px]">
       <TranslateSelectInput
       @getCurrentSelectedItem="selectPackage"
@@ -464,7 +591,7 @@ const listofapps = computed(()=>{
     
       <button
         :disabled=" v$.$invalid || loadingReq  || !state.walletAddress || !state.amount || !selectedpcks
-|| !selectedWebsite"
+|| !selectedWebsite || blockedError || websiteExists || !lockedWebsite"
        
         @click="submitForm"
         class="btn-dashboard hover_tamkin w-full mx-auto mt-[14px]"
@@ -489,7 +616,6 @@ const listofapps = computed(()=>{
 
   </div>
 </template>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style lang="scss" scoped>
 

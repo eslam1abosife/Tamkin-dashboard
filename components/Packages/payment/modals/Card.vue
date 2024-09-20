@@ -146,11 +146,17 @@ const continueCheckOut = async () => {
   // loadingPayment.value = false;
 
   // return navigateTo('cardModal','add-site','crypto')
-  if (codeStatus.value === 200) {
+  if (codeStatus.value === 200 && res !== "A 3-day trial package is configured in the app") {
     urlPayment.value = res
 
     // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
+    packagesStore.urls =[]
 
+  }
+  else if(res === "A 3-day trial package is configured in the app"){
+    packagesStore.urls =[]
+    usePaymentStore().stateOfPayment = 'paid'
+    return navigateTo('cardModal_packages','packages','success_pay_package')
   }
    else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });

@@ -7,6 +7,7 @@ import {useCouponCode} from "@/composables/useMarket";
 
 export const usePackgesStore = defineStore('packages', {
   state: () => ({
+    showMoreINInvestors:false,
     currentTab: '',
     intialTab: '',
     currentTabTitle: 'Plugins',
@@ -259,7 +260,7 @@ getTabDetails: (state) => (tab, highlightText, page) => {
       
       if (state.currentTab) {
         filteredPackages = filteredPackages.filter(pkg => 
-          pkg.category1 === state.currentTab.name || pkg.category === state.currentTab.name
+          pkg.type === state.currentType.name &&   pkg.category === state.currentTab.name
         )
         .filter((pkg, index, self) => 
           index === self.findIndex(p => p.name === pkg.name) 

@@ -30,7 +30,7 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
 
 <template>
   <div
-  v-if="isOpen('success_pay_package')"
+
   class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0  ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full
    h-full lg:h-screen lg:overflow-x-hidden"
 >

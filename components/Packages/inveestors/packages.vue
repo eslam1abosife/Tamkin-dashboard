@@ -116,6 +116,7 @@ const filteredPackages = computed(() => {
         </div>
 
         <div
+        v-if="packagesStore.showMoreINInvestors"
           class="flex flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse-tamkin rounded-t-none rounded-[10px] p-4 dark:text-whiteTamkin"
         >
     

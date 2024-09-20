@@ -14,9 +14,9 @@ const messageData = ref('')
                 "urls":  packagesStore.packagePayload.urls.filter((website: any) => website.url !== null).map((website: any) => website.url) ,
                 "apps": packagesStore.packagePayload.apps,
                 "packageName":  packagesStore.currentPackage.name,
-                "payDateType": packagesStore.packagePayload.payDateType,//1,3,12
+                "payDateType": packagesStore.packagePayload.payDateType === 'trial' ? 1 :packagesStore.packagePayload.payDateType,//1,3,12
                 "pay_type": type,//Card|paypal
-                "card":card || null,//Allow Null
+                "card": packagesStore.packagePayload.payDateType === 'trial' ? "" : card,//Allow Null
                 "coupon_code": packagesStore.promo || null,//Allow Null
                 "locale": redirectTo ? ( useNuxtApp().$i18n.locale.value === 'en' ? redirectTo+'?locale='+useNuxtApp().$i18n.locale.value : '/'+useNuxtApp().$i18n.locale.value+'/'+redirectTo+'?locale='+useNuxtApp().$i18n.locale.value) : null,
               

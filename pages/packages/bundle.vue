@@ -88,7 +88,7 @@ packagesStore.setFaq()
     </div>
  
 
-    <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[74px] ">
+    <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[26px] ">
 
      <PackagesModalsCustomPackage/>
       

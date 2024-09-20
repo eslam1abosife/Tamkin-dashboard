@@ -16,7 +16,7 @@ const openBuyModal = (pck)=>{
 </script>
 
 <template>
-    <div
+    <div v-if="packagesStore.getAddonsOrExtras('Addons').length"
     class="w-full p-[35px] rounded-[10px] bg-gradient-to-r from-[#3748E0]/[45%] via-[#FBE3C3]/[14%] to-[#8AB9FF]/[96%] h-auto mx-auto mt-[32px] relative"
   >
     <div class="absolute top-[-14px] left-0">

@@ -74,7 +74,7 @@ const uniqueValues = (items) => {
     <NuxtLoadingIndicator :key="Math.random()" style="  background: linear-gradient(to right, #2DADA3, #71DAD2);" :height="6"/>
     <PackagesPaymentModalsJoinInvestorStep1/>
 
-    <div class="flex flex-col items-center justify-center w-full mt-[26px]">
+    <div class="flex flex-col items-center justify-center w-full mt-[26px] ">
       <div
         class="text-[18px] font-[700] leading-[35px]  whitespace-nowrap"
       >
@@ -91,24 +91,42 @@ const uniqueValues = (items) => {
       </div>
     </div>
    
-    <div
-    class="flex items-center justify-start w-full absolute rtl:right-[3.3%] left-[3.3%] top-[90px] p-[4px] rtl:space-x-reverse space-x-[14px]"
-  >
-    <div class="text-black dark:text-whiteTamkin font-[600] text-[14px]">
-      {{ $t('Choose Traffic level') }} :
+    <div class="flex items-center justify-between w-full mt-[26px]">
+      <!-- Traffic level selection section (first) -->
+      <div class="flex items-center justify-start w-2/4 p-[4px] order-1">
+        <div class="text-black dark:text-whiteTamkin font-[600] text-[14px] w-3/6">
+          {{ $t('Choose Traffic level') }} :
+        </div>
+        <TranslateSelectInput
+          @getCurrentSelectedItem="geteFilterInfo"
+          :enableSearch="false"
+          placeholderinput="Traffic level"
+          :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
+          nameKey="name"
+          idField="id"
+          class="w-full"
+          :currentListValue="packagesStore.views_level"
+        />
+      </div>
+    
+      <!-- What’s included section (second) -->
+      <div class="flex items-center justify-end rtl:space-x-reverse space-x-[10px] w-2/4 order-2 cursor-pointer" @click="packagesStore.showMoreINInvestors = !packagesStore.showMoreINInvestors">
+        <div>
+          <h2 class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin">
+            {{$t('What’s included?')}}
+          </h2>
+        </div>
+        <div class="cursor-pointer" >
+          <img
+            src="/assets/imgs/arrow-right.svg"
+            class="w-[12px] h-[10px] rtl:rotate-180 cursor-pointer"
+            :class="[packagesStore.showMoreINInvestors ? '!rotate-90 ' : 'rotate-0']"
+          />
+        </div>
+      </div>
     </div>
-    <TranslateSelectInput
-      @getCurrentSelectedItem="geteFilterInfo"
-      :enableSearch="false"
-      placeholderinput="Traffic level"
-      :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
-      nameKey="name"
-      idField="id"
-      class="!w-1/4"
-      :currentListValue="packagesStore.views_level"
-    />
-  </div>
-    <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[74px] ">
+    
+    <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[26px] ">
        <div class="flex items-center justify-center flex-col w-full px-[18px]">
         <!-- <PackagesInveestorsPackages/> -->
         <!-- PACKAGES-->

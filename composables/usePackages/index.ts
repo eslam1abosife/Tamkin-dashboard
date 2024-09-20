@@ -9,6 +9,7 @@ import usePayByCorPaypal from "./usePayByCorPaypal"
 import useCheckifSiteblocked from "./useCheckifSiteblocked"
 import useGetTraffic from "./useGetTraffic"
 import usePayWithCrypto from "./usePayWithCrypto"
+import useGetPriceByTraffic from "./useGetPriceByTraffic"
 
 export {
     useGetPackagesTypes,
@@ -21,5 +22,6 @@ export {
     usePayByCorPaypal,
     useCheckifSiteblocked,
     useGetTraffic,
-    usePayWithCrypto
+    usePayWithCrypto,
+    useGetPriceByTraffic
 }

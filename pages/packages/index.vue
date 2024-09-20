@@ -453,7 +453,7 @@ packagesStore.setFaq()
 
     <!-- Additional addons start-->
     <PackagesWebpluginsAdditional
-      v-else-if="packagesStore.currentTabTitle === 'Plugins' && !packagesStore.loadingData"
+    
     />
     <PackagesDocumentsServices v-if="packagesStore.currentTabTitle === 'Documents' && !packagesStore.loadingData" />
 

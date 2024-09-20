@@ -159,6 +159,8 @@ const payCrypto = async () => {
 
   navigateTo("crypto_packages_step2", "packages", "crypto_packages_success");
   loadingPayment.value = false;
+  packagesStore.urls =[]
+
   // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
   }else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
@@ -180,6 +182,7 @@ const cancelPayment =()=>{
   packagesStore.validPromo = false
   packagesStore.currentDiscount = 0
   packagesStore.selectedCrypto = ""
+  packagesStore.urls =[]
   closeModal('crypto_packages_step2')
 }
 </script>

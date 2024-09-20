@@ -114,7 +114,7 @@ onMounted(() => {
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'min-h-auto' : 'h-auto']">
+      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'min-h-[100px]' : 'h-auto']">
         <li
           v-for="(listItem, i) in filteredList"
           :key="listItem[idField]"

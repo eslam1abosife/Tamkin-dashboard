@@ -128,11 +128,11 @@ input:-webkit-autofill {
 
 
 .multiselect {
-    @apply relative;
+    @apply relative rtl:font-[Almarai];
   
     .multiselect__tags {
-      @apply h-[40px] !text-darkGrey rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] 
-      bg-white dark:bg-transparent border-lightGrey  !font-[400] !font-[Poppins]
+      @apply h-[40px] !text-darkGrey rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px]  rtl:font-[Almarai]
+      bg-white dark:bg-transparent border-lightGrey  !font-[400] ltr:font-[Poppins]
       md:w-full lg:w-full text-[13px] lg:text-[12px] 2xl:text-[14px]  ipad-max:max-w-full w-full border-[1px]
        focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent
         disabled:bg-gray-100 disabled:cursor-not-allowed #{!important};
