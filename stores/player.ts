@@ -29,8 +29,8 @@ export const usePlayerStore = defineStore('player', {
       // player
       setActiveCharacter(character){
           try {
-            // if (!this.owned(character))
-            //   this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
+            if (!this.owned(character))
+              this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
             if (character.name == this.activeCharacter?.name)
               this.toast(character.text + ' is already your active character.', { hideIn: 3000 })
             // await this.$store.dispatch('market/setActiveCharacter', character.name)
@@ -71,20 +71,20 @@ export const usePlayerStore = defineStore('player', {
         }
       },
       owned(item){
-        return item.is_purchased;
+        return item.is_purchased || item.is_package;
       },
       getOriginalSkinItem(name: string){
-          const { categoriesWithSkinItems } = useGetCategoriesWithSkinItems();
+          const marketStore = useMarketStore();
           // const already_weared_skin = categoriesWithSkinItems.value.find(item => item.name == weared_skin_of_same_category)
-          const allSkins = categoriesWithSkinItems.value.map(item => item.skin_items_list).flat();
+          const allSkins = marketStore.categoriesWithSkinItems.map(item => item.skin_items_list).flat();
           const skin_item = allSkins.find(item => item.name == name)
           return skin_item;
       },
       wearClothes(skin_item){
         const marketStore = useMarketStore();
 
-        // if (!this.owned(skin_item))
-        //   return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
+        if (!this.owned(skin_item))
+          return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         // if there is a character in the preview
         if (marketStore.selectedForPreview?.[0]?.allowed_skins_list){
           marketStore.resetAll();
@@ -128,7 +128,9 @@ export const usePlayerStore = defineStore('player', {
               
               // 1. character has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
               if (weared_skins_of_same_category && weared_skins_of_same_category.some(skin => !this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins)) {
-                weared_skins_of_same_category.filter((skin) => !$this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins)
+                weared_skins_of_same_category.filter(function (skin) {
+                  return !$this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins;
+                })
                 .forEach(skin => {
                   this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(skin), 1);
                   let skin_to_delete = $this.getOriginalSkinItem(skin);
@@ -142,8 +144,8 @@ export const usePlayerStore = defineStore('player', {
         }
       },
       async changeCharacter(character: any, preview = true) {
-        // if (!this.owned(character))
-        //   return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
+        if (!this.owned(character))
+          return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         this.activeCharacter = character;
         
         window.changeCharacter(character.name);

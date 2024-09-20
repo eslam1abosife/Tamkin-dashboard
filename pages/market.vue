@@ -608,7 +608,7 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
-        <!-- <MarketPlayer /> -->
+        <MarketPlayer />
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter

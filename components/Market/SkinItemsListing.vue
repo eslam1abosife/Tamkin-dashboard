@@ -44,17 +44,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           <div class="text-[9px] leading-[10px] font-[500]">{{$t('Applied')}}</div>
         </div>
         <div
-          class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-if="!skin_item.is_weared && skin_item.is_package">
-          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Package')}}</div>
-        </div>
-        <div
-          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
-          v-if="!skin_item.is_weared && skin_item.is_special_offer"
-        >
-          <div class="text-[9px] leading-[10px]">{{$t('Special Offer')}}</div>
-        </div>
-        <div
+          v-else-if="skin_item.is_purchased"
           class="absolute top-0 left-0 w-[64px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           style="
             background: linear-gradient(
@@ -65,9 +55,19 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               #fde7ea 100%
             );
           "
-          v-if="!skin_item.is_weared && skin_item.is_purchased"
         >
           <div class="text-[10px] font-[500] leading-[10px]">{{$t('Purchased')}}</div>
+        </div>
+        <div
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+          v-else-if="skin_item.is_package">
+          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Package')}}</div>
+        </div>
+        <div
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
+          v-else-if="skin_item.is_special_offer"
+        >
+          <div class="text-[9px] leading-[10px]">{{$t('Special Offer')}}</div>
         </div>
       </div>
       <div class="flex flex-col justify-center items-evenly w-full space-y-[10px] p-1">
@@ -82,11 +82,11 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         <!-- <div v-if="skin_item.specialOffer || skin_item.discount || skin_item.package" class="flex flex-col"> -->
         <div class="flex flex-col !mt-[16px]">
           <div
+            v-if="marketStore.cartable(skin_item) && skin_item.offer_cost > 0"
             class="flex items-center justify-between w-full"
-            v-if="skin_item.offer_cost > 0">
+            >
             <div class="flex items-start flex-col justify-evenly space-y-[10px]">
               <div
-                v-if="marketStore.cartable(skin_item) && skin_item.offer_cost > 0"
                 class="w-[80px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[11px] flex items-center justify-center"
                 class2="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
                 >
