@@ -1,14 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   ssr:false,
   sourcemap: false,
 
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
-     // baseURL:  'https://localhost:7096/v1/api/',
+    //  baseURL:  'https://localhost:7096/v1/api/',
       baseImagerUrl: 'https://tamkin.app/'
     }
   },
