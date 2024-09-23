@@ -177,6 +177,8 @@ export const useMarketStore = defineStore('market', {
       if (type == 'custom_character'){
         const { customCharacterCost } = useEditCustomerCharacter();
         new_item.cost = customCharacterCost.value
+        new_item.gender = new_item.gender ? 'Male' : 'Female';
+        new_item.image = new_item.images;
         new_item.item_title = new_item.name
         new_item.category_image = '/assets/pngs/market/character-grey.svg';
         new_item.image_url = '/assets/pngs/market/special_character.png';
@@ -189,6 +191,8 @@ export const useMarketStore = defineStore('market', {
           new_item.category_image = '/assets/pngs/market/character-grey.svg';
         }
       }
+      console.log('cart item', new_item);
+      
       return new_item;
     },
     owned(item: any){
@@ -200,7 +204,7 @@ export const useMarketStore = defineStore('market', {
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
 
       const { $toast } = useNuxtApp();
-      const { addItemToCart ,cartItems} = useCart();
+      const { addItemToCart} = useCart();
       
       if (!this.isInCart(item.name)) {
         // Add item until the request finishes

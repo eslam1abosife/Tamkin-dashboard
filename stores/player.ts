@@ -11,7 +11,6 @@ export const usePlayerStore = defineStore('player', {
     isFullscreen: false,
     cameraPosition: 1,
     userSelectedClothes: {},
-    setActiveCharacterError: '',
     skinCategoryItems: {},
     characters: [],
     activeCharacter: null,
@@ -27,20 +26,6 @@ export const usePlayerStore = defineStore('player', {
         $toast(message, options)
       },
       // player
-      setActiveCharacter(character){
-          try {
-            if (!this.owned(character))
-              this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
-            if (character.name == this.activeCharacter?.name)
-              this.toast(character.text + ' is already your active character.', { hideIn: 3000 })
-            // await this.$store.dispatch('market/setActiveCharacter', character.name)
-            this.activeCharacter = character
-            this.toast(character.text + ' has been set as your active character successfully.', { hideIn: 3000 })
-          } catch (error) {
-            this.setActiveCharacterError = error.message || 'An error occurred.';
-            this.toast('There is something wrong: ' + this.setActiveCharacterError, { hideIn: 3000 })
-          }
-      },
       hideAllClothes(){
         this.activeCharacter.allowed_skins_list.forEach(skin_item => {
           this.unwear(skin_item);
@@ -70,6 +55,10 @@ export const usePlayerStore = defineStore('player', {
           })
         }
       },
+      resetActiveCharacterAndWearSavedClothes(){
+        this.changeCharacter(this.backendActiveChar)
+        // this.wearSavedClothes();
+      },
       owned(item){
         return item.is_purchased || item.is_package;
       },
@@ -82,9 +71,6 @@ export const usePlayerStore = defineStore('player', {
       },
       wearClothes(skin_item){
         const marketStore = useMarketStore();
-
-        if (!this.owned(skin_item))
-          return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         // if there is a character in the preview
         if (marketStore.selectedForPreview?.[0]?.allowed_skins_list){
           marketStore.resetAll();
@@ -115,10 +101,15 @@ export const usePlayerStore = defineStore('player', {
           })
         }else{
           // hide skin if he is wearing it already if it can be unweared (get unweared if clicked twice)
-          let weared_skins_of_same_category = this.userSelectedClothes[this.activeCharacter.name]?.[category] || [];
-          if (weared_skins_of_same_category && weared_skins_of_same_category.includes(skin_item.name) && skin_item.can_be_unweared){
-            this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(skin_item.name), 1);
-            this.unwear(skin_item);
+          
+          let weared_skins_of_same_category = this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
+          if (weared_skins_of_same_category && weared_skins_of_same_category.includes(skin_item.name)){
+            if (skin_item.can_be_unweared){
+              this.activeCharCurrentlyWearedSkinsCategories[category].splice(this.activeCharCurrentlyWearedSkinsCategories[category].indexOf(skin_item.name), 1);
+              this.unwear(skin_item);
+            }
+            // else: do nothing if it is weared and can't be unweared and got clicked
+
           }else{
             // if wearing skin of the same category, other than the weared one, unwear it first unless it can be weared with its category skins
             // get the already weared skin from categoriesWithSkinItems by code to check its can_be_weared_with_its_category_skins
@@ -132,7 +123,7 @@ export const usePlayerStore = defineStore('player', {
                   return !$this.getOriginalSkinItem(skin).can_be_weared_with_its_category_skins;
                 })
                 .forEach(skin => {
-                  this.userSelectedClothes[this.activeCharacter.name][category].splice(this.userSelectedClothes[this.activeCharacter.name][category].indexOf(skin), 1);
+                  this.activeCharCurrentlyWearedSkinsCategories[category].splice(this.activeCharCurrentlyWearedSkinsCategories[category].indexOf(skin), 1);
                   let skin_to_delete = $this.getOriginalSkinItem(skin);
                   this.unwear(skin_to_delete);
                 })
@@ -144,8 +135,6 @@ export const usePlayerStore = defineStore('player', {
         }
       },
       async changeCharacter(character: any, preview = true) {
-        if (!this.owned(character))
-          return this.toast('You must buy this item first.', { hideIn: 3000, type: 'warning' })
         this.activeCharacter = character;
         
         window.changeCharacter(character.name);
@@ -157,8 +146,8 @@ export const usePlayerStore = defineStore('player', {
           // character is loaded
           this.wearSavedClothes();
         }
-        // check if this is not the backend active character
         const marketStore = useMarketStore();
+        // check if this is not the backend active character
         if (character.name != this.backendActiveChar?.name && preview) {
           marketStore.selectItemforPreview(character);
         } else {
@@ -210,15 +199,18 @@ export const usePlayerStore = defineStore('player', {
         let item = null;
         let items = marketStore.selectedForPreview;
         item = items?.[0] || null;
-        // if it is a character
-
+        // if it is a character, item here means character
         if (item?.allowed_skins_list){
-          if(AppName === 'all'){
-this.savetoallloading = true
-          }else{
-          this.loadingChanges = true
 
+          if (!this.owned(item))
+            return this.toast('You must buy this character first.', { hideIn: 3000, type: 'warning' })
+
+          if(AppName === 'all'){
+            this.savetoallloading = true
+          }else{
+            this.loadingChanges = true
           }
+
           let succeeded = await setAppCharacter(item.name, AppName);
           if (succeeded){
             this.characters.map(function (character) {
@@ -236,6 +228,9 @@ this.savetoallloading = true
         // skin item does not require existing skins in the selectedForPreview array
         // it gets the items from userSelectedClothes
         else {
+          if (this.isActiveCharCurrentlyWearedSkinsHaveUnownedSkins)
+            return this.toast('You must buy all the skins first.', { hideIn: 3000, type: 'warning' })
+
           let skins = this.activeCharCurrentlyWearedSkinsNames.map(item_name => ({ skin_item: item_name }));
           let succeeded = await setCharacterOptions(skins, this.activeCharacter.name, AppName);
           if (succeeded){
@@ -305,7 +300,8 @@ this.savetoallloading = true
     activeCharBackendWearedSkins: (state) => state.activeCharacter.allowed_skins_list.filter(skin_item => skin_item.is_weared),
     activeCharBackendWearedSkinsNames: (state) => state.activeCharBackendWearedSkins.map(skin_item => skin_item.name),
 
-    activeCharCurrentlyWearedSkinsNames: (state) => Object.values(state.userSelectedClothes[state.activeCharacter.name]).flat(),
+    activeCharCurrentlyWearedSkinsCategories: (state) => state.userSelectedClothes[state.activeCharacter.name],
+    activeCharCurrentlyWearedSkinsNames: (state) => Object.values(state.activeCharCurrentlyWearedSkinsCategories).flat(),
     isClothesChanged: function(state){
       if (state.activeCharacter?.name) {
         return !state.arraysHaveSameItems(state.activeCharBackendWearedSkinsNames, state.activeCharCurrentlyWearedSkinsNames)
@@ -313,6 +309,7 @@ this.savetoallloading = true
         return false
       }
     },
+    isActiveCharCurrentlyWearedSkinsHaveUnownedSkins: (state) => state.activeCharCurrentlyWearedSkinsNames.some(skin_name => !state.owned(state.getOriginalSkinItem(skin_name))),
     backendActiveChar: function (state) {
       return state.characters.find(character => character.is_used) || state.characters[0]
     },

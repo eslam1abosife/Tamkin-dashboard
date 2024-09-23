@@ -61,7 +61,7 @@ const toggleExpandHeader = () => {
   expandedHeader.value = expandedHeaderStep.value !== 2;
 };
 const {GetCustomCharacterCost} = useEditCustomerCharacter()
-const { getCartItems, cartItems } = useCart();
+const { getCartItems } = useCart();
 const { getFullDataFormated, categoriesWithSkinItems, characters, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
 const playerStore = usePlayerStore();
 const stripeKey = ref(
@@ -127,14 +127,12 @@ const cancelAc = () => {
 
   if (isMarketChanges) {
     marketStore.resetAll();
-    playerStore.wearSavedClothes();
+    playerStore.resetActiveCharacterAndWearSavedClothes();
   }
 
 };
 const marketStore = useMarketStore();
-watchEffect(() => {
-  marketStore.setCartItems(cartItems.value)
-})
+
 const cartItemCount = computed(() => marketStore.cartItems.length);
 const showBadge = ref(false);
 const { resetModal } = storeToRefs(marketStore);

@@ -5,7 +5,7 @@ import { useCart } from "@/composables/useMarket";
 import { useCouponCode } from "@/composables/useMarket";
 const {locale } = useI18n()
 
-const { createOrder, cartItems, messageData ,codeStatus} = useCart();
+const { createOrder, messageData ,codeStatus} = useCart();
 const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
 const marketStore = useMarketStore();

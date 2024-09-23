@@ -16,6 +16,7 @@ const codeStatus = ref(0)
             const { data } = await api.post('/Market/GetCartItems');
             if(!data.succeeded) throw(data.message);
             cartItems.value = data.data.items;
+            marketStore.setCartItems(cartItems.value);
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }

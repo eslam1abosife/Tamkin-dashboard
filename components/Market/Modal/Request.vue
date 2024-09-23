@@ -114,6 +114,7 @@ const updateData = async()=>{
   if (!requestData.value?.name) {
     // if creating
     await marketStore.addToCart(FormData, 'custom_character', 'Custom Character')
+    getCartItems();
     // msg = t("Request Created Successfully")
   }else{
     // elseif updating
@@ -155,16 +156,18 @@ watchEffect(() => {
         state.Description = requestData.value.description;
         
         if(requestData.value?.image?.length > 0 && !isFilesPopulated){
+          console.log('images', requestData.value.image);
+          
           for(let i=0; i < requestData.value.image.length; i++) {
-          const customFile = new File([""], requestData.value.image[i].name, {
-            type: "image/jpeg", // or the appropriate MIME type
-            lastModified: new Date().getTime(),
-          });
-          customFile.id = requestData.value.image[i].id;
-          customFile.image =  requestData.value.image[i].image;
-          acceptedFilesRef.value.unshift(customFile);
-        }
-        customFileIds.value = requestData.value.image.map(image => image.name);
+            const customFile = new File([""], requestData.value.image[i].name, {
+              type: "image/jpeg", // or the appropriate MIME type
+              lastModified: new Date().getTime(),
+            });
+            customFile.id = requestData.value.image[i].id;
+            customFile.image =  requestData.value.image[i].image;
+            acceptedFilesRef.value.unshift(customFile);
+          }
+          customFileIds.value = requestData.value.image.map(image => image.name);
         }
         isFilesPopulated = true;
         price.value = requestData.value.cost;

@@ -25,10 +25,6 @@ const openModalAndHideChat = () => {
 
 const marketStore = useMarketStore();
 
-const { createOrder, cartItems } = useCart();
-// watchEffect(() => {
-//   marketStore.setCartItems(cartItems.value);
-// });
 const confirmOrder = async () => {
   // await createOrder();
   // openModal("upgrade", "market");

@@ -13,16 +13,52 @@ function doPlayerStuff() {
     controlPlayerLoad();
 }
 function loadPlayerScripts() {
-    const script1 = document.createElement('script');
-    script1.src = 'https://p.tamkin.app/mobile/runtime.a6792ebd11ba6d755107.bundle.js';
-    script1.defer = true;
-    document.body.appendChild(script1);
+    const script1Url = 'https://p.tamkin.app/mobile/runtime.a6792ebd11ba6d755107.bundle.js';
+    const script2Url = 'https://p.tamkin.app/mobile/app.af7ab7c5ada08b26b6a0.bundle.js';
+    
+    // Function to remove an existing script if it exists
+    function removeScript(scriptUrl) {
+        const existingScript = document.querySelector('script[src="' + scriptUrl + '"]');
+        if (existingScript) {
+            existingScript.remove();
+        }
+    }
 
-    const script2 = document.createElement('script');
-    script2.src = 'https://p.tamkin.app/mobile/app.af7ab7c5ada08b26b6a0.bundle.js';
-    script2.defer = true;
-    document.body.appendChild(script2);
+    // Function to add a new script
+    function addScript(scriptUrl) {
+        const script = document.createElement('script');
+        script.src = scriptUrl;
+        script.defer = true;
+        document.body.appendChild(script);
+    }
+
+    // Function to append or refresh the <tamkin-sdk> inside #tamkinSDK
+    function appendTamkinSDK() {
+        const tamkinSDKContainer = document.getElementById('tamkinSDK');
+        // Remove the existing <tamkin-sdk> if it already exists
+        const existingSDK = tamkinSDKContainer.querySelector('tamkin-sdk');
+        if (existingSDK) {
+            // existingSDK.remove();
+        }else{
+            // Create and append a new <tamkin-sdk> element
+            const newSDK = document.createElement('tamkin-sdk');
+            newSDK.setAttribute('charwidth', '550');
+            newSDK.setAttribute('charheight', '550');
+            tamkinSDKContainer.appendChild(newSDK);
+        }
+    }
+
+    // First append the <tamkin-sdk> element
+    appendTamkinSDK();
+
+    // Then remove and reload scripts
+    removeScript(script1Url);
+    addScript(script1Url);
+
+    removeScript(script2Url);
+    addScript(script2Url);
 }
+
 function controlPlayerLoad() {
   window.characterLoadStarted = () => {
     playerStore.characterLoaded = false
@@ -55,7 +91,7 @@ function controlPlayerLoad() {
     <!-- <img src="/assets/pngs/market/man_standing.png" class="h-[600px]" alt="" /> -->
 
     <div style="height: 350px;margin-top: -20px" v-show="playerStore.characterLoaded" class="h-[600px]" id="tamkinSDK">
-      <tamkin-sdk charwidth="550" charheight="550"></tamkin-sdk>
+      <!-- <tamkin-sdk charwidth="550" charheight="550"></tamkin-sdk> -->
     </div>
     <div v-if="!playerStore.characterLoaded" style="height:350px;" class=" d-flex align-items-center justify-content-center">
       <!-- <div class="spinner-border text-primary"></div> -->

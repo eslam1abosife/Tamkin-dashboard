@@ -51,7 +51,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
     v-for="char in playerStore.characters"
     :key="char.name"
     :class="[
-      marketStore.selectedForPreview.includes(char)
+      playerStore.activeCharacter?.name == char.name
         ? '!bg-selected custom-border-tamkin padding-override-1'
         : '',
     ]"
