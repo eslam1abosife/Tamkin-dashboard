@@ -19,12 +19,12 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
       @click="playerStore.wearClothes(skin_item)" :role="marketStore.owned(skin_item) ? 'button' : ''"
       v-for="skin_item in currentCategoryWithSkinItems.skin_items_list"
       :key="skin_item.name"
-      >
-      <!-- :class="[
-        playerStore.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name)
+      :class="[
+        playerStore.lastClickedSkinItemName == skin_item.name
           ? '!bg-selected custom-border-tamkin padding-override-1'
           : '',
-      ]" -->
+      ]"
+      >
       <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
         <div class="h-[120px] flex items-center justify-center">
           <img :src="fullUrl(skin_item.image)" class="w-[78px] h-[78px]" :alt="skin_item.text" />
