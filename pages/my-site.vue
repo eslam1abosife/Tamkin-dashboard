@@ -1,26 +1,39 @@
 <script lang="ts" setup>
 import { Vue3Lottie } from "vue3-lottie";
-import mysiteAnimation from "/assets/animation/mysite.json";
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
-import {useGetAppInvites} from '@/composables/useTeam';
-import { useDeleteApp, useRestoreApp } from "@/composables/useMySite";
+import { useGetAppInvites,useUpdateDefaultApp } from "@/composables/useTeam";
+import { useDeleteApp, useRestoreApp ,useGetPackage} from "@/composables/useMySite";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+const {locale} = useI18n()
+const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
+const {getPackage,messageStatus,codeStatus} = useGetPackage()
+
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 
+const { getAvatarLetters } = useGetAvatarLetters();
+const mysiteStore = useMySiteStore()
+const route = useRoute()
+const router = useRouter()
+
 const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  await getInviteApps({agency: user.agency});
-}
-onMounted( () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getInviteApps({ agency: user.agency });
+};
+onMounted(async () => {
   getApps();
+  checkPaymentStatus()
+  // await packagesStore.getDataPackage()
+
 });
 
 import { required, email, sameAs } from "@vuelidate/validators";
-import {watch, computed, ref} from "vue";
+import { watch, computed, ref } from "vue";
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
+  middleware: ["auth", "permissions"],
+  requiredPermission: 'my-site',
 
 });
 const state = reactive({
@@ -41,7 +54,7 @@ const {
   navigateTo,
   lastEventCall,
   eventCounter,
-  setData
+  setData,
 } = useModalManager();
 const dataAvailable = ref(true);
 const editTeamNameMode = ref(false);
@@ -70,7 +83,7 @@ const checkAll = computed({
   },
 });
 const localePath = useLocalePath();
-
+const selectedApp = ref()
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -101,8 +114,6 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-
-
 const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
@@ -129,28 +140,26 @@ const goToPage = (page: number) => {
   currentPage.value = page;
 };
 
-
 const formatNumber = (num) => {
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M';
+    return (num / 1000000).toFixed(1) + "M";
   } else if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k';
+    return (num / 1000).toFixed(1) + "k";
   } else {
     return num.toString();
   }
-}
+};
 
 const currAppName = ref(null);
 const openDeleteMember = (appName) => {
-  navigateTo(null, 'mysite', 'deleteApp');
+  navigateTo(null, "mysite", "deleteApp");
   currAppName.value = appName;
 };
 
-
 const openRestoreApp = (appName) => {
-  navigateTo(null, 'mysite', 'restoreApp');
-  currAppName.value = appName;
-}
+  navigateTo(null, "mysite", "restoreApp");
+  currAppName.value = appName.name;
+};
 
 const toastAppear = ref(false);
 const toastMsg = ref(null);
@@ -158,106 +167,238 @@ const toastMsg = ref(null);
 watch(eventCounter, async () => {
   toastAppear.value = false;
   toastMsg.value = null;
-  if (lastEventCall.value === 'deleteApp') {
+  if (lastEventCall.value === "deleteApp") {
     const { deleteApp } = useDeleteApp();
-    await deleteApp(currAppName.value);
-    closeModal('deleteApp');
-    currentTab.value = 'deleted';
-    toastMsg.value = 'deleted successfully!';
-  }
-  else if(lastEventCall.value === 'restoreApp') {
+
+    if (currAppName.value.isdefault) {
+    // Find the index of the current app in appList
+    const currentIndex = appList.value.findIndex(app => app.title === currAppName.value.title);
+
+    let nextApp;
+
+    // If current app is the last one or not found, set 'Internal Service' as nextApp
+    if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
+        nextApp = apps.value.find(app => app.title === 'Internal Service');
+    } else {
+        // Otherwise, set the next app in the list as nextApp
+        nextApp = appList.value[currentIndex + 1];
+    }
+
+    // Fallback to the first app if no 'Internal Service' found or nextApp is undefined
+    if (!nextApp) {
+        nextApp = appList.value[0];
+    }
+
+    // If nextApp exists, update it
+    if (nextApp) {
+        await updateDefaultApp(nextApp.name);
+    }
+}
+
+
+
+
+
+    // console.log('yes',currAppName.value)
+    await deleteApp(currAppName.value.name);
+    closeModal("deleteApp");
+    currentTab.value = "deleted";
+    toastMsg.value = "deleted successfully!";
+  } else if (lastEventCall.value === "restoreApp") {
     const { restoreApp } = useRestoreApp();
     await restoreApp(currAppName.value);
-    closeModal('restoreApp');
-    currentTab.value = 'saved';
-    toastMsg.value = 'restored successfully!';
+    closeModal("restoreApp");
+    currentTab.value = "saved";
+    toastMsg.value = "restored successfully!";
   }
-  currentPage.value = 1
+  currentPage.value = 1;
   toastAppear.value = true;
   getApps();
 });
 
-
 const deletedAppListLength = computed(() => {
   return apps.value
-      .filter((ele) => ele.status === 'deleted')
-      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
-      .length;
-})
+    .filter((ele) => ele.status === "deleted")
+    .filter((ele) =>
+      ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
+    ).length;
+});
 
 const notDeletedAppListLength = computed(() => {
   return apps.value
-      .filter((ele) => ele.status != 'deleted')
-      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
-      .length;
-})
+    .filter((ele) => {
+      // && ele.status !== "draft";
+      const isNotDeleted = ele.status !== "deleted" 
+      const isNotInternal = ele.title !== "Internal Service";
+      const matchesSearch = ele.title
+        .toLowerCase()
+        .includes(search.value.toString().toLowerCase().trim());
+
+      return isNotDeleted && isNotInternal && matchesSearch;
+    }).length;
+});
+
 
 const appList = computed(() => {
   return apps.value
-      .filter((ele) => {
-        if(currentTab.value == 'deleted') {
-          return ele.status === 'deleted';
-        } else {
-          return ele.status !== 'deleted' && ele.type !== 'Internal Services'
-        }
-      })
-      .filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()));
-})
+    .filter((ele) => {
+      if (currentTab.value === "deleted") {
+        return ele.status === "deleted";
+      } else {
+        return ele.status !== "deleted" &&  ele.type !== "Internal Services";
+        // ele.status !== 'draft' &&
+      }
+    })
+    .filter((ele) =>
+      ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
+    )
+    .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
+});
+const currentListOpen = ref()
 
 const paginatedFilteredAppList = computed(() => {
   const startIndex = (currentPage.value - 1) * perPage.value;
   const endIndex = startIndex + perPage.value;
   return appList.value.slice(startIndex, endIndex);
 });
+const runtimeConfig = useRuntimeConfig()
+const formatToUrl = (domain)=>{
+      // Check if the domain starts with "http://" or "https://"
+      if (!/^https?:\/\//i.test(domain)) {
+        // If not, prepend "https://"
+        domain = 'https://' + domain;
+      }
+      return domain;
+    }
+
+    const loadingPackage = ref([])
+const getPackageAndOpenPaymenModal = async (app,pack)=>{
+  loadingPackage.value.push({app:app,pack:pack})
+console.log('here apps',app.package.find(k=>k.name === pack).name)
+const packagemodal = await getPackage(app.package.find(k=>k.name === pack).name)
+
+      await mysiteStore.setCurrentPackage({...packagemodal.package,package_price_role:packagemodal.price_roles});
+
+      // mysiteStore.currentPackage = app.package ? :null
+      mysiteStore.currentWebsite = app
+      mysiteStore.openedCurrentSite = true
+
+      navigateTo(null, "mysite", "add_package_modal_mysite");
+      loadingPackage.value.splice({app:app,pack:pack})
 
 
+    }
+const pcktype = ref({
+  name:'Sign language',
+  id:1
+})
+const typesOfPackages = ref([{
+  name:'Accessibility',
+  id:2
+},
+{
+  name:'Sign language',
+  id:1
+}])
+const getPackType = (pk)=>{
+  pcktype.value = pk
+}
+const checkPaymentStatus = async () => {
+  if (route.query && route.query.paid && route.query.locale) {
+    if (route.query.locale === "ar") {
+      await router.push({
+        name: route.name,
+        query: { paid: route.query.paid, locale: "ar" },
+      });
+
+      await nextTick();
+      openModal("success_pay_package",'mysite');
+    } else {
+      openModal("success_pay_package",'mysite');
+    }
+  }
+};
 </script>
 
 <template>
-  <DashboardToastSuccess v-if="toastAppear" :hideIn="2000" :message="toastMsg"   />
 
-  <div class=" w-full ">
-    <div class="space-y-[10px] ">
+  <div class="w-full">
+
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentPaymentmethods/>
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <PackagesPaymentModalsSuccess v-if="isOpen('success_pay_package')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
+
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySitePaymentPaypal/>
+    </transition>
+    <div class="space-y-[10px]">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-        {{ $t('My Site') }}
+        {{ $t("My Site") }}
       </h1>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-        {{ $t('Add your website domain to access Tamkin services, unlocking enhanced features and better online integration') }}
+        {{
+          $t(
+            "Add your website domain to access Tamkin services, unlocking enhanced features and better online integration"
+          )
+        }}
       </h2>
     </div>
 
     <div
-      class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px] "
+      class="mt-[18px] flex items-center justify-start rtl:space-x-reverse space-x-[36px]"
     >
       <div>
         <button
           class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
           @click="$router.push(localePath('/add-site'))"
         >
-          {{$t('Add New Site')}}
+          {{ $t("Add New Site") }}
         </button>
       </div>
       <div>
-        <button
+        <button @click="$router.push(localePath('/packages'))"
           class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500]"
         >
-          {{ $t('Upgrade Plans') }}
+          {{ $t("Upgrade Plans") }}
         </button>
       </div>
     </div>
 
-    <div v-if="!getSitesLoading"
-      class=" ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] 
-      items-center lg:flex-row flex-col justify-center lg:justify-start"
+    <div
+      v-if="!getSitesLoading"
+      class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px]
+       items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]" 
     >
       <div
         class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full
-         bg-white dark:bg-tamkinDarkPrimary lg:w-[73%] 2xl:w-[75%] md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
+         bg-white dark:bg-tamkinDarkPrimary md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
         <div class="w-full space-y-[16px]">
@@ -265,128 +406,188 @@ const paginatedFilteredAppList = computed(() => {
             <h1
               class="font-[500] text-[16px] leading-[20px] text-darkGrey dark:text-whiteTamkin/90"
             >
-             {{$t('Select your default site')}}
+              {{ $t("Select your default site") }}
             </h1>
           </div>
 
-          <div class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between">
+          <div
+            class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between"
+          >
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]" />
+  
+              <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]" 
+               v-if="defaultApp?.title === 'Internal Service' && !getSitesLoading"/>
+             
+         
+              <div v-if="!getSitesLoading && !defaultApp?.favicon &&  defaultApp?.title !== 'Internal Service'  " 
+              class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
+
+                {{ defaultApp?.title ? getAvatarLetters(defaultApp?.title) :''}}
+              </div>
+              <div v-if="!getSitesLoading && defaultApp?.favicon &&  defaultApp?.title !== 'Internal Service' " > 
+                <img v-if="defaultApp.favicon"
+                :src=" defaultApp.favicon"
+                class="w-[40px] h-[40px] object-cover ipad-max:hidden lg:block hidden"
+              />
+               
+              </div>
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                    {{ defaultApp?.title }}
+                    {{ defaultApp?.app_domain || defaultApp?.title }}
                   </h2>
                 </div>
                 <div>
-                  <a
-                    href=""
-                    target="_blank"
+               
+                  <a 
+                  :class="[defaultApp?.title === 'Internal Service' ? '!text-darkGrey/40 cursor-not-allowed' : '']"
+                    :href="defaultApp?.title === 'Internal Service' ? '#':defaultApp ? formatToUrl(defaultApp.app_domain) : ''"
+                    :target="defaultApp?.title === 'Internal Service' ? '':'_blank'"
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
-                    >{{ $t('Visit Site') }}
-                    <img
-                      src="/assets/imgs/icons/external_link.svg"
-                      class="ltr:ml-[14px] rtl:mr-[14px]"
-                  /></a>
+                    >{{ $t("Visit Site") }}
+                    <svg data-slot="icon" class="size-6 ltr:ml-[14px] rtl:mr-[14px]" fill="none" stroke-width="1.5"
+                    :class="[defaultApp?.title === 'Internal Service' ? '!text-darkGrey/40 cursor-not-allowed' : '!text-tamkinStart']"
+                     stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                    </svg></a>
                 </div>
               </div>
             </div>
             <div>
               <button
-                @click="openModal('selectSite','my-site')"
+                @click="openModal('selectSite', 'my-site')"
                 class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
               >
-                {{$t('Select Site')}}
+                {{ $t("Select Site") }}
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="getSitesLoading"  class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
-      ltr:right-0 top-[100px] md:top-[60px] lg:top-[80px] ipad-max:w-1/4">
- 
     
-       <div class="w-[300px] h-[200px] lg:h-[200px]  md:h-[150px] lg:block hidden md:block animate-pulse bg-gray-200 rounded-md">
-        
+      <div   style="box-shadow: 0px 4px 24px 8px #51459f1a" class="relative h-[129px] w-full
+       bg-white rounded-[10px] flex items-center justify-start">
+<div class="flex flex-col space-y-[4px] items-start justify-center p-[16px]">
+<div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px]  to-white
+  flex items-center justify-start space-x-6">
+<div class="text-[14px] font-[500] leading-[21px] ">
+  My Sites
+</div>
+<div class="text-[14px] font-[500] leading-[21px] absolute left-24">
+  {{apps.length}}
+</div>
+</div>
 
-       </div>
-       
-     </div>
-      <div v-else
-        class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1]
-        ltr:right-0  top-[119px] md:top-[60px] lg:top-[50px] ipad-max:w-1/4 "
-      >
-        <Vue3Lottie
-          :animationData="mysiteAnimation"
-          class="absolute left-[25%] top-[125px] lg:top-[125px] lg:left-[25%] md:top-[55px] md:left-[20%]"
-          :height="32"
-          :width="39"
-        />
-        <img src="/assets/imgs/man_mysite.svg " class="h-[300px] lg:h-[300px] md:h-[150px] lg:block hidden md:block" />
+<div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#A3F0EA] px-[10px] py-[4.5px] relative  to-white
+  flex items-center justify-start space-x-6">
+<div class="text-[14px] font-[500] leading-[21px] ">
+  Active
+</div>
+<div class="text-[14px] font-[500] leading-[21px] absolute left-24">
+  {{apps.filter(el=>el.status !== 'draft' && el.status !=='deleted').length}}
+</div>
+</div>
+<div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] px-[10px] py-[4.5px] relative to-white
+  flex items-center justify-start space-x-6">
+<div class="text-[14px] font-[500] leading-[21px] ">
+  Not installed
+</div>
+<div class="text-[14px] font-[500] leading-[21px] absolute left-24 ">
+  {{apps.filter(el=>el.status === 'not_installed' &&el.status !=='deleted').length}}
+</div>
+</div>
+</div>
+<div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
+  <img src="/imgs/mysite.svg" alt="" class="h-full w-[210px] rtl:scale-x-[-1]" />
+</div>
       </div>
-   
-      
     </div>
-    <div v-else class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col
-     justify-center lg:justify-start">
+   <div  v-if="getSitesLoading" class=" ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px]
+       items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]">
   
       <!-- Placeholder Container -->
-      <div class="flex items-center lg:flex-row flex-col justify-start px-[16px] py-[23px] w-full bg-white dark:bg-gray-700 lg:w-[73%] 2xl:w-[75%] md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]" style="box-shadow: 0px 4px 24px 8px #51459f1a">
-        
+      <div
+        class="flex  animate-pulse items-center lg:flex-row flex-col justify-start 
+        px-[16px] py-[23px] bg-white dark:bg-gray-700 w-full md:h-[170px] h-[150px] lg:h-[129px] rounded-[10px]"
+        style="box-shadow: 0px 4px 24px 8px #51459f1a"
+      >
         <!-- Placeholder Content -->
         <div class="w-full space-y-[16px]">
-          
           <!-- Header Placeholder -->
           <div class="bg-gray-300 h-[20px] rounded-md">
             <!-- Placeholder for Title -->
           </div>
-          
+
           <!-- Body Content Placeholder -->
-          <div class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between">
-            
+          <div
+            class="flex flex-col lg:flex-row items-start lg:space-y-0 space-y-[10px] lg:items-center justify-between"
+          >
             <!-- Placeholder for Image and Text -->
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+            >
               <div class="w-[40px] h-[20px] bg-gray-300 rounded-md"></div>
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <div class="w-[100px] h-[14px] bg-gray-300 rounded-md"></div>
                 <div class="w-[120px] h-[14px] bg-gray-300 rounded-md"></div>
               </div>
             </div>
-            
+
             <!-- Placeholder for Button -->
             <div>
               <div class="w-[100px] h-[30px] bg-gray-300 rounded-md"></div>
             </div>
-            
           </div>
-          
+        </div>
+      </div>
+
+
+
+    <div style="box-shadow: 0px 4px 24px 8px #51459f1a" class="relative h-[129px] w-full bg-white 
+    rounded-[10px] flex items-center justify-start animate-pulse ">
+      <div class="flex flex-col space-y-[4px] items-start justify-center p-[16px]">
+        
+        <!-- Placeholder for "My Sites" -->
+        <div class="h-[30px] w-full  relative py-[4.5px] to-white flex items-center justify-start  space-x-6">
+          <div class="h-[21px] w-full bg-gray-200 rounded"></div> <!-- Placeholder for text -->
+          <div class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"></div> <!-- Placeholder for number -->
         </div>
         
-      </div>
-      
-      <!-- Placeholder for Animation and Image -->
-      <div class="rtl:mr-auto ltr:ml-auto absolute rtl:left-0 rtl:transform rtl:scale-x-[-1] ltr:right-0 top-[119px] md:top-[60px] lg:top-[50px] ipad-max:w-1/4">
-        <div class="absolute left-[25%] top-[125px] lg:top-[125px] lg:left-[25%] md:top-[55px] md:left-[20%] w-[39px] h-[32px] bg-gray-300 rounded-md">
-          <!-- Placeholder for Animation -->
+        <!-- Placeholder for "Active" -->
+        <div class="h-[30px] w-full  relative py-[4.5px] to-white flex items-center justify-start space-x-6">
+          <div class="h-[21px] w-full bg-gray-200 rounded"></div> <!-- Placeholder for text -->
+          <div class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"></div> <!-- Placeholder for number -->
         </div>
-        <div class="h-[300px] lg:h-[300px] md:h-[150px] lg:block hidden md:block bg-gray-300 rounded-md">
-          <!-- Placeholder for Image -->
+    
+        <!-- Placeholder for "Not installed" -->
+        <div class="h-[30px] w-full  relative py-[4.5px] to-white flex items-center justify-start space-x-6">
+          <div class="h-[21px] w-[100px] bg-gray-200 rounded"></div> <!-- Placeholder for text -->
+          <div class="h-[21px] w-[30px] bg-gray-200 rounded absolute rtl:right-28 ltr:left-24"></div> <!-- Placeholder for number -->
         </div>
       </div>
-      
+    
+      <!-- Placeholder for image -->
+      <div class="absolute top-0 right-[-26px]">
+        <div class="h-full w-[210px] bg-gray-200 rounded"></div>
+      </div>
     </div>
     
-    <section class="w-full mx-auto mt-[24px] ">
-      <div class="flex flex-col" v-if="dataAvailable && !getSitesLoading"  >
-        <div class="overflow-x-auto ">
-          <div class="inline-block min-w-full align-middle ">
+   </div>
+   
+ 
+
+
+    <section class="w-full mx-auto mt-[24px]">
+      <div class="flex flex-col" v-if="dataAvailable && !getSitesLoading">
+        <div class="overflow-x-auto">
+          <div class="inline-block min-w-full align-middle">
             <div
-              class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
+              class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
               <div class="flex items-start justify-start lg:justify-between flex-row">
@@ -406,11 +607,11 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
-                      {{$t('My Sites')}} ( {{ notDeletedAppListLength }} )
+                      {{ $t("My Sites") }} ( {{ notDeletedAppListLength }} )
                     </div>
                   </div>
                   <div
-                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px]  cursor-pointer"
+                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] cursor-pointer"
                     @click="switchTab('deleted')"
                   >
                     <div
@@ -422,68 +623,86 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
                       style="line-height: 21px"
                     >
-                      {{$t('Deleted Sites')}} ( {{ deletedAppListLength }} )
+                      {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
                     </div>
                   </div>
                 </div>
-                <div class="flex items-center justify-between lg:w-auto w-full">
-                  <div class="py-[17px] search_input w-full lg:ltr:mr-[16px] lg:rtl:ml-[16px]">
-                    <input
-                      type="text"
-                      class="input_dashboard_search w-full lg:w-[289px]"
-                      v-model="search"
-                      :placeholder="`${$t('Search')} ...`" 
-                    />
-                    <div
-                      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                    >
-                      <img src="/assets/imgs/icons/search.svg" />
-                    </div>
-                    <div
-                      v-if="isSearchfilled"
-                      @click="clearInput"
-                      class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
-                    >
-                      <img src="/assets/imgs/icons/clear_search.svg" />
-                    </div>
+             <div class="flex items-center justify-end w-2/4 pr-[17px]">
+              <div class="flex items-center justify-between w-full ">
+                <div
+                  class="py-[17px] search_input w-full lg:ltr:mr-[16px] lg:rtl:ml-[16px]"
+                >
+                  <input
+                    type="text"
+                    class="input_dashboard_search w-full !h-[40px]"
+                    v-model="search"
+                    :placeholder="`${$t('Search')} ...`"
+                  />
+                  <div
+                    class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                  >
+                    <img src="/assets/imgs/icons/search.svg" />
+                  </div>
+                  <div
+                    v-if="isSearchfilled"
+                    @click="clearInput"
+                    class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+                  >
+                    <img src="/assets/imgs/icons/clear_search.svg" />
                   </div>
                 </div>
+           
+              </div>
+              <!-- <div class="flex items-center w-full py-[17px] ">
+                <TranslateSelectInput
+                @getCurrentSelectedItem="getPackType"
+                :enableSearch="false"
+                placeholderinput="Package type"
+                :list="typesOfPackages"
+                nameKey="name"
+                idField="id"
+             class="w-full"
+                :currentListValue="pcktype.name"
+              />
+              </div> -->
+             </div>
               </div>
               <table
-                  v-loading="getSitesLoading"
-                class="table-auto  divide-y divide-gray-200 dark:divide-darkborder"
+                v-loading="getSitesLoading"
+                class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
                 v-if="currentTab === 'saved' && paginatedFilteredAppList.length > 0"
               >
                 <thead>
                   <tr class="h-[50px]">
                     <th
-                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] 
-                      ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                      class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      {{$t('Sites URL')}}
-                    </th>
-                    <th
-                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right   lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
-                    >
-                      {{$t('Billing')}}
+                      {{ $t("Sites URL") }}
                     </th>
                     <th
                       class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      {{ $t('Package') }}
+                      {{ $t("Billing") }}
+                    </th>
+                    <th
+                      class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                    >
+                      {{ $t("Package") }}
                     </th>
                     <th>
                       <div
-                        class=" lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse 
-                        space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px]
-                         text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="lg:px-0 px-[100px] w-full flex items-center justify-start rtl:space-x-reverse space-x-[6px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
-                        <div>{{$t('Status')}}</div>
+                        <div>{{ $t("Status") }}</div>
                         <div>
                           <span
                             class="tooltip left"
                             id="saveButton"
-                            :title="$t('The status shows the code is installed, embedded, and services are now visible and operational')"
+                            :data-tamkin="
+                              $t(
+                                'The status shows the code is installed, embedded, and services are now visible and operational'
+                              )
+                            "
                           >
                             <span id="saveButton_label" class="">
                               <svg
@@ -506,21 +725,25 @@ const paginatedFilteredAppList = computed(() => {
                     </th>
 
                     <th
-                      class=" ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class="ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{$t('Date')}}
+                      {{ $t("Date") }}
                     </th>
 
                     <th>
                       <div
-                        class="flex items-center lg:px-0 px-[100px] justify-center   rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="flex items-center lg:px-0 px-[100px] justify-center rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                       >
-                        <div>{{$t('Traffic')}}</div>
+                        <div>{{ $t("Traffic") }}</div>
                         <div>
                           <span
                             class="tooltip right"
                             id="saveButton"
-                            :title="$t('Monthly page views: The value indicates either the peak month or annual average')"
+                            :data-tamkin="
+                              $t(
+                                'Monthly page views: The value indicates either the peak month or annual average'
+                              )
+                            "
                           >
                             <span id="saveButton_label" class="">
                               <svg
@@ -542,251 +765,375 @@ const paginatedFilteredAppList = computed(() => {
                       </div>
                     </th>
                     <th
-                      class="lg:px-0 px-[100px] text-center lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class=" lg:text-[14px] 
+                      font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ $t('Action') }}
+                      {{ $t("Action") }}
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200">
-                  <tr v-for="(app, index) in paginatedFilteredAppList" :key="index" class="h-[50px]">
-                    <td class="w-[25%] ">
-                      <div
-                        class="h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px]
-                         ipad-max:space-x-[10px] lg:space-x-[16px]
-                        ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey
-                          dark:text-whiteTamkin"
-                      >
-                        <a href="#" class="gap-3 h-[50px] flex items-center justify-start">
-                          <img
-                              src="/assets/imgs/icons/avatar_table.svg"
-                              class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden"
-                          />
-                          <div class="order-1"> {{ app.title }} </div>
-                        </a>
-                        <div
-                            v-if="defaultApp.name === app.name"
-                          class="order-1 flex items-center justify-center
-                           text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                          style="
-                            background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                          "
-                        >
-                          {{ $t('Default') }}
-                        </div>
-                      </div>
-                    </td>
-                    <td
-                      class="capitalize lg:px-0 px-[100px]   text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                    >
-                      {{ $t(app.billing_duration) }}
-                    </td>
-                    <td
-                      class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px]
-                       font-[400] text-darkGrey dark:text-whiteTamkin"
-                    >
-                    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
-                      <div class="w-[20px] h-[20px]">
-                        <img
-                          src="/assets/imgs/overview/prem_plan.svg"
-                          class="w-[20px] h-[20px]"
-                          alt=""
-                        />
-                      </div>
-                      <div>{{$t('Premium')}}</div>
-                    </div>
-                    </td>
+                <tbody
+                  class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
+                >
+    <template
+    
+    v-for="(app, index) in paginatedFilteredAppList"
+    :key="index">
+      <tr
+ 
+      class="h-[50px] "
+      :class="[app.status === 'not_installed' ? 'bg-[#FAEBEB]':'']"
+    >
+      <td class="w-[25%]">
+        <div
+          class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
+          ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        >
+          <a
+            href="#"
+            class="gap-3 h-[50px] flex items-center justify-start"
+          >
+          <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
+            <img 
+            :src="app.favicon"
+            class="w-auto h-auto ipad-max:hidden lg:block hidden"
+          />
+          </div>
+            <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+            text-white flex items-center justify-center text-[12px]"> 
+<div class="flex items-center justify-center">
+{{ getAvatarLetters(app?.title) }}
+</div>
+</div>
+<button  v-if="app.package.length > 1" @click.prevent="()=>{
+  selectedApp = selectedApp === app ? null : app;
 
-                    <td
+}"
+class="absolute right-14 order-2 disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+>
+<svg :class="selectedApp === app ? 'rotate-180' : ''"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+stroke="currentColor" class="size-4">
+<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+</svg>
 
-                      class="  lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
-                    >
-                      <div
-                          v-if="app.status === 'active'"
-                        style="
-                          background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                        "
-                        class="rounded-[17px] border-[1px] flex items-center justify-center
-                         border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-                      >
-                        {{ $t('Active') }}
-                      </div>
-                      <div
-                          v-if="app.status === 'draft'"
-                          style="
-                          background: linear-gradient(#ffda10 0%, #FF5722 100%);
-                        "
-                          class="rounded-[17px] border-[1px] flex items-center justify-center
-                         border-[#ffda10] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-                      >
-                        {{ $t('Draft') }}
-                      </div>
-                    </td>
 
-                    <td
-                      class="  ltr:text-left 
-                      rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey
-                       dark:text-whiteTamkin"
-                    >
-                      {{ new Date(app.creation).toDateString() }}
-                    </td>
+</button> 
 
-                    <td
-                      class=" text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                    >
-                      {{ formatNumber(app.traffic) }}
-                    </td>
+            <div class="order-1">{{ app.app_domain }}</div>
+           
+          </a>
+          <div
+            v-if="defaultApp.name === app.name"
+            class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+            style="
+              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+            "
+          >
+            {{ $t("Default") }}
+          </div>
+        </div>
+      </td>
+   
+      <td
+        class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ $t(`${app.billing_duration === '3-monthly' ? '3 Months' :app.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
+      </td>
+      <td
+        class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        <div
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+        >
+          <div class="w-[20px] h-[20px]">
+    
+            <img
+              :src="runtimeConfig.public.baseImagerUrl + (app.package[0] ? app.package[0].icon : '/')"
+              class="w-[20px] h-[20px]"
+              alt=""
+            />
+          </div>
+          <div>{{ $t(`${app.package[0].title}`) }}</div>
+        </div>
+      </td>
 
-                    <td
-                      class="text-[14px] font-[400] text-darkGrey rtl:pr-[38px] mr-[0%]"
-                    >
-                      <div
-                        class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] ml-auto"
-                      >
-<!--                        <div class="hover:opacity-50">-->
-<!--                          <img src="/assets/imgs/installed.svg" />-->
-<!--                        </div>-->
-                        <button @click="openDeleteMember(app.name)">
-                          <svg
-                            width="18"
-                            height="17"
-                            rviewBox="0 0 18 17"
-                            class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                              fill="currentColor"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+      <td
+        class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+      >
+      <!-- {{app}} -->
+        <div
+          v-if="app.status === 'active'"
+          style="
+            background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+          "
+          class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+        >
+          {{ $t("Active") }}
+        </div>
+        <div
+          v-if="app.status === 'draft'"
+          style="background: linear-gradient(#ffda10 0%, #ff5722 100%)"
+          class="rounded-[17px] border-[1px] flex items-center justify-center border-[#ffda10]
+           h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+        >
+          {{ $t("Draft") }}
+        </div>
+        <div
+        v-if="app.status === 'not_installed'"
+        class="text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  "
+      >
+        {{ $t("Not installed") }}
+      </div>
+      </td>
 
-                  <!-- <tr class="bg-[#FAEBEB] h-[50px]">
-                    <td class="w-[25%]">
-                      <div
-                        class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[4px] lg:space-x-[16px]
-                         lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey
-                          "
-                      >
-                        <img
-                          src="/assets/imgs/icons/avatar_table.svg"
-                          class="w-[20px] h-[20px] lg:block hidden"
-                        />
-                        <div class="order-1">Tamkin.App</div>
-                        <div
-                          class="order-1 flex items-center justify-center
-                           text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
-                          style="
-                            background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-                          "
-                        >
-                          Default
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey lg:px-0 px-[100px] ">_</td>
-                    <td class="text-left text-[14px] font-[400] text-darkGrey lg:px-0 px-[100px] ">
-                      <div class="flex items-center justify-start space-x-[10px]">
-                        <div class="w-[20px] h-[20px]">
-                          <img
-                            src="/assets/imgs/overview/prem_plan.svg"
-                            class="w-[20px] h-[20px]"
-                            alt=""
-                          />
-                        </div>
-                        <div>Premium</div>
-                      </div>
-                    </td>
+      <td
+        class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ new Date(app.creation).toDateString() }}
+      </td>
 
-                    <td class="text-darkGrey ltr:text-left rtl:text-right lg:px-0 px-[100px] ">
-                      <div class="text-[14px] font-[500] leading-[21px] text-[#DE4134] whitespace-nowrap">
-                        Not installed
-                      </div>
-                    </td>
+      <td
+        class="text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ formatNumber(app.traffic) }}
+      </td>
 
-                    <td class="text-[14px] leading-[21px] font-[400] text-darkGrey whitespace-nowrap">
-                      May 11 ,2024
-                    </td>
+      <td
+        class="text-[14px] font-[400] text-darkGrey "
+      >
+        <div
+          class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
+        >
+                           
+        <button  :disabled="app.billing_duration === 'yearly' || loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)"
+         class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+          @click="getPackageAndOpenPaymenModal(app,app.package[0].name)">
+          <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)"/>
+          
+  <svg v-if="loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+  fill="none" viewBox="0 0 24 24">
+  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+  <path class="opacity-75" fill="currentColor"
+    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+  </path>
+</svg>
+             </button>
+             
+                        
+          <button @click="openDeleteMember(app)">
+            <svg
+              width="18"
+              height="17"
+              rviewBox="0 0 18 17"
+              class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      </td>
 
-                    <td
-                      class="  w-full text-center pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey"
-                    >
-                      8.35K
-                    </td>
+  
+    </tr>
+   
+  
+    <template v-if="selectedApp && selectedApp.name === app.name">
+      <tr
+   
+ v-for="(pack,i) in selectedApp.package.slice(1)" :key='i'
+       class="h-[50px] "
+     >
+       <td class="w-[25%]">
+         <div
+           class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
+           ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+         >
+           <a
+             href="#"
+             class="gap-3 h-[50px] flex items-center justify-start"
+           >
+           <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
+             <img 
+             :src="selectedApp.favicon"
+             class="w-auto h-auto ipad-max:hidden lg:block hidden"
+           />
+           </div>
+             <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+             text-white flex items-center justify-center text-[12px]"> 
+   <div class="flex items-center justify-center">
+   {{ getAvatarLetters(selectedApp?.title) }}
+   </div>
+   </div>
+   
+   
+             <div class="order-1">{{ selectedApp.app_domain }}</div>
+            
+           </a>
+        
+         </div>
+       </td>
+    
+       <td
+         class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+       >
+       {{ $t(`${selectedApp.billing_duration === '3-monthly' ? '3 Months' :selectedApp.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
+       </td>
+       <td
+         class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+       >
+         <div
+           class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+         >
+           <div class="w-[20px] h-[20px]">
+     
+             <img
+               :src="runtimeConfig.public.baseImagerUrl + (pack.icon)"
+               class="w-[20px] h-[20px]"
+               alt=""
+             />
+           </div>
+           <div>{{pack.title}}</div>
+         </div>
+       </td>
+   
+       <td
+         class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+       >
+       <!-- {{app}} -->
+         <div
+           v-if="app.status === 'active'"
+           style="
+             background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+           "
+           class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+         >
+           {{ $t("Active") }}
+         </div>
+         <div
+           v-if="app.status === 'draft'"
+           style="background: linear-gradient(#ffda10 0%, #ff5722 100%)"
+           class="rounded-[17px] border-[1px] flex items-center justify-center border-[#ffda10]
+            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+         >
+           {{ $t("Draft") }}
+         </div>
+         <div
+         v-if="app.status === 'not_installed'"
+         class="text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  "
+       >
+         {{ $t("Not installed") }}
+       </div>
+       </td>
+   
+       <td
+         class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+       >
+         {{ new Date(app.creation).toDateString() }}
+       </td>
+   
+       <td
+         class="text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+       >
+         {{ formatNumber(app.traffic) }}
+       </td>
+   
+       <td
+         class="text-[14px] font-[400] text-darkGrey "
+       >
+         <div
+           class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
+         >
+         <button  :disabled="app.billing_duration === 'yearly' ||loadingPackage.find(a=>a.pack === pack.name && a.app === app)"
+          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+           @click="getPackageAndOpenPaymenModal(app,pack.name)">
+           <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === pack.name && a.app === app)"/>
+           
+   <svg v-if="loadingPackage.find(a=>a.pack === pack.name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+   fill="none" viewBox="0 0 24 24">
+   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+   <path class="opacity-75" fill="currentColor"
+     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+   </path>
+   </svg>
+              </button>
+              
+                         
+           <button @click="openDeleteMember(app)">
+             <svg
+               width="18"
+               height="17"
+               rviewBox="0 0 18 17"
+               class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg"
+             >
+               <path
+                 d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                 fill="currentColor"
+               />
+             </svg>
+           </button>
+         </div>
+       </td>
+   
+   
+     </tr>
+    </template>
 
-                    <td class="text-[14px] font-[400] text-darkGrey">
-                      <div
-                        class="flex items-center justify-center rtl:space-x-reverse space-x-[10px]"
-                      >
-                        <div class="hover:opacity-50">
-                          <img src="/assets/imgs/install.svg" />
-                        </div>
-                        <div>
-                          <svg
-                            width="18"
-                            height="17"
-                            viewBox="0 0 18 17"
-                            class="text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
-                              fill="currentColor"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </td>
-                  </tr> -->
+    
+
+    </template>
+
                 </tbody>
               </table>
 
               <table
-                  v-loading="getSitesLoading"
+                v-loading="getSitesLoading"
                 class="min-w-full divide-y divide-gray-200 dark:divide-darkborder"
-                v-else-if="currentTab === 'deleted' && paginatedFilteredAppList.length > 0"
+                v-else-if="
+                  currentTab === 'deleted' && paginatedFilteredAppList.length > 0
+                "
               >
                 <thead>
                   <tr class="h-[50px]">
                     <th
                       class="px-4 h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
                     >
-                      {{ $t('Sites URL') }}
+                      {{ $t("Sites URL") }}
                     </th>
 
-                    <!-- <th
-                                            class="h-[50px] pr-[18px] text-right text-[15px] leading-[22.5px] font-[600] text-darkGrey flex items-center justify-end rtl:space-x-reverse space-x-[10px]">
-                                            <div class="">Restore All</div>
-                                            <div>
-                                                <input type="checkbox" id="checkbox" class="peer sr-only m-auto"
-                                                    v-model="checkAll" />
-                                                <label for="checkbox"
-                                                    class="relative block border-[1px] w-[18px] h-[18px]
-                                                     border-lightGrey bg-whiteTamkin rounded-[4px] peer-checked:border-0 peer-checked:bg-gradient-checked">
-                                                    <svg class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                                    </svg>
-                                                </label>
-                                            </div>
-                                        </th> -->
+           
                   </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder">
-                  <tr  v-for="(app, index) in paginatedFilteredAppList" :key="index" class="h-[50px]">
+                <tbody
+                  class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder"
+                >
+                  <tr
+                    v-for="(app, index) in paginatedFilteredAppList"
+                    :key="index"
+                    class="h-[50px]"
+                  >
                     <td
-                      class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] 
-                      rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                      class="flex h-[50px] items-center justify-start rtl:space-x-reverse space-x-[10px] ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
-                      <img src="/assets/imgs/app.svg" class="h-[20px] w-[20px]" />
+                    <img v-if="app.favicon"
+                    :src="app.favicon"
+                    class="w-[20px] h-[20px] object-cover ipad-max:hidden lg:block hidden"
+                  />
+                  <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+                  text-white flex items-center justify-center text-[12px]"> 
+                        <div class="flex items-center justify-center">
+                          {{ getAvatarLetters(app?.title) }}
+                        </div>
+                      </div>
+
                       <div class="order-1">
-                        {{ app.title }}
+                        {{ app.app_domain }}
                       </div>
                     </td>
 
@@ -794,87 +1141,137 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] ltr:pr-[16px] rtl:pl-[16px] font-[400] dark:text-whiteTamkin text-darkGrey"
                     >
                       <button
-                          @click="openRestoreApp(app.name)"
+                        @click="openRestoreApp(app)"
                         class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center"
                       >
-                        {{ $t('Restore') }}
+                        {{ $t("Restore") }}
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <noresult class="!my-[30px]" v-loading="getSitesLoading" v-if="currentTab === 'saved' &&
-               paginatedFilteredAppList.length=== 0 && appList.length !== 0 ||
-                currentTab === 'deleted' && search && paginatedFilteredAppList.length === 0 &&  appList.length !== 0" />
-
-              <NoData class="!mt-[30px] !mb-[-30px]"
-               v-loading="getSitesLoading" v-if="currentTab === 'deleted' && paginatedFilteredAppList.length === 0 && 
-               !search" 
-              imgUrl="/assets/imgs/my-sites-no-data.svg" :text="$t('No sites have been deleted')" >
-                <template #button>
-                </template>
-              </NoData>
-
-              <NoData v-loading="getSitesLoading" 
-              v-if="currentTab === 'saved' && paginatedFilteredAppList.length=== 0 && !search && appList.length === 0 "
+              <noresult
+                class="!my-[30px]"
+                v-if="
+            
+                  search &&
+                  paginatedFilteredAppList.length === 0 
+              "
               
-              imgUrl="/assets/imgs/my-sites-no-data.svg" text="You don't have any sites now" >
-                <template #button>
-                  <NuxtLink to="/add-site" class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]">
-                    {{$t('Add New Site')}}</NuxtLink>
-                </template>
+              />
+
+              <NoData
+                class="!mt-[30px] !mb-[-30px]"
+                v-loading="getSitesLoading"
+                v-if="
+                  currentTab === 'deleted' &&
+                  paginatedFilteredAppList.length === 0 &&
+                  !search
+                "
+                imgUrl="/assets/imgs/no_sites.svg"
+                :text="$t('No sites have been deleted')"
+              >
+              
               </NoData>
 
+              <NoData
+                    class="!mt-[30px] !mb-[-30px]"
+                v-loading="getSitesLoading"
+                v-if="
+                  currentTab === 'saved' &&
+                  paginatedFilteredAppList.length === 0 &&
+                  !search &&
+                  appList.length === 0
+                "
+              
+                imgUrl="/assets/imgs/no_sites.svg"
+                text="You don't have any sites now"
+              >
+                
+                  <button
+                    @click="$router.push({path:localePath('/add-site')})"
+                    class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
+                  >
+                    {{ $t("Add New Site") }}</button
+                  >
+               
+              </NoData>
             </div>
           </div>
         </div>
       </div>
       <div
-      class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary "
-      style="box-shadow: 0px 4px 24px 8px #51459f1a" v-if="getSitesLoading"
-    >
-      <div class="relative overflow-x-auto w-full" >
-        <table class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
-          <thead>
-            <tr>
-              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]">
-                <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </th>
-              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </th>
-              <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </th>
-              <th class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
-            <tr v-for="index in 2" :key="index">
-              <td                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
-                  <div class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse" ></div>
+        class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
+        style="box-shadow: 0px 4px 24px 8px #51459f1a"
+        v-if="getSitesLoading"
+      >
+        <div class="relative overflow-x-auto w-full">
+          <table
+            class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
+                >
+                  <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
                   <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-                </div>
-              </td>
-              <td class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse "></div>
-              </td>
-              <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </td>
-              <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                </th>
+                <th
+                  class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full"
+            >
+              <tr v-for="index in 2" :key="index">
+                <td
+                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                  >
+                    <div
+                      class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+                    ></div>
+                    <div
+                      class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    ></div>
+                  </div>
+                </td>
+                <td
+                  class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </td>
+                <td
+                  class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </td>
+                <td
+                  class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
-      <div class="flex flex-col " v-if="!dataAvailable && !getSitesLoading">
+      <div class="flex flex-col" v-if="!dataAvailable && !getSitesLoading">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
@@ -891,7 +1288,7 @@ const paginatedFilteredAppList = computed(() => {
                       class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600] pb-[16px] text-[#021328]"
                       style="line-height: 21px"
                     >
-                      {{ $t('My Sites') }}
+                      {{ $t("My Sites") }}
                     </div>
                   </div>
                 </div>
@@ -903,10 +1300,11 @@ const paginatedFilteredAppList = computed(() => {
                       type="text"
                       class="input_dashboard_search w-full"
                       v-model="search"
-                      :placeholder="`${$t('Search')} ...`" 
+                      :placeholder="`${$t('Search')} ...`"
                     />
                     <div
-                      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
+                      class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] 
+                      ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
                     >
                       <img src="/assets/imgs/icons/search.svg" />
                     </div>
@@ -932,10 +1330,10 @@ const paginatedFilteredAppList = computed(() => {
                       </h2>
                       <div class="w-[140px] mt-[40px] mx-auto">
                         <button
-                          @click="modalStore.controlSelectSiteModal"
+                         @click="$router.push({path:localePath('/add-site')})"
                           class="btn-dashboard hover_tamkin text-[16px] mx-auto leading-[24px] font-[500]"
                         >
-                          {{ $t('Add New Site') }}
+                          {{ $t("Add New Site") }}
                         </button>
                       </div>
                     </div>
@@ -946,20 +1344,26 @@ const paginatedFilteredAppList = computed(() => {
           </div>
         </div>
       </div>
-    
-      
-      
-     
-      <div class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]" v-if="paginatedFilteredAppList.length > 0">
+
+      <div
+        class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]"
+        v-if="paginatedFilteredAppList.length > 0"
+      >
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
-          <span class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]">
-           {{ $t('Per Page') }}
+          <span
+            class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
+          >
+            {{ $t("Per Page") }}
           </span>
           <div class="flex space-x-2 rtl:space-x-reverse">
             <button
               v-for="option in perPageOptions"
               :key="option"
-              :style="perPage === option ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :style="
+                perPage === option
+                  ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
+                  : ''
+              "
               :class="[
                 'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
@@ -971,8 +1375,10 @@ const paginatedFilteredAppList = computed(() => {
           </div>
         </div>
         <div class="flex items-center rtl:space-x-reverse space-x-2">
-          <span class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]">
-            {{$t('Page')}}
+          <span
+            class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
+          >
+            {{ $t("Page") }}
           </span>
           <button
             @click="prevPage"
@@ -984,7 +1390,6 @@ const paginatedFilteredAppList = computed(() => {
               height="20"
               viewBox="0 0 20 20"
               class="rtl:rotate-180"
-
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -1000,7 +1405,11 @@ const paginatedFilteredAppList = computed(() => {
             <button
               v-for="page in visiblePages"
               :key="page"
-              :style="currentPage === page ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);' : ''"
+              :style="
+                currentPage === page
+                  ? 'background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);'
+                  : ''
+              "
               :class="[
                 'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
@@ -1033,7 +1442,6 @@ const paginatedFilteredAppList = computed(() => {
           </button>
         </div>
       </div>
-      
     </section>
   </div>
 </template>

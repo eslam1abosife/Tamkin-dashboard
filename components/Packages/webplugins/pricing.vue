@@ -14,7 +14,11 @@ function getDayLabel(number) {
 }
 const openBuyModal = (pck)=>{
   packagesStore.currentPackage = pck
+  packagesStore.currentWebsite = ''
+  packagesStore.openedCurrentSite = false
+
   openModal('add_package_modal_packages')
+
 }
 </script>
 

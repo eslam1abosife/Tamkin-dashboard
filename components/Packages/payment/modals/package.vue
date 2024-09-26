@@ -4,19 +4,32 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { helpers } from "@vuelidate/validators";
 import Multiselect from "vue-multiselect";
 import { useGetAppInvites } from "@/composables/useTeam";
-import { useCheckifSiteblocked, useGetTraffic,useGetPriceByTraffic } from "@/composables/usePackages";
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
+import {
+  useCheckifSiteblocked,
+  useGetTraffic,
+  useGetPriceByTraffic,
+} from "@/composables/usePackages";
 const { locale } = useI18n();
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
 const packagesStore = usePackgesStore();
-const {getPriceByTraffic} = useGetPriceByTraffic()
-const loadingPriceTraffic = ref(false)
+const { getPriceByTraffic } = useGetPriceByTraffic();
+const loadingPriceTraffic = ref(false);
 function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
 const { getTraffic } = useGetTraffic();
 
-const domainRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}$/;
+const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 const listOfApps = computed(() => {
   // Check if category is 'Plugins' and the current type is 'Sign language'
   if (
@@ -60,8 +73,34 @@ const webs = ref([]);
 const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
-const selectedPackage = ref(packagesStore.currentPackage.trial_days > 0 ? 0 : 3);
+const selectedPackage = ref(
+  packagesStore.currentPackage.trial_days > 0 && !packagesStore.openedCurrentSite
+    ? 0
+    : packagesStore.discountType === "month" && !packagesStore.openedCurrentSite
+    ? 3
+    : packagesStore.openedCurrentSite
+    ? packagesStore.currentWebsite.billing_duration === "monthly"
+      ? 3
+      : packagesStore.currentWebsite.billing_duration === "3-monthly"
+      ? 1
+      : packagesStore.currentWebsite.billing_duration === "yearly"
+      ? 0
+      : 12 // default if billing_duration doesn't match the expected values
+    : 12 // default if openedCurrentSite doesn't exist
+);
+
+
+const selectedPackageWebsite = ref(
+  packagesStore.openedCurrentSite.billing_duration === "monthy"
+    ? 3
+    : packagesStore.openedCurrentSite.billing_duration === "yearly"
+    ? 12
+    : 1
+);
 const selectPackage = (plan: any) => {
+  selectedPackage.value = plan;
+};
+const selectPackageWeb = (plan: any) => {
   selectedPackage.value = plan;
 };
 const props = defineProps({
@@ -76,12 +115,15 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const currentWebsite = ref("");
+const openedCurrentSite = ref("");
 const levelof = ref(packagesStore.traffic_level);
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
-  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
+  // Remove the protocol (http, https) and www if present
+  const cleanedUrl = url.replace(/^(https?:\/\/)?(www\.)?/, "");
+  // Remove any path or query parameters by splitting at the first "/"
+  return cleanedUrl.split("/")[0];
 };
 const addWebsite = async () => {
   loadingAddWebsite.value = true;
@@ -139,7 +181,7 @@ const removeWebsiteFromSelectedApps = (website: any) => {
     (item: any) => item.title !== website
   );
 };
-const pricebytraffic = ref([])
+const pricebytraffic = ref([]);
 const calculateEstimatedPrice = computed(() => {
   if (packagesStore.currentType.title !== "Accessibility") {
     return selectedPackage.value === 12
@@ -149,94 +191,134 @@ const calculateEstimatedPrice = computed(() => {
       : packagesStore.currentPackage.package_price_role[0].cost_month;
   }
   if (packagesStore.currentType.title === "Accessibility") {
-  if (levelof.value !== "Over 1M page views/mo") {
-    // Handle the case for traffic below 1M
-    return selectedPackage.value === 12
-      ? packagesStore.currentPackage.cost_yearly
-      : selectedPackage.value === 3
-      ? packagesStore.currentPackage.cost_3_month
-      : selectedPackage.value === 1
-      ? packagesStore.currentPackage.cost_month
-      : packagesStore.currentPackage.trial_days > 0
-      ? 0
-      : 0;
-  } else if (levelof.value === "Over 1M page views/mo" && pricebytraffic.value.length > 0) {
-    // Handle the case for traffic over 1M
-    // Find the matching website in webs or packagesStore.urls
-    const currentWebsite =
-      webs.value.find((item: any) =>
-        pricebytraffic.value.some((priceItem: any) => priceItem.website === item.app_domain)
-      ) ||
-      packagesStore.urls.find((item: any) =>
-        pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
-      );
-
-    if (currentWebsite) {
-      // Find the corresponding price entry in pricebytraffic for the current website
-      const priceInfo = pricebytraffic.value.find((priceItem: any) =>
-        priceItem.website === currentWebsite.app_domain || priceItem.website === currentWebsite.url
-      );
-
-      if (priceInfo) {
-        // Return cost based on the selected package
-        return selectedPackage.value === 12
-          ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
-          : selectedPackage.value === 1
-          ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-          : priceInfo.cost_3_month ;
-      }
-    }
-
-    return 0; // Return 0 if no matching website or price is found
-  }
-}
-
-
-});
-const calculatePrice = (website) => {
-  if (packagesStore.currentType.title !== "Accessibility") {
-    return selectedPackage.value === 12
-      ? packagesStore.currentPackage.package_price_role[0].cost_yearly
-      : selectedPackage.value === 3
-      ? packagesStore.currentPackage.package_price_role[0].cost_3_month
-      : packagesStore.currentPackage.package_price_role[0].cost_month;
-  }
-
-  if (packagesStore.currentType.title === "Accessibility") {
     if (levelof.value !== "Over 1M page views/mo") {
       // Handle the case for traffic below 1M
       return selectedPackage.value === 12
-        ? packagesStore.currentPackage.cost_yearly
+        ? packagesStore.currentPackage.cost_yearly 
         : selectedPackage.value === 3
-        ? packagesStore.currentPackage.cost_3_month
+        ? packagesStore.currentPackage.cost_3_month 
         : selectedPackage.value === 1
-        ? packagesStore.currentPackage.cost_month
+        ? packagesStore.currentPackage.cost_month 
         : packagesStore.currentPackage.trial_days > 0
         ? 0
         : 0;
-    } else if (levelof.value === "Over 1M page views/mo" && pricebytraffic.value.length > 0) {
+    } else if (
+      levelof.value === "Over 1M page views/mo" &&
+      pricebytraffic.value.length > 0
+    ) {
       // Handle the case for traffic over 1M
-      const currentWebsite =
-        webs.value.find((item) => item.app_domain === website.app_domain) ||
-        packagesStore.urls.find((item) => item.url === website.url);
+      // Find the matching website in webs or packagesStore.urls
+      const openedCurrentSite =
+        webs.value.find((item: any) =>
+          pricebytraffic.value.some(
+            (priceItem: any) => priceItem.website === item.app_domain
+          )
+        ) ||
+        packagesStore.urls.find((item: any) =>
+          pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
+        );
 
-      if (currentWebsite) {
+      if (openedCurrentSite) {
+        // Find the corresponding price entry in pricebytraffic for the current website
         const priceInfo = pricebytraffic.value.find(
-          (priceItem) => priceItem.website === currentWebsite.app_domain || priceItem.website === currentWebsite.url
+          (priceItem: any) =>
+            priceItem.website === openedCurrentSite.app_domain ||
+            priceItem.website === openedCurrentSite.url
         );
 
         if (priceInfo) {
+          // Return cost based on the selected package
           return selectedPackage.value === 12
             ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
             : selectedPackage.value === 1
             ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-            : 0;
+            : priceInfo.cost_3_month;
         }
       }
-      return 0;
+
+      return 0; // Return 0 if no matching website or price is found
     }
   }
+});
+const calculatePrice = (website) => {
+  const isAccessibility = packagesStore.currentType && packagesStore.currentType.title === "Accessibility";
+
+  if (!isAccessibility) {
+    // Handle non-Accessibility types
+    return selectedPackage.value === 12
+      ? packagesStore.currentPackage.package_price_role[0].cost_yearly 
+      : selectedPackage.value === 3
+      ? packagesStore.currentPackage.package_price_role[0].cost_3_month 
+      : packagesStore.currentPackage.package_price_role[0].cost_month;
+  } 
+
+  // Handle Accessibility type
+  if (levelof.value !== "Over 1M page views/mo") {
+    // Traffic below 1M
+    return selectedPackage.value === 12
+      ? packagesStore.currentPackage.cost_yearly  
+      : selectedPackage.value === 3
+      ? packagesStore.currentPackage.cost_3_month 
+      : selectedPackage.value === 1
+      ? packagesStore.currentPackage.cost_month 
+      : packagesStore.currentPackage.trial_days > 0 && !packagesStore.openedCurrentSite
+      ? 0
+      : 0;
+  } 
+
+  // Traffic over 1M
+  if (levelof.value === "Over 1M page views/mo" && pricebytraffic.value.length > 0) {
+    const currentWebsite = webs.value.find((item) => item.app_domain === website.app_domain) ||
+                           packagesStore.urls.find((item) => item.url === website.url);
+
+
+    if (currentWebsite) {
+      const priceInfo = pricebytraffic.value.find(
+        (priceItem) =>
+          priceItem.website === currentWebsite.app_domain ||
+          priceItem.website === currentWebsite.url
+      );
+      console.log('pricehree',priceInfo);
+   
+
+      if (priceInfo) {
+        return selectedPackage.value === 12
+          ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
+          : selectedPackage.value === 3
+          ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
+          : selectedPackage.value === 1
+          ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
+          : 0; // Default case
+      }
+    }
+  }
+
+  return 0; // Default return if no conditions are met
 };
+
+
+
+const packageTypeToSend = computed(() => {
+  const { currentType, currentPackage } = packagesStore;
+
+  if ((currentType && currentType.name === "Sign language") && currentPackage.package_type !== "Package") {
+    return getCategory.value;
+  }
+
+  if (
+    (currentType &&  currentType.name === "Sign language" )&&
+    currentPackage.package_type === "Package" &&
+    getCategory.value
+  ) {
+    return getCategory.value;
+  }
+
+  if ((currentType  &&currentType.name === "Accessibility") && currentPackage.package_type === "Addons") {
+    return "Accessibility";
+  }
+
+  return null;
+});
 
 /**
  * Sets the package payload and navigates to the payment methods page.
@@ -249,15 +331,16 @@ const conintuePay = () => {
       ? packagesStore.urls.filter((website: any) => website.url !== null)
       : [].map((website: any) => website.url),
     apps: webs.value.length ? webs.value.map((website: any) => website.name) : [],
-    payDateType: selectedPackage.value === 0 ? 'trial' : selectedPackage.value,
+    payDateType: selectedPackage.value,
     locale: locale.value,
     total: totalCost.value,
+    packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
+    packageTrie: levelof.value && packagesStore.currentType.title !== 'Sign language' ||
+     packagesStore.openedCurrentSite && levelof.value.name ? levelof.value.name || levelof.value : null,
   };
   return navigateTo("add_package_modal_packages", "packages", "payment_methods_packages");
 };
-onMounted(async () => {
-  // await getInviteApps({agency: profileStore.company.name})
-});
+
 const totalCost = computed(() => {
   const urlCount = packagesStore.urls.length || 0;
   const webCount = webs.value.length || 0;
@@ -273,7 +356,7 @@ const totalCost = computed(() => {
 });
 
 const getCategory = computed(() => {
-  return packagesStore.currentType &&
+  return !packagesStore.openedCurrentSite && packagesStore.currentType &&
     packagesStore.currentType.title === "Sign language" &&
     packagesStore.categories.length
     ? packagesStore.categories.find(
@@ -283,25 +366,17 @@ const getCategory = computed(() => {
 });
 
 const geteFilterInfo = async (level: any) => {
-  if(level.name === "Over 1M page views/mo"){
-  loadingPriceTraffic.value = true
-  const res = await getPriceByTraffic(
-  
-  [
-    
-    ...(packagesStore.urls.length ? packagesStore.urls.map(we => we.url) : [])
-  ],
-  packagesStore.currentPackage.name,
-  [  ...(webs.value.length ? webs.value.map(we => we.name) : []),]
-  );
-  pricebytraffic.value = res
-  loadingPriceTraffic.value = false
-  
-  }
-levelof.value = level.name;
-
-
-
+  // if (level.name === "Over 1M page views/mo") {
+    loadingPriceTraffic.value = true;
+    const res = await getPriceByTraffic(
+      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
+      packagesStore.currentPackage.name,
+      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+    );
+    pricebytraffic.value = res;
+    loadingPriceTraffic.value = false;
+  // }
+  levelof.value = level.name || level;
 };
 
 const uniqueValues = (items) => {
@@ -344,7 +419,7 @@ const getPackageById = (id) => {
       pkg.package_type === "Package" &&
       pkg.package_price_role.some((item) => item.title === levelof.value)
   );
-
+console.log(id)
   if (packageg) {
     const priceRole = packageg.package_price_role.find(
       (item) => item.title === levelof.value
@@ -378,112 +453,117 @@ watch(
 );
 
 watchEffect(() => {
-  if (packagesStore.currentType.title === "Accessibility" && packagesStore.currentPackage.package_type === 'Package') {
-  // Determine the traffic limit based on the selected level
-  const trafficLimit =
-    levelof.value === "Up to 100K page views/mo"
-      ? 100000
-      : levelof.value === "Up to 1M page views/mo"
-      ? 1000000
-      : 0;
-
-  // Find affected items in webs
-  const newAffectedItems = webs.value?.filter(
-    (item: any) => item.traffic > trafficLimit
-  );
-
-  if (newAffectedItems && newAffectedItems.length > 0) {
-    trafficTooHighApps.value = [...trafficTooHighApps.value, ...newAffectedItems];
-  }
-
-  // Find affected items in packagesStore.urls
-  const newAffectedItemsInUrls = packagesStore.urls?.filter((item: any) => {
-    const trafficValue =
-      item.traffic === "Small"
+  if (
+    packagesStore.currentType.title === "Accessibility" &&
+    packagesStore.currentPackage.package_type === "Package"
+  ) {
+    // Determine the traffic limit based on the selected level
+    const trafficLimit =
+      levelof.value === "Up to 100K page views/mo"
         ? 100000
-        : item.traffic === "Medium"
+        : levelof.value === "Up to 1M page views/mo"
         ? 1000000
-        : 10000000; // For 'Large'
-    return trafficValue > trafficLimit;
-  });
-
-  if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
-    trafficTooHighUrls.value = [
-      ...trafficTooHighUrls.value,
-      ...newAffectedItemsInUrls.map((item) => ({
-        title: item.title,
-        url: item.url,
-        traffic:
-          item.traffic <= 100000
-            ? "Small"
-            : item.traffic > 100000 && item.traffic <= 1000000
-            ? "Medium"
-            : "Large",
-      })),
-    ];
-  }
-
-  // If level is 'Over 1M page views/mo', remove recently added items
-  if (levelof.value === 'Over 1M page views/mo') {
-    // Remove items from trafficTooHighApps
-    trafficTooHighApps.value = trafficTooHighApps.value.filter(
-      (item: any) => !newAffectedItems.includes(item)
+        : 0;
+// alert(trafficLimit)
+    // Find affected items in webs
+    const newAffectedItems = webs.value?.filter(
+      (item: any) => item.traffic > trafficLimit
     );
 
-    // Remove items from trafficTooHighUrls
-    trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
-      (item: any) =>
-        !newAffectedItemsInUrls.some(
-          (newItem) => newItem.url === item.url
-        )
-    );
-  }
-}
+    if (newAffectedItems && newAffectedItems.length > 0) {
+      trafficTooHighApps.value = [...trafficTooHighApps.value, ...newAffectedItems];
+    }
 
-  
+    // Find affected items in packagesStore.urls
+    const newAffectedItemsInUrls = packagesStore.urls?.filter((item: any) => {
+      const trafficValue =
+        item.traffic === "Small"
+          ? 100000
+          : item.traffic === "Medium"
+          ? 1000000
+          : 10000000; // For 'Large'
+      return trafficValue > trafficLimit;
+    });
+
+    if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
+      trafficTooHighUrls.value = [
+        ...trafficTooHighUrls.value,
+        ...newAffectedItemsInUrls.map((item) => ({
+          title: item.title,
+          url: item.url,
+          traffic:
+            item.traffic <= 100000
+              ? "Small"
+              : item.traffic > 100000 && item.traffic <= 1000000
+              ? "Medium"
+              : "Large",
+        })),
+      ];
+    }
+
+    // If level is 'Over 1M page views/mo', remove recently added items
+    if (levelof.value === "Over 1M page views/mo") {
+      // Remove items from trafficTooHighApps
+      trafficTooHighApps.value = trafficTooHighApps.value.filter(
+        (item: any) => !newAffectedItems.includes(item)
+      );
+
+      // Remove items from trafficTooHighUrls
+      trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
+        (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
+      );
+    }
+  }
 });
 
 watch(packagesStore.urls, async () => {
-  if(levelof.value === "Over 1M page views/mo"){
-  
-  const res = await getPriceByTraffic(
-  
-  [
-    
-    ...(packagesStore.urls.length ? packagesStore.urls.map(we => we.url) : [])
-  ],
-  packagesStore.currentPackage.name,
-  [  ...(webs.value.length ? webs.value.map(we => we.name) : []),]
-  );
-  pricebytraffic.value = res
-  
-  }
-
-})
-watch(webs, async () => {
-  if(levelof.value === "Over 1M page views/mo"){
-  
-  const res = await getPriceByTraffic(
-  
-  [
-    
-    ...(packagesStore.urls.length ? packagesStore.urls.map(we => we.url) : [])
-  ],
-  packagesStore.currentPackage.name,
-  [  ...(webs.value.length ? webs.value.map(we => we.name) : []),]
-  );
-  pricebytraffic.value = res
-  
-  }
-
-})
-onMounted(() => {
-  if (!packagesStore.traffic_level) {
-    const trafficLevels = packagesStore.getTraffiPrices("Package");
-    // alert(trafficLevels[0].name)
-    packagesStore.setTrafficLevel(trafficLevels[0].name);
+  if (levelof.value === "Over 1M page views/mo") {
+    const res = await getPriceByTraffic(
+      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
+      packagesStore.currentPackage.name,
+      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+    );
+    pricebytraffic.value = res;
   }
 });
+watch(webs, async () => {
+  if (levelof.value === "Over 1M page views/mo") {
+    const res = await getPriceByTraffic(
+      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
+      packagesStore.currentPackage.name,
+      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+    );
+    pricebytraffic.value = res;
+  }
+});
+
+onMounted(async () => {
+  if (packagesStore.openedCurrentSite) {
+    webs.value.push(packagesStore.currentWebsite);
+  }
+
+if(packagesStore.openedCurrentSite &&packagesStore.currentPackage.type === 'Accessibility'){
+  const typeg = packagesStore.types.find(t=>t.title === 'Accessibility')
+packagesStore.currentType = typeg
+}
+  
+  if (!packagesStore.traffic_level) {
+    const trafficLevels = packagesStore.getTraffiPrices("Package",'Accessibility');
+    // alert(trafficLevels[0].name)
+    packagesStore.setTrafficLevel(trafficLevels[0].name);
+
+  }
+ if(packagesStore.currentType.title === 'Accessibility'){
+  await geteFilterInfo(levelof.value || packagesStore.traffic_level)
+ }
+
+ 
+});
+/**
+ * Function to check if a given website already exists in our database.
+ * It cleans the given website domain and then checks if the clean domain exists in the list of apps or urls.
+ * If it does, it sets the websiteExist ref to true, otherwise it sets it to false.
+ */
 const checkforexistingwebsite = () => {
   const cleanDomain = cleanWebsiteUrl(state.newWebsite);
 
@@ -496,6 +576,21 @@ const checkforexistingwebsite = () => {
     websiteExist.value = false;
   }
 };
+watch(()=>selectPackage,async ()=>{
+  if (levelof.value === "Over 1M page views/mo") {
+    const res = await getPriceByTraffic(
+      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
+      packagesStore.currentPackage.name,
+      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+    );
+    pricebytraffic.value = res;
+  }
+})
+const closeModalPackage = () => {
+  closeModal("add_package_modal_packages");
+  webs.value = [];
+  packagesStore.urls = [];
+};
 </script>
 
 <template>
@@ -505,7 +600,7 @@ const checkforexistingwebsite = () => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-      @click="closeModal('add_package_modal_packages')"
+      @click="closeModalPackage"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -526,15 +621,15 @@ const checkforexistingwebsite = () => {
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
         >
-          {{ $t('Add Package') }}
+          {{ $t("Add Package") }}
         </h1>
         <div
           class="flex flex-col items-start justify-start lg:overflow-x-hidden bg-white dark:bg-tamkinDarkPrimary w-full min-h-[70vh] px-[20px] rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
           <div
-            v-if="packagesStore.currentPackage.package_type === 'Package'"
-            class="pt-[24px] flex items-center justify-center  rtl:space-x-reverse space-x-[18px] w-full"
+            v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Package'"
+            class="pt-[24px] flex items-center justify-center rtl:space-x-reverse space-x-[18px] w-full"
           >
             <div>
               <img
@@ -546,27 +641,28 @@ const checkforexistingwebsite = () => {
             <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
               {{ $t(packagesStore.currentPackage.title) }}
             </div>
-            <div class="font-[400] text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto">
+            <div
+              class="font-[400] text-[14px] leading-[30px] text-black rtl:!mr-auto ltr:!ml-auto"
+            >
               {{
                 packagesStore.currentType.title + "" + packagesStore.currentType.title !==
                 "Sign language"
                   ? $t(packagesStore.currentType.title + " " + "Package")
                   : ""
               }}
-              <!-- {{
+              {{
                 packagesStore.currentType.title === "Sign language"
                   ? "- " + $t(getCategory)
                   : ""
-              }} -->
+              }}
             </div>
           </div>
           <div
             v-if="
-              packagesStore.currentPackage.package_type === 'Addons' ||
-              packagesStore.currentPackage.package_type === 'Extra'
+              !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons' ||
+              !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'
             "
-            class="h-[61px] w-full border-b mt-[28px] flex items-center justify-start rtl:space-x-reverse 
-            space-x-[18px] bg-[#EFF5FF]"
+            class="h-[61px] w-full border-b mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF]"
           >
             <div class="rtl:pr-[5px] ltr:pl-[5px]">
               <img
@@ -576,74 +672,87 @@ const checkforexistingwebsite = () => {
               />
             </div>
             <div class="text-[16px] font-[600] leading-[24px]">
-              {{ $t(packagesStore.currentPackage.title )}}
+              {{ $t(packagesStore.currentPackage.title) }}
             </div>
 
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if="packagesStore.currentPackage.package_type === 'Addons'"
+              v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
             >
               {{ $t(packagesStore.currentType.title) }} -
               <!-- {{ $t(packagesStore.currentPackage.package_type) }}  -->
-              {{ getCategory ? $t(getCategory) : $t(packagesStore.currentPackage.package_type) }}
+              {{
+                getCategory
+                  ? $t(getCategory)
+                  : $t(packagesStore.currentPackage.package_type)
+              }}
             </div>
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if="packagesStore.currentPackage.package_type === 'Extra'"
+              v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
             >
-              {{ $t(packagesStore.currentPackage.sub_title )}}
+              {{ $t(packagesStore.currentPackage.sub_title) }}
             </div>
           </div>
           <div
-            class="grid grid-cols-3 gap-4"
+            class="flex items-center justify-center gap-4"
             v-if="
-              packagesStore.currentPackage.package_type === 'Addons' ||
-              packagesStore.currentPackage.package_type === 'Package'
+               packagesStore.currentPackage.package_type === 'Addons' ||
+             packagesStore.currentPackage.package_type === 'Package'
             "
           >
-          <div v-if="packagesStore.currentPackage.trial_days > 0"
-          class="flex items-center justify-start bg-selected dark:bg-p  rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-           rtl:pl-2.5 ltr:pr-2.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-          style="padding: 16px, 10px, 16px, 10px"
-          :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
-        >
-          <div class="flex items-center justify-center w-full">
-            <div class="order-2 w-full h-full">
-              <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-               {{ $t('Free Trial') }} 
-              </h1>
-              <h2
-                class="font-[500] text-[10px]"
-          
-              >
-           {{ $t('Free trial for') }} {{+' '+packagesStore.currentPackage.trial_days+' '+ $t(getDayLabel(packagesStore.currentPackage.trial_days)) }}
-              </h2>
+            <div
+              v-if="
+                packagesStore.currentPackage.trial_days > 0 &&
+                !packagesStore.openedCurrentSite
+              "
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              style="padding: 16px, 10px, 16px, 10px"
+              :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
+            >
+              <div class="flex items-center justify-center w-full">
+                <div class="order-2 w-full h-full">
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("Free Trial") }}
+                  </h1>
+                  <h2 class="font-[500] text-[10px]">
+                    {{ $t("Free trial for") }}
+                    {{
+                      +" " +
+                      packagesStore.currentPackage.trial_days +
+                      " " +
+                      $t(getDayLabel(packagesStore.currentPackage.trial_days))
+                    }}
+                  </h2>
+                </div>
+                <div class="order-1 mx-[4px]">
+                  <input
+                    id="free_trial"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 0"
+                    @click.stop="selectPackage(0)"
+                  />
+                  <label for="free_trial" class="flex items-center cursor-pointer">
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
+              </div>
             </div>
-            <div class="order-1 mx-[4px]">
-              <input
-                id="free_trial"
-                type="radio"
-                name="packages_radio"
-                class="hidden"
-                :checked="selectedPackage === 0"
-                @click.stop="selectPackage(0)"
-              />
-              <label for="free_trial" class="flex items-center cursor-pointer">
-                <span class="radio-tamkin"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-            <div 
-              class="flex items-center justify-start bg-selected dark:bg-p  rtl:space-x-reverse space-x-[16px] 
-              w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5  ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+            <div
+              v-if="
+                packagesStore.currentWebsite.billing_duration !== 'monthly' || 
+                !packagesStore.openedCurrentSite
+              "
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
               style="padding: 16px, 10px, 16px, 10px"
               :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
             >
               <div class="flex items-center justify-center w-full">
                 <div class="order-2 w-full h-full">
                   <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                   {{ $t('Monthly Plan') }}
+                    {{ $t("Monthly Plan") }}
                   </h1>
                   <h2
                     class="font-[500] text-[10px]"
@@ -657,9 +766,9 @@ const checkforexistingwebsite = () => {
                         packagesStore.currentPackage.package_price_role[0].discount_month
                       }}%
                     </span>
-                    <span class="text-[#536174] dark:text-whiteTamkin/80"
-                      >{{$t('Discount on the Monthly Plan')}}</span
-                    >
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the Monthly Plan")
+                    }}</span>
                   </h2>
                 </div>
                 <div class="order-1 mx-[4px]">
@@ -677,10 +786,13 @@ const checkforexistingwebsite = () => {
                 </div>
               </div>
             </div>
-
-            <div v-if="packagesStore.currentPackage.trial_days === 0"
-              class="flex items-center justify-start bg-selected dark:bg-p  rtl:space-x-reverse space-x-[16px]
-               w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+            <div
+              v-if="
+           (     packagesStore.openedCurrentSite &&
+                packagesStore.openedCurrentSite.billing_duration !== '3-monthly' ) || 
+                packagesStore.currentPackage.trial_days === 0
+              "
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               style="padding: 16px, 10px, 16px, 10px"
               :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
             >
@@ -688,13 +800,12 @@ const checkforexistingwebsite = () => {
                 <div class="order-2 w-full h-full">
                   <div
                     style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
-                    class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px]
-                     flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                    class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                   >
-                    <span>{{$t('Popular')}}</span>
+                    <span>{{ $t("Popular") }}</span>
                   </div>
                   <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                    {{ $t('3 Months Plan') }}
+                    {{ $t("3 Months Plan") }}
                   </h1>
                   <h2
                     class="font-[500] text-[10px]"
@@ -709,9 +820,9 @@ const checkforexistingwebsite = () => {
                           .discount_3_month
                       }}%
                     </span>
-                    <span class="text-[#536174] dark:text-whiteTamkin/80"
-                      >{{$t('Discount on the 3 Months Plan')}}</span
-                    >
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the 3 Months Plan")
+                    }}</span>
                   </h2>
                 </div>
                 <div class="order-1 mx-[4px]">
@@ -730,8 +841,11 @@ const checkforexistingwebsite = () => {
               </div>
             </div>
             <div
-              class="flex items-center justify-start bg-selected dark:bg-p  rtl:space-x-reverse space-x-[16px] w-full relative pt-2.5 
-              rtl:pl-2.5 ltr:pr-2.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+              v-if="
+                !packagesStore.openedCurrentSite ||
+                packagesStore.openedCurrentSite.billing_duration !== 'yearly'
+              "
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full relative pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               style="padding: 16px, 10px, 16px, 10px"
               :class="[
                 selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
@@ -742,10 +856,10 @@ const checkforexistingwebsite = () => {
                   <div
                     class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                   >
-                    <span>{{$t('Best Value')}}</span>
+                    <span>{{ $t("Best Value") }}</span>
                   </div>
                   <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                    {{$t('Annual Plan')}}
+                    {{ $t("Annual Plan") }}
                   </h1>
                   <h2
                     class="font-[500] text-[10px]"
@@ -760,9 +874,9 @@ const checkforexistingwebsite = () => {
                           .discount_yearly
                       }}%
                     </span>
-                    <span class="text-[#536174] dark:text-whiteTamkin/80"
-                      >{{$t('Discount on the Annual Plan')}}</span
-                    >
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the Annual Plan")
+                    }}</span>
                   </h2>
                 </div>
                 <div class="order-1 mx-[4px]">
@@ -781,17 +895,17 @@ const checkforexistingwebsite = () => {
               </div>
             </div>
           </div>
-
           <multiselect
             v-model="webs"
             :options="listOfApps"
-            :multiple="true"
+            :disabled="isLinkActive('/my-site')"
+            :multiple="packagesStore.openedCurrentSite ? false : true"
             :close-on-select="true"
             :clear-on-select="false"
             :preserve-search="true"
             :placeholder="$t('Choose sites')"
             label="title"
-            class="mt-[24px] "
+            class="mt-[24px]"
             :selected-label="$t('Selected')"
             track-by="app_domain"
             :preselect-first="false"
@@ -804,8 +918,8 @@ const checkforexistingwebsite = () => {
                 class="multiselect__single !font-[500] !text-darkGrey !text-[14px] absolute inset-y-[2px] left-[-5px]"
                 v-if="values.length"
                 v-show="!isOpen"
-                >{{ values.length }}
-                {{ values.length > 1 ? $t("Sites") : $t("Site")}} {{$t('Selected')}}</span
+                >{{ values.length }} {{ values.length > 1 ? $t("Sites") : $t("Site") }}
+                {{ $t("Selected") }}</span
               >
 
               <img
@@ -814,16 +928,26 @@ const checkforexistingwebsite = () => {
                 class="absolute w-[14px] h-[8px] inset-y-[15px] rtl:left-[19px] ltr:right-[19px]"
               />
             </template>
+            <template #option="props">
+              <div class="option__desc">
+                <span class="option__title">{{
+                  props.option.title === "Internal Service"
+                    ? $t(props.option.title)
+                    : props.option.title
+                }}</span>
+              </div>
+            </template>
           </multiselect>
-
           <div
-            v-if="
-              (packagesStore.currentType.title === 'Sign language' &&
-                packagesStore.currentPackage.package_type !== 'Extra' &&
-                packagesStore.currentPackage.package_type !== 'Addons' &&
-                getCategory === 'Plugins') ||
-              packagesStore.currentType.title !== 'Sign language'
-            "
+          v-if="
+     
+          ( !packagesStore.openedCurrentSite && 
+            packagesStore.currentPackage.package_type !== 'Extra' &&
+            packagesStore.currentPackage.package_type !== 'Addons' &&
+            packagesStore.currentType.title === 'Sign language' &&
+            packagesStore.currentTab.title === 'Plugins') ||
+          (packagesStore.currentType.title === 'Accessibility')
+        "
             class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
@@ -926,8 +1050,8 @@ const checkforexistingwebsite = () => {
           <div
             class="w-full mt-[24px]"
             v-if="
-              packagesStore.currentType.title === 'Accessibility' &&
-              packagesStore.currentPackage.package_type === 'Package'
+              (packagesStore.currentType.title === 'Accessibility' &&
+             packagesStore.currentPackage.package_type === 'Package') || packagesStore.openedCurrentSite
             "
           >
             <TranslateSelectInput
@@ -956,18 +1080,17 @@ const checkforexistingwebsite = () => {
                 <th
                   class="py-2 px-[0px] border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] ltr:text-left rtl:text-right"
                 >
-                  {{ $t('Website') }}
+                  {{ $t("Website") }}
                 </th>
                 <th
                   class="py-2 border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500] rtl:text-right ltr:text-left"
                 >
-                  {{$t('Tier')}}
+                  {{ $t("Tier") }}
                 </th>
                 <th
-                  class="py-2 border-b text-[16px] leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500]
-                   rtl:text-right ltr:text-left"
+                  class="py-2 border-b text-[16px] text-center leading-[24px] text-[#A7A7A7] dark:text-whiteTamkin font-[500]"
                 >
-                  {{ $t('Price') }}
+                  {{ $t("Price") }}
                 </th>
               </tr>
             </thead>
@@ -976,14 +1099,14 @@ const checkforexistingwebsite = () => {
                 v-for="(website, index) in packagesStore.urls"
                 :key="index"
                 :class="
-                  trafficTooHighUrls.some((w) => w.title === website.title) && levelof !== 'Over 1M page views/mo'
+                  trafficTooHighUrls.some((w) => w.title === website.title) &&
+                  levelof !== 'Over 1M page views/mo'
                     ? 'bg-red-50'
                     : ''
                 "
               >
                 <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin
-                   flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
+                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
                 >
                   <div class="w-[150px] flex items-center h-[40px]">
                     <div
@@ -991,7 +1114,10 @@ const checkforexistingwebsite = () => {
                     >
                       <div>{{ website.title }}</div>
                       <span
-                        v-if="trafficTooHighUrls.some((w) => w.title === website.title) && levelof !== 'Over 1M page views/mo'"
+                        v-if="
+                          trafficTooHighUrls.some((w) => w.title === website.title) &&
+                          levelof !== 'Over 1M page views/mo'
+                        "
                         class="tooltip packages"
                         :data-tamkin="
                           $t(
@@ -1035,55 +1161,74 @@ const checkforexistingwebsite = () => {
                   class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{
-                    packagesStore.currentPackage.package_type === "Package"
-                      ? website.traffic
-                      : "Not Applicable"
+                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === "Package"
+                      ? $t(website.traffic)
+                      : $t("Not Applicable")
                   }}
                 </td>
 
                 <td
-                  v-if="packagesStore.currentPackage.package_type === 'Package'"
-                  class="py-2 border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Package'"
+                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  ${{ calculateEstimatedPrice.toFixed(0) }}
+                  ${{
+                    calculateEstimatedPrice
+                      .toFixed(0)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
                 </td>
                 <td
                   v-if="
-                    packagesStore.currentPackage.package_type === 'Extra' ||
-                    packagesStore.currentPackage.package_type === 'Addons'
+                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra' ||
+                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'
                   "
-                  class="py-2 border-b text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   ${{
-                    selectedPackage === 1? 
-                      packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
+                    selectedPackage === 1
+                      ? packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
                           0
                         )
-                      : selectedPackage === 3 ? 
-                      packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
-                        0
-                      ) : 
-                      packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
-                        0
-                      )
+                      : selectedPackage === 3
+                      ? packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
+                          0
+                        )
+                      : packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
+                          0
+                        )
                   }}
                 </td>
               </tr>
               <tr
                 v-for="(website, index) in webs"
                 :key="index"
-                :class="trafficTooHighApps.includes(website) && levelof !== 'Over 1M page views/mo' ? 'bg-red-50' : ''"
+                :class="
+                  trafficTooHighApps.includes(website) &&
+                  levelof !== 'Over 1M page views/mo'
+                    ? 'bg-red-50'
+                    : ''
+                "
               >
                 <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start  rtl:space-x-reverse space-x-[33px]"
+                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
                 >
                   <div class="w-[150px] flex items-center h-[40px]">
                     <div
                       class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                     >
-                      <div>{{ website.title === 'Internal Service' ? $t(website.title) : website.title }}</div>
+                      <div>
+                        {{
+                          website.title === "Internal Service"
+                            ? $t(website.title)
+                            : website.app_domain
+                        }}
+                      </div>
                       <span
-                        v-if="trafficTooHighApps.includes(website) && levelof !== 'Over 1M page views/mo'"
+                        v-if="
+                          trafficTooHighApps.includes(website) &&
+                          levelof !== 'Over 1M page views/mo'
+                        "
                         class="tooltip packages"
                         :data-tamkin="
                           $t(
@@ -1128,139 +1273,182 @@ const checkforexistingwebsite = () => {
                   </div>
                 </td>
                 <td
-                  class="py-2 border-b rtl:text-right ltr:text-left text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  class="py-2 border-b text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-
-                               {{
-                    packagesStore.currentPackage.package_type !== "Package"  || !website.app_domain
-                    ? $t("Not applicable")
-                    : website.traffic  <= 100000
-                    ?$t("Small")
-                    : website.traffic > 100000 && website.traffic <= 1000000
-                    ? $t("Medium")
-                    :$t("Large")                  
-                  
+                  {{
+                    packagesStore.currentPackage.package_type !== "Package" ||
+                    !website.app_domain
+                      ? $t("Not applicable")
+                      : website.traffic <= 100000
+                      ? $t("Small")
+                      : website.traffic > 100000 && website.traffic <= 1000000
+                      ? $t("Medium")
+                      : $t("Large")
                   }}
                 </td>
 
                 <td
-                  v-if="packagesStore.currentPackage.package_type === 'Package'"
-                  class="py-2 border-b rtl:text-right ltr:text-left text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  v-if=" packagesStore.currentPackage.package_type === 'Package'"
+                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-end rtl:flex-row-reverse">
-<div v-if="!loadingPriceTraffic"
->
-  ${{ calculatePrice(website)}} 
-</div>
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingPriceTraffic ">
+                   
+                    ${{
+                     
+                        calculatePrice(website)
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    
+                    }}
+                    </div>
 
-<svg
-v-if="loadingPriceTraffic"
-class="animate-spin h-5 w-5 text-tamkin"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 24 24"
->
-<circle
-  class="opacity-25"
-  cx="12"
-  cy="12"
-  r="10"
-  stroke="currentColor"
-  stroke-width="4"
-></circle>
-<path
-  class="opacity-75"
-  fill="currentColor"
-  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-></path>
-</svg>
+                    <svg
+                      v-if="loadingPriceTraffic"
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
                   </div>
                 </td>
                 <td
-                  v-if="
-                  
-                    packagesStore.currentPackage.package_type === 'Addons'
-                  "
-                  class="py-2 border-b rtl:text-right ltr:text-left text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
+                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                ${{
-                  selectedPackage === 1? 
-                    packagesStore.currentPackage.package_price_role[0].cost_month
-                    : selectedPackage === 3 ? 
-                    packagesStore.currentPackage.package_price_role[0].cost_3_month : 
-                    packagesStore.currentPackage.package_price_role[0].cost_yearly
-                }}
+                  ${{
+                    (() => {
+                      const formatNumber = (num) =>
+                        Math.floor(num)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                      const getPackagePrice = () => {
+                        if (selectedPackage === 1) {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_month;
+                        } else if (selectedPackage === 3) {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_3_month;
+                        } else {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_yearly;
+                        }
+                      };
+
+                      const packagePrice = getPackagePrice();
+
+                      return formatNumber(packagePrice);
+                    })()
+                  }}
                 </td>
                 <td
-                v-if="
-                  packagesStore.currentPackage.package_type === 'Extra'
-                "
-                class="py-2 border-b rtl:text-right ltr:text-left text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-              ${{
-          
-                  packagesStore.currentPackage.package_price_role[0].cost_month
-                
-              }}
-              </td>
+                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
+                  class="py-2 border-b text-[16px] text-center leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  ${{
+                    packagesStore.currentPackage.package_price_role[0].cost_month
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
+                </td>
               </tr>
               <tr
                 class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
               >
                 <td
-                  class="py-2 border-b rtl:text-left ltr:text-right font-[500] dark:text-whiteTamkin"
+                  class="py-2 border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
                   colspan="2"
                 >
-                  {{ $t('Total') }}
+                  {{ $t("Total") }}
                 </td>
                 <td
-                  class="py-2 border-b text-left font-[600] text-darkGrey dark:text-whiteTamkin"
+                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
                   v-if="packagesStore.currentPackage.package_type === 'Package'"
                 >
-                ${{
-                  calculateEstimatedPrice.toFixed(0) *
-                    webs.length +
-                    calculateEstimatedPrice.toFixed(0) *
-                    packagesStore.urls.length
-                }}
+                <!-- ${{
+                  !packagesStore.openedCurrentSite 
+                    ? (
+                        (calculateEstimatedPrice.toFixed(0) * webs.length) +
+                        (calculateEstimatedPrice.toFixed(0) * packagesStore.urls.length)
+                      )
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : packagesStore.openedCurrentSite && packagesStore.currentPackage.trial_days > 0 
+                      ? "0"
+                      : (
+                        (calculateEstimatedPrice.toFixed(0) * webs.length) +
+                        (calculateEstimatedPrice.toFixed(0) * packagesStore.urls.length)
+                      )
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }} -->
+                
+                
                 </td>
+              
                 <td
-                  class="py-2 border-b rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="
-                    packagesStore.currentPackage.package_type === 'Addons'
-                  "
+                  class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
                 >
                   ${{
-                    (selectedPackage === 1 ? packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
-                      0
-                    )  : selectedPackage === 3 ? packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
-                      0
-                    ) :packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
-                      0
-                    ) )*
-                      webs.length +
-                      (selectedPackage === 1 ? packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
-                        0
-                      )  : selectedPackage === 3 ? packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
-                        0
-                      ) :packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
-                        0
-                      ) ) *
-                      packagesStore.urls.length
+                    (() => {
+                      // Helper function to format numbers with commas
+                      const formatNumber = (num) =>
+                        num
+                          .toFixed(0)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                      const getPackagePrice = () => {
+                        if (selectedPackage === 1) {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_month;
+                        } else if (selectedPackage === 3) {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_3_month;
+                        } else {
+                          return packagesStore.currentPackage.package_price_role[0]
+                            .cost_yearly;
+                        }
+                      };
+
+                      const packagePrice = getPackagePrice();
+
+                      const totalForWebs = packagePrice * webs.length;
+
+                      const totalForUrls = packagePrice * packagesStore.urls.length;
+
+                      return formatNumber(totalForWebs + totalForUrls);
+                    })()
                   }}
                 </td>
                 <td
-                v-if="
-                  packagesStore.currentPackage.package_type === 'Extra'
-                "
-                class="py-2 border-b ltr:text-right rtl:text-left text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-              ${{
-          
-                  packagesStore.currentPackage.package_price_role[0].cost_month *   webs.length +  packagesStore.currentPackage.package_price_role[0].cost_month * packagesStore.urls.length
-                
-              }}
-              </td>
+                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
+                  class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  ${{
+                    packagesStore.currentPackage.package_price_role[0].cost_month *
+                      webs.length +
+                    packagesStore.currentPackage.package_price_role[0].cost_month *
+                      packagesStore.urls.length
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -1276,7 +1464,7 @@ viewBox="0 0 24 24"
                 websiteExist
               "
             >
-             {{ $t('Continue to Payment') }}
+              {{ $t("Continue to Payment") }}
             </button>
           </div>
         </div>
@@ -1286,54 +1474,4 @@ viewBox="0 0 24 24"
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style lang="scss" scoped>
-:deep(.multiselect) {
-  @apply relative;
-
-  .multiselect__tags {
-    @apply min-h-[40px] lg:text-[12px] rounded-[10px] rtl:lg:pr-[30px] ltr:lg:pl-[16px] 
-    bg-white dark:bg-transparent border-lightGrey 
-    md:w-full lg:w-full text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] ipad-max:max-w-full w-full border-[1px]
-     focus:border-tamkin focus:ring-transparent focus:outline-none placeholder:text-transparent
-      disabled:bg-gray-100 disabled:cursor-not-allowed;
-
-    &.error_text {
-      // @apply text-light;
-    }
-  }
-
-  .multiselect__placeholder {
-    @apply cursor-text rounded-[10px] !mb-0 duration-100 ease-linear text-light
-     peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px]
-      !font-[500] peer-focus:text-[12px] ipad-max:text-[10px] bg-transparent;
-  }
-
-  .multiselect__input {
-    @apply h-auto;
-  }
-
-  .multiselect__input:focus {
-    outline: none !important;
-    @apply border-0 !ring-0 ring-transparent;
-  }
-
-  .multiselect__input::placeholder {
-    @apply cursor-text rounded-[10px] duration-100 ease-linear text-light
-     peer-focus:text-darkGrey text-[13px] lg:text-[14px] 2xl:text-[14px] font-[500] peer-focus:text-[12px] 
-     ipad-max:text-[10px] ipad-max:peer-focus:text-[12px] bg-transparent;
-  }
-
-  .multiselect__option--highlight {
-    @apply bg-tamkinLight !text-darkGrey;
-  }
-
-  .multiselect__option--highlight::after {
-    content: attr(data-select);
-    @apply bg-tamkinLight text-darkGrey;
-  }
-
-  .multiselect__tag {
-    @apply bg-tamkinLight text-darkGrey h-auto !rounded-[0px];
-  }
-}
-</style>
+<style lang="scss" scoped></style>

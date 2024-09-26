@@ -55,7 +55,11 @@ const dosomething = (p,contact)=>{
     })
   }else {
     packagesStore.currentPackage = p
+    packagesStore.currentWebsite = ''
+    packagesStore.openedCurrentSite = false
     openModal('add_package_modal_packages')
+
+
   }
 }
 watch(packagesStore.traffic_level, () => {

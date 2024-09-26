@@ -18,6 +18,7 @@ export const useProfileStore = defineStore("profile", {
     updateProfilePayload:'',
     updatedCompanyPayload:'',
     permissions:[],
+    countries:[],
     social_platforms: [
       {
         title: "Facebook",

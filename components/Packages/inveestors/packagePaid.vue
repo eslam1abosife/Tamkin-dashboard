@@ -17,7 +17,7 @@ const  toggleHashMenu = ()=> {
 
 <template>
   <div v-if="packagesStore.investorUser" class="bg-gradient-to-t from-white to-[#8EE6DF] h-[249px]
-   w-full flex items-start space-x-[80px] justify-start 
+   w-full flex items-start space-x-[80px] justify-start rtl:space-x-reverse
   rounded-lg  p-6  mx-auto" style="box-shadow: 1px 1px 26.4px 0px #71DAD269;
 ">
   
@@ -46,7 +46,7 @@ const  toggleHashMenu = ()=> {
   <div class="text-[15px] font-[600] leading-[19px] text-[#2DB9B0] cursor-pointer" v-on-click-outside="() => openHashMenu = false" @click="toggleHashMenu">
     <span class="truncate w-44">{{packagesStore.investorUser.transaction_hashes.split('\n')[0] }}</span>
   </div>
-  <div   v-if="openHashMenu" class="w-[202px] h-auto bg-white rounded-[10px]
+  <div   v-if="openHashMenu" class="w-auto h-auto bg-white rounded-[10px]
      absolute rtl:left-0 ltr:right-0 top-6 flex flex-col divide-y items-start justify-start">
 <div @click="currentHash = hash"
  v-for="(hash,i) in packagesStore.investorUser.transaction_hashes.split('\n')" :key="hash" class="text-[14px] cursor-pointer w-full  p-[10px] text-left  font-[500] leading-[21px]">

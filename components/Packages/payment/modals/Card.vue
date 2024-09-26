@@ -98,7 +98,7 @@ const handleIframeMessage = (event) => {
      urlPayment.value = ""
      loadingPayment.value = false
     packagesStore.currentPackage = ''
-    packagesStore.urls = []
+    packagesStore.urls = ''
   }
    else if(event.data && event.data.event === 'faild'){ 
     usepaystore.stateOfPayment = 'failed'
@@ -151,6 +151,9 @@ const continueCheckOut = async () => {
 
     // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
     packagesStore.urls =[]
+    packagesStore.promo = ""
+    packagesStore.validPromo = false
+    packagesStore.currentDiscount = 0
 
   }
   else if(res === "A 3-day trial package is configured in the app"){
@@ -414,7 +417,7 @@ onBeforeUnmount(() => {
                     <img src="/assets/imgs/promo_valid.svg" />
                     <div class="text-[15px] font-[500] text-darkGrey">
                       <span class="text-[#021328] font-[700]">{{ packagesStore.currentDiscount }}%</span>
-                      {{ $t("Discount") }} (-${{ percentageOff }})
+                      {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
                   </div>
@@ -473,7 +476,7 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2">
-                    ${{ packagesStore.packagePayload.total }}
+                    ${{ packagesStore.packagePayload.total.toFixed(0) }}
                   </td>
                 </tr>
                 <tr v-if="percentageOff"
@@ -484,7 +487,7 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ percentageOff }}
+                    ${{ percentageOff.toFixed(0) }}
                   </td>
                 </tr>
                 <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
@@ -494,7 +497,7 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ Number(packagesStore.packagePayload.total) - percentageOff }}
+                    ${{ (Number(packagesStore.packagePayload.total) - percentageOff).toFixed(0) }}
                   </td>
                 </tr>
               </tbody>

@@ -187,7 +187,7 @@ const submitInviteApp = async () => {
         </div>
       </div>
       
-      <div v-loading="getAppsLoading" class="min-h-[150px]">
+      <div v-loading="getAppsLoading" class="overflow-y-auto h-[150px]">
         <table
           v-if="!getAppsLoading && filteredPermissions.length > 0"
           class="min-w-full divide-y max-h-[100px] overflow-y-scroll divide-gray-200 dark:divide-light"

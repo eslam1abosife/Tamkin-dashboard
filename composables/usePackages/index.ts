@@ -10,6 +10,9 @@ import useCheckifSiteblocked from "./useCheckifSiteblocked"
 import useGetTraffic from "./useGetTraffic"
 import usePayWithCrypto from "./usePayWithCrypto"
 import useGetPriceByTraffic from "./useGetPriceByTraffic"
+import useGetSubscriptions from "./useGetSubscriptions"
+import useGetPackageSite from "./useGetPackageSite"
+import useCancelSubscription from "./useCancelSubscription"
 
 export {
     useGetPackagesTypes,
@@ -23,5 +26,8 @@ export {
     useCheckifSiteblocked,
     useGetTraffic,
     usePayWithCrypto,
-    useGetPriceByTraffic
+    useGetPriceByTraffic,
+    useGetSubscriptions,
+    useGetPackageSite,
+    useCancelSubscription
 }

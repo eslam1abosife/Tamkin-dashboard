@@ -1,23 +1,8 @@
 <script lang="ts" setup>
-import { Vue3Lottie } from "vue3-lottie";
-import mysiteAnimation from "/assets/animation/mysite.json";
-import { useModalManager } from '@/composables/useModalManager';
-import { useVuelidate } from "@vuelidate/core";
-import {useGetAppInvites} from '@/composables/useTeam';
-import { useDeleteApp, useRestoreApp } from "@/composables/useMySite";
-const { getInviteApps, defaultApp, apps } = useGetAppInvites();
-
-const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  await getInviteApps({agency: user.agency});
-}
-onMounted( () => {
-  getApps();
-});
-
-import { required, email, sameAs } from "@vuelidate/validators";
-import {watch, computed, ref} from "vue";
-
+import {useGetSubscriptions} from '@/composables/usePackages'
+const { getSubs} = useGetSubscriptions()
+const loadingSubs = ref(false)
+const localePath = useLocalePath()
 definePageMeta({
   layout: "dashboard",
 middleware:['auth','permissions'],
@@ -25,14 +10,15 @@ middleware:['auth','permissions'],
   requiredPermission: 'subscriptions',
 
 });
-const state = reactive({
-  teamName: "",
-});
-const rules = {
-  teamName: { required },
-};
+const subs  = ref([])
+onMounted(async ()=>{
+  loadingSubs.value = true
+  const res = await getSubs()
 
-const v$ = useVuelidate(rules, state);
+  subs.value = res
+  loadingSubs.value = false
+
+})
 
 const {
   isOpen,
@@ -48,41 +34,7 @@ const {
 
 
 
-
-
-const checkAll = computed({
-  get() {
-    return deletedSites.value && checked.value.length === deletedSites.value.length;
-  },
-  set(value) {
-    checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
-  },
-});
-const localePath = useLocalePath();
-
-const isSearchfilled = ref(false);
-const search = ref("");
-watch(search, (ov, nv) => {
-  currentPage.value = 1;
-  return search.value.length > 0
-    ? (isSearchfilled.value = true)
-    : (isSearchfilled.value = false);
-});
-const clearInput = () => {
-  search.value = "";
-};
-
-
-const projectNameArr = [
-  { id: 1, name: 'Active' },
-  { id: 2, name: 'Pending' },
-  { id: 3, name: 'Expired' },
-  { id: 6, name: 'Canceled' },
-
-];
-const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
-};
+const configrun = useRuntimeConfig()
 
 
 
@@ -108,212 +60,179 @@ const handleSelectedItemProjectName = (item: any) => {
 
   
 
-<div class="grid grid-cols-12 mt-[16px] gap-4 ">
-  <div class="flex flex-col items-start justify-center ipad-max:col-span-12 col-span-8 ">
-    <div class="flex items-center justify-center  space-x-[16px] w-full ">
-      <div class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]">
-        <div class="flex items-center justify-start space-x-2 mb-4">
-          <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
-        </div>
-      
-        <div class="space-y-2  ">
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-            <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
-          </p>
-      
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-    
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-          </p>
-        </div>
-      
-        <div class="mt-4 flex space-x-4">
-          <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-2/4  !h-[30px] ">
-            Upgrade Now
-          </button>
-          <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-2/4 !h-[30px] ">
-            Cancel Subscription
-          </button>
-        </div>
-      </div>
-      
-      <div class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]">
-        <div class="flex items-center justify-start space-x-2 mb-4">
-          <img src="/imgs/basic_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Basic Plan</h3>
-        </div>
-      
-        <div class="space-y-2  ">
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-            <span class="text-[#F94334] font-[600] text-[13px] leading-[19px]">Expired</span>
-          </p>
-      
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-          </p>
-    
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-          </p>
-        </div>
-      
-        <div class="mt-4 flex space-x-4">
-          <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-2/4  !h-[30px] ">
-            Renew Subscription
-          </button>
-       
-        </div>
-      </div>
-    
-    </div>
-    <div class="flex items-center justify-center mt-[16px] space-x-[16px] w-full ">
-    
-   
-      <div class="flex items-center justify-center  flex-wrap w-full space-y-[16px]">
-        <div class="bg-white shadow-sm shadow-y-[-0.2px]  rounded-[10px] p-[10px] w-full relative">
-          <div class="absolute right-[50px] bottom-[25px]">
-            <img src="/imgs/calender.png" class="w-[178px] h-[178px]" alt="">
+<div class="grid grid-cols-1 mt-[16px] gap-4 ">
+  <div class="flex flex-col items-start justify-center ">
+    <div class="flex flex-col items-center justify-center space-y-[16px] w-full">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[16px] w-full" v-if="loadingSubs">
+        <div
+          v-for="n in 2" 
+          :key="n" 
+          class="bg-white rounded-[10px] p-[10px] w-full shadow-sm animate-pulse"
+        >
+          <!-- Header loader -->
+          <div class="flex items-center justify-between w-full mb-4">
+            <div class="flex items-center justify-start space-x-2">
+              <!-- Image placeholder -->
+              <div class="bg-gray-300 w-[43px] h-[43px] rounded-full"></div>
+              <!-- Title placeholder -->
+              <div class="bg-gray-300 w-[120px] h-[21px] rounded"></div>
+            </div>
+            <!-- Domain placeholder -->
+            <div class="bg-gray-300 w-[80px] h-[21px] rounded"></div>
           </div>
-          <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] space-x-[4px] bg-[#F8FAFE]  rounded-[7px] flex items-center justify-center 
-          text-[14px] font-[500] leading-[40px] ">
-            <div class="text-tamkin"> Active </div> 
-            <div>
-              until Dec 09, 2021
+    
+          <!-- Body content loader -->
+          <div class="space-y-2">
+            <div class="flex space-x-1">
+              <span class="bg-gray-300 w-[70px] h-[19px] rounded"></span>
+              <span class="bg-gray-300 w-[60px] h-[19px] rounded"></span>
+            </div>
+            <div class="flex space-x-1">
+              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
+              <span class="bg-gray-300 w-[80px] h-[19px] rounded"></span>
+            </div>
+            <div class="flex space-x-1">
+              <span class="bg-gray-300 w-[120px] h-[19px] rounded"></span>
+              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
+            </div>
+            <div class="flex space-x-1">
+              <span class="bg-gray-300 w-[130px] h-[19px] rounded"></span>
+              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
             </div>
           </div>
-          <div class="flex items-center justify-start space-x-2 mb-4">
-            <img src="/imgs/prem_plan.png" alt="Premium Icon" class="w-[43px] h-[43px]" />
-            <h3 class="text-[14px]  font-[600] leading-[21px] text-black ">Premium Plan</h3>
-          </div>
-        
-          <div class="space-y-2  ">
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-              <span class="text-[#2DADA3] font-[600] text-[13px] leading-[19px]">Active</span>
-            </p>
-        
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-            </p>
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">May 11 ,2024</span>
-            </p>
-      
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">Credit Card (**** 1234)</span>
-            </p>
-          </div>
-        
+    
+          <!-- Buttons loader -->
           <div class="mt-4 flex space-x-4">
-            <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/6  !h-[30px] ">
+            <div class="bg-gray-300 w-1/2 h-[30px] rounded"></div>
+            <div class="bg-gray-300 w-1/2 h-[30px] rounded"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[16px] w-full" v-else-if="subs.slice(1).length">
+        <div 
+          class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]" 
+          v-for="sub in subs.slice(1)" :key="sub.name"
+        >
+       <div class="flex items-center justify-between w-full mb-4">
+        <div class="flex items-center justify-start space-x-2 ">
+          <img :src="configrun.public.baseImagerUrl+sub.package_icon" :alt="sub.package_title+ 'Icon'" class="w-[43px] h-[43px]" />
+          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{sub.package_title}}</h3>
+        </div>
+        <div>
+          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{sub.app ? sub.app.app_domain : null}}</h3>
+
+        </div>
+       </div>
+          
+          <div class="space-y-2">
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Status') }}:</span> 
+              <span class=" font-[600] text-[13px] leading-[19px] capitalize" 
+              :class="[sub.status === 'active' ? 'text-[#2DADA3]' : sub.status === 'expire' ? 'text-[#D9534F]' : 'text-[#2DADA3]']">{{$t(sub.status)}}</span>
+            </p>
+    
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Start Date') }}:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(sub.from_date).toLocaleDateString()}}</span>
+            </p>
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Next Billing Date') }}:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(sub.to_date).toLocaleDateString()}}</span>
+            </p>
+    
+            <p class="space-x-1">
+              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Payment Method') }}:</span> 
+              <span class="text-black font-[600] text-[13px] leading-[19px]">{{sub.remarks}}</span>
+            </p>
+          </div>
+    
+          <div class="mt-4 flex space-x-4">
+            <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/2 !h-[30px]">
               Upgrade Now
             </button>
-            <button class="btn_bordered_dashboard !text-[10px] font-[500]   whitespace-nowrap w-1/6 !h-[30px] ">
+            <button class="btn_bordered_dashboard !text-[10px] font-[500] whitespace-nowrap w-1/2 !h-[30px]">
               Cancel Subscription
             </button>
           </div>
         </div>
-        
-    
-      
-      
       </div>
+      <div class="relative w-full bg-white shadow-sm shadow-y-[-0.2px] rounded-[10px] p-[10px] mt-[16px] animate-pulse" v-if="loadingSubs"> 
+        <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] bg-gray-200 rounded-[7px]"></div>
+      
+        <div class="flex items-center justify-start space-x-2 mb-4">
+          <div class="w-[43px] h-[43px] bg-gray-200 rounded-full"></div>
+          <div class="w-[100px] h-[21px] bg-gray-200 rounded"></div>
+        </div>
+      
+        <div class="space-y-2">
+          <p class="w-[70px] h-[19px] bg-gray-200 rounded"></p>
+          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
+      
+          <p class="w-[70px] h-[19px] bg-gray-200 rounded"></p>
+          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
+      
+          <p class="w-[110px] h-[19px] bg-gray-200 rounded"></p>
+          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
+        </div>
+      
+        <div class="mt-4 flex space-x-4">
+          <div class="w-1/6 h-[30px] bg-gray-200 rounded"></div>
+          <div class="w-1/6 h-[30px] bg-gray-200 rounded"></div>
+        </div>
+      </div>
+      <div class="relative w-full bg-white shadow-sm shadow-y-[-0.2px] rounded-[10px] p-[10px] mt-[16px]" v-else-if="subs[0]">
+        <div class="absolute right-[50px] bottom-[25px]">
+          <img src="/imgs/calender.png" class="w-[178px] h-[178px]" alt="">
+        </div>
+        <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] space-x-[4px] bg-[#F8FAFE] rounded-[7px] 
+        flex items-center justify-center text-[14px] font-[500] leading-[40px]">
+          <div class="text-tamkin"> Active </div> 
+          <div> until {{ new Date(subs[0].to_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) }}          </div>
+        </div>
+    
+        <div class="flex items-center justify-start space-x-2 mb-4">
+          <img :src="configrun.public.baseImagerUrl+subs[0].package_icon" :alt="subs[0].package_title+ 'Icon'" class="w-[43px] h-[43px]" />
+          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{subs[0].package_title}}</h3>
+        </div>
+    
+        <div class="space-y-2">
+          <p class="space-x-1">
+            <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
+            <span class=" font-[600] text-[13px] leading-[19px] capitalize" 
+            :class="[subs[0].status === 'active' ? 'text-[#2DADA3]' : subs[0].status === 'expire' ? 'text-[#D9534F]' : 'text-[#2DADA3]']">{{$t(subs[0].status)}}</span>
+          </p>
+    
+          <p class="space-x-1">
+            <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
+            <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(subs[0].from_date).toLocaleDateString()}}</span>
+          </p>
+          <p class="space-x-1">
+            <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
+            <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(subs[0].to_date).toLocaleDateString()}}</span>
+          </p>
+    
+          <p class="space-x-1">
+            <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
+            <span class="text-black font-[600] text-[13px] leading-[19px]">{{subs[0].remarks}}</span>
+          </p>
+        </div>
+    
+        <div class="mt-4 flex space-x-4">
+          <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/6 !h-[30px]">
+            Upgrade Now
+          </button>
+          <button class="btn_bordered_dashboard !text-[10px] font-[500] whitespace-nowrap w-1/6 !h-[30px]">
+            Cancel Subscription
+          </button>
+        </div>
+      </div>
+ 
+      
     </div>
-  </div>
-
-  <div class="h-[520px]  flex flex-col pt-[12px] space-y-[16px] items-center justify-start bg-gradient-to-t
-   from-[#EAFDFC] via-[#FFF7ED] to-[#E1E9FF] col-span-4 ipad-max:col-span-12 rounded-[10px] shadow-md shadow-y-[-0.2px]">
-<div class="text-[16px] font-[500] leading-[32px] text-black">
-  Unlock More Features
-</div>
-<div>
-  <img src="/imgs/features_hero.png"  class="w-[73px] h-[52px]" alt="">
-</div>
-<div class="text-[16px] font-[500] leading-[32px] text-black">
-  Premium
-</div>
-
-<div class="text-[10px] font-[400] leading-[20px] text-black ipad-max:pl-[15px] 2xl:pl-[36px] lg:pl-[15px]">
-  Upgrade to unlock exclusive features and enhanced support
-</div>
-
-<div class="text-[16px] font-[500] leading-[32px] text-black">
-  Let’s talk
-</div>
+</div>    
 
 
-<div class="ipad-max:pl-[15px] lg:pl-[15px] 2xl:pl-[36px] self-start  text-[16px] font-[500] leading-[32px] text-black">
-
-  Includes
-</div>
-
-<div class="flex flex-col items-start justify-center self-start ipad-max:pl-[15px] 2xl:pl-[36px] lg:pl-[15px] space-y-2">
-<div class="flex items-center justify-center space-x-[4px]">
-  <div>
-    <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
-  </div>
-  <div class="text-[11px] font-[500] leading-[20px] text-black">
-    Aut molestiae dolor et ut nam dicta.
-  </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
-  <div>
-    <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
-  </div>
-  <div class="text-[11px] font-[500] leading-[20px] text-black">
-    Aut molestiae dolor et ut nam dicta.
-  </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
-  <div>
-    <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
-  </div>
-  <div class="text-[11px] font-[500] leading-[20px] text-black">
-    Aut molestiae dolor et ut nam dicta.
-  </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
-  <div>
-    <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
-  </div>
-  <div class="text-[11px] font-[500] leading-[20px] text-black">
-    Aut molestiae dolor et ut nam dicta.
-  </div>
-</div>
-<div class="flex items-center justify-center space-x-[4px]">
-  <div>
-    <img src="/imgs/shield.png" class="w-[17px] h-[17px]" alt="">
-  </div>
-  <div class="text-[11px] font-[500] leading-[20px] text-black">
-    Aut molestiae dolor et ut nam dicta.
-  </div>
-</div>
-</div>
-
-
-<button class="btn-dashboard hover_tamin w-[110px] !text-[12px] font-[500]">Contact Us</button>
-  </div>
 </div>
 
 
@@ -323,7 +242,7 @@ const handleSelectedItemProjectName = (item: any) => {
 
 
 
-    <div class="bg-white w-full h-full mt-[32px] rounded-[10px]  p-[32px]">
+    <div class="bg-white w-full h-full mt-[32px] rounded-[10px]  p-[32px]" v-if="subs.length === 0 && !loadingSubs">
 
 
         <div class="text-[18px] font-[500] text-black">
@@ -331,13 +250,13 @@ const handleSelectedItemProjectName = (item: any) => {
         </div>
 
 
-        <div class="flex flex-col items-center justify-center mt-[65px] space-y-[10px]">
+        <div class="flex flex-col items-center justify-center  space-y-[10px]">
             <img src="/imgs/no_subs.png" class="w-[71px] h-[71px]" alt="">
             <div class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center">
                 You don't have any subscriptions in this list at the moment
             </div>
 
-            <button class="btn-dashboard hover_tamkin w-[158px]">Subscribe Now</button>
+            <button  @click="$router.push(localePath('/packages'))" class="btn-dashboard hover_tamkin w-[158px]">Subscribe Now</button>
         </div>
 
      

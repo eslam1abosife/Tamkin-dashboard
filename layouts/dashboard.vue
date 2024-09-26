@@ -332,6 +332,23 @@ const openModals = computed(() => {
     isOpen('crypto_packages_step2') ||
     isOpen('crypto_packages_success') ||
     isOpen('paypal_packages') ||
+    isOpen('add_package_modal_addsite') ||
+    isOpen('cardModal_addsite') ||
+    isOpen('payment_methods_addsite') ||
+    isOpen('crypto_addsite_step1') ||
+    isOpen('crypto_addsite_step2') ||
+    isOpen('crypto_addsite_success') ||
+    isOpen('paypal_addsite') ||
+    isOpen('add_package_modal_mysite') ||
+    isOpen('cardModal_mysite') ||
+    isOpen('payment_methods_mysite') ||
+    isOpen('crypto_mysite_step2') ||
+    isOpen('crypto_mysite_step1') ||
+    isOpen('crypto_mysite_success') ||
+    isOpen('success_pay_addsite') ||
+
+    
+
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -409,16 +426,33 @@ const openToast = (msg) => {
 
 
 watch(() => route.path, (newPath) => {
-if(process.client ){
-if(window.$chatwoot){
-  if(!isLinkActive('/embed-code')){
-  window.$chatwoot.toggleBubbleVisibility("hide");
-  window.$chatwoot.toggle("close");
+  if (process.client) {
+    const checkChatwootAvailability = () => {
+      if (window.$chatwoot) {
+        // Ensure the specific Chatwoot element exists before proceeding
+        const chatwootBubble = document.querySelector('.woot-widget-bubble'); // Replace with the actual class/selector
 
- }
-}
-}
+        if (chatwootBubble) {
+          if (!isLinkActive('/embed-code')) {
+            window.$chatwoot.toggleBubbleVisibility("hide");
+            window.$chatwoot.toggle("close");
+          }
+        } else {
+          // Optional: log an error or retry after a short delay
+          // console.error("Chatwoot bubble not found yet.");
+          setTimeout(checkChatwootAvailability, 100); // Retry after 100ms
+        }
+      } else {
+        // Optional: Retry if $chatwoot isn't available yet
+        setTimeout(checkChatwootAvailability, 100); // Check again in 100ms
+      }
+    };
+
+    checkChatwootAvailability();
+  }
 }, { immediate: true });
+
+
 onMounted(async () => {
   const userStore = useUserStore();
   const user = JSON.parse(localStorage.getItem('user'));
@@ -528,7 +562,7 @@ import 'vue-loading-overlay/dist/css/index.css';
         :class="[
     sideBarOpenMobile
       ? 'fixed inset-0 z-[9999] w-full h-screen '
-      : 'hidden lg:flex',
+      : 'ipad-max:hidden  lg:flex',
     sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
   ]">
       <div class="h-full w-full relative" :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']">

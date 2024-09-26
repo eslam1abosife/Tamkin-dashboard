@@ -168,7 +168,9 @@ export const usePlayerStore = defineStore('player', {
             $this.wear(skin_item)
           }
         })
-        await this.saveCharacterOptions(AppName);
+        await this.saveCharacterOptions(AppName,true);
+        this.toast(useNuxtApp().$i18n.t('Default Mode Has Been Restored Successfully'), { hideIn: 3000, type: 'success' })
+
         const marketStore = useMarketStore();
         marketStore.resetModal = false;
         // todo
@@ -197,25 +199,32 @@ export const usePlayerStore = defineStore('player', {
           window.hideClothesVisibility(skin_item.name);
         }
       },
-      async saveCharacterOptions(AppName) {
+      async saveCharacterOptions(AppName,reset) {
         const { setAppCharacter, setCharacterOptions } = useSetCharacter();
         const marketStore = useMarketStore();
         let item = null;
         let items = marketStore.selectedForPreview;
         item = items?.[0] || null;
         // if it is a character, item here means character
+        if(AppName === 'default'){
+              
+          this.loadingChanges = true
+        }else{
+          this.savetoallloading = true
+        }
         if (item?.allowed_skins_list){
 
-          if (!this.owned(item))
+          if (!this.owned(item)){
+            this.loadingChanges = false
+            this.savetoallloading = false
             return this.toast('You must buy this character first.', { hideIn: 3000, type: 'warning' })
 
-          if(AppName === 'all'){
-            this.savetoallloading = true
-          }else{
-            this.loadingChanges = true
           }
+            
+    
 
           let succeeded = await setAppCharacter(item.name, AppName);
+          
           if (succeeded){
             // updating the ui with the applied tag
             this.characters.map(function (character) {
@@ -223,9 +232,13 @@ export const usePlayerStore = defineStore('player', {
             })
             // emptying the selectedForPreview array
             marketStore.resetAll();
-            this.toast('Character saved successfully.', { hideIn: 3000, type: 'success' })
-            this.loadingChanges = false
-            this.savetoallloading = false
+           
+            if(!reset){
+              this.toast('Character saved successfully.', { hideIn: 3000, type: 'success' })
+              this.loadingChanges = false
+              this.savetoallloading = false
+            }
+         
 
           }
         }
@@ -233,11 +246,17 @@ export const usePlayerStore = defineStore('player', {
         // skin item does not require existing skins in the selectedForPreview array
         // it gets the items from userSelectedClothes
         else {
-          if (this.isActiveCharCurrentlyWearedSkinsHaveUnownedSkins)
+          if (this.isActiveCharCurrentlyWearedSkinsHaveUnownedSkins){
+            this.loadingChanges = false
+            this.savetoallloading = false
             return this.toast('You must buy all the skins first.', { hideIn: 3000, type: 'warning' })
+
+          }
+            
 
           let skins = this.activeCharCurrentlyWearedSkinsNames.map(item_name => ({ skin_item: item_name }));
           let succeeded = await setCharacterOptions(skins, this.activeCharacter.name, AppName);
+          
           if (succeeded){
             // emptying the selectedForPreview array and hide the save footer
             marketStore.resetAll();
@@ -254,6 +273,8 @@ export const usePlayerStore = defineStore('player', {
               })
             })
             this.toast('Character clothes saved successfully.', { hideIn: 3000, type: 'success' })
+            this.loadingChanges = false
+            this.savetoallloading = false
           }
         }
         // updating the ui from backend

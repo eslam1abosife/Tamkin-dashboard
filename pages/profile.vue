@@ -31,6 +31,7 @@ const { changeCompanyInfo, loading: companyInfoLoading } = useChangeCompanyInfo(
 import { useGetAllCountries, useChangeMemberInfo} from "@/composables/useProfile";
 
 const { changeMemberInfo, loading: memberInfoLoading } = useChangeMemberInfo();
+const { getCountries, countries } = useGetAllCountries();
 
 const { getProfileCompleteScore, score } = useGetProfileCompleteScore();
 import { useGetInvestor } from "@/composables/useProfile";
@@ -133,6 +134,8 @@ onBeforeMount(async () => {
   loadingInvestor.value = true
 
   await profileStore.fetchMember();
+  await getCountries();
+  profileStore.countries = countries.value
 
   await profileStore.getCurrentTeam();
   await getProfileCompleteScore(profileStore.currentTab);

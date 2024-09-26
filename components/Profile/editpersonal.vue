@@ -177,22 +177,18 @@ const resetcancel = () =>{
           v-model="v$.phone.$model"
           @on-input="getPhone"
           :validCharactersOnly="true"
-          :inputOptions="{
-            showDialCode: true,
-            styleClasses: ['input_floating_label bg-transparent'],
-            maxlength: 15,
-          }"
-          :dropdownOptions="{ showFlags: false, showDialCodeInSelection: true }"
-          :styleClasses="telInputStyleClasses"
           :auto-format="false"
-          mode="national"
+          class="!w-full"
+                      :dropdownOptions="{showFlags:true,showDialCodeInSelection:true}"
+                      :inputOptions="{ showDialCode: false,maxlength:12 , styleClasses: ['input_floating_label w-full bg-transparent'] }" 
+                    mode="national"
+                      :styleClasses="telInputStyleClasses" 
         >
           <template v-slot:arrow-icon="{ open }">
             <img
               src="/assets/imgs/payment_methods/country_arrow.svg"
               :class="[open ? 'rotate-90' : '']"
-              class="ml-[20px] mb-[0px] float-right w-[14px] h-[8px]"
-            /> </template
+              class="rtl:mr-[20px] ltr:ml-[20px] mb-[0px] float-right w-[14px] h-[8px]"             /> </template
         ></vue-tel-input>
         <input
           v-if="false"
@@ -342,4 +338,10 @@ const resetcancel = () =>{
 .vue-tel-input:focus-within {
   @apply !shadow-none;
 }
+.vti__selection{
+  .vti__flag {
+    @apply !w-[30px];
+  }
+}
+
 </style>

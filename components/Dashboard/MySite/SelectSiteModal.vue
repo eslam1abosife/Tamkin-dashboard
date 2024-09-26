@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
-
+const {t} = useI18n()
 const { getInviteApps, defaultApp, apps, loading: inviteAppLoading } = useGetAppInvites();
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
+const {$toast} = useNuxtApp()
+const { getAvatarLetters } = useGetAvatarLetters();
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   await getInviteApps({ agency: user.agency });
@@ -24,13 +27,6 @@ const props = defineProps({
   showModal: Boolean
 })
 const checked = ref('');
-const permissions = ref([
-  { "id": "1", "name": "Tamkin", "image": 'https://via.placeholder.com/24' },
-  { "id": "2", "name": "Tamkin", "image": 'https://via.placeholder.com/24' },
-  { "id": "3", "name": "Tamkin", "image": 'https://via.placeholder.com/24' },
-
-
-])
 
 //       const checkAll = computed({
 //   get() {
@@ -53,14 +49,16 @@ const clearInput = () => {
 };
 
 const filteredApps = computed(() => {
-  return apps.value.filter(ele => ele.title.toString().toLowerCase().includes(search.value.toString().toLowerCase().trim()))
+  return apps.value.filter(ele => ele.title.toString().toLowerCase().includes(search.value.toString().toLowerCase().trim()) 
+  && ele.status !== 'deleted')
+  //  && ele.status !== 'draft'
 });
 
 onMounted(async () => {
   await getApps();
   if (defaultApp.value) {
-    console.log(defaultApp.value.name);
-    console.log(checked.value);
+    // console.log(defaultApp.value.name);
+    // console.log(checked.value);
     checked.value = defaultApp.value.name;
   }
 });
@@ -75,6 +73,7 @@ const submit = async () => {
     emit('onSuccess', 'Selected Successfully!');
     closeModal('selectSite');
     getApps();
+    $toast(t('Default Site Updated Successfully!'),{hideIn:3000});
   } catch (err) {
     errMsg.value = err;
   }
@@ -83,8 +82,8 @@ const submit = async () => {
 
 <template>
   <div v-if="isOpen('selectSite')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
-    lg:h-[530px] w-10/12 "
+    class="fixed z-[9999] top-[calc(50vh-255px)] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] 
+    h-auto w-10/12 "
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('selectSite')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
@@ -138,9 +137,17 @@ const submit = async () => {
           <tbody class="divide-y divide-gray-200 dark:divide-light">
             <tr v-for="app in filteredApps " :key="app.name">
               <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
-                <img v-if="app.image" :src="app.image" alt="Logo" class="w-6 h-6">
-                <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6">
-                <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{ app.title
+          
+                <img v-if="app.favicon" :src="app.favicon" alt="Logo" class="w-6 h-6">
+             
+                <div v-else-if="!app.favicon && app.title !== 'Internal Service'" 
+                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
+
+                  {{ getAvatarLetters(app?.title) }}
+                </div>
+                <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]"  v-if="app?.title === 'Internal Service' "/>
+
+                <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{ app?.title === 'Internal Service' ? app.title : app.app_domain
                   }}</span>
               </td>
               <td class="py-4  rtl:text-lefet ltr:text-right ">

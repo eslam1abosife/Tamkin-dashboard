@@ -10,6 +10,7 @@ const props = defineProps({
     type: String,
     default: 'No results found',
   },
+  showSubText:Boolean
 });
 </script>
 
@@ -19,7 +20,7 @@ const props = defineProps({
     <h6 class="no-data-text mt-2 !text-[15px] font-medium" :class="!$slots.button && '!text-[16px]'">{{ $t(text) }}</h6>
     <div class="mt-2 p-0 mb-8 " :class="!$slots.button ? '!mt-1' : '!mt-8'">
       <slot name="button" />
-      <p v-if="!$slots.button" class="text-xs text-gray-500">{{$t('It seems we can’t find any results based on your search.')}}</p>
+      <p v-if="showSubText" class="text-xs text-gray-500">{{$t('It seems we can’t find any results based on your search.')}}</p>
     </div>
   </div>
 </template>

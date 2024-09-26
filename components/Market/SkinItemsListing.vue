@@ -78,7 +78,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         <p
         class="text-[10px] font-[300]  text-darkGrey dark:text-whiteTamkin leading-[17px] max-w-2/4 truncate "
       >
-        {{ skin_item.description }} 
+        {{ $t(`${skin_item.description}`)}} 
       </p>
         <!-- <div v-if="skin_item.specialOffer || skin_item.discount || skin_item.package" class="flex flex-col"> -->
         <div class="flex flex-col !mt-[16px]">
@@ -160,7 +160,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             </div>
           </div>
           <div
-            class="flex items-end justify-between w-full mt-[16px]"
+            class="flex items-end justify-between w-full "
             v-if="marketStore.cartable(skin_item) && skin_item.cost && (!skin_item.offer_cost || skin_item.offer_cost == 0)"
           >
             <div

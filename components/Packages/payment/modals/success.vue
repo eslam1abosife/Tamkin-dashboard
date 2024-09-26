@@ -3,17 +3,47 @@ const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
+const packagesStore = usePackgesStore()
+const mysiteStore = useMySiteStore()
+const addSiteStore = useAddSiteStore()
 const setDefaultQuery = (tryagain) => {
  if(tryagain){
   router.push({
     path: route.path, 
     query: {
       paid: undefined, 
-      status: undefined
+      status: undefined,
+      package:route.query.package
     }
   })
-  
-return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
+
+  // const checkInPackages = packagesStore.getPackageByTypeAndCategory('Package').find(pck => pck.name == route.query.package)
+
+  // if(checkInPackages){
+  //   packagesStore.currentPackage = checkInPackages
+  //   packagesStore.packagePayload = {
+  //   package: packagesStore.currentPackage.name,
+  //   urls: packagesStore.urls.length
+  //     ? packagesStore.urls.filter((website: any) => website.url !== null)
+  //     : [].map((website: any) => website.url),
+  //   // apps: rou ? webs.value.map((website: any) => website.name) : [],
+  //   payDateType: selectedPackage.value === 0 ? 'trial' : selectedPackage.value,
+  //   locale: locale.value,
+  //   total: totalCost.value,
+  //   packageExtraType:packageTypeToSend.value
+  // };
+  // }
+if(currentView('success_pay_package') === 'mysite'){
+  mysiteStore.currentPackage = ''
+    mysiteStore.packagePayload = ''
+    mysiteStore.tags = []
+    mysiteStore.validatedSites = []
+    mysiteStore.loadingBlock = []
+  return navigateTo('success_pay_package', 'mysite', 'payment_methods_mysite')
+}else {
+    
+return navigateTo('success_pay_package', 'packages', 'payment_methods_mysite')
+}
  }else {
   router.push({
     path: route.path, 
@@ -22,9 +52,16 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
       status: undefined
     }
   })
+  addSiteStore.currentPackage = ''
+    addSiteStore.packagePayload = ''
+    addSiteStore.tags = []
+    addSiteStore.validatedSites = []
+    addSiteStore.loadingBlock = []
+
   closeModal('success_pay_package')
  }
 }
+
 
 </script>
 

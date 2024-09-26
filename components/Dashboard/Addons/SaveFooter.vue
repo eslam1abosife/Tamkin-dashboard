@@ -50,7 +50,7 @@ const saveFn = () => {
             {{$t('Discard')}}
           </button>
           <button
-            class="btn_bordered_dashboard w-[180px]"
+            class="btn_bordered_dashboard w-auto"
             :disabled="disableLoadingToAll"
             @click="saveToAllSites"
           >
