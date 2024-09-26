@@ -9,11 +9,12 @@ export default function() {
 //   const { $toast } = useNuxtApp();
 const userStore = useUserStore()
 const withdrawStore = useWithdrawStore()
+const profileStore = useProfileStore()
   const getAllReferrals = async (agency) => {
     try {
       const res = await api.post('/Sales Invoice/Get',{
         "where":{
-          sales_partner:userStore.user.user_id,
+          sales_partner:profileStore.company.ref_sales_partner,
 
              status: "Paid"
       },

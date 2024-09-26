@@ -30,7 +30,7 @@ export default function() {
         const data = type === null ?withOutType : withType
         
         try {
-            const res = await api.post('/Tamkin Agency Apps/Get', {
+            const res = await api.post('/mySite/GetAgencyApps', {
                 ...data
             });
             if(!res.data.succeeded) throw(res.data.message);

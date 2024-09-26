@@ -82,7 +82,12 @@ const cardCvcOptions = ref({
 
 })
 const elementsOptions = ref({
-  locale: locale.value
+  locale: locale.value,
+  fonts: [
+    {
+      cssSrc: locale.value === 'ar' ? 'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap' :'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'
+    }
+  ]
 
 });
 const elms = ref<any>(null); 
@@ -98,28 +103,39 @@ const cardErrors = ref([]);
 const cardIsEmpty = ref(true); 
 const expiryChange = ref(true)
 const cvvChange = ref(true)
-// Load Stripe
+const loadingFont =ref(true)
+const elementsReady = ref(false);
+
+
 onMounted(async () => {
   try {
+
     const stripe = await loadStripe(stripeKey.value);    await getCountries();
 
     if (stripe) {
-      stripeLoaded.value = true;
+ 
+
+      stripeElementReadyEV()
+  elementsReady.value = true
+
     } else {
       console.error("Failed to load Stripe");
     }
+
   } catch (error) {
     console.error("Error loading Stripe:", error);
   }
 });
 const handleSelectedItemProjectName = (item: any) => {
-  // console.log(item)
-  state.country = item.code
+  console.log(item)
+  state.country = item.id
 };
 // Stripe Element Ready Event
 const stripeElementReadyEV = () => {
   // Stripe element is ready
   console.log("Stripe element is ready");
+      stripeLoaded.value = true;
+
 };
 
 // Completed Stripe Event
@@ -304,7 +320,7 @@ const addNew = async () => {
             {{ $t("Add New Card") }}
           </h1>
         </div>
-        <div v-if="stripeLoaded"
+        <div v-if="stripeLoaded && elementsReady"
           class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
@@ -319,7 +335,7 @@ const addNew = async () => {
             class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
           >
             <div
-              class="flex items-center justify-start lg:flex-row flex-col  rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+              class="flex items-center justify-start lg:flex-row flex-col  rtl:space-x-reverse space-x-[20px] lg:space-y-[0]
                space-y-[25px] mb-[25px] w-full"
             >
               <div class="w-full">
@@ -401,16 +417,19 @@ const addNew = async () => {
             </div>
 
           <StripeElements
-            class="w-full relative"
+            class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
             
-            v-if="stripeLoaded"
             v-slot="{ elements, instance }"
             ref="elms"
             @ready="stripeElementReadyEV"
             :stripe-key="stripeKey"
             :elements-options="elementsOptions"
+            v-if="stripeLoaded && elementsReady"
+            
           >
+    
             <StripeElement
+
               ref="cardNumberElement"
               type="cardNumber"
             @change="completedStripe"
@@ -423,7 +442,7 @@ const addNew = async () => {
               class="w-full input_floating_label "
             />
             <div
-            class="w-full lg:w-4/6 absolute rtl:left-[-17px] ltr:right-[17px]"
+            class="w-full lg:w-4/6 absolute rtl:left-[17px] ltr:right-[17px]"
             v-if="cardErrors && cardErrors.length > 0"
           >
             <p class="error_message">
@@ -434,53 +453,60 @@ const addNew = async () => {
             </p>
           </div>
         
-            <div class="flex items-center justify-center mt-[14px] rtl:space-x-reverse space-x-[20px]">
-              <StripeElement
-              ref="card_cvc"
-              type="cardCvc"
-              
-              :options="cardCvcOptions"
-            @change="handleChangeCVV"
-              placeholder="test"
-              :elements="elements"
-              class="w-2/4 input_floating_label relative"
-            />
-            <div
-            class="w-full lg:w-4/6 absolute bottom-0  rtl:left-[-17px] ltr:right-[17px]"
-            v-if="cvvErrors && cvvErrors.length > 0"
-          >
-            <p class="error_message">
-              <span
-               
-                >{{ cvvErrors[0] }}</span
-              >
-            </p>
-          </div>
-            <StripeElement
-            ref="card"
-            type="cardExpiry"
-            
-            :options="cardOptions"
-            @change="handleExpiryChange"
-            :class="{
-              input_error:
-              expiryErrors && expiryErrors.length > 0,
-            }"
-            :elements="elements"
-            class="w-2/4 input_floating_label relative"
-          />
+            <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
+         <div class="relative w-2/4">
+          <StripeElement
+          ref="card_cvc"
+          type="cardCvc"
 
-          <div
-          class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[-17px] ltr:right-[10px]"
-          v-if="expiryErrors && expiryErrors.length > 0"
+          :class="{
+            input_error:
+           cvvErrors.length > 0
+          }"
+          :options="cardCvcOptions"
+        @change="handleChangeCVV"
+          :elements="elements"
+          class=" input_floating_label w-full"
+          />
+      
+        <div
+        class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[17px] ltr:right-[10px]"
+        v-if=" cvvErrors.length > 0"
+      >
+        <p class="error_message">
+         {{ $t('CVV is not valid')}}
+          
+        </p>
+      </div>
+         </div>
+      <div class="relative w-2/4">
+        <StripeElement
+        ref="card"
+
+        type="cardExpiry"
+        
+        :options="cardOptions"
+        @change="handleExpiryChange"
+        :class="{
+          input_error:
+          expiryErrors && expiryErrors.length > 0,
+        }"
+        :elements="elements"
+        class=" input_floating_label w-full "
+      />
+
+      <div
+      class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[17px] ltr:right-[10px]"
+      v-if="expiryErrors && expiryErrors.length > 0"
+    >
+      <p class="error_message">
+        <span
+         
+          >{{ $t('Date is not valid') }}</span
         >
-          <p class="error_message">
-            <span
-             
-              >{{ expiryErrors[0] }}</span
-            >
-          </p>
-        </div>
+      </p>
+    </div>
+      </div>
             </div>
           </StripeElements>
 </div>
@@ -538,7 +564,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
 </div>
 <div
   class="flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0 space-y-[16px] 
-   rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+   rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
 >
   <div class="w-full">
     <div class="relative">
@@ -616,7 +642,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
 
 <div
   class="lg:mt-0 mt-[16px] flex items-start lg:items-center justify-center lg:justify-start lg:flex-row flex-col lg:space-y-0
-  space-y-[16px]  rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full"
+  space-y-[16px]  rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full"
 >
   <div class="w-full ">
     <div class="relative">
@@ -655,18 +681,17 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
     </div>
   </div>
   <div class="w-full lg:mt-0 mt-[16px]">
-<!-- {{ countries }} -->
+
     <TranslateSelectInput
         @getCurrentSelectedItem="handleSelectedItemProjectName"
         :enableSearch="true"
         placeholderinput="Country*"
         :errorField="v$.country.$error && v$.country.required.$invalid"
-        :list="countries.map(m=>{return {name:m.country_name,icon:m.icon,id:m.code}})"
+        :list="countries.map(m=>{return {name:m.country_name,icon:m.image,id:m.code}})"
         nameKey="name"
         idField="id"
         iconKey="icon"
         :successField="!v$.country.$error && !v$.country.$invalid"
-        :currentListValue="state.country"
     />
 
                   <div class="w-full lg:w-4/6 " v-if="(v$.country.$error && v$.country.required.$invalid)">
@@ -709,7 +734,8 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
             <button class="btn_bordered_dashboard" @click="closeModalCard">
               {{ $t("Cancel") }}
             </button>
-            <button class="btn-dashboard hover_tamkin" @click="addNew" :disabled="cvvChange || expiryChange ||cardIsEmpty || loadingAddCard || cardErrors.length  || v$.$invalid">
+            <button class="btn-dashboard hover_tamkin" @click="addNew" 
+            :disabled="cvvChange || expiryChange ||cardIsEmpty || loadingAddCard || cardErrors.length  || v$.$invalid">
               <div class="flex items-center justify-center">
                 <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
       
@@ -743,7 +769,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
 
       </div> -->
         </div>
-        <div v-if="!stripeLoaded"
+        <div v-if="!stripeLoaded && !elementsReady"
   class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
   style="box-shadow: 0px 4px 24px 8px #51459f14"
 >
@@ -755,7 +781,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
     class="flex flex-col items-start justify-center px-[20px] mt-[21px] w-full"
   >
     <div
-      class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[42px] lg:space-y-[0]
+      class="flex items-center justify-start lg:flex-row flex-col rtl:space-x-reverse space-x-[20px] lg:space-y-[0]
       space-y-[25px] mb-[25px] w-full"
     >
       <div class="w-full animate-pulse">
@@ -783,7 +809,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
       <div class="mt-2 w-4/6 h-4 bg-gray-300 rounded"></div>
     </div>
 
-    <div class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[42px] lg:mb-[25px] w-full animate-pulse">
+    <div class="flex lg:flex-row flex-col mt-[16px] space-y-[16px] lg:space-y-0 rtl:space-x-reverse space-x-[20px] lg:mb-[25px] w-full animate-pulse">
       <div class="w-full h-10 bg-gray-300 rounded"></div>
       <div class="w-full h-10 bg-gray-300 rounded"></div>
     </div>

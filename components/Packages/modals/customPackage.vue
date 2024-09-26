@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import { required, email, sameAs,helpers } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
 import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import { useCustomPackage, useGetPackages } from "~/composables/usePackages";
+import { useCheckifSiteblocked, useGetTraffic,useGetPriceByTraffic } from "@/composables/usePackages";
+const {t} = useI18n()
+const { checkifBlockedSite, messageStatus:messageStatusBlocked, codeStatus:codeStatusBlocked } = useCheckifSiteblocked();
+const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 
+const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
+  return domainRegex.test(value);
+});
 const { sendCustomPackage,codeStatus,messageStatus} = useCustomPackage();
 const packagesStore = useGetPackages()
 const {
@@ -24,7 +31,7 @@ const state = reactive({
     phone_number:"",
 });
 const rules = {
-    website: { required },
+    website: { required ,isDomain},
     number_of_sites: { required },
     company_name: { required },
     services: { required },
@@ -53,13 +60,28 @@ const emit = defineEmits(['onSuccess']);
 const {$toast}= useNuxtApp()
 const errMsg = ref(null);
 const loadingPackage = ref(false)
+const blockedError = ref(false)
+const cleanWebsiteUrl = (url: string) => {
+  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
+}
+
 const submit = async () => {
     loadingPackage.value = true
+   let resbl;
+   if (state.website !== '') {
+    resbl = await checkifBlockedSite(state.website);
+
+    if (resbl.length > 0) {
+      blockedError.value = true
+      loadingPackage.value = false;
+
+      return; 
+    }
    const res =  await sendCustomPackage({...state,package:getData().package})
- 
+
  if(codeStatus.value === 200){
 
-    $toast(`Request Sent successfully`,{hideIn:4000})
+    $toast(t(`Request Sent successfully`),{hideIn:3000})
     closeModal('custom_package')
     packagesStore.bundleSelectedPackage = ''
 
@@ -76,7 +98,7 @@ const submit = async () => {
 
  }
 
-}
+}}
 </script>
 
 <template>
@@ -100,29 +122,40 @@ const submit = async () => {
     {{$t('Custom Package allows users to tailor a set of services or products to meet specific needs, offering flexibility and personalized options for a unique experience')}}</p>
 
     <div class="w-full relative mt-[14px]">
-      <input type="email" placeholder="" id="email"
+      <input type="text" placeholder="" id="twebsite" @input="blockedError = false"
         class="input_floating_label peer !font-[400] dark:text-whiteTamkin" v-model="v$.website.$model" :class="{
-    input_error:
-      (v$.website.$error && v$.website.required.$invalid) ,
-    error_text:
-      (v$.website.$error && v$.website.required.$invalid),
-    input_success: !v$.website.$error && !v$.website.$invalid,
-  }" />
-      <label for="email" class="floating_label" :class="[
-    (v$.website.$error && v$.website.required.$invalid)
+          input_error:
+            (v$.website.$error && v$.website.required.$invalid) || blockedError ||  (v$.website.$error && v$.website.isDomain.$invalid),
+          error_text:
+            (v$.website.$error && v$.website.required.$invalid) || blockedError ||  (v$.website.$error && v$.website.isDomain.$invalid),
+          input_success:
+            !v$.website.$error && !v$.website.$invalid && !blockedError,
+        }"
+         />
+      <label for="twebsite" class="floating_label" :class="[
+    (v$.website.$error && v$.website.required.$invalid) || blockedError ||  (v$.website.$error && v$.website.isDomain.$invalid)
       ? '!text-error'
       : '',
   ]">
         {{ $t("Website Url*") }}
       </label>
-      <div class="w-full lg:w-4/6 " v-if="(v$.website.$error && v$.website.required.$invalid)
+      <div class="w-full lg:w-4/6 " v-if="(v$.website.$error && v$.website.required.$invalid) || blockedError || 
+      (v$.website.$error && v$.website.isDomain.$invalid)
     ">
         <p class="error_message">
-          <span v-if="v$.website.$error && v$.website.required.$invalid">{{
-    $t("The Website Url is required")
+      
+          <span
+          v-if="
+            (v$.website.$error && v$.website.required.$invalid) ||
+            (v$.website.$error && v$.website.isDomain.$invalid)
+          "
+          >{{ $t("Website is not valid") }}</span
+        >
+  <span v-if="blockedError">{{
+    $t("Unable to add the current website because it is blocked.") 
   }}</span>
-       
         </p>
+
       </div>
     </div>
 

@@ -266,7 +266,7 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ packagesStore.packagePayload.total.toFixed(0) }}
+                    ${{ packagesStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
                 <tr
@@ -283,7 +283,7 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0) }}
+                    ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
                 <tr
@@ -299,7 +299,7 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (packagesStore.packagePayload.total - discountAmount).toFixed(0) }}
+                    ${{ (packagesStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>

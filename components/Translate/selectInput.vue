@@ -86,7 +86,10 @@ onMounted(() => {
             :src="selectedOption[iconKey]"
             class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
           />
-          <div :class="[errorField ? '!text-error' : '']">
+          <div class=" " :class="[errorField ? '!text-error' : '',  
+          selectedOption && selectedOption[nameKey] && selectedOption[nameKey].length >= 20  ? 'w-64 truncate' : 'w-auto']
+            
+           ">
             {{ selectedOption ? $t(selectedOption[nameKey]) : $t(placeholderinput) }}
           </div>
         </div>
@@ -114,7 +117,7 @@ onMounted(() => {
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'min-h-[100px]' : 'h-auto']">
+      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'max-h-[100px]' : 'h-auto']">
         <li
           v-for="(listItem, i) in filteredList"
           :key="listItem[idField]"

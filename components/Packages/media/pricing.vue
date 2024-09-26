@@ -12,6 +12,8 @@ const {
 const openBuyModal = (pck)=>{
   packagesStore.currentPackage = pck
   openModal('add_package_modal_packages')
+  packagesStore.currentWebsite = ''
+
 }
 </script>
 

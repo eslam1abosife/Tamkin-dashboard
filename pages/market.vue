@@ -115,6 +115,7 @@ const handleSave = (AppName) => {
 
     playerStore.saveCharacterOptions(AppName);
 
+  
 
 
   }

@@ -142,7 +142,8 @@ html {
 
     .dashboard-nav-link {
         @apply flex items-center justify-start rtl:space-x-reverse space-x-[12px]   p-1
-         bg-whiteTamkin dark:bg-transparent dark:text-whiteTamkin text-darkGrey hover:bg-tamkinLight rounded-[10px] h-[40px] cursor-pointer text-[16px] font-[400];
+         bg-whiteTamkin dark:bg-transparent dark:text-whiteTamkin text-darkGrey
+          hover:bg-tamkinLight rounded-[10px] h-[40px] w-full cursor-pointer text-[16px] font-[400];
         line-height: 24px;
 
         &.closed_sidebar {

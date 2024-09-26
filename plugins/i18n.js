@@ -40,6 +40,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     //   window.$chatwoot.toggle("close");
     //   window.$chatwoot.toggleBubbleVisibility("hide");
     // }
+// nuxtApp.$removeChatwootInstance()
   
     const userLanguage = nuxtApp.$i18n.locale.value;
   
@@ -57,7 +58,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     updateChatwootOnLanguageChange()
 
     isLanguageLoading.value = false; // Hide the loader after switching
-
 
   };
 

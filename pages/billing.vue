@@ -540,7 +540,7 @@ function leaveCart(el, done) {
                 }}
                 </div>
                 <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">
-                  {{ $t(`${invoice.order_type }`)}}
+                  {{ $t(`${invoice.order_type}`)}}
                 </div>
               </td>
             </tr>

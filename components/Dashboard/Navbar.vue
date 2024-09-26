@@ -228,7 +228,7 @@ watch(
   <div
     class="flex-col items-start justify-start lg:flex mx-auto   fixed rtl:lg:right-auto 
     rtl:right-0 ltr:left-0 px-6 h-screen z-[140]  transition-all duration-75 ease-in-out transform-gpu"
-    :class="[sideBarOpen ? 'w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
+    :class="[sideBarOpen ? ' w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
     style="box-sizing: border-box !important"
   >
     <div class="flex flex-col items-start justify-start w-full  transition-all duration-100 ease-in-out">

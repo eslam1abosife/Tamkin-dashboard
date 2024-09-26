@@ -25,7 +25,7 @@ export const usePackgesStore = defineStore('packages', {
     features:[],
     discountType:'month',
     loadingData:true,
-    traffic_level:'',
+    traffic_level:{name:'Up to 100K page views/mo'},
     investorProgram:'',
     investorUser:'',
     loadingAccessibility:true,
@@ -41,7 +41,9 @@ validPromo : false,
 
 noDiscount:false,
 loadingPromo:false,
-selectedCrypto:''
+selectedCrypto:'',
+currentWebsite:'',
+openedCurrentSite:false
 
   }),
 
@@ -96,6 +98,14 @@ this.investorUser = res[0]
       this.sections = packsdata.sections
       this.features = packsdata.list_feature
     },
+    async getDataPackage(){
+      // this.loadingData = true
+      await this.getPacks()
+      await this.getPackagesTypes()
+     await this.getCategories()
+     this.loadingData = false
+
+    },
     setTabTitle(title) {
       this.currentTabTitle = title
     },
@@ -112,12 +122,7 @@ this.investorUser = res[0]
       this.showNavbar = false
       this.currentTabTitle = tab.title
 
-      if (tab.title === 'Plugins') {
-        this.showNavbar = true
-      } else {
-        this.showNavbar = false
-
-      }
+   
     },
 
     async getPackagesTypes() {
@@ -232,7 +237,7 @@ getTabDetails: (state) => (tab, highlightText, page) => {
     
     
     if (state.currentTab && state.currentTab.name !=='') {
-      console.log(filteredPackages)
+      // console.log(filteredPackages)
       filteredPackages = filteredPackages
       .filter(pkg => 
         pkg.category === state.currentTab.name
@@ -252,23 +257,29 @@ getTabDetails: (state) => (tab, highlightText, page) => {
     },
     
     getAddonsOrExtras: (state) => (packageType) => {
+      // Initial filter by type and package_type
       let filteredPackages = state.packages.filter(pkg => 
         pkg.type === state.currentType.name && 
         pkg.package_type === packageType
       );
-      
-      
+    
+      // If there is a currentTab, further filter by category
       if (state.currentTab) {
         filteredPackages = filteredPackages.filter(pkg => 
-          pkg.type === state.currentType.name &&   pkg.category === state.currentTab.name
-        )
-        .filter((pkg, index, self) => 
-          index === self.findIndex(p => p.name === pkg.name) 
+          pkg.category && pkg.category === state.currentTab.name
         );
       }
-
+    
+      // Remove duplicates by checking both 'name' and 'package_type' fields
+      filteredPackages = filteredPackages.filter((pkg, index, self) => 
+        index === self.findIndex(p => p.name === pkg.name && p.package_type === pkg.package_type)
+      );
+    
+      console.log('Filtered Addons/Extras:', filteredPackages);
+    
       return filteredPackages;
     },
+    
 
     getTraffiPrices: (state) => (packageType) => {
       let filteredPackages = state.packages.filter(pkg =>
@@ -323,9 +334,10 @@ getTabDetails: (state) => (tab, highlightText, page) => {
 
 },
 
-// persist: {
-//   storage: sessionStorage,
-// },
+persist: {
+  storage: sessionStorage,
+  pick:['packages','currentPackage','packagePayload','currentWebsite']
+},
 
 
 });

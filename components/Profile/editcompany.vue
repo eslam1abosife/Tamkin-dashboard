@@ -105,7 +105,6 @@ onMounted(async () => {
   }
 
 
-  await getCountries();
 });
 
 const resetcancel = () =>{
@@ -150,14 +149,14 @@ const resetcancel = () =>{
 
           <div class="w-full relative ">
 
-
+<!-- {{   profileStore.countries }} -->
             <TranslateSelectInput 
               @getCurrentSelectedItem="handleSelectedCountry" 
               :enableSearch="true" 
               placeholderinput="Country*" 
            
               :errorField="v$.country.$error && v$.country.required.$invalid" 
-              :list="countries" nameKey="name" idField="name"
+              :list="profileStore.countries" nameKey="name" idField="name"
               iconKey="image"
               :successField="!v$.country.$error && !v$.country.$invalid"
               :currentListValue="state.country"
@@ -177,15 +176,15 @@ const resetcancel = () =>{
             @on-input="getPhoneC"
 
                  :auto-format="false"
-
-            :dropdownOptions="{showFlags:false,showDialCodeInSelection:true}"
-            :inputOptions="{ showDialCode: false,maxlength:12 , styleClasses: ['input_floating_label bg-transparent'] }" 
+class="!w-full"
+            :dropdownOptions="{showFlags:true,showDialCodeInSelection:true}"
+            :inputOptions="{ showDialCode: false,maxlength:12 , styleClasses: ['input_floating_label w-full bg-transparent'] }" 
           mode="national"
             :styleClasses="telInputStyleClasses" >
 
             <template v-slot:arrow-icon="{ open }">
               <img src="/assets/imgs/payment_methods/country_arrow.svg" :class="[open ? 'rotate-90' : '']"
-              class="ml-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
+              class="rtl:mr-[20px] ltr:ml-[20px] mb-[0px] float-right w-[14px] h-[8px]" />
              
           </template></vue-tel-input>
             <label v-if="false" for="phone" class="floating_label" :class="[

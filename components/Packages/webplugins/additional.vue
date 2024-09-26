@@ -16,7 +16,7 @@ const openBuyModal = (pck)=>{
 </script>
 
 <template>
-    <div v-if="packagesStore.getAddonsOrExtras('Addons').length"
+    <div v-if="packagesStore.getAddonsOrExtras('Addons').length && !packagesStore.loadingData"
     class="w-full p-[35px] rounded-[10px] bg-gradient-to-r from-[#3748E0]/[45%] via-[#FBE3C3]/[14%] to-[#8AB9FF]/[96%] h-auto mx-auto mt-[32px] relative"
   >
     <div class="absolute top-[-14px] left-0">
@@ -44,8 +44,9 @@ const openBuyModal = (pck)=>{
         <div class="text-[#18191F] font-[600] text-[14px]">{{$t(addon.title)}}</div>
         <div class="text-[#2A285B] font-[400] text-[10px] text-center w-3/4">
          {{$t(addon.description)}}
-        </div>
 
+        </div>
+        
         
         <div class="font-[700] text-[14px] text-black absolute lg:bottom-14 2xl:bottom-16">
           $ {{ 
@@ -73,7 +74,6 @@ const openBuyModal = (pck)=>{
             ${{ addon.package_price_role[0].cost_before_month }}
        
           </span>
-      
           <!-- Show previous cost for yearly if the discount type is 'year' -->
           <span v-if="packagesStore.discountType === 'year' && addon.package_price_role[0].discount_yearly">
             ${{ addon.package_price_role[0].cost_before_yearly }}

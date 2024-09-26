@@ -17,13 +17,12 @@ onUpdated(async () => {
   
   try {
 
-   if(!packagesStore.traffic_level){
     
 
     const trafficLevels = packagesStore.getTraffiPrices('Package');
     // alert(trafficLevels[0].name)
     packagesStore.setTrafficLevel(trafficLevels[0].name);
-   }
+  
 
 
   

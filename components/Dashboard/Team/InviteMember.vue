@@ -82,7 +82,8 @@ const clearFieldError = (condition) => {
 <template>
   <div
     v-if="isOpen('invitemember')"
-    class="fixed z-[9999] top-[100px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12"
+    class="fixed z-[9999] top-[100px] bg-white 
+    dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[446px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <div

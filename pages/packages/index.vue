@@ -21,15 +21,17 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
   packagesStore.discountType = v;
 };
 
-
+onBeforeMount(async () => {
+  // packagesStore.loadingData = true
+})
+const   isDataReady = () =>{
+      return packagesStore.types.length > 0 && packagesStore.packages.length > 0 && packagesStore.categories.length >0
+    }
 onMounted(async () => {
 
-  packagesStore.loadingData = true
+  // packagesStore.loadingData = true
 
 // await  packagesStore.getPackagesTypes('Sign language')
-
-  await packagesStore.getPacks()
-await packagesStore.getCategories()
 
 
 packagesStore.currentTab = packagesStore.categories[0]
@@ -157,7 +159,7 @@ packagesStore.setFaq()
       </div> -->
     </div>
 
-    <div v-if="!packagesStore.loadingData"
+    <div v-if="isDataReady"
       class="flex items-center justify-center mt-[60px] rtl:space-x-reverse space-x-[40px]"
     >
       <div

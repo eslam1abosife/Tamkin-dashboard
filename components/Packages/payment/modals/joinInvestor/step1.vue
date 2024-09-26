@@ -6,7 +6,11 @@ import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import {useJoinInvestor} from '@/composables/usePackages'
 import {useGetAppInvites} from '@/composables/useTeam';
 import { useCheckifSiteblocked, useGetTraffic,useGetPriceByTraffic } from "@/composables/usePackages";
+const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 
+// const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
+//   return domainRegex.test(value);
+// });
 const { checkifBlockedSite, messageStatus, codeStatus:codeStatusBlocked } = useCheckifSiteblocked();
 
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
@@ -28,8 +32,12 @@ const {
 } = useModalManager();
 const currentWebSite = ref('')
 const selectWebsite = (v) => {
-    currentWebSite.value = v.title; // or ''
-
+    currentWebSite.value = v; // or ''
+  if(currentWebSite.value ){
+    lockedWebsite.value = true
+  }else {
+    lockedWebsite.value = false
+  }
   // state.website_new = '';
 };
 
@@ -64,8 +72,19 @@ const rules = {
   },
   firstHash:{required},
   website_new: {
-        required: requiredIf(() => !currentWebSite.value),
-      },
+  required: requiredIf(() => currentWebSite.value === ''),
+  isDomain: helpers.withParams(
+    { type: "isDomain" },
+    (value) => {
+      // Only validate if currentWebSite is empty
+      if (currentWebSite.value === '') {
+        return domainRegex.test(value);
+      }
+      return true; 
+    }
+  )
+},
+
 };
 
 const removeHashAddress = (index) => {
@@ -168,6 +187,9 @@ const submitForm = async () => {
     state.hashAddresses = [];
     v$.value.$reset();
     currentWebSite.value = ''
+    lockedWebsite.value = false
+    await packagesStore.getInvestorUser()
+
   } else {
     $toast('Error Sending Request, please try again', {
       hideIn: 3000,
@@ -229,7 +251,7 @@ const lockedWebsite = ref(false)
 
 <template>
   <div v-if="isOpen('join_to_investor')" 
-    class="fixed z-[9999] lg:top-[5%] 4xl:top-[20%] 3xl:top-[20%] lg:!scale-[0.9] inset-x-auto top-[50px] ipad-max:top-0 ipad-max:!scale-[0.7]  lg:translate-x-[-50%] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
+    class="fixed z-[9999] lg:top-[0%] 4xl:top-[20%] 3xl:top-[20%] lg:!scale-[0.9] inset-x-auto top-[50px] ipad-max:top-0 ipad-max:!scale-[0.7]  lg:translate-x-[-50%] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] 
     p-[30px] lg:w-[640px] h-auto w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
@@ -304,34 +326,36 @@ const lockedWebsite = ref(false)
       nameKey="title"
       idField="app_domain"
       class=""
-     :current-list-value="currentWebSite"
+     :current-list-value="currentWebSite.title"
     />
     
     <div
     v-if="currentWebSite !== '' "
     @click="()=>{
       currentWebSite= ''
+      lockedWebsite = false
     }"
-    class="absolute inset-y-[calc(30%-16px)] z-[40] rtl:left-0 ltr:right-[20px] p-[16px] cursor-pointer"
+    class="absolute inset-y-[calc(30%-16px)] z-[40] rtl:left-[40px] ltr:right-[20px] p-[16px] cursor-pointer"
   >
-    <img src="/assets/imgs/icons/clear_search.svg" />
+  <svg
+  width="18"
+  height="17"
+  viewBox="0 0 18 17"
+  class="text-[#E80902]"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+    fill="currentColor"
+  />
+</svg>
   </div>
      </div>
      <div class="mx-auto text-center text-[14px] mt-[7px]">{{$t('OR')}}</div>
-   <div class="flex items-center justify-center space-x-[10px] w-full mt-[7px]">
+   <div class="flex items-center justify-center  w-full mt-[7px] gap-4">
     <div class="w-3/4 relative ">
-      <div
-      v-if="blockedError || websiteExists || v$.website_new.$model "
-      @click="()=>{
-        v$.website_new.$model = ''
-        lockedWebsite = false
-        blockedError = false
-        v$.$reset()
-      }"
-      class="absolute inset-y-[calc(30%-16px)] z-[40] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
-    >
-      <img src="/assets/imgs/icons/clear_search.svg" />
-    </div>
+
       <input
       :disabled="currentWebSite !== '' || lockedWebsite"
       @input="onInputWebsite"
@@ -341,8 +365,9 @@ const lockedWebsite = ref(false)
         class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
         v-model="v$.website_new.$model"
         :class="{
-          input_error: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists),
-          error_text: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists),
+          input_error: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists) || (v$.website_new.$error && v$.website_new.isDomain.$invalid),
+          error_text: v$.website_new.$error &&v$.website_new.required.$invalid || ( blockedError || websiteExists) ||
+           (v$.website_new.$error && v$.website_new.isDomain.$invalid),
           input_success: !v$.website_new.$invalid && !blockedError && !websiteExists,
         }"
         
@@ -353,7 +378,7 @@ const lockedWebsite = ref(false)
         for="website_new"
         class="floating_label"
         :class="[
-          v$.website_new.$error && v$.website_new.required.$invalid || blockedError || websiteExists
+          v$.website_new.$error && v$.website_new.required.$invalid || blockedError || websiteExists ||(v$.website_new.$error && v$.website_new.isDomain.$invalid)
             ? '!text-error'
             : '',
         ]"
@@ -362,11 +387,12 @@ const lockedWebsite = ref(false)
       </label>
       <div
         class="w-full lg:w-4/6 "
-        v-if="(v$.website_new.$error && v$.walletAddress.required.$invalid) || blockedError || websiteExists"
+        v-if="(v$.website_new.$error && v$.walletAddress.required.$invalid) || blockedError || websiteExists ||
+         (v$.website_new.$error && v$.website_new.isDomain.$invalid)"
       >
         <p class="error_message !bottom-[1px]">
-          <span v-if="v$.website_new.required.$invalid">{{
-            $t("Website is required")
+          <span v-if="v$.website_new.required.$invalid || (v$.website_new.$error && v$.website_new.isDomain.$invalid)">{{
+            $t("Website is not valid")
           }}</span>
           <span v-if="blockedError">{{
             $t("Unable to add the current website because it is blocked.") 
@@ -378,12 +404,11 @@ const lockedWebsite = ref(false)
         </p>
       </div>
     </div>
-
-    <div class="w-1/4">
+    <div class="w-auto">
       <button class="btn-dashboard hover_tamkin w-[150px]"
       :disabled="blockedError || websiteExists || currentWebSite !== '' || v$.website_new.$invalid "
-      @click="lockedWebsite = true" v-if="!lockedWebsite">{{$t('Add site')}}</button>
-      <button class="btn_bordered_dashboard error w-[150px]" @click="lockedWebsite = false" v-if="lockedWebsite">{{$t('Remove site')}}</button>
+      @click="lockedWebsite = true" v-if="!lockedWebsite || currentWebSite || state.website_new === ''">{{$t('Add site')}}</button>
+      <button class="btn_bordered_dashboard error w-[150px]" @click="lockedWebsite = false" v-if="lockedWebsite && state.website_new">{{$t('Remove site')}}</button>
     </div>
    </div>
     <div class="w-full mt-[14px]">
@@ -586,12 +611,10 @@ const lockedWebsite = ref(false)
       
 
     <div class="">
- 
-
-    
+ {{  }}
       <button
-        :disabled=" v$.$invalid || loadingReq  || !state.walletAddress || !state.amount || !selectedpcks
-|| !selectedWebsite || blockedError || websiteExists || !lockedWebsite"
+        :disabled=" v$.$invalid 
+ || blockedError || websiteExists || !lockedWebsite || !selectedpcks || loadingReq"
        
         @click="submitForm"
         class="btn-dashboard hover_tamkin w-full mx-auto mt-[14px]"

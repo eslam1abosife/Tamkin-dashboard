@@ -19,7 +19,8 @@ const messageData = ref('')
                 "card": packagesStore.packagePayload.payDateType === 'trial' ? "" : card,//Allow Null
                 "coupon_code": packagesStore.promo || null,//Allow Null
                 "locale": redirectTo ? ( useNuxtApp().$i18n.locale.value === 'en' ? redirectTo+'?locale='+useNuxtApp().$i18n.locale.value : '/'+useNuxtApp().$i18n.locale.value+'/'+redirectTo+'?locale='+useNuxtApp().$i18n.locale.value) : null,
-              
+              "packageExtraType": packagesStore.packagePayload.packageExtraType,
+           "packageTrie" : packagesStore.packagePayload.packageTrie
             });
             // packagesStore.packagePayload.apps .filter((website: any) => website.app_domain !== null) .map(app=>app.name)
             codeStatus.value = res.data.statusCode

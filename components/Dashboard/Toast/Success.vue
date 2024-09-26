@@ -33,7 +33,7 @@ onMounted(() => {
     ]"
     :style="{
       insetInline: props.positionX ? props.positionX : '50%',
-      transform: props.positionX ? '' : 'translateX(-30%)'
+      transform: props.positionX   ? '' : useNuxtApp().$i18n.locale.value === 'ar' ? 'translateX(50%)' : 'translateX(-30%)'
     }"
   >
     <div class="px-[8px]" v-if="type === 'success' || !type">
