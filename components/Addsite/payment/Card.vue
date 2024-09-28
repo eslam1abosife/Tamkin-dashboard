@@ -84,7 +84,7 @@ const handleIframeMessage = (event) => {
     // alert('yea')
     usepaystore.stateOfPayment = 'paid'
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-     navigateTo('cardModal_addsite','addSite','success_pay_package')
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
      urlPayment.value = ""
      loadingPayment.value = false
     addSiteStore.currentPackage = ''
@@ -98,7 +98,7 @@ const handleIframeMessage = (event) => {
     usepaystore.stateOfPayment = 'failed'
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
 
-     navigateTo('cardModal_addsite','addSite','success_pay_package')
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
      urlPayment.value = ""
     loadingPayment.value = false
   }
@@ -144,16 +144,24 @@ const continueCheckOut = async () => {
     urlPayment.value = res
 
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
-    addSiteStore.urls =[]
+    // addSiteStore.urls =[]
+    // addSiteStore.promo = ""
+    // addSiteStore.validPromo = false
+    // addSiteStore.currentDiscount = 0
+    // usePaymentStore().stateOfPayment = 'paid'
+    // return navigateTo('cardModal_addsite','addSite','success_pay_addsite')
+  }
+  else if(res === "A 3-day trial package is configured in the app"){
+
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
+     addSiteStore.urls =[]
     addSiteStore.promo = ""
     addSiteStore.validPromo = false
     addSiteStore.currentDiscount = 0
-
-  }
-  else if(res === "A 3-day trial package is configured in the app"){
-    addSiteStore.urls =[]
+    addSiteStore.tags = []
+    addSiteStore.loadingBlock = []
+    addSiteStore.validatedSites = []
     usePaymentStore().stateOfPayment = 'paid'
-    return navigateTo('cardModal_addsite','addSite','success_pay_addsite')
   }
    else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });

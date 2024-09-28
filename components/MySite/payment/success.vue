@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const localePath = useLocalePath()
 const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
@@ -54,7 +55,7 @@ return navigateTo('success_pay_mysite', 'packages', 'payment_methods_mysite')
 }
  }else {
   router.push({
-    path: route.path, 
+    path: localePath('/my-site'), 
     query: {
       paid: undefined, 
       status: undefined

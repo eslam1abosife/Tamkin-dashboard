@@ -120,10 +120,7 @@ const levelof = ref(packagesStore.traffic_level);
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
-  // Remove the protocol (http, https) and www if present
-  const cleanedUrl = url.replace(/^(https?:\/\/)?(www\.)?/, "");
-  // Remove any path or query parameters by splitting at the first "/"
-  return cleanedUrl.split("/")[0];
+  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
 };
 const addWebsite = async () => {
   loadingAddWebsite.value = true;
@@ -131,27 +128,27 @@ const addWebsite = async () => {
     const res = await checkifBlockedSite(state.newWebsite);
     const traffic = await getTraffic(state.newWebsite, "url");
 
-    if (
-      apps.value.filter((ap) => ap.app_domain === state.newWebsite).length === 0 &&
-      codeStatus.value === 200 &&
-      res.length === 0 &&
-      packagesStore.urls.filter(
-        (website: any) => website.url === cleanWebsiteUrl(state.newWebsite)
-      ).length === 0
-    ) {
+    // if (
+    //   apps.value.filter((ap) => ap.app_domain === state.newWebsite).length === 0 &&
+    //   codeStatus.value === 200 &&
+    //   res.length === 0 &&
+    //   packagesStore.urls.filter(
+    //     (website: any) => website.url === cleanWebsiteUrl(state.newWebsite)
+    //   ).length === 0
+    // ) {
       packagesStore.urls.push({
         title: cleanWebsiteUrl(state.newWebsite),
         url: cleanWebsiteUrl(state.newWebsite),
-        traffic:
-          traffic[0].traffic <= 100000
-            ? "Small"
-            : traffic[0].traffic > 100000 && traffic[0].traffic <= 1000000
-            ? "Medium"
-            : "Large",
+        // traffic:
+        //   traffic[0].traffic <= 100000
+        //     ? "Small"
+        //     : traffic[0].traffic > 100000 && traffic[0].traffic <= 1000000
+        //     ? "Medium"
+        //     : "Large",
       });
-    } else {
-      websiteExist.value = true;
-    }
+    // } else {
+      // websiteExist.value = true;
+    // }
 
     state.newWebsite = "";
     v$.value.$reset();

@@ -11,10 +11,12 @@ const route = useRoute()
 onBeforeMount(async ()=>{
  loadingPriceTraffic.value = true
 
+if(addSiteStore.currentPackage.type ==='Accessibility'){
   await geteFilterInfo()
 
    await getTrafficType(addSiteStore.currentPackage.name)
     addSiteStore.currentLevel = addSiteStore.levelsTraffic[0]
+}
 
  loadingPriceTraffic.value = false
 
@@ -432,16 +434,16 @@ watchEffect(() => {
   }
 });
 
-watch(addSiteStore.urls, async () => {
-  if (levelof.value && levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(addSiteStore.urls.length ? addSiteStore.urls.map((we) => we.url) : [])],
-      addSiteStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-});
+// watch(addSiteStore.urls, async () => {
+//   if (levelof.value && levelof.value === "Over 1M page views/mo" && addSiteStore.currentPackage.type === "Accessibility") {
+//     const res = await getPriceByTraffic(
+//       [...(addSiteStore.urls.length ? addSiteStore.urls.map((we) => we.url) : [])],
+//       addSiteStore.currentPackage.name,
+//       [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+//     );
+//     pricebytraffic.value = res;
+//   }
+// });
 // watch(webs, async () => {
 //   if (levelof.value === "Over 1M page views/mo") {
 //     const res = await getPriceByTraffic(

@@ -255,7 +255,34 @@ getTabDetails: (state) => (tab, highlightText, page) => {
     return filteredPackages;
 
     },
+    getPackagesByTypeTitle: (state) => (typeofpck,title,category) => {
+      // state.loadingData = true
+// alert(title)
+      let filteredPackages = state.packages
+      .filter(pkg => pkg.type === title && pkg.package_type === typeofpck)
+      .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
     
+    
+    if (category) {
+      filteredPackages = filteredPackages
+      .filter(pkg =>
+        // console.log(pkg.category)
+        pkg.category ===category  
+      ) .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
+      // .filter((pkg, index, self) => 
+      //   index === self.findIndex(p => p.name === pkg.name) 
+      // );
+      console.log('categories filtered' , category)
+    
+      
+          }
+
+    // console.log('yea man', filteredPackages)
+    // state.loadingData = false
+
+    return filteredPackages;
+
+    },
     getAddonsOrExtras: (state) => (packageType) => {
       // Initial filter by type and package_type
       let filteredPackages = state.packages.filter(pkg => 

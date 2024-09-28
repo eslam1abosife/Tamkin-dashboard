@@ -8,7 +8,6 @@ import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const {locale} = useI18n()
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 const {getPackage,messageStatus,codeStatus} = useGetPackage()
-
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 
 const { getAvatarLetters } = useGetAvatarLetters();
@@ -227,8 +226,8 @@ const deletedAppListLength = computed(() => {
 const notDeletedAppListLength = computed(() => {
   return apps.value
     .filter((ele) => {
-      // && ele.status !== "draft";
-      const isNotDeleted = ele.status !== "deleted" 
+      // ;
+      const isNotDeleted = ele.status !== "deleted"  && ele.status !== "draft"
       const isNotInternal = ele.title !== "Internal Service";
       const matchesSearch = ele.title
         .toLowerCase()
@@ -240,26 +239,37 @@ const notDeletedAppListLength = computed(() => {
 
 
 const appList = computed(() => {
+  if(currentTab.value !== 'internal'){
   return apps.value
     .filter((ele) => {
       if (currentTab.value === "deleted") {
         return ele.status === "deleted";
       } else {
-        return ele.status !== "deleted" &&  ele.type !== "Internal Services";
-        // ele.status !== 'draft' &&
+        return ele.status !== "deleted" && ele.status !== 'draft' &&  ele.type !== "Internal Services";
+        // 
       }
     })
     .filter((ele) =>
       ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
     )
     .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
+  }else {
+   return  apps.value.find(t=>t.title === 'Internal Service').package.filter((ele) =>
+      ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
+    )
+
+  }
+  
 });
 const currentListOpen = ref()
 
 const paginatedFilteredAppList = computed(() => {
   const startIndex = (currentPage.value - 1) * perPage.value;
   const endIndex = startIndex + perPage.value;
-  return appList.value.slice(startIndex, endIndex);
+
+    return appList.value.slice(startIndex, endIndex);
+
+
 });
 const runtimeConfig = useRuntimeConfig()
 const formatToUrl = (domain)=>{
@@ -273,8 +283,14 @@ const formatToUrl = (domain)=>{
 
     const loadingPackage = ref([])
 const getPackageAndOpenPaymenModal = async (app,pack)=>{
+if((new Date(app.package.find(k=>k.name === pack).endpackage) <  new Date() )||
+ app.package.find(k=>k.name === pack).status === 'Cancelled' || app.package.find(k=>k.name === pack).status === 'Rejected' || app.package.find(k=>k.name === pack).title === 'Free'){
+router.push({path:localePath('/upgrade'),query:{app:app.name,package:pack,category:app.package.find(k=>k.name === pack).category1}})
+mysiteStore.currentWebsite = app
+
+}else {
   loadingPackage.value.push({app:app,pack:pack})
-console.log('here apps',app.package.find(k=>k.name === pack).name)
+// console.log('here apps',app.package.find(k=>k.name === pack).name)
 const packagemodal = await getPackage(app.package.find(k=>k.name === pack).name)
 
       await mysiteStore.setCurrentPackage({...packagemodal.package,package_price_role:packagemodal.price_roles});
@@ -285,6 +301,7 @@ const packagemodal = await getPackage(app.package.find(k=>k.name === pack).name)
 
       navigateTo(null, "mysite", "add_package_modal_mysite");
       loadingPackage.value.splice({app:app,pack:pack})
+}
 
 
     }
@@ -318,6 +335,11 @@ const checkPaymentStatus = async () => {
     }
   }
 };
+
+const internalServiceApp = computed(()=>{
+  return apps.value.length ? apps.value.find(t=>t.title === 'Internal Service') : false
+})
+
 </script>
 
 <template>
@@ -429,7 +451,7 @@ const checkPaymentStatus = async () => {
               <div v-if="!getSitesLoading && defaultApp?.favicon &&  defaultApp?.title !== 'Internal Service' " > 
                 <img v-if="defaultApp.favicon"
                 :src=" defaultApp.favicon"
-                class="w-[40px] h-[40px] object-cover ipad-max:hidden lg:block hidden"
+                class="w-[40px] h-[40px]  ipad-max:hidden lg:block hidden"
               />
                
               </div>
@@ -439,7 +461,7 @@ const checkPaymentStatus = async () => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                    {{ defaultApp?.app_domain || defaultApp?.title }}
+                    {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
                   </h2>
                 </div>
                 <div>
@@ -476,29 +498,29 @@ const checkPaymentStatus = async () => {
 <div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px]  to-white
   flex items-center justify-start space-x-6">
 <div class="text-[14px] font-[500] leading-[21px] ">
-  My Sites
+  {{$t('My Sites')}}
 </div>
 <div class="text-[14px] font-[500] leading-[21px] absolute left-24">
-  {{apps.length}}
+  {{apps.filter(ap=>ap.title !== 'Internal Service').length}}
 </div>
 </div>
 
 <div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#A3F0EA] px-[10px] py-[4.5px] relative  to-white
   flex items-center justify-start space-x-6">
 <div class="text-[14px] font-[500] leading-[21px] ">
-  Active
+  {{$t('Active')}}
 </div>
 <div class="text-[14px] font-[500] leading-[21px] absolute left-24">
-  {{apps.filter(el=>el.status !== 'draft' && el.status !=='deleted').length}}
+  {{ apps.filter(el => el.status !== 'deleted' && el.title !== 'Internal Service' && el.package && el.package[0] && el.package[0].status === 'Active').length }}
 </div>
 </div>
 <div class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#FFD9D9] px-[10px] py-[4.5px] relative to-white
   flex items-center justify-start space-x-6">
 <div class="text-[14px] font-[500] leading-[21px] ">
-  Not installed
+  {{$t('Not installed')}}
 </div>
 <div class="text-[14px] font-[500] leading-[21px] absolute left-24 ">
-  {{apps.filter(el=>el.status === 'not_installed' &&el.status !=='deleted').length}}
+  {{ apps.filter(el => el.status !== 'deleted' && el.title !== 'Internal Service' && el.package && el.package[0] && el.package[0].status === 'not_installed').length }}
 </div>
 </div>
 </div>
@@ -626,6 +648,22 @@ const checkPaymentStatus = async () => {
                       {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
                     </div>
                   </div>
+                  <div
+                  class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] cursor-pointer"
+                  @click="switchTab('internal')"
+                >
+                  <div
+                    :class="[
+                      currentTab === 'internal'
+                        ? 'border-b-[3px] border-tamkin  font-[600]'
+                        : 'border-b-[3px] border-[#C5C5C5] dark:border-darkborder',
+                    ]"
+                    class="text-[14px] px-[4px] font-[400] pb-[20px] pt-[16px] dark:text-white text-[#021328]"
+                    style="line-height: 21px"
+                  >
+                    {{ $t("Internal Service") }} ( {{ apps.length ?apps.find(t=>t.title === 'Internal Service').package.length :0}} )
+                  </div>
+                </div>
                 </div>
              <div class="flex items-center justify-end w-2/4 pr-[17px]">
               <div class="flex items-center justify-between w-full ">
@@ -782,7 +820,8 @@ const checkPaymentStatus = async () => {
       <tr
  
       class="h-[50px] "
-      :class="[app.status === 'not_installed' ? 'bg-[#FAEBEB]':'']"
+      :class="[app.package.length && app.package[0].status ==='not_installed' && new Date() < new Date(app.package[0].endpackage)? 'bg-[#FAEBEB]':'',
+      selectedApp && selectedApp.name === app.name? 'border-[1px] drop-shadow-md !border-tamkinStart':'']"
     >
       <td class="w-[25%]">
         <div
@@ -796,7 +835,7 @@ const checkPaymentStatus = async () => {
           <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
             <img 
             :src="app.favicon"
-            class="w-auto h-auto ipad-max:hidden lg:block hidden"
+            class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden rounded-full"
           />
           </div>
             <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
@@ -809,7 +848,7 @@ const checkPaymentStatus = async () => {
   selectedApp = selectedApp === app ? null : app;
 
 }"
-class="absolute right-14 order-2 disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+class="absolute rtl:left-14 ltr:right-14 order-2 disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
 >
 <svg :class="selectedApp === app ? 'rotate-180' : ''"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
 stroke="currentColor" class="size-4">
@@ -833,11 +872,11 @@ stroke="currentColor" class="size-4">
           </div>
         </div>
       </td>
-   
+   <!-- {{app.billing_duration}} -->
       <td
         class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
       >
-        {{ $t(`${app.billing_duration === '3-monthly' ? '3 Months' :app.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
+        {{ $t(`${app.billing_duration === '3-monthly' ? $t('3 Months') :app.billing_duration === 'monthly' ?$t('Monthly') :app.billing_duration === 'yearly'?$t('Annual'):$t('Free trial')}`) }}
       </td>
       <td
         class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -845,45 +884,62 @@ stroke="currentColor" class="size-4">
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
         >
-          <div class="w-[20px] h-[20px]">
+          <div class="w-[20px] h-[20px] " v-if="app.billing_duration !== 'Free Trial'">
     
-            <img
+            <img v-if="app.package[0] && app.package[0].icon"
               :src="runtimeConfig.public.baseImagerUrl + (app.package[0] ? app.package[0].icon : '/')"
-              class="w-[20px] h-[20px]"
+              class="w-[20px] h-[20px] "
               alt=""
             />
           </div>
-          <div>{{ $t(`${app.package[0].title}`) }}</div>
+          <div v-if="app.billing_duration !== 'Free Trial'">{{ app.package[0] && app.package[0].title ? $t(`${app.package[0].title}`) : 'Draft website' }}</div>
         </div>
       </td>
-
       <td
         class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
       >
       <!-- {{app}} -->
-        <div
-          v-if="app.status === 'active'"
-          style="
-            background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-          "
-          class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-        >
-          {{ $t("Active") }}
-        </div>
-        <div
-          v-if="app.status === 'draft'"
-          style="background: linear-gradient(#ffda10 0%, #ff5722 100%)"
-          class="rounded-[17px] border-[1px] flex items-center justify-center border-[#ffda10]
-           h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-        >
-          {{ $t("Draft") }}
-        </div>
-        <div
-        v-if="app.status === 'not_installed'"
-        class="text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  "
-      >
-        {{ $t("Not installed") }}
-      </div>
+      <div
+      v-if="app.billing_duration === 'Free Trial'"
+    
+      class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px]  flex items-center justify-center 
+            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+    >
+      {{ $t(`Free Trial`) }}
+    </div>
+  <div v-if="app.billing_duration !== 'Free Trial'">
+    <div
+    v-if="new Date() > new Date(app.package[0].endpackage)"
+  
+    class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+          h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+  >
+    {{ $t(`Expired`) }}
+  </div>
+  <div
+  v-if="app.package[0].status === 'Rejected'"
+
+  class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] max-w-[100px] w-auto text-white text-[12px] leading-[18px]"
+>
+  {{ $t(`${app.package[0].status}`) }}
+</div>
+    <div
+    v-if="app.package[0].status === 'Pending'"
+  
+    class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+          h-[25px] max-w-[150px] w-3/4 text-white text-[12px] leading-[18px]"
+  >
+    {{ app.package[0].status === 'Pending'? $t('Under Review') : $t(`${app.package[0].status}`) }}
+  </div>
+  <div
+  @click="$router.push(localePath('/embed-code'))"
+  v-if="app.package[0].status ==='not_installed' && new Date() < new Date(app.package[0].endpackage)"
+  class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
+>
+  {{ $t("Not installed") }}
+</div>
+  </div>
       </td>
 
       <td
@@ -905,7 +961,8 @@ stroke="currentColor" class="size-4">
           class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
         >
                            
-        <button  :disabled="app.billing_duration === 'yearly' || loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)"
+        <button  :disabled="app.package.length && app.package[0].status === 'Pending' || 
+          loadingPackage.find(a=>a.pack === app.package.length && app.package[0].name && a.app === app) || app.package.length && app.package[0].billing_duration === 'yearly'"
          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
           @click="getPackageAndOpenPaymenModal(app,app.package[0].name)">
           <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)"/>
@@ -942,13 +999,14 @@ stroke="currentColor" class="size-4">
     </tr>
    
   
-    <template v-if="selectedApp && selectedApp.name === app.name">
+    <!-- <template v-if="selectedApp && selectedApp.name === app.name" >
+ 
       <tr
-   
+   :class="[ selectedApp && selectedApp.name === app.name ? '!border-[1px]  !border-t-0  !border-tamkinStart':'']"
  v-for="(pack,i) in selectedApp.package.slice(1)" :key='i'
-       class="h-[50px] "
+       class="h-[50px]  "
      >
-       <td class="w-[25%]">
+       <td class="w-[25%] ">
          <div
            class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
            ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -993,7 +1051,7 @@ stroke="currentColor" class="size-4">
      
              <img
                :src="runtimeConfig.public.baseImagerUrl + (pack.icon)"
-               class="w-[20px] h-[20px]"
+               class="w-[20px] h-[20px] "
                alt=""
              />
            </div>
@@ -1001,34 +1059,34 @@ stroke="currentColor" class="size-4">
          </div>
        </td>
    
-       <td
-         class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
-       >
-       <!-- {{app}} -->
-         <div
-           v-if="app.status === 'active'"
-           style="
-             background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-           "
-           class="rounded-[17px] border-[1px] flex items-center justify-center border-[#71DAD2] h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-         >
-           {{ $t("Active") }}
-         </div>
-         <div
-           v-if="app.status === 'draft'"
-           style="background: linear-gradient(#ffda10 0%, #ff5722 100%)"
-           class="rounded-[17px] border-[1px] flex items-center justify-center border-[#ffda10]
+ <td
+        class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+      >
+      <div
+      v-if="new Date() > new Date(pack.endpackage)"
+    
+      class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
             h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-         >
-           {{ $t("Draft") }}
-         </div>
-         <div
-         v-if="app.status === 'not_installed'"
-         class="text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  "
-       >
-         {{ $t("Not installed") }}
-       </div>
-       </td>
+    >
+      {{ $t(`Expired`) }}
+    </div>
+
+      <div
+      v-if="pack.status !=='Paid' && pack.status !=='not_installed' && new Date() < new Date(pack.endpackage)"
+    
+      class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+            h-[25px] max-w-[150px] w-3/4 text-white text-[12px] leading-[18px]"
+    >
+      {{ pack.status === 'Pending'? $t('Under Review') : $t(`${pack.status}`) }}
+    </div>
+    <div
+    @click="$router.push(localePath('/embed-code'))"
+    v-if="pack.status ==='not_installed' && new Date() < new Date(pack.endpackage)"
+    class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
+  >
+    {{ $t("Not installed") }}
+  </div>
+      </td>
    
        <td
          class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1048,7 +1106,10 @@ stroke="currentColor" class="size-4">
          <div
            class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
          >
-         <button  :disabled="app.billing_duration === 'yearly' ||loadingPackage.find(a=>a.pack === pack.name && a.app === app)"
+         
+         <button  :disabled="
+        pack.status === 'Pending' || 
+          loadingPackage.find(a=>a.pack === pack.name && a.app === selectedApp) || pack.billing_duration === 'yearly'"
           class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
            @click="getPackageAndOpenPaymenModal(app,pack.name)">
            <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === pack.name && a.app === app)"/>
@@ -1083,7 +1144,8 @@ stroke="currentColor" class="size-4">
    
    
      </tr>
-    </template>
+
+    </template> -->
 
     
 
@@ -1150,6 +1212,208 @@ stroke="currentColor" class="size-4">
                   </tr>
                 </tbody>
               </table>
+
+              <table
+              v-loading="getSitesLoading"
+              class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
+              v-if="currentTab === 'internal' "
+            >
+              <thead>
+                <tr class="h-[50px]">
+                  <th
+                    class="ltr:pl-[16px] rtl:pr-[16px] h-[50px] ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                  >
+                    {{ $t("Package") }}
+                  </th>
+                  <th
+                    class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                  >
+                    {{ $t("Billing") }}
+                  </th>
+                  <th
+                    class="ltr:text-left lg:px-0 px-[100px] rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] dark:text-whiteTamkin text-darkGrey"
+                  >
+                    {{ $t("Section") }}
+                  </th>
+                  <th
+                  class="ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                >
+                  {{ $t("Status") }}
+                </th>
+
+                  <th
+                    class="ltr:text-left rtl:text-right lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{ $t("Date") }}
+                  </th>
+
+             
+                  <th
+                    class=" lg:text-[14px] 
+                    font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                  >
+                    {{ $t("Action") }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
+              >
+
+  
+
+    <tr
+  v-for="(pk, index) in paginatedFilteredAppList"
+  :key="index"
+    class="h-[50px] "
+    :class="[internalServiceApp.status === 'not_installed' ? 'bg-[#FAEBEB]':'']"
+  >
+    <td class="w-[25%]">
+      <div
+        class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
+        ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        <a
+          href="#"
+          class="gap-3 h-[50px] flex items-center justify-start"
+        >
+    
+        <img v-if="pk.icon"
+        :src="runtimeConfig.public.baseImagerUrl + pk.icon"
+        class="w-[40px] h-[40px]"
+        alt=""
+      />
+
+          <div class="order-1">{{ $t(`${pk.title}`) + ' - '+ $t(`${pk.title === 'Free' ? pk.category1 : pk.package_category}`)}}</div>
+         
+        </a>
+
+      </div>
+    </td>
+ 
+    <td
+      class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+    >
+    
+      {{ $t(`${pk.billing_duration ? pk.billing_duration : $t('Free - Monthly')}`) }}
+    </td>
+    <td
+      class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+    >
+      <div
+        class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+      >
+        
+        <div>{{  $t(`${pk.type}`) }}</div>
+      </div>
+    </td>
+
+    <td
+        class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+      >
+      <div
+      v-if="pk.title ==='Free'"
+    
+      class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
+            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+    >
+      {{ $t(`Active`) }}
+    </div>
+
+      <div
+      v-if="pk.status ==='Active' ||  pk.status === 'draft'"
+    
+      class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
+            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+    >
+      {{ $t(`Active`) }}
+    </div>
+      <div
+      v-if="new Date() > new Date(pk.endpackage)"
+    
+      class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+    >
+      {{ $t(`Expired`) }}
+    </div>
+      <div
+      v-if="pk.status === 'Pending'"
+    
+      class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+            h-[25px]  w-[100px] text-white text-[12px] leading-[18px]"
+    >
+      {{ pk.status === 'Pending'? $t('Under Review') : $t(`${pk.status}`) }}
+    </div>
+    <div
+      v-if="pk.status === 'Rejected'"
+    
+      class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+            h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
+    >
+      {{ $t(`${pk.status}`) }}
+    </div>
+  
+      </td>
+
+    <td
+      class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+    >
+      {{ new Date(pk.from_date).toDateString() }}
+    </td>
+
+
+
+    <td
+      class="text-[14px] font-[400] text-darkGrey "
+    >
+      <div
+        class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
+      >
+                         
+      <button  :disabled=" loadingPackage.find(a=>a.pack === pk.name && a.app === internalServiceApp) ||
+         pk.billing_duration === 'yearly'  || pk.billing_duration === 'Pendding'"
+       class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+        @click="getPackageAndOpenPaymenModal(internalServiceApp,pk.name)">
+        
+        <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === pk.name && a.app === internalServiceApp)"/> 
+        
+ <svg v-else class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" fill="currentColor"
+  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+</path>
+</svg>
+           </button>
+           
+                      
+        <button :disabled="pk.title === 'Free'" @click="openDeleteMember(internalServiceApp)" class="disabled:opacity-40">
+          <svg
+            width="18"
+            height="17"
+            rviewBox="0 0 18 17"
+            class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+    </td>
+
+
+  </tr>
+ 
+
+
+
+
+              </tbody>
+            </table> 
               <noresult
                 class="!my-[30px]"
                 v-if="
@@ -1445,3 +1709,18 @@ stroke="currentColor" class="size-4">
     </section>
   </div>
 </template>
+<style >
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+</style>

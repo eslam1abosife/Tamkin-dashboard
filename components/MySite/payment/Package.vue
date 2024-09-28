@@ -601,6 +601,7 @@ const closeModalPackage = () => {
           class="flex items-center justify-center gap-4 w-full"
         
         >
+        <!-- {{mysiteStore.currentPackage.billing_duration}} -->
           <!-- <div
         v-if=" mysiteStore.currentPackage.trial_days > 0"
          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
@@ -682,7 +683,7 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-        v-if="mysiteStore.currentWebsite.billing_duration === 'monthly'"
+        v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && mysiteStore.currentPackage.billing_duration !== '3-monthly'"
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] 
             w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
          
@@ -733,7 +734,7 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-   v-if="mysiteStore.currentWebsite.billing_duration === '3-monthly' || mysiteStore.currentWebsite.billing_duration === 'monthly'"
+   v-if="mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === 'monthly'"
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full
              relative pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
@@ -796,7 +797,7 @@ const closeModalPackage = () => {
                 placeholder=""
                 id="newWebsite"
                 class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
-              :value="mysiteStore.currentWebsite.app_domain"
+              :value="mysiteStore.currentWebsite.title !== 'Internal Service' ? mysiteStore.currentWebsite.app_domain : mysiteStore.currentWebsite.title"
                
               />
              

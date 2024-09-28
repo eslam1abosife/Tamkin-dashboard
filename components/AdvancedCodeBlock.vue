@@ -111,7 +111,7 @@
 
     
         <VCodeBlock   
-       class="ipad-max:max-w-[660px]"
+       class="2xl:max-w-full lg:max-w-[600px]"
           dir="ltr"
           :code="currentCode"
           highlightjs
@@ -155,16 +155,12 @@ const copyCode = () => {
   copyDone.value = true;
 };
 const highlightPhrase = (text, phrase) => {
-  // Escape HTML characters to avoid injection issues
   const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  // Create a RegExp to match the exact phrase
   const regex = new RegExp(`(${escapedPhrase})`, 'gi')
-  // Replace the phrase with a span containing the class
   return text.replace(regex, `<span class="text-darkGrey">$1</span>`)
 }
 const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين'
 const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !')
-// Use the function to get the highlighted text
 const highlightedText = computed(() => highlightPhrase(trn, phraseToHighlight))
 const {
         isOpen,
@@ -177,7 +173,6 @@ const {
 
 watch(copyDone, (newValue) => {
   if (newValue) {
-    // Reset copyDone after the hideIn duration
     setTimeout(() => {
       copyDone.value = false;
     }, 2000);
@@ -190,6 +185,8 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
+  loadingBlock.value = true
+
   copyCodeP = copied.value
  await getSummaryDetailedCode();
   loadingBlock.value = false

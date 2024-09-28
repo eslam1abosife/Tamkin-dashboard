@@ -186,11 +186,12 @@ const addSitesAndOpenModal = async () => {
     const trafficPromises = validatedSites.value
       .filter(site => !site.blocked && !site.exists)
       .map(async (site) => {
-        const traffic = await getTraffic(site.domain, "url"); 
+      
+        const traffic = selectedPlan.value.type === 'Accessibility' ? await getTraffic(site.domain, "url") : null; 
         return {
           url: cleanWebsiteUrl(site.domain),
           title: cleanWebsiteUrl(site.domain),
-          traffic: determineTrafficLevel(traffic[0].traffic),
+          traffic:  selectedPlan.value.type === 'Accessibility' ? determineTrafficLevel(traffic[0].traffic) : null,
         };
       });
 
