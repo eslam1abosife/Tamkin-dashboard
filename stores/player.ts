@@ -51,6 +51,7 @@ export const usePlayerStore = defineStore('player', {
               skin_item.is_weared = skin_item.is_default;
               })
           }
+          console.log('this.activeCharBackendWearedSkins', this.activeCharBackendWearedSkins);
           this.activeCharBackendWearedSkins.forEach(skin_item => {
               this.showClothes(skin_item)
           })
@@ -59,6 +60,9 @@ export const usePlayerStore = defineStore('player', {
       resetActiveCharacterAndWearSavedClothes(){
         this.changeCharacter(this.backendActiveChar)
         // this.wearSavedClothes();
+        
+        const marketStore = useMarketStore();
+        marketStore.switchTabs('character');
       },
       owned(item){
         return item.is_purchased || item.is_package;
@@ -265,10 +269,12 @@ export const usePlayerStore = defineStore('player', {
             marketStore.categoriesWithSkinItems.map(function (category) {
               category.skin_items_list.map(function (skin_item) {
                 if ($this.activeCharAllowedSkinsNames.includes(skin_item.name)){
-                  skin_item.is_weared = $this.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name)
-                  // if (skin_item.is_weared) {
-                  console.log('now weared ', skin_item.name, ' is ', skin_item.is_weared, 'cuurent', $this.activeCharCurrentlyWearedSkinsNames);
-                  // }
+                  let is_weared = $this.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name);
+                  // used in applying the "applied" badge
+                  skin_item.is_weared = is_weared;
+                  // used in wearSavedClothes
+                  $this.activeCharAllowedSkins.find(item => item.name == skin_item.name).is_weared = is_weared;
+                  // both should be done automatically after the getFullDataFormated() below
                 }
               })
             })
