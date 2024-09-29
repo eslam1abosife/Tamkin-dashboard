@@ -17,7 +17,9 @@ const collapseStore = useCollapseStore();
   >
     <div class="flex items-center justify-start">
       <div class="mt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
           Button Location
         </h1>
 
@@ -58,7 +60,7 @@ const collapseStore = useCollapseStore();
 
         <div
           v-if="collapseStore.menus.includes('button_location')"
-          class="mini_SizeMenu "
+          class="mini_SizeMenu"
         >
           <div class="mini_wrap">
             <div>
@@ -134,7 +136,13 @@ const collapseStore = useCollapseStore();
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"

@@ -20,14 +20,14 @@ export const useCustomizeStore = defineStore('customize', {
     colorMode: 'solid',
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
-    initialPositionDesktop: 'top_left',
-    initialPositionMobile: 'top_left',
-    buttonPositionDesktop: 'top_left',
-    buttonPositionMobile: 'top_left_mobile',
+    initialPositionDesktop: 'postion1',
+    initialPositionMobile: 'postion1',
+    buttonPositionDesktop: 'postion1',
+    buttonPositionMobile: 'postion1',
     force_change_MainMenuCard: false,
     force_change_profileCards: false,
     buttonSizeSlider: 2,
-    buttonShapeSelector: 'type1',
+    buttonShapeSelector: 'icon1',
     widgetType: 'full_widget',
     AdjustMainMenuCardsCustomize: [] as Card[],
     initialCardsOrderCustomize: [] as Card[], // Store the initial cards order
@@ -73,7 +73,7 @@ export const useCustomizeStore = defineStore('customize', {
     },
     changeButtonShape(shape: string) {
       this.buttonShapeSelector = shape;
-      if (shape !== 'type1') {
+      if (shape !== 'icon1') {
         this.forceChange_buttonShape = true
       } else {
         this.forceChange_buttonShape = false
