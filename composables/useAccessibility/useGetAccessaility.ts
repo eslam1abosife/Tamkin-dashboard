@@ -35,9 +35,12 @@ export default function() {
                 customizeStore.$state.buttonShapeSelector = buttonshape.value;
             }
 
+             // handle size button 
             const buttonsize  =features.find((feature: any) => feature.name === "acc-customize-button-type")
             .features.find(el => el.name === "acc-customize-button-type-button-size");
-
+            if(buttonsize.active == 1){
+                customizeStore.$state.buttonSizeSlider = buttonsize.value;
+            }
             // handle position 
             const buttonDesktopPosition  =features.find((feature: any) => feature.name === "acc-customize-button-location")
             .features.find(el => el.name === "acc-customize-button-location-button-location-desktop");

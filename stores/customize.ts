@@ -26,7 +26,7 @@ export const useCustomizeStore = defineStore('customize', {
     buttonPositionMobile: 'postion1',
     force_change_MainMenuCard: false,
     force_change_profileCards: false,
-    buttonSizeSlider: 2,
+    buttonSizeSlider: 35,
     buttonShapeSelector: 'icon1',
     widgetType: 'full_widget',
     AdjustMainMenuCardsCustomize: [] as Card[],

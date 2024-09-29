@@ -59,10 +59,10 @@ const backgroundImageStyle = computed(() => {
 });
 
 const thumbStyle = computed(() => {
-  const minSize = 50; // Min size of outer circle
-  const maxSize = 65; // Max size of outer circle
-  const size =
-    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
+  // const minSize = 50; // Min size of outer circle
+  // const maxSize = 65; // Max size of outer circle
+  const size = buttonSizeSlider.value;
+  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
   const position = langStore.direction === "rtl" ? "right" : "left";
 
   return {
@@ -76,22 +76,22 @@ const thumbStyle = computed(() => {
   };
 });
 const border_style = computed(() => {
-  const minSize = 36; // Min size of outer circle
-  const maxSize = 40; // Max size of outer circle
-  const size =
-    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  // const minSize = 36; // Min size of outer circle
+  // const maxSize = 40; // Max size of outer circle
+  // const size =
+  //   minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
-    width: `${size}px`,
-    height: `${size}px`,
+    width: `${buttonSizeSlider.value}px`,
+    height: `${buttonSizeSlider.value}px`,
     left: `${buttonSizeSlider.value}%`,
   };
 });
 const imgStyle = computed(() => {
   const minSize = 26; // Min size of inner icon
   const maxSize = 80; // Max size of inner icon
-  const size =
-    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  const size = buttonSizeSlider.value;
+  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
     width: `${size}px`,
