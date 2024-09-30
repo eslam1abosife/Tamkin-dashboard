@@ -60,7 +60,7 @@ const v$ = useVuelidate(rules, state);
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
 
- mysiteStore.currentWebsite.billing_duration === '3-monthly' ? 12 : 3
+ mysiteStore.currentWebsite.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
 );
 
 
@@ -601,9 +601,8 @@ const closeModalPackage = () => {
           class="flex items-center justify-center gap-4 w-full"
         
         >
-        <!-- {{mysiteStore.currentPackage.billing_duration}} -->
           <!-- <div
-        v-if=" mysiteStore.currentPackage.trial_days > 0"
+        v-if=" mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration !== '3 months' && mysiteStore.currentPackage.billing_duration !== 'Free Trial'"
          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
@@ -639,12 +638,17 @@ const closeModalPackage = () => {
             </div>
           </div> -->
           <div
-                v-if=" mysiteStore.currentPackage.trial_days === 0 &&
-                ( mysiteStore.currentWebsite.billing_duration !== 'monthly' && mysiteStore.currentWebsite.billing_duration !== '3-monthly')"
+              
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
           >
+          <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly'"
+          
+          class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+        >
+          <span>{{ $t("Renew") }}</span>
+        </div>
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
                 <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
@@ -683,7 +687,7 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-        v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && mysiteStore.currentPackage.billing_duration !== '3-monthly'"
+       
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] 
             w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
          
@@ -691,7 +695,13 @@ const closeModalPackage = () => {
           >
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
-                <div
+                <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'"
+                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+              >
+                <span>{{ $t("Renew") }}</span>
+              </div>
+                <div v-else
                   style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
                   class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                 >
@@ -734,7 +744,7 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-   v-if="mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === 'monthly'"
+   
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full
              relative pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
@@ -744,7 +754,13 @@ const closeModalPackage = () => {
           >
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
-                <div
+                <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'"
+          
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+              >
+                <span>{{ $t("Renew") }}</span>
+              </div>
+                <div v-else
                   class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
                 >
                   <span>{{ $t("Best Value") }}</span>
@@ -797,7 +813,7 @@ const closeModalPackage = () => {
                 placeholder=""
                 id="newWebsite"
                 class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
-              :value="mysiteStore.currentWebsite.title !== 'Internal Service' ? mysiteStore.currentWebsite.app_domain : mysiteStore.currentWebsite.title"
+              :value="mysiteStore.currentWebsite.title !== 'Internal Service' ? mysiteStore.currentWebsite.app_domain : $t(`${mysiteStore.currentWebsite.title}`)"
                
               />
              
@@ -895,7 +911,7 @@ const closeModalPackage = () => {
                       class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] 
                       font-[500] whitespace-nowrap"
                     >
-                      <div>{{ website.title }}</div>
+                      <div>{{ $t(`${website.title}`)}}</div>
                       <span
                         v-if=" false && 
                           trafficTooHighUrls.some((w) => w.title === website.title) &&

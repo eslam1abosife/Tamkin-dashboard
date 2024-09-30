@@ -260,19 +260,19 @@ getTabDetails: (state) => (tab, highlightText, page) => {
 // alert(title)
       let filteredPackages = state.packages
       .filter(pkg => pkg.type === title && pkg.package_type === typeofpck)
-      .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
+      .sort((a, b) => a.sort - b.sort); 
     
     
     if (category) {
       filteredPackages = filteredPackages
       .filter(pkg =>
-        // console.log(pkg.category)
+        // console.log(pkg.category === category)
         pkg.category ===category  
-      ) .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
+      ) .sort((a, b) => a.sort - b.sort); 
       // .filter((pkg, index, self) => 
       //   index === self.findIndex(p => p.name === pkg.name) 
       // );
-      console.log('categories filtered' , category)
+      console.log('categories filtered' , filteredPackages)
     
       
           }

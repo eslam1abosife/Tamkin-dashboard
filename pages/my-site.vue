@@ -5,16 +5,16 @@ import { useVuelidate } from "@vuelidate/core";
 import { useGetAppInvites,useUpdateDefaultApp } from "@/composables/useTeam";
 import { useDeleteApp, useRestoreApp ,useGetPackage} from "@/composables/useMySite";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-const {locale} = useI18n()
+
+const {locale,t} = useI18n()
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 const {getPackage,messageStatus,codeStatus} = useGetPackage()
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
-
 const { getAvatarLetters } = useGetAvatarLetters();
 const mysiteStore = useMySiteStore()
+const {loadingBlock} = storeToRefs(mysiteStore)
 const route = useRoute()
 const router = useRouter()
-
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
@@ -22,8 +22,6 @@ const getApps = async () => {
 onMounted(async () => {
   getApps();
   checkPaymentStatus()
-  // await packagesStore.getDataPackage()
-
 });
 
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -245,13 +243,21 @@ const appList = computed(() => {
       if (currentTab.value === "deleted") {
         return ele.status === "deleted";
       } else {
-        return ele.status !== "deleted" && ele.status !== 'draft' &&  ele.type !== "Internal Services";
+        return ele.status !== "deleted"  &&  ele.type !== "Internal Services";
         // 
       }
     })
-    .filter((ele) =>
-      ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
-    )
+    .filter((ele) => {
+  const translatedTitle = ele.title.toLowerCase().trim();
+  const titleForSearch = currentTab.value === 'internal'
+    ? t(ele.title)
+    : translatedTitle;
+
+  const translatedSearchValue = search.value.toLowerCase().trim();
+
+  return titleForSearch.includes(translatedSearchValue);
+})
+
     .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
   }else {
    return  apps.value.find(t=>t.title === 'Internal Service').package.filter((ele) =>
@@ -283,27 +289,47 @@ const formatToUrl = (domain)=>{
 
     const loadingPackage = ref([])
 const getPackageAndOpenPaymenModal = async (app,pack)=>{
-if((new Date(app.package.find(k=>k.name === pack).endpackage) <  new Date() )||
+if(pack){
+  await loadingBlock.value.push({app:app,pack:pack})
+
+  if((new Date(app.package.find(k=>k.name === pack).endpackage) <  new Date() )||
  app.package.find(k=>k.name === pack).status === 'Cancelled' || app.package.find(k=>k.name === pack).status === 'Rejected' || app.package.find(k=>k.name === pack).title === 'Free'){
-router.push({path:localePath('/upgrade'),query:{app:app.name,package:pack,category:app.package.find(k=>k.name === pack).category1}})
-mysiteStore.currentWebsite = app
+  loadingBlock.value.push({app:app,pack:pack})
+
+  mysiteStore.currentWebsite = app
+const packagemodal = await getPackage(app.package.find(k=>k.name === pack).name)
+
+      await mysiteStore.setCurrentPackage({...packagemodal.package,
+        package_price_role:packagemodal.price_roles,
+        billing_duration:app.package.find(k=>k.name === pack).billing_duration,status:new Date() > new Date( app.package.find(k=>k.name === pack).endpackage) ? 'Expired' : app.package.find(k=>k.name === pack).status});
+
+      navigateTo(null, "mysite", "upgrade_mysite_package");
+      loadingBlock.value.splice({app:app,pack:pack})
 
 }else {
-  loadingPackage.value.push({app:app,pack:pack})
 // console.log('here apps',app.package.find(k=>k.name === pack).name)
 const packagemodal = await getPackage(app.package.find(k=>k.name === pack).name)
 
-      await mysiteStore.setCurrentPackage({...packagemodal.package,package_price_role:packagemodal.price_roles});
+      await mysiteStore.setCurrentPackage({...packagemodal.package,package_price_role:packagemodal.price_roles,billing_duration:app.package.find(k=>k.name === pack).billing_duration});
 
       // mysiteStore.currentPackage = app.package ? :null
       mysiteStore.currentWebsite = app
       mysiteStore.openedCurrentSite = true
 
       navigateTo(null, "mysite", "add_package_modal_mysite");
-      loadingPackage.value.splice({app:app,pack:pack})
+      loadingBlock.value.splice({app:app,pack:pack})
 }
 
 
+}else{
+  loadingBlock.value.push({app:app})
+
+       mysiteStore.currentWebsite = app
+      navigateTo(null, "mysite", "upgrade_no_package");
+      loadingBlock.value.splice({app:app})
+
+
+}
     }
 const pcktype = ref({
   name:'Sign language',
@@ -329,9 +355,9 @@ const checkPaymentStatus = async () => {
       });
 
       await nextTick();
-      openModal("success_pay_package",'mysite');
+      openModal("success_pay_mysite",'mysite');
     } else {
-      openModal("success_pay_package",'mysite');
+      openModal("success_pay_mysite",'mysite');
     }
   }
 };
@@ -339,13 +365,21 @@ const checkPaymentStatus = async () => {
 const internalServiceApp = computed(()=>{
   return apps.value.length ? apps.value.find(t=>t.title === 'Internal Service') : false
 })
-
+const capitalizeFirstLetter = (str) => {
+  if (!str) return str; // Return the string if it's empty or undefined
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 </script>
 
 <template>
 
   <div class="w-full">
-
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+<MySiteNopackagebuy v-if="isOpen('upgrade_no_package')"/>
+</transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+<MySiteUpgrade  v-if="isOpen('upgrade_mysite_package')"/>
+</transition>
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
       <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
@@ -357,7 +391,7 @@ const internalServiceApp = computed(()=>{
       <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
     </transition>
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <PackagesPaymentModalsSuccess v-if="isOpen('success_pay_package')" />
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
     </transition>
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
@@ -451,7 +485,7 @@ const internalServiceApp = computed(()=>{
               <div v-if="!getSitesLoading && defaultApp?.favicon &&  defaultApp?.title !== 'Internal Service' " > 
                 <img v-if="defaultApp.favicon"
                 :src=" defaultApp.favicon"
-                class="w-[40px] h-[40px]  ipad-max:hidden lg:block hidden"
+                class="w-[40px] h-[40px] rounded-full  ipad-max:hidden lg:block hidden"
               />
                
               </div>
@@ -668,7 +702,7 @@ const internalServiceApp = computed(()=>{
              <div class="flex items-center justify-end w-2/4 pr-[17px]">
               <div class="flex items-center justify-between w-full ">
                 <div
-                  class="py-[17px] search_input w-full lg:ltr:mr-[16px] lg:rtl:ml-[16px]"
+                  class="py-[17px] search_input w-full  lg:ltr:mr-[10px] lg:rtl:ml-[10px]"
                 >
                   <input
                     type="text"
@@ -770,7 +804,9 @@ const internalServiceApp = computed(()=>{
 
                     <th>
                       <div
-                        class="flex items-center lg:px-0 px-[100px] justify-center rtl:space-x-reverse space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                        class="flex items-center lg:px-0 px-[100px] justify-start rtl:space-x-reverse 
+                        space-x-[6px] lg:text-[14px] font-[600] lg:leading-[21px] text-[12px] leading-[12px]
+                         text-darkGrey dark:text-whiteTamkin"
                       >
                         <div>{{ $t("Traffic") }}</div>
                         <div>
@@ -803,8 +839,8 @@ const internalServiceApp = computed(()=>{
                       </div>
                     </th>
                     <th
-                      class=" lg:text-[14px] 
-                      font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
+                      class=" lg:text-[14px] text-center 
+                      font-[600] lg:leading-[21px] text-[12px] ltr:pr-[50px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{ $t("Action") }}
                     </th>
@@ -821,7 +857,7 @@ const internalServiceApp = computed(()=>{
  
       class="h-[50px] "
       :class="[app.package.length && app.package[0].status ==='not_installed' && new Date() < new Date(app.package[0].endpackage)? 'bg-[#FAEBEB]':'',
-      selectedApp && selectedApp.name === app.name? 'border-[1px] drop-shadow-md !border-tamkinStart':'']"
+      selectedApp && selectedApp.name === app.name? 'border-[1px] drop-shadow-md !border-tamkinStart':'border-[1px] ']"
     >
       <td class="w-[25%]">
         <div
@@ -832,38 +868,25 @@ const internalServiceApp = computed(()=>{
             href="#"
             class="gap-3 h-[50px] flex items-center justify-start"
           >
-          <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
+          <div class="flex items-center justify-center " v-if="app.favicon">
             <img 
             :src="app.favicon"
-            class="w-[20px] h-[20px] ipad-max:hidden lg:block hidden rounded-full"
+            class="size-8 ipad-max:hidden lg:block hidden rounded-full"
           />
           </div>
-            <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+            <div v-else class="size-8 bg-[#2DADA3] rounded-full 
             text-white flex items-center justify-center text-[12px]"> 
-<div class="flex items-center justify-center">
 {{ getAvatarLetters(app?.title) }}
+
 </div>
-</div>
-<button  v-if="app.package.length > 1" @click.prevent="()=>{
-  selectedApp = selectedApp === app ? null : app;
 
-}"
-class="absolute rtl:left-14 ltr:right-14 order-2 disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
->
-<svg :class="selectedApp === app ? 'rotate-180' : ''"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
-stroke="currentColor" class="size-4">
-<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-</svg>
-
-
-</button> 
 
             <div class="order-1">{{ app.app_domain }}</div>
            
           </a>
           <div
             v-if="defaultApp.name === app.name"
-            class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+            class="order-1 flex items-center justify-center text-white text-[10px] font-[500]  lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
             style="
               background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
             "
@@ -872,102 +895,111 @@ stroke="currentColor" class="size-4">
           </div>
         </div>
       </td>
-   <!-- {{app.billing_duration}} -->
       <td
-        class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        class=" lg:px-0 w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right 
+         font-[400] text-darkGrey dark:text-whiteTamkin"
       >
-        {{ $t(`${app.billing_duration === '3-monthly' ? $t('3 Months') :app.billing_duration === 'monthly' ?$t('Monthly') :app.billing_duration === 'yearly'?$t('Annual'):$t('Free trial')}`) }}
+        {{ app.package.length ? $t(capitalizeFirstLetter(app.package[0].billing_duration)) : '-' }}
       </td>
       <td
-        class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        class="text-left text-[12px] lg:px-0 w-[150px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
       >
-        <div
+     
+        <div v-if="app.package.length > 0"
           class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
         >
-          <div class="w-[20px] h-[20px] " v-if="app.billing_duration !== 'Free Trial'">
-    
+          
+          <div class="w-[20px] h-[20px] inline-block align-middle">
             <img v-if="app.package[0] && app.package[0].icon"
-              :src="runtimeConfig.public.baseImagerUrl + (app.package[0] ? app.package[0].icon : '/')"
-              class="w-[20px] h-[20px] "
-              alt=""
-            />
+            :src="runtimeConfig.public.baseImagerUrl + (app.package[0] ? app.package[0].icon : '/')"
+            class="w-[20px] h-[20px] "
+            alt=""
+          />
           </div>
-          <div v-if="app.billing_duration !== 'Free Trial'">{{ app.package[0] && app.package[0].title ? $t(`${app.package[0].title}`) : 'Draft website' }}</div>
+        
+          <!-- Title Container -->
+          <div class="inline-block align-middle rtl:mr-2 ltr:ml-2">
+            {{ app.package[0] && app.package[0].title ? $t(`${app.package[0].title}`) : 'Draft website' }}
+          </div>
         </div>
+        <div class="rtl:text-right ltr:text-left" v-else>-</div>
+
       </td>
       <td
-        class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+        class="lg:px-0  w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
       >
-      <!-- {{app}} -->
-      <div
-      v-if="app.billing_duration === 'Free Trial'"
-    
-      class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px]  flex items-center justify-center 
-            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-    >
-      {{ $t(`Free Trial`) }}
-    </div>
-  <div v-if="app.billing_duration !== 'Free Trial'">
-    <div
-    v-if="new Date() > new Date(app.package[0].endpackage)"
-  
-    class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
-          h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-  >
-    {{ $t(`Expired`) }}
-  </div>
+      
+ <div v-if="app.package.length > 0">
   <div
-  v-if="app.package[0].status === 'Rejected'"
+  v-if="app.package[0]&&  new Date() > new Date(app.package[0].endpackage)"
 
   class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
-        h-[25px] max-w-[100px] w-auto text-white text-[12px] leading-[18px]"
+        h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
 >
-  {{ $t(`${app.package[0].status}`) }}
+  {{ $t(`Expired`) }}
 </div>
-    <div
-    v-if="app.package[0].status === 'Pending'"
-  
-    class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
-          h-[25px] max-w-[150px] w-3/4 text-white text-[12px] leading-[18px]"
-  >
-    {{ app.package[0].status === 'Pending'? $t('Under Review') : $t(`${app.package[0].status}`) }}
-  </div>
-  <div
-  @click="$router.push(localePath('/embed-code'))"
-  v-if="app.package[0].status ==='not_installed' && new Date() < new Date(app.package[0].endpackage)"
-  class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
->
-  {{ $t("Not installed") }}
-</div>
-  </div>
-      </td>
+<div
+v-if="app.package[0].status === 'Rejected'"
 
+ class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+>
+{{ $t(`${app.package[0].status}`) }}
+</div>
+
+<div
+v-if="app.package[0].status === 'draft'"
+
+ class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+>
+{{ $t(`${app.package[0].status}`) }}
+</div>
+  <div
+  v-if="app.package[0].status === 'Pending'"
+
+  class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+>
+  {{ app.package[0].status === 'Pending'? $t('Under Review') : $t(`${app.package[0].status}`) }}
+</div>
+<div
+@click="$router.push(localePath('/embed-code'))"
+v-if="(app.package && app.package.length > 0 && app.package[0].status === 'not_installed' && new Date() < new Date(app.package[0].endpackage)) "
+class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
+>
+{{ $t("Not installed") }}
+</div>
+ </div>
+ <div class="rtl:text-right ltr:text-left" v-else>-</div>
+
+      </td>
       <td
-        class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap 
+        lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
       >
         {{ new Date(app.creation).toDateString() }}
       </td>
-
       <td
-        class="text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        class="rtl:text-right ltr:text-left  w-[150px]  text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
       >
         {{ formatNumber(app.traffic) }}
       </td>
-
       <td
-        class="text-[14px] font-[400] text-darkGrey "
+        class="text-[14px] w-[150px] font-[400] px-[18px] text-darkGrey "
       >
         <div
           class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
         >
-                           
-        <button  :disabled="app.package.length && app.package[0].status === 'Pending' || 
-          loadingPackage.find(a=>a.pack === app.package.length && app.package[0].name && a.app === app) || app.package.length && app.package[0].billing_duration === 'yearly'"
-         class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
-          @click="getPackageAndOpenPaymenModal(app,app.package[0].name)">
-          <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)"/>
+    
+        <button 
+      
+         class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
+          @click="getPackageAndOpenPaymenModal(app,(app.package.length ? app.package[0].name : null))">
+          <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>(app.package.length ? a.pack === app.package[0].name : true) && a.app === app)"/>
           
-  <svg v-if="loadingPackage.find(a=>a.pack === app.package[0].name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+  <svg v-if="loadingBlock.find(a=>(app.package.length ? a.pack === app.package[0].name : true) && a.app === app)" 
+    class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
   fill="none" viewBox="0 0 24 24">
   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
   <path class="opacity-75" fill="currentColor"
@@ -992,6 +1024,20 @@ stroke="currentColor" class="size-4">
               />
             </svg>
           </button>
+
+          <button  :disabled="app.package.length  ===  1 ||   app.package.length ===0 " @click.prevent="()=>{
+            selectedApp = selectedApp === app ? null : app;
+          
+          }"
+          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+          >
+          <svg :class="selectedApp === app ? 'rotate-180' : ''"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+          stroke="currentColor" class="size-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
+          
+          
+          </button> 
         </div>
       </td>
 
@@ -999,12 +1045,185 @@ stroke="currentColor" class="size-4">
     </tr>
    
   
-    <!-- <template v-if="selectedApp && selectedApp.name === app.name" >
- 
+     <template v-if="selectedApp && selectedApp.name === app.name" >
       <tr
+      :class="[ selectedApp && selectedApp.name === app.name ? '!border-[1px]  !border-t-0  !border-tamkinStart':'']"
+
+      class="h-[50px] "
+ v-for="(pack,i) in selectedApp.package.slice(1)" :key='i'
+    >
+      <td class="w-[25%]">
+        <div
+          class="relative h-[50px] flex items-center justify-start  
+       ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+        >
+          <a
+            href="#"
+            class="gap-3 h-[50px] flex items-center justify-start"
+          >
+          <div class="flex items-center justify-center " v-if="selectedApp.favicon">
+            <img 
+            :src="selectedApp.favicon"
+            class="size-8 ipad-max:hidden lg:block hidden rounded-full"
+          />
+          </div>
+            <div v-else class="size-8 bg-[#2DADA3] rounded-full 
+            text-white flex items-center justify-center text-[12px]"> 
+{{ getAvatarLetters(selectedApp?.title) }}
+
+</div>
+
+
+            <div class="order-1">{{ selectedApp.app_domain }}</div>
+           
+          </a>
+          <!-- <div
+            v-if="defaultApp.name === app.name"
+            class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+            style="
+              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+            "
+          >
+            {{ $t("Default") }}
+          </div> -->
+        </div>
+      </td>
+      <td
+        class=" lg:px-0 w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ selectedApp.package.length ? $t(capitalizeFirstLetter(pack.billing_duration)) : '-' }}
+      </td>
+      <td
+        class="ltr:text-left rtl:text-right text-[12px] lg:px-0 w-[150px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+      <div v-if="pack" class="">
+        <!-- Image Container -->
+        <div class="w-[20px] h-[20px] inline-block align-middle">
+          <img v-if="pack.icon"
+            :src="runtimeConfig.public.baseImagerUrl + pack.icon"
+            class="w-[20px] h-[20px]"
+            alt=""
+          />
+        </div>
+      
+        <!-- Title Container -->
+        <div class="inline-block align-middle rtl:mr-2 ltr:ml-2">
+          {{ pack && pack.title ? $t(`${pack.title}`) : 'Draft website' }}
+        </div>
+      </div>
+      
+        <div class="rtl:text-right ltr:text-left" v-else>-</div>
+
+      </td>
+      <td
+        class="lg:px-0  w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+      >
+      
+ <div v-if="selectedApp.package.length > 0">
+  <div
+  v-if="pack.endpackage &&  new Date() > new Date(pack.endpackage)"
+
+  class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+>
+  {{ $t(`Expired`) }}
+</div>
+<div
+v-if="pack.status === 'Rejected'"
+
+ class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+>
+{{ $t(`${pack.status}`) }}
+</div>
+  <div
+  v-if="pack.status === 'Pending'"
+
+  class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
+        h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+>
+  {{ pack.status === 'Pending'? $t('Under Review') : $t(`${pack.status}`) }}
+</div>
+<div
+@click="$router.push(localePath('/embed-code'))"
+v-if="(pack && pack.status === 'not_installed' && new Date() < new Date(pack.endpackage)) "
+class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
+>
+{{ $t("Not installed") }}
+</div>
+ </div>
+ <div class="text-center" v-else>-</div>
+      </td>
+      <td
+        class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap 
+        lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ new Date(selectedApp.creation).toDateString() }}
+      </td>
+      <td
+        class="rtl:text-right ltr:text-left  w-[150px]  text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ formatNumber(selectedApp.traffic) }}
+      </td>
+      <td
+        class="text-[14px] w-[150px] font-[400] text-darkGrey "
+      >
+        <div
+          class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
+        >
+        <button 
+      
+         class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
+          @click="getPackageAndOpenPaymenModal(selectedApp,pack ? pack.name : null)">
+          <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>(pack ? a.pack === pack.name : true) && a.app === selectedApp)"/>
+          
+  <svg v-if="loadingBlock.find(a=>(pack ? a.pack === pack.name : true)&& a.app === selectedApp)" 
+    class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+  fill="none" viewBox="0 0 24 24">
+  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+  <path class="opacity-75" fill="currentColor"
+    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+  </path>
+</svg>
+             </button>
+             
+                        
+          <button @click="openDeleteMember(selectedApp)">
+            <svg
+              width="18"
+              height="17"
+              rviewBox="0 0 18 17"
+              class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.61539 2.78571H10.3846C10.3846 2.48261 10.2387 2.19192 9.97907 1.97759C9.71941 1.76327 9.36722 1.64286 9 1.64286C8.63278 1.64286 8.2806 1.76327 8.02093 1.97759C7.76126 2.19192 7.61539 2.48261 7.61539 2.78571ZM6.23077 2.78571C6.23077 2.17951 6.52253 1.59812 7.04186 1.16947C7.56119 0.740816 8.26555 0.5 9 0.5C9.73445 0.5 10.4388 0.740816 10.9581 1.16947C11.4775 1.59812 11.7692 2.17951 11.7692 2.78571H17.3077C17.4913 2.78571 17.6674 2.84592 17.7972 2.95308C17.9271 3.06025 18 3.20559 18 3.35714C18 3.5087 17.9271 3.65404 17.7972 3.7612C17.6674 3.86837 17.4913 3.92857 17.3077 3.92857H16.5268L14.8583 14.0291C14.7451 14.7136 14.3354 15.3411 13.7048 15.7954C13.0742 16.2497 12.2656 16.5 11.4286 16.5H6.57138C5.73441 16.5 4.92578 16.2497 4.29522 15.7954C3.66465 15.3411 3.25485 14.7136 3.14169 14.0291L1.47323 3.92857H0.692308C0.508696 3.92857 0.332605 3.86837 0.202772 3.7612C0.0729393 3.65404 0 3.5087 0 3.35714C0 3.20559 0.0729393 3.06025 0.202772 2.95308C0.332605 2.84592 0.508696 2.78571 0.692308 2.78571H6.23077ZM7.61539 6.78571C7.61539 6.63416 7.54245 6.48882 7.41261 6.38165C7.28278 6.27449 7.10669 6.21429 6.92308 6.21429C6.73947 6.21429 6.56337 6.27449 6.43354 6.38165C6.30371 6.48882 6.23077 6.63416 6.23077 6.78571V12.5C6.23077 12.6516 6.30371 12.7969 6.43354 12.9041C6.56337 13.0112 6.73947 13.0714 6.92308 13.0714C7.10669 13.0714 7.28278 13.0112 7.41261 12.9041C7.54245 12.7969 7.61539 12.6516 7.61539 12.5V6.78571ZM11.0769 6.21429C11.2605 6.21429 11.4366 6.27449 11.5665 6.38165C11.6963 6.48882 11.7692 6.63416 11.7692 6.78571V12.5C11.7692 12.6516 11.6963 12.7969 11.5665 12.9041C11.4366 13.0112 11.2605 13.0714 11.0769 13.0714C10.8933 13.0714 10.7172 13.0112 10.5874 12.9041C10.4576 12.7969 10.3846 12.6516 10.3846 12.5V6.78571C10.3846 6.63416 10.4576 6.48882 10.5874 6.38165C10.7172 6.27449 10.8933 6.21429 11.0769 6.21429ZM4.51385 13.8749C4.5818 14.2855 4.82766 14.6619 5.20594 14.9344C5.58421 15.2069 6.06929 15.3571 6.57138 15.3571H11.4286C11.931 15.3574 12.4164 15.2073 12.7949 14.9348C13.1735 14.6622 13.4196 14.2857 13.4875 13.8749L15.1297 3.92857H2.87031L4.51385 13.8749Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+
+          <button  :disabled="true"
+          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+          stroke="currentColor" class="size-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
+          
+          
+          </button> 
+        </div>
+      </td>
+
+  
+    </tr>
+ 
+      <!-- <tr
    :class="[ selectedApp && selectedApp.name === app.name ? '!border-[1px]  !border-t-0  !border-tamkinStart':'']"
  v-for="(pack,i) in selectedApp.package.slice(1)" :key='i'
-       class="h-[50px]  "
+       class="h-[50px] "
      >
        <td class="w-[25%] ">
          <div
@@ -1018,14 +1237,13 @@ stroke="currentColor" class="size-4">
            <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
              <img 
              :src="selectedApp.favicon"
-             class="w-auto h-auto ipad-max:hidden lg:block hidden"
+             class="size-8  ipad-max:hidden lg:block hidden"
            />
            </div>
-             <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+             <div v-else class="size-8  bg-[#2DADA3] rounded-full 
              text-white flex items-center justify-center text-[12px]"> 
-   <div class="flex items-center justify-center">
    {{ getAvatarLetters(selectedApp?.title) }}
-   </div>
+
    </div>
    
    
@@ -1037,12 +1255,13 @@ stroke="currentColor" class="size-4">
        </td>
     
        <td
-         class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+         class="capitalize w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right
+         font-[400] text-darkGrey dark:text-whiteTamkin"
        >
-       {{ $t(`${selectedApp.billing_duration === '3-monthly' ? '3 Months' :selectedApp.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
+       {{ $t(`${selectedApp.billing_duration === '3-monthly' ? '3 months' :selectedApp.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
        </td>
        <td
-         class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+         class="text-left w-[150px] text-[12px] lg:px-0 lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
        >
          <div
            class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
@@ -1051,16 +1270,16 @@ stroke="currentColor" class="size-4">
      
              <img
                :src="runtimeConfig.public.baseImagerUrl + (pack.icon)"
-               class="w-[20px] h-[20px] "
+               class="w-[20px] h-[20px]  rounded-full"
                alt=""
              />
            </div>
-           <div>{{pack.title}}</div>
+           <div>{{$t(pack.title)}}</div>
          </div>
        </td>
    
  <td
-        class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
+        class="lg:px-0  w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
       >
       <div
       v-if="new Date() > new Date(pack.endpackage)"
@@ -1089,19 +1308,20 @@ stroke="currentColor" class="size-4">
       </td>
    
        <td
-         class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+         class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap
+          lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
        >
          {{ new Date(app.creation).toDateString() }}
        </td>
    
        <td
-         class="text-center rtl:pl-[36px] ltr:pr-[36px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+         class="rtl:text-right lt:text-left text-[14px] w-[150px]   leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
        >
          {{ formatNumber(app.traffic) }}
        </td>
    
        <td
-         class="text-[14px] font-[400] text-darkGrey "
+         class="text-[14px] w-[150px] font-[400] text-darkGrey "
        >
          <div
            class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
@@ -1109,12 +1329,12 @@ stroke="currentColor" class="size-4">
          
          <button  :disabled="
         pack.status === 'Pending' || 
-          loadingPackage.find(a=>a.pack === pack.name && a.app === selectedApp) || pack.billing_duration === 'yearly'"
-          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+          loadingBlock.find(a=>a.pack === pack.name && a.app === selectedApp) || pack.billing_duration === 'yearly'"
+          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
            @click="getPackageAndOpenPaymenModal(app,pack.name)">
-           <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === pack.name && a.app === app)"/>
+           <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>a.pack === pack.name && a.app === app)"/>
            
-   <svg v-if="loadingPackage.find(a=>a.pack === pack.name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
+   <svg v-if="loadingBlock.find(a=>a.pack === pack.name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
    fill="none" viewBox="0 0 24 24">
    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
    <path class="opacity-75" fill="currentColor"
@@ -1139,13 +1359,23 @@ stroke="currentColor" class="size-4">
                />
              </svg>
            </button>
+
+           <button  :disabled="true" 
+          
+         
+          class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
+          >
+         -
+          
+          
+          </button> 
          </div>
        </td>
    
    
-     </tr>
+     </tr> -->
 
-    </template> -->
+    </template> 
 
     
 
@@ -1185,9 +1415,9 @@ stroke="currentColor" class="size-4">
                     >
                     <img v-if="app.favicon"
                     :src="app.favicon"
-                    class="w-[20px] h-[20px] object-cover ipad-max:hidden lg:block hidden"
+                    class="size-8 object-cover ipad-max:hidden lg:block hidden"
                   />
-                  <div v-else class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full 
+                  <div v-else class="size-8 bg-[#2DADA3] rounded-full 
                   text-white flex items-center justify-center text-[12px]"> 
                         <div class="flex items-center justify-center">
                           {{ getAvatarLetters(app?.title) }}
@@ -1249,7 +1479,7 @@ stroke="currentColor" class="size-4">
 
              
                   <th
-                    class=" lg:text-[14px] 
+                    class=" lg:text-[14px]  
                     font-[600] lg:leading-[21px] text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin"
                   >
                     {{ $t("Action") }}
@@ -1266,36 +1496,35 @@ stroke="currentColor" class="size-4">
   v-for="(pk, index) in paginatedFilteredAppList"
   :key="index"
     class="h-[50px] "
-    :class="[internalServiceApp.status === 'not_installed' ? 'bg-[#FAEBEB]':'']"
   >
     <td class="w-[25%]">
       <div
         class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
         ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
       >
-        <a
-          href="#"
-          class="gap-3 h-[50px] flex items-center justify-start"
-        >
+        
     
-        <img v-if="pk.icon"
-        :src="runtimeConfig.public.baseImagerUrl + pk.icon"
-        class="w-[40px] h-[40px]"
-        alt=""
-      />
+   <div class="size-10">
+    <img v-if="pk.icon"
+    :src="runtimeConfig.public.baseImagerUrl + pk.icon"
+    class=" object-contain "
+
+    alt=""
+  />
+   </div>
 
           <div class="order-1">{{ $t(`${pk.title}`) + ' - '+ $t(`${pk.title === 'Free' ? pk.category1 : pk.package_category}`)}}</div>
          
-        </a>
+     
 
       </div>
     </td>
  
     <td
-      class="capitalize lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
+      class=" lg:px-0 px-[100px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
     >
     
-      {{ $t(`${pk.billing_duration ? pk.billing_duration : $t('Free - Monthly')}`) }}
+      {{ pk.billing_duration ? $t(capitalizeFirstLetter(pk.billing_duration)) : $t('Free - Monthly') }}
     </td>
     <td
       class="text-left text-[12px] lg:px-0 px-[100px] lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1311,14 +1540,6 @@ stroke="currentColor" class="size-4">
     <td
         class="lg:px-0 px-[100px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
       >
-      <div
-      v-if="pk.title ==='Free'"
-    
-      class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
-            h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
-    >
-      {{ $t(`Active`) }}
-    </div>
 
       <div
       v-if="pk.status ==='Active' ||  pk.status === 'draft'"
@@ -1328,6 +1549,7 @@ stroke="currentColor" class="size-4">
     >
       {{ $t(`Active`) }}
     </div>
+ 
       <div
       v-if="new Date() > new Date(pk.endpackage)"
     
@@ -1337,12 +1559,12 @@ stroke="currentColor" class="size-4">
       {{ $t(`Expired`) }}
     </div>
       <div
-      v-if="pk.status === 'Pending'"
+      v-if="pk.status === 'Pending' || pk.status === 'Pendding'"
     
       class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px]  flex items-center justify-center 
             h-[25px]  w-[100px] text-white text-[12px] leading-[18px]"
     >
-      {{ pk.status === 'Pending'? $t('Under Review') : $t(`${pk.status}`) }}
+      {{ pk.status === 'Pending' || pk.status === 'Pendding'? $t('Under Review') : $t(`${pk.status}`) }}
     </div>
     <div
       v-if="pk.status === 'Rejected'"
@@ -1358,7 +1580,7 @@ stroke="currentColor" class="size-4">
     <td
       class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
     >
-      {{ new Date(pk.from_date).toDateString() }}
+      {{ pk.from_date ? new Date(pk.from_date).toDateString() : new Date(pk.creation).toDateString() }}
     </td>
 
 
@@ -1370,12 +1592,13 @@ stroke="currentColor" class="size-4">
         class="flex items-center justify-center  rtl:space-x-reverse space-x-[16px]  relative"
       >
                          
-      <button  :disabled=" loadingPackage.find(a=>a.pack === pk.name && a.app === internalServiceApp) ||
-         pk.billing_duration === 'yearly'  || pk.billing_duration === 'Pendding'"
-       class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
-        @click="getPackageAndOpenPaymenModal(internalServiceApp,pk.name)">
+      <button
+        :disabled="  loadingBlock.find(a=>(pk ? a.pack === pk.name : true) && a.app === internalServiceApp) ||
+         pk.billing_duration === 'yearly'  || pk.status === 'Pendding' "
+       class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
+        @click="getPackageAndOpenPaymenModal(internalServiceApp,pk ? pk.name : null)">
         
-        <img src="/assets/imgs/installed.svg" v-if="!loadingPackage.find(a=>a.pack === pk.name && a.app === internalServiceApp)"/> 
+        <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>(pk ? a.pack === pk.name : true) && a.app === internalServiceApp)"/> 
         
  <svg v-else class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
 fill="none" viewBox="0 0 24 24">
@@ -1387,12 +1610,13 @@ fill="none" viewBox="0 0 24 24">
            </button>
            
                       
-        <button :disabled="pk.title === 'Free'" @click="openDeleteMember(internalServiceApp)" class="disabled:opacity-40">
+        <button :disabled="pk.title == 'Free'" @click="openDeleteMember(internalServiceApp)" 
+        class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer  group">
           <svg
             width="18"
             height="17"
             rviewBox="0 0 18 17"
-            class="dark:text-whiteTamkin text-[#8C8C8C] hover:text-[#E80902] cursor-pointer"
+            class="dark:text-whiteTamkin text-[#8C8C8C]  group-hover:text-[#E80902] group-disabled:hover:text-[#8C8C8C]"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >

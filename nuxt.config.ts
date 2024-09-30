@@ -227,10 +227,8 @@ colorMode: {
 
   i18n: {
     defaultLocale: 'en',
-    // Specify the directory where the language files are stored
-    langDir: './locales/',
-    // Define the available locales
-    lazy:true,
+    lazy: true,
+    langDir: 'locales/',
     strategy: 'prefix_and_default',
     detectBrowserLanguage: false,
     locales: [
@@ -239,19 +237,20 @@ colorMode: {
         iso: 'en-US',
         name: 'English',
         file: 'en.ts',
-        dir: "ltr"
+        dir: 'ltr'
       },
       {
         code: 'ar',
         iso: 'ar-SA',
         name: 'Arabic',
         file: 'ar.ts',
-        dir: "rtl"
+        dir: 'rtl'
       }
     ],
-    // custom path example
-    
+      fallbackLocale: 'en', // Ensure no fallback
+
   },
+
   plugins: ['~/plugins/i18n.js'],
 
   googleFonts: {

@@ -233,7 +233,10 @@ const handleSave = async () => {
       navigateTo('add_new_card_billing','packages','cardModal_packages')
 
     }
-    
+    else if(currentView('add_new_card_billing') === 'addSite'){
+      navigateTo('add_new_card_billing','addSite','cardModal_addsite')
+
+    }
     else {
       closeModal('add_new_card_billing')
     }

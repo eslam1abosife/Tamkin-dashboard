@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
@@ -57,7 +58,7 @@ return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_addsite')
 
 
   router.push({
-    path: route.path, 
+    path: localePath('/my-site'), 
     query: {
       paid: undefined, 
       status: undefined
@@ -70,7 +71,7 @@ return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_addsite')
     addSiteStore.loadingBlock = []
     addSiteStore.urls = []
  }
- return navigateTo('success_pay_addsite', 'addSite', null)
+ return closeModal('success_pay_addsite')
 
 }
 

@@ -276,13 +276,15 @@ const packageTypeToSend = computed(() => {
  * @returns {Promise<void>}
  */
 const conintuePay = () => {
+
+
   addSiteStore.packagePayload = {
     package: addSiteStore.currentPackage.name,
     urls: addSiteStore.urls.filter((website: any) => website.url !== null),
     apps: webs.value.length ? webs.value.map((website: any) => website.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: totalCost.value,
+    total: addSiteStore.currentPackage.type === 'Sign language' ? totalCost.value :  calculateTotalPrice(),
     packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
     packageTrie:  null,
   };

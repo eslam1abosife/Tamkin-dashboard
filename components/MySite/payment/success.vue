@@ -54,20 +54,17 @@ await getApps()
 return navigateTo('success_pay_mysite', 'packages', 'payment_methods_mysite')
 }
  }else {
-  router.push({
-    path: localePath('/my-site'), 
-    query: {
-      paid: undefined, 
-      status: undefined
-    }
-  })
+  closeModal('success_pay_mysite')
+  
+  router.push(localePath('/my-site'));
+  await getApps()
+
   addSiteStore.currentPackage = ''
     addSiteStore.packagePayload = ''
     addSiteStore.tags = []
     addSiteStore.validatedSites = []
     addSiteStore.loadingBlock = []
 
-  closeModal('success_pay_mysite')
  }
 }
 

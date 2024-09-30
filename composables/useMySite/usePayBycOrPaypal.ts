@@ -21,7 +21,8 @@ const messageData = ref('')
                 "coupon_code": mysitestore.promo || null,//Allow Null
                 "locale": redirectTo ? ( useNuxtApp().$i18n.locale.value === 'en' ? redirectTo+'?locale='+useNuxtApp().$i18n.locale.value : '/'+useNuxtApp().$i18n.locale.value+redirectTo+'?locale='+useNuxtApp().$i18n.locale.value) : null,
               "packageExtraType": mysitestore.packagePayload.packageExtraType,
-           "packageTrie" : mysitestore.packagePayload.packageTrie
+           "packageTrie" : mysitestore.packagePayload.packageTrie,
+           "upgrade":true
             });
             // packagesStore.packagePayload.apps .filter((website: any) => website.app_domain !== null) .map(app=>app.name)
             codeStatus.value = res.data.statusCode

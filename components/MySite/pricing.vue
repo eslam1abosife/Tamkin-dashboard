@@ -23,20 +23,20 @@ const openBuyModal = (pck)=>{
 
 }
 const route = useRoute()
-const getCurrentPackageToUpgrade = computed(()=>{
+// const getCurrentPackageToUpgrade = computed(()=>{
 
-return mySiteStore.currentWebsite.package.find(pck => pck.name === route.query.package)
-})
+// return mySiteStore.currentWebsite.package.find(pck => pck.name === route.query.package)
+// })
 const openModalToUpgrade = async (pack)=>{
 
 
-      await mySiteStore.setCurrentPackage(pack);
+   await mySiteStore.setCurrentPackage(pack)
 
       // mysiteStore.currentPackage = app.package ? :null
     //   mySiteStore.currentWebsite = app
     //   mySiteStore.openedCurrentSite = true
 
-      navigateTo(null, "upgrade_mysite", "add_package_modal_mysite");
+    return   navigateTo('upgrade_mysite_package', "mysite", "add_package_modal_mysite");
     //   loadingPackage.value.splice({app:app,pack:pack})
 }
 
@@ -46,22 +46,23 @@ const openModalToUpgrade = async (pack)=>{
 
 <template>
    
-  <div class="flex flex-col items-center justify-center w-full mt-[42px] px-[20px] pb-[24px]">
+  <div class="flex flex-col items-center justify-center w-full mt-[42px]  pb-[24px] px-[20px]">
  
     <div
-    class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly h-full w-full lg:rtl:space-x-reverse lg:space-x-[36px] mt-[32px]"
+    class="grid grid-cols-3 gap-2 w-full"
 
     >
 <!-- {{  }} -->
-
+<!-- {{ packagesStore.getPackagesByTypeTitle('Package',mySiteStore.currentPackage.type,(mySiteStore.currentPackage.title === 'Free' ? mySiteStore.currentPackage.category1 :mySiteStore.currentPackage.category ))}} -->
     <!-- {{ packagesStore.getPackagesByTypeTitle('Package',getCurrentPackageToUpgrade.type,getCurrentPackageToUpgrade.category) }} -->
       <div
-        v-for="pak in packagesStore.getPackagesByTypeTitle('Package',getCurrentPackageToUpgrade.type,(getCurrentPackageToUpgrade.title === 'Free' ? getCurrentPackageToUpgrade.category1 :getCurrentPackageToUpgrade.category ))"
+        v-for="pak in
+        packagesStore.getPackagesByTypeTitle('Package',mySiteStore.currentPackage.type,(mySiteStore.currentPackage.title === 'Free' ? mySiteStore.currentPackage.category :mySiteStore.currentPackage.category ))"
         :key="pak.name"
         class="flex items-center flex-col custom-border mx-auto justify-start 
-        !rounded-t-[10px] relative  !rounded-b-none mt-[35px] group
+        !rounded-t-[10px] relative  !rounded-b-none mt-[48px] group
          bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
-      :class="[getCurrentPackageToUpgrade.name === pak.name ? 'bg-selected':'']"
+      :class="[mySiteStore.currentPackage.name === pak.name ? 'bg-selected':'']"
       >
         <div
           v-if="pak.type_deal !== 'None'"
@@ -69,7 +70,7 @@ const openModalToUpgrade = async (pack)=>{
            'bg-gradient-to-br from-[#2dada3] to-[#71dad2]':'bg-[#5E4352]']"
            class="absolute flex items-center justify-center text-[13px] leading-[17.76px]
             font-[500] w-[83px] h-[28px] rounded-[10px] text-white dark:text-darkTamkin 
-            top-[-15px]   rtl:lg:right-[250px] ltr:lg:left-[250px]"
+            top-[-15px]  rtl:right-[150px] ltr:left-[150px]"
         >
           <div class=" ">{{$t(pak.type_deal)}}</div>
         </div>
@@ -85,12 +86,12 @@ const openModalToUpgrade = async (pack)=>{
               {{ $t(pak.title) }}
             </h1>
             <h2
-              class="font-[400] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
+              class="font-[400] h-[30px] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin dark:text-whiteTamkin"
             >
               {{ $t(pak.sub_title) }}
             </h2>
 
-            <h3
+            <h3 v-if="pak.package_price_role[0].cost_month > 0 || pak.package_price_role[0].cost_yearly > 0"
               class="mt-[16px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
             >
               $
@@ -103,6 +104,10 @@ const openModalToUpgrade = async (pack)=>{
               <span class="!font-[500] !text-darkGrey dark:!text-whiteTamkin !text-[18px]"
                 >/{{ $t(packagesStore.discountType) }}</span
               >
+            </h3>
+            <h3               class="mt-[16px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
+            v-else>
+            {{ $t('Free') }}
             </h3>
             <div
               v-if="
@@ -145,7 +150,7 @@ const openModalToUpgrade = async (pack)=>{
         </div>
         <div
           class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
-           flex-col items-start justify-center w-full space-y-[10px] h-auto custom-border-collapse rounded-t-none rounded-[10px] p-4"
+           flex-col items-start justify-center w-full space-y-[10px] h-full custom-border-collapse rounded-t-none rounded-[10px] p-4"
         >
           <div
             v-for="item in pak.package_items
@@ -155,7 +160,7 @@ const openModalToUpgrade = async (pack)=>{
             class="flex items-center justify-start rtl:space-x-reverse space-x-[24px]"
           >
             <div>
-              <img
+              <img class="w-[16px] h-[16px]"
                 :src="
                   item.is_available
                     ? '/assets/imgs/checked_list_active.svg'
@@ -164,7 +169,7 @@ const openModalToUpgrade = async (pack)=>{
               />
             </div>
             <div>
-              <h3 class="text-[14px] font-[400] leading-[20px]">
+              <h3 class="text-[12px] font-[400] leading-[20px]">
                 {{ $t(item.title)}}
               </h3>
             </div>
@@ -173,38 +178,50 @@ const openModalToUpgrade = async (pack)=>{
           <div class="flex items-center justify-center mx-auto w-full">
             <button
             @click="openModalToUpgrade(pak)"
-              :disabled="
-              (pak.cost_month !== 0 && pak.cost_yearly !== 0) || pak.title === 'Free'
-
-              "
-              class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
-            >
-              <!-- Contact Us Case -->
-              <span v-if="pak.is_contact_us"> {{ $t('Contact us') }} </span>
-              <span v-if="getCurrentPackageToUpgrade.name === pak.name &&
-               (getCurrentPackageToUpgrade.status !== 'Rejected' && getCurrentPackageToUpgrade.status !== 'Cancelled' &&  pak.title !== 'Free')"> {{ $t('Renew') }} </span>
-              <span v-if="getCurrentPackageToUpgrade.name === pak.name &&
-               (getCurrentPackageToUpgrade.status === 'Rejected' || getCurrentPackageToUpgrade.status === 'Cancelled') "> {{ $t('Try Again') }} </span>
-              <!-- Trial or Buy Now Case -->
-              <span
-                v-else-if="
-                  pak.trial_days > 0 ||
-                  (pak.trial_days === 0 && pak.cost_month !== 0 && pak.cost_yearly !== 0)
-                "
-              >
-                {{
-                  pak.trial_days > 0
-                    ? `Try now for ${pak.trial_days} ${getDayLabel(pak.trial_days)}`
-                    : ""
-                }}
-              </span>
-
-              <!-- Free Package Case -->
-              <span v-else-if="(pak.cost_month === 0 && pak.cost_yearly === 0) || pak.title === 'Free'">
-                {{$t('Free Package')}}
-              </span>
-              <span v-else>{{$t('Get Started')}}</span>
-            </button>
+            :disabled="
+              (pak.cost_month !== 0 && pak.cost_yearly !== 0) || 
+              pak.title === 'Free' 
+         
+            "
+            class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
+          >
+            <!-- Contact Us Case -->
+            <span v-if="pak.is_contact_us"> {{ $t('Contact us') }} </span>
+            
+            <!-- Renew Case -->
+            <span v-else-if="mySiteStore.currentPackage.name === pak.name && 
+                            mySiteStore.currentPackage.status !== 'Rejected' && 
+                            mySiteStore.currentWebsite.status !== 'Rejected' && 
+                            mySiteStore.currentPackage.status !== 'Cancelled' && 
+                            pak.title !== 'Free'"> 
+              {{ $t('Renew') }} 
+            </span>
+            
+            <!-- Try Again Case -->
+            <span v-else-if="mySiteStore.currentPackage.name === pak.name && 
+                            (mySiteStore.currentPackage.status === 'Rejected' || 
+                             mySiteStore.currentPackage.status === 'Cancelled')"> 
+              {{ $t('Try Again') }} 
+            </span>
+            
+            <!-- Trial or Buy Now Case -->
+            <span v-else-if="pak.trial_days > 0 || 
+                            (pak.trial_days === 0 && pak.cost_month !== 0 && pak.cost_yearly !== 0)">
+              {{ pak.trial_days > 0 
+                ? `Try now for ${pak.trial_days} ${getDayLabel(pak.trial_days)}` 
+                : '' 
+              }}
+            </span>
+            
+            <!-- Free Package Case -->
+            <span v-else-if="(pak.cost_month === 0 && pak.cost_yearly === 0) || pak.title === 'Free'">
+              {{ $t('Free Package') }}
+            </span>
+            
+            <!-- Default Case -->
+            <span v-else>{{ $t('Get Started') }}</span>
+          </button>
+          
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
 const redirectTo = computed(()=>{
-return '/add-site'
+return '/my-site'
 })
 const continueCheckOut = async () => {
   loadingPayment.value = true;

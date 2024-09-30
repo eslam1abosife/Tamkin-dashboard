@@ -346,6 +346,10 @@ const openModals = computed(() => {
     isOpen('crypto_mysite_step1') ||
     isOpen('crypto_mysite_success') ||
     isOpen('success_pay_addsite') ||
+    isOpen('success_pay_mysite') ||
+    isOpen('upgrade_mysite_package') ||
+    isOpen('paypal_mysite') ||
+    isOpen('upgrade_no_package') ||
 
     
 

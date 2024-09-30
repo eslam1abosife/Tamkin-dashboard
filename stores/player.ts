@@ -230,11 +230,7 @@ export const usePlayerStore = defineStore('player', {
           let succeeded = await setAppCharacter(item.name, AppName);
           
           if (succeeded){
-<<<<<<< HEAD
             
-=======
-            // updating the ui with the applied tag
->>>>>>> 0924a42a713c981d783ed791b19524953abf5ccd
             this.characters.map(function (character) {
               character.is_used = character.name == item.name
             })

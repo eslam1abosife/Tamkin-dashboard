@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {useGetAppByName, useGetPackage} from '@/composables/useMySite'
+import {useGetAppByName} from '@/composables/useMySite'
 const {locale} = useI18n()
 
 const {getAppByName} = useGetAppByName()
@@ -62,35 +62,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 <div class="relative" >
 
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <!-- Modal for adding a package -->
-      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentPaymentmethods/>
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <PackagesPaymentModalsSuccess v-if="isOpen('success_pay_package')" />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
-    </transition>
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoSuccess />
-    </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentPaypal/>
-    </transition>
     <div v-if="!loadingPage"
     class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto
     dark:bg-transparent dark:border-darkGrey absolute rtl:left-[3.3%] ltr:right-[3.3%] top-[250px] p-[4px] border border-gray-300"
@@ -158,7 +130,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             ipad-max:text-[12px]
 ipad-max:leading-[10px] whitespace-nowrap
             lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
-  {{getCurrentPackageToUpgrade.title}} - {{ currentApp.app_domain}}
+  {{getCurrentPackageToUpgrade.title}} - {{ currentApp.app_domain !== null ? currentApp.app_domain : 'Internal Service'}}
 
         </div>
       

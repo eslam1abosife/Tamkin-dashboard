@@ -8,6 +8,7 @@ export default function() {
 const addSiteStore = useAddSiteStore()
 const codeStatus = ref('')
 const messageData = ref('')
+const route =useRoute()
     const payaddsite = async (card,type,redirectTo : any) => {
         try {
             const res = await api.post('/Apps/post/AppsInvouce',{
@@ -21,7 +22,9 @@ const messageData = ref('')
                 "coupon_code": addSiteStore.promo || null,//Allow Null
                 "locale": redirectTo ? ( useNuxtApp().$i18n.locale.value === 'en' ? redirectTo+'?locale='+useNuxtApp().$i18n.locale.value : '/'+useNuxtApp().$i18n.locale.value+redirectTo+'?locale='+useNuxtApp().$i18n.locale.value) : null,
               "packageExtraType": addSiteStore.packagePayload.packageExtraType,
-           "packageTrie" : addSiteStore.packagePayload.packageTrie
+           "packageTrie" : addSiteStore.packagePayload.packageTrie,
+           "upgrade":false
+
             });
             // packagesStore.packagePayload.apps .filter((website: any) => website.app_domain !== null) .map(app=>app.name)
             codeStatus.value = res.data.statusCode

@@ -111,7 +111,7 @@
 
     
         <VCodeBlock   
-       class="2xl:max-w-full lg:max-w-[600px]"
+       class="2xl:max-w-full lg:max-w-auto"
           dir="ltr"
           :code="currentCode"
           highlightjs
@@ -135,6 +135,7 @@
 </template>
 
 <script lang="ts" setup>
+
 import { ref, onBeforeMount, onMounted } from 'vue';
 import { useSummaryDetailedCode } from "@/composables/useEmbedCode";
 import { useModalManager } from '@/composables/useModalManager';
@@ -142,6 +143,8 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useClipboard } from '@vueuse/core'
 
 const {t} = useI18n()
+const localePath = useLocalePath()
+const route = useRoute()
 const { getSummaryDetailedCode, summaryCode, detailedCode, loading: getCodeLoading } = useSummaryDetailedCode();
 const currentCode = ref('');
 const advancedCode = ref(false);
@@ -150,6 +153,9 @@ const copyDone = ref(false)
 const  loadingBlock =ref(true)
 const locale = useLocalePath()
 const { text, copy, copied, isSupported } = useClipboard({ summaryCode })
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
 let copyCodeP = inject('copyP')
 const copyCode = () => {
   copyDone.value = true;

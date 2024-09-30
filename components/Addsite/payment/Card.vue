@@ -118,7 +118,6 @@ const loadingCards = ref(true)
 onMounted(async () => {
   urlPayment.value = ''
   await getCards();
-  loadingCards.value = false
 
 if(billingStore.cards.length){
   const primaryCard = billingStore.cards.find((card) => card.isprimary === true);
@@ -127,6 +126,7 @@ if(billingStore.cards.length){
   }
 
 }
+loadingCards.value = false
   
   window.addEventListener('message', handleIframeMessage);
   // window.addEventListener('failed', handleIframeMessage);
@@ -318,7 +318,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
-                  navigateTo('cardModal_market', 'Market', 'add_new_card_billing')
+                  navigateTo('cardModal_addsite', 'addSite', 'add_new_card_billing')
                   ">
                   <img src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
@@ -499,7 +499,9 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ (Number(addSiteStore.packagePayload.total) - percentageOff).toFixed(0) }}
+                    ${{ (Number(addSiteStore.packagePayload.total) - percentageOff).toFixed(0)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>

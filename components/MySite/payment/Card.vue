@@ -84,7 +84,7 @@ const handleIframeMessage = (event) => {
     // alert('yea')
     usepaystore.stateOfPayment = 'paid'
     // mysiteStore.removeMultipleFromCart(mysiteStore.cartItems)
-     navigateTo('cardModal_mysite','mysite','success_pay_package')
+     navigateTo('cardModal_mysite','mysite','success_pay_mysite')
      urlPayment.value = ""
      loadingPayment.value = false
     mysiteStore.currentPackage = ''
@@ -98,7 +98,7 @@ const handleIframeMessage = (event) => {
     usepaystore.stateOfPayment = 'failed'
     // mysiteStore.removeMultipleFromCart(mysiteStore.cartItems)
 
-     navigateTo('cardModal_mysite','mysite','success_pay_package')
+     navigateTo('cardModal_mysite','mysite','success_pay_mysite')
      urlPayment.value = ""
     loadingPayment.value = false
   }
@@ -153,7 +153,7 @@ const continueCheckOut = async () => {
   else if(res === "A 3-day trial package is configured in the app"){
     mysiteStore.urls =[]
     usePaymentStore().stateOfPayment = 'paid'
-    return navigateTo('cardModal_mysite','mysite','success_pay_package')
+    return navigateTo('cardModal_mysite','mysite','success_pay_mysite')
   }
    else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
