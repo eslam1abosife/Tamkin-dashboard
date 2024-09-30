@@ -60,7 +60,7 @@
     "firebase": "^10.13.0",
     "highlight.js": "^11.10.0",
     "moment": "^2.30.1",
-    "npm": "^10.8.2",
+    "npm": "^10.8.3",
     "nuxt": "^3.13.0",
     "nuxt-security": "2.0.0-rc.9",
     "nuxt-svgo": "^4.0.4",

@@ -5,6 +5,10 @@ import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
+import { useGetAccessaility } from "@/composables/useAccessibility";
+
+const { getAccessability } = useGetAccessaility();
+
 const langStore = useLangSwitch();
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
@@ -17,12 +21,12 @@ const {
   buttonShapeSelector,
   force_change_MainMenuCard,
   force_change_profileCards,
-  forceChange_buttonShape
+  forceChange_buttonShape,
 } = storeToRefs(customizeStore);
+
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 
 const changeGradientColor1 = computed(() => {
@@ -53,39 +57,41 @@ const backgroundImageStyle = computed(() => {
     };
   }
 });
-// const buttonShapeSelector = ref("type1");
-
-
 
 const thumbStyle = computed(() => {
-  const minSize = 50; // Min size of outer circle
-  const maxSize = 65; // Max size of outer circle
-  const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
+  // const minSize = 50; // Min size of outer circle
+  // const maxSize = 65; // Max size of outer circle
+  const size = buttonSizeSlider.value;
+  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
   const position = langStore.direction === "rtl" ? "right" : "left";
 
   return {
     width: `${size}px`,
     height: `${size}px`,
     transform:
-      langStore.direction === "rtl" ? `translate(50%, -50%)` : `translate(-50%, -50%)`,
+      langStore.direction === "rtl"
+        ? `translate(50%, -50%)`
+        : `translate(-50%, -50%)`,
     [position]: `${buttonSizeSlider.value}%`,
   };
 });
 const border_style = computed(() => {
-  const minSize = 36; // Min size of outer circle
-  const maxSize = 40; // Max size of outer circle
-  const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  // const minSize = 36; // Min size of outer circle
+  // const maxSize = 40; // Max size of outer circle
+  // const size =
+  //   minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
-    width: `${size}px`,
-    height: `${size}px`,
+    width: `${buttonSizeSlider.value}px`,
+    height: `${buttonSizeSlider.value}px`,
     left: `${buttonSizeSlider.value}%`,
   };
 });
 const imgStyle = computed(() => {
   const minSize = 26; // Min size of inner icon
   const maxSize = 80; // Max size of inner icon
-  const size = minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  const size = buttonSizeSlider.value;
+  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
     width: `${size}px`,
@@ -93,11 +99,11 @@ const imgStyle = computed(() => {
   };
 });
 
-
 onBeforeMount(() => {
+  getAccessability();
   [
-"language",
-"enable_live_site",
+    "language",
+    "enable_live_site",
     "oversized_widget",
     "move_access",
     "3_column_layout_widget",
@@ -133,15 +139,15 @@ onBeforeMount(() => {
     "reading_mode",
     "text_align",
     "df_friendly",
-"pause_animation",
+    "pause_animation",
   ].forEach((name) => {
     customizeStore.addCheckbox(name);
   });
   customizeStore.initializeCheckboxes([
-      "media_player",
+    "media_player",
     "tamkin_player",
     "language",
-"enable_live_site",
+    "enable_live_site",
     "oversized_widget",
     "move_access",
     "3_column_layout_widget",
@@ -172,50 +178,54 @@ onBeforeMount(() => {
     "motor_active",
     "enable_custom_trigger",
     "show_lang_selector",
-     "df_friendly",
-"pause_animation",
-"text_align",
-"reading_mode",
+    "df_friendly",
+    "pause_animation",
+    "text_align",
+    "reading_mode",
   ]);
-  const buttonPositionCheck = customizeStore.buttonPositionDesktop !== 'top_left' || customizeStore.buttonPositionMobile !== 'top_left_mobile';
-const forceChangeCheck = customizeStore.forceChange_buttonShape === true || customizeStore.force_change_profileCards === true ||
- customizeStore.force_change_MainMenuCard === true
+  const buttonPositionCheck =
+    customizeStore.buttonPositionDesktop !== "top_left" ||
+    customizeStore.buttonPositionMobile !== "top_left_mobile";
+  const forceChangeCheck =
+    customizeStore.forceChange_buttonShape === true ||
+    customizeStore.force_change_profileCards === true ||
+    customizeStore.force_change_MainMenuCard === true;
 
-const conditionMet = buttonPositionCheck || forceChangeCheck;
+  const conditionMet = buttonPositionCheck || forceChangeCheck;
 
-console.log(conditionMet);
+  console.log(conditionMet);
 
-// customizeStore.cancelAll()
-
+  // customizeStore.cancelAll()
 });
 
-const handleRangeChange = (event)=>{
-      buttonSizeSlider.value = event.target.value;
-   checkSliderValue();
-    }
+const handleRangeChange = (event) => {
+  buttonSizeSlider.value = event.target.value;
+  checkSliderValue();
+};
 
-    const checkSliderValue = () =>{
-      if (Number(buttonSizeSlider.value) > 3) {
-       customizeStore.force_change_MainMenuCard = true;
-      } else {
-     customizeStore.force_change_MainMenuCard = false;
-      }
-    }
+const checkSliderValue = () => {
+  if (Number(buttonSizeSlider.value) > 3) {
+    customizeStore.force_change_MainMenuCard = true;
+  } else {
+    customizeStore.force_change_MainMenuCard = false;
+  }
+};
 
-watch(currentColor, (ov, nv) => {
-  // console.log(nv)
-
-});
 const isLinkActive = (path) => {
   return localePath(route.path) === localePath(path);
 };
 let pendingNavigation = null;
 
 const detectUnsavedChanges = () => {
-  
-  return forceChange_buttonShape.value || force_change_profileCards.value || force_change_MainMenuCard.value ||
-   currentColor.value !== "#2dada3" || gradient1.value !== "#2dada3" || gradient2.value !== "#2dada3" || customizeStore.hasChanges()
-
+  return (
+    forceChange_buttonShape.value ||
+    force_change_profileCards.value ||
+    force_change_MainMenuCard.value ||
+    currentColor.value !== "#2dada3" ||
+    gradient1.value !== "#2dada3" ||
+    gradient2.value !== "#2dada3" ||
+    customizeStore.hasChanges()
+  );
 };
 
 const handleSaveAndMove = () => {
@@ -243,11 +253,16 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
-    <LazyModalsConfirm :showModal="customizeStore.routeLeaveModal" title="Save  your changes"
-    sub-title="Do you want to save the changes before moving on?"
-    confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
-    :savetoAllSitesBtn="true"
-    @control-cancel="handleSaveAndMove" />
+    <LazyModalsConfirm
+      :showModal="customizeStore.routeLeaveModal"
+      title="Save  your changes"
+      sub-title="Do you want to save the changes before moving on?"
+      confirm-btn-type="other"
+      @control-other="handleSaveAndMove"
+      cancelButtonName="Discard"
+      :savetoAllSitesBtn="true"
+      @control-cancel="handleSaveAndMove"
+    />
     <div class="w-full h-full relative">
       <HeaderAccess
         websiteImgName="tamkin_hand.svg"
@@ -259,17 +274,24 @@ onBeforeRouteLeave((to, from, next) => {
 
       <div
         class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
-        :class="[collapseStore.collapses.includes('button_color_card') ? 'pb-[24px]' :'pb-[0]']"
-
+        :class="[
+          collapseStore.collapses.includes('button_color_card')
+            ? 'pb-[24px]'
+            : 'pb-[0]',
+        ]"
       >
-        <div
-          class="flex items-center justify-start px-[15px]"
-        >
-          <div class=" mt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Button Color</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]">
-              Choose the appropriate color that you prefer to appear in the icons and
-              buttons
+        <div class="flex items-center justify-start px-[15px]">
+          <div class="mt-[24px]">
+            <h1
+              class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              Button Color
+            </h1>
+            <p
+              class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]"
+            >
+              Choose the appropriate color that you prefer to appear in the
+              icons and buttons
             </p>
           </div>
 
@@ -291,7 +313,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('button_color')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -305,42 +328,60 @@ onBeforeRouteLeave((to, from, next) => {
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="mini_SizeMenu divide-y"
             >
-            <div
-            class="mini_wrap"
-          >
-            <div>
-              <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                class="fill-[#585B5B] dark:fill-whiteTamkin"
-              />
-            </svg>
-            </div>
-            <div class="text_mini">
-              Switch To Annual
-            </div>
-          </div>
+              <div class="mini_wrap">
+                <div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                      class="fill-[#585B5B] dark:fill-whiteTamkin"
+                    />
+                  </svg>
+                </div>
+                <div class="text_mini">Switch To Annual</div>
+              </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('button_color_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -353,35 +394,35 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -391,7 +432,9 @@ onBeforeRouteLeave((to, from, next) => {
           class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden"
           v-if="!collapseStore.collapses.includes('button_color_card')"
         >
-          <div class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]">
+          <div
+            class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
+          >
             <div
               class="flex items-center justify-start lg:px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
             >
@@ -405,7 +448,9 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div class="bg-[#585B5B] h-[24px] w-[24px] rounded-[5px]"></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
+                <div
+                  class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                >
                   Solid
                 </div>
               </div>
@@ -417,15 +462,21 @@ onBeforeRouteLeave((to, from, next) => {
                     : 'border-[1px] dark:border-darkborder  rounded-[10px]',
                 ]"
                 @click="customizeStore.colorMode = 'gradient'"
-                class="flex items-center justify-start 
-                
-                rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-[153px] h-[34px] px-[15px] cursor-pointer"
               >
                 <div
-                  style="background: linear-gradient(180deg, #585b5b 0%, #bac1c0 100%)"
+                  style="
+                    background: linear-gradient(
+                      180deg,
+                      #585b5b 0%,
+                      #bac1c0 100%
+                    );
+                  "
                   class="h-[24px] w-[24px] rounded-[5px]"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
+                <div
+                  class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                >
                   Gradient
                 </div>
               </div>
@@ -433,23 +484,22 @@ onBeforeRouteLeave((to, from, next) => {
             <div
               v-if="customizeStore.colorMode === 'solid'"
               :style="{ border: `1px solid ${customizeStore.currentColor}` }"
-              class="lg:mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start
-               rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
+              class="lg:mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
             >
               <div
                 class="h-[24px] w-[24px] rounded-full"
                 :style="{ backgroundColor: customizeStore.currentColor }"
               ></div>
-              <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
+              <div
+                class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+              >
                 {{ customizeStore.currentColor }}
               </div>
             </div>
 
             <div
               v-if="customizeStore.colorMode === 'gradient'"
-              class="flex items-center  justify-start
-           
-              border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
+              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
             >
               <div
                 class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]"
@@ -458,7 +508,9 @@ onBeforeRouteLeave((to, from, next) => {
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient1 }"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
+                <div
+                  class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                >
                   {{ customizeStore.gradient1 }}
                 </div>
               </div>
@@ -469,13 +521,15 @@ onBeforeRouteLeave((to, from, next) => {
                   class="h-[24px] w-[24px] rounded-full"
                   :style="{ backgroundColor: customizeStore.gradient2 }"
                 ></div>
-                <div class="text-[14px] leading-[21px] font-[400] text-[#585B5B]  dark:text-whiteTamkin">
+                <div
+                  class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
+                >
                   {{ customizeStore.gradient2 }}
                 </div>
               </div>
             </div>
           </div>
-      
+
           <div
             class="flex items-center justify-start w-full px-[5px]"
             v-if="customizeStore.colorMode === 'solid'"
@@ -537,16 +591,23 @@ onBeforeRouteLeave((to, from, next) => {
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md  -shadow-y-[1px] relative" 
-        :class="[collapseStore.collapses.includes('button_type_card') ? 'pb-[24px]' :'pb-[10px]']"
-        
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+        :class="[
+          collapseStore.collapses.includes('button_type_card')
+            ? 'pb-[24px]'
+            : 'pb-[10px]',
+        ]"
       >
-        <div
-          class="flex items-center justify-start  "
-        >
+        <div class="flex items-center justify-start">
           <div class="pt-[24px]">
-            <h1 class="text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Button Type</h1>
-            <p class="font-[400] text-[14px] leading-[22.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
+            <h1
+              class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              Button Type
+            </h1>
+            <p
+              class="font-[400] text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+            >
               Choosing the right button type and size is essential for intuitive
               navigation
             </p>
@@ -570,7 +631,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('button_type')
-? 'stroke-current !text-white !fill-white' : 'dark:text-whiteTamkin',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-whiteTamkin',
               ]"
             >
               <path
@@ -584,42 +646,60 @@ onBeforeRouteLeave((to, from, next) => {
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="mini_SizeMenu divide-y"
             >
-            <div
-            class="mini_wrap"
-          >
-            <div>
-              <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                class="fill-[#585B5B] dark:fill-whiteTamkin"
-              />
-            </svg>
-            </div>
-            <div class="text_mini">
-              Switch To Annual
-            </div>
-          </div>
+              <div class="mini_wrap">
+                <div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                      class="fill-[#585B5B] dark:fill-whiteTamkin"
+                    />
+                  </svg>
+                </div>
+                <div class="text_mini">Switch To Annual</div>
+              </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('button_type_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -632,35 +712,35 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -671,22 +751,27 @@ onBeforeRouteLeave((to, from, next) => {
           v-if="!collapseStore.collapses.includes('button_type_card')"
         >
           <div>
-            <h1 class="text-[14px] font-[500] leading-[24px]  dark:text-whiteTamkin">Button Shape</h1>
-            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
+            <h1
+              class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
+            >
+              Button Shape
+            </h1>
+            <p
+              class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+            >
               Choose the button Shape you prefer to appear in the widget
             </p>
           </div>
           <div class="flex items-center justify-between mt-[40px]">
             <div
               class="cursor-pointer w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative"
-              :class="[buttonShapeSelector === 'type1' ? 'bg-tamkinLight' : '']"
-              @click="customizeStore.changeButtonShape('type1')"
+              :class="[buttonShapeSelector === 'icon1' ? 'bg-tamkinLight' : '']"
+              @click="customizeStore.changeButtonShape('icon1')"
             >
-              <div v-if="buttonShapeSelector === 'type1'">
-                <img 
+              <div v-if="buttonShapeSelector === 'icon1'">
+                <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  
                 />
               </div>
               <div class="">
@@ -695,9 +780,8 @@ onBeforeRouteLeave((to, from, next) => {
                   :class="gradientClasses"
                   :style="backgroundImageStyle"
                 >
-                  <img 
+                  <img
                     src="/assets/imgs/icons/ios_access.svg"
-                    
                     class="w-[26px] h-[26px]"
                   />
                 </div>
@@ -706,14 +790,13 @@ onBeforeRouteLeave((to, from, next) => {
 
             <div
               class="w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative cursor-pointer"
-              :class="[buttonShapeSelector === 'type2' ? 'bg-tamkinLight' : '']"
-              @click="customizeStore.changeButtonShape('type2')"
+              :class="[buttonShapeSelector === 'icon2' ? 'bg-tamkinLight' : '']"
+              @click="customizeStore.changeButtonShape('icon2')"
             >
-              <div v-if="buttonShapeSelector === 'type2'">
-                <img 
+              <div v-if="buttonShapeSelector === 'icon2'">
+                <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  
                 />
               </div>
               <div class="">
@@ -727,7 +810,13 @@ onBeforeRouteLeave((to, from, next) => {
                 >
                   <defs>
                     <!-- Define the gradient -->
-                    <linearGradient id="gradient_3" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="gradient_3"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         :stop-color="changeGradientColor1"
@@ -745,7 +834,10 @@ onBeforeRouteLeave((to, from, next) => {
                       width="1"
                       height="1"
                     >
-                      <use xlink:href="#image0_3325_50634" transform="scale(0.01)" />
+                      <use
+                        xlink:href="#image0_3325_50634"
+                        transform="scale(0.01)"
+                      />
                     </pattern>
                     <image
                       id="image0_3325_50634"
@@ -755,7 +847,13 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </defs>
                   <!-- Use the gradient in the rectangle fill -->
-                  <rect x="0.5" width="36" height="36" rx="18" fill="url(#gradient_3)" />
+                  <rect
+                    x="0.5"
+                    width="36"
+                    height="36"
+                    rx="18"
+                    fill="url(#gradient_3)"
+                  />
                   <rect
                     x="5.5"
                     y="5"
@@ -768,15 +866,14 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              :class="[buttonShapeSelector === 'type3' ? 'bg-tamkinLight' : '']"
+              :class="[buttonShapeSelector === 'icon3' ? 'bg-tamkinLight' : '']"
               class="w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative cursor-pointer"
-              @click="customizeStore.changeButtonShape('type3')"
+              @click="customizeStore.changeButtonShape('icon3')"
             >
-              <div v-if="buttonShapeSelector === 'type3'">
-                <img 
+              <div v-if="buttonShapeSelector === 'icon3'">
+                <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  
                 />
               </div>
               <div class="">
@@ -788,7 +885,13 @@ onBeforeRouteLeave((to, from, next) => {
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                  <rect x="0.5" width="36" height="36" rx="18" fill="url(#gradient_5)" />
+                  <rect
+                    x="0.5"
+                    width="36"
+                    height="36"
+                    rx="18"
+                    fill="url(#gradient_5)"
+                  />
                   <rect
                     x="5.5"
                     y="5"
@@ -797,7 +900,13 @@ onBeforeRouteLeave((to, from, next) => {
                     fill="url(#pattern0_3325_50636)"
                   />
                   <defs>
-                    <linearGradient id="gradient_5" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="gradient_5"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         :stop-color="changeGradientColor1"
@@ -815,7 +924,10 @@ onBeforeRouteLeave((to, from, next) => {
                       width="1"
                       height="1"
                     >
-                      <use xlink:href="#image0_3325_50636" transform="scale(0.01)" />
+                      <use
+                        xlink:href="#image0_3325_50636"
+                        transform="scale(0.01)"
+                      />
                     </pattern>
                     <image
                       id="image0_3325_50636"
@@ -829,15 +941,14 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              :class="[buttonShapeSelector === 'type4' ? 'bg-tamkinLight' : '']"
+              :class="[buttonShapeSelector === 'icon4' ? 'bg-tamkinLight' : '']"
               class="w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative cursor-pointer"
-              @click.prevent="customizeStore.changeButtonShape('type4')"
+              @click.prevent="customizeStore.changeButtonShape('icon4')"
             >
-              <div v-if="buttonShapeSelector === 'type4'">
-                <img 
+              <div v-if="buttonShapeSelector === 'icon4'">
+                <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  
                 />
               </div>
               <div class="">
@@ -849,7 +960,13 @@ onBeforeRouteLeave((to, from, next) => {
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                  <rect x="0.5" width="36" height="36" rx="18" fill="url(#gradient_6)" />
+                  <rect
+                    x="0.5"
+                    width="36"
+                    height="36"
+                    rx="18"
+                    fill="url(#gradient_6)"
+                  />
                   <rect
                     x="5.5"
                     y="5"
@@ -858,7 +975,13 @@ onBeforeRouteLeave((to, from, next) => {
                     fill="url(#pattern0_3325_50638)"
                   />
                   <defs>
-                    <linearGradient id="gradient_6" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="gradient_6"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         :stop-color="changeGradientColor1"
@@ -876,7 +999,10 @@ onBeforeRouteLeave((to, from, next) => {
                       width="1"
                       height="1"
                     >
-                      <use xlink:href="#image0_3325_50638" transform="scale(0.01)" />
+                      <use
+                        xlink:href="#image0_3325_50638"
+                        transform="scale(0.01)"
+                      />
                     </pattern>
                     <image
                       id="image0_3325_50638"
@@ -890,15 +1016,14 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              :class="[buttonShapeSelector === 'type5' ? 'bg-tamkinLight' : '']"
+              :class="[buttonShapeSelector === 'icon5' ? 'bg-tamkinLight' : '']"
               class="w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative cursor-pointer"
-              @click.prevent="customizeStore.changeButtonShape('type5')"
+              @click.prevent="customizeStore.changeButtonShape('icon5')"
             >
-              <div v-if="buttonShapeSelector === 'type5'">
-                <img 
+              <div v-if="buttonShapeSelector === 'icon5'">
+                <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
-                  
                 />
               </div>
               <div class="">
@@ -910,7 +1035,13 @@ onBeforeRouteLeave((to, from, next) => {
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                  <rect x="0.5" width="36" height="36" rx="18" fill="url(#gradient1_6)" />
+                  <rect
+                    x="0.5"
+                    width="36"
+                    height="36"
+                    rx="18"
+                    fill="url(#gradient1_6)"
+                  />
                   <rect
                     x="5.5"
                     y="5"
@@ -919,7 +1050,13 @@ onBeforeRouteLeave((to, from, next) => {
                     fill="url(#pattern0_3325_50640)"
                   />
                   <defs>
-                    <linearGradient id="gradient1_6" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="gradient1_6"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         :stop-color="changeGradientColor1"
@@ -937,7 +1074,10 @@ onBeforeRouteLeave((to, from, next) => {
                       width="1"
                       height="1"
                     >
-                      <use xlink:href="#image0_3325_50640" transform="scale(0.01)" />
+                      <use
+                        xlink:href="#image0_3325_50640"
+                        transform="scale(0.01)"
+                      />
                     </pattern>
                     <image
                       id="image0_3325_50640"
@@ -951,9 +1091,15 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
           </div>
 
-          <div class="my-[30px] ">
-            <h1 class="text-[14px] font-[500] leading-[24px]  dark:text-whiteTamkin">Button Size</h1>
-            <p class="font-[400] text-[12px] leading-[18.95px] text-darkGrey  dark:text-whiteTamkin mt-[10px]">
+          <div class="my-[30px]">
+            <h1
+              class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
+            >
+              Button Size
+            </h1>
+            <p
+              class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+            >
               Pull the button to select the right size for you
             </p>
           </div>
@@ -963,7 +1109,7 @@ onBeforeRouteLeave((to, from, next) => {
                 type="range"
                 min="2"
                 max="98"
-               @input="handleRangeChange"
+                @input="handleRangeChange"
                 class="range_tamkin_customize w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
               />
               <div
@@ -975,10 +1121,7 @@ onBeforeRouteLeave((to, from, next) => {
                 :style="{ width: `${buttonSizeSlider}%` }"
               ></div>
               <div
-                class="absolute
-                shadow-sm shadow-tamkinLight
-                shadow-spread-1 -shadow-y-[1px]  shadow-b-[1px]
-                top-1/2 flex items-center justify-center bg-tamkinLight  rounded-full pointer-events-none transform -translate-y-1/2"
+                class="absolute shadow-sm shadow-tamkinLight shadow-spread-1 -shadow-y-[1px] shadow-b-[1px] top-1/2 flex items-center justify-center bg-tamkinLight rounded-full pointer-events-none transform -translate-y-1/2"
                 :class="{
                   'flex-row-reverse': langStore.direction === 'rtl',
                   'flex-row': langStore.direction !== 'rtl',
@@ -986,38 +1129,33 @@ onBeforeRouteLeave((to, from, next) => {
                 :style="thumbStyle"
               >
                 <div
-                  class="rounded-full flex items-center justify-center "
+                  class="rounded-full flex items-center justify-center"
                   :class="gradientClasses"
                   :style="[border_style, backgroundImageStyle]"
                 >
-                  <img 
+                  <img
                     src="/assets/imgs/gradient_icons/drag.svg"
                     :style="imgStyle"
-                    v-if="buttonShapeSelector === 'type2'"
-                    
+                    v-if="buttonShapeSelector === 'icon2'"
                   />
-                  <img 
+                  <img
                     src="/assets/imgs/gradient_icons/type2.svg"
                     :style="imgStyle"
-                    v-if="buttonShapeSelector === 'type3'"
-                    
+                    v-if="buttonShapeSelector === 'icon3'"
                   />
-                  <img 
+                  <img
                     src="/assets/imgs/gradient_icons/type3.svg"
                     :style="imgStyle"
-                    v-if="buttonShapeSelector === 'type4'"
-                    
+                    v-if="buttonShapeSelector === 'icon4'"
                   />
-                  <img 
+                  <img
                     src="/assets/imgs/gradient_icons/type4.svg"
                     :style="imgStyle"
-                    v-if="buttonShapeSelector === 'type5'"
-                    
+                    v-if="buttonShapeSelector === 'icon5'"
                   />
-                  <img 
-                    v-if="buttonShapeSelector === 'type1'"
+                  <img
+                    v-if="buttonShapeSelector === 'icon1'"
                     src="/assets/imgs/icons/ios_access.svg"
-                    
                     :style="imgStyle"
                   />
                 </div>
@@ -1025,24 +1163,27 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
           </div>
         </div>
-      
       </div>
 
-  <CustomizeLiveButtonTranslation/>
+      <CustomizeLiveButtonTranslation />
 
-    
-<CustomizeButtonLocation/>
+      <CustomizeButtonLocation />
       <div
-        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
-        
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin ">Widget Customization</h1>
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              Widget Customization
+            </h1>
 
-            <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin  pt-[6px]">
+            <p
+              class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+            >
               Customize your widgets for a tailored browsing experience
             </p>
           </div>
@@ -1055,7 +1196,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class=" menu_button_control"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -1065,7 +1206,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('widget_custom')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -1079,42 +1221,60 @@ onBeforeRouteLeave((to, from, next) => {
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="mini_SizeMenu divide-y"
             >
-            <div
-            class="mini_wrap"
-          >
-            <div>
-              <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                class="fill-[#585B5B] dark:fill-whiteTamkin"
-              />
-            </svg>
-            </div>
-            <div class="text_mini">
-              Switch To Annual
-            </div>
-          </div>
+              <div class="mini_wrap">
+                <div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                      class="fill-[#585B5B] dark:fill-whiteTamkin"
+                    />
+                  </svg>
+                </div>
+                <div class="text_mini">Switch To Annual</div>
+              </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('widget_custom_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -1126,36 +1286,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-               <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                <svg
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -1164,21 +1324,24 @@ onBeforeRouteLeave((to, from, next) => {
         <CustomizeWidgetCustomize
           v-if="!collapseStore.collapses.includes('widget_custom_card')"
         />
-
-        
       </div>
 
       <div
-        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
-        
+        class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
       >
         <div
           class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
         >
           <div>
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Accessibility Mode</h1>
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              Accessibility Mode
+            </h1>
 
-            <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
+            <p
+              class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+            >
               Accessibility Mode optimizes interface for diverse user needs and
               disabilities
             </p>
@@ -1192,7 +1355,7 @@ onBeforeRouteLeave((to, from, next) => {
                 ? 'active_notification !text-darkGrey'
                 : '',
             ]"
-            class=" menu_button_control"
+            class="menu_button_control"
           >
             <svg
               width="18"
@@ -1202,7 +1365,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('access_mode')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -1216,42 +1380,60 @@ onBeforeRouteLeave((to, from, next) => {
               style="box-shadow: 0px 2px 6px 0px #00000040"
               class="mini_SizeMenu divide-y"
             >
-            <div
-            class="mini_wrap"
-          >
-            <div>
-              <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                class="fill-[#585B5B] dark:fill-whiteTamkin"
-              />
-            </svg>
-            </div>
-            <div class="text_mini">
-              Switch To Annual
-            </div>
-          </div>
+              <div class="mini_wrap">
+                <div>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                      class="fill-[#585B5B] dark:fill-whiteTamkin"
+                    />
+                  </svg>
+                </div>
+                <div class="text_mini">Switch To Annual</div>
+              </div>
               <div
                 class="mini_wrap"
                 @click="collapseStore.collapseCard('access_mode_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -1263,36 +1445,36 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div class="arrow">
-               <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                <svg
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -1301,8 +1483,6 @@ onBeforeRouteLeave((to, from, next) => {
         <CustomizeAccessibilityMode
           v-if="!collapseStore.collapses.includes('access_mode_card')"
         />
-
-       
       </div>
 
       <CustomizeAdjustMainMenu />
