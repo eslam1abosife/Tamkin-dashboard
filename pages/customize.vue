@@ -19,9 +19,11 @@ const {
   currentColor,
   buttonSizeSlider,
   buttonShapeSelector,
+  selectedIcon,
   force_change_MainMenuCard,
   force_change_profileCards,
   forceChange_buttonShape,
+  buttonIcons,
 } = storeToRefs(customizeStore);
 
 definePageMeta({
@@ -764,11 +766,15 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
           <div class="flex items-center justify-between mt-[40px]">
             <div
+              v-for="icon in buttonIcons"
+              :key="icon.value"
               class="cursor-pointer w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative"
-              :class="[buttonShapeSelector === 'icon1' ? 'bg-tamkinLight' : '']"
-              @click="customizeStore.changeButtonShape('icon1')"
+              :class="[
+                buttonShapeSelector === icon.value ? 'bg-tamkinLight' : '',
+              ]"
+              @click="customizeStore.changeButtonShape(icon.value, icon.icon)"
             >
-              <div v-if="buttonShapeSelector === 'icon1'">
+              <div v-if="buttonShapeSelector === icon.value">
                 <img
                   src="/assets/imgs/customize/tick.svg"
                   class="absolute top-[-10px] right-0"
@@ -781,13 +787,13 @@ onBeforeRouteLeave((to, from, next) => {
                   :style="backgroundImageStyle"
                 >
                   <img
-                    src="/assets/imgs/icons/ios_access.svg"
+                    :src="`https://tamkin.app/${icon.icon}`"
                     class="w-[26px] h-[26px]"
                   />
                 </div>
               </div>
             </div>
-
+            <!-- 
             <div
               class="w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative cursor-pointer"
               :class="[buttonShapeSelector === 'icon2' ? 'bg-tamkinLight' : '']"
@@ -809,7 +815,6 @@ onBeforeRouteLeave((to, from, next) => {
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
                   <defs>
-                    <!-- Define the gradient -->
                     <linearGradient
                       id="gradient_3"
                       x1="0%"
@@ -846,7 +851,6 @@ onBeforeRouteLeave((to, from, next) => {
                       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADCElEQVR4nO3cu2tUQRjG4TWoiZGoURMFiYgRA9p5AbUMCFapvCAaRAvBQhDUCIoKNgHFTrT0EjGo/4CNwQhiEyGxszB2avDSeEWIPxl3Njl7UzS7883ueR8YCKQ433zvBjKzcyaTERERERERERERERERkb8CuoAeYFdKRw+w1vyjAqwBHiM5w0CnVRgdwNupUiTnDbDCIpDbUyVIoVuhw5gNfCkqQ3I+ux6FDKR96tFSTlvIQOYA38qWIl+D/oX4UO6q72UNBg3DB7Ia+FC+ptR6D6wKHogPZT3wzLoDERkB1pmEkQhlFrAR6AUOp3T0AhtcL0zDEBERqQSgCWhN6WiK4lMENAJngFfW/29GYBw4Dcy1DGPIugsRemgSCnDBeuYRO2+xGHRfxEhpr4MuEoGlZQqRaUtCBjIf+Jl4uORzvWkOFogP5WlBETLtSdAwfCDbgclEEZLletIdPBAfyiF9c1j0TeFBkzASoaz0i8MB4F5Kx4BfFHaYhiEiIiJ1BNgMXPMnv0dSOoaBq8Am6zDOaQulaMvkrFUYe/JrkYSdFoE8T1YgeUZDh7Eg//lSQkvIQBaXqkDytAYLxIeigw3ljQcNwwdy7A8Fpd1Ri0AagDvWM4+Qe/eyIXggicMO+/3CaAL4mNIxATwC9ukEvIiIiMQHaPabln3AqSoP94zdwDzreUcJ2GZ0Xtg9c6v1/KPizsEC77B9t7zdug/RAE5i77h1H6IB3LBOA7hu3YdoAJes0wAuWvchGu5wgPHB7Ul3G4V1H6IC9BsG0m89/+j4neObBmEMmm2Xx47sxWgPAobh3iJutJ531ICWQFc+jQELredbE4A24EUVw3gJLLeeZ00BOqt0L7DbEeiynl9NInsx2qcKhuGutt1iPa+aBnQD3ysQxg9gh/V86gKwd4YLR3cI+oD1POoKM9uAPGFdf10CLv9HGFes665b/PtqXqvwiFbzQ1qFx7OaHwMWhapHMr9DWeYbX2jU/U5Nsrt48whw3w/3szYLRUREREREREREREQkk/ALzMLaTo60uEQAAAAASUVORK5CYII="
                     />
                   </defs>
-                  <!-- Use the gradient in the rectangle fill -->
                   <rect
                     x="0.5"
                     width="36"
@@ -1088,7 +1092,7 @@ onBeforeRouteLeave((to, from, next) => {
                   </defs>
                 </svg>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="my-[30px]">
@@ -1134,11 +1138,10 @@ onBeforeRouteLeave((to, from, next) => {
                   :style="[border_style, backgroundImageStyle]"
                 >
                   <img
-                    src="/assets/imgs/gradient_icons/drag.svg"
+                    :src="`https://tamkin.app/${selectedIcon}`"
                     :style="imgStyle"
-                    v-if="buttonShapeSelector === 'icon2'"
                   />
-                  <img
+                  <!-- <img
                     src="/assets/imgs/gradient_icons/type2.svg"
                     :style="imgStyle"
                     v-if="buttonShapeSelector === 'icon3'"
@@ -1157,7 +1160,7 @@ onBeforeRouteLeave((to, from, next) => {
                     v-if="buttonShapeSelector === 'icon1'"
                     src="/assets/imgs/icons/ios_access.svg"
                     :style="imgStyle"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>

@@ -30,9 +30,11 @@ export default function() {
             // button type shape 
             const buttonshape  =features.find((feature: any) => feature.name === "acc-customize-button-type")
             .features.find(el => el.name === "acc-customize-button-type-button-shape");
+            customizeStore.$state.buttonIcons =  buttonshape.tamkin_option_item_values;
 
             if(buttonshape.active == 1){
                 customizeStore.$state.buttonShapeSelector = buttonshape.value;
+                customizeStore.$state.selectedIcon = buttonshape.tamkin_option_item_values.find(el => el.value === buttonshape.value).icon;
             }
 
              // handle size button 
