@@ -21,9 +21,9 @@ export const useCustomizeStore = defineStore('customize', {
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
     initialPositionDesktop: 'postion1',
-    initialPositionMobile: 'postion1',
+    initialPositionMobile: 'postion2',
     buttonPositionDesktop: 'postion1',
-    buttonPositionMobile: 'postion1',
+    buttonPositionMobile: 'postion2',
     force_change_MainMenuCard: false,
     force_change_profileCards: false,
     buttonSizeSlider: 35,
@@ -425,6 +425,8 @@ export const useCustomizeStore = defineStore('customize', {
 
     },
     changebuttonPositionMobile(position: string) {
+      console.log("position",position);
+      
       this.buttonPositionMobile = position;
     },
     changeButtonMobileOrDesktop(v: string) {

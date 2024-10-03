@@ -186,8 +186,8 @@ onBeforeMount(() => {
     "reading_mode",
   ]);
   const buttonPositionCheck =
-    customizeStore.buttonPositionDesktop !== "top_left" ||
-    customizeStore.buttonPositionMobile !== "top_left_mobile";
+    customizeStore.buttonPositionDesktop !== "postion1" ||
+    customizeStore.buttonPositionMobile !== "postion1";
   const forceChangeCheck =
     customizeStore.forceChange_buttonShape === true ||
     customizeStore.force_change_profileCards === true ||
