@@ -28,6 +28,8 @@ export const useCustomizeStore = defineStore('customize', {
     force_change_profileCards: false,
     buttonSizeSlider: 35,
     buttonShapeSelector: 'icon1',
+    selectedIcon: '',
+    buttonIcons: [],
     widgetType: 'full_widget',
     AdjustMainMenuCardsCustomize: [] as Card[],
     initialCardsOrderCustomize: [] as Card[], // Store the initial cards order
@@ -71,8 +73,9 @@ export const useCustomizeStore = defineStore('customize', {
 
       }
     },
-    changeButtonShape(shape: string) {
+    changeButtonShape(shape: string , icon: string) {
       this.buttonShapeSelector = shape;
+      this.selectedIcon = icon;
       if (shape !== 'icon1') {
         this.forceChange_buttonShape = true
       } else {

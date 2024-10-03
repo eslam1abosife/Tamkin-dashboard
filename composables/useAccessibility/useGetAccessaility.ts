@@ -30,9 +30,11 @@ export default function() {
             // button type shape 
             const buttonshape  =features.find((feature: any) => feature.name === "acc-customize-button-type")
             .features.find(el => el.name === "acc-customize-button-type-button-shape");
+            customizeStore.$state.buttonIcons =  buttonshape.tamkin_option_item_values;
 
             if(buttonshape.active == 1){
                 customizeStore.$state.buttonShapeSelector = buttonshape.value;
+                customizeStore.$state.selectedIcon = buttonshape.tamkin_option_item_values.find(el => el.value === buttonshape.value).icon;
             }
 
              // handle size button 
@@ -55,8 +57,46 @@ export default function() {
                 customizeStore.$state.initialPositionMobile= buttonMobilePosition.value;
             }
             
+            // handle button translation 
+            const checkEnabledButtonTrans = features.find((feature: any) => feature.name === "acc-customize-translations-button")
+            .features.find(el => el.name === "acc-customize-translations-button-enable-live-site-translations-button");
 
-            // return res.data.data;
+            if(checkEnabledButtonTrans.value ==1 && checkEnabledButtonTrans.active == 1){        
+                customizeStore.toggleCheckbox('enable_live_site')      
+            }
+
+            const checkEnabledButtonTransAbove = features.find((feature: any) => feature.name === "acc-customize-translations-button")
+            .features.find(el => el.name === "acc-customize-translations-button-position-translation-button-above");
+
+            if( checkEnabledButtonTransAbove.active == 1 && checkEnabledButtonTransAbove.is_selected == '1'){        
+                customizeStore.selectLiveTranslationButtonLocation('above')
+                if(checkEnabledButtonTransAbove.value == 'option1'){
+                    customizeStore.changeDefaultButtonShape('gb')
+                }
+                else if(checkEnabledButtonTransAbove.value == 'option2'){
+                    customizeStore.changeDefaultButtonShape('en')
+                }
+                else{
+                    customizeStore.changeDefaultButtonShape('langs')
+                }
+            }
+
+            const checkEnabledButtonTransDefault = features.find((feature: any) => feature.name === "acc-customize-translations-button")
+            .features.find(el => el.name === "acc-customize-translations-button-translation-button-as-default-button");
+
+            if( checkEnabledButtonTransDefault.active == 1  && checkEnabledButtonTransDefault.is_selected == '1'){       
+                customizeStore.selectLiveTranslationButtonLocation('default') ;
+                if(checkEnabledButtonTransDefault.value == 'option1'){
+                    customizeStore.changeDefaultButtonShape('gb')
+                }
+                else if(checkEnabledButtonTransDefault.value == 'option2'){
+                    customizeStore.changeDefaultButtonShape('en')
+                }
+                else{
+                    customizeStore.changeDefaultButtonShape('langs')
+                }
+            }
+            
         } catch (error) {
             console.error(error); // Better error handling
             throw typeof error === 'string' ? error : 'There is something wrong';
