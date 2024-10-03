@@ -147,8 +147,8 @@ const copyCode = () => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("custom_trigger_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

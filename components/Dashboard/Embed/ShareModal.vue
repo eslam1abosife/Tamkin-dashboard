@@ -4,7 +4,7 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
 import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import { useGetAppInvites } from "~/composables/useTeam";
-
+const {t} = useI18n()
 const { defaultApp, getInviteApps } = useGetAppInvites();
 
 const {
@@ -49,7 +49,7 @@ const submit = async () => {
   try {
     await shareEmbedCode({ email: state.email, appName: defaultApp?.value?.name })
     closeModal('shareModal');
-    emit('onSuccess', 'Sent Successfully');
+    emit('onSuccess', t('Sent Successfully'));
     console.log('submit')
   } catch (err) {
     errMsg.value = err;
@@ -59,7 +59,7 @@ const submit = async () => {
 
 <template>
   <div v-if="isOpen('shareModal')"
-    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
+    class="fixed z-[99999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] lg:h-[277px] w-10/12"
     style="left: 50%; transform: translate(-50%, 0)">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="closeModal('shareModal')">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"

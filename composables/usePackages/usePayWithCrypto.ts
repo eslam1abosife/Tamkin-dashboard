@@ -27,7 +27,9 @@ const codeStatus = ref(0)
                     "network": packagesStore.selectedCrypto.network,
                     "date": new Date(),
                     "amount": price
-                  }
+                  },
+                  "upgrade":false
+
              
             });
             messageData.value = res.data.message ? res.data.message : 'Please try again later or contact support'

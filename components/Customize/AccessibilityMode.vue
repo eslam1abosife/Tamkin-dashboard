@@ -23,7 +23,7 @@ const moveHideWidget = (v:string)=>{
           />
           <div class="flex flex-col items-start justify-center w-full">
             <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
-              <span>Move / hide accessibility</span>
+              <span>{{$t('Move / hide accessibility')}}</span>
             </div>
             <div
               class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px]
@@ -31,7 +31,7 @@ const moveHideWidget = (v:string)=>{
               lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
-                Reposition or conceal accessibility features to simplify the interface              </span>
+                {{ $t('Reposition or conceal accessibility features to simplify the interface') }}              </span>
             </div>
           </div>
           <div class="ml-auto">
@@ -80,14 +80,14 @@ const moveHideWidget = (v:string)=>{
       <div class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between  mt-[24px] 
        w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
        v-if="isChecked('move_access')">
-        <div class=" flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        <div class=" flex items-center justify-start h-[45px] w-auto  px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"
         @click="moveHideWidget('left_side')">
             <div>
                 <img  src="/assets/imgs/customize/left_side.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px]">
-                Left Side
+                {{ $t('Left Side') }}
             </div>
          
         </div>
@@ -100,7 +100,7 @@ const moveHideWidget = (v:string)=>{
                 <img  src="/assets/imgs/customize/right_side.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px] w-full">
-              Right Side
+              {{ $t('Right Side') }}
             </div>
          
         </div>
@@ -113,7 +113,7 @@ const moveHideWidget = (v:string)=>{
                 <img  src="/assets/imgs/customize/hide.svg"  class="w-3/4 h-3/4"/>
             </div>
             <div class="text-[14px]">
-              Hide
+              {{ $t('Hide') }}
             </div>
          
         </div>

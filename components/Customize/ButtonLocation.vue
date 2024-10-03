@@ -20,13 +20,13 @@ const collapseStore = useCollapseStore();
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Button Location
+          {{ $t('Button Location') }}
         </h1>
 
         <p
           class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
         >
-          Select the location where you want the button to appear
+          {{ $t('Select the location where you want the button to appear') }}
         </p>
       </div>
 
@@ -77,7 +77,7 @@ const collapseStore = useCollapseStore();
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{$t('Switch To Annual')}}</div>
           </div>
           <div
             class="mini_wrap"
@@ -120,8 +120,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("button_location_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

@@ -44,10 +44,11 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
     miniSizeLiveTranslation.value = false;
   }
 };
+const loadingData = ref(true)
 const { $toast } = useNuxtApp();
 onMounted(() => {
   // $toast('error',{hideIn:400000,type:'error'})
-  console.log(checkboxStore.checkboxes);
+  // console.log(checkboxStore.checkboxes);
 
 });
 onBeforeMount(async () => {
@@ -86,6 +87,7 @@ onBeforeMount(async () => {
 
       // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
       checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds], initialValues);
+      loadingData.value = false
     } else {
       console.warn("No matching feature found for Adjust the Main Menu.");
     }
@@ -113,11 +115,13 @@ const isChecked = (name: string) => {
   const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
   return checkbox ? checkbox.value  : false;
 };
+const loadingSave = ref(false)
 // Define handleSave method to handle save actions
 const handleSave = async () => {
   try {
     if(checkboxStore.originalFeatures){
-    console.log("Handling Save logic...");
+      loadingSave.value = true
+    // console.log("Handling Save logic...");
     const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
 
     const orgAddonsMainMenuFeature =  toBeMappedAdjustMainMenu.map((feature) => ({
@@ -137,9 +141,15 @@ const handleSave = async () => {
         // icon: feature.icon,
       })),
     }))
-    console.log(orgAddonsMainMenuFeature[0])
+    // console.log(orgAddonsMainMenuFeature[0])
 
       const response = await setOptions(orgAddonsMainMenuFeature[0]['features']);
+      
+      checkboxStore.changesOnCheckboxes = false
+      checkboxStore.force_change_menuCards = false
+      checkboxStore.force_change_profileCards = false
+      loadingSave.value = false
+
    }
 
     // $toast.success('Changes saved successfully.');
@@ -182,18 +192,18 @@ onBeforeRouteLeave((to, from, next) => {
 });
 
 const shouldShowFooter = computed(() => {
-  const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
+  const isAddonsLinkActive = isLinkActive("/addons") && 
+    ( checkboxStore.changesOnCheckboxes || 
+     checkboxStore.force_change_menuCards || 
+     checkboxStore.force_change_profileCards);
 
-  // alert(isAddonsLinkActive)
   return isAddonsLinkActive;
 });
 
+
 const cancelAc = () => {
   const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
+    (isLinkActive("/addons") &&  checkboxStore.changesOnCheckboxes) ||
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
 
@@ -208,8 +218,13 @@ const cancelAc = () => {
 
 <template>
   <div class="relative h-full w-full">
+
+    
+ 
+    
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
+      :disable-loading-save="loadingSave"
         :show-footer="shouldShowFooter"
         @Save="handleSave"
         @saveToAllSites="handleSaveToAllSites"
@@ -235,9 +250,9 @@ const cancelAc = () => {
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."
       />
-
-      <AddonsAdjustmain />
-      <AddonsProfilecards />
+  
+      <AddonsAdjustmain  :loading="loadingData"/>
+      <AddonsProfilecards :loading="loadingData" />
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
       >
@@ -248,14 +263,13 @@ const cancelAc = () => {
             <h1
               class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              Live Translation
+              {{$t('Live Translation')}}
             </h1>
 
             <p
               class="xs:text-[10px] text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
             >
-              Live translation converts speech or text from one language to another
-              instantly, facilitating real-time communication.
+              {{$t('Live translation converts speech or text from one language to another instantly, facilitating real-time communication.')}}
             </p>
           </div>
 
@@ -307,7 +321,7 @@ const cancelAc = () => {
                   </svg>
                 </div>
                 <div class="text_mini">
-                  Convert to {{ annual_prices ? "Monthly" : "Annual" }}
+                  {{ $t('Convert to') }} {{ annual_prices ? $t("Monthly") : $t("Annual") }}
                 </div>
               </div>
 
@@ -352,8 +366,8 @@ const cancelAc = () => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("LiveTranslationAddonsCard")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -380,7 +394,7 @@ const cancelAc = () => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">Horizontal View</div>
+                <div class="text_mini">{{$t('Horizontal View')}}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -404,7 +418,7 @@ const cancelAc = () => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">Vertical View</div>
+                <div class="text_mini">{{$t('Vertical View')}}</div>
               </div>
               <div class="arrow">
                 <svg
@@ -437,20 +451,23 @@ const cancelAc = () => {
         </div>
 
         <div
-          class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 md:space-x-10 md:flex-nowrap ipad-max:space-x-10 lg:space-x-24 2xl:space-x-44 md:px-[25px]"
+          class="flex items-center justify-center lg:justify-between lg:flex-nowrap 
+          flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0  rtl:space-x-reverse
+          md:space-x-10 md:flex-nowrap ipad-max:space-x-10 lg:space-x-24 2xl:space-x-44 md:px-[25px]"
           v-if="
             horizontalView &&
             !collapseStore.collapses.includes('LiveTranslationAddonsCard')
           "
         >
           <div
-            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] 
+            relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
           >
             <div
               class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
             >
               ${{ annual_prices ? 1200 : "100.00" }}
-              <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+              <span class="text-[13px]">/{{ annual_prices ? $t("year") : $t("mo") }}</span>
             </div>
             <div
               class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
@@ -478,7 +495,7 @@ const cancelAc = () => {
             <button
               class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
             >
-              Upgrade Now
+              
             </button>
             <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
               <img src="/assets/imgs/addons/live_icon.svg" />

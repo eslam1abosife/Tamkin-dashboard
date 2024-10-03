@@ -287,8 +287,8 @@ const cancelAc = () => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("general_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -581,8 +581,8 @@ const cancelAc = () => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("reset_all_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -762,8 +762,8 @@ const cancelAc = () => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("license_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>

@@ -36,7 +36,16 @@ const {
 
 const configrun = useRuntimeConfig()
 
-
+const isSearchfilled = ref(false);
+const search = ref("");
+watch(search, (ov, nv) => {
+  return search.value.length > 0
+    ? (isSearchfilled.value = true)
+    : (isSearchfilled.value = false);
+});
+const clearInput = () => {
+  search.value = "";
+};
 
 
 </script>
@@ -59,183 +68,124 @@ const configrun = useRuntimeConfig()
 
 
   
-
-<div class="grid grid-cols-1 mt-[16px] gap-4 ">
-  <div class="flex flex-col items-start justify-center ">
-    <div class="flex flex-col items-center justify-center space-y-[16px] w-full">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-[16px] w-full" v-if="loadingSubs">
-        <div
-          v-for="n in 2" 
-          :key="n" 
-          class="bg-white rounded-[10px] p-[10px] w-full shadow-sm animate-pulse"
-        >
-          <!-- Header loader -->
-          <div class="flex items-center justify-between w-full mb-4">
-            <div class="flex items-center justify-start space-x-2">
-              <!-- Image placeholder -->
-              <div class="bg-gray-300 w-[43px] h-[43px] rounded-full"></div>
-              <!-- Title placeholder -->
-              <div class="bg-gray-300 w-[120px] h-[21px] rounded"></div>
-            </div>
-            <!-- Domain placeholder -->
-            <div class="bg-gray-300 w-[80px] h-[21px] rounded"></div>
-          </div>
-    
-          <!-- Body content loader -->
-          <div class="space-y-2">
-            <div class="flex space-x-1">
-              <span class="bg-gray-300 w-[70px] h-[19px] rounded"></span>
-              <span class="bg-gray-300 w-[60px] h-[19px] rounded"></span>
-            </div>
-            <div class="flex space-x-1">
-              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
-              <span class="bg-gray-300 w-[80px] h-[19px] rounded"></span>
-            </div>
-            <div class="flex space-x-1">
-              <span class="bg-gray-300 w-[120px] h-[19px] rounded"></span>
-              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
-            </div>
-            <div class="flex space-x-1">
-              <span class="bg-gray-300 w-[130px] h-[19px] rounded"></span>
-              <span class="bg-gray-300 w-[90px] h-[19px] rounded"></span>
-            </div>
-          </div>
-    
-          <!-- Buttons loader -->
-          <div class="mt-4 flex space-x-4">
-            <div class="bg-gray-300 w-1/2 h-[30px] rounded"></div>
-            <div class="bg-gray-300 w-1/2 h-[30px] rounded"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-[16px] w-full" v-else-if="subs.slice(1).length">
-        <div 
-          class="bg-white rounded-[10px] p-[10px] w-full shadow-sm shadow-y-[-0.2px]" 
-          v-for="sub in subs.slice(1)" :key="sub.name"
-        >
-       <div class="flex items-center justify-between w-full mb-4">
-        <div class="flex items-center justify-start space-x-2 ">
-          <img :src="configrun.public.baseImagerUrl+sub.package_icon" :alt="sub.package_title+ 'Icon'" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{sub.package_title}}</h3>
-        </div>
-        <div>
-          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{sub.app ? sub.app.app_domain : null}}</h3>
-
-        </div>
-       </div>
-          
-          <div class="space-y-2">
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Status') }}:</span> 
-              <span class=" font-[600] text-[13px] leading-[19px] capitalize" 
-              :class="[sub.status === 'active' ? 'text-[#2DADA3]' : sub.status === 'expire' ? 'text-[#D9534F]' : 'text-[#2DADA3]']">{{$t(sub.status)}}</span>
-            </p>
-    
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Start Date') }}:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(sub.from_date).toLocaleDateString()}}</span>
-            </p>
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Next Billing Date') }}:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(sub.to_date).toLocaleDateString()}}</span>
-            </p>
-    
-            <p class="space-x-1">
-              <span class="font-[500] text-[13px] leading-[19px] text-black">{{ $t('Payment Method') }}:</span> 
-              <span class="text-black font-[600] text-[13px] leading-[19px]">{{sub.remarks}}</span>
-            </p>
-          </div>
-    
-          <div class="mt-4 flex space-x-4">
-            <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/2 !h-[30px]">
-              Upgrade Now
-            </button>
-            <button class="btn_bordered_dashboard !text-[10px] font-[500] whitespace-nowrap w-1/2 !h-[30px]">
-              Cancel Subscription
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="relative w-full bg-white shadow-sm shadow-y-[-0.2px] rounded-[10px] p-[10px] mt-[16px] animate-pulse" v-if="loadingSubs"> 
-        <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] bg-gray-200 rounded-[7px]"></div>
-      
-        <div class="flex items-center justify-start space-x-2 mb-4">
-          <div class="w-[43px] h-[43px] bg-gray-200 rounded-full"></div>
-          <div class="w-[100px] h-[21px] bg-gray-200 rounded"></div>
-        </div>
-      
-        <div class="space-y-2">
-          <p class="w-[70px] h-[19px] bg-gray-200 rounded"></p>
-          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
-      
-          <p class="w-[70px] h-[19px] bg-gray-200 rounded"></p>
-          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
-      
-          <p class="w-[110px] h-[19px] bg-gray-200 rounded"></p>
-          <p class="w-[150px] h-[19px] bg-gray-200 rounded"></p>
-        </div>
-      
-        <div class="mt-4 flex space-x-4">
-          <div class="w-1/6 h-[30px] bg-gray-200 rounded"></div>
-          <div class="w-1/6 h-[30px] bg-gray-200 rounded"></div>
-        </div>
-      </div>
-      <div class="relative w-full bg-white shadow-sm shadow-y-[-0.2px] rounded-[10px] p-[10px] mt-[16px]" v-else-if="subs[0]">
-        <div class="absolute right-[50px] bottom-[25px]">
-          <img src="/imgs/calender.png" class="w-[178px] h-[178px]" alt="">
-        </div>
-        <div class="absolute right-[50px] top-[25px] w-[188px] h-[38px] space-x-[4px] bg-[#F8FAFE] rounded-[7px] 
-        flex items-center justify-center text-[14px] font-[500] leading-[40px]">
-          <div class="text-tamkin"> Active </div> 
-          <div> until {{ new Date(subs[0].to_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }) }}          </div>
-        </div>
-    
-        <div class="flex items-center justify-start space-x-2 mb-4">
-          <img :src="configrun.public.baseImagerUrl+subs[0].package_icon" :alt="subs[0].package_title+ 'Icon'" class="w-[43px] h-[43px]" />
-          <h3 class="text-[14px] font-[600] leading-[21px] text-black">{{subs[0].package_title}}</h3>
-        </div>
-    
-        <div class="space-y-2">
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Status:</span> 
-            <span class=" font-[600] text-[13px] leading-[19px] capitalize" 
-            :class="[subs[0].status === 'active' ? 'text-[#2DADA3]' : subs[0].status === 'expire' ? 'text-[#D9534F]' : 'text-[#2DADA3]']">{{$t(subs[0].status)}}</span>
-          </p>
-    
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Start Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(subs[0].from_date).toLocaleDateString()}}</span>
-          </p>
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Next Billing Date:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">{{new Date(subs[0].to_date).toLocaleDateString()}}</span>
-          </p>
-    
-          <p class="space-x-1">
-            <span class="font-[500] text-[13px] leading-[19px] text-black">Payment Method:</span> 
-            <span class="text-black font-[600] text-[13px] leading-[19px]">{{subs[0].remarks}}</span>
-          </p>
-        </div>
-    
-        <div class="mt-4 flex space-x-4">
-          <button class="btn-dashboard hover_tamkin !text-[10px] font-[500] leading-[15px] whitespace-nowrap w-1/6 !h-[30px]">
-            Upgrade Now
-          </button>
-          <button class="btn_bordered_dashboard !text-[10px] font-[500] whitespace-nowrap w-1/6 !h-[30px]">
-            Cancel Subscription
-          </button>
-        </div>
-      </div>
- 
-      
+<div class="w-full h-[125px] rounded-[10px] bg-gradient-to-r from-[#C0CAFF]/[79%] to-white/[79%] px-[16px] my-[30px] relative flex items-center justify-between">
+<div class="absolute left-[40%]">
+<img src="/imgs/subscription_hero.png" class="w-[233px] h-[121px]" alt="">
+</div>
+<div class="absolute left-[0%]">
+  <img src="/imgs/subscription_hero.png" class="w-[150px] h-[80px]" alt="">
+  </div>
+  <div class="absolute right-[0%]">
+    <img src="/imgs/subscription_hero.png" class="w-[150px] h-[80px]" alt="">
     </div>
-</div>    
+<div class="flex flex-col items-start justify-start">
+<div class="text-[18px] leading-[27px] font-[500] text-[#3D3D3D]">
+  $86,342
+</div>
+<div class="text-[13px] font-[500] leading-[19px] text-darkGrey">
+  Total value of renewals
+</div>
+</div>
 
+<button class="btn-dashboard hover_tamkin static z-[40] w-[150px]">
+Renew All
+</button>
 
 </div>
 
 
+
+
+<div class="bg-white rounded-[10px] w-full h-full px-[16px] py-[28px]">
+<div class="flex items-center justify-between w-full gap-[24px]">
+  <div class="w-full ">
+    <div class="py-[17px] search_input">
+      <input type="text" class="input_dashboard_search w-full" v-model="search"
+        :placeholder="`${$t('Search')} ...`" />
+      <div
+        class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px]
+         ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]">
+        <img src="/assets/imgs/icons/search.svg" />
+      </div>
+      <div v-if="isSearchfilled" @click="clearInput"
+        class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer">
+        <img src="/assets/imgs/icons/clear_search.svg" />
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center  space-x-[8px] justify-center">
+    <div class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center  text-[13px] font-[500] leading-[19.5px]">
+      All
+      </div>
+      <div class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center  text-[13px] font-[500] leading-[19.5px]">
+        Monthly
+        </div>
+        <div class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center  text-[13px] font-[500] leading-[19.5px]">
+          3 Months
+          </div>
+          <div class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center  text-[13px] font-[500] leading-[19.5px]">
+            Yearly
+            </div>
+            <div class="border-[1px] w-[82px] h-[45px] hover:bg-tamkinLight cursor-pointer border-[#D9D9D9] rounded-[10px] flex items-center justify-center  text-[13px] font-[500] leading-[19.5px]">
+              Investor 
+              </div>
+    </div>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="p-2 inline-block min-w-full align-middle">
+      <div class="overflow-hidden border border-gray-200 bg-[#F5F9FF] rounded-lg">
+        <table class="min-w-full table-fixed divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-left w-1/6">Products</th>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-left w-1/6">Status</th>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-center w-1/6">Start Date</th>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-center w-1/6">Next Billing Date</th>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-left w-1/6">Payment Method</th>
+              <th scope="col" class="text-xs font-medium text-gray-700 py-3 text-center w-1/6">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="py-4 whitespace-nowrap text-sm font-semibold text-gray-900 flex items-center space-x-3">
+                <img src="/imgs/prem_plan.png" class="w-5 h-5" alt="Premium plan icon">
+                <span>Premium</span>
+              </td>
+              <td class="py-4 whitespace-nowrap text-sm font-semibold text-tamkin">Active</td>
+              <td class="py-4 whitespace-nowrap text-sm font-semibold text-center">May 11, 2024</td>
+              <td class="py-4 whitespace-nowrap text-sm font-semibold text-center">May 11, 2024</td>
+              <td class="py-4 whitespace-nowrap text-sm font-semibold">Card (4242)</td>
+              <td class="py-4 whitespace-nowrap text-sm flex justify-center items-center space-x-2">
+                <button class="text-white bg-green-500 rounded-full p-1 hover:bg-green-600">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="18" height="18" rx="9" fill="#61BDAD"/>
+                    <path d="M9 3L3 7.08517V9.9068L9 5.82163L15 9.9068V7.08517L9 3ZM9 6.39661L5.07792 9.10035V11.4953L9 8.79152L12.9221 11.4953V9.10035L9 6.39661ZM9 9.36764L6.74026 10.9254V12.7187L9 11.1801L11.2597 12.7187V10.9254L9 9.36764ZM9 11.7539L6.74026 13.2925V15L9 13.4614L11.2597 15V13.2925L9 11.7539Z" fill="white"/>
+                  </svg>
+                </button>
+                <button class="text-white bg-red-500 rounded-full p-1 hover:bg-red-600">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Your second SVG here -->
+                  </svg>
+                </button>
+              </td>
+            </tr>
+            <!-- Additional rows here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
 
 
 

@@ -106,8 +106,8 @@ const backgroundWidgetValues = (v:string)=>{
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("sign_background_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

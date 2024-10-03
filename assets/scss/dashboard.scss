@@ -790,7 +790,7 @@ input[type=number] {
     @apply ltr:left-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
 }
             &:not(.translate).active {
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 left-[-5px] lg:ltr:left-[8px] #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[7px] left-[-5px] lg:ltr:left-[8px] #{!important};
             }
 
             &:not(.translate).in_active {

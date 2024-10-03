@@ -62,12 +62,11 @@ const isLocationChecked = computed(() => {
     >
       <div class=" mt-[24px] ">
         <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
-          Live Site Translations Button
+          {{ $t('Live Site Translations Button') }}
         </h1>
 
         <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
-          The ‘Live Site Translations’ button instantly translates web content,
-          bridging languages
+          {{ $t('The ‘Live Site Translations’ button instantly translates web content,bridging languages') }}
         </p>
       </div>
 
@@ -124,7 +123,7 @@ const isLocationChecked = computed(() => {
         </svg>
         </div>
         <div class="text_mini">
-          Switch To Annual
+          {{$t('Switch To Annual')}}
         </div>
       </div>
           <div
@@ -145,8 +144,8 @@ const isLocationChecked = computed(() => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("live_site_translation_button_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -196,7 +195,7 @@ const isLocationChecked = computed(() => {
             <th
               class="w-full border-b-2 border-gray-200 dark:border-darkborder  ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
-              Enable Live Site Translations Button
+              {{ $t('Enable Live Site Translations Button') }}
             </th>
             <th
               class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
@@ -268,7 +267,7 @@ const isLocationChecked = computed(() => {
           </div>
 
           <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
-            Use translation button as default button
+            {{ $t('Use translation button as default button') }}
           </div>
         </div>
         <div
@@ -299,7 +298,7 @@ const isLocationChecked = computed(() => {
           </div>
 
           <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
-            Position translation button above
+            {{ $t('Position translation button above') }}
           </div>
         </div>
       </div>

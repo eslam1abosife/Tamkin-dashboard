@@ -344,6 +344,7 @@ const openModals = computed(() => {
     isOpen('upgrade_mysite_package') ||
     isOpen('paypal_mysite') ||
     isOpen('upgrade_no_package') ||
+    isOpen('cancel_subscription_internal') ||
 
     
 
@@ -603,17 +604,9 @@ import "vue-loading-overlay/dist/css/index.css";
         @control-cancel="closeModal('resetModal')"
       />
 
-      <ModalsConfirm
-        :show-modal="isOpen('deleteModal')"
-        title="Delete your site"
-        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-        confirm-btn-type="delete"
-        @control-delete="closeModal('deleteModal')"
-        @control-cancel="closeModal('deleteModal')"
-      />
+  
 
-      <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
-      <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
+
 
       <div
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"

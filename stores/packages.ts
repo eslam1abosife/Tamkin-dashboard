@@ -11,7 +11,7 @@ export const usePackgesStore = defineStore('packages', {
     currentTab: '',
     intialTab: '',
     currentTabTitle: 'Plugins',
-    views_level:'',
+    views_level:'Up to 100K page views/mo',
     types: [],
     categories: [],
     currentType: {
@@ -25,7 +25,7 @@ export const usePackgesStore = defineStore('packages', {
     features:[],
     discountType:'month',
     loadingData:true,
-    traffic_level:{name:'Up to 100K page views/mo'},
+    traffic_level:'Up to 100K page views/mo',
     investorProgram:'',
     investorUser:'',
     loadingAccessibility:true,
@@ -103,7 +103,7 @@ this.investorUser = res[0]
       await this.getPacks()
       await this.getPackagesTypes()
      await this.getCategories()
-     this.loadingData = false
+    //  this.loadingData = false
 
     },
     setTabTitle(title) {
@@ -127,7 +127,7 @@ this.investorUser = res[0]
 
     async getPackagesTypes() {
       if (this.isLoadingTypes) return; // Prevent multiple triggers while loading
-      this.isLoadingTypes = true;
+      // this.isLoadingTypes = true;
     
       const { getPackagesTypes } = useGetPackagesTypes();
       const typesData = await getPackagesTypes();
@@ -135,7 +135,7 @@ this.investorUser = res[0]
     
  
       
-      this.isLoadingTypes = false;
+      // this.isLoadingTypes = false;
     },
     
     
@@ -229,14 +229,14 @@ getTabDetails: (state) => (tab, highlightText, page) => {
     },
     // },
     getPackageByTypeAndCategory: (state) => (typeofpck) => {
-      state.loadingData = true
+      // state.loadingData = true
 
       let filteredPackages = state.packages
       .filter(pkg => pkg.type === state.currentType.name && pkg.package_type === typeofpck)
       .sort((a, b) => a.sort - b.sort); // Sorting by the 'sort' field
     
     
-    if (state.currentTab && state.currentTab.name !=='') {
+    if (state.currentType.title === 'Sign language' && state.currentTab.name !=='') {
       // console.log(filteredPackages)
       filteredPackages = filteredPackages
       .filter(pkg => 
@@ -250,7 +250,7 @@ getTabDetails: (state) => (tab, highlightText, page) => {
           }
 
     // console.log('yea man', filteredPackages)
-    state.loadingData = false
+    // state.loadingData = false
 
     return filteredPackages;
 

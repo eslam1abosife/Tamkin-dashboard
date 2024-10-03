@@ -173,8 +173,8 @@ const getImagePath = (icon) => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("webPlugins")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

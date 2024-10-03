@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useGetCryptoList} from '@/composables/useCrypto'
 import VueQrcode from '@chenfengyuan/vue-qrcode';
+const localePath = useLocalePath()
 const {
   isOpen:isModalOpen,
   currentView,
@@ -179,6 +180,13 @@ const percentageOff = computed(() => {
               closeModal('crypto_packages_success')
                packagesStore.selectedPaymentMethod = '' 
         packagesStore.selectedCrypto = ''
+        $router.push({
+          path: localePath('/my-site'), 
+          query: {
+            paid: undefined, 
+            status: undefined
+          }
+        })
             }">
                 {{ $t('Done') }}
             </button>

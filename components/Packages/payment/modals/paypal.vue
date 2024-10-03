@@ -55,7 +55,9 @@ const res = await paybycorpaypal(null,'paypal',redirectTo.value);
     loadingPayment.value = false;
   
   }
-
+  packagesStore.urls.length ? packagesStore.urls = [] : null
+webs.value.length ? webs.value = [] : null
+packagesStore.selectedPaymentMethod  = ''
 };
 const props = defineProps({
   showModal: Boolean,

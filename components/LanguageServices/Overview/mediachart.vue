@@ -352,8 +352,8 @@ const myStyles = computed(() => ({
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("media_used_chart_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

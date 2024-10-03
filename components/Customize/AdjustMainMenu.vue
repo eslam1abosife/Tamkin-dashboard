@@ -158,7 +158,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
         <div class="flex items-center justify-start  pt-[21px]">
           <div>
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
-              Adjust the Main Menu
+              {{ $t('Adjust the Main Menu') }}
             </h1>
           </div>
 
@@ -210,7 +210,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
             </svg>
             </div>
             <div class="text_mini">
-              Switch To Annual
+             {{ $t('Switch To Annual') }}
             </div>
           </div>
               <div
@@ -230,7 +230,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
 
                 </div>
                 <div class="text_mini">
-                  {{ !collapseStore.collapses.includes('adjust_main_menu_customize_card')?'Minisize':'Maxsize' }}
+                  {{ !collapseStore.collapses.includes('adjust_main_menu_customize_card')?$t('Minisize'):$t('Maxsize') }}
                 </div>
               </div>
 
@@ -307,7 +307,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
               >
               <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
               lg:leading-[16.39px]">
-                  <span>{{element.name}}</span>
+                  <span>{{$t(element.name)}}</span>
                 </div>
                 <div
                 class="text-[#585B5B] truncate md:overflow-visible  md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis   w-20  lg:w-full
@@ -315,7 +315,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
                   dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                 {{ element.description }}
+                 {{ $t(element.description) }}
                   </span>
                 </div>
               </div>

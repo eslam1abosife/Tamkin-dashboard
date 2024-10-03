@@ -1,6 +1,17 @@
 <script lang="ts" setup>
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
+const formatToUrl = (domain) => {
+  // Check if the domain starts with "http://" or "https://"
+  if (!/^https?:\/\//i.test(domain)) {
+    // If not, prepend "https://"
+    domain = "https://" + domain;
+  }
+  return domain;
+};
 const {locale} = useI18n()
 const addSiterStore = useAddSiteStore()
 const selectedPlan = ref("");
@@ -21,7 +32,12 @@ const closeModalPackage = () => {
 const runtimeConfig = useRuntimeConfig()
 const mySiteStore = useMySiteStore()
 const loadingPacks = ref(true)
+const switchBetweenMonthlyAndAnnual = (v: any) => {
+  packagesStore.discountType = v;
+};
+
 onMounted(async ()=>{
+  await packagesStore.getDataPackage()
   await addSiterStore.getPackages()
   loadingDataModal.value = false
   // selectedPlan.value = addSiterStore.packages.sort((a, b) => a.sort - b.sort)[0]
@@ -83,184 +99,162 @@ return   navigateTo('upgrade_no_package', "mysite", "add_package_modal_mysite");
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
         >
-          {{ $t("Upgrade") }}
-        </h1>
-    
-        <div class="mt-[18px] flex items-center justify-between mt-[32px] w-full">
+        <div
+        class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+      >
+        <img
+          src="/assets/imgs/icons/mysite_select.svg"
+          class="w-[40px] h-[40px]"
+          v-if="mySiteStore.currentWebsite?.title === 'Internal Service' "
+        />
+
+        <div
+          v-if="
+            
+            !mySiteStore.currentWebsite?.favicon &&
+            mySiteStore.currentWebsite?.title !== 'Internal Service'
+          "
+          class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+        >
+          {{ mySiteStore.currentWebsite?.title ? getAvatarLetters(mySiteStore.currentWebsite?.title) : "" }}
+        </div>
+        <div
+          v-if="
+            
+            mySiteStore.currentWebsite?.favicon &&
+            mySiteStore.currentWebsite?.title !== 'Internal Service'
+          "
+        >
+          <img
+            v-if="mySiteStore.currentWebsite.favicon"
+            :src="mySiteStore.currentWebsite.favicon"
+            class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
+          />
+        </div>
+        <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
+          <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
           <div>
-            <h2 class="text-[14px] lg:text-[16px] font-[600] leading-[30px] text-[#151515] dark:text-whiteTamkin">
-              {{ $t('Select Your package') }}
+            <h2
+              class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
+            >
+              {{ mySiteStore.currentWebsite?.app_domain || $t(`${mySiteStore.currentWebsite?.title}`) }}
             </h2>
           </div>
-          <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-            <div>
-              <h2 class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin">
-                {{ $t('What’s included?') }}
-              </h2>
-            </div>
-            <div class="cursor-pointer" @click="collapsed = !collapsed">
-              <img src="/assets/imgs/arrow-right.svg" class="w-[12px] h-[10px] rtl:rotate-180"
-                :class="[collapsed ? '!rotate-90 ' : 'rotate-0']" />
-            </div>
+          <div>
+            <a
+              :class="[
+                mySiteStore.currentWebsite?.title === 'Internal Service'
+                  ? '!text-darkGrey/40 cursor-not-allowed'
+                  : '',
+              ]"
+              :href="
+              mySiteStore.currentWebsite?.title === 'Internal Service'
+                  ? '#'
+                  : mySiteStore.currentWebsite
+                  ? formatToUrl(mySiteStore.currentWebsite.app_domain)
+                  : ''
+              "
+              :target="mySiteStore.currentWebsite?.title === 'Internal Service' ? '' : '_blank'"
+              class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
+              >{{ $t("Visit Site") }}
+              <svg
+                data-slot="icon"
+                class="size-6 ltr:ml-[14px] rtl:mr-[14px]"
+                fill="none"
+                stroke-width="1.5"
+                :class="[
+                  mySiteStore.currentWebsite?.title === 'Internal Service'
+                    ? '!text-darkGrey/40 cursor-not-allowed'
+                    : '!text-tamkinStart',
+                ]"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                ></path></svg
+            ></a>
           </div>
         </div>
+      </div>
+        </h1>
     
+   
+        <div  v-if="!loadingDataModal"
+    class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto
+    dark:bg-transparent dark:border-darkGrey absolute rtl:left-[30px] ltr:right-[30px] top-[100px] p-[4px] border border-gray-300"
+  >
+    <button
+      @click="switchBetweenMonthlyAndAnnual('month')"
+      :class="[
+        packagesStore.discountType === 'month'
+          ? 'bg-white dark:bg-light rounded-full'
+          : '',
+      ]"
+      class="w-auto px-3 transition-all h-[32px] 
+      flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px]"
+    >
+      {{ $t('Monthly') }}
+    </button>
+
+    <button
+      @click="switchBetweenMonthlyAndAnnual('year')"
+      :class="[
+        packagesStore.discountType === 'year'
+          ? 'bg-white dark:bg-light rounded-full'
+          : '',
+      ]"
+      class="w-auto px-3 transition-all h-[32px] flex items-center justify-center ease-in-out
+       text-darkGrey rtl:space-x-reverse space-x-1 dark:text-whiteTamkin font-[500] text-[12px] leading-[22.5px] "
+    >
+      <div>{{$t('Annual')}}</div>
+      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[4px]" >
+        <div  class="text-black font-[800] !text-[10px]">{{ $t('SAVE')}}</div>
+      <div class="text-black font-[800] !text-[10px]">
+        {{
+          packagesStore.types.length ?  packagesStore.types.find(type => type.title === mySiteStore.currentType).discount_yearly :''
+        }}%</div
+      >
+      </div>
+    </button>
+  </div>
     
        <div class="w-full " v-if="!loadingDataModal">
-        <ClientOnly >
-          <Splide   :options="{ rewind: false,perPage: 3,  gap: 10,arrows:false ,direction:`${locale === 'ar' ? 'rtl' : 'ltr'}`      }">
-            <SplideSlide  v-for="(plan, i) in sortedPlans" :key="i" >
-            <div class="flex flex-col items-start justify-center " >
-              <div class=" flex items-center custom-border  justify-start rtl:space-x-reverse 
-              relative py-[62px] w-[93%] h-[149px] !rounded-[10px] mt-[35px]"
-              :class="[
-                  selectedPlan && selectedPlan === plan
-                    ? 'bg-selected dark:bg-p '
-                    : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
-                ]">
-                <div class="absolute bottom-[125px] rtl:right-[24px] ltr:left-[24px]">
-                  <img :src="runconfig.public.baseImagerUrl + plan.icon" class="w-[40px] h-[40px]" />
-                </div>
-                <div v-if="plan.type_deal !== 'None'" class="absolute   flex items-center justify-center text-[12px] 
-                leading-[17.76px]  font-[500] w-[83px]
-                h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px]
-               rtl:right-2/4 ltr:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-      ">
-                  <div class=" ">
-                    {{ $t(plan.type_deal) }}
-                  </div>
-    
-                </div>
-                <div class="flex items-center justify-start relative w-full rtl:px-2 px-2">
-                  <div class="order-2 mt-[22px] relative w-full">
-                    <h1
-                      class="font-[500] text-[14px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin
-                       ipad-max:text-[14px] ipad-max:leading-[16px]">
-                      {{ $t(plan.title) }} - <span class="!font-[300] !text-[14px]">{{ $t(plan.type) }}</span>
-                    </h1>
-                    <h2
-                      class="font-[400] rtl:text-right ltr:text-left text-[12px] 
-                      leading-[21.86px] text-[#536174] w-5/6 dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]">
-                      {{ $t(plan.sub_title) }}
-                    </h2>
-                  </div>
-                  <div class="order-1 ltr:pr-2 rtl:pl-2">
-                    <input :id="'plan_' + plan.name" type="radio" name="plans_radio" class="hidden"
-                      @click.stop="selectPlan(plan)" :value="plan.name" :checked="selectedPlan === plan" />
-                    <label :for="'plan_' + plan.name" class="flex items-center cursor-pointer">
-                      <span class="radio-tamkin"></span>
-                    </label>
-                  </div>
-                </div>
-    
-              
-    
-              </div>
-              <div v-if="collapsed" class="flex flex-col items-start justify-center space-y-[12px]  mt-[-10px]
-              z-[200] h-auto w-[93%] custom-border-collapse rounded-t-none rounded-[10px] p-4"
-                :class="[selectedPlan && selectedPlan === plan ? 'bg-selected dark:bg-p' : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary']">
-                <div v-for="pf in plan.package_items.sort((a, b) => a.idx - b.idx)" :key="pf.name"
-                  class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-                  <div>
-                    <img class="size-4" src="/assets/imgs/checked_list_active.svg" v-if="pf.is_available" />
-                    <img class="size-4" src="/assets/imgs/checked_list_inactive.svg" v-else />
-                  </div>
-                  <div>
-                    <h3 class="text-[12px] font-[400] leading-[20px]">
-                      {{ $t(pf.title) }}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </SplideSlide>
-    
-          </Splide>
-    
-          <div id="custom-pagination" class="custom-pagination"></div>
-          <!-- <carousel  class="!p-0" :dir="locale === 'ar' ? 'rtl' : 'ltr'" :wrap-around="false"  :breakpoints="breakpoints"
-           :itemsToScroll="3"  >
-    
-            <Slide v-for="(plan, i) in addSiteStore.packages.sort((a, b) => a.sort - b.sort)" :key="i" >
-              <div class=" flex items-center custom-border  justify-center rtl:space-x-reverse 
-              relative py-[62px]  h-[149px] !rounded-[10px] mt-[35px]"
-              :class="[
-                  selectedPlan && selectedPlan === plan
-                    ? 'bg-selected dark:bg-p '
-                    : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary',
-                ]">
-                <div class="absolute bottom-[119px] rtl:right-[24px] ltr:left-[24px]">
-                  <img :src="runconfig.public.baseImagerUrl + plan.icon" class="w-[50px] h-[50px]" />
-                </div>
-                <div v-if="plan.type_deal !== 'None'" class="absolute   flex items-center justify-center text-[13px] leading-[17.76px]  font-[500] w-[83px]
-                h-[28px] rounded-[10px] text-white dark:text-darkTamkin top-[-15px]
-               rtl:right-2/4 ltr:left-2/4" style="background: linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%);
-      ">
-                  <div class=" ">
-                    {{ $t(plan.type_deal) }}
-                  </div>
-    
-                </div>
-                <div class="flex items-center justify-start relative w-full">
-                  <div class="order-2 mt-[22px] relative w-full">
-                    <h1
-                      class="font-[500] text-[18px] rtl:text-right ltr:text-left leading-[30px] dark:text-whiteTamkin ipad-max:text-[14px] ipad-max:leading-[16px]">
-                      {{ $t(plan.title) }} - <span class="!font-[300] !text-[16px]">{{ $t(plan.type) }}</span>
-                    </h1>
-                    <h2
-                      class="font-[400] rtl:text-right ltr:text-left text-[14px] 
-                      leading-[21.86px] text-[#536174] w-3/4 dark:text-whiteTamkin/80 ipad-max:text-[12px] ipad-max:leading-[16px]">
-                      {{ $t(plan.sub_title) }}
-                    </h2>
-                  </div>
-                  <div class="order-1 mx-[15px] ipad-max:mx-2">
-                    <input :id="'plan_' + plan.name" type="radio" name="plans_radio" class="hidden"
-                      @click.stop="selectPlan(plan)" :value="plan.name" :checked="selectedPlan === plan" />
-                    <label :for="'plan_' + plan.name" class="flex items-center cursor-pointer">
-                      <span class="radio-tamkin"></span>
-                    </label>
-                  </div>
-                </div>
-    
-                <div v-if="collapsed" class="flex flex-col items-start justify-center space-y-[12px]  !space-x-0
-                 top-[90%]  absolute z-[200] h-auto w-full custom-border-collapse rounded-t-none rounded-[10px] mt-2 p-4"
-                  :class="[selectedPlan && selectedPlan === plan ? 'bg-selected dark:bg-p' : 'bg-whiteTamkin dark:bg-tamkinDarkPrimary']">
-                  <div v-for="pf in plan.package_items.sort((a, b) => a.idx - b.idx)" :key="pf.name"
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] dark:text-whiteTamkin">
-                    <div>
-                      <img src="/assets/imgs/checked_list_active.svg" v-if="pf.is_available" />
-                      <img src="/assets/imgs/checked_list_inactive.svg" v-else />
-                    </div>
-                    <div>
-                      <h3 class="text-[14px] font-[400] leading-[20px]">
-                        {{ $t(pf.title) }}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-    
-              </div>
-            </Slide>
-    
-            <template #addons>
-              <Pagination :class="[collapsed ? '!mt-[250px]' : 'mt-64']" />
-       
-            </template>
-          </carousel> -->
-        </ClientOnly>
+       <MySitePricingnopackage/>
        </div>
 
-        <div v-else class="mt-[35px] flex space-x-[16px] rtl:space-x-reverse w-full animate-pulse">
-
-          <!-- Add more placeholder divs to simulate multiple package cards -->
-          <div class="relative w-full py-[62px] h-[149px] bg-gray-300 dark:bg-gray-700 rounded-[10px]" v-for="(f, i) in 3"
-            :key="i">
-    
-            <div class="mt-[22px]">
-              <div class="w-full h-[16px] bg-gray-300 dark:bg-gray-700 mt-[10px] rounded"></div>
+       <div v-else class="flex flex-col items-center justify-center w-full mt-[42px]  pb-[24px] animate-pulse">
+        <div class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly rtl:space-x-reverse  h-full w-full 
+        space-x-[10px]  mt-[32px]">
+          <!-- Placeholder for each package item -->
+          <div v-for="n in 3" :key="n" class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white 
+          rounded-t-[10px] relative mt-[35px] w-full ">
+            <div class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"></div>
+      
+            <div class="flex items-center justify-center w-full px-[15px] mt-[48px]">
+              <div class="w-full">
+                <div class="bg-gray-300 h-[30px] rounded mb-[8px]"></div>
+                <div class="bg-gray-300 h-[20px] w-[150px] rounded mb-[16px]"></div>
+                <div class="bg-gray-300 h-[29px] w-[100px] rounded"></div>
+                <div class="bg-gray-200 h-[16px] w-[120px] mt-[10px] rounded"></div>
+                <div class="bg-gray-200 h-[16px] w-[80px] mt-[10px] rounded"></div>
+              </div>
+            </div>
+      
+            <div class="flex flex-col items-start justify-center w-full space-y-[10px] p-4">
+              <div class="bg-gray-300 h-[20px] w-[200px] rounded"></div>
+              <div class="bg-gray-300 h-[20px] w-[150px] rounded"></div>
+              <div class="bg-gray-300 h-[20px] w-[100px] rounded"></div>
+              <div class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"></div>
             </div>
           </div>
         </div>
+      </div>
+        
       <OverviewWidgetEmbdedCode class="!mt-[30px] !w-full"/>
     
 

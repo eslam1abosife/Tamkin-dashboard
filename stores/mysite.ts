@@ -24,7 +24,10 @@ export const useMySiteStore = defineStore('mysite', {
         validatedSites:[],
         loadingBlock:[],
         currentWebsite:'',
-openedCurrentSite:false
+openedCurrentSite:false,
+updatePayment:false,
+currentInvoice:'',
+currentType:''
        
     }),
 
@@ -71,6 +74,9 @@ async getPackages(){
   this.packages = packsdata.packages
 
 }
+      },
+      getters:{
+       
       }
 ,
 persist: {

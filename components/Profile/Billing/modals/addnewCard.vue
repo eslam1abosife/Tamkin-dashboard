@@ -237,6 +237,10 @@ const handleSave = async () => {
       navigateTo('add_new_card_billing','addSite','cardModal_addsite')
 
     }
+    else if(currentView('add_new_card_billing') === 'mysite'){
+      navigateTo('add_new_card_billing','mysite','cardModal_mysite')
+
+    }
     else {
       closeModal('add_new_card_billing')
     }

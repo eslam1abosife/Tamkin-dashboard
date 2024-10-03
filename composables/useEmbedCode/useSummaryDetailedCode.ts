@@ -38,7 +38,7 @@ export default function () {
             if (!detailedRes.data.succeeded) throw(detailedRes.data.message);
             // Perform URL decode, then HTML decode, then clean up
             const urlDecodedDecodedString = decodeURIComponent(detailedRes.data.data);
-            detailedCode.value = cleanUpCode(decodeHtmlEntities(urlDecodedDecodedString));  // Clean up here
+            detailedCode.value = decodeHtmlEntities(urlDecodedDecodedString);  // Clean up here
 
         } catch (error) {
             throw typeof (error) === 'string' ? error : 'There is something wrong';

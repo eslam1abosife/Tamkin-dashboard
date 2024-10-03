@@ -20,13 +20,13 @@ const {widgetType} = storeToRefs(customizeStore)
         <div class="flex items-center justify-start  pt-[16px]">
           <div>
             <h1 class="text-[14px] lg:text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]">
-                Widget Type
+                {{ $t('Widget Type') }}
             </h1>
             
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin  pt-[6px]"
             >
-            Control the size of the buttons that you want to appear in the list            </p>
+            {{$t('Control the size of the buttons that you want to appear in the list')}}           </p>
           </div>
 
           <div
@@ -76,7 +76,7 @@ const {widgetType} = storeToRefs(customizeStore)
             </svg>
             </div>
             <div class="text_mini">
-              Switch To Annual
+              {{ $t('Switch To Annual') }}
             </div>
           </div>
               <div
@@ -96,7 +96,7 @@ const {widgetType} = storeToRefs(customizeStore)
 
                 </div>
                 <div class="text_mini">
-                  {{ !collapseStore.collapses.includes('widget_type_card') ?'Minisize':'Maxsize' }}
+                  {{ !collapseStore.collapses.includes('widget_type_card') ?$t('Minisize'):$t('Maxsize') }}
                 </div>
               </div>
 
@@ -143,16 +143,17 @@ const {widgetType} = storeToRefs(customizeStore)
           v-if="!collapseStore.collapses.includes('widget_type_card')"
         >
     
-<div class="flex md:items-center md:space-x-10  lg:space-x-0 items-start lg:flex-col flex-col md:flex-row justify-center w-full  mx-auto  ">
-    <div class="md:mt-[10px]  flex md:justify-center items-center justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0
-     space-y-[10px] 
+<div class="flex md:items-center md:space-x-10 rtl:space-x-reverse  lg:space-x-0 items-start lg:flex-col flex-col md:flex-row justify-center w-full  mx-auto  ">
+    <div class="md:mt-[10px]  flex md:justify-center items-center justify-between lg:flex-row flex-col md:space-y-4
+     lg:space-y-0
+     space-y-[10px] rtl:space-x-reverse 
     lg:space-x-[20px] w-full">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
         <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] 
       dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder 
          border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[13px] leading-[22.5px]">Full Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">{{$t('Full Widget')}}</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -183,7 +184,7 @@ const {widgetType} = storeToRefs(customizeStore)
         dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder
          border-b-[2px] border-lightGrey dark:text-whiteTamkin">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[13px] leading-[22.5px]">Mini Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">{{$t('Mini Widget')}}</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -211,13 +212,13 @@ const {widgetType} = storeToRefs(customizeStore)
       </div>
 
     </div>
-    <div class="flex  items-center md:justify-center  justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0 space-y-[10px] 
+    <div class="flex  rtl:space-x-reverse  items-center md:justify-center  justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0 space-y-[10px] 
     lg:space-x-[20px] w-full mt-[10px]">
       <div class="flex flex-col items-center justify-center flex-1 w-full">
         <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder
          border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[13px] leading-[22.5px] dark:text-whiteTamkin">Round Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px] dark:text-whiteTamkin">{{$t('Round Widget')}}</h1>
            
             </div>
             <div class="order-1 mx-[15px]">
@@ -246,7 +247,7 @@ const {widgetType} = storeToRefs(customizeStore)
       <div class="flex flex-col items-center justify-center flex-1 w-full ">
         <div class="flex items-center justify-center relative  w-full  h-[48px]  bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30  dark:border-darkborder dark:text-whiteTamkin border-b-[2px] border-lightGrey">
             <div class="order-2 relative w-full">
-              <h1 class="font-[500] text-[13px] leading-[22.5px]">Minuscule Widget</h1>
+              <h1 class="font-[500] text-[13px] leading-[22.5px]">{{$t('Minuscule Widget')}}</h1>
            
             </div>
             <div class="order-1 mx-[15px]">

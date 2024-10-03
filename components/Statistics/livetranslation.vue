@@ -21,15 +21,14 @@ const collapseStore = useCollapseStore();
                   : 'mt-[-24px]',
               ]"
             >
-              Live Translation
+              {{ $t('Live Translation') }}
             </h1>
 
             <p
               class="text-[12px] lg:w-3/4 ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400]
              text-[#585B5B] mt-[10px] dark:text-whiteTamkin "
             >
-              Live translation converts speech or text from one language to another
-              instantly, facilitating real-time communication.
+              {{ $t('Live translation converts speech or text from one language to another instantly, facilitating real-time communication.') }}
             </p>
           </div>
 
@@ -93,7 +92,7 @@ const collapseStore = useCollapseStore();
               </svg>
               </div>
               <div class="text_mini">
-                Switch To Annual
+                {{ $t('Switch To Annual') }}
               </div>
             </div>
                 <div
@@ -160,7 +159,7 @@ const collapseStore = useCollapseStore();
           </div>
           <div
           v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
-          class="flex items-center justify-start ml-auto mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] 
+          class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] 
           custom-border  bg-tamkin-main-bg dark:bg-p"
       
         >
@@ -195,17 +194,17 @@ const collapseStore = useCollapseStore();
             class=" flex flex-col items-center justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
           >
             <div class="flex items-center justify-between w-full">
-              <div class="text-[13px] font-[400] leading-[19px]">Used</div>
+              <div class="text-[13px] font-[400] leading-[19px]">{{$t('Used')}}</div>
               <div class="text-[13px] font-[600] leading-[19px]">5.78%</div>
             </div>
   
             <div class="flex items-center justify-between w-full">
-              <div class="text-[13px] font-[400] leading-[19px]">User Assistance</div>
+              <div class="text-[13px] font-[400] leading-[19px]">{{$t('User Assistance')}}</div>
               <div class="text-[13px] font-[600] leading-[19px]">20</div>
             </div>
             <div class="flex items-center justify-between w-full">
               <div class="text-[13px] font-[400] leading-[19px]">
-                Pages Translated
+                {{ $t('Pages Translated') }}
               </div>
               <div class="text-[13px] font-[600] leading-[19px]">5</div>
             </div>
@@ -218,7 +217,7 @@ const collapseStore = useCollapseStore();
           v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
         >
           <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin">
-            Translated languages
+            {{ $t('Translated languages') }}
           </h1>
 
           <table class="min-w-full leading-normal">
@@ -227,13 +226,13 @@ const collapseStore = useCollapseStore();
                 <th
                   class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
-                  languages
+                  {{ $t('languages') }}
                 </th>
 
                 <th
                   class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
-                  Usage
+                  {{ $t('Usage') }}
                 </th>
               </tr>
             </thead>
@@ -251,7 +250,7 @@ const collapseStore = useCollapseStore();
                       />
                     </div>
                     <div class="">
-                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Arabic</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">{{$t('Arabic')}}</p>
                     </div>
                   </div>
                 </td>
@@ -339,7 +338,7 @@ const collapseStore = useCollapseStore();
           </table>
 
           <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[26px] my-[24px] dark:text-whiteTamkin">
-            Pages Translated
+            {{ $t('Pages Translated') }}
           </h1>
 
           <table class="min-w-full leading-normal">
@@ -348,13 +347,13 @@ const collapseStore = useCollapseStore();
                 <th
                   class="py-3 border-b-2 w-full border-gray-200 dark:bg-tamkinDarkPrimary dark:border-darkborder  bg-white dark:text-whiteTamkin ltr:text-left rtl:text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
-                  Page
+                  {{ $t('Page') }}
                 </th>
 
                 <th
                   class="py-3 border-b-2 w-full border-gray-200 bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder dark:text-whiteTamkin  text-right text-[14px] font-[400] leading-[18px] text-black"
                 >
-                  Usage
+                  {{ $t('Usage') }}
                 </th>
               </tr>
             </thead>

@@ -14,9 +14,9 @@ const collapseStore = useCollapseStore();
   >
     <div class="flex items-center justify-start ">
       <div class="pt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Usage stats by function</h1>
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Usage stats by function')}}</h1>
         <p class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]">
-          Usage stats by function show how each feature is used in a system or app.
+          {{ $t('Usage stats by function show how each feature is used in a system or app.') }}
         </p>
       </div>
       <div
@@ -70,7 +70,7 @@ const collapseStore = useCollapseStore();
         </svg>
         </div>
         <div class="text_mini">
-          Switch To Annual
+          {{ $t('Switch To Annual') }}
         </div>
       </div>
           <div
@@ -93,8 +93,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("usage_stats_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -146,20 +146,20 @@ const collapseStore = useCollapseStore();
               class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:text-left
                rtl:text-right text-[10px] lg:text-[14px] font-[400] leading-[18px] text-black w-2/4"
             >
-              Function
+              {{ $t('Function') }}
             </th>
             <th
               class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] 
                ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              Time Enabled
+              {{$t('Time Enabled')}}
             </th>
             <th
               class="py-3 border-b-2 border-gray-200 dark:border-[#333333]
                dark:text-whiteTamkin  rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px]
                 font-[400] lg:leading-[18px] text-black"
             >
-              Percentage
+              {{$t('Percentage')}}
             </th>
           </tr>
         </thead>

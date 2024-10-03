@@ -226,11 +226,42 @@ const submitInviteApp = async () => {
             <!-- Actual content -->
             <tr v-for="permission in filteredPermissions" :key="permission.name">
               <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
-                <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6" />
-                <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6" />
+                <div
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+              >
+                <img
+                  src="/assets/imgs/icons/mysite_select.svg"
+                  class="w-[40px] h-[40px]"
+                  v-if="permission?.title === 'Internal Service'"
+                />
+  
+                <div
+                  v-if="
+                    !permission?.favicon &&
+                    permission?.title !== 'Internal Service'
+                  "
+                  class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+                >
+                  {{ permission?.title ? getAvatarLetters(permission?.title) : "" }}
+                </div>
+                <div
+                  v-if="
+                  permission?.favicon &&
+                  permission?.title !== 'Internal Service'
+                  "
+                >
+                  <img
+                    v-if="permission.favicon"
+                    :src="permission.favicon"
+                    class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
+                  />
+                </div>
+                
+              </div>
                 <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">
                   {{ $t(permission.title) }}
                 </span>
+             
               </td>
               <td class="py-4 text-right">
                 <div>

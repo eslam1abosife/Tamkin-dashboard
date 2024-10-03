@@ -50,7 +50,7 @@ watch([currentColor], () => {}, { immediate: true });
           : 'font-[500]',
       ]"
     >
-      Button Location Desktop
+      {{ $t("Button Location Desktop") }}
     </div>
 
     <div
@@ -62,7 +62,7 @@ watch([currentColor], () => {}, { immediate: true });
           : 'font-[500]',
       ]"
     >
-      Button Location Mobile
+      {{ $t("Button Location Mobile") }}
     </div>
   </div>
 
@@ -95,10 +95,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -122,10 +119,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -149,10 +143,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -180,10 +171,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -207,10 +195,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -234,10 +219,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -265,10 +247,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -292,10 +271,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -337,10 +313,7 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img
-            src="/assets/imgs/icons/ios_access.svg"
-            class="w-[16px] h-[16px]"
-          />
+          <img src="/assets/imgs/icons/ios_access.svg" class="w-[16px] h-[16px]" />
         </div>
       </div>
       <img
@@ -380,10 +353,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -407,10 +377,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -434,10 +401,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -465,10 +429,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -492,10 +453,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -519,10 +477,7 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img
-                src="/assets/imgs/icons/ios_access.svg"
-                class="w-[22px] h-[22px]"
-              />
+              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
             </div>
           </label>
         </div>
@@ -534,23 +489,23 @@ watch([currentColor], () => {}, { immediate: true });
         class="absolute"
         :class="[
           buttonPositionMobile === 'postion1'
-            ? 'top-[30px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[30px]  ltr:lg:left-[50px] rtl:lg:right-[120px]  position1'
             : '',
           buttonPositionMobile === 'postion2'
-            ? 'top-[80px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[80px] ltr:lg:left-[50px] rtl:lg:right-[120px] position2'
             : '',
           buttonPositionMobile === 'postion3'
-            ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] rtl:lg:right-[120px]  ltr:lg:left-[50px] position3'
             : '',
 
           buttonPositionMobile === 'postion4'
-            ? 'top-[30px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[30px] ltr:lg:left-[120px] rtl:lg:left-[250px]  position4'
             : '',
           buttonPositionMobile === 'postion5'
-            ? 'top-[80px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[80px]  ltr:lg:left-[120px] rtl:lg:left-[250px] position5'
             : '',
           buttonPositionMobile === 'postion6'
-            ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] rtl:lg:right-[270px] lg:left-[120px] position6'
             : '',
         ]"
       >
@@ -559,33 +514,30 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img
-            src="/assets/imgs/icons/ios_access.svg"
-            class="w-[12px] h-[12px]"
-          />
+          <img src="/assets/imgs/icons/ios_access.svg" class="w-[12px] h-[12px]" />
         </div>
       </div>
       <div
         class="absolute"
         :class="[
           buttonPositionMobile === 'postion1'
-            ? 'ipad-max:top-[50px] top-[50px] lg:top-[30px] md:right-[160px] right-[150px] ipad-max:right-[170px] lg:right-[250px]'
+            ? 'position1 ipad-max:top-[50px] top-[50px] lg:top-[30px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
           buttonPositionMobile === 'postion2'
-            ? 'top-[80px] ipad-max:right-[170px] md:right-[160px] right-[10px] lg:right-[250px]'
+            ? 'position2 top-[80px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
           buttonPositionMobile === 'postion3'
-            ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px] ipad-max:right-[170px] md:right-[160px] right-[150px] lg:right-[250px]'
+            ? 'position3 top-[130px] lg:top-[140px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
 
           buttonPositionMobile === 'postion4'
-            ? 'top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position4 top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
           buttonPositionMobile === 'postion5'
-            ? 'top-[90px] lg:top-[80px]   right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position5 top-[90px] lg:top-[80px]   right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
           buttonPositionMobile === 'postion6'
-            ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px]  right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
+            ? 'position6 top-[130px] lg:top-[140px] ipad-max:top-[130px]  right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
         ]"
       >
@@ -594,10 +546,7 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img
-            src="/assets/imgs/icons/ios_access.svg"
-            class="w-[14px] h-[14px]"
-          />
+          <img src="/assets/imgs/icons/ios_access.svg" class="w-[14px] h-[14px]" />
         </div>
       </div>
       <div

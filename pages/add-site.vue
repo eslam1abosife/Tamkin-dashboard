@@ -175,7 +175,6 @@ const checkifSiteBlockedOrNot = async (site) => {
   loadingBlock.value.pop(site);
 };
 
-const packagesStore = usePackgesStore()
 const addSitesAndOpenModal = async () => {
   loadingModal.value = true;
 
@@ -497,7 +496,8 @@ const sortedPlans = computed(() => {
     focus:ring-transparent" v-if="collapsed"></div> -->
     <!-- {{   }} -->
     <div class="">
-      <button :disabled="!selectedPlan || loadingModal || validatedSites.length === 0 || (validatedSites[0].exists === true && validatedSites.length ===1)"
+      <button :disabled="!selectedPlan || loadingModal || validatedSites.length === 0 || 
+      (validatedSites.every((site) => site.exists === true || site.blocked === true))"
         class="btn-dashboard hover_tamkin my-[16px] rtl:mr-auto ltr:ml-auto w-auto " @click="addSitesAndOpenModal">
         <div class="flex items-center justify-center">
           <div :class="loadingModal ? 'rtl:ml-2 ltr:mr-2' : ''">

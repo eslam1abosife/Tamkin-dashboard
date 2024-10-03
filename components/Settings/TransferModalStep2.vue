@@ -60,29 +60,29 @@ const clearInput = () => {
   </div>
 <div class="container mx-auto" v-if="!SuccessStep2Transfer">
   <h1 class="text-left font-[600] dark:text-whiteTamkin text-darkGrey text-[18px] leading-[36px]">
-    Transfer License to another site
+    {{ $t('Transfer License to another site') }}
 </h1>
 
 <p class="mt-[4px] text-left font-[400] text-[#A7A7A7]  dark:text-whiteTamkin text-[14px] leading-[24px]">
-    This action will move all widgets and features to the new site.</p>
+    {{$t('This action will move all widgets and features to the new site.')}}</p>
 
 
 
     <div class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 
     w-full mx-auto my-4">
         <div class="flex items-center justify-center  mb-2">
-            <div class="text-gray-700 dark:text-whiteTamkin w-[60px] ">From</div>
+            <div class="text-gray-700 dark:text-whiteTamkin w-[60px] ">{{$t('From')}}</div>
             <div class="flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] w-[161px]
             rounded-[10px] px-2 py-1 h-[41px]">
                 <img  src="/assets/imgs/tamkin_hand.svg" alt="Tamkin App" class="w-5 h-5 mr-1"/>
                 <span class="text-gray-700 dark:text-whiteTamkin">Tamkin.App</span>
             </div>
         </div>
-        <div class="mb-2 ml-[10%]">
+        <div class="mb-2 rtl:mr-[10%] ltr:ml-[10%]">
             <img  src="/assets/imgs/settings/arrow-down.svg" />
         </div>
         <div class="flex items-center justify-start ">
-            <div class="text-gray-700 w-[60px] dark:text-whiteTamkin">To</div>
+            <div class="text-gray-700 w-[60px] dark:text-whiteTamkin">{{$t('To')}}</div>
             <div class="flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin w-[161px] padding-override-1 
             rounded-[10px] px-2 py-1 h-[41px]">
                 <img  src="/assets/imgs/settings/pint.svg" alt="Pinterest App" class="w-5 h-5 mr-1"/>
@@ -92,30 +92,30 @@ const clearInput = () => {
     </div>
     
     
-<div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('transferstep2')">
 
-    Cancel
+    {{ $t('Cancel') }}
   </button>
   <button class=" btn-dashboard text-center w-1/4 p-[0]" @click="SuccessStep2Transfer = true">
-    Confirm Transfer
+    {{ $t('Confirm Transfer') }}
   </button>
 
 </div>
 </div>
 <div class="container mx-auto" v-else>
     <h1 class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]">
-        Successfully Transferred
+        {{$t('Successfully Transferred')}}
     </h1>
     
     <Vue3Lottie :animationData="SuccessAnimation" :height="150" :width="150"
     class="  " />
     <p class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]">
-        The license has been successfully transferred to the new site. You can now utilize the license at the new location.</p>
+        {{$t('The license has been successfully transferred to the new site. You can now utilize the license at the new location.')}}</p>
 
 
         <button class=" btn-dashboard hover_tamkin text-center w-3/4 p-[0] mx-auto mt-[30px]" @click="modalStore.controlTransferStep2Modal">
-            Manage Your Site
+           {{ $t('Manage Your Site') }}
           </button>
     </div>
   </div>

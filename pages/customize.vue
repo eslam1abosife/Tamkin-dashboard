@@ -285,13 +285,12 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              Button Color
+              {{ $t('Button Color') }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]"
             >
-              Choose the appropriate color that you prefer to appear in the
-              icons and buttons
+             {{$t('Choose the appropriate color that you prefer to appear in the icons and buttons')}}
             </p>
           </div>
 
@@ -343,7 +342,7 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">Switch To Annual</div>
+                <div class="text_mini">{{$t('Switch To Annual')}}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -386,8 +385,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("button_color_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -451,7 +450,7 @@ onBeforeRouteLeave((to, from, next) => {
                 <div
                   class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                 >
-                  Solid
+                  {{ $t('Solid') }}
                 </div>
               </div>
 
@@ -477,7 +476,7 @@ onBeforeRouteLeave((to, from, next) => {
                 <div
                   class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                 >
-                  Gradient
+                  {{ $t('Gradient') }}
                 </div>
               </div>
             </div>
@@ -499,7 +498,8 @@ onBeforeRouteLeave((to, from, next) => {
 
             <div
               v-if="customizeStore.colorMode === 'gradient'"
-              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
+              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] 
+              rounded-[10px] lg:mx-[15px] cursor-pointer"
             >
               <div
                 class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]"
@@ -515,7 +515,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
               <div
-                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] ml-auto pr-[15px]"
+                class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] rtl:mr-auto ltr:ml-auto rtl:pl-[15px] ltr:pr-[15px]"
               >
                 <div
                   class="h-[24px] w-[24px] rounded-full"
@@ -603,13 +603,12 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              Button Type
+              {{ $t('Button Type') }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              Choosing the right button type and size is essential for intuitive
-              navigation
+              {{$t('Choosing the right button type and size is essential for intuitive navigation')}}
             </p>
           </div>
 
@@ -661,7 +660,8 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">Switch To Annual</div>
+                
+                <div class="text_mini">{{$t('Switch To Annual')}}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -704,8 +704,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("button_type_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -754,12 +754,12 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
             >
-              Button Shape
+              {{ $t('Button Shape') }}
             </h1>
             <p
               class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              Choose the button Shape you prefer to appear in the widget
+              {{ $t('Choose the button Shape you prefer to appear in the widget') }}
             </p>
           </div>
           <div class="flex items-center justify-between mt-[40px]">
@@ -1095,12 +1095,12 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
             >
-              Button Size
+              {{ $t('Button Size') }}
             </h1>
             <p
               class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              Pull the button to select the right size for you
+              {{ $t('Pull the button to select the right size for you') }}
             </p>
           </div>
           <div class="w-full flex flex-col items-center space-y-4 px-[15px]">
@@ -1178,13 +1178,13 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              Widget Customization
+              {{$t('Widget Customization')}}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-              Customize your widgets for a tailored browsing experience
+              {{$t('Customize your widgets for a tailored browsing experience')}}
             </p>
           </div>
 
@@ -1279,8 +1279,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("widget_custom_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -1336,14 +1336,13 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              Accessibility Mode
+              {{ $t('Accessibility Mode') }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-              Accessibility Mode optimizes interface for diverse user needs and
-              disabilities
+             {{ $t('Accessibility Mode optimizes interface for diverse user needs and disabilities') }}
             </p>
           </div>
 
@@ -1395,7 +1394,7 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">Switch To Annual</div>
+                <div class="text_mini">{{$t('Switch To Annual')}}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -1438,8 +1437,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("access_mode_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>

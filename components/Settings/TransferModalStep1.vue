@@ -58,12 +58,12 @@ const clearInput = () => {
     </svg>
   </div>
 <div class="container mx-auto">
-  <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-    Transfer License
+  <h1 class="rtl:text-right ltr:text-left  font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+    {{ $t('Transfer License') }}
 </h1>
 
-<p class="mt-[16px] text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]">
-    Are you sure you want to transfer your license from Tamkin.App to another site? Please select the destination site from the list below to proceed with the license transfer.</p>
+<p class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]">
+    {{$t('Are you sure you want to transfer your license from Tamkin.App to another site? Please select the destination site from the list below to proceed with the license transfer.')}}</p>
 
 <div class="w-full ">
   <div class="py-[17px] search_input">
@@ -91,26 +91,28 @@ const clearInput = () => {
 <table class="min-w-full divide-y divide-gray-200 dark:divide-light ">
   <thead>
     <tr>
-      <th class="py-3  text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">Website</th>
-      <th class="py-3  text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">Select</th>
+      <th class="py-3  rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">
+        {{$t('Website')}}</th>
+      <th class="py-3  rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin  tracking-wider">
+        {{$t('Select')}}</th>
 
     </tr>
   </thead>
   <tbody class="divide-y divide-gray-200">
     <tr v-for="permission in permissions " :key="permission.id">
-      <td class="py-4  flex items-center space-x-4">
+      <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
         <img  :src="permission.image" alt="Logo" class="w-6 h-6"/>
         <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{permission.name}}</span>
       </td>
-      <td class="py-4  text-right ">
+      <td class="py-4  rtl:text-left ltr:text-right ">
         <div>
           <input type="checkbox" 
               @click="checked = `checkbox_`+permission.id"
        :checked="checked === `checkbox_`+permission.id"
           
           :id="`checkbox_`+permission.id" :value="permission.id" 
-          class="peer sr-only ml-auto  " number />
-          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px]  ml-auto w-[18px] h-[18px]
+          class="peer sr-only rtl:mr-auto ltr:ml-auto  " number />
+          <label :for="`checkbox_`+permission.id" class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto  w-[18px] h-[18px]
            border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-transparent rounded-[4px] peer-checked:bg-gradient-checked">
             <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -123,13 +125,13 @@ const clearInput = () => {
   
   </tbody>
 </table>
-<div class="flex items-center justify-center  space-x-[30px] mx-auto mt-[40px]">
+<div class="flex items-center justify-center  rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]">
   <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('transferstep1')">
 
-    Cancel
+    {{ $t('Cancel') }}
   </button>
   <button class=" btn-dashboard hover_tamkin text-center w-1/6" @click="navigateTo('transferstep1','settings','transferstep2')">
-    Continue
+    {{ $t('Continue') }}
   </button>
 
 </div>

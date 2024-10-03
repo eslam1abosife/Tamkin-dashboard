@@ -95,8 +95,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("uploaded_files_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

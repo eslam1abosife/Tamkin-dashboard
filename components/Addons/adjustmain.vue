@@ -3,7 +3,9 @@ import draggable from "vuedraggable";
 import { vOnClickOutside } from "@vueuse/components";
 import {useGetMainMenu} from "@/composables/useAccessibility";
 import { useFullUrl } from "@/composables/useSharedFunctions";
-
+const props = defineProps({
+  loading:Boolean
+})
 const { fullUrl } = useFullUrl();
 const { getMainMenu } = useGetMainMenu();
 const checkboxStore = useAddonStore();
@@ -28,15 +30,23 @@ onMounted(()=>{
 </script>
 
 <template >
-  <div
-    class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
+  <div :class="[loading ? 'pt-[24px]' : '']"
+    class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px]  pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-    <div class="flex items-center justify-start pt-[24px] xs:px-[15px]">
+
+
+
+        <div v-if="loading"
+        class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
+      >
+       
+      </div>
+    <div v-if="!loading" class="flex items-center justify-start pt-[24px] xs:px-[15px]">
       <div>
         <h1
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ checkboxStore.title }}
+          {{ $t(`${checkboxStore.title}`) }}
         </h1>
       </div>
 
@@ -82,7 +92,7 @@ onMounted(()=>{
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{$t('Switch To Annual')}}</div>
           </div>
           <div class="mini_wrap" @click="collapseStore.collapseCard('adjustMenu')">
             <div>
@@ -121,7 +131,7 @@ onMounted(()=>{
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("adjustMenu") ? "Minisize" : "Maxsize"
+                !collapseStore.collapses.includes("adjustMenu") ? $t("Minisize") : $t("Maxsize")
               }}
             </div>
           </div>
@@ -158,7 +168,7 @@ onMounted(()=>{
 
     <div
       class="flex flex-col items-start justify-center mt-[18px] divide-y pb-[16px]"
-      v-if="!collapseStore.collapses.includes('adjustMenu')"
+      v-if="!collapseStore.collapses.includes('adjustMenu') && !loading"
     >
       <draggable
         v-model="checkboxStore.AdjustMainMenuCards"
@@ -194,13 +204,13 @@ onMounted(()=>{
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                 >
-                  <span>{{ element.name }}</span>
+                  <span>{{ $t(element.name )}}</span>
                 </div>
                 <div
                   class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                    {{ element.description }}
+                    {{ $t(element.description )}}
                   </span>
                 </div>
               </div>
@@ -240,13 +250,18 @@ onMounted(()=>{
         </template>
       </draggable>
     </div>
-
+    <div class="animate-pulse space-y-4  mt-[22px]" v-if="loading">
+      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6">
+      
+      </div>
+          </div>
     <div
-      v-else
+      v-else-if="collapseStore.collapses.includes('adjustMenu') && !loading"
       class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] dark:text-whiteTamkin"
     >
       Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis
       dolore. Exercitationem et omnis ea quidem
     </div>
   </div>
+
 </template>

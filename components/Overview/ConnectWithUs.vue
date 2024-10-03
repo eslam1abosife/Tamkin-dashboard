@@ -13,11 +13,10 @@ const collapseStore = useCollapseStore();
     <div class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] relative"       >
         <div class="flex items-start justify-start px-[15px] pt-[24px]">
           <div class="">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">Connect with us</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">{{$t('Connect with us')}}</h1>
   
             <p class="text-[12px] lg:text-[14px] lg:w-auto w-[290px] lg:leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
-              Connect with us to stay updated and receive support for all your accessibility
-              needs
+             {{ $t(' Connect with us to stay updated and receive support for all your accessibility needs') }}
             </p>
           </div>
   
@@ -72,8 +71,8 @@ const collapseStore = useCollapseStore();
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("connect_withUs_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -134,7 +133,7 @@ const collapseStore = useCollapseStore();
               <h2
                 class="text-[14px] lg:text-[18px] ipad-max:leading-[28px] lg:leading-[40px] font-[600] text-gray-800 mb-2"
               >
-                Would you like to have early access to the platform?
+                {{ $t('Would you like to have early access to the platform?') }}
               </h2>
               <button
                 class="w-full ipad-max:leading-[18px] h-[40px] bg-white text-tamkin rtl:space-x-reverse 
@@ -142,7 +141,7 @@ const collapseStore = useCollapseStore();
                 flex items-center justify-center px-[12px] whitespace-nowrap"
               
               >
-                <div class="">Sign up to keep up with the latest news from us</div>
+                <div class="">{{$t('Sign up to keep up with the latest news from us')}}</div>
                 <div>
                   <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
                 </div>
@@ -154,13 +153,13 @@ const collapseStore = useCollapseStore();
             <h1
               class="text-center font-[500] text-[16px] lg:leading-[36px] leading-[20px] lg:text-[18px] dark:text-whiteTamkin"
             >
-              Need help installing Tamkin ?
+              {{$t('Need help installing Tamkin ?')}}
             </h1>
             <p
               class="text-center text-[14px] mt-[8px] text-[#A7A7A7] dark:text-whiteTamkin/90"
               style="line-height: 21px"
             >
-              Our support team is help !
+              {{ $t('Our support team is help !') }}
             </p>
           </div>
   
@@ -177,7 +176,7 @@ const collapseStore = useCollapseStore();
               <a
                 href=""
                 class="text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline"
-                >Schedule ameeting Withnour support team</a
+                >{{$t('Schedule ameeting Withnour support team')}}</a
               >
             </div>
           </div>

@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 import {useGetCryptoList} from '@/composables/useCrypto'
-import VueQrcode from '@chenfengyuan/vue-qrcode';
+
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
+const getApps = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getInviteApps({ agency: user.agency });
+};
+const localePath = useLocalePath()
 const {
   isOpen:isModalOpen,
   currentView,
@@ -12,7 +20,7 @@ const {
 const {getCryptoList } = useGetCryptoList()
 
 const cryptostore = useCryptoStore();
-const addSiteStore = usePackgesStore();
+const mySiteStore = useMySiteStore();
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 
@@ -73,7 +81,7 @@ const toggleDropdown = () => {
 };
 
 const selectCryptoMethod = (method) => {
-    addSiteStore.selectedCrypto = method;
+  mySiteStore.selectedCrypto = method;
     isCryptoMenuOpen.value = false;
 };
 const loading = ref(false)
@@ -91,8 +99,8 @@ onMounted(async ()=>{
 })
 
 const percentageOff = computed(() => {
-    const subtotal = addSiteStore.cartSubtotal;
-    const discount = addSiteStore.currentDiscount;
+    const subtotal = mySiteStore.cartSubtotal;
+    const discount = mySiteStore.currentDiscount;
 
     if (subtotal > 0) {
       return (discount / subtotal) * 100;
@@ -109,8 +117,8 @@ const percentageOff = computed(() => {
      dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
 
       closeModal('crypto_mysite_success')
-        addSiteStore.selectedPaymentMethod = '' 
-        addSiteStore.selectedCrypto = ''
+        mySiteStore.selectedPaymentMethod = '' 
+        mySiteStore.selectedCrypto = ''
      }">
       <svg
         class="w-[12px] h-[12px]"
@@ -177,8 +185,9 @@ const percentageOff = computed(() => {
            <div class="mt-[16px]  mx-auto mb-[260px] w-full px-[20px]">
             <button class="btn-dashboard  hover_tamkin mx-auto lg:w-[400px] w-full"  @click="()=>{
               closeModal('crypto_mysite_success')
-               addSiteStore.selectedPaymentMethod = '' 
-        addSiteStore.selectedCrypto = ''
+              mySiteStore.selectedPaymentMethod = '' 
+              mySiteStore.selectedCrypto = ''
+              getApps()
             }">
                 {{ $t('Done') }}
             </button>

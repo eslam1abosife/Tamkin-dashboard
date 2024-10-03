@@ -193,6 +193,7 @@ const openBuyModal = (pck,contact)=>{
               />
             </div>
           </div>
+          
           <button v-if="packagesStore.getPackageByTypeAndCategory('Package')[0]" 
           @click="openBuyModal(packagesStore.getPackageByTypeAndCategory('Package')[0],packagesStore.getPackageByTypeAndCategory('Package')[0].is_contact_us)"
             class="mt-6 btn_bordered_dashboard !text-[14px] !p-1 w-full hover_tamkin"

@@ -194,8 +194,8 @@ watch(currentColor, (ov, nv) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("button_type_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>

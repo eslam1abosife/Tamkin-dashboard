@@ -93,11 +93,12 @@ const localePath = useLocalePath()
         class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y "
       >
         <div
-
+:class="[isLinkActive('/my-site')  ? 'px-[14px]':'', isOpen('upgrade_no_package') ? 'space-x-[30px]' : 'space-x-[30px] ']"
           class="bg-white dark:bg-tamkinDarkPrimary h-full lg:h-[87px] lg:py-0 py-4 lg:space-y-0 space-y-4
-           w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col space-x-[10px]"
+           w-full rounded-[10px] flex items-center justify-start rtl:space-x-reverse lg:flex-row flex-col "
+
         >
-          <div>
+          <div class="">
             <img
               src="/assets/imgs/overview/warning_overview.svg"
               class="lg:w-[43px] lg:h-[36px] w-full h-full"
@@ -105,11 +106,11 @@ const localePath = useLocalePath()
             />
           </div>
           <div
-
-            class="font-[400] lg:px-[24px] text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey
-             dark:text-whiteTamkin ml-auto"
+:class="[isOpen('upgrade_no_package') ? 'w-auto' : 'w-[94%] ']"
+            class="font-[400]  text-[12px] lg:text-[14px] lg:leading-[28px] text-darkGrey
+             dark:text-whiteTamkin rtl:mr-auto ltr:ml-auto"
           >
-            {{$t(`Integrate Tamkin's embed code on your platform to activate Tamkin's tools and fully enhance digital accessibility with ADA standards.`)}}
+            {{$t(`Integrate Tamkin's embed code on your platform to activate Tamkin's tools and fully enhance digital accessibility with ADA standards.`)}}
           </div>
         </div>
       </div>
@@ -126,15 +127,16 @@ const localePath = useLocalePath()
         :message="'Copied to clipboard'"
       />
 
-      <div class="flex items-start justify-between w-full pt-[24px]">
+      <div class="flex items-start justify-between w-full pt-[24px] px-[15px] ">
         <div>
           <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px]  dark:text-whiteTamkin ">{{$t('Widget Embed Code')}}</h1>
           <h2 class="rtl:text-right ltr:text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px]
-       text-darkGrey  w-3/4 dark:text-whiteTamkin/90 ">
+       text-darkGrey   dark:text-whiteTamkin/90 ">
             {{ $t(`Widget Embed Code allows you to easily integrate accessibility features into your website by adding a simple script to your site's HTML`) }}
           </h2>
         </div>
         <div
+        v-if="!isLinkActive('/my-site')"
           @click.stop="collapseStore.collapseMenu('widget_embded_code')"
           v-on-click-outside="() => collapseStore.removeMenu('widget_embded_code')"
           :class="[

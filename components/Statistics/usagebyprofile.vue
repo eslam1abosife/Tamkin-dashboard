@@ -11,10 +11,10 @@ const collapseStore = useCollapseStore();
   >
     <div class="flex items-center justify-start ">
       <div class="pt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Usage stats by Profile</h1>
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Usage stats by Profile')}}</h1>
 
         <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] mt-[10px] dark:text-whiteTamkin">
-          Usage stats by profile show how each feature is used in a system or app.
+          {{ $t('Usage stats by profile show how each feature is used in a system or app.') }}
         </p>
       </div>
 
@@ -69,7 +69,7 @@ const collapseStore = useCollapseStore();
         </svg>
         </div>
         <div class="text_mini">
-          Switch To Annual
+          {{ $t('Switch To Annual') }}
         </div>
       </div>
           <div
@@ -92,8 +92,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("usage_stats_profile_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -145,19 +145,19 @@ const collapseStore = useCollapseStore();
                dark:bg-tamkinDarkPrimary dark:text-whiteTamkin dark:border-darkborder 
                ltr:text-left rtl:text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black w-2/4"
             >
-              Function
+              {{ $t('Function') }}
             </th>
             <th
               class="py-3 border-b-2 border-gray-200 bg-white dark:bg-tamkinDarkPrimary
                dark:text-whiteTamkin dark:border-darkborder ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              Time Enabled
+              {{ $t('Time Enabled') }}
             </th>
             <th
               class="py-3 border-b-2 border-gray-200 bg-white dark:bg-tamkinDarkPrimary
                dark:text-whiteTamkin dark:border-darkborder ltr:!text-right rtl:!text-left text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              Percentage
+              {{ $t('Percentage') }}
             </th>
           </tr>
         </thead>

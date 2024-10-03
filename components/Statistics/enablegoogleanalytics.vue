@@ -19,11 +19,11 @@ const statsStore = useStatsStore()
           class="w-[71px] h-[63px]"
         />
       </div>
-      <div class="ml-[13px]">
+      <div class="rtl:mr-[13px] ltr:ml-[13px]">
         <h1 class="text-[12px] lg:text-[16px] leading-[22px] font-[500] text-[#23262F] dark:text-whiteTamkin">
-          Google Analytics
+          {{ $t('Google Analytics') }}
         </h1>
-        <p class="text-[10px] lg:text-[14px] truncate  w-32 lg:leading-[19px] text-[#585B5B]  dark:text-whiteTamkin font-[400] mt-[8px]">
+        <p class="text-[10px] lg:text-[14px] truncate  w-auto lg:leading-[19px] text-[#585B5B]  dark:text-whiteTamkin font-[400] mt-[8px]">
           Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit
           nesciunt esse sint aperiam aliquid
         </p>

@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   ssr:false,
   sourcemap: false,
 
@@ -226,6 +226,8 @@ colorMode: {
   // },
 
   i18n: {
+    fallbackWarn: false,
+missingWarn: false,
     defaultLocale: 'en',
     lazy: true,
     langDir: 'locales/',

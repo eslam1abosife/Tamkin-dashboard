@@ -133,8 +133,18 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
-    <LazyModalsConfirm :showModal="settingsStore.routeLeaveModal" title="Save  your changes"
-    sub-title="Do you want to save the changes before moving on?"
+    <ModalsConfirm
+    :show-modal="isOpen('deleteModal')"
+    title="Delete your site"
+    sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+    confirm-btn-type="delete"
+    @control-delete="closeModal('deleteModal')"
+    @control-cancel="closeModal('deleteModal')"
+  />
+    <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
+    <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+    <LazyModalsConfirm :showModal="settingsStore.routeLeaveModal" :title="$t('Save  your changes')"
+    :sub-title="$t('Do you want to save the changes before moving on?')"
     confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
@@ -157,10 +167,9 @@ onBeforeRouteLeave((to, from, next) => {
       >
         <div class="flex items-center justify-start  ">
           <div class="pt-[24px] ">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">General Settings</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('General Settings')}}</h1>
             <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
-              Accessibility Settings allow users to customize their website experience to
-              ensure it is accessible and user-friendly
+              {{ $t('Accessibility Settings allow users to customize their website experience to ensure it is accessible and user-friendly') }}
             </h2>
           </div>
 
@@ -215,8 +224,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("general_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -271,7 +280,7 @@ onBeforeRouteLeave((to, from, next) => {
               >
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
-                  <span>Widget enabled on this site </span>
+                  <span>{{$t('Widget enabled on this site')}}</span>
                 </div>
               </div>
               <div class="ml-auto">
@@ -318,7 +327,7 @@ onBeforeRouteLeave((to, from, next) => {
               >
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
-                  <span>Widget enabled on mobile</span>
+                  <span>{{$t('Widget enabled on mobile')}}</span>
                 </div>
               </div>
               <div class="ml-auto">
@@ -365,7 +374,7 @@ onBeforeRouteLeave((to, from, next) => {
               >
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
-                  <span> Sound effects</span>
+                  <span>{{$t('Sound effects')}}</span>
                 </div>
               </div>
               <div class="ml-auto">
@@ -418,14 +427,13 @@ onBeforeRouteLeave((to, from, next) => {
         <div class="flex items-start justify-start  ">
           <div class="">
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
-              Rest All Accessibility Settings
+              {{ $t('Rest All Accessibility Settings') }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-              Reset all accessibility settings to their default configurations, restoring
-              original preferences and ensuring a standard user experience for all users
+              {{ $t('Reset all accessibility settings to their default configurations, restoring original preferences and ensuring a standard user experience for all users') }}
             </p>
           </div>
 
@@ -479,8 +487,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("reset_all_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -579,14 +587,12 @@ onBeforeRouteLeave((to, from, next) => {
       >
         <div class="flex items-start justify-start  pt-[24px] ">
           <div class="">
-            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">License Settings</h1>
+            <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('License Settings')}}</h1>
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-              Transfer License to Another Website allows you to move your existing
-              accessibility widget license to a different site, ensuring continued
-              accessibility compliance
+              {{ $t('Transfer License to Another Website allows you to move your existing accessibility widget license to a different site, ensuring continued accessibility compliance') }}
             </p>
           </div>
 
@@ -640,8 +646,8 @@ onBeforeRouteLeave((to, from, next) => {
                 <div class="text_mini">
                   {{
                     !collapseStore.collapses.includes("license_settings_card")
-                      ? "Minisize"
-                      : "Maxsize"
+                      ? $t("Minisize")
+                      : $t("Maxsize")
                   }}
                 </div>
               </div>
@@ -689,18 +695,18 @@ onBeforeRouteLeave((to, from, next) => {
           <div
             class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[22px] px-[15px]"
           >
-            <div class="flex items-center justify-start space-x-[13px] w-full  ">
+            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full  ">
               <div class="flex flex-col items-start justify-center w-full">
                 <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
-                  <span>Widget enabled on this site </span>
+                  <span>{{ $t('Widget enabled on this site') }} </span>
                 </div>
               </div>
-              <div class="ml-auto w-full">
+              <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
-                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                  class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                   @click="openModal('transferstep1','settings')"
                 >
-                  Transfer License
+                  {{$t('Transfer License')}}
                 </button>
               </div>
             </div>
@@ -713,16 +719,16 @@ onBeforeRouteLeave((to, from, next) => {
               <div class="flex flex-col items-start justify-center w-full ">
                 <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500]  text-[13px] lg:leading-[24px] lg:w-full w-40 truncate">
                   <span
-                    >Delete site permanently removes your profile and data from the system
+                    >{{$t('Delete site permanently removes your profile and data from the system')}}
                   </span>
                 </div>
               </div>
-              <div class="ml-auto w-full">
+              <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
-                  class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                  class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                   @click="openModal('deleteModal','settings')"
                 >
-                  Delete Site
+                  {{ $t('Delete Site') }}
                 </button>
               </div>
             </div>

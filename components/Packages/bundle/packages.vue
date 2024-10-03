@@ -17,7 +17,7 @@ const openModalCustom = (pk)=>{
   if(packagesStore.bundleSelectedPackage && packagesStore.bundleSelectedPackage.name){
     openModal('custom_package') 
     setData({
-      package:packagesStore.bundleSelectedPackage.title
+      package:pk.title
     })
   }
 }
@@ -58,7 +58,7 @@ const openModalCustom = (pk)=>{
               
             
                 <span class="text-[16px] font-[500] text-[#021328]" v-if=" pak.package_price_role[0].cost_before_yearly > 0">/{{$t('year')}}</span></p> -->
-                <h3 class="text-2xl font-semibold text-center text-gray-800 my-[14px]">Bundle</h3>
+                <h3 class="text-2xl font-semibold text-center text-gray-800 my-[14px]">{{$t('Bundle')}}</h3>
 
                    
               <div class="w-full">

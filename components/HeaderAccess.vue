@@ -31,11 +31,11 @@ const getImageUrl = computed(() => {
 
 <template>
     <div class="space-y-[10px]">
-        <h1 class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600]  dark:text-whiteTamkin">{{sectionTitle}}</h1>
+        <h1 class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600]  dark:text-whiteTamkin">{{$t(sectionTitle)}}</h1>
 
         <h2 class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90">
 
-{{sectionSubTitle}}
+{{$t(sectionSubTitle)}}
         </h2>
       </div>
 
@@ -68,7 +68,7 @@ const getImageUrl = computed(() => {
                       :href="websiteLink"
                       target="_blank"
                       class="text-tamkin font-[600] text-[14px] leading-[24px] flex ]"
-                      >Visit Site
+                      >{{ $t('Visit Site') }}
                       <img 
                         src="/assets/imgs/icons/external_link.svg"
                         class="rtl:mr-[14px] ltr:ml-[14px]"

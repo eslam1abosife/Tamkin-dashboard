@@ -23,7 +23,8 @@ export const useAddSiteStore = defineStore('addsite', {
         tags:[],
         validatedSites:[],
         loadingBlock:[],
-        currentWebsite:''
+        currentWebsite:'',
+        sortedPlans:[]
        
     }),
 
@@ -70,6 +71,21 @@ async getPackages(){
   this.packages = packsdata.packages
 
 }
+      },
+      getters:{
+        getSortedPackagesAddSite : (state) =>{
+          const desiredType = 'Sign language';
+
+          const specificTypePackages = state.packages
+            .filter((pkg) => pkg.type === desiredType)
+            .slice(0, 3);
+      
+          const otherPackages = state.packages
+            .filter((pkg) => pkg.type !== desiredType)
+            .slice(0, 3);
+      
+          return  [...specificTypePackages, ...otherPackages];
+        }
       }
 ,
 persist: {

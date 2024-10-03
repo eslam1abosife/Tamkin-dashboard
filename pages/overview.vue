@@ -28,7 +28,7 @@ middleware:['auth','permissions'],
         website-title="Tamkin.App"
         website-link="google.com"
         section-title="Overview"
-        section-sub-title=" Overview provides system summary with key data and analytics for decision-making"
+        section-sub-title="Overview provides system summary with key data and analytics for decision-making"
       />
 
       <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
@@ -76,7 +76,7 @@ middleware:['auth','permissions'],
                   <div
                     class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
                   >
-                    Package Expires in
+                    {{ $t('Package Expires in') }}
                   </div>
                   <div
                     class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
@@ -90,7 +90,7 @@ middleware:['auth','permissions'],
                   <div
                     class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
                   >
-                    Expired
+                    {{ $t('Expired') }}
                   </div>
                   <div
                     class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
@@ -106,9 +106,9 @@ middleware:['auth','permissions'],
         <div class="relative">
           <div
             v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform rtl:right-[50%] ltr:left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
           >
-            SAVE 12%
+            {{ $t('SAVE') }} 12%
           </div>
           <button
             class="rounded-full w-[178px]"
@@ -117,7 +117,7 @@ middleware:['auth','permissions'],
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
-            {{ !showExpired ? "Switch To Annual" : "Renew" }}
+            {{ !showExpired ? $t("Switch To Annual") : $t("Renew")}}
           </button>
         </div>
       </div>

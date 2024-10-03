@@ -46,10 +46,10 @@ const openModalToUpgrade = async (pack)=>{
 
 <template>
    
-  <div class="flex flex-col items-center justify-center w-full mt-[42px]  pb-[24px] px-[20px]">
+  <div class="flex flex-col items-center justify-center w-full mt-[42px]  pb-[24px] px-[14px]">
  
     <div
-    class="grid grid-cols-3 gap-2 w-full"
+    class="grid grid-cols-3 gap-[10px] w-full"
 
     >
 <!-- {{  }} -->
@@ -175,7 +175,7 @@ const openModalToUpgrade = async (pack)=>{
             </div>
           </div>
 
-          <div class="flex items-center justify-center mx-auto w-full">
+          <div class="flex items-center justify-center mx-auto w-full ">
             <button
             @click="openModalToUpgrade(pak)"
             :disabled="

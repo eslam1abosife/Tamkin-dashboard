@@ -1,4 +1,16 @@
 <script lang="ts" setup>
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
+const formatToUrl = (domain) => {
+  // Check if the domain starts with "http://" or "https://"
+  if (!/^https?:\/\//i.test(domain)) {
+    // If not, prepend "https://"
+    domain = "https://" + domain;
+  }
+  return domain;
+};
 const {
   isOpen,
   currentView,
@@ -26,7 +38,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
 
 <template>
   <div
-    class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] 
+    class="mysite_bg_modal dark:bg-p fixed  !top-[-2px] 
     lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] 
     lg:p-[30px] w-[1000px] h-screen overflow-y-auto lg:overflow-x-hidden"
   >
@@ -55,7 +67,88 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
         <h1
           class="text-[16px] lg:text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin lg:px-0 px-[20px] lg:mt-0 mt-[60px]"
         >
-          {{ $t("Upgrade") }}
+        <div
+        class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+      >
+        <img
+          src="/assets/imgs/icons/mysite_select.svg"
+          class="w-[40px] h-[40px]"
+          v-if="mySiteStore.currentWebsite?.title === 'Internal Service' "
+        />
+
+        <div
+          v-if="
+            
+            !mySiteStore.currentWebsite?.favicon &&
+            mySiteStore.currentWebsite?.title !== 'Internal Service'
+          "
+          class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+        >
+          {{ mySiteStore.currentWebsite?.title ? getAvatarLetters(mySiteStore.currentWebsite?.title) : "" }}
+        </div>
+        <div
+          v-if="
+            
+            mySiteStore.currentWebsite?.favicon &&
+            mySiteStore.currentWebsite?.title !== 'Internal Service'
+          "
+        >
+          <img
+            v-if="mySiteStore.currentWebsite.favicon"
+            :src="mySiteStore.currentWebsite.favicon"
+            class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
+          />
+        </div>
+        <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
+          <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
+          <div>
+            <h2
+              class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
+            >
+              {{ mySiteStore.currentWebsite?.app_domain || $t(`${mySiteStore.currentWebsite?.title}`) }}
+            </h2>
+          </div>
+          <div>
+            <a
+              :class="[
+                mySiteStore.currentWebsite?.title === 'Internal Service'
+                  ? '!text-darkGrey/40 cursor-not-allowed'
+                  : '',
+              ]"
+              :href="
+              mySiteStore.currentWebsite?.title === 'Internal Service'
+                  ? '#'
+                  : mySiteStore.currentWebsite
+                  ? formatToUrl(mySiteStore.currentWebsite.app_domain)
+                  : ''
+              "
+              :target="mySiteStore.currentWebsite?.title === 'Internal Service' ? '' : '_blank'"
+              class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
+              >{{ $t("Visit Site") }}
+              <svg
+                data-slot="icon"
+                class="size-6 ltr:ml-[14px] rtl:mr-[14px]"
+                fill="none"
+                stroke-width="1.5"
+                :class="[
+                  mySiteStore.currentWebsite?.title === 'Internal Service'
+                    ? '!text-darkGrey/40 cursor-not-allowed'
+                    : '!text-tamkinStart',
+                ]"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                ></path></svg
+            ></a>
+          </div>
+        </div>
+      </div>
         </h1>
     
    <div  v-if="!loadingPacks"
@@ -107,7 +200,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
           <div class="flex flex-col items-start justify-center w-full px-[15px]">
             <div>
               <h1 class="text-white font-[500] text-[18px] leading-[30px]">
-               {{ $t('Your Current Plan') }} - {{$t('My Site')}}
+               {{ $t('Your Current Plan') }} 
               </h1>
               <h3 class="text-white font-[500] text-[13px] leading-[21px]">
                 {{ $t('Your current plan provides comprehensive features tailored to meet your needs.') }}
@@ -115,19 +208,20 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             </div>
             <div
               class="h-[55px]  px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px]
-              flex items-center justify-between  w-auto  p-2 mt-[24px]  "
+              flex items-center justify-between  w-auto  rtl:space-x-reverse p-2 mt-[24px]  "
             >
-              <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[4px] ">
+              <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[8px] ">
                 <div>
                <img  
                :src="runtimeConfig.public.baseImagerUrl + (mySiteStore.currentPackage ? mySiteStore.currentPackage.icon : '/')" 
                 class="lg:w-[30px] lg:h-[30px]  " />
                 </div>
+                
                 <div class="text-[10px]   lg:text-[14px] font-[500]
                 ipad-max:text-[12px]
     ipad-max:leading-[10px] whitespace-nowrap
                 lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
-      {{$t(mySiteStore.currentPackage.title)}} - {{ mySiteStore.currentWebsite.app_domain !== null ? mySiteStore.currentWebsite.app_domain : $t('Internal Service') }} 
+      {{$t(mySiteStore.currentPackage.title)}}  {{mySiteStore.currentPackage.title === 'Free' ? ' - ' +$t(`${mySiteStore.currentPackage.category}` ):'' }} - {{ mySiteStore.currentWebsite.app_domain !== null ? mySiteStore.currentWebsite.app_domain : $t('Internal Service') }} 
     
             </div>
           
@@ -210,7 +304,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
           gap-2  mt-[32px]">
             <!-- Placeholder for each package item -->
             <div v-for="n in 3" :key="n" class="flex items-center flex-col border-[1px] mx-auto justify-start bg-white 
-            rounded-t-[10px] relative mt-[35px] w-full p-4">
+            rounded-t-[10px] relative mt-[35px] w-full ">
               <div class="bg-gray-300 w-[50px] h-[50px] rounded-full absolute top-[-30px] rtl:right-[15px] ltr:left-[15px]"></div>
         
               <div class="flex items-center justify-center w-full px-[15px] mt-[48px]">

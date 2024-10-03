@@ -92,35 +92,35 @@ onMounted(() => {
       class="relative z-[20] w-full lg:px-0 px-2 !ml-0 lg:w-[96px] h-[31px] flex items-center justify-center " 
       :to="localePath('/overview')"
     >
-      Overview
+      {{$t('Overview')}}
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/addons')"
     >
-      Addons
+      {{ $t('Addons') }}
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/statistics')"
     >
-      Statistics
+      {{ $t('Statistics') }}
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/customize')"
     >
-      Customize
+      {{ $t('Customize') }}
     </nuxt-link>
     <nuxt-link
       :class="isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
       :to="localePath('/settings')"
     >
-      Settings
+      {{$t('Settings')}}
     </nuxt-link>
   </div>
 </template>

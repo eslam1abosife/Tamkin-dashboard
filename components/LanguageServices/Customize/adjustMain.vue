@@ -105,7 +105,7 @@ const {AdjustMainMenuCardsCustomize,initialCardsOrderCustomize} = storeToRefs(cu
 
                 </div>
                 <div class="text_mini">
-                  {{ !collapseStore.collapses.includes('adjust_main_menu_customize_sign_card')?'Minisize':'Maxsize' }}
+                  {{ !collapseStore.collapses.includes('adjust_main_menu_customize_sign_card')?$t('Minisize'):$t('Maxsize') }}
                 </div>
               </div>
 
