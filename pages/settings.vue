@@ -126,7 +126,6 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
-<<<<<<< HEAD
     <ModalsConfirm
     :show-modal="isOpen('deleteModal')"
     title="Delete your site"
@@ -142,18 +141,6 @@ onBeforeRouteLeave((to, from, next) => {
     confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
-=======
-    <LazyModalsConfirm
-      :showModal="settingsStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
-      confirm-btn-type="other"
-      @control-other="handleSaveAndMove"
-      cancelButtonName="Discard"
-      :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
-    />
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
     <div class="w-full h-full relative">
       <HeaderAccess
         section-title="Settings"
@@ -168,26 +155,11 @@ onBeforeRouteLeave((to, from, next) => {
             : 'pb-[20px]',
         ]"
       >
-<<<<<<< HEAD
         <div class="flex items-center justify-start  ">
           <div class="pt-[24px] ">
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('General Settings')}}</h1>
             <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
               {{ $t('Accessibility Settings allow users to customize their website experience to ensure it is accessible and user-friendly') }}
-=======
-        <div class="flex items-center justify-start">
-          <div class="pt-[24px]">
-            <h1
-              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
-            >
-              General Settings
-            </h1>
-            <h2
-              class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
-            >
-              Accessibility Settings allow users to customize their website
-              experience to ensure it is accessible and user-friendly
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </h2>
           </div>
 
@@ -322,16 +294,9 @@ onBeforeRouteLeave((to, from, next) => {
                   !isChecked('enable_widget_on_this_site') ? 'opacity-60' : '',
                 ]"
               >
-<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Widget enabled on this site')}}</span>
-=======
-                <div
-                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                >
-                  <span>Widget enabled on this site </span>
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
@@ -387,16 +352,9 @@ onBeforeRouteLeave((to, from, next) => {
                   !isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '',
                 ]"
               >
-<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Widget enabled on mobile')}}</span>
-=======
-                <div
-                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                >
-                  <span>Widget enabled on mobile</span>
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
@@ -448,16 +406,9 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
               >
-<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Sound effects')}}</span>
-=======
-                <div
-                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                >
-                  <span> Sound effects</span>
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
@@ -510,27 +461,14 @@ onBeforeRouteLeave((to, from, next) => {
       >
         <div class="flex items-start justify-start">
           <div class="">
-<<<<<<< HEAD
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
               {{ $t('Rest All Accessibility Settings') }}
-=======
-            <h1
-              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin"
-            >
-              Rest All Accessibility Settings
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </h1>
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-<<<<<<< HEAD
               {{ $t('Reset all accessibility settings to their default configurations, restoring original preferences and ensuring a standard user experience for all users') }}
-=======
-              Reset all accessibility settings to their default configurations,
-              restoring original preferences and ensuring a standard user
-              experience for all users
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </p>
           </div>
 
@@ -710,26 +648,12 @@ onBeforeRouteLeave((to, from, next) => {
       >
         <div class="flex items-start justify-start pt-[24px]">
           <div class="">
-<<<<<<< HEAD
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('License Settings')}}</h1>
-=======
-            <h1
-              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
-            >
-              License Settings
-            </h1>
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-<<<<<<< HEAD
               {{ $t('Transfer License to Another Website allows you to move your existing accessibility widget license to a different site, ensuring continued accessibility compliance') }}
-=======
-              Transfer License to Another Website allows you to move your
-              existing accessibility widget license to a different site,
-              ensuring continued accessibility compliance
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </p>
           </div>
 
@@ -858,30 +782,16 @@ onBeforeRouteLeave((to, from, next) => {
           <div
             class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
           >
-<<<<<<< HEAD
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full  ">
               <div class="flex flex-col items-start justify-center w-full">
                 <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
                   <span>{{ $t('Widget enabled on this site') }} </span>
-=======
-            <div class="flex items-center justify-start space-x-[13px] w-full">
-              <div class="flex flex-col items-start justify-center w-full">
-                <div
-                  class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] w-full"
-                >
-                  <span>Widget enabled on this site </span>
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
-<<<<<<< HEAD
                   class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                   @click="openModal('transferstep1','settings')"
-=======
-                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
-                  @click="openModal('transferstep1', 'settings')"
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 >
                   {{$t('Transfer License')}}
                 </button>
@@ -898,24 +808,14 @@ onBeforeRouteLeave((to, from, next) => {
                   class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
                 >
                   <span
-<<<<<<< HEAD
                     >{{$t('Delete site permanently removes your profile and data from the system')}}
-=======
-                    >Delete site permanently removes your profile and data from
-                    the system
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                   </span>
                 </div>
               </div>
               <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
-<<<<<<< HEAD
                   class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                   @click="openModal('deleteModal','settings')"
-=======
-                  class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
-                  @click="openModal('deleteModal', 'settings')"
->>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 >
                   {{ $t('Delete Site') }}
                 </button>
