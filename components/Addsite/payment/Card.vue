@@ -68,8 +68,13 @@ const changeCurrentCard = (savedCard: any) => {
 };
 
 const changepaymentMethod = (method: any) => {
-  chooseOtherPaymentMethod.value = method;
-  currentCard.value = "";
+  if(addSiteStore.packagePayload.payDateType === 0){
+return false
+  }else {
+    chooseOtherPaymentMethod.value = method;
+    currentCard.value = "";
+  }
+ 
 };
 
 watch(currentCard, (ov, nv) => { });
@@ -84,7 +89,7 @@ const handleIframeMessage = (event) => {
     // alert('yea')
     usepaystore.stateOfPayment = 'paid'
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
-     navigateTo('cardModal_addsite','addSite','success_pay_package')
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
      urlPayment.value = ""
      loadingPayment.value = false
     addSiteStore.currentPackage = ''
@@ -98,7 +103,7 @@ const handleIframeMessage = (event) => {
     usepaystore.stateOfPayment = 'failed'
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems)
 
-     navigateTo('cardModal_addsite','addSite','success_pay_package')
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
      urlPayment.value = ""
     loadingPayment.value = false
   }
@@ -118,7 +123,6 @@ const loadingCards = ref(true)
 onMounted(async () => {
   urlPayment.value = ''
   await getCards();
-  loadingCards.value = false
 
 if(billingStore.cards.length){
   const primaryCard = billingStore.cards.find((card) => card.isprimary === true);
@@ -127,6 +131,7 @@ if(billingStore.cards.length){
   }
 
 }
+loadingCards.value = false
   
   window.addEventListener('message', handleIframeMessage);
   // window.addEventListener('failed', handleIframeMessage);
@@ -144,16 +149,24 @@ const continueCheckOut = async () => {
     urlPayment.value = res
 
     // addSiteStore.removeMultipleFromCart(addSiteStore.cartItems);
-    addSiteStore.urls =[]
+    // addSiteStore.urls =[]
+    // addSiteStore.promo = ""
+    // addSiteStore.validPromo = false
+    // addSiteStore.currentDiscount = 0
+    // usePaymentStore().stateOfPayment = 'paid'
+    // return navigateTo('cardModal_addsite','addSite','success_pay_addsite')
+  }
+  else if(res === "A 3-day trial package is configured in the app"){
+
+     navigateTo('cardModal_addsite','addSite','success_pay_addsite')
+     addSiteStore.urls =[]
     addSiteStore.promo = ""
     addSiteStore.validPromo = false
     addSiteStore.currentDiscount = 0
-
-  }
-  else if(res === "A 3-day trial package is configured in the app"){
-    addSiteStore.urls =[]
+    addSiteStore.tags = []
+    addSiteStore.loadingBlock = []
+    addSiteStore.validatedSites = []
     usePaymentStore().stateOfPayment = 'paid'
-    return navigateTo('cardModal_addsite','addSite','success_pay_addsite')
   }
    else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
@@ -310,7 +323,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
-                  navigateTo('cardModal_market', 'Market', 'add_new_card_billing')
+                  navigateTo('cardModal_addsite', 'addSite', 'add_new_card_billing')
                   ">
                   <img src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
@@ -353,7 +366,8 @@ onBeforeUnmount(() => {
 
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_crypto')"
-                :class="[chooseOtherPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
+                :class="[chooseOtherPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ',
+                addSiteStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
@@ -361,8 +375,10 @@ onBeforeUnmount(() => {
                     {{$t('Pay Via Crypto')}}</div>
                 </div>
                 <div class="order-1 mx-[4px]">
-                  <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                    v-model="chooseOtherPaymentMethod" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
+                  <input id="radio_crypto" 
+                  :class="[addSiteStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
+                  type="radio" name="radio" class="hidden" value="by_crypto"
+                  :disabled="addSiteStore.packagePayload.payDateType === 0" @click.stop="changepaymentMethod('by_crypto')" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -373,7 +389,9 @@ onBeforeUnmount(() => {
             </div>
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_paypal')"
-                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
+              
+                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ',
+                addSiteStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" /></div>
@@ -382,8 +400,11 @@ onBeforeUnmount(() => {
                 </div>
                 </div>
                 <div class="order-1 mx-[4px]">
-                  <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                    v-model="chooseOtherPaymentMethod" :checked="chooseOtherPaymentMethod === 'by_paypal'" />
+                  <input id="radio_paypal"
+                  
+                  :class="[addSiteStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
+                  type="radio" name="radio" class="hidden" value="by_paypal"
+                  :disabled="addSiteStore.packagePayload.payDateType === 0"  @click.stop="changepaymentMethod('by_crypto')"  :checked="chooseOtherPaymentMethod === 'by_paypal'" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -470,7 +491,8 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2">
-                    ${{ addSiteStore.packagePayload.total.toFixed(0) }}
+                    ${{ addSiteStore.packagePayload.total.toFixed(0)    .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
                 <tr v-if="percentageOff"
@@ -481,7 +503,8 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ percentageOff.toFixed(0) }}
+                    ${{ percentageOff.toFixed(0)    .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
                 <tr class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
@@ -491,7 +514,9 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ (Number(addSiteStore.packagePayload.total) - percentageOff).toFixed(0) }}
+                    ${{ (Number(addSiteStore.packagePayload.total) - percentageOff).toFixed(0)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>

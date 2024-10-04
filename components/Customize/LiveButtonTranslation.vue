@@ -57,19 +57,16 @@ const backgroundImageStyle = computed(() => {
         : 'pb-[10px]',
     ]"
   >
-    <div class="flex items-center justify-start px-[15px]">
-      <div class="mt-[24px]">
-        <h1
-          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
-        >
-          Live Site Translations Button
+    <div
+      class="flex items-center justify-start px-[15px]"
+    >
+      <div class=" mt-[24px] ">
+        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
+          {{ $t('Live Site Translations Button') }}
         </h1>
 
-        <p
-          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
-        >
-          The ‘Live Site Translations’ button instantly translates web content,
-          bridging languages
+        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
+          {{ $t('The ‘Live Site Translations’ button instantly translates web content,bridging languages') }}
         </p>
       </div>
 
@@ -108,23 +105,27 @@ const backgroundImageStyle = computed(() => {
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
-            <div>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-                  class="fill-[#585B5B] dark:fill-whiteTamkin"
-                />
-              </svg>
-            </div>
-            <div class="text_mini">Switch To Annual</div>
-          </div>
+        <div
+        class="mini_wrap"
+      >
+        <div>
+          <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+            class="fill-[#585B5B] dark:fill-whiteTamkin"
+          />
+        </svg>
+        </div>
+        <div class="text_mini">
+          {{$t('Switch To Annual')}}
+        </div>
+      </div>
           <div
             class="mini_wrap"
             @click="
@@ -167,11 +168,9 @@ const backgroundImageStyle = computed(() => {
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes(
-                  "live_site_translation_button_card"
-                )
-                  ? "Minisize"
-                  : "Maxsize"
+                !collapseStore.collapses.includes("live_site_translation_button_card")
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -223,7 +222,7 @@ const backgroundImageStyle = computed(() => {
             <th
               class="w-full border-b-2 border-gray-200 dark:border-darkborder ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
-              Enable Live Site Translations Button
+              {{ $t('Enable Live Site Translations Button') }}
             </th>
             <th
               class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
@@ -307,10 +306,8 @@ const backgroundImageStyle = computed(() => {
             </label>
           </div>
 
-          <div
-            class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
-          >
-            Use translation button as default button
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
+            {{ $t('Use translation button as default button') }}
           </div>
         </div>
         <div
@@ -348,10 +345,8 @@ const backgroundImageStyle = computed(() => {
             </label>
           </div>
 
-          <div
-            class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
-          >
-            Position translation button above
+          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
+            {{ $t('Position translation button above') }}
           </div>
         </div>
       </div>

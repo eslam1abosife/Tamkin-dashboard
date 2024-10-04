@@ -22,15 +22,13 @@ const progress = ref(30.78);
               <h1
                 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
               >
-                Live Translation Overview
+                {{ $t('Live Translation Overview') }}
               </h1>
 
               <p
                 class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
               >
-                Live Translation Overview offers insights into real-time translation
-                technologies, enabling instant communication between speakers of different
-                languages
+               {{$t('Live Translation Overview offers insights into real-time translation technologies, enabling instant communication between speakers of different languages')}}
               </p>
             </div>
           </div>
@@ -39,9 +37,9 @@ const progress = ref(30.78);
       <div>
         <button
           @click="$router.push('/statistics')"
-          class="absolute right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+          class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
-          View All
+          {{ $t('View All') }}
         </button>
         <div
           @click.stop="collapseStore.collapseMenu('livetranslation_overview')"
@@ -173,29 +171,29 @@ const progress = ref(30.78);
           class="flex rtl:space-x-reverse lg:space-x-8 items-center lg:flex-nowrap flex-wrap justify-evenly lg:justify-between w-full"
         >
           <div class="text-center">
-            <div class="flex items-center space-x-[10px]">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
               <span class="block w-3 h-3 bg-[#FFBA6B] rounded-full mx-auto"></span>
-              <span class="text-gray-500 dark:text-whiteTamkin">Used</span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('Used')}}</span>
             </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">70%</span>
           </div>
           <div class="text-center">
-            <div class="flex items-center space-x-[10px]">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
 
-              <span class="text-gray-500 dark:text-whiteTamkin">User Assistance</span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('User Assistance')}}</span>
             </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">20</span>
           </div>
           <div class="text-center lg:mt-0 mt-[10px]">
-            <div class="flex items-center space-x-[10px]">
+            <div class="flex items-center space-x-[10px] rtl:space-x-reverse">
               <span
                 class="block w-3 h-3 rounded-full mx-auto"
                 style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
               ></span>
-              <span class="text-gray-500 dark:text-whiteTamkin">Pages Translated</span>
+              <span class="text-gray-500 dark:text-whiteTamkin">{{$t('Pages Translated')}}</span>
             </div>
             <span class="block text-xl font-semibold dark:text-whiteTamkin/90">5</span>
           </div>
@@ -206,7 +204,7 @@ const progress = ref(30.78);
               <div
                 class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
               >
-                Average Daily
+                {{ $t('Average Daily') }}
               </div>
               <span class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >40</span
@@ -227,7 +225,7 @@ const progress = ref(30.78);
               <div
                 class="lg:w-1/4 text-[#3D3D3D] dark:text-whiteTamkin text-[14px] leading-[24px] font-[400] mr-auto"
               >
-                Average Daily
+                {{ $t('Average Daily') }}
               </div>
               <span class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >280</span
@@ -247,7 +245,7 @@ const progress = ref(30.78);
               <div
                 class="lg:w-1/4 text-[#3D3D3D] text-[14px] dark:text-whiteTamkin leading-[24px] font-[400] mr-auto"
               >
-                Average Monthly
+                {{ $t('Average Monthly') }}
               </div>
               <span class="text-[#A6A6A6] text-sm ml-auto dark:text-whiteTamkin/90"
                 >280</span

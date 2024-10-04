@@ -6,7 +6,7 @@ import { useModalManager } from '@/composables/useModalManager';
 import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 // const { isModalVisible, toggle, toggleBubbleVisibility, popoutChatWindow } = useChatWoot()
-
+const {t} = useI18n()
 const { getAvatarLetters } = useGetAvatarLetters();
 import embed from '/assets/animation/embed.json';
 import { useGetAppInvites } from "~/composables/useTeam";
@@ -90,7 +90,7 @@ const openVideoLink = (videoLink) => {
   window.open(videoLink, '_blank');
 }
 const filteredInstallationGuide = computed(() => {
-  return installationGuide.value.filter((ele) => ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim()))
+  return installationGuide.value.filter((ele) => t(ele.title).toLowerCase().includes(search.value.toString().toLowerCase().trim()))
 });
 
 </script>
@@ -252,7 +252,7 @@ const filteredInstallationGuide = computed(() => {
                         <div>
                           <img class="w-[28px] h-[30px] object-contain" :src="`https://tamkin.app/${item.icon}`" alt="">
                         </div>
-                        <div> {{ item.title }} </div>
+                        <div> {{ $t(`${item.title }`)}} </div>
                       </td>
                       <td class="px-4 py-4 text-sm whitespace-nowrap">
                         <div class="flex items-center rtl:space-x-reverse space-x-6">
@@ -268,7 +268,7 @@ const filteredInstallationGuide = computed(() => {
                                   class="fill-[#585B5B] dark:fill-darkTamkin" />
                               </svg>
                             </div>
-                            <div class="">Installation Guides</div>
+                            <div class="">{{$t('Installation Guides')}}</div>
                           </button>
                         </div>
                       </td>

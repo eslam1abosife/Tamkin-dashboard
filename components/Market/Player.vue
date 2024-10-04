@@ -29,7 +29,8 @@ function loadPlayerScripts() {
         const script = document.createElement('script');
         script.src = scriptUrl;
         script.defer = true;
-        document.body.appendChild(script);
+        const playerSDKContainer = document.getElementById('SDKPlayerContainer');
+        playerSDKContainer.appendChild(script);
     }
 
     // Function to append or refresh the <tamkin-sdk> inside #tamkinSDK
@@ -64,15 +65,15 @@ function controlPlayerLoad() {
     playerStore.characterLoaded = false
   }
   window.characterLoadFinished = () => {
+    // for the first time when character loads
+    // and the watcher takes over the subsequent changes in active character
     setTimeout(() => {
-    //   playerStore.toggleCamera()
-      playerStore.characterLoaded = true
-      // for the first time when character loads
-      // and the watcher takes over the subsequent changes in active character
       playerStore.wearSavedClothes()
-      console.log('....character load finished');
-      
     }, 100);
+
+    setTimeout(() => {
+      playerStore.characterLoaded = true
+    }, 5000);
   }
 
   // on animation start
@@ -87,13 +88,13 @@ function controlPlayerLoad() {
 </script>
 
 <template>
-  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1]">
+  <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1]" id="SDKPlayerContainer">
     <!-- <img src="/assets/pngs/market/man_standing.png" class="h-[600px]" alt="" /> -->
 
     <div style="height: 350px;margin-top: -20px" v-show="playerStore.characterLoaded" class="h-[600px]" id="tamkinSDK">
       <!-- <tamkin-sdk charwidth="550" charheight="550"></tamkin-sdk> -->
     </div>
-    <div v-if="!playerStore.characterLoaded" style="height:350px;" class=" d-flex align-items-center justify-content-center">
+    <div v-if="!playerStore.characterLoaded" style="height:350px; position:absolute; top:0; left:50%; transform: translateX(-50%)" class=" d-flex align-items-center justify-content-center">
       <!-- <div class="spinner-border text-primary"></div> -->
       <Vue3Lottie :animationData="playerLoader" :loop="true" :autoplay="true" :height="300" :width="300" :no-margin="true" />
     </div>

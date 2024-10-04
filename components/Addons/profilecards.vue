@@ -3,7 +3,9 @@ import { vOnClickOutside } from "@vueuse/components";
 
 import draggable from "vuedraggable";
 const checkboxStore = useAddonStore();
-
+const props = defineProps({
+  loading:Boolean
+})
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
@@ -86,15 +88,26 @@ onMounted(()=>{
 </script>
 
 <template>
-  <div
+  <div :class="[loading ? 'pt-[24px]' : '']"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-    <div class="flex items-center justify-start pt-[24px]">
+  
+  <div v-if="loading"
+  class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
+>
+ 
+</div>
+<div class="animate-pulse space-y-4  mt-[22px]" v-if="loading">
+<div class="h-[55px] w-full bg-gray-300" v-for="s in 6">
+
+</div>
+    </div>
+    <div class="flex items-center justify-start pt-[24px]" v-if="!loading">
       <div>
         <h1
           class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Manage your Accessibility Profiles
+          {{ $t('Manage your Accessibility Profiles') }}
         </h1>
       </div>
       <div
@@ -139,7 +152,7 @@ onMounted(()=>{
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{$t('Switch To Annual')}}</div>
           </div>
           <div class="mini_wrap" @click="collapseStore.collapseCard('ManageCard')">
             <div>
@@ -178,7 +191,7 @@ onMounted(()=>{
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("ManageCard") ? "Minisize" : "Maxsize"
+                !collapseStore.collapses.includes("ManageCard") ? $t("Minisize") : $t("Maxsize")
               }}
             </div>
           </div>
@@ -215,7 +228,7 @@ onMounted(()=>{
 
     <div
       class="flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
-      v-if="!collapseStore.collapses.includes('ManageCard')"
+      v-if="!collapseStore.collapses.includes('ManageCard') && !loading"
     >
       <draggable
         v-model="checkboxStore.manageProfileCards"
@@ -253,13 +266,13 @@ onMounted(()=>{
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                 >
-                  <span>{{ element.name }}</span>
+                  <span>{{ $t(element.name) }}</span>
                 </div>
                 <div
                   class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                    {{ element.description }}
+                    {{ $t(element.description) }}
                   </span>
                 </div>
               </div>
@@ -300,7 +313,7 @@ onMounted(()=>{
       </draggable>
     </div>
 
-    <div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
+    <div v-else-if="collapseStore.collapses.includes('ManageCard') && !loading" class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
       Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis
       dolore. Exercitationem et omnis ea quidem
     </div>

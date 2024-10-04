@@ -79,13 +79,12 @@ const copyCode = () => {
         <div class="flex flex-col items-start justify-center relative">
           <div>
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
-              Custom Trigger
+              {{$t('Custom Trigger')}}
             </h1>
 
             <p
               class="text-[12px] ipad-max:w-3/4 lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
-              Custom Trigger enables users to define specific conditions or events that
-              automatically initiate tailored actions
+              {{$t('Custom Trigger enables users to define specific conditions or events that automatically initiate tailored actions')}}
             </p>
           </div>
 
@@ -94,11 +93,7 @@ const copyCode = () => {
             v-if="!collapseStore.collapses.includes('custom_trigger_card')">
             <p
               class="text-[10px] lg:text-[13px] leading-[22px] font-[400] text-darkGrey pt-[6px] dark:text-whiteTamkin">
-              A custom trigger replaces the original menu button and allows you to fix the
-              position of the accessibility menu trigger to any element on your website.
-              Open the accessibility menu when clicking an element with a pre-defined ID
-              or class. To specify a class instead of an ID, precede the value with a
-              period (.)
+              {{ $t(`A custom trigger replaces the original menu button and allows you to fix the position of the accessibility menu trigger to any element on your website. Open the accessibility menu when clicking an element with a pre-defined ID or class. To specify a class instead of an ID, precede the value with a period (.)`) }}
             </p>
           </div>
         </div>
@@ -129,7 +124,7 @@ const copyCode = () => {
                   class="fill-[#585B5B] dark:fill-whiteTamkin" />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{$t('Switch To Annual')}}</div>
           </div>
           <div class="mini_wrap" @click="collapseStore.collapseCard('custom_trigger_card')">
             <div>
@@ -147,8 +142,8 @@ const copyCode = () => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("custom_trigger_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -174,7 +169,7 @@ const copyCode = () => {
           <div class="flex items-center justify-start space-x-[13px] w-full">
             <div class="flex flex-col items-start justify-center w-full">
               <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
-                <span>Enable custom trigger</span>
+                <span>{{$t('Enable custom trigger')}}</span>
               </div>
             </div>
             <div class="ltr:ml-auto rtl:mr-auto">
@@ -203,7 +198,7 @@ const copyCode = () => {
           <label for="custom_id" class="floating_label" :class="[
             v$.custom_id.$error && v$.custom_id.required.$invalid ? '!text-error' : '',
           ]">
-            {{ $t("Enter a custom ID value") }}*
+            {{ $t("Enter a custom ID value*") }}
           </label>
           <div class="w-full lg:w-4/6" v-if="v$.custom_id.$error && v$.custom_id.required.$invalid">
             <p class="error_message">
@@ -219,15 +214,16 @@ const copyCode = () => {
             <VCodeBlock :code="currentCode" highlightjs lang="javascript" theme="neon-bunny"
               class="min-h-[78px] w-full " />
             <p class="font-[400] text-[#979897] dark:text-whiteTamkin text-[11px] leading-[19px]">
-              This ID can be added to any HTML element such as &lt;a&gt;, &lt;img&gt;,
+              {{$t('This ID can be added to any HTML element such as')}} &lt;a&gt;, &lt;img&gt;,
               &lt;div&gt;&lt;/div&gt;, &lt;span&gt;, &lt;li&gt;&lt;/li&gt;, etc.
             </p>
           </Client-only>
         </div>
         <div @click="copyCode" v-if="isChecked('enable_custom_trigger')"
-          class="ltr:ml-auto rtl:mr-auto cursor-pointer ipad-max:text-[12px] border-[2px] rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
+          class="ltr:ml-auto rtl:mr-auto cursor-pointer ipad-max:text-[12px] border-[2px] 
+          rounded-lg border-transparent bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] group">
           <div class="bg-white dark:bg-tamkinDarkPrimary rounded-md flex items-center justify-center">
-            <div class="pl-[16px]">
+            <div class="rtl:pr-[16px] ltr:pl-[16px]">
               <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M18.829 11.361C19 10.948 19 10.423 19 9.375C19 8.327 19 7.802 18.829 7.389C18.7159 7.11593 18.5502 6.86782 18.3412 6.65883C18.1322 6.44984 17.8841 6.28407 17.611 6.171C17.198 6 16.673 6 15.625 6H9.1C7.84 6 7.21 6 6.729 6.245C6.30526 6.46078 5.96078 6.80526 5.745 7.229C5.5 7.709 5.5 8.339 5.5 9.6V16.125C5.5 17.173 5.5 17.698 5.671 18.111C5.9 18.662 6.338 19.101 6.889 19.329C7.302 19.5 7.827 19.5 8.875 19.5C9.923 19.5 10.448 19.5 10.861 19.329M18.829 11.361C18.7159 11.6341 18.5502 11.8822 18.3412 12.0912C18.1322 12.3002 17.8841 12.4659 17.611 12.579C17.198 12.75 16.673 12.75 15.625 12.75C14.577 12.75 14.052 12.75 13.639 12.921C13.3659 13.0341 13.1178 13.1998 12.9088 13.4088C12.6998 13.6178 12.5341 13.8659 12.421 14.139C12.25 14.552 12.25 15.077 12.25 16.125C12.25 17.173 12.25 17.698 12.079 18.111C11.9659 18.3841 11.8002 18.6322 11.5912 18.8412C11.3822 19.0502 11.1341 19.2159 10.861 19.329M18.829 11.361C18.2912 13.216 17.3017 14.9086 15.9492 16.2873C14.5967 17.666 12.9233 18.6878 11.079 19.261L10.861 19.329M14.5 6V5.1C14.5 3.84 14.5 3.21 14.255 2.729C14.0395 2.30541 13.6954 1.96095 13.272 1.745C12.79 1.5 12.16 1.5 10.9 1.5H4.6C3.34 1.5 2.71 1.5 2.229 1.745C1.80526 1.96078 1.46078 2.30526 1.245 2.729C1 3.209 1 3.839 1 5.1V11.4C1 12.66 1 13.29 1.245 13.771C1.461 14.195 1.805 14.539 2.229 14.755C2.709 15 3.34 15 4.601 15H5.5"
@@ -245,8 +241,10 @@ const copyCode = () => {
 
             <div class="auto-full">
               <button
-                class="h-[39px] text-[15px] leading-[27px] font-[500] px-4 py-2 rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart dark:text-whiteTamkin group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text">
-                Copy
+                class="h-[39px] text-[15px] leading-[27px] font-[500] px-4 py-2 
+                rounded-md group-hover:bg-gradient-to-r group-hover:to-tamkinStart 
+                dark:text-whiteTamkin group-hover:from-tamkinEnd group-hover:text-transparent group-hover:bg-clip-text">
+                {{ $t('Copy') }}
               </button>
             </div>
           </div>

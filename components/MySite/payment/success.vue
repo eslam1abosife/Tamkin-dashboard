@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const localePath = useLocalePath()
 const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
@@ -6,6 +7,8 @@ const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
 const mysiteStore = useMySiteStore()
 const addSiteStore = useAddSiteStore()
+
+
 import { useGetAppInvites,useUpdateDefaultApp } from "@/composables/useTeam";
 
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
@@ -13,62 +16,68 @@ const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
+const isLinkActive = (path) => {
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
+const emit = defineEmits(['updateData']);
 const setDefaultQuery = async (tryagain) => {
- if(tryagain){
-  router.push({
-    path: route.path, 
-    query: {
-      paid: undefined, 
-      status: undefined,
-      package:route.query.package
-    }
-  })
+  if (tryagain) {
+    // Update the route with new query parameters
+    router.push({
+      path: route.path,
+      query: {
+        paid: undefined,
+        status: undefined,
+        package: route.query.package
+      }
+    });
 
-  // const checkInPackages = packagesStore.getPackageByTypeAndCategory('Package').find(pck => pck.name == route.query.package)
+    // // Reset mysiteStore when the current view is 'mysite'
+    // if (currentView('success_pay_package') === 'mysite') {
+    //   mysiteStore.currentPackage = '';
+    //   mysiteStore.packagePayload = '';
+    //   mysiteStore.tags = [];
+    //   mysiteStore.validatedSites = [];
+    //   mysiteStore.loadingBlock = [];
 
-  // if(checkInPackages){
-  //   packagesStore.currentPackage = checkInPackages
-  //   packagesStore.packagePayload = {
-  //   package: packagesStore.currentPackage.name,
-  //   urls: packagesStore.urls.length
-  //     ? packagesStore.urls.filter((website: any) => website.url !== null)
-  //     : [].map((website: any) => website.url),
-  //   // apps: rou ? webs.value.map((website: any) => website.name) : [],
-  //   payDateType: selectedPackage.value === 0 ? 'trial' : selectedPackage.value,
-  //   locale: locale.value,
-  //   total: totalCost.value,
-  //   packageExtraType:packageTypeToSend.value
-  // };
-  // }
-if(currentView('success_pay_package') === 'mysite'){
-  mysiteStore.currentPackage = ''
-    mysiteStore.packagePayload = ''
-    mysiteStore.tags = []
-    mysiteStore.validatedSites = []
-    mysiteStore.loadingBlock = []
-await getApps()
-  return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite')
-}else {
+    //   await getApps(); // Fetch apps asynchronously
+      return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite'); // Navigate after fetching apps
+    // } else {
+      // closeModal('success_pay_mysite'); // Close modal if not 'mysite'
+    // }
+
+  } else {
     
-return navigateTo('success_pay_mysite', 'packages', 'payment_methods_mysite')
-}
- }else {
-  router.push({
-    path: route.path, 
-    query: {
-      paid: undefined, 
-      status: undefined
-    }
-  })
-  addSiteStore.currentPackage = ''
-    addSiteStore.packagePayload = ''
-    addSiteStore.tags = []
-    addSiteStore.validatedSites = []
-    addSiteStore.loadingBlock = []
+    //  router.push(localePath('/my-site'));
+     closeModal('success_pay_mysite');
+     mysiteStore.selectedApp = ''
+    if (isLinkActive('/my-site')) {
 
-  closeModal('success_pay_mysite')
- }
+     mysiteStore.loadingApps  = true
+     await getApps(); // Fetch apps asynchronously
+     mysiteStore.loadingApps  = false
+
+  }
+  if (isLinkActive('/subscriptions')) {
+emit('updateData');
+
 }
+    addSiteStore.currentPackage = '';
+    addSiteStore.packagePayload = '';
+    addSiteStore.tags = [];
+    addSiteStore.validatedSites = [];
+    addSiteStore.loadingBlock = [];
+    // Close modal if not trying again
+
+    // // Navigate to '/my-site'
+
+  }
+};
+
 
 
 </script>
@@ -82,7 +91,7 @@ return navigateTo('success_pay_mysite', 'packages', 'payment_methods_mysite')
   <div
     style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
     class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[10px]"
-    @click="setDefaultQuery"
+    @click="setDefaultQuery(false)"
   >
     <svg
       class="w-[12px] h-[12px]"
@@ -128,7 +137,7 @@ return navigateTo('success_pay_mysite', 'packages', 'payment_methods_mysite')
 
  </div>
  <div class="mt-[16px]  mx-auto mb-[260px] px-[20px]">
-  <button class="btn-dashboard  hover_tamkin  lg:w-[400px] w-full " @click="setDefaultQuery(false)" >
+  <button class="btn-dashboard  hover_tamkin  lg:w-[400px] w-full " @click.stop="setDefaultQuery(false)" >
       {{$t('Done')}}   </button>
 
 </div>

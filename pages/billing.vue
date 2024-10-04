@@ -451,7 +451,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="invoicesStore.invoices?.length !== 0 && !globalLoad"
-      class="bg-white w-full mt-[24px] rounded-[10px] p-[32px]"
+      class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] mb-[24px]"
     >
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]"
@@ -510,37 +510,31 @@ function leaveCart(el, done) {
                   </svg>
                 </div>
                 <div class="text-[13px] font-[500] leading-[20px] text-darkGrey">
-                  {{ new Date(invoice.order_date).toLocaleDateString() }}
+                  {{ new Date(invoice.creation).toLocaleDateString() }}
                 </div>
               </td>
 
               <td class="py-4 space-y-[10px] rtl:text-right ltr:text-left">
                 <div class="text-[14px] leading-[19px] text-darkGrey font-[500]">
-                  {{ $t(invoice.paymen_type) }}
+                  {{ $t(`${invoice.payment_type}`) }}
                 </div>
                 <div class="text-[13px] leading-[19px] text-darkGrey font-[500]">
-                  {{ invoice.paymen_card }}
+                  {{ $t(`${invoice.payment_card}`) }}
                 </div>
               </td>
+              
               <td class="py-4 space-y-[10px] rtl:text-left ltr:text-right">
                 <div
                   class="text-darkGrey text-[14px] leading-[19px] ltr:!font-[700] rtl:!font-[800]"
                 >
-                {{ invoice.paymen_type === 'Crypto' ?
-                  convertUsdToCrypto(
-               invoice.cost,
-                cryptostore.rates,
-                invoice.crypto
-              ) +
-                  " " +
-                 invoice.crypto_title
-               
-               : ('$'+ invoice.cost)
+                {{ 
+               invoice.payment_type === 'Crypto' ? invoice.amount:
+               ('$'+ invoice.cost)
                
                 }}
                 </div>
                 <div class="text-darkGrey text-[13px] leading-[19px] font-[500]">
-                  {{ $t(`${invoice.order_type}`)}}
+                  {{ $t(`${invoice.order_type}`)}} - {{ $t(`${invoice.order_item}`) }}
                 </div>
               </td>
             </tr>
@@ -554,7 +548,7 @@ function leaveCart(el, done) {
         @click="increaseInvoices"
         v-if="invoicescount != invoicesStore.invoices.length"
       >
-        <div class="flex items-center justify-center w-full">
+        <div class="flex items-center justify-center w-full ">
           <div :class="loadingMoreInvoies ? 'rtl:ml-2 ltr:mr-2' : ''">
             {{ $t("Show All Invoices") }}
           </div>

@@ -320,8 +320,8 @@ const alertFn = () => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("select_date_range_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

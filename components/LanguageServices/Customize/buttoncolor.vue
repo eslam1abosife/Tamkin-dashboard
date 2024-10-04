@@ -102,8 +102,8 @@ const customizeStore = useCustomizeStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("button_color_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

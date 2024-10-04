@@ -5,10 +5,9 @@
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">Accessibility Details</h1>
+              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">{{$t('Accessibility Details')}}</h1>
               <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90 pt-[6px]">
-                Accessibility Details provide comprehensive information to help ensure your website
-                complies with all accessibility standards
+                {{ $t('Accessibility Details provide comprehensive information to help ensure your website complies with all accessibility standards') }}
               </p>
             </div>
           </div>
@@ -19,9 +18,9 @@
       >
         <button
           @click="$router.push('/statistics')"
-          class="absolute right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
+          class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
-          View All
+          {{ $t('View All') }}
         </button>
         <div
           @click="collapseStore.collapseMenu('access_details')"
@@ -103,13 +102,14 @@
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Function</h2>
-          <div class="flex items-center justify-start space-x-[8px]">
+            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">{{$t('Function')}}</h2>
+          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
             <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin/90">
               20
        
             </div>
-            <div class="max-w-[45px] bg-tamkinLight rounded-[18px] text-[12px] leading-[18px] font-[500] space-x-[2px] px-2 h-[18px] flex items-center 
+            <div class="max-w-[45px] bg-tamkinLight rounded-[18px] text-[12px] leading-[18px] font-[500] 
+            rtl:space-x-reverse space-x-[2px] px-2 h-[18px] flex items-center 
             justify-center">
               <div>225%</div>
 
@@ -124,18 +124,18 @@
                 <span class="text-tamkin !text-[14px] !leading-[20px] !font-[700]">
                   12% 
                 </span>
-                vs last 30 days
+                {{ $t('vs last 30 days') }}
               </p>
             </div>
           </div>
-          <div class="h-[80px] left-1/2 right-0 absolute">
+          <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
             <Line ref="chart13" :data="chartData" :options="options" class=" h-[80px]" />
           </div>
         </div>
         <div
           class="space-y-2 h-[254px] custom-border-tamkin padding-override-1 flex flex-col items-start justify-center w-full px-[15px]"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">Function</div>
+          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">{{$t('Function')}}</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img 
@@ -144,7 +144,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Screen Reader</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Screen Reader')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
@@ -161,7 +161,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Voice Navigation</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Voice Navigation')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
@@ -178,7 +178,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Saturation</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Saturation')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
@@ -195,7 +195,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Cursor</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Cursor')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
@@ -211,8 +211,8 @@
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">Profile</h2>
-            <div class="flex items-center justify-start space-x-[8px]">
+            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">{{$t('Profile')}}</h2>
+            <div class="flex items-center justify-start  rtl:space-x-reverse space-x-[8px]">
               <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin">
                 20
          
@@ -231,11 +231,11 @@
               </div>
               <p class="text-[12px] leading-[16px] font-[400] text-darkGrey  dark:text-whiteTamkin">
                 <span class="text-[#DA100B] !text-[14px] !leading-[20px] !font-[700]">12%</span>
-                vs last 30 days
+                {{ $t('vs last 30 days') }}
               </p>
             </div>
           </div>
-          <div class="h-[80px] left-1/2 right-0 absolute">
+          <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
             <Line ref="chart14" :data="chartData2" :options="options" class="w-auto h-[80px]" />
           </div>
         </div>
@@ -243,7 +243,7 @@
           class="space-y-2 px-[15px] custom-border-tamkin padding-override-1 h-[254px]
            w-full flex flex-col items-start justify-center"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">Profile</div>
+          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">{{$t('Profile')}}</div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
               <img 
@@ -252,7 +252,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin  ">Motor impaired</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin  ">{{$t('Motor impaired')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
@@ -269,7 +269,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Color blind</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Color blind')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
@@ -286,7 +286,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Visually-impaired</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Visually-impaired')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
@@ -303,7 +303,7 @@
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">Seizure & Epileptic</div>
+            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$T('Seizure & Epileptic')}}</div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
               <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
                 <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>

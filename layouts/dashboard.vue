@@ -290,56 +290,70 @@ const openModals = computed(() => {
     isOpen("translate_images") ||
     isOpen("editname") ||
     sideBarOpenMobile.value ||
-    isOpen("edit_card_billing_profile") ||
-    isOpen("withdraw_paymentmethods") ||
-    isOpen("bank_account_withdraw") ||
-    isOpen("details_bank_withdraw") ||
-    isOpen("success_bank_withdraw") ||
-    isOpen("crypto_step1") ||
-    isOpen("crypto_step_2_e") ||
-    isOpen("crypto_success_referral") ||
-    isOpen("paypal_withdraw_step1") ||
-    isOpen("paypal_withdraw_step2") ||
-    isOpen("success_paypal_withdraw") ||
-    isOpen("add_new_card_billing") ||
-    isOpen("tracking_custom_order") ||
-    isOpen("requestmodal_update") ||
-    isOpen("requestmodal_details") ||
-    isOpen("deleteModal_card") ||
-    isOpen("successContact") ||
-    isOpen("edit_company_picture") ||
-    isOpen("notificationsModal") ||
-    isOpen("join_to_investor") ||
-    isOpen("cardModal_market") ||
-    isOpen("paymentMethods_market") ||
-    isOpen("crypto_market_step1") ||
-    isOpen("paypal_market") ||
-    isOpen("crypto_market_success") ||
-    isOpen("crypto_market_step2") ||
-    isOpen("successPayment_market") ||
-    isOpen("custom_package") ||
-    isOpen("add_package_modal_packages") ||
-    isOpen("payment_methods_packages") ||
-    isOpen("cardModal_packages") ||
-    isOpen("success_pay_package") ||
-    isOpen("crypto_packages_step1") ||
-    isOpen("crypto_packages_step2") ||
-    isOpen("crypto_packages_success") ||
-    isOpen("paypal_packages") ||
-    isOpen("add_package_modal_addsite") ||
-    isOpen("cardModal_addsite") ||
-    isOpen("payment_methods_addsite") ||
-    isOpen("crypto_addsite_step1") ||
-    isOpen("crypto_addsite_step2") ||
-    isOpen("crypto_addsite_success") ||
-    isOpen("paypal_addsite") ||
-    isOpen("add_package_modal_mysite") ||
-    isOpen("cardModal_mysite") ||
-    isOpen("payment_methods_mysite") ||
-    isOpen("crypto_mysite_step2") ||
-    isOpen("crypto_mysite_step1") ||
-    isOpen("crypto_mysite_success") ||
-    isOpen("success_pay_addsite") ||
+    isOpen('edit_card_billing_profile') ||
+    isOpen('withdraw_paymentmethods') ||
+    isOpen('bank_account_withdraw') ||
+    isOpen('details_bank_withdraw') ||
+    isOpen('success_bank_withdraw') ||
+    isOpen('crypto_step1') ||
+    isOpen('crypto_step_2_e') ||
+    isOpen('crypto_success_referral') ||
+    isOpen('paypal_withdraw_step1') ||
+    isOpen('paypal_withdraw_step2') ||
+    isOpen('success_paypal_withdraw') ||
+    isOpen('add_new_card_billing') ||
+    isOpen('tracking_custom_order') ||
+    isOpen('requestmodal_update') ||
+    isOpen('requestmodal_details') ||
+    isOpen('deleteModal_card') ||
+    isOpen('successContact') ||
+    isOpen('edit_company_picture') ||
+    isOpen('notificationsModal') ||
+    isOpen('join_to_investor') ||
+    isOpen('cardModal_market') ||
+    isOpen('paymentMethods_market') ||
+    isOpen('crypto_market_step1') ||
+    isOpen('paypal_market') ||
+    isOpen('crypto_market_success') ||
+    isOpen('crypto_market_step2') ||
+    isOpen('successPayment_market') ||
+    isOpen('custom_package') ||
+    isOpen('add_package_modal_packages') ||
+    isOpen('payment_methods_packages') ||
+    isOpen('cardModal_packages') ||
+    isOpen('success_pay_package') ||
+    isOpen('crypto_packages_step1') ||
+    isOpen('crypto_packages_step2') ||
+    isOpen('crypto_packages_success') ||
+    isOpen('paypal_packages') ||
+    isOpen('add_package_modal_addsite') ||
+    isOpen('cardModal_addsite') ||
+    isOpen('payment_methods_addsite') ||
+    isOpen('crypto_addsite_step1') ||
+    isOpen('crypto_addsite_step2') ||
+    isOpen('crypto_addsite_success') ||
+    isOpen('paypal_addsite') ||
+    isOpen('add_package_modal_mysite') ||
+    isOpen('cardModal_mysite') ||
+    isOpen('payment_methods_mysite') ||
+    isOpen('crypto_mysite_step2') ||
+    isOpen('crypto_mysite_step1') ||
+    isOpen('crypto_mysite_success') ||
+    isOpen('success_pay_addsite') ||
+    isOpen('success_pay_mysite') ||
+    isOpen('upgrade_mysite_package') ||
+    isOpen('paypal_mysite') ||
+    isOpen('upgrade_no_package') ||
+    isOpen('cancel_subscription_internal') ||
+    isOpen('cancel_subscription_subs') ||
+    isOpen('payment_methods_subs') ||
+    isOpen('cardModal_subs') ||
+    isOpen('paypal_subs') ||
+    isOpen('crypto_subs_step1') ||
+    isOpen('crypto_subs_step2') ||
+
+    
+
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -596,17 +610,9 @@ import "vue-loading-overlay/dist/css/index.css";
         @control-cancel="closeModal('resetModal')"
       />
 
-      <ModalsConfirm
-        :show-modal="isOpen('deleteModal')"
-        title="Delete your site"
-        sub-title="Are you sure you want to delete your site, Tamkin.App? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
-        confirm-btn-type="delete"
-        @control-delete="closeModal('deleteModal')"
-        @control-cancel="closeModal('deleteModal')"
-      />
+  
 
-      <SettingsTransfermodalstep1 :show-modal="isOpen('transferstep1')" />
-      <SettingsTransfermodalstep2 :show-modal="isOpen('transferstep2')" />
+
 
       <div
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"

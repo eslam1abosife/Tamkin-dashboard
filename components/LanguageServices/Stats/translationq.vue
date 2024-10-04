@@ -211,8 +211,8 @@ const options = ref({
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("translation_q_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

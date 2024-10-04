@@ -27,7 +27,8 @@ export const useAddonStore = defineStore('addon', {
     title:[],
     checkboxIds:[],
     originalFeatures:[],
-    tobeSent:[]
+    tobeSent:[],
+    changesOnCheckboxes:false
   }),
   actions: {
     showSaveBeforeLeaveModal(){
@@ -72,7 +73,14 @@ export const useAddonStore = defineStore('addon', {
       }
     },
     hasChanges() {
-      return JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes);
+      if(JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes)){
+        this.changesOnCheckboxes = true
+
+      }else {
+      this.changesOnCheckboxes = false
+
+      }
+   
     },
     addCardToArrayMenus(name: string, customArrayKey: keyof typeof this, description: string) {
       const customArray = this[customArrayKey] as Card[];

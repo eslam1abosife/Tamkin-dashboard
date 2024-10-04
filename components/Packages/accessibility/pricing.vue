@@ -51,7 +51,7 @@ const dosomething = (p,contact)=>{
   if(contact && packagesStore.bundleSelectedPackage && packagesStore.bundleSelectedPackage.title){
     openModal('custom_package') 
     setData({
-      pcktitle:packagesStore.bundleSelectedPackage.title
+      pcktitle:p.title
     })
   }else {
     packagesStore.currentPackage = p
@@ -217,6 +217,6 @@ watch(packagesStore.traffic_level, () => {
       </div>
     </div>
 
-    <PackagesFeatures v-if="!packagesStore.loadingAccessibility" :current-page="'accessibility'"/>
+    <PackagesFeatures v-if="!packagesStore.loadingData" :current-page="'accessibility'"/>
   </div>
 </template>

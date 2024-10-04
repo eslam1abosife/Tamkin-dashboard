@@ -138,16 +138,18 @@ const submit = async () => {
             <tr v-for="app in filteredApps " :key="app.name">
               <td class="py-4  flex items-center rtl:space-x-reverse space-x-4">
           
-                <img v-if="app.favicon" :src="app.favicon" alt="Logo" class="w-6 h-6">
+                <img v-if="app.favicon" :src="app.favicon" alt="Logo" class="w-[40px] h-[40px] rounded-full">
              
                 <div v-else-if="!app.favicon && app.title !== 'Internal Service'" 
                 class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
 
                   {{ getAvatarLetters(app?.title) }}
                 </div>
-                <img src="/assets/imgs/icons/mysite_select.svg" class="w-[40px] h-[40px]"  v-if="app?.title === 'Internal Service' "/>
+                <img src="/assets/imgs/icons/mysite_select.svg" 
+                class="w-[40px] h-[40px]"  v-if="app?.title === 'Internal Service' "/>
 
-                <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">{{ app?.title === 'Internal Service' ? app.title : app.app_domain
+                <span class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">
+                  {{ app?.title === 'Internal Service' ? $t(app.title) : app.app_domain
                   }}</span>
               </td>
               <td class="py-4  rtl:text-lefet ltr:text-right ">

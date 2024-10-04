@@ -49,12 +49,12 @@ const moveHideWidget = (v:string)=>{
     class="bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('language_customize_card') ? 'pb-[24px]' :'pb-[10px]']">
       <div class="flex items-center justify-start  pt-[16px]">
         <div>
-          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Language</h1>
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Language')}}</h1>
 
           <p
             class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
           >
-            Customize your widgets for a tailored browsing experience
+            {{ $t('Customize your widgets for a tailored browsing experience') }}
           </p>
         </div>
 
@@ -110,7 +110,7 @@ const moveHideWidget = (v:string)=>{
           </svg>
           </div>
           <div class="text_mini">
-            Switch To Annual
+            {{ $t('Switch To Annual') }}
           </div>
         </div>
             <div
@@ -131,7 +131,7 @@ const moveHideWidget = (v:string)=>{
                   </svg>
 
               </div>
-              <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
+              <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?$t('Minisize'):$t('Maxsize')}}</div>
             </div>
 
             <div class="arrow">
@@ -182,7 +182,8 @@ const moveHideWidget = (v:string)=>{
               :class="[isOpen ? 'rounded-b-none' : '']"
             >
               <div
-                class="floating_language_selector_ov flex flex-row items-center justify-start  !font-[500] !text-[13px] leading-[32px]"
+                class="floating_language_selector_ov flex flex-row items-center justify-start  !
+                font-[500] !text-[13px] leading-[32px]"
                 :class="[
                   selectedLanguage && selectedLanguage.name
                     ? '!text-black dark:!text-whiteTamkin'
@@ -191,7 +192,7 @@ const moveHideWidget = (v:string)=>{
               >
               <div
               v-if=" selectedLanguage && selectedLanguage.code"
-              class="h-6 w-6 rounded-full flex items-center justify-center mr-[6px] "
+              class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[6px] ltr:mr-[6px] "
               :class="[
                 selectedLanguage && selectedLanguage.code
                   ? 'bg-custom-gradient text-white'
@@ -207,7 +208,7 @@ const moveHideWidget = (v:string)=>{
                 {{
                   selectedLanguage
                     ? selectedLanguage.name
-                    : "Auto detect Language"
+                    : $t("Auto detect Language")
                 }}
 
            
@@ -222,7 +223,7 @@ const moveHideWidget = (v:string)=>{
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
                 class="stroke-current rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right 
-                w-[20px] h-[10px] rtl:ml-[15px] ltr:mr-[15px]"
+                w-[20px] h-[10px] rtl:ml-[-15px] ltr:mr-[15px]"
                 @click.stop="toggleDropdown"
 
               
@@ -235,9 +236,10 @@ const moveHideWidget = (v:string)=>{
             </button>
             <div
               v-if="isOpen"
-              v-on-click-outside="() => toggleDropdown"
+              v-on-click-outside="() => {isOpen = false}"
 
-              class="absolute z-10 top-[52px] w-full lg:w-[330px] bg-white  dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
+              class="absolute z-10 top-[52px] w-full lg:w-[330px] bg-white  dark:bg-tamkinDarkPrimary border 
+              rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">
                 <input
@@ -263,7 +265,8 @@ const moveHideWidget = (v:string)=>{
                 <li
                   v-for="lang in filterdLanguages"
                   :key="lang.code"
-                  class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100 dark:hover:bg-darkGrey cursor-pointer"
+                  class="border-b-[1px] flex items-center px-[20px] py-2
+                   hover:bg-gray-100 dark:hover:bg-darkGrey cursor-pointer"
                   @click="selectLanguage(lang)"
                 >
                   <div
@@ -311,11 +314,11 @@ const moveHideWidget = (v:string)=>{
               <div class="flex flex-col items-start justify-center w-full">
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px]  
           lg:leading-[16.39px]">
-                  <span>Show  language selector on the widget</span>
+                  <span>{{$t('Show  language selector on the widget')}}</span>
                 </div>
              
               </div>
-              <div class="ml-auto">
+              <div class="rtl:mr-auto ltr:ml-auto">
                 <label
                   for="toggle_language_selector"
                   class="toggle_wrap"
@@ -365,8 +368,9 @@ const moveHideWidget = (v:string)=>{
 
 <style lang="scss">
 .floating_language_selector_ov {
-  @apply cursor-text rounded-[10px] absolute rtl:right-[0] ltr:left-[15px]
-    top-[12px] -translate-y-0 bg-white  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin duration-100 ease-linear text-light peer-focus:text-darkGrey 
+  @apply cursor-text rounded-[10px] absolute rtl:right-[15px] ltr:left-[15px]
+    top-[12px] -translate-y-0 bg-white  dark:bg-tamkinDarkPrimary cursor-pointer
+     dark:text-whiteTamkin duration-100 ease-linear text-light peer-focus:text-darkGrey 
     text-[14px] 2xl:text-[16px] text-[400] peer-focus:text-[12px] ipad-max:text-[12px] ipad-max:peer-focus:text-[12px] 
     2xl:peer-focus:text-[16px];
   transition: all 0.2s ease-in-out;

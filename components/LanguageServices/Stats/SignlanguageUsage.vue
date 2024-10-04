@@ -92,8 +92,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("translation_stats_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

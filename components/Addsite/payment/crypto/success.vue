@@ -10,7 +10,7 @@ const {
   navigateTo,
 } = useModalManager();
 const {getCryptoList } = useGetCryptoList()
-
+const localePath = useLocalePath()
 const cryptostore = useCryptoStore();
 const addSiteStore = usePackgesStore();
 import { useVuelidate } from "@vuelidate/core";
@@ -179,6 +179,8 @@ const percentageOff = computed(() => {
               closeModal('crypto_addsite_success')
                addSiteStore.selectedPaymentMethod = '' 
         addSiteStore.selectedCrypto = ''
+        $router.push(localePath('/my-site'))
+
             }">
                 {{ $t('Done') }}
             </button>

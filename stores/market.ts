@@ -191,8 +191,6 @@ export const useMarketStore = defineStore('market', {
           new_item.category_image = '/assets/pngs/market/character-grey.svg';
         }
       }
-      console.log('cart item', new_item);
-      
       return new_item;
     },
     owned(item: any){

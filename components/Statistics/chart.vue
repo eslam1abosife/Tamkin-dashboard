@@ -238,9 +238,9 @@ const closeMenu = () => {
       class="flex items-center justify-start  "
     >
       <div class="pt-[24px]">
-        <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Select Date Range</h1>
+        <h1 class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Select Date Range')}}</h1>
         <p class="font-[400] xs:text-[10px] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey mt-[10px] dark:text-whiteTamkin">
-          Select Date Range specifies start and end dates to analyze or display data.
+          {{$t('Select Date Range specifies start and end dates to analyze or display data.')}}
         </p>
       </div>
 
@@ -294,7 +294,7 @@ const closeMenu = () => {
         </svg>
         </div>
         <div class="text_mini">
-          Switch To Annual
+          {{ $t('Switch To Annual') }}
         </div>
       </div>
           <div
@@ -317,8 +317,8 @@ const closeMenu = () => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("select_date_range_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -382,7 +382,7 @@ const closeMenu = () => {
                 dateOpen && dateF ? 'bg_interval_open tamkin' : 'tamkin_date_input'
               "
               :dark="colorMode.preference === 'dark'"
-              placeholder="Select Period"
+              :placeholder="$t('Select Period')"
               v-model="dateF"
               :format="format"
               :position="langStore.direction === 'rtl' ? 'right' : 'left'"
@@ -399,7 +399,7 @@ const closeMenu = () => {
                     @click="closePicker"
                     class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
                   >
-                    <div>Cancel</div>
+                    <div>{{$t('Cancel')}}</div>
                   </button>
                   <button
                     @click="selectDate"
@@ -421,7 +421,7 @@ const closeMenu = () => {
                         />
                       </svg>
                     </div>
-                    <div>Done</div>
+                    <div>{{$t('Done')}}</div>
                   </button>
                 </div>
               </template>
@@ -433,7 +433,7 @@ const closeMenu = () => {
                       ? 'rotate-90 !text-white '
                       : dateOpen && !dateF
                       ? 'rotate-90'
-                      : 'rotate-0',
+                      : 'rotate-0 rtl:rotate-180',
                   ]"
                   width="11"
                   height="16"
@@ -463,11 +463,11 @@ const closeMenu = () => {
                 aria-haspopup="true"
                 aria-expanded="true"
               >
-                {{ selectedInterval ? selectedInterval : "Interval Period" }}
+                {{ selectedInterval ? selectedInterval : $t("Interval Period" )}}
 
                 <svg
                   class="rtl:mr-auto rtl:ml-[14px] ltr:ml-auto ltr:mr-[14px] w-[10px] h-[10px]"
-                  :class="[isOpen ? 'rotate-90 !text-white ' : 'rotate-0']"
+                  :class="[isOpen ? 'rotate-90 !text-white ' : 'rotate-0 rtl:rotate-180']"
                   @click.stop="toggleDropdown"
 
                   width="11"
@@ -506,7 +506,7 @@ const closeMenu = () => {
                   class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('7 Days')"
-                  >7 Days</a
+                  >{{$t('7 Days')}}</a
                 >
                 <a
                 
@@ -518,7 +518,7 @@ const closeMenu = () => {
                   class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('14 Days')"
-                  >14 Days</a
+                  >{{$t('14 Days')}}</a
                 >
                 <a
                 
@@ -530,7 +530,7 @@ const closeMenu = () => {
                   class="block px-4 py-2 text-sm text-gray-700 dark:text-whiteTamkin hover:bg-tamkinLight"
                   role="menuitem"
                   @click="selectOption('1 Month')"
-                  >1 Month</a
+                  >{{$t('1 Month')}}</a
                 >
                 <a
                 
@@ -542,7 +542,7 @@ const closeMenu = () => {
                       : '',
                   ]"
                   @click="selectOption('2 Months')"
-                  >2 Months</a
+                  >{{$t('2 Months')}}</a
                 >
                 <a
                 
@@ -554,7 +554,7 @@ const closeMenu = () => {
                       : '',
                   ]"
                   @click="selectOption('3 Months')"
-                  >3 Months</a
+                  >{{$t('3 Months')}}</a
                 >
               </div>
             </div>
@@ -565,19 +565,19 @@ const closeMenu = () => {
             class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px]  !rounded-[13px] 
             !text-[13px] !leading-[10px] justify-center w-[130px]"
           >
-            <div>Download CSV</div>
+            <div>{{$t('Download CSV')}}</div>
           </button>
         </div>
       </div>
 
      
     </div>
-    <div class="flex items-center justify-start lg:space-x-[48px] lg:flex-nowrap flex-wrap  "  v-if="!collapseStore.collapses.includes('select_date_range_card')">
+    <div class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap  "  v-if="!collapseStore.collapses.includes('select_date_range_card')">
       <div  class="container_chart mt-[30px] h-[255px]  w-full  p-[8px] relative custom-border-tamkin 
       padding-override-1 rounded-[8px] shadow-sm">
         <div class="custom-legend" >
           <div class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]">
-            <h3>Widget Loads</h3>
+            <h3>{{$t('Widget Loads')}}</h3>
             <p class="font-[400]">5 Times during 7 days</p>
           </div>
           <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">
@@ -596,7 +596,7 @@ const closeMenu = () => {
       <div   class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm">
         <div class="custom-legend">
           <div class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin">
-            <h3>Widget Opens</h3>
+            <h3>{{$t('Widget Opens')}}</h3>
             <p class="font-[400]">5 Times during 7 days</p>
           </div>
           <div class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin">

@@ -16,6 +16,7 @@ export const usePlayerStore = defineStore('player', {
     activeCharacter: null,
     loadingChanges:false,
     savetoallloading:false,
+    lastClickedSkinItemName: null,
     clothes: ['sara_clothes_orignal_belt_havana_0036','clothes_belt','fares_clothes_original_belt_Havana_0018','qasem_clothes_belt1_black_0025','sara_clothes_orignal_pants_grey_0031','clothes_orignal_pants_blueblack','clothes_pants_grey','fares_clothes_orignal_pants_blueblack_color_002','fares_clothes_pants_grey_Color_009','fares_clothes_shorts_jeans_Color_0012','qassem_clothes_pants_grey_Color_0023','sara_clothes_pants_white_0032','sara_clothes_hijab_white_0035','clothes_beret_grey','clothes_cap_jeans','fares_clothes_beret_grey_color1_004','fares_clothes_cap_jeans_color1_005','qassem_clothes_hair_black_Color_0021','qassem_CLOTHES_original_iqal_black_0026','qassem_CLOTHES_original_SHEMAGH_white_Color_0020','sara_clothes_orignal_hijab_blueblack_0027','clothes_glasses01_silver','clothes_glasses1','clothes_sunglasse_black','fares_clothes_glasses01_silver_Color_006','fares_clothes_original_glasses_0016','fares_clothes_sunglasse_black_color_007','default_outfit','sara_clothes_belt_shoes_white_0034','clothes_orignal_shoes_Havana','clothes_sneakers_yellow','fares_clothes_orignal_shoes_Havana_color_003','fares_clothes_sneakers_yellow_Color_008','qassem_CLOTHES_original_shoes_black_0024','sara_clothes_orignal_belt_shoes_havana_0029','clothes_tie1_blueblack','fares_clothes_original_tie1_blueblack_Color_0013','sara_clothes_tamkin_tshirt_aquamarine01_0033','clothes_orignal_shirt_aquamarine','clothes_shirt_purple','clothes_tamkin_tshirt_aquamarine','clothes_tshirt1_yellow','fares_clothes_original_BADGE_0017','fares_clothes_orignal_shirt_aquamarine_001','fares_clothes_shirt_black_color_0010','fares_clothes_shirt_purple_color_0011','fares_clothes_tamkin_tshirt_aquamarine_color_0015','fares_clothes_tshirt1_yellow_Color_0014','qassem__clothes_shirt_black_color_0022','qassem_CLOTHES_original_THWB_white_Color_0019','sara_clothes_orignal_jacket_blueblack_0028','sara_clothes_orignal_top_white_0030',],
 
   }),
@@ -27,7 +28,7 @@ export const usePlayerStore = defineStore('player', {
       },
       // player
       hideAllClothes(){
-        this.activeCharacter.allowed_skins_list.forEach(skin_item => {
+        this.activeCharAllowedSkins.forEach(skin_item => {
           this.unwear(skin_item);
         })
       },
@@ -50,6 +51,7 @@ export const usePlayerStore = defineStore('player', {
               skin_item.is_weared = skin_item.is_default;
               })
           }
+          console.log('this.activeCharBackendWearedSkins', this.activeCharBackendWearedSkins);
           this.activeCharBackendWearedSkins.forEach(skin_item => {
               this.showClothes(skin_item)
           })
@@ -58,6 +60,9 @@ export const usePlayerStore = defineStore('player', {
       resetActiveCharacterAndWearSavedClothes(){
         this.changeCharacter(this.backendActiveChar)
         // this.wearSavedClothes();
+        
+        const marketStore = useMarketStore();
+        marketStore.switchTabs('character');
       },
       owned(item){
         return item.is_purchased || item.is_package;
@@ -70,6 +75,9 @@ export const usePlayerStore = defineStore('player', {
           return skin_item;
       },
       wearClothes(skin_item){
+        // for framing around the skin item
+        this.lastClickedSkinItemName = skin_item.name;
+
         const marketStore = useMarketStore();
         // if there is a character in the preview
         if (marketStore.selectedForPreview?.[0]?.allowed_skins_list){
@@ -257,15 +265,30 @@ export const usePlayerStore = defineStore('player', {
             // emptying the selectedForPreview array and hide the save footer
             marketStore.resetAll();
             let $this = this;
-            this.activeCharacter.allowed_skins_list.map(function (skin_item) {
-              skin_item.is_weared = $this.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name)
+            // updating the ui with the applied tag
+            marketStore.categoriesWithSkinItems.map(function (category) {
+              category.skin_items_list.map(function (skin_item) {
+                if ($this.activeCharAllowedSkinsNames.includes(skin_item.name)){
+                  let is_weared = $this.activeCharCurrentlyWearedSkinsNames.includes(skin_item.name);
+                  // used in applying the "applied" badge
+                  skin_item.is_weared = is_weared;
+                  // used in wearSavedClothes
+                  $this.activeCharAllowedSkins.find(item => item.name == skin_item.name).is_weared = is_weared;
+                  // both should be done automatically after the getFullDataFormated() below
+                }
+              })
             })
             this.toast('Character clothes saved successfully.', { hideIn: 3000, type: 'success' })
             this.loadingChanges = false
             this.savetoallloading = false
           }
         }
-
+        // updating the ui from backend
+        // obligatory in case saved character, to mark its clothes as applied specially if its a freshly purshased character
+        // optional in saving character clothes (handled in the client side above)
+        // get fresh fomatted data
+        const { getFullDataFormated } = useGetCategoriesWithSkinItems();
+        getFullDataFormated();
       },
       arraysHaveSameItems(arr1, arr2) {
         if (arr1.length !== arr2.length)
@@ -316,7 +339,10 @@ export const usePlayerStore = defineStore('player', {
   },
   
   getters: {
-    activeCharBackendDefaultSkins: (state) => state.activeCharacter.allowed_skins_list.filter(skin_item => skin_item.is_default),
+    activeCharAllowedSkins: (state) => state.activeCharacter?.allowed_skins_list || [],
+    activeCharAllowedSkinsNames: (state) => state.activeCharAllowedSkins.map(skin_item => skin_item.name),
+    
+    activeCharBackendDefaultSkins: (state) => state.activeCharAllowedSkins.filter(skin_item => skin_item.is_default),
     activeCharBackendDefaultSkinsNames: (state) => state.activeCharBackendDefaultSkins.map(skin_item => skin_item.name),
 
     activeCharBackendWearedSkins: (state) => state.activeCharacter.allowed_skins_list.filter(skin_item => skin_item.is_weared),

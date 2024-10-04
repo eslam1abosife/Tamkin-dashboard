@@ -4,8 +4,13 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { helpers } from "@vuelidate/validators";
 import Multiselect from "vue-multiselect";
 import { useGetAppInvites } from "@/composables/useTeam";
+import {useGetTrafficByType} from '@/composables/useAddSite'
+
+const {getTrafficType} = useGetTrafficByType()
+
 const localePath = useLocalePath()
 const route = useRoute()
+
 const isLinkActive = (path) => {
   if (process.client) {
     const localizedPath = localePath(path); // Assuming you use i18n
@@ -31,33 +36,32 @@ const { getTraffic } = useGetTraffic();
 
 const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 const listOfApps = computed(() => {
-  // Check if category is 'Plugins' and the current type is 'Sign language'
-  if (
-    getCategory.value === "Plugins" &&
-    packagesStore.currentType.title === "Sign language"
-  ) {
-    return apps.value.filter(
-      (app) => app.app_domain !== null && app.status !== "deleted"
-    );
+  const category = getCategory.value;
+  const currentTypeTitle = packagesStore.currentType.title;
+
+  // Pre-filter apps by removing deleted ones
+  const validApps = apps.value.filter((app) => app.status !== "deleted");
+
+  // Optimize logic based on conditions
+  if (category === 0 && currentTypeTitle === "Sign language") {
+    // Return apps with non-null domains
+    return validApps.filter((app) => app.app_domain !== null);
   }
 
-  // Check if category is not 'Plugins'
-  if (getCategory.value && getCategory.value !== "Plugins") {
-    return apps.value.filter(
-      (app) => app.app_domain === null && app.status !== "deleted"
-    );
+  if (category && category !== 0) {
+    // Return apps with null domains for non-'Plugins' category
+    return validApps.filter((app) => app.app_domain === null);
   }
 
-  // Check if the current type is not 'Sign language' and category is not set
-  if (!getCategory.value && packagesStore.currentType.title !== "Sign language") {
-    return apps.value.filter(
-      (app) => app.app_domain !== null && app.status !== "deleted"
-    );
+  if (!category && currentTypeTitle !== "Sign language") {
+    // Return apps with non-null domains for non-'Sign language' types
+    return validApps.filter((app) => app.app_domain !== null);
   }
 
-  // Return an empty array by default if no condition is met
+  // Default case: return an empty array if no condition is met
   return [];
 });
+
 
 const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
@@ -74,38 +78,16 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
-  packagesStore.currentPackage.trial_days > 0 && !packagesStore.openedCurrentSite
-    ? 0
-    : packagesStore.discountType === "month" && !packagesStore.openedCurrentSite
-    ? 3
-    : packagesStore.openedCurrentSite
-    ? packagesStore.currentWebsite.billing_duration === "monthly"
-      ? 3
-      : packagesStore.currentWebsite.billing_duration === "3-monthly"
-      ? 1
-      : packagesStore.currentWebsite.billing_duration === "yearly"
-      ? 0
-      : 12 // default if billing_duration doesn't match the expected values
-    : 12 // default if openedCurrentSite doesn't exist
+  packagesStore.currentPackage.trial_days > 0  ? 0 : 3
+   
 );
 
 
-const selectedPackageWebsite = ref(
-  packagesStore.openedCurrentSite.billing_duration === "monthy"
-    ? 3
-    : packagesStore.openedCurrentSite.billing_duration === "yearly"
-    ? 12
-    : 1
-);
+
 const selectPackage = (plan: any) => {
   selectedPackage.value = plan;
 };
-const selectPackageWeb = (plan: any) => {
-  selectedPackage.value = plan;
-};
-const props = defineProps({
-  showModal: Boolean,
-});
+
 
 const {
   isOpen,
@@ -115,33 +97,48 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const openedCurrentSite = ref("");
 const levelof = ref(packagesStore.traffic_level);
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
-  // Remove the protocol (http, https) and www if present
-  const cleanedUrl = url.replace(/^(https?:\/\/)?(www\.)?/, "");
-  // Remove any path or query parameters by splitting at the first "/"
-  return cleanedUrl.split("/")[0];
+  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
 };
+const canAddWebsite = async (website) => {
+  const cleanedWebsiteUrl = cleanWebsiteUrl(website);
+  let isWebsiteInApps = false;
+  let isWebsiteInUrls = false;
+
+  // Check if the website exists in apps if urls or apps arrays are available
+  if (Array.isArray(packagesStore.urls) && packagesStore.urls.length || Array.isArray(apps.value) && apps.value.length) {
+    isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
+
+    // Check if the website already exists in packagesStore.urls
+    isWebsiteInUrls = packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
+  }
+
+  // Check if the website is blocked
+  const res = await checkifBlockedSite(cleanedWebsiteUrl); // Call the blocking check function
+  const isBlocked = res.length > 0;
+
+  // Return true if the website can be added
+  return !isWebsiteInApps && codeStatus.value === 200 && !isBlocked && !isWebsiteInUrls;
+};
+
+
 const addWebsite = async () => {
   loadingAddWebsite.value = true;
+
   if (!v$.value.$invalid) {
-    const res = await checkifBlockedSite(state.newWebsite);
     const traffic = await getTraffic(state.newWebsite, "url");
 
-    if (
-      apps.value.filter((ap) => ap.app_domain === state.newWebsite).length === 0 &&
-      codeStatus.value === 200 &&
-      res.length === 0 &&
-      packagesStore.urls.filter(
-        (website: any) => website.url === cleanWebsiteUrl(state.newWebsite)
-      ).length === 0
-    ) {
+    if (await canAddWebsite(state.newWebsite)) {
+      const cleanedWebsiteUrl = cleanWebsiteUrl(state.newWebsite);
+      loadingByWebsite.value[cleanedWebsiteUrl] = true;
+      // Push the new website to the store
+   
       packagesStore.urls.push({
-        title: cleanWebsiteUrl(state.newWebsite),
-        url: cleanWebsiteUrl(state.newWebsite),
+        title: cleanedWebsiteUrl,
+        url: cleanedWebsiteUrl,
         traffic:
           traffic[0].traffic <= 100000
             ? "Small"
@@ -149,6 +146,21 @@ const addWebsite = async () => {
             ? "Medium"
             : "Large",
       });
+if(packagesStore.currentType.title === 'Accessibility'){
+  
+      // Fetch price traffic for the newly added website
+      const res = await getPriceByTraffic(
+        [cleanedWebsiteUrl], // Pass the new website URL
+        packagesStore.currentPackage.name,
+        webs.value.map((we) => we.name) // Assuming you want to include these for the API call
+      );
+
+      // Update pricebytraffic with the new price information
+      pricebytraffic.value = [...pricebytraffic.value, ...res];
+      loadingByWebsite.value[cleanedWebsiteUrl] = false;
+
+}
+     
     } else {
       websiteExist.value = true;
     }
@@ -156,8 +168,11 @@ const addWebsite = async () => {
     state.newWebsite = "";
     v$.value.$reset();
     loadingAddWebsite.value = false;
+
   }
 };
+
+
 
 // watch(levelof, (ov, nv) => {
 //   // if(levelof.value === 'Up to 100K page views/mo' && ){
@@ -167,20 +182,30 @@ const addWebsite = async () => {
 const trafficTooHighApps = ref([]);
 const trafficTooHighUrls = ref([]);
 const removeWebsite = (website: any) => {
+  // Remove the website from packagesStore.urls
   packagesStore.urls = packagesStore.urls.filter((item: any) => item.title !== website);
 
+  // Remove the website from trafficTooHighUrls
   trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
     (item: any) => item.title !== website
   );
+
+  // Remove the website from pricebytraffic
+  pricebytraffic.value = pricebytraffic.value.filter((item: any) => item.website !== website);
 };
 
 const removeWebsiteFromSelectedApps = (website: any) => {
-  webs.value = webs.value.filter((item: any) => item.title !== website);
+  // Remove the website from webs
+  webs.value = webs.value.filter((item: any) => item.app_domain !== website);
 
-  trafficTooHighApps.value = trafficTooHighApps.value.filter(
-    (item: any) => item.title !== website
-  );
+  pricebytraffic.value = pricebytraffic.value.filter((item: any) => item.website !== website);
+
+  // Uncomment if you need to remove from trafficTooHighApps as well
+  // trafficTooHighApps.value = trafficTooHighApps.value.filter(
+  //   (item: any) => item.title !== website
+  // );
 };
+
 const pricebytraffic = ref([]);
 const calculateEstimatedPrice = computed(() => {
   if (packagesStore.currentType.title !== "Accessibility") {
@@ -190,107 +215,106 @@ const calculateEstimatedPrice = computed(() => {
       ? packagesStore.currentPackage.package_price_role[0].cost_3_month
       : packagesStore.currentPackage.package_price_role[0].cost_month;
   }
-  if (packagesStore.currentType.title === "Accessibility") {
-    if (levelof.value !== "Over 1M page views/mo") {
-      // Handle the case for traffic below 1M
-      return selectedPackage.value === 12
-        ? packagesStore.currentPackage.cost_yearly 
-        : selectedPackage.value === 3
-        ? packagesStore.currentPackage.cost_3_month 
-        : selectedPackage.value === 1
-        ? packagesStore.currentPackage.cost_month 
-        : packagesStore.currentPackage.trial_days > 0
-        ? 0
-        : 0;
-    } else if (
-      levelof.value === "Over 1M page views/mo" &&
-      pricebytraffic.value.length > 0
-    ) {
-      // Handle the case for traffic over 1M
-      // Find the matching website in webs or packagesStore.urls
-      const openedCurrentSite =
-        webs.value.find((item: any) =>
-          pricebytraffic.value.some(
-            (priceItem: any) => priceItem.website === item.app_domain
-          )
-        ) ||
-        packagesStore.urls.find((item: any) =>
-          pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
-        );
+  // if (packagesStore.currentType.title === "Accessibility") {
+  //   if (levelof.value !== "Over 1M page views/mo") {
+  //     // Handle the case for traffic below 1M
+  //     return selectedPackage.value === 12
+  //       ? packagesStore.currentPackage.cost_yearly 
+  //       : selectedPackage.value === 3
+  //       ? packagesStore.currentPackage.cost_3_month 
+  //       : selectedPackage.value === 1
+  //       ? packagesStore.currentPackage.cost_month 
+  //       : packagesStore.currentPackage.trial_days > 0
+  //       ? 0
+  //       : 0;
+  //   } else if (
+  //     levelof.value === "Over 1M page views/mo" &&
+  //     pricebytraffic.value.length > 0
+  //   ) {
+  //     // Handle the case for traffic over 1M
+  //     // Find the matching website in webs or packagesStore.urls
+  //     const openedCurrentSite =
+  //       webs.value.find((item: any) =>
+  //         pricebytraffic.value.some(
+  //           (priceItem: any) => priceItem.website === item.app_domain
+  //         )
+  //       ) ||
+  //       packagesStore.urls.find((item: any) =>
+  //         pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
+  //       );
 
-      if (openedCurrentSite) {
-        // Find the corresponding price entry in pricebytraffic for the current website
-        const priceInfo = pricebytraffic.value.find(
-          (priceItem: any) =>
-            priceItem.website === openedCurrentSite.app_domain ||
-            priceItem.website === openedCurrentSite.url
-        );
+  //     if (openedCurrentSite) {
+  //       // Find the corresponding price entry in pricebytraffic for the current website
+  //       const priceInfo = pricebytraffic.value.find(
+  //         (priceItem: any) =>
+  //           priceItem.website === openedCurrentSite.app_domain ||
+  //           priceItem.website === openedCurrentSite.url
+  //       );
 
-        if (priceInfo) {
-          // Return cost based on the selected package
-          return selectedPackage.value === 12
-            ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
-            : selectedPackage.value === 1
-            ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-            : priceInfo.cost_3_month;
-        }
-      }
+  //       if (priceInfo) {
+  //         // Return cost based on the selected package
+  //         return selectedPackage.value === 12
+  //           ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
+  //           : selectedPackage.value === 1
+  //           ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
+  //           : priceInfo.cost_3_month;
+  //       }
+  //     }
 
-      return 0; // Return 0 if no matching website or price is found
-    }
-  }
+  //     return 0; // Return 0 if no matching website or price is found
+  //   }
+  // }
 });
+const loadingByWebsite = ref({}); 
+
 const calculatePrice = (website) => {
-  const isAccessibility = packagesStore.currentType && packagesStore.currentType.title === "Accessibility";
+  const currentWebsite = packagesStore.urls.find((item) => item.url === website);
+  const currentApp = webs.value.find((item) => item.app_domain === website);
 
-  if (!isAccessibility) {
-    // Handle non-Accessibility types
-    return selectedPackage.value === 12
-      ? packagesStore.currentPackage.package_price_role[0].cost_yearly 
-      : selectedPackage.value === 3
-      ? packagesStore.currentPackage.package_price_role[0].cost_3_month 
-      : packagesStore.currentPackage.package_price_role[0].cost_month;
-  } 
+  // Check if either currentWebsite or currentApp exists and pricebytraffic has data
+  if ((currentWebsite || currentApp) && pricebytraffic.value.length) {
+    
+    const targetDomain = currentWebsite?.url || currentApp?.app_domain; // Safely get the domain
+    const priceInfo = pricebytraffic.value.find(
+      (priceItem) => priceItem.website === targetDomain
+    );
 
-  // Handle Accessibility type
-  if (levelof.value !== "Over 1M page views/mo") {
-    // Traffic below 1M
-    return selectedPackage.value === 12
-      ? packagesStore.currentPackage.cost_yearly  
-      : selectedPackage.value === 3
-      ? packagesStore.currentPackage.cost_3_month 
-      : selectedPackage.value === 1
-      ? packagesStore.currentPackage.cost_month 
-      : packagesStore.currentPackage.trial_days > 0 && !packagesStore.openedCurrentSite
-      ? 0
-      : 0;
-  } 
+    // Ensure priceInfo is found before accessing its properties
+    if (priceInfo) {
 
-  // Traffic over 1M
-  if (levelof.value === "Over 1M page views/mo" && pricebytraffic.value.length > 0) {
-    const currentWebsite = webs.value.find((item) => item.app_domain === website.app_domain) ||
-                           packagesStore.urls.find((item) => item.url === website.url);
-
-
-    if (currentWebsite) {
-      const priceInfo = pricebytraffic.value.find(
-        (priceItem) =>
-          priceItem.website === currentWebsite.app_domain ||
-          priceItem.website === currentWebsite.url
-      );
-      console.log('pricehree',priceInfo);
-   
-
-      if (priceInfo) {
-        return selectedPackage.value === 12
-          ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
-          : selectedPackage.value === 3
-          ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
-          : selectedPackage.value === 1
-          ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-          : 0; // Default case
-      }
+      return  selectedPackage.value === 12
+        ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
+        : selectedPackage.value === 3
+        ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
+        : selectedPackage.value === 1
+        ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
+        : 0; // Default case when no valid package is selected
+         
     }
+
+  }
+  // loadingPriceTraffic.value = false
+
+
+  return 0; // Default return value if no valid website or pricing info is found
+};
+
+const calculateTotalPrice = () => {
+  if (pricebytraffic.value.length > 0) {
+    // Sum all prices in pricebytraffic
+    const totalCost = pricebytraffic.value.reduce((sum, priceItem) => {
+      return sum + (
+        selectedPackage.value === 12
+          ? priceItem.cost_year || 0 // Fallback to 0 if undefined
+          : selectedPackage.value === 3
+          ? priceItem.cost_3_month || 0 // Fallback to 0 if undefined
+          : selectedPackage.value === 1
+          ? priceItem.cost_month || 0 // Fallback to 0 if undefined
+          : 0 // Default case
+      );
+    }, 0); // Start summing from 0
+
+    return totalCost; // Return the total sum
   }
 
   return 0; // Default return if no conditions are met
@@ -298,27 +322,31 @@ const calculatePrice = (website) => {
 
 
 
+
+
 const packageTypeToSend = computed(() => {
-  const { currentType, currentPackage } = packagesStore;
 
-  if ((currentType && currentType.name === "Sign language") && currentPackage.package_type !== "Package") {
+
+  const isSignLanguage = packagesStore.currentType.title === "Sign language";
+  const isAccessibility = packagesStore.currentType.title === "Accessibility";
+  const isPackageType = packagesStore.currentPackage.package_type === "Package";
+  const isAddonsType = packagesStore.currentPackage.package_type === "Addons";
+// alert(packagesStore.currentType.title)
+  if (isSignLanguage && !isPackageType) {
+    return getCategory.value === 0 ? 'Plugins' : getCategory.value;
+  }
+
+  if (isSignLanguage && isPackageType && getCategory.value) {
     return getCategory.value;
   }
 
-  if (
-    (currentType &&  currentType.name === "Sign language" )&&
-    currentPackage.package_type === "Package" &&
-    getCategory.value
-  ) {
-    return getCategory.value;
-  }
-
-  if ((currentType  &&currentType.name === "Accessibility") && currentPackage.package_type === "Addons") {
+  if (isAccessibility && isAddonsType) {
     return "Accessibility";
   }
 
-  return null;
+  return null; // Default return if no conditions are met
 });
+
 
 /**
  * Sets the package payload and navigates to the payment methods page.
@@ -330,13 +358,12 @@ const conintuePay = () => {
     urls: packagesStore.urls.length
       ? packagesStore.urls.filter((website: any) => website.url !== null)
       : [].map((website: any) => website.url),
-    apps: webs.value.length ? webs.value.map((website: any) => website.name) : [],
+    apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: totalCost.value,
-    packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
-    packageTrie: levelof.value && packagesStore.currentType.title !== 'Sign language' ||
-     packagesStore.openedCurrentSite && levelof.value.name ? levelof.value.name || levelof.value : null,
+    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : totalCost.value,
+    packageExtraType: packageTypeToSend.value ,
+    packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
   };
   return navigateTo("add_package_modal_packages", "packages", "payment_methods_packages");
 };
@@ -356,209 +383,257 @@ const totalCost = computed(() => {
 });
 
 const getCategory = computed(() => {
-  return !packagesStore.openedCurrentSite && packagesStore.currentType &&
+  if (
+    packagesStore.currentType &&
     packagesStore.currentType.title === "Sign language" &&
     packagesStore.categories.length
-    ? packagesStore.categories.find(
-        (item: any) => item.name === packagesStore.currentPackage.category
-      ).title
-    : null;
+  ) {
+    const categoryItem = packagesStore.categories.find(
+      (item: any) => item.name === packagesStore.currentPackage.category
+    );
+
+    return categoryItem && categoryItem.title === "Plugins" ? 0 : categoryItem?.title || null;
+  }
+  
+  return null;
 });
 
-const geteFilterInfo = async (level: any) => {
-  // if (level.name === "Over 1M page views/mo") {
-    loadingPriceTraffic.value = true;
-    const res = await getPriceByTraffic(
-      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
-      packagesStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-    loadingPriceTraffic.value = false;
-  // }
-  levelof.value = level.name || level;
-};
 
-const uniqueValues = (items) => {
-  const seen = new Set();
+const geteFilterInfo = async () => {
+  if (
+    packagesStore.currentType?.title === "Accessibility" && 
+    (webs.value.length > 0 || packagesStore.urls.length > 0)
+  ) {
+    try {
+      
+      // Extract the URLs and app domains only if they exist
+      const urls = packagesStore.urls.map((we) => we.url);
+      const appDomains = webs.value.map((we) => we.name);
 
-  const uniqueItems = items.filter((item) => {
-    if (seen.has(item.name)) {
-      return false;
+      // Call the API with both arrays
+      const res = await getPriceByTraffic(urls, packagesStore.currentPackage.name, appDomains);
+      
+      // Assign the response to pricebytraffic
+      pricebytraffic.value = res;
+
+      // Uncomment if needed: Assign the title from the first result to levelof.value
+      // levelof.value = res[0]?.title || '';
+
+    } catch (error) {
+      console.error("Error fetching price by traffic:", error);
+    } finally {
+      // Ensure loading state is reset in both success and error cases
+  loadingPriceTraffic.value = false;
+
     }
-    seen.add(item.name);
-    return true;
-  });
-
-  return uniqueItems;
-};
-/**
- * Given a package id, returns the package with the matched
- * price role.
- *
- * @param {string} id - The package id to search for
- * @return {Object} The package with the matched price role
- * @property {number} cost_before_month - The cost before discount
- * @property {number} cost_year - The cost of the package per year
- * @property {number} cost_month - The cost of the package per month
- * @property {number} cost_3_month - The cost of the package for 3 months
- * @property {number} cost_investor - The cost of the package for investors
- * @property {boolean} is_contact_us - Whether to contact us to get the package
- * @property {number} data_cost_month - The cost of the package per month of data
- * @property {number} cost_yearly - The cost of the package per year
- * @property {number} discount_month - The discount for the month
- * @property {number} discount_3_month - The discount for 3 months
- * @property {number} discount_yearly - The discount for the year
- * @property {number} cost_before_yearly - The cost before discount for the year
- */
-const getPackageById = (id) => {
-  const packageg = packagesStore.packages.find(
-    (pkg) =>
-      pkg.name === id && // Filter by the package id
-      pkg.type === packagesStore.currentType.name &&
-      pkg.package_type === "Package" &&
-      pkg.package_price_role.some((item) => item.title === levelof.value)
-  );
-console.log(id)
-  if (packageg) {
-    const priceRole = packageg.package_price_role.find(
-      (item) => item.title === levelof.value
-    );
-    // alert(priceRole.cost_month)
-    return {
-      ...packageg,
-      // Add fields from the matched price role
-      cost_before_month: priceRole.cost_before_month,
-      cost_year: priceRole.cost_year,
-      cost_month: priceRole.cost_month,
-      cost_3_month: priceRole.cost_3_month,
-      cost_investor: priceRole.cost_investor,
-      is_contact_us: priceRole.is_contact_us,
-      data_cost_month: priceRole.data_cost_month,
-      cost_yearly: priceRole.cost_yearly,
-      discount_month: priceRole.discount_month,
-      discount_3_month: priceRole.discount_3_month,
-      discount_yearly: priceRole.discount_yearly,
-      cost_before_yearly: priceRole.cost_before_yearly,
-    };
   }
-
-  return undefined; // Return undefined if not found
 };
+
+
+
+// const getPackageById = (id) => {
+//   const packageg = packagesStore.packages.find(
+//     (pkg) =>
+//       pkg.name === id && // Filter by the package id
+//       pkg.type === packagesStore.currentType.name &&
+//       pkg.package_type === "Package" &&
+//       pkg.package_price_role.some((item) => item.title === levelof.value)
+//   );
+// // console.log(id)
+//   if (packageg) {
+//     const priceRole = packageg.package_price_role.find(
+//       (item) => item.title === levelof.value
+//     );
+//     // alert(priceRole.cost_month)
+//     return {
+//       ...packageg,
+//       // Add fields from the matched price role
+//       cost_before_month: priceRole.cost_before_month,
+//       cost_year: priceRole.cost_year,
+//       cost_month: priceRole.cost_month,
+//       cost_3_month: priceRole.cost_3_month,
+//       cost_investor: priceRole.cost_investor,
+//       is_contact_us: priceRole.is_contact_us,
+//       data_cost_month: priceRole.data_cost_month,
+//       cost_yearly: priceRole.cost_yearly,
+//       discount_month: priceRole.discount_month,
+//       discount_3_month: priceRole.discount_3_month,
+//       discount_yearly: priceRole.discount_yearly,
+//       cost_before_yearly: priceRole.cost_before_yearly,
+//     };
+//   }
+
+//   return undefined; // Return undefined if not found
+// };
+// watch(
+//   () => levelof.value,
+//   () => {
+//     loadingPriceTraffic.value = true;
+//     packagesStore.currentPackage = getPackageById(packagesStore.currentPackage.name);
+//     loadingPriceTraffic.value = false;
+
+//   }
+// );
 watch(
-  () => levelof.value,
+  () => selectedPackage.value,
   () => {
-    packagesStore.currentPackage = getPackageById(packagesStore.currentPackage.name);
+
+    if(packagesStore.currentType.title === "Accessibility"){
+  geteFilterInfo();
+  
+    }
+
+
   }
 );
+// watchEffect(() => {
+//   if (
+//     packagesStore.currentType.title === "Accessibility" &&
+//     packagesStore.currentPackage.package_type === "Package"
+//   ) {
+//     // Determine the traffic limit based on the selected level
+//     const trafficLimit =
+//       levelof.value === "Up to 100K page views/mo"
+//         ? 100000
+//         : levelof.value === "Up to 1M page views/mo"
+//         ? 1000000
+//         : 0;
+// // alert(trafficLimit)
+//     // Find affected items in webs
+//     const newAffectedItems = webs.value?.filter(
+//       (item: any) => item.traffic > trafficLimit
+//     );
 
-watchEffect(() => {
-  if (
-    packagesStore.currentType.title === "Accessibility" &&
-    packagesStore.currentPackage.package_type === "Package"
-  ) {
-    // Determine the traffic limit based on the selected level
-    const trafficLimit =
-      levelof.value === "Up to 100K page views/mo"
-        ? 100000
-        : levelof.value === "Up to 1M page views/mo"
-        ? 1000000
-        : 0;
-// alert(trafficLimit)
-    // Find affected items in webs
-    const newAffectedItems = webs.value?.filter(
-      (item: any) => item.traffic > trafficLimit
-    );
+//     if (newAffectedItems && newAffectedItems.length > 0) {
+//       trafficTooHighApps.value = [...trafficTooHighApps.value, ...newAffectedItems];
+//     }
 
-    if (newAffectedItems && newAffectedItems.length > 0) {
-      trafficTooHighApps.value = [...trafficTooHighApps.value, ...newAffectedItems];
+//     // Find affected items in packagesStore.urls
+//     const newAffectedItemsInUrls = packagesStore.urls?.filter((item: any) => {
+//       const trafficValue =
+//         item.traffic === "Small"
+//           ? 100000
+//           : item.traffic === "Medium"
+//           ? 1000000
+//           : 10000000; // For 'Large'
+//       return trafficValue > trafficLimit;
+//     });
+
+//     if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
+//       trafficTooHighUrls.value = [
+//         ...trafficTooHighUrls.value,
+//         ...newAffectedItemsInUrls.map((item) => ({
+//           title: item.title,
+//           url: item.url,
+//           traffic:
+//             item.traffic <= 100000
+//               ? "Small"
+//               : item.traffic > 100000 && item.traffic <= 1000000
+//               ? "Medium"
+//               : "Large",
+//         })),
+//       ];
+//     }
+
+//     // If level is 'Over 1M page views/mo', remove recently added items
+//       // Remove items from trafficTooHighApps
+//       trafficTooHighApps.value = trafficTooHighApps.value.filter(
+//         (item: any) => !newAffectedItems.includes(item)
+//       );
+
+//       // Remove items from trafficTooHighUrls
+//       trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
+//         (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
+//       );
+   
+//   }
+// });
+// Helper function to find the new websites added
+const getNewWebsites = (oldWebs, newWebs) => {
+  // Return websites that are present in newWebs but not in oldWebs
+  return newWebs.filter((newWeb) => {
+    return !oldWebs.some((oldWeb) => oldWeb.app_domain === newWeb.app_domain);
+  });
+};
+
+
+
+
+
+
+
+watch(
+  () => webs.value, 
+  async (newWebs, oldWebs) => {
+    const newWebsites = getNewWebsites(oldWebs, newWebs); // Get the websites that are newly added
+
+    // Iterate over the new websites and make API calls for each
+if(packagesStore.currentType.title === 'Accessibility'){
+  for (let newWeb of newWebsites) {
+      // Set loading state to true for this website
+      loadingByWebsite.value[newWeb.app_domain] = true;
+
+      try {
+        // Make API call for the new website
+        const res = await getPriceByTraffic(
+          packagesStore.urls.map((we) => we.url), // The URLs in packagesStore
+          packagesStore.currentPackage.name,      // Current package name
+          [newWeb.name]                           // Single website name for this API call
+        );
+
+        // Update the price for this website in pricebytraffic
+        pricebytraffic.value = [...pricebytraffic.value, ...res];
+
+      } catch (error) {
+        console.error(`Failed to fetch price for ${newWeb.app_domain}`, error);
+      }
+
+      // Set loading state to false after API call is done
+      loadingByWebsite.value[newWeb.app_domain] = false;
     }
-
-    // Find affected items in packagesStore.urls
-    const newAffectedItemsInUrls = packagesStore.urls?.filter((item: any) => {
-      const trafficValue =
-        item.traffic === "Small"
-          ? 100000
-          : item.traffic === "Medium"
-          ? 1000000
-          : 10000000; // For 'Large'
-      return trafficValue > trafficLimit;
-    });
-
-    if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
-      trafficTooHighUrls.value = [
-        ...trafficTooHighUrls.value,
-        ...newAffectedItemsInUrls.map((item) => ({
-          title: item.title,
-          url: item.url,
-          traffic:
-            item.traffic <= 100000
-              ? "Small"
-              : item.traffic > 100000 && item.traffic <= 1000000
-              ? "Medium"
-              : "Large",
-        })),
-      ];
-    }
-
-    // If level is 'Over 1M page views/mo', remove recently added items
-    if (levelof.value === "Over 1M page views/mo") {
-      // Remove items from trafficTooHighApps
-      trafficTooHighApps.value = trafficTooHighApps.value.filter(
-        (item: any) => !newAffectedItems.includes(item)
-      );
-
-      // Remove items from trafficTooHighUrls
-      trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
-        (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
-      );
-    }
-  }
-});
-
-watch(packagesStore.urls, async () => {
-  if (levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
-      packagesStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-});
-watch(webs, async () => {
-  if (levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
-      packagesStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-});
-
-onMounted(async () => {
-  if (packagesStore.openedCurrentSite) {
-    webs.value.push(packagesStore.currentWebsite);
-  }
-
-if(packagesStore.openedCurrentSite &&packagesStore.currentPackage.type === 'Accessibility'){
-  const typeg = packagesStore.types.find(t=>t.title === 'Accessibility')
-packagesStore.currentType = typeg
 }
-  
-  if (!packagesStore.traffic_level) {
-    const trafficLevels = packagesStore.getTraffiPrices("Package",'Accessibility');
-    // alert(trafficLevels[0].name)
-    packagesStore.setTrafficLevel(trafficLevels[0].name);
+  },
+  { deep: true } // Deep watcher to track nested changes within webs
+);
 
-  }
- if(packagesStore.currentType.title === 'Accessibility'){
-  await geteFilterInfo(levelof.value || packagesStore.traffic_level)
- }
+
+
+
+// onMounted(async () => {
+
+
+// if(packagesStore.currentPackage.type === 'Accessibility'){
+//   const typeg = packagesStore.types.find(t=>t.title === 'Accessibility')
+// packagesStore.currentType = typeg
+// }
+  
+//   if (!packagesStore.traffic_level) {
+//     const trafficLevels = packagesStore.getTraffiPrices("Package",'Accessibility');
+//     // alert(trafficLevels[0].name)
+//     packagesStore.setTrafficLevel(trafficLevels[0].name);
+
+//   }
+//  if(packagesStore.currentType.title === 'Accessibility'){
+//   await geteFilterInfo(levelof.value || packagesStore.traffic_level)
+//  }
+
 
  
-});
+// });
+onMounted(async ()=>{
+//  loadingPriceTraffic.value = true
+
+if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || packagesStore.urls.length)){
+  await geteFilterInfo()
+
+   await getTrafficType(packagesStore.currentPackage.name)
+  //  levelof.value = packagesStore.levelsTraffic[0]
+}
+
+//  loadingPriceTraffic.value = false
+
+// levelof.value = addSiteStore.currentLevel.name
+})
 /**
  * Function to check if a given website already exists in our database.
  * It cleans the given website domain and then checks if the clean domain exists in the list of apps or urls.
@@ -576,27 +651,59 @@ const checkforexistingwebsite = () => {
     websiteExist.value = false;
   }
 };
-watch(()=>selectPackage,async ()=>{
-  if (levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
-      packagesStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-})
+// watch(()=>selectPackage,async ()=>{
+//   if (levelof.value === "Over 1M page views/mo") {
+//     const res = await getPriceByTraffic(
+//       [...(packagesStore.urls.length ? packagesStore.urls.map((we) => we.url) : [])],
+//       packagesStore.currentPackage.name,
+//       [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+//     );
+//     pricebytraffic.value = res;
+//   }
+// })
 const closeModalPackage = () => {
+  packagesStore.urls.length ? packagesStore.urls = [] : null
+webs.value.length ? webs.value = [] : null
+packagesStore.selectedPaymentMethod  = ''
   closeModal("add_package_modal_packages");
-  webs.value = [];
-  packagesStore.urls = [];
+ 
 };
+const formattedEstimatedPrice = computed(()=> {
+    if (selectedPackage !== 0) {
+      return calculateEstimatedPrice.value
+        .toFixed(0)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    return 0;
+  })
+  // Computed property for the price when the package type IS 'Accessibility'
+  const formattedAccessibilityPrice = (websiteDomain)=> {
+    // loadingPricesAccess.value.push(websiteDomain)
+
+        if (packagesStore.currentPackage.trial_days > 0 && selectedPackage.value === 0) {
+          return 0;
+        } else {
+          // loadingPricesAccess.value.splice(websiteDomain)
+
+           return calculatePrice(websiteDomain)
+            .toFixed(0)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        }
+    
+        // 
+    
+  
+  }
 </script>
 
 <template>
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
+  
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
@@ -652,15 +759,15 @@ const closeModalPackage = () => {
               }}
               {{
                 packagesStore.currentType.title === "Sign language"
-                  ? "- " + $t(getCategory)
+                  ? "- " + (getCategory === 0 ? $t('Plugins') : $t(`${getCategory}`))
                   : ""
               }}
             </div>
           </div>
           <div
             v-if="
-              !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons' ||
-              !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'
+             packagesStore.currentPackage.package_type === 'Addons' ||
+             packagesStore.currentPackage.package_type === 'Extra'
             "
             class="h-[61px] w-full border-b mt-[28px] flex items-center justify-start rtl:space-x-reverse space-x-[18px] bg-[#EFF5FF]"
           >
@@ -677,7 +784,7 @@ const closeModalPackage = () => {
 
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
+              v-if=" packagesStore.currentPackage.package_type === 'Addons'"
             >
               {{ $t(packagesStore.currentType.title) }} -
               <!-- {{ $t(packagesStore.currentPackage.package_type) }}  -->
@@ -689,7 +796,7 @@ const closeModalPackage = () => {
             </div>
             <div
               class="text-[15px] font-[400] leading-[26px] rtl:!mr-auto ltr:!ml-auto pr-[5px] text-[#1E1E1E]"
-              v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
+              v-if=" packagesStore.currentPackage.package_type === 'Extra'"
             >
               {{ $t(packagesStore.currentPackage.sub_title) }}
             </div>
@@ -703,8 +810,8 @@ const closeModalPackage = () => {
           >
             <div
               v-if="
-                packagesStore.currentPackage.trial_days > 0 &&
-                !packagesStore.openedCurrentSite
+                packagesStore.currentPackage.trial_days > 0
+             
               "
               class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
               style="padding: 16px, 10px, 16px, 10px"
@@ -742,8 +849,7 @@ const closeModalPackage = () => {
             </div>
             <div
               v-if="
-                packagesStore.currentWebsite.billing_duration !== 'monthly' || 
-                !packagesStore.openedCurrentSite
+                packagesStore.currentWebsite.billing_duration !== 'monthly' && packagesStore.currentPackage.trial_days === 0
               "
               class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
               style="padding: 16px, 10px, 16px, 10px"
@@ -788,7 +894,7 @@ const closeModalPackage = () => {
             </div>
             <div
               v-if="
-           (     packagesStore.openedCurrentSite &&
+           ( 
                 packagesStore.openedCurrentSite.billing_duration !== '3-monthly' ) || 
                 packagesStore.currentPackage.trial_days === 0
               "
@@ -842,7 +948,7 @@ const closeModalPackage = () => {
             </div>
             <div
               v-if="
-                !packagesStore.openedCurrentSite ||
+             
                 packagesStore.openedCurrentSite.billing_duration !== 'yearly'
               "
               class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full relative pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
@@ -897,18 +1003,18 @@ const closeModalPackage = () => {
           </div>
           <multiselect
             v-model="webs"
+            v-if="getCategory === null || getCategory === 0"
             :options="listOfApps"
             :disabled="isLinkActive('/my-site')"
-            :multiple="packagesStore.openedCurrentSite ? false : true"
+            :multiple="true"
             :close-on-select="true"
             :clear-on-select="false"
             :preserve-search="true"
             :placeholder="$t('Choose sites')"
-            label="title"
+            label="app_domain"
             class="mt-[24px]"
             :selected-label="$t('Selected')"
             track-by="app_domain"
-            :preselect-first="false"
             :showNoOptions="false"
             :showNoResults="false"
             :select-label="$t('Press enter to select')"
@@ -931,17 +1037,28 @@ const closeModalPackage = () => {
             <template #option="props">
               <div class="option__desc">
                 <span class="option__title">{{
-                  props.option.title === "Internal Service"
-                    ? $t(props.option.title)
-                    : props.option.title
+              
+                   props.option.app_domain
                 }}</span>
               </div>
             </template>
           </multiselect>
+
+          <input
+          v-if="getCategory !== 0 && packagesStore.currentType.title === 'Sign language'"
+          :disabled="true"
+            type="text"
+            placeholder=""
+            id="newWebsite"
+            class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px] mt-[24px]"
+          :value="$t('Internal Service')"
+           
+          />
+         
           <div
           v-if="
      
-          ( !packagesStore.openedCurrentSite && 
+          ( 
             packagesStore.currentPackage.package_type !== 'Extra' &&
             packagesStore.currentPackage.package_type !== 'Addons' &&
             packagesStore.currentType.title === 'Sign language' &&
@@ -958,6 +1075,7 @@ const closeModalPackage = () => {
                 class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
                 v-model="v$.newWebsite.$model"
                 @input="checkforexistingwebsite"
+                 :disabled=" loadingAddWebsite"
                 :class="{
                   input_error:
                     (v$.newWebsite.$error &&
@@ -1047,7 +1165,7 @@ const closeModalPackage = () => {
             </div>
           </div>
 
-          <div
+          <!-- <div
             class="w-full mt-[24px]"
             v-if="
               (packagesStore.currentType.title === 'Accessibility' &&
@@ -1063,7 +1181,7 @@ const closeModalPackage = () => {
               idField="id"
               :currentListValue="levelof"
             />
-          </div>
+          </div> -->
           <!-- <TranslateSelectInput
               @getCurrentSelectedItem="geteFilterInfo"
               :enableSearch="false"
@@ -1161,44 +1279,111 @@ const closeModalPackage = () => {
                   class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   {{
-                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === "Package"
-                      ? $t(website.traffic)
-                      : $t("Not Applicable")
-                  }}
+                    packagesStore.currentPackage.package_type === "Package" && packagesStore.currentPackage.type === 'Accessibility'
+                       ? $t(`${website.traffic}`)
+                       : $t("Not Applicable")
+                   }}
+          
+              
                 </td>
 
                 <td
-                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Package'"
-                  class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentPackage.type !== 'Accessibility'"
+                class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+                <div class="flex items-center justify-center">
+                  <div v-if="!loadingPriceTraffic">
+                    {{ formattedEstimatedPrice }}
+                  </div>
+              
+                  <svg
+                    v-if="loadingPriceTraffic"
+                    class="animate-spin h-5 w-5 text-tamkin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+              </td>
+              
+         
+              
+              <td
+              v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentPackage.type === 'Accessibility'"
+              class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+            >
+              <div class="flex items-center justify-center">
+                <div v-if="!loadingByWebsite[website.url]">
+                  ${{ formattedAccessibilityPrice(website.url) }}
+                </div>
+            
+                <svg
+                  v-else
+                  class="animate-spin h-5 w-5 text-tamkin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
                 >
-                  ${{
-                    calculateEstimatedPrice
-                      .toFixed(0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                </td>
-                <td
-                  v-if="
-                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra' ||
-                    !packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'
-                  "
-                  class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  ${{
-                    selectedPackage === 1
-                      ? packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
-                          0
-                        )
-                      : selectedPackage === 3
-                      ? packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
-                          0
-                        )
-                      : packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
-                          0
-                        )
-                  }}
-                </td>
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+            </td>
+            <td
+            v-if="packagesStore.currentPackage.package_type === 'Addons'"
+            class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+          >
+            ${{
+              (() => {
+                const formatNumber = (num) =>
+                  Math.floor(num)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                const getPackagePrice = () => {
+                  if (selectedPackage === 1) {
+                    return packagesStore.currentPackage.package_price_role[0]
+                      .cost_month;
+                  } else if (selectedPackage === 3) {
+                    return packagesStore.currentPackage.package_price_role[0]
+                      .cost_3_month;
+                  } else {
+                    return packagesStore.currentPackage.package_price_role[0]
+                      .cost_yearly;
+                  }
+                };
+
+                const packagePrice = getPackagePrice();
+
+                return formatNumber(packagePrice);
+              })()
+            }}
+          </td>
               </tr>
               <tr
                 v-for="(website, index) in webs"
@@ -1219,7 +1404,7 @@ const closeModalPackage = () => {
                     >
                       <div>
                         {{
-                          website.title === "Internal Service"
+                          website.title && website.title === "Internal Service"
                             ? $t(website.title)
                             : website.app_domain
                         }}
@@ -1255,7 +1440,7 @@ const closeModalPackage = () => {
 
                   <div
                     class="cursor-pointer"
-                    @click="removeWebsiteFromSelectedApps(website.title)"
+                    @click="removeWebsiteFromSelectedApps(website.app_domain)"
                   >
                     <svg
                       width="18"
@@ -1286,49 +1471,97 @@ const closeModalPackage = () => {
                       : $t("Large")
                   }}
                 </td>
-
+                
                 <td
-                  v-if=" packagesStore.currentPackage.package_type === 'Package'"
-                  class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
-                >
-                  <div class="flex items-center justify-center">
-                    <div v-if="!loadingPriceTraffic ">
-                   
-                    ${{
-                     
-                        calculatePrice(website)
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    
-                    }}
-                    </div>
-
-                    <svg
-                      v-if="loadingPriceTraffic"
-                      class="animate-spin h-5 w-5 text-tamkin"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
+                v-if="packagesStore.currentPackage.package_type === 'Package' && 
+                packagesStore.currentType.title !== 'Accessibility'"
+                class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+                <div class="flex items-center justify-center">
+                  <div v-if="!loadingPriceTraffic">
+                    ${{ formattedEstimatedPrice }}
                   </div>
-                </td>
+              
+                  <svg
+                    v-if="loadingPriceTraffic"
+                    class="animate-spin h-5 w-5 text-tamkin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+              </td>
+              <td
+              v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentType.title === 'Accessibility'"
+              class="py-2 border-b text-left text-[16px] leading-[24px] w-[80px] font-[400] text-darkGrey dark:text-whiteTamkin"
+            >
+              <div class="flex items-center justify-center">
+                <div v-if="!loadingByWebsite[website.app_domain]">
+                  ${{ formattedAccessibilityPrice(website.app_domain) }}
+                </div>
+            
+                <svg
+                  v-else
+                  class="animate-spin h-5 w-5 text-tamkin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+            </td>
+              
+                <!-- <td
+                v-if="
+             
+                packagesStore.currentPackage.package_type === 'Extra'
+            
+              "
+                  class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  ${{
+                    selectedPackage === 1
+                      ? packagesStore.currentPackage.package_price_role[0].cost_month.toFixed(
+                          0
+                        )
+                      : selectedPackage === 3
+                      ? packagesStore.currentPackage.package_price_role[0].cost_3_month.toFixed(
+                          0
+                        )
+                      : packagesStore.currentPackage.package_price_role[0].cost_yearly.toFixed(
+                          0
+                        )
+                  }}
+                </td> -->
                 <td
-                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
+                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
                   class="py-2 border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   ${{
@@ -1358,7 +1591,7 @@ const closeModalPackage = () => {
                   }}
                 </td>
                 <td
-                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Extra'"
+                  v-if="packagesStore.currentPackage.package_type === 'Extra'"
                   class="py-2 border-b text-[16px] text-center leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   ${{
@@ -1379,29 +1612,44 @@ const closeModalPackage = () => {
                 </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="packagesStore.currentPackage.package_type === 'Package'"
+                  v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentType.title !== 'Accessibility'"
                 >
-                <!-- ${{
-                  !packagesStore.openedCurrentSite 
-                    ? (
-                        (calculateEstimatedPrice.toFixed(0) * webs.length) +
-                        (calculateEstimatedPrice.toFixed(0) * packagesStore.urls.length)
-                      )
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    : packagesStore.openedCurrentSite && packagesStore.currentPackage.trial_days > 0 
-                      ? "0"
-                      : (
-                        (calculateEstimatedPrice.toFixed(0) * webs.length) +
-                        (calculateEstimatedPrice.toFixed(0) * packagesStore.urls.length)
-                      )
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }} -->
+                ${{
+                  
+
+                  packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
+  ? "0"
+  : (
+      (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length))
+    )
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+                }}
                 
                 
                 </td>
+                
+                <td
+                class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                v-if="packagesStore.currentPackage.package_type === 'Package' && 
+                packagesStore.currentType.title === 'Accessibility'"
+              >
+              ${{
+                
+
+                packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
+? "0"
+: 
+    calculateTotalPrice() 
+  
+  .toString()
+  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+              }}
               
+              
+              </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
                   v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
@@ -1458,11 +1706,11 @@ const closeModalPackage = () => {
               class="btn-dashboard hover_tamkin"
               @click="conintuePay"
               :disabled="
-                (packagesStore.urls.length === 0 && webs.length === 0) ||
-                trafficTooHighApps.length ||
-                trafficTooHighUrls.length ||
-                websiteExist
-              "
+              (!getCategory && packagesStore.urls.length === 0 && webs.length === 0) ||
+              websiteExist ||
+              (packagesStore.currentType.title === 'Accessibility' && Object.values(loadingByWebsite).includes(true))
+            "
+            
             >
               {{ $t("Continue to Payment") }}
             </button>

@@ -24,7 +24,7 @@ const goToPaymentMethod = async (method: any) => {
     return navigateTo('payment_methods_mysite', 'mysite', 'cardModal_mysite')
   }
 
-  if( mySiteStore.packagePayload.payDateType !== 'trial' ){
+  if( mySiteStore.packagePayload.payDateType !== 0 ){
     if (mySiteStore.selectedPaymentMethod=== 'by_paypal') {
     mySiteStore.promo = "";
     mySiteStore.currentDiscount = 0;

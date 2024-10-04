@@ -131,7 +131,7 @@ const moveHideWidget = (v:string)=>{
                   </svg>
 
               </div>
-              <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?'Minisize':'Maxsize'}}</div>
+              <div class="text_mini">{{!collapseStore.collapses.includes('language_customize_card')  ?$t('Minisize'):$t('Maxsize')}}</div>
             </div>
 
             <div class="arrow">

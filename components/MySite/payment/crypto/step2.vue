@@ -69,7 +69,8 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
   const rate = rates[mysiteStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(4);
+    return (usdTotal / rate).toFixed(0).toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }

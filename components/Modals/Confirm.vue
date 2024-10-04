@@ -18,8 +18,10 @@ const props = defineProps({
   subTitle:String,
   confirmBtnType:String,
   savetoAllSitesBtn:Boolean,
-  cancelButtonName:String
+  cancelButtonName:String,
+  deleteButtonName:String
 });
+
 const emit = defineEmits(['controlConfirm','controlDelete','controlCancel','controlOther','controlsaveAllSites'])
 
 const deleteisLoading = ref(false);
@@ -98,7 +100,7 @@ const controlSaveSite = ()=>{
     </div>
     <div class="  mt-[40px] " v-if="savetoAllSitesBtn">
       <button class="btn_bordered_dashboard hover_tamkin " @click="controlSaveSite">
-        {{$t('Save to all sites')}}
+        {{$t('Save to All Sites')}}
       </button>
     </div>
     <div class="  mt-[40px] " v-if="confirmBtnType === 'confirm' ">
@@ -131,7 +133,7 @@ const controlSaveSite = ()=>{
           class="btn_bordered_dashboard error"  @click="controlDeleteButton">
           <div class="flex items-center justify-center">
             <div :class="deleteisLoading ? 'ltr:mr-3 rtl:ml-3':''">
-              {{$t('Confirm Delete')}}
+              {{deleteButtonName ? $t(deleteButtonName) : $t('Confirm Delete')}}
             </div>
 
              <svg  v-if="deleteisLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

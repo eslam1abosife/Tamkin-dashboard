@@ -790,7 +790,7 @@ input[type=number] {
     @apply ltr:left-[1px] h-[20px] w-[20px] mt-[1px] #{!important};
 }
             &:not(.translate).active {
-                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-0 left-[-5px] lg:ltr:left-[8px] #{!important};
+                @apply rtl:-translate-x-full ltr:translate-x-full rtl:right-[7px] left-[-5px] lg:ltr:left-[8px] #{!important};
             }
 
             &:not(.translate).in_active {
@@ -830,6 +830,7 @@ input[type=number] {
 .menu_button_control{
 
 
+   
     @apply absolute top-[21px] right-0 rtl:right-auto rtl:left-0   mr-[15px] rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
      justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary
       dark:border-darkborder dark:border-[1px] rounded-[10px] w-[36px] h-[30px] lg:h-[36px] ;
