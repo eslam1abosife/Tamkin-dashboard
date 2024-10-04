@@ -3,24 +3,17 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
-import { useModalManager } from '@/composables/useModalManager';
+import { useModalManager } from "@/composables/useModalManager";
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const settingsStore = useSettingsStore();
-const {isChecked,toggleCheckbox} = settingsStore
+const { isChecked, toggleCheckbox } = settingsStore;
 const collapseStore = useCollapseStore();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const code = ref(true);
 const advancedCode = ref(false);
@@ -89,11 +82,13 @@ const widgetEnabledOnMobile = ref(false);
 const soundEffects = ref(false);
 
 onBeforeMount(() => {
-  ["enable_widget_on_this_site", "widget_enabled_on_mobile", "sound_effects"].forEach(
-    (name) => {
-      settingsStore.addCheckbox(name);
-    }
-  );
+  [
+    "enable_widget_on_this_site",
+    "widget_enabled_on_mobile",
+    "sound_effects",
+  ].forEach((name) => {
+    settingsStore.addCheckbox(name);
+  });
   settingsStore.initializeCheckboxes([
     "enable_widget_on_this_site",
 
@@ -101,11 +96,9 @@ onBeforeMount(() => {
     "sound_effects",
   ]);
 });
-let pendingNavigation =null
+let pendingNavigation = null;
 const detectUnsavedChanges = () => {
-  
-  return settingsStore.hasChanges()
-
+  return settingsStore.hasChanges();
 };
 
 const handleSaveAndMove = () => {
@@ -133,6 +126,7 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
+<<<<<<< HEAD
     <ModalsConfirm
     :show-modal="isOpen('deleteModal')"
     title="Delete your site"
@@ -148,34 +142,60 @@ onBeforeRouteLeave((to, from, next) => {
     confirm-btn-type="other" @control-other="handleSaveAndMove" cancelButtonName="Discard"
     :savetoAllSitesBtn="true"
     @control-cancel="handleSaveAndMove" />
+=======
+    <LazyModalsConfirm
+      :showModal="settingsStore.routeLeaveModal"
+      title="Save  your changes"
+      sub-title="Do you want to save the changes before moving on?"
+      confirm-btn-type="other"
+      @control-other="handleSaveAndMove"
+      cancelButtonName="Discard"
+      :savetoAllSitesBtn="true"
+      @control-cancel="handleSaveAndMove"
+    />
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
     <div class="w-full h-full relative">
-      <HeaderAccess 
-      websiteImgName="tamkin_hand.svg"
-      website-title="Tamkin.App"
-      website-link="google.com"
-      section-title="Settings" 
-      section-sub-title="Settings let you customize your preferences and configurations"/>
-   
-
-   
+      <HeaderAccess
+        section-title="Settings"
+        section-sub-title="Settings let you customize your preferences and configurations"
+      />
 
       <div
-        class="mt-[64px] md:mt-[94px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]  px-[15px] shadow-md -shadow-y-[1px] relative"
-        :class="[               collapseStore.collapses.includes('general_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
-        
+        class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+        :class="[
+          collapseStore.collapses.includes('general_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
+<<<<<<< HEAD
         <div class="flex items-center justify-start  ">
           <div class="pt-[24px] ">
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('General Settings')}}</h1>
             <h2 class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin">
               {{ $t('Accessibility Settings allow users to customize their website experience to ensure it is accessible and user-friendly') }}
+=======
+        <div class="flex items-center justify-start">
+          <div class="pt-[24px]">
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              General Settings
+            </h1>
+            <h2
+              class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+            >
+              Accessibility Settings allow users to customize their website
+              experience to ensure it is accessible and user-friendly
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </h2>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('general_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('general_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('general_settings')
+            "
             :class="[
               collapseStore.menus.includes('general_settings')
                 ? 'active_notification !text-darkGrey'
@@ -191,7 +211,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('general_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -209,17 +230,38 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('general_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
-
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -232,42 +274,42 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex flex-col items-start justify-center  mt-[18px] divide-y "
+          class="flex flex-col items-start justify-center mt-[18px] divide-y"
           v-if="!collapseStore.collapses.includes('general_settings_card')"
         >
           <div
@@ -276,39 +318,57 @@ onBeforeRouteLeave((to, from, next) => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('enable_widget_on_this_site') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked('enable_widget_on_this_site') ? 'opacity-60' : '',
+                ]"
               >
+<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Widget enabled on this site')}}</span>
+=======
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
+                  <span>Widget enabled on this site </span>
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="toggle_Widget_enabled_on_this_site" class="toggle_wrap">
-               
+                <label
+                  for="toggle_Widget_enabled_on_this_site"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_this_site"
                     class="sr-only"
-                     :checked="isChecked('enable_widget_on_this_site')"
+                    :checked="isChecked('enable_widget_on_this_site')"
                     @change="toggleCheckbox('enable_widget_on_this_site')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('enable_widget_on_this_site') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('enable_widget_on_this_site')
+                        ? 'active'
+                        : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('enable_widget_on_this_site') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{
+                        active: isChecked('enable_widget_on_this_site'),
+                      }"
+                    >
+                      <img
                         v-if="isChecked('enable_widget_on_this_site')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -323,39 +383,55 @@ onBeforeRouteLeave((to, from, next) => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '',
+                ]"
               >
+<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Widget enabled on mobile')}}</span>
+=======
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
+                  <span>Widget enabled on mobile</span>
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="toggle_Widget_enabled_on_mobile" class="toggle_wrap">
+                <label
+                  for="toggle_Widget_enabled_on_mobile"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_mobile"
-
                     class="sr-only"
-                          :checked="isChecked('widget_enabled_on_mobile')"
+                    :checked="isChecked('widget_enabled_on_mobile')"
                     @change="toggleCheckbox('widget_enabled_on_mobile')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('widget_enabled_on_mobile') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('widget_enabled_on_mobile')
+                        ? 'active'
+                        : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('widget_enabled_on_mobile') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{ active: isChecked('widget_enabled_on_mobile') }"
+                    >
+                      <img
                         v-if="isChecked('widget_enabled_on_mobile')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -372,9 +448,16 @@ onBeforeRouteLeave((to, from, next) => {
                 class="flex flex-col items-start justify-center w-full"
                 :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
               >
+<<<<<<< HEAD
                 <div class="text-[#23262F]  dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] 
           lg:leading-[16.39px]">
                   <span>{{$t('Sound effects')}}</span>
+=======
+                <div
+                  class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                >
+                  <span> Sound effects</span>
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="ml-auto">
@@ -383,27 +466,28 @@ onBeforeRouteLeave((to, from, next) => {
                     type="checkbox"
                     id="toggle_Sound_effects"
                     class="sr-only"
-                
-           
-      :checked="isChecked('sound_effects')"
+                    :checked="isChecked('sound_effects')"
                     @change="toggleCheckbox('sound_effects')"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('sound_effects') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('sound_effects') ? 'active' : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ active: isChecked('sound_effects') }">
-                      <img 
+                    <div
+                      class="toggle_inner"
+                      :class="{ active: isChecked('sound_effects') }"
+                    >
+                      <img
                         v-if="isChecked('sound_effects')"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -412,34 +496,49 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
           </div>
         </div>
-
-  
       </div>
 
-<OverviewWidgetembdedcode/>
+      <OverviewWidgetembdedcode />
 
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
-        
-                :class="[               collapseStore.collapses.includes('reset_all_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
+        :class="[
+          collapseStore.collapses.includes('reset_all_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
-        <div class="flex items-start justify-start  ">
+        <div class="flex items-start justify-start">
           <div class="">
+<<<<<<< HEAD
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin">
               {{ $t('Rest All Accessibility Settings') }}
+=======
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin"
+            >
+              Rest All Accessibility Settings
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </h1>
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
+<<<<<<< HEAD
               {{ $t('Reset all accessibility settings to their default configurations, restoring original preferences and ensuring a standard user experience for all users') }}
+=======
+              Reset all accessibility settings to their default configurations,
+              restoring original preferences and ensuring a standard user
+              experience for all users
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </p>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('reset_all_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('reset_all_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('reset_all_settings')
+            "
             :class="[
               collapseStore.menus.includes('reset_all_settings')
                 ? 'active_notification !text-darkGrey'
@@ -455,7 +554,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('reset_all_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -474,15 +574,38 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('reset_all_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -495,49 +618,47 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-tamkinDarkPrimary"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-tamkinDarkPrimary"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center lg:flex-row flex-col justify-center 
-          lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] 
-          lg:space-y-0 lg:space-x-[100px] "
+          class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] lg:space-y-0 lg:space-x-[100px]"
           v-if="!collapseStore.collapses.includes('reset_all_settings_card')"
         >
           <button
             class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
-            @click="openModal('resetModal','settings')"
+            @click="openModal('resetModal', 'settings')"
           >
             <div>
               <svg
@@ -546,11 +667,11 @@ onBeforeRouteLeave((to, from, next) => {
                 viewBox="0 0 25 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class=" lg:w-full lg:h-full w-[16px] h-[16px]"
+                class="lg:w-full lg:h-full w-[16px] h-[16px]"
               >
                 <path
                   d="M14.5 16H19.5V21M10.5 8H5.5V3M19.9176 9.0034C19.3569 7.61566 18.4181 6.41304 17.208 5.53223C15.9979 4.65141 14.5652 4.12752 13.0723 4.02051C11.5794 3.9135 10.0861 4.2274 8.7627 4.92661C7.43933 5.62582 6.33882 6.68254 5.58594 7.97612M5.08203 14.9971C5.64272 16.3848 6.58146 17.5874 7.79157 18.4682C9.00169 19.3491 10.4359 19.8723 11.9288 19.9793C13.4217 20.0863 14.9138 19.7725 16.2371 19.0732C17.5605 18.374 18.6603 17.3175 19.4131 16.0239"
-                class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
+                  class="group-hover:stroke-white stroke-[url(#paint0_linear_3592_46947)]"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -569,36 +690,54 @@ onBeforeRouteLeave((to, from, next) => {
                   </linearGradient>
                 </defs>
               </svg>
-          
             </div>
-            <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
+            <div
+              class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text"
+            >
               Rest All Accessibility Settings
             </div>
           </button>
         </div>
-       
       </div>
 
       <div
-        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative " 
-        
-                 :class="[               collapseStore.collapses.includes('license_settings_card')
- ? 'pb-[24px]' :'pb-[20px]'        ]"
+        class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative"
+        :class="[
+          collapseStore.collapses.includes('license_settings_card')
+            ? 'pb-[24px]'
+            : 'pb-[20px]',
+        ]"
       >
-        <div class="flex items-start justify-start  pt-[24px] ">
+        <div class="flex items-start justify-start pt-[24px]">
           <div class="">
+<<<<<<< HEAD
             <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('License Settings')}}</h1>
+=======
+            <h1
+              class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+            >
+              License Settings
+            </h1>
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
 
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
+<<<<<<< HEAD
               {{ $t('Transfer License to Another Website allows you to move your existing accessibility widget license to a different site, ensuring continued accessibility compliance') }}
+=======
+              Transfer License to Another Website allows you to move your
+              existing accessibility widget license to a different site,
+              ensuring continued accessibility compliance
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
             </p>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('license_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('license_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('license_settings')
+            "
             :class="[
               collapseStore.menus.includes('license_settings')
                 ? 'active_notification !text-darkGrey'
@@ -614,7 +753,8 @@ onBeforeRouteLeave((to, from, next) => {
               xmlns="http://www.w3.org/2000/svg"
               :class="[
                 collapseStore.menus.includes('license_settings')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+                  ? 'stroke-current !text-white !fill-white'
+                  : 'dark:text-white',
               ]"
             >
               <path
@@ -633,15 +773,38 @@ onBeforeRouteLeave((to, from, next) => {
                 @click="collapseStore.collapseCard('license_settings_card')"
               >
                 <div>
-                  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <path
+                      d="M13.7754 10.937L18.4995 7"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14.7207 7H18.5V10.1496"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M11.2241 13.063L6.5 17"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10.2793 17.0002H6.5V13.8506"
+                      class="dark:!stroke-white stroke-darkGrey"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div class="text_mini">
                   {{
@@ -654,57 +817,71 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div class="arrow">
                 <svg
-                width="16"
-                class=""
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <filter
-                    id="shadow-sm"
-                    x="0"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="1"
-                      dy="1"
-                      stdDeviation="1"
-                      flood-color="rgba(0, 0, 0, 0.3)"
-                    />
-                  </filter>
-                </defs>
-                <path
-                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                  class="fill-white dark:!fill-darkTamkin"
-                  filter="url(#shadow-sm)"
-                />
-              </svg>
+                  width="16"
+                  class=""
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="1"
+                        dy="1"
+                        stdDeviation="1"
+                        flood-color="rgba(0, 0, 0, 0.3)"
+                      />
+                    </filter>
+                  </defs>
+                  <path
+                    d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                    class="fill-white dark:!fill-darkTamkin"
+                    filter="url(#shadow-sm)"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0 "
+          class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0"
           v-if="!collapseStore.collapses.includes('license_settings_card')"
         >
           <div
-            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[22px] px-[15px]"
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
           >
+<<<<<<< HEAD
             <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full  ">
               <div class="flex flex-col items-start justify-center w-full">
                 <div class="!text-[#585B5B] dark:!text-whiteTamkin  font-[500] text-[13px] lg:leading-[24px] w-full">
                   <span>{{ $t('Widget enabled on this site') }} </span>
+=======
+            <div class="flex items-center justify-start space-x-[13px] w-full">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div
+                  class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] w-full"
+                >
+                  <span>Widget enabled on this site </span>
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 </div>
               </div>
               <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
+<<<<<<< HEAD
                   class="btn_bordered_dashboard rtl:mr-auto ltr:ml-auto ipad-max:w-auto  !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                   @click="openModal('transferstep1','settings')"
+=======
+                  class="btn_bordered_dashboard ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
+                  @click="openModal('transferstep1', 'settings')"
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 >
                   {{$t('Transfer License')}}
                 </button>
@@ -713,20 +890,32 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
-            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary  flex items-center justify-start w-full mt-[4px] px-[15px] "
+            class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
           >
-            <div class="flex items-center justify-start w-full ">
-              <div class="flex flex-col items-start justify-center w-full ">
-                <div class="!text-[#585B5B]  dark:!text-whiteTamkin  font-[500]  text-[13px] lg:leading-[24px] lg:w-full w-40 truncate">
+            <div class="flex items-center justify-start w-full">
+              <div class="flex flex-col items-start justify-center w-full">
+                <div
+                  class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
+                >
                   <span
+<<<<<<< HEAD
                     >{{$t('Delete site permanently removes your profile and data from the system')}}
+=======
+                    >Delete site permanently removes your profile and data from
+                    the system
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                   </span>
                 </div>
               </div>
               <div class="rtl:mr-auto ltr:ml-auto w-full">
                 <button
+<<<<<<< HEAD
                   class="btn_bordered_dashboard error rtl:mr-auto ltr:ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                   @click="openModal('deleteModal','settings')"
+=======
+                  class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
+                  @click="openModal('deleteModal', 'settings')"
+>>>>>>> fb907a85121b420659ac3ef576cf36ac59d1f55f
                 >
                   {{ $t('Delete Site') }}
                 </button>
@@ -734,7 +923,6 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
           </div>
         </div>
-     
       </div>
     </div>
   </div>

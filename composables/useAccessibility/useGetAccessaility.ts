@@ -8,8 +8,6 @@ export default function() {
 
     const customizeStore = useCustomizeStore();
 
-    
-
     const getAccessability  = async () => {
         try {
             const res = await api.post('/Widget/GetAccessibility/default');
@@ -54,7 +52,7 @@ export default function() {
             .features.find(el => el.name === "acc-customize-button-location-button-location-mobile");
             if(buttonMobilePosition.active == 1){
                 customizeStore.$state.initialPositionMobile = buttonMobilePosition.value;
-                customizeStore.$state.initialPositionMobile= buttonMobilePosition.value;
+                customizeStore.$state.buttonPositionMobile= buttonMobilePosition.value;
             }
             
             // handle button translation 
@@ -96,7 +94,39 @@ export default function() {
                     customizeStore.changeDefaultButtonShape('langs')
                 }
             }
+
+            // oversized widget 
+            const  isOversized = features.find((feature: any) => feature.name === "acc-customize-widget-customization-")
+            .features.find(el => el.name === "acc-customize-widget-customization--oversized-widget");
             
+            if(isOversized.value == 1 && isOversized.active == 1){
+                customizeStore.toggleCheckbox('oversized_widget')      
+            }
+            // isThreeColumns 
+            const  isThreeColumns = features.find((feature: any) => feature.name === "acc-customize-widget-customization-")
+            .features.find(el => el.name === "acc-customize-widget-customization--3-column-layout-widget");
+            
+            if(isThreeColumns.value == 1 && isThreeColumns.active == 1){
+                customizeStore.toggleCheckbox('3_column_layout_widget')      
+            }
+            // isAccProfiles 
+            const  isAccProfiles = features.find((feature: any) => feature.name === "acc-customize-widget-customization-")
+            .features.find(el => el.name === "acc-customize-widget-customization--accessibility-profiles");
+            
+            if(isAccProfiles.value == 1 && isAccProfiles.active == 1){
+                customizeStore.toggleCheckbox('accessibility_profiles')      
+            }
+
+            // acc mode 
+            const  isAccModeActive = features.find((feature: any) => feature.name === "acc-customize-accessibility-mode")
+            .features.find(el => el.name === "acc-customize-accessibility-mode-move-/-hide-accessibility");
+            
+            if(isAccModeActive.active == 1){
+                customizeStore.toggleCheckbox('move_access');
+                customizeStore.$state.accessibilityMode= isAccModeActive.value;
+
+            }
+
         } catch (error) {
             console.error(error); // Better error handling
             throw typeof error === 'string' ? error : 'There is something wrong';

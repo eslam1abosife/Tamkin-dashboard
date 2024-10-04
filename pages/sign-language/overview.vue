@@ -14,8 +14,7 @@ const plan = ref("free");
 const upgradepackageimages = ref(false);
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const currentPlanchange = (p: any) => {
   plan.value = p;
@@ -47,9 +46,6 @@ watch(plan, (ov, nv) => {
     <!-- <LanguageServicesStatsNavbar :selected-tab="selectTab" @select-tabs="getSelectedTab" /> -->
 
     <HeaderAccess
-      websiteImgName="tamkin_hand.svg"
-      website-title="Tamkin.App"
-      website-link="google.com"
       section-title="Overview"
       section-sub-title=" Overview provides system summary with key data and analytics for decision-making"
     />
@@ -82,9 +78,13 @@ watch(plan, (ov, nv) => {
         v-if="!overviewStore.showUpgradeState"
       />
 
-      <OverviewExclusiveInvestorPackage v-if="!overviewStore.showUpgradeState" />
+      <OverviewExclusiveInvestorPackage
+        v-if="!overviewStore.showUpgradeState"
+      />
 
-      <LanguageServicesOverviewWebplugins v-if="overviewStore.showUpgradeState" />
+      <LanguageServicesOverviewWebplugins
+        v-if="overviewStore.showUpgradeState"
+      />
       <LanguageServicesOverviewTranslationaccuracy
         v-if="overviewStore.showUpgradeState"
       />
@@ -96,7 +96,9 @@ watch(plan, (ov, nv) => {
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" />
         </div>
-        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+        <div
+          class="flex flex-col items-center lg:items-start justify-center w-full"
+        >
           <div
             class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
           >
@@ -149,7 +151,9 @@ watch(plan, (ov, nv) => {
           <button
             class="rounded-full w-[178px]"
             :class="[
-              showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+              showExpired
+                ? 'btn-dashboard hover_tamkin'
+                : 'btn_bordered_dashboard',
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
@@ -186,7 +190,9 @@ watch(plan, (ov, nv) => {
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" />
         </div>
-        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+        <div
+          class="flex flex-col items-center lg:items-start justify-center w-full"
+        >
           <div
             class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
           >
@@ -239,7 +245,9 @@ watch(plan, (ov, nv) => {
           <button
             class="rounded-full w-[178px]"
             :class="[
-              showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+              showExpired
+                ? 'btn-dashboard hover_tamkin'
+                : 'btn_bordered_dashboard',
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
@@ -247,7 +255,9 @@ watch(plan, (ov, nv) => {
           </button>
         </div>
       </div>
-      <OverviewTamkinTokenBanner :class="[upgradePackage ? '' : '!mt-[30px]']" />
+      <OverviewTamkinTokenBanner
+        :class="[upgradePackage ? '' : '!mt-[30px]']"
+      />
       <OverviewExclusiveInvestorPackage v-if="upgradePackage" />
 
       <OverviewExclusiveInvestorPackage v-if="!upgradePackage" />
@@ -278,7 +288,9 @@ watch(plan, (ov, nv) => {
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" />
         </div>
-        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+        <div
+          class="flex flex-col items-center lg:items-start justify-center w-full"
+        >
           <div
             class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
           >
@@ -331,7 +343,9 @@ watch(plan, (ov, nv) => {
           <button
             class="rounded-full w-[178px]"
             :class="[
-              showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+              showExpired
+                ? 'btn-dashboard hover_tamkin'
+                : 'btn_bordered_dashboard',
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
@@ -339,7 +353,9 @@ watch(plan, (ov, nv) => {
           </button>
         </div>
       </div>
-      <OverviewTamkinTokenBanner :class="[upgradePackagedocs ? '' : '!mt-[30px]']" />
+      <OverviewTamkinTokenBanner
+        :class="[upgradePackagedocs ? '' : '!mt-[30px]']"
+      />
       <OverviewExclusiveInvestorPackage v-if="upgradePackagedocs" />
 
       <OverviewExclusiveInvestorPackage v-if="!upgradePackagedocs" />
@@ -369,7 +385,9 @@ watch(plan, (ov, nv) => {
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" />
         </div>
-        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+        <div
+          class="flex flex-col items-center lg:items-start justify-center w-full"
+        >
           <div
             class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
           >
@@ -422,7 +440,9 @@ watch(plan, (ov, nv) => {
           <button
             class="rounded-full w-[178px]"
             :class="[
-              showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+              showExpired
+                ? 'btn-dashboard hover_tamkin'
+                : 'btn_bordered_dashboard',
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
@@ -436,7 +456,10 @@ watch(plan, (ov, nv) => {
       <OverviewExclusiveInvestorPackage v-if="!upgradepackageimages" />
     </div>
     <div v-if="selectTab === 'all'">
-      <LanguageServicesOverviewPlan @change-plan="currentPlanchange" type="plat" />
+      <LanguageServicesOverviewPlan
+        @change-plan="currentPlanchange"
+        type="plat"
+      />
       <LanguageServicesOverviewBalance />
       <LanguageServicesOverviewUploadedfiles />
       <LanguageServicesOverviewTranslationaccuracytable />

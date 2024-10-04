@@ -3,8 +3,7 @@ const signLangStore = useSignLangStore();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const localePath = useLocalePath();
 const route = useRoute();
@@ -17,8 +16,10 @@ let pendingNavigation = null;
 const detectUnsavedChanges = () => {
   return (
     (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_profileCards)
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_menuCards) ||
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_profileCards)
   );
 };
 
@@ -47,8 +48,10 @@ onBeforeRouteLeave((to, from, next) => {
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
     (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_profileCards);
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_menuCards) ||
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_profileCards);
 
   return isAddonsLinkActive;
 });
@@ -56,8 +59,10 @@ const shouldShowFooter = computed(() => {
 const cancelAc = () => {
   const isAddonsLinkActive =
     (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") && signLangStore.force_change_profileCards);
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_menuCards) ||
+    (isLinkActive("/sign-language/addons") &&
+      signLangStore.force_change_profileCards);
 
   if (isAddonsLinkActive) {
     signLangStore.cancelAll();
@@ -86,9 +91,6 @@ const cancelAc = () => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
         section-title="Customize"
         section-sub-title="Customization empowers users to shape their digital environment"
       />

@@ -830,7 +830,8 @@ input[type=number] {
 .menu_button_control{
 
 
-    @apply absolute top-[21px] right-0 rtl:left-0 mr-[15px] rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
+   
+    @apply absolute top-[21px] right-0 rtl:right-auto rtl:left-0   mr-[15px] rtl:mr-auto rtl:ml-[15px] ltr:ml-auto  flex items-center
      justify-center cursor-pointer bg-[#F2F2F2] dark:bg-tamkinDarkPrimary
       dark:border-darkborder dark:border-[1px] rounded-[10px] w-[36px] h-[30px] lg:h-[36px] ;
 

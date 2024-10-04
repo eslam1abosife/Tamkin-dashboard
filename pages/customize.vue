@@ -87,17 +87,21 @@ const border_style = computed(() => {
     width: `${buttonSizeSlider.value}px`,
     height: `${buttonSizeSlider.value}px`,
     left: `${buttonSizeSlider.value}%`,
+    "min-width": "32px",
+    "min-height": "32px",
   };
 });
 const imgStyle = computed(() => {
   const minSize = 26; // Min size of inner icon
   const maxSize = 80; // Max size of inner icon
   const size = buttonSizeSlider.value;
-  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+  // minSize + (maxSize - minSize) / (98 - 2);
 
   return {
     width: `${size}px`,
     height: `${size}px`,
+    "min-width": "23px",
+    "min-height": "23px",
   };
 });
 
@@ -186,8 +190,8 @@ onBeforeMount(() => {
     "reading_mode",
   ]);
   const buttonPositionCheck =
-    customizeStore.buttonPositionDesktop !== "top_left" ||
-    customizeStore.buttonPositionMobile !== "top_left_mobile";
+    customizeStore.buttonPositionDesktop !== "postion1" ||
+    customizeStore.buttonPositionMobile !== "postion1";
   const forceChangeCheck =
     customizeStore.forceChange_buttonShape === true ||
     customizeStore.force_change_profileCards === true ||
@@ -267,7 +271,6 @@ onBeforeRouteLeave((to, from, next) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
         section-title="Customize"
         section-sub-title="Customization empowers users to shape their digital environment"
       />

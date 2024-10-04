@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 const props = defineProps({
-  // websiteTitle: {
-  //   type: String,
-  //   required: true,
-  // },
   sectionTitle: {
     type: String,
     required: true,
@@ -16,15 +12,15 @@ const props = defineProps({
   //   type: String,
   //   required: true,
   // },
-  websiteImgName: {
-    type: String,
-    required: true,
-  },
+  // websiteImgName: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 const getImageUrl = computed(() => {
   // Directly reference the public directory path
-  return `/imgs/${props.websiteImgName}`;
+  return `/assets/imgs/icons/mysite.svg`;
 });
 
 import { useApi } from "@/composables/useApi";
@@ -36,7 +32,7 @@ const app = ref({});
 const getApps = async () => {
   try {
     const res = await api.post("/Apps/GetApps");
-    app.value = res.data.data.find((el) => el.widget_enable == 1);
+    app.value = res.data.data.find((el) => el.isdefault == 1);
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
@@ -49,7 +45,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="space-y-[10px]">
+  <div class="space-y-[10px]" v-if="Object.keys(app).length">
     <h1
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
     >

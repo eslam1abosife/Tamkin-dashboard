@@ -22,8 +22,7 @@ const {
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const localePath = useLocalePath();
 
@@ -209,9 +208,6 @@ onMounted(() => {
         </transition> -->
 
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
         section-title="Addons"
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
               experience."

@@ -21,9 +21,9 @@ export const useCustomizeStore = defineStore('customize', {
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
     initialPositionDesktop: 'postion1',
-    initialPositionMobile: 'postion1',
+    initialPositionMobile: 'postion2',
     buttonPositionDesktop: 'postion1',
-    buttonPositionMobile: 'postion1',
+    buttonPositionMobile: 'postion2',
     force_change_MainMenuCard: false,
     force_change_profileCards: false,
     buttonSizeSlider: 35,
@@ -39,7 +39,8 @@ export const useCustomizeStore = defineStore('customize', {
     forceChange_buttonShape: false,
     liveTranlsationButtonLocation: 'default',
     currentShapeLiveTranslation: 'gb',
-    routeLeaveModal: false
+    routeLeaveModal: false,
+    accessibilityMode: "right"
 
   }),
   actions: {
@@ -430,6 +431,9 @@ export const useCustomizeStore = defineStore('customize', {
     changeButtonMobileOrDesktop(v: string) {
       this.switchButtonLocation = v;
     },
+    moveHideWidget (v: string) {
+      this.accessibilityMode = v;
+    }
 
 
 

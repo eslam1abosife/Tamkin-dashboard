@@ -5,22 +5,15 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
 import { useModalManager } from "@/composables/useModalManager";
 
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const settingsStore = useSettingsStore();
 const { isChecked, toggleCheckbox } = settingsStore;
 const collapseStore = useCollapseStore();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 const code = ref(true);
 const advancedCode = ref(false);
@@ -184,9 +177,6 @@ const cancelAc = () => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
         section-title="Settings"
         section-sub-title="Settings let you customize your preferences and configurations"
       />
@@ -209,14 +199,16 @@ const cancelAc = () => {
             <h2
               class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
             >
-              Accessibility Settings allow users to customize their website experience to
-              ensure it is accessible and user-friendly
+              Accessibility Settings allow users to customize their website
+              experience to ensure it is accessible and user-friendly
             </h2>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('general_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('general_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('general_settings')
+            "
             :class="[
               collapseStore.menus.includes('general_settings')
                 ? 'active_notification !text-darkGrey'
@@ -303,7 +295,13 @@ const cancelAc = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
                       <feDropShadow
                         dx="1"
                         dy="1"
@@ -334,7 +332,9 @@ const cancelAc = () => {
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !isChecked('enable_widget_on_this_site_sign') ? 'opacity-60' : '',
+                  !isChecked('enable_widget_on_this_site_sign')
+                    ? 'opacity-60'
+                    : '',
                 ]"
               >
                 <div
@@ -344,7 +344,10 @@ const cancelAc = () => {
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="toggle_Widget_enabled_on_this_site" class="toggle_wrap">
+                <label
+                  for="toggle_Widget_enabled_on_this_site"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
                     id="toggle_Widget_enabled_on_this_site"
@@ -362,7 +365,9 @@ const cancelAc = () => {
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked('enable_widget_on_this_site_sign') }"
+                      :class="{
+                        active: isChecked('enable_widget_on_this_site_sign'),
+                      }"
                     >
                       <img
                         v-if="isChecked('enable_widget_on_this_site_sign')"
@@ -387,7 +392,11 @@ const cancelAc = () => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('widget_enabled_on_mobile_sign') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked('widget_enabled_on_mobile_sign')
+                    ? 'opacity-60'
+                    : '',
+                ]"
               >
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
@@ -407,12 +416,16 @@ const cancelAc = () => {
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('widget_enabled_on_mobile_sign') ? 'active' : 'in_active',
+                      isChecked('widget_enabled_on_mobile_sign')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked('widget_enabled_on_mobile_sign') }"
+                      :class="{
+                        active: isChecked('widget_enabled_on_mobile_sign'),
+                      }"
                     >
                       <img
                         v-if="isChecked('widget_enabled_on_mobile_sign')"
@@ -456,7 +469,9 @@ const cancelAc = () => {
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked('sound_effects_sign') ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked('sound_effects_sign') ? 'active' : 'in_active',
+                    ]"
                   >
                     <div
                       class="toggle_inner"
@@ -502,14 +517,17 @@ const cancelAc = () => {
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-              Reset all accessibility settings to their default configurations, restoring
-              original preferences and ensuring a standard user experience for all users
+              Reset all accessibility settings to their default configurations,
+              restoring original preferences and ensuring a standard user
+              experience for all users
             </p>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('reset_all_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('reset_all_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('reset_all_settings')
+            "
             :class="[
               collapseStore.menus.includes('reset_all_settings')
                 ? 'active_notification !text-darkGrey'
@@ -597,7 +615,13 @@ const cancelAc = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
                       <feDropShadow
                         dx="1"
                         dy="1"
@@ -656,7 +680,9 @@ const cancelAc = () => {
                 </defs>
               </svg>
             </div>
-            <div class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text">
+            <div
+              class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text"
+            >
               Rest All Accessibility Settings
             </div>
           </button>
@@ -682,15 +708,17 @@ const cancelAc = () => {
             <p
               class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
             >
-              Transfer License to Another Website allows you to move your existing
-              accessibility widget license to a different site, ensuring continued
-              accessibility compliance
+              Transfer License to Another Website allows you to move your
+              existing accessibility widget license to a different site,
+              ensuring continued accessibility compliance
             </p>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('license_settings')"
-            v-on-click-outside="() => collapseStore.removeMenu('license_settings')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('license_settings')
+            "
             :class="[
               collapseStore.menus.includes('license_settings')
                 ? 'active_notification !text-darkGrey'
@@ -778,7 +806,13 @@ const cancelAc = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
                       <feDropShadow
                         dx="1"
                         dy="1"
@@ -833,7 +867,8 @@ const cancelAc = () => {
                   class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
                 >
                   <span
-                    >Delete site permanently removes your profile and data from the system
+                    >Delete site permanently removes your profile and data from
+                    the system
                   </span>
                 </div>
               </div>

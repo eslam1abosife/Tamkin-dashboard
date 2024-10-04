@@ -14,19 +14,14 @@ const showExpired = ref(false);
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
-
 </script>
 
 <template>
   <div class="relative">
     <div class="">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
         section-title="Overview"
         section-sub-title="Overview provides system summary with key data and analytics for decision-making"
       />
@@ -45,7 +40,9 @@ middleware:['auth','permissions'],
       />
       <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
 
-      <OverviewExclusiveInvestorPackage v-if="!overviewStore.showUpgradeState" />
+      <OverviewExclusiveInvestorPackage
+        v-if="!overviewStore.showUpgradeState"
+      />
 
       <OverviewAccessibilityDetails v-if="overviewStore.showUpgradeState" />
 
@@ -60,7 +57,9 @@ middleware:['auth','permissions'],
         <div>
           <img src="/assets/imgs/overview/plan-calender.svg" />
         </div>
-        <div class="flex flex-col items-center lg:items-start justify-center w-full">
+        <div
+          class="flex flex-col items-center lg:items-start justify-center w-full"
+        >
           <div
             class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
           >
@@ -113,7 +112,9 @@ middleware:['auth','permissions'],
           <button
             class="rounded-full w-[178px]"
             :class="[
-              showExpired ? 'btn-dashboard hover_tamkin' : 'btn_bordered_dashboard',
+              showExpired
+                ? 'btn-dashboard hover_tamkin'
+                : 'btn_bordered_dashboard',
             ]"
             @click="modalStore.controlShowUpgradeModal"
           >
