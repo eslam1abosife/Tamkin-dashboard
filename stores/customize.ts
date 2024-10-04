@@ -137,10 +137,11 @@ export const useCustomizeStore = defineStore('customize', {
     },
     initializeCardsMenu(customArray: Card[], customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
       this[customArrayKey] = customArray.map(card => ({
-        name: card.name,
+        name: card.label,
         description: card.description,
-        icon: card.icon,
-        checkboxId: card.checkboxId
+        icon: `${card.name}.svg`,
+        checkboxId: card.name,
+        sort: card.sort,
       }));
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },
@@ -151,8 +152,7 @@ export const useCustomizeStore = defineStore('customize', {
     onDragChange(customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
       const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
-      // console.log('Current order:', currentOrder);
-      // console.log('Order changed:', isOrderChanged);
+      
       if (customArrayKey === 'AdjustMainMenuCardsCustomize') {
         this.force_change_MainMenuCard = isOrderChanged;
 
@@ -165,14 +165,13 @@ export const useCustomizeStore = defineStore('customize', {
     onDragEnd(customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
       const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
-      // console.log('Current order:', currentOrder);
-      // console.log('Order changed:', isOrderChanged);
+      
       this.force_change = isOrderChanged;
     },
     arraysEqual(a: Card[], b: Card[]) {
       if (a.length !== b.length) return false;
       for (let i = 0; i < a.length; i++) {
-        if (a[i].name !== b[i].name || a[i].description !== b[i].description || a[i].icon !== b[i].icon || a[i].checkboxId !== b[i].checkboxId) {
+        if (a[i].name !== b[i].name || a[i].description !== b[i].description || a[i].sort !== b[i].sort || a[i].icon !== b[i].icon || a[i].checkboxId !== b[i].checkboxId) {
           return false;
         }
       }

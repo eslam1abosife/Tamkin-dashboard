@@ -118,13 +118,28 @@ export default function() {
             }
 
             // acc mode 
-            const  isAccModeActive = features.find((feature: any) => feature.name === "acc-customize-accessibility-mode")
+            const isAccModeActive = features.find((feature: any) => feature.name === "acc-customize-accessibility-mode")
             .features.find(el => el.name === "acc-customize-accessibility-mode-move-/-hide-accessibility");
             
             if(isAccModeActive.active == 1){
                 customizeStore.toggleCheckbox('move_access');
                 customizeStore.$state.accessibilityMode= isAccModeActive.value;
+            }
 
+            // accessbility main menu 
+            const mainMenu = features.find((feature: any) => feature.name === "acc-addons-main-menu");
+            
+            if(mainMenu.active == 1){
+                customizeStore.initializeCardsMenu(mainMenu.features,
+                    "AdjustMainMenuCardsCustomize",
+                    "initialCardsOrderCustomize"
+                );
+
+                mainMenu.features.forEach((element:any) => {
+                    if(element.active == 1 && element.value == 1){
+                        customizeStore.toggleCheckbox(element.name);
+                    }
+                });
             }
 
         } catch (error) {
