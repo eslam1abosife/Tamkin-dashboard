@@ -14,158 +14,156 @@ const { AdjustMainMenuCardsCustomize, initialCardsOrderCustomize } =
 // Initialize cards
 
 onBeforeMount(() => {
-  customizeStore.initializeCardsMenu(
-    [
-      {
-        icon: "tamkin_player.svg",
-        name: "Tamkin Player",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "tamkin_player",
-      },
-      {
-        icon: "media_player.svg",
-        name: "Media Player",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "media_player",
-      },
-      {
-        icon: "language sign.svg",
-        name: "Screen Reader",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "screen_reader",
-      },
-      {
-        icon: "page_str.svg",
-        name: "Page Structure",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "page_str",
-      },
-
-      {
-        icon: "hide_images.svg",
-        name: "Hide Images",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "hide_images",
-      },
-      {
-        icon: "contrast.svg",
-        name: "Smart Contrast",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "smart_contrast",
-      },
-      {
-        icon: "voice_navigation.svg",
-        name: "Voice Navigation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "voice_navigation",
-      },
-      {
-        icon: "a-z.svg",
-        name: "Dictionary",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "dictionary",
-      },
-      {
-        icon: "clip.svg",
-        name: "Highlight Links",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "highlight_links",
-      },
-      {
-        icon: "line_height.svg",
-        name: "Line Height",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "line_height",
-      },
-      {
-        icon: "saturation.svg",
-        name: "Saturation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "saturation",
-      },
-
-      {
-        icon: "text.svg",
-        name: "Bigger Text",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "bigger_text",
-      },
-      {
-        icon: "df_friendly.svg",
-        name: "Dyslexia Friendly",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "df_friendly",
-      },
-      {
-        icon: "pause.svg",
-        name: "Pause Animation",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "pause_animation",
-      },
-      {
-        icon: "text_align.svg",
-        name: "Text Align",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "text_align",
-      },
-      {
-        icon: "reading_mode.svg",
-        name: "Reading Mode",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "reading_mode",
-      },
-      {
-        icon: "tooltip.svg",
-        name: "Tooltip",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "tool_tip",
-      },
-      {
-        icon: "cursor.svg",
-        name: "Cursor",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "cursor",
-      },
-      {
-        icon: "text_spacing.svg",
-        name: "Text Spacing",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "text_spacing",
-      },
-
-      {
-        icon: "contrast_plus.svg",
-        name: "Contrast +",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "contrast_plus",
-      },
-    ],
-    "AdjustMainMenuCardsCustomize",
-    "initialCardsOrderCustomize"
-  );
+  // customizeStore.initializeCardsMenu(
+  //   [
+  //     {
+  //       icon: "tamkin_player.svg",
+  //       name: "Tamkin Player",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "tamkin_player",
+  //     },
+  //     {
+  //       icon: "media_player.svg",
+  //       name: "Media Player",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "media_player",
+  //     },
+  //     {
+  //       icon: "language sign.svg",
+  //       name: "Screen Reader",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "screen_reader",
+  //     },
+  //     {
+  //       icon: "page_str.svg",
+  //       name: "Page Structure",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "page_str",
+  //     },
+  //     {
+  //       icon: "hide_images.svg",
+  //       name: "Hide Images",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "hide_images",
+  //     },
+  //     {
+  //       icon: "contrast.svg",
+  //       name: "Smart Contrast",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "smart_contrast",
+  //     },
+  //     {
+  //       icon: "voice_navigation.svg",
+  //       name: "Voice Navigation",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "voice_navigation",
+  //     },
+  //     {
+  //       icon: "a-z.svg",
+  //       name: "Dictionary",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "dictionary",
+  //     },
+  //     {
+  //       icon: "clip.svg",
+  //       name: "Highlight Links",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "highlight_links",
+  //     },
+  //     {
+  //       icon: "line_height.svg",
+  //       name: "Line Height",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "line_height",
+  //     },
+  //     {
+  //       icon: "saturation.svg",
+  //       name: "Saturation",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "saturation",
+  //     },
+  //     {
+  //       icon: "text.svg",
+  //       name: "Bigger Text",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "bigger_text",
+  //     },
+  //     {
+  //       icon: "df_friendly.svg",
+  //       name: "Dyslexia Friendly",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "df_friendly",
+  //     },
+  //     {
+  //       icon: "pause.svg",
+  //       name: "Pause Animation",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "pause_animation",
+  //     },
+  //     {
+  //       icon: "text_align.svg",
+  //       name: "Text Align",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "text_align",
+  //     },
+  //     {
+  //       icon: "reading_mode.svg",
+  //       name: "Reading Mode",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "reading_mode",
+  //     },
+  //     {
+  //       icon: "tooltip.svg",
+  //       name: "Tooltip",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "tool_tip",
+  //     },
+  //     {
+  //       icon: "cursor.svg",
+  //       name: "Cursor",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "cursor",
+  //     },
+  //     {
+  //       icon: "text_spacing.svg",
+  //       name: "Text Spacing",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "text_spacing",
+  //     },
+  //     {
+  //       icon: "contrast_plus.svg",
+  //       name: "Contrast +",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "contrast_plus",
+  //     },
+  //   ],
+  //   "AdjustMainMenuCardsCustomize",
+  //   "initialCardsOrderCustomize"
+  // );
 });
 
 const getImagePath = (icon) => {
+  // return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
 </script>
@@ -173,6 +171,7 @@ const getImagePath = (icon) => {
 <template>
   <div class="flex flex-col items-center justify-center w-full relative">
     <!-- <MessagesLockedFeature/> -->
+
     <div
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative"
       :class="[
@@ -378,7 +377,9 @@ const getImagePath = (icon) => {
                   <div
                     class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                   >
-                    <span>{{ element.name }}</span>
+                    <span>
+                      {{ element.name }}
+                    </span>
                   </div>
                   <div
                     class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
