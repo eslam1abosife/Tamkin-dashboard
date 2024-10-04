@@ -221,7 +221,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
                 ipad-max:text-[12px]
     ipad-max:leading-[10px] whitespace-nowrap
                 lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
-      {{$t(mySiteStore.currentPackage.title)}}  {{mySiteStore.currentPackage.title === 'Free' ? ' - ' +$t(`${mySiteStore.currentPackage.category}` ):'' }} - {{ mySiteStore.currentWebsite.app_domain !== null ? mySiteStore.currentWebsite.app_domain : $t('Internal Service') }} 
+      {{$t(mySiteStore.currentPackage.title)}}  {{mySiteStore.currentPackage.title === 'Free' ? ' - ' +$t(`${mySiteStore.currentPackage.category}` ):'' }} - {{ mySiteStore.currentPackage.type !== null ? mySiteStore.currentPackage.type : $t('Internal Service') }} 
     
             </div>
           

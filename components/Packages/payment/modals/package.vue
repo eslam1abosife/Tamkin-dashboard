@@ -361,7 +361,7 @@ const conintuePay = () => {
     apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : totalCost.value,
+    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : calculateEstimatedPrice.value.toFixed(0),
     packageExtraType: packageTypeToSend.value ,
     packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
   };
@@ -669,7 +669,7 @@ packagesStore.selectedPaymentMethod  = ''
  
 };
 const formattedEstimatedPrice = computed(()=> {
-    if (selectedPackage !== 0) {
+    if (selectedPackage.value !== 0) {
       return calculateEstimatedPrice.value
         .toFixed(0)
         .toString()
@@ -1619,11 +1619,11 @@ const formattedEstimatedPrice = computed(()=> {
 
                   packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
   ? "0"
-  : (
-      (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length))
-    )
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  : getCategory !== 0 ? calculateEstimatedPrice.toFixed(0) :(
+    (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length))
+  )
+  .toString()
+  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
                 }}
                 

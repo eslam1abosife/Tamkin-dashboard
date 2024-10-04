@@ -48,7 +48,8 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
   const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0);
+    return (usdTotal / rate).toFixed(0).toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -413,7 +414,7 @@ const finalAmount = computed(() => {
                       class="text-[16px] leading-[24px] font-[500] font-[Inter] text-[#3D3D3D] dark:text-whiteTamkin/70"
                     >
                       ${{ subsStore.packagePayload.total.toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} =
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} =
                       <!-- <span class="text-black font-[500] dark:text-whiteTamkin">
                             {{convertUsdToCryptos(subsStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
                       {{
@@ -421,8 +422,7 @@ const finalAmount = computed(() => {
                           subsStore.packagePayload.total - subsStore.currentDiscount,
                           cryptostore.rates,
                           subsStore.selectedCrypto.title
-                        ).toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        )
                       }}
                     </div>
                     <div>
@@ -517,16 +517,46 @@ const finalAmount = computed(() => {
             </div>
             <table class="min-w-full">
               <thead>
-                <tr>
+                <tr class="px-">
                   <th
-                    class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b dark:border-light dark:text-whiteTamkin text-[16px] leading-[30px] text-darkGrey font-[600] ltr:text-left rtl:text-right"
-                    colspan="12"
-                  >
-                    {{$t('Summary')}}
+                    class="py-2 rtl:pr-[20px] ltr:pl-[20px] border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] ltr:text-left rtl:text-right">
+                    {{ $t('Domain') }}
+                  </th>
+                  <th
+                    class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey
+                     dark:text-whiteTamkin font-[600] text-center">
+                    {{ $t('Package') }}
+                  </th>
+                  <th
+                    class="py-2  border-b dark:border-light text-[16px] leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600]
+                     text-center ">
+                    {{ $t('Section') }}
+                  </th>
+                  <th
+                    class="py-2 border-b dark:border-light text-[16px] rtl:pl-[20px] ltr:pr-[20px] 
+                    leading-[30px] text-darkGrey dark:text-whiteTamkin font-[600] text-center">
+                    {{ $t('Amount') }}
                   </th>
                 </tr>
               </thead>
               <tbody>
+                <tr v-for="rr in subsStore.totalRenews " :key="rr.name"
+                class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
+                <td class="py-2 px-5 w-1/6   border-b dark:border-light dark:text-whiteTamkin 
+                rtl:text-right ltr:text-left text-[14px] font-[400] ">
+                  {{ rr.app_type === 'Internal Services' ? $t('Internal Service') : rr.app_domain }}
+                </td>
+                <td class="py-2 px-5 w-1/6 text-[14px]  border-b dark:border-light dark:text-whiteTamkin text-center font-[400]">
+                  {{ $t(rr.package_title) }}
+                </td>
+                <td class="py-2   w-1/6 border-b text-[14px] dark:border-light dark:text-whiteTamkin text-center  font-[400]">
+                  <div class="w-28 truncate">{{ $t(rr.package_type) }}</div>
+                </td>
+                <td class="py-2  border-b w-1/6  text-[14px] dark:border-light dark:text-whiteTamkin text-center ltr:pr-1 rtl:pl-1 font-[400]">
+                  ${{ rr.amount.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
+                </td>
+              </tr>
                 <tr
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                   v-if="false"
@@ -541,7 +571,8 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ percentageOff}}
+                    ${{ percentageOff.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
                   </td>
                 </tr>
                 <tr
@@ -549,13 +580,13 @@ const finalAmount = computed(() => {
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
-                    class="py-2 pr-4 border-b text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 ltr:pl-[20px] rtl:pr-[20px] border-b   font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t('Discount') }}
                   </td>
                   <td
-                    class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
+                    class="py-2 px-5 border-b rtl:text-left ltr:text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
                     ${{ discountAmount.toFixed(0).toString()
@@ -568,13 +599,13 @@ const finalAmount = computed(() => {
                   v-if="subsStore.selectedCrypto"
                 >
                   <td
-                    class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
+                    class="py-2 ltr:px-5 border-b  font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{ $t('Total Crypto') }}
                   </td>
                   <td
-                    class="py-2 px-4 border-b text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
+                    class="py-2 px-4 border-b rtl:text-left ltr:text-right w-full font-[500] whitespace-nowrap dark:text-whiteTamkin"
                     colspan="2"
                   >
                     {{
@@ -582,8 +613,7 @@ const finalAmount = computed(() => {
                     finalAmount,
                     cryptostore.rates,
                     subsStore.selectedCrypto.title
-                  ).toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                  ) +
                       " " +
                       subsStore.selectedCrypto.title
                     }}
