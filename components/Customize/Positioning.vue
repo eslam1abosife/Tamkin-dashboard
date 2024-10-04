@@ -534,23 +534,23 @@ watch([currentColor], () => {}, { immediate: true });
         class="absolute"
         :class="[
           buttonPositionMobile === 'postion1'
-            ? 'top-[30px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[30px] md:left-[10px] left-[10px] lg:left-[60px]'
             : '',
           buttonPositionMobile === 'postion2'
-            ? 'top-[80px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[80px] md:left-[10px] left-[10px] lg:left-[60px]'
             : '',
           buttonPositionMobile === 'postion3'
-            ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] lg:left-[50px]'
+            ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[10px] lg:left-[60px]'
             : '',
 
           buttonPositionMobile === 'postion4'
-            ? 'top-[30px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[30px] md:left-[75px] left-[65px] lg:left-[120px] rtl:left-[250px]  '
             : '',
           buttonPositionMobile === 'postion5'
-            ? 'top-[80px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[80px] md:left-[75px] left-[65px] lg:left-[120px] rtl:left-[250px] '
             : '',
           buttonPositionMobile === 'postion6'
-            ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] lg:left-[120px]'
+            ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] lg:left-[120px] rtl:left-[250px] '
             : '',
         ]"
       >
@@ -569,13 +569,16 @@ watch([currentColor], () => {}, { immediate: true });
         class="absolute"
         :class="[
           buttonPositionMobile === 'postion1'
-            ? 'ipad-max:top-[50px] top-[50px] lg:top-[30px] md:right-[160px] right-[150px] ipad-max:right-[170px] lg:right-[250px]'
+            ? `ipad-max:top-[50px] top-[50px] lg:top-[30px] md:right-[160px] 
+            right-[150px] ipad-max:right-[170px] lg:right-[250px] rtl:right-[114px]`
             : '',
           buttonPositionMobile === 'postion2'
-            ? 'top-[80px] ipad-max:right-[170px] md:right-[160px] right-[10px] lg:right-[250px]'
+            ? `top-[80px] ipad-max:right-[170px] md:right-[160px] 
+            right-[10px] lg:right-[250px] rtl:right-[114px]`
             : '',
           buttonPositionMobile === 'postion3'
-            ? 'top-[130px] lg:top-[140px] ipad-max:top-[130px] ipad-max:right-[170px] md:right-[160px] right-[150px] lg:right-[250px]'
+            ? `top-[130px] lg:top-[140px] ipad-max:top-[130px] 
+            ipad-max:right-[170px] md:right-[160px] right-[150px] lg:right-[250px] rtl:right-[114px]`
             : '',
 
           buttonPositionMobile === 'postion4'

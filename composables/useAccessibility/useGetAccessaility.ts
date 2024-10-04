@@ -8,8 +8,6 @@ export default function() {
 
     const customizeStore = useCustomizeStore();
 
-    
-
     const getAccessability  = async () => {
         try {
             const res = await api.post('/Widget/GetAccessibility/default');
@@ -54,7 +52,7 @@ export default function() {
             .features.find(el => el.name === "acc-customize-button-location-button-location-mobile");
             if(buttonMobilePosition.active == 1){
                 customizeStore.$state.initialPositionMobile = buttonMobilePosition.value;
-                customizeStore.$state.initialPositionMobile= buttonMobilePosition.value;
+                customizeStore.$state.buttonPositionMobile= buttonMobilePosition.value;
             }
             
             // handle button translation 

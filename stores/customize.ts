@@ -431,6 +431,7 @@ export const useCustomizeStore = defineStore('customize', {
     },
     changeButtonMobileOrDesktop(v: string) {
       this.switchButtonLocation = v;
+      
     },
 
 

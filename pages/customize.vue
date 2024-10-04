@@ -267,7 +267,6 @@ onBeforeRouteLeave((to, from, next) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
         section-title="Customize"
         section-sub-title="Customization empowers users to shape their digital environment"
       />

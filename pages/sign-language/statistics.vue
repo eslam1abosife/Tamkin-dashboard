@@ -14,8 +14,7 @@ const colorMode = useColorMode();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 
 const isADHDChecked = ref(false);
@@ -95,9 +94,6 @@ const getSelectedTab = (tab: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
         section-title="Statistics"
         section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
           useful insights."
@@ -113,7 +109,10 @@ const getSelectedTab = (tab: any) => {
         >
           <div class="flex items-center justify-start flex-1">
             <div>
-              <img src="/assets/imgs/google_analytics.svg" class="w-[71px] h-[63px]" />
+              <img
+                src="/assets/imgs/google_analytics.svg"
+                class="w-[71px] h-[63px]"
+              />
             </div>
             <div class="ml-[13px]">
               <h1
@@ -124,8 +123,8 @@ const getSelectedTab = (tab: any) => {
               <p
                 class="text-[10px] lg:text-[14px] truncate w-32 lg:leading-[19px] text-[#585B5B] dark:text-whiteTamkin font-[400] mt-[8px]"
               >
-                Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit
-                nesciunt esse sint aperiam aliquid
+                Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam
+                suscipit nesciunt esse sint aperiam aliquid
               </p>
             </div>
           </div>
@@ -141,7 +140,10 @@ const getSelectedTab = (tab: any) => {
                 class="toggle_parent"
                 :class="[statsStore.google_enabled ? 'active' : 'in_active']"
               >
-                <div class="toggle_inner" :class="{ active: statsStore.google_enabled }">
+                <div
+                  class="toggle_inner"
+                  :class="{ active: statsStore.google_enabled }"
+                >
                   <img
                     v-if="statsStore.google_enabled"
                     src="/assets/imgs/addons/active_toggle.svg"
