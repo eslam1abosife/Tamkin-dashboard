@@ -31,6 +31,7 @@ const typeMap = {
   "live-translation": "Live Translation",
   default: "Sign language",
 };
+const loadingData = ref(false)
 
 const updateCurrentType = () => {
   const path = route.path;
@@ -55,16 +56,15 @@ watch(
     }
 
   // 
-// if(loadingData){
+if(!packagesStore.loadingData){
   updateCurrentType();
-// }
+}
 
   },
   { immediate: true }
 )
 
-const loadingData = ref(false)
-onMounted(async () => {
+onBeforeMount(async () => {
   // packagesStore.loadingData = true
  await packagesStore.getDataPackage();
 

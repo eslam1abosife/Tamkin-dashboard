@@ -275,6 +275,7 @@ const packageTypeToSend = computed(() => {
  * Sets the package payload and navigates to the payment methods page.
  * @returns {Promise<void>}
  */
+const packagesStore = usePackgesStore()
 const conintuePay = () => {
 
 
@@ -286,7 +287,7 @@ const conintuePay = () => {
     locale: locale.value,
     total: addSiteStore.currentPackage.type === 'Sign language' ? totalCost.value :  calculateTotalPrice(),
     packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
-    packageTrie:  null,
+    packageTrie:  packagesStore.traffic_level,
   };
   return navigateTo("add_package_modal_addsite", "addsite", "payment_methods_addsite");
 };

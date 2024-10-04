@@ -4,8 +4,8 @@ import VueQrcode from "@chenfengyuan/vue-qrcode";
 import { useCrypto } from "@/composables/useMySite";
 import { useClipboard } from '@vueuse/core'
 const cryptostore = useCryptoStore();
-const mysiteStore = useMySiteStore();
-const source = mysiteStore.selectedCrypto.wallet_address
+const subsStore = useSubsStore();
+const source = subsStore.selectedCrypto.wallet_address
 const { text, copy, copied, isSupported } = useClipboard({ source })
 const {
   isOpen: isModalOpen,
@@ -67,10 +67,9 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 };
 
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
-  const rate = rates[mysiteStore.selectedCrypto.coingecko_id];
+  const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0).toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return (usdTotal / rate).toFixed(0);
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -84,7 +83,7 @@ const toggleDropdown = () => {
 };
 
 const selectCryptoMethod = (method) => {
-  mysiteStore.selectedCrypto = method;
+  subsStore.selectedCrypto = method;
   isCryptoMenuOpen.value = false;
 };
 const loading = ref(false);
@@ -130,9 +129,9 @@ onUnmounted(() => {
  * Pay with selected cryptocurrency
  */
  const finalAmount = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;
-  const cryptoDiscount = mysiteStore.selectedCrypto?.discount || 0;
-  const couponDiscount = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;
+  const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
+  const couponDiscount = subsStore.currentDiscount;
 
   // Apply coupon discount first
   const amountAfterCoupon = cartTotal * (1 - couponDiscount / 100);
@@ -147,26 +146,26 @@ const payCrypto = async () => {
   await paywithCrypto(state.TXID, 
 
  `${ convertUsdToCrypto(
-  mysiteStore.packagePayload.total - mysiteStore.currentDiscount,
+  subsStore.packagePayload.total - subsStore.currentDiscount,
                     cryptostore.rates,
-                    mysiteStore.selectedCrypto.title
-                  ) + ' '+ mysiteStore.selectedCrypto.title}`,
-                  mysiteStore.selectedCrypto.code
+                    subsStore.selectedCrypto.title
+                  ) + ' '+ subsStore.selectedCrypto.title}`,
+                  subsStore.selectedCrypto.code
 
   );
   if (codeStatus.value === 200) {
 
 
 
-  navigateTo("crypto_mysite_step2", "mysite", "crypto_mysite_success");
+  navigateTo("crypto_subs_step2", "mysite", "crypto_mysite_success");
   loadingPayment.value = false;
-  mysiteStore.urls =[]
-  mysiteStore.currentPackage = ''
-    mysiteStore.packagePayload = ''
-    mysiteStore.tags = []
-    mysiteStore.validatedSites = []
-    mysiteStore.loadingBlock = []
-  // mysiteStore.removeMultipleFromCart(mysiteStore.cartItems);
+  subsStore.urls =[]
+  subsStore.currentPackage = ''
+    subsStore.packagePayload = ''
+    subsStore.tags = []
+    subsStore.validatedSites = []
+    subsStore.loadingBlock = []
+  // subsStore.removeMultipleFromCart(subsStore.cartItems);
   }else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
     loadingPayment.value = false;
@@ -174,8 +173,8 @@ const payCrypto = async () => {
   }
 };
 const percentageOff = computed(() => {
-  const subtotal = mysiteStore.cartSubtotal;
-  const discount = mysiteStore.currentDiscount;
+  const subtotal = subsStore.cartSubtotal;
+  const discount = subsStore.currentDiscount;
 
   if (subtotal > 0) {
     return (discount / subtotal) * 100;
@@ -183,12 +182,12 @@ const percentageOff = computed(() => {
   return 0;
 });
 const cancelPayment =()=>{
-  mysiteStore.promo = ""
-  mysiteStore.validPromo = false
-  mysiteStore.currentDiscount = 0
-  mysiteStore.selectedCrypto = ""
-  mysiteStore.urls =[]
-  closeModal('crypto_mysite_step2')
+  subsStore.promo = ""
+  subsStore.validPromo = false
+  subsStore.currentDiscount = 0
+  subsStore.selectedCrypto = ""
+  subsStore.urls =[]
+  closeModal('crypto_subs_step2')
 }
 </script>
 
@@ -201,9 +200,9 @@ const cancelPayment =()=>{
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
       @click="()=>{
-        closeModal('crypto_mysite_step2')
-          mysiteStore.selectedPaymentMethod = '' 
-        mysiteStore.selectedCrypto = ''
+        closeModal('crypto_subs_step2')
+          subsStore.selectedPaymentMethod = '' 
+        subsStore.selectedCrypto = ''
       }"
     >
       <svg
@@ -225,7 +224,7 @@ const cancelPayment =()=>{
         <div class="flex flex-col items-start justify-center w-full relative">
           <div class="flex items-center justify-center">
             <div
-              @click="navigateTo('crypto_mysite_step2', 'mysite', 'crypto_mysite_step1')"
+              @click="navigateTo('crypto_subs_step2', 'subs', 'crypto_subs_step1')"
               class="!cursor-pointer z-[999] close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor dark:border-light rounded-full w-[30px] h-[30px]"
               style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
             >
@@ -266,10 +265,10 @@ const cancelPayment =()=>{
                   convertUsdToCrypto(
                     finalAmount,
                     cryptostore.rates,
-                    mysiteStore.selectedCrypto.title
+                    subsStore.selectedCrypto.title
                   )
                 }}
-                {{ mysiteStore.selectedCrypto.title +' '}}
+                {{ subsStore.selectedCrypto.title +' '}}
               </span>
               {{ $t('to the address below. Please ensure you are sending to the correct address and network, as sending to the wrong address may result in a loss of funds') }}
 
@@ -298,7 +297,7 @@ const cancelPayment =()=>{
               
               <div class="border rounded-lg">
                 <vue-qrcode
-                  :value="mysiteStore.selectedCrypto.wallet_address"
+                  :value="subsStore.selectedCrypto.wallet_address"
                   :options="{ width: 115, height: 115 }"
                 ></vue-qrcode>
               </div>
@@ -312,10 +311,10 @@ const cancelPayment =()=>{
                         convertUsdToCrypto(
                           finalAmount,
                           cryptostore.rates,
-                          mysiteStore.selectedCrypto.title
+                          subsStore.selectedCrypto.title
                         )
                       }}
-                      {{ mysiteStore.selectedCrypto.title }}</span
+                      {{ subsStore.selectedCrypto.title }}</span
                     >
                   </h2>
                   <div
@@ -324,13 +323,13 @@ const cancelPayment =()=>{
                   >
                     <div class="flex items-center rtl:space-x-reverse justify-center space-x-[8px]">
                       <img
-                        :src="`http://tamkin.app/${mysiteStore.selectedCrypto.icon}`"
+                        :src="`http://tamkin.app/${subsStore.selectedCrypto.icon}`"
                         class="w-[20px] h-[20px]"
                       />
                       <div
                         class="text-[#878787] text-[12px] dark:text-whiteTamkin/70 truncate w-72 text-ellipsis whitespace-nowrap"
                       >
-                        {{ mysiteStore.selectedCrypto.wallet_address }}
+                        {{ subsStore.selectedCrypto.wallet_address }}
                       </div>
                     </div>
                     <img @click="copywallet()"

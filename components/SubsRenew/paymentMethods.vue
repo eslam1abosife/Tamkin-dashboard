@@ -2,7 +2,7 @@
 import { useModalManager } from '@/composables/useModalManager';
 
 
-const mySiteStore = useMySiteStore()
+const subsStore = useSubsStore()
 const {
   isOpen,
   currentView,
@@ -17,28 +17,28 @@ const props = defineProps({
 
 const goToPaymentMethod = async (method: any) => {
   
-  if (mySiteStore.selectedPaymentMethod === 'by_card') {
-    mySiteStore.promo = "";
-    mySiteStore.currentDiscount = 0;
-    mySiteStore.validPromo = false;
-    return navigateTo('payment_methods_mysite', 'mysite', 'cardModal_mysite')
+  if (subsStore.selectedPaymentMethod === 'by_card') {
+    subsStore.promo = "";
+    subsStore.currentDiscount = 0;
+    subsStore.validPromo = false;
+    return navigateTo('payment_methods_subs', 'subs', 'cardModal_subs')
   }
 
-  if( mySiteStore.packagePayload.payDateType !== 0 ){
-    if (mySiteStore.selectedPaymentMethod=== 'by_paypal') {
-    mySiteStore.promo = "";
-    mySiteStore.currentDiscount = 0;
-    mySiteStore.validPromo = false;
-    return navigateTo('payment_methods_mysite', 'mysite', 'paypal_mysite')
+  if( subsStore.packagePayload.payDateType !== 0 ){
+    if (subsStore.selectedPaymentMethod=== 'by_paypal') {
+        subsStore.promo = "";
+        subsStore.currentDiscount = 0;
+        subsStore.validPromo = false;
+    return navigateTo('payment_methods_subs', 'subs', 'paypal_subs')
 
     // const res = await createOrder('paypal')
     // console.log(res.headers.location)
   }
-  if (mySiteStore.selectedPaymentMethod === 'by_crypto') {
-    mySiteStore.promo = "";
-    mySiteStore.currentDiscount = 0;
-    mySiteStore.validPromo = false;
-    return navigateTo('payment_methods_mysite', 'mysite', 'crypto_mysite_step1')
+  if (subsStore.selectedPaymentMethod === 'by_crypto') {
+    subsStore.promo = "";
+    subsStore.currentDiscount = 0;
+    subsStore.validPromo = false;
+    return navigateTo('payment_methods_subs', 'subs', 'crypto_subs_step1')
 
   }
   }else {
@@ -50,12 +50,12 @@ const goToPaymentMethod = async (method: any) => {
 
 <template>
 
-  <div v-if="isOpen('payment_methods_mysite')"
+  <div v-if="isOpen('payment_methods_subs')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
    dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
-    closeModal('payment_methods_mysite')
-    mySiteStore.selectedPaymentMethod = ''
+    closeModal('payment_methods_subs')
+    subsStore.selectedPaymentMethod = ''
    }">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -69,17 +69,7 @@ const goToPaymentMethod = async (method: any) => {
       <div class="flex flex-col items-start justify-center w-full">
 
         <div class="flex items-center justify-center">
-          <div @click="navigateTo('payment_methods_mysite', 'mysite', 'add_package_modal_mysite')" 
-          class="cursor-pointer close_sidebar_btn group flex items-center justify-center  
-           dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180
-       border-linecolor rounded-full w-[30px] h-[30px]" style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
-    ">
-            <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
-              class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
-            </svg>
-          </div>
+      
           <h1
             class="text-[16px] lg:text-[18px] rtl:font-[Almarai]  leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
             {{ $t('Choose Payment Methods') }}
@@ -100,8 +90,8 @@ const goToPaymentMethod = async (method: any) => {
 
           <div class="flex flex-col items-start justify-center space-y-[12px] mt-[50px] w-full px-[5px] lg:px-[20px]">
             <div class="w-full">
-              <div @click="mySiteStore.selectedPaymentMethod = 'by_card'"
-                :class="[mySiteStore.selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
+              <div @click="subsStore.selectedPaymentMethod = 'by_card'"
+                :class="[subsStore.selectedPaymentMethod == 'by_card' ? 'custom-border-tamkin' : 'border-[1px] ']"
                 class="mx-auto  w-full h-[87px] cursor-pointer bg-[#FAFCFE]  dark:bg-tamkinDarkPrimary
             flex items-center justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -111,7 +101,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio5" type="radio" name="radio" class="hidden" value="by_card"
-                  v-model="mySiteStore.selectedPaymentMethod" :checked="mySiteStore.selectedPaymentMethod === 'by_card'" />
+                  v-model="subsStore.selectedPaymentMethod" :checked="subsStore.selectedPaymentMethod === 'by_card'" />
                   <label for="radio5" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -124,14 +114,14 @@ const goToPaymentMethod = async (method: any) => {
             <div class=" w-full ">
               <div @click="()=>{
 
-                if(mySiteStore.packagePayload.payDateType !== 0){
+                if(subsStore.packagePayload.payDateType !== 0){
 
-                  mySiteStore.selectedPaymentMethod = 'by_crypto';
+                  subsStore.selectedPaymentMethod = 'by_crypto';
                 }
               }"
-                :class="[mySiteStore.selectedPaymentMethod == 'by_crypto' &&  mySiteStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
+                :class="[subsStore.selectedPaymentMethod == 'by_crypto' &&  subsStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
                 
-                mySiteStore.packagePayload.payDateType === 0 ?'!cursor-not-allowed opacity-50' :''
+                subsStore.packagePayload.payDateType === 0 ?'!cursor-not-allowed opacity-50' :''
                 ]" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
@@ -141,7 +131,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                  :disabled="mySiteStore.packagePayload.payDateType === 0"  v-model="mySiteStore.selectedPaymentMethod" :checked="mySiteStore.selectedPaymentMethod === 'by_crypto' && mySiteStore.currentPackage.trial_days === 0" />
+                  :disabled="subsStore.packagePayload.payDateType === 0"  v-model="subsStore.selectedPaymentMethod" :checked="subsStore.selectedPaymentMethod === 'by_crypto' && subsStore.currentPackage.trial_days === 0" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -153,13 +143,13 @@ const goToPaymentMethod = async (method: any) => {
             <div class=" w-full ">
               <div @click="()=>{
 
-                if(mySiteStore.packagePayload.payDateType !== 0){
+                if(subsStore.packagePayload.payDateType !== 0){
 
-                  mySiteStore.selectedPaymentMethod = 'by_paypal';
+                  subsStore.selectedPaymentMethod = 'by_paypal';
                 }
               }"
-                :class="[mySiteStore.selectedPaymentMethod == 'by_paypal'  && mySiteStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
-                mySiteStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :''
+                :class="[subsStore.selectedPaymentMethod == 'by_paypal'  && subsStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
+                subsStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :''
                  
                  ]" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
@@ -171,7 +161,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                  :disabled="mySiteStore.packagePayload.payDateType === 0"  v-model="mySiteStore.selectedPaymentMethod" :checked="mySiteStore.selectedPaymentMethod === 'by_paypal' && mySiteStore.currentPackage.trial_days === 0" />
+                  :disabled="subsStore.packagePayload.payDateType === 0"  v-model="subsStore.selectedPaymentMethod" :checked="subsStore.selectedPaymentMethod === 'by_paypal' && subsStore.currentPackage.trial_days === 0" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -182,7 +172,7 @@ const goToPaymentMethod = async (method: any) => {
             </div>
           </div>
           <div class="my-[26px] px-[20px] rtl:mr-auto ltr:ml-auto">
-            <button class="btn-dashboard hover_tamkin" :disabled="!mySiteStore.selectedPaymentMethod" @click="goToPaymentMethod(mySiteStore.selectedPaymentMethod)">
+            <button class="btn-dashboard hover_tamkin" :disabled="!subsStore.selectedPaymentMethod" @click="goToPaymentMethod(subsStore.selectedPaymentMethod)">
               {{ $t('Continue to Payment') }}
             </button>
           </div>

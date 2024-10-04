@@ -1,19 +1,16 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { useFullUrl } from "@/composables/useSharedFunctions";
-import { usePayByCorPaypal } from "@/composables/usePackages";
+import { useRenewAll } from "@/composables/usePackages";
 import { useCouponCode } from "@/composables/useMarket";
 const {locale } = useI18n()
-
-const { paybycorpaypal, messageData ,codeStatus} = usePayByCorPaypal();
+const { renewAllCardorPaypal, messageData ,codeStatus} = useRenewAll();
 const { ApplyCoupon } = useCouponCode();
 const billingStore = useBillingStore();
-const packagesStore = usePackgesStore();
+const subsStore = useSubsStore();
 import {
   useGetCards,
-  useDeleteCard,
-  useInvoices,
-  useInvoicePdf,
+
 } from "@/composables/useBilling";
 const { $toast } = useNuxtApp()
 const { getCards } = useGetCards();
@@ -41,35 +38,28 @@ const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
 const loadingPayment = ref(false);
 const urlPayment =  ref('')
-watch(promo, (ov, nv) => {
-  return promo.value.length > 0
-    ? (isPromoFilled.value = true)
-    : (isPromoFilled.value = false);
-});
+
 const clearInput = () => {
   promo.value = "";
   validPromo.value = false;
 };
-const addPromoCode = async () => {
-  if (promo.value) {
-    const code = await ApplyCoupon(promo.value);
-    validPromo.value = !validPromo.value;
-  }
-};
+
 const gotoPaymentMethod = ()=>{
 if(chooseOtherPaymentMethod.value === "by_crypto"){
-  navigateTo('cardModal_packages','packages','crypto_packages_step1')
+  navigateTo('cardModal_subs','subs','crypto_subs_step1')
 }else{
-  navigateTo('cardModal_packages','packages','paypal_packages')
+  navigateTo('cardModal_subs','subs','paypal_subs')
 }
 }
-const removePromoCode = () => {
-  if (promo.value) {
-    validPromo.value = !validPromo.value;
-    promo.value = "";
-  }
-};
-const selectedPaymentMethod = ref("");
+
+
+/**
+ * changeCurrentCard
+ * 
+ * @description Change the current saved card used for payment
+ * @param {object} savedCard The saved card object
+ * @returns {void}
+ */
 const changeCurrentCard = (savedCard: any) => {
   currentCard.value = savedCard.id;
   chooseOtherPaymentMethod.value = "";
@@ -78,13 +68,11 @@ const changeCurrentCard = (savedCard: any) => {
 };
 
 const changepaymentMethod = (method: any) => {
-  if(packagesStore.packagePayload.payDateType === 0 ){
-    return false
-  }else{
-     chooseOtherPaymentMethod.value = method;
+  if( subsStore.packagePayload.payDateType !== 0 ){
+  chooseOtherPaymentMethod.value = method;
   currentCard.value = "";
   }
- 
+
 };
 
 watch(currentCard, (ov, nv) => { });
@@ -98,18 +86,22 @@ const handleIframeMessage = (event) => {
   if (event.data && event.data.event === 'paid') {
     // alert('yea')
     usepaystore.stateOfPayment = 'paid'
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems)
-     navigateTo('cardModal_packages','packages','success_pay_package')
+    // subsStore.removeMultipleFromCart(subsStore.cartItems)
+     navigateTo('cardModal_subs','subs','success_pay_mysite')
      urlPayment.value = ""
      loadingPayment.value = false
-    packagesStore.currentPackage = ''
-    packagesStore.urls = ''
+    subsStore.currentPackage = ''
+    subsStore.packagePayload = ''
+    subsStore.tags = []
+    subsStore.validatedSites = []
+    subsStore.loadingBlock = []
+   
   }
    else if(event.data && event.data.event === 'faild'){ 
     usepaystore.stateOfPayment = 'failed'
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems)
+    // subsStore.removeMultipleFromCart(subsStore.cartItems)
 
-     navigateTo('cardModal_packages','packages','success_pay_package')
+     navigateTo('cardModal_subs','subs','success_pay_mysite')
      urlPayment.value = ""
     loadingPayment.value = false
   }
@@ -147,24 +139,24 @@ if(billingStore.cards.length){
 });
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-  const res = await paybycorpaypal(currentCard.value,'Card');
+  const res = await renewAllCardorPaypal(currentCard.value,'Card',null);
   // loadingPayment.value = false;
 
   // return navigateTo('cardModal','add-site','crypto')
   if (codeStatus.value === 200 && res !== "A 3-day trial package is configured in the app") {
     urlPayment.value = res
 
-    // packagesStore.removeMultipleFromCart(packagesStore.cartItems);
-    packagesStore.urls =[]
-    packagesStore.promo = ""
-    packagesStore.validPromo = false
-    packagesStore.currentDiscount = 0
+    // subsStore.removeMultipleFromCart(subsStore.cartItems);
+    subsStore.urls =[]
+    subsStore.promo = ""
+    subsStore.validPromo = false
+    subsStore.currentDiscount = 0
 
   }
   else if(res === "A 3-day trial package is configured in the app"){
-    packagesStore.urls =[]
+    subsStore.urls =[]
     usePaymentStore().stateOfPayment = 'paid'
-    return navigateTo('cardModal_packages','packages','success_pay_package')
+    return navigateTo('cardModal_subs','mysite','success_pay_mysite')
   }
    else {
     $toast(messageData.value, { hideIn: 3000, type: 'error' });
@@ -175,8 +167,8 @@ const continueCheckOut = async () => {
 
 };
 const percentageOff = computed(() => {
-  const cartTotal =  packagesStore.packagePayload.total;
-  const discountPercentage = packagesStore.currentDiscount;
+  const cartTotal =  subsStore.packagePayload.total;
+  const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
     return cartTotal * (discountPercentage / 100);
@@ -196,8 +188,9 @@ onBeforeUnmount(() => {
     v-if="!urlPayment" class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary
      dark:text-whiteTamkin !top-[23px]"
       @click="()=>{
-        closeModal('cardModal_packages')
-        packagesStore.selectedPaymentMethod = '' 
+        closeModal('cardModal_subs')
+        subsStore.selectedPaymentMethod = '' 
+        subsStore.urls = []
       }">
       <svg class="w-[12px] h-[12px]" width="14" height="13" viewBox="0 0 14 13" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +202,7 @@ onBeforeUnmount(() => {
     <div class="w-full h-full">
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex items-center justify-center">
-          <div v-if="!urlPayment" @click="navigateTo('cardModal_packages', 'packages', 'payment_methods_packages')"
+          <div v-if="!urlPayment" @click="navigateTo('cardModal_subs', 'mysite', 'payment_methods_mysite')"
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center
              bg-white dark:bg-tamkinDarkPrimary border-[1px] rtl:rotate-180 border-linecolor rounded-full w-[30px] h-[30px]" style="box-shadow: 0px 4px 8.7px 0px #daf3f1">
             <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
@@ -260,7 +253,6 @@ onBeforeUnmount(() => {
               </div>
             </div>
           </div>
-          
           <div  class="flex flex-col items-center justify-center space-y-[12px] mt-[24px] mx-auto w-full" v-if="!urlPayment" >
             <div class="flex flex-col items-center justify-start w-full px-[20px] space-y-[10px]" 
             v-if="billingStore.cards && billingStore.cards.length !==0 && !loadingCards">
@@ -321,7 +313,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
-                  navigateTo('cardModal_packages', 'Market', 'add_new_card_billing')
+                  navigateTo('cardModal_market', 'mysite', 'add_new_card_billing')
                   ">
                   <img src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
@@ -365,7 +357,7 @@ onBeforeUnmount(() => {
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_crypto')"
                 :class="[chooseOtherPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ',
-                packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
+                subsStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
@@ -373,8 +365,10 @@ onBeforeUnmount(() => {
                     {{$t('Pay Via Crypto')}}</div>
                 </div>
                 <div class="order-1 mx-[4px]">
-                  <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                  :disabled="packagesStore.packagePayload.payDateType === 0 "  @click.stop="changepaymentMethod('by_crypto')" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
+                  <input id="radio_crypto" type="radio" name="radio" class="hidden" 
+                  
+                  :disabled="subsStore.packagePayload.payDateType === 0" :class="[subsStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
+                  @click.stop="changepaymentMethod('by_crypto')" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -385,9 +379,7 @@ onBeforeUnmount(() => {
             </div>
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_paypal')"
-              
-                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ',
-                packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
+                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ', subsStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" /></div>
@@ -396,9 +388,10 @@ onBeforeUnmount(() => {
                 </div>
                 </div>
                 <div class="order-1 mx-[4px]">
-                  <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                  :class="[ packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
-                 :disabled="packagesStore.packagePayload.payDateType === 0 "  @click.stop="changepaymentMethod('by_paypal')" :checked="chooseOtherPaymentMethod === 'by_paypal'" />
+                  <input id="radio_paypal" type="radio" name="radio" class="hidden" 
+                  @click.stop="changepaymentMethod('by_paypal')" :disabled="subsStore.packagePayload.payDateType === 0"
+                  :class="[subsStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
+                  :checked="chooseOtherPaymentMethod === 'by_paypal'" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -412,25 +405,25 @@ onBeforeUnmount(() => {
               <div
                 class="flex items-center lg:flex-row flex-col justify-center lg:justify-between rtl:space-x-reverse space-x-[24px] w-full px-[20px]">
                 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
-                  <input type="text" @input="packagesStore.noDiscount = false"
+                  <input type="text" @input="subsStore.noDiscount = false"
                     class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
-                    v-model="packagesStore.promo" :placeholder="$t('Promo Code')" :class="[
-                      packagesStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
-                      packagesStore.noDiscount
+                    v-model="subsStore.promo" :placeholder="$t('Promo Code')" :class="[
+                      subsStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+                      subsStore.noDiscount
                         ? '!bg-red-500/10 !text-red-500 !border-red-500'
                         : '',
                     ]" />
 
                   <div class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] 
-                    flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="packagesStore.validPromo">
+                    flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]" v-if="subsStore.validPromo">
                     <img src="/assets/imgs/promo_valid.svg" />
                     <div class="text-[15px] font-[500] text-darkGrey">
-                      <span class="text-[#021328] font-[700]">{{ packagesStore.currentDiscount }}%</span>
+                      <span class="text-[#021328] font-[700]">{{ subsStore.currentDiscount }}%</span>
                       {{ $t("Discount") }} (-${{ percentageOff.toFixed(0) }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
                   </div>
-                  <div v-if="packagesStore.isPromoFilled && !packagesStore.noDiscount" @click="clearInput"
+                  <div v-if="subsStore.isPromoFilled && !subsStore.noDiscount" @click="clearInput"
                     class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]">
                     <img src="/assets/imgs/close_promo.svg" />
                   </div>
@@ -438,14 +431,14 @@ onBeforeUnmount(() => {
 
                 <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
                   <button class="btn-dashboard hover_tamkin w-full mx-auto text-center"
-                    @click="packagesStore.addPromoCode" :disabled="!packagesStore.promo || packagesStore.loadingPromo"
-                    v-if="!packagesStore.validPromo">
+                    @click="subsStore.addPromoCode" :disabled="!subsStore.promo || subsStore.loadingPromo"
+                    v-if="!subsStore.validPromo">
                     <div class="flex items-center justify-center">
-                      <div :class="packagesStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                      <div :class="subsStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
                         {{ $t("Apply code") }}
                       </div>
 
-                      <svg v-if="packagesStore.loadingPromo" class="animate-spin h-5 w-5 text-white"
+                      <svg v-if="subsStore.loadingPromo" class="animate-spin h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
                         </circle>
@@ -456,12 +449,12 @@ onBeforeUnmount(() => {
                     </div>
                   </button>
                   <button v-else class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
-                    @click="packagesStore.removePromoCode">
+                    @click="subsStore.removePromoCode">
                     {{ $t("Remove Code") }}
                   </button>
                 </div>
               </div>
-              <div v-if="packagesStore.noDiscount"
+              <div v-if="subsStore.noDiscount"
                 class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500">
                 {{ $t("Coupon code not found") }}
               </div>
@@ -485,7 +478,7 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2">
-                    ${{ packagesStore.packagePayload.total.toFixed(0) }}
+                    ${{ subsStore.packagePayload.total.toFixed(0) }}
                   </td>
                 </tr>
                 <tr v-if="percentageOff"
@@ -504,11 +497,10 @@ onBeforeUnmount(() => {
                     colspan="2">
                     {{ $t('Total') }}
                   </td>
+                  
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ (Number(packagesStore.packagePayload.total) - percentageOff)  .toFixed(0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{ (Number(subsStore.packagePayload.total) - percentageOff) }}
                   </td>
                 </tr>
               </tbody>
@@ -518,7 +510,11 @@ onBeforeUnmount(() => {
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-if="chooseOtherPaymentMethod !== ''">
             <button class="btn-dashboard hover_tamkin w-full" @click="gotoPaymentMethod" 
               >
+              
                   {{ $t("Switch Payment Method") }}
+           
+             
+          
             </button>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-else-if="!urlPayment && !chooseOtherPaymentMethod">

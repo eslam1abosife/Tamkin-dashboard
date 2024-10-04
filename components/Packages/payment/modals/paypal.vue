@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { usePayByCorPaypal } from "@/composables/usePackages";
-const {locale } = useI18n()
+const { locale } = useI18n();
 
-const { paybycorpaypal,messageData,codeStatus } = usePayByCorPaypal();
+const { paybycorpaypal, messageData, codeStatus } = usePayByCorPaypal();
 const packagesStore = usePackgesStore();
 
 const {
@@ -14,7 +14,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const {$toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
@@ -31,33 +31,30 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
-const redirectTo = computed(()=>{
-    if(packagesStore.currentType.title === 'Sign language'){
-        return '/packages'
-    }else if(packagesStore.currentType.title === 'Accessibility'){
-        return '/packages/accessibility'
-        
-    } 
-})
+const redirectTo = computed(() => {
+  if (packagesStore.currentType.title === "Sign language") {
+    return "/packages";
+  } else if (packagesStore.currentType.title === "Accessibility") {
+    return "/packages/accessibility";
+  }
+});
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await paybycorpaypal(null,'paypal',redirectTo.value);
-// alert(locale.value)
+  const res = await paybycorpaypal(null, "paypal", redirectTo.value);
+  // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-  
     loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
-  
   }
-  packagesStore.urls.length ? packagesStore.urls = [] : null
-webs.value.length ? webs.value = [] : null
-packagesStore.selectedPaymentMethod  = ''
+  packagesStore.urls.length ? (packagesStore.urls = []) : null;
+  webs.value.length ? (webs.value = []) : null;
+  packagesStore.selectedPaymentMethod = "";
 };
 const props = defineProps({
   showModal: Boolean,
@@ -75,7 +72,7 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = packagesStore.packagePayload.total;;
+  const cartTotal = packagesStore.packagePayload.total;
   const discountPercentage = packagesStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -85,8 +82,6 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
-
-
 </script>
 
 <template>
@@ -177,7 +172,9 @@ const discountAmount = computed(() => {
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
                   <div class="text-[15px] font-[500] text-darkGrey">
-                    <span class="text-[#021328] font-[700]">{{ packagesStore.currentDiscount }}%</span>
+                    <span class="text-[#021328] font-[700]"
+                      >{{ packagesStore.currentDiscount }}%</span
+                    >
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
@@ -268,7 +265,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ packagesStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      packagesStore.packagePayload.total
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -285,7 +287,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      discountAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -301,7 +308,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (packagesStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      (packagesStore.packagePayload.total - discountAmount)
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
               </tbody>

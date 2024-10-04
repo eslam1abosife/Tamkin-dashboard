@@ -345,6 +345,12 @@ const openModals = computed(() => {
     isOpen('paypal_mysite') ||
     isOpen('upgrade_no_package') ||
     isOpen('cancel_subscription_internal') ||
+    isOpen('cancel_subscription_subs') ||
+    isOpen('payment_methods_subs') ||
+    isOpen('cardModal_subs') ||
+    isOpen('paypal_subs') ||
+    isOpen('crypto_subs_step1') ||
+    isOpen('crypto_subs_step2') ||
 
     
 

@@ -28,7 +28,10 @@ const codeStatus = ref(0)
                     "date": new Date(),
                     "amount": price
                   },
-                  "upgrade":false
+                  "upgrade":false,
+                  packageTrie:    packagesStore.traffic_level,
+
+                  
 
              
             });

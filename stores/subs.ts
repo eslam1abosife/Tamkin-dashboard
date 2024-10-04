@@ -5,7 +5,7 @@ import {useCouponCode} from "@/composables/useMarket";
 
 
 
-export const useMySiteStore = defineStore('mysite', {
+export const useSubsStore = defineStore('subs', {
     state: () => ({
         packages:[],
         currentPackage:'',
@@ -90,5 +90,5 @@ persist: {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useMySiteStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useSubsStore, import.meta.hot));
 }

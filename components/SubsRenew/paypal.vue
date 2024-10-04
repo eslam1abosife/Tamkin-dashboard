@@ -2,9 +2,11 @@
 import { useModalManager } from "@/composables/useModalManager";
 import { usePayBycOrPPaypal } from "@/composables/useMySite";
 const {locale } = useI18n()
+import { useRenewAll } from "@/composables/usePackages";
 
-const { payaddsite,messageData,codeStatus } = usePayBycOrPPaypal();
-const mysiteStore = useMySiteStore();
+const { renewAllCardorPaypal, messageData ,codeStatus} = useRenewAll();
+
+const subsStore = useSubsStore();
 
 const {
   isOpen,
@@ -18,14 +20,14 @@ const {$toast} = useNuxtApp()
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
-watch(mysiteStore.promo, (ov, nv) => {
-  return mysiteStore.promo.length > 0
-    ? (mysiteStore.isPromoFilled = true)
-    : (mysiteStore.isPromoFilled = false);
+watch(subsStore.promo, (ov, nv) => {
+  return subsStore.promo.length > 0
+    ? (subsStore.isPromoFilled = true)
+    : (subsStore.isPromoFilled = false);
 });
 const clearInput = () => {
-  mysiteStore.promo = "";
-  mysiteStore.validPromo = false;
+  subsStore.promo = "";
+  subsStore.validPromo = false;
 };
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
@@ -44,7 +46,7 @@ return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '
 })
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await payaddsite(null,'paypal',redirectTo.value);
+const res = await renewAllCardorPaypal(null,'paypal',redirectTo.value);
 // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
@@ -65,8 +67,8 @@ const props = defineProps({
 });
 
 const percentageOff = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;
-  const discountAmount = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;
+  const discountAmount = subsStore.currentDiscount;
 
   if (discountAmount > 0 && cartTotal > 0) {
     // Calculate the percentage of the discount relative to the total
@@ -76,8 +78,8 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;;
-  const discountPercentage = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;;
+  const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
     // Calculate the amount of discount
@@ -92,13 +94,13 @@ const discountAmount = computed(() => {
 
 <template>
   <div
-    v-if="isOpen('paypal_mysite')"
+    v-if="isOpen('paypal_subs')"
     class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
-      @click="closeModal('paypal_mysite')"
+      @click="closeModal('paypal_subs')"
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -118,7 +120,7 @@ const discountAmount = computed(() => {
       <div class="flex flex-col items-start justify-center w-full">
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('paypal_mysite', 'mysite', 'payment_methods_mysite')"
+            @click="navigateTo('paypal_subs', 'mysite', 'payment_methods_mysite')"
             class="cursor-pointer close_sidebar_btn group flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -160,13 +162,13 @@ const discountAmount = computed(() => {
               <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
                 <input
                   type="text"
-                  @input="mysiteStore.noDiscount = false"
+                  @input="subsStore.noDiscount = false"
                   class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
-                  v-model="mysiteStore.promo"
+                  v-model="subsStore.promo"
                   :placeholder="$t('Promo Code')"
                   :class="[
-                    mysiteStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
-                    mysiteStore.noDiscount
+                    subsStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+                    subsStore.noDiscount
                       ? '!bg-red-500/10 !text-red-500 !border-red-500'
                       : '',
                   ]"
@@ -174,17 +176,17 @@ const discountAmount = computed(() => {
 
                 <div
                   class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
-                  v-if="mysiteStore.validPromo"
+                  v-if="subsStore.validPromo"
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
                   <div class="text-[15px] font-[500] text-darkGrey">
-                    <span class="text-[#021328] font-[700]">{{ mysiteStore.currentDiscount }}%</span>
+                    <span class="text-[#021328] font-[700]">{{ subsStore.currentDiscount }}%</span>
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
                 </div>
                 <div
-                  v-if="mysiteStore.isPromoFilled && !mysiteStore.noDiscount"
+                  v-if="subsStore.isPromoFilled && !subsStore.noDiscount"
                   @click="clearInput"
                   class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
                 >
@@ -195,17 +197,17 @@ const discountAmount = computed(() => {
               <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
                 <button
                   class="btn-dashboard hover_tamkin w-full mx-auto text-center"
-                  @click="mysiteStore.addPromoCode"
-                  :disabled="!mysiteStore.promo || mysiteStore.loadingPromo"
-                  v-if="!mysiteStore.validPromo"
+                  @click="subsStore.addPromoCode"
+                  :disabled="!subsStore.promo || subsStore.loadingPromo"
+                  v-if="!subsStore.validPromo"
                 >
                   <div class="flex items-center justify-center">
-                    <div :class="mysiteStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
+                    <div :class="subsStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2' : ''">
                       {{ $t("Apply code") }}
                     </div>
 
                     <svg
-                      v-if="mysiteStore.loadingPromo"
+                      v-if="subsStore.loadingPromo"
                       class="animate-spin h-5 w-5 text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -230,14 +232,14 @@ const discountAmount = computed(() => {
                 <button
                   v-else
                   class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
-                  @click="mysiteStore.removePromoCode"
+                  @click="subsStore.removePromoCode"
                 >
                   {{ $t("Remove Code") }}
                 </button>
               </div>
             </div>
             <div
-              v-if="mysiteStore.noDiscount"
+              v-if="subsStore.noDiscount"
               class="rtl:!ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
             >
               {{ $t("Coupon code not found") }}
@@ -257,7 +259,7 @@ const discountAmount = computed(() => {
               <tbody>
                 <tr
                   class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="mysiteStore.validPromo"
+                  v-if="subsStore.validPromo"
                 >
                   <td
                     class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right font-[500] w-full"
@@ -269,11 +271,11 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ mysiteStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{ subsStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
                 <tr
-                  v-if="mysiteStore.validPromo"
+                  v-if="subsStore.validPromo"
                   class="text-[16px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
@@ -302,7 +304,7 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (mysiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{ (subsStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>

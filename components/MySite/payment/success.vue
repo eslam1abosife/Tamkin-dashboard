@@ -7,6 +7,8 @@ const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
 const mysiteStore = useMySiteStore()
 const addSiteStore = useAddSiteStore()
+
+
 import { useGetAppInvites,useUpdateDefaultApp } from "@/composables/useTeam";
 
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
@@ -14,6 +16,14 @@ const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
+const isLinkActive = (path) => {
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
+const emit = defineEmits(['updateData']);
 const setDefaultQuery = async (tryagain) => {
   if (tryagain) {
     // Update the route with new query parameters
@@ -35,16 +45,27 @@ const setDefaultQuery = async (tryagain) => {
     //   mysiteStore.loadingBlock = [];
 
     //   await getApps(); // Fetch apps asynchronously
-    //   return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite'); // Navigate after fetching apps
+      return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite'); // Navigate after fetching apps
     // } else {
-      closeModal('success_pay_mysite'); // Close modal if not 'mysite'
+      // closeModal('success_pay_mysite'); // Close modal if not 'mysite'
     // }
 
   } else {
     
-     router.push(localePath('/my-site'));
+    //  router.push(localePath('/my-site'));
      closeModal('success_pay_mysite');
+     mysiteStore.selectedApp = ''
+    if (isLinkActive('/my-site')) {
 
+     mysiteStore.loadingApps  = true
+     await getApps(); // Fetch apps asynchronously
+     mysiteStore.loadingApps  = false
+
+  }
+  if (isLinkActive('/subscriptions')) {
+emit('updateData');
+
+}
     addSiteStore.currentPackage = '';
     addSiteStore.packagePayload = '';
     addSiteStore.tags = [];
@@ -53,7 +74,6 @@ const setDefaultQuery = async (tryagain) => {
     // Close modal if not trying again
 
     // // Navigate to '/my-site'
-    await getApps(); // Fetch apps asynchronously
 
   }
 };

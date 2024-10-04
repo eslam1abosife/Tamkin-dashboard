@@ -10,6 +10,8 @@ const getApps = async () => {
 };
 const route = useRoute()
 const localePath = useLocalePath()
+const subsStore = useSubsStore();
+
 const {
   isOpen:isModalOpen,
   currentView,
@@ -21,7 +23,6 @@ const {
 const {getCryptoList } = useGetCryptoList()
 
 const cryptostore = useCryptoStore();
-const mySiteStore = useMySiteStore();
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 const isLinkActive = (path) => {
@@ -90,7 +91,7 @@ const toggleDropdown = () => {
 };
 
 const selectCryptoMethod = (method) => {
-  mySiteStore.selectedCrypto = method;
+  subsStore.selectedCrypto = method;
     isCryptoMenuOpen.value = false;
 };
 const loading = ref(false)
@@ -108,8 +109,8 @@ onMounted(async ()=>{
 })
 
 const percentageOff = computed(() => {
-    const subtotal = mySiteStore.cartSubtotal;
-    const discount = mySiteStore.currentDiscount;
+    const subtotal = subsStore.cartSubtotal;
+    const discount = subsStore.currentDiscount;
 
     if (subtotal > 0) {
       return (discount / subtotal) * 100;
@@ -120,14 +121,14 @@ const percentageOff = computed(() => {
 </script>
 
 <template>
-    <div v-if="isModalOpen('crypto_mysite_success')"  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
+    <div v-if="isModalOpen('crypto_subs_success')"  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
 
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
      dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
 
-      closeModal('crypto_mysite_success')
-        mySiteStore.selectedPaymentMethod = '' 
-        mySiteStore.selectedCrypto = ''
+      closeModal('crypto_subs_success')
+        subsStore.selectedPaymentMethod = '' 
+        subsStore.selectedCrypto = ''
      }">
       <svg
         class="w-[12px] h-[12px]"
@@ -144,7 +145,7 @@ const percentageOff = computed(() => {
       </svg>
     </div>
       <div class="w-full h-full">
-  <div class="flex flex-col items-start justify-center w-full" v-if="isModalOpen('crypto_mysite_success')">
+  <div class="flex flex-col items-start justify-center w-full" v-if="isModalOpen('crypto_subs_success')">
   
  
  
@@ -193,9 +194,9 @@ const percentageOff = computed(() => {
            </div>
            <div class="mt-[16px]  mx-auto mb-[260px] w-full px-[20px]">
             <button class="btn-dashboard  hover_tamkin mx-auto lg:w-[400px] w-full"  @click="()=>{
-              closeModal('crypto_mysite_success')
-              mySiteStore.selectedPaymentMethod = '' 
-              mySiteStore.selectedCrypto = ''
+              closeModal('crypto_subs_success')
+              subsStore.selectedPaymentMethod = '' 
+              subsStore.selectedCrypto = ''
               if(isLinkActive('/my-site')){
                 getApps()
               }

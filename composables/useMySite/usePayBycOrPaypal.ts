@@ -8,6 +8,7 @@ export default function() {
 const mysitestore = useMySiteStore()
 const codeStatus = ref('')
 const messageData = ref('')
+
     const payaddsite = async (card,type,redirectTo : any) => {
         try {
             const res = await api.post('/Apps/post/AppsInvouce',{

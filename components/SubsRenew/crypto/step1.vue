@@ -11,17 +11,17 @@ const {
 const { getCryptoList } = useGetCryptoList();
 
 const cryptostore = useCryptoStore();
-const mysiteStore = useMySiteStore();
+const subsStore = useSubsStore();
 
 const isCryptoMenuOpen = ref(false);
 const isPromoFilled = ref(false);
 const promo = ref("");
 const validPromo = ref(false);
 
-// watch(mysiteStore.promo, (ov, nv) => {
-//   return mysiteStore.promo
-//     ? (mysiteStore.isPromoFilled = true)
-//     : (mysiteStore.isPromoFilled = false);
+// watch(subsStore.promo, (ov, nv) => {
+//   return subsStore.promo
+//     ? (subsStore.isPromoFilled = true)
+//     : (subsStore.isPromoFilled = false);
 // });
 const clearInput = () => {
   promo.value = "";
@@ -46,7 +46,7 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
 
-  const rate = rates[mysiteStore.selectedCrypto.coingecko_id];
+  const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
     return (usdTotal / rate).toFixed(0);
   } else {
@@ -62,15 +62,15 @@ const toggleDropdown = () => {
 };
 
 const selectCryptoMethod = (method) => {
-  if (mysiteStore.selectedCrypto !== method) {
-    mysiteStore.selectedCrypto = method;
+  if (subsStore.selectedCrypto !== method) {
+    subsStore.selectedCrypto = method;
     isCryptoMenuOpen.value = false;
-    mysiteStore.promo = "";
-    mysiteStore.currentDiscount = 0;
-    mysiteStore.validPromo = false;
+    subsStore.promo = "";
+    subsStore.currentDiscount = 0;
+    subsStore.validPromo = false;
     
   } else {
-    mysiteStore.selectedCrypto = method;
+    subsStore.selectedCrypto = method;
     isCryptoMenuOpen.value = false;
 
   }
@@ -91,8 +91,8 @@ onBeforeMount(async () => {
 
   const featuredRate = cryptostore.list.find((rate) => rate.is_featured === 1);
 
-    if(!mysiteStore.selectedCrypto) {
-      mysiteStore.selectedCrypto = featuredRate;
+    if(!subsStore.selectedCrypto) {
+      subsStore.selectedCrypto = featuredRate;
     }
   
   // console.log()
@@ -119,8 +119,8 @@ onUnmounted(() => {
   }
 });
 const percentageOff = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;
-  const discountPercentage = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;
+  const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
     // Calculate the discount amount based on the percentage
@@ -129,9 +129,9 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;
-  const cryptoDiscount = mysiteStore.selectedCrypto?.discount || 0;
-  const couponDiscount = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;
+  const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
+  const couponDiscount = subsStore.currentDiscount;
 
   // Apply coupon discount first
   const amountAfterCoupon = cartTotal * (1 - couponDiscount / 100);
@@ -144,9 +144,9 @@ const discountAmount = computed(() => {
 });
 
 const finalAmount = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;
-  const cryptoDiscount = mysiteStore.selectedCrypto?.discount || 0;
-  const couponDiscount = mysiteStore.currentDiscount;
+  const cartTotal = subsStore.packagePayload.total;
+  const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
+  const couponDiscount = subsStore.currentDiscount;
 
   // Apply coupon discount first
   const amountAfterCoupon = cartTotal * (1 - couponDiscount / 100);
@@ -168,9 +168,9 @@ const finalAmount = computed(() => {
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]"
       @click="()=>{
-        closeModal('crypto_mysite_step1')
-        mysiteStore.selectedPaymentMethod = '' 
-        mysiteStore.selectedCrypto = ''
+        closeModal('crypto_subs_step1')
+        subsStore.selectedPaymentMethod = '' 
+        subsStore.selectedCrypto = ''
       }"
     >
       <svg
@@ -190,11 +190,10 @@ const finalAmount = computed(() => {
     <div class="w-full h-full">
       <div
         class="flex flex-col items-start justify-center w-full"
-        v-if="isModalOpen('crypto_mysite_step1')"
       >
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('crypto_mysite_step1', 'mysite', 'payment_methods_mysite')"
+            @click="navigateTo('crypto_subs_step1', 'subs', 'payment_methods_subs')"
             class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -240,7 +239,7 @@ const finalAmount = computed(() => {
           >
             <div class="flex flex-col items-center justify-center w-full px-[20px]">
               <div
-                v-if="mysiteStore.selectedCrypto"
+                v-if="subsStore.selectedCrypto"
                 class="w-full h-[100px] cursor-pointer custom-border-tamkin bg-[#FAFCFE] 
                 dark:bg-tamkinDarkPrimary flex items-center justify-between
                  rounded-[10px] border-lightGrey rtl:pr-[11px] ltr:pl-[11px]"
@@ -249,23 +248,23 @@ const finalAmount = computed(() => {
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                 >
                   <img
-                    :src="`http://tamkin.app/${mysiteStore.selectedCrypto.icon}`"
+                    :src="`http://tamkin.app/${subsStore.selectedCrypto.icon}`"
                     class="w-[25px] h-[25px]"
                   />
                   <div class="flex items-start flex-col justify-start space-y-[-4px]">
                     <div
                       class="text-[18px] leading-[44px] font-[600] font-[Inter] text-darkGrey dark:text-whiteTamkin"
                     >
-                      {{ mysiteStore.selectedCrypto.title }} - <span class="!font-[300]">{{ mysiteStore.selectedCrypto.network}}</span>
+                      {{ subsStore.selectedCrypto.title }} - <span class="!font-[300]">{{ subsStore.selectedCrypto.network}}</span>
                     </div>
 
                     <div
                       class="text-[#021328] text-[14px] font-[500] dark:text-whiteTamkin"
-                      v-if="mysiteStore.selectedCrypto && mysiteStore.selectedCrypto.is_featured === 1"
+                      v-if="subsStore.selectedCrypto && subsStore.selectedCrypto.is_featured === 1"
                     >
-                      {{ $t('Pay Via') }} {{ mysiteStore.selectedCrypto.title }} {{$t('and get')}}
+                      {{ $t('Pay Via') }} {{ subsStore.selectedCrypto.title }} {{$t('and get')}}
                       <span class="text-[14px] font-[700]"
-                        >{{ mysiteStore.selectedCrypto.discount }}%</span
+                        >{{ subsStore.selectedCrypto.discount }}%</span
                       >
                       {{$t('discount')}}
                     </div>
@@ -274,17 +273,17 @@ const finalAmount = computed(() => {
 
                 <div class="order-1 mx-[4px]">
                   <input
-                    :id="'radio_' + mysiteStore.selectedCrypto.name"
+                    :id="'radio_' + subsStore.selectedCrypto.name"
                     type="radio"
                     name="radio"
                     class="hidden"
-                    :value="mysiteStore.selectedCrypto.name"
+                    :value="subsStore.selectedCrypto.name"
                     @click=""
                     checked
                     number
                   />
                   <label
-                    :for="'radio_' + mysiteStore.selectedCrypto.name"
+                    :for="'radio_' + subsStore.selectedCrypto.name"
                     class="flex items-center cursor-pointer rtl:pl-[40px] ltr:pr-[40px]"
                   >
                     <span
@@ -303,7 +302,7 @@ const finalAmount = computed(() => {
                     class="input_search_country ltr:!pl-[10px] rtl:!pr-[10px] !rounded-[10px] !py-[6px] peer w-full ltr:text-left rtl:text-right"
                     :class="[isCryptoMenuOpen ? 'rounded-b-none' : '']"
                   >
-                    <span class="floating_label" v-if="!mysiteStore.selectedCrypto">{{
+                    <span class="floating_label" v-if="!subsStore.selectedCrypto">{{
                       $t("Choose Crypto currency")
                     }}</span>
                     <div
@@ -314,12 +313,12 @@ const finalAmount = computed(() => {
                         class="flex items-center justify-start space-x-[10px] rtl:space-x-reverse"
                       >
                         <img
-                          :src="`http://tamkin.app/${mysiteStore.selectedCrypto.icon}`"
+                          :src="`http://tamkin.app/${subsStore.selectedCrypto.icon}`"
                           class="w-[25px] h-[25px]"
                         />
                         <span
                           class="rtl:ml-auto ltr:mr-auto text-[14px] leading-[24px] font-[500] text-[#3D3D3D] dark:text-whiteTamkin"
-                          >{{ mysiteStore.selectedCrypto.title }} - <span class="!font-[300]">{{mysiteStore.selectedCrypto.network }}</span>
+                          >{{ subsStore.selectedCrypto.title }} - <span class="!font-[300]">{{subsStore.selectedCrypto.network }}</span>
                         </span>
                         <!-- <span class="!text-light">{{ selectedCrypto.symbols }}</span> -->
                       </div>
@@ -328,12 +327,12 @@ const finalAmount = computed(() => {
                           <div
                             class="text-[14px] leading-[24px] font-[500] text-[#878787] dark:text-whiteTamkin"
                           >
-                          {{ cryptostore.rates[mysiteStore.selectedCrypto.coingecko_id] }}
+                          {{ cryptostore.rates[subsStore.selectedCrypto.coingecko_id] }}
                         </div>
                         </div>
 
                         <img
-                          v-if="mysiteStore.selectedCrypto"
+                          v-if="subsStore.selectedCrypto"
                           src="/assets/imgs/menu-down.svg"
                           :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
                           class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
@@ -342,7 +341,7 @@ const finalAmount = computed(() => {
                     </div>
 
                     <img
-                      v-if="!mysiteStore.selectedCrypto"
+                      v-if="!subsStore.selectedCrypto"
                       src="/assets/imgs/menu-down.svg"
                       :class="[isCryptoMenuOpen ? 'rotate-90' : 'rtl:rotate-180']"
                       class="rtl:mr-[24px] ltr:ml-[24px] rtl:ml-[-10px] ltr:mr-[10px] mb-[2px] rtl:float-left ltr:float-right stroke-current fill-darkGrey dark:fill-whiteTamkin dark:text-whiteTamkin text-darkGrey w-[10px] h-[10px]"
@@ -383,7 +382,7 @@ const finalAmount = computed(() => {
             </div>
             <div
               class="flex flex-col items-start justify-center space-y-[24px] w-full px-[20px]"
-              v-if="mysiteStore.selectedCrypto"
+              v-if="subsStore.selectedCrypto"
             >
               <div
                 class="flex-1 w-full text-[14px] font-[400] leading-[24px] mt-[10px] dark:text-whiteTamkin text-[#A7A7A7] whitespace-pre-line"
@@ -392,13 +391,12 @@ const finalAmount = computed(() => {
               <span class="!font-[600]">
                 {{
                   convertUsdToCrypto(
-                    mysiteStore.packagePayload.total,
+                    subsStore.packagePayload.total,
                     cryptostore.rates,
-                    mysiteStore.selectedCrypto.title
-                  ).toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                    subsStore.selectedCrypto.title
+                  ) +
                   " " +
-                  mysiteStore.selectedCrypto.title
+                  subsStore.selectedCrypto.title
                 }}
               </span>
                 {{$t('your payment will be')}} :
@@ -414,22 +412,22 @@ const finalAmount = computed(() => {
                     <div
                       class="text-[16px] leading-[24px] font-[500] font-[Inter] text-[#3D3D3D] dark:text-whiteTamkin/70"
                     >
-                      ${{ mysiteStore.packagePayload.total.toString()
+                      ${{ subsStore.packagePayload.total.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} =
                       <!-- <span class="text-black font-[500] dark:text-whiteTamkin">
-                            {{convertUsdToCryptos(mysiteStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
+                            {{convertUsdToCryptos(subsStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
                       {{
                         convertUsdToCrypto(
-                          mysiteStore.packagePayload.total - mysiteStore.currentDiscount,
+                          subsStore.packagePayload.total - subsStore.currentDiscount,
                           cryptostore.rates,
-                          mysiteStore.selectedCrypto.title
+                          subsStore.selectedCrypto.title
                         ).toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                       }}
                     </div>
                     <div>
                       <img
-                        :src="`http://tamkin.app/${mysiteStore.selectedCrypto.icon}`"
+                        :src="`http://tamkin.app/${subsStore.selectedCrypto.icon}`"
                         class="w-[25px] h-[25px]"
                       />
                     </div>
@@ -451,13 +449,13 @@ const finalAmount = computed(() => {
                 <div class="lg:py-[17px] search_input w-full lg:w-3/4 mt-[24px]">
                   <input
                     type="text"
-                    @input="mysiteStore.noDiscount = false"
+                    @input="subsStore.noDiscount = false"
                     class="input_dashboard_search w-full text-darkGrey dark:text-whiteTamkin !h-[40px]"
-                    v-model="mysiteStore.promo"
+                    v-model="subsStore.promo"
                     :placeholder="$t('Promo Code')"
                     :class="[
-                      mysiteStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
-                      mysiteStore.noDiscount
+                      subsStore.validPromo ? '!bg-[#E8F8F6] !text-[#E8F8F6] ' : '',
+                      subsStore.noDiscount
                         ? '!bg-red-500/10 !text-red-500 !border-red-500'
                         : '',
                     ]"
@@ -465,17 +463,17 @@ const finalAmount = computed(() => {
 
                   <div
                     class="absolute top-[-8px] lg:top-[8px] rtl:right-[29px] ltr:left-[29px] p-[16px] flex items-center justify-evenly rtl:space-x-reverse space-x-[10px]"
-                    v-if="mysiteStore.validPromo"
+                    v-if="subsStore.validPromo"
                   >
                     <img src="/assets/imgs/promo_valid.svg" />
                     <div class="text-[15px] font-[500] text-darkGrey">
-                      <span class="text-[#021328] font-[700]">{{ mysiteStore.currentDiscount }}%</span>
+                      <span class="text-[#021328] font-[700]">{{ subsStore.currentDiscount }}%</span>
                       {{ $t('Discount') }} (-${{ percentageOff }})
                     </div>
                     <img src="/assets/imgs/promo_valid_.svg" class="" />
                   </div>
                   <div
-                    v-if="mysiteStore.isPromoFilled && !mysiteStore.noDiscount"
+                    v-if="subsStore.isPromoFilled && !subsStore.noDiscount"
                     @click="clearInput"
                     class="absolute top-[-8px] lg:top-[-27px] rtl:left-0 ltr:right-0 p-[16px] cursor-pointer lg:mt-[36px]"
                   >
@@ -486,16 +484,16 @@ const finalAmount = computed(() => {
                 <div class="text-center mt-[16px] lg:mt-[24px] w-2/6">
                   <button
                     class="btn-dashboard hover_tamkin w-full mx-auto text-center"
-                    @click="mysiteStore.addPromoCode"
-                    :disabled="!mysiteStore.promo || mysiteStore.loadingPromo"
-                    v-if="!mysiteStore.validPromo"
+                    @click="subsStore.addPromoCode"
+                    :disabled="!subsStore.promo || subsStore.loadingPromo"
+                    v-if="!subsStore.validPromo"
                   >
                   <div class="flex items-center justify-center">
-                    <div :class="mysiteStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2':''" >
+                    <div :class="subsStore.loadingPromo ? 'rtl:ml-2 ltr:mr-2':''" >
                         {{ $t('Apply code') }}
                     </div>
         
-                    <svg  v-if="mysiteStore.loadingPromo" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg  v-if="subsStore.loadingPromo" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -504,14 +502,14 @@ const finalAmount = computed(() => {
                   <button
                     v-else
                     class="btn_bordered_dashboard error w-[140px] mx-auto text-center"
-                    @click="mysiteStore.removePromoCode"
+                    @click="subsStore.removePromoCode"
                   >
                     {{$t('Remove Code')}}
                   </button>
                 </div>
               </div>
               <div
-                v-if="mysiteStore.noDiscount"
+                v-if="subsStore.noDiscount"
                 class="rtl:ml-auto ltr:!mr-auto px-[20px] !-mt-4 text-[12px] text-red-500"
               >
                 {{ $t('Coupon code not found') }}
@@ -537,7 +535,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    {{ $t('Promo Code') + ' : ' +mysiteStore.currentDiscount +'%' }}
+                    {{ $t('Promo Code') + ' : ' +subsStore.currentDiscount +'%' }}
                   </td>
                   <td
                     class="py-2 px-5 border-b text-right w-full dark:text-whiteTamkin"
@@ -547,7 +545,7 @@ const finalAmount = computed(() => {
                   </td>
                 </tr>
                 <tr
-                  v-if="mysiteStore.validPromo || (mysiteStore.selectedCrypto && mysiteStore.selectedCrypto.is_featured === 1)"
+                  v-if="subsStore.validPromo || (subsStore.selectedCrypto && subsStore.selectedCrypto.is_featured === 1)"
                   class="text-[14px] leading-[24px] font-[500] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
                 >
                   <td
@@ -567,7 +565,7 @@ const finalAmount = computed(() => {
                 </tr>
                 <tr
                   class="text-[14px] leading-[24px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-                  v-if="mysiteStore.selectedCrypto"
+                  v-if="subsStore.selectedCrypto"
                 >
                   <td
                     class="py-2 px-5 border-b text-right font-[500] w-full dark:text-whiteTamkin"
@@ -583,11 +581,11 @@ const finalAmount = computed(() => {
                       convertUsdToCrypto(
                     finalAmount,
                     cryptostore.rates,
-                    mysiteStore.selectedCrypto.title
+                    subsStore.selectedCrypto.title
                   ).toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                       " " +
-                      mysiteStore.selectedCrypto.title
+                      subsStore.selectedCrypto.title
                     }}
                   </td>
                 </tr>
@@ -604,8 +602,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                  ${{finalAmount.toFixed(0).toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
+                  ${{finalAmount.toFixed(0)}}
                 </td>
                 </tr>
               </tbody>
@@ -660,8 +657,8 @@ const finalAmount = computed(() => {
           <div class="mt-[39px] mx-auto mb-[34px] px-[20px] w-full" v-if="!loadingData">
             <button
               class="btn-dashboard hover_tamkin !h-[40px] w-full"
-              :disabled="!mysiteStore.selectedCrypto"
-              @click="navigateTo('crypto_mysite_step1', 'mysite', 'crypto_mysite_step2')"
+              :disabled="!subsStore.selectedCrypto"
+              @click="navigateTo('crypto_subs_step1', 'subs', 'crypto_subs_step2')"
             >
               {{ $t('Continue') }}
             </button>

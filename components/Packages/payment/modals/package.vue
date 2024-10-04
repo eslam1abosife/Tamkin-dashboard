@@ -105,22 +105,25 @@ const cleanWebsiteUrl = (url: string) => {
 };
 const canAddWebsite = async (website) => {
   const cleanedWebsiteUrl = cleanWebsiteUrl(website);
-  
-  // Check if the website exists in apps
-  const isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
+  let isWebsiteInApps = false;
+  let isWebsiteInUrls = false;
+
+  // Check if the website exists in apps if urls or apps arrays are available
+  if (Array.isArray(packagesStore.urls) && packagesStore.urls.length || Array.isArray(apps.value) && apps.value.length) {
+    isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
+
+    // Check if the website already exists in packagesStore.urls
+    isWebsiteInUrls = packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
+  }
 
   // Check if the website is blocked
   const res = await checkifBlockedSite(cleanedWebsiteUrl); // Call the blocking check function
   const isBlocked = res.length > 0;
 
-  // Check if the website already exists in packagesStore.urls
-  const isWebsiteInUrls = packagesStore.urls.some(
-    (website) => website.url === cleanedWebsiteUrl
-  );
-
   // Return true if the website can be added
   return !isWebsiteInApps && codeStatus.value === 200 && !isBlocked && !isWebsiteInUrls;
 };
+
 
 const addWebsite = async () => {
   loadingAddWebsite.value = true;
@@ -355,12 +358,12 @@ const conintuePay = () => {
     urls: packagesStore.urls.length
       ? packagesStore.urls.filter((website: any) => website.url !== null)
       : [].map((website: any) => website.url),
-    apps: webs.value.length ? webs.value.map((website: any) => website.name) : [],
+    apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
     total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : totalCost.value,
     packageExtraType: packageTypeToSend.value ,
-    packageTrie: packagesStore.currentType.title !== 'Sign language'  ? levelof.value : null,
+    packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
   };
   return navigateTo("add_package_modal_packages", "packages", "payment_methods_packages");
 };
@@ -1703,11 +1706,11 @@ const formattedEstimatedPrice = computed(()=> {
               class="btn-dashboard hover_tamkin"
               @click="conintuePay"
               :disabled="
-                (packagesStore.urls.length === 0 && webs.length === 0) ||
-                trafficTooHighApps.length ||
-                trafficTooHighUrls.length ||
-                websiteExist || (packagesStore.currentType.title === 'Accessibility' && Object.values(loadingByWebsite).some(value => value === true))
-              "
+              (!getCategory && packagesStore.urls.length === 0 && webs.length === 0) ||
+              websiteExist ||
+              (packagesStore.currentType.title === 'Accessibility' && Object.values(loadingByWebsite).includes(true))
+            "
+            
             >
               {{ $t("Continue to Payment") }}
             </button>

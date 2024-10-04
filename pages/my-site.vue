@@ -7,9 +7,11 @@ import { useDeleteApp, useRestoreApp, useGetPackage } from "@/composables/useMyS
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 import {useCancelSubscription} from '@/composables/usePackages'
 const { locale, t } = useI18n();
+const { $toast} = useNuxtApp()
+
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
-const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
+const { getInviteApps, defaultApp, apps, loading:getSitesLoading } = useGetAppInvites();
 const { getAvatarLetters } = useGetAvatarLetters();
 const mysiteStore = useMySiteStore();
 const { loadingBlock } = storeToRefs(mysiteStore);
@@ -17,12 +19,17 @@ const {cancelPackage,codeStatus:subCodeStatus,messageStatus:subMessageStatus} = 
 const route = useRoute();
 const router = useRouter();
 const getApps = async () => {
+  mysiteStore.loadingApps = true
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
+  mysiteStore.loadingApps = false
+
 };
 onMounted(async () => {
   getApps();
   checkPaymentStatus();
+
+
 });
 
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -81,7 +88,6 @@ const checkAll = computed({
   },
 });
 const localePath = useLocalePath();
-const selectedApp = ref();
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -199,7 +205,7 @@ watch(eventCounter, async () => {
     await deleteApp(currAppName.value.name);
     closeModal("deleteApp");
     currentTab.value = "deleted";
-    toastMsg.value = "deleted successfully!";
+   $toast(t("deleted successfully!"), { hideIn: 3000 });
   } else if (lastEventCall.value === "restoreApp") {
     const { restoreApp } = useRestoreApp();
     await restoreApp(currAppName.value);
@@ -350,6 +356,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       // mysiteStore.currentPackage = app.package ? :null
       mysiteStore.currentWebsite = app;
       mysiteStore.openedCurrentSite = true;
+      // mysiteStore.selectedApp = ""
 
       navigateTo(null, "mysite", "add_package_modal_mysite");
       loadingBlock.value.splice({ app: app, pack: pack });
@@ -358,7 +365,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     loadingBlock.value.push({ app: app });
     mysiteStore.updatePayment = false
     mysiteStore.currentType = 'Sign language'
-
+    
     mysiteStore.currentWebsite = app;
     navigateTo(null, "mysite", "upgrade_no_package");
     loadingBlock.value.splice({ app: app });
@@ -406,7 +413,6 @@ const capitalizeFirstLetter = (str) => {
   if (!str) return str; // Return the string if it's empty or undefined
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-const { $toast} = useNuxtApp()
 const cancelSubscriptionInternal = async ()=>{
 
 await cancelPackage(mysiteStore.currentInvoice,mysiteStore.currentWebsite.name)
@@ -512,7 +518,7 @@ if(subCodeStatus.value === 200){
     </div>
 
     <div
-      v-if="!getSitesLoading"
+      v-if="!mysiteStore.loadingApps"
       class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]"
     >
       <div
@@ -537,12 +543,12 @@ if(subCodeStatus.value === 200){
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
-                v-if="defaultApp?.title === 'Internal Service' && !getSitesLoading"
+                v-if="defaultApp?.title === 'Internal Service' && !mysiteStore.loadingApps"
               />
 
               <div
                 v-if="
-                  !getSitesLoading &&
+                  !mysiteStore.loadingApps &&
                   !defaultApp?.favicon &&
                   defaultApp?.title !== 'Internal Service'
                 "
@@ -552,7 +558,7 @@ if(subCodeStatus.value === 200){
               </div>
               <div
                 v-if="
-                  !getSitesLoading &&
+                  !mysiteStore.loadingApps &&
                   defaultApp?.favicon &&
                   defaultApp?.title !== 'Internal Service'
                 "
@@ -687,7 +693,7 @@ if(subCodeStatus.value === 200){
       </div>
     </div>
     <div
-      v-if="getSitesLoading"
+     v-if="mysiteStore.loadingApps"
       class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]"
     >
       <!-- Placeholder Container -->
@@ -775,7 +781,7 @@ if(subCodeStatus.value === 200){
     </div>
 
     <section class="w-full mx-auto mt-[24px]">
-      <div class="flex flex-col" v-if="dataAvailable && !getSitesLoading">
+      <div class="flex flex-col" v-if="dataAvailable && !mysiteStore.loadingApps">
         <div class="overflow-x-auto">
           <div class="inline-block min-w-full align-middle">
             <div
@@ -882,9 +888,9 @@ if(subCodeStatus.value === 200){
                 </div>
               </div>
               <table
-                v-loading="getSitesLoading"
+              
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'saved' && paginatedFilteredAppList.length > 0"
+                v-if="currentTab === 'saved' && paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -997,7 +1003,7 @@ if(subCodeStatus.value === 200){
                         new Date() < new Date(app.package[0].endpackage)
                           ? 'bg-[#FAEBEB]'
                           : '',
-                        selectedApp && selectedApp.name === app.name
+                        mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
                           ? 'border-[1px] drop-shadow-md !border-tamkinStart'
                           : 'border-[1px] ',
                       ]"
@@ -1235,13 +1241,13 @@ if(subCodeStatus.value === 200){
                             "
                             @click.prevent="
                               () => {
-                                selectedApp = selectedApp === app ? null : app;
+                                mysiteStore.selectedApp = mysiteStore.selectedApp === app ? null : app;
                               }
                             "
                             class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
                           >
                             <svg
-                              :class="selectedApp === app ? 'rotate-180' : ''"
+                              :class="mysiteStore.selectedApp === app ? 'rotate-180' : ''"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -1260,11 +1266,11 @@ if(subCodeStatus.value === 200){
                       </td>
                     </tr>
 
-                    <template v-if="selectedApp && selectedApp.name === app.name">
+                    <template v-if="mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name">
                       <tr
                       
                         :class="[
-                          selectedApp && selectedApp.name === app.name
+                          mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
                             ? '!border-[1px]  !border-t-0  !border-tamkinStart'
                             : '',
                            pack.status === 'not_installed' &&
@@ -1273,7 +1279,7 @@ if(subCodeStatus.value === 200){
                               : '',
                         ]"
                         class="h-[50px]"
-                        v-for="(pack, i) in selectedApp.package.slice(1)"
+                        v-for="(pack, i) in mysiteStore.selectedApp.package.slice(1)"
                         :key="i"
                       >
                         <td class="w-[25%]">
@@ -1286,10 +1292,10 @@ if(subCodeStatus.value === 200){
                             >
                               <div
                                 class="flex items-center justify-center"
-                                v-if="selectedApp.favicon"
+                                v-if="mysiteStore.selectedApp.favicon"
                               >
                                 <img
-                                  :src="selectedApp.favicon"
+                                  :src="mysiteStore.selectedApp.favicon"
                                   class="size-8 ipad-max:hidden lg:block hidden rounded-full"
                                 />
                               </div>
@@ -1297,10 +1303,10 @@ if(subCodeStatus.value === 200){
                                 v-else
                                 class="size-8 bg-[#2DADA3] rounded-full text-white flex items-center justify-center text-[12px]"
                               >
-                                {{ getAvatarLetters(selectedApp?.title) }}
+                                {{ getAvatarLetters(mysiteStore.selectedApp?.title) }}
                               </div>
 
-                              <div class="order-1">{{ selectedApp.app_domain }}</div>
+                              <div class="order-1">{{ mysiteStore.selectedApp.app_domain }}</div>
                             </a>
                             <!-- <div
             v-if="defaultApp.name === app.name"
@@ -1317,7 +1323,7 @@ if(subCodeStatus.value === 200){
                           class="lg:px-0 w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right leading-[12px] lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           {{
-                            selectedApp.package.length
+                            mysiteStore.selectedApp.package.length
                               ? $t(capitalizeFirstLetter(pack.billing_duration))
                               : "-"
                           }}
@@ -1350,7 +1356,7 @@ if(subCodeStatus.value === 200){
                           class="lg:px-0 w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                         >
                     
-                          <div v-if="selectedApp.package.length > 0">
+                          <div v-if="mysiteStore.selectedApp.package.length > 0">
                             <div
                               v-if="
                                 pack.endpackage && new Date() > new Date(pack.endpackage)
@@ -1401,12 +1407,12 @@ if(subCodeStatus.value === 200){
                         <td
                           class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
-                          {{ new Date(selectedApp.creation).toDateString() }}
+                          {{ new Date(mysiteStore.selectedApp.creation).toDateString() }}
                         </td>
                         <td
                           class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
-                          {{ formatNumber(selectedApp.traffic) }}
+                          {{ formatNumber(mysiteStore.selectedApp.traffic) }}
                         </td>
                         <td class="text-[14px] w-[150px] font-[400] text-darkGrey">
                           <div
@@ -1416,7 +1422,7 @@ if(subCodeStatus.value === 200){
                               class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
                               @click="
                                 getPackageAndOpenPaymenModal(
-                                  selectedApp,
+                                  mysiteStore.selectedApp,
                                   pack ? pack.name : null
                                 )
                               "
@@ -1427,7 +1433,7 @@ if(subCodeStatus.value === 200){
                                   !loadingBlock.find(
                                     (a) =>
                                       (pack ? a.pack === pack.name : true) &&
-                                      a.app === selectedApp
+                                      a.app === mysiteStore.selectedApp
                                   )
                                 "
                               />
@@ -1437,7 +1443,7 @@ if(subCodeStatus.value === 200){
                                   loadingBlock.find(
                                     (a) =>
                                       (pack ? a.pack === pack.name : true) &&
-                                      a.app === selectedApp
+                                      a.app === mysiteStore.selectedApp
                                   )
                                 "
                                 class="animate-spin h-5 w-5 text-tamkin"
@@ -1461,7 +1467,7 @@ if(subCodeStatus.value === 200){
                               </svg>
                             </button>
 
-                            <button @click="openDeleteMember(selectedApp)">
+                            <button @click="openDeleteMember(mysiteStore.selectedApp)">
                               <svg
                                 width="18"
                                 height="17"
@@ -1501,8 +1507,8 @@ if(subCodeStatus.value === 200){
                       </tr>
 
                       <!-- <tr
-   :class="[ selectedApp && selectedApp.name === app.name ? '!border-[1px]  !border-t-0  !border-tamkinStart':'']"
- v-for="(pack,i) in selectedApp.package.slice(1)" :key='i'
+   :class="[ mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name ? '!border-[1px]  !border-t-0  !border-tamkinStart':'']"
+ v-for="(pack,i) in mysiteStore.selectedApp.package.slice(1)" :key='i'
        class="h-[50px] "
      >
        <td class="w-[25%] ">
@@ -1516,18 +1522,18 @@ if(subCodeStatus.value === 200){
            >
            <div class="flex items-center justify-center h-[20px] w-[20px]" v-if="app.favicon">
              <img 
-             :src="selectedApp.favicon"
+             :src="mysiteStore.selectedApp.favicon"
              class="size-8  ipad-max:hidden lg:block hidden"
            />
            </div>
              <div v-else class="size-8  bg-[#2DADA3] rounded-full 
              text-white flex items-center justify-center text-[12px]"> 
-   {{ getAvatarLetters(selectedApp?.title) }}
+   {{ getAvatarLetters(mysiteStore.selectedApp?.title) }}
 
    </div>
    
    
-             <div class="order-1">{{ selectedApp.app_domain }}</div>
+             <div class="order-1">{{ mysiteStore.selectedApp.app_domain }}</div>
             
            </a>
         
@@ -1538,7 +1544,7 @@ if(subCodeStatus.value === 200){
          class="capitalize w-[150px] text-[12px] lg:text-[14px] ltr:text-left rtl:text-right
          font-[400] text-darkGrey dark:text-whiteTamkin"
        >
-       {{ $t(`${selectedApp.billing_duration === '3-monthly' ? '3 months' :selectedApp.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
+       {{ $t(`${mysiteStore.selectedApp.billing_duration === '3-monthly' ? '3 months' :mysiteStore.selectedApp.billing_duration === 'monthly' ?'Monthly' :'Annual'}`) }}
        </td>
        <td
          class="text-left w-[150px] text-[12px] lg:px-0 lg:text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1609,7 +1615,7 @@ if(subCodeStatus.value === 200){
          
          <button  :disabled="
         pack.status === 'Pending' || 
-          loadingBlock.find(a=>a.pack === pack.name && a.app === selectedApp) || pack.billing_duration === 'yearly'"
+          loadingBlock.find(a=>a.pack === pack.name && a.app === mysiteStore.selectedApp) || pack.billing_duration === 'yearly'"
           class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
            @click="getPackageAndOpenPaymenModal(app,pack.name)">
            <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>a.pack === pack.name && a.app === app)"/>
@@ -1660,10 +1666,10 @@ if(subCodeStatus.value === 200){
               </table>
 
               <table
-                v-loading="getSitesLoading"
+            
                 class="min-w-full divide-y divide-gray-200 dark:divide-darkborder"
                 v-else-if="
-                  currentTab === 'deleted' && paginatedFilteredAppList.length > 0
+                  currentTab === 'deleted' && paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps
                 "
               >
                 <thead>
@@ -1720,9 +1726,9 @@ if(subCodeStatus.value === 200){
               </table>
 
               <table
-                v-loading="getSitesLoading"
+              
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'internal'"
+                v-if="currentTab === 'internal' && !mysiteStore.loadingApps"
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -1953,11 +1959,10 @@ if(subCodeStatus.value === 200){
 
               <NoData
                 class="!mt-[30px] !mb-[-30px]"
-                v-loading="getSitesLoading"
                 v-if="
                   currentTab === 'deleted' &&
                   paginatedFilteredAppList.length === 0 &&
-                  !search
+                  !search && !mysiteStore.loadingApps
                 "
                 imgUrl="/assets/imgs/no_sites.svg"
                 :text="$t('No sites have been deleted')"
@@ -1966,12 +1971,11 @@ if(subCodeStatus.value === 200){
 
               <NoData
                 class="!mt-[30px] !mb-[-30px]"
-                v-loading="getSitesLoading"
                 v-if="
                   currentTab === 'saved' &&
                   paginatedFilteredAppList.length === 0 &&
                   !search &&
-                  appList.length === 0
+                  appList.length === 0 && !mysiteStore.loadingApps
                 "
                 imgUrl="/assets/imgs/no_sites.svg"
                 text="You don't have any sites now"
@@ -1990,7 +1994,7 @@ if(subCodeStatus.value === 200){
       <div
         class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
-        v-if="getSitesLoading"
+       v-if="mysiteStore.loadingApps"
       >
         <div class="relative overflow-x-auto w-full">
           <table
@@ -2058,7 +2062,7 @@ if(subCodeStatus.value === 200){
           </table>
         </div>
       </div>
-      <div class="flex flex-col" v-if="!dataAvailable && !getSitesLoading">
+      <div class="flex flex-col" v-if="!dataAvailable && !mysiteStore.loadingApps">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
@@ -2133,7 +2137,7 @@ if(subCodeStatus.value === 200){
 
       <div
         class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]"
-        v-if="paginatedFilteredAppList.length > 0"
+        v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
         <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
           <span
