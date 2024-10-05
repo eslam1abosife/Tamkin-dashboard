@@ -95,8 +95,7 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-12 gap-6 mt-[16px]" v-if="!collapseStore.collapses.includes('access_details_card')">
-      <!-- Function Card -->
+    <!-- <div class="grid grid-cols-12 gap-6 mt-[16px]" v-if="!collapseStore.collapses.includes('access_details_card')">
       <div class="px-[15px] rounded-[10px] lg:col-span-6 col-span-12 ipad-max:col-span-12">
         <div
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
@@ -313,7 +312,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
