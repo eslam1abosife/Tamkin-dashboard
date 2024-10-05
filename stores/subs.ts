@@ -7,6 +7,7 @@ import {useCouponCode} from "@/composables/useMarket";
 
 export const useSubsStore = defineStore('subs', {
     state: () => ({
+      totalRenews:[],
         packages:[],
         currentPackage:'',
         urls:[],

@@ -195,15 +195,15 @@ const percentageOff = computed(() => {
            <div class="mt-[16px]  mx-auto mb-[260px] w-full px-[20px]">
             <button class="btn-dashboard  hover_tamkin mx-auto lg:w-[400px] w-full"  @click="()=>{
               closeModal('crypto_subs_success')
-              subsStore.selectedPaymentMethod = '' 
-              subsStore.selectedCrypto = ''
+          
               if(isLinkActive('/my-site')){
                 getApps()
               }
               if(isLinkActive('/subscriptions')){
                 emit('updateData');
-
+                
               }
+                 
             }">
                 {{ $t('Done') }}
             </button>

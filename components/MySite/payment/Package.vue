@@ -642,17 +642,19 @@ const closeModalPackage = () => {
           </div>
           <div
               v-if="mysiteStore.currentPackage.trial_days === 0"
-            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+            class="flex items-center relative justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
           >
-          <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' "
+    
+            <div class="flex items-center justify-center w-full relative">
+              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' "
           
-          class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
-        >
-          <span>{{ $t("Renew") }}</span>
-        </div>
-            <div class="flex items-center justify-center w-full">
+              class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px]  font-[400] w-[80px] 
+              rounded-[10px] h-[22px] flex items-center justify-center  px-[0.5px] top-[-30px] left-[calc(50%-40px)] text-white"
+            >
+              <span>{{ $t("Renew") }}</span>
+            </div>
               <div class="order-2 w-full h-full">
                 <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
                   {{ $t("Monthly Plan") }}

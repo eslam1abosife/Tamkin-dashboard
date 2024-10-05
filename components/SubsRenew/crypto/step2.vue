@@ -3,6 +3,7 @@ import { useGetCryptoList } from "@/composables/useCrypto";
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import { useCrypto } from "@/composables/useMySite";
 import { useClipboard } from '@vueuse/core'
+
 const cryptostore = useCryptoStore();
 const subsStore = useSubsStore();
 const source = subsStore.selectedCrypto.wallet_address
@@ -16,7 +17,10 @@ const {
   navigateTo,
 } = useModalManager();
 const { getCryptoList } = useGetCryptoList();
-const {  paywithCrypto,messageData,codeStatus} = useCrypto();
+import { useRenewAll } from "@/composables/usePackages";
+
+
+const { renewAllCardorPaypal, messageData ,codeStatus} = useRenewAll();
 
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
@@ -69,7 +73,8 @@ const ChangeCurrentCryptoMethod = (method: any) => {
 function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
   const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0);
+    return (usdTotal / rate).toFixed(0).toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -143,7 +148,7 @@ onUnmounted(() => {
 });
 const payCrypto = async () => {
   loadingPayment.value = true;
-  await paywithCrypto(state.TXID, 
+  await renewAllCardorPaypal(null,'crypto',state.TXID, 
 
  `${ convertUsdToCrypto(
   subsStore.packagePayload.total - subsStore.currentDiscount,
