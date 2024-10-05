@@ -317,7 +317,7 @@ const conintuePay = () => {
     locale: locale.value,
     total: totalCost.value,
     packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
-    packageTrie:    packagesStore.traffic_level,
+    packageTrie:    mysiteStore.currentPackage.type ==='Accessibility' ? packagesStore.traffic_level : mysiteStore.currentPackage.category,
   };
   return navigateTo("add_package_modal_mysite", "mysite", "payment_methods_mysite");
 };

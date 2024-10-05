@@ -48,7 +48,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
   const rate = rates[subsStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(0).toString()
+    return (Number(usdTotal) / rate).toFixed(0).toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
@@ -120,7 +120,7 @@ onUnmounted(() => {
   }
 });
 const percentageOff = computed(() => {
-  const cartTotal = subsStore.packagePayload.total;
+  const cartTotal = Number(subsStore.packagePayload.total);
   const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -130,7 +130,7 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = subsStore.packagePayload.total;
+  const cartTotal = Number(subsStore.packagePayload.total);
   const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
   const couponDiscount = subsStore.currentDiscount;
 
@@ -145,7 +145,7 @@ const discountAmount = computed(() => {
 });
 
 const finalAmount = computed(() => {
-  const cartTotal = subsStore.packagePayload.total;
+  const cartTotal = Number(subsStore.packagePayload.total);
   const cryptoDiscount = subsStore.selectedCrypto?.discount || 0;
   const couponDiscount = subsStore.currentDiscount;
 

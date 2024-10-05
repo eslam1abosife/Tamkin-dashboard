@@ -41,7 +41,19 @@ const openModalToUpgrade = async (pack)=>{
 }
 
 
+const cryptoStroe = useCryptoStore()
 
+onMounted(async () => {
+  await cryptoStroe.getRates()
+});
+function convertUsdToCrypto(usdTotal, rates) {
+  const rate = rates['tamkin'];
+  if (rate) {
+    return (usdTotal / rate).toFixed(0);
+  } else {
+    // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
+  }
+}
 </script>
 
 <template>
@@ -91,7 +103,7 @@ const openModalToUpgrade = async (pack)=>{
               {{ $t(pak.sub_title) }}
             </h2>
 
-            <h3 v-if="pak.package_price_role[0].cost_month > 0 || pak.package_price_role[0].cost_yearly > 0"
+            <h3 v-if="pak.package_price_role[0].cost_month > 0 || pak.package_price_role[0].cost_yearly > 0 ||  pak.cost_investor === 0"
               class="mt-[16px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
             >
               $
@@ -106,7 +118,7 @@ const openModalToUpgrade = async (pack)=>{
               >
             </h3>
             <h3               class="mt-[16px] text-black dark:text-whiteTamkin font-[600] text-[24px] leading-[29px]"
-            v-else>
+            v-else-if="pak.type !== 'Investors'">
             {{ $t('Free') }}
             </h3>
             <div
@@ -140,14 +152,26 @@ const openModalToUpgrade = async (pack)=>{
                   pak.package_price_role[0].cost_before_yearly === 0" class="my-[24px]">
               <!-- Content here will be displayed if either cost_before_month or cost_before_yearly is zero -->
             </div>
-                       
-            <p
+               
+            <p v-if="pak.type !== 'Investors'"
               class="font-[700] text-[10px] leading-[32px] text-darkGrey dark:text-whiteTamkin dark:text-whiteTamkin"
             >
               {{ $t(pak.description )}}
             </p>
-          </div>
+       <div v-else-if="pak.cost_investor > 0">
+        <div >
+          <div>$ {{ pak.cost_investor .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}</div>
         </div>
+      <h2
+        class="font-[500] my-[16px] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin"
+      >
+        {{ $t(pak.description) +' '}} <span class="font-[700]">{{ convertUsdToCrypto(pak.cost_investor, cryptoStroe.rates).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} TSLT</span> 
+      </h2>
+
+       </div>
+            </div>
+          </div>
+    
         <div
           class="flex group-hover:bg-selected dark:group-hover:bg-p dark:text-whiteTamkin
            flex-col items-start justify-center w-full space-y-[10px] h-full custom-border-collapse rounded-t-none rounded-[10px] p-4"

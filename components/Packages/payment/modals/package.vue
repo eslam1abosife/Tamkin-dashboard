@@ -361,7 +361,7 @@ const conintuePay = () => {
     apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : calculateEstimatedPrice.value.toFixed(0),
+    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : totalCost.value.toFixed(0),
     packageExtraType: packageTypeToSend.value ,
     packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
   };
@@ -375,9 +375,9 @@ const totalCost = computed(() => {
   if (packagesStore.currentPackage.package_type === "Package") {
     return price * (urlCount + webCount);
   } else {
+    alert(packagesStore.currentPackage.package_price_role[0].cost_month )
     return (
-      packagesStore.currentPackage.package_price_role[0].cost_month *
-      (urlCount + webCount)
+      packagesStore.currentPackage.package_price_role[0].cost_month 
     );
   }
 });
@@ -1010,6 +1010,7 @@ const formattedEstimatedPrice = computed(()=> {
             :close-on-select="true"
             :clear-on-select="false"
             :preserve-search="true"
+            :selectLabel="$t('Press enter to select')"
             :placeholder="$t('Choose sites')"
             label="app_domain"
             class="mt-[24px]"
@@ -1017,7 +1018,6 @@ const formattedEstimatedPrice = computed(()=> {
             track-by="app_domain"
             :showNoOptions="false"
             :showNoResults="false"
-            :select-label="$t('Press enter to select')"
           >
             <template #selection="{ values, search, isOpen }" :maxHeight="200">
               <span
@@ -1691,10 +1691,7 @@ const formattedEstimatedPrice = computed(()=> {
                   class="py-2 border-b text-center text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   ${{
-                    packagesStore.currentPackage.package_price_role[0].cost_month *
-                      webs.length +
-                    packagesStore.currentPackage.package_price_role[0].cost_month *
-                      packagesStore.urls.length
+                    packagesStore.currentPackage.package_price_role[0].cost_month
                   }}
                 </td>
               </tr>

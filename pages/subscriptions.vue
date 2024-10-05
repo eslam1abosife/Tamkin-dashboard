@@ -34,10 +34,10 @@ onMounted(async () => {
 
   loadingSubs.value = true;
   const res = await getSubs();
-  const t = await getTotalAmountPackages();
+  // const t = await getTotalAmountPackages();
   const renewdetails  = await detailsRenew()
  subsStore.totalRenews = renewdetails
-  totalAmount.value = t;
+  // totalAmount.value = t;
   subs.value = res;
   loadingSubs.value = false;
 });
@@ -68,15 +68,15 @@ const clearInput = () => {
 };
 
 const filterBYTime = ref(0);
-const filterByType = ref();
+const filterByType = ref(0);
 const changePeriod = (p) => {
   filterBYTime.value = p;
-  if ((p) => 0) {
+  if (p || p ===0) {
     filterByType.value = "";
   }
 };
 const filtertype = (p) => {
-  filterByType.value = filterByType.value === p ? null : Number(p);
+  filterByType.value = p;
   if (filterBYTime.value === 0) {
     filterBYTime.value = "";
   } else {
@@ -95,17 +95,15 @@ const filteredSubs = computed(() => {
       ); // Ensure app_domain is not null or undefined
   }
   return subs.value.filter((sub) =>
-    sub.subscripitions.some(
-      (f) =>
-        (!filterBYTime.value || Number(f.month_difference) === filterBYTime.value) &&
-        (!filterByType.value || f.type === filterByType.value)
-    )
-  );
+  sub.subscripitions.length > 0 && sub.subscripitions.some(
+    (f) =>
+      (!filterBYTime.value || Number(f.month_difference) === filterBYTime.value) &&
+      (!filterByType.value || f.type === filterByType.value)
+  )
+);
+
 });
-const refreshComputed = () => {
-  // Trigger a recomputation by changing the dependent reactive variable
-  subs.value = [...subs.value]; // Shallow copy to re-trigger reactivity
-};
+
 const currentInvoice = ref("");
 const currentApp = ref("");
 const loadingBlock = ref([]);
@@ -209,24 +207,34 @@ const upgradeModalPackage = async (app, pack) => {
 const refreshData = async () => {
   loadingSubs.value = true;
   const res = await getSubs();
+  subs.value = res;
+
   loadingSubs.value = false;
 
-  subs.value = res;
 };
 const subsStore = useSubsStore();
 const openRenewall = async () => {
   subsStore.selectedPaymentMethod = "";
   subsStore.selectedCrypto = "";
   subsStore.packagePayload = {
-    total: totalAmount.value,
+    total: subsStore.totalRenews.reduce((sum, item) => {
+  return sum + (item.amount || 0); 
+}, 0)
   };
   return navigateTo(null, "subs", "payment_methods_subs");
 };
-
+const openInvestor = (app,pack)=>{
+  mysiteStore.currentWebsite = {
+    ...app,
+    package :pack
+  }
+  openModal('join_to_investor') 
+}
 </script>
 
 <template>
   <div class="w-full mx-auto">
+    <PackagesPaymentModalsJoinInvestorStep1 @update-data="refreshData" v-if="isOpen('join_to_investor')" />
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
       <SubsRenewPaymentMethods />
     </transition>
@@ -274,11 +282,11 @@ const openRenewall = async () => {
       <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
     </transition>
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoSuccess />
+      <MySitePaymentCryptoSuccess  v-if="isOpen('success_pay_mysite')"/>
     </transition>
 
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySitePaymentCryptoSuccess @updateData="refreshData" />
+      <MySitePaymentCryptoSuccess @updateData="refreshData"  v-if="isOpen('crypto_mysite_success')" />
     </transition>
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
       <MySitePaymentPaypal />
@@ -328,7 +336,11 @@ const openRenewall = async () => {
       <div class="flex flex-col items-start justify-start static z-[40]">
         <div class="text-[18px] leading-[27px] font-[600] text-[#3D3D3D]">
           ${{
-            totalAmount ? totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0
+            subsStore.totalRenews.reduce((sum, item) => {
+              return sum + (item.amount || 0); 
+            }, 0) ? subsStore.totalRenews.reduce((sum, item) => {
+              return sum + (item.amount || 0); 
+            }, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0
           }}
         </div>
         <div class="text-[13px] font-[500] leading-[19px] text-darkGrey mt-[6px]">
@@ -451,7 +463,7 @@ const openRenewall = async () => {
             <div>
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
-                class="w-[40px] h-[40px]"
+                class="w-[30px] h-[30px]"
                 v-if="sub?.title === 'Internal Service'"
               />
 
@@ -526,8 +538,9 @@ const openRenewall = async () => {
                           alt="Image"
                         />
                         <span class="whitespace-nowrap">
-                          {{ $t(`${sb.package_title}`) }} -
-                          <span class="font-[400]">{{ $t(`${sb.type}`) }}</span></span
+                          {{$t(sb.package_title.split(' ').filter(t => t !== 'Buy').join(' '))
+                        }} <span v-if="sub.title === 'Internal Service'">- {{sb.extreatype}}</span>
+                          <span class="font-[400]"> - {{ $t(`${sb.type}`) }}</span></span
                         >
                       </div>
                     </td>
@@ -536,7 +549,7 @@ const openRenewall = async () => {
                       :class="
                         sb.status === 'active'
                           ? 'text-tamkin '
-                          : sb.status === 'Pending'
+                          : sb.status === 'Pending' || sb.status === 'Pendding'
                           ? 'text-orange-400'
                           : 'text-red-600'
                       "
@@ -547,13 +560,13 @@ const openRenewall = async () => {
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
-                      {{ new Date(sb.from_date).toLocaleDateString() }}
+                      {{new Date(sb.from_date).toLocaleDateString()}}
                     </td>
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
                       {{
-                        sb.package_type !== "Extra"
+                        sb.package_type !== "Extra" && sb.type !== 'Investors'
                           ? new Date(sb.to_date).toLocaleDateString()
                           : "-"
                       }}
@@ -561,7 +574,8 @@ const openRenewall = async () => {
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
-                      <div class="!w-[140px] truncate">{{$t(sb.mode_of_payment)}} - {{ sb.remarks }}</div>
+                      <div class="!w-[140px] truncate">{{$t(sb.mode_of_payment)}} 
+                        {{ sb.billing_duration !== 'Free Trial'  && sb.type !== 'Investors'? '' :sb.type === 'Investors' ? '': '-'}} {{ sb.type === 'Investors' ? $t(`${sb.remarks}`) : sb.remarks }}</div>
                     </td>
                     <td
                       class="border-b border-[#D9D9D9] dark:border-slate-700 text-[14px] leading-[21px] font-[500] text-black"
@@ -571,10 +585,10 @@ const openRenewall = async () => {
                       >
                         <button
                           :disabled="
-                            sb.package_type === 'Addons' || sb.package_type === 'Extra' || sb.status === 'Pending'
+                            sb.package_type === 'Addons' || sb.package_type === 'Extra' || (sb.status === 'Pending' && sb.type !== 'Investors')
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
-                          @click.stop="upgradeModalPackage(sub, sb)"
+                          @click.stop="sb.type === 'Investors' ?openInvestor(sub,sb): upgradeModalPackage(sub, sb)"
                         >
                           <svg
                             v-if="
@@ -626,7 +640,7 @@ const openRenewall = async () => {
                         </button>
 
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click.stop="getPackageAndOpenPaymenModal(sub, sb)"
                         >
@@ -700,7 +714,7 @@ const openRenewall = async () => {
                           </div>
                         </button>
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click="
                             () => {
