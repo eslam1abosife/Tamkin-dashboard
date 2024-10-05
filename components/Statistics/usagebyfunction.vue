@@ -1,28 +1,31 @@
 <script lang="ts" setup>
 const collapseStore = useCollapseStore();
-
-
 </script>
 
-
 <template>
-
-    <div
-    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
-     px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-    <div class="flex items-center justify-start ">
+    <div class="flex items-center justify-start">
       <div class="pt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Usage stats by function')}}</h1>
-        <p class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]">
-          {{ $t('Usage stats by function show how each feature is used in a system or app.') }}
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          {{ $t("Usage stats by function") }}
+        </h1>
+        <p
+          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+        >
+          {{
+            $t(
+              "Usage stats by function show how each feature is used in a system or app."
+            )
+          }}
         </p>
       </div>
       <div
         @click.stop="collapseStore.collapseMenu('usage_stats')"
         v-on-click-outside="() => collapseStore.removeMenu('usage_stats')"
-
         :class="[
           collapseStore.menus.includes('usage_stats')
             ? 'active_notification !text-darkGrey'
@@ -38,7 +41,8 @@ const collapseStore = useCollapseStore();
           xmlns="http://www.w3.org/2000/svg"
           :class="[
             collapseStore.menus.includes('usage_stats')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ? 'stroke-current !text-white !fill-white'
+              : 'dark:text-white',
           ]"
         >
           <path
@@ -50,45 +54,64 @@ const collapseStore = useCollapseStore();
         <div
           v-if="collapseStore.menus.includes('usage_stats')"
           style="box-shadow: 0px 2px 6px 0px #00000040"
-          class="mini_SizeMenu "
+          class="mini_SizeMenu"
         >
-        <div
-        class="mini_wrap"
-      >
-        <div>
-          <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          {{ $t('Switch To Annual') }}
-        </div>
-      </div>
+          <div class="mini_wrap">
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
+                />
+              </svg>
+            </div>
+            <div class="text_mini">
+              {{ $t("Switch To Annual") }}
+            </div>
+          </div>
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('usage_stats_card')"
           >
             <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
-
+                <path
+                  d="M13.7754 10.937L18.4995 7"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7207 7H18.5V10.1496"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.2241 13.063L6.5 17"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.2793 17.0002H6.5V13.8506"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
             <div class="text_mini">
               {{
@@ -100,36 +123,36 @@ const collapseStore = useCollapseStore();
           </div>
 
           <div class="arrow">
-                            <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
-            <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-tamkinDarkPrimary"
-              filter="url(#shadow-sm)"
-            />
-          </svg>
+            <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-tamkinDarkPrimary"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
           </div>
         </div>
       </div>
@@ -139,27 +162,23 @@ const collapseStore = useCollapseStore();
       class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('usage_stats_card')"
     >
-      <table class="min-w-full  leading-normal">
+      <table class="min-w-full leading-normal">
         <thead>
           <tr>
             <th
-              class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:text-left
-               rtl:text-right text-[10px] lg:text-[14px] font-[400] leading-[18px] text-black w-2/4"
+              class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:text-left rtl:text-right text-[10px] lg:text-[14px] font-[400] leading-[18px] text-black w-2/4"
             >
-              {{ $t('Function') }}
+              {{ $t("Function") }}
             </th>
             <th
-              class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] 
-               ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
+              class="py-3 border-b-2 border-gray-200 dark:text-whiteTamkin dark:border-[#333333] ltr:!text-left rtl:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              {{$t('Time Enabled')}}
+              {{ $t("Time Enabled") }}
             </th>
             <th
-              class="py-3 border-b-2 border-gray-200 dark:border-[#333333]
-               dark:text-whiteTamkin  rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px]
-                font-[400] lg:leading-[18px] text-black"
+              class="py-3 border-b-2 border-gray-200 dark:border-[#333333] dark:text-whiteTamkin rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              {{$t('Percentage')}}
+              {{ $t("Percentage") }}
             </th>
           </tr>
         </thead>
@@ -170,25 +189,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/icons/tamkin_player.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] "
-                    
+                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Tamkin Player</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Tamkin Player
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -199,7 +231,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -208,7 +245,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -220,25 +259,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/icons/media_player.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Media player</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Media player
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -249,7 +301,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -258,7 +315,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -270,25 +329,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/addons/language sign.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Screen Reader</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Screen Reader
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -299,7 +371,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -308,7 +385,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -321,25 +400,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/page_str.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-page-structure.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Page Structure</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Page Structure
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -350,7 +442,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -359,7 +456,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -372,25 +471,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/hide_images.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-hide-images.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Hide Images</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Hide Images
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -401,7 +513,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -410,7 +527,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 10, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -423,25 +542,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/contrast.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-contrast.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Smart Contrast</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Smart Contrast
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -452,7 +584,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -461,7 +598,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 10, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -474,27 +613,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/voice_navigation.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-voice-navigation.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
                     Voice Navigation
                   </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -505,7 +655,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -514,7 +669,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -527,25 +684,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/a-z.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-dictionary.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Dictionary</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Dictionary
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -556,7 +726,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -565,7 +740,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -578,25 +755,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/clip.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-highlight-links.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Highlight Links</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Highlight Links
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -607,7 +797,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -616,7 +811,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -629,25 +826,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/line_height.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-line-height.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Line Height</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Line Height
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -658,7 +868,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -667,7 +882,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -680,25 +897,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/saturation.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-saturation.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Saturation</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Saturation
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -709,7 +939,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -718,7 +953,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -731,76 +968,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/text.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-bigger-text.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Bigger Text</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Bigger Text
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 30, 100"
-                  ></circle>
-                </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
               >
-                <div>
-                  <img 
-                    src="/assets/imgs/addons/pause.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
-                  />
-                </div>
-                <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Pause Animation</p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -811,7 +1010,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -820,7 +1024,80 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
+                  10%
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <div
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+              >
+                <div>
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-pause-animation.svg"
+                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                  />
+                </div>
+                <div class="">
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Pause Animation
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
+            </td>
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                <svg viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        style="stop-color: #bb67ff; stop-opacity: 1"
+                      />
+                      <stop
+                        offset="100%"
+                        style="stop-color: #ff5a7b; stop-opacity: 1"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
+                  <circle
+                    class="progress-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                    style="stroke-dasharray: 30, 100"
+                  ></circle>
+                </svg>
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -833,25 +1110,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/tooltip.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-tooltip.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Tooltip</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Tooltip
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -862,7 +1152,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -871,7 +1166,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -884,25 +1181,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/cursor.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-cursor.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Cursor</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Cursor
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -913,7 +1223,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -922,7 +1237,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -935,25 +1252,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/text_spacing.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-text-spacing.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Text Spacing</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Text Spacing
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -964,7 +1294,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -973,7 +1308,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -986,25 +1323,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
-                    src="/assets/imgs/addons/contrast_plus.svg"
+                  <img
+                    src="/assets/imgs/addons/acc-addons-main-menu-smart-contrast.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Contrast +</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Contrast +
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -1015,7 +1365,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -1024,7 +1379,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 30, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   10%
                 </div>
               </div>
@@ -1037,25 +1394,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/icons/reading_mode.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Reading Mode</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Reading Mode
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -1066,7 +1436,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -1075,7 +1450,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -1087,25 +1464,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/icons/df.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Dyslexia Friendly</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Dyslexia Friendly
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -1116,7 +1506,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -1125,7 +1520,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -1138,25 +1535,38 @@ const collapseStore = useCollapseStore();
                 class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
               >
                 <div>
-                  <img 
+                  <img
                     src="/assets/imgs/icons/text_align.svg"
                     class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                    
                   />
                 </div>
                 <div class="">
-                  <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">Text Align</p>
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                    Text Align
+                  </p>
                 </div>
               </div>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">13</p>
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                13
+              </p>
             </td>
             <td class="border-b border-gray-200 text-sm dark:border-darkborder">
               <div class="circular-progress rtl:mr-auto ltr:ml-auto">
                 <svg viewBox="0 0 36 36">
                   <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop
                         offset="0%"
                         style="stop-color: #bb67ff; stop-opacity: 1"
@@ -1167,7 +1577,12 @@ const collapseStore = useCollapseStore();
                       />
                     </linearGradient>
                   </defs>
-                  <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
                   <circle
                     class="progress-circle"
                     cx="18"
@@ -1176,7 +1591,9 @@ const collapseStore = useCollapseStore();
                     style="stroke-dasharray: 80, 100"
                   ></circle>
                 </svg>
-                <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
                   80%
                 </div>
               </div>
@@ -1186,5 +1603,4 @@ const collapseStore = useCollapseStore();
       </table>
     </div>
   </div>
-
 </template>

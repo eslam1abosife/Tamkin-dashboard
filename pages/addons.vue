@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites } from "@/composables/useTeam";
-import { useGetMainMenu ,useSetOptions} from "@/composables/useAccessibility";
+import { useGetMainMenu, useSetOptions } from "@/composables/useAccessibility";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 
 const { fullUrl } = useFullUrl();
@@ -44,12 +44,11 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
     miniSizeLiveTranslation.value = false;
   }
 };
-const loadingData = ref(true)
+const loadingData = ref(true);
 const { $toast } = useNuxtApp();
 onMounted(() => {
   // $toast('error',{hideIn:400000,type:'error'})
   // console.log(checkboxStore.checkboxes);
-
 });
 onBeforeMount(async () => {
   try {
@@ -63,16 +62,21 @@ onBeforeMount(async () => {
 
     // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
     const accAddonsMainMenuFeature = features.find(
-      (item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+      (item) =>
+        item.title === "Adjust the Main Menu" && item.type === "acc-addons"
     );
 
     if (accAddonsMainMenuFeature) {
       checkboxStore.title = accAddonsMainMenuFeature.title;
 
-      checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map((feature) => feature.name);
+      checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map(
+        (feature) => feature.name
+      );
 
       // Get initial values (you might need to adjust this based on the structure of `features`)
-      const initialValues = accAddonsMainMenuFeature.features.map((feature) => feature.value === "1" || false);
+      const initialValues = accAddonsMainMenuFeature.features.map(
+        (feature) => feature.value === "1" || false
+      );
 
       // Initialize store with dynamic data
       const dynamicCards = accAddonsMainMenuFeature.features.map((feature) => ({
@@ -80,14 +84,21 @@ onBeforeMount(async () => {
         name: feature.label,
         description: feature.description,
         checkboxId: feature.name,
-        value   : feature.value,
+        value: feature.value,
       }));
 
-      checkboxStore.initializeCardsMenu(dynamicCards, "AdjustMainMenuCards", "initialCardsOrder");
+      checkboxStore.initializeCardsMenu(
+        dynamicCards,
+        "AdjustMainMenuCards",
+        "initialCardsOrder"
+      );
 
       // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
-      checkboxStore.initializeCheckboxes([...checkboxStore.checkboxIds], initialValues);
-      loadingData.value = false
+      checkboxStore.initializeCheckboxes(
+        [...checkboxStore.checkboxIds],
+        initialValues
+      );
+      loadingData.value = false;
     } else {
       console.warn("No matching feature found for Adjust the Main Menu.");
     }
@@ -96,15 +107,9 @@ onBeforeMount(async () => {
   }
 });
 
-
 const handleSaveToAllSites = async () => {
   try {
-
     //  Adjust main menu feeatures with name and title
-
-
-
-
     // $toast.success('Changes saved to all sites successfully.');
   } catch (error) {
     console.error("Error saving to all sites:", error);
@@ -112,45 +117,53 @@ const handleSaveToAllSites = async () => {
   }
 };
 const isChecked = (name: string) => {
-  const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
-  return checkbox ? checkbox.value  : false;
+  const checkbox = checkboxStore.checkboxes.find(
+    (checkbox) => checkbox.name === name
+  );
+  return checkbox ? checkbox.value : false;
 };
-const loadingSave = ref(false)
+const loadingSave = ref(false);
 // Define handleSave method to handle save actions
 const handleSave = async () => {
   try {
-    if(checkboxStore.originalFeatures){
-      loadingSave.value = true
-    // console.log("Handling Save logic...");
-    const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter((item) => item.title === "Adjust the Main Menu" && item.type === "acc-addons")
+    if (checkboxStore.originalFeatures) {
+      loadingSave.value = true;
+      // console.log("Handling Save logic...");
+      const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
+        (item) =>
+          item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+      );
 
-    const orgAddonsMainMenuFeature =  toBeMappedAdjustMainMenu.map((feature) => ({
-      name: feature.name,
-      title: feature.title,
-      type: feature.type,
-      active : feature.active,
-      description_on_show: feature.description_on_show,
-      description_on_hide: feature.description_on_hide,
-      features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
-        name: feature.checkboxId,
-        sort : checkboxStore.AdjustMainMenuCards.indexOf(feature)+1,
-        value: isChecked(feature.checkboxId) ? 1 : 0,
-        is_selected: 1,
-        // label: feature.name,
-        // description: feature.description,
-        // icon: feature.icon,
-      })),
-    }))
-    // console.log(orgAddonsMainMenuFeature[0])
+      const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
+        (feature) => ({
+          name: feature.name,
+          title: feature.title,
+          type: feature.type,
+          active: feature.active,
+          description_on_show: feature.description_on_show,
+          description_on_hide: feature.description_on_hide,
+          features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
+            name: feature.checkboxId,
+            sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
+            value: isChecked(feature.checkboxId) ? 1 : 0,
+            is_selected: 1,
+            // label: feature.name,
+            // description: feature.description,
+            // icon: feature.icon,
+          })),
+        })
+      );
+      // console.log(orgAddonsMainMenuFeature[0])
 
-      const response = await setOptions(orgAddonsMainMenuFeature[0]['features']);
-      
-      checkboxStore.changesOnCheckboxes = false
-      checkboxStore.force_change_menuCards = false
-      checkboxStore.force_change_profileCards = false
-      loadingSave.value = false
+      const response = await setOptions(
+        orgAddonsMainMenuFeature[0]["features"]
+      );
 
-   }
+      checkboxStore.changesOnCheckboxes = false;
+      checkboxStore.force_change_menuCards = false;
+      checkboxStore.force_change_profileCards = false;
+      loadingSave.value = false;
+    }
 
     // $toast.success('Changes saved successfully.');
   } catch (error) {
@@ -192,18 +205,18 @@ onBeforeRouteLeave((to, from, next) => {
 });
 
 const shouldShowFooter = computed(() => {
-  const isAddonsLinkActive = isLinkActive("/addons") && 
-    ( checkboxStore.changesOnCheckboxes || 
-     checkboxStore.force_change_menuCards || 
-     checkboxStore.force_change_profileCards);
+  const isAddonsLinkActive =
+    isLinkActive("/addons") &&
+    (checkboxStore.changesOnCheckboxes ||
+      checkboxStore.force_change_menuCards ||
+      checkboxStore.force_change_profileCards);
 
   return isAddonsLinkActive;
 });
 
-
 const cancelAc = () => {
   const isAddonsLinkActive =
-    (isLinkActive("/addons") &&  checkboxStore.changesOnCheckboxes) ||
+    (isLinkActive("/addons") && checkboxStore.changesOnCheckboxes) ||
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
 
@@ -218,13 +231,9 @@ const cancelAc = () => {
 
 <template>
   <div class="relative h-full w-full">
-
-    
- 
-    
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
-      :disable-loading-save="loadingSave"
+        :disable-loading-save="loadingSave"
         :show-footer="shouldShowFooter"
         @Save="handleSave"
         @saveToAllSites="handleSaveToAllSites"
@@ -250,8 +259,8 @@ const cancelAc = () => {
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."
       />
-  
-      <AddonsAdjustmain  :loading="loadingData"/>
+
+      <AddonsAdjustmain :loading="loadingData" />
       <AddonsProfilecards :loading="loadingData" />
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
@@ -263,19 +272,25 @@ const cancelAc = () => {
             <h1
               class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{$t('Live Translation')}}
+              {{ $t("Live Translation") }}
             </h1>
 
             <p
               class="xs:text-[10px] text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
             >
-              {{$t('Live translation converts speech or text from one language to another instantly, facilitating real-time communication.')}}
+              {{
+                $t(
+                  "Live translation converts speech or text from one language to another instantly, facilitating real-time communication."
+                )
+              }}
             </p>
           </div>
 
           <div
             @click.stop="collapseStore.collapseMenu('LiveTranslationAddons')"
-            v-on-click-outside="() => collapseStore.removeMenu('LiveTranslationAddons')"
+            v-on-click-outside="
+              () => collapseStore.removeMenu('LiveTranslationAddons')
+            "
             :class="[
               menus.includes('LiveTranslationAddons')
                 ? 'active_notification !text-darkGrey'
@@ -321,7 +336,8 @@ const cancelAc = () => {
                   </svg>
                 </div>
                 <div class="text_mini">
-                  {{ $t('Convert to') }} {{ annual_prices ? $t("Monthly") : $t("Annual") }}
+                  {{ $t("Convert to") }}
+                  {{ annual_prices ? $t("Monthly") : $t("Annual") }}
                 </div>
               </div>
 
@@ -365,7 +381,9 @@ const cancelAc = () => {
                 </div>
                 <div class="text_mini">
                   {{
-                    !collapseStore.collapses.includes("LiveTranslationAddonsCard")
+                    !collapseStore.collapses.includes(
+                      "LiveTranslationAddonsCard"
+                    )
                       ? $t("Minisize")
                       : $t("Maxsize")
                   }}
@@ -378,7 +396,9 @@ const cancelAc = () => {
                   verticalView &&
                   !collapseStore.collapses.includes('LiveTranslationAddonsCard')
                 "
-                @click="liveTransaltionSwitchToVerticalOrHorizontal('horizontal')"
+                @click="
+                  liveTransaltionSwitchToVerticalOrHorizontal('horizontal')
+                "
               >
                 <div>
                   <svg
@@ -394,7 +414,7 @@ const cancelAc = () => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">{{$t('Horizontal View')}}</div>
+                <div class="text_mini">{{ $t("Horizontal View") }}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -418,7 +438,7 @@ const cancelAc = () => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">{{$t('Vertical View')}}</div>
+                <div class="text_mini">{{ $t("Vertical View") }}</div>
               </div>
               <div class="arrow">
                 <svg
@@ -430,7 +450,13 @@ const cancelAc = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                    <filter
+                      id="shadow-sm"
+                      x="0"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
                       <feDropShadow
                         dx="1"
                         dy="1"
@@ -451,23 +477,22 @@ const cancelAc = () => {
         </div>
 
         <div
-          class="flex items-center justify-center lg:justify-between lg:flex-nowrap 
-          flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0  rtl:space-x-reverse
-          md:space-x-10 md:flex-nowrap ipad-max:space-x-10 lg:space-x-24 2xl:space-x-44 md:px-[25px]"
+          class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-10 md:flex-nowrap ipad-max:space-x-10 lg:space-x-24 2xl:space-x-44 md:px-[25px]"
           v-if="
             horizontalView &&
             !collapseStore.collapses.includes('LiveTranslationAddonsCard')
           "
         >
           <div
-            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] 
-            relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
           >
             <div
               class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
             >
               ${{ annual_prices ? 1200 : "100.00" }}
-              <span class="text-[13px]">/{{ annual_prices ? $t("year") : $t("mo") }}</span>
+              <span class="text-[13px]"
+                >/{{ annual_prices ? $t("year") : $t("mo") }}</span
+              >
             </div>
             <div
               class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
@@ -484,7 +509,10 @@ const cancelAc = () => {
               class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
             >
               <div>
-                <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
               </div>
               <div
                 class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
@@ -494,10 +522,10 @@ const cancelAc = () => {
             </div>
             <button
               class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
+            ></button>
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
             >
-              
-            </button>
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
               <img src="/assets/imgs/addons/live_icon.svg" />
             </div>
           </div>
@@ -509,7 +537,9 @@ const cancelAc = () => {
               class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
             >
               ${{ annual_prices ? 2400 : "200.00" }}
-              <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+              <span class="text-[13px]"
+                >/{{ annual_prices ? "year" : "mo" }}</span
+              >
             </div>
             <div
               class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
@@ -526,7 +556,10 @@ const cancelAc = () => {
               class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
             >
               <div>
-                <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
               </div>
               <div
                 class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
@@ -534,8 +567,12 @@ const cancelAc = () => {
                 Live translation
               </div>
             </div>
-            <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
+            <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">
+              Active
+            </button>
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+            >
               <img src="/assets/imgs/addons/live_icon.svg" />
             </div>
           </div>
@@ -547,7 +584,9 @@ const cancelAc = () => {
               class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
             >
               ${{ annual_prices ? 3600 : "300.00" }}
-              <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+              <span class="text-[13px]"
+                >/{{ annual_prices ? "year" : "mo" }}</span
+              >
             </div>
             <div
               class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
@@ -564,7 +603,10 @@ const cancelAc = () => {
               class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
             >
               <div>
-                <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
               </div>
               <div
                 class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
@@ -577,7 +619,9 @@ const cancelAc = () => {
             >
               Upgrade Now
             </button>
-            <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+            >
               <img src="/assets/imgs/addons/live_icon.svg" />
             </div>
           </div>
@@ -586,7 +630,8 @@ const cancelAc = () => {
         <div
           class="flex items-center flex-col justify-center lg:justify-start mt-[56px] space-y-[24px] pb-[16px] px-[15px]"
           v-if="
-            verticalView && !collapseStore.collapses.includes('LiveTranslationAddonsCard')
+            verticalView &&
+            !collapseStore.collapses.includes('LiveTranslationAddonsCard')
           "
         >
           <div
@@ -596,12 +641,16 @@ const cancelAc = () => {
               <img src="/assets/imgs/addons/live_vertical.svg" />
             </div>
 
-            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
+            <div
+              class="flex flex-col items-start justify-center py-[14px] mx-[15px]"
+            >
               <div
                 class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
               >
                 ${{ annual_prices ? 1200 : "100.00"
-                }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+                }}<span class="text-[13px]"
+                  >/{{ annual_prices ? "year" : "mo" }}</span
+                >
               </div>
               <div
                 class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
@@ -624,12 +673,16 @@ const cancelAc = () => {
               <img src="/assets/imgs/addons/live_vertical.svg" />
             </div>
 
-            <div class="flex flex-col items-start justify-center py-[14px] mx-[15px]">
+            <div
+              class="flex flex-col items-start justify-center py-[14px] mx-[15px]"
+            >
               <div
                 class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
               >
                 ${{ annual_prices ? 2400 : "200.00"
-                }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+                }}<span class="text-[13px]"
+                  >/{{ annual_prices ? "year" : "mo" }}</span
+                >
               </div>
               <div
                 class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
@@ -659,7 +712,9 @@ const cancelAc = () => {
                 class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
               >
                 ${{ annual_prices ? 3600 : "300.00"
-                }}<span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
+                }}<span class="text-[13px]"
+                  >/{{ annual_prices ? "year" : "mo" }}</span
+                >
               </div>
               <div
                 class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
