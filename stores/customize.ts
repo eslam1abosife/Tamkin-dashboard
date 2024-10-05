@@ -30,7 +30,7 @@ export const useCustomizeStore = defineStore('customize', {
     buttonShapeSelector: 'icon1',
     selectedIcon: '',
     buttonIcons: [],
-    widgetType: 'full_widget',
+    widgetType: 'full-widget',
     AdjustMainMenuCardsCustomize: [] as Card[],
     initialCardsOrderCustomize: [] as Card[], // Store the initial cards order
     manageProfileCardsCustomize: [] as Card[], // Another draggable array
@@ -40,7 +40,8 @@ export const useCustomizeStore = defineStore('customize', {
     liveTranlsationButtonLocation: 'default',
     currentShapeLiveTranslation: 'gb',
     routeLeaveModal: false,
-    accessibilityMode: "right"
+    accessibilityMode: "right",
+    languages: []
 
   }),
   actions: {
@@ -66,7 +67,7 @@ export const useCustomizeStore = defineStore('customize', {
     },
     selectWidgetType(v: string) {
       this.widgetType = v
-      if (this.widgetType !== 'full_widget') {
+      if (this.widgetType !== 'full-widget') {
         this.force_change_profileCards = true
       } else {
         this.force_change_profileCards = false
@@ -190,7 +191,7 @@ export const useCustomizeStore = defineStore('customize', {
         this.buttonPositionMobile = 'top_left_mobile'
         this.buttonSizeSlider ="2"
         this.buttonShapeSelector = 'type1'
-        this.widgetType = 'full_widget'
+        this.widgetType = 'full-widget'
         this.currentColor = '#2dada3'
         this.gradient1 = '#2dada3'
         this.gradient2 = '#2dada3'

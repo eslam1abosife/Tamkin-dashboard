@@ -136,14 +136,15 @@ onBeforeMount(() => {
     "acc-addons-main-menu-contrast",
     "acc-addons-main-menu-dyslexia",
 
-    "dyslexia",
-    "ADHD",
-    "congitive",
-    "blind",
-    "Seizure",
-    "visuallyImpraired",
-    "color_blind",
-    "motor_active",
+    "acc-addons-accessibility-profiles-dyslexia-profile",
+    "acc-addons-accessibility-profiles-adhd",
+    "acc-addons-accessibility-profiles-cognitive-and-learning",
+    "acc-addons-accessibility-profiles-blind",
+    "acc-addons-accessibility-profiles-seizure-and-epileptic",
+    "acc-addons-accessibility-profiles-visually-impaired",
+    "acc-addons-accessibility-profiles-color-blind",
+    "acc-addons-accessibility-profiles-motor-impaired",
+
     "enable_custom_trigger",
     "show_lang_selector",
   ].forEach((name) => {
@@ -158,6 +159,7 @@ onBeforeMount(() => {
     "accessibility_profiles",
     "move_hide_accessibility",
 
+    // acc menu
     "acc-addons-main-menu-page-structure",
     "acc-addons-main-menu-screen-reader",
     "acc-addons-main-menu-hide-images",
@@ -179,14 +181,16 @@ onBeforeMount(() => {
     "acc-addons-main-menu-contrast",
     "acc-addons-main-menu-dyslexia",
 
-    "dyslexia",
-    "ADHD",
-    "congitive",
-    "blind",
-    "Seizure",
-    "visuallyImpraired",
-    "color_blind",
-    "motor_active",
+    // acc prolfies
+    "acc-addons-accessibility-profiles-dyslexia-profile",
+    "acc-addons-accessibility-profiles-adhd",
+    "acc-addons-accessibility-profiles-cognitive-and-learning",
+    "acc-addons-accessibility-profiles-blind",
+    "acc-addons-accessibility-profiles-seizure-and-epileptic",
+    "acc-addons-accessibility-profiles-visually-impaired",
+    "acc-addons-accessibility-profiles-color-blind",
+    "acc-addons-accessibility-profiles-motor-impaired",
+
     "enable_custom_trigger",
     "show_lang_selector",
   ]);
@@ -287,12 +291,16 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t('Button Color') }}
+              {{ $t("Button Color") }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]"
             >
-             {{$t('Choose the appropriate color that you prefer to appear in the icons and buttons')}}
+              {{
+                $t(
+                  "Choose the appropriate color that you prefer to appear in the icons and buttons"
+                )
+              }}
             </p>
           </div>
 
@@ -344,7 +352,7 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">{{$t('Switch To Annual')}}</div>
+                <div class="text_mini">{{ $t("Switch To Annual") }}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -452,7 +460,7 @@ onBeforeRouteLeave((to, from, next) => {
                 <div
                   class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                 >
-                  {{ $t('Solid') }}
+                  {{ $t("Solid") }}
                 </div>
               </div>
 
@@ -478,7 +486,7 @@ onBeforeRouteLeave((to, from, next) => {
                 <div
                   class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
                 >
-                  {{ $t('Gradient') }}
+                  {{ $t("Gradient") }}
                 </div>
               </div>
             </div>
@@ -500,8 +508,7 @@ onBeforeRouteLeave((to, from, next) => {
 
             <div
               v-if="customizeStore.colorMode === 'gradient'"
-              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] 
-              rounded-[10px] lg:mx-[15px] cursor-pointer"
+              class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
             >
               <div
                 class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] px-[15px]"
@@ -605,12 +612,16 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t('Button Type') }}
+              {{ $t("Button Type") }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              {{$t('Choosing the right button type and size is essential for intuitive navigation')}}
+              {{
+                $t(
+                  "Choosing the right button type and size is essential for intuitive navigation"
+                )
+              }}
             </p>
           </div>
 
@@ -662,8 +673,8 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                
-                <div class="text_mini">{{$t('Switch To Annual')}}</div>
+
+                <div class="text_mini">{{ $t("Switch To Annual") }}</div>
               </div>
               <div
                 class="mini_wrap"
@@ -758,12 +769,14 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
             >
-              {{ $t('Button Shape') }}
+              {{ $t("Button Shape") }}
             </h1>
             <p
               class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              {{ $t('Choose the button Shape you prefer to appear in the widget') }}
+              {{
+                $t("Choose the button Shape you prefer to appear in the widget")
+              }}
             </p>
           </div>
           <div class="flex items-center justify-between mt-[40px]">
@@ -801,12 +814,12 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
             >
-              {{ $t('Button Size') }}
+              {{ $t("Button Size") }}
             </h1>
             <p
               class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              {{ $t('Pull the button to select the right size for you') }}
+              {{ $t("Pull the button to select the right size for you") }}
             </p>
           </div>
           <div class="w-full flex flex-col items-center space-y-4 px-[15px]">
@@ -863,13 +876,15 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{$t('Widget Customization')}}
+              {{ $t("Widget Customization") }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-              {{$t('Customize your widgets for a tailored browsing experience')}}
+              {{
+                $t("Customize your widgets for a tailored browsing experience")
+              }}
             </p>
           </div>
 
@@ -1021,13 +1036,17 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t('Accessibility Mode') }}
+              {{ $t("Accessibility Mode") }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-             {{ $t('Accessibility Mode optimizes interface for diverse user needs and disabilities') }}
+              {{
+                $t(
+                  "Accessibility Mode optimizes interface for diverse user needs and disabilities"
+                )
+              }}
             </p>
           </div>
 
@@ -1079,7 +1098,7 @@ onBeforeRouteLeave((to, from, next) => {
                     />
                   </svg>
                 </div>
-                <div class="text_mini">{{$t('Switch To Annual')}}</div>
+                <div class="text_mini">{{ $t("Switch To Annual") }}</div>
               </div>
               <div
                 class="mini_wrap"

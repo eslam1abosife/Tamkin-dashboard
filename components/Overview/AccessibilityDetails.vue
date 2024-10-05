@@ -1,31 +1,45 @@
 <template>
-  <div class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] relative" >
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] h-full pb-[24px] w-full shadow-md -shadow-y-[1px] relative"
+  >
     <div class="flex items-center justify-start px-[15px]">
       <div class="w-3/4">
         <h1 class="text-[18px] font-[500] leading-[30px]">
           <div class="flex items-center justify-start pt-[24px]">
             <div>
-              <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px]  dark:text-whiteTamkin">{{$t('Accessibility Details')}}</h1>
-              <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90 pt-[6px]">
-                {{ $t('Accessibility Details provide comprehensive information to help ensure your website complies with all accessibility standards') }}
+              <h1
+                class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+              >
+                {{ $t("Accessibility Details") }}
+              </h1>
+              <p
+                class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin/90 pt-[6px]"
+              >
+                {{
+                  $t(
+                    "Accessibility Details provide comprehensive information to help ensure your website complies with all accessibility standards"
+                  )
+                }}
               </p>
             </div>
           </div>
         </h1>
       </div>
-      <div
-        class=""
-      >
+      <div class="">
         <button
           @click="$router.push('/statistics')"
           class="absolute rtl:left-[60px] ltr:right-[60px] top-[5px] lg:top-[21px] btn_bordered_dashboard rtl:mr-auto ltr:ml-auto rounded-full lg:!p-[10px] !p-[4px] lg:order-1 order-2 lg:my-0 my-4"
         >
-          {{ $t('View All') }}
+          {{ $t("View All") }}
         </button>
         <div
           @click="collapseStore.collapseMenu('access_details')"
           v-on-click-outside="() => collapseStore.removeMenu('access_details')"
-          :class="[collapseStore.menus.includes('access_details') ? 'active_notification !text-darkGrey' : '']"
+          :class="[
+            collapseStore.menus.includes('access_details')
+              ? 'active_notification !text-darkGrey'
+              : '',
+          ]"
           class="lg:order-2 order-1 menu_button_control"
         >
           <svg
@@ -34,8 +48,11 @@
             viewBox="0 0 18 5"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="[collapseStore.menus.includes('access_details')? 'stroke-current !text-white !fill-white'
-                : 'dark:text-white']"
+            :class="[
+              collapseStore.menus.includes('access_details')
+                ? 'stroke-current !text-white !fill-white'
+                : 'dark:text-white',
+            ]"
           >
             <path
               d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
@@ -43,53 +60,88 @@
             />
           </svg>
 
-          <div v-if="collapseStore.menus.includes('access_details')" class="mini_SizeMenu">
-            <div class="mini_wrap" @click="collapseStore.collapseCard('access_details_card')">
+          <div
+            v-if="collapseStore.menus.includes('access_details')"
+            class="mini_SizeMenu"
+          >
+            <div
+              class="mini_wrap"
+              @click="collapseStore.collapseCard('access_details_card')"
+            >
               <div>
-                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
-                  >
-                    <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <svg
+                  width="25"
+                  height="24"
+                  viewBox="0 0 25 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.7754 10.937L18.4995 7"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.7207 7H18.5V10.1496"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M11.2241 13.063L6.5 17"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.2793 17.0002H6.5V13.8506"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </div>
               <div class="text_mini">
                 {{
-                  !collapseStore.collapses.includes('access_details_card')
-                    ? 'Minisize'
-                    : 'Maxsize'
+                  !collapseStore.collapses.includes("access_details_card")
+                    ? "Minisize"
+                    : "Maxsize"
                 }}
               </div>
             </div>
 
             <div class="arrow">
               <svg
-              width="16"
-              class=""
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
-                  <feDropShadow
-                    dx="1"
-                    dy="1"
-                    stdDeviation="1"
-                    flood-color="rgba(0, 0, 0, 0.3)"
-                  />
-                </filter>
-              </defs>
-              <path
-                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                class="fill-white dark:!fill-darkTamkin"
-                filter="url(#shadow-sm)"
-              />
-            </svg>
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-darkTamkin"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -101,213 +153,332 @@
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">{{$t('Function')}}</h2>
-          <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-            <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin/90">
-              20
-       
-            </div>
-            <div class="max-w-[45px] bg-tamkinLight rounded-[18px] text-[12px] leading-[18px] font-[500] 
-            rtl:space-x-reverse space-x-[2px] px-2 h-[18px] flex items-center 
-            justify-center">
-              <div>225%</div>
-
-              <img  src="/assets/imgs/icons/arrow_chart_up.svg"  />
-            </div>
-          </div>
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
-              <div>
-                <img  src="/assets/imgs/overview/up.svg"  />
+            <h2
+              class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+            >
+              {{ $t("Function") }}
+            </h2>
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+            >
+              <div class="text-[24px] leading-[32px] dark:text-whiteTamkin/90">
+                20
               </div>
-              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey  dark:text-whiteTamkin">
-                <span class="text-tamkin !text-[14px] !leading-[20px] !font-[700]">
-                  12% 
+              <div
+                class="max-w-[45px] bg-tamkinLight rounded-[18px] text-[12px] leading-[18px] font-[500] rtl:space-x-reverse space-x-[2px] px-2 h-[18px] flex items-center justify-center"
+              >
+                <div>225%</div>
+
+                <img src="/assets/imgs/icons/arrow_chart_up.svg" />
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+            >
+              <div>
+                <img src="/assets/imgs/overview/up.svg" />
+              </div>
+              <p
+                class="text-[12px] leading-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+                <span
+                  class="text-tamkin !text-[14px] !leading-[20px] !font-[700]"
+                >
+                  12%
                 </span>
-                {{ $t('vs last 30 days') }}
+                {{ $t("vs last 30 days") }}
               </p>
             </div>
           </div>
           <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
-            <Line ref="chart13" :data="chartData" :options="options" class=" h-[80px]" />
+            <Line
+              ref="chart13"
+              :data="chartData"
+              :options="options"
+              class="h-[80px]"
+            />
           </div>
         </div>
         <div
           class="space-y-2 h-[254px] custom-border-tamkin padding-override-1 flex flex-col items-start justify-center w-full px-[15px]"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">{{$t('Function')}}</div>
+          <div
+            class="text-[14px] font-[500] leading-[20px] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Function") }}
+          </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
+              <img
                 src="/assets/imgs/addons/language sign.svg"
                 alt="Motor impaired icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Screen Reader')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Screen Reader") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#F3DFD1] h-4 rounded-full"
+                  style="width: 30%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">30%</span>
+              <span
+                class="text-gray-500 text-sm dark:text-whiteTamkin dark:text-whiteTamkin/90"
+                >30%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
-                src="/assets/imgs/addons/voice_navigation.svg"
+              <img
+                src="/assets/imgs/addons/acc-addons-main-menu-voice-navigation.svg"
                 alt="Color blind icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Voice Navigation')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Voice Navigation") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#D7D4F4] h-4 rounded-full"
+                  style="width: 20%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">20%</span>
+              <span
+                class="text-gray-500 text-sm dark:text-whiteTamkin dark:text-whiteTamkin/90"
+                >20%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
-                src="/assets/imgs/addons/saturation.svg"
+              <img
+                src="/assets/imgs/addons/acc-addons-main-menu-saturation.svg"
                 alt="Visually-impaired icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Saturation')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Saturation") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#CEE6F0] h-4 rounded-full"
+                  style="width: 15%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90">15%</span>
+              <span
+                class="text-gray-500 text-sm dark:text-whiteTamkin dark:text-whiteTamkin/90"
+                >15%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
-                src="/assets/imgs/addons/cursor.svg"
+              <img
+                src="/assets/imgs/addons/acc-addons-main-menu-cursor.svg"
                 alt="Seizure & Epileptic icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Cursor')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Cursor") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#DAF3F1] h-4 rounded-full"
+                  style="width: 8%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin  dark:text-whiteTamkin/90" >8%</span>
+              <span
+                class="text-gray-500 text-sm dark:text-whiteTamkin dark:text-whiteTamkin/90"
+                >8%</span
+              >
             </div>
           </div>
         </div>
       </div>
 
-      <div class="px-[15px] rounded-[10px] lg:col-span-6 col-span-12 ipad-max:col-span-12">
+      <div
+        class="px-[15px] rounded-[10px] lg:col-span-6 col-span-12 ipad-max:col-span-12"
+      >
         <div
           class="flex justify-between items-center mb-4 custom-border-tamkin padding-override-1 relative h-[108px] px-[15px]"
         >
           <div>
-            <h2 class="text-[14px] leading-[20px] font-[500] text-darkGrey  dark:text-whiteTamkin">{{$t('Profile')}}</h2>
-            <div class="flex items-center justify-start  rtl:space-x-reverse space-x-[8px]">
-              <div class="text-[24px] leading-[32px]  dark:text-whiteTamkin">
+            <h2
+              class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
+            >
+              {{ $t("Profile") }}
+            </h2>
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+            >
+              <div class="text-[24px] leading-[32px] dark:text-whiteTamkin">
                 20
-         
               </div>
-              <div class="max-w-[45px] bg-[#FCD0CF] !text-[#910B08] rounded-[18px] text-[12px] leading-[18px] font-[500] space-x-[2px] px-2 h-[18px] flex items-center 
-              justify-center">
+              <div
+                class="max-w-[45px] bg-[#FCD0CF] !text-[#910B08] rounded-[18px] text-[12px] leading-[18px] font-[500] space-x-[2px] px-2 h-[18px] flex items-center justify-center"
+              >
                 <div>112%</div>
-  
-                <img  src="/assets/imgs/icons/arrow_down_chart.svg"  />
+
+                <img src="/assets/imgs/icons/arrow_down_chart.svg" />
               </div>
             </div>
-          
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]">
+
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
+            >
               <div>
-                <img  src="/assets/imgs/overview/down.svg"  />
+                <img src="/assets/imgs/overview/down.svg" />
               </div>
-              <p class="text-[12px] leading-[16px] font-[400] text-darkGrey  dark:text-whiteTamkin">
-                <span class="text-[#DA100B] !text-[14px] !leading-[20px] !font-[700]">12%</span>
-                {{ $t('vs last 30 days') }}
+              <p
+                class="text-[12px] leading-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+                <span
+                  class="text-[#DA100B] !text-[14px] !leading-[20px] !font-[700]"
+                  >12%</span
+                >
+                {{ $t("vs last 30 days") }}
               </p>
             </div>
           </div>
           <div class="h-[80px] rtl:left-0 ltr:right-0 absolute">
-            <Line ref="chart14" :data="chartData2" :options="options" class="w-auto h-[80px]" />
+            <Line
+              ref="chart14"
+              :data="chartData2"
+              :options="options"
+              class="w-auto h-[80px]"
+            />
           </div>
         </div>
         <div
-          class="space-y-2 px-[15px] custom-border-tamkin padding-override-1 h-[254px]
-           w-full flex flex-col items-start justify-center"
+          class="space-y-2 px-[15px] custom-border-tamkin padding-override-1 h-[254px] w-full flex flex-col items-start justify-center"
         >
-          <div class="text-[14px] font-[500] leading-[20px] text-darkGrey  dark:text-whiteTamkin">{{$t('Profile')}}</div>
+          <div
+            class="text-[14px] font-[500] leading-[20px] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Profile") }}
+          </div>
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
+              <img
                 src="/assets/imgs/addons/monitor_im.svg"
                 alt="Motor impaired icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin  ">{{$t('Motor impaired')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Motor impaired") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#F3DFD1] h-4 rounded-full" style="width: 30%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#F3DFD1] h-4 rounded-full"
+                  style="width: 30%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin">30%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin"
+                >30%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
+              <img
                 src="/assets/imgs/addons/color_blind.svg"
                 alt="Color blind icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Color blind')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Color blind") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#D7D4F4] h-4 rounded-full" style="width: 20%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#D7D4F4] h-4 rounded-full"
+                  style="width: 20%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin">20%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin"
+                >20%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
+              <img
                 src="/assets/imgs/addons/vis_impaired.svg"
                 alt="Visually-impaired icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$t('Visually-impaired')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $t("Visually-impaired") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#CEE6F0] h-4 rounded-full" style="width: 15%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#CEE6F0] h-4 rounded-full"
+                  style="width: 15%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin">15%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin"
+                >15%</span
+              >
             </div>
           </div>
 
           <div class="flex items-center rtl:space-x-reverse space-x-4 w-full">
             <div>
-              <img 
+              <img
                 src="/assets/imgs/addons/seizure.svg"
                 alt="Seizure & Epileptic icon"
                 class="w-[42px] !h-[42px]"
               />
             </div>
-            <div class="w-3/4 text-[12px] leading-[15px]  dark:text-whiteTamkin">{{$T('Seizure & Epileptic')}}</div>
+            <div class="w-3/4 text-[12px] leading-[15px] dark:text-whiteTamkin">
+              {{ $T("Seizure & Epileptic") }}
+            </div>
             <div class="w-2/4 flex items-center rtl:space-x-reverse space-x-2">
-              <div class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400">
-                <div class="bg-[#DAF3F1] h-4 rounded-full" style="width: 8%"></div>
+              <div
+                class="bg-gray-200 rounded-full h-4 w-full relative dark:bg-gray-400"
+              >
+                <div
+                  class="bg-[#DAF3F1] h-4 rounded-full"
+                  style="width: 8%"
+                ></div>
               </div>
-              <span class="text-gray-500 text-sm dark:text-whiteTamkin">8%</span>
+              <span class="text-gray-500 text-sm dark:text-whiteTamkin"
+                >8%</span
+              >
             </div>
           </div>
         </div>
@@ -321,15 +492,12 @@ import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { Line } from "vue-chartjs";
 import { Chart as ChartJS, registerables } from "chart.js";
-import shadowPlugin from '@/chartjs/plugins/shadowPlugin.js'; // Adjust the path if necessary
+import shadowPlugin from "@/chartjs/plugins/shadowPlugin.js"; // Adjust the path if necessary
 
 const collapseStore = useCollapseStore();
 const { width, height } = useWindowSize();
 
-ChartJS.register(
-  ...registerables,
-  shadowPlugin
-);
+ChartJS.register(...registerables, shadowPlugin);
 
 const chart13 = ref("");
 const chart14 = ref("");
@@ -398,10 +566,10 @@ const options = ref({
   },
   plugins: {
     shadowPlugin: {
-      shadowColor: 'rgba(31, 139, 36, 0.30)', // #1F8B242E in RGBA
-      shadowBlur: 8,                    // 8px blur
-      shadowOffsetX: 0,                 // 0px horizontal offset
-      shadowOffsetY: 4,                 // 4px vertical offset
+      shadowColor: "rgba(31, 139, 36, 0.30)", // #1F8B242E in RGBA
+      shadowBlur: 8, // 8px blur
+      shadowOffsetX: 0, // 0px horizontal offset
+      shadowOffsetY: 4, // 4px vertical offset
     },
     legend: {
       display: false, // This will remove the legend

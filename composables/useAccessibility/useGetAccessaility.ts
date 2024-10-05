@@ -1,14 +1,19 @@
 import { useApi } from "@/composables/useApi";
 import { useNuxtApp } from '#app';
 
+
+
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
 
     const customizeStore = useCustomizeStore();
+    const settingsStore = useSettingsStore();
+    
 
     const getAccessability  = async () => {
+        
         try {
             const res = await api.post('/Widget/GetAccessibility/default');
             const features = res.data.data.features;
@@ -127,7 +132,7 @@ export default function() {
             }
 
             // accessbility main menu 
-            const mainMenu = features.find((feature: any) => feature.name === "acc-addons-main-menu");
+            const mainMenu = features.find((feature:any) => feature.name === "acc-addons-main-menu");
             
             if(mainMenu.active == 1){
                 customizeStore.initializeCardsMenu(mainMenu.features,
@@ -141,6 +146,61 @@ export default function() {
                     }
                 });
             }
+
+            // accessbility profiles 
+            const profileItems = features.find((feature: any) => feature.name === "acc-addons-accessibility-profiles");
+            
+            if(profileItems.active == 1){
+                customizeStore.initializeCardsMenu(profileItems.features,
+                    "manageProfileCardsCustomize",
+                    "initialManageProfileCardsCustomize"
+                );
+
+                profileItems.features.forEach((element:any) => {
+                    if(element.active == 1 && element.value == 1){
+                        customizeStore.toggleCheckbox(element.name);
+                    }
+                });
+            }
+
+              // acc widget type 
+            const AccWidgetType = features.find((feature: any) => feature.name === "acc-customize-widget-type")
+            .features.find(el => el.name === "acc-customize-widget-type-widget-style");
+            if(AccWidgetType.active == 1){
+                customizeStore.selectWidgetType(AccWidgetType.value)
+            }
+
+            // set languages
+            customizeStore.$state.languages = res.data.data.languages;
+
+             // acc enableLangHighlight
+             const enableLangHighlight = features.find((feature: any) => feature.name === "acc-customize-language")
+             .features.find(el => el.name === "acc-customize-language-show-language-selector-on-the-widget");
+             if(enableLangHighlight.active == 1 && enableLangHighlight.value == 1){
+                 customizeStore.toggleCheckbox('language')
+             }
+
+            console.log("settingsStore",settingsStore);
+
+             // acc isEnableSoundEffect
+             const isEnableSoundEffect = features.find((feature: any) => feature.name === "acc-setting-general-settings")
+             .features.find(el => el.name === "acc-setting-general-settings-sound-effects");
+             if(isEnableSoundEffect.active == 1 && isEnableSoundEffect.value == 1){
+                settingsStore.toggleCheckbox('sound_effects')
+             }
+
+             // acc isEnableOnMobile 
+             const isEnableOnMobile = features.find((feature: any) => feature.name === "acc-setting-general-settings")
+             .features.find(el => el.name === "acc-setting-general-settings-widget-enabled-on-mobile");
+             if(isEnableOnMobile.active == 1 && isEnableOnMobile.value == 1){
+                settingsStore.toggleCheckbox('widget_enabled_on_mobile')
+             }
+             // acc isEnableOnThisSite 
+             const isEnableOnThisSite = features.find((feature: any) => feature.name === "acc-setting-general-settings")
+             .features.find(el => el.name === "acc-setting-general-settings-widget-enabled-on-this-site");
+             if(isEnableOnThisSite.active == 1 && isEnableOnThisSite.value == 1){
+                settingsStore.toggleCheckbox('enable_widget_on_this_site')
+             }
 
         } catch (error) {
             console.error(error); // Better error handling

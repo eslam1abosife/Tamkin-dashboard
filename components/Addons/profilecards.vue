@@ -4,14 +4,16 @@ import { vOnClickOutside } from "@vueuse/components";
 import draggable from "vuedraggable";
 const checkboxStore = useAddonStore();
 const props = defineProps({
-  loading:Boolean
-})
+  loading: Boolean,
+});
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
 
 const isChecked = (name: string) => {
-  const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
+  const checkbox = checkboxStore.checkboxes.find(
+    (checkbox) => checkbox.name === name
+  );
   return checkbox ? checkbox.value : false;
 };
 
@@ -21,100 +23,99 @@ const toggleCheckbox = (name: string) => {
 const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
-onMounted(()=>{
-    checkboxStore.initializeCardsMenu(
-    [
-      {
-        icon: "monitor_im.svg",
-        name: "Motor impaired",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "motor_active",
-      },
-      {
-        icon: "color_blind.svg",
-        name: "Color blind",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "color_blind",
-      },
-      {
-        icon: "vis_impaired.svg",
-        name: "Visually-impaired",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "hide_images",
-      },
-      {
-        icon: "seizure.svg",
-        name: "Seizure & Epileptic",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "Seizure",
-      },
-      {
-        icon: "blind.svg",
-        name: "Blind",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "blind",
-      },
-      {
-        icon: "df.svg",
-        name: "Dyslexia",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "dyslexia",
-      },
-      {
-        icon: "congitive.svg",
-        name: "Congitive & Learning",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "congitive",
-      },
-      {
-        icon: "adhd.svg",
-        name: "ADHD",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "ADHD",
-      },
-    ],
-    "manageProfileCards",
-    "initialManageProfileCards"
-  );
-})
+onMounted(() => {
+  //   checkboxStore.initializeCardsMenu(
+  //   [
+  //     {
+  //       icon: "monitor_im.svg",
+  //       name: "Motor impaired",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "motor_active",
+  //     },
+  //     {
+  //       icon: "color_blind.svg",
+  //       name: "Color blind",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "color_blind",
+  //     },
+  //     {
+  //       icon: "vis_impaired.svg",
+  //       name: "Visually-impaired",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "hide_images",
+  //     },
+  //     {
+  //       icon: "seizure.svg",
+  //       name: "Seizure & Epileptic",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "Seizure",
+  //     },
+  //     {
+  //       icon: "blind.svg",
+  //       name: "Blind",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "blind",
+  //     },
+  //     {
+  //       icon: "df.svg",
+  //       name: "Dyslexia",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "dyslexia",
+  //     },
+  //     {
+  //       icon: "congitive.svg",
+  //       name: "Congitive & Learning",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "congitive",
+  //     },
+  //     {
+  //       icon: "adhd.svg",
+  //       name: "ADHD",
+  //       description:
+  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+  //       checkboxId: "ADHD",
+  //     },
+  //   ],
+  //   "manageProfileCards",
+  //   "initialManageProfileCards"
+  // );
+});
 </script>
 
 <template>
-  <div :class="[loading ? 'pt-[24px]' : '']"
+  <div
+    :class="[loading ? 'pt-[24px]' : '']"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-  
-  <div v-if="loading"
-  class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
->
- 
-</div>
-<div class="animate-pulse space-y-4  mt-[22px]" v-if="loading">
-<div class="h-[55px] w-full bg-gray-300" v-for="s in 6">
-
-</div>
+    <div
+      v-if="loading"
+      class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
+    ></div>
+    <div class="animate-pulse space-y-4 mt-[22px]" v-if="loading">
+      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6"></div>
     </div>
     <div class="flex items-center justify-start pt-[24px]" v-if="!loading">
       <div>
         <h1
           class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t('Manage your Accessibility Profiles') }}
+          {{ $t("Manage your Accessibility Profiles") }}
         </h1>
       </div>
       <div
         @click.stop="collapseStore.collapseMenu('ManageMenu')"
         v-on-click-outside="() => collapseStore.removeMenu('ManageMenu')"
         :class="[
-          menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
+          menus.includes('ManageMenu')
+            ? 'active_notification !text-darkGrey'
+            : '',
         ]"
         class="menu_button_control"
       >
@@ -152,9 +153,12 @@ onMounted(()=>{
                 />
               </svg>
             </div>
-            <div class="text_mini">{{$t('Switch To Annual')}}</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
-          <div class="mini_wrap" @click="collapseStore.collapseCard('ManageCard')">
+          <div
+            class="mini_wrap"
+            @click="collapseStore.collapseCard('ManageCard')"
+          >
             <div>
               <svg
                 width="25"
@@ -191,7 +195,9 @@ onMounted(()=>{
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("ManageCard") ? $t("Minisize") : $t("Maxsize")
+                !collapseStore.collapses.includes("ManageCard")
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -206,7 +212,13 @@ onMounted(()=>{
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"
@@ -233,10 +245,18 @@ onMounted(()=>{
       <draggable
         v-model="checkboxStore.manageProfileCards"
         @change="
-          checkboxStore.onDragChange('manageProfileCards', 'initialManageProfileCards')
+          checkboxStore.onDragChange(
+            'manageProfileCards',
+            'initialManageProfileCards'
+          )
         "
         @start="checkboxStore.onDragStart('initialManageProfileCards')"
-        @end="checkboxStore.onDragEnd('manageProfileCards', 'initialManageProfileCards')"
+        @end="
+          checkboxStore.onDragEnd(
+            'manageProfileCards',
+            'initialManageProfileCards'
+          )
+        "
         item-key="name"
         class="w-full"
         handle=".handle"
@@ -287,7 +307,9 @@ onMounted(()=>{
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked(element.checkboxId) ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked(element.checkboxId) ? 'active' : 'in_active',
+                    ]"
                   >
                     <div
                       class="toggle_inner"
@@ -313,9 +335,12 @@ onMounted(()=>{
       </draggable>
     </div>
 
-    <div v-else-if="collapseStore.collapses.includes('ManageCard') && !loading" class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
-      Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis
-      dolore. Exercitationem et omnis ea quidem
+    <div
+      v-else-if="collapseStore.collapses.includes('ManageCard') && !loading"
+      class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
+    >
+      Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
+      veritatis dolore. Exercitationem et omnis ea quidem
     </div>
   </div>
 </template>
