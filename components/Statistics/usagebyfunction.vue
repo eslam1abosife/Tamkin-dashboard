@@ -3,8 +3,11 @@ const collapseStore = useCollapseStore();
 </script>
 
 <template>
-  <div
-    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
+
+    <!-- <div
+    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
+     px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
+    
   >
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
@@ -178,7 +181,7 @@ const collapseStore = useCollapseStore();
             <th
               class="py-3 border-b-2 border-gray-200 dark:border-[#333333] dark:text-whiteTamkin rtl:!text-left ltr:!text-right text-[10px] lg:text-[14px] font-[400] lg:leading-[18px] text-black"
             >
-              {{ $t("Percentage") }}
+          {{ $t('Percentage') }}
             </th>
           </tr>
         </thead>
@@ -1602,5 +1605,6 @@ const collapseStore = useCollapseStore();
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
+
 </template>

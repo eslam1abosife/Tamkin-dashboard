@@ -172,7 +172,7 @@ const continueCheckOut = async () => {
 
 };
 const percentageOff = computed(() => {
-  const cartTotal =  subsStore.packagePayload.total;
+  const cartTotal =  Number(subsStore.packagePayload.total);
   const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -513,7 +513,7 @@ onBeforeUnmount(() => {
         {{ $t('Subtotal') }}
       </td>
       <td class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin text-right w-full font-[500]">
-        ${{ subsStore.packagePayload.total.toFixed(0).toString()
+        ${{ Number(subsStore.packagePayload.total).toFixed(0).toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
       </td>
     </tr>

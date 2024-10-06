@@ -70,7 +70,7 @@ const props = defineProps({
 });
 
 const percentageOff = computed(() => {
-  const cartTotal = subsStore.packagePayload.total;
+  const cartTotal = Number(subsStore.packagePayload.total);
   const discountAmount = subsStore.currentDiscount;
 
   if (discountAmount > 0 && cartTotal > 0) {
@@ -81,7 +81,7 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = subsStore.packagePayload.total;;
+  const cartTotal = Number(subsStore.packagePayload.total);
   const discountPercentage = subsStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -338,7 +338,7 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light rtl:text-left ltr:text-right  w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (subsStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{ (Number(subsStore.packagePayload.total) - discountAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>

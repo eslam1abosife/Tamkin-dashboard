@@ -14,6 +14,8 @@ const renewAllCardorPaypal = async (card, type, code = null, hash = null, amount
       const payload = {
         payment_type: type,
         card: card,
+        "locale":"/subscriptions?locale="+useNuxtApp().$i18n.locale.value,
+
       };
   
       if (type === 'crypto') {
