@@ -5,6 +5,9 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetAccessaility } from "@/composables/useAccessibility";
+import { useApi } from "@/composables/useApi";
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
@@ -80,10 +83,6 @@ watch(copyDone, (newValue) => {
   }
 });
 
-const widgetEnabledOnSite = ref(false);
-const widgetEnabledOnMobile = ref(false);
-const soundEffects = ref(false);
-
 onBeforeMount(() => {
   [
     "enable_widget_on_this_site",
@@ -112,6 +111,20 @@ const handleSaveAndMove = () => {
   }
 };
 
+const deleteSite = async () => {
+  try {
+    const res = await api.post("/mySite/set/AppStatusCancel", {
+      name: settingsStore.defaultapp,
+    });
+    closeModal("deleteModal");
+
+    // return res.data.data;
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
 const handleCancelLeave = () => {
   settingsStore.routeLeaveModal = false; // Close the modal
 };
@@ -124,20 +137,39 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+
+const resetAccessiility = async () => {
+  try {
+    const res = await api.post("/Apps/ResetSettingDefaultApp");
+    closeModal("resetModal");
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <ModalsConfirm
+      :showModal="isOpen('resetModal')"
+      title="Rest All Accessibility Settings"
+      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      confirm-btn-type="confirm"
+      @control-confirm="resetAccessiility"
+      @control-cancel="closeModal('resetModal')"
+    />
+    <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
       title="Delete your site"
       sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
       confirm-btn-type="delete"
-      @control-delete="closeModal('deleteModal')"
+      @control-delete="deleteSite"
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
     <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+
     <LazyModalsConfirm
       :showModal="settingsStore.routeLeaveModal"
       :title="$t('Save  your changes')"

@@ -13,8 +13,10 @@ import { usePlayerStore } from "@/stores/player.js";
 import { useModalManager } from "@/composables/useModalManager";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
+import { useGetAccessaility } from "@/composables/useAccessibility";
 
 import { useProfileStore } from "~/stores/profile";
+const { getAccessability } = useGetAccessaility();
 const translateStore = useTranslateStore();
 import { useGetCurrentTeam, useGetInvestor } from "@/composables/useProfile";
 
@@ -88,9 +90,12 @@ const {
   force_change_profileCards,
   force_change_MainMenuCard,
   currentColor,
+  initcurrentColor,
   gradient2,
+  initgradient2,
 
   gradient1,
+  initgradient1,
 } = storeToRefs(custmizeStore);
 
 const { width, height } = useWindowSize();
@@ -162,9 +167,10 @@ const shouldShowFooter = computed(() => {
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
   const isCustomizeLinkActive =
-    (isLinkActive("/customize") && currentColor.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient1.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient2.value !== "#2dada3") ||
+    (isLinkActive("/customize") &&
+      currentColor.value !== initcurrentColor.value) ||
+    (isLinkActive("/customize") && gradient1.value !== initgradient1.value) ||
+    (isLinkActive("/customize") && gradient2.value !== initgradient2.value) ||
     (isLinkActive("/customize") && custmizeStore.hasChanges());
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
@@ -213,10 +219,8 @@ const cancelAc = () => {
   const isStatsActive =
     isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
-
   // const translatePlayer =
   //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
-
   const translateStyle =
     isLinkActive("/translate/video") &&
     translateStore.hasChanges &&
@@ -225,20 +229,18 @@ const cancelAc = () => {
   const translatePlayer =
     isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
   if (isCustomizeLinkActive) {
-    custmizeStore.cancelAll();
+    getAccessability();
   }
   if (isMarketChanges) {
     marketStore.resetAll();
     playerStore.wearSavedClothes();
   }
   if (isAddonsLinkActive) {
-    checkboxStore.cancelAll();
+    getAccessability();
   }
-
   if (isSettingsLinkActive) {
-    settingsStore.cancelAll();
+    getAccessability();
   }
-
   if (translateStyle) {
     translateStore.resetStyles();
   }
@@ -290,70 +292,67 @@ const openModals = computed(() => {
     isOpen("translate_images") ||
     isOpen("editname") ||
     sideBarOpenMobile.value ||
-    isOpen('edit_card_billing_profile') ||
-    isOpen('withdraw_paymentmethods') ||
-    isOpen('bank_account_withdraw') ||
-    isOpen('details_bank_withdraw') ||
-    isOpen('success_bank_withdraw') ||
-    isOpen('crypto_step1') ||
-    isOpen('crypto_step_2_e') ||
-    isOpen('crypto_success_referral') ||
-    isOpen('paypal_withdraw_step1') ||
-    isOpen('paypal_withdraw_step2') ||
-    isOpen('success_paypal_withdraw') ||
-    isOpen('add_new_card_billing') ||
-    isOpen('tracking_custom_order') ||
-    isOpen('requestmodal_update') ||
-    isOpen('requestmodal_details') ||
-    isOpen('deleteModal_card') ||
-    isOpen('successContact') ||
-    isOpen('edit_company_picture') ||
-    isOpen('notificationsModal') ||
-    isOpen('join_to_investor') ||
-    isOpen('cardModal_market') ||
-    isOpen('paymentMethods_market') ||
-    isOpen('crypto_market_step1') ||
-    isOpen('paypal_market') ||
-    isOpen('crypto_market_success') ||
-    isOpen('crypto_market_step2') ||
-    isOpen('successPayment_market') ||
-    isOpen('custom_package') ||
-    isOpen('add_package_modal_packages') ||
-    isOpen('payment_methods_packages') ||
-    isOpen('cardModal_packages') ||
-    isOpen('success_pay_package') ||
-    isOpen('crypto_packages_step1') ||
-    isOpen('crypto_packages_step2') ||
-    isOpen('crypto_packages_success') ||
-    isOpen('paypal_packages') ||
-    isOpen('add_package_modal_addsite') ||
-    isOpen('cardModal_addsite') ||
-    isOpen('payment_methods_addsite') ||
-    isOpen('crypto_addsite_step1') ||
-    isOpen('crypto_addsite_step2') ||
-    isOpen('crypto_addsite_success') ||
-    isOpen('paypal_addsite') ||
-    isOpen('add_package_modal_mysite') ||
-    isOpen('cardModal_mysite') ||
-    isOpen('payment_methods_mysite') ||
-    isOpen('crypto_mysite_step2') ||
-    isOpen('crypto_mysite_step1') ||
-    isOpen('crypto_mysite_success') ||
-    isOpen('success_pay_addsite') ||
-    isOpen('success_pay_mysite') ||
-    isOpen('upgrade_mysite_package') ||
-    isOpen('paypal_mysite') ||
-    isOpen('upgrade_no_package') ||
-    isOpen('cancel_subscription_internal') ||
-    isOpen('cancel_subscription_subs') ||
-    isOpen('payment_methods_subs') ||
-    isOpen('cardModal_subs') ||
-    isOpen('paypal_subs') ||
-    isOpen('crypto_subs_step1') ||
-    isOpen('crypto_subs_step2') ||
-
-    
-
+    isOpen("edit_card_billing_profile") ||
+    isOpen("withdraw_paymentmethods") ||
+    isOpen("bank_account_withdraw") ||
+    isOpen("details_bank_withdraw") ||
+    isOpen("success_bank_withdraw") ||
+    isOpen("crypto_step1") ||
+    isOpen("crypto_step_2_e") ||
+    isOpen("crypto_success_referral") ||
+    isOpen("paypal_withdraw_step1") ||
+    isOpen("paypal_withdraw_step2") ||
+    isOpen("success_paypal_withdraw") ||
+    isOpen("add_new_card_billing") ||
+    isOpen("tracking_custom_order") ||
+    isOpen("requestmodal_update") ||
+    isOpen("requestmodal_details") ||
+    isOpen("deleteModal_card") ||
+    isOpen("successContact") ||
+    isOpen("edit_company_picture") ||
+    isOpen("notificationsModal") ||
+    isOpen("join_to_investor") ||
+    isOpen("cardModal_market") ||
+    isOpen("paymentMethods_market") ||
+    isOpen("crypto_market_step1") ||
+    isOpen("paypal_market") ||
+    isOpen("crypto_market_success") ||
+    isOpen("crypto_market_step2") ||
+    isOpen("successPayment_market") ||
+    isOpen("custom_package") ||
+    isOpen("add_package_modal_packages") ||
+    isOpen("payment_methods_packages") ||
+    isOpen("cardModal_packages") ||
+    isOpen("success_pay_package") ||
+    isOpen("crypto_packages_step1") ||
+    isOpen("crypto_packages_step2") ||
+    isOpen("crypto_packages_success") ||
+    isOpen("paypal_packages") ||
+    isOpen("add_package_modal_addsite") ||
+    isOpen("cardModal_addsite") ||
+    isOpen("payment_methods_addsite") ||
+    isOpen("crypto_addsite_step1") ||
+    isOpen("crypto_addsite_step2") ||
+    isOpen("crypto_addsite_success") ||
+    isOpen("paypal_addsite") ||
+    isOpen("add_package_modal_mysite") ||
+    isOpen("cardModal_mysite") ||
+    isOpen("payment_methods_mysite") ||
+    isOpen("crypto_mysite_step2") ||
+    isOpen("crypto_mysite_step1") ||
+    isOpen("crypto_mysite_success") ||
+    isOpen("success_pay_addsite") ||
+    isOpen("success_pay_mysite") ||
+    isOpen("upgrade_mysite_package") ||
+    isOpen("paypal_mysite") ||
+    isOpen("upgrade_no_package") ||
+    isOpen("cancel_subscription_internal") ||
+    isOpen("cancel_subscription_subs") ||
+    isOpen("payment_methods_subs") ||
+    isOpen("cardModal_subs") ||
+    isOpen("paypal_subs") ||
+    isOpen("crypto_subs_step1") ||
+    isOpen("crypto_subs_step2") ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -466,13 +465,62 @@ onMounted(async () => {
   if (user) {
     userStore.user = user;
   }
-
-  //   const res = await getCurrentTeam()
-  // profileStore.company = currTeam.value
 });
 const langloader = ref(true);
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
+
+const handleSaveToAllSites = async () => {
+  try {
+  } catch (error) {
+    console.error("Error saving to all sites:", error);
+  }
+};
+
+const loadingSave = ref(false);
+const handleSave = async () => {
+  try {
+    if (checkboxStore.originalFeatures) {
+      loadingSave.value = true;
+      const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
+        (item) =>
+          item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+      );
+
+      const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
+        (feature) => ({
+          name: feature.name,
+          title: feature.title,
+          type: feature.type,
+          active: feature.active,
+          description_on_show: feature.description_on_show,
+          description_on_hide: feature.description_on_hide,
+          features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
+            name: feature.checkboxId,
+            sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
+            value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
+            // is_selected: 1,
+          })),
+        })
+      );
+      // console.log(orgAddonsMainMenuFeature[0])
+
+      const response = await setOptions(
+        orgAddonsMainMenuFeature[0]["features"]
+      );
+
+      checkboxStore.changesOnCheckboxes = false;
+      checkboxStore.force_change_menuCards = false;
+      checkboxStore.force_change_profileCards = false;
+      loadingSave.value = false;
+    }
+
+    // $toast.success('Changes saved successfully.');
+  } catch (error) {
+    console.error("Error saving changes:", error);
+    // $toast.error('Failed to save changes.');
+  }
+};
 </script>
 
 <template>
@@ -609,10 +657,6 @@ import "vue-loading-overlay/dist/css/index.css";
         @control-confirm="closeModal('resetModal')"
         @control-cancel="closeModal('resetModal')"
       />
-
-  
-
-
 
       <div
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
@@ -781,6 +825,8 @@ import "vue-loading-overlay/dist/css/index.css";
             <transition name="slide-up">
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
+                @Save="handleSave"
+                @saveToAllSites="handleSaveToAllSites"
                 @cancel_action="cancelAc"
               />
             </transition>
