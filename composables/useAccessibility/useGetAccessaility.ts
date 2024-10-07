@@ -27,11 +27,14 @@ export default function () {
 
       if (colorMode.length > 1) {
         customizeStore.$state.colorMode = "gradient";
+        customizeStore.$state.initcolorMode = "gradient";
         customizeStore.$state.gradient1 = colorMode[0];
         customizeStore.$state.initgradient1 = colorMode[0];
         customizeStore.$state.gradient2 = colorMode[1];
         customizeStore.$state.initgradient2 = colorMode[1];
       } else {
+        customizeStore.$state.colorMode = "solid";
+        customizeStore.$state.initcolorMode = "solid";
         customizeStore.$state.currentColor = colorMode[0];
         customizeStore.$state.initcurrentColor = colorMode[0];
       }
@@ -107,7 +110,12 @@ export default function () {
         checkEnabledButtonTrans.value == 1 &&
         checkEnabledButtonTrans.active == 1
       ) {
-        customizeStore.toggleCheckbox("enable_live_site");
+        customizeStore.toggleCheckbox(
+          "acc-customize-translations-button-enable-live-site-translations-button"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-translations-button-enable-live-site-translations-button"
+        );
       }
 
       const checkEnabledButtonTransAbove = features
@@ -125,15 +133,20 @@ export default function () {
         checkEnabledButtonTransAbove.is_selected == "1"
       ) {
         customizeStore.selectLiveTranslationButtonLocation("above");
+        customizeStore.initselectLiveTranslationButtonLocation("above");
+
         if (checkEnabledButtonTransAbove.value == "option1") {
-          customizeStore.changeDefaultButtonShape("gb");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "gb";
+          customizeStore.changeDefaultButtonShape("option1");
+          customizeStore.initchangeDefaultButtonShape("option1");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option1";
         } else if (checkEnabledButtonTransAbove.value == "option2") {
-          customizeStore.changeDefaultButtonShape("en");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "en";
+          customizeStore.changeDefaultButtonShape("option2");
+          customizeStore.initchangeDefaultButtonShape("option2");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option2";
         } else {
-          customizeStore.changeDefaultButtonShape("langs");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "langs";
+          customizeStore.changeDefaultButtonShape("option3");
+          customizeStore.initchangeDefaultButtonShape("option3");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option3";
         }
       }
 
@@ -152,15 +165,19 @@ export default function () {
         checkEnabledButtonTransDefault.is_selected == "1"
       ) {
         customizeStore.selectLiveTranslationButtonLocation("default");
+        customizeStore.initselectLiveTranslationButtonLocation("default");
         if (checkEnabledButtonTransDefault.value == "option1") {
-          customizeStore.changeDefaultButtonShape("gb");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "gb";
+          customizeStore.changeDefaultButtonShape("option1"); // gb
+          customizeStore.initchangeDefaultButtonShape("option1");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option1";
         } else if (checkEnabledButtonTransDefault.value == "option2") {
-          customizeStore.changeDefaultButtonShape("en");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "en";
+          customizeStore.changeDefaultButtonShape("option2"); // en
+          customizeStore.initchangeDefaultButtonShape("option2");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option2";
         } else {
-          customizeStore.changeDefaultButtonShape("langs");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "langs";
+          customizeStore.changeDefaultButtonShape("option3"); // langs
+          customizeStore.initchangeDefaultButtonShape("option3");
+          customizeStore.$state.initcurrentShapeLiveTranslation = "option3";
         }
       }
 
@@ -176,7 +193,12 @@ export default function () {
         );
 
       if (isOversized.value == 1 && isOversized.active == 1) {
-        customizeStore.toggleCheckbox("oversized_widget");
+        customizeStore.toggleCheckbox(
+          "acc-customize-widget-customization--oversized-widget"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-widget-customization--oversized-widget"
+        );
       }
       // isThreeColumns
       const isThreeColumns = features
@@ -191,7 +213,12 @@ export default function () {
         );
 
       if (isThreeColumns.value == 1 && isThreeColumns.active == 1) {
-        customizeStore.toggleCheckbox("3_column_layout_widget");
+        customizeStore.toggleCheckbox(
+          "acc-customize-widget-customization--3-column-layout-widget"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-widget-customization--3-column-layout-widget"
+        );
       }
       // isAccProfiles
       const isAccProfiles = features
@@ -206,7 +233,12 @@ export default function () {
         );
 
       if (isAccProfiles.value == 1 && isAccProfiles.active == 1) {
-        customizeStore.toggleCheckbox("accessibility_profiles");
+        customizeStore.toggleCheckbox(
+          "acc-customize-widget-customization--accessibility-profiles"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-widget-customization--accessibility-profiles"
+        );
       }
 
       // acc mode
@@ -221,7 +253,12 @@ export default function () {
         );
 
       if (isAccModeActive.active == 1) {
-        customizeStore.toggleCheckbox("move_access");
+        customizeStore.toggleCheckbox(
+          "acc-customize-accessibility-mode-move-/-hide-accessibility"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-accessibility-mode-move-/-hide-accessibility"
+        );
         customizeStore.$state.accessibilityMode = isAccModeActive.value;
         customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
       }
@@ -247,6 +284,7 @@ export default function () {
         mainMenu.features.forEach((element: any) => {
           if (element.active == 1 && element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
+            customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
           }
         });
@@ -273,6 +311,7 @@ export default function () {
         profileItems.features.forEach((element: any) => {
           if (element.active == 1 && element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
+            customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
           }
         });
@@ -300,7 +339,12 @@ export default function () {
             "acc-customize-language-show-language-selector-on-the-widget"
         );
       if (enableLangHighlight.active == 1 && enableLangHighlight.value == 1) {
-        customizeStore.toggleCheckbox("language");
+        customizeStore.toggleCheckbox(
+          "acc-customize-language-show-language-selector-on-the-widget"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "acc-customize-language-show-language-selector-on-the-widget"
+        );
       }
 
       // acc isEnableSoundEffect
@@ -310,7 +354,9 @@ export default function () {
           (el) => el.name === "acc-setting-general-settings-sound-effects"
         );
       if (isEnableSoundEffect.active == 1 && isEnableSoundEffect.value == 1) {
-        settingsStore.toggleCheckbox("sound_effects");
+        settingsStore.toggleCheckbox(
+          "acc-setting-general-settings-sound-effects"
+        );
       }
 
       // acc isEnableOnMobile
@@ -321,7 +367,9 @@ export default function () {
             el.name === "acc-setting-general-settings-widget-enabled-on-mobile"
         );
       if (isEnableOnMobile.active == 1 && isEnableOnMobile.value == 1) {
-        settingsStore.toggleCheckbox("widget_enabled_on_mobile");
+        settingsStore.toggleCheckbox(
+          "acc-setting-general-settings-widget-enabled-on-mobile"
+        );
       }
       // acc isEnableOnThisSite
       const isEnableOnThisSite = features
@@ -332,7 +380,9 @@ export default function () {
             "acc-setting-general-settings-widget-enabled-on-this-site"
         );
       if (isEnableOnThisSite.active == 1 && isEnableOnThisSite.value == 1) {
-        settingsStore.toggleCheckbox("enable_widget_on_this_site");
+        settingsStore.toggleCheckbox(
+          "acc-setting-general-settings-widget-enabled-on-this-site"
+        );
       }
 
       checkboxStore.loadingData = false;

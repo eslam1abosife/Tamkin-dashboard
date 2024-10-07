@@ -19,6 +19,10 @@ import { useProfileStore } from "~/stores/profile";
 const { getAccessability } = useGetAccessaility();
 const translateStore = useTranslateStore();
 import { useGetCurrentTeam, useGetInvestor } from "@/composables/useProfile";
+import { useApi } from "@/composables/useApi";
+
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
 
 const { getInvestor, loading: lod } = useGetInvestor();
 const { getCurrentTeam, currTeam } = useGetCurrentTeam();
@@ -479,46 +483,120 @@ const handleSaveToAllSites = async () => {
 
 const loadingSave = ref(false);
 const handleSave = async () => {
+  let payload = {
+    AppName: "default",
+    Options: [
+      ...custmizeStore.AdjustMainMenuCardsCustomize,
+      ...custmizeStore.manageProfileCardsCustomize,
+      {
+        name: "acc-customize-accessibility-mode-move-/-hide-accessibility",
+        value: custmizeStore.accessibilityMode,
+      },
+      {
+        name: "acc-customize-button-color-button-color",
+        value:
+          custmizeStore.colorMode === "solid"
+            ? custmizeStore.currentColor
+            : `${custmizeStore.gradient1},${custmizeStore.gradient2}`,
+      },
+      {
+        name: "acc-customize-button-location-button-location-mobile",
+        value: custmizeStore.buttonPositionMobile,
+      },
+      {
+        name: "acc-customize-button-location-button-location-desktop",
+        value: custmizeStore.buttonPositionDesktop,
+      },
+      {
+        name: "acc-customize-button-type-button-size",
+        value: custmizeStore.buttonSizeSlider,
+      },
+      {
+        name: "acc-customize-button-type-button-shape",
+        value: custmizeStore.buttonShapeSelector,
+      },
+      {
+        name: "acc-customize-language-list-of-languages",
+        value: "auto detect language",
+      },
+      {
+        name: "acc-customize-language-show-language-selector-on-the-widget",
+        value: getValue(
+          "acc-customize-language-show-language-selector-on-the-widget"
+        ),
+      },
+      {
+        name: "acc-customize-translations-button-enable-live-site-translations-button",
+        value: getValue(
+          "acc-customize-translations-button-enable-live-site-translations-button"
+        ),
+      },
+      {
+        name: "acc-customize-translations-button-position-translation-button-above",
+        value: custmizeStore.currentShapeLiveTranslation,
+      },
+      {
+        name: "acc-customize-translations-button-translation-button-as-default-button",
+        value: custmizeStore.currentShapeLiveTranslation,
+      },
+      {
+        name: "acc-customize-widget-customization--oversized-widget",
+        value: getValue("acc-customize-widget-customization--oversized-widget"),
+      },
+      {
+        name: "acc-customize-widget-customization--3-column-layout-widget",
+        value: getValue(
+          "acc-customize-widget-customization--3-column-layout-widget"
+        ),
+      },
+      {
+        name: "acc-customize-widget-customization--accessibility-profiles",
+        value: getValue(
+          "acc-customize-widget-customization--accessibility-profiles"
+        ),
+      },
+      {
+        name: "acc-customize-widget-type-widget-style",
+        value: custmizeStore.widgetType,
+      },
+      {
+        name: "acc-setting-general-settings-sound-effects",
+        value: getValue("acc-setting-general-settings-sound-effects"),
+      },
+      {
+        name: "acc-setting-general-settings-widget-enabled-on-mobile",
+        value: getValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile"
+        ),
+      },
+      {
+        name: "acc-setting-general-settings-widget-enabled-on-this-site",
+        value: getValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site"
+        ),
+      },
+    ],
+  };
+
   try {
-    if (checkboxStore.originalFeatures) {
-      loadingSave.value = true;
-      const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
-        (item) =>
-          item.title === "Adjust the Main Menu" && item.type === "acc-addons"
-      );
-
-      const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
-        (feature) => ({
-          name: feature.name,
-          title: feature.title,
-          type: feature.type,
-          active: feature.active,
-          description_on_show: feature.description_on_show,
-          description_on_hide: feature.description_on_hide,
-          features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
-            name: feature.checkboxId,
-            sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
-            value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
-            // is_selected: 1,
-          })),
-        })
-      );
-      // console.log(orgAddonsMainMenuFeature[0])
-
-      const response = await setOptions(
-        orgAddonsMainMenuFeature[0]["features"]
-      );
-
-      checkboxStore.changesOnCheckboxes = false;
-      checkboxStore.force_change_menuCards = false;
-      checkboxStore.force_change_profileCards = false;
-      loadingSave.value = false;
-    }
-
-    // $toast.success('Changes saved successfully.');
+    const res = await api.post("/Custom/SetOptions", payload);
   } catch (error) {
-    console.error("Error saving changes:", error);
-    // $toast.error('Failed to save changes.');
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const getValue = (name: any) => {
+  console.log("name", name);
+
+  const val = custmizeStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val) {
+    return 1;
+  } else {
+    return 0;
   }
 };
 </script>

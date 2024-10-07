@@ -108,13 +108,13 @@ const imgStyle = computed(() => {
 onBeforeMount(() => {
   getAccessability();
   [
-    "language",
-    "enable_live_site",
-    "oversized_widget",
-    "move_access",
-    "3_column_layout_widget",
-    "accessibility_profiles",
-    "move_hide_accessibility",
+    "acc-customize-language-show-language-selector-on-the-widget",
+    "acc-customize-translations-button-enable-live-site-translations-button",
+    "acc-customize-widget-customization--oversized-widget",
+    "acc-customize-accessibility-mode-move-/-hide-accessibility",
+    "acc-customize-widget-customization--3-column-layout-widget",
+    "acc-customize-widget-customization--accessibility-profiles",
+
     "acc-addons-main-menu-page-structure",
     "acc-addons-main-menu-screen-reader",
     "acc-addons-main-menu-hide-images",
@@ -151,13 +151,12 @@ onBeforeMount(() => {
     customizeStore.addCheckbox(name);
   });
   customizeStore.initializeCheckboxes([
-    "language",
-    "enable_live_site",
-    "oversized_widget",
-    "move_access",
-    "3_column_layout_widget",
-    "accessibility_profiles",
-    "move_hide_accessibility",
+    "acc-customize-language-show-language-selector-on-the-widget",
+    "acc-customize-translations-button-enable-live-site-translations-button",
+    "acc-customize-widget-customization--oversized-widget",
+    "acc-customize-accessibility-mode-move-/-hide-accessibility",
+    "acc-customize-widget-customization--3-column-layout-widget",
+    "acc-customize-widget-customization--accessibility-profiles",
 
     // acc menu
     "acc-addons-main-menu-page-structure",

@@ -40,19 +40,41 @@ const { isChecked, toggleCheckbox } = customizeStore;
               type="checkbox"
               id="toggle_oversized"
               class="sr-only"
-              :checked="isChecked('oversized_widget')"
-              @change="toggleCheckbox('oversized_widget')"
+              :checked="
+                isChecked(
+                  'acc-customize-widget-customization--oversized-widget'
+                )
+              "
+              @change="
+                toggleCheckbox(
+                  'acc-customize-widget-customization--oversized-widget'
+                )
+              "
             />
             <div
               class="toggle_parent"
-              :class="[isChecked('oversized_widget') ? 'active' : 'in_active']"
+              :class="[
+                isChecked(
+                  'acc-customize-widget-customization--oversized-widget'
+                )
+                  ? 'active'
+                  : 'in_active',
+              ]"
             >
               <div
                 class="toggle_inner"
-                :class="{ active: isChecked('oversized_widget') }"
+                :class="{
+                  active: isChecked(
+                    'acc-customize-widget-customization--oversized-widget'
+                  ),
+                }"
               >
                 <img
-                  v-if="isChecked('oversized_widget')"
+                  v-if="
+                    isChecked(
+                      'acc-customize-widget-customization--oversized-widget'
+                    )
+                  "
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
                 />
@@ -73,18 +95,25 @@ const { isChecked, toggleCheckbox } = customizeStore;
       <div
         class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
       >
-        <img src="/assets/imgs/customize/columns.svg" class="h-[28px] w-[28px]" />
+        <img
+          src="/assets/imgs/customize/columns.svg"
+          class="h-[28px] w-[28px]"
+        />
         <div class="flex flex-col items-start justify-center w-full">
           <div
             class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
           >
-            <span>{{$t('3 Column Layout Widget')}}</span>
+            <span>{{ $t("3 Column Layout Widget") }}</span>
           </div>
           <div
             class="text-[#585B5B] dark:text-whiteTamkin text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
           >
             <span>
-              {{ $t('Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid') }}
+              {{
+                $t(
+                  "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid"
+                )
+              }}
             </span>
           </div>
         </div>
@@ -94,19 +123,41 @@ const { isChecked, toggleCheckbox } = customizeStore;
               type="checkbox"
               id="toggle_cols3"
               class="sr-only"
-              :checked="isChecked('3_column_layout_widget')"
-              @change="toggleCheckbox('3_column_layout_widget')"
+              :checked="
+                isChecked(
+                  'acc-customize-widget-customization--3-column-layout-widget'
+                )
+              "
+              @change="
+                toggleCheckbox(
+                  'acc-customize-widget-customization--3-column-layout-widget'
+                )
+              "
             />
             <div
               class="toggle_parent"
-              :class="[isChecked('3_column_layout_widget') ? 'active' : 'in_active']"
+              :class="[
+                isChecked(
+                  'acc-customize-widget-customization--3-column-layout-widget'
+                )
+                  ? 'active'
+                  : 'in_active',
+              ]"
             >
               <div
                 class="toggle_inner"
-                :class="{ active: isChecked('3_column_layout_widget') }"
+                :class="{
+                  active: isChecked(
+                    'acc-customize-widget-customization--3-column-layout-widget'
+                  ),
+                }"
               >
                 <img
-                  v-if="isChecked('3_column_layout_widget')"
+                  v-if="
+                    isChecked(
+                      'acc-customize-widget-customization--3-column-layout-widget'
+                    )
+                  "
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
                 />
@@ -127,17 +178,22 @@ const { isChecked, toggleCheckbox } = customizeStore;
       <div
         class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
       >
-        <img src="/assets/imgs/customize/accessibillity.svg" class="h-[28px] w-[28px]" />
+        <img
+          src="/assets/imgs/customize/accessibillity.svg"
+          class="h-[28px] w-[28px]"
+        />
         <div class="flex flex-col items-start justify-center w-full">
           <div
             class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
           >
-            <span>{{$t('Accessibility Profiles')}}</span>
+            <span>{{ $t("Accessibility Profiles") }}</span>
           </div>
           <div
             class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] w-40 truncate lg:w-auto ipad-max:w-40 lg:text-[12px] leading-[13.66px] mt-[8px]"
           >
-            <span> {{ $t('You can choose specific features to be shown to you') }} </span>
+            <span>
+              {{ $t("You can choose specific features to be shown to you") }}
+            </span>
           </div>
         </div>
         <div class="ml-auto">
@@ -146,19 +202,41 @@ const { isChecked, toggleCheckbox } = customizeStore;
               type="checkbox"
               id="toggle_profiles"
               class="sr-only"
-              :checked="isChecked('accessibility_profiles')"
-              @change="toggleCheckbox('accessibility_profiles')"
+              :checked="
+                isChecked(
+                  'acc-customize-widget-customization--accessibility-profiles'
+                )
+              "
+              @change="
+                toggleCheckbox(
+                  'acc-customize-widget-customization--accessibility-profiles'
+                )
+              "
             />
             <div
               class="toggle_parent"
-              :class="[isChecked('accessibility_profiles') ? 'active' : 'in_active']"
+              :class="[
+                isChecked(
+                  'acc-customize-widget-customization--accessibility-profiles'
+                )
+                  ? 'active'
+                  : 'in_active',
+              ]"
             >
               <div
                 class="toggle_inner"
-                :class="{ active: isChecked('accessibility_profiles') }"
+                :class="{
+                  active: isChecked(
+                    'acc-customize-widget-customization--accessibility-profiles'
+                  ),
+                }"
               >
                 <img
-                  v-if="isChecked('accessibility_profiles')"
+                  v-if="
+                    isChecked(
+                      'acc-customize-widget-customization--accessibility-profiles'
+                    )
+                  "
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
                 />

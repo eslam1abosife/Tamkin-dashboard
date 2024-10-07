@@ -175,105 +175,104 @@ export const useAddonStore = defineStore("addon", {
 
     cancelAll() {
       // const signLangStore = useSignLangStore()
-      this.force_change_profileCards = false;
-      this.force_change_menuCards = false;
-      this.initializeCardsMenu(
-        [
-          {
-            icon: "monitor_im.svg",
-            name: "Motor impaired",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "motor_active",
-          },
-          {
-            icon: "color_blind.svg",
-            name: "Color blind",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "color_blind",
-          },
-          {
-            icon: "vis_impaired.svg",
-            name: "Visually-impaired",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "hide_images",
-          },
-          {
-            icon: "seizure.svg",
-            name: "Seizure & Epileptic",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "Seizure",
-          },
-          {
-            icon: "blind.svg",
-            name: "Blind",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "blind",
-          },
-          {
-            icon: "df.svg",
-            name: "Dyslexia",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "dyslexia",
-          },
-          {
-            icon: "congitive.svg",
-            name: "Congitive & Learning",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "congitive",
-          },
-          {
-            icon: "adhd.svg",
-            name: "ADHD",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "ADHD",
-          },
-        ],
-        "manageProfileCards",
-        "initialManageProfileCards"
-      );
-
-      this.initializeCheckboxes([
-        "language",
-        "enable_live_site",
-        "oversized_widget",
-        "move_access",
-        "3_column_layout_widget",
-        "accessibility_profiles",
-        "move_hide_accessibility",
-        "page_str",
-        "screen_reader",
-        "hide_images",
-        "smart_contrast",
-        "voice_navigation",
-        "dictionary",
-        "highlight_links",
-        "line_height",
-        "saturation",
-        "bigger_text",
-        "pause_animation",
-        "tool_tip",
-        "cursor",
-        "text_spacing",
-        "contrast_plus",
-        "dyslexia",
-        "ADHD",
-        "congitive",
-        "blind",
-        "Seizure",
-        "visuallyImpraired",
-        "color_blind",
-        "motor_active",
-        "enable_custom_trigger",
-        "show_lang_selector",
-      ]);
+      // this.force_change_profileCards = false;
+      // this.force_change_menuCards = false;
+      // this.initializeCardsMenu(
+      //   [
+      //     {
+      //       icon: "monitor_im.svg",
+      //       name: "Motor impaired",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "motor_active",
+      //     },
+      //     {
+      //       icon: "color_blind.svg",
+      //       name: "Color blind",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "color_blind",
+      //     },
+      //     {
+      //       icon: "vis_impaired.svg",
+      //       name: "Visually-impaired",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "hide_images",
+      //     },
+      //     {
+      //       icon: "seizure.svg",
+      //       name: "Seizure & Epileptic",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "Seizure",
+      //     },
+      //     {
+      //       icon: "blind.svg",
+      //       name: "Blind",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "blind",
+      //     },
+      //     {
+      //       icon: "df.svg",
+      //       name: "Dyslexia",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "dyslexia",
+      //     },
+      //     {
+      //       icon: "congitive.svg",
+      //       name: "Congitive & Learning",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "congitive",
+      //     },
+      //     {
+      //       icon: "adhd.svg",
+      //       name: "ADHD",
+      //       description:
+      //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
+      //       checkboxId: "ADHD",
+      //     },
+      //   ],
+      //   "manageProfileCards",
+      //   "initialManageProfileCards"
+      // );
+      // this.initializeCheckboxes([
+      //   "language",
+      //   "acc-customize-translations-button-enable-live-site-translations-button",
+      //   "oversized_widget",
+      //   "move_access",
+      //   "3_column_layout_widget",
+      //   "accessibility_profiles",
+      //   "move_hide_accessibility",
+      //   "page_str",
+      //   "screen_reader",
+      //   "hide_images",
+      //   "smart_contrast",
+      //   "voice_navigation",
+      //   "dictionary",
+      //   "highlight_links",
+      //   "line_height",
+      //   "saturation",
+      //   "bigger_text",
+      //   "pause_animation",
+      //   "tool_tip",
+      //   "cursor",
+      //   "text_spacing",
+      //   "contrast_plus",
+      //   "dyslexia",
+      //   "ADHD",
+      //   "congitive",
+      //   "blind",
+      //   "Seizure",
+      //   "visuallyImpraired",
+      //   "color_blind",
+      //   "motor_active",
+      //   "enable_custom_trigger",
+      //   "show_lang_selector",
+      // ]);
     },
   },
 });

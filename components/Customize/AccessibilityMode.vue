@@ -38,19 +38,41 @@ const { isChecked, toggleCheckbox } = customizeStore;
               type="checkbox"
               id="toggle_move_acess"
               class="sr-only"
-              :checked="isChecked('move_access')"
-              @change="toggleCheckbox('move_access')"
+              :checked="
+                isChecked(
+                  'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                )
+              "
+              @change="
+                toggleCheckbox(
+                  'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                )
+              "
             />
             <div
               class="toggle_parent"
-              :class="[isChecked('move_access') ? 'active' : 'in_active']"
+              :class="[
+                isChecked(
+                  'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                )
+                  ? 'active'
+                  : 'in_active',
+              ]"
             >
               <div
                 class="toggle_inner"
-                :class="{ active: isChecked('move_access') }"
+                :class="{
+                  active: isChecked(
+                    'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                  ),
+                }"
               >
                 <img
-                  v-if="isChecked('move_access')"
+                  v-if="
+                    isChecked(
+                      'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                    )
+                  "
                   src="/assets/imgs/addons/active_toggle.svg"
                   class="w-[28px] h-[28px]"
                 />
@@ -68,7 +90,9 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
     <div
       class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-      v-if="isChecked('move_access')"
+      v-if="
+        isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
+      "
     >
       <div
         class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"

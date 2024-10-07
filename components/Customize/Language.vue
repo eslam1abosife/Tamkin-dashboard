@@ -348,19 +348,41 @@ const filterdLanguages = computed(() => {
                   type="checkbox"
                   id="toggle_language_selector"
                   class="sr-only"
-                  :checked="isChecked('language')"
-                  @change="toggleCheckbox('language')"
+                  :checked="
+                    isChecked(
+                      'acc-customize-language-show-language-selector-on-the-widget'
+                    )
+                  "
+                  @change="
+                    toggleCheckbox(
+                      'acc-customize-language-show-language-selector-on-the-widget'
+                    )
+                  "
                 />
                 <div
                   class="toggle_parent"
-                  :class="[isChecked('language') ? 'active' : 'in_active']"
+                  :class="[
+                    isChecked(
+                      'acc-customize-language-show-language-selector-on-the-widget'
+                    )
+                      ? 'active'
+                      : 'in_active',
+                  ]"
                 >
                   <div
                     class="toggle_inner"
-                    :class="{ active: isChecked('language') }"
+                    :class="{
+                      active: isChecked(
+                        'acc-customize-language-show-language-selector-on-the-widget'
+                      ),
+                    }"
                   >
                     <img
-                      v-if="isChecked('language')"
+                      v-if="
+                        isChecked(
+                          'acc-customize-language-show-language-selector-on-the-widget'
+                        )
+                      "
                       src="/assets/imgs/addons/active_toggle.svg"
                       class="w-[28px] h-[28px]"
                     />

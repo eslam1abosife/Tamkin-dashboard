@@ -16,10 +16,10 @@ export const useCustomizeStore = defineStore("customize", {
     loadingData: false,
     currentColor: "#2dada3",
     initcurrentColor: "#2dada3",
-    gradient1: "#2dada3",
-    initgradient1: "#2dada3",
-    gradient2: "#2dada3",
-    initgradient2: "#2dada3",
+    gradient1: "",
+    initgradient1: "",
+    gradient2: "",
+    initgradient2: "",
     colorMode: "solid",
     initcolorMode: "solid",
     checkboxes: [] as Checkbox[],
@@ -46,8 +46,9 @@ export const useCustomizeStore = defineStore("customize", {
     switchButtonLocation: "desktop",
     forceChange_buttonShape: false,
     liveTranlsationButtonLocation: "default",
-    currentShapeLiveTranslation: "gb",
-    initcurrentShapeLiveTranslation: "gb",
+    initliveTranlsationButtonLocation: "default",
+    currentShapeLiveTranslation: "option2",
+    initcurrentShapeLiveTranslation: "option2",
     routeLeaveModal: false,
     accessibilityMode: "right",
     initaccessibilityMode: "right",
@@ -65,19 +66,50 @@ export const useCustomizeStore = defineStore("customize", {
     selectLiveTranslationButtonLocation(location: string) {
       if (
         this.checkboxes.find(
-          (val) => val.name === "enable_live_site" && val.value === true
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
         )
       ) {
         this.liveTranlsationButtonLocation = location;
       }
     },
+
+    initselectLiveTranslationButtonLocation(location: string) {
+      if (
+        this.initialCheckboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.initliveTranlsationButtonLocation = location;
+      }
+    },
     changeDefaultButtonShape(v: any) {
       if (
         this.checkboxes.find(
-          (val) => val.name === "enable_live_site" && val.value === true
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
         )
       ) {
         this.currentShapeLiveTranslation = v;
+      }
+    },
+    initchangeDefaultButtonShape(v: any) {
+      if (
+        this.checkboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.initcurrentShapeLiveTranslation = v;
       }
     },
     selectWidgetType(v: string) {
@@ -137,11 +169,16 @@ export const useCustomizeStore = defineStore("customize", {
         JSON.stringify(this.checkboxes) !==
           JSON.stringify(this.initialCheckboxes) ||
         this.buttonPositionDesktop !== this.initialPositionDesktop ||
-        this.buttonPositionMobile !== this.initialPositionMobile
-        // ||
-        // this.forceChange_buttonShape ||
-        // this.force_change_profileCards ||
-        // this.force_change_MainMenuCard
+        this.buttonPositionMobile !== this.initialPositionMobile ||
+        this.buttonShapeSelector !== this.initbuttonShapeSelector ||
+        this.widgetType !== this.initwidgetType ||
+        this.colorMode !== this.initcolorMode ||
+        this.force_change_MainMenuCard ||
+        this.initliveTranlsationButtonLocation !==
+          this.liveTranlsationButtonLocation ||
+        this.currentShapeLiveTranslation !==
+          this.initcurrentShapeLiveTranslation ||
+        this.initaccessibilityMode !== this.accessibilityMode
       );
     },
 
@@ -182,7 +219,9 @@ export const useCustomizeStore = defineStore("customize", {
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },
     onDragStart(initialOrderKey: keyof typeof this) {
-      this[initialOrderKey] = JSON.parse(JSON.stringify(this[initialOrderKey])); // Store initial order
+      this[initialOrderKey] = JSON.parse(JSON.stringify(this[initialOrderKey]));
+
+      // Store initial order
       // console.log('Initial order:', this[initialOrderKey]);
     },
     onDragChange(
@@ -190,6 +229,7 @@ export const useCustomizeStore = defineStore("customize", {
       initialOrderKey: keyof typeof this
     ) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
+
       const isOrderChanged = !this.arraysEqual(
         this[initialOrderKey] as Card[],
         currentOrder as Card[]
@@ -212,8 +252,13 @@ export const useCustomizeStore = defineStore("customize", {
         currentOrder as Card[]
       );
 
+      currentOrder.forEach((el, index) => {
+        el.sort = index + 1;
+      });
+      this.AdjustMainMenuCardsCustomize = currentOrder;
       this.force_change = isOrderChanged;
     },
+
     arraysEqual(a: Card[], b: Card[]) {
       if (a.length !== b.length) return false;
       for (let i = 0; i < a.length; i++) {
@@ -246,260 +291,6 @@ export const useCustomizeStore = defineStore("customize", {
       this.currentColor = "#2dada3";
       this.gradient1 = "#2dada3";
       this.gradient2 = "#2dada3";
-      // this.colorMode= 'solid',
-      this.initializeCardsMenu(
-        [
-          {
-            icon: "tamkin_player.svg",
-            name: "Tamkin Player",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "tamkin_player",
-          },
-          {
-            icon: "media_player.svg",
-            name: "Media Player",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "media_player",
-          },
-          {
-            icon: "language sign.svg",
-            name: "Screen Reader",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "screen_reader",
-          },
-          {
-            icon: "page_str.svg",
-            name: "Page Structure",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "page_str",
-          },
-
-          {
-            icon: "hide_images.svg",
-            name: "Hide Images",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "hide_images",
-          },
-          {
-            icon: "contrast.svg",
-            name: "Smart Contrast",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "smart_contrast",
-          },
-          {
-            icon: "voice_navigation.svg",
-            name: "Voice Navigation",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "voice_navigation",
-          },
-          {
-            icon: "a-z.svg",
-            name: "Dictionary",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "dictionary",
-          },
-          {
-            icon: "clip.svg",
-            name: "Highlight Links",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "highlight_links",
-          },
-          {
-            icon: "line_height.svg",
-            name: "Line Height",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "line_height",
-          },
-          {
-            icon: "saturation.svg",
-            name: "Saturation",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "saturation",
-          },
-
-          {
-            icon: "text.svg",
-            name: "Bigger Text",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "bigger_text",
-          },
-          {
-            icon: "df_friendly.svg",
-            name: "Dyslexia Friendly",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "df_friendly",
-          },
-          {
-            icon: "pause.svg",
-            name: "Pause Animation",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "pause_animation",
-          },
-          {
-            icon: "text_align.svg",
-            name: "Text Align",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "text_align",
-          },
-          {
-            icon: "reading_mode.svg",
-            name: "Reading Mode",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "reading_mode",
-          },
-          {
-            icon: "tooltip.svg",
-            name: "Tooltip",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "tool_tip",
-          },
-          {
-            icon: "cursor.svg",
-            name: "Cursor",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "cursor",
-          },
-          {
-            icon: "text_spacing.svg",
-            name: "Text Spacing",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "text_spacing",
-          },
-
-          {
-            icon: "contrast_plus.svg",
-            name: "Contrast +",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "contrast_plus",
-          },
-        ],
-        "AdjustMainMenuCardsCustomize",
-        "initialCardsOrderCustomize"
-      );
-
-      this.initializeCardsMenu(
-        [
-          {
-            icon: "monitor_im.svg",
-            name: "Motor impaired",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "motor_active",
-          },
-          {
-            icon: "color_blind.svg",
-            name: "Color blind",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "color_blind",
-          },
-          {
-            icon: "vis_impaired.svg",
-            name: "Visually-impaired",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "hide_images",
-          },
-          {
-            icon: "seizure.svg",
-            name: "Seizure & Epileptic",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "Seizure",
-          },
-          {
-            icon: "blind.svg",
-            name: "Blind",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "blind",
-          },
-          {
-            icon: "df.svg",
-            name: "Dyslexia",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "dyslexia",
-          },
-          {
-            icon: "congitive.svg",
-            name: "Congitive & Learning",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "congitive",
-          },
-          {
-            icon: "adhd.svg",
-            name: "ADHD",
-            description:
-              "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-            checkboxId: "ADHD",
-          },
-        ],
-        "manageProfileCardsCustomize",
-        "initialManageProfileCardsCustomize"
-      );
-
-      this.initializeCheckboxes([
-        "tamkin_player",
-        "media_player",
-        "language",
-        "enable_live_site",
-        "oversized_widget",
-        "move_access",
-        "3_column_layout_widget",
-        "accessibility_profiles",
-        "move_hide_accessibility",
-        "page_str",
-        "screen_reader",
-        "hide_images",
-        "smart_contrast",
-        "voice_navigation",
-        "dictionary",
-        "highlight_links",
-        "line_height",
-        "saturation",
-        "bigger_text",
-        "pause_animation",
-        "tool_tip",
-        "cursor",
-        "text_spacing",
-        "contrast_plus",
-        "dyslexia",
-        "ADHD",
-        "congitive",
-        "blind",
-        "Seizure",
-        "visuallyImpraired",
-        "color_blind",
-        "motor_active",
-        "enable_custom_trigger",
-        "show_lang_selector",
-        "df_friendly",
-        "pause_animation",
-        "text_align",
-        "reading_mode",
-      ]);
     },
     changebuttonPositionDesktop(position: string) {
       this.buttonPositionDesktop = position;
@@ -512,6 +303,14 @@ export const useCustomizeStore = defineStore("customize", {
     },
     moveHideWidget(v: string) {
       this.accessibilityMode = v;
+    },
+    toggleInitialCheckbox(name: string) {
+      const checkbox = this.initialCheckboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      if (checkbox) {
+        checkbox.value = !checkbox.value;
+      }
     },
   },
 });

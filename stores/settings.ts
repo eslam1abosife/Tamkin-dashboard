@@ -74,10 +74,10 @@ export const useSettingsStore = defineStore("settings", {
     },
     cancelAll() {
       this.initializeCheckboxes([
-        "enable_widget_on_this_site",
+        "acc-setting-general-settings-widget-enabled-on-this-site",
 
-        "widget_enabled_on_mobile",
-        "sound_effects",
+        "acc-setting-general-settings-widget-enabled-on-mobile",
+        "acc-setting-general-settings-sound-effects",
       ]);
     },
   },
