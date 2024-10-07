@@ -587,8 +587,6 @@ const handleSave = async () => {
 };
 
 const getValue = (name: any) => {
-  console.log("name", name);
-
   const val = custmizeStore.checkboxes.find((el: any) => {
     return el.name === name;
   });
