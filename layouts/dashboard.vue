@@ -483,11 +483,30 @@ const handleSaveToAllSites = async () => {
 
 const loadingSave = ref(false);
 const handleSave = async () => {
+  const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1) => {
+    const matchingItem = custmizeStore.checkboxes.find(
+      (item2) => item2.name === item1.checkboxId
+    );
+    if (matchingItem) {
+      return { ...item1, value: getValue(item1.checkboxId) };
+    }
+    return item1;
+  });
+  const profiles = custmizeStore.manageProfileCardsCustomize.map((item1) => {
+    const matchingItem = custmizeStore.checkboxes.find(
+      (item2) => item2.name === item1.checkboxId
+    );
+    if (matchingItem) {
+      return { ...item1, value: getValue(item1.checkboxId) };
+    }
+    return item1;
+  });
+
   let payload = {
     AppName: "default",
     Options: [
-      ...custmizeStore.AdjustMainMenuCardsCustomize,
-      ...custmizeStore.manageProfileCardsCustomize,
+      ...menu,
+      ...profiles,
       {
         name: "acc-customize-accessibility-mode-move-/-hide-accessibility",
         value: custmizeStore.accessibilityMode,
@@ -592,9 +611,9 @@ const getValue = (name: any) => {
   });
 
   if (val) {
-    return 1;
+    return "1";
   } else {
-    return 0;
+    return "0";
   }
 };
 </script>
