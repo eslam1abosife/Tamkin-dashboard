@@ -140,17 +140,20 @@ export default function () {
         customizeStore.initselectLiveTranslationButtonLocation("above");
 
         if (checkEnabledButtonTransAbove.value == "option1") {
-          customizeStore.changeDefaultButtonShape("option1");
-          customizeStore.initchangeDefaultButtonShape("option1");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option1";
+          customizeStore.changeAboveButtonShape("option1");
+          customizeStore.initchangeAboveButtonShape("option1");
+          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
+            "option1";
         } else if (checkEnabledButtonTransAbove.value == "option2") {
-          customizeStore.changeDefaultButtonShape("option2");
-          customizeStore.initchangeDefaultButtonShape("option2");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option2";
+          customizeStore.changeAboveButtonShape("option2");
+          customizeStore.initchangeAboveButtonShape("option2");
+          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
+            "option2";
         } else {
-          customizeStore.changeDefaultButtonShape("option3");
-          customizeStore.initchangeDefaultButtonShape("option3");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option3";
+          customizeStore.changeAboveButtonShape("option3");
+          customizeStore.initchangeAboveButtonShape("option3");
+          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
+            "option3";
         }
       }
 

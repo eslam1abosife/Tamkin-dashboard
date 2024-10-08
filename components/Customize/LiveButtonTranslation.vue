@@ -555,7 +555,7 @@ const backgroundImageStyle = computed(() => {
         v-if="liveTranlsationButtonLocation === 'above'"
       >
         <div
-          @click="customizeStore.changeDefaultButtonShape('option1')"
+          @click="customizeStore.changeAboveButtonShape('option1')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option1'
               ? 'custom-border-tamkin padding-override-1'
@@ -592,7 +592,7 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('option2')"
+          @click="customizeStore.changeAboveButtonShape('option2')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option2'
               ? 'custom-border-tamkin padding-override-1'
@@ -668,7 +668,7 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('option3')"
+          @click="customizeStore.changeAboveButtonShape('option3')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option3'
               ? 'custom-border-tamkin padding-override-1'

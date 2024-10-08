@@ -49,6 +49,8 @@ export const useCustomizeStore = defineStore("customize", {
     initliveTranlsationButtonLocation: "default",
     currentShapeLiveTranslation: "option2",
     initcurrentShapeLiveTranslation: "option2",
+    currentAboveShapeLiveTranslation: "option2",
+    initcurrentAboveShapeLiveTranslation: "option2",
     routeLeaveModal: false,
     accessibilityMode: "right",
     initaccessibilityMode: "right",
@@ -117,6 +119,30 @@ export const useCustomizeStore = defineStore("customize", {
         )
       ) {
         this.initcurrentShapeLiveTranslation = v;
+      }
+    },
+    changeAboveButtonShape(v: any) {
+      if (
+        this.checkboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.currentAboveShapeLiveTranslation = v;
+      }
+    },
+    initchangeAboveButtonShape(v: any) {
+      if (
+        this.checkboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.initcurrentAboveShapeLiveTranslation = v;
       }
     },
     selectWidgetType(v: string) {

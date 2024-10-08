@@ -572,11 +572,15 @@ const handleSave = async (type: any) => {
       },
       {
         name: "acc-customize-translations-button-position-translation-button-above",
-        value: custmizeStore.currentShapeLiveTranslation,
+        value: custmizeStore.currentAboveShapeLiveTranslation,
+        is_selected:
+          custmizeStore.liveTranlsationButtonLocation == "above" ? "1" : "0",
       },
       {
         name: "acc-customize-translations-button-translation-button-as-default-button",
         value: custmizeStore.currentShapeLiveTranslation,
+        is_selected:
+          custmizeStore.liveTranlsationButtonLocation == "default" ? "1" : "0",
       },
       {
         name: "acc-customize-widget-customization--oversized-widget",
