@@ -236,6 +236,8 @@ const cancelAc = () => {
     custmizeStore.selectedLang = custmizeStore.initselectedLang;
     custmizeStore.currentShapeLiveTranslation =
       custmizeStore.initcurrentShapeLiveTranslation;
+    custmizeStore.currentAboveShapeLiveTranslation =
+      custmizeStore.initcurrentAboveShapeLiveTranslation;
     custmizeStore.accessibilityMode = custmizeStore.initaccessibilityMode;
     custmizeStore.liveTranlsationButtonLocation =
       custmizeStore.initliveTranlsationButtonLocation;

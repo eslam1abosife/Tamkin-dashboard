@@ -213,7 +213,10 @@ export const useCustomizeStore = defineStore("customize", {
         this.currentShapeLiveTranslation !==
           this.initcurrentShapeLiveTranslation ||
         this.initaccessibilityMode !== this.accessibilityMode ||
-        this.selectedLang.language_code !== this.initselectedLang.language_code
+        this.selectedLang.language_code !==
+          this.initselectedLang.language_code ||
+        this.currentAboveShapeLiveTranslation !==
+          this.initcurrentAboveShapeLiveTranslation
       );
     },
 
