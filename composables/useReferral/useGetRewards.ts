@@ -13,7 +13,7 @@ const user = JSON.parse(localStorage.getItem('user'));
 
   const getAllRewards = async () => {
     try {
-        const res = await api.post('/Tamkin Withdraw Requests/Get',{
+        const res = await api.post('/Referral/WithdrawRequests',{
             "where":{
               "agency":user.agency
 

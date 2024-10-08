@@ -28,7 +28,9 @@ definePageMeta({
 });
 const route = useRoute();
 const subs = ref([]);
+onBeforeMount(()=>{
 
+})
 onMounted(async () => {
   checkPaymentStatus();
 
@@ -94,13 +96,22 @@ const filteredSubs = computed(() => {
           sub.app_domain.toLowerCase().includes(search.value.toLowerCase())
       ); // Ensure app_domain is not null or undefined
   }
-  return subs.value.filter((sub) =>
-  sub.subscripitions.length > 0 && sub.subscripitions.some(
-    (f) =>
-      (!filterBYTime.value || Number(f.month_difference) === filterBYTime.value) &&
-      (!filterByType.value || f.type === filterByType.value)
-  )
-);
+  return subs.value
+  .filter((sub) => sub.subscripitions.length > 0)
+  .filter((sub) => {
+    // Filter the subscriptions that match the filters
+    const filteredSubscriptions = sub.subscripitions.filter((f) => {
+      const timeMatch = filterBYTime.value ? f.month_difference === filterBYTime.value : true;
+      const typeMatch = filterByType.value ? f.type === filterByType.value : true;
+
+      // Both filters must match if they're provided
+      return timeMatch && typeMatch;
+    });
+
+    // Only return subs where there are matching subscriptions
+    return filteredSubscriptions.length > 0;
+  });
+
 
 });
 
@@ -122,11 +133,13 @@ const cancelSubscriptionInternal = async () => {
     closeModal("cancel_subscription_subs");
   }
 };
+const router= useRouter()
+
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
     if (route.query.locale === "ar") {
       await router.push({
-        name: route.name,
+        path: '/ar/subscriptions',
         query: { paid: route.query.paid, locale: "ar" },
       });
 
@@ -379,7 +392,7 @@ const openInvestor = (app,pack)=>{
           @click="$router.push(localePath('/packages'))"
           class="btn-dashboard hover_tamkin w-[158px]"
         >
-          Subscribe Now
+          {{ $t('Subscribe Now') }}
         </button>
       </div>
     </div>
@@ -524,7 +537,13 @@ const openInvestor = (app,pack)=>{
                 </thead>
                 <tbody class="bg-[#F5F9FF] dark:bg-slate-800">
                   <tr
-                    v-for="sb in sub.subscripitions"
+                    v-for="sb in sub.subscripitions.filter((f) => {
+                      const timeMatch = filterBYTime ? f.month_difference === filterBYTime: true;
+                      const typeMatch = filterByType ? f.type === filterByType: true;
+                
+                      // Both filters must match if they're provided
+                      return timeMatch && typeMatch;
+                    })"
                     :key="sb.name"
                   >
 
@@ -539,7 +558,7 @@ const openInvestor = (app,pack)=>{
                         />
                         <span class="whitespace-nowrap">
                           {{$t(sb.package_title.split(' ').filter(t => t !== 'Buy').join(' '))
-                        }} <span v-if="sub.title === 'Internal Service'">- {{sb.extreatype}}</span>
+                        }} <span v-if="sub.title === 'Internal Service'">- {{$t(`${sb.extreatype}`)}}</span>
                           <span class="font-[400]"> - {{ $t(`${sb.type}`) }}</span></span
                         >
                       </div>
@@ -575,7 +594,12 @@ const openInvestor = (app,pack)=>{
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
                       <div class="!w-[140px] truncate">{{$t(sb.mode_of_payment)}} 
-                        {{ sb.billing_duration !== 'Free Trial'  && sb.type !== 'Investors'? '' :sb.type === 'Investors' ? '': '-'}} {{ sb.type === 'Investors' ? $t(`${sb.remarks}`) : sb.remarks }}</div>
+                        {{ 
+                          sb.remarks !== 'Free Trial' && sb.type !== 'Investors'
+                            ? ' - '+ $t(`${sb.remarks}`) 
+                            :  $t(sb.remarks)
+                        }}
+                      </div>
                     </td>
                     <td
                       class="border-b border-[#D9D9D9] dark:border-slate-700 text-[14px] leading-[21px] font-[500] text-black"

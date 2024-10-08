@@ -36,7 +36,7 @@ const { getAvatarLetters } = useGetAvatarLetters();
 //   return true
 // });
 onBeforeMount(async () => {
-  await profileStore.getCurrentTeam();
+  // await profileStore.getCurrentTeam();
 });
 onMounted(async () => {
   if (localStorage.getItem("user")) {
@@ -807,8 +807,8 @@ const getSettingsValue = (name: any) => {
         :showModal="true"
         v-if="isOpen('userpermissions')"
       />
-      <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
-      <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
+      <DashboardMySiteSelectSiteModal v-if="isOpen('selectSite')" />
+      <DashboardMySiteUpgradeModal v-if="isOpen('upgrade')" />
       <!--
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />
