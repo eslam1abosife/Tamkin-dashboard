@@ -195,55 +195,55 @@ const handleSaveToAllSites = async () => {
 //   );
 //   return checkbox ? checkbox.value : false;
 // };
-const loadingSave = ref(false);
-// Define handleSave method to handle save actions
-const handleSave = async () => {
-  try {
-    if (checkboxStore.originalFeatures) {
-      loadingSave.value = true;
-      // console.log("Handling Save logic...");
-      const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
-        (item) =>
-          item.title === "Adjust the Main Menu" && item.type === "acc-addons"
-      );
+// const loadingSave = ref(false);
+// // Define handleSave method to handle save actions
+// const handleSave = async () => {
+//   try {
+//     if (checkboxStore.originalFeatures) {
+//       loadingSave.value = true;
+//       // console.log("Handling Save logic...");
+//       const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
+//         (item) =>
+//           item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+//       );
 
-      const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
-        (feature) => ({
-          name: feature.name,
-          title: feature.title,
-          type: feature.type,
-          active: feature.active,
-          description_on_show: feature.description_on_show,
-          description_on_hide: feature.description_on_hide,
-          features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
-            name: feature.checkboxId,
-            sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
-            value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
-            is_selected: 1,
-            // label: feature.name,
-            // description: feature.description,
-            // icon: feature.icon,
-          })),
-        })
-      );
-      // console.log(orgAddonsMainMenuFeature[0])
+//       const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
+//         (feature) => ({
+//           name: feature.name,
+//           title: feature.title,
+//           type: feature.type,
+//           active: feature.active,
+//           description_on_show: feature.description_on_show,
+//           description_on_hide: feature.description_on_hide,
+//           features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
+//             name: feature.checkboxId,
+//             sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
+//             value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
+//             is_selected: 1,
+//             // label: feature.name,
+//             // description: feature.description,
+//             // icon: feature.icon,
+//           })),
+//         })
+//       );
+//       // console.log(orgAddonsMainMenuFeature[0])
 
-      const response = await setOptions(
-        orgAddonsMainMenuFeature[0]["features"]
-      );
+//       const response = await setOptions(
+//         orgAddonsMainMenuFeature[0]["features"]
+//       );
 
-      checkboxStore.changesOnCheckboxes = false;
-      checkboxStore.force_change_menuCards = false;
-      checkboxStore.force_change_profileCards = false;
-      loadingSave.value = false;
-    }
+//       checkboxStore.changesOnCheckboxes = false;
+//       checkboxStore.force_change_menuCards = false;
+//       checkboxStore.force_change_profileCards = false;
+//       loadingSave.value = false;
+//     }
 
-    // $toast.success('Changes saved successfully.');
-  } catch (error) {
-    console.error("Error saving changes:", error);
-    // $toast.error('Failed to save changes.');
-  }
-};
+//     // $toast.success('Changes saved successfully.');
+//   } catch (error) {
+//     console.error("Error saving changes:", error);
+//     // $toast.error('Failed to save changes.');
+//   }
+// };
 
 let pendingNavigation = null;
 
@@ -304,7 +304,7 @@ const cancelAc = () => {
 
 <template>
   <div class="relative h-full w-full">
-    <transition name="slide-up">
+    <!-- <transition name="slide-up">
       <DashboardAddonsSaveFooter
         :disable-loading-save="loadingSave"
         :show-footer="shouldShowFooter"
@@ -312,7 +312,7 @@ const cancelAc = () => {
         @saveToAllSites="handleSaveToAllSites"
         @cancel_action="cancelAc"
       />
-    </transition>
+    </transition> -->
     <LazyModalsConfirm
       :showModal="checkboxStore.routeLeaveModal"
       title="Save  your changes"

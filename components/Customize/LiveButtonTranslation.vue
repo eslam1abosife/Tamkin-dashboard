@@ -555,9 +555,9 @@ const backgroundImageStyle = computed(() => {
         v-if="liveTranlsationButtonLocation === 'above'"
       >
         <div
-          @click="customizeStore.changeDefaultButtonShape('option1')"
+          @click="customizeStore.changeAboveButtonShape('option1')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'option1'
+            customizeStore.currentAboveShapeLiveTranslation === 'option1'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
             !customizeStore.isChecked(
@@ -570,7 +570,7 @@ const backgroundImageStyle = computed(() => {
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'option1'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option1'"
           >
             <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
@@ -592,9 +592,9 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('option2')"
+          @click="customizeStore.changeAboveButtonShape('option2')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'option2'
+            customizeStore.currentAboveShapeLiveTranslation === 'option2'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
             !customizeStore.isChecked(
@@ -607,7 +607,7 @@ const backgroundImageStyle = computed(() => {
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'option2'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option2'"
           >
             <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
@@ -668,9 +668,9 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('option3')"
+          @click="customizeStore.changeAboveButtonShape('option3')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'option3'
+            customizeStore.currentAboveShapeLiveTranslation === 'option3'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
             !customizeStore.isChecked(
@@ -683,7 +683,7 @@ const backgroundImageStyle = computed(() => {
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'option3'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option3'"
           >
             <img src="/assets/imgs/customize/tick_two.svg" />
           </div>

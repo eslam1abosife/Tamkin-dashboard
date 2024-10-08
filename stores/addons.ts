@@ -75,6 +75,14 @@ export const useAddonStore = defineStore("addon", {
         checkbox.value = !checkbox.value;
       }
     },
+    toggleInitialCheckbox(name: string) {
+      const checkbox = this.initialCheckboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      if (checkbox) {
+        checkbox.value = !checkbox.value;
+      }
+    },
     setCheckboxValue(name: string, value: boolean) {
       const checkbox = this.checkboxes.find(
         (checkbox) => checkbox.name === name
@@ -84,14 +92,10 @@ export const useAddonStore = defineStore("addon", {
       }
     },
     hasChanges() {
-      if (
+      return (
         JSON.stringify(this.checkboxes) !==
         JSON.stringify(this.initialCheckboxes)
-      ) {
-        this.changesOnCheckboxes = true;
-      } else {
-        this.changesOnCheckboxes = false;
-      }
+      );
     },
     addCardToArrayMenus(
       name: string,
@@ -145,6 +149,7 @@ export const useAddonStore = defineStore("addon", {
         this.force_change_profileCards = isOrderChanged;
       }
     },
+
     onDragEnd(
       customArrayKey: keyof typeof this,
       initialOrderKey: keyof typeof this
@@ -154,10 +159,21 @@ export const useAddonStore = defineStore("addon", {
         this[initialOrderKey] as Card[],
         currentOrder as Card[]
       );
-      console.log("Current order:", currentOrder);
-      console.log("Order changed:", isOrderChanged);
-      this.force_change = isOrderChanged;
+
+      currentOrder.forEach((el, index) => {
+        el.sort = index + 1;
+      });
+
+      if (customArrayKey === "AdjustMainMenuCards") {
+        this.force_change_menuCards = isOrderChanged;
+        this.AdjustMainMenuCards = currentOrder;
+      }
+      if (customArrayKey === "manageProfileCards") {
+        this.force_change_profileCards = isOrderChanged;
+        this.manageProfileCards = currentOrder;
+      }
     },
+
     arraysEqual(a: Card[], b: Card[]) {
       if (a.length !== b.length) return false;
       for (let i = 0; i < a.length; i++) {

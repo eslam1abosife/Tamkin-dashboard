@@ -49,10 +49,19 @@ export const useCustomizeStore = defineStore("customize", {
     initliveTranlsationButtonLocation: "default",
     currentShapeLiveTranslation: "option2",
     initcurrentShapeLiveTranslation: "option2",
+    currentAboveShapeLiveTranslation: "option2",
+    initcurrentAboveShapeLiveTranslation: "option2",
     routeLeaveModal: false,
     accessibilityMode: "right",
     initaccessibilityMode: "right",
-    languages: [],
+    languages: [
+      {
+        language_name: "Auto detect Language",
+        language_code: "auto detect language",
+      },
+    ],
+    selectedLang: {},
+    initselectedLang: {},
   }),
   actions: {
     showSaveBeforeLeaveModal() {
@@ -110,6 +119,30 @@ export const useCustomizeStore = defineStore("customize", {
         )
       ) {
         this.initcurrentShapeLiveTranslation = v;
+      }
+    },
+    changeAboveButtonShape(v: any) {
+      if (
+        this.checkboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.currentAboveShapeLiveTranslation = v;
+      }
+    },
+    initchangeAboveButtonShape(v: any) {
+      if (
+        this.checkboxes.find(
+          (val) =>
+            val.name ===
+              "acc-customize-translations-button-enable-live-site-translations-button" &&
+            val.value === true
+        )
+      ) {
+        this.initcurrentAboveShapeLiveTranslation = v;
       }
     },
     selectWidgetType(v: string) {
@@ -174,11 +207,16 @@ export const useCustomizeStore = defineStore("customize", {
         this.widgetType !== this.initwidgetType ||
         this.colorMode !== this.initcolorMode ||
         this.force_change_MainMenuCard ||
+        this.force_change_profileCards ||
         this.initliveTranlsationButtonLocation !==
           this.liveTranlsationButtonLocation ||
         this.currentShapeLiveTranslation !==
           this.initcurrentShapeLiveTranslation ||
-        this.initaccessibilityMode !== this.accessibilityMode
+        this.initaccessibilityMode !== this.accessibilityMode ||
+        this.selectedLang.language_code !==
+          this.initselectedLang.language_code ||
+        this.currentAboveShapeLiveTranslation !==
+          this.initcurrentAboveShapeLiveTranslation
       );
     },
 
@@ -255,8 +293,15 @@ export const useCustomizeStore = defineStore("customize", {
       currentOrder.forEach((el, index) => {
         el.sort = index + 1;
       });
-      this.AdjustMainMenuCardsCustomize = currentOrder;
-      this.force_change = isOrderChanged;
+
+      if (customArrayKey === "AdjustMainMenuCardsCustomize") {
+        this.force_change_MainMenuCard = isOrderChanged;
+        this.AdjustMainMenuCardsCustomize = currentOrder;
+      }
+      if (customArrayKey === "manageProfileCardsCustomize") {
+        this.force_change_profileCards = isOrderChanged;
+        this.manageProfileCardsCustomize = currentOrder;
+      }
     },
 
     arraysEqual(a: Card[], b: Card[]) {

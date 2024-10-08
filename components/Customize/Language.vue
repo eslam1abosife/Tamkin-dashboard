@@ -9,21 +9,22 @@ const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 const isOpen = ref(false);
 const search = ref("");
-const { languages } = storeToRefs(customizeStore);
+const { languages, selectedLang } = storeToRefs(customizeStore);
 
-console.log("languages", languages.value);
+// const selectedLang = ref();
 
-const selectedLanguage = ref(null);
+// selectedLang.value = selectedLang.value;
+
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
 const selectLanguage = (lang: any) => {
-  selectedLanguage.value = lang;
+  selectedLang.value = lang;
   isOpen.value = false;
 };
 const filterdLanguages = computed(() => {
-  return languages.value.filter((lang) =>
+  return languages.value.filter((lang: any) =>
     lang.language_name
       .toLowerCase()
       .includes(search.value.toString().toLowerCase())
@@ -209,31 +210,33 @@ const filterdLanguages = computed(() => {
               <div
                 class="floating_language_selector_ov flex flex-row items-center justify-start ! font-[500] !text-[13px] leading-[32px]"
                 :class="[
-                  selectedLanguage && selectedLanguage.language_name
+                  selectedLang && selectedLang.language_name
                     ? '!text-black dark:!text-whiteTamkin'
                     : '!text-darkGrey',
                 ]"
               >
                 <div
-                  v-if="selectedLanguage && selectedLanguage.language_code"
+                  v-if="selectedLang && selectedLang.language_code"
                   class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[6px] ltr:mr-[6px]"
                   :class="[
-                    selectedLanguage && selectedLanguage.language_code
+                    selectedLang && selectedLang.language_code
                       ? 'bg-custom-gradient text-white'
                       : 'bg-[#F2FBF9] dark:bg-tamkinDarkPrimary text-tamkin',
                   ]"
                 >
                   <div class="text-[12px] font-[400] leading-[14px] uppercase">
                     {{
-                      selectedLanguage && selectedLanguage.language_code
-                        ? selectedLanguage.language_code
+                      selectedLang && selectedLang.language_code
+                        ? selectedLang.language_code == "auto detect language"
+                          ? "AD"
+                          : selectedLang.language_code
                         : ""
                     }}
                   </div>
                 </div>
                 {{
-                  selectedLanguage
-                    ? selectedLanguage.language_name
+                  selectedLang
+                    ? selectedLang.language_name
                     : $t("Auto detect Language")
                 }}
               </div>
@@ -293,8 +296,8 @@ const filterdLanguages = computed(() => {
                   <div
                     class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[4px] ltr:mr-[4px]"
                     :class="[
-                      selectedLanguage &&
-                      selectedLanguage.language_code === lang.language_code
+                      selectedLang &&
+                      selectedLang.language_code === lang.language_code
                         ? 'bg-custom-gradient text-white'
                         : 'bg-[#F2FBF9] dark:bg-darkGrey text-tamkin',
                     ]"
@@ -302,7 +305,11 @@ const filterdLanguages = computed(() => {
                     <div
                       class="text-[12px] font-[400] leading-[20px] uppercase dark:text-whiteTamkin"
                     >
-                      {{ lang.language_code }}
+                      {{
+                        lang.language_code == "auto detect language"
+                          ? "AD"
+                          : lang.language_code
+                      }}
                     </div>
                   </div>
                   <!-- <img  :src="country.flag"  class="w-6 h-4 mr-2" /> -->
@@ -312,8 +319,8 @@ const filterdLanguages = computed(() => {
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
                     v-if="
-                      selectedLanguage &&
-                      selectedLanguage.language_code === lang.language_code
+                      selectedLang &&
+                      selectedLang.language_code === lang.language_code
                     "
                   >
                     <img src="/assets/imgs/customize/selected_language.svg" />
