@@ -97,7 +97,7 @@ const filteredSubs = computed(() => {
   return subs.value.filter((sub) =>
   sub.subscripitions.length > 0 && sub.subscripitions.some(
     (f) =>
-      (!filterBYTime.value || Number(f.month_difference) === filterBYTime.value) &&
+      (!filterBYTime.value ||f.month_difference === filterBYTime.value) ||
       (!filterByType.value || f.type === filterByType.value)
   )
 );

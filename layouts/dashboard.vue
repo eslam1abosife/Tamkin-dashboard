@@ -30,7 +30,7 @@ const { getAvatarLetters } = useGetAvatarLetters();
 //   return true
 // });
 onBeforeMount(async () => {
-  await profileStore.getCurrentTeam();
+  // await profileStore.getCurrentTeam();
 });
 onMounted(async () => {
   if (localStorage.getItem("user")) {
@@ -592,8 +592,8 @@ import "vue-loading-overlay/dist/css/index.css";
         :showModal="true"
         v-if="isOpen('userpermissions')"
       />
-      <DashboardMySiteSelectSiteModal :showModal="isOpen('selectSite')" />
-      <DashboardMySiteUpgradeModal :showModal="isOpen('upgrade')" />
+      <DashboardMySiteSelectSiteModal v-if="isOpen('selectSite')" />
+      <DashboardMySiteUpgradeModal v-if="isOpen('upgrade')" />
       <!--
 
     <DashboardMySiteSelectsitemodal :showModal="selectSiteModal" />

@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
-import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+// import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetPaymentTypes } from "@/composables/useReferral";
 import { useRuntimeConfig } from "#app";
 
-const { getInviteApps, defaultApp, apps } = useGetAppInvites();
-const { updateDefaultApp } = useUpdateDefaultApp();
+// const { getInviteApps, defaultApp, apps } = useGetAppInvites();
+// const { updateDefaultApp } = useUpdateDefaultApp();
 const { getPaymentTypes } = useGetPaymentTypes();
 
-const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  await getInviteApps({ agency: user.agency });
-};
+// const getApps = async () => {
+//   const user = JSON.parse(localStorage.getItem("user"));
+//   // await getInviteApps({ agency: user.agency });
+// };
 const config = useRuntimeConfig();
 const baseImageURL = config.public.baseImagerUrl;
 
@@ -47,13 +47,13 @@ onMounted(async () => {
   paymentMethods.value = result.data;
 
   // console.log(paymentMethods.value)
-  await getApps();
+  // await getApps();
 
-  if (defaultApp.value) {
-    // console.log(defaultApp.value.name);
-    // console.log(checked.value);
-    checked.value = defaultApp.value.name;
-  }
+  // if (defaultApp.value) {
+  //   // console.log(defaultApp.value.name);
+  //   // console.log(checked.value);
+  //   checked.value = defaultApp.value.name;
+  // }
 });
 const loadingPayment = ref(false);
 

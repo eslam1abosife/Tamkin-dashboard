@@ -12,7 +12,7 @@ const withdrawStore = useWithdrawStore()
 const profileStore = useProfileStore()
   const getAllReferrals = async (agency) => {
     try {
-      const res = await api.post('/Sales Invoice/Get',{
+      const res = await api.post('/Referral/GetSalesInvoicePartner',{
         "where":{
           sales_partner:profileStore.company.ref_sales_partner,
 
