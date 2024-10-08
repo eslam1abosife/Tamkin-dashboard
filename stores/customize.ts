@@ -52,7 +52,14 @@ export const useCustomizeStore = defineStore("customize", {
     routeLeaveModal: false,
     accessibilityMode: "right",
     initaccessibilityMode: "right",
-    languages: [],
+    languages: [
+      {
+        language_name: "Auto detect Language",
+        language_code: "auto detect language",
+      },
+    ],
+    selectedLang: {},
+    initselectedLang: {},
   }),
   actions: {
     showSaveBeforeLeaveModal() {
@@ -174,11 +181,13 @@ export const useCustomizeStore = defineStore("customize", {
         this.widgetType !== this.initwidgetType ||
         this.colorMode !== this.initcolorMode ||
         this.force_change_MainMenuCard ||
+        this.force_change_profileCards ||
         this.initliveTranlsationButtonLocation !==
           this.liveTranlsationButtonLocation ||
         this.currentShapeLiveTranslation !==
           this.initcurrentShapeLiveTranslation ||
-        this.initaccessibilityMode !== this.accessibilityMode
+        this.initaccessibilityMode !== this.accessibilityMode ||
+        this.selectedLang.language_code !== this.initselectedLang.language_code
       );
     },
 
@@ -255,8 +264,15 @@ export const useCustomizeStore = defineStore("customize", {
       currentOrder.forEach((el, index) => {
         el.sort = index + 1;
       });
-      this.AdjustMainMenuCardsCustomize = currentOrder;
-      this.force_change = isOrderChanged;
+
+      if (customArrayKey === "AdjustMainMenuCardsCustomize") {
+        this.force_change_MainMenuCard = isOrderChanged;
+        this.AdjustMainMenuCardsCustomize = currentOrder;
+      }
+      if (customArrayKey === "manageProfileCardsCustomize") {
+        this.force_change_profileCards = isOrderChanged;
+        this.manageProfileCardsCustomize = currentOrder;
+      }
     },
 
     arraysEqual(a: Card[], b: Card[]) {

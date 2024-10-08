@@ -205,21 +205,9 @@ const shouldShowFooter = computed(() => {
 });
 
 const cancelAc = () => {
-  const isCustomizeLinkActive =
-    isLinkActive("/customize") &&
-    (custmizeStore.forceChange_buttonShape ||
-      force_change_profileCards.value ||
-      force_change_MainMenuCard.value ||
-      currentColor.value !== "#2dada3" ||
-      gradient1.value !== "#2dada3" ||
-      gradient2.value !== "#2dada3" ||
-      custmizeStore.hasChanges());
-  const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
-  const isSettingsLinkActive =
-    isLinkActive("/settings") && settingsStore.hasChanges();
+  const isCustomizeLinkActive = isLinkActive("/customize");
+  const isAddonsLinkActive = isLinkActive("/addons");
+  const isSettingsLinkActive = isLinkActive("/settings");
   const isStatsActive =
     isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
@@ -233,17 +221,36 @@ const cancelAc = () => {
   const translatePlayer =
     isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
   if (isCustomizeLinkActive) {
-    getAccessability();
+    custmizeStore.checkboxes = custmizeStore.initialCheckboxes;
+    custmizeStore.currentColor = custmizeStore.initcurrentColor;
+    custmizeStore.gradient1 = custmizeStore.initgradient1;
+    custmizeStore.gradient2 = custmizeStore.initgradient2;
+    custmizeStore.colorMode = custmizeStore.initcolorMode;
+    custmizeStore.buttonPositionDesktop = custmizeStore.initialPositionDesktop;
+    custmizeStore.buttonPositionMobile = custmizeStore.initialPositionMobile;
+
+    custmizeStore.buttonSizeSlider = custmizeStore.initbuttonSizeSlider;
+    custmizeStore.buttonShapeSelector = custmizeStore.initbuttonShapeSelector;
+    custmizeStore.selectedIcon = custmizeStore.initselectedIcon;
+    custmizeStore.widgetType = custmizeStore.initwidgetType;
+    custmizeStore.selectedLang = custmizeStore.initselectedLang;
+    custmizeStore.currentShapeLiveTranslation =
+      custmizeStore.initcurrentShapeLiveTranslation;
+    custmizeStore.accessibilityMode = custmizeStore.initaccessibilityMode;
+    custmizeStore.liveTranlsationButtonLocation =
+      custmizeStore.initliveTranlsationButtonLocation;
+    custmizeStore.force_change_MainMenuCard = false;
+    custmizeStore.force_change_profileCards = false;
   }
   if (isMarketChanges) {
     marketStore.resetAll();
     playerStore.wearSavedClothes();
   }
   if (isAddonsLinkActive) {
-    getAccessability();
+    checkboxStore.checkboxes = checkboxStore.initialCheckboxes;
   }
   if (isSettingsLinkActive) {
-    getAccessability();
+    settingsStore.checkboxes = settingsStore.initialCheckboxes;
   }
   if (translateStyle) {
     translateStore.resetStyles();
@@ -474,37 +481,50 @@ const langloader = ref(true);
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
-const handleSaveToAllSites = async () => {
-  try {
-  } catch (error) {
-    console.error("Error saving to all sites:", error);
-  }
-};
-
 const loadingSave = ref(false);
-const handleSave = async () => {
-  const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1) => {
+const handleSave = async (type: any) => {
+  loadingSave.value = true;
+  const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1: any) => {
+    item1.name = item1.checkboxId;
     const matchingItem = custmizeStore.checkboxes.find(
-      (item2) => item2.name === item1.checkboxId
+      (item2: any) => item2.name === item1.checkboxId
     );
+    let newItem = {};
     if (matchingItem) {
-      return { ...item1, value: getValue(item1.checkboxId) };
+      newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
     }
-    return item1;
-  });
-  const profiles = custmizeStore.manageProfileCardsCustomize.map((item1) => {
-    const matchingItem = custmizeStore.checkboxes.find(
-      (item2) => item2.name === item1.checkboxId
-    );
-    if (matchingItem) {
-      return { ...item1, value: getValue(item1.checkboxId) };
-    }
-    return item1;
+
+    return newItem;
   });
 
-  let payload = {
-    AppName: "default",
-    Options: [
+  const profiles = custmizeStore.manageProfileCardsCustomize.map(
+    (item1: any) => {
+      const matchingItem = custmizeStore.checkboxes.find(
+        (item2: any) => item2.name === item1.checkboxId
+      );
+
+      item1.name = item1.checkboxId;
+
+      let newItem = {};
+      if (matchingItem) {
+        newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
+      }
+      return newItem;
+    }
+  );
+
+  interface Payload {
+    AppName: string;
+    Options: any[];
+  }
+
+  let payload: Payload = {
+    AppName: type,
+    Options: [],
+  };
+
+  if (isLinkActive("/customize")) {
+    const customizeOptions = [
       ...menu,
       ...profiles,
       {
@@ -536,7 +556,7 @@ const handleSave = async () => {
       },
       {
         name: "acc-customize-language-list-of-languages",
-        value: "auto detect language",
+        value: custmizeStore.selectedLang.language_code,
       },
       {
         name: "acc-customize-language-show-language-selector-on-the-widget",
@@ -578,28 +598,68 @@ const handleSave = async () => {
         name: "acc-customize-widget-type-widget-style",
         value: custmizeStore.widgetType,
       },
+    ];
+
+    payload.Options = customizeOptions;
+  } else if (isLinkActive("/settings")) {
+    const settigsOptions = [
       {
         name: "acc-setting-general-settings-sound-effects",
-        value: getValue("acc-setting-general-settings-sound-effects"),
+        value: getSettingsValue("acc-setting-general-settings-sound-effects"),
       },
       {
         name: "acc-setting-general-settings-widget-enabled-on-mobile",
-        value: getValue(
+        value: getSettingsValue(
           "acc-setting-general-settings-widget-enabled-on-mobile"
         ),
       },
       {
         name: "acc-setting-general-settings-widget-enabled-on-this-site",
-        value: getValue(
+        value: getSettingsValue(
           "acc-setting-general-settings-widget-enabled-on-this-site"
         ),
       },
-    ],
-  };
+    ];
+    payload.Options = settigsOptions;
+  } else if (isLinkActive("/addons")) {
+    const addonsmenu = checkboxStore.AdjustMainMenuCards.map((item1: any) => {
+      const matchingItem = checkboxStore.checkboxes.find(
+        (item2: any) => item2.name === item1.checkboxId
+      );
+      item1.name = item1.checkboxId;
+      let newItem = {};
+      if (matchingItem) {
+        newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
+      }
+
+      return newItem;
+    });
+
+    const addonsprofiles = checkboxStore.manageProfileCards.map(
+      (item1: any) => {
+        const matchingItem = checkboxStore.checkboxes.find(
+          (item2: any) => item2.name === item1.checkboxId
+        );
+        item1.name = item1.checkboxId;
+
+        let newItem = {};
+        if (matchingItem) {
+          newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
+        }
+        return newItem;
+      }
+    );
+
+    const addonsOptions = [...addonsmenu, ...addonsprofiles];
+    payload.Options = addonsOptions;
+  }
 
   try {
     const res = await api.post("/Custom/SetOptions", payload);
+    loadingSave.value = false;
+    // getAccessability();
   } catch (error) {
+    loadingSave.value = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -610,7 +670,19 @@ const getValue = (name: any) => {
     return el.name === name;
   });
 
-  if (val) {
+  if (val.value) {
+    return "1";
+  } else {
+    return "0";
+  }
+};
+
+const getSettingsValue = (name: any) => {
+  const val = settingsStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val.value) {
     return "1";
   } else {
     return "0";
@@ -673,8 +745,8 @@ const getValue = (name: any) => {
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
-          </template></loading
-        >
+          </template>
+        </loading>
       </div>
       <div
         v-if="openModals"
@@ -920,8 +992,9 @@ const getValue = (name: any) => {
             <transition name="slide-up">
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
-                @Save="handleSave"
-                @saveToAllSites="handleSaveToAllSites"
+                :loadingSave="loadingSave"
+                @Save="handleSave('default')"
+                @saveToAllSites="handleSave('all')"
                 @cancel_action="cancelAc"
               />
             </transition>

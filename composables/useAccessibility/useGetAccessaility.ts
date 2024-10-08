@@ -54,6 +54,10 @@ export default function () {
           buttonshape.tamkin_option_item_values.find(
             (el) => el.value === buttonshape.value
           ).icon;
+        customizeStore.$state.initselectedIcon =
+          buttonshape.tamkin_option_item_values.find(
+            (el) => el.value === buttonshape.value
+          ).icon;
       }
 
       // handle size button
@@ -286,6 +290,7 @@ export default function () {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
+            checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
       }
@@ -313,6 +318,7 @@ export default function () {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
+            checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
       }
@@ -328,7 +334,37 @@ export default function () {
       }
 
       // set languages
-      customizeStore.$state.languages = res.data.data.languages;
+      res.data.data.languages.forEach((el: any) => {
+        customizeStore.$state.languages.push(el);
+      });
+
+      const selectLang = features
+        .find((feature: any) => feature.name === "acc-customize-language")
+        .features.find(
+          (el: any) => el.name === "acc-customize-language-list-of-languages"
+        );
+
+      if (selectLang.value === "auto detect language") {
+        customizeStore.selectedLang = {
+          language_name: "Auto detect Language",
+          language_code: "auto detect language",
+        };
+        customizeStore.initselectedLang = {
+          language_name: "Auto detect Language",
+          language_code: "auto detect language",
+        };
+      } else {
+        customizeStore.selectedLang = res.data.data.languages.filter(
+          (el: any) => {
+            el.language_code === selectLang.value.language_code;
+          }
+        )[0];
+        customizeStore.initselectedLang = res.data.data.languages.filter(
+          (el: any) => {
+            el.language_code === selectLang.value.language_code;
+          }
+        )[0];
+      }
 
       // acc enableLangHighlight
       const enableLangHighlight = features
@@ -357,6 +393,9 @@ export default function () {
         settingsStore.toggleCheckbox(
           "acc-setting-general-settings-sound-effects"
         );
+        settingsStore.toggleinitialCheckbox(
+          "acc-setting-general-settings-sound-effects"
+        );
       }
 
       // acc isEnableOnMobile
@@ -370,6 +409,9 @@ export default function () {
         settingsStore.toggleCheckbox(
           "acc-setting-general-settings-widget-enabled-on-mobile"
         );
+        settingsStore.toggleinitialCheckbox(
+          "acc-setting-general-settings-widget-enabled-on-mobile"
+        );
       }
       // acc isEnableOnThisSite
       const isEnableOnThisSite = features
@@ -381,6 +423,9 @@ export default function () {
         );
       if (isEnableOnThisSite.active == 1 && isEnableOnThisSite.value == 1) {
         settingsStore.toggleCheckbox(
+          "acc-setting-general-settings-widget-enabled-on-this-site"
+        );
+        settingsStore.toggleinitialCheckbox(
           "acc-setting-general-settings-widget-enabled-on-this-site"
         );
       }

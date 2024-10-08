@@ -51,6 +51,14 @@ export const useSettingsStore = defineStore("settings", {
         checkbox.value = !checkbox.value;
       }
     },
+    toggleinitialCheckbox(name: string) {
+      const checkbox = this.initialCheckboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      if (checkbox) {
+        checkbox.value = !checkbox.value;
+      }
+    },
     setCheckboxValue(name: string, value: boolean) {
       const checkbox = this.checkboxes.find(
         (checkbox) => checkbox.name === name

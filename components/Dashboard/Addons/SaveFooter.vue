@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps({
   showFooter: Boolean,
+  loadingSave: Boolean,
   disableLoadingSave: Boolean,
   disableLoadingToAll: Boolean,
 });
@@ -53,16 +54,16 @@ const saveFn = () => {
           </button>
           <button
             class="btn_bordered_dashboard w-auto"
-            :disabled="disableLoadingToAll"
+            :disabled="loadingSave"
             @click="saveToAllSites"
           >
             <div class="flex items-center justify-center">
-              <div :class="disableLoadingToAll ? 'rtl:ml-2 ltr:mr-2' : ''">
+              <div :class="loadingSave ? 'rtl:ml-2 ltr:mr-2' : ''">
                 {{ $t("Save to All Sites") }}
               </div>
 
               <svg
-                v-if="disableLoadingToAll"
+                v-if="loadingSave"
                 class="animate-spin h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -86,16 +87,16 @@ const saveFn = () => {
           </button>
           <button
             class="btn-dashboard hover_tamkin w-[90px]"
-            :disabled="disableLoadingSave"
+            :disabled="loadingSave"
             @click="saveFn"
           >
             <div class="flex items-center justify-center">
-              <div :class="disableLoadingSave ? 'rtl:ml-2 ltr:mr-2' : ''">
+              <div :class="loadingSave ? 'rtl:ml-2 ltr:mr-2' : ''">
                 {{ $t("Save") }}
               </div>
 
               <svg
-                v-if="disableLoadingSave"
+                v-if="loadingSave"
                 class="animate-spin h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
