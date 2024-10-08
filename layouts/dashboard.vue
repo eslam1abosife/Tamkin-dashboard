@@ -265,6 +265,43 @@ const cancelAc = () => {
   }
 };
 
+const updateNewValues = () => {
+  const isCustomizeLinkActive = isLinkActive("/customize");
+  const isAddonsLinkActive = isLinkActive("/addons");
+  const isSettingsLinkActive = isLinkActive("/settings");
+  if (isCustomizeLinkActive) {
+    custmizeStore.initialCheckboxes = custmizeStore.checkboxes;
+    custmizeStore.initcurrentColor = custmizeStore.currentColor;
+    custmizeStore.initgradient1 = custmizeStore.gradient1;
+    custmizeStore.initgradient2 = custmizeStore.gradient2;
+    custmizeStore.initcolorMode = custmizeStore.colorMode;
+    custmizeStore.initialPositionDesktop = custmizeStore.buttonPositionDesktop;
+    custmizeStore.initialPositionMobile = custmizeStore.buttonPositionMobile;
+
+    custmizeStore.initbuttonSizeSlider = custmizeStore.buttonSizeSlider;
+    custmizeStore.initbuttonShapeSelector = custmizeStore.buttonShapeSelector;
+    custmizeStore.initselectedIcon = custmizeStore.selectedIcon;
+    custmizeStore.initwidgetType = custmizeStore.widgetType;
+    custmizeStore.initselectedLang = custmizeStore.selectedLang;
+    custmizeStore.initcurrentShapeLiveTranslation =
+      custmizeStore.currentShapeLiveTranslation;
+    custmizeStore.initcurrentAboveShapeLiveTranslation =
+      custmizeStore.currentAboveShapeLiveTranslation;
+    custmizeStore.initaccessibilityMode = custmizeStore.accessibilityMode;
+    custmizeStore.initliveTranlsationButtonLocation =
+      custmizeStore.liveTranlsationButtonLocation;
+    custmizeStore.force_change_MainMenuCard = false;
+    custmizeStore.force_change_profileCards = false;
+  }
+
+  if (isAddonsLinkActive) {
+    checkboxStore.initialCheckboxes = checkboxStore.checkboxes;
+  }
+  if (isSettingsLinkActive) {
+    settingsStore.initialCheckboxes = settingsStore.checkboxes;
+  }
+};
+
 const showConfirmModal = ref(false);
 const confirmWithSaveFn = () => {
   if (isLinkActive(localePath("/addons"))) {
@@ -663,6 +700,7 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
+    updateNewValues();
     // getAccessability();
   } catch (error) {
     loadingSave.value = false;
