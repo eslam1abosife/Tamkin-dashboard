@@ -375,7 +375,7 @@ const totalCost = computed(() => {
   if (packagesStore.currentPackage.package_type === "Package") {
     return price * (urlCount + webCount);
   } else {
-    alert(packagesStore.currentPackage.package_price_role[0].cost_month )
+    // alert(packagesStore.currentPackage.package_price_role[0].cost_month )
     return (
       packagesStore.currentPackage.package_price_role[0].cost_month 
     );
@@ -629,6 +629,8 @@ if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || p
    await getTrafficType(packagesStore.currentPackage.name)
   //  levelof.value = packagesStore.levelsTraffic[0]
 }
+const user = JSON.parse(localStorage.getItem('user'))
+await getInviteApps({ agency: user.agency })
 
 //  loadingPriceTraffic.value = false
 
@@ -1011,6 +1013,7 @@ const formattedEstimatedPrice = computed(()=> {
             :clear-on-select="false"
             :preserve-search="true"
             :selectLabel="$t('Press enter to select')"
+            :deselectLabel="$t('Press enter to remove')"
             :placeholder="$t('Choose sites')"
             label="app_domain"
             class="mt-[24px]"

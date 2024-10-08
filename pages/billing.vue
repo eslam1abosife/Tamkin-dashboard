@@ -529,7 +529,7 @@ function leaveCart(el, done) {
                 >
                 {{ 
                invoice.payment_type === 'Crypto' ? invoice.amount:
-               ('$'+ invoice.cost)
+               ('$'+ invoice.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") )
                
                 }}
                 </div>

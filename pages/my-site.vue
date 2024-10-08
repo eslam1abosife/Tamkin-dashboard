@@ -1095,7 +1095,7 @@ if(subCodeStatus.value === 200){
                           <div
                             v-if="
                               app.package[0] &&
-                              new Date() > new Date(app.package[0].endpackage)
+                              new Date() > new Date(app.package[0].endpackage) && app.package[0].type !== 'Investors'
                             "
                             class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                           >
