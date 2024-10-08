@@ -5,6 +5,9 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetAccessaility } from "@/composables/useAccessibility";
+import { useApi } from "@/composables/useApi";
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
@@ -80,22 +83,18 @@ watch(copyDone, (newValue) => {
   }
 });
 
-const widgetEnabledOnSite = ref(false);
-const widgetEnabledOnMobile = ref(false);
-const soundEffects = ref(false);
-
 onBeforeMount(() => {
   [
-    "enable_widget_on_this_site",
-    "widget_enabled_on_mobile",
-    "sound_effects",
+    "acc-setting-general-settings-widget-enabled-on-this-site",
+    "acc-setting-general-settings-widget-enabled-on-mobile",
+    "acc-setting-general-settings-sound-effects",
   ].forEach((name) => {
     settingsStore.addCheckbox(name);
   });
   settingsStore.initializeCheckboxes([
-    "enable_widget_on_this_site",
-    "widget_enabled_on_mobile",
-    "sound_effects",
+    "acc-setting-general-settings-widget-enabled-on-this-site",
+    "acc-setting-general-settings-widget-enabled-on-mobile",
+    "acc-setting-general-settings-sound-effects",
   ]);
 });
 let pendingNavigation = null;
@@ -112,6 +111,20 @@ const handleSaveAndMove = () => {
   }
 };
 
+const deleteSite = async () => {
+  try {
+    const res = await api.post("/mySite/set/AppStatusCancel", {
+      name: settingsStore.defaultapp,
+    });
+    closeModal("deleteModal");
+
+    // return res.data.data;
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
 const handleCancelLeave = () => {
   settingsStore.routeLeaveModal = false; // Close the modal
 };
@@ -124,20 +137,39 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+
+const resetAccessiility = async () => {
+  try {
+    const res = await api.post("/Apps/ResetSettingDefaultApp");
+    closeModal("resetModal");
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <ModalsConfirm
+      :showModal="isOpen('resetModal')"
+      title="Rest All Accessibility Settings"
+      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      confirm-btn-type="confirm"
+      @control-confirm="resetAccessiility"
+      @control-cancel="closeModal('resetModal')"
+    />
+    <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
       title="Delete your site"
       sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
       confirm-btn-type="delete"
-      @control-delete="closeModal('deleteModal')"
+      @control-delete="deleteSite"
       @control-cancel="closeModal('deleteModal')"
     />
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
     <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+
     <LazyModalsConfirm
       :showModal="settingsStore.routeLeaveModal"
       :title="$t('Save  your changes')"
@@ -308,7 +340,11 @@ onBeforeRouteLeave((to, from, next) => {
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !isChecked('enable_widget_on_this_site') ? 'opacity-60' : '',
+                  !isChecked(
+                    'acc-setting-general-settings-widget-enabled-on-this-site'
+                  )
+                    ? 'opacity-60'
+                    : '',
                 ]"
               >
                 <div
@@ -326,13 +362,23 @@ onBeforeRouteLeave((to, from, next) => {
                     type="checkbox"
                     id="toggle_Widget_enabled_on_this_site"
                     class="sr-only"
-                    :checked="isChecked('enable_widget_on_this_site')"
-                    @change="toggleCheckbox('enable_widget_on_this_site')"
+                    :checked="
+                      isChecked(
+                        'acc-setting-general-settings-widget-enabled-on-this-site'
+                      )
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'acc-setting-general-settings-widget-enabled-on-this-site'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('enable_widget_on_this_site')
+                      isChecked(
+                        'acc-setting-general-settings-widget-enabled-on-this-site'
+                      )
                         ? 'active'
                         : 'in_active',
                     ]"
@@ -340,11 +386,17 @@ onBeforeRouteLeave((to, from, next) => {
                     <div
                       class="toggle_inner"
                       :class="{
-                        active: isChecked('enable_widget_on_this_site'),
+                        active: isChecked(
+                          'acc-setting-general-settings-widget-enabled-on-this-site'
+                        ),
                       }"
                     >
                       <img
-                        v-if="isChecked('enable_widget_on_this_site')"
+                        v-if="
+                          isChecked(
+                            'acc-setting-general-settings-widget-enabled-on-this-site'
+                          )
+                        "
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                       />
@@ -367,7 +419,11 @@ onBeforeRouteLeave((to, from, next) => {
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !isChecked('widget_enabled_on_mobile') ? 'opacity-60' : '',
+                  !isChecked(
+                    'acc-setting-general-settings-widget-enabled-on-mobile'
+                  )
+                    ? 'opacity-60'
+                    : '',
                 ]"
               >
                 <div
@@ -378,30 +434,48 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
               <div class="ml-auto">
                 <label
-                  for="toggle_Widget_enabled_on_mobile"
+                  for="toggle_acc-setting-general-settings-widget-enabled-on-mobile"
                   class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
-                    id="toggle_Widget_enabled_on_mobile"
+                    id="toggle_acc-setting-general-settings-widget-enabled-on-mobile"
                     class="sr-only"
-                    :checked="isChecked('widget_enabled_on_mobile')"
-                    @change="toggleCheckbox('widget_enabled_on_mobile')"
+                    :checked="
+                      isChecked(
+                        'acc-setting-general-settings-widget-enabled-on-mobile'
+                      )
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'acc-setting-general-settings-widget-enabled-on-mobile'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('widget_enabled_on_mobile')
+                      isChecked(
+                        'acc-setting-general-settings-widget-enabled-on-mobile'
+                      )
                         ? 'active'
                         : 'in_active',
                     ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked('widget_enabled_on_mobile') }"
+                      :class="{
+                        active: isChecked(
+                          'acc-setting-general-settings-widget-enabled-on-mobile'
+                        ),
+                      }"
                     >
                       <img
-                        v-if="isChecked('widget_enabled_on_mobile')"
+                        v-if="
+                          isChecked(
+                            'acc-setting-general-settings-widget-enabled-on-mobile'
+                          )
+                        "
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                       />
@@ -423,7 +497,11 @@ onBeforeRouteLeave((to, from, next) => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('sound_effects') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked('acc-setting-general-settings-sound-effects')
+                    ? 'opacity-60'
+                    : '',
+                ]"
               >
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
@@ -432,26 +510,45 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="toggle_Sound_effects" class="toggle_wrap">
+                <label
+                  for="toggle_acc-setting-general-settings-sound-effects"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
-                    id="toggle_Sound_effects"
+                    id="toggle_acc-setting-general-settings-sound-effects"
                     class="sr-only"
-                    :checked="isChecked('sound_effects')"
-                    @change="toggleCheckbox('sound_effects')"
+                    :checked="
+                      isChecked('acc-setting-general-settings-sound-effects')
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'acc-setting-general-settings-sound-effects'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('sound_effects') ? 'active' : 'in_active',
+                      isChecked('acc-setting-general-settings-sound-effects')
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked('sound_effects') }"
+                      :class="{
+                        active: isChecked(
+                          'acc-setting-general-settings-sound-effects'
+                        ),
+                      }"
                     >
                       <img
-                        v-if="isChecked('sound_effects')"
+                        v-if="
+                          isChecked(
+                            'acc-setting-general-settings-sound-effects'
+                          )
+                        "
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                       />

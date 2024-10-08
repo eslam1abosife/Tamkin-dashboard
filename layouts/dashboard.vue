@@ -13,10 +13,16 @@ import { usePlayerStore } from "@/stores/player.js";
 import { useModalManager } from "@/composables/useModalManager";
 import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useTranslateStore } from "~/stores/translate";
+import { useGetAccessaility } from "@/composables/useAccessibility";
 
 import { useProfileStore } from "~/stores/profile";
+const { getAccessability } = useGetAccessaility();
 const translateStore = useTranslateStore();
 import { useGetCurrentTeam, useGetInvestor } from "@/composables/useProfile";
+import { useApi } from "@/composables/useApi";
+
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
 
 const { getInvestor, loading: lod } = useGetInvestor();
 const { getCurrentTeam, currTeam } = useGetCurrentTeam();
@@ -88,9 +94,12 @@ const {
   force_change_profileCards,
   force_change_MainMenuCard,
   currentColor,
+  initcurrentColor,
   gradient2,
+  initgradient2,
 
   gradient1,
+  initgradient1,
 } = storeToRefs(custmizeStore);
 
 const { width, height } = useWindowSize();
@@ -162,9 +171,10 @@ const shouldShowFooter = computed(() => {
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
     (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
   const isCustomizeLinkActive =
-    (isLinkActive("/customize") && currentColor.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient1.value !== "#2dada3") ||
-    (isLinkActive("/customize") && gradient2.value !== "#2dada3") ||
+    (isLinkActive("/customize") &&
+      currentColor.value !== initcurrentColor.value) ||
+    (isLinkActive("/customize") && gradient1.value !== initgradient1.value) ||
+    (isLinkActive("/customize") && gradient2.value !== initgradient2.value) ||
     (isLinkActive("/customize") && custmizeStore.hasChanges());
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
@@ -213,10 +223,8 @@ const cancelAc = () => {
   const isStatsActive =
     isLinkActive("/statistics") && statsStore.google_enabled;
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
-
   // const translatePlayer =
   //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
-
   const translateStyle =
     isLinkActive("/translate/video") &&
     translateStore.hasChanges &&
@@ -225,20 +233,18 @@ const cancelAc = () => {
   const translatePlayer =
     isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
   if (isCustomizeLinkActive) {
-    custmizeStore.cancelAll();
+    getAccessability();
   }
   if (isMarketChanges) {
     marketStore.resetAll();
     playerStore.wearSavedClothes();
   }
   if (isAddonsLinkActive) {
-    checkboxStore.cancelAll();
+    getAccessability();
   }
-
   if (isSettingsLinkActive) {
-    settingsStore.cancelAll();
+    getAccessability();
   }
-
   if (translateStyle) {
     translateStore.resetStyles();
   }
@@ -290,70 +296,67 @@ const openModals = computed(() => {
     isOpen("translate_images") ||
     isOpen("editname") ||
     sideBarOpenMobile.value ||
-    isOpen('edit_card_billing_profile') ||
-    isOpen('withdraw_paymentmethods') ||
-    isOpen('bank_account_withdraw') ||
-    isOpen('details_bank_withdraw') ||
-    isOpen('success_bank_withdraw') ||
-    isOpen('crypto_step1') ||
-    isOpen('crypto_step_2_e') ||
-    isOpen('crypto_success_referral') ||
-    isOpen('paypal_withdraw_step1') ||
-    isOpen('paypal_withdraw_step2') ||
-    isOpen('success_paypal_withdraw') ||
-    isOpen('add_new_card_billing') ||
-    isOpen('tracking_custom_order') ||
-    isOpen('requestmodal_update') ||
-    isOpen('requestmodal_details') ||
-    isOpen('deleteModal_card') ||
-    isOpen('successContact') ||
-    isOpen('edit_company_picture') ||
-    isOpen('notificationsModal') ||
-    isOpen('join_to_investor') ||
-    isOpen('cardModal_market') ||
-    isOpen('paymentMethods_market') ||
-    isOpen('crypto_market_step1') ||
-    isOpen('paypal_market') ||
-    isOpen('crypto_market_success') ||
-    isOpen('crypto_market_step2') ||
-    isOpen('successPayment_market') ||
-    isOpen('custom_package') ||
-    isOpen('add_package_modal_packages') ||
-    isOpen('payment_methods_packages') ||
-    isOpen('cardModal_packages') ||
-    isOpen('success_pay_package') ||
-    isOpen('crypto_packages_step1') ||
-    isOpen('crypto_packages_step2') ||
-    isOpen('crypto_packages_success') ||
-    isOpen('paypal_packages') ||
-    isOpen('add_package_modal_addsite') ||
-    isOpen('cardModal_addsite') ||
-    isOpen('payment_methods_addsite') ||
-    isOpen('crypto_addsite_step1') ||
-    isOpen('crypto_addsite_step2') ||
-    isOpen('crypto_addsite_success') ||
-    isOpen('paypal_addsite') ||
-    isOpen('add_package_modal_mysite') ||
-    isOpen('cardModal_mysite') ||
-    isOpen('payment_methods_mysite') ||
-    isOpen('crypto_mysite_step2') ||
-    isOpen('crypto_mysite_step1') ||
-    isOpen('crypto_mysite_success') ||
-    isOpen('success_pay_addsite') ||
-    isOpen('success_pay_mysite') ||
-    isOpen('upgrade_mysite_package') ||
-    isOpen('paypal_mysite') ||
-    isOpen('upgrade_no_package') ||
-    isOpen('cancel_subscription_internal') ||
-    isOpen('cancel_subscription_subs') ||
-    isOpen('payment_methods_subs') ||
-    isOpen('cardModal_subs') ||
-    isOpen('paypal_subs') ||
-    isOpen('crypto_subs_step1') ||
-    isOpen('crypto_subs_step2') ||
-
-    
-
+    isOpen("edit_card_billing_profile") ||
+    isOpen("withdraw_paymentmethods") ||
+    isOpen("bank_account_withdraw") ||
+    isOpen("details_bank_withdraw") ||
+    isOpen("success_bank_withdraw") ||
+    isOpen("crypto_step1") ||
+    isOpen("crypto_step_2_e") ||
+    isOpen("crypto_success_referral") ||
+    isOpen("paypal_withdraw_step1") ||
+    isOpen("paypal_withdraw_step2") ||
+    isOpen("success_paypal_withdraw") ||
+    isOpen("add_new_card_billing") ||
+    isOpen("tracking_custom_order") ||
+    isOpen("requestmodal_update") ||
+    isOpen("requestmodal_details") ||
+    isOpen("deleteModal_card") ||
+    isOpen("successContact") ||
+    isOpen("edit_company_picture") ||
+    isOpen("notificationsModal") ||
+    isOpen("join_to_investor") ||
+    isOpen("cardModal_market") ||
+    isOpen("paymentMethods_market") ||
+    isOpen("crypto_market_step1") ||
+    isOpen("paypal_market") ||
+    isOpen("crypto_market_success") ||
+    isOpen("crypto_market_step2") ||
+    isOpen("successPayment_market") ||
+    isOpen("custom_package") ||
+    isOpen("add_package_modal_packages") ||
+    isOpen("payment_methods_packages") ||
+    isOpen("cardModal_packages") ||
+    isOpen("success_pay_package") ||
+    isOpen("crypto_packages_step1") ||
+    isOpen("crypto_packages_step2") ||
+    isOpen("crypto_packages_success") ||
+    isOpen("paypal_packages") ||
+    isOpen("add_package_modal_addsite") ||
+    isOpen("cardModal_addsite") ||
+    isOpen("payment_methods_addsite") ||
+    isOpen("crypto_addsite_step1") ||
+    isOpen("crypto_addsite_step2") ||
+    isOpen("crypto_addsite_success") ||
+    isOpen("paypal_addsite") ||
+    isOpen("add_package_modal_mysite") ||
+    isOpen("cardModal_mysite") ||
+    isOpen("payment_methods_mysite") ||
+    isOpen("crypto_mysite_step2") ||
+    isOpen("crypto_mysite_step1") ||
+    isOpen("crypto_mysite_success") ||
+    isOpen("success_pay_addsite") ||
+    isOpen("success_pay_mysite") ||
+    isOpen("upgrade_mysite_package") ||
+    isOpen("paypal_mysite") ||
+    isOpen("upgrade_no_package") ||
+    isOpen("cancel_subscription_internal") ||
+    isOpen("cancel_subscription_subs") ||
+    isOpen("payment_methods_subs") ||
+    isOpen("cardModal_subs") ||
+    isOpen("paypal_subs") ||
+    isOpen("crypto_subs_step1") ||
+    isOpen("crypto_subs_step2") ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -466,13 +469,153 @@ onMounted(async () => {
   if (user) {
     userStore.user = user;
   }
-
-  //   const res = await getCurrentTeam()
-  // profileStore.company = currTeam.value
 });
 const langloader = ref(true);
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
+
+const handleSaveToAllSites = async () => {
+  try {
+  } catch (error) {
+    console.error("Error saving to all sites:", error);
+  }
+};
+
+const loadingSave = ref(false);
+const handleSave = async () => {
+  const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1) => {
+    const matchingItem = custmizeStore.checkboxes.find(
+      (item2) => item2.name === item1.checkboxId
+    );
+    if (matchingItem) {
+      return { ...item1, value: getValue(item1.checkboxId) };
+    }
+    return item1;
+  });
+  const profiles = custmizeStore.manageProfileCardsCustomize.map((item1) => {
+    const matchingItem = custmizeStore.checkboxes.find(
+      (item2) => item2.name === item1.checkboxId
+    );
+    if (matchingItem) {
+      return { ...item1, value: getValue(item1.checkboxId) };
+    }
+    return item1;
+  });
+
+  let payload = {
+    AppName: "default",
+    Options: [
+      ...menu,
+      ...profiles,
+      {
+        name: "acc-customize-accessibility-mode-move-/-hide-accessibility",
+        value: custmizeStore.accessibilityMode,
+      },
+      {
+        name: "acc-customize-button-color-button-color",
+        value:
+          custmizeStore.colorMode === "solid"
+            ? custmizeStore.currentColor
+            : `${custmizeStore.gradient1},${custmizeStore.gradient2}`,
+      },
+      {
+        name: "acc-customize-button-location-button-location-mobile",
+        value: custmizeStore.buttonPositionMobile,
+      },
+      {
+        name: "acc-customize-button-location-button-location-desktop",
+        value: custmizeStore.buttonPositionDesktop,
+      },
+      {
+        name: "acc-customize-button-type-button-size",
+        value: custmizeStore.buttonSizeSlider,
+      },
+      {
+        name: "acc-customize-button-type-button-shape",
+        value: custmizeStore.buttonShapeSelector,
+      },
+      {
+        name: "acc-customize-language-list-of-languages",
+        value: "auto detect language",
+      },
+      {
+        name: "acc-customize-language-show-language-selector-on-the-widget",
+        value: getValue(
+          "acc-customize-language-show-language-selector-on-the-widget"
+        ),
+      },
+      {
+        name: "acc-customize-translations-button-enable-live-site-translations-button",
+        value: getValue(
+          "acc-customize-translations-button-enable-live-site-translations-button"
+        ),
+      },
+      {
+        name: "acc-customize-translations-button-position-translation-button-above",
+        value: custmizeStore.currentShapeLiveTranslation,
+      },
+      {
+        name: "acc-customize-translations-button-translation-button-as-default-button",
+        value: custmizeStore.currentShapeLiveTranslation,
+      },
+      {
+        name: "acc-customize-widget-customization--oversized-widget",
+        value: getValue("acc-customize-widget-customization--oversized-widget"),
+      },
+      {
+        name: "acc-customize-widget-customization--3-column-layout-widget",
+        value: getValue(
+          "acc-customize-widget-customization--3-column-layout-widget"
+        ),
+      },
+      {
+        name: "acc-customize-widget-customization--accessibility-profiles",
+        value: getValue(
+          "acc-customize-widget-customization--accessibility-profiles"
+        ),
+      },
+      {
+        name: "acc-customize-widget-type-widget-style",
+        value: custmizeStore.widgetType,
+      },
+      {
+        name: "acc-setting-general-settings-sound-effects",
+        value: getValue("acc-setting-general-settings-sound-effects"),
+      },
+      {
+        name: "acc-setting-general-settings-widget-enabled-on-mobile",
+        value: getValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile"
+        ),
+      },
+      {
+        name: "acc-setting-general-settings-widget-enabled-on-this-site",
+        value: getValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site"
+        ),
+      },
+    ],
+  };
+
+  try {
+    const res = await api.post("/Custom/SetOptions", payload);
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const getValue = (name: any) => {
+  const val = custmizeStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val) {
+    return "1";
+  } else {
+    return "0";
+  }
+};
 </script>
 
 <template>
@@ -609,10 +752,6 @@ import "vue-loading-overlay/dist/css/index.css";
         @control-confirm="closeModal('resetModal')"
         @control-cancel="closeModal('resetModal')"
       />
-
-  
-
-
 
       <div
         class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
@@ -781,6 +920,8 @@ import "vue-loading-overlay/dist/css/index.css";
             <transition name="slide-up">
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
+                @Save="handleSave"
+                @saveToAllSites="handleSaveToAllSites"
                 @cancel_action="cancelAc"
               />
             </transition>

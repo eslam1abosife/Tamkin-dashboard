@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useGetAppInvites } from "@/composables/useTeam";
-import { useGetMainMenu, useSetOptions } from "@/composables/useAccessibility";
+import {
+  useGetAccessaility,
+  useSetOptions,
+} from "@/composables/useAccessibility";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 
+const { getAccessability } = useGetAccessaility();
+
 const { fullUrl } = useFullUrl();
-const { getMainMenu } = useGetMainMenu();
 const { setOptions } = useSetOptions();
 const checkboxStore = useAddonStore();
 const collapseStore = useCollapseStore();
@@ -44,67 +48,135 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
     miniSizeLiveTranslation.value = false;
   }
 };
-const loadingData = ref(true);
+
 const { $toast } = useNuxtApp();
-onMounted(() => {
-  // $toast('error',{hideIn:400000,type:'error'})
-  // console.log(checkboxStore.checkboxes);
-});
+onMounted(() => {});
 onBeforeMount(async () => {
-  try {
-    // Fetch dynamic data from the API
-    const response = await getMainMenu();
+  getAccessability();
+  [
+    "acc-addons-main-menu-page-structure",
+    "acc-addons-main-menu-screen-reader",
+    "acc-addons-main-menu-hide-images",
+    "acc-addons-main-menu-smart-contrast",
+    "acc-addons-main-menu-voice-navigation",
+    "acc-addons-main-menu-dictionary",
+    "acc-addons-main-menu-highlight-links",
+    "acc-addons-main-menu-line-height",
+    "acc-addons-main-menu-saturation",
+    "acc-addons-main-menu-bigger-text",
+    "acc-addons-main-menu-media-player",
+    "acc-addons-main-menu-tamkin-player",
+    "acc-addons-main-menu-reading-mode",
+    "acc-addons-main-menu-text-align",
+    "acc-addons-main-menu-pause-animation",
+    "acc-addons-main-menu-tooltip",
+    "acc-addons-main-menu-cursor",
+    "acc-addons-main-menu-text-spacing",
+    "acc-addons-main-menu-contrast",
+    "acc-addons-main-menu-dyslexia",
 
-    const features = response.features;
+    // profiles
+    "acc-addons-accessibility-profiles-dyslexia-profile",
+    "acc-addons-accessibility-profiles-adhd",
+    "acc-addons-accessibility-profiles-cognitive-and-learning",
+    "acc-addons-accessibility-profiles-blind",
+    "acc-addons-accessibility-profiles-seizure-and-epileptic",
+    "acc-addons-accessibility-profiles-visually-impaired",
+    "acc-addons-accessibility-profiles-color-blind",
+    "acc-addons-accessibility-profiles-motor-impaired",
+  ].forEach((name) => {
+    checkboxStore.addCheckbox(name);
+  });
+  checkboxStore.initializeCheckboxes([
+    // acc menu
+    "acc-addons-main-menu-page-structure",
+    "acc-addons-main-menu-screen-reader",
+    "acc-addons-main-menu-hide-images",
+    "acc-addons-main-menu-smart-contrast",
+    "acc-addons-main-menu-voice-navigation",
+    "acc-addons-main-menu-dictionary",
+    "acc-addons-main-menu-highlight-links",
+    "acc-addons-main-menu-line-height",
+    "acc-addons-main-menu-saturation",
+    "acc-addons-main-menu-bigger-text",
+    "acc-addons-main-menu-media-player",
+    "acc-addons-main-menu-tamkin-player",
+    "acc-addons-main-menu-reading-mode",
+    "acc-addons-main-menu-text-align",
+    "acc-addons-main-menu-pause-animation",
+    "acc-addons-main-menu-tooltip",
+    "acc-addons-main-menu-cursor",
+    "acc-addons-main-menu-text-spacing",
+    "acc-addons-main-menu-contrast",
+    "acc-addons-main-menu-dyslexia",
 
-    // Store the original features in the checkbox store for future edits
-    checkboxStore.originalFeatures = features;
+    // profiles
 
-    // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
-    const accAddonsMainMenuFeature = features.find(
-      (item) =>
-        item.title === "Adjust the Main Menu" && item.type === "acc-addons"
-    );
+    "acc-addons-accessibility-profiles-dyslexia-profile",
+    "acc-addons-accessibility-profiles-adhd",
+    "acc-addons-accessibility-profiles-cognitive-and-learning",
+    "acc-addons-accessibility-profiles-blind",
+    "acc-addons-accessibility-profiles-seizure-and-epileptic",
+    "acc-addons-accessibility-profiles-visually-impaired",
+    "acc-addons-accessibility-profiles-color-blind",
+    "acc-addons-accessibility-profiles-motor-impaired",
+  ]);
 
-    if (accAddonsMainMenuFeature) {
-      checkboxStore.title = accAddonsMainMenuFeature.title;
+  // try {
+  //   // Fetch dynamic data from the API
+  //   const response = await getMainMenu();
 
-      checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map(
-        (feature) => feature.name
-      );
+  //   const features = response.features;
 
-      // Get initial values (you might need to adjust this based on the structure of `features`)
-      const initialValues = accAddonsMainMenuFeature.features.map(
-        (feature) => feature.value === "1" || false
-      );
+  //   // Store the original features in the checkbox store for future edits
+  //   checkboxStore.originalFeatures = features;
 
-      // Initialize store with dynamic data
-      const dynamicCards = accAddonsMainMenuFeature.features.map((feature) => ({
-        icon: feature.icon,
-        name: feature.label,
-        description: feature.description,
-        checkboxId: feature.name,
-        value: feature.value,
-      }));
+  //   // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
+  //   const accAddonsMainMenuFeature = features.find(
+  //     (item) =>
+  //       item.title === "Adjust the Main Menu" && item.type === "acc-addons"
+  //   );
 
-      checkboxStore.initializeCardsMenu(
-        dynamicCards,
-        "AdjustMainMenuCards",
-        "initialCardsOrder"
-      );
+  //   if (accAddonsMainMenuFeature) {
+  //     checkboxStore.title = accAddonsMainMenuFeature.title;
 
-      // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
-      checkboxStore.initializeCheckboxes(
-        [...checkboxStore.checkboxIds],
-        initialValues
-      );
-      loadingData.value = false;
-    } else {
-      console.warn("No matching feature found for Adjust the Main Menu.");
-    }
-  } catch (error) {
-    console.error("Error fetching main menu data:", error);
-  }
+  //     checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map(
+  //       (feature) => feature.name
+  //     );
+
+  //     // Get initial values (you might need to adjust this based on the structure of `features`)
+  //     const initialValues = accAddonsMainMenuFeature.features.map(
+  //       (feature) => feature.value === "1" || false
+  //     );
+
+  //     // Initialize store with dynamic data
+  //     const dynamicCards = accAddonsMainMenuFeature.features;
+  //     // .map((feature) => ({
+  //     //   icon: feature.icon,
+  //     //   name: feature.label,
+  //     //   description: feature.description,
+  //     //   checkboxId: feature.name,
+  //     //   value: feature.value,
+  //     // }));
+
+  //     checkboxStore.initializeCardsMenu(
+  //       dynamicCards,
+  //       "AdjustMainMenuCards",
+  //       "initialCardsOrder"
+  //     );
+
+  //     // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
+  //     checkboxStore.initializeCheckboxes(
+  //       [...checkboxStore.checkboxIds],
+  //       initialValues
+  //     );
+  //     loadingData.value = false;
+  //   } else {
+  //     console.warn("No matching feature found for Adjust the Main Menu.");
+  //   }
+  // } catch (error) {
+  //   console.error("Error fetching main menu data:", error);
+  // }
 });
 
 const handleSaveToAllSites = async () => {
@@ -116,12 +188,13 @@ const handleSaveToAllSites = async () => {
     // $toast.error('Failed to save to all sites.');
   }
 };
-const isChecked = (name: string) => {
-  const checkbox = checkboxStore.checkboxes.find(
-    (checkbox) => checkbox.name === name
-  );
-  return checkbox ? checkbox.value : false;
-};
+
+// const isChecked = (name: string) => {
+//   const checkbox = checkboxStore.checkboxes.find(
+//     (checkbox) => checkbox.name === name
+//   );
+//   return checkbox ? checkbox.value : false;
+// };
 const loadingSave = ref(false);
 // Define handleSave method to handle save actions
 const handleSave = async () => {
@@ -145,7 +218,7 @@ const handleSave = async () => {
           features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
             name: feature.checkboxId,
             sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
-            value: isChecked(feature.checkboxId) ? 1 : 0,
+            value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
             is_selected: 1,
             // label: feature.name,
             // description: feature.description,
@@ -252,16 +325,13 @@ const cancelAc = () => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        :website-title="defaultApp?.title"
-        :website-link="defaultApp?.app_domain"
         section-title="Addons"
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
           experience."
       />
 
-      <AddonsAdjustmain :loading="loadingData" />
-      <AddonsProfilecards :loading="loadingData" />
+      <AddonsAdjustmain :loading="checkboxStore.loadingData" />
+      <AddonsProfilecards :loading="checkboxStore.loadingData" />
       <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
       >
