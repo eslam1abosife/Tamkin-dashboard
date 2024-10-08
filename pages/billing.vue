@@ -35,23 +35,25 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
 }
-const fetchRates = async () => {
-  try {
-    await cryptostore.getRates(); // Ensure getRates is a method that returns a promise
-    console.log('Rates updated');
-  } catch (error) {
-    console.error('Error fetching rates:', error);
-  }
-};
+// const fetchRates = async () => {
+//   try {
+//     await cryptostore.getRates(); // Ensure getRates is a method that returns a promise
+//     console.log('Rates updated');
+//   } catch (error) {
+//     console.error('Error fetching rates:', error);
+//   }
+// };
 onMounted(async () => {
   billingStore.loadCards = true;
-globalLoad.value = true
-
+  globalLoad.value = true
   await getCards();
-  await getInvoices();
-  await fetchRates()
-globalLoad.value = false
   billingStore.loadCards = false;
+
+
+
+  await getInvoices();
+  // await fetchRates()
+globalLoad.value = false
 });
 const dateF = ref();
 const langStore = useLangSwitch();
