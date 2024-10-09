@@ -83,7 +83,6 @@ export const useSettingsStore = defineStore("settings", {
     cancelAll() {
       this.initializeCheckboxes([
         "acc-setting-general-settings-widget-enabled-on-this-site",
-
         "acc-setting-general-settings-widget-enabled-on-mobile",
         "acc-setting-general-settings-sound-effects",
       ]);

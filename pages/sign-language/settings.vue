@@ -4,6 +4,11 @@ import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
 import { useModalManager } from "@/composables/useModalManager";
+import { useGetPlayerData } from "@/composables/useAccessibility";
+import { useApi } from "@/composables/useApi";
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
+const { getPlayerData } = useGetPlayerData();
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
@@ -25,33 +30,33 @@ const showAdancedCode = () => {
     advancedCode.value = true;
 
     currentCode.value = `const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-const foo = 'bar';
-`;
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      const foo = 'bar';
+      `;
   } else {
     code.value = true;
     advancedCode.value = false;
@@ -77,25 +82,45 @@ watch(copyDone, (newValue) => {
   }
 });
 
-const widgetEnabledOnSite = ref(false);
-const widgetEnabledOnMobile = ref(false);
-const soundEffects = ref(false);
-
 onBeforeMount(() => {
   [
-    "enable_widget_on_this_site_sign",
-    "widget_enabled_on_mobile_sign",
-    "sound_effects_sign",
+    "deaf-setting-general-settings-player-enabled-on-this-site",
+    "deaf-setting-general-settings-player-enabled-on-this-mobile",
+    "deaf-setting-general-settings-player-sound-effects",
   ].forEach((name) => {
     settingsStore.addCheckbox(name);
   });
   settingsStore.initializeCheckboxes([
-    "enable_widget_on_this_site_sign",
-
-    "widget_enabled_on_mobile_sign",
-    "sound_effects_sign",
+    "deaf-setting-general-settings-player-enabled-on-this-site",
+    "deaf-setting-general-settings-player-enabled-on-this-mobile",
+    "deaf-setting-general-settings-player-sound-effects",
   ]);
+
+  getPlayerData();
 });
+
+const deleteSite = async () => {
+  try {
+    const res = await api.post("/mySite/set/AppStatusCancel", {
+      name: settingsStore.defaultapp,
+    });
+    closeModal("deleteModal");
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const resetAccessiility = async () => {
+  try {
+    const res = await api.post("/Apps/ResetSettingDefaultApp");
+    closeModal("resetModal");
+  } catch (error) {
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
 let pendingNavigation = null;
 const detectUnsavedChanges = () => {
   return settingsStore.hasChanges();
@@ -151,18 +176,108 @@ const cancelAc = () => {
     isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
 
   if (isSettingsLinkActive) {
-    settingsStore.cancelAll();
+    settingsStore.checkboxes = settingsStore.initialCheckboxes;
+  }
+};
+
+const loadingSave = ref(false);
+const handleSave = async (type: any) => {
+  interface Payload {
+    AppName: string;
+    Options: any[];
+  }
+
+  let payload: Payload = {
+    AppName: type,
+    Options: [],
+  };
+
+  if (isLinkActive("/sign-language/settings")) {
+    const settigsOptions = [
+      {
+        name: "deaf-setting-general-settings-player-sound-effects",
+        value: getSettingsValue(
+          "deaf-setting-general-settings-player-sound-effects"
+        ),
+      },
+      {
+        name: "deaf-setting-general-settings-player-enabled-on-this-mobile",
+        value: getSettingsValue(
+          "deaf-setting-general-settings-player-enabled-on-this-mobile"
+        ),
+      },
+      {
+        name: "deaf-setting-general-settings-player-enabled-on-this-site",
+        value: getSettingsValue(
+          "deaf-setting-general-settings-player-enabled-on-this-site"
+        ),
+      },
+    ];
+
+    payload.Options = settigsOptions;
+  }
+
+  try {
+    const res = await api.post("/Custom/SetOptions", payload);
+    loadingSave.value = false;
+    updateNewValues();
+  } catch (error) {
+    loadingSave.value = false;
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const updateNewValues = () => {
+  const isSettingsLinkActive = isLinkActive("/sign-language/settings");
+
+  if (isSettingsLinkActive) {
+    settingsStore.initialCheckboxes = settingsStore.checkboxes;
+  }
+};
+
+const getSettingsValue = (name: any) => {
+  const val = settingsStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val.value) {
+    return "1";
+  } else {
+    return "0";
   }
 };
 </script>
 
 <template>
   <div class="relative h-full w-full">
+    <ModalsConfirm
+      :showModal="isOpen('resetModal')"
+      title="Rest All Accessibility Settings"
+      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      confirm-btn-type="confirm"
+      @control-confirm="resetAccessiility"
+      @control-cancel="closeModal('resetModal')"
+    />
+    <ModalsConfirm
+      :show-modal="isOpen('deleteModal')"
+      title="Delete your site"
+      sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      confirm-btn-type="delete"
+      @control-delete="deleteSite"
+      @control-cancel="closeModal('deleteModal')"
+    />
+    <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
+    <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
+
     <LanguageServicesNavbar />
     <transition name="slide-up">
-      <DashboardAddonsSavefooter
+      <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         @cancel_action="cancelAc"
+        :loadingSave="loadingSave"
+        @Save="handleSave('default')"
+        @saveToAllSites="handleSave('all')"
       />
     </transition>
     <LazyModalsConfirm
@@ -332,7 +447,9 @@ const cancelAc = () => {
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !isChecked('enable_widget_on_this_site_sign')
+                  !isChecked(
+                    'deaf-setting-general-settings-player-enabled-on-this-site'
+                  )
                     ? 'opacity-60'
                     : '',
                 ]"
@@ -345,20 +462,30 @@ const cancelAc = () => {
               </div>
               <div class="ml-auto">
                 <label
-                  for="toggle_Widget_enabled_on_this_site"
+                  for="deaf-setting-general-settings-player-enabled-on-this-site"
                   class="toggle_wrap"
                 >
                   <input
                     type="checkbox"
-                    id="toggle_Widget_enabled_on_this_site"
+                    id="deaf-setting-general-settings-player-enabled-on-this-site"
                     class="sr-only"
-                    :checked="isChecked('enable_widget_on_this_site_sign')"
-                    @change="toggleCheckbox('enable_widget_on_this_site_sign')"
+                    :checked="
+                      isChecked(
+                        'deaf-setting-general-settings-player-enabled-on-this-site'
+                      )
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'deaf-setting-general-settings-player-enabled-on-this-site'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('enable_widget_on_this_site_sign')
+                      isChecked(
+                        'deaf-setting-general-settings-player-enabled-on-this-site'
+                      )
                         ? 'active'
                         : 'in_active',
                     ]"
@@ -366,11 +493,17 @@ const cancelAc = () => {
                     <div
                       class="toggle_inner"
                       :class="{
-                        active: isChecked('enable_widget_on_this_site_sign'),
+                        active: isChecked(
+                          'deaf-setting-general-settings-player-enabled-on-this-site'
+                        ),
                       }"
                     >
                       <img
-                        v-if="isChecked('enable_widget_on_this_site_sign')"
+                        v-if="
+                          isChecked(
+                            'deaf-setting-general-settings-player-enabled-on-this-site'
+                          )
+                        "
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
                       />
@@ -393,7 +526,9 @@ const cancelAc = () => {
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !isChecked('widget_enabled_on_mobile_sign')
+                  !isChecked(
+                    'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                  )
                     ? 'opacity-60'
                     : '',
                 ]"
@@ -405,18 +540,31 @@ const cancelAc = () => {
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="widget_enabled_on_mobile_sign" class="toggle_wrap">
+                <label
+                  for="deaf-setting-general-settings-player-enabled-on-this-mobile"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
-                    id="widget_enabled_on_mobile_sign"
+                    id="deaf-setting-general-settings-player-enabled-on-this-mobile"
                     class="sr-only"
-                    :checked="isChecked('widget_enabled_on_mobile_sign')"
-                    @change="toggleCheckbox('widget_enabled_on_mobile_sign')"
+                    :checked="
+                      isChecked(
+                        'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                      )
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('widget_enabled_on_mobile_sign')
+                      isChecked(
+                        'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                      )
                         ? 'active'
                         : 'in_active',
                     ]"
@@ -424,11 +572,17 @@ const cancelAc = () => {
                     <div
                       class="toggle_inner"
                       :class="{
-                        active: isChecked('widget_enabled_on_mobile_sign'),
+                        active: isChecked(
+                          'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                        ),
                       }"
                     >
                       <img
-                        v-if="isChecked('widget_enabled_on_mobile_sign')"
+                        v-if="
+                          isChecked(
+                            'deaf-setting-general-settings-player-enabled-on-this-mobile'
+                          )
+                        "
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
                       />
@@ -450,7 +604,13 @@ const cancelAc = () => {
             <div class="flex items-center justify-start space-x-[13px] w-full">
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked('sound_effects_sign') ? 'opacity-60' : '']"
+                :class="[
+                  !isChecked(
+                    'deaf-setting-general-settings-player-sound-effects'
+                  )
+                    ? 'opacity-60'
+                    : '',
+                ]"
               >
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
@@ -459,26 +619,49 @@ const cancelAc = () => {
                 </div>
               </div>
               <div class="ml-auto">
-                <label for="sound_effects_sign" class="toggle_wrap">
+                <label
+                  for="deaf-setting-general-settings-player-sound-effects"
+                  class="toggle_wrap"
+                >
                   <input
                     type="checkbox"
-                    id="sound_effects_sign"
+                    id="deaf-setting-general-settings-player-sound-effects"
                     class="sr-only"
-                    :checked="isChecked('sound_effects_sign')"
-                    @change="toggleCheckbox('sound_effects_sign')"
+                    :checked="
+                      isChecked(
+                        'deaf-setting-general-settings-player-sound-effects'
+                      )
+                    "
+                    @change="
+                      toggleCheckbox(
+                        'deaf-setting-general-settings-player-sound-effects'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
                     :class="[
-                      isChecked('sound_effects_sign') ? 'active' : 'in_active',
+                      isChecked(
+                        'deaf-setting-general-settings-player-sound-effects'
+                      )
+                        ? 'active'
+                        : 'in_active',
                     ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked('sound_effects_sign') }"
+                      :class="{
+                        active: isChecked(
+                          'deaf-setting-general-settings-player-sound-effects'
+                        ),
+                      }"
                     >
                       <img
-                        v-if="isChecked('sound_effects_sign')"
+                        v-if="
+                          isChecked(
+                            'deaf-setting-general-settings-player-sound-effects'
+                          )
+                        "
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
                       />

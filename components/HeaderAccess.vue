@@ -33,10 +33,12 @@ const app = ref({});
 const getApps = async () => {
   try {
     const res = await api.post("/Apps/GetApps");
-    app.value = res.data.data.find((el) => el.isdefault == 1);
+    settingsStore.apps = res.data.data.filter((el: any) => el.isdefault != 1);
+    console.log("res.data", res.data.data);
+
+    app.value = res.data.data.find((el: any) => el.isdefault == 1);
     settingsStore.defaultapp = app.value.name;
     settingsStore.defaultappobj = app.value;
-    settingsStore.apps = res.data.data.filter((el: any) => el.isdefault !== 1);
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
