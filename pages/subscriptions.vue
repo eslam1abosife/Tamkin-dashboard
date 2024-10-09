@@ -99,18 +99,38 @@ const filteredSubs = computed(() => {
   return subs.value
   .filter((sub) => sub.subscripitions.length > 0)
   .filter((sub) => {
-    // Filter the subscriptions that match the filters
-    const filteredSubscriptions = sub.subscripitions.filter((f) => {
-      const timeMatch = filterBYTime.value ? f.month_difference === filterBYTime.value : true;
-      const typeMatch = filterByType.value ? f.type === filterByType.value : true;
+  // Filter the subscriptions that match the filters
+  const filteredSubscriptions = sub.subscripitions.filter((f) => {
+    
+    // Calculate the difference in months between to_date and from_date
+    const fromDate = new Date(f.from_date);
+    const toDate = new Date(f.to_date);
+    const monthDifference = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
 
-      // Both filters must match if they're provided
-      return timeMatch && typeMatch;
-    });
+    // Handle filter by time: 1 month, 3 months, or 12 months
+    let timeMatch = true;
+    if (filterBYTime.value) {
+      if (filterBYTime.value === 1) {
+        timeMatch = monthDifference <= 1; // Match 1 month
+      } else if (filterBYTime.value === 3) {
+        timeMatch = monthDifference > 1 && monthDifference <= 3; // Match 1-3 months
+      } else if (filterBYTime.value === 12) {
+        timeMatch = monthDifference >= 12; // Match 12 months or more
+      }
+    }
 
-    // Only return subs where there are matching subscriptions
-    return filteredSubscriptions.length > 0;
+    // Handle filter by type
+    const typeMatch = filterByType.value ? f.type === filterByType.value : true;
+
+    // Both filters must match if they're provided
+    return timeMatch && typeMatch;
   });
+
+  // Only return subs where there are matching subscriptions
+  return filteredSubscriptions.length > 0;
+});
+
+
 
 
 });
@@ -538,9 +558,27 @@ const openInvestor = (app,pack)=>{
                 <tbody class="bg-[#F5F9FF] dark:bg-slate-800">
                   <tr
                     v-for="sb in sub.subscripitions.filter((f) => {
-                      const timeMatch = filterBYTime ? f.month_difference === filterBYTime: true;
-                      const typeMatch = filterByType ? f.type === filterByType: true;
-                
+    
+                      // Calculate the difference in months between to_date and from_date
+                      const fromDate = new Date(f.from_date);
+                      const toDate = new Date(f.to_date);
+                      const monthDifference = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
+                  
+                      // Handle filter by time: 1 month, 3 months, or 12 months
+                      let timeMatch = true;
+                      if (filterBYTime) {
+                        if (filterBYTime === 1) {
+                          timeMatch = monthDifference <= 1; // Match 1 month
+                        } else if (filterBYTime === 3) {
+                          timeMatch = monthDifference > 1 && monthDifference <= 3; // Match 1-3 months
+                        } else if (filterBYTime === 12) {
+                          timeMatch = monthDifference >= 12; // Match 12 months or more
+                        }
+                      }
+                  
+                      // Handle filter by type
+                      const typeMatch = filterByType ? f.type === filterByType : true;
+                  
                       // Both filters must match if they're provided
                       return timeMatch && typeMatch;
                     })"
