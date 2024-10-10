@@ -26,7 +26,7 @@ onBeforeMount(async () => {
 const   isDataReady = () =>{
       return packagesStore.types.length > 0 && packagesStore.packages.length > 0 && packagesStore.categories.length >0
     }
-onMounted(async () => {
+onBeforeMount(async () => {
   
 
 
@@ -34,9 +34,13 @@ onMounted(async () => {
 packagesStore.setFaq()
 
 
-packagesStore.currentTab = packagesStore.categories[0]
-packagesStore.intialTab = packagesStore.categories[0]
-        packagesStore.currentTabTitle = packagesStore.categories[0].title
+  packagesStore.currentTab = packagesStore.categories[0]
+
+  packagesStore.intialTab = packagesStore.categories[0]
+
+  packagesStore.currentTabTitle = packagesStore.categories[0].title
+
+
         // packagesStore.loadingData = false
 
 

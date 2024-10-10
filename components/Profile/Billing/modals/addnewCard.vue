@@ -58,6 +58,23 @@ const stripeKey = ref(
 const stripeLoaded = ref(true);
 const cardOptions = ref({ 
   showIcon: true,
+  placeholder: t('Card number'),
+
+  style: {
+  base: {
+    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
+    fontWeight: '400', // Set weight for Arabic and non-Arabic
+    colorTextPlaceholder: '#A7A7A7',
+
+  },
+}
+
+  
+});
+const expiryoptions = ref({ 
+  showIcon: true,
+  placeholder: t('Expiration date'),
+
   style: {
   base: {
     fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
@@ -108,18 +125,18 @@ const elementsReady = ref(true);
 
 onMounted(async () => {
         stripe.value = await loadStripe(stripeKey.value);
-        elements.value = stripe.value.elements();
+        elements.value = stripe.value.elements(elementsOptions.value);
   
         // Create and mount Card Number Element
         cardNumberElement.value = elements.value.create('cardNumber', cardOptions.value);
         cardNumberElement.value.mount('#card-number-element');
   
         // Create and mount CVC Element
-        cvcElement.value = elements.value.create('cardCvc', cardOptions.value);
+        cvcElement.value = elements.value.create('cardCvc', cardCvcOptions.value);
         cvcElement.value.mount('#card-cvc-element');
   
         // Create and mount Expiry Element
-        expiryElement.value = elements.value.create('cardExpiry', cardOptions.value);
+        expiryElement.value = elements.value.create('cardExpiry', expiryoptions.value);
         expiryElement.value.mount('#card-expiry-element');
   stripeLoaded.value = true
         // Handle changes for card number
@@ -165,7 +182,7 @@ onMounted(async () => {
 
       });
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
+  // console.log(item)
   state.country = item.id
 };
 // Stripe Element Ready Event
@@ -234,15 +251,16 @@ const handleSave = async () => {
   });
 
   if (error) {
-    console.error('Error creating payment method:', error);
+    // console.error('Error creating payment method:', error);
     return;
   }
+  // alert(currentView('add_new_card_billing') )
   // Send paymentMethodId to your API
   const paymentMethodId = paymentMethod.id;
   await sendPaymentMethodIdToApi(paymentMethodId);
   if(response.value.data.succeeded === false){
       loadingAddCard.value  = false
-cardError.value = 'Card is already added or its not valid'
+cardError.value = t('Card is already added or its not valid')
     }else {
    
       if(currentView('add_new_card_billing') === 'Market'){
@@ -319,7 +337,30 @@ const isButtonDisabled = computed(() => {
  return cardError.value !== 'valid' || expiryError.value !== 'valid' || cvcError.value !=='valid'
 });
 
+const gotomodalview = ()=>{
+  if(currentView('add_new_card_billing') === 'Market'){
+  return navigateTo('add_new_card_billing', 'market', 'cardModal_market')
 
+
+    } else if(currentView('add_new_card_billing') === 'packages'){
+      // navigateTo('add_new_card_billing','packages','cardModal_packages')
+  return navigateTo('add_new_card_billing', 'packages', 'cardModal_packages')
+
+
+    }
+    else if(currentView('add_new_card_billing') === 'addSite'){
+      // navigateTo('add_new_card_billing','addSite','cardModal_addsite')
+  return navigateTo('add_new_card_billing', 'addSite', 'cardModal_addsite')
+
+
+    }
+    else if(currentView('add_new_card_billing') === 'mysite'){
+      // navigateTo('add_new_card_billing','mysite','cardModal_mysite')
+  return navigateTo('add_new_card_billing', 'mysite', 'cardModal_mysite')
+
+
+    }
+}
 
 </script>
 
@@ -349,10 +390,22 @@ const isButtonDisabled = computed(() => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col lg:items-start justify-center w-full">
+    
         <div class="flex items-center justify-center">
+            <div v-if="currentView('add_new_card_billing') !== 'billing'" @click="gotomodalview" 
+          class="cursor-pointer close_sidebar_btn group flex items-center justify-center  
+           dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180
+       border-linecolor rounded-full w-[30px] h-[30px]" style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
+    ">
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+              class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+            </svg>
+          </div>
           <h1
-            class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin  lg:mt-0 mt-[60px]"
-          >
+          class="text-[16px] lg:text-[18px] rtl:font-[Almarai]  leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
+          
             {{ $t("Add New Card") }}
           </h1>
         </div>
@@ -457,6 +510,7 @@ const isButtonDisabled = computed(() => {
                 <div id="card-number-element" class="w-full input_floating_label " :class="{
                   input_error:
                   cardError!== 'valid' && cardError,
+                   input_success: cardError=== 'valid'
                 }"></div>
                 <div id="card-errors" class="error_message !bottom-[55px] z-[40]" >{{cardError!== 'valid' && cardError ? cardError : ''}}</div>
            
@@ -467,6 +521,8 @@ const isButtonDisabled = computed(() => {
                   <div id="card-cvc-element" class="w-full input_floating_label " :class="{
                     input_error:
                     cvcError!== 'valid' && cvcError,
+                   input_success: cvcError=== 'valid'
+
                   }" ></div>
                   <div id="cvc-errors" class="error_message ">{{  cvcError!== 'valid' && cvcError ? $t(cvcError):null }}</div>
                 </div>
@@ -474,6 +530,7 @@ const isButtonDisabled = computed(() => {
                   <div id="card-expiry-element" class="w-full input_floating_label "   :class="{
                     input_error:
                     expiryError!== 'valid' && expiryError,
+                    input_success: expiryError=== 'valid'
                   }"
     ></div>
                   <div id="expiry-errors" class="error_message">{{ expiryError!== 'valid' && expiryError ? $t(expiryError) :null }}</div>

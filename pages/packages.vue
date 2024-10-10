@@ -65,15 +65,19 @@ if(!packagesStore.loadingData){
 )
 
 onBeforeMount(async () => {
-  // packagesStore.loadingData = true
- await packagesStore.getDataPackage();
 
+  packagesStore.loadingData = true
+setTimeout(()=>{
+  checkPaymentStatus();
+},1000)
+
+ await packagesStore.getDataPackage();
+packagesStore.urls = []
 
   
   updateCurrentType();
   loadingData.value = true
 
-checkPaymentStatus();
 packagesStore.loadingData = false
 
   // 
@@ -84,13 +88,14 @@ const router = useRouter();
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
     if (route.query.locale === "ar") {
+      openModal("success_pay_package");
+
       await router.push({
         name: route.name,
         query: { paid: route.query.paid, locale: "ar" },
       });
 
-      await nextTick();
-      openModal("success_pay_package");
+      // await nextTick();
     } else {
       openModal("success_pay_package");
     }

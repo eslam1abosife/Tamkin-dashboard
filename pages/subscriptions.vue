@@ -101,30 +101,14 @@ const filteredSubs = computed(() => {
   .filter((sub) => {
   // Filter the subscriptions that match the filters
   const filteredSubscriptions = sub.subscripitions.filter((f) => {
-    
-    // Calculate the difference in months between to_date and from_date
-    const fromDate = new Date(f.from_date);
-    const toDate = new Date(f.to_date);
-    const monthDifference = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
 
-    // Handle filter by time: 1 month, 3 months, or 12 months
-    let timeMatch = true;
-    if (filterBYTime.value) {
-      if (filterBYTime.value === 1) {
-        timeMatch = monthDifference <= 1; // Match 1 month
-      } else if (filterBYTime.value === 3) {
-        timeMatch = monthDifference > 1 && monthDifference <= 3; // Match 1-3 months
-      } else if (filterBYTime.value === 12) {
-        timeMatch = monthDifference >= 12; // Match 12 months or more
-      }
-    }
+const timeMatch = filterBYTime.value ? Number(f.month_difference) === filterBYTime.value : true;
 
-    // Handle filter by type
-    const typeMatch = filterByType.value ? f.type === filterByType.value : true;
+const typeMatch = filterByType.value ? (f.type && f.type === filterByType.value) : true;
 
-    // Both filters must match if they're provided
-    return timeMatch && typeMatch;
-  });
+return timeMatch && typeMatch;
+})
+
 
   // Only return subs where there are matching subscriptions
   return filteredSubscriptions.length > 0;
@@ -188,11 +172,11 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     package_price_role: packagemodal.price_roles,
     billing_duration:
       pack.month_difference > 0
-        ? Number(pack.month_difference) === 3
+        ? Number(pack.month_difference) === 3 && pack.remarks !== 'Free Trial'
           ? "3 months"
-          : Number(pack.month_difference) === 12
+          : Number(pack.month_difference) === 12&& pack.remarks !== 'Free Trial'
           ? "yearly"
-          : Number(pack.month_difference) === 1
+          : Number(pack.month_difference) === 1&& pack.remarks !== 'Free Trial'
           ? "monthly"
           : "none"
         : "none",
@@ -398,7 +382,6 @@ const openInvestor = (app,pack)=>{
       class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
       v-if="subs.filter((t) => t.subscripitions.length > 0).length === 0 && !loadingSubs"
     >
-      <div class="text-[18px] font-[500] text-black">{{ $t(`Subscriptions`) }}</div>
 
       <div class="flex flex-col items-center justify-center space-y-[10px]">
         <img src="/imgs/no_subs.png" class="w-[71px] h-[71px]" alt="" />
@@ -556,32 +539,19 @@ const openInvestor = (app,pack)=>{
                   </tr>
                 </thead>
                 <tbody class="bg-[#F5F9FF] dark:bg-slate-800">
+                  
                   <tr
-                    v-for="sb in sub.subscripitions.filter((f) => {
-    
-                      // Calculate the difference in months between to_date and from_date
-                      const fromDate = new Date(f.from_date);
-                      const toDate = new Date(f.to_date);
-                      const monthDifference = (toDate.getFullYear() - fromDate.getFullYear()) * 12 + (toDate.getMonth() - fromDate.getMonth());
-                  
-                      // Handle filter by time: 1 month, 3 months, or 12 months
-                      let timeMatch = true;
-                      if (filterBYTime) {
-                        if (filterBYTime === 1) {
-                          timeMatch = monthDifference <= 1; // Match 1 month
-                        } else if (filterBYTime === 3) {
-                          timeMatch = monthDifference > 1 && monthDifference <= 3; // Match 1-3 months
-                        } else if (filterBYTime === 12) {
-                          timeMatch = monthDifference >= 12; // Match 12 months or more
-                        }
-                      }
-                  
-                      // Handle filter by type
-                      const typeMatch = filterByType ? f.type === filterByType : true;
-                  
-                      // Both filters must match if they're provided
-                      return timeMatch && typeMatch;
-                    })"
+                  v-for="sb in sub.subscripitions.filter((f) => {
+
+                    // Time filter: checks if filterBYTime.value exists and matches the month_difference value
+                    const timeMatch = filterBYTime ? Number(f.month_difference) === filterBYTime : true;
+                
+                    // Type filter: Ensures that type is not empty and matches filterByType.value
+                    const typeMatch = filterByType ? (f.type && f.type === filterByType) : (f.type ? true : false);
+                
+                    // Return only subscriptions where both filters match
+                    return timeMatch && typeMatch;
+                })"
                     :key="sb.name"
                   >
 
@@ -617,14 +587,22 @@ const openInvestor = (app,pack)=>{
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
-                      {{new Date(sb.from_date).toLocaleDateString()}}
+                      {{new Date(sb.from_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                        year: 'numeric',
+                        month: 'long', 
+                        day: 'numeric',
+                      })}}
                     </td>
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
                       {{
                         sb.package_type !== "Extra" && sb.type !== 'Investors'
-                          ? new Date(sb.to_date).toLocaleDateString()
+                          ? new Date(sb.to_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                            year: 'numeric',
+                            month: 'long', 
+                            day: 'numeric',
+                          })
                           : "-"
                       }}
                     </td>

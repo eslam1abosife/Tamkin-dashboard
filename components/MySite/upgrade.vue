@@ -216,7 +216,6 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
                :src="runtimeConfig.public.baseImagerUrl + (mySiteStore.currentPackage ? mySiteStore.currentPackage.icon : '/')" 
                 class="lg:w-[30px] lg:h-[30px]  " />
                 </div>
-                
                 <div class="text-[10px]   lg:text-[14px] font-[500]
                 ipad-max:text-[12px]
     ipad-max:leading-[10px] whitespace-nowrap
@@ -327,7 +326,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
           </div>
         </div>
         </div>
-      <OverviewWidgetEmbdedCode class="!mt-[30px] !w-full"/>
+      <OverviewWidgetEmbdedCode v-if=" mySiteStore.currentWebsite?.title !== 'Internal Service'" class="!mt-[30px] !w-full"/>
     
 
       </div>

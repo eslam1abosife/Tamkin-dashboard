@@ -1,6 +1,6 @@
 export default defineI18nConfig(() => ({
-    legacy: false,
-    locale: 'en',
+    // legacy: false,
+    // locale: 'en',
 
         // defaultLocale: 'en',
         // lazy: true,

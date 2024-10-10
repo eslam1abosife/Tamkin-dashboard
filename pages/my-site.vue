@@ -1151,7 +1151,11 @@ if(subCodeStatus.value === 200){
                       <td
                         class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
-                        {{ app.package.length=== 0 ? '-' :new Date(app.creation).toDateString() }}
+                        {{ app.package.length=== 0 ? '-' :new Date(app.creation).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                          year: 'numeric',
+                          month: 'long', 
+                          day: 'numeric',
+                        }) }}
                       </td>
                       <td
                         class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1407,7 +1411,11 @@ if(subCodeStatus.value === 200){
                         <td
                           class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
-                          {{ new Date(mysiteStore.selectedApp.creation).toDateString() }}
+                          {{ new Date(mysiteStore.selectedApp.creation).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                            year: 'numeric',
+                            month: 'long', 
+                            day: 'numeric',
+                          }) }}
                         </td>
                         <td
                           class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1857,9 +1865,11 @@ if(subCodeStatus.value === 200){
                       class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{
-                   
-                        new Date(pk.from_date).toDateString()
-                       
+                        new Date(pk.from_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
+                          year: 'numeric',
+                          month: 'long', 
+                          day: 'numeric',
+                        })
                       }}
                     </td>
 
@@ -1875,7 +1885,7 @@ if(subCodeStatus.value === 200){
                                 a.app === internalServiceApp
                             ) ||
                           
-                            pk.status === 'Pending'
+                            pk.status === 'Pending' || pk.cancel_package
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
                           @click="

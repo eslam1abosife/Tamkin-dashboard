@@ -602,10 +602,17 @@ const closeModalPackage = () => {
           <div
           class="flex items-center justify-center gap-4 w-full"
         
+
         >
+       
           <div
-        v-if=" mysiteStore.currentPackage.trial_days > 0 &&  mysiteStore.currentPackage.billing_duration !== 'Free Trial' 
-        && mysiteStore.currentPackage.billing_duration !== 'none'"
+          v-if="mysiteStore.currentPackage.trial_days >0  
+      &&         mysiteStore.currentPackage.billing_duration  !== 'Free Trial'&&
+      (mysiteStore.currentPackage.trial_days >0  
+      &&         mysiteStore.currentPackage.billing_duration  !== 'none')
+
+        "
+    
          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
@@ -641,8 +648,11 @@ const closeModalPackage = () => {
             </div>
           </div>
           <div
-              v-if="mysiteStore.currentPackage.trial_days === 0"
-            class="flex items-center relative justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+          v-if="mysiteStore.currentPackage.trial_days === 0 
+          || (mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none') 
+          || (mysiteStore.currentPackage.billing_duration !== 'none' && mysiteStore.currentWebsite?.package?.length > 0)"
+    
+                class="flex items-center relative justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
             :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
           >

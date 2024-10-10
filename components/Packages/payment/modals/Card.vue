@@ -321,7 +321,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
-                  navigateTo('cardModal_packages', 'Market', 'add_new_card_billing')
+                  navigateTo('cardModal_packages', 'packages', 'add_new_card_billing')
                   ">
                   <img src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
