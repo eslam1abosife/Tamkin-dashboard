@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { useGetPlayerData } from "@/composables/useAccessibility";
+import { useApi } from "@/composables/useApi";
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
+const { getPlayerData } = useGetPlayerData();
+
 const signLangStore = useSignLangStore();
 
 definePageMeta({
@@ -68,6 +74,24 @@ const cancelAc = () => {
     signLangStore.cancelAll();
   }
 };
+
+onBeforeMount(async () => {
+  getPlayerData();
+  [
+    "deaf-customize-sign-language-background-sign-language-background",
+    "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+    "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+  ].forEach((name) => {
+    signLangStore.addCheckbox(name);
+  });
+  signLangStore.initializeCheckboxes([
+    "deaf-customize-sign-language-background-sign-language-background",
+    "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+    "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+  ]);
+});
 </script>
 
 <template>

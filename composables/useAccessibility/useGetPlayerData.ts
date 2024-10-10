@@ -8,10 +8,9 @@ export default function () {
 
   const customizeStore = useCustomizeStore();
   const settingsStore = useSettingsStore();
-  const checkboxStore = useAddonStore();
+  const signLangStore = useSignLangStore();
 
   const getPlayerData = async () => {
-    checkboxStore.loadingData = true;
     customizeStore.loadingData = true;
     try {
       const res = await api.post("/Widget/GetAccessibility/default");
@@ -83,18 +82,10 @@ export default function () {
           "initialCardsOrderCustomize"
         );
 
-        checkboxStore.initializeCardsMenu(
-          mainMenu.features,
-          "AdjustMainMenuCards",
-          "initialCardsOrder"
-        );
-
         mainMenu.features.forEach((element: any) => {
           if (element.active == 1 && element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
-            checkboxStore.toggleCheckbox(element.name);
-            checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
       }
@@ -111,30 +102,12 @@ export default function () {
           "initialManageProfileCardsCustomize"
         );
 
-        checkboxStore.initializeCardsMenu(
-          profileItems.features,
-          "manageProfileCards",
-          "initialManageProfileCards"
-        );
-
         profileItems.features.forEach((element: any) => {
           if (element.active == 1 && element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
-            checkboxStore.toggleCheckbox(element.name);
-            checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
-      }
-
-      // acc widget type
-      const AccWidgetType = features
-        .find((feature: any) => feature.name === "acc-customize-widget-type")
-        .features.find(
-          (el) => el.name === "acc-customize-widget-type-widget-style"
-        );
-      if (AccWidgetType.active == 1) {
-        customizeStore.selectWidgetType(AccWidgetType.value);
       }
 
       // set languages
@@ -184,6 +157,143 @@ export default function () {
         );
         customizeStore.toggleInitialCheckbox(
           "acc-customize-language-show-language-selector-on-the-widget"
+        );
+      }
+
+      signLangStore.initialCardsOrder = [];
+      signLangStore.WebpluginsCards = [];
+      // deaf background
+      const isSetBackground = features
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-background"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-background-sign-language-background"
+        );
+      if (isSetBackground.active == 1) {
+        signLangStore.initialCardsOrder.push({
+          name: isSetBackground.name,
+          label: isSetBackground.label,
+          icon: `${isSetBackground.name}.png`,
+          description: isSetBackground.description,
+          checkboxId: isSetBackground.name,
+        });
+        signLangStore.WebpluginsCards.push({
+          name: isSetBackground.name,
+          icon: `${isSetBackground.name}.png`,
+          description: isSetBackground.description,
+          checkboxId: isSetBackground.name,
+          label: isSetBackground.label,
+        });
+        signLangStore.toggleCheckbox(
+          "deaf-customize-sign-language-background-sign-language-background"
+        );
+        signLangStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-background-sign-language-background"
+        );
+      }
+      // deaf isSetContrast
+
+      const isSetContrast = features
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-contrast"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+      if (isSetContrast.active == 1) {
+        signLangStore.initialCardsOrder.push({
+          name: isSetContrast.name,
+          label: isSetContrast.label,
+          icon: `${isSetContrast.name}.png`,
+          description: isSetContrast.description,
+          checkboxId: isSetContrast.name,
+        });
+        signLangStore.WebpluginsCards.push({
+          name: isSetContrast.name,
+          icon: `${isSetContrast.name}.png`,
+          description: isSetContrast.description,
+          checkboxId: isSetContrast.name,
+          label: isSetContrast.label,
+        });
+        signLangStore.toggleCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+        signLangStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+      }
+
+      // deaf isSetKeyboard
+      const isSetKeyboard = features
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-keyboard"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        );
+      if (isSetKeyboard.active == 1) {
+        signLangStore.initialCardsOrder.push({
+          name: isSetKeyboard.name,
+          icon: `${isSetKeyboard.name}.png`,
+          description: isSetKeyboard.description,
+          checkboxId: isSetKeyboard.name,
+          label: isSetKeyboard.label,
+        });
+        signLangStore.WebpluginsCards.push({
+          name: isSetKeyboard.name,
+          icon: `${isSetKeyboard.name}.png`,
+          description: isSetKeyboard.description,
+          checkboxId: isSetKeyboard.name,
+          label: isSetKeyboard.label,
+        });
+        signLangStore.toggleCheckbox(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        );
+        signLangStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        );
+      }
+
+      // deaf isSetMode
+      const isSetMode = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+      if (isSetMode.active == 1) {
+        signLangStore.initialCardsOrder.push({
+          name: isSetMode.name,
+          icon: `${isSetMode.name}.png`,
+          description: isSetMode.description,
+          checkboxId: isSetMode.name,
+          label: isSetMode.label,
+        });
+        signLangStore.WebpluginsCards.push({
+          name: isSetMode.name,
+          icon: `${isSetMode.name}.png`,
+          description: isSetMode.description,
+          checkboxId: isSetMode.name,
+          label: isSetMode.label,
+        });
+        signLangStore.toggleCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+        signLangStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
         );
       }
 
@@ -242,10 +352,8 @@ export default function () {
         );
       }
 
-      checkboxStore.loadingData = false;
       customizeStore.loadingData = false;
     } catch (error) {
-      checkboxStore.loadingData = false;
       customizeStore.loadingData = false;
       console.error(error); // Better error handling
       throw typeof error === "string" ? error : "There is something wrong";
