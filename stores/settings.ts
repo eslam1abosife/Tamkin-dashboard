@@ -7,6 +7,7 @@ interface Checkbox {
 
 export const useSettingsStore = defineStore("settings", {
   state: () => ({
+    features: [],
     defaultapp: "",
     defaultappobj: {},
     apps: [],
@@ -16,6 +17,10 @@ export const useSettingsStore = defineStore("settings", {
     routeLeaveModal: false,
   }),
   actions: {
+    getAccAttributes(name: any) {
+      const item = this.features.find((el: any) => el.name === name);
+      return item;
+    },
     showSaveBeforeLeaveModal() {
       this.routeLeaveModal = !this.routeLeaveModal;
     },

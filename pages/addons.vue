@@ -121,62 +121,6 @@ onBeforeMount(async () => {
     "acc-addons-accessibility-profiles-color-blind",
     "acc-addons-accessibility-profiles-motor-impaired",
   ]);
-
-  // try {
-  //   // Fetch dynamic data from the API
-  //   const response = await getMainMenu();
-
-  //   const features = response.features;
-
-  //   // Store the original features in the checkbox store for future edits
-  //   checkboxStore.originalFeatures = features;
-
-  //   // Find the feature with title 'Adjust the Main Menu' and type 'acc-addons'
-  //   const accAddonsMainMenuFeature = features.find(
-  //     (item) =>
-  //       item.title === "Adjust the Main Menu" && item.type === "acc-addons"
-  //   );
-
-  //   if (accAddonsMainMenuFeature) {
-  //     checkboxStore.title = accAddonsMainMenuFeature.title;
-
-  //     checkboxStore.checkboxIds = accAddonsMainMenuFeature.features.map(
-  //       (feature) => feature.name
-  //     );
-
-  //     // Get initial values (you might need to adjust this based on the structure of `features`)
-  //     const initialValues = accAddonsMainMenuFeature.features.map(
-  //       (feature) => feature.value === "1" || false
-  //     );
-
-  //     // Initialize store with dynamic data
-  //     const dynamicCards = accAddonsMainMenuFeature.features;
-  //     // .map((feature) => ({
-  //     //   icon: feature.icon,
-  //     //   name: feature.label,
-  //     //   description: feature.description,
-  //     //   checkboxId: feature.name,
-  //     //   value: feature.value,
-  //     // }));
-
-  //     checkboxStore.initializeCardsMenu(
-  //       dynamicCards,
-  //       "AdjustMainMenuCards",
-  //       "initialCardsOrder"
-  //     );
-
-  //     // Pass both the checkbox IDs and initial values to the initializeCheckboxes method
-  //     checkboxStore.initializeCheckboxes(
-  //       [...checkboxStore.checkboxIds],
-  //       initialValues
-  //     );
-  //     loadingData.value = false;
-  //   } else {
-  //     console.warn("No matching feature found for Adjust the Main Menu.");
-  //   }
-  // } catch (error) {
-  //   console.error("Error fetching main menu data:", error);
-  // }
 });
 
 const handleSaveToAllSites = async () => {
@@ -188,62 +132,6 @@ const handleSaveToAllSites = async () => {
     // $toast.error('Failed to save to all sites.');
   }
 };
-
-// const isChecked = (name: string) => {
-//   const checkbox = checkboxStore.checkboxes.find(
-//     (checkbox) => checkbox.name === name
-//   );
-//   return checkbox ? checkbox.value : false;
-// };
-// const loadingSave = ref(false);
-// // Define handleSave method to handle save actions
-// const handleSave = async () => {
-//   try {
-//     if (checkboxStore.originalFeatures) {
-//       loadingSave.value = true;
-//       // console.log("Handling Save logic...");
-//       const toBeMappedAdjustMainMenu = checkboxStore.originalFeatures.filter(
-//         (item) =>
-//           item.title === "Adjust the Main Menu" && item.type === "acc-addons"
-//       );
-
-//       const orgAddonsMainMenuFeature = toBeMappedAdjustMainMenu.map(
-//         (feature) => ({
-//           name: feature.name,
-//           title: feature.title,
-//           type: feature.type,
-//           active: feature.active,
-//           description_on_show: feature.description_on_show,
-//           description_on_hide: feature.description_on_hide,
-//           features: checkboxStore.AdjustMainMenuCards.map((feature) => ({
-//             name: feature.checkboxId,
-//             sort: checkboxStore.AdjustMainMenuCards.indexOf(feature) + 1,
-//             value: checkboxStore.isChecked(feature.checkboxId) ? 1 : 0,
-//             is_selected: 1,
-//             // label: feature.name,
-//             // description: feature.description,
-//             // icon: feature.icon,
-//           })),
-//         })
-//       );
-//       // console.log(orgAddonsMainMenuFeature[0])
-
-//       const response = await setOptions(
-//         orgAddonsMainMenuFeature[0]["features"]
-//       );
-
-//       checkboxStore.changesOnCheckboxes = false;
-//       checkboxStore.force_change_menuCards = false;
-//       checkboxStore.force_change_profileCards = false;
-//       loadingSave.value = false;
-//     }
-
-//     // $toast.success('Changes saved successfully.');
-//   } catch (error) {
-//     console.error("Error saving changes:", error);
-//     // $toast.error('Failed to save changes.');
-//   }
-// };
 
 let pendingNavigation = null;
 

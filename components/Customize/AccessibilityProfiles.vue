@@ -82,8 +82,34 @@ const getImagePath = (icon) => {
           <h1
             class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
           >
-            {{ $t("Manage your Accessibility Profiles") }}
+            {{
+              customizeStore.getAccAttributes(
+                "acc-addons-accessibility-profiles"
+              )?.title
+            }}
           </h1>
+          <p
+            class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+          >
+            <span
+              v-if="
+                !collapseStore.collapses.includes('manage_access_profiles_card')
+              "
+            >
+              {{
+                customizeStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_show
+              }}
+            </span>
+            <span v-else>
+              {{
+                customizeStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_hide
+              }}
+            </span>
+          </p>
         </div>
         <div
           @click.stop="collapseStore.collapseMenu('manage_access_profiles')"

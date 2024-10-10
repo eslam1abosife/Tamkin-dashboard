@@ -47,15 +47,30 @@ const filterdLanguages = computed(() => {
           <h1
             class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
           >
-            {{ $t("Language") }}
+            {{
+              customizeStore.getAccAttributes("acc-customize-language")?.title
+            }}
           </h1>
 
           <p
             class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
           >
-            {{
-              $t("Customize your widgets for a tailored browsing experience")
-            }}
+            <span
+              v-if="
+                !collapseStore.collapses.includes('language_customize_card')
+              "
+            >
+              {{
+                customizeStore.getAccAttributes("acc-customize-language")
+                  ?.description_on_show
+              }}
+            </span>
+            <span v-else>
+              {{
+                customizeStore.getAccAttributes("acc-customize-language")
+                  ?.description_on_hide
+              }}
+            </span>
           </p>
         </div>
 

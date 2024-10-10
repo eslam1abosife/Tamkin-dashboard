@@ -2,6 +2,9 @@
 import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
+import { useCustomizeStore } from "@/stores/customize.js";
+
+const customizeStore = useCustomizeStore();
 
 const collapseStore = useCollapseStore();
 </script>
@@ -20,13 +23,29 @@ const collapseStore = useCollapseStore();
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t('Button Location') }}
+          {{
+            customizeStore.getAccAttributes("acc-customize-button-location")
+              ?.title
+          }}
         </h1>
 
         <p
           class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
         >
-          {{ $t('Select the location where you want the button to appear') }}
+          <span
+            v-if="!collapseStore.collapses.includes('button_location_card')"
+          >
+            {{
+              customizeStore.getAccAttributes("acc-customize-button-location")
+                ?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              customizeStore.getAccAttributes("acc-customize-button-location")
+                ?.description_on_hide
+            }}
+          </span>
         </p>
       </div>
 
@@ -77,7 +96,7 @@ const collapseStore = useCollapseStore();
                 />
               </svg>
             </div>
-            <div class="text_mini">{{$t('Switch To Annual')}}</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
           <div
             class="mini_wrap"
