@@ -126,8 +126,10 @@ onMounted(async () => {
   await nextTick();
   await cryptoStore.setCryptoList();
   await cryptoStore.getRates();
-  
-await getInviteApps({agency: profileStore.company.name})
+  const user = JSON.parse(localStorage.getItem("user"));
+if(user){
+  await getInviteApps({agency: user.agency})
+}
 if(!currentWebSite.value){
 }
 });

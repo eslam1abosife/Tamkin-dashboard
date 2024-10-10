@@ -232,7 +232,7 @@ function convertUsdToCrypto(usdTotal, rates) {
             <span v-else-if="pak.trial_days > 0 || 
                             (pak.trial_days === 0 && pak.cost_month !== 0 && pak.cost_yearly !== 0)">
               {{ pak.trial_days > 0 
-                ? `Try now for ${pak.trial_days} ${getDayLabel(pak.trial_days)}` 
+                ? $t('Free Trial')
                 : '' 
               }}
             </span>

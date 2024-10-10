@@ -298,7 +298,7 @@ function leaveCart(el, done) {
     </div>
     <div
       v-if="billingStore.loadCards"
-      class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">
         <div class="w-[160px] h-[27px] bg-gray-200 animate-pulse rounded-[10px]"></div>
@@ -317,7 +317,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="billingStore.cards?.length && !billingStore.loadCards"
-      class="bg-white w-full h-full mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-full min-h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="flex items-center justify-between w-full">
         <div class="text-[18px] font-[500] text-black">{{ $t("Payment Methods") }}</div>
@@ -453,7 +453,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="invoicesStore.invoices?.length !== 0 && !globalLoad"
-      class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] mb-[24px]"
+      class="bg-white w-full mt-[24px] rounded-[10px] p-[32px] mb-[24px] "
     >
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin pb-[16px]"
@@ -580,7 +580,7 @@ function leaveCart(el, done) {
       </button>
     </div>
 
-    <div v-if="globalLoad" class="bg-white w-full mt-[24px] rounded-[10px] p-[32px]">
+    <div v-if="globalLoad" class="bg-white w-full h-[250px] mt-[24px] rounded-[10px] p-[32px]">
       <div class="w-full h-[32px] bg-gray-200 animate-pulse pb-[16px]"></div>
 
       <div class="overflow-x-auto">
@@ -620,7 +620,7 @@ function leaveCart(el, done) {
 
     <div
       v-if="invoicesStore.invoices?.length === 0 && !globalLoad"
-      class="bg-white w-full h-[200px] mt-[32px] rounded-[10px] p-[32px]"
+      class="bg-white w-full h-[250px] mt-[32px] rounded-[10px] p-[32px]"
     >
       <div class="text-[18px] font-[500] text-black">{{ $t("Invoices History") }}</div>
 

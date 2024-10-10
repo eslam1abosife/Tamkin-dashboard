@@ -34,7 +34,7 @@ function getDayLabel(number) {
 }
 const { getTraffic } = useGetTraffic();
 
-const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
+const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})$/;
 const listOfApps = computed(() => {
   const category = getCategory.value;
   const currentTypeTitle = packagesStore.currentType.title;
@@ -78,7 +78,7 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
-  packagesStore.currentPackage.trial_days > 0  ? 0 : 3
+  packagesStore.currentPackage.trial_days > 0  ? 0 : packagesStore.currentPackage.package_type !== 'Extra' ? 3 : 1
    
 );
 
@@ -101,8 +101,11 @@ const levelof = ref(packagesStore.traffic_level);
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
-  return url.replace(/^(https?:\/\/)?(www\.)?/, "");
+  return url
+    .replace(/^(https?:\/\/)?(www\.)?/, "") // Remove protocol and www
+    .replace(/\/$/, ""); // Remove trailing slash
 };
+
 const canAddWebsite = async (website) => {
   const cleanedWebsiteUrl = cleanWebsiteUrl(website);
   let isWebsiteInApps = false;
@@ -113,7 +116,7 @@ const canAddWebsite = async (website) => {
     isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
 
     // Check if the website already exists in packagesStore.urls
-    isWebsiteInUrls = packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
+    isWebsiteInUrls = packagesStore.urls.length && packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
   }
 
   // Check if the website is blocked
@@ -268,11 +271,17 @@ const calculateEstimatedPrice = computed(() => {
 const loadingByWebsite = ref({}); 
 
 const calculatePrice = (website) => {
-  const currentWebsite = packagesStore.urls.find((item) => item.url === website);
+  let currentWebsite ;
+  if (Array.isArray(packagesStore.urls)) {
+   currentWebsite = packagesStore.urls.find((item) => item.url === website);
+  // rest of your logic
+} else {
+  console.error("packagesStore.urls is not an array:", packagesStore.urls);
+}
   const currentApp = webs.value.find((item) => item.app_domain === website);
 
   // Check if either currentWebsite or currentApp exists and pricebytraffic has data
-  if ((currentWebsite || currentApp) && pricebytraffic.value.length) {
+  if ((currentWebsite || currentApp) && pricebytraffic.value.length > 0) {
     
     const targetDomain = currentWebsite?.url || currentApp?.app_domain; // Safely get the domain
     const priceInfo = pricebytraffic.value.find(
@@ -281,23 +290,22 @@ const calculatePrice = (website) => {
 
     // Ensure priceInfo is found before accessing its properties
     if (priceInfo) {
-
-      return  selectedPackage.value === 12
-        ? priceInfo.cost_year // Return yearly cost if selectedPackage is 12
-        : selectedPackage.value === 3
-        ? priceInfo.cost_3_month // Return 3-month cost if selectedPackage is 3
-        : selectedPackage.value === 1
-        ? priceInfo.cost_month // Return monthly cost if selectedPackage is 1
-        : 0; // Default case when no valid package is selected
-         
+      switch (selectedPackage.value) {
+        case 12:
+          return priceInfo.cost_year; // Return yearly cost if selectedPackage is 12
+        case 3:
+          return priceInfo.cost_3_month; // Return 3-month cost if selectedPackage is 3
+        case 1:
+          return priceInfo.cost_month; // Return monthly cost if selectedPackage is 1
+        default:
+          return 0; // Default case when no valid package is selected
+      }
     }
-
   }
-  // loadingPriceTraffic.value = false
-
 
   return 0; // Default return value if no valid website or pricing info is found
 };
+
 
 const calculateTotalPrice = () => {
   if (pricebytraffic.value.length > 0) {
@@ -402,12 +410,11 @@ const getCategory = computed(() => {
 const geteFilterInfo = async () => {
   if (
     packagesStore.currentType?.title === "Accessibility" && 
-    (webs.value.length > 0 || packagesStore.urls.length > 0)
+    (webs.value.length > 0 || Array.isArray(packagesStore.urls) && packagesStore.urls.length > 0)
   ) {
     try {
-      
-      // Extract the URLs and app domains only if they exist
-      const urls = packagesStore.urls.map((we) => we.url);
+      // Ensure packagesStore.urls is an array before mapping
+      const urls = Array.isArray(packagesStore.urls) ? packagesStore.urls.map((we) => we.url) : [];
       const appDomains = webs.value.map((we) => we.name);
 
       // Call the API with both arrays
@@ -423,11 +430,11 @@ const geteFilterInfo = async () => {
       console.error("Error fetching price by traffic:", error);
     } finally {
       // Ensure loading state is reset in both success and error cases
-  loadingPriceTraffic.value = false;
-
+      loadingPriceTraffic.value = false;
     }
   }
 };
+
 
 
 
@@ -576,7 +583,7 @@ if(packagesStore.currentType.title === 'Accessibility'){
       try {
         // Make API call for the new website
         const res = await getPriceByTraffic(
-          packagesStore.urls.map((we) => we.url), // The URLs in packagesStore
+         [], // The URLs in packagesStore
           packagesStore.currentPackage.name,      // Current package name
           [newWeb.name]                           // Single website name for this API call
         );
@@ -622,6 +629,7 @@ if(packagesStore.currentType.title === 'Accessibility'){
 // });
 onMounted(async ()=>{
 //  loadingPriceTraffic.value = true
+// packagesStore.urls = []
 
 if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || packagesStore.urls.length)){
   await geteFilterInfo()
@@ -646,7 +654,7 @@ const checkforexistingwebsite = () => {
 
   if (
     apps.value.filter((website: any) => website.app_domain === cleanDomain).length > 0 ||
-    packagesStore.urls.filter((website: any) => website.url === cleanDomain).length > 0
+    packagesStore.urls.length && packagesStore.urls.filter((website: any) => website.url === cleanDomain).length > 0
   ) {
     websiteExist.value = true;
   } else {
@@ -664,8 +672,8 @@ const checkforexistingwebsite = () => {
 //   }
 // })
 const closeModalPackage = () => {
-  packagesStore.urls.length ? packagesStore.urls = [] : null
-webs.value.length ? webs.value = [] : null
+  packagesStore.urls = []
+webs.value = [] 
 packagesStore.selectedPaymentMethod  = ''
   closeModal("add_package_modal_packages");
  
