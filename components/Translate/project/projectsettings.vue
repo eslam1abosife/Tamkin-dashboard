@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-
+              // import { VTamkinPlayer } from 'tamkin-video-player';
+              // const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
 
@@ -127,7 +128,21 @@ const getPlayerPosition = (p: any) => {
           </div>
           <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
             <div class="relative w-full">
-              <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']">
+
+              <!-- <VTamkinPlayer 
+              @TamkinFullScreen="bigpicMode = !bigpicMode"
+              :videoUrl="videoUrl" 
+              
+              :class="[
+                'max-w-full h-full',
+                playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
+                bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]'
+              ]"
+            /> -->
+            
+
+    <!-- <VTamkinPlayer :videoUrl="videoUrl" :height="270" /> -->
+              <!-- <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']"> -->
               <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if="playerPosition === 'inVideo' && currentMode === 'player'">
                 <img src="/assets/imgs/translatevideo/player_inside.png" alt="" class="w-[89px] h-[125px]">
               </div>
@@ -154,6 +169,8 @@ const getPlayerPosition = (p: any) => {
   .fade-enter-from, .fade-leave-to {
     opacity: 0;
   }
-
+.video-js{
+  @apply w-[100%];
+}
   </style>
   

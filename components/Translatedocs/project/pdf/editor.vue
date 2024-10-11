@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col items-center p-3 w-full  h-full bg-[#EEEEEE] rounded-[10px] overflow-y-hidden relative resize-y" 
     :class="[isMenusOpen ? 'max-h-[710px]':'max-h-[620px]']">
-      <div class="toolbar flex items-center justify-between divide-x divide-[#BDBDC7] w-full bg-white  rounded-[10px] rounded-t-lg shadow ">
-        <div class="flex items-center justify-between w-3/4 pr-[10px]">
+      <div class="toolbar flex items-center justify-between divide-x divide-[#BDBDC7] rtl:divide-x-reverse w-full bg-white  rounded-[10px] rounded-t-lg shadow ">
+        <div class="flex items-center justify-between w-3/4 px-[10px]">
           <!-- Text Color -->
           <button v-if="editor" class="toolbar-item relative ">
  <div class="flex items-center  rtl:space-x-reverse space-x-[10px] justify-center  w-[40px] border-b-[4px] border-b-red-500 ">

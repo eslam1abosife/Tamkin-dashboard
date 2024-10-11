@@ -76,7 +76,7 @@ const changeDropMenu = (menu:any)=>{
             AAAAAAAAAAAA
         </div>
         <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[10px] leading-[16px] pl-[15px]">
-            Uploaded on Jan 1, 2023
+            {{$t('Uploaded on')}} Jan 1, 2023
         </div>
         </div>
 

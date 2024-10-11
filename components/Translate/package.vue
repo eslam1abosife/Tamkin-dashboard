@@ -62,7 +62,7 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <button @click="changePlan('freetrial')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-          Try it Now
+          {{ $t('Try it Now') }}
         </button>
       </div>
 
@@ -108,7 +108,7 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <button @click="changePlan('freetrial_expired')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-          Upgrade now
+          {{ $t('Upgrade now') }}
         </button>
       </div>
 
@@ -153,7 +153,7 @@ const scrollToSection = (sectionId) =>{
       </div>
 
       <button @click="changePlan('pro')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-        Upgrade Now
+        {{ $t('Upgrade Now') }}
       </button>
     </div>
 
@@ -199,7 +199,7 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <button @click="changePlan('pro_out_credit')" class="btn-dashboard hover_tamkin mt-[8px] !w-[158px]">
-          Upgrade Now
+          {{$t('Upgrade Now')}}
         </button>
       </div>
 
@@ -237,7 +237,7 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <button @click="changePlan('pro_used')" class="btn-dashboard hover_tamkin w-[158px]">
-          Upgrade Now
+          {{$t('Upgrade Now')}}
         </button>
       </div>
 
@@ -274,10 +274,10 @@ const scrollToSection = (sectionId) =>{
 
         <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
           <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]">
-            Buy more words
+            {{ $t('Buy more words') }}
           </button>
           <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-[158px]">
-            Buy more Minutes
+            {{ $t('Buy more Minutes') }}
           </button>
         </div>
       </div>

@@ -31,7 +31,7 @@ const {
                   </div>
                   
                   <h2 class="text-[14px] font-[600] leading-[21px] text-[#3D3D3D] dark:text-whiteTamkin mt-2">{{$t('Translate video')}}</h2>
-                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Put your live video link, and we'll translate it for you`)}}</p>
+                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Upload your video or share the link, and we'll translate it`)}}</p>
                   <button class="btn-action-translate mt-4" @click="openModal('translate_video', 'translate')">{{$t('Translate Now')}}</button>
                 </div>
                 <img src="/assets/imgs/translatevideo/girl_desk.png" class="w-[100px] h-[100px] lg:ml-[35px] mt-4 lg:mt-0" alt="">
@@ -47,7 +47,7 @@ const {
                         <img src="/assets/imgs/translatevideo/audio.svg" class="w-[30px] h-[30px]" alt="">
                       </div>
                   <h2 class="text-[14px] font-[600] leading-[21px] text-[#3D3D3D] dark:text-whiteTamkin mt-2">{{$t('Translate Audio')}}</h2>
-                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Upload Audio or post Audio link, and we’ll translate it`)}}</p>
+                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Upload your audio or share the link, and we'll translate it`)}}</p>
                   <button class="btn-action-translate mt-4" @click="openModal('translate_audio', 'translate')">{{$t('Translate Now')}}</button>
                 </div>
                 <img src="/assets/imgs/translatevideo/guy_laptop.png" class="w-[100px] h-[100px] lg:ml-[35px] mt-4 lg:mt-0" alt="">

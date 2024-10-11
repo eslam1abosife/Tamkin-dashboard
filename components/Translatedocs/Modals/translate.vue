@@ -5,7 +5,8 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
-
+const { locale} = useI18n()
+const localePath = useLocalePath()
 const translateStore = useTranslateStore()
 const {
   isOpen,
@@ -185,9 +186,9 @@ const moveForward = () => {
   }, 1000);
   setTimeout(() => {
     if (props.translateType === 'PDF Documents' || props.translateType === 'word') {
-      router.push('/document/pdf');
+      router.push(localePath('/document/pdf'));
     } else {
-      router.push('/document/word');
+      router.push(localePath('/document/word'));
     }
     closeModal('translate_'+(props.translateType === 'PDF Documents' ?'pdf_documents' :'word_documents'))
     }, 5000);
@@ -218,7 +219,7 @@ const moveForward = () => {
       />
     </svg>
   </div>
-  <h1 class="rtl:text-right ltr:text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
+  <h1 class="rtl:text-right px-[15px] ltr:text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
    {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType)}}</span>
   </h1>
 
@@ -272,7 +273,7 @@ const moveForward = () => {
                  border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] rtl:space-x-reverse space-x-[6px] mx-auto ">
                 <img src="/assets/imgs/translatevideo/upload.svg" class="w-[19px] h-[19px]" />
                 <div class="text-[13px] leading-[30px] font-[600] text-[#3C3F49]">
-                  Upload
+                  {{ $t('Upload') }}
                 </div>
               </button>
 
@@ -442,9 +443,18 @@ const moveForward = () => {
     <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
      {{widthVideoProcessing+'%'}}
     </div>
-    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-      {{props.translateType === 'PDF Documents' ? $t('PDF') :$t('Word')}} {{$t('is processing ')}} 
+    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey rtl:text-right ltr:text-left">
+      {{
+        locale === 'ar'
+          ? (props.translateType === 'PDF Documents' 
+              ? $t('is processing') + ' ' + $t('PDF') 
+              : $t('is processing') + ' ' + $t('Word'))
+          : (props.translateType === 'PDF Documents' 
+              ? $t('PDF') + ' ' + $t('is processing') 
+              : $t('Word') + ' ' + $t('is processing'))
+      }}
     </div>
+    
     <div class="relative pt-1 flex items-center justify-between w-full">
       <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">
         <div :style="{ width:  widthVideoProcessing+'%'}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>

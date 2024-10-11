@@ -7,7 +7,8 @@
       <img src="/assets/imgs/translatevideo/flags.png" class="h-[180px]" alt="" />
     </div>
     <div class="flex flex-col items-start justify-center max-w-[450px] w-full">
-      <div class="text-[16px] lg:text-[20px] font-[600] leading-[34px] text-darkGrey dark:text-whiteTamkin">
+      <div v-html="$t('We provide seamless and efficient')"></div>
+      <!-- <div class="text-[16px] lg:text-[20px] font-[600] leading-[34px] text-darkGrey dark:text-whiteTamkin">
         We provide seamless and efficient <br />
         <span
           class="bg-gradient-to-r from-[#2DB9B0] via-[#6C3FFA] to-[#F542F8] bg-clip-text text-transparent"
@@ -15,7 +16,7 @@
         >
         for <br />
         a smooth experience
-      </div>
+      </div> -->
       <div class="flex items-center justify-evenly mt-[32px] rtl:space-x-reverse space-x-[20px]">
         <div>
           <img

@@ -69,9 +69,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       meta: [
-        // Remove or comment out the existing viewport meta tag if present
         // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+        // { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
         
       ],
 // script: [

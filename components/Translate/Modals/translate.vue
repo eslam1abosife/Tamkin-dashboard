@@ -5,7 +5,8 @@ import { required } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
-
+const {locale} = useI18n()
+const localePath = useLocalePath()
 const translateStore = useTranslateStore()
 const {
   isOpen,
@@ -214,9 +215,9 @@ const moveForward = () => {
   }, 1000);
   setTimeout(() => {
     if (props.translateType === 'live video' || props.translateType === 'video') {
-      router.push('/translate/video');
+      router.push(localePath('/translate/video'));
     } else {
-      router.push('/translate/audio');
+      router.push(localePath('/translate/audio'));
     }
     closeModal('translate_' + (props.translateType === 'live video' ? 'live_video' : props.translateType));
   }, 5000);
@@ -225,7 +226,8 @@ const moveForward = () => {
 
 <template>
   <div 
-  class="fixed z-[9999] top-0 lg:top-[10%] 2xl:top-[5%] ipad-max:top-[3%] px-[15px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] 
+  class="fixed z-[9999] top-0 lg:top-[10%] 2xl:top-[5%] ipad-max:top-[3%] px-[15px]
+   bg-white dark:bg-tamkinDarkPrimary rounded-[10px] 
    lg:w-[640px]  w-full  overflow-y-auto pb-[16px] lg:h-auto lg:max-h-full h-auto max-h-[100vh] 
     lg:overflow-y-visible"
   style="left: 50%; transform: translate(-50%, 0)"
@@ -245,11 +247,12 @@ const moveForward = () => {
       />
     </svg>
   </div>
-  <h1 class="rtl:text-right ltr:text-left ipad-max:mt-[8px] mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
-   {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType)}}</span>
+  <h1 class="rtl:text-right px-[15px] ltr:text-left ipad-max:mt-[8px] mt-[16px] font-[600] text-darkGrey
+   dark:text-whiteTamkin text-[16px] ">
+   {{ $t('Translate') }} <span  >{{$t(translateType.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))  }}</span>
   </h1>
 
-  <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[12px] h-full
+  <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[15px] h-full
    dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] ipad-max:mt-[4px] ">
     <div class="w-full">
       <div v-if="translateType === 'video' || translateType === 'audio' " v-bind="getRootProps()" class="w-full h-auto 
@@ -476,8 +479,15 @@ const moveForward = () => {
     <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
      {{widthVideoProcessing+'%'}}
     </div>
-    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-      {{props.translateType === 'audio' ? 'Audio' :'Video'}} {{$t('is processing')}}  
+    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey rtl:text-right ltr:text-left">
+   {{locale === 'ar'
+      ? (props.translateType === 'audio' 
+          ? $t('is processing') + ' ' + $t('Audio') 
+          : $t('is processing') + ' ' + $t('Video'))
+      : (props.translateType === 'audio' 
+          ? $t('Audio') + ' ' + $t('is processing') 
+          : $t('Video') + ' ' + $t('is processing'))
+  }}
     </div>
     <div class="relative pt-1 flex items-center justify-between w-full">
       <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">

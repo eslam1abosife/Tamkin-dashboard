@@ -10647,6 +10647,14 @@ tailwindcss@>=3.0.0, "tailwindcss@>=3.0.0 || >= 3.0.0-alpha.1 || >= 4.0.0-alpha.
     resolve "^1.22.2"
     sucrase "^3.32.0"
 
+"tamkin-video-player@file:../tamkin-video-player":
+  version "1.0.0"
+  resolved "file:../tamkin-video-player"
+  dependencies:
+    video.js "^8.18.1"
+    videojs-responsive-layout "^1.1.1"
+    vue "^3.5.11"
+
 tapable@^1.0.0:
   version "1.1.3"
   resolved "https://registry.npmjs.org/tapable/-/tapable-1.1.3.tgz"
