@@ -53,15 +53,15 @@ const props = defineProps({
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        More Info
+    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+        {{ $t('More Info') }}
     </h1>
 
 
     
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px] mt-[18px]">
-        You have used the subtitle service with sign language interpretation for an inclusive video experience
+        {{$t('You have used the subtitle service with sign language interpretation for an inclusive video experience')}}
         </div>
 
      <div class="flex flex-col items-start justify-center">
@@ -72,26 +72,26 @@ const props = defineProps({
                     Sign language
                 </div>
 
-                <div class="flex items-center justify-center space-x-[8px]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
                     <div>
                         <img src="/assets/imgs/translatevideo/USA.svg" alt="">
                     </div>
 <div class="text-[13px] font-[500] leading-[32px] text-darkGrey">
-    American Sign Language
+    {{ $t('American Sign Language') }}
 </div>
                 </div>
             </div>
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    Subtitle 
+                    {{$t('Subtitle')}} 
                 </div>
 
-                <div class="flex items-center justify-center space-x-[8px]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
                     <div>
                         <img src="/assets/imgs/translatevideo/USA.svg" alt="">
                     </div>
 <div class="text-[13px] font-[500] leading-[32px] text-darkGrey">
-    English (USA)
+    {{$t('English (USA)')}}
 </div>
                 </div>
             </div>
@@ -101,10 +101,10 @@ const props = defineProps({
 
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    Words
+                    {{ $t('Words') }}
                 </div>
 
-                <div class="flex items-center justify-center space-x-[8px]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
                     <div>
                         <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="">
                     </div>
@@ -115,10 +115,10 @@ const props = defineProps({
             </div>
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    Minutes
+                    
                 </div>
 
-                <div class="flex items-center justify-center space-x-[8px]">
+                <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
                     <div>
                         <img src="/assets/imgs/translatevideo/min_icon.png" class="w-[25px] h-[25px]" alt="">
                     </div>

@@ -16,11 +16,11 @@ const scrollToSection = (sectionId) =>{
         </div>
         
         <div class="text-[14px] font-[500] text-[#878787] ">
-            You don't have any videos
+            {{ $t(`You don't have any videos`) }}
         </div>
         <div>
             <button          @click="scrollToSection('package')"   class="btn-dashboard hover_tamkin mt-[16px] w-[158px] !h-[40px]"
-            >Translate now</button>
+            >{{$t('Translate now')}}</button>
         </div>
             </div>
 

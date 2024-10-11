@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between w-3/4 pr-[10px]">
           <!-- Text Color -->
           <button v-if="editor" class="toolbar-item relative ">
- <div class="flex items-center  space-x-[10px] justify-center  w-[40px] border-b-[4px] border-b-red-500 ">
+ <div class="flex items-center  rtl:space-x-reverse space-x-[10px] justify-center  w-[40px] border-b-[4px] border-b-red-500 ">
   <div class="flex items-center justify-center flex-col ">
     <input
     type="color"
@@ -22,7 +22,7 @@
           </button>
           <!-- Highlight Color -->
           <button v-if="editor" class="toolbar-item relative  ">
-            <div class="flex items-center  space-x-[10px] justify-center  w-[40px]  pb-1 border-b-[4px] border-b-yellow-200">
+            <div class="flex items-center  rtl:space-x-reverse space-x-[10px] justify-center  w-[40px]  pb-1 border-b-[4px] border-b-yellow-200">
              <div class="flex items-center justify-center flex-col ">
                <input
                type="color"

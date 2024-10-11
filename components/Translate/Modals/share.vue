@@ -43,15 +43,15 @@ const props = defineProps({
                     fill="currentColor" />
             </svg>
         </div>
-        <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-            Share Your Project
+        <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+            {{$t('Share Your Project')}}
         </h1>
 
 
         <div class="bg-white h-[110px]  rounded-[10px] flex items-center justify-around  w-full mt-[18px] ">
        <ClientOnly>
 
-        <carousel :items-to-show="5"  class="">
+        <carousel :items-to-show="5"  class="" >
             <slide v-for="slide in 10" :key="slide">
                 <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center">
                     <img src="/assets/imgs/translatevideo/social/Facebook.svg" class="w-[40px] h-[40px]" alt="">
@@ -69,7 +69,7 @@ const props = defineProps({
 
         <div class="flex flex-col items-start justify-center mt-[12px]">
             <div class="text-[16px] leading-[24px] font-[600] text-darkGrey">
-                Or Copy Link
+                {{ $t('Or Copy Link') }}
             </div>
 
             <div class="border-[1px] border-lightGrey rounded-[10px]  bg-white flex items-center justify-between

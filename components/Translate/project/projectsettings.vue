@@ -29,9 +29,9 @@ const getPlayerPosition = (p: any) => {
     <div class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] h-auto flex p-[15px] justify-start w-full mt-[24px]">
       <div class="flex items-center justify-between w-full">
         <div class="text-darkGrey text-[18px] leading-[27px] font-[500] text-left">
-          Project Settings
+          {{$t('Project Settings')}}
         </div>
-        <div class="flex items-center space-x-[16px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
           <button class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2" @click="openModal('moreinfo_translate', 'projectsettings')">
             <svg width="25" height="26" viewBox="0 0 25 26" class="" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_6980_87364)">
@@ -92,9 +92,9 @@ const getPlayerPosition = (p: any) => {
         <div class="h-[315px]" :class="[bigpicMode ? 'w-full' : 'w-2/4']">
           <div class="flex items-start w-full justify-between">
             <div class="text-[#3D3D3D] text-[15px] font-[500]">
-              Sign language
+              {{$t('Sign language')}}
             </div>
-            <div class="flex items-start justify-evenly space-x-[15px]">
+            <div class="flex items-start justify-evenly rtl:space-x-reverse space-x-[15px]">
               <button class="btn-translate group" @click="changeMode('translation')" :class="[translateStore.currentMode === 'translation' ? 'active' : '']">
                 <div>
                   <svg width="15" class="w-[13px] h-[13px]" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@ const getPlayerPosition = (p: any) => {
                     </defs>
                   </svg>
                 </div>
-                <div class="text"> Translation </div>
+                <div class="text"> {{$t('Translation')}} </div>
               </button>
               <button class="btn-translate group" @click="changeMode('player')" :class="[translateStore.currentMode === 'player' ? 'active' : '']">
                 <div>
@@ -121,11 +121,11 @@ const getPlayerPosition = (p: any) => {
                     </defs>
                   </svg>
                 </div>
-                <div class="text"> Player </div>
+                <div class="text"> {{ $t('Player') }} </div>
               </button>
             </div>
           </div>
-          <div class="flex items-start justify-start w-full space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
+          <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
             <div class="relative w-full">
               <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']">
               <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if="playerPosition === 'inVideo' && currentMode === 'player'">
@@ -135,7 +135,7 @@ const getPlayerPosition = (p: any) => {
             <div v-if="currentMode === 'player'" class="flex flex-col items-center justify-start lg:w-[60%] 2xl:w-[40%] transition-all ease-in-out" :class="[playerPosition === 'OutVideo' ? 'block' : 'hidden']">
               <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[240px] transition-all ease-in-out">
               <button @click="playerPosition = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
-                Close Player
+                {{ $t('Close Player') }}
               </button>
             </div>
           </div>

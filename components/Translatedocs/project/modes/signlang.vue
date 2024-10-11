@@ -35,17 +35,17 @@ const processVideo = ref(false)
 <template>
 
     <div class="w-full  flex flex-col items-start justify-start  ">
-        <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px]" >
-            <svg @click="translateStore.currentMode  = ''" class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px]" >
+            <svg @click="translateStore.currentMode  = ''" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z" fill="#585B5B"/>
                 </svg>
             <div>
-                Sign Language 
+                {{ $t('Sign language') }} 
             </div>
         </div>
         <div class="w-full h-[315px] px-[1px]" >
             <div class="text-[11px] leading-[22px] font-[500] text-darkGrey ">
-                What sign language do you want to translate into? 
+                {{ $t('What sign language do you want to translate into?') }} 
             </div>
             <div class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between
              w-[100%] h-[40px] px-4 mt-[16px]">
@@ -56,10 +56,10 @@ const processVideo = ref(false)
             </div>
             <TranslateSelectInput class="mt-[16px]  " 
             @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
-            placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
+            :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
     
             <button :disabled="translateStore.showProcessingFooter" class="btn-default mt-[16px]" @click="translateStore.showProcessingFooter = !translateStore.showProcessingFooter">
-                <span class="text">Generate Sign Language</span>
+                <span class="text">{{$t('Generate Sign Language')}}</span>
             </button>
         </div>
 

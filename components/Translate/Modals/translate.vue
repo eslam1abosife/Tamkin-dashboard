@@ -245,8 +245,8 @@ const moveForward = () => {
       />
     </svg>
   </div>
-  <h1 class="text-left ipad-max:mt-[8px] mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
-   Translate <span  class="capitalize">{{translateType}}</span>
+  <h1 class="rtl:text-right ltr:text-left ipad-max:mt-[8px] mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
+   {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType)}}</span>
   </h1>
 
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[12px] h-full
@@ -258,9 +258,9 @@ const moveForward = () => {
        justify-center flex-col   p-[10px]">
         <input v-bind="getInputProps()" />
         <div class="flex flex-row items-start md:items-center   justify-between w-full 
-        space-y-[10px] md:space-y-0 space-x-[16px]" v-if="acceptedFilesRef.length > 0">
+        space-y-[10px] md:space-y-0 rtl:space-x-reverse space-x-[16px]" v-if="acceptedFilesRef.length > 0">
           <div v-for="file in acceptedFilesRef" :key="file.name" class="rounded-[10px] w-full md:w-auto">
-            <div class="flex items-center justify-start w-full space-x-[14px]">
+            <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[14px]">
               <div class="relative " >
                 <div class="h-[81px] w-[60px] absolute inset-y-0 right-0 backdrop-blur-sm rounded-tr-[7px] rounded-br-[7px] bg-opacity-40" :style="{ width: blurWidth + '%' }"> </div>
                 <img v-if="translateType === 'video'" :src="thumbnail" :alt="file.name" class="lg:w-[119px]  w-40 h-[81px] rounded-[7px]" @click.stop />
@@ -290,28 +290,28 @@ const moveForward = () => {
               <div :style="{ width: dynamicWidth + '%' }" class="shadow-none flex flex-col text-center whitespace-nowrap
                text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded"></div>
             </div>
-            <div class="ml-2">
+            <div class="rtl:mr-2 ltr:ml-2">
               <span class="text-xs font-semibold inline-block text-black">{{ progressPercentage }}%</span>
             </div>
           </div>
         </div>
         <div class="w-full flex flex-col items-center justify-start space-y-[4px]" v-if="acceptedFilesRef.length === 0">
           <button class="flex items-center justify-center border-[1px]
-                 border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] space-x-[6px] mx-auto ">
+                 border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] rtl:space-x-reverse space-x-[6px] mx-auto ">
                 <img src="/assets/imgs/translatevideo/upload.svg" class="w-[19px] h-[19px]" />
                 <div class="text-[13px] leading-[30px] font-[600] text-[#3C3F49]">
-                  Upload
+                  {{ $t('Upload') }}
                 </div>
               </button>
 
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="isDragActive">
-            Drop the files here ...
+            {{ $t('Drop the files here') }} ...
           </h1>
         </div>
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-            <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop video
+            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{$t('to upload or drop video')}}
           </h1>
         </div>
          <div>
@@ -331,8 +331,8 @@ const moveForward = () => {
              class="lg:w-[119px]  w-40 h-[81px] rounded-[7px] mr-[14px]" @click.stop />
           
              <div class="flex flex-col items-start justify-start space-y-[48px]">
-              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">Video name</div>
-              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">Platform Name</div>
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{$t('Video name')}}</div>
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{$t('Platform Name')}}</div>
               <!-- <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">
                 <img src="/assets/imgs/translatevideo/social/Facebook.svg"  class="w-8 h-8" alt="">
               </div> -->
@@ -378,10 +378,10 @@ const moveForward = () => {
     <div class="w-full flex flex-col items-center justify-center !p-0">
     
     
-      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap">
+      <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
         <div class="flex flex-col items-start justify-start space-y-[10px] ipad-max:mt-[8px] mt-[16px] w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Project name
+            {{ $t('Project name') }}
           </div>
           <div class="w-full relative">
             <input type="projectName" placeholder="{{$t('projectName')}}" id="projectName" class="input_floating_label peer w-full" v-model="v$.projectName.$model" :class="{
@@ -392,7 +392,7 @@ const moveForward = () => {
             <label for="projectName" class="floating_label" :class="[
               (v$.projectName.$error && v$.projectName.required.$invalid) ? '!text-error' : '',
             ]">
-              {{ $t("Project name") }}*
+              {{ $t("Project name*") }}
             </label>
             <div class="w-full lg:w-4/6 mt-1" v-if="(v$.projectName.$error && v$.projectName.required.$invalid)">
               <p class="error_message">
@@ -405,7 +405,7 @@ const moveForward = () => {
         </div>
         <div class="flex flex-col items-start justify-start space-y-[10px] ipad-max:mt-[8px] mt-[16px] w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Number of speakers
+            {{ $t('Number of speakers') }}
           </div>
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false" 
           placeholderinput="Auto-detect speakers" :list="projectNameArr" nameKey="name" idField="id" />
@@ -413,9 +413,9 @@ const moveForward = () => {
       </div>
       <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
         <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-           Subtitle
+           {{ $t('Subtitle') }}
         </div>
-        <div class="ml-auto flex items-center ">
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_subtitles" class="toggle_wrap">
                 <input type="checkbox" id="toggle_subtitles" class="sr-only"
                     v-model="translateStore.subtitleCheck" />
@@ -429,16 +429,16 @@ const moveForward = () => {
             </label>
         </div>
     </div>
-      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap">
+      <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
         <div class="flex flex-col items-start justify-start space-y-[10px]  w-full" :class="[!translateStore.subtitleCheck ? 'blur-[2px]' : '']">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Original language
+            {{ $t('Original language') }}
           </div>
           <TranslateSelectInput    @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
         <div class="flex flex-col items-start justify-start space-y-[10px]  w-full" :class="[!translateStore.subtitleCheck ? 'blur-[2px]' : '']">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Translate to
+            {{ $t('Translate to') }}
           </div>
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
@@ -446,9 +446,9 @@ const moveForward = () => {
 
       <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
         <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-            Sign language
+            {{ $t('Sign language') }}
         </div>
-        <div class="ml-auto flex items-center ">
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_google_a" class="toggle_wrap">
                 <input type="checkbox" id="toggle_google_a" class="sr-only"
                     v-model="translateStore.signLanguageChecked" />
@@ -468,7 +468,7 @@ const moveForward = () => {
         @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
         placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
       <button class="btn-dashboard hover_tamkin w-[217px]  mt-4" 
-      :disabled="validatationForUpload" @click="moveForward">Translate</button>
+      :disabled="validatationForUpload" @click="moveForward">{{$t('Translate')}}</button>
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] h-[600px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary 
@@ -477,7 +477,7 @@ const moveForward = () => {
      {{widthVideoProcessing+'%'}}
     </div>
     <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-      {{props.translateType === 'audio' ? 'Audio' :'Video'}} is processing  
+      {{props.translateType === 'audio' ? 'Audio' :'Video'}} {{$t('is processing')}}  
     </div>
     <div class="relative pt-1 flex items-center justify-between w-full">
       <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">
@@ -485,23 +485,23 @@ const moveForward = () => {
       </div>
     </div>
     <div class="text-[14px] leading-[21px]  text-center font-[500] text-[#878787]">
-      Please wait while we process your request. This may take a few moments.
+      {{ $t('Please wait while we process your request. This may take a few moments.') }}
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] ipad-max:mt-[8px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
-    <div class="flex items-center justify-center space-x-[10px] w-full">
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] w-full">
       <div>
         <img src="/assets/imgs/translatevideo/limited.svg" class="w-[25px] h-[25px]" alt="" />
       </div>
       <div class="text-[20px] leading-[30px] font-[600] text-darkGrey">
-        Process failed
+        {{$t('Process failed')}}
       </div>
     </div>
     <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-      You do not have enough minutes to complete this process
+      {{ $t('You do not have enough minutes to complete this process') }}
     </div>
     <div>
-      <button class="btn-dashboard hover_tamkin">Upgrade Now</button>
+      <button class="btn-dashboard hover_tamkin">{{$t('Upgrade Now')}}</button>
     </div>
   </div>
 </div>

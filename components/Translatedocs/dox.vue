@@ -29,7 +29,8 @@ const changeDropMenu = (menu:any)=>{
 
     <div class="grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px] gap-[8px] ">
     
-        <div v-for="(file,i) in 10" :key="i" class="h-[140px]  flex flex-col items-start justify-start rounded-[7px] shadow-lg group hover:border-tamkin
+        <div v-for="(file,i) in 10" :key="i" class="h-[140px]  flex flex-col items-start justify-start
+         rounded-[7px] shadow-lg group hover:border-tamkin
          hover:border-[1px] cursor-pointer mx-1 mb-2">
         <div class="relative w-full ">
             <div @click="changeDropMenu(i)"
@@ -59,23 +60,24 @@ const changeDropMenu = (menu:any)=>{
         <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary
         
         bg-white dark:bg-darkSecondary p-1 w-full rounded-[4px] h-[18px]">
-            Download
+            {{ $t('Download') }}
         </div>
         <div @click="openModal('renamemodal','translate')" class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] w-full p-1 h-[18px]">
-            Rename
+            {{ $t('Rename') }}
         </div>
         <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] p-1 w-full h-[18px]">
-            Delete
+            {{ $t('Delete') }}
         </div>
             </div>
            <div class="bg-[#EDEDED] h-[90px] rounded-[7px] flex items-center justify-center">
             <img src="/assets/imgs/translatedocs/word.png" class="object-cover w-[60px] h-[60px] rounded-[7px]"  alt="">
            </div>
         </div>
-        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[12px] leading-[16px] mt-[10px] pl-[15px]">
+        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[12px] leading-[16px] mt-[10px] rtl:pr-[15px]
+         ltr:pl-[15px]">
             AAAAAAAAAAAA
         </div>
-        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[10px] leading-[16px] pl-[15px]">
+        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[10px] leading-[16px] rtl:pr-[15px] ltr:pl-[15px]">
             Uploaded on Jan 1, 2023
         </div>
         </div>

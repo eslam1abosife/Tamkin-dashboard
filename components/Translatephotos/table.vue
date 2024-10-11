@@ -25,7 +25,7 @@ const changeTab = (tab: any) => {
     class="font-[600] ipad-max:text-[13px] lg:text-[16px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px]  text-darkGrey dark:text-whiteTamkin cursor-pointer" 
 
   >
-  Translate  Images ( 5 )
+  {{$t('Translate Images') }} ( 5 )
   </div>
 
 </div>
@@ -59,7 +59,7 @@ const changeTab = (tab: any) => {
       <button
         class="btn-dashboard w-[150px] hover_tamkin mx-auto"
       >
-        Load more
+        {{ $t('Load more') }}
       </button>
     </div>
   </div>

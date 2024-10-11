@@ -34,7 +34,7 @@ watch(
       flex flex-col items-start justify-between h-full p-[15px] relative"
     >
     <div class="flex flex-col items-start justify-between h-[180px] w-full">
-      <div class="flex items-center space-x-[10px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/free_trial.png" alt="" />
         <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
           Free Trial
@@ -45,7 +45,7 @@ watch(
         Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
       </div>
 
-      <div class="flex items-center space-x-[50px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
         <div class="flex items-center ">
           <img src="/assets/imgs/translatedocs/words.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
           alt="" />
@@ -63,7 +63,7 @@ watch(
       </button>
     </div>
 
-    <div class="lg:flex hidden absolute right-[0] top-[-6px] h-full ">
+    <div class="lg:flex hidden absolute rtl:left-0 ltr:right-[0] top-[-6px] h-full ">
 
      
          <div class="relative h-full z-[10]">
@@ -83,7 +83,7 @@ watch(
     flex flex-col items-start justify-between h-full p-[15px] relative"
   >
   <div class="flex flex-col items-start justify-between h-[180px] w-full">
-    <div class="flex items-center space-x-[10px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
       <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/free_trial.png" alt="" />
       <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
         Free Trial
@@ -94,7 +94,7 @@ watch(
       Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
     </div>
 
-    <div class="flex items-center space-x-[50px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
       <div class="flex items-center ">
         <img src="/assets/imgs/translatedocs/words.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
         alt="" />
@@ -112,7 +112,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute right-0 -bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -129,7 +129,7 @@ watch(
     flex flex-col items-start justify-between h-full p-[15px] relative"
   >
   <div class="flex flex-col items-start justify-between h-[180px] w-full">
-    <div class="flex items-center space-x-[10px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
       <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/free_trial.png" alt="" />
       <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
         Free Trial
@@ -141,12 +141,12 @@ watch(
       Your free trial has expired. For more words and characters, you can purchase the package
     </div>
 
-    <div class="flex items-center space-x-[50px]">
-      <div class="flex items-center space-x-[10px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
         <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
       </div>
-      <div class="flex items-center space-x-[10px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
         <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Character</span></div>
       </div>
@@ -157,7 +157,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute right-0 -bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -174,7 +174,7 @@ watch(
     flex flex-col items-start justify-between h-full p-[15px] relative"
   >
   <div class="flex flex-col items-start justify-between h-[180px] w-full">
-    <div class="flex items-center space-x-[10px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
       <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/pro.png" alt="" />
       <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
         PRO- Package 
@@ -184,12 +184,12 @@ watch(
     <div class="text-[12px] lg:text-[14px] ipad-max:text-[12px] ipad-max:w-2/4 font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
       You are now on the Pro package. You can utilize the remaining words and character in your current plan. To access additional services, consider upgrading to a higher package.    </div>
 
-    <!-- <div class="flex items-center space-x-[50px]">
-      <div class="flex items-center space-x-[10px]">
+    <!-- <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
         <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
       </div>
-      <div class="flex items-center space-x-[10px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
         <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Character</span></div>
       </div>
@@ -200,7 +200,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute right-0 -bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -218,7 +218,7 @@ watch(
     flex flex-col items-start justify-between h-full p-[15px] relative"
   >
   <div class="flex flex-col items-start justify-between h-[180px] w-full">
-    <div class="flex items-center space-x-[10px]">
+    <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
       <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/pro.png" alt="" />
       <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
         PRO- Package 
@@ -230,7 +230,7 @@ watch(
 
     
     
-      <div class="flex items-center space-x-[10px] w-full mt-[8px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
         <button
         @click="changePlan('freetrial')"
         class="btn_bordered_dashboard hover_tamkin  lg:!w-[158px] "
@@ -246,7 +246,7 @@ watch(
       </div>
   </div>
 
-  <div class="lg:flex hidden absolute right-0 -bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />

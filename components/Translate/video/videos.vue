@@ -61,13 +61,13 @@ const changeDropMenu = (menu:any)=>{
         <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary
         
         bg-white dark:bg-darkSecondary p-1 w-full rounded-[4px] h-[18px]" @click="openModal('sharetranslate','translate')">
-            Share
+            {{ $t('Share') }}
         </div>
         <div @click="openModal('renamemodal','translate')" class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] w-full p-1 h-[18px]">
-            Rename
+            {{ $t('Rename') }}
         </div>
         <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] p-1 w-full h-[18px]">
-            Delete
+            {{ $t('Delete') }}
         </div>
             </div>
             <img src="/assets/imgs/translatevideo/vid_1.jpg" class=" object-cover  w-full h-[91px] rounded-[6px] "  alt="">

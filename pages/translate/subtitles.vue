@@ -61,13 +61,13 @@ function leaveNotification(el, done) {
       <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-        Translate video
+        {{ $T('Translate video') }}
       </h1>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      Media services
+      {{$T('Media services')}}
       </h2>
     </div>
 

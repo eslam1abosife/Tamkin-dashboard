@@ -310,9 +310,9 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       new Date(app.package.find((k) => k.name === pack).endpackage) < new Date() ||
       app.package.find((k) => k.name === pack).status === "Cancelled" ||
       app.package.find((k) => k.name === pack).status === "Rejected" ||
-      app.package.find((k) => k.name === pack).title === "Free"
+      app.package.find((k) => k.name === pack).title === "Free" ||app.package.find((k)=>k.name === pack).cancel_package
     ) {
-        mysiteStore.updatePayment =false     
+        mysiteStore.updatePayment =true     
 
       loadingBlock.value.push({ app: app, pack: pack });
 
@@ -334,12 +334,12 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       navigateTo(null, "mysite", "upgrade_mysite_package");
       loadingBlock.value.splice({ app: app, pack: pack });
     } else {
-      if(app.title === 'Internal Service'){
-        mysiteStore.updatePayment = false
-      }
-      if(app.title !== 'Internal Service') {
+      // if(app.title === 'Internal Service'){
+      //   mysiteStore.updatePayment = false
+      // }
+      // if(app.title !== 'Internal Service') {
         mysiteStore.updatePayment = true
-      }
+      // }
       // alert(mysiteStore.updatePayment)
 
       // console.log('here apps',app.package.find(k=>k.name === pack).name)
@@ -1115,6 +1115,14 @@ if(subCodeStatus.value === 200){
                             {{ $t(`${app.package[0].status}`) }}
                           </div>
                           <div
+                          v-if="app.package[0].investor_status && app.package[0].investor_status === 'Active'"
+                          class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                        >
+                          {{
+                           $t(app.package[0].investor_status)
+                          }}
+                        </div>
+                          <div
                             v-if="app.package[0].status === 'Pending'"
                             class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
@@ -1885,7 +1893,7 @@ if(subCodeStatus.value === 200){
                                 a.app === internalServiceApp
                             ) ||
                           
-                            pk.status === 'Pending' || pk.cancel_package
+                            pk.status === 'Pending' 
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
                           @click="
@@ -1932,7 +1940,7 @@ if(subCodeStatus.value === 200){
                         <button
                           :disabled="pk.title == 'Free'||
                           
-                          pk.status === 'Pending'"
+                          pk.status === 'Pending'|| pk.cancel_package"
                           @click="()=>{
                             mysiteStore.currentInvoice = pk.invoice_name
                             mysiteStore.currentWebsite = apps.find(a=>a.title === 'Internal Service')

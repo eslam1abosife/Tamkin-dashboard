@@ -1292,7 +1292,7 @@ const formattedEstimatedPrice = computed(()=> {
                   {{
                     packagesStore.currentPackage.package_type === "Package" && packagesStore.currentPackage.type === 'Accessibility'
                        ? $t(`${website.traffic}`)
-                       : $t("Not Applicable")
+                       : $t("Not applicable")
                    }}
           
               

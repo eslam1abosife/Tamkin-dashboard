@@ -195,7 +195,7 @@ const loadingUpgrade = ref([]);
 const upgradeModalPackage = async (app, pack) => {
   await loadingUpgrade.value.push({ app: app.name, pack: pack.package_name });
 
-  mysiteStore.updatePayment = false;
+  mysiteStore.updatePayment = true;
 
   const packagemodal = await getPackage(pack.package_name);
   mysiteStore.currentWebsite = {
@@ -574,7 +574,7 @@ const openInvestor = (app,pack)=>{
 
                     <td
                       :class="
-                        sb.status === 'active'
+                        sb.status === 'active' || sb.status === 'Active'
                           ? 'text-tamkin '
                           : sb.status === 'Pending' || sb.status === 'Pendding'
                           ? 'text-orange-400'
@@ -606,6 +606,7 @@ const openInvestor = (app,pack)=>{
                           : "-"
                       }}
                     </td>
+                    
                     <td
                       class="w-1/6 border-b border-[#D9D9D9] dark:border-slate-700 p-3 text-[14px] leading-[21px] font-[500] text-black"
                     >
@@ -613,7 +614,13 @@ const openInvestor = (app,pack)=>{
                         {{ 
                           sb.remarks !== 'Free Trial' && sb.type !== 'Investors'
                             ? ' - '+ $t(`${sb.remarks}`) 
-                            :  $t(sb.remarks)
+                            :  $t(
+                              sb.remarks
+                                .toLowerCase()
+                                .replace(/[^a-zA-Z0-9]+/g, ' ') // Replace non-alphanumeric characters with spaces
+                                .replace(/\b\w/g, (chr) => chr.toUpperCase()) // Capitalize the first letter of each word
+                            )
+                            
                         }}
                       </div>
                     </td>
