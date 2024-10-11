@@ -53,25 +53,19 @@ onBeforeRouteLeave((to, from, next) => {
 
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards);
+    isLinkActive("/sign-language/addons") && signLangStore.hasChanges();
 
   return isAddonsLinkActive;
 });
 
 const cancelAc = () => {
   const isAddonsLinkActive =
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards);
+    isLinkActive("/sign-language/addons") && signLangStore.hasChanges();
 
   if (isAddonsLinkActive) {
-    signLangStore.cancelAll();
+    signLangStore.checkboxes = JSON.parse(
+      JSON.stringify(signLangStore.initialCheckboxes)
+    );
   }
 };
 
@@ -92,6 +86,82 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
   ]);
 });
+
+const loadingSave = ref(false);
+const handleSave = async (type: any) => {
+  interface Payload {
+    AppName: string;
+    Options: any[];
+  }
+
+  let payload: Payload = {
+    AppName: type,
+    Options: [],
+  };
+
+  if (isLinkActive("/sign-language/addons")) {
+    const addonsOptions = [
+      {
+        name: "deaf-customize-sign-language-background-sign-language-background",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-background-sign-language-background"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        ),
+      },
+    ];
+
+    payload.Options = addonsOptions;
+  }
+
+  try {
+    const res = await api.post("/Custom/SetOptions", payload);
+    loadingSave.value = false;
+    updateNewValues();
+  } catch (error) {
+    loadingSave.value = false;
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const updateNewValues = () => {
+  const isSettingsLinkActive = isLinkActive("/sign-language/settings");
+
+  if (isSettingsLinkActive) {
+    signLangStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(signLangStore.checkboxes)
+    );
+  }
+};
+
+const getSettingsValue = (name: any) => {
+  const val = signLangStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val.value) {
+    return "1";
+  } else {
+    return "0";
+  }
+};
 </script>
 
 <template>
@@ -101,6 +171,9 @@ onBeforeMount(async () => {
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         @cancel_action="cancelAc"
+        :loadingSave="loadingSave"
+        @Save="handleSave('default')"
+        @saveToAllSites="handleSave('all')"
       />
     </transition>
     <ModalsConfirm

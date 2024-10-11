@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import   Loading  from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 import { useWindowSize } from "@vueuse/core";
 // import { useModalStore } from "@/stores/modal";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
@@ -223,7 +223,10 @@ const cancelAc = () => {
   const translatePlayer =
     isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
   if (isCustomizeLinkActive) {
-    custmizeStore.checkboxes = custmizeStore.initialCheckboxes;
+    custmizeStore.checkboxes = JSON.parse(
+      JSON.stringify(custmizeStore.initialCheckboxes)
+    );
+
     custmizeStore.currentColor = custmizeStore.initcurrentColor;
     custmizeStore.gradient1 = custmizeStore.initgradient1;
     custmizeStore.gradient2 = custmizeStore.initgradient2;
@@ -251,10 +254,14 @@ const cancelAc = () => {
     playerStore.wearSavedClothes();
   }
   if (isAddonsLinkActive) {
-    checkboxStore.checkboxes = checkboxStore.initialCheckboxes;
+    checkboxStore.checkboxes = JSON.parse(
+      JSON.stringify(checkboxStore.initialCheckboxes)
+    );
   }
   if (isSettingsLinkActive) {
-    settingsStore.checkboxes = settingsStore.initialCheckboxes;
+    settingsStore.checkboxes = JSON.parse(
+      JSON.stringify(settingsStore.initialCheckboxes)
+    );
   }
   if (translateStyle) {
     translateStore.resetStyles();
@@ -272,7 +279,9 @@ const updateNewValues = () => {
   const isAddonsLinkActive = isLinkActive("/addons");
   const isSettingsLinkActive = isLinkActive("/settings");
   if (isCustomizeLinkActive) {
-    custmizeStore.initialCheckboxes = custmizeStore.checkboxes;
+    custmizeStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(custmizeStore.checkboxes)
+    );
     custmizeStore.initcurrentColor = custmizeStore.currentColor;
     custmizeStore.initgradient1 = custmizeStore.gradient1;
     custmizeStore.initgradient2 = custmizeStore.gradient2;
@@ -297,10 +306,14 @@ const updateNewValues = () => {
   }
 
   if (isAddonsLinkActive) {
-    checkboxStore.initialCheckboxes = checkboxStore.checkboxes;
+    checkboxStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(checkboxStore.checkboxes)
+    );
   }
   if (isSettingsLinkActive) {
-    settingsStore.initialCheckboxes = settingsStore.checkboxes;
+    settingsStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(settingsStore.checkboxes)
+    );
   }
 };
 
@@ -520,7 +533,6 @@ onMounted(async () => {
 });
 const langloader = ref(true);
 
-
 const loadingSave = ref(false);
 const handleSave = async (type: any) => {
   loadingSave.value = true;
@@ -733,7 +745,7 @@ const getSettingsValue = (name: any) => {
     return "0";
   }
 };
-const loadf = ref(true)
+const loadf = ref(true);
 </script>
 
 <template>
@@ -751,51 +763,49 @@ const loadf = ref(true)
       openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden',
     ]"
   >
-
-
     <div
       class="relative min-h-screen dark:!bg-p"
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
-    <div class="vl-parent">
-      <Loading
-        v-model:active="$langloader"
-        :can-cancel="false"
-        :is-full-page="true"
-        opacity="0.95"
-      >
-        <template v-slot:default>
-          <div class="flex items-center justify-center flex-col space-y-2">
-            <!-- Your custom loader icon or content -->
-            <img
-              src="/assets/imgs/logo.png"
-              alt="Loading..."
-              class="w-full h-24"
-            />
-  
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-tamkin"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span class="sr-only">Loading...</span>
+      <div class="vl-parent">
+        <Loading
+          v-model:active="$langloader"
+          :can-cancel="false"
+          :is-full-page="true"
+          opacity="0.95"
+        >
+          <template v-slot:default>
+            <div class="flex items-center justify-center flex-col space-y-2">
+              <!-- Your custom loader icon or content -->
+              <img
+                src="/assets/imgs/logo.png"
+                alt="Loading..."
+                class="w-full h-24"
+              />
+
+              <div role="status">
+                <svg
+                  aria-hidden="true"
+                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-tamkin"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
-          </div>
-        </template>
-      </Loading>
-    </div>
+          </template>
+        </Loading>
+      </div>
       <div
         v-if="openModals"
         @click="closeSideBarOnMobileOverlay"

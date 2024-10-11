@@ -176,7 +176,9 @@ const cancelAc = () => {
     isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
 
   if (isSettingsLinkActive) {
-    settingsStore.checkboxes = settingsStore.initialCheckboxes;
+    settingsStore.checkboxes = JSON.parse(
+      JSON.stringify(settingsStore.initialCheckboxes)
+    );
   }
 };
 
