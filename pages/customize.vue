@@ -290,16 +290,28 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t("Button Color") }}
+              {{
+                customizeStore.getAccAttributes("acc-customize-button-color")
+                  ?.title
+              }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] dark:text-whiteTamkin text-darkGrey mt-[10px]"
             >
-              {{
-                $t(
-                  "Choose the appropriate color that you prefer to appear in the icons and buttons"
-                )
-              }}
+              <span
+                v-if="!collapseStore.collapses.includes('button_color_card')"
+              >
+                {{
+                  customizeStore.getAccAttributes("acc-customize-button-color")
+                    ?.description_on_show
+                }}
+              </span>
+              <span v-else>
+                {{
+                  customizeStore.getAccAttributes("acc-customize-button-color")
+                    ?.description_on_hide
+                }}
+              </span>
             </p>
           </div>
 
@@ -611,16 +623,28 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t("Button Type") }}
+              {{
+                customizeStore.getAccAttributes("acc-customize-button-type")
+                  ?.title
+              }}
             </h1>
             <p
               class="font-[400] text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
             >
-              {{
-                $t(
-                  "Choosing the right button type and size is essential for intuitive navigation"
-                )
-              }}
+              <span
+                v-if="!collapseStore.collapses.includes('button_type_card')"
+              >
+                {{
+                  customizeStore.getAccAttributes("acc-customize-button-type")
+                    ?.description_on_show
+                }}
+              </span>
+              <span v-else>
+                {{
+                  customizeStore.getAccAttributes("acc-customize-button-type")
+                    ?.description_on_hide
+                }}
+              </span>
             </p>
           </div>
 
@@ -875,15 +899,32 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t("Widget Customization") }}
+              {{
+                customizeStore.getAccAttributes(
+                  "acc-customize-widget-customization-"
+                )?.title
+              }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-              {{
-                $t("Customize your widgets for a tailored browsing experience")
-              }}
+              <span
+                v-if="!collapseStore.collapses.includes('widget_custom_card')"
+              >
+                {{
+                  customizeStore.getAccAttributes(
+                    "acc-customize-widget-customization-"
+                  )?.description_on_show
+                }}
+              </span>
+              <span v-else>
+                {{
+                  customizeStore.getAccAttributes(
+                    "acc-customize-widget-customization-"
+                  )?.description_on_hide
+                }}
+              </span>
             </p>
           </div>
 
@@ -1035,17 +1076,32 @@ onBeforeRouteLeave((to, from, next) => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t("Accessibility Mode") }}
+              {{
+                customizeStore.getAccAttributes(
+                  "acc-customize-accessibility-mode"
+                )?.title
+              }}
             </h1>
 
             <p
               class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
             >
-              {{
-                $t(
-                  "Accessibility Mode optimizes interface for diverse user needs and disabilities"
-                )
-              }}
+              <span
+                v-if="!collapseStore.collapses.includes('access_mode_card')"
+              >
+                {{
+                  customizeStore.getAccAttributes(
+                    "acc-customize-accessibility-mode"
+                  )?.description_on_show
+                }}
+              </span>
+              <span v-else>
+                {{
+                  customizeStore.getAccAttributes(
+                    "acc-customize-accessibility-mode"
+                  )?.description_on_hide
+                }}
+              </span>
             </p>
           </div>
 

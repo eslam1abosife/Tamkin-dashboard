@@ -199,16 +199,30 @@ const resetAccessiility = async () => {
             <h1
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
-              {{ $t("General Settings") }}
+              {{
+                settingsStore.getAccAttributes("acc-setting-general-settings")
+                  ?.title
+              }}
             </h1>
             <h2
               class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
             >
-              {{
-                $t(
-                  "Accessibility Settings allow users to customize their website experience to ensure it is accessible and user-friendly"
-                )
-              }}
+              <span
+                v-if="
+                  !collapseStore.collapses.includes('general_settings_card')
+                "
+              >
+                {{
+                  settingsStore.getAccAttributes("acc-setting-general-settings")
+                    ?.description_on_show
+                }}
+              </span>
+              <span v-else>
+                {{
+                  settingsStore.getAccAttributes("acc-setting-general-settings")
+                    ?.description_on_hide
+                }}
+              </span>
             </h2>
           </div>
 

@@ -62,17 +62,35 @@ const backgroundImageStyle = computed(() => {
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t("Live Site Translations Button") }}
+          {{
+            customizeStore.getAccAttributes("acc-customize-translations-button")
+              ?.title
+          }}
         </h1>
 
         <p
           class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
         >
-          {{
-            $t(
-              "The ‘Live Site Translations’ button instantly translates web content,bridging languages"
-            )
-          }}
+          <span
+            v-if="
+              !collapseStore.collapses.includes(
+                'live_site_translation_button_card'
+              )
+            "
+          >
+            {{
+              customizeStore.getAccAttributes(
+                "acc-customize-translations-button"
+              )?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              customizeStore.getAccAttributes(
+                "acc-customize-translations-button"
+              )?.description_on_hide
+            }}
+          </span>
         </p>
       </div>
 

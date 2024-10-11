@@ -13,6 +13,7 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    features: [],
     loadingData: false,
     currentColor: "#2dada3",
     initcurrentColor: "#2dada3",
@@ -64,6 +65,10 @@ export const useCustomizeStore = defineStore("customize", {
     initselectedLang: {},
   }),
   actions: {
+    getAccAttributes(name: any) {
+      const item = this.features.find((el: any) => el.name === name);
+      return item;
+    },
     showSaveBeforeLeaveModal() {
       this.routeLeaveModal = !this.routeLeaveModal;
     },

@@ -24,17 +24,27 @@ const { widgetType } = storeToRefs(customizeStore);
           <h1
             class="text-[14px] lg:text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]"
           >
-            {{ $t("Widget Type") }}
+            {{
+              customizeStore.getAccAttributes("acc-customize-widget-type")
+                ?.title
+            }}
           </h1>
 
           <p
             class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
           >
-            {{
-              $t(
-                "Control the size of the buttons that you want to appear in the list"
-              )
-            }}
+            <span v-if="!collapseStore.collapses.includes('widget_type_card')">
+              {{
+                customizeStore.getAccAttributes("acc-customize-widget-type")
+                  ?.description_on_show
+              }}
+            </span>
+            <span v-else>
+              {{
+                customizeStore.getAccAttributes("acc-customize-widget-type")
+                  ?.description_on_hide
+              }}
+            </span>
           </p>
         </div>
 

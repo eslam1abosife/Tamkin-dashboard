@@ -45,8 +45,24 @@ onMounted(() => {});
         <h1
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t(`${checkboxStore.title}`) }}
+          {{ checkboxStore.getAccAttributes("acc-addons-main-menu")?.title }}
         </h1>
+        <h2
+          class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+        >
+          <span v-if="!collapseStore.collapses.includes('adjustMenu')">
+            {{
+              checkboxStore.getAccAttributes("acc-addons-main-menu")
+                ?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              checkboxStore.getAccAttributes("acc-addons-main-menu")
+                ?.description_on_hide
+            }}
+          </span>
+        </h2>
       </div>
 
       <div

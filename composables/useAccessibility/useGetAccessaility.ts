@@ -17,6 +17,19 @@ export default function () {
       const res = await api.post("/Widget/GetAccessibility/default");
       const features = res.data.data.features;
 
+      const getnamesFeature = res.data.data.features.map((el: any) => {
+        return {
+          name: el.name,
+          title: el.title,
+          description_on_show: el.description_on_show,
+          description_on_hide: el.description_on_hide,
+        };
+      });
+
+      customizeStore.features = getnamesFeature;
+      checkboxStore.features = getnamesFeature;
+      settingsStore.features = getnamesFeature;
+
       // button color
       const colorMode = features
         .find((feature: any) => feature.name === "acc-customize-button-color")

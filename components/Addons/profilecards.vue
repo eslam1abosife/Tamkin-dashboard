@@ -106,8 +106,29 @@ onMounted(() => {
         <h1
           class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ $t("Manage your Accessibility Profiles") }}
+          {{
+            checkboxStore.getAccAttributes("acc-addons-accessibility-profiles")
+              ?.title
+          }}
         </h1>
+        <h2
+          class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+        >
+          <span v-if="!collapseStore.collapses.includes('ManageCard')">
+            {{
+              checkboxStore.getAccAttributes(
+                "acc-addons-accessibility-profiles"
+              )?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              checkboxStore.getAccAttributes(
+                "acc-addons-accessibility-profiles"
+              )?.description_on_hide
+            }}
+          </span>
+        </h2>
       </div>
       <div
         @click.stop="collapseStore.collapseMenu('ManageMenu')"

@@ -15,6 +15,7 @@ interface Card {
 
 export const useAddonStore = defineStore("addon", {
   state: () => ({
+    features: [],
     loadingData: false,
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
@@ -32,13 +33,16 @@ export const useAddonStore = defineStore("addon", {
     changesOnCheckboxes: false,
   }),
   actions: {
+    getAccAttributes(name: any) {
+      const item = this.features.find((el: any) => el.name === name);
+      return item;
+    },
     showSaveBeforeLeaveModal() {
       this.routeLeaveModal = !this.routeLeaveModal;
     },
 
     saveAndMove() {
       this.routeLeaveModal = false;
-      this.cancelAll();
     },
     initializeCheckboxes(names: string[]) {
       this.checkboxes = names.map((name) => ({ name, value: false }));
