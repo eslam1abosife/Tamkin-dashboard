@@ -52,8 +52,8 @@ const props = defineProps({
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Upgrade to upload more videos
+    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+        {{ $t('Upgrade to upload more videos') }}
     </h1>
 
 
@@ -64,12 +64,12 @@ const props = defineProps({
     
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px]">
-        Sorry, you do not have enough words and minutes available to translate the video Please upgrade to continue the translation process without interruption
+       {{ $t(' Sorry, you do not have enough words and minutes available to translate the video Please upgrade to continue the translation process without interruption') }}
     </div>
 
     <div class="w-[190px] mx-auto">
       <button class="btn-dashboard hover_tamkin mt-[40px] ">
-        Upgrade Now
+        {{ $t('Upgrade Now') }}
       </button>
     </div>
   </div>

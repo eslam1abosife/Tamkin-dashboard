@@ -103,7 +103,7 @@
 .btn-translate {
   @apply  dark:border-darkborder text-[10px] leading-[15px] text-darkGrey h-[30px] rounded-[5px] p-[16px]
 
-  flex items-center space-x-[4px] relative #{!important};
+  flex items-center rtl:space-x-reverse space-x-[4px] relative #{!important};
   &.tamkin{
     &::before{
       content: "";

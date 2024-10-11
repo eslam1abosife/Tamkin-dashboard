@@ -1,12 +1,12 @@
 <template>
   <div class="flex justify-between bg-[#DFDFDF] toolbar-container">
-    <div class="flex items-center space-x-2">
-      <div class="toolbar-item">Page {{ currentPage }} of {{ totalPages }}</div>
-      <div class="toolbar-item">{{ wordCount }} words</div>
+    <div class="flex items-center rtl:space-x-reverse  space-x-2">
+      <div class="toolbar-item">{{ $t('Page') }} {{ currentPage }} {{ $t('of') }} {{ totalPages }}</div>
+      <div class="toolbar-item">{{ wordCount }} {{$t('words')}}</div>
       <div class="toolbar-item">English (United States)</div>
     </div>
     
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center rtl:space-x-reverse  space-x-2">
       <div class="zoom-controls">
         <button @click="zoomOut">-</button>
         <input type="range" min="100" max="300" step="10" v-model="zoomLevel" @input="emitZoomChange" class="zoom-slider" />

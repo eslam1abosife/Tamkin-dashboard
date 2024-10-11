@@ -69,11 +69,11 @@ const changeDropMenu = (menu:any)=>{
             </div>
             <img src="/assets/imgs/translatephotos/img_s.png" class="object-cover w-full h-[91px] rounded-[7px]"  alt="">
         </div>
-        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[12px] leading-[16px] mt-[10px] pl-[15px]">
+        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[12px] leading-[16px] mt-[10px] rtl:pr-[15px] ltr:pl-[15px]">
             AAAAAAAAAAAA
         </div>
-        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[10px] leading-[16px] pl-[15px]">
-            Uploaded on Jan 1, 2023
+        <div class="text-[#141C24] dark:text-whiteTamkin font-[500] text-[10px] leading-[16px] rtl:pr-[15px] ltr:pl-[15px]">
+            {{$t('Uploaded on')}} Jan 1, 2023
         </div>
         </div>
 

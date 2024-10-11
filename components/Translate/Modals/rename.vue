@@ -47,8 +47,8 @@ const props = defineProps({
         />
       </svg>
     </div>
-    <h1 class="text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        Rename {{renameType}}
+    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+        {{ $t('Rename') }} {{renameType}}
     </h1>
     <div class="w-full relative mt-[40px]">
       <input
@@ -74,7 +74,7 @@ const props = defineProps({
             : '',
         ]"
       >
-        {{ $t("New Project name") }}*
+        {{ $t("New Project name*") }}
       </label>
       <div
         class="w-full lg:w-4/6 "
@@ -91,15 +91,15 @@ const props = defineProps({
       </div>
     </div>
 
- <div class="flex items-center justify-end space-x-[10px]">
+ <div class="flex items-center justify-end rtl:space-x-reverse  space-x-[10px]">
     <div class="">
         <button class="btn_bordered_dashboard hover_tamkin mt-[40px] " @click="closeModal('renamemodal')" >
-          Cancel
+          {{ $t('Cancel') }}
         </button>
       </div>
     <div class="">
         <button class="btn-dashboard hover_tamkin mt-[40px] " :disabled="v$.name.$invalid">
-          Save
+          {{ $t('Save') }}
         </button>
       </div>
   

@@ -37,7 +37,7 @@ const getPlayerPosition = (p: any) => {
                 Project Settings
             </div>
 
-            <div class="flex items-center space-x-[16px]">
+            <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <button class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2"
                >
                <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@ const getPlayerPosition = (p: any) => {
 
         <div class=" flex items-start w-full justify-between mt-[30px]">
        
-            <div class="flex items-start justify-evenly  space-x-[15px] ">
+            <div class="flex items-start justify-evenly  rtl:space-x-reverse space-x-[15px] ">
 
                 <button class="btn-translate tamkin hover_tamkin group" @click="changeMode('translation')"
                     :class="[translateStore.currentMode === 'translation' ? 'active_tamkin' : '']">
@@ -197,7 +197,7 @@ const getPlayerPosition = (p: any) => {
                               >
                               
                           
-                                <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+                                <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
                                   <div
                                   class="text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
                                 >
@@ -228,7 +228,7 @@ const getPlayerPosition = (p: any) => {
                         <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
                           Sign Language Translation
                         </div>
-                        <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+                        <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
                           <div class="flex flex-col items-center justify-center w-[120px]">
                             <Circularprogressbar :initialPercentage="85" class="w-full" />
                             <div

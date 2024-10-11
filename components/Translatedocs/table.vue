@@ -19,7 +19,7 @@ const changeTab = (tab: any) => {
 <template>
   <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
     <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
-<div class="flex items-center justify-start  space-x-[24px]">
+<div class="flex items-center justify-start  rtl:space-x-reverse space-x-[24px]">
     <div
     :class="[
       currentTab === 'pdf'
@@ -29,7 +29,7 @@ const changeTab = (tab: any) => {
     class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
     @click="changeTab('pdf')"
   >
-  Pdf  Documents (12)
+  {{ $t('Pdf Documents') }} (12)
   </div>
   <div
     :class="[
@@ -40,7 +40,7 @@ const changeTab = (tab: any) => {
     class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
     @click="changeTab('docx')"
   >
-  Docx Documents
+  {{ $t('Docx Documents') }}
   </div>
 </div>
    
@@ -74,7 +74,7 @@ const changeTab = (tab: any) => {
       <button
         class="btn-dashboard w-[150px] hover_tamkin mx-auto"
       >
-        Load more
+        {{ $t('Load more') }}
       </button>
     </div>
   </div>

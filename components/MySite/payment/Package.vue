@@ -286,20 +286,9 @@ const packageTypeToSend = computed(() => {
   const {  currentPackage } = mysiteStore;
 
 
-
-//   if (
-//     (currentType &&  currentPackage.name === "Sign language" )&&
-//     currentPackage.package_type === "Package" &&
-//     getCategory.value
-//   ) {
-//     return getCategory.value;
-//   }
-
-//   if ((currentType  &&currentType.name === "Accessibility") && currentPackage.package_type === "Addons") {
-//     return "Accessibility";
-//   }
-
-  return null;
+// if(currentPackage.type !== 'Accessibility'){
+// return currentPackage.type ;
+// }
 });
 
 /**
@@ -316,7 +305,7 @@ const conintuePay = () => {
     payDateType: selectedPackage.value,
     locale: locale.value,
     total: totalCost.value,
-    packageExtraType: packageTypeToSend.value ? packageTypeToSend.value :null,
+    packageExtraType: mysiteStore.currentPackage.category ? mysiteStore.currentPackage.category : null,
     packageTrie:    mysiteStore.currentPackage.type ==='Accessibility' ? packagesStore.traffic_level : mysiteStore.currentPackage.category,
   };
   return navigateTo("add_package_modal_mysite", "mysite", "payment_methods_mysite");
@@ -658,7 +647,7 @@ const closeModalPackage = () => {
           >
     
             <div class="flex items-center justify-center w-full relative">
-              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' "
+              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package "
           
               class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px]  font-[400] w-[80px] 
               rounded-[10px] h-[22px] flex items-center justify-center  px-[0.5px] top-[-30px] left-[calc(50%-40px)] text-white"
@@ -710,7 +699,7 @@ const closeModalPackage = () => {
           >
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
-                <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'"
+                <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'&& !mysiteStore.currentPackage.cancel_package"
              
                 class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
               >
@@ -769,7 +758,7 @@ const closeModalPackage = () => {
           >
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
-                <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'"
+                <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'&& !mysiteStore.currentPackage.cancel_package"
           
                 class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
               >

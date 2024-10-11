@@ -2,6 +2,7 @@
 
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
+const {locale} = useI18n()
 const translateStore = useTranslateStore()
 import { Vue3ColorPicker } from '@cyhnkckali/vue3-color-picker';
 import '@cyhnkckali/vue3-color-picker/dist/style.css'
@@ -90,15 +91,15 @@ onBeforeMount(()=>{
 <template>
 
     <div v-if="translateStore.subMode  === 'style'"
-        class="w-2/4  !h-full flex flex-col items-start justify-start scrollable-div pr-[20px]" id="scrollable-div">
-        <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px] mt-[6px]">
-            <svg class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none"
+        class="w-2/4  !h-full flex flex-col items-start justify-start scrollable-div rtl:pl-[20px]  ltr:pr-[20px]" id="scrollable-div">
+        <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]">
+            <svg class="cursor-pointer rtl:rotate-180"  width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg" @click="changeMode('subtitles')">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z"
                     fill="#585B5B" />
             </svg>
             <div>
-                Style
+                {{ $t('Style') }}
             </div>
         </div>
         <div class="w-full px-1">
@@ -108,18 +109,21 @@ onBeforeMount(()=>{
                 idField="id" />
    
 
-            <div class="flex items-center justify-between space-x-[24px] mt-[16px] ">
+            <div class="flex items-center justify-between rtl:space-x-reverse space-x-[24px] mt-[16px] ">
 
                 <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false"
-                    placeholderinput="Size" :list="languagesArr" nameKey="name" idField="id" />
+                    :placeholderinput="$t('Size')" :list="languagesArr" nameKey="name" idField="id" />
                 <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false"
-                    placeholderinput="Lines" :list="languagesArr" nameKey="name" idField="id" />
+                    :placeholderinput="$t('Lines')" :list="languagesArr" nameKey="name" idField="id" />
 
                 <div @click="()=>{showColorPicker = !showColorPicker}"
                     class="h-[40px] border-[1px] border-lightGrey rounded-[10px] w-full flex items-center justify-between relative cursor-pointer">
 
                     <div v-if="showColorPicker" v-on-click-outside="() => { showColorPicker = !showColorPicker }"
-                        class="bg-white absolute z-[50] top-14 h-auto  !shadow-none custom-border-tamkin lg:!left-[-70px] 2xl:!left-[-130px]">
+                        class="bg-white absolute z-[50] top-14 h-auto  !shadow-none custom-border-tamkin 
+                    rtl:lg:!right-[-70px] rtl:2xl:!right-[-150px]
+ ltr:lg:!left-[-70px] ltr:2xl:!left-[-130px]
+">
                         <Vue3ColorPicker mode="solid" @click.stop class="lg:!w-[200px] 2xl:!w-[300px] !shadow-none"
                             v-model="translateStore.colorStyle" :showColorList="false" :showEyeDrop="true" :showAlpha="true"
                             type="HEX" :showInputMenu="false" :showInputSet="true" :showPickerMode="false" />
@@ -128,10 +132,10 @@ onBeforeMount(()=>{
                     </div>
 
                     <div
-                        class="rounded-l-[10px] bg-white w-2/4 text-center text-[12px] font-[500] leading-[32px] text-darkGrey">
-                        color
+                        class="rtl:rounded-r-[10px] ltr:rounded-l-[10px] bg-white w-2/4 text-center text-[12px] font-[500] leading-[32px] text-darkGrey">
+                        {{ $t('color') }}
                     </div>
-                    <div class="bg-[#F7F7F7] w-2/4 h-full rounded-r-[10px] flex items-center justify-center ">
+                    <div class="bg-[#F7F7F7] w-2/4 h-full rtl:rounded-l-[10px] ltr:rounded-r-[10px] flex items-center justify-center ">
                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5.155 13.1491L0.85 8.83333C0.733333 8.71637 0.645833 8.58772 0.5875 8.44737C0.529167 8.30702 0.5 8.16082 0.5 8.00877C0.5 7.85673 0.529167 7.71053 0.5875 7.57018C0.645833 7.42982 0.733333 7.30117 0.85 7.18421L4.875 3.16667L3.5625 1.85088C3.41083 1.69883 3.3322 1.51754 3.3266 1.30702C3.321 1.09649 3.3938 0.909357 3.545 0.745614C3.6962 0.581871 3.88287 0.5 4.105 0.5C4.32713 0.5 4.51963 0.581871 4.6825 0.745614L11.105 7.18421C11.2217 7.30117 11.3064 7.42982 11.3591 7.57018C11.4118 7.71053 11.438 7.85673 11.4375 8.00877C11.437 8.16082 11.4109 8.30702 11.3591 8.44737C11.3073 8.58772 11.2226 8.71637 11.105 8.83333L6.8 13.1491C6.68333 13.2661 6.555 13.3538 6.415 13.4123C6.275 13.4708 6.12917 13.5 5.9775 13.5C5.82583 13.5 5.68 13.4708 5.54 13.4123C5.4 13.3538 5.27167 13.2661 5.155 13.1491ZM5.9775 4.27193L2.2325 8.02632H9.7225L5.9775 4.27193ZM12.96 13.5C12.54 13.5 12.1842 13.3508 11.8925 13.0523C11.6008 12.7538 11.455 12.3884 11.455 11.9561C11.455 11.6403 11.5339 11.3421 11.6916 11.0614C11.8493 10.7807 12.0271 10.5058 12.225 10.2368L12.5575 9.81579C12.6625 9.68713 12.7997 9.62 12.9691 9.61439C13.1385 9.60877 13.2755 9.67006 13.38 9.79824L13.73 10.2368C13.9167 10.5058 14.0917 10.7807 14.255 11.0614C14.4183 11.3421 14.5 11.6403 14.5 11.9561C14.5 12.3889 14.3483 12.7545 14.045 13.053C13.7417 13.3515 13.38 13.5005 12.96 13.5Z"
@@ -152,7 +156,7 @@ onBeforeMount(()=>{
         </div>
         <div
             class="border-[1px] border-lightGrey rounded-[10px]  bg-[#F7F7F7] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
-            <div class="flex items-center space-x-[24px]">
+            <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
                 <button
                 :class="[translateStore.styles.fontStyle === 'bold' ? '!bg-[#EAEAEA]' : '!bg-white']"
                 class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]" @click="translateStore.styles.fontStyle = 'bold'">
@@ -171,7 +175,7 @@ onBeforeMount(()=>{
                     U
                 </button>
             </div>
-            <div class="flex items-center space-x-[24px]">
+            <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
 
                 <button class="btn-default font-[700] text-darkGrey h-[30px] w-[30px] !p-[7px]"
                 :class="[translateStore.styles.textAlign === 'left' ? '!bg-[#EAEAEA]' : '!bg-white']"
@@ -230,7 +234,7 @@ onBeforeMount(()=>{
 
         <div class="border-[1px] border-lightGrey rounded-[10px]  bg-[#F7F7F7] flex items-center justify-between
      w-[100%] h-[40px] p-4 mt-[16px]">
-            <div class="flex items-center space-x-[24px]">
+            <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
                 <button 
                 :class="[translateStore.styles.fontCap === '-' ? '!bg-[#EAEAEA]' : '!bg-white']"
 
@@ -264,7 +268,7 @@ onBeforeMount(()=>{
                     ab
                 </button>
             </div>
-            <div class="flex items-center space-x-[24px] relative">
+            <div class="flex items-center rtl:space-x-reverse space-x-[24px] relative">
 
                 <button @click="()=>{
                   
@@ -282,15 +286,15 @@ onBeforeMount(()=>{
                   
                 </button>
                 <div id="menu_spacing" class="bg-white border-[1px] flex flex-col items-start  border-tamkin  rounded-[10px]  
-                h-auto absolute z-[100] left-[-180px] top-10 p-[10px]" v-if="openSpacingMenu" >
+                h-auto absolute z-[100] rtl:right-[-180px] ltr:left-[-180px] top-10 p-[10px]" v-if="openSpacingMenu" >
                       <div class="font-[500] text-darkGrey text-[12px] text-left ">
-                          Spacing
+                          {{$t('Spacing')}}
                       </div>
-                      <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
+                      <div class="flex mt-[6px] items-center justify-start w-full rtl:space-x-reverse space-x-[16px]">
                           <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap"   > 
-                              Line Height
+                              {{$t('Line Height')}}
                           </div>
-                          <div class="slider-container ">
+                          <div class="slider-container " :class="[locale === 'ar' ? 'rtl' :'ltr']">
                               <input type="range" v-model="translateStore.styles.lineHeight" 
                               @click.stop min="0" max="100" class="slider"
                                   :style="{ '--pc': translateStore.styles.lineHeight + '%' }" />
@@ -300,11 +304,11 @@ onBeforeMount(()=>{
                               {{ translateStore.styles.lineHeight }}
                           </button>
                       </div>
-                      <div class="flex mt-[6px] items-center justify-start w-full space-x-[16px]">
+                      <div class="flex mt-[6px] items-center justify-start w-full rtl:space-x-reverse space-x-[16px]">
                           <div class="font-[400] w-[67px] text-[11px] text-darkGrey whitespace-nowrap">
-                              Letter Spacing
+                              {{ $t('Letter Spacing') }}
                           </div>
-                          <div class="slider-container ">
+                          <div class="slider-container " :class="[locale === 'ar' ? 'rtl' :'ltr']">
                               <input type="range" v-model="translateStore.styles.letterSpacing" @click.stop min="0" max="100"
                                class="slider"
                                   :style="{ '--pc': translateStore.styles.letterSpacing + '%' }" />
@@ -326,11 +330,11 @@ onBeforeMount(()=>{
        p-4 mt-[16px]">
             <div class="flex items-center justify-between w-full">
                 <div class="text-[11px] font-[500] text-darkGrey">
-                    Auto Highlight
+                    {{ $t('Auto Highlight') }}
                 </div>
-                <div class="flex items-center space-x-[24px]">
+                <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
 
-                    <div class="ml-auto flex items-center ">
+                    <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
                         <label for="toggle_google_a" class="toggle_wrap">
                             <input type="checkbox" id="toggle_google_a" class="sr-only" v-model="translateStore.styles.autoHighlight.enabled" />
                             <div class="toggle_parent" :class="[translateStore.styles.autoHighlight.enabled ? 'active' : 'in_active']">
@@ -350,11 +354,11 @@ onBeforeMount(()=>{
             <div id="hightlight_menu" v-if="translateStore.styles.autoHighlight.enabled" class="custom-border-tamkin  padding-override-1 rounded-[10px] 
      bg-white flex items-center relative justify-between w-[100%] h-[40px]  mt-[10px]">
 
-                <div class="flex items-center space-x-[24px] text-[11px] font-[500] text-darkGrey p-4">
+                <div class="flex items-center rtl:space-x-reverse space-x-[24px] text-[11px] font-[500] text-darkGrey p-4">
 
-                    Highlight color
+                    {{ $t('Highlight color') }}
                 </div>
-                <div class="flex items-center space-x-[24px]">
+                <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
                     <button 
                     :class="[translateStore.styles.autoHighlight.fontStyle === 'bold'? '!bg-[#EAEAEA]' : '!bg-[#F7F7F7]']"
 
@@ -413,7 +417,7 @@ onBeforeMount(()=>{
 .slidecontainer {
     justify-content: center;
     bottom: 0px;
-    margin-left: auto;
+    @apply ltr:ml-auto rtl:mr-auto;
 }
 
 .slider {
@@ -428,8 +432,18 @@ onBeforeMount(()=>{
     opacity: 0.8;
     -webkit-transition: .2s;
     transition: opacity .2s;
-}
-
+  }
+  
+  /* LTR version (default) */
+  .ltr .slider {
+    background: linear-gradient(to right, transparent 0 var(--pc), #d3d3d3 var(--pc) 100%), linear-gradient(to right, #2DADA3, #71DAD2);
+  }
+  
+  /* RTL version */
+  .rtl .slider {
+    background: linear-gradient(to left, transparent 0 var(--pc), #d3d3d3 var(--pc) 100%), linear-gradient(to left, #2DADA3, #71DAD2);
+  }
+  
 
 
 .slider::-webkit-slider-thumb {

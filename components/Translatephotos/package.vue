@@ -28,15 +28,15 @@ watch(
   <div class="w-full">
     <div
       v-if="currentPlan === 'freetrial'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+      class="w-full rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
       <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
-        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+        <div class="absolute -bottom-4 rtl:left-[300px] ltr:right-[300px]  flex justify-center items-center">
           <div
             class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
           ></div>
         </div>
-        <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
             src="/assets/imgs/translatevideo/free_trial.png"
@@ -55,7 +55,7 @@ watch(
           Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
         </div>
 
-        <div class="flex items-center space-x-[50px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
           <div class="flex items-center">
             <img
               src="/assets/imgs/translatedocs/words.svg"
@@ -85,12 +85,12 @@ watch(
         </button>
       </div>
 
-      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+      <div class="lg:flex hidden absolute ltr:-right-[24px] rtl:-left-[24px] top-[16px] h-full ">
         <div class="relative h-full z-[10]">
-          <img src="/assets/imgs/translatephotos/hero.png" class="w-[340px] h-[221px]" />
+          <img src="/assets/imgs/translatephotos/hero.png" class="w-[340px] h-[221px]  rtl:scale-x-[-1]" />
         </div>
         <div
-        class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+        class="absolute rtl:left-[10px]  ltr:right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
       >
 
       </div>
@@ -107,15 +107,15 @@ watch(
     </div>
     <div
       v-if="currentPlan === 'freetrial_upgrade'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+      class="w-full rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
       <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
-        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+        <div class="absolute -bottom-4 rtl:left-[300px] ltr:right-[300px]  flex justify-center items-center">
           <div
             class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
           ></div>
         </div>
-        <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
             src="/assets/imgs/translatevideo/free_trial.png"
@@ -134,7 +134,7 @@ watch(
           Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
         </div>
 
-        <div class="flex items-center space-x-[50px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
           <div class="flex items-center">
             <img
               src="/assets/imgs/translatedocs/words.svg"
@@ -165,15 +165,15 @@ watch(
         </button>
       </div>
 
-      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+      <div class="lg:flex hidden absolute ltr:-right-[24px] rtl:-left-[24px] top-[16px] h-full ">
 
         <div
-            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+            class="absolute rtl:left-[10px] ltr:right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
           >
     
           </div>
            <div class="relative h-full z-[10]">
-          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px]"  />
+          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px] rtl:scale-x-[-1]"  />
         </div>
         <div
           class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
@@ -188,15 +188,15 @@ watch(
     </div>
     <div
       v-if="currentPlan === 'freetrial_Ex'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+      class="w-full rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
       <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
-        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+        <div class="absolute -bottom-4 rtl:left-[300px] ltr:right-[300px]  flex justify-center items-center">
           <div
             class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
           ></div>
         </div>
-        <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
             src="/assets/imgs/translatevideo/free_trial.png"
@@ -215,8 +215,8 @@ watch(
           Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
         </div>
 
-        <div class="flex items-center space-x-[50px]">
-          <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
+          <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
             <img
               src="/assets/imgs/translatedocs/limited.svg"
               class="w-[19px] h-[19px]"
@@ -226,7 +226,7 @@ watch(
               <span class="font-[500]">WORDS</span>
             </div>
           </div>
-          <div class="flex items-center space-x-[10px]">
+          <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
             <img
               src="/assets/imgs/translatedocs/limited.svg"
               class="w-[19px] h-[19px]"
@@ -246,15 +246,15 @@ watch(
         </button>
       </div>
 
-      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+      <div class="lg:flex hidden absolute ltr:-right-[24px] rtl:-left-[24px] top-[16px] h-full ">
 
         <div
-            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+            class="absolute rtl:left-[10px] ltr:right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
           >
     
           </div>
            <div class="relative h-full z-[10]">
-          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px]"  />
+          <img src="/assets/imgs/translatephotos/hero.png"     class="w-[340px] h-[221px] rtl:scale-x-[-1]"  />
         </div>
         <div
           class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
@@ -269,15 +269,15 @@ watch(
     </div>
     <div
       v-if="currentPlan === 'pro_pack'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+      class="w-full rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
       <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
-        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+        <div class="absolute -bottom-4 rtl:left-[300px] ltr:right-[300px]  flex justify-center items-center">
           <div
             class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
           ></div>
         </div>
-        <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
             src="/assets/imgs/translatevideo/free_trial.png"
@@ -306,15 +306,15 @@ watch(
         </button>
       </div>
 
-      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+      <div class="lg:flex hidden absolute ltr:-right-[24px] rtl:-left-[24px] top-[16px] h-full ">
 
         <div
-            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+            class="absolute rtl:left-[10px] ltr:right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
           >
     
           </div>
            <div class="relative h-full z-[10]">
-          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px]" />
+          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px] rtl:scale-x-[-1]" />
         </div>
         <div
           class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"
@@ -330,15 +330,15 @@ watch(
 
     <div
       v-if="currentPlan === 'pro_used'"
-      class="w-full bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
+      class="w-full rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#3B68A4] via-[#9CB2D3] to-[#ECEEF9] rounded-[10px] flex flex-col items-start justify-center p-[15px] relative"
     >
       <div class="flex flex-col items-start justify-between h-[180px] w-full relative">
-        <div class="absolute -bottom-4 right-[300px] flex justify-center items-center">
+        <div class="absolute -bottom-4 rtl:left-[300px] ltr:right-[300px]  flex justify-center items-center">
           <div
             class="h-[100px] ipad-max:w-[100px] ipad-max:h-[50px] w-[200px] bg-white opacity-20 rounded-tl-full rounded-tr-full"
           ></div>
         </div>
-        <div class="flex items-center space-x-[10px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img
             class="w-[40px] h-[40px]"
             src="/assets/imgs/translatevideo/free_trial.png"
@@ -358,7 +358,7 @@ watch(
           package or add more words and character to continue using the service
         </div>
 
-        <div class="flex items-center space-x-[10px] w-full mt-[8px]">
+        <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
           <button
             @click="changePlan('freetrial')"
             class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]"
@@ -374,15 +374,15 @@ watch(
         </div>
       </div>
 
-      <div class="lg:flex hidden absolute -right-[24px] top-[16px] h-full ">
+      <div class="lg:flex hidden absolute ltr:-right-[24px] rtl:-left-[24px] top-[16px] h-full ">
 
         <div
-            class="absolute right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
+            class="absolute rtl:left-[10px] ltr:right-[10px]  bg-[#F2F7FF]  z-[1] bottom-2 w-[100px] h-[80px]"
           >
     
           </div>
            <div class="relative h-full z-[10]">
-          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px]"  />
+          <img src="/assets/imgs/translatephotos/hero.png"      class="w-[340px] h-[221px] rtl:scale-x-[-1]"  />
         </div>
         <div
           class="absolute lg:right-[400px] ipad-max:right-[200px] top-16 bottom-0 w-full"

@@ -62,7 +62,7 @@ function leaveNotification(el, done) {
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-        Translate video
+        {{ $t('Translate video') }}
       </h1>
 
       <div  style="box-shadow: 0px 4px 4px 0px #0000000F;
@@ -78,7 +78,7 @@ function leaveNotification(el, done) {
       <h2 @click="$router.push('/translate')"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      Media services
+      {{ $t('Media services') }}
       </h2>
     </div>
 

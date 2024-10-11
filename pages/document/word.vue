@@ -97,7 +97,7 @@ provide('process',processingDone)
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      Docx Documents 
+      {{$T('Docx Documents')}}
       </h1>
 
       <div  style="box-shadow: 0px 4px 4px 0px #0000000F;
@@ -110,10 +110,10 @@ provide('process',processingDone)
         </div>
       </div>
       </div>
-      <h2 @click="$router.push('/document')"
+      <h2 @click="$router.push(localePath('/document'))"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      Documents Services
+      {{ $t('Documents Services') }}
       </h2>
     </div>
 
@@ -130,11 +130,11 @@ provide('process',processingDone)
 
   <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[24px] rounded-[10px] w-full mb-[16px]">
     <div class="text-[15px] font-[500] text-darkGrey py-[16px]">
-      All Word Documents 
+      {{$t('All Word Documents ')}}
     </div>
   <TranslatedocsDox/>
 
-  <button class="btn-dashboard hover_tamkin w-[158px] mx-auto mt-[28px]">Load more</button>
+  <button class="btn-dashboard hover_tamkin w-[158px] mx-auto mt-[28px]">{{$t('Load more')}}</button>
 </div>
   </div>
 </template>

@@ -236,7 +236,7 @@ const setPageSize = (size:number) => {
     </div>
     <div v-if="loadingBlock" class="animate-pulse mt-[24px]">
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white last:rounded-b-[10px]">
+        <table class="min-w-full h-[250px] bg-white last:rounded-b-[10px]">
           <thead class="bg-white border-b text-[12px] leading-[18px] text-[#999999]">
             <tr>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order ID')}}</th>
@@ -274,7 +274,7 @@ const setPageSize = (size:number) => {
       </div>
     </div>
       <div v-if="orders?.length>0" class="overflow-x-auto mt-[24px]">
-        <table class="min-w-full bg-white  last:rounded-b-[10px]">
+        <table class="min-w-full  bg-white  last:rounded-b-[10px]">
           <thead class="bg-white  border-b  text-[12px] leading-[18px] text-[#999999] ">
             <tr>
               <th class="py-3 px-6 rtl:text-right ltr:text-left font-[500]">{{$t('Order ID')}}</th>
@@ -348,7 +348,7 @@ const setPageSize = (size:number) => {
         </table>
       </div>
 
-      <div v-if="orders?.length==0 && !loadingBlock" class="bg-white w-full h-[450px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
+      <div v-if="orders?.length==0 && !loadingBlock" class="bg-white w-full h-[250px] mt-[32px]  flex flex-col items-center justify-center rounded-[10px] space-y-[16px] p-[32px]">
         <img src="/imgs/no_orders.png" class="w-[67px] h-[71px]" alt="">
         <div class="text-[14px] leading-[28px] font-[400] text-darkGrey w-1/4 text-center">
           {{$t('There are no orders at the moment')}}

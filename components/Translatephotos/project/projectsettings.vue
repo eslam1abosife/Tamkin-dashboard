@@ -39,14 +39,15 @@ provide("prop_player", state);
 
 <template>
   <div
-    class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] h-full flex p-[15px] justify-start w-full mt-[24px]"
+    class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] 
+    h-full flex p-[15px] justify-start w-full mt-[24px]"
   >
     <div class="flex items-center justify-between w-full">
-      <div class="text-darkGrey text-[18px] leading-[27px] font-[500] text-left">
-        Project Settings
+      <div class="text-darkGrey text-[18px] leading-[27px] font-[500] rtl:text-right ltr:text-left">
+        {{ $t('Project Settings') }}
       </div>
 
-      <div class="flex items-center space-x-[16px]">
+      <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
         <button
           class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2"
           @click="openModal('moreinfo_translate', 'projectsettings')"
@@ -156,7 +157,7 @@ provide("prop_player", state);
     </div>
 
     <div class="flex items-start w-full justify-between mt-[30px]">
-      <div class="flex items-start justify-evenly space-x-[15px]">
+      <div class="flex items-start justify-evenly rtl:space-x-reverse space-x-[15px]">
         <button
         class="btn-translate tamkin hover_tamkin group"
         @click="changeMode('translation')"
@@ -173,7 +174,7 @@ provide("prop_player", state);
           </defs>
         </svg>
       </div>
-        <div class="text_normal_hover">Translation</div>
+        <div class="text_normal_hover">{{$t('Translation')}}</div>
       </button>
         <button
           class="btn-translate tamkin hover_tamkin group"
@@ -216,16 +217,16 @@ provide("prop_player", state);
               </defs>
             </svg>
           </div>
-          <div class="text_normal_hover">Sign Language</div>
+          <div class="text_normal_hover">{{$t('Sign Language')}}</div>
         </button>
     
         <button
           class="btn-translate gap-2 !justify-between tamkin hover_tamkin group"
           v-if="!state.removePlayer"
         >
-          <div class="text_normal_hover">Hide image</div>
+          <div class="text_normal_hover">{{$t('Hide image')}}</div>
 
-          <div class="ml-auto flex items-center">
+          <div class="rtl:mr-auto ltr:ml-auto flex items-center">
             <label for="toggle_subtitles" class="toggle_wrap">
               <input
                 type="checkbox"
@@ -261,10 +262,10 @@ provide("prop_player", state);
           v-if="state.removePlayer"
           @click="state.removePlayer = !state.removePlayer"
         >
-          <div class="ml-auto flex items-center">
+          <div class="rtl:mr-auto ltr:ml-auto flex items-center">
             <img src="/assets/imgs/translatephotos/player_hand.svg" alt="" />
           </div>
-          <div class="text_normal_hover">Player</div>
+          <div class="text_normal_hover">{{$t('Player')}}</div>
         </button>
       </div>
     </div>
@@ -313,16 +314,16 @@ provide("prop_player", state);
            
             <div v-if="    (translateStore.currentMode === 'signlang' && !state.removePlayer) ||
             (translateStore.currentMode === 'translation' && !state.removePlayer)"
-                    class="h-[54px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+                    class="h-[54px] relative w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
                     flex flex-col items-center justify-center rounded-[10px]"
                   >
                   
               
-                    <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+                    <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
                       <div
                       class="text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
                     >
-                      Translation accuracy
+                      {{$t('Translation accuracy')}}
                     </div>
                     
                       <div class="flex items-center justify-center w-[50px] ">
@@ -336,10 +337,10 @@ provide("prop_player", state);
                     </div>
                   </div>
             <div v-else
-            class="h-[200px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+            class="h-[200px] relative w-full rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
             flex flex-col items-center justify-center rounded-[10px]"
           >
-            <div class="absolute bottom-4 right-4">
+            <div class="absolute bottom-4 rtl:left-4 ltr:right-4">
               <img
                 src="/assets/imgs/translatedocs/lines.svg"
                 class="w-[32px] h-[32px]"
@@ -347,15 +348,15 @@ provide("prop_player", state);
               />
             </div>
             <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
-              Sign Language Translation
+              {{ $t('Sign Language Translation') }}
             </div>
-            <div class="flex items-center justify-evenly w-full space-x-[10px] ">
+            <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
               <div class="flex flex-col items-center justify-center w-[120px]">
                 <Circularprogressbar :initialPercentage="85" class="w-full" />
                 <div
                   class="mt-[12px] text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
                 >
-                  Translation accuracy
+                  {{ $t('Translation accuracy') }}
                 </div>
               </div>
               <div class="flex items-center jutify-center flex-col w-[150px] space-y-[9px]">
@@ -372,7 +373,7 @@ provide("prop_player", state);
                   </div>
 
                   <div class="text-[11px] text-center font-[500] text-[#021328]">
-                    Translated Words 1,250
+                    {{$t('Translated Words')}} 1,250
                   </div>
                 </div>
                 <div
@@ -387,7 +388,7 @@ provide("prop_player", state);
                   </div>
 
                   <div class="text-[11px] text-center font-[500] text-[#021328]">
-                    Untranslated Words 1,250
+                    {{ $t('Untranslated Words') }} 1,250
                   </div>
                 </div>
               </div>

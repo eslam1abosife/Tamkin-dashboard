@@ -85,9 +85,9 @@ watch(
 
 <template>
   <div class="w-2/4 flex flex-col items-start justify-start h-[315px]">
-    <div class="flex items-start w-full justify-between pr-[20px]" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
-      <div class="text-[#3D3D3D] text-[15px] font-[500]">Subtitles</div>
-      <div class="flex items-start justify-evenly space-x-[15px]">
+    <div class="flex items-start w-full justify-between rtl:pl-[20px] ltr:pr-[20px]" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
+      <div class="text-[#3D3D3D] text-[15px] font-[500]">{{$t('Subtitles')}}</div>
+      <div class="flex items-start justify-evenly rtl:space-x-reverse space-x-[15px]">
         <button class="btn-translate group" @click="changeMode('TranslationStyle')" :class="[translateStore.subMode  === 'TranslationStyle' ? 'active' : '']">
           <div>
             <svg width="21" height="19" class="w-[18px] h-[18px]" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +100,7 @@ watch(
               </defs>
             </svg>
           </div>
-          <div class="text"> Translation </div>
+          <div class="text"> {{$t('Translation')}} </div>
         </button>
         <button class="btn-translate group" @click="changeMode('style')" :class="[translateStore.currentMode  === 'style' ? 'active' : '']">
           <div>
@@ -115,7 +115,7 @@ watch(
               </defs>
             </svg>
           </div>
-          <div class="text"> Style </div>
+          <div class="text"> {{$t('Style')}} </div>
         </button>
       </div>
     </div>
@@ -134,19 +134,19 @@ watch(
                 <textarea v-model="textItem.text" v-on-click-outside="()=>{stopEditing(index)}" class="text-darkGrey font-[500] text-[12px] leading-[32px] w-full focus:ring-0 focus:outline-none border-0"></textarea>
               </div>
             </div>
-            <div class="flex items-center justify-evenly space-x-[20px] ipad-max:w-[45%] w-[40%] 3xl:w-[30%]">
+            <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[20px] ipad-max:w-[45%] w-[40%] 3xl:w-[30%]">
               <div class="flex flex-col">
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/in_watch.png" class="w-[12px] h-[14px]" alt="">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">In</span>
+                  <div class="flex items-center rtl:space-x-reverse space-x-2">
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{$t('In')}}</span>
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
                   </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/out_watch.png" class="w-[12px] h-[14px]" alt="">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">Out</span>
+                  <div class="flex items-center rtl:space-x-reverse space-x-2">
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{$t('Out')}}</span>
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
                   </div>
                 </div>

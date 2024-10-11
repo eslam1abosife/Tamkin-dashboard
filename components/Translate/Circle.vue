@@ -21,7 +21,7 @@
     </svg>
     <div class="content">
       <div class="text-[10px] leading-[26px] font-[400] text-[#A6A6A6] dark:text-whiteTamkin">
-        Remaining
+        {{ $t('Remaining') }}
       </div>
       <div class="text-[12px] leading-[26px] font-[600] text-[#3D3D3D] dark:text-whiteTamkin">
         <span class="text-tamkin">1000</span> Words

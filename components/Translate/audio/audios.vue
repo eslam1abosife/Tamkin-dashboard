@@ -70,7 +70,7 @@ const changeDropMenu = (menu:any)=>{
             AAAAAAAAAAAA
         </div>
         <div class="text-[#141C24] font-[500] text-[10px] leading-[16px] pl-[15px]">
-            Uploaded on Jan 1, 2023
+            {{$t('Uploaded on')}} Jan 1, 2023
         </div>
         </div>
         <div class="h-[140px]  flex flex-col items-start justify-start rounded-[7px] shadow-lg group hover:border-tamkin hover:border-[1px] cursor-pointer mx-1 mb-1">
@@ -113,7 +113,7 @@ const changeDropMenu = (menu:any)=>{
                 AAAAAAAAAAAA
             </div>
             <div class="text-[#141C24] font-[500] text-[10px] leading-[16px] pl-[15px]">
-                Uploaded on Jan 1, 2023
+                {{$t('Uploaded on')}} Jan 1, 2023
             </div>
             </div>
         
