@@ -226,7 +226,8 @@ export const useCustomizeStore = defineStore("customize", {
         this.selectedLang.language_code !==
           this.initselectedLang.language_code ||
         this.currentAboveShapeLiveTranslation !==
-          this.initcurrentAboveShapeLiveTranslation
+          this.initcurrentAboveShapeLiveTranslation ||
+        this.background !== this.initbackground
       );
     },
 

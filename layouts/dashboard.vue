@@ -582,6 +582,9 @@ const handleSave = async (type: any) => {
       {
         name: "acc-customize-accessibility-mode-move-/-hide-accessibility",
         value: custmizeStore.accessibilityMode,
+        active: getValue(
+          "acc-customize-accessibility-mode-move-/-hide-accessibility"
+        ),
       },
       {
         name: "acc-customize-button-color-button-color",

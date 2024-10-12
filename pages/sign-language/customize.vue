@@ -4,6 +4,11 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useGetPlayerData } from "@/composables/useAccessibility";
+import { useApi } from "@/composables/useApi";
+
+const { useApiInstance } = useApi();
+const { api, loading } = useApiInstance();
+
 const customizeStore = useCustomizeStore();
 const collapseStore = useCollapseStore();
 const { getPlayerData } = useGetPlayerData();
@@ -11,8 +16,11 @@ const { getPlayerData } = useGetPlayerData();
 const {
   colorMode,
   gradient1,
+  initgradient1,
   gradient2,
+  initgradient2,
   currentColor,
+  initcurrentColor,
   buttonSizeSlider,
   buttonShapeSelector,
   force_change_MainMenuCard,
@@ -75,80 +83,21 @@ onBeforeRouteLeave((to, from, next) => {
 const shouldShowFooter = computed(() => {
   const isActive =
     (isLinkActive("/sign-language/customize") &&
-      customizeStore.currentColor !== "#2dada3") ||
+      currentColor.value !== initcurrentColor.value) ||
     (isLinkActive("/sign-language/customize") &&
-      customizeStore.gradient1 !== "#2dada3") ||
+      gradient1.value !== initgradient1.value) ||
     (isLinkActive("/sign-language/customize") &&
-      customizeStore.gradient2 !== "#2dada3") ||
+      gradient2.value !== initgradient2.value) ||
     (isLinkActive("/sign-language/customize") && customizeStore.hasChanges());
 
   return isActive;
 });
-const cancelAll = () => {
-  customizeStore.initializeCheckboxes([
-    "Contrast_id",
-    "Background_id",
-    "Position_id",
-    "Keyboard_id",
-    "custom_trigger_id",
-    "acc-customize-accessibility-mode-move-/-hide-accessibility",
-    "keyboard_checkbox",
-    "constrast_checkbox",
-    "background_checkbox",
-    "language",
-  ]);
-
-  currentColor.value = "";
-  gradient1.value = "";
-  gradient2.value = "";
-  colorMode.value = "solid";
-  buttonPositionDesktop.value = customizeStore.initialPositionDesktop;
-
-  buttonPositionMobile.value = "top_left_mobile";
-  buttonSizeSlider.value = "2";
-  buttonShapeSelector.value = "type1";
-  widgetType.value = "full_widget";
-  currentColor.value = "#2dada3";
-  gradient1.value = "#2dada3";
-  gradient2.value = "#2dada3";
-  forceChange_buttonShape.value = false;
-  force_change_profileCards.value = false;
-  force_change_MainMenuCard.value = false;
-};
-
-const cancelAc = () => {
-  const isAddonsLinkActive =
-    (isLinkActive("/sign-language/customize") &&
-      customizeStore.currentColor !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") &&
-      customizeStore.gradient1 !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") &&
-      customizeStore.gradient2 !== "#2dada3") ||
-    (isLinkActive("/sign-language/customize") && customizeStore.hasChanges());
-
-  if (isAddonsLinkActive) {
-    cancelAll();
-  }
-};
 
 onBeforeMount(() => {
   getPlayerData();
 });
 
 onMounted(() => {
-  // customizeStore.initializeCheckboxes([
-  //   "Contrast_id",
-  //   "Background_id",
-  //   "Position_id",
-  //   "Keyboard_id",
-  //   "acc-customize-accessibility-mode-move-/-hide-accessibility",
-  //   "keyboard_checkbox",
-  //   "constrast_checkbox",
-  //   "background_checkbox",
-  //   "language",
-  //   "custom_trigger_id",
-  // ]);
-
   [
     "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
     "deaf-customize-sign-language-background-sign-language-background",
@@ -165,51 +114,180 @@ onMounted(() => {
     "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
     "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget",
   ]);
-
-  // customizeStore.initializeCardsMenu(
-  //   [
-  //     {
-  //       icon: "contrast.png",
-  //       name: "Contrast",
-  //       description:
-  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
-  //       checkboxId: "Contrast_id",
-  //     },
-  //     {
-  //       icon: "background.png",
-  //       name: "Background",
-  //       description:
-  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
-  //       checkboxId: "Background_id",
-  //     },
-  //     {
-  //       icon: "position.png",
-  //       name: "Position",
-  //       description:
-  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
-  //       checkboxId: "Position_id",
-  //     },
-  //     {
-  //       icon: "keyboard.png",
-  //       name: "Keyboard",
-  //       description:
-  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
-  //       checkboxId: "Keyboard_id",
-  //     },
-  //   ],
-
-  //   "AdjustMainMenuCardsCustomize",
-  //   "initialCardsOrderCustomize"
-  // );
 });
+
+const cancelAc = () => {
+  const isCustomizeLinkActive = isLinkActive("/sign-language/customize");
+  if (isCustomizeLinkActive) {
+    customizeStore.checkboxes = JSON.parse(
+      JSON.stringify(customizeStore.initialCheckboxes)
+    );
+
+    customizeStore.currentColor = customizeStore.initcurrentColor;
+    customizeStore.gradient1 = customizeStore.initgradient1;
+    customizeStore.gradient2 = customizeStore.initgradient2;
+    customizeStore.colorMode = customizeStore.initcolorMode;
+    customizeStore.buttonPositionDesktop =
+      customizeStore.initialPositionDesktop;
+    customizeStore.buttonPositionMobile = customizeStore.initialPositionMobile;
+
+    customizeStore.buttonSizeSlider = customizeStore.initbuttonSizeSlider;
+    customizeStore.buttonShapeSelector = customizeStore.initbuttonShapeSelector;
+    customizeStore.selectedIcon = customizeStore.initselectedIcon;
+    customizeStore.selectedLang = customizeStore.initselectedLang;
+    customizeStore.background = customizeStore.initbackground;
+
+    customizeStore.accessibilityMode = customizeStore.initaccessibilityMode;
+    customizeStore.liveTranlsationButtonLocation =
+      customizeStore.initliveTranlsationButtonLocation;
+
+    customizeStore.force_change_MainMenuCard = false;
+    customizeStore.force_change_profileCards = false;
+  }
+};
+
+const updateNewValues = () => {
+  const isCustomizeLinkActive = isLinkActive("/sign-language/customize");
+
+  if (isCustomizeLinkActive) {
+    customizeStore.initbackground = customizeStore.background;
+    customizeStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(customizeStore.checkboxes)
+    );
+    customizeStore.initcurrentColor = customizeStore.currentColor;
+    customizeStore.initgradient1 = customizeStore.gradient1;
+    customizeStore.initgradient2 = customizeStore.gradient2;
+    customizeStore.initcolorMode = customizeStore.colorMode;
+    customizeStore.initialPositionDesktop =
+      customizeStore.buttonPositionDesktop;
+    customizeStore.initialPositionMobile = customizeStore.buttonPositionMobile;
+
+    customizeStore.initbuttonSizeSlider = customizeStore.buttonSizeSlider;
+    customizeStore.initbuttonShapeSelector = customizeStore.buttonShapeSelector;
+    customizeStore.initselectedIcon = customizeStore.selectedIcon;
+    customizeStore.initselectedLang = customizeStore.selectedLang;
+
+    customizeStore.initaccessibilityMode = customizeStore.accessibilityMode;
+    customizeStore.initliveTranlsationButtonLocation =
+      customizeStore.liveTranlsationButtonLocation;
+    customizeStore.force_change_MainMenuCard = false;
+    customizeStore.force_change_profileCards = false;
+  }
+};
+
+const loadingSave = ref(false);
+const handleSave = async (type: any) => {
+  loadingSave.value = true;
+
+  interface Payload {
+    AppName: string;
+    Options: any[];
+  }
+
+  let payload: Payload = {
+    AppName: type,
+    Options: [],
+  };
+
+  if (isLinkActive("/sign-language/customize")) {
+    const customizeOptions = [
+      {
+        name: "deaf-customize-button-color-sign-language-button-color",
+        value:
+          customizeStore.colorMode === "solid"
+            ? customizeStore.currentColor
+            : `${customizeStore.gradient1},${customizeStore.gradient2}`,
+      },
+      {
+        name: "deaf-customize-button-type-sign-language-player-button-size",
+        value: customizeStore.buttonSizeSlider,
+      },
+      {
+        name: "deaf-customize-button-type-sign-language-button-shape",
+        value: customizeStore.buttonShapeSelector,
+      },
+      {
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+        value: customizeStore.accessibilityMode,
+        active: getValue(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        ),
+      },
+      {
+        name: "deaf-customize-button-location-sign-language-button-location-mobile",
+        value: customizeStore.buttonPositionMobile,
+      },
+      {
+        name: "deaf-customize-button-location-sign-language-button-location-desktop",
+        value: customizeStore.buttonPositionDesktop,
+      },
+      {
+        name: "deaf-customize-sign-language-background-sign-language-background",
+        active: getValue(
+          "deaf-customize-sign-language-background-sign-language-background"
+        ),
+        value: customizeStore.background,
+      },
+      {
+        name: "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+        value: getValue(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+        value: getValue(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-list-list-sign-language",
+        value: customizeStore.selectedLang.language_code,
+      },
+      {
+        name: "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget",
+        value: getValue(
+          "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
+        ),
+      },
+    ];
+
+    payload.Options = customizeOptions;
+  }
+
+  try {
+    const res = await api.post("/Custom/SetOptions", payload);
+    loadingSave.value = false;
+    updateNewValues();
+  } catch (error) {
+    loadingSave.value = false;
+    console.error(error);
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const getValue = (name: any) => {
+  const val = customizeStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val.value) {
+    return "1";
+  } else {
+    return "0";
+  }
+};
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <LanguageServicesNavbar />
     <transition name="slide-up">
-      <DashboardAddonsSavefooter
+      <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
+        :loadingSave="loadingSave"
+        @Save="handleSave('default')"
+        @saveToAllSites="handleSave('all')"
         @cancel_action="cancelAc"
       />
     </transition>
