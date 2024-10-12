@@ -15,6 +15,7 @@ export const useSettingsStore = defineStore("settings", {
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[],
     routeLeaveModal: false,
+    pendingNavigation: {},
   }),
   actions: {
     getAccAttributes(name: any) {
@@ -27,7 +28,6 @@ export const useSettingsStore = defineStore("settings", {
 
     saveAndMove() {
       this.routeLeaveModal = false;
-      this.cancelAll();
     },
     initializeCheckboxes(names: string[]) {
       this.checkboxes = names.map((name) => ({ name, value: false }));

@@ -32,7 +32,6 @@ export const useSignLangStore = defineStore("signLanguage", {
 
     saveAndMove() {
       this.routeLeaveModal = false;
-      this.cancelAll();
     },
     initializeCheckboxes(names: string[]) {
       this.checkboxes = names.map((name) => ({ name, value: false }));

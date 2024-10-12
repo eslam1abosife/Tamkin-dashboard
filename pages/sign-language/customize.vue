@@ -46,20 +46,18 @@ const isLinkActive = (path) => {
 };
 let pendingNavigation = null;
 
-const detectUnsavedChanges = () => {
-  return (
-    forceChange_buttonShape.value ||
-    force_change_profileCards.value ||
-    force_change_MainMenuCard.value ||
-    currentColor.value !== "#2dada3" ||
-    gradient1.value !== "#2dada3" ||
-    gradient2.value !== "#2dada3" ||
-    customizeStore.hasChanges()
-  );
-};
-
 const handleSaveAndMove = () => {
   customizeStore.saveAndMove();
+  handleSave("default");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+const handleSaveToAllAndMove = () => {
+  customizeStore.saveAndMove();
+  handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
     next(); // Proceed with the stored navigation
@@ -67,8 +65,14 @@ const handleSaveAndMove = () => {
   }
 };
 
-const handleCancelLeave = () => {
-  customizeStore.routeLeaveModal = false; // Close the modal
+const DiscardAndMove = () => {
+  cancelAc();
+  customizeStore.routeLeaveModal = false;
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
 };
 
 onBeforeRouteLeave((to, from, next) => {
@@ -88,10 +92,15 @@ const shouldShowFooter = computed(() => {
       gradient1.value !== initgradient1.value) ||
     (isLinkActive("/sign-language/customize") &&
       gradient2.value !== initgradient2.value) ||
-    (isLinkActive("/sign-language/customize") && customizeStore.hasChanges());
+    (isLinkActive("/sign-language/customize") &&
+      customizeStore.hasSignLangChanges());
 
   return isActive;
 });
+
+const detectUnsavedChanges = () => {
+  return shouldShowFooter.value;
+};
 
 onBeforeMount(() => {
   getPlayerData();
@@ -297,9 +306,10 @@ const getValue = (name: any) => {
       sub-title="Do you want to save the changes before moving on?"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
+      @controlsaveAllSites="handleSaveToAllAndMove"
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
+      @control-cancel="DiscardAndMove"
     />
     <div class="w-full h-full relative">
       <HeaderAccess

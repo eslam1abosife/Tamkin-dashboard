@@ -20,17 +20,21 @@ const isLinkActive = (path) => {
 let pendingNavigation = null;
 
 const detectUnsavedChanges = () => {
-  return (
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards)
-  );
+  return shouldShowFooter.value;
 };
 
 const handleSaveAndMove = () => {
   signLangStore.saveAndMove();
+  handleSave("default");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+const handleSaveToAllAndMove = () => {
+  signLangStore.saveAndMove();
+  handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
     next(); // Proceed with the stored navigation
@@ -38,8 +42,14 @@ const handleSaveAndMove = () => {
   }
 };
 
-const handleCancelLeave = () => {
-  signLangStore.routeLeaveModal = false; // Close the modal
+const DiscardAndMove = () => {
+  cancelAc();
+  signLangStore.routeLeaveModal = false;
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
 };
 
 onBeforeRouteLeave((to, from, next) => {
@@ -176,15 +186,17 @@ const getSettingsValue = (name: any) => {
         @cancel_action="cancelAc"
       />
     </transition>
+
     <ModalsConfirm
       :showModal="signLangStore.routeLeaveModal"
       title="Save  your changes"
       sub-title="Do you want to save the changes before moving on?"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
+      @controlsaveAllSites="handleSaveToAllAndMove"
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
+      @control-cancel="DiscardAndMove"
     />
     <div class="w-full h-full relative">
       <HeaderAccess

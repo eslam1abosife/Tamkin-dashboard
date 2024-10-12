@@ -4,6 +4,7 @@ import "vue-loading-overlay/dist/css/index.css";
 import { useWindowSize } from "@vueuse/core";
 // import { useModalStore } from "@/stores/modal";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+import { onBeforeRouteLeave } from "vue-router";
 
 import { useNavbarStore } from "@/stores/navbar";
 import { useAddonStore } from "@/stores/addons.js";
@@ -314,13 +315,6 @@ const updateNewValues = () => {
     settingsStore.initialCheckboxes = JSON.parse(
       JSON.stringify(settingsStore.checkboxes)
     );
-  }
-};
-
-const showConfirmModal = ref(false);
-const confirmWithSaveFn = () => {
-  if (isLinkActive(localePath("/addons"))) {
-    // checkboxStore.showSaveBeforeLeaveModal()
   }
 };
 
@@ -748,6 +742,73 @@ const getSettingsValue = (name: any) => {
     return "0";
   }
 };
+
+let pendingNavigation = null;
+
+const handleSaveAndMove = () => {
+  if (isLinkActive("/settings")) {
+    settingsStore.saveAndMove();
+  } else if (isLinkActive("/customize")) {
+    custmizeStore.saveAndMove();
+  } else if (isLinkActive("/addons")) {
+    checkboxStore.saveAndMove();
+  }
+
+  handleSave("default");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+const handleSaveToAllAndMove = () => {
+  if (isLinkActive("/settings")) {
+    settingsStore.saveAndMove();
+  } else if (isLinkActive("/customize")) {
+    custmizeStore.saveAndMove();
+  } else if (isLinkActive("/addons")) {
+    checkboxStore.saveAndMove();
+  }
+  handleSave("all");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+
+const DiscardAndMove = () => {
+  cancelAc();
+  if (isLinkActive("/settings")) {
+    settingsStore.routeLeaveModal = false;
+    if (settingsStore.pendingNavigation) {
+      const { next, to } = settingsStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      settingsStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
+  } else if (isLinkActive("/customize")) {
+    custmizeStore.routeLeaveModal = false;
+    if (custmizeStore.pendingNavigation) {
+      const { next, to } = custmizeStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      custmizeStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
+  } else if (isLinkActive("/addons")) {
+    checkboxStore.routeLeaveModal = false;
+    if (checkboxStore.pendingNavigation) {
+      const { next, to } = checkboxStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      checkboxStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
+  } else {
+    return false;
+  }
+};
+
+const detectUnsavedChanges = () => {
+  return shouldShowFooter.value;
+};
+
 const loadf = ref(true);
 </script>
 
@@ -1059,6 +1120,21 @@ const loadf = ref(true);
                 @cancel_action="cancelAc"
               />
             </transition>
+            <ModalsConfirm
+              :showModal="
+                custmizeStore.routeLeaveModal ||
+                checkboxStore.routeLeaveModal ||
+                settingsStore.routeLeaveModal
+              "
+              title="Save  your changes"
+              sub-title="Do you want to save the changes before moving on?"
+              confirm-btn-type="other"
+              @control-other="handleSaveAndMove"
+              @controlsaveAllSites="handleSaveToAllAndMove"
+              cancelButtonName="Discard"
+              :savetoAllSitesBtn="true"
+              @control-cancel="DiscardAndMove"
+            />
             <!-- <NuxtPage class="" /> -->
             <slot />
           </div>
