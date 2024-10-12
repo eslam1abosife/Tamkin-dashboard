@@ -3,8 +3,11 @@ import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
+import { useGetPlayerData } from "@/composables/useAccessibility";
 const customizeStore = useCustomizeStore();
 const collapseStore = useCollapseStore();
+const { getPlayerData } = useGetPlayerData();
+
 const {
   colorMode,
   gradient1,
@@ -128,54 +131,76 @@ const cancelAc = () => {
   }
 };
 
-onMounted(() => {
-  customizeStore.initializeCheckboxes([
-    "Contrast_id",
-    "Background_id",
-    "Position_id",
-    "Keyboard_id",
-    "custom_trigger_id",
-    "acc-customize-accessibility-mode-move-/-hide-accessibility",
-    "keyboard_checkbox",
-    "constrast_checkbox",
-    "background_checkbox",
-    "language",
-  ]);
-  customizeStore.initializeCardsMenu(
-    [
-      {
-        icon: "contrast.png",
-        name: "Contrast",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Contrast_id",
-      },
-      {
-        icon: "background.png",
-        name: "Background",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Background_id",
-      },
-      {
-        icon: "position.png",
-        name: "Position",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Position_id",
-      },
-      {
-        icon: "keyboard.png",
-        name: "Keyboard",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Keyboard_id",
-      },
-    ],
+onBeforeMount(() => {
+  getPlayerData();
+});
 
-    "AdjustMainMenuCardsCustomize",
-    "initialCardsOrderCustomize"
-  );
+onMounted(() => {
+  // customizeStore.initializeCheckboxes([
+  //   "Contrast_id",
+  //   "Background_id",
+  //   "Position_id",
+  //   "Keyboard_id",
+  //   "acc-customize-accessibility-mode-move-/-hide-accessibility",
+  //   "keyboard_checkbox",
+  //   "constrast_checkbox",
+  //   "background_checkbox",
+  //   "language",
+  //   "custom_trigger_id",
+  // ]);
+
+  [
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+    "deaf-customize-sign-language-background-sign-language-background",
+    "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+    "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+    "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget",
+  ].forEach((name) => {
+    customizeStore.addCheckbox(name);
+  });
+  customizeStore.initializeCheckboxes([
+    "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+    "deaf-customize-sign-language-background-sign-language-background",
+    "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+    "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+    "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget",
+  ]);
+
+  // customizeStore.initializeCardsMenu(
+  //   [
+  //     {
+  //       icon: "contrast.png",
+  //       name: "Contrast",
+  //       description:
+  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
+  //       checkboxId: "Contrast_id",
+  //     },
+  //     {
+  //       icon: "background.png",
+  //       name: "Background",
+  //       description:
+  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
+  //       checkboxId: "Background_id",
+  //     },
+  //     {
+  //       icon: "position.png",
+  //       name: "Position",
+  //       description:
+  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
+  //       checkboxId: "Position_id",
+  //     },
+  //     {
+  //       icon: "keyboard.png",
+  //       name: "Keyboard",
+  //       description:
+  //         "Manage your sign language tools and personalize them to enhance your communication experience.",
+  //       checkboxId: "Keyboard_id",
+  //     },
+  //   ],
+
+  //   "AdjustMainMenuCardsCustomize",
+  //   "initialCardsOrderCustomize"
+  // );
 });
 </script>
 
@@ -199,14 +224,6 @@ onMounted(() => {
       @control-cancel="handleSaveAndMove"
     />
     <div class="w-full h-full relative">
-      <!--       
-        <transition name="slide-up">
-          <DashboardAddonsSavefooter
-            :show-footer="shouldShowFooter"
-            @cancel_action="cancelAc"
-          />
-        </transition> -->
-
       <HeaderAccess
         section-title="Addons"
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
@@ -216,8 +233,13 @@ onMounted(() => {
       <LanguageServicesCustomizeButtoncolor />
 
       <LanguageServicesCustomizeButtontype />
+
       <LanguageServicesCustomizeSignlangmode />
+
+      <LanguageServicesCustomizeButtonLocation />
+
       <LanguageServicesCustomizeSignlanguagebackground />
+
       <LanguageServicesCustomizeSignlanguagecontrast />
 
       <LanguageServicesCustomizeSignlanguagekeyboard />
@@ -227,6 +249,8 @@ onMounted(() => {
       <!-- <CustomizeAccessibilityProfiles /> -->
       <!-- <CustomizeWidgetType /> -->
       <LanguageServicesCustomizeLanguage class="!mt-[30px]" />
+
+      <!-- <LanguageServicesAddons /> -->
 
       <LazyLanguageServicesCustomizeAdjustMain />
       <LanguageServicesCustomizeCustomtrigger />

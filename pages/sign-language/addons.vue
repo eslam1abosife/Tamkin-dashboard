@@ -142,7 +142,7 @@ const handleSave = async (type: any) => {
 };
 
 const updateNewValues = () => {
-  const isSettingsLinkActive = isLinkActive("/sign-language/settings");
+  const isSettingsLinkActive = isLinkActive("/sign-language/addons");
 
   if (isSettingsLinkActive) {
     signLangStore.initialCheckboxes = JSON.parse(
@@ -170,10 +170,10 @@ const getSettingsValue = (name: any) => {
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
-        @cancel_action="cancelAc"
         :loadingSave="loadingSave"
         @Save="handleSave('default')"
         @saveToAllSites="handleSave('all')"
+        @cancel_action="cancelAc"
       />
     </transition>
     <ModalsConfirm

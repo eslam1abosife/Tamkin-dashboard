@@ -29,21 +29,37 @@ const backgroundWidgetValues = (v: string) => {
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Sign language mode
+          {{
+            customizeStore.getAccAttributes("deaf-customize-sign-language-mode")
+              ?.title
+          }}
         </h1>
 
         <p
           class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
         >
-          Sign Language Mode optimizes the interface for diverse user needs
+          <span v-if="!collapseStore.collapses.includes('access_mode_card')">
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-mode"
+              )?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-mode"
+              )?.description_on_hide
+            }}
+          </span>
         </p>
       </div>
 
       <div
-        @click.stop="collapseStore.collapseMenu('language_mode')"
-        v-on-click-outside="() => collapseStore.removeMenu('language_mode')"
+        @click.stop="collapseStore.collapseMenu('access_mode')"
+        v-on-click-outside="() => collapseStore.removeMenu('access_mode')"
         :class="[
-          collapseStore.menus.includes('language_mode')
+          collapseStore.menus.includes('access_mode')
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
@@ -56,7 +72,7 @@ const backgroundWidgetValues = (v: string) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           :class="[
-            collapseStore.menus.includes('language_mode')
+            collapseStore.menus.includes('access_mode')
               ? 'stroke-current !text-white !fill-white'
               : 'dark:text-white',
           ]"
@@ -68,7 +84,7 @@ const backgroundWidgetValues = (v: string) => {
         </svg>
 
         <div
-          v-if="collapseStore.menus.includes('language_mode')"
+          v-if="collapseStore.menus.includes('access_mode')"
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
@@ -87,11 +103,11 @@ const backgroundWidgetValues = (v: string) => {
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
           <div
             class="mini_wrap"
-            @click="collapseStore.collapseCard('language_mode_card')"
+            @click="collapseStore.collapseCard('access_mode_card')"
           >
             <div>
               <svg
@@ -129,7 +145,7 @@ const backgroundWidgetValues = (v: string) => {
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("language_mode_card")
+                !collapseStore.collapses.includes("access_mode_card")
                   ? $t("Minisize")
                   : $t("Maxsize")
               }}
@@ -173,8 +189,8 @@ const backgroundWidgetValues = (v: string) => {
     </div>
 
     <div
-      class="px-[15px] mt-[32px]"
-      v-if="!collapseStore.collapses.includes('language_mode_card')"
+      v-if="!collapseStore.collapses.includes('access_mode_card')"
+      class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
     >
       <div
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
@@ -190,14 +206,14 @@ const backgroundWidgetValues = (v: string) => {
             <div
               class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
             >
-              <span>Move / hide accessibility</span>
+              <span>Move / hide sign language player</span>
             </div>
             <div
               class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
-                Reposition or conceal accessibility features to simplify the
-                interface
+                Reposition or conceal sign language player features to simplify
+                the interface
               </span>
             </div>
           </div>
@@ -209,12 +225,12 @@ const backgroundWidgetValues = (v: string) => {
                 class="sr-only"
                 :checked="
                   isChecked(
-                    'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
                   )
                 "
                 @change="
                   toggleCheckbox(
-                    'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
                   )
                 "
               />
@@ -222,7 +238,7 @@ const backgroundWidgetValues = (v: string) => {
                 class="toggle_parent"
                 :class="[
                   isChecked(
-                    'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
                   )
                     ? 'active'
                     : 'in_active',
@@ -232,22 +248,22 @@ const backgroundWidgetValues = (v: string) => {
                   class="toggle_inner"
                   :class="{
                     active: isChecked(
-                      'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                      'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
                     ),
                   }"
                 >
                   <img
                     v-if="
                       isChecked(
-                        'acc-customize-accessibility-mode-move-/-hide-accessibility'
+                        'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
                       )
                     "
-                    src="/assets/imgs/translatevideo/sign_active.svg"
+                    src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
                   />
                   <img
                     v-else
-                    src="/assets/imgs/translatevideo/sign_inactive.svg"
+                    src="/assets/imgs/addons/toggle.svg"
                     class="w-[28px] h-[28px]"
                   />
                 </div>
@@ -261,14 +277,18 @@ const backgroundWidgetValues = (v: string) => {
         class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
         v-if="
           isChecked(
-            'acc-customize-accessibility-mode-move-/-hide-accessibility'
+            'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
           )
         "
       >
         <div
           class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-          :class="[moveHide === 'left_side' ? 'custom-border padding-2' : '']"
-          @click="moveHideWidget('left_side')"
+          :class="[
+            customizeStore.accessibilityMode === 'left'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
+          @click="customizeStore.moveHideWidget('left')"
         >
           <div>
             <img
@@ -280,8 +300,12 @@ const backgroundWidgetValues = (v: string) => {
         </div>
         <div
           class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-          @click="moveHideWidget('right_side')"
-          :class="[moveHide === 'right_side' ? 'custom-border padding-2' : '']"
+          @click="customizeStore.moveHideWidget('right')"
+          :class="[
+            customizeStore.accessibilityMode === 'right'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
         >
           <div>
             <img
@@ -293,8 +317,12 @@ const backgroundWidgetValues = (v: string) => {
         </div>
         <div
           class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-          @click="moveHideWidget('hide')"
-          :class="[moveHide === 'hide' ? 'custom-border padding-2' : '']"
+          @click="customizeStore.moveHideWidget('hide')"
+          :class="[
+            customizeStore.accessibilityMode === 'hide'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
         >
           <div>
             <img src="/assets/imgs/customize/hide.svg" class="w-3/4 h-3/4" />

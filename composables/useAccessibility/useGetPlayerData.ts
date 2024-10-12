@@ -15,12 +15,23 @@ export default function () {
     try {
       const res = await api.post("/Widget/GetAccessibility/default");
       const features = res.data.data.features;
+      const getnamesFeature = res.data.data.features.map((el: any) => {
+        return {
+          name: el.name,
+          title: el.title,
+          description_on_show: el.description_on_show,
+          description_on_hide: el.description_on_hide,
+        };
+      });
+
+      customizeStore.features = getnamesFeature;
 
       // button color
       const colorMode = features
-        .find((feature: any) => feature.name === "acc-customize-button-color")
+        .find((feature: any) => feature.name === "deaf-customize-button-color")
         .features.find(
-          (el) => el.name === "acc-customize-button-color-button-color"
+          (el) =>
+            el.name === "deaf-customize-button-color-sign-language-button-color"
         )
         .value.split(",");
 
@@ -40,9 +51,10 @@ export default function () {
 
       // button type shape
       const buttonshape = features
-        .find((feature: any) => feature.name === "acc-customize-button-type")
+        .find((feature: any) => feature.name === "deaf-customize-button-type")
         .features.find(
-          (el) => el.name === "acc-customize-button-type-button-shape"
+          (el) =>
+            el.name === "deaf-customize-button-type-sign-language-button-shape"
         );
       customizeStore.$state.buttonIcons = buttonshape.tamkin_option_item_values;
 
@@ -51,63 +63,78 @@ export default function () {
         customizeStore.$state.initbuttonShapeSelector = buttonshape.value;
         customizeStore.$state.selectedIcon =
           buttonshape.tamkin_option_item_values.find(
-            (el) => el.value === buttonshape.value
+            (el: any) => el.value === buttonshape.value
           ).icon;
         customizeStore.$state.initselectedIcon =
           buttonshape.tamkin_option_item_values.find(
-            (el) => el.value === buttonshape.value
+            (el: any) => el.value === buttonshape.value
           ).icon;
       }
 
       // handle size button
       const buttonsize = features
-        .find((feature: any) => feature.name === "acc-customize-button-type")
+        .find((feature: any) => feature.name === "deaf-customize-button-type")
         .features.find(
-          (el) => el.name === "acc-customize-button-type-button-size"
+          (el: any) =>
+            el.name ===
+            "deaf-customize-button-type-sign-language-player-button-size"
         );
       if (buttonsize.active == 1) {
         customizeStore.$state.buttonSizeSlider = buttonsize.value;
         customizeStore.$state.initbuttonSizeSlider = buttonsize.value;
       }
 
-      // accessbility main menu
-      const mainMenu = features.find(
-        (feature: any) => feature.name === "acc-addons-main-menu"
-      );
-
-      if (mainMenu.active == 1) {
-        customizeStore.initializeCardsMenu(
-          mainMenu.features,
-          "AdjustMainMenuCardsCustomize",
-          "initialCardsOrderCustomize"
+      // handle position
+      const buttonDesktopPosition = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-button-location"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-button-location-sign-language-button-location-desktop"
         );
-
-        mainMenu.features.forEach((element: any) => {
-          if (element.active == 1 && element.value == 1) {
-            customizeStore.toggleCheckbox(element.name);
-            customizeStore.toggleInitialCheckbox(element.name);
-          }
-        });
+      if (buttonDesktopPosition.active == 1) {
+        customizeStore.$state.initialPositionDesktop =
+          buttonDesktopPosition.value;
+        customizeStore.$state.buttonPositionDesktop =
+          buttonDesktopPosition.value;
+      }
+      const buttonMobilePosition = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-button-location"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-button-location-sign-language-button-location-mobile"
+        );
+      if (buttonMobilePosition.active == 1) {
+        customizeStore.$state.initialPositionMobile =
+          buttonMobilePosition.value;
+        customizeStore.$state.buttonPositionMobile = buttonMobilePosition.value;
       }
 
-      // accessbility profiles
-      const profileItems = features.find(
-        (feature: any) => feature.name === "acc-addons-accessibility-profiles"
-      );
-
-      if (profileItems.active == 1) {
-        customizeStore.initializeCardsMenu(
-          profileItems.features,
-          "manageProfileCardsCustomize",
-          "initialManageProfileCardsCustomize"
+      // deaf mode
+      const isAccModeActive = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
         );
 
-        profileItems.features.forEach((element: any) => {
-          if (element.active == 1 && element.value == 1) {
-            customizeStore.toggleCheckbox(element.name);
-            customizeStore.toggleInitialCheckbox(element.name);
-          }
-        });
+      if (isAccModeActive.active == 1) {
+        customizeStore.toggleCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+        customizeStore.$state.accessibilityMode = isAccModeActive.value;
+        customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
       }
 
       // set languages
@@ -116,9 +143,13 @@ export default function () {
       });
 
       const selectLang = features
-        .find((feature: any) => feature.name === "acc-customize-language")
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-language"
+        )
         .features.find(
-          (el: any) => el.name === "acc-customize-language-list-of-languages"
+          (el: any) =>
+            el.name === "deaf-customize-sign-language-list-list-sign-language"
         );
 
       if (selectLang.value === "auto detect language") {
@@ -145,18 +176,21 @@ export default function () {
 
       // acc enableLangHighlight
       const enableLangHighlight = features
-        .find((feature: any) => feature.name === "acc-customize-language")
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-language"
+        )
         .features.find(
           (el) =>
             el.name ===
-            "acc-customize-language-show-language-selector-on-the-widget"
+            "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
         );
       if (enableLangHighlight.active == 1 && enableLangHighlight.value == 1) {
         customizeStore.toggleCheckbox(
-          "acc-customize-language-show-language-selector-on-the-widget"
+          "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
         );
         customizeStore.toggleInitialCheckbox(
-          "acc-customize-language-show-language-selector-on-the-widget"
+          "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
         );
       }
 
@@ -174,6 +208,23 @@ export default function () {
             "deaf-customize-sign-language-background-sign-language-background"
         );
       if (isSetBackground.active == 1) {
+        if (isSetBackground.value === "option1") {
+          customizeStore.background = "0%";
+          customizeStore.initbackground = "0%";
+        } else if (isSetBackground.value === "option2") {
+          customizeStore.background = "50%";
+          customizeStore.initbackground = "50%";
+        } else if (isSetBackground.value === "option3") {
+          customizeStore.background = "100%";
+          customizeStore.initbackground = "100%";
+        }
+        customizeStore.toggleCheckbox(
+          "deaf-customize-sign-language-background-sign-language-background"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-background-sign-language-background"
+        );
+
         signLangStore.initialCardsOrder.push({
           name: isSetBackground.name,
           label: isSetBackground.label,
@@ -208,6 +259,13 @@ export default function () {
             "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         );
       if (isSetContrast.active == 1) {
+        customizeStore.toggleCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+
         signLangStore.initialCardsOrder.push({
           name: isSetContrast.name,
           label: isSetContrast.label,
@@ -242,6 +300,13 @@ export default function () {
             "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
         );
       if (isSetKeyboard.active == 1) {
+        customizeStore.toggleCheckbox(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        );
+
         signLangStore.initialCardsOrder.push({
           name: isSetKeyboard.name,
           icon: `${isSetKeyboard.name}.png`,
@@ -277,14 +342,14 @@ export default function () {
       if (isSetMode.active == 1) {
         signLangStore.initialCardsOrder.push({
           name: isSetMode.name,
-          icon: `${isSetMode.name}.png`,
+          icon: `deaf-customize-sign-language-mode-move--hide-sign-language-player.png`,
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetMode.name,
-          icon: `${isSetMode.name}.png`,
+          icon: `deaf-customize-sign-language-mode-move--hide-sign-language-player.png`,
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,

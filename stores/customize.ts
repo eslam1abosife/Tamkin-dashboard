@@ -63,8 +63,13 @@ export const useCustomizeStore = defineStore("customize", {
     ],
     selectedLang: {},
     initselectedLang: {},
+    background: "",
+    initbackground: "",
   }),
   actions: {
+    backgroundWidgetValues(v: string) {
+      this.background = v;
+    },
     getAccAttributes(name: any) {
       const item = this.features.find((el: any) => el.name === name);
       return item;
