@@ -102,12 +102,12 @@ onBeforeMount(async () => {
 });
 
 const loadingSave = ref(false);
-const locadingSavetoAll = ref(false);
+const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
   if (type === "default") {
     loadingSave.value = true;
   } else {
-    locadingSavetoAll.value = true;
+    loadingSavetoAll.value = true;
   }
   interface Payload {
     AppName: string;
@@ -194,6 +194,7 @@ const getSettingsValue = (name: any) => {
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         :loadingSave="loadingSave"
+        :loadingSavetoAll="loadingSavetoAll"
         @Save="handleSave('default')"
         @saveToAllSites="handleSave('all')"
         @cancel_action="cancelAc"
