@@ -528,8 +528,14 @@ onMounted(async () => {
 const langloader = ref(true);
 
 const loadingSave = ref(false);
+const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
-  loadingSave.value = true;
+  if (type === "default") {
+    loadingSave.value = true;
+  } else {
+    loadingSavetoAll.value = true;
+  }
+
   const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1: any) => {
     item1.name = item1.checkboxId;
     const matchingItem = custmizeStore.checkboxes.find(
@@ -710,10 +716,12 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     updateNewValues();
-    // getAccessability();
+    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -1098,6 +1106,7 @@ const loadf = ref(true);
                 !error
               "
             ></div>
+
             <div class="relative px-[15px]">
               <NavbarOverview
                 v-if="
@@ -1115,6 +1124,7 @@ const loadf = ref(true);
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 :loadingSave="loadingSave"
+                :loadingSavetoAll="loadingSavetoAll"
                 @Save="handleSave('default')"
                 @saveToAllSites="handleSave('all')"
                 @cancel_action="cancelAc"
@@ -1136,6 +1146,7 @@ const loadf = ref(true);
               @control-cancel="DiscardAndMove"
             />
             <!-- <NuxtPage class="" /> -->
+
             <slot />
           </div>
         </div>

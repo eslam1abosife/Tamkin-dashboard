@@ -30,8 +30,8 @@ onMounted(() => {});
 
 <template>
   <div
-    :class="[loading ? 'pt-[24px]' : '']"
     class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
+    :class="[loading ? 'pt-[24px] top-[30px]' : '']"
   >
     <div
       v-if="loading"

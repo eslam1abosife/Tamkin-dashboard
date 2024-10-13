@@ -123,4 +123,8 @@ onBeforeMount(() => {
       </div>
     </div>
   </div>
+  <div v-else class="flex items-center gap-2">
+    <div class="h-[55px] w-[55px] bg-gray-200 rounded-full"></div>
+    <div class="h-[20px] bg-gray-200 w-[250px]"></div>
+  </div>
 </template>

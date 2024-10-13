@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import { useGetPlayerData } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
+const { $toast } = useNuxtApp();
+
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
 const { getPlayerData } = useGetPlayerData();
 
 const signLangStore = useSignLangStore();
+const settingsStore = useSettingsStore();
+const customizeStore = useCustomizeStore();
 
 definePageMeta({
   layout: "dashboard",
@@ -98,7 +102,13 @@ onBeforeMount(async () => {
 });
 
 const loadingSave = ref(false);
+const locadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
+  if (type === "default") {
+    loadingSave.value = true;
+  } else {
+    locadingSavetoAll.value = true;
+  }
   interface Payload {
     AppName: string;
     Options: any[];
@@ -143,9 +153,12 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     updateNewValues();
+    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -204,8 +217,26 @@ const getSettingsValue = (name: any) => {
         section-sub-title="Customization empowers users to shape their digital environment"
       />
 
-      <LanguageServicesAddons />
-      <LanguageServicesNodata />
+      <div
+        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
+      >
+        <div
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+        >
+          <div
+            class="h-[55px] w-full rounded-md bg-gray-200"
+            v-for="s in 6"
+            :key="s"
+          ></div>
+        </div>
+      </div>
+
+      <div v-else>
+        <LanguageServicesNodata
+          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+        />
+        <LanguageServicesAddons v-else />
+      </div>
     </div>
   </div>
 </template>

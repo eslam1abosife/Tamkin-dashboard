@@ -10,6 +10,7 @@ const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
 
 const customizeStore = useCustomizeStore();
+const settingsStore = useSettingsStore();
 const collapseStore = useCollapseStore();
 const { getPlayerData } = useGetPlayerData();
 
@@ -185,8 +186,13 @@ const updateNewValues = () => {
 };
 
 const loadingSave = ref(false);
+const locadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
-  loadingSave.value = true;
+  if (type === "default") {
+    loadingSave.value = true;
+  } else {
+    locadingSavetoAll.value = true;
+  }
 
   interface Payload {
     AppName: string;
@@ -267,9 +273,12 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
+    locadingSavetoAll.value = false;
     updateNewValues();
+    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
+    locadingSavetoAll.value = false;
     console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -295,6 +304,7 @@ const getValue = (name: any) => {
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         :loadingSave="loadingSave"
+        :locadingSavetoAll="locadingSavetoAll"
         @Save="handleSave('default')"
         @saveToAllSites="handleSave('all')"
         @cancel_action="cancelAc"
@@ -317,31 +327,61 @@ const getValue = (name: any) => {
         section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
               experience."
       />
+      <div
+        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
+      >
+        <div
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+        >
+          <div
+            class="h-[55px] w-full rounded-md bg-gray-200"
+            v-for="s in 6"
+            :key="s"
+          ></div>
+        </div>
+        <div
+          class="animate-pulse space-y-4 mt-2 card bg-white rounded-[10px] mt-[30px] p-4"
+        >
+          <div
+            class="h-[55px] w-full rounded-md bg-gray-200"
+            v-for="s in 6"
+            :key="s"
+          ></div>
+        </div>
+      </div>
 
-      <LanguageServicesCustomizeButtoncolor />
+      <div v-else>
+        <LanguageServicesNodata
+          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+        />
 
-      <LanguageServicesCustomizeButtontype />
+        <div v-else>
+          <LanguageServicesCustomizeButtoncolor />
 
-      <LanguageServicesCustomizeSignlangmode />
+          <LanguageServicesCustomizeButtontype />
 
-      <LanguageServicesCustomizeButtonLocation />
+          <LanguageServicesCustomizeSignlangmode />
 
-      <LanguageServicesCustomizeSignlanguagebackground />
+          <LanguageServicesCustomizeButtonLocation />
 
-      <LanguageServicesCustomizeSignlanguagecontrast />
+          <LanguageServicesCustomizeSignlanguagebackground />
 
-      <LanguageServicesCustomizeSignlanguagekeyboard />
-      <!-- <CustomizeLiveButtonTranslation/> -->
+          <LanguageServicesCustomizeSignlanguagecontrast />
 
-      <!-- <CustomizeAdjustMainMenu /> -->
-      <!-- <CustomizeAccessibilityProfiles /> -->
-      <!-- <CustomizeWidgetType /> -->
-      <LanguageServicesCustomizeLanguage class="!mt-[30px]" />
+          <LanguageServicesCustomizeSignlanguagekeyboard />
+          <!-- <CustomizeLiveButtonTranslation/> -->
 
-      <!-- <LanguageServicesAddons /> -->
+          <!-- <CustomizeAdjustMainMenu /> -->
+          <!-- <CustomizeAccessibilityProfiles /> -->
+          <!-- <CustomizeWidgetType /> -->
+          <LanguageServicesCustomizeLanguage class="!mt-[30px]" />
 
-      <LazyLanguageServicesCustomizeAdjustMain />
-      <LanguageServicesCustomizeCustomtrigger />
+          <!-- <LanguageServicesAddons /> -->
+
+          <LazyLanguageServicesCustomizeAdjustMain />
+          <LanguageServicesCustomizeCustomtrigger />
+        </div>
+      </div>
     </div>
   </div>
 </template>
