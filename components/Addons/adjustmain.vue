@@ -48,7 +48,7 @@ onMounted(() => {});
           {{ checkboxStore.getAccAttributes("acc-addons-main-menu")?.title }}
         </h1>
         <h2
-          class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+          class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
         >
           <span v-if="!collapseStore.collapses.includes('adjustMenu')">
             {{
@@ -304,14 +304,14 @@ onMounted(() => {});
       </draggable>
     </div>
     <div class="animate-pulse space-y-4 mt-[22px]" v-if="loading">
-      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6"></div>
+      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6" :key="s"></div>
     </div>
-    <div
+    <!-- <div
       v-else-if="collapseStore.collapses.includes('adjustMenu') && !loading"
       class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] dark:text-whiteTamkin"
     >
       Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
       veritatis dolore. Exercitationem et omnis ea quidem
-    </div>
+    </div> -->
   </div>
 </template>

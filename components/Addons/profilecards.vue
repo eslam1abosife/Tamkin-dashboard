@@ -23,70 +23,7 @@ const toggleCheckbox = (name: string) => {
 const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
-onMounted(() => {
-  //   checkboxStore.initializeCardsMenu(
-  //   [
-  //     {
-  //       icon: "monitor_im.svg",
-  //       name: "Motor impaired",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "motor_active",
-  //     },
-  //     {
-  //       icon: "color_blind.svg",
-  //       name: "Color blind",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "color_blind",
-  //     },
-  //     {
-  //       icon: "vis_impaired.svg",
-  //       name: "Visually-impaired",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "hide_images",
-  //     },
-  //     {
-  //       icon: "seizure.svg",
-  //       name: "Seizure & Epileptic",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "Seizure",
-  //     },
-  //     {
-  //       icon: "blind.svg",
-  //       name: "Blind",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "blind",
-  //     },
-  //     {
-  //       icon: "df.svg",
-  //       name: "Dyslexia",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "dyslexia",
-  //     },
-  //     {
-  //       icon: "congitive.svg",
-  //       name: "Congitive & Learning",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "congitive",
-  //     },
-  //     {
-  //       icon: "adhd.svg",
-  //       name: "ADHD",
-  //       description:
-  //         "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-  //       checkboxId: "ADHD",
-  //     },
-  //   ],
-  //   "manageProfileCards",
-  //   "initialManageProfileCards"
-  // );
-});
+onMounted(() => {});
 </script>
 
 <template>
@@ -99,7 +36,7 @@ onMounted(() => {
       class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
     ></div>
     <div class="animate-pulse space-y-4 mt-[22px]" v-if="loading">
-      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6"></div>
+      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6" :key="s"></div>
     </div>
     <div class="flex items-center justify-start pt-[24px]" v-if="!loading">
       <div>
@@ -112,7 +49,7 @@ onMounted(() => {
           }}
         </h1>
         <h2
-          class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+          class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
         >
           <span v-if="!collapseStore.collapses.includes('ManageCard')">
             {{
@@ -356,12 +293,12 @@ onMounted(() => {
       </draggable>
     </div>
 
-    <div
+    <!-- <div
       v-else-if="collapseStore.collapses.includes('ManageCard') && !loading"
       class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
     >
       Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
       veritatis dolore. Exercitationem et omnis ea quidem
-    </div>
+    </div> -->
   </div>
 </template>

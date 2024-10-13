@@ -202,7 +202,7 @@ onBeforeRouteLeave((to, from, next) => {
                   }}
                 </h1>
                 <h2
-                  class="text-[12px] text-left lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+                  class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
                 >
                   <span
                     v-if="
