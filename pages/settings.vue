@@ -129,14 +129,14 @@ const handleCancelLeave = () => {
   settingsStore.routeLeaveModal = false; // Close the modal
 };
 
-onBeforeRouteLeave((to, from, next) => {
-  if (detectUnsavedChanges()) {
-    settingsStore.showSaveBeforeLeaveModal();
-    pendingNavigation = { next, to };
-  } else {
-    next(); // No unsaved changes, proceed normally
-  }
-});
+// onBeforeRouteLeave((to, from, next) => {
+//   if (detectUnsavedChanges()) {
+//     settingsStore.showSaveBeforeLeaveModal();
+//     pendingNavigation = { next, to };
+//   } else {
+//     next(); // No unsaved changes, proceed normally
+//   }
+// });
 
 const resetAccessiility = async () => {
   try {
@@ -147,6 +147,20 @@ const resetAccessiility = async () => {
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
+
+const shouldShowFooter = computed(() => {
+  const isSetting = settingsStore.hasChanges();
+  return isSetting;
+});
+
+onBeforeRouteLeave((to, from, next) => {
+  if (shouldShowFooter.value) {
+    settingsStore.showSaveBeforeLeaveModal();
+    settingsStore.pendingNavigation = { next, to };
+  } else {
+    next(); // No unsaved changes, proceed normally
+  }
+});
 </script>
 
 <template>
@@ -170,7 +184,7 @@ const resetAccessiility = async () => {
     <SettingsTransferModalStep1 :show-modal="isOpen('transferstep1')" />
     <SettingsTransferModalStep2 :show-modal="isOpen('transferstep2')" />
 
-    <LazyModalsConfirm
+    <!-- <LazyModalsConfirm
       :showModal="settingsStore.routeLeaveModal"
       :title="$t('Save  your changes')"
       :sub-title="$t('Do you want to save the changes before moving on?')"
@@ -179,7 +193,7 @@ const resetAccessiility = async () => {
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove"
-    />
+    /> -->
     <div class="w-full h-full relative">
       <HeaderAccess
         section-title="Settings"

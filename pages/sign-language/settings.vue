@@ -123,11 +123,21 @@ const resetAccessiility = async () => {
 
 let pendingNavigation = null;
 const detectUnsavedChanges = () => {
-  return settingsStore.hasChanges();
+  return shouldShowFooter.value;
 };
 
 const handleSaveAndMove = () => {
   settingsStore.saveAndMove();
+  handleSave("default");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+const handleSaveToAllAndMove = () => {
+  settingsStore.saveAndMove();
+  handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
     next(); // Proceed with the stored navigation
@@ -135,8 +145,14 @@ const handleSaveAndMove = () => {
   }
 };
 
-const handleCancelLeave = () => {
-  settingsStore.routeLeaveModal = false; // Close the modal
+const DiscardAndMove = () => {
+  cancelAc();
+  settingsStore.routeLeaveModal = false;
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
 };
 
 onBeforeRouteLeave((to, from, next) => {
@@ -176,7 +192,9 @@ const cancelAc = () => {
     isLinkActive("/sign-language/settings") && settingsStore.hasChanges();
 
   if (isSettingsLinkActive) {
-    settingsStore.checkboxes = settingsStore.initialCheckboxes;
+    settingsStore.checkboxes = JSON.parse(
+      JSON.stringify(settingsStore.initialCheckboxes)
+    );
   }
 };
 
@@ -280,15 +298,16 @@ const getSettingsValue = (name: any) => {
         @saveToAllSites="handleSave('all')"
       />
     </transition>
-    <LazyModalsConfirm
+    <ModalsConfirm
       :showModal="settingsStore.routeLeaveModal"
       title="Save  your changes"
       sub-title="Do you want to save the changes before moving on?"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
+      @controlsaveAllSites="handleSaveToAllAndMove"
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
+      @control-cancel="DiscardAndMove"
     />
     <div class="w-full h-full relative">
       <HeaderAccess

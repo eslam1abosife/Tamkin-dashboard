@@ -17,10 +17,10 @@ export const useCustomizeStore = defineStore("customize", {
     loadingData: false,
     currentColor: "#2dada3",
     initcurrentColor: "#2dada3",
-    gradient1: "",
-    initgradient1: "",
-    gradient2: "",
-    initgradient2: "",
+    gradient1: "#2dada3",
+    initgradient1: "#2dada3",
+    gradient2: "#2dada3",
+    initgradient2: "#2dada3",
     colorMode: "solid",
     initcolorMode: "solid",
     checkboxes: [] as Checkbox[],
@@ -63,8 +63,14 @@ export const useCustomizeStore = defineStore("customize", {
     ],
     selectedLang: {},
     initselectedLang: {},
+    background: "",
+    initbackground: "",
+    pendingNavigation: {},
   }),
   actions: {
+    backgroundWidgetValues(v: string) {
+      this.background = v;
+    },
     getAccAttributes(name: any) {
       const item = this.features.find((el: any) => el.name === name);
       return item;
@@ -75,7 +81,6 @@ export const useCustomizeStore = defineStore("customize", {
 
     saveAndMove() {
       this.routeLeaveModal = false;
-      return this.cancelAll();
     },
     selectLiveTranslationButtonLocation(location: string) {
       if (
@@ -222,6 +227,29 @@ export const useCustomizeStore = defineStore("customize", {
           this.initselectedLang.language_code ||
         this.currentAboveShapeLiveTranslation !==
           this.initcurrentAboveShapeLiveTranslation
+      );
+    },
+    hasSignLangChanges() {
+      return (
+        JSON.stringify(this.checkboxes) !==
+          JSON.stringify(this.initialCheckboxes) ||
+        this.buttonPositionDesktop !== this.initialPositionDesktop ||
+        this.buttonPositionMobile !== this.initialPositionMobile ||
+        this.buttonShapeSelector !== this.initbuttonShapeSelector ||
+        this.widgetType !== this.initwidgetType ||
+        this.colorMode !== this.initcolorMode ||
+        this.force_change_MainMenuCard ||
+        this.force_change_profileCards ||
+        this.initliveTranlsationButtonLocation !==
+          this.liveTranlsationButtonLocation ||
+        this.currentShapeLiveTranslation !==
+          this.initcurrentShapeLiveTranslation ||
+        this.initaccessibilityMode !== this.accessibilityMode ||
+        this.selectedLang.language_code !==
+          this.initselectedLang.language_code ||
+        this.currentAboveShapeLiveTranslation !==
+          this.initcurrentAboveShapeLiveTranslation ||
+        this.background !== this.initbackground
       );
     },
 

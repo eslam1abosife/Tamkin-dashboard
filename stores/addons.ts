@@ -31,6 +31,7 @@ export const useAddonStore = defineStore("addon", {
     originalFeatures: [],
     tobeSent: [],
     changesOnCheckboxes: false,
+    pendingNavigation: {},
   }),
   actions: {
     getAccAttributes(name: any) {

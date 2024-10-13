@@ -1,55 +1,59 @@
 <script lang="ts" setup>
-import { useCustomizeStore } from "@/stores/customize.js";
 import { vOnClickOutside } from "@vueuse/components";
 
+import { useCollapseStore } from "@/stores/collapse.js";
+import { useCustomizeStore } from "@/stores/customize.js";
+
 const customizeStore = useCustomizeStore();
+
 const collapseStore = useCollapseStore();
-const { isChecked, toggleCheckbox } = customizeStore;
 </script>
 
 <template>
   <div
-    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
+    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] mb-[40px] shadow-md -shadow-y-[1px] relative"
+    :class="[
+      collapseStore.collapses.includes('button_location_card')
+        ? 'pb-[24px]'
+        : 'pb-[20px]',
+    ]"
   >
-    <div
-      class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
-    >
-      <div>
+    <div class="flex items-center justify-start">
+      <div class="mt-[24px]">
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            customizeStore.getAccAttributes(
-              "deaf-customize-sign-language-player-contrast"
-            )?.title
+            customizeStore.getAccAttributes("deaf-customize-button-location")
+              ?.title
           }}
         </h1>
 
         <p
-          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
         >
-          <span v-if="!collapseStore.collapses.includes('sign_constrast_card')">
+          <span
+            v-if="!collapseStore.collapses.includes('button_location_card')"
+          >
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-contrast"
-              )?.description_on_show
+              customizeStore.getAccAttributes("deaf-customize-button-location")
+                ?.description_on_show
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-contrast"
-              )?.description_on_hide
+              customizeStore.getAccAttributes("deaf-customize-button-location")
+                ?.description_on_hide
             }}
           </span>
         </p>
       </div>
 
       <div
-        @click.stop="collapseStore.collapseMenu('sign_constrast')"
-        v-on-click-outside="() => collapseStore.removeMenu('sign_constrast')"
+        @click.stop="collapseStore.collapseMenu('button_location')"
+        v-on-click-outside="() => collapseStore.removeMenu('button_location')"
         :class="[
-          collapseStore.menus.includes('sign_constrast')
+          collapseStore.menus.includes('button_location')
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
@@ -62,7 +66,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           :class="[
-            collapseStore.menus.includes('sign_constrast')
+            collapseStore.menus.includes('button_location')
               ? 'stroke-current !text-white !fill-white'
               : 'dark:text-white',
           ]"
@@ -74,9 +78,8 @@ const { isChecked, toggleCheckbox } = customizeStore;
         </svg>
 
         <div
-          v-if="collapseStore.menus.includes('sign_constrast')"
-          style="box-shadow: 0px 2px 6px 0px #00000040"
-          class="mini_SizeMenu divide-y"
+          v-if="collapseStore.menus.includes('button_location')"
+          class="mini_SizeMenu"
         >
           <div class="mini_wrap">
             <div>
@@ -93,11 +96,11 @@ const { isChecked, toggleCheckbox } = customizeStore;
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
           <div
             class="mini_wrap"
-            @click="collapseStore.collapseCard('sign_constrast_card')"
+            @click="collapseStore.collapseCard('button_location_card')"
           >
             <div>
               <svg
@@ -135,7 +138,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("sign_constrast_card")
+                !collapseStore.collapses.includes("button_location_card")
                   ? $t("Minisize")
                   : $t("Maxsize")
               }}
@@ -169,7 +172,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
               </defs>
               <path
                 d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-                class="fill-white dark:!fill-tamkinDarkPrimary"
+                class="fill-white dark:!fill-darkTamkin"
                 filter="url(#shadow-sm)"
               />
             </svg>
@@ -178,90 +181,8 @@ const { isChecked, toggleCheckbox } = customizeStore;
       </div>
     </div>
 
-    <div
-      class="px-[15px] mt-[32px]"
-      v-if="!collapseStore.collapses.includes('sign_constrast_card')"
-    >
-      <div
-        class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
-      >
-        <div
-          class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
-        >
-          <img
-            src="/assets/imgs/signlanguageservices/contrast_toggle.png"
-            class="h-[28px] w-[28px]"
-          />
-          <div class="flex flex-col items-start justify-center w-full">
-            <div
-              class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
-            >
-              <span>Contrast</span>
-            </div>
-            <div
-              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
-            >
-              <span>
-                Reposition or hide sign language features to simplify the
-                interface
-              </span>
-            </div>
-          </div>
-          <div class="ml-auto">
-            <label for="constrast" class="toggle_wrap">
-              <input
-                type="checkbox"
-                id="constrast"
-                class="sr-only"
-                :checked="
-                  isChecked(
-                    'deaf-customize-sign-language-player-contrast-sign-language-contrast'
-                  )
-                "
-                @change="
-                  toggleCheckbox(
-                    'deaf-customize-sign-language-player-contrast-sign-language-contrast'
-                  )
-                "
-              />
-              <div
-                class="toggle_parent"
-                :class="[
-                  isChecked(
-                    'deaf-customize-sign-language-player-contrast-sign-language-contrast'
-                  )
-                    ? 'active'
-                    : 'in_active',
-                ]"
-              >
-                <div
-                  class="toggle_inner"
-                  :class="{
-                    active: isChecked(
-                      'deaf-customize-sign-language-player-contrast-sign-language-contrast'
-                    ),
-                  }"
-                >
-                  <img
-                    v-if="
-                      isChecked(
-                        'deaf-customize-sign-language-player-contrast-sign-language-contrast'
-                      )
-                    "
-                    src="/assets/imgs/translatevideo/sign_active.svg"
-                    class="w-[28px] h-[28px]"
-                  />
-                  <img
-                    v-else
-                    src="/assets/imgs/translatevideo/sign_inactive.svg"
-                    class="w-[28px] h-[28px]"
-                  />
-                </div>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <LanguageServicesCustomizePositioning
+      v-if="!collapseStore.collapses.includes('button_location_card')"
+    />
   </div>
 </template>

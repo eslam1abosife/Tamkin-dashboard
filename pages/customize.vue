@@ -15,8 +15,11 @@ const customizeStore = useCustomizeStore();
 const {
   colorMode,
   gradient1,
+  initgradient1,
   gradient2,
+  initgradient2,
   currentColor,
+  initcurrentColor,
   buttonSizeSlider,
   buttonShapeSelector,
   selectedIcon,
@@ -220,39 +223,37 @@ const checkSliderValue = () => {
 };
 
 const isLinkActive = (path) => {
-  return localePath(route.path) === localePath(path);
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
 };
+
 let pendingNavigation = null;
 
-const detectUnsavedChanges = () => {
-  return (
-    forceChange_buttonShape.value ||
-    force_change_profileCards.value ||
-    force_change_MainMenuCard.value ||
-    currentColor.value !== "#2dada3" ||
-    gradient1.value !== "#2dada3" ||
-    gradient2.value !== "#2dada3" ||
-    customizeStore.hasChanges()
-  );
-};
-
-const handleSaveAndMove = () => {
-  customizeStore.saveAndMove();
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
-  }
-};
-
-const handleCancelLeave = () => {
-  customizeStore.routeLeaveModal = false; // Close the modal
-};
+const shouldShowFooter = computed(() => {
+  const hasColorChanges =
+    currentColor.value !== customizeStore.initcurrentColor;
+  const hasGradiant1 = gradient1.value !== initgradient1.value;
+  const hasGradiant2 = gradient1.value !== initgradient2.value;
+  const hasStoreChanges = customizeStore.hasChanges();
+  const isCustomizeLinkActive =
+    hasColorChanges || hasStoreChanges || hasGradiant1 || hasGradiant2;
+  return isCustomizeLinkActive;
+});
 
 onBeforeRouteLeave((to, from, next) => {
-  if (detectUnsavedChanges()) {
+  if (shouldShowFooter.value) {
     customizeStore.showSaveBeforeLeaveModal();
-    pendingNavigation = { next, to };
+    customizeStore.pendingNavigation = { next, to };
   } else {
     next(); // No unsaved changes, proceed normally
   }
@@ -261,7 +262,7 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="relative h-full w-full">
-    <LazyModalsConfirm
+    <!-- <LazyModalsConfirm
       :showModal="customizeStore.routeLeaveModal"
       title="Save  your changes"
       sub-title="Do you want to save the changes before moving on?"
@@ -270,7 +271,7 @@ onBeforeRouteLeave((to, from, next) => {
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove"
-    />
+    /> -->
     <div class="w-full h-full relative">
       <HeaderAccess
         section-title="Customize"

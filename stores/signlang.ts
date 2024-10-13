@@ -32,7 +32,6 @@ export const useSignLangStore = defineStore("signLanguage", {
 
     saveAndMove() {
       this.routeLeaveModal = false;
-      this.cancelAll();
     },
     initializeCheckboxes(names: string[]) {
       this.checkboxes = names.map((name) => ({ name, value: false }));
@@ -170,50 +169,9 @@ export const useSignLangStore = defineStore("signLanguage", {
     },
 
     cancelAll() {
-      this.force_change_profileCards = false;
-      this.force_change_menuCards = false;
-
-      this.initializeCardsMenu(
-        [
-          {
-            icon: "contrast.png",
-            name: "Contrast",
-            description:
-              "Manage your sign language tools and personalize them to enhance your communication experience.",
-            checkboxId: "Contrast",
-          },
-          {
-            icon: "background.png",
-            name: "Background",
-            description:
-              "Manage your sign language tools and personalize them to enhance your communication experience.",
-            checkboxId: "Background",
-          },
-          {
-            icon: "position.png",
-            name: "Position",
-            description:
-              "Manage your sign language tools and personalize them to enhance your communication experience.",
-            checkboxId: "Position",
-          },
-          {
-            icon: "page_str.svg",
-            name: "Keyboard",
-            description:
-              "Manage your sign language tools and personalize them to enhance your communication experience.",
-            checkboxId: "Keyboard",
-          },
-        ],
-        "WebpluginsCards",
-        "initialCardsOrder"
-      );
-
-      this.initializeCheckboxes([
-        "Contrast",
-        "Background",
-        "Position",
-        "Keyboard",
-      ]);
+      // this.force_change_profileCards = false;
+      // this.force_change_menuCards = false;
+      this.checkboxes = this.initialCheckboxes;
     },
   },
 });

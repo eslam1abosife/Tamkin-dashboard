@@ -123,94 +123,26 @@ onBeforeMount(async () => {
   ]);
 });
 
-const handleSaveToAllSites = async () => {
-  try {
-    //  Adjust main menu feeatures with name and title
-    // $toast.success('Changes saved to all sites successfully.');
-  } catch (error) {
-    console.error("Error saving to all sites:", error);
-    // $toast.error('Failed to save to all sites.');
-  }
-};
-
-let pendingNavigation = null;
-
-const detectUnsavedChanges = () => {
-  return (
+const shouldShowFooter = computed(() => {
+  const isAddonsLinkActive =
     (isLinkActive("/addons") && checkboxStore.hasChanges()) ||
     (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards)
-  );
-};
-
-const handleSaveAndMove = () => {
-  checkboxStore.saveAndMove();
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
-  }
-};
-
-const handleCancelLeave = () => {
-  checkboxStore.routeLeaveModal = false; // Close the modal
-};
+    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
+  return isAddonsLinkActive;
+});
 
 onBeforeRouteLeave((to, from, next) => {
-  if (detectUnsavedChanges()) {
+  if (shouldShowFooter.value) {
     checkboxStore.showSaveBeforeLeaveModal();
-    pendingNavigation = { next, to };
+    checkboxStore.pendingNavigation = { next, to };
   } else {
     next(); // No unsaved changes, proceed normally
   }
 });
-
-const shouldShowFooter = computed(() => {
-  const isAddonsLinkActive =
-    isLinkActive("/addons") &&
-    (checkboxStore.changesOnCheckboxes ||
-      checkboxStore.force_change_menuCards ||
-      checkboxStore.force_change_profileCards);
-
-  return isAddonsLinkActive;
-});
-
-const cancelAc = () => {
-  const isAddonsLinkActive =
-    (isLinkActive("/addons") && checkboxStore.changesOnCheckboxes) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_menuCards) ||
-    (isLinkActive("/addons") && checkboxStore.force_change_profileCards);
-
-  // const translatePlayer =
-  //   isLinkActive("/translate/video") && translateStore.hasChangesPlayer;
-
-  if (isAddonsLinkActive) {
-    checkboxStore.cancelAll();
-  }
-};
 </script>
 
 <template>
   <div class="relative h-full w-full">
-    <!-- <transition name="slide-up">
-      <DashboardAddonsSaveFooter
-        :disable-loading-save="loadingSave"
-        :show-footer="shouldShowFooter"
-        @Save="handleSave"
-        @saveToAllSites="handleSaveToAllSites"
-        @cancel_action="cancelAc"
-      />
-    </transition> -->
-    <LazyModalsConfirm
-      :showModal="checkboxStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
-      confirm-btn-type="other"
-      @control-other="handleSaveAndMove"
-      cancelButtonName="Discard"
-      :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
-    />
     <div class="w-full h-full relative">
       <HeaderAccess
         section-title="Addons"

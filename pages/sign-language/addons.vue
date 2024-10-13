@@ -20,17 +20,21 @@ const isLinkActive = (path) => {
 let pendingNavigation = null;
 
 const detectUnsavedChanges = () => {
-  return (
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards)
-  );
+  return shouldShowFooter.value;
 };
 
 const handleSaveAndMove = () => {
   signLangStore.saveAndMove();
+  handleSave("default");
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
+};
+const handleSaveToAllAndMove = () => {
+  signLangStore.saveAndMove();
+  handleSave("all");
   if (pendingNavigation) {
     const { next, to } = pendingNavigation;
     next(); // Proceed with the stored navigation
@@ -38,8 +42,14 @@ const handleSaveAndMove = () => {
   }
 };
 
-const handleCancelLeave = () => {
-  signLangStore.routeLeaveModal = false; // Close the modal
+const DiscardAndMove = () => {
+  cancelAc();
+  signLangStore.routeLeaveModal = false;
+  if (pendingNavigation) {
+    const { next, to } = pendingNavigation;
+    next(); // Proceed with the stored navigation
+    pendingNavigation = null; // Clear pending navigation after proceeding
+  }
 };
 
 onBeforeRouteLeave((to, from, next) => {
@@ -53,25 +63,19 @@ onBeforeRouteLeave((to, from, next) => {
 
 const shouldShowFooter = computed(() => {
   const isAddonsLinkActive =
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards);
+    isLinkActive("/sign-language/addons") && signLangStore.hasChanges();
 
   return isAddonsLinkActive;
 });
 
 const cancelAc = () => {
   const isAddonsLinkActive =
-    (isLinkActive("/sign-language/addons") && signLangStore.hasChanges()) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_menuCards) ||
-    (isLinkActive("/sign-language/addons") &&
-      signLangStore.force_change_profileCards);
+    isLinkActive("/sign-language/addons") && signLangStore.hasChanges();
 
   if (isAddonsLinkActive) {
-    signLangStore.cancelAll();
+    signLangStore.checkboxes = JSON.parse(
+      JSON.stringify(signLangStore.initialCheckboxes)
+    );
   }
 };
 
@@ -92,6 +96,82 @@ onBeforeMount(async () => {
     "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
   ]);
 });
+
+const loadingSave = ref(false);
+const handleSave = async (type: any) => {
+  interface Payload {
+    AppName: string;
+    Options: any[];
+  }
+
+  let payload: Payload = {
+    AppName: type,
+    Options: [],
+  };
+
+  if (isLinkActive("/sign-language/addons")) {
+    const addonsOptions = [
+      {
+        name: "deaf-customize-sign-language-background-sign-language-background",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-background-sign-language-background"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-contrast-sign-language-contrast",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+        ),
+      },
+      {
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+        value: getSettingsValue(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        ),
+      },
+    ];
+
+    payload.Options = addonsOptions;
+  }
+
+  try {
+    const res = await api.post("/Custom/SetOptions", payload);
+    loadingSave.value = false;
+    updateNewValues();
+  } catch (error) {
+    loadingSave.value = false;
+    console.error(error); // Better error handling
+    throw typeof error === "string" ? error : "There is something wrong";
+  }
+};
+
+const updateNewValues = () => {
+  const isSettingsLinkActive = isLinkActive("/sign-language/addons");
+
+  if (isSettingsLinkActive) {
+    signLangStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(signLangStore.checkboxes)
+    );
+  }
+};
+
+const getSettingsValue = (name: any) => {
+  const val = signLangStore.checkboxes.find((el: any) => {
+    return el.name === name;
+  });
+
+  if (val.value) {
+    return "1";
+  } else {
+    return "0";
+  }
+};
 </script>
 
 <template>
@@ -100,18 +180,23 @@ onBeforeMount(async () => {
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
+        :loadingSave="loadingSave"
+        @Save="handleSave('default')"
+        @saveToAllSites="handleSave('all')"
         @cancel_action="cancelAc"
       />
     </transition>
+
     <ModalsConfirm
       :showModal="signLangStore.routeLeaveModal"
       title="Save  your changes"
       sub-title="Do you want to save the changes before moving on?"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
+      @controlsaveAllSites="handleSaveToAllAndMove"
       cancelButtonName="Discard"
       :savetoAllSitesBtn="true"
-      @control-cancel="handleSaveAndMove"
+      @control-cancel="DiscardAndMove"
     />
     <div class="w-full h-full relative">
       <HeaderAccess
