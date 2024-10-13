@@ -196,9 +196,11 @@ onBeforeRouteLeave((to, from, next) => {
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
                   {{
-                    settingsStore.getAccAttributes(
-                      "acc-setting-general-settings"
-                    )?.title
+                    $t(
+                      settingsStore.getAccAttributes(
+                        "acc-setting-general-settings"
+                      )?.title
+                    )
                   }}
                 </h1>
                 <h2
@@ -210,16 +212,20 @@ onBeforeRouteLeave((to, from, next) => {
                     "
                   >
                     {{
-                      settingsStore.getAccAttributes(
-                        "acc-setting-general-settings"
-                      )?.description_on_show
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-general-settings"
+                        )?.description_on_show
+                      )
                     }}
                   </span>
                   <span v-else>
                     {{
-                      settingsStore.getAccAttributes(
-                        "acc-setting-general-settings"
-                      )?.description_on_hide
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-general-settings"
+                        )?.description_on_hide
+                      )
                     }}
                   </span>
                 </h2>
@@ -786,7 +792,7 @@ onBeforeRouteLeave((to, from, next) => {
                 <div
                   class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text"
                 >
-                  Reset All Accessibility Settings
+                  {{ $t("Reset All Accessibility Settings") }}
                 </div>
               </button>
             </div>
