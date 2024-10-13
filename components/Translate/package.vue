@@ -273,10 +273,10 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
-          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]">
+          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !w-auto">
             {{ $t('Buy more words') }}
           </button>
-          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-[158px]">
+          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !p-2 !w-auto">
             {{ $t('Buy more Minutes') }}
           </button>
         </div>

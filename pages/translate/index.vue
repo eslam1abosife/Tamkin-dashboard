@@ -68,14 +68,7 @@ function leaveNotification(el, done) {
       {{$t('Media services')}}
       </h1>
 
-      <div class="bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-        <div>
-          <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
-        </div>
-        <div class="text-[12px] font-[500] text-darkGrey">
-          Tamkin.App
-        </div>
-      </div>
+   
       </div>
 
       <h2

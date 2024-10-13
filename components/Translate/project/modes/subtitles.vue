@@ -122,8 +122,8 @@ watch(
     <div class="w-full scrollable-div" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
       <div class="mt-[16px] w-full ">
         <div class="space-y-2 flex flex-col items-start justify-center ">
-          <div v-for="(textItem, index) in texts" :key="index" class="flex items-center justify-between border-b py-2 w-full pr-[8px] relative ">
-            <button @click="startEditing(index)" v-if="textItem.editButtonShow && !textItem.isEditing" class="absolute top-[-10px] left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"> Edit </button>
+          <div v-for="(textItem, index) in texts" :key="index" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative ">
+            <button @click="startEditing(index)" v-if="textItem.editButtonShow && !textItem.isEditing" class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"> {{ $t('Edit') }} </button>
             <div class="w-2/4 ">
               <div v-if="!textItem.isEditing">
                 <p v-on-click-outside="() => { textItem.editButtonShow = false }" class="text-darkGrey font-[500] text-[12px] leading-[32px]" @click="textItem.editButtonShow = !textItem.editButtonShow">

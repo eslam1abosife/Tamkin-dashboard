@@ -59,7 +59,7 @@ watch(
       </div>
 
       <button @click="changePlan('freetrial_begin')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-        Try it Now
+        {{ $t('Try it Now') }}
       </button>
     </div>
 
@@ -108,7 +108,7 @@ watch(
     </div>
 
     <button @click="changePlan('freetrial_Ex')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-    Upgrade now
+    {{ $t('Upgrade now') }}
     </button>
   </div>
 
@@ -153,7 +153,7 @@ watch(
     </div>
 
     <button @click="changePlan('pro_pack')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-    Upgrade now
+    {{ $t('Upgrade now') }}
     </button>
   </div>
 
@@ -196,7 +196,7 @@ watch(
     </div> -->
 
     <button @click="changePlan('pro_used')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-      Upgrade now
+      {{ $t('Upgrade now') }}
     </button>
   </div>
 
@@ -233,15 +233,15 @@ watch(
       <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
         <button
         @click="changePlan('freetrial')"
-        class="btn_bordered_dashboard hover_tamkin  lg:!w-[158px] "
+        class="btn_bordered_dashboard hover_tamkin  lg:!w-auto"
       >
-      Buy more words
+      {{ $t('Buy more words') }}
       </button>
       <button
       @click="changePlan('pro_pack')"
-      class="btn_bordered_dashboard hover_tamkin  !p-2 lg:!w-[158px] "
+      class="btn_bordered_dashboard hover_tamkin  !p-2 lg:!w-auto "
     >
-    Buy more Minutes
+    {{ $t('Buy more Minutes') }}
     </button>
       </div>
   </div>

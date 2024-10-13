@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-              // import { VTamkinPlayer } from 'tamkin-video-player';
-              // const videoUrl = ref('/video.mp4'); 
+              import { VTamkinPlayer } from 'tamkin-video-player';
+              const videoUrl = ref('/video.mp3'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
 
@@ -108,7 +108,7 @@ const getPlayerPosition = (p: any) => {
                     </defs>
                   </svg>
                 </div>
-                <div class="text"> {{$t('Translation')}} </div>
+                <div class="text"> {{$t('Sign language')}} </div>
               </button>
               <button class="btn-translate group" @click="changeMode('player')" :class="[translateStore.currentMode === 'player' ? 'active' : '']">
                 <div>
@@ -129,16 +129,16 @@ const getPlayerPosition = (p: any) => {
           <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
             <div class="relative w-full">
 
-              <!-- <VTamkinPlayer 
+              <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
-              :videoUrl="videoUrl" 
-              
+              :mediaUrl="videoUrl" 
+              :isVideo="false"
               :class="[
                 'max-w-full h-full',
                 playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
                 bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]'
               ]"
-            /> -->
+            />
             
 
     <!-- <VTamkinPlayer :videoUrl="videoUrl" :height="270" /> -->
@@ -148,7 +148,7 @@ const getPlayerPosition = (p: any) => {
               </div>
             </div>
             <div v-if="currentMode === 'player'" class="flex flex-col items-center justify-start lg:w-[60%] 2xl:w-[40%] transition-all ease-in-out" :class="[playerPosition === 'OutVideo' ? 'block' : 'hidden']">
-              <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[240px] transition-all ease-in-out">
+              <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[237px] transition-all ease-in-out">
               <button @click="playerPosition = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
                 {{ $t('Close Player') }}
               </button>

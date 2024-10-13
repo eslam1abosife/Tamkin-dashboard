@@ -69,7 +69,7 @@ const props = defineProps({
 
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    Sign language
+                    {{ $t('Sign language') }}
                 </div>
 
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
@@ -115,7 +115,7 @@ const props = defineProps({
             </div>
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    
+                    {{ $t('Minutes') }}
                 </div>
 
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">

@@ -5,9 +5,13 @@ import { required } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
+import {useTranslateVideo,useGetLangs,useTranslateAudio } from '@/composables/useInternal'
 const {locale} = useI18n()
 const localePath = useLocalePath()
 const translateStore = useTranslateStore()
+const {translateVideo} = useTranslateVideo()
+const {translateAudio} = useTranslateAudio()
+const {getLanguages} = useGetLangs()
 const {
   isOpen,
   currentView,
@@ -30,15 +34,22 @@ const projectNameArr = [
   { id: 4, name: 'Project 166' },
   { id: 7, name: 'Project 5' }
 ];
-const languagesArr = [
-  { id: 1, name: 'English (USA)', icon: USa },
-  { id: 2, name: 'English (USA)', icon: USa },
-  { id: 3, name: 'English (USA)', icon: USa }
-];
+const languagesArr =ref([])
+const ogLang = ref('')
+const translateTo = ref('')
+const signOGlang = ref('')
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
+  // console.log(item)
+  translateTo.value = item.name
 };
+const selectOgLang = (item: any) => {
+  ogLang.value = item.name
 
+};
+const selectSignOgLang = (item: any) => {
+  signOGlang.value = item.name
+
+};
 const state = reactive({
   videoLink: "",
   projectName:  "",
@@ -62,14 +73,20 @@ const dynamicWidth = computed(() => {
 const blurWidth = computed(() => {
   return 100 - progressPercentage.value;
 });
+function getFileNameWithoutExtension(filePath) {
+  const fileNameWithExtension = filePath.split('/').pop(); 
+  const fileName = fileNameWithExtension.split('.').slice(0, -1).join('.'); 
+  return fileName;
+}
 watch(acceptedFilesRef,()=>{
 if(acceptedFilesRef.value && acceptedFilesRef.value[0]){
   // console.log(acceptedFilesRef.value)
-  state.projectName =  acceptedFilesRef.value[0].name;
+  state.projectName =  getFileNameWithoutExtension(acceptedFilesRef.value[0].path);
 }else {
   state.projectName = ""
 }
 })
+
 const onDrop = async (acceptedFiles) => {
   if (acceptedFiles.length > 0) {
     const file = acceptedFiles[0];
@@ -207,21 +224,80 @@ const rendering = ref(false);
 const failedRender = ref(false);
 const router = useRouter();
 const widthVideoProcessing = ref(10);
+const blobToBase64 = blob => {
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  return new Promise(resolve => {
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+  });
+};
+const videobase64 = ref('')
 const moveForward = () => {
   failedRender.value = false;
   rendering.value = true;
-  setInterval(() => {
-    widthVideoProcessing.value = widthVideoProcessing.value + 20;
-  }, 1000);
-  setTimeout(() => {
-    if (props.translateType === 'live video' || props.translateType === 'video') {
-      router.push(localePath('/translate/video'));
-    } else {
-      router.push(localePath('/translate/audio'));
+  
+  if (acceptedFilesRef.value.length > 0) {
+    blobToBase64(acceptedFilesRef.value[0]).then(res => {
+      videobase64.value = res;
+    });
+  }
+
+  // Axios Progress Handler
+  const onUploadProgress = (progressEvent) => {
+    if (progressEvent.lengthComputable) {
+      const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+      widthVideoProcessing.value = progress;
     }
-    closeModal('translate_' + (props.translateType === 'live video' ? 'live_video' : props.translateType));
+  };
+
+  setTimeout(async () => {
+    try {
+      if (props.translateType === 'video') {
+        await translateVideo({
+          "bas64": videobase64.value || null,
+          "link": state.videoLink || null,
+          "progect_name": state.projectName || 'test',
+          "doucment_type": "mp4",
+          "translate": true,
+          "original_language": ogLang.value,
+          "translate_to": translateTo.value,
+          "sign_language": translateStore.signLanguageChecked,
+          "sign_original_language": signOGlang.value
+        }, { onUploadProgress }); // Pass the onUploadProgress correctly here
+
+      } else {
+        await translateAudio({
+          "bas64": videobase64.value || null,
+          "link": state.videoLink || null,
+          "progect_name": state.projectName || 'test',
+          "doucment_type": "mp3",
+          "translate": true,
+          "original_language": ogLang.value,
+          "translate_to": translateTo.value,
+          "sign_language": translateStore.signLanguageChecked,
+          "sign_original_language": signOGlang.value
+        });
+      }
+    } finally {
+      widthVideoProcessing.value = 100; // Ensure progress completes
+      closeModal('translate_' + (props.translateType === 'live video' ? 'live_video' : props.translateType));
+    }
   }, 5000);
 };
+
+const runconfig = useRuntimeConfig()
+onMounted(async ()=>{
+const languages = await getLanguages()
+languagesArr.value = languages.map(e=>{
+  return {
+    name:e.language_name,
+    id:e.language_code_display,
+    icon:runconfig.public.baseImagerUrl + e.image
+  }
+})
+})
 </script>
 
 <template>
@@ -249,7 +325,7 @@ const moveForward = () => {
   </div>
   <h1 class="rtl:text-right px-[15px] ltr:text-left ipad-max:mt-[8px] mt-[16px] font-[600] text-darkGrey
    dark:text-whiteTamkin text-[16px] ">
-   {{ $t('Translate') }} <span  >{{$t(translateType.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))  }}</span>
+   {{ $t('Translate') }} <span>{{$t(translateType.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))  }}</span>
   </h1>
 
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[15px] h-full
@@ -355,7 +431,7 @@ const moveForward = () => {
   <div class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]" 
   
   v-if="translateType === 'video' && acceptedFilesRef.length === 0 ||translateType === 'audio' && acceptedFilesRef.length === 0" >
-    OR
+    {{$t('OR')}}
   </div>
       <div class="w-full relative  " v-if="acceptedFilesRef.length === 0" :class="[translateType === 'audio' || translateType ==='video' ? 'mt-[8px]' :'mt-[16px]']">
         <input type="text" placeholder="characterName" id="characterName" class="input_floating_label peer w-full"
@@ -367,7 +443,7 @@ const moveForward = () => {
         <label for="characterName" class="floating_label" :class="[
           (v$.videoLink.$error && v$.videoLink.required.$invalid) ? '!text-error' : '',
         ]">
-         {{translateType === 'audio' ? 'Audio Link' : translateType === 'video' ? 'Facebook, Instagram , YouTube...' :'Live video link'}}
+         {{translateType === 'audio' ? $t('Audio Link') : translateType === 'video' ? $t('Facebook, Instagram , YouTube...') :$t('Live video link')}}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.videoLink.$error && v$.videoLink.required.$invalid)">
           <p class="error_message">
@@ -437,7 +513,7 @@ const moveForward = () => {
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{ $t('Original language') }}
           </div>
-          <TranslateSelectInput    @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
+          <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
         <div class="flex flex-col items-start justify-start space-y-[10px]  w-full" :class="[!translateStore.subtitleCheck ? 'blur-[2px]' : '']">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
@@ -468,7 +544,7 @@ const moveForward = () => {
 
     <TranslateSelectInput class="ipad-max:mt-0 mt-[10px] !w-full " :disabled="!translateStore.signLanguageChecked"
         :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
-        @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
+        @getCurrentSelectedItem="selectSignOgLang" :enableSearch="true" iconKey="icon"
         placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
       <button class="btn-dashboard hover_tamkin w-[217px]  mt-4" 
       :disabled="validatationForUpload" @click="moveForward">{{$t('Translate')}}</button>

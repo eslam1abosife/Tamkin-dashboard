@@ -30,7 +30,7 @@ const changeTab = (tab: any) => {
       >
         {{ $t('Translate video') }} (12)
       </div>
-      <div
+      <!-- <div
         :class="[
           currentTab === 'translateaudio'
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
@@ -51,7 +51,7 @@ const changeTab = (tab: any) => {
         @click="changeTab('translatelive')"
       >
         {{ $t('Translate Live Video') }}
-      </div>
+      </div> -->
       <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
         <input
           type="text"
