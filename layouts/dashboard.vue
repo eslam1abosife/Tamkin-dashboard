@@ -752,37 +752,58 @@ const getSettingsValue = (name: any) => {
   }
 };
 
-let pendingNavigation = null;
+// let pendingNavigation = null;
 
-const handleSaveAndMove = () => {
+const handleSaveAndMove = async () => {
+  await handleSave("default");
+
   if (isLinkActive("/settings")) {
     settingsStore.saveAndMove();
+    if (settingsStore.pendingNavigation) {
+      const { next, to } = settingsStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      settingsStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/customize")) {
     custmizeStore.saveAndMove();
+    if (custmizeStore.pendingNavigation) {
+      const { next, to } = custmizeStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      custmizeStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/addons")) {
     checkboxStore.saveAndMove();
-  }
-
-  handleSave("default");
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    if (checkboxStore.pendingNavigation) {
+      const { next, to } = checkboxStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      checkboxStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   }
 };
-const handleSaveToAllAndMove = () => {
+const handleSaveToAllAndMove = async () => {
+  await handleSave("all");
+
   if (isLinkActive("/settings")) {
     settingsStore.saveAndMove();
+    if (settingsStore.pendingNavigation) {
+      const { next, to } = settingsStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      settingsStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/customize")) {
     custmizeStore.saveAndMove();
+    if (custmizeStore.pendingNavigation) {
+      const { next, to } = custmizeStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      custmizeStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/addons")) {
     checkboxStore.saveAndMove();
-  }
-  handleSave("all");
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    if (checkboxStore.pendingNavigation) {
+      const { next, to } = checkboxStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      checkboxStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   }
 };
 
@@ -1127,6 +1148,7 @@ const loadf = ref(true);
                 @cancel_action="cancelAc"
               />
             </transition>
+
             <ModalsConfirm
               :showModal="
                 custmizeStore.routeLeaveModal ||
