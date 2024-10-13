@@ -718,6 +718,7 @@ const handleSave = async (type: any) => {
     loadingSave.value = false;
     loadingSavetoAll.value = false;
     updateNewValues();
+
     $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
@@ -811,10 +812,6 @@ const DiscardAndMove = () => {
   } else {
     return false;
   }
-};
-
-const detectUnsavedChanges = () => {
-  return shouldShowFooter.value;
 };
 
 const loadf = ref(true);

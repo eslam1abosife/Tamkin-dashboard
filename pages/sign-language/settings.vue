@@ -9,6 +9,7 @@ import { useApi } from "@/composables/useApi";
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
 const { getPlayerData } = useGetPlayerData();
+const { $toast } = useNuxtApp();
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();

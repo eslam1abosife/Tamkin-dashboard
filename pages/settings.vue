@@ -99,18 +99,6 @@ onBeforeMount(() => {
   ]);
 });
 let pendingNavigation = null;
-const detectUnsavedChanges = () => {
-  return settingsStore.hasChanges();
-};
-
-const handleSaveAndMove = () => {
-  settingsStore.saveAndMove();
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
-  }
-};
 
 const deleteSite = async () => {
   try {
@@ -125,19 +113,6 @@ const deleteSite = async () => {
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
-
-const handleCancelLeave = () => {
-  settingsStore.routeLeaveModal = false; // Close the modal
-};
-
-// onBeforeRouteLeave((to, from, next) => {
-//   if (detectUnsavedChanges()) {
-//     settingsStore.showSaveBeforeLeaveModal();
-//     pendingNavigation = { next, to };
-//   } else {
-//     next(); // No unsaved changes, proceed normally
-//   }
-// });
 
 const resetAccessiility = async () => {
   try {

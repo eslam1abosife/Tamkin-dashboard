@@ -213,8 +213,9 @@ const getSettingsValue = (name: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Customize"
-        section-sub-title="Customization empowers users to shape their digital environment"
+        section-title="Addons"
+        section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
+              experience."
       />
 
       <div

@@ -5,6 +5,7 @@ import { useCollapseStore } from "@/stores/collapse.js";
 import { useCustomizeStore } from "@/stores/customize.js";
 import { useGetPlayerData } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
+const { $toast } = useNuxtApp();
 
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
@@ -186,12 +187,12 @@ const updateNewValues = () => {
 };
 
 const loadingSave = ref(false);
-const locadingSavetoAll = ref(false);
+const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
   if (type === "default") {
     loadingSave.value = true;
   } else {
-    locadingSavetoAll.value = true;
+    loadingSavetoAll.value = true;
   }
 
   interface Payload {
@@ -273,12 +274,12 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
-    locadingSavetoAll.value = false;
+    loadingSavetoAll.value = false;
     updateNewValues();
     $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
-    locadingSavetoAll.value = false;
+    loadingSavetoAll.value = false;
     console.error(error);
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -304,7 +305,7 @@ const getValue = (name: any) => {
       <DashboardAddonsSaveFooter
         :show-footer="shouldShowFooter"
         :loadingSave="loadingSave"
-        :locadingSavetoAll="locadingSavetoAll"
+        :loadingSavetoAll="loadingSavetoAll"
         @Save="handleSave('default')"
         @saveToAllSites="handleSave('all')"
         @cancel_action="cancelAc"
@@ -323,9 +324,8 @@ const getValue = (name: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Addons"
-        section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
-              experience."
+        section-title="Customize"
+        section-sub-title="Customization empowers users to shape their digital environment"
       />
       <div
         v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
