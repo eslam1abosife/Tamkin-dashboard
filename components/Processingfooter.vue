@@ -34,12 +34,12 @@ emit('Save')
                  lg:ltr:ml-[300px] mt-2">
                  <div class="border-gray-300 dark:border-whiteTamkin dark:border-t-tamkin h-6 w-6 animate-spin rounded-full border-4 border-t-tamkin" />
 
-                    <div class="text-[10px] lg:text-[12px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full">
-                        Please wait while we process your request. This may take a few moments
+                    <div class="text-[16px] lg:text-[14px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full">
+                        {{ $t('Please wait while we process your request. This may take a few moments') }}
                     </div>
                 </div>
                 <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">Cancel</button>
+                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">{{$t('Cancel')}}</button>
                 </div>
             </div>
             <div v-else class="flex items-center  lg:flex-nowrap flex-wrap w-full justify-between
@@ -51,12 +51,12 @@ emit('Save')
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
                   </svg>
                   
-                   <div class="text-[10px] lg:text-[12px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full">
-                     Processing Complete 
+                   <div class="text-[16px] lg:text-[14px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full">
+                     {{ $t('Processing Complete') }} 
                    </div>
                </div>
                <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                   <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">Close</button>
+                   <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">{{$t('Done')}}</button>
                </div>
            </div>
         </div>

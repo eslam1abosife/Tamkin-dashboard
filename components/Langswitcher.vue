@@ -34,20 +34,18 @@ const closeoutside = () => {
   >
 
 
-<div class="">
-    <img src="/imgs/usaflag.png" class="w-[20px] h-[16px]" v-if="locale ==='en'" alt="">
-    <img src="/imgs/sa.svg" class="w-[20px] h-[16px]" v-if="locale ==='ar'" alt="">
+<div class="capitalize font-[600]  text-darkGrey flex items-center justify-center ">
+   {{ locale }}
 </div>
 
 
-<div v-if="isMenuOpen" class=" absolute top-[50px] right-0 drop-shadow-sm bg-white rounded-[10px] h-auto w-[128px] flex flex-col items-start justify-start p-[8px]">
+<div v-if="isMenuOpen" class=" absolute top-[50px] right-0 drop-shadow-md bg-white rounded-[10px] h-auto w-[128px] flex flex-col items-start justify-start p-[8px]">
   <NuxtLink class="flex items-center justify-center gap-2" v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)">
     <div class="rounded-full">
-      <img src="/imgs/usaflag.png" class="w-[20px] h-[16px]" v-if="locale.code ==='en'" alt="">
-    <img src="/imgs/sa.svg" class="w-[20px] h-[16px]" v-if="locale.code ==='ar'" alt="">
+    
     </div>
     <div class=" font-[500] text-[10px] leading-[24px]">
-  {{ locale.name }}
+  {{ locale.name }} 
 </div>
 
 

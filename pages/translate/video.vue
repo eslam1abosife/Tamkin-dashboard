@@ -67,13 +67,13 @@ setTimeout(()=>{
       <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
-<TranslateProjectProjectsettings/>
+<TranslateProjectProjectsettings :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
     <TranslateStats
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
     <TranslatePlanCard
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
-    <TranslateTable />
+    <TranslateTable type="Translate video"/>
   </div>
 </template>

@@ -46,11 +46,15 @@ const startEditing = (index: number) => {
   texts.value[index].editButtonShow = false;
 
 };
-
+const showPros = ref(false)
+const donePros = ref(false)
 const stopEditing = (index: number) => {
   texts.value[index].isEditing = false;
   texts.value[index].editButtonShow = false;
-
+  showPros.value = true
+setTimeout(()=>{
+  donePros.value = true
+},1500)
 };
 
 const changeMode = (mode: any) => {
@@ -161,6 +165,7 @@ watch(
     </div>
     <TranslateProjectModesSubtitlesTranslation class="w-full" />
     <TranslateProjectModesSubtitlesStyle class="w-full" />
+    <Processingfooter :show-footer="showPros" :done="donePros"  @cancel_action="showPros = false"/>
   </div>
 </template>
 

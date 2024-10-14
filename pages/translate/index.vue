@@ -87,6 +87,6 @@ function leaveNotification(el, done) {
     <TranslatePlanCard
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
-    <TranslateTable />
+    <TranslateTable type="Translate Videos"/>
   </div>
 </template>

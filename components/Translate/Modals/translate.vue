@@ -443,7 +443,7 @@ languagesArr.value = languages.map(e=>{
         <label for="characterName" class="floating_label" :class="[
           (v$.videoLink.$error && v$.videoLink.required.$invalid) ? '!text-error' : '',
         ]">
-         {{translateType === 'audio' ? $t('Audio Link') : translateType === 'video' ? $t('Facebook, Instagram , YouTube...') :$t('Live video link')}}
+         {{translateType === 'audio' ? $t('Audio Link') : translateType === 'video' ? $t('Facebook, Instagram , YouTube') :$t('Live video link')}}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.videoLink.$error && v$.videoLink.required.$invalid)">
           <p class="error_message">

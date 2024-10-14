@@ -2,10 +2,22 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
-import { Vue3Lottie } from 'vue3-lottie'
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
 
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
 
-import upgradeAnimation from '/assets/animation/upgrade.json'
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
+};
 const {
   isOpen,
   currentView,
@@ -61,7 +73,7 @@ const props = defineProps({
     
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px] mt-[18px]">
-        {{$t('You have used the subtitle service with sign language interpretation for an inclusive video experience')}}
+        {{$t(`You have used the subtitle service with sign language interpretation for an inclusive ${isLinkActive('/translate/audio') ? 'audio' : 'video'} experience`)}}
         </div>
 
      <div class="flex flex-col items-start justify-center">

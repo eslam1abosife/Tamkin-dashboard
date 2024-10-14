@@ -26,7 +26,8 @@ const rules = {
 const v$ = useVuelidate(rules, state);
 
 const props = defineProps({
-  showModal: Boolean,
+  header: String,
+  text:String
 });
 
 
@@ -53,7 +54,7 @@ const props = defineProps({
       </svg>
     </div>
     <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
-        {{ $t('Upgrade to upload more videos') }}
+        {{header ? $t(header) : $t('Upgrade to upload more videos') }}
     </h1>
 
 
@@ -64,7 +65,7 @@ const props = defineProps({
     
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px]">
-       {{ $t(' Sorry, you do not have enough words and minutes available to translate the video Please upgrade to continue the translation process without interruption') }}
+       {{ text? $t(text) : $t(' Sorry, you do not have enough words and minutes available to translate the video Please upgrade to continue the translation process without interruption') }}
     </div>
 
     <div class="w-[190px] mx-auto">

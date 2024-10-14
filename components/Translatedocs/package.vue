@@ -49,12 +49,12 @@ watch(
         <div class="flex items-center ">
           <img src="/assets/imgs/translatedocs/words.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
           alt="" />
-          <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
+          <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">{{$t('Words')}}</span></div>
         </div>
         <div class="flex items-center ">
           <img src="/assets/imgs/translatedocs/chars.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
           alt="" />
-          <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Character</span></div>
+          <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">{{$t('Characters')}}</span></div>
         </div>
       </div>
 
@@ -96,14 +96,16 @@ watch(
 
     <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
       <div class="flex items-center ">
-        <img src="/assets/imgs/translatedocs/words.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
+        <img src="/assets/imgs/translatedocs/words.svg"              
+             class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
         alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">WORDS</span></div>
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">{{$t('Words')}}</span></div>
       </div>
       <div class="flex items-center ">
+        
         <img src="/assets/imgs/translatedocs/chars.svg"                   class="w-[40px] h-[40px] object-cover object-center block m-0 p-0" 
         alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">Character</span></div>
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 / 50 <span class="font-[500]">{{$t('Characters')}}</span></div>
       </div>
     </div>
 
@@ -112,7 +114,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -143,12 +145,12 @@ watch(
 
     <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
       <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-        <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
+        <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px] object-contain" alt="" />
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">{{$t('Words')}}</span></div>
       </div>
       <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-        <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px]" alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Character</span></div>
+        <img src="/assets/imgs/translatedocs/limited.svg" class="w-[19px] h-[19px] object-contain" alt="" />
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">{{$t('Characters')}}</span></div>
       </div>
     </div>
 
@@ -157,7 +159,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -200,7 +202,7 @@ watch(
     </button>
   </div>
 
-  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />
@@ -241,12 +243,12 @@ watch(
       @click="changePlan('pro_pack')"
       class="btn_bordered_dashboard hover_tamkin  !p-2 lg:!w-auto "
     >
-    {{ $t('Buy more Minutes') }}
+    {{ $t('Buy more characters') }}
     </button>
       </div>
   </div>
 
-  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0-bottom-[6px]  h-full">
+  <div class="lg:flex hidden absolute rtl:left-0 ltr:right-0 bottom-[6px]  h-full">
     <div class="relative h-full">
       <img src="/assets/imgs/translatedocs/hero.svg"                    class="w-[250px] h-[200px]"
        alt="" />

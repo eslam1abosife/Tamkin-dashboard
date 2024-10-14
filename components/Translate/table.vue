@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+const props = defineProps({
+  type: String
+})
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -28,7 +31,7 @@ const changeTab = (tab: any) => {
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('translatev')"
       >
-        {{ $t('Translate video') }} (12)
+        {{ type? $t(type):'type' }} (12)
       </div>
       <!-- <div
         :class="[
@@ -84,10 +87,10 @@ const changeTab = (tab: any) => {
   <TranslateLiveVideoList v-if="currentTab === 'translatelive'" />
   <div class="mx-auto mt-[36px]" v-if="currentTab !== 'translateaudio'">
     <button
-      class="h-[40px] w-[150px] ipad-max:text-[13px] lg:text-[16px] font-[500] text-[#878787] bg-[#EDEDED] rounded-[5px] flex items-center justify-center mx-auto"
-    >
-      {{ $t('Load more') }}...
-    </button>
+    class="btn-dashboard w-[150px] hover_tamkin mx-auto"
+  >
+    {{ $t('Load more') }}
+  </button>
   </div>
 
 </div>

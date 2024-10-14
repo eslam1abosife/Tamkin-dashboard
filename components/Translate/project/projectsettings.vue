@@ -1,6 +1,6 @@
 <script lang="ts" setup>
               import { VTamkinPlayer } from 'tamkin-video-player';
-              const videoUrl = ref('/video.mp3'); 
+              const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
 
@@ -131,8 +131,11 @@ const getPlayerPosition = (p: any) => {
 
               <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
-              :mediaUrl="videoUrl" 
-              :isVideo="false"
+              :mediaUrl="videoUrl"
+              :isVideo="true"
+              :captionOptions="[
+                { src: '/subtitles.vtt', lang: 'en', label: 'English', default: true },
+              ]"
               :class="[
                 'max-w-full h-full',
                 playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
