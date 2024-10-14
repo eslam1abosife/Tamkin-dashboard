@@ -73,13 +73,13 @@ const manageSites = () => {
     </div>
     <div class="container mx-auto" v-if="!SuccessStep2Transfer">
       <h1
-        class="text-left font-[600] dark:text-whiteTamkin text-darkGrey text-[18px] leading-[36px]"
+        class="font-[600] dark:text-whiteTamkin text-darkGrey text-[18px] leading-[36px]"
       >
         {{ $t("Transfer License to another site") }}
       </h1>
 
       <p
-        class="mt-[4px] text-left font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]"
+        class="mt-[4px] font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]"
       >
         {{
           $t("This action will move all widgets and features to the new site.")

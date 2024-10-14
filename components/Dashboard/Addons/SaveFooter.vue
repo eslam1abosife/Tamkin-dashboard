@@ -2,6 +2,7 @@
 const props = defineProps({
   showFooter: Boolean,
   loadingSave: Boolean,
+  loadingSavetoAll: Boolean,
   disableLoadingSave: Boolean,
   disableLoadingToAll: Boolean,
 });
@@ -54,16 +55,16 @@ const saveFn = () => {
           </button>
           <button
             class="btn_bordered_dashboard w-auto"
-            :disabled="loadingSave"
+            :disabled="loadingSavetoAll || loadingSave"
             @click="saveToAllSites"
           >
             <div class="flex items-center justify-center">
-              <div :class="loadingSave ? 'rtl:ml-2 ltr:mr-2' : ''">
+              <div :class="loadingSavetoAll ? 'rtl:ml-2 ltr:mr-2' : ''">
                 {{ $t("Save to All Sites") }}
               </div>
 
               <svg
-                v-if="loadingSave"
+                v-if="loadingSavetoAll"
                 class="animate-spin h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -87,7 +88,7 @@ const saveFn = () => {
           </button>
           <button
             class="btn-dashboard hover_tamkin w-[90px]"
-            :disabled="loadingSave"
+            :disabled="loadingSave || loadingSavetoAll"
             @click="saveFn"
           >
             <div class="flex items-center justify-center">

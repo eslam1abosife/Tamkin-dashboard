@@ -62,9 +62,12 @@ const getImageUrl = computed(() => {
       <p
         class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]"
       >
+        {{ $t("Are you sure you want to transfer your license from ") }}
+        <span class="font-bold text-[#2dada3]">Tamkin.App</span>
+
         {{
           $t(
-            "Are you sure you want to transfer your license from Tamkin.App to another site? Please select the destination site from the list below to proceed with the license transfer."
+            "to another site? Please select the destination site from the list below to proceed with the license transfer."
           )
         }}
       </p>

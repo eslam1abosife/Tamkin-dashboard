@@ -528,8 +528,14 @@ onMounted(async () => {
 const langloader = ref(true);
 
 const loadingSave = ref(false);
+const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
-  loadingSave.value = true;
+  if (type === "default") {
+    loadingSave.value = true;
+  } else {
+    loadingSavetoAll.value = true;
+  }
+
   const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1: any) => {
     item1.name = item1.checkboxId;
     const matchingItem = custmizeStore.checkboxes.find(
@@ -710,10 +716,13 @@ const handleSave = async (type: any) => {
   try {
     const res = await api.post("/Custom/SetOptions", payload);
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     updateNewValues();
-    // getAccessability();
+
+    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
+    loadingSavetoAll.value = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -743,37 +752,58 @@ const getSettingsValue = (name: any) => {
   }
 };
 
-let pendingNavigation = null;
+// let pendingNavigation = null;
 
-const handleSaveAndMove = () => {
+const handleSaveAndMove = async () => {
+  await handleSave("default");
+
   if (isLinkActive("/settings")) {
     settingsStore.saveAndMove();
+    if (settingsStore.pendingNavigation) {
+      const { next, to } = settingsStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      settingsStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/customize")) {
     custmizeStore.saveAndMove();
+    if (custmizeStore.pendingNavigation) {
+      const { next, to } = custmizeStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      custmizeStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/addons")) {
     checkboxStore.saveAndMove();
-  }
-
-  handleSave("default");
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    if (checkboxStore.pendingNavigation) {
+      const { next, to } = checkboxStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      checkboxStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   }
 };
-const handleSaveToAllAndMove = () => {
+const handleSaveToAllAndMove = async () => {
+  await handleSave("all");
+
   if (isLinkActive("/settings")) {
     settingsStore.saveAndMove();
+    if (settingsStore.pendingNavigation) {
+      const { next, to } = settingsStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      settingsStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/customize")) {
     custmizeStore.saveAndMove();
+    if (custmizeStore.pendingNavigation) {
+      const { next, to } = custmizeStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      custmizeStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   } else if (isLinkActive("/addons")) {
     checkboxStore.saveAndMove();
-  }
-  handleSave("all");
-  if (pendingNavigation) {
-    const { next, to } = pendingNavigation;
-    next(); // Proceed with the stored navigation
-    pendingNavigation = null; // Clear pending navigation after proceeding
+    if (checkboxStore.pendingNavigation) {
+      const { next, to } = checkboxStore.pendingNavigation;
+      next(); // Proceed with the stored navigation
+      checkboxStore.pendingNavigation = {}; // Clear pending navigation after proceeding
+    }
   }
 };
 
@@ -803,10 +833,6 @@ const DiscardAndMove = () => {
   } else {
     return false;
   }
-};
-
-const detectUnsavedChanges = () => {
-  return shouldShowFooter.value;
 };
 
 const loadf = ref(true);
@@ -1098,6 +1124,7 @@ const loadf = ref(true);
                 !error
               "
             ></div>
+
             <div class="relative px-[15px]">
               <NavbarOverview
                 v-if="
@@ -1115,11 +1142,13 @@ const loadf = ref(true);
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 :loadingSave="loadingSave"
+                :loadingSavetoAll="loadingSavetoAll"
                 @Save="handleSave('default')"
                 @saveToAllSites="handleSave('all')"
                 @cancel_action="cancelAc"
               />
             </transition>
+
             <ModalsConfirm
               :showModal="
                 custmizeStore.routeLeaveModal ||
@@ -1136,6 +1165,7 @@ const loadf = ref(true);
               @control-cancel="DiscardAndMove"
             />
             <!-- <NuxtPage class="" /> -->
+
             <slot />
           </div>
         </div>
