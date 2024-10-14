@@ -45,8 +45,8 @@ onBeforeRouteLeave((to, from, next) => {
   <div class="relative h-full w-full">
     <LazyModalsConfirm
       :showModal="statsStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
+      :title="$t('Save  your changes')"
+      :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
       cancelButtonName="Discard"
@@ -55,9 +55,12 @@ onBeforeRouteLeave((to, from, next) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Statistics"
-        section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
-          useful insights."
+        :section-title="$t('Statistics')"
+        :section-sub-title="
+          $t(
+            'Statistics involves collecting, analyzing, and interpreting data to provide useful insights.'
+          )
+        "
       />
 
       <StatisticsChart />

@@ -48,7 +48,9 @@ const filterdLanguages = computed(() => {
             class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
           >
             {{
-              customizeStore.getAccAttributes("acc-customize-language")?.title
+              $t(
+                customizeStore.getAccAttributes("acc-customize-language")?.title
+              )
             }}
           </h1>
 
@@ -61,14 +63,18 @@ const filterdLanguages = computed(() => {
               "
             >
               {{
-                customizeStore.getAccAttributes("acc-customize-language")
-                  ?.description_on_show
+                $t(
+                  customizeStore.getAccAttributes("acc-customize-language")
+                    ?.description_on_show
+                )
               }}
             </span>
             <span v-else>
               {{
-                customizeStore.getAccAttributes("acc-customize-language")
-                  ?.description_on_hide
+                $t(
+                  customizeStore.getAccAttributes("acc-customize-language")
+                    ?.description_on_hide
+                )
               }}
             </span>
           </p>
