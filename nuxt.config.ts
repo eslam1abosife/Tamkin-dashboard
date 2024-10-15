@@ -7,8 +7,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
-    //  baseURL:  'https://localhost:7096/v1/api/',
+     //  baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
+     baseURL:  'https://localhost:7096/v1/api/',
       baseImagerUrl: 'https://tamkin.app/'
     }
   },
