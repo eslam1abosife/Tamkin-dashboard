@@ -65,7 +65,7 @@ function leaveNotification(el, done) {
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      Media services
+      {{$t('Media services')}}
       </h1>
 
       <div class="bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
@@ -81,7 +81,7 @@ function leaveNotification(el, done) {
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      We make translations easy, convenient, and closer than ever for your enjoyment.      </h2>
+      {{ $t('We make translations easy, convenient, and closer than ever for your enjoyment.') }}      </h2>
     </div>
 
     <TranslatePackage :type="currentPlan" @change-plan="changePlan" id="types" />

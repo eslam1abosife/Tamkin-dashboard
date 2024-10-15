@@ -141,23 +141,36 @@ const withdrawStore = useWithdrawStore();
 
 const { $toast } = useNuxtApp();
 onMounted(async () => {
-  await withdrawStore.getAllrewards();
-  await withdrawStore.gettotalAmount();
-  await withdrawStore.getcurrentLimit();
-  await withdrawStore.getcurrentRate();
-  await getcustomerCount();
-  if (process.client) {
-    const user = JSON.parse(localStorage.getItem("user"));
+  try {
+    loadingBlock.value = true;
 
-    const resultLink = await getReferralLink();
-    await getAllReferrals();
+    const fetchData = [
+      withdrawStore.getAllrewards(),
+      withdrawStore.gettotalAmount(),
+      withdrawStore.getcurrentLimit(),
+      withdrawStore.getcurrentRate(),
+      getcustomerCount(),
+    ];
 
-    source.value = resultLink.data;
-    // withdrawStore.Allrefs.value=withdrawStore.AllrefsResult.data;
-    // console.log(withdrawStore.Allrefs.value)
+    await Promise.all(fetchData);
+
+    if (process.client) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      
+      const [resultLink, referrals] = await Promise.all([
+        getReferralLink(), 
+        getAllReferrals()
+      ]);
+
+      source.value = resultLink.data;
+    }
+  } catch (error) {
+    console.error("Error loading data:", error);
+  } finally {
+    loadingBlock.value = false; // Ensure the loading block is disabled no matter what
   }
-  loadingBlock.value = false;
 });
+
 
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId);

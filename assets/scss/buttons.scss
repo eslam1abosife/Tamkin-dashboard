@@ -54,7 +54,7 @@
 
   @apply  border-[1px] border-tamkin text-white  rounded-[10px] ipad-max:h-[40px] disabled:bg-lightGrey 
   disabled:bg-tamkin-disabled disabled:border-0 disabled:text-white  disabled:cursor-not-allowed
-  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[30px] flex items-center justify-center space-x-[4px] w-full
+  p-[6px] lg:p-[16px] text-[10px] lg:text-[15px] lg:h-[40px] h-[40px] flex items-center justify-center space-x-[4px] w-full
   
   ;
 
@@ -103,7 +103,7 @@
 .btn-translate {
   @apply  dark:border-darkborder text-[10px] leading-[15px] text-darkGrey h-[30px] rounded-[5px] p-[16px]
 
-  flex items-center space-x-[4px] relative #{!important};
+  flex items-center rtl:space-x-reverse space-x-[4px] relative #{!important};
   &.tamkin{
     &::before{
       content: "";

@@ -19,7 +19,7 @@
                 />
               </div>
               <div v-if="popupVisible && selectedText" :style="popupStyle" class="popup">
-                Sign language
+                {{ $t('Sign language') }}
               </div>
             </div>
           </div>
@@ -40,14 +40,15 @@
 
 <script lang="ts" setup>
   import { useTranslateStore } from "~/stores/translate";
-
+const {locale} = useI18n()
 const translateStore = useTranslateStore()
 
 import { ref, onMounted } from 'vue';
-import CKEditor from '@ckeditor/ckeditor5-vue';
+// import CKEditor from '@ckeditor/ckeditor5-vue';
 
 // import  {DecoupledEditor} from '@/ck-vue/ckeditor';
 import '@/ck-vue/ckeditor'
+import '@/ck-vue/translations/ar';
 
 const EditorDec = window['DecoupledEditor']
   
@@ -73,18 +74,16 @@ const selectedText = ref('');
 const popupVisible = ref(false);
 const popupStyle = ref({ top: '0px', left: '0px' });
 
-const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
+const PAGE_HEIGHT = 1122; 
 
 const breakContentIntoPages = (editorInstance) => {
   editorInstance.model.change(writer => {
-    // Remove existing page breaks
     for (const item of editorInstance.model.document.getRoot().getChildren()) {
       if (item.name === 'pageBreak') {
         writer.remove(item);
       }
     }
 
-    // Calculate the height of the content and insert page breaks
     const viewDocument = editorInstance.editing.view.document;
     const viewRoot = viewDocument.getRoot();
     const viewWriter = editorInstance.editing.view.writer;
@@ -96,12 +95,10 @@ const breakContentIntoPages = (editorInstance) => {
     for (const item of range.getItems()) {
       const viewElement = editorInstance.editing.mapper.toViewElement(item);
 
-      // Get the height of the view element
       if (viewElement) {
         const boundingRect = editorInstance.editing.view.domConverter.viewToDom(viewElement).getBoundingClientRect();
         currentHeight += boundingRect.height;
 
-        // Insert a page break if the current height exceeds the page height
         if (currentHeight > pageHeight) {
           writer.insertElement('pageBreak', editorInstance.model.createPositionBefore(item));
           currentHeight = boundingRect.height;
@@ -111,7 +108,6 @@ const breakContentIntoPages = (editorInstance) => {
   });
 };
 const updatePopupPosition = (editorInstance) => {
-  console.log('updatePopupPosition called'); // Debugging log
 
   const selection = editorInstance.model.document.selection;
   const range = selection.getFirstRange();
@@ -130,15 +126,14 @@ const updatePopupPosition = (editorInstance) => {
     const viewSelection = editorInstance.editing.view.document.selection;
     const domRange = editorInstance.editing.view.domConverter.viewRangeToDom(viewSelection.getFirstRange());
     const rects = domRange.getClientRects();
-    const ckContainer = document.querySelector('.ck-content'); // Adjust to match the actual class
+    const ckContainer = document.querySelector('.ck-content'); 
     const ckContainerRect = ckContainer.getBoundingClientRect();
 
     if (rects.length > 0) {
       const firstRect = rects[0];
-      let topPosition = firstRect.top - ckContainerRect.top +60; // Adjust for popup height (assuming 40px) and some extra space
-      let leftPosition = firstRect.left + window.scrollX - ckContainerRect.left + (firstRect.width / 2) +20; // Center horizontally assuming popup width is 100px
+      let topPosition = firstRect.top - ckContainerRect.top +60; 
+      let leftPosition = firstRect.left + window.scrollX - ckContainerRect.left + (firstRect.width / 2) +20; 
 
-      // Ensure the popup stays within the ck container horizontally
       if (leftPosition < 0) {
         leftPosition = 0;
       }
@@ -146,7 +141,6 @@ const updatePopupPosition = (editorInstance) => {
         leftPosition = ckContainerRect.width -20;
       }
 
-      // Ensure the popup stays within the ck container vertically
       if (topPosition < 0) {
         topPosition = 0;
       }
@@ -157,7 +151,7 @@ const updatePopupPosition = (editorInstance) => {
         position: 'absolute'
       };
 
-      console.log(`Popup Position - Top: ${topPosition}px, Left: ${leftPosition}px`); // Debugging log
+      // console.log(`Popup Position - Top: ${topPosition}px, Left: ${leftPosition}px`); // Debugging log
     } else {
       popupVisible.value = false;
     }
@@ -195,13 +189,13 @@ const onReady = (editorInstance) => {
     translateStore.wordTextEdit = true
   });
   editorInstance.editing.view.document.on('selectionChange', (evt, data) => {
-    console.log('Selection change event triggered');
+    // console.log('Selection change event triggered');
     updateWordCount(editorInstance)
     updatePopupPosition(editorInstance);
   });
 
   editorInstance.editing.view.document.on('clipboardInput', () => {
-    console.log('Clipboard input event'); // Debugging log
+    // console.log('Clipboard input event'); 
     updatePopupPosition(editorInstance);
   });
 
@@ -262,7 +256,7 @@ const onScroll = () => {
   
 onMounted(() => {
   config.value = {
-    
+   language:locale.value,
     toolbar: {
       items: [
       // 'restrictedEditing',

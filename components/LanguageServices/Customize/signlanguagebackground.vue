@@ -4,33 +4,48 @@ import { vOnClickOutside } from "@vueuse/components";
 
 const customizeStore = useCustomizeStore();
 const collapseStore = useCollapseStore();
-const {isChecked,toggleCheckbox} = customizeStore
- const moveHide = ref('')
- const background = ref('')
- const contrast = ref('')
- const keyboard = ref('')
+const { isChecked, toggleCheckbox } = customizeStore;
 
-const moveHideWidget = (v:string)=>{
-    moveHide.value = v;
-}
-const backgroundWidgetValues = (v:string)=>{
-    background.value = v;
-}
+const background = ref("");
 </script>
 
 <template>
-    <div
-    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
   >
     <div
       class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
     >
       <div>
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Sign language Background</h1>
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          {{
+            customizeStore.getAccAttributes(
+              "deaf-customize-sign-language-player-background"
+            )?.title
+          }}
+        </h1>
 
-        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
-            Sign Language Mode optimizes the interface for diverse user needs 
+        <p
+          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+        >
+          <span
+            v-if="!collapseStore.collapses.includes('sign_background_card')"
+          >
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-player-background"
+              )?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-player-background"
+              )?.description_on_hide
+            }}
+          </span>
         </p>
       </div>
 
@@ -42,7 +57,7 @@ const backgroundWidgetValues = (v:string)=>{
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
-        class=" menu_button_control"
+        class="menu_button_control"
       >
         <svg
           width="18"
@@ -52,7 +67,8 @@ const backgroundWidgetValues = (v:string)=>{
           xmlns="http://www.w3.org/2000/svg"
           :class="[
             collapseStore.menus.includes('sign_background')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ? 'stroke-current !text-white !fill-white'
+              : 'dark:text-white',
           ]"
         >
           <path
@@ -66,202 +82,233 @@ const backgroundWidgetValues = (v:string)=>{
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-        <div
-        class="mini_wrap"
-      >
-        <div>
-          <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          Switch To Annual
-        </div>
-      </div>
+          <div class="mini_wrap">
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
+                />
+              </svg>
+            </div>
+            <div class="text_mini">Switch To Annual</div>
+          </div>
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('sign_background_card')"
           >
             <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
+                <path
+                  d="M13.7754 10.937L18.4995 7"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7207 7H18.5V10.1496"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.2241 13.063L6.5 17"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.2793 17.0002H6.5V13.8506"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("sign_background_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
 
           <div class="arrow">
-           <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
-            <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-tamkinDarkPrimary"
-              filter="url(#shadow-sm)"
-            />
-          </svg>
+            <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-tamkinDarkPrimary"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
-  
-    <div class="px-[15px] mt-[32px]" v-if="!collapseStore.collapses.includes('sign_background_card')">
-
-        <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder">
-     
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img 
-                src="/assets/imgs/signlanguageservices/background.png"
-                class="h-[28px] w-[28px]"
-                
+    <div
+      class="px-[15px] mt-[32px]"
+      v-if="!collapseStore.collapses.includes('sign_background_card')"
+    >
+      <div
+        class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
+      >
+        <div
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
+        >
+          <img
+            src="/assets/imgs/signlanguageservices/background.png"
+            class="h-[28px] w-[28px]"
+          />
+          <div class="flex flex-col items-start justify-center w-full">
+            <div
+              class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
+            >
+              <span>Background</span>
+            </div>
+            <div
+              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
+            >
+              <span>
+                Reposition or hide sign language features to simplify the
+                interface
+              </span>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <label for="background_sign" class="toggle_wrap">
+              <input
+                type="checkbox"
+                id="background_sign"
+                class="sr-only"
+                :checked="
+                  isChecked(
+                    'deaf-customize-sign-language-background-sign-language-background'
+                  )
+                "
+                @change="
+                  toggleCheckbox(
+                    'deaf-customize-sign-language-background-sign-language-background'
+                  )
+                "
               />
-              <div class="flex flex-col items-start justify-center w-full">
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
-                  <span>Background</span>
-                </div>
+              <div
+                class="toggle_parent"
+                :class="[
+                  isChecked(
+                    'deaf-customize-sign-language-background-sign-language-background'
+                  )
+                    ? 'active'
+                    : 'in_active',
+                ]"
+              >
                 <div
-                  class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px]
-                  
-                  lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
+                  class="toggle_inner"
+                  :class="{
+                    active: isChecked(
+                      'deaf-customize-sign-language-background-sign-language-background'
+                    ),
+                  }"
                 >
-                  <span>
-                    Reposition or hide sign language features to simplify the interface             </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="background_sign"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="background_sign"
-                    class="sr-only"
-    :checked="isChecked('background_checkbox')"
-                @change="toggleCheckbox('background_checkbox')"
+                  <img
+                    v-if="
+                      isChecked(
+                        'deaf-customize-sign-language-background-sign-language-background'
+                      )
+                    "
+                    src="/assets/imgs/translatevideo/sign_active.svg"
+                    class="w-[28px] h-[28px]"
                   />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('background_checkbox')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': isChecked('background_checkbox') }"
-                    >
-                      <img 
-                        v-if="isChecked('background_checkbox')"
-                        src="/assets/imgs/translatevideo/sign_active.svg"
-                        class="w-[28px] h-[28px]"
-                        
-                      />
-                      <img 
-                        v-else
-                        src="/assets/imgs/translatevideo/sign_inactive.svg"
-                        class="w-[28px] h-[28px]"
-                        
-                      />
-                    </div>
-                  </div>
-                </label>
+                  <img
+                    v-else
+                    src="/assets/imgs/translatevideo/sign_inactive.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                </div>
               </div>
-            </div>
+            </label>
           </div>
-    
-          <div class="flex items-center justify-between  mt-[24px] px-[15px] 
-           w-full rtl:space-x-reverse  dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-           v-if="isChecked('background_checkbox')">
-              <div class=" rounded-[8px]  flex items-center justify-center  h-[50px] w-[50px] 
-             rtl:space-x-reverse space-x-[10px] cursor-pointer"
-            :class="[background === '0' ? 'custom-border border-transparent' : 'border-[1px] border-[#D9D9D9]']"
-            @click="backgroundWidgetValues('0')">
-            
-                <div class="text-[14px]">
-                    0%
-                </div>
-             
-            </div>
-      <div class=" rounded-[8px] flex items-center justify-center  h-[50px] w-[50px] 
-             rtl:space-x-reverse space-x-[10px] cursor-pointer"
-            @click="backgroundWidgetValues('50%')"
-            :class="[background === '50%' ? 'custom-border border-transparent' : 'border-[1px] border-[#D9D9D9]']"
-    
-            >
-            
-                <div class="text-[14px] ">
-                50%
-                </div>
-             
-            </div>
-            <div class=" rounded-[8px] flex items-center justify-center  h-[50px] w-[50px] 
-             rtl:space-x-reverse space-x-[10px] cursor-pointer"
-               @click="backgroundWidgetValues('100%')"
-            :class="[background === '100%' ? 'custom-border border-transparent' : 'border-[1px] border-[#D9D9D9]']"
-            >
-              
-                <div class="text-[14px]">
-                 100%
-                </div>
-             
-            </div>
-          </div>
+        </div>
+      </div>
 
-
-
-
-
-
-
+      <div
+        class="flex items-center justify-between mt-[24px] px-[15px] w-full rtl:space-x-reverse dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+        v-if="
+          isChecked(
+            'deaf-customize-sign-language-background-sign-language-background'
+          )
+        "
+      >
+        <div
+          class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          :class="[
+            customizeStore.background === '0%'
+              ? 'custom-border border-transparent'
+              : 'border-[1px] border-[#D9D9D9]',
+          ]"
+          @click="customizeStore.backgroundWidgetValues('0%')"
+        >
+          <div class="text-[14px]">0%</div>
+        </div>
+        <div
+          class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          @click="customizeStore.backgroundWidgetValues('50%')"
+          :class="[
+            customizeStore.background === '50%'
+              ? 'custom-border border-transparent'
+              : 'border-[1px] border-[#D9D9D9]',
+          ]"
+        >
+          <div class="text-[14px]">50%</div>
+        </div>
+        <div
+          class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          @click="customizeStore.backgroundWidgetValues('100%')"
+          :class="[
+            customizeStore.background === '100%'
+              ? 'custom-border border-transparent'
+              : 'border-[1px] border-[#D9D9D9]',
+          ]"
+        >
+          <div class="text-[14px]">100%</div>
+        </div>
+      </div>
     </div>
-
-
-   
   </div>
 </template>

@@ -6,6 +6,7 @@ import { useShareEmbedCode } from "@/composables/useEmbedCode";
 import {useJoinInvestor} from '@/composables/usePackages'
 import {useGetAppInvites} from '@/composables/useTeam';
 import { useCheckifSiteblocked, useGetTraffic,useGetPriceByTraffic } from "@/composables/usePackages";
+const {t} = useI18n()
 const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 
 // const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
@@ -96,10 +97,11 @@ const v$ = useVuelidate(rules, state);
 const props = defineProps({
   showModal: Boolean,
 });
+const mySiteStore = useMySiteStore()
 
 const profileStore = useProfileStore()
  const pcks = ref([])
- const selectedpcks = ref('')
+ const selectedpcks = ref(mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_name : '')
  const selectPackage = (pck)=>{
   selectedpcks.value = pck.name
  }
@@ -115,22 +117,39 @@ const filteredPackages =computed(()=>{
   ).sort((a, b) => a.sort - b.sort);
 })
 onMounted(async () => {
+  if(mySiteStore.currentWebsite){
+    currentWebSite.value = mySiteStore.currentWebsite
+  }
+
   await packagesStore.getPacks()
 
   await nextTick();
   await cryptoStore.setCryptoList();
   await cryptoStore.getRates();
-  
-await getInviteApps({agency: profileStore.company.name})
+  const user = JSON.parse(localStorage.getItem("user"));
+if(user){
+  await getInviteApps({agency: user.agency})
+}
+if(!currentWebSite.value){
+}
 });
 
 const { shareEmbedCode, loading } = useShareEmbedCode();
-const emit = defineEmits(["onSuccess"]);
+const emit = defineEmits(["onSuccess",'updateData']);
 
 const errMsg = ref(null);
 
 const withdrawStore = useWithdrawStore();
 const blockedError = ref(false)
+const route = useRoute()
+const localePath = useLocalePath()
+const isLinkActive = (path) => {
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
 const addHashAddress = () => {
   state.hashAddresses.push({ hash: "" });
   // v$.value.$touch(); // Trigger validation
@@ -166,7 +185,7 @@ const submitForm = async () => {
     amount: state.amount,
     hashes: [state.firstHash, ...state.hashAddresses.map(hs => hs.hash)],
     package: selectedpcks.value,
-    app: currentWebSite.value ? currentWebSite.value.name : null,
+    app: currentWebSite.value ? currentWebSite.value.name :  null,
     url: state.website_new ? state.website_new : null,
     currency: filteredCryptoMethods.value.name,
   };
@@ -177,7 +196,10 @@ const submitForm = async () => {
   // Handle response
   if (codeStatus.value === 200) {
     closeModal('join_to_investor');
-    $toast('Request Sent Successfully', { hideIn: 3000 });
+    $toast(t('Request Sent Successfully'), { hideIn: 3000 });
+    if(isLinkActive('/subscriptions')){
+emit('updateData')
+    }
     loadingReq.value = false;
 
     // Reset form fields
@@ -245,7 +267,7 @@ const onInputWebsite = ()=>{
   blockedError.value = false
    
 }
-const lockedWebsite = ref(false)
+const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
 </script>
 
 
@@ -255,7 +277,6 @@ const lockedWebsite = ref(false)
     p-[30px] lg:w-[640px] h-auto w-10/12"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-  
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
@@ -315,10 +336,12 @@ const lockedWebsite = ref(false)
   </div>
 
 
-  <div class="w-full">
-    <div class="w-full mt-[14px] relative">
+  <div class="w-full" >
+
+    <div class="w-full mt-[14px] relative" >
       <TranslateSelectInput
-      :disabled="state.website_new !== ''"
+      :disabled="state.website_new !== '' || isLinkActive('/subscriptions')"
+
       @getCurrentSelectedItem="selectWebsite"
       :enableSearch="false"
       placeholderinput="Choose Website"
@@ -330,7 +353,7 @@ const lockedWebsite = ref(false)
     />
     
     <div
-    v-if="currentWebSite !== '' "
+    v-if="currentWebSite !== '' && !mySiteStore.currentWebsite"
     @click="()=>{
       currentWebSite= ''
       lockedWebsite = false
@@ -352,8 +375,8 @@ const lockedWebsite = ref(false)
 </svg>
   </div>
      </div>
-     <div class="mx-auto text-center text-[14px] mt-[7px]">{{$t('OR')}}</div>
-   <div class="flex items-center justify-center  w-full mt-[7px] gap-4">
+     <div class="mx-auto text-center text-[14px] mt-[7px]" v-if="!mySiteStore.currentWebsite">{{$t('OR')}}</div>
+   <div class="flex items-center justify-center  w-full mt-[7px] gap-4" v-if="!mySiteStore.currentWebsite">
     <div class="w-3/4 relative ">
 
       <input
@@ -420,7 +443,7 @@ const lockedWebsite = ref(false)
       nameKey="title"
       idField="name"
       class=""
-     
+     :current-list-value="mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_title : ''"
     />
      </div>
 
@@ -611,7 +634,7 @@ const lockedWebsite = ref(false)
       
 
     <div class="">
- {{  }}
+
       <button
         :disabled=" v$.$invalid 
  || blockedError || websiteExists || !lockedWebsite || !selectedpcks || loadingReq"

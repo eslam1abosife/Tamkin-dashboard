@@ -4,45 +4,66 @@ import { vOnClickOutside } from "@vueuse/components";
 
 const customizeStore = useCustomizeStore();
 const collapseStore = useCollapseStore();
-const {isChecked,toggleCheckbox} = customizeStore
- const moveHide = ref('')
- const background = ref('')
- const contrast = ref('')
- const keyboard = ref('')
+const { isChecked, toggleCheckbox } = customizeStore;
+const moveHide = ref("");
+const background = ref("");
+const contrast = ref("");
+const keyboard = ref("");
 
-const moveHideWidget = (v:string)=>{
-    moveHide.value = v;
-}
-const backgroundWidgetValues = (v:string)=>{
-    background.value = v;
-}
+const moveHideWidget = (v: string) => {
+  moveHide.value = v;
+};
+const backgroundWidgetValues = (v: string) => {
+  background.value = v;
+};
 </script>
 
 <template>
-    <div
-    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md  -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
   >
     <div
       class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
     >
       <div>
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Sign language mode</h1>
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          {{
+            customizeStore.getAccAttributes("deaf-customize-sign-language-mode")
+              ?.title
+          }}
+        </h1>
 
-        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
-            Sign Language Mode optimizes the interface for diverse user needs 
+        <p
+          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
+        >
+          <span v-if="!collapseStore.collapses.includes('access_mode_card')">
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-mode"
+              )?.description_on_show
+            }}
+          </span>
+          <span v-else>
+            {{
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-mode"
+              )?.description_on_hide
+            }}
+          </span>
         </p>
       </div>
 
       <div
-        @click.stop="collapseStore.collapseMenu('language_mode')"
-        v-on-click-outside="() => collapseStore.removeMenu('language_mode')"
+        @click.stop="collapseStore.collapseMenu('access_mode')"
+        v-on-click-outside="() => collapseStore.removeMenu('access_mode')"
         :class="[
-          collapseStore.menus.includes('language_mode')
+          collapseStore.menus.includes('access_mode')
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
-        class=" menu_button_control"
+        class="menu_button_control"
       >
         <svg
           width="18"
@@ -51,8 +72,9 @@ const backgroundWidgetValues = (v:string)=>{
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           :class="[
-            collapseStore.menus.includes('language_mode')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+            collapseStore.menus.includes('access_mode')
+              ? 'stroke-current !text-white !fill-white'
+              : 'dark:text-white',
           ]"
         >
           <path
@@ -62,209 +84,252 @@ const backgroundWidgetValues = (v:string)=>{
         </svg>
 
         <div
-          v-if="collapseStore.menus.includes('language_mode')"
+          v-if="collapseStore.menus.includes('access_mode')"
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-        <div
-        class="mini_wrap"
-      >
-        <div>
-          <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          Switch To Annual
-        </div>
-      </div>
+          <div class="mini_wrap">
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
+                />
+              </svg>
+            </div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
+          </div>
           <div
             class="mini_wrap"
-            @click="collapseStore.collapseCard('language_mode_card')"
+            @click="collapseStore.collapseCard('access_mode_card')"
           >
             <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
+                <path
+                  d="M13.7754 10.937L18.4995 7"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7207 7H18.5V10.1496"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.2241 13.063L6.5 17"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.2793 17.0002H6.5V13.8506"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("language_mode_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                !collapseStore.collapses.includes("access_mode_card")
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
 
           <div class="arrow">
-           <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
-            <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-tamkinDarkPrimary"
-              filter="url(#shadow-sm)"
-            />
-          </svg>
+            <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-tamkinDarkPrimary"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
-  
-    <div class="px-[15px] mt-[32px]" v-if="!collapseStore.collapses.includes('language_mode_card')">
-        <div class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder">
-     
-            <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full">
-              <img 
-                src="/assets/imgs/customize/move_acess.svg"
-                class="h-[28px] w-[28px]"
-                
+    <div
+      v-if="!collapseStore.collapses.includes('access_mode_card')"
+      class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
+    >
+      <div
+        class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
+      >
+        <div
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
+        >
+          <img
+            src="/assets/imgs/customize/move_acess.svg"
+            class="h-[28px] w-[28px]"
+          />
+          <div class="flex flex-col items-start justify-center w-full">
+            <div
+              class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
+            >
+              <span>Move / hide sign language player</span>
+            </div>
+            <div
+              class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
+            >
+              <span>
+                Reposition or conceal sign language player features to simplify
+                the interface
+              </span>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <label for="toggle_move_acess" class="toggle_wrap">
+              <input
+                type="checkbox"
+                id="toggle_move_acess"
+                class="sr-only"
+                :checked="
+                  isChecked(
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                  )
+                "
+                @change="
+                  toggleCheckbox(
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                  )
+                "
               />
-              <div class="flex flex-col items-start justify-center w-full">
-                <div class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]">
-                  <span>Move / hide accessibility</span>
-                </div>
+              <div
+                class="toggle_parent"
+                :class="[
+                  isChecked(
+                    'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                  )
+                    ? 'active'
+                    : 'in_active',
+                ]"
+              >
                 <div
-                  class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px]
-                  
-                  lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
+                  class="toggle_inner"
+                  :class="{
+                    active: isChecked(
+                      'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                    ),
+                  }"
                 >
-                  <span>
-                    Reposition or conceal accessibility features to simplify the interface              </span>
-                </div>
-              </div>
-              <div class="ml-auto">
-                <label
-                  for="toggle_move_acess"
-                  class="toggle_wrap"
-                >
-                  <input
-                    type="checkbox"
-                    id="toggle_move_acess"
-                    class="sr-only"
-    :checked="isChecked('move_access')"
-                @change="toggleCheckbox('move_access')"
-                  />
-                  <div
-                    class="toggle_parent"
-                    :class="[
-                      isChecked('move_access')
-                        ? 'active'
-                        : 'in_active',
-                    ]"
-                  >
-                    <div
-                      class="toggle_inner"
-                      :class="{ 'active': isChecked('move_access') }"
-                    >
-                    <img 
-                    v-if="isChecked('move_access')"
-                    src="/assets/imgs/translatevideo/sign_active.svg"
+                  <img
+                    v-if="
+                      isChecked(
+                        'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+                      )
+                    "
+                    src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
-                    
                   />
-                  <img 
+                  <img
                     v-else
-                    src="/assets/imgs/translatevideo/sign_inactive.svg"
+                    src="/assets/imgs/addons/toggle.svg"
                     class="w-[28px] h-[28px]"
-                    
                   />
-                    </div>
-                  </div>
-                </label>
+                </div>
               </div>
-            </div>
+            </label>
           </div>
-    
-          <div class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between  mt-[24px] 
-           w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-           v-if="isChecked('move_access')">
-            <div class=" flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-            :class="[moveHide ==='left_side' ? 'custom-border padding-2' : '']"
-            @click="moveHideWidget('left_side')">
-                <div>
-                    <img  src="/assets/imgs/customize/left_side.svg"  class="w-3/4 h-3/4"/>
-                </div>
-                <div class="text-[14px]">
-                    Left Side
-                </div>
-             
-            </div>
-            <div class="flex items-center  justify-start  h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-            @click="moveHideWidget('right_side')"
-            :class="[moveHide === 'right_side' ? 'custom-border padding-2' : '']"
-    
-            >
-                <div>
-                    <img  src="/assets/imgs/customize/right_side.svg"  class="w-3/4 h-3/4"/>
-                </div>
-                <div class="text-[14px] w-full">
-                  Right Side
-                </div>
-             
-            </div>
-            <div class="rtl:mr-auto ltr:ml-auto flex items-center justify-start  h-[45px] w-[140px] px-[15px]
-             rtl:space-x-reverse space-x-[10px] cursor-pointer"
-               @click="moveHideWidget('hide')"
-            :class="[moveHide === 'hide' ? 'custom-border padding-2' : '']"
-            >
-                <div>
-                    <img  src="/assets/imgs/customize/hide.svg"  class="w-3/4 h-3/4"/>
-                </div>
-                <div class="text-[14px]">
-                  Hide
-                </div>
-             
-            </div>
+        </div>
+      </div>
+
+      <div
+        class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+        v-if="
+          isChecked(
+            'deaf-customize-sign-language-mode-move-/-hide-sign-language-player'
+          )
+        "
+      >
+        <div
+          class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          :class="[
+            customizeStore.accessibilityMode === 'left'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
+          @click="customizeStore.moveHideWidget('left')"
+        >
+          <div>
+            <img
+              src="/assets/imgs/customize/left_side.svg"
+              class="w-3/4 h-3/4"
+            />
           </div>
-
-
-
-
-
-
-
+          <div class="text-[14px]">Left Side</div>
+        </div>
+        <div
+          class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          @click="customizeStore.moveHideWidget('right')"
+          :class="[
+            customizeStore.accessibilityMode === 'right'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
+        >
+          <div>
+            <img
+              src="/assets/imgs/customize/right_side.svg"
+              class="w-3/4 h-3/4"
+            />
+          </div>
+          <div class="text-[14px] w-full">Right Side</div>
+        </div>
+        <div
+          class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          @click="customizeStore.moveHideWidget('hide')"
+          :class="[
+            customizeStore.accessibilityMode === 'hide'
+              ? 'custom-border padding-2'
+              : '',
+          ]"
+        >
+          <div>
+            <img src="/assets/imgs/customize/hide.svg" class="w-3/4 h-3/4" />
+          </div>
+          <div class="text-[14px]">Hide</div>
+        </div>
+      </div>
     </div>
-
-
-   
   </div>
 </template>

@@ -5,7 +5,6 @@ import Vue3TagsInput from "vue3-tags-input";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
-
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const addSiterStore = useAddSiteStore()
 const {tags,validatedSites,loadingBlock} = storeToRefs(addSiterStore)
@@ -176,7 +175,6 @@ const checkifSiteBlockedOrNot = async (site) => {
   loadingBlock.value.pop(site);
 };
 
-const packagesStore = usePackgesStore()
 const addSitesAndOpenModal = async () => {
   loadingModal.value = true;
 
@@ -186,11 +184,12 @@ const addSitesAndOpenModal = async () => {
     const trafficPromises = validatedSites.value
       .filter(site => !site.blocked && !site.exists)
       .map(async (site) => {
-        const traffic = await getTraffic(site.domain, "url"); 
+      
+        const traffic = selectedPlan.value.type === 'Accessibility' ? await getTraffic(site.domain, "url") : null; 
         return {
           url: cleanWebsiteUrl(site.domain),
           title: cleanWebsiteUrl(site.domain),
-          traffic: determineTrafficLevel(traffic[0].traffic),
+          traffic:  selectedPlan.value.type === 'Accessibility' ? determineTrafficLevel(traffic[0].traffic) : null,
         };
       });
 
@@ -228,11 +227,24 @@ const siteg = (name)=>{
       return validatedSites.value.find(g => g.domain === cleanWebsiteUrl(name));
 
 }
+
+const sortedPlans = computed(() => {
+      const desiredType = 'Sign language';
+
+      const specificTypePackages = addSiteStore.packages.filter(
+        (pkg) => pkg.type === desiredType
+      ).slice(0, 3);
+
+      const otherPackages =addSiteStore.packages.filter(
+        (pkg) => pkg.type !== desiredType
+      ).slice(0, 3); 
+
+      return [...specificTypePackages, ...otherPackages];
+    })
 </script>
 
 <template>
   <div class=" w-full" v-if="!loadingPage">
-
 
     <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
       <!-- Modal for adding a package -->
@@ -294,7 +306,7 @@ const siteg = (name)=>{
     </div>
     <ClientOnly>
       <Splide   :options="{ rewind: false,perPage: 3,  gap: 10,arrows:false ,direction:`${locale === 'ar' ? 'rtl' : 'ltr'}`      }">
-        <SplideSlide  v-for="(plan, i) in addSiteStore.packages.sort((a, b) => a.sort - b.sort)" :key="i" >
+        <SplideSlide  v-for="(plan, i) in sortedPlans" :key="i" >
         <div class="flex flex-col items-start justify-center " >
           <div class=" flex items-center custom-border  justify-start rtl:space-x-reverse 
           relative py-[62px] w-full h-[149px] !rounded-[10px] mt-[35px]"
@@ -484,7 +496,8 @@ const siteg = (name)=>{
     focus:ring-transparent" v-if="collapsed"></div> -->
     <!-- {{   }} -->
     <div class="">
-      <button :disabled="!selectedPlan || loadingModal || validatedSites.length === 0 || (validatedSites[0].exists === true && validatedSites.length ===1)"
+      <button :disabled="!selectedPlan || loadingModal || validatedSites.length === 0 || 
+      (validatedSites.every((site) => site.exists === true || site.blocked === true))"
         class="btn-dashboard hover_tamkin my-[16px] rtl:mr-auto ltr:ml-auto w-auto " @click="addSitesAndOpenModal">
         <div class="flex items-center justify-center">
           <div :class="loadingModal ? 'rtl:ml-2 ltr:mr-2' : ''">

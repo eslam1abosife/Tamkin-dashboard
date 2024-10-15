@@ -2,6 +2,9 @@
 import { vOnClickOutside } from "@vueuse/components";
 
 import { useCollapseStore } from "@/stores/collapse.js";
+import { useCustomizeStore } from "@/stores/customize.js";
+
+const customizeStore = useCustomizeStore();
 
 const collapseStore = useCollapseStore();
 </script>
@@ -17,14 +20,38 @@ const collapseStore = useCollapseStore();
   >
     <div class="flex items-center justify-start">
       <div class="mt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
-          Button Location
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          {{
+            $t(
+              customizeStore.getAccAttributes("acc-customize-button-location")
+                ?.title
+            )
+          }}
         </h1>
 
         <p
           class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
         >
-          Select the location where you want the button to appear
+          <span
+            v-if="!collapseStore.collapses.includes('button_location_card')"
+          >
+            {{
+              $t(
+                customizeStore.getAccAttributes("acc-customize-button-location")
+                  ?.description_on_show
+              )
+            }}
+          </span>
+          <span v-else>
+            {{
+              $t(
+                customizeStore.getAccAttributes("acc-customize-button-location")
+                  ?.description_on_hide
+              )
+            }}
+          </span>
         </p>
       </div>
 
@@ -58,7 +85,7 @@ const collapseStore = useCollapseStore();
 
         <div
           v-if="collapseStore.menus.includes('button_location')"
-          class="mini_SizeMenu "
+          class="mini_SizeMenu"
         >
           <div class="mini_wrap">
             <div>
@@ -75,7 +102,7 @@ const collapseStore = useCollapseStore();
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
           <div
             class="mini_wrap"
@@ -118,8 +145,8 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("button_location_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -134,7 +161,13 @@ const collapseStore = useCollapseStore();
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"

@@ -11,7 +11,7 @@ const {
   currentColor,
   buttonSizeSlider,
   buttonShapeSelector,
-  liveTranlsationButtonLocation
+  liveTranlsationButtonLocation,
 } = storeToRefs(customizeStore);
 const collapseStore = useCollapseStore();
 const changeGradientColor1 = computed(() => {
@@ -43,31 +43,61 @@ const backgroundImageStyle = computed(() => {
   }
 });
 
-const isLocationChecked = computed(() => {
-    return liveTranlsationButtonLocation.value === 'above' ? true : liveTranlsationButtonLocation.value === 'default' ? true :false
-}) ;
-
+// const isLocationChecked = computed(() => {
+//     return liveTranlsationButtonLocation.value === 'above' ? true : liveTranlsationButtonLocation.value === 'default' ? true :false
+// }) ;
 </script>
 
-
-
 <template>
-
-    <div
-    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px]  mb-[40px] shadow-md -shadow-y-[1px] relative" :class="[collapseStore.collapses.includes('live_site_translation_button_card')? 'pb-[24px]' :'pb-[10px]']"
-  
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[40px] shadow-md -shadow-y-[1px] relative"
+    :class="[
+      collapseStore.collapses.includes('live_site_translation_button_card')
+        ? 'pb-[24px]'
+        : 'pb-[10px]',
+    ]"
   >
-    <div
-      class="flex items-center justify-start px-[15px]"
-    >
-      <div class=" mt-[24px] ">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
-          Live Site Translations Button
+    <div class="flex items-center justify-start px-[15px]">
+      <div class="mt-[24px]">
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          {{
+            $t(
+              customizeStore.getAccAttributes(
+                "acc-customize-translations-button"
+              )?.title
+            )
+          }}
         </h1>
 
-        <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin mt-[10px]">
-          The ‘Live Site Translations’ button instantly translates web content,
-          bridging languages
+        <p
+          class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px]"
+        >
+          <span
+            v-if="
+              !collapseStore.collapses.includes(
+                'live_site_translation_button_card'
+              )
+            "
+          >
+            {{
+              $t(
+                customizeStore.getAccAttributes(
+                  "acc-customize-translations-button"
+                )?.description_on_show
+              )
+            }}
+          </span>
+          <span v-else>
+            {{
+              $t(
+                customizeStore.getAccAttributes(
+                  "acc-customize-translations-button"
+                )?.description_on_hide
+              )
+            }}
+          </span>
         </p>
       </div>
 
@@ -106,97 +136,124 @@ const isLocationChecked = computed(() => {
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-        <div
-        class="mini_wrap"
-      >
-        <div>
-          <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          Switch To Annual
-        </div>
-      </div>
+          <div class="mini_wrap">
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
+                />
+              </svg>
+            </div>
+            <div class="text_mini">
+              {{ $t("Switch To Annual") }}
+            </div>
+          </div>
           <div
             class="mini_wrap"
-            @click="collapseStore.collapseCard('live_site_translation_button_card')"
+            @click="
+              collapseStore.collapseCard('live_site_translation_button_card')
+            "
           >
             <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <path
+                  d="M13.7754 10.937L18.4995 7"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7207 7H18.5V10.1496"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.2241 13.063L6.5 17"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.2793 17.0002H6.5V13.8506"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("live_site_translation_button_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                !collapseStore.collapses.includes(
+                  "live_site_translation_button_card"
+                )
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
 
           <div class="arrow">
             <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
-            <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-darkTamkin"
-              filter="url(#shadow-sm)"
-            />
-          </svg>
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-darkTamkin"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
           </div>
         </div>
       </div>
     </div>
     <div
       class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
-      v-if="!collapseStore.collapses.includes('live_site_translation_button_card')"
+      v-if="
+        !collapseStore.collapses.includes('live_site_translation_button_card')
+      "
     >
       <table class="min-w-full leading-normal">
         <thead class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
           <tr class="">
             <th
-              class="w-full border-b-2 border-gray-200 dark:border-darkborder  ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
+              class="w-full border-b-2 border-gray-200 dark:border-darkborder ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
-              Enable Live Site Translations Button
+              {{ $t("Enable Live Site Translations Button") }}
             </th>
             <th
               class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
@@ -207,25 +264,48 @@ const isLocationChecked = computed(() => {
                     type="checkbox"
                     id="toggle_enable_live_button"
                     class="sr-only"
-                    :checked="customizeStore.isChecked('enable_live_site')"
-                    @change="customizeStore.toggleCheckbox('enable_live_site')"
+                    :checked="
+                      customizeStore.isChecked(
+                        'acc-customize-translations-button-enable-live-site-translations-button'
+                      )
+                    "
+                    @change="
+                      customizeStore.toggleCheckbox(
+                        'acc-customize-translations-button-enable-live-site-translations-button'
+                      )
+                    "
                   />
                   <div
                     class="toggle_parent"
-                    :class="[customizeStore.isChecked('enable_live_site') ? 'active' : 'in_active']"
+                    :class="[
+                      customizeStore.isChecked(
+                        'acc-customize-translations-button-enable-live-site-translations-button'
+                      )
+                        ? 'active'
+                        : 'in_active',
+                    ]"
                   >
-                    <div class="toggle_inner" :class="{ 'active ': customizeStore.isChecked('enable_live_site') }">
-                      <img 
-                        v-if="customizeStore.isChecked('enable_live_site')"
+                    <div
+                      class="toggle_inner"
+                      :class="{
+                        'active ': customizeStore.isChecked(
+                          'acc-customize-translations-button-enable-live-site-translations-button'
+                        ),
+                      }"
+                    >
+                      <img
+                        v-if="
+                          customizeStore.isChecked(
+                            'acc-customize-translations-button-enable-live-site-translations-button'
+                          )
+                        "
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
-                      <img 
+                      <img
                         v-else
                         src="/assets/imgs/addons/toggle.svg"
                         class="w-[28px] h-[28px]"
-                        
                       />
                     </div>
                   </div>
@@ -238,18 +318,27 @@ const isLocationChecked = computed(() => {
 
       <div
         class="flex items-center lg:flex-nowrap flex-wrap justify-between"
-        :class="[!customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '']"
+        :class="[
+          !customizeStore.isChecked(
+            'acc-customize-translations-button-enable-live-site-translations-button'
+          )
+            ? 'blur-[2px] !cursor-not-allowed'
+            : '',
+        ]"
       >
         <div
           @click="customizeStore.selectLiveTranslationButtonLocation('default')"
           :class="[
-             liveTranlsationButtonLocation === 'default'
+            liveTranlsationButtonLocation === 'default'
               ? 'custom-border'
               : 'border-[1px] dark:border-darkborder',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px]
-           w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -257,49 +346,72 @@ const isLocationChecked = computed(() => {
               type="radio"
               name="button_location_Radio"
               class="hidden"
-                :disabled="!customizeStore.isChecked('enable_live_site')"
-            :checked="     liveTranlsationButtonLocation === 'default'"
-              @click="customizeStore.selectLiveTranslationButtonLocation('default')"
-            
+              :disabled="
+                !customizeStore.isChecked(
+                  'acc-customize-translations-button-enable-live-site-translations-button'
+                )
+              "
+              :checked="liveTranlsationButtonLocation === 'default'"
+              @click="
+                customizeStore.selectLiveTranslationButtonLocation('default')
+              "
             />
             <label for="radio665" class="flex items-center cursor-pointer">
               <span class="radio-tamkin w-[19px] h-[19px]"></span>
             </label>
           </div>
 
-          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
-            Use translation button as default button
+          <div
+            class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Use translation button as default button") }}
           </div>
         </div>
         <div
           :class="[
-        liveTranlsationButtonLocation === 'above'
+            liveTranlsationButtonLocation === 'above'
               ? 'custom-border'
               : 'border-[1px] dark:border-darkborder',
 
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           @click="customizeStore.selectLiveTranslationButtonLocation('above')"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] 
-          w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
               id="radio_position"
               type="radio"
-              :disabled="!customizeStore.isChecked('enable_live_site')"
+              :disabled="
+                !customizeStore.isChecked(
+                  'acc-customize-translations-button-enable-live-site-translations-button'
+                )
+              "
               name="button_location_Radio"
               class="hidden"
-              @click="customizeStore.selectLiveTranslationButtonLocation('above')"
-              :checked="customizeStore.liveTranlsationButtonLocation === 'above'"
+              @click="
+                customizeStore.selectLiveTranslationButtonLocation('above')
+              "
+              :checked="
+                customizeStore.liveTranlsationButtonLocation === 'above'
+              "
             />
-            <label for="radio_position" class="flex items-center cursor-pointer">
+            <label
+              for="radio_position"
+              class="flex items-center cursor-pointer"
+            >
               <span class="radio-tamkin w-[19px] h-[19px]"></span>
             </label>
           </div>
 
-          <div class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin">
-            Position translation button above
+          <div
+            class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
+          >
+            {{ $t("Position translation button above") }}
           </div>
         </div>
       </div>
@@ -309,38 +421,46 @@ const isLocationChecked = computed(() => {
         v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
       >
         <div
-          @click="customizeStore.changeDefaultButtonShape('gb')"
+          @click="customizeStore.changeDefaultButtonShape('option1')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'gb'
+            customizeStore.currentShapeLiveTranslation === 'option1'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-transparent rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'gb'"
+            v-if="customizeStore.currentShapeLiveTranslation === 'option1'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
-          <img  src="/assets/imgs/customize/gb.svg"  />
+          <img src="/assets/imgs/customize/gb.svg" />
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('en')"
+          @click="customizeStore.changeDefaultButtonShape('option2')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'en'
+            customizeStore.currentShapeLiveTranslation === 'option2'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'en'"
+            v-if="customizeStore.currentShapeLiveTranslation === 'option2'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
 
           <svg
@@ -358,7 +478,14 @@ const isLocationChecked = computed(() => {
               rx="19.5"
               fill="url(#paint0_linear_3321_46191)"
             />
-            <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" />
+            <rect
+              x="0.5"
+              y="1"
+              width="39"
+              height="39"
+              rx="19.5"
+              stroke="white"
+            />
             <path
               d="M13.3706 16.455V19.515H16.9706V20.91H13.3706V24.105H17.4206V25.5H11.6606V15.06H17.4206V16.455H13.3706ZM28.3438 25.5H26.6338L21.4888 17.715V25.5H19.7788V15.06H21.4888L26.6338 22.83V15.06H28.3438V25.5Z"
               fill="white"
@@ -379,20 +506,24 @@ const isLocationChecked = computed(() => {
           </svg>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('langs')"
+          @click="customizeStore.changeDefaultButtonShape('option3')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'langs'
+            customizeStore.currentShapeLiveTranslation === 'option3'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if=" customizeStore.currentShapeLiveTranslation === 'langs'"
+            v-if="customizeStore.currentShapeLiveTranslation === 'option3'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
           <svg
             width="40"
@@ -409,7 +540,14 @@ const isLocationChecked = computed(() => {
               rx="19.5"
               fill="url(#paint0_linear_4851_63637)"
             />
-            <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="white" />
+            <rect
+              x="0.5"
+              y="0.5"
+              width="39"
+              height="39"
+              rx="19.5"
+              stroke="white"
+            />
             <mask id="path-2-inside-1_4851_63637" fill="white">
               <path
                 d="M22.7615 29.6149C24.4288 29.1775 25.929 28.3545 27.1502 27.2518C26.3602 26.9256 25.4907 26.6519 24.5612 26.4403C24.4097 26.8608 24.2434 27.2585 24.0638 27.6299C23.6861 28.4124 23.2478 29.0824 22.7615 29.6149ZM27.9344 26.4618C29.3755 24.8442 30.2859 22.7797 30.4064 20.5156H25.59C25.5492 22.3078 25.2941 23.9895 24.8776 25.4542C25.9811 25.7103 27.0092 26.0507 27.9344 26.4618ZM23.4979 26.23C22.5565 26.0716 21.5643 25.9759 20.5369 25.9509V29.8939C21.5002 29.6243 22.3895 28.6443 23.0871 27.1985C23.2337 26.8945 23.3711 26.571 23.4979 26.23ZM19.4595 25.9509C18.4321 25.9759 17.44 26.0716 16.4986 26.23C16.6254 26.571 16.7628 26.8945 16.9094 27.1985C17.607 28.6436 18.4963 29.6237 19.4595 29.8939V25.9509ZM15.4359 26.4403C14.5058 26.6519 13.6369 26.9256 12.847 27.2518C14.0682 28.3545 15.5684 29.1775 17.2356 29.6149C16.7487 29.0831 16.3104 28.4124 15.9334 27.6292C15.7544 27.2578 15.5881 26.8608 15.4359 26.4403ZM12.0627 26.4625C12.988 26.0513 14.0161 25.7103 15.1195 25.4548C14.7024 23.9902 14.448 22.3092 14.4071 20.5163H9.59081C9.71131 22.7803 10.6217 24.8449 12.0627 26.4625ZM16.1737 25.2405C17.2187 25.0572 18.3208 24.9466 19.4602 24.9197V20.5163H15.4853C15.5261 22.2425 15.7721 23.8513 16.1737 25.2405ZM20.5384 24.9197C21.6778 24.946 22.7799 25.0565 23.8249 25.2405C24.2258 23.8513 24.4725 22.2425 24.5133 20.5163H20.5384V24.9197ZM22.7623 10.3858C23.2492 10.9176 23.6875 11.5882 24.0645 12.3708C24.2434 12.7422 24.4097 13.1398 24.5619 13.5604C25.4921 13.3488 26.3609 13.0751 27.1509 12.7489C25.9297 11.6462 24.4288 10.8232 22.7623 10.3858ZM24.8783 14.5458C25.2955 16.0105 25.5499 17.6915 25.5907 19.4844H30.4071C30.2866 17.2203 29.3762 15.1558 27.9351 13.5382C27.0099 13.9493 25.9825 14.2904 24.8783 14.5458ZM14.4071 19.4844C14.448 17.6922 14.7031 16.0105 15.1195 14.5458C14.0153 14.2897 12.988 13.9493 12.0627 13.5382C10.621 15.1558 9.71131 17.2203 9.59081 19.4844H14.4071ZM15.4366 13.5604C15.5881 13.1398 15.7544 12.7422 15.9341 12.3708C16.3118 11.5882 16.7501 10.9176 17.2363 10.3858C15.5691 10.8232 14.0696 11.6462 12.8477 12.7489C13.6384 13.0751 14.5072 13.3488 15.4366 13.5604ZM23.0885 12.8021C22.3909 11.357 21.5016 10.377 20.5384 10.1067V14.0498C21.5657 14.0248 22.5579 13.9291 23.4993 13.7707C23.3725 13.4297 23.2351 13.1061 23.0885 12.8021ZM19.4609 10.1067C18.4977 10.3763 17.6084 11.3564 16.9108 12.8021C16.7642 13.1061 16.6268 13.4297 16.5 13.7707C17.4414 13.9291 18.4335 14.0248 19.4609 14.0498V10.1067ZM16.1744 14.7602C15.7735 16.1493 15.5268 17.7582 15.486 19.4844H19.4609V15.081C18.3215 15.0547 17.2194 14.9442 16.1744 14.7602ZM24.5133 19.4844C24.4725 17.7589 24.2265 16.1493 23.8249 14.7602C22.7799 14.9435 21.6778 15.054 20.5384 15.081V19.4844H24.5133ZM28.1317 27.7782C26.0502 29.7686 23.1752 31 20 31C16.8241 31 13.9491 29.7686 11.8683 27.7782C9.78741 25.7871 8.5 23.0378 8.5 20C8.5 16.9629 9.78741 14.2122 11.8683 12.2218C13.9498 10.2314 16.8241 9 20 9C23.1752 9 26.0509 10.2314 28.1317 12.2218C30.2126 14.2129 31.5 16.9629 31.5 20C31.5 23.0378 30.2126 25.7878 28.1317 27.7782Z"
@@ -442,55 +580,61 @@ const isLocationChecked = computed(() => {
         v-if="liveTranlsationButtonLocation === 'above'"
       >
         <div
-          @click="customizeStore.changeDefaultButtonShape('gb')"
+          @click="customizeStore.changeAboveButtonShape('option1')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'gb'
+            customizeStore.currentAboveShapeLiveTranslation === 'option1'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
-          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF]  dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
+          class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if=" customizeStore.currentShapeLiveTranslation === 'gb'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option1'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
           <div class="flex flex-col items-center justify-center">
-            <img 
+            <img
               src="/assets/imgs/customize/gb.svg"
               class="w-[40px] h-[40px]"
-              
             />
             <div
               class="w-[30px] h-[30px] rounded-full flex items-center justify-center"
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img 
+              <img
                 src="/assets/imgs/icons/ios_access.svg"
-                
                 class="w-[22px] h-[22px]"
               />
             </div>
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('en')"
+          @click="customizeStore.changeAboveButtonShape('option2')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'en'
+            customizeStore.currentAboveShapeLiveTranslation === 'option2'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           class="h-[100px] w-[100px] border-[1px] dark:border-darkborder bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if="customizeStore.currentShapeLiveTranslation === 'en'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option2'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
 
           <div class="flex flex-col items-center justify-center space-y-[8px]">
@@ -510,7 +654,14 @@ const isLocationChecked = computed(() => {
                 rx="19.5"
                 fill="url(#paint0_linear_3321_46191)"
               />
-              <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="white" />
+              <rect
+                x="0.5"
+                y="1"
+                width="39"
+                height="39"
+                rx="19.5"
+                stroke="white"
+              />
               <path
                 d="M13.3706 16.455V19.515H16.9706V20.91H13.3706V24.105H17.4206V25.5H11.6606V15.06H17.4206V16.455H13.3706ZM28.3438 25.5H26.6338L21.4888 17.715V25.5H19.7788V15.06H21.4888L26.6338 22.83V15.06H28.3438V25.5Z"
                 fill="white"
@@ -534,29 +685,32 @@ const isLocationChecked = computed(() => {
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img 
+              <img
                 src="/assets/imgs/icons/ios_access.svg"
-                
                 class="w-[22px] h-[22px]"
               />
             </div>
           </div>
         </div>
         <div
-          @click="customizeStore.changeDefaultButtonShape('langs')"
+          @click="customizeStore.changeAboveButtonShape('option3')"
           :class="[
-            customizeStore.currentShapeLiveTranslation === 'langs'
+            customizeStore.currentAboveShapeLiveTranslation === 'option3'
               ? 'custom-border-tamkin padding-override-1'
               : 'border-[1px]',
-            !customizeStore.isChecked('enable_live_site') ? 'blur-[2px] !cursor-not-allowed' : '',
+            !customizeStore.isChecked(
+              'acc-customize-translations-button-enable-live-site-translations-button'
+            )
+              ? 'blur-[2px] !cursor-not-allowed'
+              : '',
           ]"
           class="h-[100px] w-[100px] border-[1px] bg-[#F8FCFF] dark:bg-tamkinDarkPrimary rounded-[10px] flex items-center justify-center cursor-pointer relative"
         >
           <div
             class="absolute top-[-3px] right-[5px]"
-            v-if=" customizeStore.currentShapeLiveTranslation  === 'langs'"
+            v-if="customizeStore.currentAboveShapeLiveTranslation === 'option3'"
           >
-            <img  src="/assets/imgs/customize/tick_two.svg"  />
+            <img src="/assets/imgs/customize/tick_two.svg" />
           </div>
           <div class="flex flex-col items-center justify-center space-y-[8px]">
             <svg
@@ -575,7 +729,14 @@ const isLocationChecked = computed(() => {
                 rx="19.5"
                 fill="url(#paint0_linear_4851_63637)"
               />
-              <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="white" />
+              <rect
+                x="0.5"
+                y="0.5"
+                width="39"
+                height="39"
+                rx="19.5"
+                stroke="white"
+              />
               <mask id="path-2-inside-1_4851_63637" fill="white">
                 <path
                   d="M22.7615 29.6149C24.4288 29.1775 25.929 28.3545 27.1502 27.2518C26.3602 26.9256 25.4907 26.6519 24.5612 26.4403C24.4097 26.8608 24.2434 27.2585 24.0638 27.6299C23.6861 28.4124 23.2478 29.0824 22.7615 29.6149ZM27.9344 26.4618C29.3755 24.8442 30.2859 22.7797 30.4064 20.5156H25.59C25.5492 22.3078 25.2941 23.9895 24.8776 25.4542C25.9811 25.7103 27.0092 26.0507 27.9344 26.4618ZM23.4979 26.23C22.5565 26.0716 21.5643 25.9759 20.5369 25.9509V29.8939C21.5002 29.6243 22.3895 28.6443 23.0871 27.1985C23.2337 26.8945 23.3711 26.571 23.4979 26.23ZM19.4595 25.9509C18.4321 25.9759 17.44 26.0716 16.4986 26.23C16.6254 26.571 16.7628 26.8945 16.9094 27.1985C17.607 28.6436 18.4963 29.6237 19.4595 29.8939V25.9509ZM15.4359 26.4403C14.5058 26.6519 13.6369 26.9256 12.847 27.2518C14.0682 28.3545 15.5684 29.1775 17.2356 29.6149C16.7487 29.0831 16.3104 28.4124 15.9334 27.6292C15.7544 27.2578 15.5881 26.8608 15.4359 26.4403ZM12.0627 26.4625C12.988 26.0513 14.0161 25.7103 15.1195 25.4548C14.7024 23.9902 14.448 22.3092 14.4071 20.5163H9.59081C9.71131 22.7803 10.6217 24.8449 12.0627 26.4625ZM16.1737 25.2405C17.2187 25.0572 18.3208 24.9466 19.4602 24.9197V20.5163H15.4853C15.5261 22.2425 15.7721 23.8513 16.1737 25.2405ZM20.5384 24.9197C21.6778 24.946 22.7799 25.0565 23.8249 25.2405C24.2258 23.8513 24.4725 22.2425 24.5133 20.5163H20.5384V24.9197ZM22.7623 10.3858C23.2492 10.9176 23.6875 11.5882 24.0645 12.3708C24.2434 12.7422 24.4097 13.1398 24.5619 13.5604C25.4921 13.3488 26.3609 13.0751 27.1509 12.7489C25.9297 11.6462 24.4288 10.8232 22.7623 10.3858ZM24.8783 14.5458C25.2955 16.0105 25.5499 17.6915 25.5907 19.4844H30.4071C30.2866 17.2203 29.3762 15.1558 27.9351 13.5382C27.0099 13.9493 25.9825 14.2904 24.8783 14.5458ZM14.4071 19.4844C14.448 17.6922 14.7031 16.0105 15.1195 14.5458C14.0153 14.2897 12.988 13.9493 12.0627 13.5382C10.621 15.1558 9.71131 17.2203 9.59081 19.4844H14.4071ZM15.4366 13.5604C15.5881 13.1398 15.7544 12.7422 15.9341 12.3708C16.3118 11.5882 16.7501 10.9176 17.2363 10.3858C15.5691 10.8232 14.0696 11.6462 12.8477 12.7489C13.6384 13.0751 14.5072 13.3488 15.4366 13.5604ZM23.0885 12.8021C22.3909 11.357 21.5016 10.377 20.5384 10.1067V14.0498C21.5657 14.0248 22.5579 13.9291 23.4993 13.7707C23.3725 13.4297 23.2351 13.1061 23.0885 12.8021ZM19.4609 10.1067C18.4977 10.3763 17.6084 11.3564 16.9108 12.8021C16.7642 13.1061 16.6268 13.4297 16.5 13.7707C17.4414 13.9291 18.4335 14.0248 19.4609 14.0498V10.1067ZM16.1744 14.7602C15.7735 16.1493 15.5268 17.7582 15.486 19.4844H19.4609V15.081C18.3215 15.0547 17.2194 14.9442 16.1744 14.7602ZM24.5133 19.4844C24.4725 17.7589 24.2265 16.1493 23.8249 14.7602C22.7799 14.9435 21.6778 15.054 20.5384 15.081V19.4844H24.5133ZM28.1317 27.7782C26.0502 29.7686 23.1752 31 20 31C16.8241 31 13.9491 29.7686 11.8683 27.7782C9.78741 25.7871 8.5 23.0378 8.5 20C8.5 16.9629 9.78741 14.2122 11.8683 12.2218C13.9498 10.2314 16.8241 9 20 9C23.1752 9 26.0509 10.2314 28.1317 12.2218C30.2126 14.2129 31.5 16.9629 31.5 20C31.5 23.0378 30.2126 25.7878 28.1317 27.7782Z"
@@ -606,9 +767,8 @@ const isLocationChecked = computed(() => {
               :class="gradientClasses"
               :style="backgroundImageStyle"
             >
-              <img 
+              <img
                 src="/assets/imgs/icons/ios_access.svg"
-                
                 class="w-[22px] h-[22px]"
               />
             </div>
@@ -616,7 +776,5 @@ const isLocationChecked = computed(() => {
         </div>
       </div>
     </div>
- 
   </div>
-
 </template>

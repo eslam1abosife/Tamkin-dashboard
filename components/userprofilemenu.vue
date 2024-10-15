@@ -12,6 +12,7 @@ import { useUserStore } from "@/stores/auth"; // Import the Pinia store
 import { useRouter } from "#vue-router";
 const router = useRouter();
 const isMenuOpen = ref(false)
+const loadingmenu = ref(true)
 /*
 const fullName = computed(() => {
   if(!profileStore.member?.first_name && !profileStore.member?.last_name) {
@@ -89,16 +90,16 @@ const logout = () => {
   const billingStore = useBillingStore();
   const withdrawStore = useWithdrawStore();
     // Clear authentication state and reset stores
-    profileStore.$reset();
-  invoiceStore.$reset();
-  billingStore.$reset();
+ 
   billingStore.cards = []
   withdrawStore.$reset();
   userStore.logout('any');
   localStorage.removeItem('user');
   localStorage.removeItem('registerd_email');
   localStorage.removeItem('registerd_user');
-  
+  profileStore.$reset();
+  invoiceStore.$reset();
+  billingStore.$reset();
 
 
 router.push({ path: localePath('/auth/login'), query: { logout: 'true' } });
@@ -118,9 +119,10 @@ const helpWindow = ()=>{
 onMounted(async ()=>{
   if (!isLinkActive('/profile')) {
     await profileStore.fetchMember(true)
+   
     useCookie('permissions').value = JSON.stringify(profileStore.member.permission)
 }
-
+loadingmenu.value = false 
 
 })
 </script>
@@ -131,7 +133,7 @@ onMounted(async ()=>{
 
        v-on-click-outside="closeMenu">
        <div class="cursor-pointer relative flex items-center justify-between space-x-[14px]  w-full
-        bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]" v-if="profileStore.loadingProfile" >
+        bg-[#EFF1F6] rounded-[10px] h-[50px] p-[10px]" v-if="loadingmenu" >
        <div class="bg-[#EFF1F6] rounded-[10px] h-[50px] w-full p-[6px]  animate-pulse">
         <div class="flex items-center justify-start w-full space-x-[14px]">
           <div class="w-2/4">

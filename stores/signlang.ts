@@ -1,4 +1,4 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore, acceptHMRUpdate } from "pinia";
 
 interface Checkbox {
   name: string;
@@ -10,9 +10,10 @@ interface Card {
   description: string;
   icon: string;
   checkboxId: string;
+  label: string;
 }
 
-export const useSignLangStore = defineStore('signLanguage', {
+export const useSignLangStore = defineStore("signLanguage", {
   state: () => ({
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
@@ -20,66 +21,99 @@ export const useSignLangStore = defineStore('signLanguage', {
     initialCardsOrder: [] as Card[], // Store the initial cards order
     manageProfileCards: [] as Card[], // Another draggable array
     initialManageProfileCards: [] as Card[], // Initial order for the other draggable array
-    force_change_profileCards : false,
-    force_change_menuCards : false,
-    routeLeaveModal:false
+    force_change_profileCards: false,
+    force_change_menuCards: false,
+    routeLeaveModal: false,
   }),
   actions: {
-    showSaveBeforeLeaveModal(){
-
-      this.routeLeaveModal = !this.routeLeaveModal
+    showSaveBeforeLeaveModal() {
+      this.routeLeaveModal = !this.routeLeaveModal;
     },
 
-    saveAndMove(){
-      this.routeLeaveModal = false
-      this.cancelAll()
+    saveAndMove() {
+      this.routeLeaveModal = false;
     },
     initializeCheckboxes(names: string[]) {
-      this.checkboxes = names.map(name => ({ name, value: false }));
+      this.checkboxes = names.map((name) => ({ name, value: false }));
       this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes)); // Deep copy the initial state
     },
+    isChecked(name: string) {
+      const checkbox = this.checkboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      return checkbox ? checkbox.value : false;
+    },
     addCheckbox(name: string) {
-      if (!this.checkboxes.some(checkbox => checkbox.name === name)) {
+      if (!this.checkboxes.some((checkbox) => checkbox.name === name)) {
         const newCheckbox = { name, value: false };
         this.checkboxes.push(newCheckbox);
         this.initialCheckboxes.push(newCheckbox);
       }
     },
     removeCheckbox(name: string) {
-      this.checkboxes = this.checkboxes.filter(checkbox => checkbox.name !== name);
-      this.initialCheckboxes = this.initialCheckboxes.filter(checkbox => checkbox.name !== name);
+      this.checkboxes = this.checkboxes.filter(
+        (checkbox) => checkbox.name !== name
+      );
+      this.initialCheckboxes = this.initialCheckboxes.filter(
+        (checkbox) => checkbox.name !== name
+      );
     },
     toggleCheckbox(name: string) {
-      const checkbox = this.checkboxes.find(checkbox => checkbox.name === name);
+      const checkbox = this.checkboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      if (checkbox) {
+        checkbox.value = !checkbox.value;
+      }
+    },
+    toggleInitialCheckbox(name: string) {
+      const checkbox = this.initialCheckboxes.find(
+        (checkbox) => checkbox.name === name
+      );
       if (checkbox) {
         checkbox.value = !checkbox.value;
       }
     },
     setCheckboxValue(name: string, value: boolean) {
-      const checkbox = this.checkboxes.find(checkbox => checkbox.name === name);
+      const checkbox = this.checkboxes.find(
+        (checkbox) => checkbox.name === name
+      );
       if (checkbox) {
         checkbox.value = value;
       }
     },
     hasChanges() {
-      return JSON.stringify(this.checkboxes) !== JSON.stringify(this.initialCheckboxes);
+      return (
+        JSON.stringify(this.checkboxes) !==
+        JSON.stringify(this.initialCheckboxes)
+      );
     },
-    addCardToArrayMenus(name: string, customArrayKey: keyof typeof this, description: string) {
+    addCardToArrayMenus(
+      name: string,
+      customArrayKey: keyof typeof this,
+      description: string
+    ) {
       const customArray = this[customArrayKey] as Card[];
-      if (!customArray.some(card => card.name === name)) {
-        const newCard = { name, description, icon: '', checkboxId: '' };
+      if (!customArray.some((card) => card.name === name)) {
+        const newCard = { name, description, icon: "", checkboxId: "" };
         customArray.push(newCard);
       }
     },
     removeCardFromArrayMenus(name: string, customArrayKey: keyof typeof this) {
-      this[customArrayKey] = (this[customArrayKey] as Card[]).filter(card => card.name !== name);
+      this[customArrayKey] = (this[customArrayKey] as Card[]).filter(
+        (card) => card.name !== name
+      );
     },
-    initializeCardsMenu(customArray: Card[], customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
-      this[customArrayKey] = customArray.map(card => ({
+    initializeCardsMenu(
+      customArray: Card[],
+      customArrayKey: keyof typeof this,
+      initialOrderKey: keyof typeof this
+    ) {
+      this[customArrayKey] = customArray.map((card) => ({
         name: card.name,
         description: card.description,
-        icon: card.icon,
-        checkboxId: card.checkboxId
+        icon: `${card.name}.png`,
+        checkboxId: card.checkboxId,
       }));
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },
@@ -87,84 +121,59 @@ export const useSignLangStore = defineStore('signLanguage', {
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[initialOrderKey])); // Store initial order
       // console.log('Initial order:', this[initialOrderKey]);
     },
-    onDragChange(customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
+    onDragChange(
+      customArrayKey: keyof typeof this,
+      initialOrderKey: keyof typeof this
+    ) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
-      const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
+      const isOrderChanged = !this.arraysEqual(
+        this[initialOrderKey] as Card[],
+        currentOrder as Card[]
+      );
       // console.log('Current order:', currentOrder);
       // console.log('Order changed:', isOrderChanged);
-      if(customArrayKey === 'WebpluginsCards'){
+      if (customArrayKey === "WebpluginsCards") {
         this.force_change_menuCards = isOrderChanged;
-
       }
-    //   if(customArrayKey === 'manageProfileCards'){
-    //     this.force_change_profileCards = isOrderChanged;
+      //   if(customArrayKey === 'manageProfileCards'){
+      //     this.force_change_profileCards = isOrderChanged;
 
-    //   }
+      //   }
     },
-    onDragEnd(customArrayKey: keyof typeof this, initialOrderKey: keyof typeof this) {
+    onDragEnd(
+      customArrayKey: keyof typeof this,
+      initialOrderKey: keyof typeof this
+    ) {
       const currentOrder = JSON.parse(JSON.stringify(this[customArrayKey])); // Ensure deep copy
-      const isOrderChanged = !this.arraysEqual(this[initialOrderKey] as Card[], currentOrder as Card[]);
-    //   console.log('Current order:', currentOrder);
-    //   console.log('Order changed:', isOrderChanged);
+      const isOrderChanged = !this.arraysEqual(
+        this[initialOrderKey] as Card[],
+        currentOrder as Card[]
+      );
+      //   console.log('Current order:', currentOrder);
+      //   console.log('Order changed:', isOrderChanged);
       this.force_change = isOrderChanged;
     },
     arraysEqual(a: Card[], b: Card[]) {
       if (a.length !== b.length) return false;
       for (let i = 0; i < a.length; i++) {
-        if (a[i].name !== b[i].name || a[i].description !== b[i].description || a[i].icon !== b[i].icon || a[i].checkboxId !== b[i].checkboxId) {
+        if (
+          a[i].name !== b[i].name ||
+          a[i].description !== b[i].description ||
+          a[i].icon !== b[i].icon ||
+          a[i].checkboxId !== b[i].checkboxId
+        ) {
           return false;
         }
       }
       return true;
     },
 
-    cancelAll(){
- this.force_change_profileCards=false
- this.force_change_menuCards=false
-
-
-         this.initializeCardsMenu(
-            [
-                {
-                  icon: "contrast.png",
-                  name: "Contrast",
-                  description:
-                    "Manage your sign language tools and personalize them to enhance your communication experience.",
-                  checkboxId: "Contrast",
-                },
-                {
-                  icon: "background.png",
-                  name: "Background",
-                  description:
-                    "Manage your sign language tools and personalize them to enhance your communication experience.",
-                  checkboxId: "Background",
-                },
-                {
-                  icon: "position.png",
-                  name: "Position",
-                  description:
-                    "Manage your sign language tools and personalize them to enhance your communication experience.",
-                  checkboxId: "Position",
-                },
-                {
-                  icon: "page_str.svg",
-                  name: "Keyboard",
-                  description:
-                    "Manage your sign language tools and personalize them to enhance your communication experience.",
-                  checkboxId: "Keyboard",
-                },
-              ], 'WebpluginsCards', 'initialCardsOrder');
-         
-          
-           this.initializeCheckboxes([
-            "Contrast",
-    "Background",
-    "Position",
-    "Keyboard",
-          ]);
-
+    cancelAll() {
+      // this.force_change_profileCards = false;
+      // this.force_change_menuCards = false;
+      this.checkboxes = this.initialCheckboxes;
     },
-  }
+  },
 });
 
 if (import.meta.hot) {

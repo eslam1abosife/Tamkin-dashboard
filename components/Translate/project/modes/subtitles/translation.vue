@@ -45,18 +45,18 @@ translateStore.subMode = ''
 
 <template>
 
-    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 flex flex-col items-start justify-start scrollable-div pl-[1px] pr-[20px]">
-        <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px] mt-[6px]">
-            <svg  @click="changeMode('subtitles')" class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 flex flex-col items-start justify-start scrollable-div  rtl:pl-[10px] ltr:pr-[20px]">
+        <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]">
+            <svg  @click="changeMode('subtitles')" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z" fill="#585B5B"/>
                 </svg>
             <div>
-                Translation 
+                {{ $t('Translation') }} 
             </div>
         </div>
         <div class="w-full" v-if="!processVideo">
             <div class="text-[11px] leading-[22px] font-[500] text-darkGrey mt-[12px]">
-                What sign language do you want to translate into? 
+               {{$t('What sign language do you want to translate into?')}}
             </div>
             <div class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] px-4 mt-[16px]">
                     <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
@@ -68,10 +68,10 @@ translateStore.subMode = ''
             </div>
             <TranslateSelectInput class="mt-[16px]  " 
             @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
-            placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
+            :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
     
             <button class="btn-default mt-[16px]" @click="processVideo = true">
-                <span class="text">Generate Sign Language</span>
+                <span class="text">{{$t('Generate Sign Language')}}</span>
             </button>
         </div>
 
@@ -81,11 +81,11 @@ translateStore.subMode = ''
             </div>
             <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
 
-                Processing...
+                {{ $t('Processing') }}...
             </div>
 
             <div class="text-[12px] font-[500] text-[#878787] leading-[17px]"> 
-                Please wait while we complete the process
+                {{$t('Please wait while we complete the process')}}
             </div>
         </div>
 
@@ -93,7 +93,7 @@ translateStore.subMode = ''
          
             <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
 
-                Done
+                {{ $t('Done') }}
             </div>
 
           

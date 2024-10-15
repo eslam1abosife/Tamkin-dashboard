@@ -652,7 +652,7 @@ watch(
           class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 rtl:right-[90px] ltr:left-[65px] rounded-t-[10px]  h-full bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] rounded-t-[10px]  h-full bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
               : ' ',
             showSubMenu[4] ? 'block ' : 'hidden',
           ]"
@@ -1401,7 +1401,7 @@ watch(
           ref="submenuHover"
           :class="[
             !sideBarOpen && showSubMenu[3]
-              ? 'absolute top-0 left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] shadow-md'
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
               : ' ',
             showSubMenu[3] ? 'block ' : 'hidden',
           ]"

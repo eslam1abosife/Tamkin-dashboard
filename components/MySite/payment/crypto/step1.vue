@@ -48,7 +48,7 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
   const rate = rates[mysiteStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(2);
+    return (usdTotal / rate).toFixed(0);
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -194,7 +194,7 @@ const finalAmount = computed(() => {
       >
         <div class="flex items-center justify-center">
           <div
-            @click="navigateTo('crypto_mysite_step1', 'addSite', 'payment_methods_addsite')"
+            @click="navigateTo('crypto_mysite_step1', 'mysite', 'payment_methods_mysite')"
             class="cursor-pointer flex items-center justify-center rtl:rotate-180 bg-white dark:bg-tamkinDarkPrimary border-[1px] border-linecolor rounded-full w-[30px] h-[30px]"
             style="box-shadow: 0px 4px 8.7px 0px #daf3f1"
           >
@@ -395,7 +395,8 @@ const finalAmount = computed(() => {
                     mysiteStore.packagePayload.total,
                     cryptostore.rates,
                     mysiteStore.selectedCrypto.title
-                  ) +
+                  ).toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                   " " +
                   mysiteStore.selectedCrypto.title
                 }}
@@ -413,7 +414,8 @@ const finalAmount = computed(() => {
                     <div
                       class="text-[16px] leading-[24px] font-[500] font-[Inter] text-[#3D3D3D] dark:text-whiteTamkin/70"
                     >
-                      ${{ mysiteStore.packagePayload.total }} =
+                      ${{ mysiteStore.packagePayload.total.toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} =
                       <!-- <span class="text-black font-[500] dark:text-whiteTamkin">
                             {{convertUsdToCryptos(mysiteStore.cartTotal,cryptostore.rates)}} {{selectedCrypto.title}}</span> -->
                       {{
@@ -421,7 +423,8 @@ const finalAmount = computed(() => {
                           mysiteStore.packagePayload.total - mysiteStore.currentDiscount,
                           cryptostore.rates,
                           mysiteStore.selectedCrypto.title
-                        )
+                        ).toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                       }}
                     </div>
                     <div>
@@ -557,7 +560,8 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(2) }}
+                    ${{ discountAmount.toFixed(0).toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
 
                   </td>
                 </tr>
@@ -580,7 +584,8 @@ const finalAmount = computed(() => {
                     finalAmount,
                     cryptostore.rates,
                     mysiteStore.selectedCrypto.title
-                  ) +
+                  ).toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                       " " +
                       mysiteStore.selectedCrypto.title
                     }}
@@ -599,7 +604,8 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                  ${{finalAmount.toFixed(2)}}
+                  ${{finalAmount.toFixed(0).toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
                 </td>
                 </tr>
               </tbody>

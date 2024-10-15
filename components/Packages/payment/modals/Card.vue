@@ -58,9 +58,9 @@ const addPromoCode = async () => {
 };
 const gotoPaymentMethod = ()=>{
 if(chooseOtherPaymentMethod.value === "by_crypto"){
-  navigateTo('cardModal_market','market','crypto_market_step1')
+  navigateTo('cardModal_packages','packages','crypto_packages_step1')
 }else{
-  navigateTo('cardModal_market','market','paypal_market')
+  navigateTo('cardModal_packages','packages','paypal_packages')
 }
 }
 const removePromoCode = () => {
@@ -78,8 +78,13 @@ const changeCurrentCard = (savedCard: any) => {
 };
 
 const changepaymentMethod = (method: any) => {
-  chooseOtherPaymentMethod.value = method;
+  if(packagesStore.packagePayload.payDateType === 0 ){
+    return false
+  }else{
+     chooseOtherPaymentMethod.value = method;
   currentCard.value = "";
+  }
+ 
 };
 
 watch(currentCard, (ov, nv) => { });
@@ -316,7 +321,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center lg:flex-row flex-col lg:justify-between w-full px-[20px]" v-if="!loadingCards">
               <div class="flex items-center rtl:space-x-reverse space-x-[10px] mt-[24px]">
                 <div class="cursor-pointer" @click="
-                  navigateTo('cardModal_market', 'Market', 'add_new_card_billing')
+                  navigateTo('cardModal_packages', 'packages', 'add_new_card_billing')
                   ">
                   <img src="/assets/imgs/payment_methods/new_card.svg" />
                 </div>
@@ -359,7 +364,8 @@ onBeforeUnmount(() => {
 
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_crypto')"
-                :class="[chooseOtherPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
+                :class="[chooseOtherPaymentMethod == 'by_crypto' ? 'custom-border-tamkin' : 'border-[1px] ',
+                packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
              rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/crypto.svg" class="w-[40px] h-[40px]" /></div>
@@ -368,7 +374,7 @@ onBeforeUnmount(() => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                    v-model="chooseOtherPaymentMethod" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
+                  :disabled="packagesStore.packagePayload.payDateType === 0 "  @click.stop="changepaymentMethod('by_crypto')" :checked="chooseOtherPaymentMethod === 'by_crypto'" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -379,7 +385,9 @@ onBeforeUnmount(() => {
             </div>
             <div class=" w-full px-[20px]" v-if="showMoreMethods">
               <div @click="changepaymentMethod('by_paypal')"
-                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
+              
+                :class="[chooseOtherPaymentMethod == 'by_paypal' ? 'custom-border-tamkin' : 'border-[1px] ',
+                packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
             justify-between rounded-[10px] border-lightGrey dark:border-light ltr:pl-[16px] rtl:pr-[16px]">
                 <div class="flex items-center justify-start rtl:space-x-reverse space-x-[13px]">
                   <div><img src="/assets/imgs/payment_methods/paypal.svg" class="w-[40px] h-[40px]" /></div>
@@ -389,7 +397,8 @@ onBeforeUnmount(() => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                    v-model="chooseOtherPaymentMethod" :checked="chooseOtherPaymentMethod === 'by_paypal'" />
+                  :class="[ packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :'']"
+                 :disabled="packagesStore.packagePayload.payDateType === 0 "  @click.stop="changepaymentMethod('by_paypal')" :checked="chooseOtherPaymentMethod === 'by_paypal'" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -497,7 +506,9 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2">
-                    ${{ (Number(packagesStore.packagePayload.total) - percentageOff).toFixed(0) }}
+                    ${{ (Number(packagesStore.packagePayload.total) - percentageOff)  .toFixed(0)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
                   </td>
                 </tr>
               </tbody>
@@ -507,11 +518,7 @@ onBeforeUnmount(() => {
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-if="chooseOtherPaymentMethod !== ''">
             <button class="btn-dashboard hover_tamkin w-full" @click="gotoPaymentMethod" 
               >
-              
                   {{ $t("Switch Payment Method") }}
-           
-             
-          
             </button>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-else-if="!urlPayment && !chooseOtherPaymentMethod">

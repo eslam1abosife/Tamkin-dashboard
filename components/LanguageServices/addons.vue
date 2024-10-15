@@ -9,67 +9,17 @@ import draggable from "vuedraggable";
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
-const isChecked = (name: string) => {
-  const checkbox = signLangStore.checkboxes.find((checkbox) => checkbox.name === name);
-  return checkbox ? checkbox.value : false;
-};
-
-const toggleCheckbox = (name: string) => {
-  signLangStore.toggleCheckbox(name);
-};
-
-onBeforeMount(() => {
-  ["Contrast", "Background", "Position", "Keyboard"].forEach((name) => {
-    signLangStore.addCheckbox(name);
-  });
-  signLangStore.initializeCheckboxes(["Contrast", "Background", "Position", "Keyboard"]);
-
-  signLangStore.initializeCardsMenu(
-    [
-      {
-        icon: "contrast.png",
-        name: "Contrast",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Contrast",
-      },
-      {
-        icon: "background.png",
-        name: "Background",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Background",
-      },
-      {
-        icon: "position.png",
-        name: "Position",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Position",
-      },
-      {
-        icon: "keyboard.png",
-        name: "Keyboard",
-        description:
-          "Manage your sign language tools and personalize them to enhance your communication experience.",
-        checkboxId: "Keyboard",
-      },
-    ],
-    "WebpluginsCards",
-    "initialCardsOrder"
-  );
-});
 
 const getImagePath = (icon) => {
-  return new URL(`/public/assets/imgs/signlanguageservices/${icon}`, import.meta.url).href;
+  return new URL(
+    `/public/assets/imgs/signlanguageservices/${icon}`,
+    import.meta.url
+  ).href;
 };
-
 </script>
 
-
 <template>
-
-    <div
+  <div
     class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start pt-[24px] xs:px-[15px]">
@@ -83,8 +33,9 @@ const getImagePath = (icon) => {
         <h2
           class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
         >
-          Widget Embed Code allows you to easily integrate accessibility features into
-          your website by adding a simple script to your site's HTML
+          Widget Embed Code allows you to easily integrate accessibility
+          features into your website by adding a simple script to your site's
+          HTML
         </h2>
       </div>
 
@@ -92,7 +43,9 @@ const getImagePath = (icon) => {
         @click.stop="collapseMenu('webPlugins')"
         v-on-click-outside="() => collapseStore.removeMenu('webPlugins')"
         :class="[
-          menus.includes('webPlugins') ? 'active_notification !text-darkGrey' : '',
+          menus.includes('webPlugins')
+            ? 'active_notification !text-darkGrey'
+            : '',
         ]"
         class="menu_button_control"
       >
@@ -135,7 +88,10 @@ const getImagePath = (icon) => {
             </div>
             <div class="text_mini">Switch To Annual</div>
           </div>
-          <div class="mini_wrap" @click="collapseStore.collapseCard('webPlugins')">
+          <div
+            class="mini_wrap"
+            @click="collapseStore.collapseCard('webPlugins')"
+          >
             <div>
               <svg
                 width="25"
@@ -173,8 +129,8 @@ const getImagePath = (icon) => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("webPlugins")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -189,7 +145,13 @@ const getImagePath = (icon) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"
@@ -210,7 +172,7 @@ const getImagePath = (icon) => {
     </div>
 
     <div
-      class="flex flex-col items-start justify-center mt-[18px]  pb-[16px]"
+      class="flex flex-col items-start justify-center mt-[18px] pb-[16px]"
       v-if="!collapseStore.collapses.includes('webPlugins')"
     >
       <draggable
@@ -221,9 +183,8 @@ const getImagePath = (icon) => {
         @start="signLangStore.onDragStart('initialCardsOrder')"
         @end="signLangStore.onDragEnd('WebpluginsCards', 'initialCardsOrder')"
         item-key="name"
-        class="w-full divide-y  divide-lightGrey"
+        class="w-full divide-y divide-lightGrey"
         handle=".handle"
-       
       >
         <template #item="{ element }">
           <div
@@ -232,29 +193,31 @@ const getImagePath = (icon) => {
             <div
               class="flex items-center justify-start gap-4 rtl:space-x-reverse xs:space-x-[4px] w-full"
             >
-              <!-- <img
-                src="/assets/imgs/addons/left_item.svg"
-                :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-                class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
-              /> -->
-
-
-              <div class="rounded-full  dark:bg-darkSecondary flex items-center justify-center p-4 ">
-              <img
-              :src="getImagePath(element.icon)"
-              class="w-[24px]"
-              :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
-            />
-      
-           </div>
+              <div
+                class="rounded-full dark:bg-darkSecondary flex items-center justify-center p-4"
+              >
+                <img
+                  :src="getImagePath(element.icon)"
+                  class="w-[24px]"
+                  :class="[
+                    !signLangStore.isChecked(element.checkboxId)
+                      ? 'opacity-60'
+                      : '',
+                  ]"
+                />
+              </div>
               <div
                 class="flex flex-col items-start justify-center w-full"
-                :class="[!isChecked(element.checkboxId) ? 'opacity-60' : '']"
+                :class="[
+                  !signLangStore.isChecked(element.checkboxId)
+                    ? 'opacity-60'
+                    : '',
+                ]"
               >
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                 >
-                  <span>{{ element.name }}</span>
+                  <span>{{ element.label }}</span>
                 </div>
                 <div
                   class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
@@ -265,25 +228,30 @@ const getImagePath = (icon) => {
                 </div>
               </div>
               <div class="ml-auto">
-                
                 <label :for="element.checkboxId" class="toggle_wrap">
                   <input
                     type="checkbox"
                     :id="element.checkboxId"
                     class="sr-only"
-                    :checked="isChecked(element.checkboxId)"
-                    @change="toggleCheckbox(element.checkboxId)"
+                    :checked="signLangStore.isChecked(element.checkboxId)"
+                    @change="signLangStore.toggleCheckbox(element.checkboxId)"
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked(element.checkboxId) ? 'active' : 'in_active']"
+                    :class="[
+                      signLangStore.isChecked(element.checkboxId)
+                        ? 'active'
+                        : 'in_active',
+                    ]"
                   >
                     <div
                       class="toggle_inner"
-                      :class="{ active: isChecked(element.checkboxId) }"
+                      :class="{
+                        active: signLangStore.isChecked(element.checkboxId),
+                      }"
                     >
                       <img
-                        v-if="isChecked(element.checkboxId)"
+                        v-if="signLangStore.isChecked(element.checkboxId)"
                         src="/assets/imgs/translatevideo/sign_active.svg"
                         class="w-[28px] h-[28px]"
                       />
@@ -310,5 +278,4 @@ const getImagePath = (icon) => {
       veritatis dolore. Exercitationem et omnis ea quidem
     </div>
   </div>
-
 </template>

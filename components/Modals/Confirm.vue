@@ -1,70 +1,84 @@
 <script lang="ts" setup>
+import { useModalManager } from "@/composables/useModalManager";
 
-import { useModalManager } from '@/composables/useModalManager';
-
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
-
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 
 const props = defineProps({
   showModal: Boolean,
-  title:String,
-  subTitle:String,
-  confirmBtnType:String,
-  savetoAllSitesBtn:Boolean,
-  cancelButtonName:String
+  title: String,
+  subTitle: String,
+  confirmBtnType: String,
+  savetoAllSitesBtn: Boolean,
+  cancelButtonName: String,
+  deleteButtonName: String,
 });
-const emit = defineEmits(['controlConfirm','controlDelete','controlCancel','controlOther','controlsaveAllSites'])
+
+const emit = defineEmits([
+  "controlConfirm",
+  "controlDelete",
+  "controlCancel",
+  "controlOther",
+  "controlsaveAllSites",
+]);
 
 const deleteisLoading = ref(false);
+const cofirmisLoading = ref(false);
 const saveLoading = ref(false);
+const saveAllLoading = ref(false);
 
-const controlConfirmButton = ()=>{
-  emit('controlConfirm')
-}
+const controlConfirmButton = () => {
+  cofirmisLoading.value = true;
+  emit("controlConfirm");
+};
 const controlDeleteButton = async () => {
   deleteisLoading.value = true;
 
   // Simulate an async operation with a delay
-  await new Promise((resolve) => setTimeout(()=>{
-    emit('controlDelete');
+  // await new Promise((resolve) =>
+  // setTimeout(() => {
+  emit("controlDelete");
 
-    resolve(true);
-  }, 2000)); // Simulate API call or operation
+  // resolve(true);
+  // }, 2000)
+  // ); // Simulate API call or operation
 };
-watch(() => props.showModal, (newVal) => {
-  if (newVal) {
-    deleteisLoading.value = false; // Reset when the modal opens
-    saveLoading.value = false; // Reset save loading as well
+watch(
+  () => props.showModal,
+  (newVal) => {
+    if (newVal) {
+      cofirmisLoading.value = false; // Reset when the modal opens
+      deleteisLoading.value = false; // Reset when the modal opens
+      saveLoading.value = false; // Reset save loading as well
+      saveAllLoading.value = false; // Reset save loading as well
+    }
   }
-});
-const controlCancelButton = ()=>{
-  emit('controlCancel')
-
-}
-const controlOtherBtn = ()=>{
+);
+const controlCancelButton = () => {
+  emit("controlCancel");
+};
+const controlOtherBtn = () => {
   saveLoading.value = true;
-  emit('controlOther')
-
-}
-const controlSaveSite = ()=>{
-  emit('controlsaveAllSites')
-}
+  emit("controlOther");
+};
+const controlSaveSite = () => {
+  saveAllLoading.value = true;
+  emit("controlsaveAllSites");
+};
 </script>
 
 <template>
-  <div v-if="showModal"
-    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px]  w-10/12"
-     :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
+  <div
+    v-if="showModal"
+    class="fixed z-[9999] top-1/4 bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12"
+    :class="[confirmBtnType === 'other' ? 'lg:h-[230px]' : 'lg:h-[260px]']"
     style="left: 50%; transform: translate(-50%, 0)"
   >
-    <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn" @click="controlCancelButton">
+    <div
+      style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
+      class="close_btn"
+      @click="controlCancelButton"
+    >
       <svg
         class="w-[12px] h-[12px]"
         width="14"
@@ -79,72 +93,164 @@ const controlSaveSite = ()=>{
         />
       </svg>
     </div>
-    <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
+    <h1
+      class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]"
+    >
       {{ $t(title) }}
     </h1>
 
-    <h2 class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]">
-
+    <h2
+      class="text-[14px] font-[500] leading-[24px] text-darkGrey dark:text-whiteTamkin mt-[24px]"
+    >
       {{ $t(subTitle) }}
     </h2>
 
+    <div
+      class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]"
+    >
+      <div class="mt-[40px]">
+        <button
+          class="btn_bordered_dashboard hover_tamkin"
+          @click="controlCancelButton"
+        >
+          {{ cancelButtonName ? $t(cancelButtonName) : $t("Cancel") }}
+        </button>
+      </div>
+      <div class="mt-[40px]" v-if="savetoAllSitesBtn">
+        <button
+          :disabled="saveAllLoading || saveLoading"
+          class="btn_bordered_dashboard hover_tamkin"
+          @click="controlSaveSite"
+        >
+          {{ $t("Save to All Sites") }}
+          <svg
+            v-if="saveAllLoading"
+            class="animate-spin h-5 w-5 text-[#fff]"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div class="mt-[40px]" v-if="confirmBtnType === 'confirm'">
+        <button
+          :disabled="cofirmisLoading"
+          class="btn-dashboard hover_tamkin"
+          @click="controlConfirmButton"
+        >
+          {{ $t("Confirm Reset") }}
 
-  <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px]">
-
-    <div class="  mt-[40px] " >
-      <button class="btn_bordered_dashboard hover_tamkin " @click="controlCancelButton">
-        {{ cancelButtonName ? $t(cancelButtonName) : $t('Cancel') }}
-      </button>
-    </div>
-    <div class="  mt-[40px] " v-if="savetoAllSitesBtn">
-      <button class="btn_bordered_dashboard hover_tamkin " @click="controlSaveSite">
-        {{$t('Save to all sites')}}
-      </button>
-    </div>
-    <div class="  mt-[40px] " v-if="confirmBtnType === 'confirm' ">
-      <button class="btn-dashboard hover_tamkin "  @click="controlConfirmButton">
-        {{$t('Confirm Reset')}}
-      </button>
-    </div>
-    <div class="  mt-[40px] " v-if="confirmBtnType === 'other' ">
-      <button
-          :disabled="saveLoading"
-
-          class="btn-dashboard hover_tamkin "  @click="controlOtherBtn">
+          <svg
+            v-if="cofirmisLoading"
+            class="animate-spin h-5 w-5 text-[#fff]"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div class="mt-[40px]" v-if="confirmBtnType === 'other'">
+        <button
+          :disabled="saveLoading || saveAllLoading"
+          class="btn-dashboard hover_tamkin"
+          @click="controlOtherBtn"
+        >
           <div class="flex items-center justify-center">
-            <div :class="saveLoading ? 'rtl:ml-2 ltr:mr-2':''">
-              {{$t('Save')}}
+            <div :class="saveLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
+              {{ $t("Save") }}
             </div>
 
-             <svg  v-if="saveLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              v-if="saveLoading"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
-           </div>
-
-      </button>
-    </div>
-    <div class="  mt-[40px] " v-if="confirmBtnType === 'delete' ">
-      <button
+          </div>
+        </button>
+      </div>
+      <div class="mt-[40px]" v-if="confirmBtnType === 'delete'">
+        <button
           :disabled="deleteisLoading"
-
-          class="btn_bordered_dashboard error"  @click="controlDeleteButton">
+          class="btn_bordered_dashboard error"
+          @click="controlDeleteButton"
+        >
           <div class="flex items-center justify-center">
-            <div :class="deleteisLoading ? 'ltr:mr-3 rtl:ml-3':''">
-              {{$t('Confirm Delete')}}
+            <div :class="deleteisLoading ? 'ltr:mr-3 rtl:ml-3' : ''">
+              {{
+                deleteButtonName ? $t(deleteButtonName) : $t("Confirm Delete")
+              }}
             </div>
 
-             <svg  v-if="deleteisLoading" class="animate-spin  h-5 w-5 text-[#FF453F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              v-if="deleteisLoading"
+              class="animate-spin h-5 w-5 text-[#FF453F]"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
-           </div>
-      </button>
+          </div>
+        </button>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

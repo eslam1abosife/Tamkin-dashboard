@@ -77,7 +77,7 @@ const submit = async () => {
 
       return; 
     }
-   const res =  await sendCustomPackage({...state,package:getData().package})
+   const res =  await sendCustomPackage({...state,package:getData().pcktitle})
 
  if(codeStatus.value === 200){
 

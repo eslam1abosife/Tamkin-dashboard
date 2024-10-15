@@ -24,7 +24,7 @@ const goToPaymentMethod = async (method: any) => {
     return navigateTo('payment_methods_packages', 'packages', 'cardModal_packages')
   }
 
-  if( packagesStore.packagePayload.payDateType !== 'trial' ){
+  if( packagesStore.packagePayload.payDateType !== 0 ){
     if (packagesStore.selectedPaymentMethod=== 'by_paypal') {
     // packagesStore.promo = "";
     // packagesStore.currentDiscount = 0;
@@ -129,7 +129,7 @@ const goToPaymentMethod = async (method: any) => {
                   packagesStore.selectedPaymentMethod = 'by_crypto';
                 }
               }"
-                :class="[packagesStore.selectedPaymentMethod == 'by_crypto' &&  packagesStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
+                :class="[packagesStore.selectedPaymentMethod == 'by_crypto' &&  packagesStore.packagePayload.payDateType !== 0 ? 'custom-border-tamkin' : 'border-[1px] ',
                 
                 packagesStore.packagePayload.payDateType === 0 ?'!cursor-not-allowed opacity-50' :''
                 ]" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-between
@@ -141,7 +141,8 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_crypto" type="radio" name="radio" class="hidden" value="by_crypto"
-                  :disabled="packagesStore.packagePayload.payDateType === 0"  v-model="packagesStore.selectedPaymentMethod" :checked="packagesStore.selectedPaymentMethod === 'by_crypto' && packagesStore.currentPackage.trial_days === 0" />
+                  :disabled="packagesStore.packagePayload.payDateType === 0"
+                  v-model="packagesStore.selectedPaymentMethod" :checked="packagesStore.selectedPaymentMethod === 'by_crypto' && packagesStore.currentPackage.trial_days === 0" />
                   <label for="radio_crypto" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>
@@ -158,7 +159,7 @@ const goToPaymentMethod = async (method: any) => {
                   packagesStore.selectedPaymentMethod = 'by_paypal';
                 }
               }"
-                :class="[packagesStore.selectedPaymentMethod == 'by_paypal'  && packagesStore.packagePayload.payDateType !== 'trial' ? 'custom-border-tamkin' : 'border-[1px] ',
+                :class="[packagesStore.selectedPaymentMethod == 'by_paypal'  && packagesStore.packagePayload.payDateType !== 0 ? 'custom-border-tamkin' : 'border-[1px] ',
                 packagesStore.packagePayload.payDateType === 0  ?'!cursor-not-allowed opacity-50' :''
                  
                  ]" class="mx-auto  w-full  h-[87px] cursor-pointer bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center 
@@ -171,7 +172,7 @@ const goToPaymentMethod = async (method: any) => {
                 </div>
                 <div class="order-1 mx-[4px]">
                   <input id="radio_paypal" type="radio" name="radio" class="hidden" value="by_paypal"
-                  :disabled="packagesStore.packagePayload.payDateType === 0"  v-model="packagesStore.selectedPaymentMethod" :checked="packagesStore.selectedPaymentMethod === 'by_paypal' && packagesStore.currentPackage.trial_days === 0" />
+                  :disabled="packagesStore.packagePayload.payDateType === 0" v-model="packagesStore.selectedPaymentMethod" :checked="packagesStore.selectedPaymentMethod === 'by_paypal' && packagesStore.currentPackage.trial_days === 0" />
                   <label for="radio_paypal" class="flex items-center cursor-pointer ltr:pr-[40px]  rtl:pl-[40px]">
                     <span
                       class="w-[24px] h-[24px] bg-white  dark:bg-tamkinDarkPrimary inline-block mr-1 rounded-full border border-tamkin"></span>

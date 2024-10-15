@@ -16,8 +16,11 @@ export default function () {
         return textArea.value;
     };
 
-    const getSummaryDetailedCode = async () => {
+    const cleanUpCode = (input) => {
+        return input.replace(/[\r\n]+/g, '').trim(); // Removes line breaks and trims spaces
+    };
 
+    const getSummaryDetailedCode = async () => {
         loading.value = true;
 
         try {
@@ -28,17 +31,14 @@ export default function () {
             ]);
 
             if (!summaryRes.data.succeeded) throw(summaryRes.data.message);
-            // Perform URL decode
+            // Perform URL decode, then HTML decode, then clean up
             const urlSummaryDecodedString = decodeURIComponent(summaryRes.data.data);
-            // Then perform HTML decoding
-            summaryCode.value = decodeHtmlEntities(urlSummaryDecodedString);
-
+            summaryCode.value = cleanUpCode(decodeHtmlEntities(urlSummaryDecodedString));  // Clean up here
 
             if (!detailedRes.data.succeeded) throw(detailedRes.data.message);
-            // Perform URL decode
+            // Perform URL decode, then HTML decode, then clean up
             const urlDecodedDecodedString = decodeURIComponent(detailedRes.data.data);
-            // Then perform HTML decoding
-            detailedCode.value = decodeHtmlEntities(urlDecodedDecodedString);
+            detailedCode.value = decodeHtmlEntities(urlDecodedDecodedString);  // Clean up here
 
         } catch (error) {
             throw typeof (error) === 'string' ? error : 'There is something wrong';
@@ -52,5 +52,5 @@ export default function () {
         summaryCode,
         detailedCode,
         loading
-    }
+    };
 }

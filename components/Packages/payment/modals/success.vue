@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
@@ -42,11 +43,11 @@ if(currentView('success_pay_package') === 'mysite'){
   return navigateTo('success_pay_package', 'mysite', 'payment_methods_mysite')
 }else {
     
-return navigateTo('success_pay_package', 'packages', 'payment_methods_mysite')
+return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
 }
  }else {
   router.push({
-    path: route.path, 
+    path: localePath('/my-site'), 
     query: {
       paid: undefined, 
       status: undefined
@@ -74,7 +75,7 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_mysite')
   <div
     style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
     class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[10px]"
-    @click="setDefaultQuery"
+    @click="setDefaultQuery(false)"
   >
     <svg
       class="w-[12px] h-[12px]"

@@ -69,9 +69,9 @@ function leaveNotification(el, done) {
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      Documents Services      </h1>
+      {{ $t('Documents Services') }}      </h1>
 
-      <div class="bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
+      <div class="bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] rtl:space-x-reverse space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
         <div>
           <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
         </div>
@@ -84,29 +84,29 @@ function leaveNotification(el, done) {
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      We make translations easy, convenient, and closer than ever for your enjoyment.      </h2>
+      {{ $t('We make translations easy, convenient, and closer than ever for your enjoyment.') }}      </h2>
     </div>
 
 
-    <div class="flex items-center justify-start space-x-[24px] mb-[16px]" v-if="currentPlan !== 'freetrial' ">
+    <div class="flex items-center justify-start rtl:space-x-reverse space-x-[24px] mb-[16px]" v-if="currentPlan !== 'freetrial' ">
 
-        <div  class="flex items-center justify-center  space-x-[8px] h-[72px] p-[24px] custom-border bg-white rounded-[10px]">
+        <div  class="flex items-center justify-center  rtl:space-x-reverse space-x-[8px] h-[72px] p-[24px] custom-border bg-white rounded-[10px]">
 <div>
     <img src="/assets/imgs/translatedocs/doc_header.svg" alt="">
 </div>
 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-    Total  DOCX
+    {{ $t('Total  DOCX') }}
 </div>
 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
    4
 </div>
         </div>
-        <div class="flex items-center justify-center  space-x-[8px] h-[72px]  p-[24px] custom-border bg-white rounded-[10px]">
+        <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[8px] h-[72px]  p-[24px] custom-border bg-white rounded-[10px]">
             <div>
                 <img src="/assets/imgs/translatedocs/pdf_header.svg" alt="">
             </div>
             <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                Total  PDF
+                {{ $t('Total  PDF') }}
             </div>
             <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
                4

@@ -15,8 +15,6 @@ export default function() {
 
             // billingStore.cards = res.data.data;
 
-            console.log('GetAccessibility', res.data.data);
-
             return res.data.data;
         } catch (error) {
             console.error(error); // Better error handling

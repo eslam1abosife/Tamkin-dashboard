@@ -44,23 +44,23 @@ const changeMode = () => {
 </script>
 
 <template>
-    <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div pr-[20px] h-[310px] transition-all ease-in-out ">
-        <div class="text-[12px] font-[600] text-darkGrey flex items-center space-x-[10px] mt-[6px]" >
-            <svg @click="changeMode" class="cursor-pointer" width="5" height="7" viewBox="0 0 5 7" fill="none"
+    <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div rtl:pl-[20px] ltr:pr-[20px] h-[310px] transition-all ease-in-out ">
+        <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]" >
+            <svg @click="changeMode" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z"
                     fill="#585B5B" />
             </svg>
             <div>
-                Player
+                {{ $t('Player') }}
             </div>
         </div>
         <div
         class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
         <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-            Contrast
+            {{ $t('Contrast') }}
         </div>
-        <div class="flex items-center justify-evenly space-x-[16px]">
+        <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
             <div class="ml-auto flex items-center ">
                 <label for="toggle_google_a" class="toggle_wrap">
                     <input type="checkbox" id="toggle_google_a" class="sr-only"
@@ -79,9 +79,9 @@ const changeMode = () => {
         <div
         class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
         <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-            Background
+            {{ $t('Background') }}
         </div>
-        <div class="flex items-center justify-evenly space-x-[16px]">
+        <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
             <button class="btn-default !p-1 w-[44px] !h-[30px]" :class="[translateStore.player.background === 0 ? '!bg-tamkinLight' : '']"
                 @click="translateStore.player.background = 0">
                 0%
@@ -100,9 +100,9 @@ const changeMode = () => {
         <div
             class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
             <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                Position
+                {{ $t('Position') }}
             </div>
-            <div class="flex items-center justify-evenly space-x-[16px]">
+            <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
                 <button class="btn-default !p-1  w-[44px] !h-[30px]"
                     :class="[translateStore.player.position === 'right' ? '!bg-tamkinLight' : '']" @click="changePosition('right')">
                     <div>
@@ -128,9 +128,9 @@ const changeMode = () => {
         <div
             class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
             <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                Visibility
+                {{ $t('Visibility') }}
             </div>
-            <div class="flex items-center justify-evenly space-x-[16px]">
+            <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
 
 
                 <button class="btn-default !p-1 w-[44px] !h-[30px]"
@@ -219,25 +219,25 @@ const changeMode = () => {
         </div>
       <div class="flex flex-col items-start justify-center mt-[16px] w-full">
         <div class="text-[13px] font-[500] text-darkGrey leading-[32px] mb-[4px]">
-            Where do you like the player to appear?
+            {{$t('Where do you like the player to appear?')}}
         </div>
         <div
         class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] p-4 ">
       
-        <div class="flex items-center justify-end space-x-[16px] w-full">
+        <div class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full">
 
 
             <button class="btn-default   !h-[30px]"
                 :class="[translateStore.player.playerPosition === 'inVideo' ? '!bg-tamkinLight' : '']" @click="changePlayer('inVideo')">
               
-                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">In video</span>
+                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('In video')}}</span>
 
 
             </button>
             <button class="btn-default  !h-[30px]" :class="[translateStore.player.playerPosition  === 'OutVideo' ? '!bg-tamkinLight  ' : '']" 
             @click="changePlayer('OutVideo')">
            
-            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">Out video</span>
+            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('Out video')}}</span>
 
             </button>
         </div>

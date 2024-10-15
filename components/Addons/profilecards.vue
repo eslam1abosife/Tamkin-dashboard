@@ -9,7 +9,9 @@ const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
 
 const isChecked = (name: string) => {
-  const checkbox = checkboxStore.checkboxes.find((checkbox) => checkbox.name === name);
+  const checkbox = checkboxStore.checkboxes.find(
+    (checkbox) => checkbox.name === name
+  );
   return checkbox ? checkbox.value : false;
 };
 
@@ -19,70 +21,7 @@ const toggleCheckbox = (name: string) => {
 const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
-onMounted(()=>{
-    checkboxStore.initializeCardsMenu(
-    [
-      {
-        icon: "monitor_im.svg",
-        name: "Motor impaired",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "motor_active",
-      },
-      {
-        icon: "color_blind.svg",
-        name: "Color blind",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "color_blind",
-      },
-      {
-        icon: "vis_impaired.svg",
-        name: "Visually-impaired",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "hide_images",
-      },
-      {
-        icon: "seizure.svg",
-        name: "Seizure & Epileptic",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "Seizure",
-      },
-      {
-        icon: "blind.svg",
-        name: "Blind",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "blind",
-      },
-      {
-        icon: "df.svg",
-        name: "Dyslexia",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "dyslexia",
-      },
-      {
-        icon: "congitive.svg",
-        name: "Congitive & Learning",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "congitive",
-      },
-      {
-        icon: "adhd.svg",
-        name: "ADHD",
-        description:
-          "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam suscipit nesciunt esse sint aperiam aliquid",
-        checkboxId: "ADHD",
-      },
-    ],
-    "manageProfileCards",
-    "initialManageProfileCards"
-  );
-})
+onMounted(() => {});
 </script>
 
 <template>
@@ -94,14 +33,52 @@ onMounted(()=>{
         <h1
           class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Manage your Accessibility Profiles
+          {{
+            $t(
+              checkboxStore.getAccAttributes(
+                "acc-addons-accessibility-profiles"
+              )?.title
+            )
+          }}
         </h1>
+        <h2
+          class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
+        >
+          <span v-if="!collapseStore.collapses.includes('ManageCard')">
+            {{
+              $t(
+                checkboxStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_show
+                  ? checkboxStore.getAccAttributes(
+                      "acc-addons-accessibility-profiles"
+                    )?.description_on_show
+                  : ""
+              )
+            }}
+          </span>
+          <span v-else>
+            {{
+              $t(
+                checkboxStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_hide
+                  ? checkboxStore.getAccAttributes(
+                      "acc-addons-accessibility-profiles"
+                    )?.description_on_hide
+                  : ""
+              )
+            }}
+          </span>
+        </h2>
       </div>
       <div
         @click.stop="collapseStore.collapseMenu('ManageMenu')"
         v-on-click-outside="() => collapseStore.removeMenu('ManageMenu')"
         :class="[
-          menus.includes('ManageMenu') ? 'active_notification !text-darkGrey' : '',
+          menus.includes('ManageMenu')
+            ? 'active_notification !text-darkGrey'
+            : '',
         ]"
         class="menu_button_control"
       >
@@ -139,9 +116,12 @@ onMounted(()=>{
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
-          <div class="mini_wrap" @click="collapseStore.collapseCard('ManageCard')">
+          <div
+            class="mini_wrap"
+            @click="collapseStore.collapseCard('ManageCard')"
+          >
             <div>
               <svg
                 width="25"
@@ -178,7 +158,9 @@ onMounted(()=>{
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("ManageCard") ? "Minisize" : "Maxsize"
+                !collapseStore.collapses.includes("ManageCard")
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -193,7 +175,13 @@ onMounted(()=>{
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"
@@ -220,10 +208,18 @@ onMounted(()=>{
       <draggable
         v-model="checkboxStore.manageProfileCards"
         @change="
-          checkboxStore.onDragChange('manageProfileCards', 'initialManageProfileCards')
+          checkboxStore.onDragChange(
+            'manageProfileCards',
+            'initialManageProfileCards'
+          )
         "
         @start="checkboxStore.onDragStart('initialManageProfileCards')"
-        @end="checkboxStore.onDragEnd('manageProfileCards', 'initialManageProfileCards')"
+        @end="
+          checkboxStore.onDragEnd(
+            'manageProfileCards',
+            'initialManageProfileCards'
+          )
+        "
         item-key="name"
         class="w-full"
         handle=".handle"
@@ -253,13 +249,13 @@ onMounted(()=>{
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                 >
-                  <span>{{ element.name }}</span>
+                  <span>{{ $t(element.name) }}</span>
                 </div>
                 <div
                   class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                    {{ element.description }}
+                    {{ $t(element.description) }}
                   </span>
                 </div>
               </div>
@@ -274,7 +270,9 @@ onMounted(()=>{
                   />
                   <div
                     class="toggle_parent"
-                    :class="[isChecked(element.checkboxId) ? 'active' : 'in_active']"
+                    :class="[
+                      isChecked(element.checkboxId) ? 'active' : 'in_active',
+                    ]"
                   >
                     <div
                       class="toggle_inner"
@@ -298,11 +296,6 @@ onMounted(()=>{
           </div>
         </template>
       </draggable>
-    </div>
-
-    <div v-else class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]">
-      Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est veritatis
-      dolore. Exercitationem et omnis ea quidem
     </div>
   </div>
 </template>

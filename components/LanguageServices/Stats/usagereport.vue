@@ -97,8 +97,8 @@ const props = defineProps({
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("balance_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

@@ -48,7 +48,8 @@ function convertUsdToCrypto(usdTotal, rates, selectedCrypto) {
 
   const rate = rates[addSiteStore.selectedCrypto.coingecko_id];
   if (rate) {
-    return (usdTotal / rate).toFixed(2);
+    return (usdTotal / rate).toFixed(0)    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     // throw new Error(`Cryptocurrency ${selectedCrypto.coingecko_id} not found in the rates`);
   }
@@ -557,7 +558,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(2) }}
+                    ${{ discountAmount.toFixed(0) }}
 
                   </td>
                 </tr>
@@ -599,7 +600,7 @@ const finalAmount = computed(() => {
                     class="py-2 px-5 border-b text-right w-full font-[500] dark:text-whiteTamkin"
                     colspan="2"
                   >
-                  ${{finalAmount.toFixed(2)}}
+                  ${{finalAmount.toFixed(0)}}
                 </td>
                 </tr>
               </tbody>

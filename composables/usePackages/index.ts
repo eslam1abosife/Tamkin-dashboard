@@ -13,6 +13,9 @@ import useGetPriceByTraffic from "./useGetPriceByTraffic"
 import useGetSubscriptions from "./useGetSubscriptions"
 import useGetPackageSite from "./useGetPackageSite"
 import useCancelSubscription from "./useCancelSubscription"
+import useGetTotalAmountPacks from "./useGetTotalAmountPacks"
+import useRenewAll from "./useRenewAll"
+import useGetRenewdetails from "./useGetRenewdetails"
 
 export {
     useGetPackagesTypes,
@@ -29,5 +32,8 @@ export {
     useGetPriceByTraffic,
     useGetSubscriptions,
     useGetPackageSite,
-    useCancelSubscription
+    useCancelSubscription,
+    useGetTotalAmountPacks,
+    useRenewAll,
+    useGetRenewdetails
 }

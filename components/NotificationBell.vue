@@ -51,16 +51,24 @@ const sentNotificationsCount = computed(() => {
   <div
     class="h-[40px] w-[40px] rounded-full  flex items-center justify-center relative cursor-pointer "
     :class="[isOpen('notificationsModal') ? 'active_notification' : 'bg-[#EFF1F6]']"
-    @click.prevent="openModal('notificationsModal')"
+    @click.prevent="openModal('notificationsModal')"ء
 
   >
     <div class="cursor-pointer relative">
-      <div v-show="sentNotificationsCount"
-        class="h-[13px] w-[13px] !text-whiteTamkin bg-[#FB726D]
-        rounded-full flex items-center justify-center text-[10px] font-[500] absolute right-[-2px] top-[-5px]"
-      >
-        {{ sentNotificationsCount }}
+      <div 
+      v-show="sentNotificationsCount" 
+      :class="[sentNotificationsCount >99 ? 'max-w-[26px]' : 'max-w-[16px]' ]"
+      class="h-[16px] w-full !text-whiteTamkin bg-[#FB726D]
+      rounded-full flex items-center justify-center text-[9px] font-[500] absolute right-[-2px] bottom-[10px]"
+    >
+      <div class="flex items-center justify-center">
+        <h3 class="text-center">
+          {{ sentNotificationsCount >99 ? '99' : sentNotificationsCount }}
+        </h3>
       </div>
+
+    </div>
+    
       <svg
         width="18"
         height="20"

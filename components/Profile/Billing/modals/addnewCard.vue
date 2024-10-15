@@ -55,9 +55,26 @@ const v$ = useVuelidate(rules, state);
 const stripeKey = ref(
   "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
 );
-const stripeLoaded = ref(false);
+const stripeLoaded = ref(true);
 const cardOptions = ref({ 
   showIcon: true,
+  placeholder: t('Card number'),
+
+  style: {
+  base: {
+    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
+    fontWeight: '400', // Set weight for Arabic and non-Arabic
+    colorTextPlaceholder: '#A7A7A7',
+
+  },
+}
+
+  
+});
+const expiryoptions = ref({ 
+  showIcon: true,
+  placeholder: t('Expiration date'),
+
   style: {
   base: {
     fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
@@ -104,30 +121,68 @@ const cardIsEmpty = ref(true);
 const expiryChange = ref(true)
 const cvvChange = ref(true)
 const loadingFont =ref(true)
-const elementsReady = ref(false);
-
+const elementsReady = ref(true);
 
 onMounted(async () => {
-  try {
+        stripe.value = await loadStripe(stripeKey.value);
+        elements.value = stripe.value.elements(elementsOptions.value);
+  
+        // Create and mount Card Number Element
+        cardNumberElement.value = elements.value.create('cardNumber', cardOptions.value);
+        cardNumberElement.value.mount('#card-number-element');
+  
+        // Create and mount CVC Element
+        cvcElement.value = elements.value.create('cardCvc', cardCvcOptions.value);
+        cvcElement.value.mount('#card-cvc-element');
+  
+        // Create and mount Expiry Element
+        expiryElement.value = elements.value.create('cardExpiry', expiryoptions.value);
+        expiryElement.value.mount('#card-expiry-element');
+  stripeLoaded.value = true
+        // Handle changes for card number
+        cardNumberElement.value.on('change', (event) => {
+        const errorElement = document.getElementById('card-errors');
+        if(event.complete){
+          cardError.value = 'valid'; // Clear error message
+        }
+        else if (event.error) {
+         cardError.value = t(event.error.message)// Display error message for card number
+        } else {
+          cardError.value = ''; // Clear error message
+        }
+      });
 
-    const stripe = await loadStripe(stripeKey.value);    await getCountries();
+      // Handle changes for CVC Element
+   // Handle changes for CVC Element
+   cvcElement.value.on('change', (event) => {
+        // Handle CVC errors
+        if(event.complete){
+          cvcError.value = 'valid'; // Clear error message
+        }
+        else if (event.error) {
+          cvcError.value = event.error.message; // Display error message for CVC
+        } else {
+          cvcError.value = ''; // Clear error message
+        }
+      });
 
-    if (stripe) {
- 
+      // Handle changes for Expiry Element
+      expiryElement.value.on('change', (event) => {
+        // Handle Expiry errors
+        if(event.complete){
+          expiryError.value = 'valid'; // Clear error message
+        }
+        else if (event.error) {
+          expiryError.value = event.error.message; // Display error message for expiry date
+        } else  {
+          expiryError.value = ''; // Clear error message
+        }
+      });
+  await getCountries()
 
-      stripeElementReadyEV()
-  elementsReady.value = true
-
-    } else {
-      console.error("Failed to load Stripe");
-    }
-
-  } catch (error) {
-    console.error("Error loading Stripe:", error);
-  }
-});
+      });
 const handleSelectedItemProjectName = (item: any) => {
-  console.log(item)
+  // console.log(item)
   state.country = item.id
 };
 // Stripe Element Ready Event
@@ -160,46 +215,25 @@ const expiryErrors = ref([])
  * If the input is invalid, sets the expiryChange flag and displays the error message.
  * @param {{complete: boolean, error: {message: string}}} event - Stripe expiry change event
  */
-const handleExpiryChange = (event: any) => {
-  if (event.complete) {
-    expiryChange.value = false;
-    
-  } else if(event.error) {
-    expiryErrors.value = [t(event.error.message)] 
-    console.log(event.error)
 
-  }else {
-    expiryErrors.value = [] 
-  }
-
-};
 const profileStore = useProfileStore()
 const cvvErrors = ref([])
-
-    const handleChangeCVV = (event: any) => {
-      // Check if there are any errors
-      if (event.error) {
-        cvvErrors.value = [t(event.error.message)] // Update with new errors
-        console.log(event.error)
-
-      } else {
-        cardErrors.value = [] // Clear errors if no errors
-      }
-      if (event.complete) {
-    cvvChange.value = false;
-
-  } else {
-    cvvChange.value = true;
-  }
-    }
+const stripe = ref(null);
+const cardError = ref(null)
+      const elements = ref(null);
+      const cvcElement = ref(null);
+      const expiryElement = ref(null);
+      const cvcError = ref('');
+      const expiryError = ref('');
+ 
 // Handle Save Card
 const handleSave = async () => {
   loadingAddCard.value  = true
-  if (!elms.value) return;
+  // if (!elms.value) return;
 
-  const { error, paymentMethod } = await elms.value.instance.createPaymentMethod({
+  const { error, paymentMethod } = await stripe.value.createPaymentMethod({
     type: 'card',
-    card: cardNumberElement.value.stripeElement, 
+    card: cardNumberElement.value, 
 
     billing_details: {
     name: state.firstName +' '+ state.lastName,         // Customer's name
@@ -216,14 +250,17 @@ const handleSave = async () => {
   },
   });
 
+  if (error) {
+    // console.error('Error creating payment method:', error);
+    return;
+  }
+  // alert(currentView('add_new_card_billing') )
   // Send paymentMethodId to your API
-  // console.log("intent", paymentMethod);
   const paymentMethodId = paymentMethod.id;
   await sendPaymentMethodIdToApi(paymentMethodId);
   if(response.value.data.succeeded === false){
-      cardErrors.value = [t('This card cannot be used right now. please try with different card')]// Update with new errors
       loadingAddCard.value  = false
-
+cardError.value = t('Card is already added or its not valid')
     }else {
    
       if(currentView('add_new_card_billing') === 'Market'){
@@ -233,7 +270,14 @@ const handleSave = async () => {
       navigateTo('add_new_card_billing','packages','cardModal_packages')
 
     }
-    
+    else if(currentView('add_new_card_billing') === 'addSite'){
+      navigateTo('add_new_card_billing','addSite','cardModal_addsite')
+
+    }
+    else if(currentView('add_new_card_billing') === 'mysite'){
+      navigateTo('add_new_card_billing','mysite','cardModal_mysite')
+
+    }
     else {
       closeModal('add_new_card_billing')
     }
@@ -285,6 +329,39 @@ const {
 const addNew = async () => {
   handleSave();
 };
+const isButtonDisabled = computed(() => {
+  // Temporarily remove card number completion check for debugging
+
+
+
+ return cardError.value !== 'valid' || expiryError.value !== 'valid' || cvcError.value !=='valid'
+});
+
+const gotomodalview = ()=>{
+  if(currentView('add_new_card_billing') === 'Market'){
+  return navigateTo('add_new_card_billing', 'market', 'cardModal_market')
+
+
+    } else if(currentView('add_new_card_billing') === 'packages'){
+      // navigateTo('add_new_card_billing','packages','cardModal_packages')
+  return navigateTo('add_new_card_billing', 'packages', 'cardModal_packages')
+
+
+    }
+    else if(currentView('add_new_card_billing') === 'addSite'){
+      // navigateTo('add_new_card_billing','addSite','cardModal_addsite')
+  return navigateTo('add_new_card_billing', 'addSite', 'cardModal_addsite')
+
+
+    }
+    else if(currentView('add_new_card_billing') === 'mysite'){
+      // navigateTo('add_new_card_billing','mysite','cardModal_mysite')
+  return navigateTo('add_new_card_billing', 'mysite', 'cardModal_mysite')
+
+
+    }
+}
+
 </script>
 
 <template>
@@ -313,14 +390,26 @@ const addNew = async () => {
     </div>
     <div class="w-full h-full">
       <div class="flex flex-col lg:items-start justify-center w-full">
+    
         <div class="flex items-center justify-center">
+            <div v-if="currentView('add_new_card_billing') !== 'billing'" @click="gotomodalview" 
+          class="cursor-pointer close_sidebar_btn group flex items-center justify-center  
+           dark:bg-tamkinDarkPrimary bg-white border-[1px] rtl:rotate-180
+       border-linecolor rounded-full w-[30px] h-[30px]" style="box-shadow: 0px 4px 8.7px 0px #DAF3F1;
+    ">
+            <svg width="9" height="15" viewBox="0 0 9 15" fill="none"
+              class="fill-tamkin group-hover:stroke-white dark:group-hover:stroke-light group-hover:fill-white"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.27231 7.5L9 12.9447L7.36385 14.5L0 7.5L7.36385 0.499998L9 2.05531L3.27231 7.5Z" />
+            </svg>
+          </div>
           <h1
-            class="text-[18px] leading-[36px] font-[600] text-darkGrey dark:text-whiteTamkin  lg:mt-0 mt-[60px]"
-          >
+          class="text-[16px] lg:text-[18px] rtl:font-[Almarai]  leading-[36px] font-[600] dark:text-whiteTamkin text-darkGrey ltr:ml-[20px] rtl:mr-[20px] lg:mt-0 mt-[60px]">
+          
             {{ $t("Add New Card") }}
           </h1>
         </div>
-        <div v-if="stripeLoaded && elementsReady"
+        <div 
           class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
@@ -415,8 +504,40 @@ const addNew = async () => {
                 </div>
               </div>
             </div>
+            <div            class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
 
-          <StripeElements
+            >
+                <div id="card-number-element" class="w-full input_floating_label " :class="{
+                  input_error:
+                  cardError!== 'valid' && cardError,
+                   input_success: cardError=== 'valid'
+                }"></div>
+                <div id="card-errors" class="error_message !bottom-[55px] z-[40]" >{{cardError!== 'valid' && cardError ? cardError : ''}}</div>
+           
+          
+              <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
+        
+                <div class="w-2/4 relative">
+                  <div id="card-cvc-element" class="w-full input_floating_label " :class="{
+                    input_error:
+                    cvcError!== 'valid' && cvcError,
+                   input_success: cvcError=== 'valid'
+
+                  }" ></div>
+                  <div id="cvc-errors" class="error_message ">{{  cvcError!== 'valid' && cvcError ? $t(cvcError):null }}</div>
+                </div>
+                <div class="w-2/4 relative">
+                  <div id="card-expiry-element" class="w-full input_floating_label "   :class="{
+                    input_error:
+                    expiryError!== 'valid' && expiryError,
+                    input_success: expiryError=== 'valid'
+                  }"
+    ></div>
+                  <div id="expiry-errors" class="error_message">{{ expiryError!== 'valid' && expiryError ? $t(expiryError) :null }}</div>
+                </div>
+              </div>
+            </div>
+          <!-- <StripeElements
             class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
             
             v-slot="{ elements, instance }"
@@ -508,7 +629,7 @@ const addNew = async () => {
     </div>
       </div>
             </div>
-          </StripeElements>
+          </StripeElements> -->
 </div>
        
 <h1
@@ -735,7 +856,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
               {{ $t("Cancel") }}
             </button>
             <button class="btn-dashboard hover_tamkin" @click="addNew" 
-            :disabled="cvvChange || expiryChange ||cardIsEmpty || loadingAddCard || cardErrors.length  || v$.$invalid">
+            :disabled="isButtonDisabled || loadingAddCard  || v$.$invalid">
               <div class="flex items-center justify-center">
                 <div :class="loadingAddCard ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
       
@@ -769,7 +890,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
 
       </div> -->
         </div>
-        <div v-if="!stripeLoaded && !elementsReady"
+        <div v-if="!stripeLoaded"
   class="flex flex-col items-start justify-center w-full bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mt-[33px]"
   style="box-shadow: 0px 4px 24px 8px #51459f14"
 >
@@ -819,6 +940,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
       </div>
     </div>
   </div>
+
 </template>
 
 <style></style>

@@ -30,8 +30,17 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
+const route = useRoute()
+const localePath = useLocalePath()
+const isLinkActive = (path) => {
+    if (process.client) {
+      const localizedPath = localePath(path); // Assuming you use i18n
+      return route.path === localizedPath;
+    }
+    return false;
+  };
 const redirectTo = computed(()=>{
-return '/add-site'
+return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '/subscriptions' :'/my-site'
 })
 const continueCheckOut = async () => {
   loadingPayment.value = true;

@@ -3,8 +3,7 @@ const statsStore = useStatsStore();
 
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ["auth", "permissions"],
 });
 
 const localePath = useLocalePath();
@@ -46,8 +45,8 @@ onBeforeRouteLeave((to, from, next) => {
   <div class="relative h-full w-full">
     <LazyModalsConfirm
       :showModal="statsStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
+      :title="$t('Save  your changes')"
+      :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
       cancelButtonName="Discard"
@@ -56,12 +55,12 @@ onBeforeRouteLeave((to, from, next) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        websiteImgName="tamkin_hand.svg"
-        website-title="Tamkin.App"
-        website-link="google.com"
-        section-title="Statistics"
-        section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
-          useful insights."
+        :section-title="$t('Statistics')"
+        :section-sub-title="
+          $t(
+            'Statistics involves collecting, analyzing, and interpreting data to provide useful insights.'
+          )
+        "
       />
 
       <StatisticsChart />
@@ -86,8 +85,6 @@ onBeforeRouteLeave((to, from, next) => {
   );
   box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1);
 }
-
-
 
 .custom-legend {
   display: flex;
@@ -131,6 +128,4 @@ onBeforeRouteLeave((to, from, next) => {
 .dp__overlay_cell_pad:hover {
   @apply bg-tamkinLight text-darkGrey;
 }
-
 </style>
-

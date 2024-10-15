@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-[13px] flex items-center p-[20px] justify-evenly w-full mt-[16px] space-x-[19px]"
+    class="bg-white rounded-[13px] flex items-center p-[20px] justify-evenly w-full mt-[16px] rtl:space-x-reverse space-x-[19px]"
   >
     <div
       class="custom-border  w-full flex flex-col items-center px-[16px] justify-start  pt-[16px]"
@@ -25,7 +25,7 @@
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-between space-x-[6px]">
+            <div class="flex items-center justify-between rtl:space-x-reverse space-x-[6px]">
               <span
                 style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
@@ -37,7 +37,7 @@
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -48,7 +48,7 @@
           <div
             class="text-center flex items-center justify-evenly flex-col space-y-[10px] "
           >
-            <div class="flex items-center justify-center space-x-[6px]">
+            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
               <span
                 class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
@@ -72,7 +72,7 @@
                 >280</span
               >
             </div>
-            <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
+            <div class="w-full flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
               <div
                 style="background: rgba(242, 243, 245, 1)"
                 class="rounded-full h-3 w-full relative overflow-hidden"
@@ -107,7 +107,7 @@
         <div
           class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
         >
-          <div class="flex items-center justify-between space-x-[6px]">
+          <div class="flex items-center justify-between rtl:space-x-reverse space-x-[6px]">
             <span
               style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
               class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
@@ -119,7 +119,7 @@
         <div
           class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
         >
-          <div class="flex items-center justify-center space-x-[6px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <span
               class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
             ></span>
@@ -130,7 +130,7 @@
         <div
           class="text-center flex items-center justify-evenly flex-col space-y-[10px] "
         >
-          <div class="flex items-center justify-center space-x-[6px]">
+          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <span
               class="block w-3 h-3 bg-[#DEF3FE] dark:bg-whiteTamkin rounded-full mx-auto"
             ></span>
@@ -154,7 +154,7 @@
               >280</span
             >
           </div>
-          <div class="w-full flex items-center rtl:space-x-reverse space-x-2">
+          <div class="w-full flex items-center rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-2">
             <div
               style="background: rgba(242, 243, 245, 1)"
               class="rounded-full h-3 w-full relative overflow-hidden"

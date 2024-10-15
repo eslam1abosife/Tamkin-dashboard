@@ -5,7 +5,8 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
-
+const { locale} = useI18n()
+const localePath = useLocalePath()
 const translateStore = useTranslateStore()
 const {
   isOpen,
@@ -185,9 +186,9 @@ const moveForward = () => {
   }, 1000);
   setTimeout(() => {
     if (props.translateType === 'PDF Documents' || props.translateType === 'word') {
-      router.push('/document/pdf');
+      router.push(localePath('/document/pdf'));
     } else {
-      router.push('/document/word');
+      router.push(localePath('/document/word'));
     }
     closeModal('translate_'+(props.translateType === 'PDF Documents' ?'pdf_documents' :'word_documents'))
     }, 5000);
@@ -218,8 +219,8 @@ const moveForward = () => {
       />
     </svg>
   </div>
-  <h1 class="text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
-   Translate <span  class="capitalize">{{translateType}}</span>
+  <h1 class="rtl:text-right px-[15px] ltr:text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
+   {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType)}}</span>
   </h1>
 
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[12px] h-full
@@ -230,9 +231,9 @@ const moveForward = () => {
        justify-center flex-col space-y-[10px] ">
         <input v-bind="getInputProps()" />
         <div class="flex flex-row items-start md:items-center   justify-between w-full 
-        space-y-[10px] md:space-y-0 space-x-[16px]" v-if="acceptedFilesRef.length > 0">
+        space-y-[10px] md:space-y-0 rtl:space-x-reverse space-x-[16px]" v-if="acceptedFilesRef.length > 0">
           <div v-for="file in acceptedFilesRef" :key="file.name" class="rounded-[10px] w-full md:w-auto">
-            <div class="flex items-center justify-start w-full space-x-[14px]">
+            <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[14px]">
               <div class="relative " >
                 <div class="h-[81px] w-[60px] absolute inset-y-0 right-0 backdrop-blur-sm rounded-tr-[7px] rounded-br-[7px] bg-opacity-40" :style="{ width: blurWidth + '%' }"> </div>
                 <div v-if="translateType === 'PDF Documents'"  class="w-[78px] h-[78px] flex items-center justify-center ">
@@ -269,21 +270,21 @@ const moveForward = () => {
         </div>
         <div class="w-full flex flex-col items-center justify-start space-y-[4px]" v-if="acceptedFilesRef.length === 0">
           <button class="flex items-center justify-center border-[1px]
-                 border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] space-x-[6px] mx-auto ">
+                 border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] rtl:space-x-reverse space-x-[6px] mx-auto ">
                 <img src="/assets/imgs/translatevideo/upload.svg" class="w-[19px] h-[19px]" />
                 <div class="text-[13px] leading-[30px] font-[600] text-[#3C3F49]">
-                  Upload
+                  {{ $t('Upload') }}
                 </div>
               </button>
 
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="isDragActive">
-            Drop the files here ...
+            {{ $t('Drop the files here') }} ...
           </h1>
         </div>
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-            <span class="text-tamkin cursor-pointer">Click here</span> to upload or drop video
+            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop video') }}
           </h1>
         </div>
          <div>
@@ -295,7 +296,7 @@ const moveForward = () => {
       </div>
       <div v-if="acceptedFilesRef.length === 0" class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]" 
   >
-        OR
+        {{$t('OR')}}
       </div>
       <div v-if="v$.documentLink.$model" class="w-full h-auto  rounded-[10px] border-[1px] p-[10px]   border-dashed 
       border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start
@@ -334,7 +335,7 @@ const moveForward = () => {
         <label for="characterName" class="floating_label" :class="[
           (v$.documentLink.$error && v$.documentLink.required.$invalid) ? '!text-error' : '',
         ]">
-        Google Drive , Choose from Dropbox
+       {{ $t('Google Drive , Choose from Dropbox') }}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.documentLink.$error && v$.documentLink.required.$invalid)">
           <p class="error_message">
@@ -348,10 +349,10 @@ const moveForward = () => {
     <div class="w-full flex flex-col items-center justify-center !p-0">
     
     
-      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap">
+      <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
         <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Project name
+            {{ $t('Project name') }}
           </div>
           <div class="w-full relative">
             <input type="projectName" placeholder="{{$t('projectName')}}" id="projectName" class="input_floating_label peer w-full" v-model="v$.projectName.$model" :class="{
@@ -362,7 +363,7 @@ const moveForward = () => {
             <label for="projectName" class="floating_label" :class="[
               (v$.projectName.$error && v$.projectName.required.$invalid) ? '!text-error' : '',
             ]">
-              {{ $t("Project name") }}*
+              {{ $t("Project name*") }}
             </label>
             <div class="w-full lg:w-4/6 mt-1" v-if="(v$.projectName.$error && v$.projectName.required.$invalid)">
               <p class="error_message">
@@ -377,9 +378,9 @@ const moveForward = () => {
       </div>
       <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
         <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-          Translate
+          {{ $t('Translate') }}
         </div>
-        <div class="ml-auto flex items-center ">
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_google_a" class="toggle_wrap">
                 <input type="checkbox" id="toggle_google_a" class="sr-only"
                     v-model="translateStore.translateCheck" />
@@ -393,16 +394,16 @@ const moveForward = () => {
             </label>
         </div>
     </div>
-      <div class="flex items-center justify-evenly w-full lg:space-x-[24px] lg:flex-nowrap flex-wrap"  :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']">
+      <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"  :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']">
         <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Original language
+            {{$t('Original language')}}
           </div>
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
         <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px]  w-full">
           <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            Translate to
+            {{$t('Translate to')}}
           </div>
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
@@ -410,9 +411,9 @@ const moveForward = () => {
 
       <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
         <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-            Sign language
+           {{ $t('Sign language') }}
         </div>
-        <div class="ml-auto flex items-center ">
+        <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_google_a2" class="toggle_wrap">
                 <input type="checkbox" id="toggle_google_a2" class="sr-only"
                     v-model="translateStore.signLanguageChecked" />
@@ -431,10 +432,10 @@ const moveForward = () => {
     <TranslateSelectInput class="ipad-max:mt-0 mt-[10px] !w-full " :disabled="!translateStore.signLanguageChecked"
         :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
         @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
-        placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
+        :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
       <TranslateVideoModalsTranslateSign />
       <button class="btn-dashboard hover_tamkin w-[217px] py-[16px] mt-4" 
-      :disabled="validatationForUpload" @click="moveForward">Translate</button>
+      :disabled="validatationForUpload" @click="moveForward">{{$t('Translate')}}</button>
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] h-[600px] ipad-max:h-[500px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary 
@@ -442,32 +443,41 @@ const moveForward = () => {
     <div class="text-[36px] leading-[30px] font-[600] text-tamkin">
      {{widthVideoProcessing+'%'}}
     </div>
-    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey">
-      {{props.translateType === 'PDF Documents' ? 'PDF' :'Word'}} is processing  
+    <div class="text-[24px] leading-[30px] font-[600] text-darkGrey rtl:text-right ltr:text-left">
+      {{
+        locale === 'ar'
+          ? (props.translateType === 'PDF Documents' 
+              ? $t('is processing') + ' ' + $t('PDF') 
+              : $t('is processing') + ' ' + $t('Word'))
+          : (props.translateType === 'PDF Documents' 
+              ? $t('PDF') + ' ' + $t('is processing') 
+              : $t('Word') + ' ' + $t('is processing'))
+      }}
     </div>
+    
     <div class="relative pt-1 flex items-center justify-between w-full">
       <div class="overflow-hidden h-[19px] w-full text-xs flex rounded-[12px] bg-[#D7DADA]">
         <div :style="{ width:  widthVideoProcessing+'%'}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[12px]"></div>
       </div>
     </div>
     <div class="text-[14px] text-center leading-[21px] font-[500] text-[#878787]">
-      Please wait while we process your request. This may take a few moments.
+     {{ $t(' Please wait while we process your request. This may take a few moments.') }}
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">
-    <div class="flex items-center justify-center space-x-[10px] w-full">
+    <div class="flex items-center justify-center rtl:space-x-reverse space-x-[10px] w-full">
       <div>
         <img src="/assets/imgs/translatevideo/limited.svg" class="w-[25px] h-[25px]" alt="" />
       </div>
       <div class="text-[20px] leading-[30px] font-[600] text-darkGrey">
-        Process failed
+       {{ $t('Process failed') }}
       </div>
     </div>
     <div class="text-[14px] leading-[21px] font-[500] text-[#878787]">
-      You do not have enough minutes to complete this process
+      {{ $t('You do not have enough minutes to complete this process') }}
     </div>
     <div>
-      <button class="btn-dashboard hover_tamkin">Upgrade Now</button>
+      <button class="btn-dashboard hover_tamkin">{{$t('Upgrade Now')}}</button>
     </div>
   </div>
 </div>

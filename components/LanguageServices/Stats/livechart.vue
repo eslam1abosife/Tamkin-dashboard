@@ -320,8 +320,8 @@ const alertFn = () => {
             <div class="text_mini">
               {{
                 !collapseStore.collapses.includes("video_chart_card")
-                  ? "Minisize"
-                  : "Maxsize"
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>

@@ -28,7 +28,7 @@ const changeTab = (tab: any) => {
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('translatev')"
       >
-        Translate video (12)
+        {{ $t('Translate video') }} (12)
       </div>
       <div
         :class="[
@@ -39,7 +39,7 @@ const changeTab = (tab: any) => {
         class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translateaudio')"
       >
-        Translate Audio
+        {{ $t('Translate Audio') }}
       </div>
       <div
         :class="[
@@ -50,7 +50,7 @@ const changeTab = (tab: any) => {
         class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('translatelive')"
       >
-        Translate Live Video
+        {{ $t('Translate Live Video') }}
       </div>
       <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
         <input
@@ -86,7 +86,7 @@ const changeTab = (tab: any) => {
     <button
       class="h-[40px] w-[150px] ipad-max:text-[13px] lg:text-[16px] font-[500] text-[#878787] bg-[#EDEDED] rounded-[5px] flex items-center justify-center mx-auto"
     >
-      Load more...
+      {{ $t('Load more') }}...
     </button>
   </div>
 

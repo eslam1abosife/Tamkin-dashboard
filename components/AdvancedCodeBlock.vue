@@ -111,7 +111,7 @@
 
     
         <VCodeBlock   
-       class="ipad-max:max-w-[660px]"
+       class="2xl:max-w-full lg:max-w-auto"
           dir="ltr"
           :code="currentCode"
           highlightjs
@@ -135,6 +135,7 @@
 </template>
 
 <script lang="ts" setup>
+
 import { ref, onBeforeMount, onMounted } from 'vue';
 import { useSummaryDetailedCode } from "@/composables/useEmbedCode";
 import { useModalManager } from '@/composables/useModalManager';
@@ -142,6 +143,8 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useClipboard } from '@vueuse/core'
 
 const {t} = useI18n()
+const localePath = useLocalePath()
+const route = useRoute()
 const { getSummaryDetailedCode, summaryCode, detailedCode, loading: getCodeLoading } = useSummaryDetailedCode();
 const currentCode = ref('');
 const advancedCode = ref(false);
@@ -150,21 +153,20 @@ const copyDone = ref(false)
 const  loadingBlock =ref(true)
 const locale = useLocalePath()
 const { text, copy, copied, isSupported } = useClipboard({ summaryCode })
+const isLinkActive = (path) => {
+  return localePath(route.path) === localePath(path);
+};
 let copyCodeP = inject('copyP')
 const copyCode = () => {
   copyDone.value = true;
 };
 const highlightPhrase = (text, phrase) => {
-  // Escape HTML characters to avoid injection issues
   const escapedPhrase = phrase.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  // Create a RegExp to match the exact phrase
   const regex = new RegExp(`(${escapedPhrase})`, 'gi')
-  // Replace the phrase with a span containing the class
   return text.replace(regex, `<span class="text-darkGrey">$1</span>`)
 }
 const phraseToHighlight = locale === 'en' ?'the same embed code' :'نفس كود التضمين'
 const trn = t('Managing multiple sites for multiple clients ? Great! Make sure you use the same embed code on all of your sites !')
-// Use the function to get the highlighted text
 const highlightedText = computed(() => highlightPhrase(trn, phraseToHighlight))
 const {
         isOpen,
@@ -177,7 +179,6 @@ const {
 
 watch(copyDone, (newValue) => {
   if (newValue) {
-    // Reset copyDone after the hideIn duration
     setTimeout(() => {
       copyDone.value = false;
     }, 2000);
@@ -190,6 +191,8 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
+  loadingBlock.value = true
+
   copyCodeP = copied.value
  await getSummaryDetailedCode();
   loadingBlock.value = false

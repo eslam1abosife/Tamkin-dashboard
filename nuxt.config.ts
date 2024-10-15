@@ -1,9 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   ssr:false,
-  sourcemap: false,
+  // sourcemap: false,
 
   runtimeConfig: {
     public: {
@@ -69,9 +69,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       meta: [
-        // Remove or comment out the existing viewport meta tag if present
         // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+        // { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
         
       ],
 // script: [
@@ -226,11 +225,11 @@ colorMode: {
   // },
 
   i18n: {
+    fallbackWarn: false,
+missingWarn: false,
     defaultLocale: 'en',
-    // Specify the directory where the language files are stored
-    langDir: './locales/',
-    // Define the available locales
-    lazy:true,
+    lazy: true,
+    langDir: 'locales/',
     strategy: 'prefix_and_default',
     detectBrowserLanguage: false,
     locales: [
@@ -239,19 +238,20 @@ colorMode: {
         iso: 'en-US',
         name: 'English',
         file: 'en.ts',
-        dir: "ltr"
+        dir: 'ltr'
       },
       {
         code: 'ar',
         iso: 'ar-SA',
         name: 'Arabic',
         file: 'ar.ts',
-        dir: "rtl"
+        dir: 'rtl'
       }
     ],
-    // custom path example
-    
+      fallbackLocale: 'en', // Ensure no fallback
+
   },
+
   plugins: ['~/plugins/i18n.js'],
 
   googleFonts: {

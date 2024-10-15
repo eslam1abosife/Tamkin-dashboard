@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const router = useRouter()
 const route = useRoute()
+const localePath = useLocalePath()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
@@ -40,21 +41,24 @@ const setDefaultQuery = async (tryagain) => {
   //   packageExtraType:packageTypeToSend.value
   // };
   // }
-if(currentView('success_pay_package') === 'mysite'){
-  mysiteStore.currentPackage = ''
-    mysiteStore.packagePayload = ''
-    mysiteStore.tags = []
-    mysiteStore.validatedSites = []
-    mysiteStore.loadingBlock = []
-await getApps()
-  return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_mysite')
-}else {
+// if(currentView('success_pay_addsite') === 'mysite'){
+//   mysiteStore.currentPackage = ''
+//     mysiteStore.packagePayload = ''
+//     mysiteStore.tags = []
+//     mysiteStore.validatedSites = []
+//     mysiteStore.loadingBlock = []
+// await getApps()
+//   return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_mysite')
+// }else {
     
 return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_addsite')
-}
+// }
  }else {
+
+
+
   router.push({
-    path: route.path, 
+    path: localePath('/my-site'), 
     query: {
       paid: undefined, 
       status: undefined
@@ -65,9 +69,10 @@ return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_addsite')
     addSiteStore.tags = []
     addSiteStore.validatedSites = []
     addSiteStore.loadingBlock = []
-
-  closeModal('success_pay_addsite')
+    addSiteStore.urls = []
  }
+ return closeModal('success_pay_addsite')
+
 }
 
 
@@ -82,7 +87,7 @@ return navigateTo('success_pay_addsite', 'addSite', 'payment_methods_addsite')
   <div
     style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
     class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[10px]"
-    @click="setDefaultQuery"
+    @click="setDefaultQuery(false)"
   >
     <svg
       class="w-[12px] h-[12px]"
