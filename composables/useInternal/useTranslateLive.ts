@@ -5,19 +5,19 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api, loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-    const codeStatus = ref('')
-    const messageData = ref('')
+    const codeStatusLive = ref('')
+    const messageDataLive = ref('')
 
-    const translateVideo = async (payload, options = {}) => {
+    const translateVideoLive = async (payload) => {
         try {
-                 console.log(payload)
+                //  console.log(payload)
 
-            const res = await api.post('/SignLanguage/TranslateVideo', 
-                payload,  
-                options   
+            const res = await api.post('/SignLanguage/TranslateLiveVideo', 
+                payload
+       
             );
-            codeStatus.value = res.data.statusCode
-                 messageData.value = res.data.message
+            codeStatusLive.value = res.data.statusCode
+            messageDataLive.value = res.data.message
                  return res.data.data;
         } catch (error) {
             throw typeof(error) === 'string' ? error : 'There is something wrong';
@@ -25,9 +25,9 @@ export default function() {
     };
 
     return {
-        translateVideo,
+        translateVideoLive,
         loading,
-        codeStatus,
-messageData
+        codeStatusLive,
+        messageDataLive
     };
 }

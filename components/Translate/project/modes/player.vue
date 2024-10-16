@@ -247,14 +247,14 @@ const changeMode = () => {
             <button class="btn-default   !h-[30px]"
                 :class="[translateStore.player.playerPosition === 'inVideo' ? '!bg-tamkinLight' : '']" @click="changePlayer('inVideo')">
               
-                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{isLinkActive('/translate/video') ? $t('In video') : $t('In audio')}}</span>
+                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('On Frame') }}</span>
 
 
             </button>
             <button class="btn-default  !h-[30px]" :class="[translateStore.player.playerPosition  === 'OutVideo' ? '!bg-tamkinLight  ' : '']" 
             @click="changePlayer('OutVideo')">
            
-            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{ isLinkActive('/translate/video') ? $t('Out video') : $t('Out audio')}}</span>
+            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{  $t('Out Frame')}}</span>
 
             </button>
         </div>

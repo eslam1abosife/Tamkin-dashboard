@@ -2,11 +2,21 @@
 import useTranslateVideo from "./useTranslateVideo";
 import useGetLangs from "./useGetLangs";
 import useTranslateAudio from "./useTranslateAudio";
+import useTranslateLive from "./useTranslateLive";
+import useGetProjects from "./useGetProjects";
+import useRenameProject from "./useRenameProject";
+import useDeleteProject from "./useDeleteProject";
+import useGetLiveInfo from "./useGetLiveInfo";
 
 export {
 
     useTranslateVideo,
     useGetLangs,
-    useTranslateAudio
+    useTranslateAudio,
+    useTranslateLive,
+    useGetProjects,
+    useRenameProject,
+    useDeleteProject,
+    useGetLiveInfo
 }
 

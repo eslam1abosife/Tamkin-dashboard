@@ -30,7 +30,7 @@
                 style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin">{{$t('Your total minutes')}} </span>
+              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin">{{$t('Your total words')}} </span>
             </div>
             <span class="block text-[14px] font-semibold dark:text-whiteTamkin/90">20</span>
           </div>
@@ -88,7 +88,7 @@
     class="custom-border  w-full flex flex-col items-center px-[16px] justify-start  pt-[16px]"
   >
     <div class="flex items-center justify-between w-full">
-      <div class="text-[16px] font-[500] text-[#021328]">{{$t('Words Balance')}}</div>
+      <div class="text-[16px] font-[500] text-[#021328]">{{$t('Minutes Balance')}}</div>
 
       <button
         class="btn-dashboard hover_tamkin w-[158px] !h-[40px]"

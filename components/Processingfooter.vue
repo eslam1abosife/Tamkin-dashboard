@@ -4,7 +4,7 @@ const props = defineProps({
     showFooter:Boolean,
     done:Boolean
 })
-const emit = defineEmits(['cancel_action','saveToAllSites','Save'])
+const emit = defineEmits(['cancel_action','saveToAllSites','Save','closeFooter'])
 
 const saveToAllSites =() =>{
 emit('saveToAllSites')
@@ -15,6 +15,11 @@ emit('cancel_action')
 }
 const saveFn =() =>{
 emit('Save')
+}
+
+const closeFooter = () => {
+
+    emit("closeFooter");
 }
 </script>
 
@@ -56,7 +61,7 @@ emit('Save')
                    </div>
                </div>
                <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                   <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">{{$t('Done')}}</button>
+                   <button class="btn_bordered_dashboard hover_tamkin" @click="closeFooter">{{$t('Done')}}</button>
                </div>
            </div>
         </div>

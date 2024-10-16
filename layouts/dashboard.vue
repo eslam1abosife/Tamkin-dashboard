@@ -200,10 +200,10 @@ const shouldShowFooter = computed(() => {
     isCustomizeLinkActive ||
     isSettingsLinkActive ||
     isStatsActive ||
-    isMarketChanges ||
-    translateStyle ||
-    translatePlayer ||
-    (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
+    isMarketChanges 
+    // translateStyle ||
+    // translatePlayer ||
+    // (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
   );
 });
 
@@ -412,6 +412,7 @@ const openModals = computed(() => {
     isOpen("paypal_subs") ||
     isOpen("crypto_subs_step1") ||
     isOpen("crypto_subs_step2") ||
+    isOpen("deleteProject") ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
@@ -1153,7 +1154,7 @@ const loadf = ref(true);
               :showModal="
                 custmizeStore.routeLeaveModal ||
                 checkboxStore.routeLeaveModal ||
-                settingsStore.routeLeaveModal
+                settingsStore.routeLeaveModal 
               "
               title="Save  your changes"
               sub-title="Do you want to save the changes before moving on?"

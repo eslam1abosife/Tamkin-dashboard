@@ -284,12 +284,12 @@ const moveForward = () => {
         </div>
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop video') }}
+            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{ $t('to upload or drop file') }}
           </h1>
         </div>
          <div>
           <h2 class="text-center text-[10px] text-[#6D6D6D]">
-            {{ translateType === 'PDF Documents' ? 'PDF files' : 'Word Files (Docx)' }}
+            {{ translateType === 'PDF Documents' ? $t('PDF files') : $t('Word Files (Docx)') }}
           </h2>
          </div>
         </div>
@@ -335,7 +335,7 @@ const moveForward = () => {
         <label for="characterName" class="floating_label" :class="[
           (v$.documentLink.$error && v$.documentLink.required.$invalid) ? '!text-error' : '',
         ]">
-       {{ $t('Google Drive , Choose from Dropbox') }}
+       {{ $t('Google Drive , Dropbox') }}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.documentLink.$error && v$.documentLink.required.$invalid)">
           <p class="error_message">

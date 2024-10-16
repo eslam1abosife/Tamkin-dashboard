@@ -101,9 +101,7 @@
       const shouldShow = ({ editor, view, state, oldState, from, to }) =>{
         const { doc, selection } = state;
         const { empty } = selection;
- // Sometime check for `empty` is not enough.
-        // Doubleclick an empty paragraph returns a node size of 2.
-        // So we check also for an empty text size.
+
         const isEmptyTextBlock =
           !doc.textBetween(from, to).length && isTextSelection(state.selection);
         if (view.focused || empty || isEmptyTextBlock) {
@@ -127,15 +125,14 @@
       const editor = new Editor({
         editable: false,
         extensions: [
-   
-          StarterKit,
-          TextStyle,
-          Color,
-          Highlight.configure({ multicolor: true }),
-          Underline,
-          Strike,
-          HorizontalRule, // Add the horizontal rule extension
-        ],
+    StarterKit,
+    TextStyle,
+    Color,
+    Highlight.configure({ multicolor: true }),
+    Underline,
+    Strike,
+    HorizontalRule,
+  ],
         content: `
           <p>
             Sample content goes here. This is where you will place your initial content.

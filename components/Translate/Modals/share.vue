@@ -2,13 +2,10 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
-import 'vue3-carousel/dist/carousel.css'
-import {
-  Carousel,
-  Slide,
-  Pagination,
-  Navigation,
-} from "vue3-carousel/dist/carousel.es.js";const {
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import '@splidejs/vue-splide/css';
+const {locale} = useI18n()
+const {
     isOpen,
     currentView,
     openModal,
@@ -49,20 +46,37 @@ const props = defineProps({
 
 
         <div class="bg-white h-[110px]  rounded-[10px] flex items-center justify-around  w-full mt-[18px] ">
-       <ClientOnly>
+  
 
-        <carousel :items-to-show="5"  class="" >
-            <slide v-for="slide in 10" :key="slide">
-                <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center">
-                    <img src="/assets/imgs/translatevideo/social/Facebook.svg" class="w-[40px] h-[40px]" alt="">
+        <ClientOnly>
+            <Splide class="mx-auto"  :options="{ rewind: false,perPage: 5,  gap: 10,arrows:false ,direction:`${locale === 'ar' ? 'rtl' : 'ltr'}`      }">
+      
+              <SplideSlide  >
+                <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center cursor-pointer">
+                    <img src="/imgs/fb_share.png" class="w-[40px] h-[40px]" alt="">
                 </div>
-            </slide>
-        
-            <template #addons>
-              <pagination />
-            </template>
-          </carousel>
-        </ClientOnly>
+            </SplideSlide>
+            <SplideSlide  >
+                <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center cursor-pointer">
+                    <img src="/imgs/insta_share.png" class="w-[40px] h-[40px]" alt="">
+                </div>
+            </SplideSlide>
+            <SplideSlide  >
+                <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center cursor-pointer">
+                    <img src="/imgs/x_share.png" class="w-[40px] h-[40px]" alt="">
+                </div>
+            </SplideSlide>
+            <SplideSlide  >
+                <div class=" w-[50px] h-[50px] bg-[#F6F6F6] rounded-[7px] flex items-center justify-center cursor-pointer">
+                    <img src="/imgs/youtube_share.png" class="w-[40px] h-[40px]" alt="">
+                </div>
+            </SplideSlide>
+      
+            </Splide>
+      
+            <div id="custom-pagination" class="custom-pagination"></div>
+ 
+          </ClientOnly>
        
       
         </div>
@@ -125,6 +139,14 @@ w-[100%] h-[40px] px-4 mt-[16px]">
 
   .carousel__track{
     @apply space-x-[0px];
+  }.splide__pagination{
+    @apply !bottom-[-20px];
+  }
+  .splide__pagination__page.is-active{
+  @apply !bg-tamkin;
   }
   
+  .splide__list{
+    @apply justify-center gap-4 mx-auto text-center items-center;
+  }
   </style>

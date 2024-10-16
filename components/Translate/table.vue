@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import {useGetProjects} from '@/composables/useInternal'
+const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
+
 const props = defineProps({
   type: String
 })
@@ -12,49 +15,82 @@ watch(search, (ov, nv) => {
 const clearInput = () => {
   search.value = "";
 };
-const currentTab = ref("translatev");
+const myPorjects = ref([])
+/**
+ * Refreshes data when user changes tab
+ * @function refreshData
+ * @param {void} None
+ * @return {void}
+ */
+const refreshData = async ()=>{
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user) {
+ await getProjects(currentTab.value,user.agency)
+    
+  }
+}
+const currentTab = ref("Translate video");
+const getProjectsByTab = computed(() => {
+  return translateStore.projectsAr
+    .filter((t) => t.type === currentTab.value) 
+    .filter((t) => {
+      if (!isSearchfilled.value) return true; 
+      return t.project_name.toLowerCase().includes(search.value.toLowerCase()); 
+    })
+    .sort((a, b) => new Date(b.creation) - new Date(a.creation)); 
+});
+
+
 
 const changeTab = (tab: any) => {
   currentTab.value = tab;
+  search.value = "";
 };
+const translateStore = useTranslateStore()
+const user = JSON.parse(localStorage.getItem("user"));
+onMounted(async ()=>{
+  await refreshData(); 
+
+})
 </script>
 
 <template>
-  <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
+  <div v-if="!loading" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
     <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
-          currentTab === 'translatev'
+          currentTab === 'Translate video'
             ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
-        @click="changeTab('translatev')"
+        @click="changeTab('Translate video')"
       >
-        {{ type? $t(type):'type' }} (12)
+        {{ $t('Translate Video')}} ({{projects.filter(t=>t.type === 'Translate video').length}})
       </div>
-      <!-- <div
+      <div
         :class="[
-          currentTab === 'translateaudio'
+          currentTab === 'Translate Audio'
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
         class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
-        @click="changeTab('translateaudio')"
+        @click="changeTab('Translate Audio')"
       >
-        {{ $t('Translate Audio') }}
+        {{ $t('Translate Audio') }}  ({{projects.filter(t=>t.type === 'Translate Audio').length}})
       </div>
       <div
         :class="[
-          currentTab === 'translatelive'
+          currentTab === 'Translate Live Video'
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
         class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
-        @click="changeTab('translatelive')"
+        @click="changeTab('Translate Live Video')"
       >
-        {{ $t('Translate Live Video') }}
-      </div> -->
+        {{ $t('Translate Live Video') }} ({{projects.filter(t=>t.type === 'Translate Live Video').length}})
+      </div>
       <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
         <input
           type="text"
@@ -79,22 +115,63 @@ const changeTab = (tab: any) => {
 
   
 
-<div v-if="search !== 'text' && search !== '404'">
-  <LazyTranslateVideoVideos v-if="currentTab === 'translatev'" />
-  <!-- <TranslateAudioAudios v-if="currentTab === 'translateaudio'" /> -->
-  <TranslateVideoNovids v-if="currentTab === 'translateaudio' "/>
 
-  <TranslateLiveVideoList v-if="currentTab === 'translatelive'" />
-  <div class="mx-auto mt-[36px]" v-if="currentTab !== 'translateaudio'">
-    <button
+  <LazyTranslateVideoVideos  v-if="currentTab === 'Translate video'" :videos="getProjectsByTab" />
+  <!-- <TranslateAudioAudios v-if="currentTab === 'translateaudio'" /> -->
+  <TranslateVideoNovids v-if="getProjectsByTab.length === 0 && !search" :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
+  <TranslateNoresult v-if="getProjectsByTab.length === 0 && search"/> 
+{{ translateStore.allLoaded }}
+  <div class="mx-auto mt-[36px]" v-if="!translateStore.allLoaded">
+    <button @click="loadMoreProjects(currentTab, user.agency)" :disabled="loadMoreProjectsLoading"
     class="btn-dashboard w-[150px] hover_tamkin mx-auto"
   >
-    {{ $t('Load more') }}
+  
+  <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"  >
+    <div :class="loadMoreProjectsLoading ? 'rtl:ml-2 ltr:mr-2':''">
+      {{ $t('Load more') }}
+
+    </div>
+
+     <svg  v-if="loadMoreProjectsLoading" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+   </div>
   </button>
   </div>
 
-</div>
-    <TranslateVideoNovids v-if="search === 'text'"/>
-    <TranslateNoresult v-if="search === '404'"/>
+   
   </div>
+  <!-- Loader Layout with Pulse Animation -->
+<div v-if="loading" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px] animate-pulse">
+  <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    <!-- Placeholder for tab buttons -->
+    <div class="bg-gray-300 dark:bg-gray-600 h-[22px] w-[150px] rounded-md"></div>
+    <div class="bg-gray-300 dark:bg-gray-600 h-[22px] w-[150px] rounded-md"></div>
+    <div class="bg-gray-300 dark:bg-gray-600 h-[22px] w-[150px] rounded-md"></div>
+
+    <!-- Placeholder for search input -->
+    <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
+      <div class="relative">
+        <div class="bg-gray-300 dark:bg-gray-600 w-full h-[40px] rounded-md"></div>
+        <!-- Search icon placeholder -->
+        <div class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px]">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Placeholder for video content or other tab contents -->
+  <div class="gap-2 grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px]">
+    <!-- Each item in the list (mimicking videos or other elements) -->
+    <div v-for="t in 5" class="bg-gray-300 dark:bg-gray-600 w-full h-[120px] rounded-md"></div>
+
+  </div>
+
+  <!-- Placeholder for load more button -->
+  <div class="mx-auto mt-[36px]">
+    <div class="bg-gray-300 dark:bg-gray-600 w-[150px] h-[40px] mx-auto rounded-md"></div>
+  </div>
+</div>
+
 </template>

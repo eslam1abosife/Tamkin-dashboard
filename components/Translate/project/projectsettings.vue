@@ -138,7 +138,7 @@ const getPlayerPosition = (p: any) => {
               ]"
               :class="[
                 'max-w-full h-full',
-                playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
+                translateStore.player.playerPosition  === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
                 bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]'
               ]"
             />
@@ -146,13 +146,13 @@ const getPlayerPosition = (p: any) => {
 
     <!-- <VTamkinPlayer :videoUrl="videoUrl" :height="270" /> -->
               <!-- <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']"> -->
-              <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if="playerPosition === 'inVideo' && currentMode === 'player'">
+              <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if=" translateStore.player.playerPosition  === 'inVideo' && currentMode === 'player'">
                 <img src="/assets/imgs/translatevideo/player_inside.png" alt="" class="w-[89px] h-[125px]">
               </div>
             </div>
             <div v-if="currentMode === 'player'" class="flex flex-col items-center justify-start lg:w-[60%] 2xl:w-[40%] transition-all ease-in-out" :class="[playerPosition === 'OutVideo' ? 'block' : 'hidden']">
               <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[237px] transition-all ease-in-out">
-              <button @click="playerPosition = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
+              <button @click=" translateStore.player.playerPosition  = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
                 {{ $t('Close Player') }}
               </button>
             </div>

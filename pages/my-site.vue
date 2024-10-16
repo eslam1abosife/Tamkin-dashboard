@@ -1109,7 +1109,7 @@ if(subCodeStatus.value === 200){
                           </div>
 
                           <div
-                            v-if="app.package[0].status === 'draft'"
+                            v-if="app.package[0].status === 'draft' && app.package[0].type !== 'Investors'"
                             class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                           >
                             {{ $t(`${app.package[0].status}`) }}
@@ -1384,7 +1384,7 @@ if(subCodeStatus.value === 200){
                               {{ $t(`${pack.status}`) }}
                             </div>
                             <div
-                            v-if="pack.status === 'Active'"
+                            v-if="pack.status === 'Active' || (pack.type === 'Investors' && pack.investor_status === 'Active')"
                             class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
                             {{

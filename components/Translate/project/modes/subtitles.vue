@@ -39,12 +39,15 @@ const texts = ref([
   { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
   { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
 ]);
-const initialTexts = JSON.parse(JSON.stringify(texts.value));
+
+const initialTexts = ref(JSON.parse(JSON.stringify(texts.value)));
+const currentTextToEdit = ref('')
 
 const startEditing = (index: number) => {
   texts.value[index].isEditing = true;
   texts.value[index].editButtonShow = false;
-
+  currentTextToEdit.value = index
+  // alert(currentTextToEdit.value)
 };
 const showPros = ref(false)
 const donePros = ref(false)
@@ -85,6 +88,29 @@ watch(
   },
   { deep: true }
 );
+const handleInput = (index) => {
+  currentTextToEdit.value = index
+
+  donePros.value = false
+  console.log(`Text at index ${index} is being edited: ${texts.value[index].text}`);
+  showPros.value = true
+setTimeout(()=>{
+  donePros.value = true
+currentTextToEdit.value = ''
+ 
+},5000)
+
+};
+
+
+const cancelEditing = () => {
+  console.log('gg man',initialTexts.value[currentTextToEdit.value])
+  texts.value[currentTextToEdit.value].text = initialTexts.value[currentTextToEdit.value].text;
+  texts.value[currentTextToEdit.value].isEditing = false;
+  texts.value[currentTextToEdit.value].editButtonShow = false;
+  showPros.value = false
+  donePros.value = false
+};
 </script>
 
 <template>
@@ -126,16 +152,31 @@ watch(
     <div class="w-full scrollable-div" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
       <div class="mt-[16px] w-full ">
         <div class="space-y-2 flex flex-col items-start justify-center ">
-          <div v-for="(textItem, index) in texts" :key="index" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative ">
-            <button @click="startEditing(index)" v-if="textItem.editButtonShow && !textItem.isEditing" class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"> {{ $t('Edit') }} </button>
-            <div class="w-2/4 ">
+          <div v-for="(textItem, index) in texts" :key="index" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
+            <button
+              @click="startEditing(index)"
+              v-if="textItem.editButtonShow && !textItem.isEditing"
+              class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"
+            >
+              {{ $t('Edit') }}
+            </button>
+            <div class="w-2/4">
               <div v-if="!textItem.isEditing">
-                <p v-on-click-outside="() => { textItem.editButtonShow = false }" class="text-darkGrey font-[500] text-[12px] leading-[32px]" @click="textItem.editButtonShow = !textItem.editButtonShow">
+                <p
+                  v-on-click-outside="() => { textItem.editButtonShow = false }"
+                  class="text-darkGrey font-[500] text-[12px] leading-[32px]"
+                  @click="textItem.editButtonShow = !textItem.editButtonShow"
+                >
                   {{ textItem.text }}
                 </p>
               </div>
               <div v-else-if="textItem.isEditing">
-                <textarea v-model="textItem.text" v-on-click-outside="()=>{stopEditing(index)}" class="text-darkGrey font-[500] text-[12px] leading-[32px] w-full focus:ring-0 focus:outline-none border-0"></textarea>
+                <textarea
+                  v-model="textItem.text"
+                  @input="handleInput(index)"
+                  v-on-click-outside="() => stopEditing(index)"
+                  class="text-darkGrey font-[500] text-[12px] leading-[32px] w-full focus:ring-0 focus:outline-none border-0"
+                ></textarea>
               </div>
             </div>
             <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[20px] ipad-max:w-[45%] w-[40%] 3xl:w-[30%]">
@@ -143,14 +184,14 @@ watch(
                 <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/in_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{$t('In')}}</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('In') }}</span>
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
                   </div>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/out_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{$t('Out')}}</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('Out') }}</span>
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
                   </div>
                 </div>
@@ -165,7 +206,7 @@ watch(
     </div>
     <TranslateProjectModesSubtitlesTranslation class="w-full" />
     <TranslateProjectModesSubtitlesStyle class="w-full" />
-    <Processingfooter :show-footer="showPros" :done="donePros"  @cancel_action="showPros = false"/>
+    <Processingfooter :show-footer="showPros" :done="donePros" @close-footer="showPros = false"  @cancel_action="cancelEditing"/>
   </div>
 </template>
 

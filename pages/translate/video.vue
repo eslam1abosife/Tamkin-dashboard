@@ -40,7 +40,22 @@ setTimeout(()=>{
 },2000)
   }
 })
+const showFooter = computed(()=>{
+  const translateStyle =
+    translateStore.hasChanges &&
+    translateStore.subMode === "style" &&
+    translateStore.currentMode === "subtitles";
+  const translatePlayer =
 
+    translateStore.hasChangesPlayer &&
+    translateStore.currentMode === "player";
+
+
+  return translateStyle || translatePlayer
+})
+const cancelFooter = () => {
+  translateStore.cancelChanges()
+}
 
 </script>
 
@@ -75,5 +90,9 @@ setTimeout(()=>{
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
     <TranslateTable type="Translate video"/>
+    <transition name="slide-up">
+      <SavefooterTranslate :showFooter="showFooter"  @cancel_action="cancelFooter"/>
+
+    </transition>
   </div>
 </template>

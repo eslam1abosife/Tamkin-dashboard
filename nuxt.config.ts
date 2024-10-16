@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   ssr:false,
   // sourcemap: false,
 
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     commonjsOptions: {
       include: ['@/ck-vue'],
     },
-      transpile: ['@tiptap/vue-3', '@tiptap/starter-kit', '@tiptap/extension-*'],
+      // transpile: ['@tiptap/vue-3', '@tiptap/starter-kit', '@tiptap/extension-*'],
  
   },
 
