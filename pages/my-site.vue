@@ -3,33 +3,43 @@ import { Vue3Lottie } from "vue3-lottie";
 import { useModalManager } from "@/composables/useModalManager";
 import { useVuelidate } from "@vuelidate/core";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
-import { useDeleteApp, useRestoreApp, useGetPackage } from "@/composables/useMySite";
+import {
+  useDeleteApp,
+  useRestoreApp,
+  useGetPackage,
+} from "@/composables/useMySite";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-import {useCancelSubscription} from '@/composables/usePackages'
+import { useCancelSubscription } from "@/composables/usePackages";
 const { locale, t } = useI18n();
-const { $toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 
 const { updateDefaultApp, loading: submitLoading } = useUpdateDefaultApp();
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
-const { getInviteApps, defaultApp, apps, loading:getSitesLoading } = useGetAppInvites();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 const { getAvatarLetters } = useGetAvatarLetters();
 const mysiteStore = useMySiteStore();
 const { loadingBlock } = storeToRefs(mysiteStore);
-const {cancelPackage,codeStatus:subCodeStatus,messageStatus:subMessageStatus} = useCancelSubscription()
+const {
+  cancelPackage,
+  codeStatus: subCodeStatus,
+  messageStatus: subMessageStatus,
+} = useCancelSubscription();
 const route = useRoute();
 const router = useRouter();
 const getApps = async () => {
-  mysiteStore.loadingApps = true
+  mysiteStore.loadingApps = true;
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
-  mysiteStore.loadingApps = false
-
+  mysiteStore.loadingApps = false;
 };
 onMounted(async () => {
   getApps();
   checkPaymentStatus();
-
-
 });
 
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -81,7 +91,9 @@ const deletedSites = ref([
 
 const checkAll = computed({
   get() {
-    return deletedSites.value && checked.value.length === deletedSites.value.length;
+    return (
+      deletedSites.value && checked.value.length === deletedSites.value.length
+    );
   },
   set(value) {
     checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
@@ -103,7 +115,10 @@ const clearInput = () => {
 const visiblePages = computed(() => {
   const pages = [];
   const maxVisiblePages = 5; // Adjust this number for more or fewer visible pages
-  let startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2));
+  let startPage = Math.max(
+    1,
+    currentPage.value - Math.floor(maxVisiblePages / 2)
+  );
   let endPage = startPage + maxVisiblePages - 1;
 
   if (endPage > totalPages.value) {
@@ -121,7 +136,9 @@ const visiblePages = computed(() => {
 const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-const totalPages = computed(() => Math.ceil(appList.value.length / perPage.value));
+const totalPages = computed(() =>
+  Math.ceil(appList.value.length / perPage.value)
+);
 
 const changePerPage = (option: number) => {
   perPage.value = option;
@@ -205,7 +222,7 @@ watch(eventCounter, async () => {
     await deleteApp(currAppName.value.name);
     closeModal("deleteApp");
     currentTab.value = "deleted";
-   $toast(t("deleted successfully!"), { hideIn: 3000 });
+    $toast(t("deleted successfully!"), { hideIn: 3000 });
   } else if (lastEventCall.value === "restoreApp") {
     const { restoreApp } = useRestoreApp();
     await restoreApp(currAppName.value);
@@ -222,7 +239,9 @@ const deletedAppListLength = computed(() => {
   return apps.value
     .filter((ele) => ele.status === "deleted")
     .filter((ele) =>
-      ele.title.toLowerCase().includes(search.value.toString().toLowerCase().trim())
+      ele.title
+        .toLowerCase()
+        .includes(search.value.toString().toLowerCase().trim())
     ).length;
 });
 
@@ -242,45 +261,49 @@ const notDeletedAppListLength = computed(() => {
 const appList = computed(() => {
   if (currentTab.value !== "internal") {
     const translatedSearchValue = search.value.toLowerCase().trim();
-return apps.value.filter((ele) => {
-  // Check if the current tab is "deleted"
-  if (currentTab.value === "deleted") {
-    return ele.status === "deleted"; // Return only deleted items
-  } else {
-    // Return items that are not deleted and not "Internal Services"
-    // and also match the search value
-    return (
-      ele.status !== "deleted" &&
-      ele.type !== "Internal Services" &&
-      (ele.title.toLowerCase().includes(translatedSearchValue) || 
-       ele.app_domain.toLowerCase().includes(translatedSearchValue)) // Adjust properties as needed
-    );
-  }
-});
+    return apps.value.filter((ele) => {
+      // Check if the current tab is "deleted"
+      if (currentTab.value === "deleted") {
+        return ele.status === "deleted"; // Return only deleted items
+      } else {
+        // Return items that are not deleted and not "Internal Services"
+        // and also match the search value
+        return (
+          ele.status !== "deleted" &&
+          ele.type !== "Internal Services" &&
+          (ele.title.toLowerCase().includes(translatedSearchValue) ||
+            ele.app_domain.toLowerCase().includes(translatedSearchValue)) // Adjust properties as needed
+        );
+      }
+    });
 
-      // .filter((ele) => {
-      //   const translatedTitle = ele.title.toLowerCase().trim();
-      //   const titleForSearch =
-      //     currentTab.value === "internal" ? t(ele.title) : translatedTitle;
+    // .filter((ele) => {
+    //   const translatedTitle = ele.title.toLowerCase().trim();
+    //   const titleForSearch =
+    //     currentTab.value === "internal" ? t(ele.title) : translatedTitle;
 
-      //   const translatedSearchValue = search.value.toLowerCase().trim();
+    //   const translatedSearchValue = search.value.toLowerCase().trim();
 
-      //   return titleForSearch.includes(translatedSearchValue);
-      // })
+    //   return titleForSearch.includes(translatedSearchValue);
+    // })
 
-      // .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
+    // .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
   } else {
     return apps.value
       .find((t) => t.title === "Internal Service")
-      .package .filter((ele) => {
+      .package.filter((ele) => {
         const translatedTitle = ele.title.toLowerCase().trim();
         const titleForSearch =
-          currentTab.value === "internal" ?  t(`${ele.title}`).toLowerCase().trim() + ' - '+t(`${ele.package_category}`).toLowerCase().trim()  : translatedTitle;
+          currentTab.value === "internal"
+            ? t(`${ele.title}`).toLowerCase().trim() +
+              " - " +
+              t(`${ele.package_category}`).toLowerCase().trim()
+            : translatedTitle;
 
         const translatedSearchValue = search.value.toLowerCase().trim();
 
         return titleForSearch.includes(translatedSearchValue);
-      })
+      });
   }
 });
 const currentListOpen = ref();
@@ -307,12 +330,14 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     await loadingBlock.value.push({ app: app, pack: pack });
 
     if (
-      new Date(app.package.find((k) => k.name === pack).endpackage) < new Date() ||
+      new Date(app.package.find((k) => k.name === pack).endpackage) <
+        new Date() ||
       app.package.find((k) => k.name === pack).status === "Cancelled" ||
       app.package.find((k) => k.name === pack).status === "Rejected" ||
-      app.package.find((k) => k.name === pack).title === "Free" ||app.package.find((k)=>k.name === pack).cancel_package
+      app.package.find((k) => k.name === pack).title === "Free" ||
+      app.package.find((k) => k.name === pack).cancel_package
     ) {
-        mysiteStore.updatePayment =true     
+      mysiteStore.updatePayment = true;
 
       loadingBlock.value.push({ app: app, pack: pack });
 
@@ -324,9 +349,11 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       await mysiteStore.setCurrentPackage({
         ...packagemodal.package,
         package_price_role: packagemodal.price_roles,
-        billing_duration: app.package.find((k) => k.name === pack).billing_duration,
+        billing_duration: app.package.find((k) => k.name === pack)
+          .billing_duration,
         status:
-          new Date() > new Date(app.package.find((k) => k.name === pack).endpackage)
+          new Date() >
+          new Date(app.package.find((k) => k.name === pack).endpackage)
             ? "Expired"
             : app.package.find((k) => k.name === pack).status,
       });
@@ -338,7 +365,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       //   mysiteStore.updatePayment = false
       // }
       // if(app.title !== 'Internal Service') {
-        mysiteStore.updatePayment = true
+      mysiteStore.updatePayment = true;
       // }
       // alert(mysiteStore.updatePayment)
 
@@ -350,7 +377,8 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       await mysiteStore.setCurrentPackage({
         ...packagemodal.package,
         package_price_role: packagemodal.price_roles,
-        billing_duration: app.package.find((k) => k.name === pack).billing_duration,
+        billing_duration: app.package.find((k) => k.name === pack)
+          .billing_duration,
       });
 
       // mysiteStore.currentPackage = app.package ? :null
@@ -363,9 +391,9 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     }
   } else {
     loadingBlock.value.push({ app: app });
-    mysiteStore.updatePayment = false
-    mysiteStore.currentType = 'Sign language'
-    
+    mysiteStore.updatePayment = false;
+    mysiteStore.currentType = "Sign language";
+
     mysiteStore.currentWebsite = app;
     navigateTo(null, "mysite", "upgrade_no_package");
     loadingBlock.value.splice({ app: app });
@@ -413,69 +441,108 @@ const capitalizeFirstLetter = (str) => {
   if (!str) return str; // Return the string if it's empty or undefined
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-const cancelSubscriptionInternal = async ()=>{
-
-await cancelPackage(mysiteStore.currentInvoice,mysiteStore.currentWebsite.name)
-if(subCodeStatus.value === 200){
-  closeModal('cancel_subscription_internal')
-  $toast(t('Your subscription has been successfully cancelled.'),{hideIn:3000})
-  await getApps()
-}else {
-  $toast(subMessageStatus.value,{hideIn:3000,type:'error'})
-  closeModal('cancel_subscription_internal')
-
-
-}
-}
-
-
+const cancelSubscriptionInternal = async () => {
+  await cancelPackage(
+    mysiteStore.currentInvoice,
+    mysiteStore.currentWebsite.name
+  );
+  if (subCodeStatus.value === 200) {
+    closeModal("cancel_subscription_internal");
+    $toast(t("Your subscription has been successfully cancelled."), {
+      hideIn: 3000,
+    });
+    await getApps();
+  } else {
+    $toast(subMessageStatus.value, { hideIn: 3000, type: "error" });
+    closeModal("cancel_subscription_internal");
+  }
+};
 </script>
 
 <template>
   <div class="w-full">
     <ModalsConfirm
-    :show-modal="true"
-    v-if="isOpen('cancel_subscription_internal')"
-    title="Cancel Subscription"
-    sub-title="Are you sure you want to Cancel the subscription?"
-    confirm-btn-type="delete"
-    deleteButtonName="Cancel Subscription"
-    @control-delete="cancelSubscriptionInternal"
-    @control-cancel="closeModal('cancel_subscription_internal')"
-  />
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySiteNopackagebuy :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"  v-if="isOpen('upgrade_no_package')" />
+      :show-modal="true"
+      v-if="isOpen('cancel_subscription_internal')"
+      title="Cancel Subscription"
+      sub-title="Are you sure you want to Cancel the subscription?"
+      confirm-btn-type="delete"
+      deleteButtonName="Cancel Subscription"
+      @control-delete="cancelSubscriptionInternal"
+      @control-cancel="closeModal('cancel_subscription_internal')"
+    />
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MySiteUpgrade  :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'" v-if="isOpen('upgrade_mysite_package')" />
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentPaymentmethods />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
     </transition>
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentCryptoSuccess />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MySitePaymentPaypal />
     </transition>
     <div class="space-y-[10px]">
@@ -543,7 +610,10 @@ if(subCodeStatus.value === 200){
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
-                v-if="defaultApp?.title === 'Internal Service' && !mysiteStore.loadingApps"
+                v-if="
+                  defaultApp?.title === 'Internal Service' &&
+                  !mysiteStore.loadingApps
+                "
               />
 
               <div
@@ -554,7 +624,9 @@ if(subCodeStatus.value === 200){
                 "
                 class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
               >
-                {{ defaultApp?.title ? getAvatarLetters(defaultApp?.title) : "" }}
+                {{
+                  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
+                }}
               </div>
               <div
                 v-if="
@@ -592,7 +664,9 @@ if(subCodeStatus.value === 200){
                         ? formatToUrl(defaultApp.app_domain)
                         : ''
                     "
-                    :target="defaultApp?.title === 'Internal Service' ? '' : '_blank'"
+                    :target="
+                      defaultApp?.title === 'Internal Service' ? '' : '_blank'
+                    "
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                     >{{ $t("Visit Site") }}
                     <svg
@@ -614,8 +688,9 @@ if(subCodeStatus.value === 200){
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                      ></path></svg
-                  ></a>
+                      ></path>
+                    </svg>
+                  </a>
                 </div>
               </div>
             </div>
@@ -635,14 +710,16 @@ if(subCodeStatus.value === 200){
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
         class="relative h-[129px] w-full bg-white rounded-[10px] flex items-center justify-start"
       >
-        <div class="flex flex-col space-y-[4px] items-start justify-center p-[16px]">
+        <div
+          class="flex flex-col space-y-[4px] items-start justify-center p-[16px]"
+        >
           <div
             class="h-[30px] w-[300px] rtl:bg-gradient-to-l ltr:bg-gradient-to-r from-[#096BEB]/[14%] px-[10px] relative py-[4.5px] to-white flex items-center justify-start space-x-6"
           >
             <div class="text-[14px] font-[500] leading-[21px]">
               {{ $t("My Sites") }}
             </div>
-        
+
             <div class="text-[14px] font-[500] leading-[21px] absolute left-24">
               {{ apps.filter((ap) => ap.title !== "Internal Service").length }}
             </div>
@@ -688,12 +765,16 @@ if(subCodeStatus.value === 200){
           </div>
         </div>
         <div class="absolute top-0 rtl:left-[-26px] ltr:right-[-26px]">
-          <img src="/imgs/mysite.svg" alt="" class="h-full w-[210px] rtl:scale-x-[-1]" />
+          <img
+            src="/imgs/mysite.svg"
+            alt=""
+            class="h-full w-[210px] rtl:scale-x-[-1]"
+          />
         </div>
       </div>
     </div>
     <div
-     v-if="mysiteStore.loadingApps"
+      v-if="mysiteStore.loadingApps"
       class="ipad-max:mt-[24px] mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[24px]"
     >
       <!-- Placeholder Container -->
@@ -735,7 +816,9 @@ if(subCodeStatus.value === 200){
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
         class="relative h-[129px] w-full bg-white rounded-[10px] flex items-center justify-start animate-pulse"
       >
-        <div class="flex flex-col space-y-[4px] items-start justify-center p-[16px]">
+        <div
+          class="flex flex-col space-y-[4px] items-start justify-center p-[16px]"
+        >
           <!-- Placeholder for "My Sites" -->
           <div
             class="h-[30px] w-full relative py-[4.5px] to-white flex items-center justify-start space-x-6"
@@ -781,14 +864,19 @@ if(subCodeStatus.value === 200){
     </div>
 
     <section class="w-full mx-auto mt-[24px]">
-      <div class="flex flex-col" v-if="dataAvailable && !mysiteStore.loadingApps">
+      <div
+        class="flex flex-col"
+        v-if="dataAvailable && !mysiteStore.loadingApps"
+      >
         <div class="overflow-x-auto">
           <div class="inline-block min-w-full align-middle">
             <div
               class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
-              <div class="flex items-start justify-start lg:justify-between flex-row">
+              <div
+                class="flex items-start justify-start lg:justify-between flex-row"
+              >
                 <div
                   class="flex items-start rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px] lg:w-auto w-full"
                 >
@@ -805,7 +893,12 @@ if(subCodeStatus.value === 200){
                       class="text-[14px] px-[4px] pb-[20px] pt-[16px] dark:text-whiteTamkin text-[#021328]"
                       style="line-height: 21px"
                     >
-                      {{ $t("My Sites") }} (               {{ apps.filter((ap) => ap.title !== "Internal Service").length }}                      )
+                      {{ $t("My Sites") }} (
+                      {{
+                        apps.filter((ap) => ap.title !== "Internal Service")
+                          .length
+                      }}
+                      )
                     </div>
                   </div>
                   <div
@@ -840,8 +933,8 @@ if(subCodeStatus.value === 200){
                       {{ $t("Internal Service") }} (
                       {{
                         apps.length
-                          ? apps.find((t) => t.title === "Internal Service").package
-                              .length
+                          ? apps.find((t) => t.title === "Internal Service")
+                              .package.length
                           : 0
                       }}
                       )
@@ -888,9 +981,12 @@ if(subCodeStatus.value === 200){
                 </div>
               </div>
               <table
-              
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'saved' && paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
+                v-if="
+                  currentTab === 'saved' &&
+                  paginatedFilteredAppList.length > 0 &&
+                  !mysiteStore.loadingApps
+                "
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -994,7 +1090,10 @@ if(subCodeStatus.value === 200){
                 <tbody
                   class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
                 >
-                  <template v-for="(app, index) in paginatedFilteredAppList" :key="index">
+                  <template
+                    v-for="(app, index) in paginatedFilteredAppList"
+                    :key="index"
+                  >
                     <tr
                       class="h-[50px]"
                       :class="[
@@ -1003,7 +1102,8 @@ if(subCodeStatus.value === 200){
                         new Date() < new Date(app.package[0].endpackage)
                           ? 'bg-[#FAEBEB]'
                           : '',
-                        mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
+                        mysiteStore.selectedApp &&
+                        mysiteStore.selectedApp.name === app.name
                           ? 'border-[1px] drop-shadow-md !border-tamkinStart'
                           : 'border-[1px] ',
                       ]"
@@ -1054,7 +1154,11 @@ if(subCodeStatus.value === 200){
                       >
                         {{
                           app.package.length
-                            ? $t(capitalizeFirstLetter(app.package[0].billing_duration))
+                            ? $t(
+                                capitalizeFirstLetter(
+                                  app.package[0].billing_duration
+                                )
+                              )
                             : "-"
                         }}
                       </td>
@@ -1065,7 +1169,9 @@ if(subCodeStatus.value === 200){
                           v-if="app.package.length > 0"
                           class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                         >
-                          <div class="w-[20px] h-[20px] inline-block align-middle">
+                          <div
+                            class="w-[20px] h-[20px] inline-block align-middle"
+                          >
                             <img
                               v-if="app.package[0] && app.package[0].icon"
                               :src="
@@ -1078,7 +1184,9 @@ if(subCodeStatus.value === 200){
                           </div>
 
                           <!-- Title Container -->
-                          <div class="inline-block align-middle rtl:mr-2 ltr:ml-2">
+                          <div
+                            class="inline-block align-middle rtl:mr-2 ltr:ml-2"
+                          >
                             {{
                               app.package[0] && app.package[0].title
                                 ? $t(`${app.package[0].title}`)
@@ -1095,7 +1203,9 @@ if(subCodeStatus.value === 200){
                           <div
                             v-if="
                               app.package[0] &&
-                              new Date() > new Date(app.package[0].endpackage) && app.package[0].type !== 'Investors'
+                              new Date() >
+                                new Date(app.package[0].endpackage) &&
+                              app.package[0].type !== 'Investors'
                             "
                             class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                           >
@@ -1115,13 +1225,14 @@ if(subCodeStatus.value === 200){
                             {{ $t(`${app.package[0].status}`) }}
                           </div>
                           <div
-                          v-if="app.package[0].investor_status && app.package[0].investor_status === 'Active'"
-                          class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                        >
-                          {{
-                           $t(app.package[0].investor_status)
-                          }}
-                        </div>
+                            v-if="
+                              app.package[0].investor_status &&
+                              app.package[0].investor_status === 'Active'
+                            "
+                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                          >
+                            {{ $t(app.package[0].investor_status) }}
+                          </div>
                           <div
                             v-if="app.package[0].status === 'Pending'"
                             class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
@@ -1133,14 +1244,11 @@ if(subCodeStatus.value === 200){
                             }}
                           </div>
                           <div
-                          v-if="app.package[0].status === 'Active'"
-                          class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                        >
-                          {{
-                        
-                           $t(`${app.package[0].status}`)
-                          }}
-                        </div>
+                            v-if="app.package[0].status === 'Active'"
+                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                          >
+                            {{ $t(`${app.package[0].status}`) }}
+                          </div>
                           <div
                             @click="$router.push(localePath('/embed-code'))"
                             v-if="
@@ -1159,11 +1267,18 @@ if(subCodeStatus.value === 200){
                       <td
                         class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                       >
-                        {{ app.package.length=== 0 ? '-' :new Date(app.creation).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                          year: 'numeric',
-                          month: 'long', 
-                          day: 'numeric',
-                        }) }}
+                        {{
+                          app.package.length === 0
+                            ? "-"
+                            : new Date(app.creation).toLocaleDateString(
+                                locale === "ar" ? "ar-EG" : "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              )
+                        }}
                       </td>
                       <td
                         class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1176,7 +1291,11 @@ if(subCodeStatus.value === 200){
                         <div
                           class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
                         >
-                          <button :disabled="(app.package.length && app.package[0].status === 'Pending')"
+                          <button
+                            :disabled="
+                              app.package.length &&
+                              app.package[0].status === 'Pending'
+                            "
                             class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
                             @click="
                               getPackageAndOpenPaymenModal(
@@ -1227,10 +1346,13 @@ if(subCodeStatus.value === 200){
                             </svg>
                           </button>
 
-                          <button 
-                          :disabled="(app.package.length && app.package[0].status === 'Pending')"
-                          @click="openDeleteMember(app)"              
-                                      class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
+                          <button
+                            :disabled="
+                              app.package.length &&
+                              app.package[0].status === 'Pending'
+                            "
+                            @click="openDeleteMember(app)"
+                            class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
                           >
                             <svg
                               width="18"
@@ -1249,17 +1371,23 @@ if(subCodeStatus.value === 200){
 
                           <button
                             :disabled="
-                              app.package.length === 1 || app.package.length === 0
+                              app.package.length === 1 ||
+                              app.package.length === 0
                             "
                             @click.prevent="
                               () => {
-                                mysiteStore.selectedApp = mysiteStore.selectedApp === app ? null : app;
+                                mysiteStore.selectedApp =
+                                  mysiteStore.selectedApp === app ? null : app;
                               }
                             "
                             class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50"
                           >
                             <svg
-                              :class="mysiteStore.selectedApp === app ? 'rotate-180' : ''"
+                              :class="
+                                mysiteStore.selectedApp === app
+                                  ? 'rotate-180'
+                                  : ''
+                              "
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
@@ -1278,20 +1406,27 @@ if(subCodeStatus.value === 200){
                       </td>
                     </tr>
 
-                    <template v-if="mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name">
+                    <template
+                      v-if="
+                        mysiteStore.selectedApp &&
+                        mysiteStore.selectedApp.name === app.name
+                      "
+                    >
                       <tr
-                      
                         :class="[
-                          mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
+                          mysiteStore.selectedApp &&
+                          mysiteStore.selectedApp.name === app.name
                             ? '!border-[1px]  !border-t-0  !border-tamkinStart'
                             : '',
-                           pack.status === 'not_installed' &&
-                            new Date() < new Date(pack.endpackage)
-                              ? 'bg-[#FAEBEB]'
-                              : '',
+                          pack.status === 'not_installed' &&
+                          new Date() < new Date(pack.endpackage)
+                            ? 'bg-[#FAEBEB]'
+                            : '',
                         ]"
                         class="h-[50px]"
-                        v-for="(pack, i) in mysiteStore.selectedApp.package.slice(1)"
+                        v-for="(
+                          pack, i
+                        ) in mysiteStore.selectedApp.package.slice(1)"
                         :key="i"
                       >
                         <td class="w-[25%]">
@@ -1315,10 +1450,16 @@ if(subCodeStatus.value === 200){
                                 v-else
                                 class="size-8 bg-[#2DADA3] rounded-full text-white flex items-center justify-center text-[12px]"
                               >
-                                {{ getAvatarLetters(mysiteStore.selectedApp?.title) }}
+                                {{
+                                  getAvatarLetters(
+                                    mysiteStore.selectedApp?.title
+                                  )
+                                }}
                               </div>
 
-                              <div class="order-1">{{ mysiteStore.selectedApp.app_domain }}</div>
+                              <div class="order-1">
+                                {{ mysiteStore.selectedApp.app_domain }}
+                              </div>
                             </a>
                             <!-- <div
             v-if="defaultApp.name === app.name"
@@ -1345,33 +1486,45 @@ if(subCodeStatus.value === 200){
                         >
                           <div v-if="pack" class="">
                             <!-- Image Container -->
-                            <div class="w-[20px] h-[20px] inline-block align-middle">
+                            <div
+                              class="w-[20px] h-[20px] inline-block align-middle"
+                            >
                               <img
                                 v-if="pack.icon"
-                                :src="runtimeConfig.public.baseImagerUrl + pack.icon"
+                                :src="
+                                  runtimeConfig.public.baseImagerUrl + pack.icon
+                                "
                                 class="w-[20px] h-[20px]"
                                 alt=""
                               />
                             </div>
 
                             <!-- Title Container -->
-                            <div class="inline-block align-middle rtl:mr-2 ltr:ml-2">
+                            <div
+                              class="inline-block align-middle rtl:mr-2 ltr:ml-2"
+                            >
                               {{
-                                pack && pack.title ? $t(`${pack.title}`) : "Draft website"
+                                pack && pack.title
+                                  ? $t(`${pack.title}`)
+                                  : "Draft website"
                               }}
                             </div>
                           </div>
 
-                          <div class="rtl:text-right ltr:text-left" v-else>-</div>
+                          <div class="rtl:text-right ltr:text-left" v-else>
+                            -
+                          </div>
                         </td>
                         <td
                           class="lg:px-0 w-[150px] mx-auto text-center text-darkGrey dark:text-whiteTamkin"
                         >
-                    
-                          <div v-if="mysiteStore.selectedApp.package.length > 0">
+                          <div
+                            v-if="mysiteStore.selectedApp.package.length > 0"
+                          >
                             <div
                               v-if="
-                                pack.endpackage && new Date() > new Date(pack.endpackage)
+                                pack.endpackage &&
+                                new Date() > new Date(pack.endpackage)
                               "
                               class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                             >
@@ -1384,14 +1537,11 @@ if(subCodeStatus.value === 200){
                               {{ $t(`${pack.status}`) }}
                             </div>
                             <div
-                            v-if="pack.status === 'Active'"
-                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                          >
-                            {{
-                             
-                                 $t(`${pack.status}`)
-                            }}
-                          </div>
+                              v-if="pack.status === 'Active'"
+                              class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                            >
+                              {{ $t(`${pack.status}`) }}
+                            </div>
                             <div
                               v-if="pack.status === 'Pending'"
                               class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
@@ -1419,18 +1569,27 @@ if(subCodeStatus.value === 200){
                         <td
                           class="ltr:text-left rtl:text-right w-[150px] text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
-                          {{ new Date(mysiteStore.selectedApp.creation).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                            year: 'numeric',
-                            month: 'long', 
-                            day: 'numeric',
-                          }) }}
+                          {{
+                            new Date(
+                              mysiteStore.selectedApp.creation
+                            ).toLocaleDateString(
+                              locale === "ar" ? "ar-EG" : "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          }}
                         </td>
                         <td
                           class="rtl:text-right ltr:text-left w-[150px] text-[14px] leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
                           {{ formatNumber(mysiteStore.selectedApp.traffic) }}
                         </td>
-                        <td class="text-[14px] w-[150px] font-[400] text-darkGrey">
+                        <td
+                          class="text-[14px] w-[150px] font-[400] text-darkGrey"
+                        >
                           <div
                             class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
                           >
@@ -1483,7 +1642,9 @@ if(subCodeStatus.value === 200){
                               </svg>
                             </button>
 
-                            <button @click="openDeleteMember(mysiteStore.selectedApp)">
+                            <button
+                              @click="openDeleteMember(mysiteStore.selectedApp)"
+                            >
                               <svg
                                 width="18"
                                 height="17"
@@ -1682,10 +1843,11 @@ if(subCodeStatus.value === 200){
               </table>
 
               <table
-            
                 class="min-w-full divide-y divide-gray-200 dark:divide-darkborder"
                 v-else-if="
-                  currentTab === 'deleted' && paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps
+                  currentTab === 'deleted' &&
+                  paginatedFilteredAppList.length > 0 &&
+                  !mysiteStore.loadingApps
                 "
               >
                 <thead>
@@ -1742,7 +1904,6 @@ if(subCodeStatus.value === 200){
               </table>
 
               <table
-              
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
                 v-if="currentTab === 'internal' && !mysiteStore.loadingApps"
               >
@@ -1809,7 +1970,9 @@ if(subCodeStatus.value === 200){
                             " - " +
                             $t(
                               `${
-                                pk.title === "Free" ? pk.category1 : pk.package_category
+                                pk.title === "Free"
+                                  ? pk.category1
+                                  : pk.package_category
                               }`
                             )
                           }}
@@ -1853,7 +2016,9 @@ if(subCodeStatus.value === 200){
                         {{ $t(`Expired`) }}
                       </div>
                       <div
-                        v-if="pk.status === 'Pending' || pk.status === 'Pendding'"
+                        v-if="
+                          pk.status === 'Pending' || pk.status === 'Pendding'
+                        "
                         class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] w-[100px] text-white text-[12px] leading-[18px]"
                       >
                         {{
@@ -1873,11 +2038,14 @@ if(subCodeStatus.value === 200){
                       class="ltr:text-left rtl:text-right text-[12px] lg:text-[14px] leading-[24px] whitespace-nowrap lg:leading-[21px] font-[400] text-darkGrey dark:text-whiteTamkin"
                     >
                       {{
-                        new Date(pk.from_date).toLocaleDateString(locale === 'ar' ? 'ar-EG' : 'en-US', {
-                          year: 'numeric',
-                          month: 'long', 
-                          day: 'numeric',
-                        })
+                        new Date(pk.from_date).toLocaleDateString(
+                          locale === "ar" ? "ar-EG" : "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
                       }}
                     </td>
 
@@ -1891,9 +2059,7 @@ if(subCodeStatus.value === 200){
                               (a) =>
                                 (pk ? a.pack === pk.name : true) &&
                                 a.app === internalServiceApp
-                            ) ||
-                          
-                            pk.status === 'Pending' 
+                            ) || pk.status === 'Pending'
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
                           @click="
@@ -1938,17 +2104,21 @@ if(subCodeStatus.value === 200){
                         </button>
 
                         <button
-                          :disabled="pk.title == 'Free'||
-                          
-                          pk.status === 'Pending'|| pk.cancel_package"
-                          @click="()=>{
-                            mysiteStore.currentInvoice = pk.invoice_name
-                            mysiteStore.currentWebsite = apps.find(a=>a.title === 'Internal Service')
+                          :disabled="
+                            pk.title == 'Free' ||
+                            pk.status === 'Pending' ||
+                            pk.cancel_package
+                          "
+                          @click="
+                            () => {
+                              mysiteStore.currentInvoice = pk.invoice_name;
+                              mysiteStore.currentWebsite = apps.find(
+                                (a) => a.title === 'Internal Service'
+                              );
 
-                            openModal('cancel_subscription_internal')
-                          
-
-                          }"
+                              openModal('cancel_subscription_internal');
+                            }
+                          "
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
                         >
                           <svg
@@ -1980,7 +2150,8 @@ if(subCodeStatus.value === 200){
                 v-if="
                   currentTab === 'deleted' &&
                   paginatedFilteredAppList.length === 0 &&
-                  !search && !mysiteStore.loadingApps
+                  !search &&
+                  !mysiteStore.loadingApps
                 "
                 imgUrl="/assets/imgs/no_sites.svg"
                 :text="$t('No sites have been deleted')"
@@ -1993,7 +2164,8 @@ if(subCodeStatus.value === 200){
                   currentTab === 'saved' &&
                   paginatedFilteredAppList.length === 0 &&
                   !search &&
-                  appList.length === 0 && !mysiteStore.loadingApps
+                  appList.length === 0 &&
+                  !mysiteStore.loadingApps
                 "
                 imgUrl="/assets/imgs/no_sites.svg"
                 text="You don't have any sites now"
@@ -2012,7 +2184,7 @@ if(subCodeStatus.value === 200){
       <div
         class="flex flex-col justify-start rounded-[10px] pt-[12px] pb-[16px] mb-[16px] bg-white dark:bg-tamkinDarkPrimary"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
-       v-if="mysiteStore.loadingApps"
+        v-if="mysiteStore.loadingApps"
       >
         <div class="relative overflow-x-auto w-full">
           <table
@@ -2023,22 +2195,30 @@ if(subCodeStatus.value === 200){
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
                 >
-                  <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
                 <th
                   class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
               </tr>
             </thead>
@@ -2063,31 +2243,42 @@ if(subCodeStatus.value === 200){
                 <td
                   class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
                 <td
                   class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="flex flex-col" v-if="!dataAvailable && !mysiteStore.loadingApps">
+      <div
+        class="flex flex-col"
+        v-if="!dataAvailable && !mysiteStore.loadingApps"
+      >
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full align-middle md:px-6 lg:px-8">
             <div
               class="flex flex-col items-between justify-center rounded-[10px] pb-[42px] mb-[16px] dark:bg-tamkinDarkPrimary bg-white"
               style="box-shadow: 0px 4px 24px 8px #51459f1a"
             >
-              <div class="flex items-center justify-center lg:justify-between flex-row">
+              <div
+                class="flex items-center justify-center lg:justify-between flex-row"
+              >
                 <div
                   class="flex items-center rtl:space-x-reverse space-x-[16px] ltr:pl-[16px] rtl:pr-[16px]"
                 >
@@ -2104,7 +2295,9 @@ if(subCodeStatus.value === 200){
                 <div
                   class="flex items-center justify-between ltr:pr-[16px] rtl:pl-[16px] w-2/4"
                 >
-                  <div class="py-[17px] search_input w-full ltr:mr-[16px] rtl:ml-[16px]">
+                  <div
+                    class="py-[17px] search_input w-full ltr:mr-[16px] rtl:ml-[16px]"
+                  >
                     <input
                       type="text"
                       class="input_dashboard_search w-full"
@@ -2127,18 +2320,26 @@ if(subCodeStatus.value === 200){
                 </div>
               </div>
               <table class="min-w-full divide-y divide-gray-200">
-                <div class="flex items-center justify-center h-[188px] mt-[74px]">
-                  <div class="flex flex-col items-center justify-center space-y-[12px]">
+                <div
+                  class="flex items-center justify-center h-[188px] mt-[74px]"
+                >
+                  <div
+                    class="flex flex-col items-center justify-center space-y-[12px]"
+                  >
                     <div>
                       <img src="/assets/imgs/no_sites.svg" />
                     </div>
                     <div class="mx-auto">
-                      <h2 class="text-[15px] leading-[22.5px] font-[400] text-darkGrey">
+                      <h2
+                        class="text-[15px] leading-[22.5px] font-[400] text-darkGrey"
+                      >
                         {{ $t(`You don't have any sites now`) }}
                       </h2>
                       <div class="w-[140px] mt-[40px] mx-auto">
                         <button
-                          @click="$router.push({ path: localePath('/add-site') })"
+                          @click="
+                            $router.push({ path: localePath('/add-site') })
+                          "
                           class="btn-dashboard hover_tamkin text-[16px] mx-auto leading-[24px] font-[500]"
                         >
                           {{ $t("Add New Site") }}
@@ -2157,7 +2358,9 @@ if(subCodeStatus.value === 200){
         class="flex flex-col lg:flex-row md:flex-row justify-between items-center pb-[16px]"
         v-if="paginatedFilteredAppList.length > 0 && !mysiteStore.loadingApps"
       >
-        <div class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0"
+        >
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >

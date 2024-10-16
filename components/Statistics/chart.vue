@@ -224,7 +224,7 @@ const closeMenu = () => {
 
 <template>
   <div
-    class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
+    class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
   >
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">

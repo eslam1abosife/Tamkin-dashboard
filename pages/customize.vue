@@ -65,10 +65,10 @@ const backgroundImageStyle = computed(() => {
 });
 
 const thumbStyle = computed(() => {
-  // const minSize = 50; // Min size of outer circle
-  // const maxSize = 65; // Max size of outer circle
-  const size = buttonSizeSlider.value;
-  // minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
+  const minSize = 50; // Min size of outer circle
+  const maxSize = 65; // Max size of outer circle
+  const size =
+    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (97 - 2); // Scaled size
   const position = langStore.direction === "rtl" ? "right" : "left";
 
   return {
@@ -82,30 +82,27 @@ const thumbStyle = computed(() => {
   };
 });
 const border_style = computed(() => {
-  // const minSize = 36; // Min size of outer circle
-  // const maxSize = 40; // Max size of outer circle
-  // const size =
-  //   minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
-
-  return {
-    width: `${buttonSizeSlider.value}px`,
-    height: `${buttonSizeSlider.value}px`,
-    left: `${buttonSizeSlider.value}%`,
-    "min-width": "32px",
-    "min-height": "32px",
-  };
-});
-const imgStyle = computed(() => {
-  const minSize = 26; // Min size of inner icon
-  const maxSize = 80; // Max size of inner icon
-  const size = buttonSizeSlider.value;
-  // minSize + (maxSize - minSize) / (98 - 2);
+  const minSize = 36; // Min size of outer circle
+  const maxSize = 40; // Max size of outer circle
+  const size =
+    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
 
   return {
     width: `${size}px`,
     height: `${size}px`,
-    "min-width": "23px",
-    "min-height": "23px",
+    left: `${buttonSizeSlider.value}%`,
+  };
+});
+
+const imgStyle = computed(() => {
+  const minSize = 26; // Min size of inner icon
+  const maxSize = 80; // Max size of inner icon
+  const size =
+    minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
+
+  return {
+    width: `${size}px`,
+    height: `${size}px`,
   };
 });
 
@@ -275,7 +272,7 @@ onBeforeRouteLeave((to, from, next) => {
         v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
       >
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[100px] p-4"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"
@@ -300,7 +297,8 @@ onBeforeRouteLeave((to, from, next) => {
         />
         <div v-else>
           <div
-            class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
+            v-if="customizeStore.isBtnColorActive"
+            class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('button_color_card')
                 ? 'pb-[24px]'
@@ -650,6 +648,7 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
+            v-if="customizeStore.isBtnTypeActive"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('button_type_card')
@@ -943,10 +942,13 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
           </div>
 
-          <CustomizeLiveButtonTranslation />
+          <CustomizeLiveButtonTranslation
+            v-if="customizeStore.isLiveTransBtnActive"
+          />
 
-          <CustomizeButtonLocation />
+          <CustomizeButtonLocation v-if="customizeStore.isBtnLocationActive" />
           <div
+            v-if="customizeStore.isWidgetCustomizationActive"
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
             <div
@@ -1134,6 +1136,7 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
+            v-if="customizeStore.isAccessibilityModeCardActive"
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
             <div
@@ -1318,10 +1321,12 @@ onBeforeRouteLeave((to, from, next) => {
             />
           </div>
 
-          <CustomizeAdjustMainMenu />
-          <CustomizeAccessibilityProfiles />
-          <CustomizeWidgetType />
-          <CustomizeLanguage />
+          <CustomizeAdjustMainMenu v-if="customizeStore.isMainMenuActive" />
+          <CustomizeAccessibilityProfiles
+            v-if="customizeStore.isProfilesCardsctive"
+          />
+          <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
+          <CustomizeLanguage v-if="customizeStore.isLanguagective" />
           <CustomizeCustomTrigger />
         </div>
       </div>

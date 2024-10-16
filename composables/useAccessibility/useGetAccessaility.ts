@@ -31,6 +31,14 @@ export default function () {
       settingsStore.features = getnamesFeature;
 
       // button color
+      const isBtnColorActive = features.find(
+        (feature: any) => feature.name === "acc-customize-button-color"
+      );
+      if (isBtnColorActive.active == 1) {
+        customizeStore.isBtnColorActive = true;
+      } else {
+        customizeStore.isBtnColorActive = false;
+      }
       const colorMode = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
@@ -53,6 +61,15 @@ export default function () {
       }
 
       // button type shape
+      const isBtnTypeActive = features.find(
+        (feature: any) => feature.name === "acc-customize-button-type"
+      );
+      if (isBtnTypeActive.active == 1) {
+        customizeStore.isBtnTypeActive = true;
+      } else {
+        customizeStore.isBtnTypeActive = false;
+      }
+
       const buttonshape = features
         .find((feature: any) => feature.name === "acc-customize-button-type")
         .features.find(
@@ -84,6 +101,14 @@ export default function () {
         customizeStore.$state.initbuttonSizeSlider = buttonsize.value;
       }
       // handle position
+      const isBtnLocationActive = features.find(
+        (feature: any) => feature.name === "acc-customize-button-location"
+      );
+      if (isBtnLocationActive.active == 1) {
+        customizeStore.isBtnLocationActive = true;
+      } else {
+        customizeStore.isBtnLocationActive = false;
+      }
       const buttonDesktopPosition = features
         .find(
           (feature: any) => feature.name === "acc-customize-button-location"
@@ -113,6 +138,16 @@ export default function () {
       }
 
       // handle button translation
+      const isLiveTransActive = features.find(
+        (feature: any) => feature.name === "acc-customize-translations-button"
+      );
+
+      if (isLiveTransActive.active == 1) {
+        customizeStore.isLiveTransBtnActive = true;
+      } else {
+        customizeStore.isLiveTransBtnActive = false;
+      }
+
       const checkEnabledButtonTrans = features
         .find(
           (feature: any) => feature.name === "acc-customize-translations-button"
@@ -201,6 +236,16 @@ export default function () {
         }
       }
 
+      const isWidgetCustomizationActive = features.find(
+        (feature: any) => feature.name === "acc-customize-widget-customization-"
+      );
+
+      if (isWidgetCustomizationActive.active == 1) {
+        customizeStore.isWidgetCustomizationActive = true;
+      } else {
+        customizeStore.isWidgetCustomizationActive = false;
+      }
+
       // oversized widget
       const isOversized = features
         .find(
@@ -262,6 +307,14 @@ export default function () {
       }
 
       // acc mode
+      const isAccessibilityModeCardActive = features.find(
+        (feature: any) => feature.name === "acc-customize-accessibility-mode"
+      );
+      if (isAccessibilityModeCardActive.active == 1) {
+        customizeStore.isAccessibilityModeCardActive = true;
+      } else {
+        customizeStore.isAccessibilityModeCardActive = false;
+      }
       const isAccModeActive = features
         .find(
           (feature: any) => feature.name === "acc-customize-accessibility-mode"
@@ -289,14 +342,15 @@ export default function () {
       );
 
       if (mainMenu.active == 1) {
+        customizeStore.isMainMenuActive = true;
         customizeStore.initializeCardsMenu(
-          mainMenu.features,
+          mainMenu.features.filter((el: any) => el.active == 1),
           "AdjustMainMenuCardsCustomize",
           "initialCardsOrderCustomize"
         );
 
         checkboxStore.initializeCardsMenu(
-          mainMenu.features,
+          mainMenu.features.filter((el: any) => el.active == 1),
           "AdjustMainMenuCards",
           "initialCardsOrder"
         );
@@ -309,6 +363,8 @@ export default function () {
             checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
+      } else {
+        customizeStore.isMainMenuActive = false;
       }
 
       // accessbility profiles
@@ -317,14 +373,15 @@ export default function () {
       );
 
       if (profileItems.active == 1) {
+        customizeStore.isProfilesCardsctive = true;
         customizeStore.initializeCardsMenu(
-          profileItems.features,
+          profileItems.features.filter((el: any) => el.active == 1),
           "manageProfileCardsCustomize",
           "initialManageProfileCardsCustomize"
         );
 
         checkboxStore.initializeCardsMenu(
-          profileItems.features,
+          profileItems.features.filter((el: any) => el.active == 1),
           "manageProfileCards",
           "initialManageProfileCards"
         );
@@ -337,9 +394,20 @@ export default function () {
             checkboxStore.toggleInitialCheckbox(element.name);
           }
         });
+      } else {
+        customizeStore.isProfilesCardsctive = false;
       }
 
       // acc widget type
+      const isAccWidgetTypeActive = features.find(
+        (feature: any) => feature.name === "acc-customize-widget-type"
+      );
+      if (isAccWidgetTypeActive.active == 1) {
+        customizeStore.isAccWidgetTypeActive = true;
+      } else {
+        customizeStore.isAccWidgetTypeActive = false;
+      }
+
       const AccWidgetType = features
         .find((feature: any) => feature.name === "acc-customize-widget-type")
         .features.find(
@@ -353,6 +421,15 @@ export default function () {
       res.data.data.languages.forEach((el: any) => {
         customizeStore.$state.languages.push(el);
       });
+      const isLang = features.find(
+        (feature: any) => feature.name === "acc-customize-language"
+      );
+
+      if (isLang.active == 1) {
+        customizeStore.isLanguagective = true;
+      } else {
+        customizeStore.isLanguagective = false;
+      }
 
       const selectLang = features
         .find((feature: any) => feature.name === "acc-customize-language")
@@ -400,6 +477,15 @@ export default function () {
       }
 
       // acc isEnableSoundEffect
+      const isAccessibilitySettingsActive = features.find(
+        (feature: any) => feature.name === "acc-setting-general-settings"
+      );
+      if (isAccessibilitySettingsActive.active == 1) {
+        customizeStore.isAccessibilitySettingsActive = true;
+      } else {
+        customizeStore.isAccessibilitySettingsActive = false;
+      }
+
       const isEnableSoundEffect = features
         .find((feature: any) => feature.name === "acc-setting-general-settings")
         .features.find(
@@ -444,6 +530,24 @@ export default function () {
         settingsStore.toggleinitialCheckbox(
           "acc-setting-general-settings-widget-enabled-on-this-site"
         );
+      }
+      // reset settings
+      const isAccessibilityResetActive = features.find(
+        (feature: any) =>
+          feature.name === "acc-setting-rest-all-accessibility-settings"
+      );
+      if (isAccessibilityResetActive.active == 1) {
+        customizeStore.isAccessibilityResetActive = true;
+      } else {
+        customizeStore.isAccessibilityResetActive = false;
+      }
+      const isAccessibilityLiecenceTransferActive = features.find(
+        (feature: any) => feature.name === "acc-setting-license-settings"
+      );
+      if (isAccessibilityLiecenceTransferActive.active == 1) {
+        customizeStore.isAccessibilityLiecenceTransferActive = true;
+      } else {
+        customizeStore.isAccessibilityLiecenceTransferActive = false;
       }
 
       checkboxStore.loadingData = false;

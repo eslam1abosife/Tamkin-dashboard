@@ -13,6 +13,19 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    isMainMenuActive: false,
+    isProfilesCardsctive: false,
+    isLanguagective: false,
+    isLiveTransBtnActive: false,
+    isWidgetCustomizationActive: false,
+    isAccessibilityModeCardActive: false,
+    isAccWidgetTypeActive: false,
+    isBtnColorActive: false,
+    isBtnTypeActive: false,
+    isBtnLocationActive: false,
+    isAccessibilitySettingsActive: false,
+    isAccessibilityResetActive: false,
+    isAccessibilityLiecenceTransferActive: false,
     features: [],
     loadingData: false,
     currentColor: "#2dada3",
