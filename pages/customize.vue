@@ -265,8 +265,10 @@ onBeforeRouteLeave((to, from, next) => {
   <div class="relative h-full w-full">
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Customize"
-        section-sub-title="Customization empowers users to shape their digital environment"
+        :section-title="$t('Customize')"
+        :section-sub-title="
+          $t('Customization empowers users to shape their digital environment')
+        "
       />
 
       <div
@@ -311,9 +313,11 @@ onBeforeRouteLeave((to, from, next) => {
                   class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
                   {{
-                    customizeStore.getAccAttributes(
-                      "acc-customize-button-color"
-                    )?.title
+                    $t(
+                      customizeStore.getAccAttributes(
+                        "acc-customize-button-color"
+                      )?.title
+                    )
                   }}
                 </h1>
                 <p
@@ -325,16 +329,20 @@ onBeforeRouteLeave((to, from, next) => {
                     "
                   >
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-button-color"
-                      )?.description_on_show
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-button-color"
+                        )?.description_on_show
+                      )
                     }}
                   </span>
                   <span v-else>
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-button-color"
-                      )?.description_on_hide
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-button-color"
+                        )?.description_on_hide
+                      )
                     }}
                   </span>
                 </p>
@@ -655,8 +663,11 @@ onBeforeRouteLeave((to, from, next) => {
                   class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
                   {{
-                    customizeStore.getAccAttributes("acc-customize-button-type")
-                      ?.title
+                    $t(
+                      customizeStore.getAccAttributes(
+                        "acc-customize-button-type"
+                      )?.title
+                    )
                   }}
                 </h1>
                 <p
@@ -666,16 +677,20 @@ onBeforeRouteLeave((to, from, next) => {
                     v-if="!collapseStore.collapses.includes('button_type_card')"
                   >
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-button-type"
-                      )?.description_on_show
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-button-type"
+                        )?.description_on_show
+                      )
                     }}
                   </span>
                   <span v-else>
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-button-type"
-                      )?.description_on_hide
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-button-type"
+                        )?.description_on_hide
+                      )
                     }}
                   </span>
                 </p>
@@ -942,9 +957,11 @@ onBeforeRouteLeave((to, from, next) => {
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
                   {{
-                    customizeStore.getAccAttributes(
-                      "acc-customize-widget-customization-"
-                    )?.title
+                    $t(
+                      customizeStore.getAccAttributes(
+                        "acc-customize-widget-customization-"
+                      )?.title
+                    )
                   }}
                 </h1>
 
@@ -957,16 +974,20 @@ onBeforeRouteLeave((to, from, next) => {
                     "
                   >
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-widget-customization-"
-                      )?.description_on_show
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-widget-customization-"
+                        )?.description_on_show
+                      )
                     }}
                   </span>
                   <span v-else>
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-widget-customization-"
-                      )?.description_on_hide
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-widget-customization-"
+                        )?.description_on_hide
+                      )
                     }}
                   </span>
                 </p>
@@ -1123,9 +1144,11 @@ onBeforeRouteLeave((to, from, next) => {
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
                   {{
-                    customizeStore.getAccAttributes(
-                      "acc-customize-accessibility-mode"
-                    )?.title
+                    $t(
+                      customizeStore.getAccAttributes(
+                        "acc-customize-accessibility-mode"
+                      )?.title
+                    )
                   }}
                 </h1>
 
@@ -1136,16 +1159,20 @@ onBeforeRouteLeave((to, from, next) => {
                     v-if="!collapseStore.collapses.includes('access_mode_card')"
                   >
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-accessibility-mode"
-                      )?.description_on_show
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-accessibility-mode"
+                        )?.description_on_show
+                      )
                     }}
                   </span>
                   <span v-else>
                     {{
-                      customizeStore.getAccAttributes(
-                        "acc-customize-accessibility-mode"
-                      )?.description_on_hide
+                      $t(
+                        customizeStore.getAccAttributes(
+                          "acc-customize-accessibility-mode"
+                        )?.description_on_hide
+                      )
                     }}
                   </span>
                 </p>

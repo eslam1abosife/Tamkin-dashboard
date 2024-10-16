@@ -3,9 +3,7 @@ import { vOnClickOutside } from "@vueuse/components";
 
 import draggable from "vuedraggable";
 const checkboxStore = useAddonStore();
-const props = defineProps({
-  loading: Boolean,
-});
+
 const collapseStore = useCollapseStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
@@ -28,24 +26,19 @@ onMounted(() => {});
 
 <template>
   <div
-    :class="[loading ? 'pt-[24px]' : '']"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-    <div
-      v-if="loading"
-      class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
-    ></div>
-    <div class="animate-pulse space-y-4 mt-[22px]" v-if="loading">
-      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6" :key="s"></div>
-    </div>
-    <div class="flex items-center justify-start pt-[24px]" v-if="!loading">
+    <div class="flex items-center justify-start pt-[24px]">
       <div>
         <h1
           class="xs:text-[12px] text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            checkboxStore.getAccAttributes("acc-addons-accessibility-profiles")
-              ?.title
+            $t(
+              checkboxStore.getAccAttributes(
+                "acc-addons-accessibility-profiles"
+              )?.title
+            )
           }}
         </h1>
         <h2
@@ -53,16 +46,28 @@ onMounted(() => {});
         >
           <span v-if="!collapseStore.collapses.includes('ManageCard')">
             {{
-              checkboxStore.getAccAttributes(
-                "acc-addons-accessibility-profiles"
-              )?.description_on_show
+              $t(
+                checkboxStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_show
+                  ? checkboxStore.getAccAttributes(
+                      "acc-addons-accessibility-profiles"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              checkboxStore.getAccAttributes(
-                "acc-addons-accessibility-profiles"
-              )?.description_on_hide
+              $t(
+                checkboxStore.getAccAttributes(
+                  "acc-addons-accessibility-profiles"
+                )?.description_on_hide
+                  ? checkboxStore.getAccAttributes(
+                      "acc-addons-accessibility-profiles"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </h2>
@@ -198,7 +203,7 @@ onMounted(() => {});
 
     <div
       class="flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
-      v-if="!collapseStore.collapses.includes('ManageCard') && !loading"
+      v-if="!collapseStore.collapses.includes('ManageCard')"
     >
       <draggable
         v-model="checkboxStore.manageProfileCards"
@@ -292,13 +297,5 @@ onMounted(() => {});
         </template>
       </draggable>
     </div>
-
-    <!-- <div
-      v-else-if="collapseStore.collapses.includes('ManageCard') && !loading"
-      class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px]"
-    >
-      Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-      veritatis dolore. Exercitationem et omnis ea quidem
-    </div> -->
   </div>
 </template>

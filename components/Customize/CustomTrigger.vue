@@ -86,8 +86,11 @@ const copyCode = () => {
               class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
             >
               {{
-                customizeStore.getAccAttributes("acc-customize-custom-trigger")
-                  ?.title
+                $t(
+                  customizeStore.getAccAttributes(
+                    "acc-customize-custom-trigger"
+                  )?.title
+                )
               }}
             </h1>
 
@@ -98,16 +101,20 @@ const copyCode = () => {
                 v-if="!collapseStore.collapses.includes('custom_trigger_card')"
               >
                 {{
-                  customizeStore.getAccAttributes(
-                    "acc-customize-custom-trigger"
-                  )?.description_on_show
+                  $t(
+                    customizeStore.getAccAttributes(
+                      "acc-customize-custom-trigger"
+                    )?.description_on_show
+                  )
                 }}
               </span>
               <span v-else>
                 {{
-                  customizeStore.getAccAttributes(
-                    "acc-customize-custom-trigger"
-                  )?.description_on_hide
+                  $t(
+                    customizeStore.getAccAttributes(
+                      "acc-customize-custom-trigger"
+                    )?.description_on_hide
+                  )
                 }}
               </span>
             </p>
@@ -122,7 +129,7 @@ const copyCode = () => {
             >
               {{
                 $t(
-                  `A custom trigger replaces the original menu button and allows you to fix the position of the accessibility menu trigger to any element on your website. Open the accessibility menu when clicking an element with a pre-defined ID or class. To specify a class instead of an ID, precede the value with a period (.)`
+                  "A custom trigger replaces the original menu button and allows you to fix the position of the accessibility menu trigger to any element on your website. Open the accessibility menu when clicking an element with a pre-defined ID or class. To specify a class instead of an ID, precede the value with a period (.)"
                 )
               }}
             </p>

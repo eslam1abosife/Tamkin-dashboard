@@ -185,7 +185,9 @@ const getImagePath = (icon) => {
           <h1
             class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
           >
-            {{ customizeStore.getAccAttributes("acc-addons-main-menu")?.title }}
+            {{
+              $t(customizeStore.getAccAttributes("acc-addons-main-menu")?.title)
+            }}
           </h1>
           <p
             class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]"
@@ -198,14 +200,24 @@ const getImagePath = (icon) => {
               "
             >
               {{
-                customizeStore.getAccAttributes("acc-addons-main-menu")
-                  ?.description_on_show
+                $t(
+                  customizeStore.getAccAttributes("acc-addons-main-menu")
+                    ?.description_on_show
+                    ? customizeStore.getAccAttributes("acc-addons-main-menu")
+                        ?.description_on_show
+                    : ""
+                )
               }}
             </span>
             <span v-else>
               {{
-                customizeStore.getAccAttributes("acc-addons-main-menu")
-                  ?.description_on_hide
+                $t(
+                  customizeStore.getAccAttributes("acc-addons-main-menu")
+                    ?.description_on_hide
+                    ? customizeStore.getAccAttributes("acc-addons-main-menu")
+                        ?.description_on_hide
+                    : ""
+                )
               }}
             </span>
           </p>
@@ -260,7 +272,7 @@ const getImagePath = (icon) => {
                   />
                 </svg>
               </div>
-              <div class="text_mini">Switch To Annual</div>
+              <div class="text_mini">{{ $t("Switch To Annual") }}</div>
             </div>
             <div
               class="mini_wrap"
@@ -400,14 +412,14 @@ const getImagePath = (icon) => {
                     class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                   >
                     <span>
-                      {{ element.name }}
+                      {{ $t(element.name) }}
                     </span>
                   </div>
                   <div
                     class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                   >
                     <span>
-                      {{ element.description }}
+                      {{ $t(element.description) }}
                     </span>
                   </div>
                 </div>

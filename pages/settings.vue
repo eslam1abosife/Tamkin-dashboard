@@ -143,16 +143,24 @@ onBeforeRouteLeave((to, from, next) => {
   <div class="relative h-full w-full">
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
-      title="Rest All Accessibility Settings"
-      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      :title="$t('Rest All Accessibility Settings')"
+      :sub-title="
+        $t(
+          'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'
+        )
+      "
       confirm-btn-type="confirm"
       @control-confirm="resetAccessiility"
       @control-cancel="closeModal('resetModal')"
     />
     <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
-      title="Delete your site"
-      sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      :title="$t('Delete your site')"
+      :sub-title="
+        $t(
+          'Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features'
+        )
+      "
       confirm-btn-type="delete"
       @control-delete="deleteSite"
       @control-cancel="closeModal('deleteModal')"
@@ -162,8 +170,10 @@ onBeforeRouteLeave((to, from, next) => {
 
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Settings"
-        section-sub-title="Settings let you customize your preferences and configurations"
+        :section-title="$t('Settings')"
+        :section-sub-title="
+          $t('Settings let you customize your preferences and configurations')
+        "
       />
 
       <div

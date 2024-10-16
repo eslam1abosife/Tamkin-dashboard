@@ -63,8 +63,11 @@ const backgroundImageStyle = computed(() => {
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            customizeStore.getAccAttributes("acc-customize-translations-button")
-              ?.title
+            $t(
+              customizeStore.getAccAttributes(
+                "acc-customize-translations-button"
+              )?.title
+            )
           }}
         </h1>
 
@@ -79,16 +82,20 @@ const backgroundImageStyle = computed(() => {
             "
           >
             {{
-              customizeStore.getAccAttributes(
-                "acc-customize-translations-button"
-              )?.description_on_show
+              $t(
+                customizeStore.getAccAttributes(
+                  "acc-customize-translations-button"
+                )?.description_on_show
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes(
-                "acc-customize-translations-button"
-              )?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes(
+                  "acc-customize-translations-button"
+                )?.description_on_hide
+              )
             }}
           </span>
         </p>

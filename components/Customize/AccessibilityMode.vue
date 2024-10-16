@@ -21,14 +21,17 @@ const { isChecked, toggleCheckbox } = customizeStore;
           <div
             class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
           >
-            <span>Move / hide accessibility</span>
+            <span>{{ $t("Move / hide accessibility") }}</span>
           </div>
           <div
             class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
           >
             <span>
-              Reposition or conceal accessibility features to simplify the
-              interface
+              {{
+                $t(
+                  "Reposition or conceal accessibility features to simplify the interface"
+                )
+              }}
             </span>
           </div>
         </div>
@@ -106,7 +109,9 @@ const { isChecked, toggleCheckbox } = customizeStore;
         <div>
           <img src="/assets/imgs/customize/left_side.svg" class="w-3/4 h-3/4" />
         </div>
-        <div class="text-[14px]">Left Side</div>
+        <div class="text-[14px]">
+          {{ $t("Left Side") }}
+        </div>
       </div>
       <div
         class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
@@ -123,7 +128,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
             class="w-3/4 h-3/4"
           />
         </div>
-        <div class="text-[14px] w-full">Right Side</div>
+        <div class="text-[14px] w-full">{{ $t("Right Side") }}</div>
       </div>
       <div
         class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
@@ -137,7 +142,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         <div>
           <img src="/assets/imgs/customize/hide.svg" class="w-3/4 h-3/4" />
         </div>
-        <div class="text-[14px]">Hide</div>
+        <div class="text-[14px]">{{ $t("Hide") }}</div>
       </div>
     </div>
   </div>

@@ -25,8 +25,10 @@ const { widgetType } = storeToRefs(customizeStore);
             class="text-[14px] lg:text-[18px] dark:text-whiteTamkin font-[500] leading-[30px]"
           >
             {{
-              customizeStore.getAccAttributes("acc-customize-widget-type")
-                ?.title
+              $t(
+                customizeStore.getAccAttributes("acc-customize-widget-type")
+                  ?.title
+              )
             }}
           </h1>
 
@@ -35,14 +37,18 @@ const { widgetType } = storeToRefs(customizeStore);
           >
             <span v-if="!collapseStore.collapses.includes('widget_type_card')">
               {{
-                customizeStore.getAccAttributes("acc-customize-widget-type")
-                  ?.description_on_show
+                $t(
+                  customizeStore.getAccAttributes("acc-customize-widget-type")
+                    ?.description_on_show
+                )
               }}
             </span>
             <span v-else>
               {{
-                customizeStore.getAccAttributes("acc-customize-widget-type")
-                  ?.description_on_hide
+                $t(
+                  customizeStore.getAccAttributes("acc-customize-widget-type")
+                    ?.description_on_hide
+                )
               }}
             </span>
           </p>

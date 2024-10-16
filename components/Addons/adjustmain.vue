@@ -1,27 +1,13 @@
 <script lang="ts" setup>
 import draggable from "vuedraggable";
 import { vOnClickOutside } from "@vueuse/components";
-import { useGetMainMenu } from "@/composables/useAccessibility";
-import { useFullUrl } from "@/composables/useSharedFunctions";
-const props = defineProps({
-  loading: Boolean,
-});
-const { fullUrl } = useFullUrl();
-const { getMainMenu } = useGetMainMenu();
+
 const checkboxStore = useAddonStore();
 const collapseStore = useCollapseStore();
+const customizeStore = useCustomizeStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
 
-// const isChecked = (name: string) => {
-//   const checkbox = checkboxStore.checkboxes.find(
-//     (checkbox) => checkbox.name === name
-//   );
-//   return checkbox ? checkbox.value : false;
-// };
-// const toggleCheckbox = (name: string) => {
-//   checkboxStore.toggleCheckbox(name);
-// };
 const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
@@ -30,36 +16,41 @@ onMounted(() => {});
 
 <template>
   <div
+    v-if="!customizeStore.loadingData"
     class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
-    :class="[loading ? 'pt-[24px] top-[30px]' : '']"
   >
-    <div
-      v-if="loading"
-      class="bg-gray-300 rounded-[10px] w-1/4 h-[30px] animate-pulse"
-    ></div>
-    <div
-      v-if="!loading"
-      class="flex items-center justify-start pt-[24px] xs:px-[15px]"
-    >
+    <div class="flex items-center justify-start pt-[24px] xs:px-[15px]">
       <div>
         <h1
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          {{ checkboxStore.getAccAttributes("acc-addons-main-menu")?.title }}
+          {{
+            $t(checkboxStore.getAccAttributes("acc-addons-main-menu")?.title)
+          }}
         </h1>
         <h2
           class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
         >
           <span v-if="!collapseStore.collapses.includes('adjustMenu')">
             {{
-              checkboxStore.getAccAttributes("acc-addons-main-menu")
-                ?.description_on_show
+              $t(
+                checkboxStore.getAccAttributes("acc-addons-main-menu")
+                  ?.description_on_show
+                  ? checkboxStore.getAccAttributes("acc-addons-main-menu")
+                      ?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              checkboxStore.getAccAttributes("acc-addons-main-menu")
-                ?.description_on_hide
+              $t(
+                checkboxStore.getAccAttributes("acc-addons-main-menu")
+                  ?.description_on_hide
+                  ? checkboxStore.getAccAttributes("acc-addons-main-menu")
+                      ?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </h2>
@@ -199,7 +190,7 @@ onMounted(() => {});
 
     <div
       class="flex flex-col items-start justify-center mt-[18px] divide-y pb-[16px]"
-      v-if="!collapseStore.collapses.includes('adjustMenu') && !loading"
+      v-if="!collapseStore.collapses.includes('adjustMenu')"
     >
       <draggable
         v-model="checkboxStore.AdjustMainMenuCards"
@@ -303,15 +294,5 @@ onMounted(() => {});
         </template>
       </draggable>
     </div>
-    <div class="animate-pulse space-y-4 mt-[22px]" v-if="loading">
-      <div class="h-[55px] w-full bg-gray-300" v-for="s in 6" :key="s"></div>
-    </div>
-    <!-- <div
-      v-else-if="collapseStore.collapses.includes('adjustMenu') && !loading"
-      class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] dark:text-whiteTamkin"
-    >
-      Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
-      veritatis dolore. Exercitationem et omnis ea quidem
-    </div> -->
   </div>
 </template>
