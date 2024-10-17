@@ -193,7 +193,8 @@ onBeforeRouteLeave((to, from, next) => {
 
         <div v-else>
           <div
-            class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
+            v-if="customizeStore.isAccessibilitySettingsActive"
+            class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('general_settings_card')
                 ? 'pb-[24px]'
@@ -610,6 +611,7 @@ onBeforeRouteLeave((to, from, next) => {
           <OverviewWidgetembdedcode />
 
           <div
+            v-if="customizeStore.isAccessibilityResetActive"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('reset_all_settings_card')
@@ -622,17 +624,50 @@ onBeforeRouteLeave((to, from, next) => {
                 <h1
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin"
                 >
-                  {{ $t("Rest All Accessibility Settings") }}
+                  {{
+                    $t(
+                      settingsStore.getAccAttributes(
+                        "acc-setting-rest-all-accessibility-settings"
+                      )?.title
+                    )
+                  }}
                 </h1>
 
                 <p
                   class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
                 >
-                  {{
-                    $t(
-                      "Reset all accessibility settings to their default configurations, restoring original preferences and ensuring a standard user experience for all users"
-                    )
-                  }}
+                  <span
+                    v-if="
+                      !collapseStore.collapses.includes(
+                        'reset_all_settings_card'
+                      )
+                    "
+                  >
+                    {{
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-rest-all-accessibility-settings"
+                        )?.description_on_show
+                          ? settingsStore.getAccAttributes(
+                              "acc-setting-rest-all-accessibility-settings"
+                            )?.description_on_show
+                          : ""
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    {{
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-rest-all-accessibility-settings"
+                        )?.description_on_hide
+                          ? settingsStore.getAccAttributes(
+                              "acc-setting-rest-all-accessibility-settings"
+                            )?.description_on_hide
+                          : ""
+                      )
+                    }}
+                  </span>
                 </p>
               </div>
 
@@ -809,6 +844,7 @@ onBeforeRouteLeave((to, from, next) => {
           </div>
 
           <div
+            v-if="customizeStore.isAccessibilityLiecenceTransferActive"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative"
             :class="[
               collapseStore.collapses.includes('license_settings_card')
@@ -821,17 +857,52 @@ onBeforeRouteLeave((to, from, next) => {
                 <h1
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
-                  {{ $t("License Settings") }}
+                  {{
+                    $t(
+                      settingsStore.getAccAttributes(
+                        "acc-setting-license-settings"
+                      )?.title
+                        ? settingsStore.getAccAttributes(
+                            "acc-setting-license-settings"
+                          )?.title
+                        : ""
+                    )
+                  }}
                 </h1>
 
                 <p
                   class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
                 >
-                  {{
-                    $t(
-                      "Transfer License to Another Website allows you to move your existing accessibility widget license to a different site, ensuring continued accessibility compliance"
-                    )
-                  }}
+                  <span
+                    v-if="
+                      !collapseStore.collapses.includes('license_settings_card')
+                    "
+                  >
+                    {{
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-license-settings"
+                        )?.description_on_show
+                          ? settingsStore.getAccAttributes(
+                              "acc-setting-license-settings"
+                            )?.description_on_show
+                          : ""
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    {{
+                      $t(
+                        settingsStore.getAccAttributes(
+                          "acc-setting-license-settings"
+                        )?.description_on_hide
+                          ? settingsStore.getAccAttributes(
+                              "acc-setting-license-settings"
+                            )?.description_on_hide
+                          : ""
+                      )
+                    }}
+                  </span>
                 </p>
               </div>
 

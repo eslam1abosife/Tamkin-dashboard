@@ -183,8 +183,9 @@ onBeforeRouteLeave((to, from, next) => {
           v-if="settingsStore.defaultappobj.type == 'Internal Services'"
         />
         <div v-else>
-          <AddonsAdjustmain />
-          <AddonsProfilecards />
+          <AddonsAdjustmain v-if="customizeStore.isMainMenuActive" />
+          <AddonsProfilecards v-if="customizeStore.isProfilesCardsctive" />
+
           <div
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
           >

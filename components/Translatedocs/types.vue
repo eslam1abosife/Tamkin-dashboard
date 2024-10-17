@@ -32,7 +32,7 @@ const {
               <div class="text-[14px] font-[500] text-[#6D6D6D] leading-[21px] ">
                 {{ $t('Upload Pdf Documents and we’ll translate it') }}
               </div>
-              <button class="btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_pdf_documents', 'docs')}">{{$t('Translate Now')}}</button>
+              <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_pdf_documents', 'docs')}">{{$t('Translate Now')}}</button>
             </div>
           </div>
          <div class="bg-white  rounded-[10px] flex items-center justify-start px-[24px] p-[24px] h-[150px] w-full rtl:space-x-reverse space-x-[16px]">
@@ -49,7 +49,7 @@ const {
                 <div class="text-[14px] font-[500] text-[#6D6D6D] ">
                     {{$t('Upload Docx Documents and we’ll translate it')}}
                 </div>
-                <button class="btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_word_documents', 'docs')}">{{$t('Translate Now')}}</button>
+                <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_word_documents', 'docs')}">{{$t('Translate Now')}}</button>
             
                     </div>
                      </div>

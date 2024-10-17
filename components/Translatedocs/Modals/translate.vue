@@ -220,7 +220,7 @@ const moveForward = () => {
     </svg>
   </div>
   <h1 class="rtl:text-right px-[15px] ltr:text-left mt-[16px] font-[600] text-darkGrey dark:text-whiteTamkin text-[16px] ">
-   {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType)}}</span>
+   {{ $t('Translate') }} <span  class="capitalize">{{$t(translateType === 'Word Documents' ?'Docx Documents' :translateType)}}</span>
   </h1>
 
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[12px] h-full
@@ -351,9 +351,9 @@ const moveForward = () => {
     
       <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
         <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+          <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{ $t('Project name') }}
-          </div>
+          </div> -->
           <div class="w-full relative">
             <input type="projectName" placeholder="{{$t('projectName')}}" id="projectName" class="input_floating_label peer w-full" v-model="v$.projectName.$model" :class="{
               input_error: (v$.projectName.$error && v$.projectName.required.$invalid),
@@ -395,16 +395,19 @@ const moveForward = () => {
         </div>
     </div>
       <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"  :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']">
-        <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+        <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-2/4">
+          <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{$t('Original language')}}
-          </div>
+          </div> -->
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
-        <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px]  w-full">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+        <div class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap">
+          {{$t('Translate to')}}
+        </div>
+        <div class="flex flex-col items-start justify-start space-y-[10px] mt-[8px]  w-2/4">
+          <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{$t('Translate to')}}
-          </div>
+          </div> -->
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
         </div>
       </div>
@@ -461,7 +464,7 @@ const moveForward = () => {
       </div>
     </div>
     <div class="text-[14px] text-center leading-[21px] font-[500] text-[#878787]">
-     {{ $t(' Please wait while we process your request. This may take a few moments.') }}
+     {{ $t('Please wait while we process your request. This may take a few moments.') }}
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]" style="box-shadow: 0px 4px 24px 8px #51459f14" v-if="failedRender && !rendering">

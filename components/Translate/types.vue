@@ -12,6 +12,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 </script>
 
 <template>

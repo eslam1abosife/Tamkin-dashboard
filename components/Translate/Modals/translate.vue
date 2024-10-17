@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, requiredIf } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
@@ -55,14 +55,14 @@ const translateTo = ref('')
 const signOGlang = ref('')
 const handleSelectedItemProjectName = (item: any) => {
   // console.log(item)
-  translateTo.value = item.id
+  translateTo.value = item.name
 };
 const selectOgLang = (item: any) => {
-  ogLang.value = item.id
+  ogLang.value = item.name
 
 };
 const selectSignOgLang = (item: any) => {
-  signOGlang.value = item.id
+  signOGlang.value = item.name
 
 };
 const state = reactive({
@@ -70,11 +70,12 @@ const state = reactive({
   projectName:  "",
 });
 const allowedSocialMediaUrl = (value) => {
-      const regex = /^(https?:\/\/)?(www\.)?(facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter)\.com\//;
-      return regex.test(value);
-    };
+  const regex = /^(https?:\/\/)?(www\.)?(fb|facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter)\.(com|watch)\//;
+  return regex.test(value);
+};
+
 const rules = {
-  videoLink: { required,allowedSocialMediaUrl },
+  videoLink: { required:requiredIf(() => acceptedFilesRef.value.length === 0),allowedSocialMediaUrl },
   projectName: { required },
 };
 const v$ = useVuelidate(rules, state);
@@ -131,6 +132,8 @@ const getInfoOnLiveVide = async () => {
   if(data){
     liveVideoInfo.value = data
     liveVideoLoading.value = false
+    state.projectName = data.title
+    acceptedFilesRef.value = []
 
   }else {
     livevideoInfoError.value = true
@@ -139,11 +142,10 @@ const getInfoOnLiveVide = async () => {
 }
 watch(() => state.videoLink, () => {
 
-  if(props.translateType === 'live video'){
     liveVideoInfo.value = ''
     getInfoOnLiveVide()
     
-  }
+
 })
 
 const extractVideoDuration = (file) => {
@@ -232,6 +234,9 @@ const fileURL = (file) => {
 const removeFile = () => {
   acceptedFilesRef.value = [];
   thumbnail.value = null;
+  liveVideoInfo.value = ''
+  livevideoInfoError.value = false
+  state.projectName = ''
 };
 
 
@@ -266,11 +271,11 @@ function formatAudioDuration(seconds) {
 }
 
 const validatationForUpload = computed(() => {
- if((props.translateType === 'live video' && !v$.value.$invalid) || acceptedFilesRef.value.length){
-  return false
- }else {
-  return true
- }
+//  if(!liveVideoInfo.value  ||  acceptedFilesRef.value.length === 0 ){
+//   return true
+//  }else {
+//   return false
+//  }
 });
 
 const rendering = ref(false);
@@ -376,8 +381,10 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
     } finally {
       widthVideoProcessing.value = 100;
       const user = JSON.parse(localStorage.getItem("user"));
-      const prjs =   await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate audio', user.agency);
-       translateStore.projectsAr = prjs;    }
+    // translateStore.projectsAr = []
+    await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate audio', user.agency,true);
+      
+  }
 
        closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
   }, 500);
@@ -386,13 +393,7 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
 const runconfig = useRuntimeConfig()
 onMounted(async ()=>{
 const languages = await getLanguages()
-languagesArr.value = languages.map(e=>{
-  return {
-    name:e.language_name,
-    id:e.language_code_display,
-    icon:runconfig.public.baseImagerUrl + e.image
-  }
-})
+languagesArr.value = languages
 })
 </script>
 
@@ -427,7 +428,7 @@ languagesArr.value = languages.map(e=>{
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[15px] h-full
    dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] ipad-max:mt-[4px] ">
     <div class="w-full">
-      <div v-if="translateType === 'video' || translateType === 'audio' " v-bind="getRootProps()" class="w-full h-auto 
+      <div v-if="(translateType === 'video' && v$.videoLink.$invalid) || (translateType === 'audio'&& v$.videoLink.$invalid) " v-bind="getRootProps()" class="w-full h-auto 
        rounded-[10px] border-[1px] border-dashed 
       border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-center
        justify-center flex-col   p-[10px]">
@@ -486,7 +487,7 @@ languagesArr.value = languages.map(e=>{
         </div>
         <div>
           <h1 class="text-[13px] leading-[19.5px] font-[400] text-center text-[#052443] dark:text-whiteTamkin" v-if="acceptedFilesRef.length === 0">
-            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{$t('to upload or drop video')}}
+            <span class="text-tamkin cursor-pointer">{{$t('Click here')}}</span> {{$t('to upload or drop file')}}
           </h1>
         </div>
          <div>
@@ -496,7 +497,7 @@ languagesArr.value = languages.map(e=>{
          </div>
         </div>
       </div>
-      <div v-if="translateType === 'live video' && !v$.videoLink.$invalid && liveVideoInfo && !liveVideoLoading" class="w-full h-auto  rounded-[10px] 
+      <div v-if="!v$.videoLink.$invalid && liveVideoInfo && !liveVideoLoading" class="w-full h-auto  rounded-[10px] 
       border-[1px] p-[10px]   border-dashed 
       border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start
        justify-center flex-col space-y-[10px]  ">
@@ -515,7 +516,10 @@ languagesArr.value = languages.map(e=>{
           <div class="w-full  md:w-auto mb-[40px] ">
             <button class="text-red-500 hover:bg-[#FFF3F2]
              hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center" 
-             @click.stop="v$.videoLink.$model = ''">
+             @click.stop="()=>{
+              v$.videoLink.$model = ''
+              v$.projectName.$model = ''
+             }">
               <img src="/assets/imgs/icons/bin.svg" alt="">
             </button>
           </div>
@@ -578,9 +582,9 @@ languagesArr.value = languages.map(e=>{
     
       <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
         <div class="flex flex-col items-start justify-start space-y-[10px] ipad-max:mt-[8px] mt-[16px] w-full">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+          <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{ $t('Project name') }}
-          </div>
+          </div> -->
           <div class="w-full relative">
             <input type="projectName" placeholder="{{$t('projectName')}}" id="projectName" class="input_floating_label peer w-full" v-model="v$.projectName.$model" :class="{
               input_error: (v$.projectName.$error && v$.projectName.required.$invalid),
@@ -628,19 +632,23 @@ languagesArr.value = languages.map(e=>{
         </div>
     </div>
       <div class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap">
-        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full"
+        <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
          :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+          <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
             {{ $t('Original language') }}
-          </div>
-          <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
+          </div> -->
+          <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" 
+          iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="title" idField="id" />
         </div>
-        <div class="flex flex-col items-start justify-start space-y-[10px]  w-full"
+        <div class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap">
+          {{ $t('Translate to') }}
+        </div>
+        <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
          :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-            {{ $t('Translate to') }}
-          </div>
-          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="name" idField="id" />
+       
+          <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" 
+          :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" 
+          :list="languagesArr" nameKey="title" idField="id" />
         </div>
       </div>
 
@@ -666,7 +674,7 @@ languagesArr.value = languages.map(e=>{
     <TranslateSelectInput class="ipad-max:mt-0 mt-[10px] !w-full " :disabled="!translateStore.signLanguageChecked"
         :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
         @getCurrentSelectedItem="selectSignOgLang" :enableSearch="true" iconKey="icon"
-        placeholderinput="Original language" :list="languagesArr" nameKey="name" idField="id" />
+        placeholderinput="Original language" :list="languagesArr" nameKey="title" idField="id" />
       <button class="btn-dashboard hover_tamkin w-[217px]  mt-4" 
       :disabled="validatationForUpload" @click="moveForward">{{$t('Translate')}}</button>
     </div>

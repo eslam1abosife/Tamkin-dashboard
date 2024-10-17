@@ -81,7 +81,7 @@ watch(
           @click="changePlan('freetrial_upgrade')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          Try it Now
+          {{ $t('Try Now') }}
         </button>
       </div>
 
@@ -242,7 +242,7 @@ watch(
           @click="changePlan('pro_pack')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          Upgrade now
+          {{ $t('Upgrade now') }}
         </button>
       </div>
 

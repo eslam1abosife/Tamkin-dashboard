@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {useGetProjects} from '@/composables/useInternal'
-const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
+const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading,hasNext} = useGetProjects();
 
 const props = defineProps({
   type: String
@@ -32,7 +32,7 @@ const refreshData = async ()=>{
 }
 const currentTab = ref("Translate video");
 const getProjectsByTab = computed(() => {
-  return translateStore.projectsAr
+  return projects.value
     .filter((t) => t.type === currentTab.value) 
     .filter((t) => {
       if (!isSearchfilled.value) return true; 
@@ -53,11 +53,36 @@ onMounted(async ()=>{
   await refreshData(); 
 
 })
+
+const route = useRoute()
+const localePath = useLocalePath()
+/**
+ * Checks if a given path is currently active.
+ * This function supports wildcard matching.
+ * @param {string} path The path to check
+ * @returns {boolean} True if the path is currently active, false otherwise
+ */
+ const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  if (pattern.endsWith("/*")) {
+    const basePattern = pattern.replace("/*", "");
+    return currentPath.startsWith(basePattern) && currentPath !== basePattern;
+  }
+
+  return currentPath === pattern;
+};
+
+onBeforeUnmount(()=>{
+  projects.value = []
+  translateStore.projectsAr = []
+})
 </script>
 
 <template>
   <div v-if="!loading" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
-    <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    <div v-if="!isLinkActive('/translate/video')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
           currentTab === 'Translate video'
@@ -113,15 +138,73 @@ onMounted(async ()=>{
       </div>
     </div>
 
-  
+    <div v-if="isLinkActive('/translate/*')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+      <div
+      v-if="isLinkActive('/translate/video')"
+        :class="[
+          currentTab === 'Translate video'
+            ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
+            : 'text-[#A7A7A7]',
+        ]"
+        class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
+        @click="changeTab('Translate video')"
+      >
+        {{ $t('All Videos')}} ({{projects.filter(t=>t.type === 'Translate video').length}})
+      </div>
+      <div
+      v-if="isLinkActive('/translate/audio')"
+      
+        :class="[
+          currentTab === 'Translate Audio'
+            ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
+            : 'text-[#A7A7A7]',
+        ]"
+        class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+        @click="changeTab('Translate Audio')"
+      >
+        {{ $t('Translate Audio') }}  ({{projects.filter(t=>t.type === 'Translate Audio').length}})
+      </div>
+      <!-- <div
+        :class="[
+          currentTab === 'Translate Live Video'
+            ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
+            : 'text-[#A7A7A7]',
+        ]"
+        class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+        @click="changeTab('Translate Live Video')"
+      >
+        {{ $t('Translate Live Video') }} ({{projects.filter(t=>t.type === 'Translate Live Video').length}})
+      </div> -->
+      <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
+        <input
+          type="text"
+          class="input_dashboard_search w-full !h-[40px]"
+          v-model="search"
+          :placeholder="`${$t('Search')} ...`" 
+        />
+        <div
+          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+        >
+          <img src="/assets/imgs/icons/search.svg" />
+        </div>
+        <div
+          v-if="isSearchfilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+        >
+          <img src="/assets/imgs/icons/clear_search.svg" />
+        </div>
+      </div>
+    </div>
 
 
   <LazyTranslateVideoVideos  v-if="currentTab === 'Translate video'" :videos="getProjectsByTab" />
   <!-- <TranslateAudioAudios v-if="currentTab === 'translateaudio'" /> -->
-  <TranslateVideoNovids v-if="getProjectsByTab.length === 0 && !search" :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
+  <TranslateVideoNovids v-if="getProjectsByTab.length === 0 && !search" 
+  :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
   <TranslateNoresult v-if="getProjectsByTab.length === 0 && search"/> 
-{{ translateStore.allLoaded }}
-  <div class="mx-auto mt-[36px]" v-if="!translateStore.allLoaded">
+
+  <div class="mx-auto mt-[36px]" v-if="!allLoaded && getProjectsByTab.length" >
     <button @click="loadMoreProjects(currentTab, user.agency)" :disabled="loadMoreProjectsLoading"
     class="btn-dashboard w-[150px] hover_tamkin mx-auto"
   >
@@ -139,6 +222,8 @@ onMounted(async ()=>{
    </div>
   </button>
   </div>
+  <div class="mx-auto mt-[36px] text-center text-[14px] font-[400] leading-[14px] text-darkGrey" 
+  v-if="allLoaded && getProjectsByTab.length">{{$t('There are no more projects to display')}}</div>
 
    
   </div>

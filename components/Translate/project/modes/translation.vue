@@ -75,7 +75,15 @@ setTimeout(()=>{
 
  
 
-   
+        <Processingfooter :show-footer="translateStore.showProcessingFooter" :done="doneVideo" @close-footer="()=>{
+            translateStore.showProcessingFooter = false
+            doneVideo = false
+        }"  @cancel_action="()=>{
+            translateStore.showProcessingFooter = false
+            doneVideo = false
+
+        }"/>
+
        </div>
 
 </template>

@@ -98,7 +98,7 @@ setTimeout(()=>{
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      {{ $t('PDF Documents ') }}
+      {{ $t('PDF Documents') }}
       </h1>
 
   
@@ -117,7 +117,7 @@ setTimeout(()=>{
     </transition>
 
     <transition name="slide-up">
-      <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
+      <Processingfooter :done="processingDone"  @close-footer="cancelFooterproccess" :showFooter="translateStore.showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
   <TranslatedocsProjectPdfProjectsettings/>

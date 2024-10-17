@@ -221,10 +221,10 @@ provide("prop_player", state);
         </button>
     
         <button
-          class="btn-translate gap-2 !justify-between tamkin hover_tamkin group"
+          class="btn-translate gap-2 !justify-between tamkin hover_toggle group"
           v-if="!state.removePlayer"
         >
-          <div class="text_normal_hover">{{$t('Hide image')}}</div>
+          <div class="text">{{$t('Hide image')}}</div>
 
           <div class="rtl:mr-auto ltr:ml-auto flex items-center">
             <label for="toggle_subtitles" class="toggle_wrap">

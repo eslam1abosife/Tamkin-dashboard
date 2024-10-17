@@ -60,7 +60,8 @@ const processVideo = ref(false)
             @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
             :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
     
-            <button class="btn-default mt-[16px]" :disabled="translateStore.showProcessingFooter" @click="translateStore.showProcessingFooter = true">
+            <button class="btn-default hover  mt-[16px]" :disabled="translateStore.showProcessingFooter"
+             @click="translateStore.showProcessingFooter = true">
                 <span class="text">{{$t('Translate automatically')}}</span>
             </button>
         </div>

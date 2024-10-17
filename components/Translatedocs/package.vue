@@ -59,7 +59,7 @@ watch(
       </div>
 
       <button @click="changePlan('freetrial_begin')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-        {{ $t('Try it Now') }}
+        {{ $t('Try Now') }}
       </button>
     </div>
 

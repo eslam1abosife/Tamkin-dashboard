@@ -2,10 +2,8 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
-import { Vue3Lottie } from 'vue3-lottie'
-
-
-import upgradeAnimation from '/assets/animation/upgrade.json'
+import { Vue3Lottie } from 'vue3-lottie';
+import upgradeAnimation from '/assets/animation/upgrade.json';
 const {
   isOpen,
   currentView,
@@ -22,15 +20,11 @@ const rules = {
   email: { required, email },
   password: { required },
 };
-
 const v$ = useVuelidate(rules, state);
-
 const props = defineProps({
   header: String,
   text:String
 });
-
-
 </script>
 
 <template>

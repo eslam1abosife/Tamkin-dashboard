@@ -18,65 +18,67 @@ const isLinkActive = (path) => {
   return localePath(currentRoute.value) === localePath(path);
 };
 
-const moveSlider = async (path, animate = true) => {
-  await nextTick();
-  const newActiveIndex = getNavLinkIndex(path);
+// const moveSlider = async (path, animate = true) => {
+//   await nextTick();
+//   const newActiveIndex = getNavLinkIndex(path);
 
-  if (newActiveIndex !== -1 && navContainer.value && process.client) {
-    const navLinks = navContainer.value.querySelectorAll("a");
+//   if (newActiveIndex !== -1 && navContainer.value && process.client) {
+//     const navLinks = navContainer.value.querySelectorAll("a");
 
-    // Remove active_subNavb class from all nav links
-    navLinks.forEach((link) => {
-      link.classList.remove("active_subNavb");
-    });
+//     // Remove active_subNavb class from all nav links
+//     navLinks.forEach((link) => {
+//       link.classList.remove("active_subNavb");
+//     });
 
-    const targetLink = navLinks[newActiveIndex];
-    const sliderWidth = targetLink.offsetWidth;
-    const sliderLeft = targetLink.offsetLeft;
+//     const targetLink = navLinks[newActiveIndex];
+//     const sliderWidth = targetLink.offsetWidth;
+//     const sliderLeft = targetLink.offsetLeft;
 
-    if (slider.value) {
-      if (animate) {
-        slider.value.classList.add("slider-transition");
-      } else {
-        slider.value.classList.remove("slider-transition");
-      }
+//     if (slider.value) {
+//       if (animate) {
+//         slider.value.classList.add("slider-transition");
+//       } else {
+//         slider.value.classList.remove("slider-transition");
+//       }
 
-      slider.value.style.width = `${sliderWidth}px`;
-      slider.value.style.transform = `translateX(${sliderLeft}px)`;
+//       slider.value.style.width = `${sliderWidth}px`;
+//       slider.value.style.transform = `translateX(${sliderLeft}px)`;
 
-      sliderVisible.value = true;
-    }
+//       sliderVisible.value = true;
+//     }
 
-    // Add active_subNavb class to the new active link
-    // targetLink.classList.add('active_subNavb');
-  }
-};
+//     // Add active_subNavb class to the new active link
+//     // targetLink.classList.add('active_subNavb');
+//   }
+// };
 
-const getNavLinkIndex = (path) => {
-  if (process.client) {
-    const navLinks = navContainer.value.querySelectorAll("a");
-    return Array.from(navLinks).findIndex(
-      (link) => link.getAttribute("href") === localePath(path)
-    );
-  }
-};
+// const getNavLinkIndex = (path) => {
+//   if (process.client) {
+//     const navLinks = navContainer.value.querySelectorAll("a");
+//     return Array.from(navLinks).findIndex(
+//       (link) => link.getAttribute("href") === localePath(path)
+//     );
+//   }
+// };
 
 // Watch for route changes to update the current route and move the slider
-watchEffect(() => {
-  currentRoute.value = route.path;
-  moveSlider(currentRoute.value, false);
-});
+// watchEffect(() => {
+//   currentRoute.value = route.path;
+//   moveSlider(currentRoute.value, false);
+// });
 
 // Watch for window size changes and sidebar state changes to adjust the slider position
-watchEffect(() => {
-  if (navStore.sideBarOpen !== undefined) {
-    moveSlider(currentRoute.value, false);
-  }
-});
+// watchEffect(() => {
+//   if (navStore.sideBarOpen !== undefined) {
+//     moveSlider(currentRoute.value, false);
+//   }
+// });
 
-onMounted(() => {
-  moveSlider(currentRoute.value, false);
-});
+// onMounted(() => {
+//   console.log("curret ", currentRoute.value);
+
+//   moveSlider(currentRoute.value, false);
+// });
 </script>
 
 <template>
@@ -92,35 +94,30 @@ onMounted(() => {
       ></div>
     </transition>
     <nuxt-link
-      :class="isLinkActive('/overview') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 !ml-0 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/overview')"
     >
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
-      :class="isLinkActive('/addons') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/addons')"
     >
       {{ $t("Addons") }}
     </nuxt-link>
     <nuxt-link
-      :class="isLinkActive('/statistics') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/statistics')"
     >
       {{ $t("Statistics") }}
     </nuxt-link>
     <nuxt-link
-      :class="isLinkActive('/customize') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center"
       :to="localePath('/customize')"
     >
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      :class="isLinkActive('/settings') ? 'active_subNavb' : 'sub_menu_item'"
       class="relative z-[20] w-full lg:px-0 px-2 lg:w-[96px] h-[31px] flex items-center justify-center mr-[5px]"
       :to="localePath('/settings')"
     >
@@ -142,7 +139,9 @@ onMounted(() => {
 }
 
 .router-link-active.router-link-exact-active {
-  @apply !text-[13px] !font-[500] text-center text-darkGrey dark:text-white;
+  @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
+  border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
+  /* @apply !text-[13px] !font-[500] text-center text-darkGrey dark:text-white border-[1px] border-black; */
 }
 a {
   @apply !text-[13px] font-[500] text-center;

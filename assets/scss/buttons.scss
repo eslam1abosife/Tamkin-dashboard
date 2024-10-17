@@ -93,11 +93,14 @@
 
   &:hover{
     .text{
-      @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent;
+      @apply text-white #{!important};
 
     }
 
+    @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd ;
+
   }
+  
   
 }
 .btn-translate {
@@ -117,6 +120,11 @@
          linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
               mask-composite: exclude; 
+    }
+  }
+  &.hover_toggle{
+    .text{
+      @apply text-darkGrey #{ !important};
     }
   }
   &.active_tamkin {

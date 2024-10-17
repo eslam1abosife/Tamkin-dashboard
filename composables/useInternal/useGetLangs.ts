@@ -9,7 +9,7 @@ export default function() {
     const { $toast } = useNuxtApp();
     const getLanguages = async (payload) => {
         try {
-            const res = await api.post('/Google Language/Get', {
+            const res = await api.post('/Dictionary/Get', {
             });
             if(!res.data.succeeded) throw(res.data.message);
             return res.data.data;

@@ -65,7 +65,6 @@ const triggerData = ()=>{
 <template>
    <div>
     <TranslateModalsRename renameType="Video" @changeData="triggerData"/>
-
     <ModalsConfirm
     :show-modal="true"
     v-if="isOpen('deleteProject')"
@@ -75,23 +74,21 @@ const triggerData = ()=>{
     @control-delete="deleteProjectModal"
     @control-cancel="closeModal('deleteProject')"
   />
-    <div class="grid grid-cols-1 lg:grid-cols-5 ipad-max:grid-cols-3 mt-[10px] ">
+    <div class="grid grid-cols-1 gap-2 lg:grid-cols-5 ipad-max:grid-cols-3  ">
     
         <div v-for="video in videos"
         
         :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
         class="h-[160px] flex flex-col items-start justify-start space-y-[10px] rounded-[7px] 
         shadow-lg group border-[1px] border-transparent relative hover:border-tamkin 
-    cursor-pointer mx-1 mb-2">
+    cursor-pointer mb-2">
 
-
-  
         <div class="relative w-full ">
-            <div 
+            <!-- <div 
             :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
             v-if="video.status === 'pending'" 
             class="flex flex-col items-center justify-center absolute h-[160px] inset-0 w-full border-[1px] border-transparent
-             bg-gray-50 z-[50] bg-opacity-95">
+             bg-gray-50 z-[20] bg-opacity-95">
               
               <div role="status" class="flex flex-col items-center justify-center">
                 <svg aria-hidden="true" class="w-8 h-8 text-tamkinEnd animate-spin dark:text-gray-600 fill-tamkinStart" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,10 +99,10 @@ const triggerData = ()=>{
               </div>
               
               <div class="text-darkGrey font-[500] text-[14px] mt-1">
-                {{ $t('In progress') }}...
+                {{ $t('In progress...') }}
               </div>
             
-          </div>
+          </div> -->
             <div @click="changeDropMenu(video)"
             :class="[currentMenuDrop !== video ? '' : '!flex']"
             class="hidden group-hover:flex items-center justify-center
@@ -133,8 +130,8 @@ const triggerData = ()=>{
             space-y-[3px]  justify-center" v-if="currentMenuDrop === video"  v-on-click-outside="()=>{
                 currentMenuDrop = null
             }">
-        <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary
-        
+        <div class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin
+         hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary
         bg-white dark:bg-darkSecondary p-1 w-full rounded-[4px] h-[18px]" @click="openModal('sharetranslate','translate')">
             {{ $t('Share') }}
         </div>

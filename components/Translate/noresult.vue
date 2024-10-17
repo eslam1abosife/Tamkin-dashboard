@@ -26,16 +26,16 @@ const changeDropMenu = (menu:any)=>{
 <template>
    <div>
 
-    <div class="flex flex-col items-center space-y-[10px] justify-center mt-[60px] w-full">
+    <div class="flex flex-col items-center space-y-[10px] justify-center mt-[10px] w-full">
     
         <div>
             <img src="/assets/imgs/translatedocs/no_result.png" class="w-[114px] h-[68px]" alt="">
         </div>
         <div class="text-[15px] font-[500] text-darkGrey leading-[16px]">
-            No results found
+            {{ $t('No results found') }}
         </div>
         <div class="font-[400] text-[10px] leading-[16px]">
-            It seems we can’t find any results based on your search.
+            {{ $t(`It seems we can’t find any results based on your search.`) }}
         </div>
                                   
             </div>

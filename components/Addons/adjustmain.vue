@@ -17,7 +17,7 @@ onMounted(() => {});
 <template>
   <div
     v-if="!customizeStore.loadingData"
-    class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
+    class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start pt-[24px] xs:px-[15px]">
       <div>

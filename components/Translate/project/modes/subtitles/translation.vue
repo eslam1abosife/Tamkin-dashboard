@@ -54,7 +54,7 @@ translateStore.subMode = ''
                 {{ $t('Translation') }} 
             </div>
         </div>
-        <div class="w-full" v-if="!processVideo">
+        <div class="w-full" >
             <div class="text-[11px] leading-[22px] font-[500] text-darkGrey mt-[12px]">
                {{$t('What sign language do you want to translate into?')}}
             </div>
@@ -75,29 +75,11 @@ translateStore.subMode = ''
             </button>
         </div>
 
-        <div class="flex flex-col items-center justify-center w-full space-y-[10px] mt-[32px]" v-if="processVideo && !doneVideo">
-            <div>
-                <img src="/assets/imgs/translatevideo/loading.svg" alt="">
-            </div>
-            <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
+    
+        <Processingfooter :show-footer="processVideo" :done="doneVideo" @close-footer="()=>{processVideo = false
+        doneVideo = false}"  @cancel_action="()=>{processVideo = false
+        doneVideo = false}"/>
 
-                {{ $t('Processing') }}...
-            </div>
-
-            <div class="text-[12px] font-[500] text-[#878787] leading-[17px]"> 
-                {{$t('Please wait while we complete the process')}}
-            </div>
-        </div>
-
-        <div class="flex flex-col items-center justify-center w-full space-y-[10px] mt-[32px]" v-if="doneVideo">
-         
-            <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
-
-                {{ $t('Done') }}
-            </div>
-
-          
-        </div>
        </div>
 
 </template>

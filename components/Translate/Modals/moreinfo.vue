@@ -8,15 +8,12 @@ const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
 
-  // If the pattern does not contain a wildcard, do an exact match
-  if (!pattern.includes("*")) {
-    return currentPath === pattern;
+  if (pattern.endsWith("/*")) {
+    const basePattern = pattern.replace("/*", "");
+    return currentPath.startsWith(basePattern) && currentPath !== basePattern;
   }
 
-  // Convert wildcard pattern to regex
-  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
-
-  return regex.test(currentPath);
+  return currentPath === pattern;
 };
 const {
   isOpen,
@@ -70,10 +67,9 @@ const props = defineProps({
     </h1>
 
 
-    
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px] mt-[18px]">
-        {{$t(`You have used the subtitle service with sign language interpretation for an inclusive ${isLinkActive('/translate/audio') ? 'audio' : 'video'} experience`)}}
+        {{$t(`You have used the subtitle service with sign language interpretation for an inclusive ${isLinkActive('/translate/audio') ? 'audio' : isLinkActive('/photos/*') ? 'photos' : isLinkActive('/document/*') ? 'Files' : 'video'} experience`)}}
         </div>
 
      <div class="flex flex-col items-start justify-center">
@@ -127,7 +123,7 @@ const props = defineProps({
             </div>
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    {{ $t('Minutes') }}
+                    {{ isLinkActive('/document/*') || isLinkActive('/photos/*')? $t('Characters') :$t('Minutes') }}
                 </div>
 
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">

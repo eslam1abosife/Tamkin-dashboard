@@ -57,7 +57,7 @@
           <button @click="zoomIn" class="toolbar-item">+</button>
         </div>
       </div>
-      <div ref="editorContainer" class=" max-w-[900px] text-[14px] !h-full  w-full bg-white py-2 s
+      <div ref="editorContainer" class=" text-[14px] !h-full  w-full bg-white py-2 s
       hadow mt-[16px] rounded-[10px]" @scroll="handleScroll">
         <bubble-menu
         :editor="editor"
@@ -66,8 +66,9 @@
         v-if="editor"
       >
        
-          <div class="h-[32px] p-2 bg-tamkin text-[12px] text-white flex items-center justify-center text-center rounded-[5px]">
-            Sign Language
+          <div class="rtl:font-[Almarai] cursor-pointer ltr:font-[Poppins] h-[32px] p-2
+           bg-tamkin text-[12px] text-white flex items-center justify-center text-center rounded-[5px]">
+            {{ $t('Sign language') }}
            </div>
      
       </bubble-menu>
@@ -294,9 +295,9 @@
     // alert('yea')
     const scrollTop = editorContainer.scrollTop;
     const pageIndex = Math.floor(scrollTop / (PAGE_HEIGHT * (zoomLevel.value / 100))) + 1;
-    console.log(scrollTop)
-    currentPage.value = Math.min(Math.max(pageIndex, 1), totalPages.value); // Clamp pageIndex between 1 and totalPages
-    console.log(currentPage.value)
+    // console.log(scrollTop)
+    // currentPage.value = Math.min(Math.max(pageIndex, 1), totalPages.value); // Clamp pageIndex between 1 and totalPages
+    // console.log(currentPage.value)
   }
 };
   
@@ -311,13 +312,11 @@
         const requiredHorizontalRules = totalPages.value - 1;
   
         if (requiredHorizontalRules > horizontalRulesCount) {
-          // Add new horizontal rules if needed
           const rulesToAdd = requiredHorizontalRules - horizontalRulesCount;
           for (let i = 0; i < rulesToAdd; i++) {
             editor.chain().focus().setHorizontalRule().run();
           }
         } else if (requiredHorizontalRules < horizontalRulesCount) {
-          // Remove extra horizontal rules if needed
           const newContent = doc.content.content.filter(node => node.type.name !== 'horizontalRule');
           editor.commands.setContent(newContent);
         }

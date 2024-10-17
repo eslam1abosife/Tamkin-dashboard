@@ -97,7 +97,7 @@ provide('process',processingDone)
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      {{$T('Docx Documents')}}
+      {{$t('Docx Documents')}}
       </h1>
 
 

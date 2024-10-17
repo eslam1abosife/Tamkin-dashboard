@@ -148,6 +148,16 @@ onUnmounted(() => {
 });
 const payCrypto = async () => {
   loadingPayment.value = true;
+  // const renewAllCardorPaypal = async (card, type, code = null, hash = null, amount = null) => {
+
+  // payload.cryptoinput = {
+  //         code: code || null,
+  //         hash: hash || null,
+  //         crypto: subsStore.selectedCrypto.name,
+  //         network: subsStore.selectedCrypto.network,
+  //         date: amount ? new Date() : null,
+  //         amount: amount || null,
+  //       };
   await renewAllCardorPaypal(null,'crypto',state.TXID, 
 
  `${ convertUsdToCrypto(

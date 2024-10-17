@@ -10,7 +10,7 @@ const customizeStore = useCustomizeStore();
 
 <template>
   <div
-    class="mt-[64px] md:mt-[94px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
+    class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
     :class="[
       collapseStore.collapses.includes('button_color_card')
         ? 'pb-[24px]'

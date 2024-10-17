@@ -17,24 +17,27 @@ export default function() {
     const loadMoreProjectsLoading = ref(false); // Track loading for load more button
 
     // Fetch projects function
-    const getProjects = async (type, agency) => {
+    const getProjects = async (type, agency, reset = false) => {
         try {
             if (!loadMoreProjectsLoading.value) {
                 loading.value = true; // Start global loading
             }
 
-            const res = await api.post('/Sign language Service/Get', {
+      
+
+            const res = await api.post('/SignLanguage/GetPrjectList', {
                 "where": {
                     "agency": agency,
-                    "type": type 
+                    "type": type
                 },
-                "PgNo": currentPage.value, 
-                "PgSize": pageSize.value 
+                "PgNo": currentPage.value,
+                "PgSize": pageSize.value
             });
 
-            // Ensure data is available before accessing it
             if (res && res.data && res.data.data) {
-                const newRecords = res.data.data;
+                const responseData = res.data.data; 
+                const newRecords = responseData.data; 
+                const hasNextPage = responseData.hasNextPage;
 
                 // Check if new records are returned
                 if (newRecords.length > 0) {
@@ -45,12 +48,8 @@ export default function() {
                     // Increment the current page for the next request
                     currentPage.value += 1;
 
-                    // Check if we've loaded all records
-                    if (newRecords.length < pageSize.value) {
-                        allLoaded.value = true; // No more records to load
-                    } else {
-                        allLoaded.value = false; // There might be more records to load
-                    }
+                    // Set `allLoaded` based on the `hasNextPage` flag from the API
+                    allLoaded.value = !hasNextPage;
                 } else {
                     allLoaded.value = true; // No records were returned, set this to true
                 }
@@ -61,7 +60,7 @@ export default function() {
             messageData.value = res.data.message;
 
             // If it's the first load and no records were returned, set allLoaded to true
-            if (currentPage.value === 1 && newRecords.length === 0) {
+            if (currentPage.value === 1 && (!res.data.data || res.data.data.data.length === 0)) {
                 allLoaded.value = true; // Set this to true if initial load returns zero records
             }
 
