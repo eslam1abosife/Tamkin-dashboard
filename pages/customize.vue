@@ -492,6 +492,7 @@ onBeforeRouteLeave((to, from, next) => {
                   class="flex items-center justify-start lg:px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
                 >
                   <div
+                    v-if="customizeStore.isButtonColorSolidActive"
                     @click="customizeStore.colorMode = 'solid'"
                     :class="[
                       customizeStore.colorMode === 'solid'
@@ -511,6 +512,7 @@ onBeforeRouteLeave((to, from, next) => {
                   </div>
 
                   <div
+                    v-if="customizeStore.isButtonColorGridActive"
                     :class="[
                       customizeStore.colorMode === 'gradient'
                         ? 'custom-border-tamkin padding-override-1'
@@ -537,7 +539,10 @@ onBeforeRouteLeave((to, from, next) => {
                   </div>
                 </div>
                 <div
-                  v-if="customizeStore.colorMode === 'solid'"
+                  v-if="
+                    customizeStore.colorMode === 'solid' &&
+                    customizeStore.isButtonColorSolidActive
+                  "
                   :style="{
                     border: `1px solid ${customizeStore.currentColor}`,
                   }"
@@ -555,7 +560,10 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
 
                 <div
-                  v-if="customizeStore.colorMode === 'gradient'"
+                  v-if="
+                    customizeStore.colorMode === 'gradient' &&
+                    customizeStore.isButtonColorGridActive
+                  "
                   class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
                 >
                   <div
@@ -589,7 +597,10 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div
                 class="flex items-center justify-start w-full px-[5px]"
-                v-if="customizeStore.colorMode === 'solid'"
+                v-if="
+                  customizeStore.colorMode === 'solid' &&
+                  customizeStore.isButtonColorSolidActive
+                "
               >
                 <Client-only>
                   <Vue3ColorPicker
@@ -609,7 +620,10 @@ onBeforeRouteLeave((to, from, next) => {
 
               <div
                 class="flex items-center justify-evenly w-full px-[5px]"
-                v-if="customizeStore.colorMode === 'gradient'"
+                v-if="
+                  customizeStore.colorMode === 'gradient' &&
+                  customizeStore.isButtonColorGridActive
+                "
               >
                 <div class="flex items-center justify-start w-full">
                   <Client-only>
@@ -1327,7 +1341,7 @@ onBeforeRouteLeave((to, from, next) => {
           />
           <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
           <CustomizeLanguage v-if="customizeStore.isLanguagective" />
-          <CustomizeCustomTrigger />
+          <!-- <CustomizeCustomTrigger /> -->
         </div>
       </div>
     </div>

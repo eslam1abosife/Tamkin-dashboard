@@ -327,6 +327,7 @@ const backgroundImageStyle = computed(() => {
         ]"
       >
         <div
+          v-if="customizeStore.isButtonDefaultActive"
           @click="customizeStore.selectLiveTranslationButtonLocation('default')"
           :class="[
             liveTranlsationButtonLocation === 'default'
@@ -368,6 +369,7 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
+          v-if="customizeStore.isButtonAboveActive"
           :class="[
             liveTranlsationButtonLocation === 'above'
               ? 'custom-border'
@@ -418,7 +420,10 @@ const backgroundImageStyle = computed(() => {
 
       <div
         class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
-        v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
+        v-if="
+          customizeStore.liveTranlsationButtonLocation === 'default' &&
+          customizeStore.isButtonDefaultActive
+        "
       >
         <div
           @click="customizeStore.changeDefaultButtonShape('option1')"
@@ -577,7 +582,10 @@ const backgroundImageStyle = computed(() => {
 
       <div
         class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
-        v-if="liveTranlsationButtonLocation === 'above'"
+        v-if="
+          liveTranlsationButtonLocation === 'above' &&
+          customizeStore.isButtonAboveActive
+        "
       >
         <div
           @click="customizeStore.changeAboveButtonShape('option1')"

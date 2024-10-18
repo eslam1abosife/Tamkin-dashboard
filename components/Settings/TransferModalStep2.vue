@@ -36,12 +36,13 @@ const confirmTransfer = async () => {
 const getImageUrl = computed(() => {
   return `/assets/imgs/icons/mysite.svg`;
 });
-
+const { locale } = useI18n();
 const manageSites = () => {
   closeModal("transferstep2");
-  const router = useRouter(); // Import the router instance
+  const router = useRouter();
+  // Import the router instance
   router.push({
-    path: "/my-site",
+    path: `/${locale.value}/my-site`,
   });
 };
 </script>
@@ -50,7 +51,7 @@ const manageSites = () => {
   <div
     v-if="isOpen('transferstep2')"
     class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[80vh]"
-    style="left: 50%; transform: translate(-50%, 0)"
+    style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -87,7 +88,7 @@ const manageSites = () => {
       </p>
 
       <div
-        class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 w-full mx-auto my-4"
+        class="flex flex-col items-center justify-center custom-border-tamkin padding-override-1 rounded-22-tamkin p-4 w-full mx-auto my-4 mt-5"
       >
         <div class="flex items-center justify-center mb-2">
           <div class="text-gray-700 dark:text-whiteTamkin w-[60px]">
@@ -103,7 +104,7 @@ const manageSites = () => {
                   ? settingsStore.defaultappobj.favicon
                   : getImageUrl
               "
-              class="w-6 h-6"
+              class="w-6 h-6 object-contain"
             />
             <span class="text-gray-700 dark:text-whiteTamkin">
               {{ settingsStore.defaultappobj.title }}
@@ -127,7 +128,7 @@ const manageSites = () => {
                   ? settingsStore.selectedApp.favicon
                   : getImageUrl
               "
-              class="w-6 h-6"
+              class="w-6 h-6 object-contain"
             />
             <span class="text-turquoise-500 dark:text-whiteTamkin">
               {{ settingsStore.selectedApp.title }}
@@ -136,9 +137,7 @@ const manageSites = () => {
         </div>
       </div>
 
-      <div
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]"
-      >
+      <div class="flex items-center justify-center gap-2 mt-[40px]">
         <button
           class="btn_bordered_dashboard normal_hover text-center w-1/4"
           @click="closeModal('transferstep2')"
@@ -146,10 +145,11 @@ const manageSites = () => {
           {{ $t("Cancel") }}
         </button>
         <button
-          class="btn-dashboard text-center w-1/4 p-[0]"
+          class="btn-dashboard text-center p-[0]"
+          :class="loadingTransfer ? 'w-1/3' : 'w-1/4'"
           @click="confirmTransfer"
         >
-          {{ $t("Confirm Transfer") }}
+          <span class="mx-2">{{ $t("Confirm Transfer") }}</span>
           <svg
             v-if="loadingTransfer"
             class="animate-spin h-5 w-5 text-[#fff]"

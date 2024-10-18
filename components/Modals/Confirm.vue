@@ -152,7 +152,9 @@ const controlSaveSite = () => {
           class="btn-dashboard hover_tamkin"
           @click="controlConfirmButton"
         >
-          {{ $t("Confirm Reset") }}
+          <span :class="cofirmisLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
+            {{ $t("Confirm Reset") }}
+          </span>
 
           <svg
             v-if="cofirmisLoading"

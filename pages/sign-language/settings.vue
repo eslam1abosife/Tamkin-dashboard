@@ -100,13 +100,17 @@ onBeforeMount(() => {
 
   getPlayerData();
 });
-
+const { locale } = useI18n();
 const deleteSite = async () => {
   try {
     const res = await api.post("/mySite/set/AppStatusCancel", {
       name: settingsStore.defaultapp,
     });
     closeModal("deleteModal");
+    const router = useRouter(); // Import the router instance
+    router.push({
+      path: `/${locale.value}/my-site`,
+    });
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";

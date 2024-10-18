@@ -26,7 +26,7 @@ import { useApi } from "@/composables/useApi";
 
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
-
+const { t } = useI18n();
 const { getInvestor, loading: lod } = useGetInvestor();
 const { getCurrentTeam, currTeam } = useGetCurrentTeam();
 const profileStore = useProfileStore();
@@ -719,7 +719,7 @@ const handleSave = async (type: any) => {
     loadingSavetoAll.value = false;
     updateNewValues();
 
-    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
+    $toast(t("Updated Successfully!"), { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
     loadingSavetoAll.value = false;

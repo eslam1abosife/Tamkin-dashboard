@@ -99,25 +99,38 @@ onBeforeMount(() => {
   ]);
 });
 let pendingNavigation = null;
-
+const { locale } = useI18n();
 const deleteSite = async () => {
   try {
     const res = await api.post("/mySite/set/AppStatusCancel", {
       name: settingsStore.defaultapp,
     });
+    $toast(t("Deleted Successfully"), {
+      hideIn: 3000,
+      type: "success",
+    });
     closeModal("deleteModal");
-
+    const router = useRouter(); // Import the router instance
+    router.push({
+      path: `/${locale.value}/my-site`,
+    });
     // return res.data.data;
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
-
+const { $toast } = useNuxtApp();
+const { t } = useI18n();
 const resetAccessiility = async () => {
   try {
     const res = await api.post("/Apps/ResetSettingDefaultApp");
     closeModal("resetModal");
+
+    $toast(t("All accessibility settings have been reset"), {
+      hideIn: 3000,
+      type: "success",
+    });
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
@@ -1040,7 +1053,13 @@ onBeforeRouteLeave((to, from, next) => {
                     <div
                       class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] w-full"
                     >
-                      <span>{{ $t("Widget enabled on this site") }} </span>
+                      <span>
+                        {{
+                          $t(
+                            "Transfer License to Another Website Transfer License"
+                          )
+                        }}
+                      </span>
                     </div>
                   </div>
                   <div class="rtl:mr-auto ltr:ml-auto w-full">

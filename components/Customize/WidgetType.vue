@@ -196,162 +196,52 @@ const { widgetType } = storeToRefs(customizeStore);
           class="flex md:items-center md:space-x-10 rtl:space-x-reverse lg:space-x-0 items-start lg:flex-col flex-col md:flex-row justify-center w-full mx-auto"
         >
           <div
-            class="md:mt-[10px] flex md:justify-center items-center justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0 space-y-[10px] rtl:space-x-reverse lg:space-x-[20px] w-full"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:mt-[10px]"
           >
-            <div
-              class="flex flex-col items-center justify-center flex-1 w-full"
+            <template
+              v-for="widget in customizeStore.widgetTypes"
+              :key="widget.value"
             >
               <div
-                class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder border-b-[2px] border-lightGrey dark:text-whiteTamkin"
+                v-if="widget.active == 1"
+                class="flex flex-col items-center justify-center w-full"
               >
-                <div class="order-2 relative w-full">
-                  <h1 class="font-[500] text-[13px] leading-[22.5px]">
-                    {{ $t("Full Widget") }}
-                  </h1>
+                <div
+                  class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder border-b-[2px] border-lightGrey dark:text-whiteTamkin"
+                >
+                  <div class="order-2 relative w-full">
+                    <h1 class="font-[500] text-[13px] leading-[22.5px]">
+                      {{ $t(widget.title) }}
+                    </h1>
+                  </div>
+                  <div class="order-1 mx-[15px]">
+                    <input
+                      :id="widget.value"
+                      type="radio"
+                      name="plans_radio"
+                      class="hidden"
+                      :checked="widgetType === widget.value"
+                      :value="widget.value"
+                      @click.stop="
+                        customizeStore.selectWidgetType(widget.value)
+                      "
+                    />
+                    <label
+                      :for="widget.value"
+                      class="flex items-center cursor-pointer"
+                    >
+                      <span class="radio-tamkin"></span>
+                    </label>
+                  </div>
                 </div>
-                <div class="order-1 mx-[15px]">
-                  <input
-                    id="full-widget"
-                    type="radio"
-                    name="plans_radio"
-                    class="hidden"
-                    :checked="widgetType === 'full-widget'"
-                    value="full-widget"
-                    @click.stop="customizeStore.selectWidgetType('full-widget')"
+                <div class="w-full">
+                  <img
+                    :src="`https://tamkin.app${widget.icon}`"
+                    class="h-full w-full"
                   />
-                  <label
-                    for="full-widget"
-                    class="flex items-center cursor-pointer"
-                  >
-                    <span class="radio-tamkin"></span>
-                  </label>
                 </div>
               </div>
-              <div class="w-full">
-                <img
-                  src="/assets/imgs/customize/full_widget.svg"
-                  class="h-full w-full"
-                />
-              </div>
-            </div>
-            <div
-              class="flex flex-col items-center justify-center flex-1 w-full"
-            >
-              <div
-                class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder border-b-[2px] border-lightGrey dark:text-whiteTamkin"
-              >
-                <div class="order-2 relative w-full">
-                  <h1 class="font-[500] text-[13px] leading-[22.5px]">
-                    {{ $t("Mini Widget") }}
-                  </h1>
-                </div>
-                <div class="order-1 mx-[15px]">
-                  <input
-                    id="mini-widget"
-                    type="radio"
-                    name="plans_radio"
-                    class="hidden"
-                    :checked="widgetType === 'mini-widget'"
-                    value="mini-widget"
-                    @click.stop="customizeStore.selectWidgetType('mini-widget')"
-                  />
-                  <label
-                    for="mini-widget"
-                    class="flex items-center cursor-pointer"
-                  >
-                    <span class="radio-tamkin"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="w-full">
-                <img
-                  src="/assets/imgs/customize/mini_widget.svg"
-                  class="h-full w-full"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            class="flex rtl:space-x-reverse items-center md:justify-center justify-between lg:flex-row flex-col md:space-y-4 lg:space-y-0 space-y-[10px] lg:space-x-[20px] w-full mt-[10px]"
-          >
-            <div
-              class="flex flex-col items-center justify-center flex-1 w-full"
-            >
-              <div
-                class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder border-b-[2px] border-lightGrey"
-              >
-                <div class="order-2 relative w-full">
-                  <h1
-                    class="font-[500] text-[13px] leading-[22.5px] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Round Widget") }}
-                  </h1>
-                </div>
-                <div class="order-1 mx-[15px]">
-                  <input
-                    id="round-widget"
-                    type="radio"
-                    name="plans_radio"
-                    class="hidden"
-                    :checked="widgetType === 'round-widget'"
-                    value="round-widget"
-                    @click.stop="
-                      customizeStore.selectWidgetType('round-widget')
-                    "
-                  />
-                  <label
-                    for="round-widget"
-                    class="flex items-center cursor-pointer"
-                  >
-                    <span class="radio-tamkin"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="w-full">
-                <img
-                  src="/assets/imgs/customize/rounded_widget.svg"
-                  class="h-full w-full rounded-b-lg"
-                />
-              </div>
-            </div>
-            <div
-              class="flex flex-col items-center justify-center flex-1 w-full"
-            >
-              <div
-                class="flex items-center justify-center relative w-full h-[48px] bg-[#FAFCFE] dark:bg-darkborder dark:bg-opacity-30 dark:border-darkborder dark:text-whiteTamkin border-b-[2px] border-lightGrey"
-              >
-                <div class="order-2 relative w-full">
-                  <h1 class="font-[500] text-[13px] leading-[22.5px]">
-                    {{ $t("Minuscule Widget") }}
-                  </h1>
-                </div>
-                <div class="order-1 mx-[15px]">
-                  <input
-                    id="minuscule-widget"
-                    type="radio"
-                    name="minuscule-widget"
-                    class="hidden"
-                    :checked="widgetType === 'minuscule-widget'"
-                    value="minuscule-widget"
-                    @click.stop="
-                      customizeStore.selectWidgetType('minuscule-widget')
-                    "
-                  />
-                  <label
-                    for="minuscule-widget"
-                    class="flex items-center cursor-pointer"
-                  >
-                    <span class="radio-tamkin"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="w-full">
-                <img
-                  src="/assets/imgs/customize/minu_widget.svg"
-                  class="h-full w-full"
-                />
-              </div>
-            </div>
+            </template>
           </div>
         </div>
       </div>

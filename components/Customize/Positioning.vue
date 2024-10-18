@@ -42,6 +42,7 @@ watch([currentColor], () => {}, { immediate: true });
     class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
   >
     <div
+      v-if="customizeStore.isButtonDesktopPositionActive"
       class="pb-[12px] text-[10px] lg:text-[13px] lg:leading-[32px] text-darkGrey dark:text-whiteTamkin cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('desktop')"
       :class="[
@@ -54,6 +55,7 @@ watch([currentColor], () => {}, { immediate: true });
     </div>
 
     <div
+      v-if="customizeStore.isButtonMobilePositionActive"
       class="pb-[12px] text-[10px] lg:text-[13px] lg:leading-[32px] text-darkGrey dark:text-whiteTamkin cursor-pointer"
       @click="customizeStore.changeButtonMobileOrDesktop('mobile')"
       :class="[
@@ -68,7 +70,10 @@ watch([currentColor], () => {}, { immediate: true });
 
   <div
     class="flex items-center justify-between lg:flex-nowrap flex-wrap"
-    v-if="switchButtonLocation === 'desktop'"
+    v-if="
+      switchButtonLocation === 'desktop' &&
+      customizeStore.isButtonDesktopPositionActive
+    "
   >
     <div
       class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
@@ -95,7 +100,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -119,7 +127,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -143,7 +154,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -171,7 +185,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -195,7 +212,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -219,7 +239,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -247,7 +270,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -271,7 +297,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -313,7 +342,10 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img src="/assets/imgs/icons/ios_access.svg" class="w-[16px] h-[16px]" />
+          <img
+            src="/assets/imgs/icons/ios_access.svg"
+            class="w-[16px] h-[16px]"
+          />
         </div>
       </div>
       <img
@@ -326,7 +358,10 @@ watch([currentColor], () => {}, { immediate: true });
 
   <div
     class="flex items-center justify-between lg:flex-nowrap flex-wrap"
-    v-if="switchButtonLocation === 'mobile'"
+    v-if="
+      switchButtonLocation === 'mobile' &&
+      customizeStore.isButtonMobilePositionActive
+    "
   >
     <div
       class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
@@ -353,7 +388,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -377,7 +415,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -401,7 +442,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -429,7 +473,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -453,7 +500,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -477,7 +527,10 @@ watch([currentColor], () => {}, { immediate: true });
               :style="backgroundImageStyle"
               v-else
             >
-              <img src="/assets/imgs/icons/ios_access.svg" class="w-[22px] h-[22px]" />
+              <img
+                src="/assets/imgs/icons/ios_access.svg"
+                class="w-[22px] h-[22px]"
+              />
             </div>
           </label>
         </div>
@@ -514,7 +567,10 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img src="/assets/imgs/icons/ios_access.svg" class="w-[12px] h-[12px]" />
+          <img
+            src="/assets/imgs/icons/ios_access.svg"
+            class="w-[12px] h-[12px]"
+          />
         </div>
       </div>
       <div
@@ -546,7 +602,10 @@ watch([currentColor], () => {}, { immediate: true });
           :class="gradientClasses"
           :style="backgroundImageStyle"
         >
-          <img src="/assets/imgs/icons/ios_access.svg" class="w-[14px] h-[14px]" />
+          <img
+            src="/assets/imgs/icons/ios_access.svg"
+            class="w-[14px] h-[14px]"
+          />
         </div>
       </div>
       <div
