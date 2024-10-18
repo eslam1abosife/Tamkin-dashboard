@@ -469,16 +469,12 @@ export default function () {
           language_code: "auto detect language",
         };
       } else {
-        customizeStore.selectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
-        customizeStore.initselectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
+        const selectedLanguage = res.data.data.languages.filter((el: any) => {
+          return el.language_code == selectLang.value;
+        })[0];
+
+        customizeStore.selectedLang = selectedLanguage;
+        customizeStore.initselectedLang = selectedLanguage;
       }
 
       // acc enableLangHighlight
