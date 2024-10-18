@@ -36,12 +36,12 @@ emit('Save')
                         <img  src="/assets/imgs/info.svg" />
                     </div>
                     <div class="text-[10px] lg:text-[12px] leading-[10px] lg:leading-[21.6px] text-darkGrey dark:text-whiteTamkin font-[500] lg:w-auto w-full">
-                        Make sure to save all changes before moving to another page
+                        {{ $t('Make sure to save all changes before moving to another page') }}
                     </div>
                 </div>
                 <div class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4">
-                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">Cancel</button>
-                    <button class="btn-dashboard hover_tamkin w-[74px]" @click="saveFn">Save</button>
+                    <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">{{$t('Cancel')}}</button>
+                    <button class="btn-dashboard hover_tamkin w-[74px]" @click="saveFn">{{$t('Save')}}</button>
                 </div>
             </div>
         </div>

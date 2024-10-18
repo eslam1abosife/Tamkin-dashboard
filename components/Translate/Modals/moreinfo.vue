@@ -2,10 +2,19 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
-import { Vue3Lottie } from 'vue3-lottie'
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
 
+  if (pattern.endsWith("/*")) {
+    const basePattern = pattern.replace("/*", "");
+    return currentPath.startsWith(basePattern) && currentPath !== basePattern;
+  }
 
-import upgradeAnimation from '/assets/animation/upgrade.json'
+  return currentPath === pattern;
+};
 const {
   isOpen,
   currentView,
@@ -58,10 +67,9 @@ const props = defineProps({
     </h1>
 
 
-    
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px] mt-[18px]">
-        {{$t('You have used the subtitle service with sign language interpretation for an inclusive video experience')}}
+        {{$t(`You have used the subtitle service with sign language interpretation for an inclusive ${isLinkActive('/translate/audio') ? 'audio' : isLinkActive('/photos/*') ? 'photos' : isLinkActive('/document/*') ? 'Files' : 'video'} experience`)}}
         </div>
 
      <div class="flex flex-col items-start justify-center">
@@ -69,7 +77,7 @@ const props = defineProps({
 
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    Sign language
+                    {{ $t('Sign language') }}
                 </div>
 
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">
@@ -115,7 +123,7 @@ const props = defineProps({
             </div>
             <div class="flex items-start justify-center flex-col  space-y-[8px] col-span-6">
                 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                    
+                    {{ isLinkActive('/document/*') || isLinkActive('/photos/*')? $t('Characters') :$t('Minutes') }}
                 </div>
 
                 <div class="flex items-center justify-center rtl:space-x-reverse space-x-[8px]">

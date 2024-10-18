@@ -442,11 +442,11 @@ const moveForward = () => {
           class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"
           :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']" >
           <div
-            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full"
+            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-2/4"
           >
-            <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+            <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
               {{ $t('Original language') }}
-            </div>
+            </div> -->
             <TranslateSelectInput
               @getCurrentSelectedItem="handleSelectedItemProjectName"
               :enableSearch="true"
@@ -457,12 +457,13 @@ const moveForward = () => {
               idField="id"
             />
           </div>
+          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]  whitespace-nowrap">
+            {{$t('Translate to')}}
+          </div>
           <div
-            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full"
+            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-2/4"
           >
-            <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-              {{$t('Translate to')}}
-            </div>
+          
             <TranslateSelectInput
               @getCurrentSelectedItem="handleSelectedItemProjectName"
               :enableSearch="true"

@@ -29,13 +29,13 @@ const {
 
 <div class="flex flex-col items-start justify-center">
     <div class="text-[15px] font-[600] text-[#3D3D3D] leading-[22px] mb-[8px]">
-        {{ $t('Translate  Images') }}
+        {{ $t('Translate Images') }}
     </div>
     <div class="text-[14px] font-[500] text-[#6D6D6D] leading-[21px] ">
-        {{ $t('Easily Translate  Images  for Enhanced Accessibility and Communication') }}
+        {{ $t('Easily Translate Images for Enhanced Accessibility and Communication') }}
     </div>
     <button class="btn-action-translate mt-[12px] w-2/4" @click="()=>{plan === 'freetrial_Ex' || 
-        plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'photos') : openModal('translate_images', 'photos')}">Translate Now</button>
+        plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'photos') : openModal('translate_images', 'photos')}">{{$t('Translate Now')}}</button>
 
 
         </div>

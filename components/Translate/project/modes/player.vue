@@ -3,8 +3,25 @@ import { ref } from 'vue';
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 const props = defineProps({
-    mode:String
+    mode:String,
+    
 })
+const localePath = useLocalePath()
+const route = useRoute()
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  // If the pattern does not contain a wildcard, do an exact match
+  if (!pattern.includes("*")) {
+    return currentPath === pattern;
+  }
+
+  // Convert wildcard pattern to regex
+  const regex = new RegExp("^" + pattern.replace(/\/\*/g, ".*") + "$");
+
+  return regex.test(currentPath);
+};
 const translateStore = useTranslateStore()
 const emit = defineEmits(['playerPosition'])
 const languagesArr = [
@@ -230,14 +247,14 @@ const changeMode = () => {
             <button class="btn-default   !h-[30px]"
                 :class="[translateStore.player.playerPosition === 'inVideo' ? '!bg-tamkinLight' : '']" @click="changePlayer('inVideo')">
               
-                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('In video')}}</span>
+                <span :class="[translateStore.player.playerPosition  === 'inVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('On Frame') }}</span>
 
 
             </button>
             <button class="btn-default  !h-[30px]" :class="[translateStore.player.playerPosition  === 'OutVideo' ? '!bg-tamkinLight  ' : '']" 
             @click="changePlayer('OutVideo')">
            
-            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{$t('Out video')}}</span>
+            <span :class="[translateStore.player.playerPosition  === 'OutVideo' ? 'bg-gradient-to-r from-[#2DADA3] to-[#71DAD2] text-transparent bg-clip-text' :'']">{{  $t('Out Frame')}}</span>
 
             </button>
         </div>

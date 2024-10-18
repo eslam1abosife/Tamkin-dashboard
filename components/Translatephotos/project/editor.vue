@@ -1,50 +1,46 @@
 <template>
-    
-   <div class="flex items-start justify-start flex-col">
-
+  <div class="flex items-start justify-start flex-col">
     <div class="w-full" v-if="!prop_player.showHideImage">
-        <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-5/6" alt="">
+      <img src="/assets/imgs/translatephotos/img_detect.png" class="w-full h-5/6" alt="">
     </div>
-    <div ref="editorContainer" class="editor-container  w-full  bg-white "  :class="[!prop_player.showHideImage ? ' lg:mt-[-30px] mt-[-60px]' :'']"
- >
-        <editor-content :editor="editor" class="prose  w-full  scrollable-div " :class="[isMenusOpen ? 'lg:!h-[340px] 3xl:!h-[370px]':'!h-[282px] lg:!h-[250px]']"
-      ></editor-content>
-      </div>
-   </div>
- 
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent, ref, onMounted, watch } from 'vue';
-  import { Editor, EditorContent } from '@tiptap/vue-3';
-  import StarterKit from '@tiptap/starter-kit';
-  import TextStyle from '@tiptap/extension-text-style';
-  import Color from '@tiptap/extension-color';
-  import Highlight from '@tiptap/extension-highlight';
-  import Underline from '@tiptap/extension-underline';
-  import Strike from '@tiptap/extension-strike';
-  import { useTranslateStore } from "~/stores/translate";
+    <div ref="editorContainer" class="editor-container w-full bg-white" :class="[!prop_player.showHideImage ? 'lg:mt-[-30px] mt-[-60px]' : '']">
+      <editor-content :editor="editor" class="prose w-full scrollable-div" :class="[isMenusOpen ? 'lg:!h-[340px] 3xl:!h-[370px]' : '!h-[282px] lg:!h-[250px]']"></editor-content>
+    </div>
+  </div>
+</template>
 
-  export default defineComponent({
- 
- 
-    components: {
-      EditorContent,
-    },
-    props:{
-      isMenusOpen:Boolean
+<script lang="ts">
+import { defineComponent, ref, onMounted, inject, nextTick } from 'vue';
+import { Editor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+import TextStyle from '@tiptap/extension-text-style';
+import Color from '@tiptap/extension-color';
+import Highlight from '@tiptap/extension-highlight';
+import Underline from '@tiptap/extension-underline';
+import Strike from '@tiptap/extension-strike';
 
-    },
-    setup() {
-      const zoomLevel = ref(100);
-      const currentPage = ref(1);
-      const totalPages = ref(1);
-      const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
-      const WORD_LIMIT = 250; // Example word limit per page
-const translateStore = useTranslateStore()
-  
-      const editor = new Editor({
-        editable:false,
+export default defineComponent({
+  components: {
+    EditorContent,
+  },
+  props: {
+    isMenusOpen: Boolean,
+  },
+  setup() {
+    const zoomLevel = ref(100);
+    const currentPage = ref(1);
+    const totalPages = ref(1);
+    const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
+    const WORD_LIMIT = 250; // Example word limit per page
+    const translateStore = useTranslateStore();
+    
+    // Ref for editor
+    const editor = ref(null);
+    
+    // Create the editor instance on the client side
+    onMounted(() => {
+      editor.value = new Editor({
+        editable: false,
         extensions: [
           StarterKit,
           TextStyle,
@@ -70,46 +66,32 @@ const translateStore = useTranslateStore()
           },
         },
         onUpdate() {
-         
-     
-            nextTick(() => {
+          nextTick(() => {
+            translateStore.photoEditFooter = true;
+          });
+        },
+      });
+    });
 
-          translateStore.photoEditFooter = true
-      
-        })
-      }
+    // Define methods for toggling text styles
+    const toggleStrike = () => editor.value?.chain().focus().toggleStrike().run();
+    const toggleUnderline = () => editor.value?.chain().focus().toggleUnderline().run();
 
-    })
-  
-  
-  
-  
-  
-      const toggleStrike = () => editor.chain().focus().toggleStrike().run();
-      const toggleUnderline = () => editor.chain().focus().toggleUnderline().run();
-  
+    const prop_player = inject('prop_player');
 
-   
+    return {
+      editor,
+      zoomLevel,
+      prop_player,
+      toggleStrike,
+      toggleUnderline,
+      currentPage,
+      totalPages,
+    };
+  },
+});
+</script>
 
-      const prop_player = inject('prop_player');
-
-
-  
-      return {
-        editor,
-        zoomLevel,
-        prop_player,
-        toggleStrike,
-        toggleUnderline,
-        currentPage,
-        totalPages,
-      };
-    },
-  });
-  </script>
-  
-  <style scoped>
-
-
-  </style>
-  
+<style scoped>
+/* Add your styles here */
+</style>

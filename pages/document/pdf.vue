@@ -98,18 +98,10 @@ setTimeout(()=>{
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      {{ $t('PDF Documents ') }}
+      {{ $t('PDF Documents') }}
       </h1>
 
-      <div  style="box-shadow: 0px 4px 4px 0px #0000000F;
-" class="bg-[#F7F7F7] h-[41px]  flex space-x-[8px]  items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-        <div>
-          <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
-        </div>
-        <div class="text-[12px] font-[500] text-darkGrey">
-          Tamkin.App
-        </div>
-      </div>
+  
       </div>
       <h2 @click="$router.push(localePath('/document'))"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
@@ -125,7 +117,7 @@ setTimeout(()=>{
     </transition>
 
     <transition name="slide-up">
-      <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
+      <Processingfooter :done="processingDone"  @close-footer="cancelFooterproccess" :showFooter="translateStore.showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
   <TranslatedocsProjectPdfProjectsettings/>

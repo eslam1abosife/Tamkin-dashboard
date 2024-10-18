@@ -613,4 +613,5 @@ const sortedPlans = computed(() => {
 .splide__pagination__page.is-active{
 @apply !bg-tamkin;
 }
+
 </style>

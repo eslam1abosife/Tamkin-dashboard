@@ -12,6 +12,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 </script>
 
 <template>
@@ -47,7 +48,7 @@ const {
                         <img src="/assets/imgs/translatevideo/audio.svg" class="w-[30px] h-[30px]" alt="">
                       </div>
                   <h2 class="text-[14px] font-[600] leading-[21px] text-[#3D3D3D] dark:text-whiteTamkin mt-2">{{$t('Translate Audio')}}</h2>
-                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Upload your audio or share the link, and we'll translate it`)}}</p>
+                  <p class="text-[12px] font-[500] text-[#6D6D6D] dark:text-whiteTamkin leading-[16px] mt-1">{{$t(`Upload your audio or share the link, and we'll translate it`)}}</p>
                   <button class="btn-action-translate mt-4" @click="openModal('translate_audio', 'translate')">{{$t('Translate Now')}}</button>
                 </div>
                 <img src="/assets/imgs/translatevideo/guy_laptop.png" class="w-[100px] h-[100px] lg:ml-[35px] mt-4 lg:mt-0" alt="">

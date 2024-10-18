@@ -63,7 +63,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              50 <span class="font-[500]">WORDS</span>
+              50 <span class="font-[500]">{{$t('Words')}}</span>
             </div>
           </div>
           <div class="flex items-center">
@@ -73,7 +73,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              50 <span class="font-[500]">Character</span>
+              50 <span class="font-[500]">{{$t('Characters')}}</span>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ watch(
           @click="changePlan('freetrial_upgrade')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          Try it Now
+          {{ $t('Try Now') }}
         </button>
       </div>
 
@@ -142,7 +142,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              50 / 50 <span class="font-[500]">WORDS</span>
+              50 / 50 <span class="font-[500]">{{$t('Words')}}</span>
             </div>
           </div>
           <div class="flex items-center">
@@ -152,7 +152,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              50 / 50 <span class="font-[500]">Character</span>
+              50 / 50 <span class="font-[500]">{{$t('Characters')}}</span>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ watch(
           @click="changePlan('freetrial_Ex')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-         Upgrade now
+         {{ $t('Upgrade now') }}
         </button>
       </div>
 
@@ -223,7 +223,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              <span class="font-[500]">WORDS</span>
+              <span class="font-[500]">{{$t('Words')}}</span>
             </div>
           </div>
           <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
@@ -233,7 +233,7 @@ watch(
               alt=""
             />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">
-              <span class="font-[500]">Character</span>
+              <span class="font-[500]">{{$t('Characters')}}</span>
             </div>
           </div>
         </div>
@@ -242,7 +242,7 @@ watch(
           @click="changePlan('pro_pack')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          Upgrade now
+          {{ $t('Upgrade now') }}
         </button>
       </div>
 
@@ -302,7 +302,7 @@ watch(
           @click="changePlan('pro_used')"
           class="btn-dashboard hover_tamkin mt-[8px] w-[158px]"
         >
-          Upgrade now
+          {{ $t('Upgrade now') }}
         </button>
       </div>
 
@@ -361,15 +361,15 @@ watch(
         <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
           <button
             @click="changePlan('freetrial')"
-            class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]"
+            class="btn_bordered_dashboard hover_tamkin lg:!w-auto"
           >
-            Buy more words
+            {{ $t('Buy more words') }}
           </button>
           <button
             @click="changePlan('pro')"
-            class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-[158px]"
+            class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-auto"
           >
-            Buy more Minutes
+            {{ $t('Buy more characters') }}
           </button>
         </div>
       </div>

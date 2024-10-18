@@ -3,16 +3,20 @@ import { ref, reactive, computed } from 'vue';
 
 export const useTranslateStore = defineStore('translate', () => {
   const signLanguageChecked = ref(false);
-  const subtitleCheck = ref(true)
-  const translateCheck = ref(true)
+  const subtitleCheck = ref(true);
+  const translateCheck = ref(true);
   const currentMode = ref('subtitles');
   const subMode = ref('');
-  const changesOnSubTitles = ref(false)
-  const pdfTextEdit = ref(false)
-  const wordTextEdit = ref(false)
-  const photoEditFooter = ref(false)
-
-  const showProcessingFooter = ref(false)
+  const changesOnSubTitles = ref(false);
+  const pdfTextEdit = ref(false);
+  const wordTextEdit = ref(false);
+  const photoEditFooter = ref(false);
+  const showProcessingFooter = ref(false);
+const renameItem = ref({
+  name: '',
+  value:''
+}) 
+const currentTab = ref('')
   const styles = reactive({
     textAlign: '',
     color: '',
@@ -29,7 +33,8 @@ export const useTranslateStore = defineStore('translate', () => {
       enabled: false
     }
   });
-  
+
+  // Initial state for resetting later
   const initialStyles = reactive({
     textAlign: '',
     color: '',
@@ -47,6 +52,7 @@ export const useTranslateStore = defineStore('translate', () => {
     }
   });
 
+  // Translation subtitles and player states
   const translationSubtitles = reactive({
     language: ''
   });
@@ -58,6 +64,7 @@ export const useTranslateStore = defineStore('translate', () => {
     visibility: null,
     playerPosition: ''
   });
+
   const player = reactive({
     contrast: false,
     background: null,
@@ -66,6 +73,7 @@ export const useTranslateStore = defineStore('translate', () => {
     playerPosition: ''
   });
 
+  // Function to reset styles to their initial state
   const resetStyles = () => {
     Object.assign(styles, {
       textAlign: '',
@@ -84,8 +92,10 @@ export const useTranslateStore = defineStore('translate', () => {
       }
     });
   };
+
+  // Function to reset player configuration to its initial state
   const resetPlayer = () => {
-    Object.assign(player,{
+    Object.assign(player, {
       contrast: false,
       background: null,
       position: '',
@@ -93,16 +103,49 @@ export const useTranslateStore = defineStore('translate', () => {
       playerPosition: ''
     });
   };
+
+  // Function to check if there are any unsaved changes to styles or player settings
   const hasChanges = computed(() => {
     return JSON.stringify(initialStyles) !== JSON.stringify(styles);
   });
+
   const hasChangesPlayer = computed(() => {
     return JSON.stringify(initialPlayer) !== JSON.stringify(player);
   });
-  return { signLanguageChecked,changesOnSubTitles,
+
+  // New function to cancel changes (reset both styles and player to their initial values)
+  const cancelChanges = () => {
+    Object.assign(styles, JSON.parse(JSON.stringify(initialStyles))); // Reset styles to initial state
+    Object.assign(player, JSON.parse(JSON.stringify(initialPlayer))); // Reset player to initial state
+  };
+const projectsAr = ref([])
+const allLoaded = ref(null)
+  // Return the state and functions
+  return {
+    signLanguageChecked,
+    changesOnSubTitles,
     pdfTextEdit,
-wordTextEdit,
-    styles,translateCheck,showProcessingFooter, translationSubtitles, player, resetPlayer,currentMode,subtitleCheck,photoEditFooter, subMode, resetStyles, hasChanges ,initialPlayer,hasChangesPlayer};
+    wordTextEdit,
+    photoEditFooter,
+    styles,
+    translateCheck,
+    showProcessingFooter,
+    translationSubtitles,
+    player,
+    resetPlayer,
+    currentMode,
+    subtitleCheck,
+    subMode,
+    resetStyles,
+    hasChanges,
+    initialPlayer,
+    hasChangesPlayer,
+    cancelChanges ,renameItem,
+    currentTab,
+    projectsAr,
+    allLoaded
+
+  };
 });
 
 if (import.meta.hot) {

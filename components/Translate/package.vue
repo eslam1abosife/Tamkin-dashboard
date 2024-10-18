@@ -38,18 +38,18 @@ const scrollToSection = (sectionId) =>{
       class="w-full bg-gradient-to-l from-[#A3D9C6A8] via-[#FAECCCA8] to-[#A5D6F2A8] rounded-[10px]
        flex flex-col items-start justify-between h-full p-[15px] relative"
     >
-      <div class="flex flex-col items-start justify-between h-[180px] w-full">
+      <div class="flex flex-col items-start justify-between h-[160px] w-full">
         <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-          <img class="w-[40px] h-[40px]" src="/assets/imgs/translatevideo/free_trial.png" alt="" />
+          <img class="w-[40px] h-[40px]" src="https://tamkin.app//files/1%2055.png" alt="" />
           <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px]">
-            Free Trial
+            {{ $t('Free') }} - {{ $t('Sign language') }} - {{$t('Media')}}
           </div>
         </div>
 
         <div class="text-[12px] lg:text-[14px] font-[400] text-[#021328] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
-          Enjoy a 14-day free trial, where you can translate up to 50 words and 50 minutes
+         text
         </div>
-
+<!-- 
         <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
           <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
             <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="" />
@@ -59,10 +59,10 @@ const scrollToSection = (sectionId) =>{
             <img src="/assets/imgs/translatevideo/min_icon.png" class="w-[25px] h-[25px]" alt="" />
             <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Minutes</span></div>
           </div>
-        </div>
+        </div> -->
 
         <button @click="changePlan('freetrial')" class="btn-dashboard hover_tamkin mt-[8px] w-[158px]">
-          {{ $t('Try it Now') }}
+          {{ $t('Upgrade now') }}
         </button>
       </div>
 
@@ -273,10 +273,10 @@ const scrollToSection = (sectionId) =>{
         </div>
 
         <div class="flex items-center rtl:space-x-reverse space-x-[10px] w-full mt-[8px]">
-          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin lg:!w-[158px]">
+          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !w-auto">
             {{ $t('Buy more words') }}
           </button>
-          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !p-2 lg:!w-[158px]">
+          <button @click="changePlan('pro')" class="btn_bordered_dashboard hover_tamkin !p-2 !w-auto">
             {{ $t('Buy more Minutes') }}
           </button>
         </div>

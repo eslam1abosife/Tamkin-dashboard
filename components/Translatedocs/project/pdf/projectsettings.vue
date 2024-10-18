@@ -14,7 +14,7 @@ const {
     navigateTo,
 } = useModalManager();
 const { currentMode } = storeToRefs(translateStore)
-const bigpicMode = ref(false)
+const bigpicMode = ref(false);
 const playerPosition = ref('')
 const changeMode = (mode: any) => {
     currentMode.value = currentMode.value === mode ? "" : mode;
@@ -34,15 +34,30 @@ const getPlayerPosition = (p: any) => {
 
         <div class="flex items-center justify-between w-full">
             <div class="text-darkGrey text-[18px] leading-[27px] font-[500] text-left">
-                Project Settings
+                {{ $t('Project Settings') }}
             </div>
 
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
                 <button class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2"
                >
-               <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 13.599L4.94429 9.05014L5.95571 8.12443L9.28571 11.1214V0H10.7143V11.1214L14.0429 8.12571L15.0557 9.05014L10 13.599ZM2.30857 18C1.65048 18 1.10143 17.802 0.661428 17.406C0.221428 17.01 0.000952381 16.5154 0 15.9223V12.807H1.42857V15.9223C1.42857 16.1203 1.52 16.302 1.70286 16.4674C1.88571 16.6329 2.08714 16.7151 2.30714 16.7143H17.6929C17.9119 16.7143 18.1133 16.632 18.2971 16.4674C18.481 16.3029 18.5724 16.1211 18.5714 15.9223V12.807H20V15.9223C20 16.5146 19.78 17.0087 19.34 17.4047C18.9 17.8007 18.3505 17.9991 17.6914 18H2.30857Z" fill="#878787"/>
-                </svg>
+               <svg
+               width="20"
+               height="18"
+               viewBox="0 0 20 18"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg"
+               class="fill-gray-500 group-hover:fill-[url(#gradient)] transition duration-300"
+             >
+               <defs>
+                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                   <stop offset="0%" stop-color="#34D399" /> <!-- Green -->
+                   <stop offset="100%" stop-color="#3B82F6" /> <!-- Blue -->
+                 </linearGradient>
+               </defs>
+               <path
+                 d="M10 13.599L4.94429 9.05014L5.95571 8.12443L9.28571 11.1214V0H10.7143V11.1214L14.0429 8.12571L15.0557 9.05014L10 13.599ZM2.30857 18C1.65048 18 1.10143 17.802 0.661428 17.406C0.221428 17.01 0.000952381 16.5154 0 15.9223V12.807H1.42857V15.9223C1.42857 16.1203 1.52 16.302 1.70286 16.4674C1.88571 16.6329 2.08714 16.7151 2.30714 16.7143H17.6929C17.9119 16.7143 18.1133 16.632 18.2971 16.4674C18.481 16.3029 18.5724 16.1211 18.5714 15.9223V12.807H20V15.9223C20 16.5146 19.78 17.0087 19.34 17.4047C18.9 17.8007 18.3505 17.9991 17.6914 18H2.30857Z"
+               />
+             </svg>
                 
 
             </button>
@@ -107,7 +122,41 @@ const getPlayerPosition = (p: any) => {
         <div class=" flex items-start w-full justify-between mt-[30px]">
        
             <div class="flex items-start justify-evenly  rtl:space-x-reverse space-x-[15px] ">
-
+              <button class="btn-translate tamkin hover_tamkin  group" 
+              
+              @click="bigpicMode = !bigpicMode" :class="[!bigpicMode ? 'active_tamkin' : '']">
+                <div>
+                  <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="group-hover:fill-white"
+                     d="M5.6531 8.36047V9.56977C4.52863 9.56977 3.45021 9.95199 2.65509 10.6324C1.85997 11.3127
+                      1.41327 12.2355 1.41327 13.1977H0C0 11.9148 0.595592 10.6844 1.65575 
+                      9.77725C2.71591 8.8701 4.1538 8.36047 5.6531 8.36047ZM5.6531 7.75581C3.31059 7.75581 
+                      1.41327 6.13233 1.41327 4.12791C1.41327 2.12349 3.31059 0.5 5.6531 0.5C7.9956 0.5 9.89292
+                       2.12349 9.89292 4.12791C9.89292 6.13233 7.9956 7.75581 5.6531 7.75581ZM5.6531 6.54651C7.21476
+                        6.54651 8.47964 5.46419 8.47964 4.12791C8.47964 2.79163 7.21476 1.7093 5.6531 1.7093C4.09143
+                         1.7093 2.82655 2.79163 2.82655 4.12791C2.82655 5.46419 4.09143 6.54651 5.6531 6.54651ZM7.48682
+                          11.2694C7.39707 10.947 7.39707 10.6111 7.48682 10.2887L6.78583 9.94223L7.49247 8.89498L8.19346 
+                          9.24144C8.47488 9.01349 8.81496 8.84531 9.18628 8.75047V8.05814H10.5996V8.75047C10.9755 8.846 
+                          11.3147 9.01651 11.5924 9.24144L12.2934 8.89498L13 9.94223L12.2997 10.2887C12.3895 10.6111 
+                          12.3895 10.947 12.2997 11.2694L13 11.6159L12.2934 12.6632L11.5924 12.3167C11.311 12.5447 
+                          10.9709 12.7128 10.5996 12.8077V13.5H9.18628V12.8077C8.81496 12.7128 8.47488 12.5447 8.19346
+                           12.3167L7.49247 12.6632L6.78583 11.6159L7.48682 11.2694ZM9.89292 11.686C10.174 11.686 10.4436 
+                           11.5905 10.6424 11.4204C10.8412 11.2503 10.9529 11.0196 10.9529 10.7791C10.9529 10.5385 10.8412 
+                           10.3078 10.6424 10.1377C10.4436 9.96765 10.174 9.87209 9.89292 9.87209C9.6118 9.87209 9.3422 
+                           9.96765 9.14342 10.1377C8.94464 10.3078 8.83296 10.5385 8.83296 10.7791C8.83296 11.0196 8.94464
+                            11.2503 9.14342 11.4204C9.3422 11.5905 9.6118 11.686 9.89292 11.686Z" 
+                            :class="[translateStore.currentMode === 'player' ? 'fill-white' : 'fill-current']" />
+                    <defs>
+                      <linearGradient id="paint0_linear_6877_84222" 
+                      x1="6.5" y1="0.5" x2="6.5" y2="13.5" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#2DADA3" />
+                        <stop offset="1" stop-color="#71DAD2" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <div class="text_normal_hover"> {{ $t('Player') }} </div>
+              </button>
                 <button class="btn-translate tamkin hover_tamkin group" @click="changeMode('translation')"
                     :class="[translateStore.currentMode === 'translation' ? 'active_tamkin' : '']">
                     <div>
@@ -126,7 +175,7 @@ const getPlayerPosition = (p: any) => {
                             </defs>
                         </svg>
                     </div>
-                    <div class="text_normal_hover">Translation</div>
+                    <div class="text_normal_hover">{{$t('Translation')}}</div>
                 </button>
                 <button class="btn-translate tamkin hover_tamkin group" @click="changeMode('signlang')"
                     :class="[translateStore.currentMode === 'signlang' ? 'active_tamkin' : '']">
@@ -146,7 +195,7 @@ const getPlayerPosition = (p: any) => {
                             </defs>
                         </svg>
                     </div>
-                    <div class="text_normal_hover"> Sign Language </div>
+                    <div class="text_normal_hover"> {{ $t('Sign Language') }} </div>
                 </button>
             </div>
         </div>
@@ -156,133 +205,157 @@ const getPlayerPosition = (p: any) => {
 
 
         <ClientOnly>
-            <div class="grid grid-cols-12 gap-4 w-full h-full mt-[24px]">
-
-                <!-- <LazyTranslateProjectModesSubtitles v-if="translateStore.currentMode  === 'subtitles' && !bigpicMode" /> -->
-                <!-- <LazyTranslateProjectModesPlayer v-if="translateStore.currentMode  === 'player' && !bigpicMode"
-                @player-position="getPlayerPosition" /> -->
-
-
-
-
-                <TranslatedocsProjectPdfEditor
-                
-                :is-menus-open="      (translateStore.currentMode === 'signlang' && !bigpicMode) ||
-                    (translateStore.currentMode === 'translation' && !bigpicMode)"
-                class="ipad-max:w-3/4 3xl:w-3/4 h-full col-span-8  " />
-
-                <div class="  h-full col-span-4" >
-                    <LazyTranslatedocsProjectModesSignlang class="w-full !overflow-y-hidden "
-                        v-show="translateStore.currentMode === 'signlang'" />
-                    <LazyTranslatedocsProjectModesTranslation class="w-full !overflow-y-hidden "
-                        v-show="translateStore.currentMode === 'translation'" />
-
-                    <div class="flex flex-col space-y-[24px] items-start justify-start w-full 
-                " 
+            <div
+              class="grid grid-cols-12 mt-[24px] gap-4 h-full w-full"
+            >
+         
+      
+              <TranslatedocsProjectPdfEditor
+              class="h-full"
+              :is-menus-open=" (translateStore.currentMode === 'signlang' && !bigpicMode) ||
+                              (translateStore.currentMode === 'translation' && !bigpicMode)"
                 :class="[
+                  bigpicMode ? ' col-span-12 !mx-auto !w-full' : 'h-full col-span-8 ipad-max:col-span-7',
+                ]"
+              />
+      
+              <div class="h-full col-span-4 ipad-max:col-span-5" v-if="!bigpicMode">
+                <LazyTranslatedocsProjectModesSignlang
+                  class="w-full !overflow-y-hidden"
+                  v-if="translateStore.currentMode === 'signlang' && !bigpicMode"
+                />
+                <LazyTranslatedocsProjectModesTranslation
+                  class="w-full !overflow-y-hidden"
+                  v-if="translateStore.currentMode === 'translation' && !bigpicMode"
+                />
+      
+                <div
+                  class="flex flex-col space-y-[24px] items-start justify-center w-full  "
+                  :class="[
                     (translateStore.currentMode === 'signlang' && !bigpicMode) ||
                     (translateStore.currentMode === 'translation' && !bigpicMode)
                       ? ' ipad-max:mt-[-60px] mt-[-100px]'
                       : 'mt-0',
-                  ]">
-                        <div class="relative w-full">
-                            <img src="/assets/imgs/translatedocs/player.png" alt=""
-                                class="transition-all ease-in-out lg:h-[400px] h-full w-full">
-
-                        </div>
-                        <div v-if="    (translateStore.currentMode === 'signlang' && !bigpicMode) ||
-                        (translateStore.currentMode === 'translation' && !bigpicMode)"
-                                class="h-[54px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
-                                flex flex-col items-center justify-center rounded-[10px]"
-                              >
-                              
-                          
-                                <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
-                                  <div
-                                  class="text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
-                                >
-                                  Translation accuracy
-                                </div>
-                                
-                                  <div class="flex items-center justify-center w-[50px] ">
-                                    <Circularprogressbar :initialPercentage="85" class="w-full small_circle text-[12px]" />
-                                  
+                  ]"
+                >
+                  <div class="relative w-full">
+                    <img
+                      src="/assets/imgs/translatedocs/player.png"
+                      alt=""
+                      @click="bigpicMode = !bigpicMode"
+                      class="transition-all ease-in-out  w-full h-full lg:h-[400px]" 
+                    />
+                  </div>
+      
+                  <!-- 
+                              <div
+                                  class="h-auto space-y-4  relative w-full bg-gradient-to-r
+                                    from-[#D4EFFE] to-[#AFF3ED9E] flex flex-col items-center justify-center rounded-[10px]">
+                                  <div class="absolute bottom-2 right-1 ">
+                                      <img src="/assets/imgs/translatedocs/Vector.png" class="w-[32px] h-[32px]" alt="">
                                   </div>
-          
-                                 
-                                 
-                         
+      
+                                  <div class="">
+                                      <img src="/assets/imgs/translatevideo/pro.png" class="w-[60px] h-[60px]" alt="">
+                                  </div>
+                                  <div class=" text-darkGrey text-[14px] font-[600] leading-[17px] text-center">
+                                      Show me the details of my package
+                                  </div>
+                                  <div>
+                                      <button class="btn-dashboard hover_tamkin">
+                                          My Package
+                                      </button>
+                                  </div>
+                              </div> -->
+      
+                              <div v-if="    (translateStore.currentMode === 'signlang' && !bigpicMode) ||
+                              (translateStore.currentMode === 'translation' && !bigpicMode)"
+                                      class="h-[54px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+                                      flex flex-col items-center justify-center rounded-[10px]"
+                                    >
+                                    
+                                
+                                      <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
+                                        <div
+                                        class="text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
+                                      >
+                                        {{ $t('Translation accuracy') }}
+                                      </div>
+                                      
+                                        <div class="flex items-center justify-center w-[50px] ">
+                                          <Circularprogressbar :initialPercentage="85" class="w-full small_circle text-[12px]" />
+                                        
+                                        </div>
+                
+                                       
+                                       
+                               
+                                      </div>
+                                    </div>
+                              <div v-else
+                              class="h-[200px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+                              flex flex-col items-center justify-center rounded-[10px]"
+                            >
+                              <div class="absolute bottom-4 right-4">
+                                <img
+                                  src="/assets/imgs/translatedocs/lines.svg"
+                                  class="w-[32px] h-[32px]"
+                                  alt=""
+                                />
+                              </div>
+                              <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
+                                {{ $t('Sign Language Translation') }}
+                              </div>
+                              <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
+                                <div class="flex flex-col items-center justify-center w-[120px]">
+                                  <Circularprogressbar :initialPercentage="85" class="w-full" />
+                                  <div
+                                    class="mt-[12px] text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
+                                  >
+                                    {{$t('Translation accuracy')}}
+                                  </div>
+                                </div>
+                                <div class="flex items-center jutify-center flex-col w-[150px] space-y-[9px]">
+                                  <div
+                                    class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px]
+                                     w-full flex flex-col items-center justify-center"
+                                  >
+                                    <div>
+                                      <img
+                                        src="/assets/imgs/translatedocs/Checkmark.png"
+                                        class="w-[19px] h-[19px]"
+                                        alt=""
+                                      />
+                                    </div>
+                
+                                    <div class="text-[11px] text-center font-[500] text-[#021328]">
+                                      {{ $t('Translated Words') }} 1,250
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px] w-full flex flex-col items-center justify-center"
+                                  >
+                                    <div>
+                                      <img
+                                        src="/assets/imgs/translatedocs/limited.svg"
+                                        class="w-[19px] h-[19px]"
+                                        alt=""
+                                      />
+                                    </div>
+                
+                                    <div class="text-[11px] text-center font-[500] text-[#021328]">
+                                      {{ $t('Untranslated Words') }} 1,250
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                        <div v-else
-                        class="h-[200px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
-                        flex flex-col items-center justify-center rounded-[10px]"
-                      >
-                        <div class="absolute bottom-4 right-4">
-                          <img
-                            src="/assets/imgs/translatedocs/lines.svg"
-                            class="w-[32px] h-[32px]"
-                            alt=""
-                          />
-                        </div>
-                        <div class="text-[12px] font-[600] text-black leading-[17px] mb-[12px]">
-                          Sign Language Translation
-                        </div>
-                        <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
-                          <div class="flex flex-col items-center justify-center w-[120px]">
-                            <Circularprogressbar :initialPercentage="85" class="w-full" />
-                            <div
-                              class="mt-[12px] text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
-                            >
-                              Translation accuracy
                             </div>
-                          </div>
-                          <div class="flex items-center jutify-center flex-col w-[150px] space-y-[9px]">
-                            <div
-                              class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px]
-                               w-full flex flex-col items-center justify-center"
-                            >
-                              <div>
-                                <img
-                                  src="/assets/imgs/translatedocs/Checkmark.png"
-                                  class="w-[19px] h-[19px]"
-                                  alt=""
-                                />
-                              </div>
-          
-                              <div class="text-[11px] text-center font-[500] text-[#021328]">
-                                Translated Words 1,250
-                              </div>
-                            </div>
-                            <div
-                              class="bg-white bg-opacity-30 h-[67px] space-y-[4px] rounded-[5px] w-full flex flex-col items-center justify-center"
-                            >
-                              <div>
-                                <img
-                                  src="/assets/imgs/translatedocs/limited.svg"
-                                  class="w-[19px] h-[19px]"
-                                  alt=""
-                                />
-                              </div>
-          
-                              <div class="text-[11px] text-center font-[500] text-[#021328]">
-                                Untranslated Words 1,250
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                     
-                    </div>
-
-
-
+      
+                      
                 </div>
-
-
+              </div>
             </div>
-        </ClientOnly>
+          </ClientOnly>
     </div>
 
 

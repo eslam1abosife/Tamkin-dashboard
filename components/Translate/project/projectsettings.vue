@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-              // import { VTamkinPlayer } from 'tamkin-video-player';
-              // const videoUrl = ref('/video.mp4'); 
+              import { VTamkinPlayer } from 'tamkin-video-player';
+              const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
 
@@ -96,60 +96,99 @@ const getPlayerPosition = (p: any) => {
               {{$t('Sign language')}}
             </div>
             <div class="flex items-start justify-evenly rtl:space-x-reverse space-x-[15px]">
-              <button class="btn-translate group" @click="changeMode('translation')" :class="[translateStore.currentMode === 'translation' ? 'active' : '']">
+              <button class="btn-translate tamkin hover_tamkin  group" 
+              @click="changeMode('translation')" :class="[translateStore.currentMode === 'translation' ? 'active_tamkin' : '']">
                 <div>
-                  <svg width="15" class="w-[13px] h-[13px]" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 14.5V9.7291C1 7.83114 1 6.88288 1.29171 6.05306C1.70613 4.87225 3.17283 3.61056 4.30962 2.87535C5.03688 2.40519 5.7235 2.21814 7.39172 1.71043C7.65744 1.62954 7.78989 1.5891 8.03122 1.54938C8.27174 1.50966 8.33025 1.50749 8.44645 1.50316C8.79978 1.49002 9.15353 1.51794 9.49873 1.58621C9.77745 1.64326 10.0545 1.73643 10.6079 1.92204L12.1599 2.48969C12.4569 2.59498 12.695 2.80041 12.8222 3.06114C12.9493 3.32187 12.9553 3.61672 12.8388 3.88136C12.7223 4.14599 12.4927 4.35892 12.2002 4.47366C11.9077 4.58841 11.576 4.59565 11.2775 4.49382M11.2775 4.49382L10.5372 4.29015C9.96759 4.13488 9.41098 4.03377 8.93968 4.08577C8.08973 4.17749 5.96403 5.1113 5.96403 5.1113M11.2775 4.49382L13.2179 5.13514C13.496 5.22472 13.7264 5.4034 13.8639 5.63613C14.0015 5.86887 14.0362 6.13888 13.9614 6.39322C13.7883 6.97315 13.0984 7.31187 12.4403 7.13998L10.6575 6.6756C9.21108 6.16356 6.37763 6.90888 6.37763 8.52301C6.37763 9.70599 7.94996 10.4759 9.14689 9.94648C10.5226 9.33838 11.9527 8.57212 13.443 9.45105C13.9045 9.7226 14.1556 10.2671 13.6445 10.6362L11.3417 11.9723C10.9272 12.272 9.98872 12.6735 9.32403 12.8916L9.25577 12.9148L9.22165 12.927C8.96 13.0281 7.76388 13.5366 7.50061 14.5" class="group-hover:stroke-[url(#paint0_linear_7210_77014)]" stroke-width="1.4" stroke-linecap="round" :class="[translateStore.currentMode === 'translation' ? 'stroke-[url(#paint0_linear_7210_77014)]' : 'stroke-current']" stroke-linejoin="round" />
+                  <svg width="15" class="w-[13px] h-[13px]" height="16" viewBox="0 0 15 16" fill="none" 
+                  xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 14.5V9.7291C1 7.83114 1 6.88288 1.29171 6.05306C1.70613 4.87225 3.17283 3.61056 4.30962
+                     2.87535C5.03688 2.40519 5.7235 2.21814 7.39172 1.71043C7.65744 1.62954 7.78989 1.5891 8.03122
+                      1.54938C8.27174 1.50966 8.33025 1.50749 8.44645 1.50316C8.79978 1.49002 9.15353 1.51794 9.49873 
+                      1.58621C9.77745 1.64326 10.0545 1.73643 10.6079 1.92204L12.1599 2.48969C12.4569 2.59498 12.695
+                       2.80041 12.8222 3.06114C12.9493 3.32187 12.9553 3.61672 12.8388 3.88136C12.7223 4.14599 12.4927
+                       4.35892 12.2002 4.47366C11.9077 4.58841 11.576 4.59565 11.2775 4.49382M11.2775 4.49382L10.5372
+                        4.29015C9.96759 4.13488 9.41098 4.03377 8.93968 4.08577C8.08973 4.17749 5.96403 5.1113 5.96403
+                        5.1113M11.2775 4.49382L13.2179 5.13514C13.496 5.22472 13.7264 5.4034 13.8639 5.63613C14.0015 
+                        5.86887 14.0362 6.13888 13.9614 6.39322C13.7883 6.97315 13.0984 7.31187 12.4403 7.13998L10.6575
+                         6.6756C9.21108 6.16356 6.37763 6.90888 6.37763 8.52301C6.37763 9.70599 7.94996 10.4759 9.14689
+                          9.94648C10.5226 9.33838 11.9527 8.57212 13.443 9.45105C13.9045 9.7226 14.1556 10.2671 13.6445
+                           10.6362L11.3417 11.9723C10.9272 12.272 9.98872 12.6735 9.32403 12.8916L9.25577 12.9148L9.22165 
+                           12.927C8.96 13.0281 7.76388 13.5366 7.50061 14.5"
+                            class="group-hover:stroke-white" stroke-width="1.4" stroke-linecap="round" 
+                            :class="[translateStore.currentMode === 'translation' ? 'stroke-white' : 'stroke-current']" stroke-linejoin="round" />
                     <defs>
-                      <linearGradient id="paint0_linear_7210_77014" x1="7.5" y1="1.5" x2="7.5" y2="14.5" gradientUnits="userSpaceOnUse">
+                      <linearGradient id="paint0_linear_7210_77014" x1="7.5" y1="1.5" x2="7.5" y2="14.5" 
+                      gradientUnits="userSpaceOnUse">
                         <stop stop-color="#2DADA3" />
                         <stop offset="1" stop-color="#71DAD2" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
-                <div class="text"> {{$t('Translation')}} </div>
+                <div class="text_normal_hover"> {{$t('Sign language')}} </div>
               </button>
-              <button class="btn-translate group" @click="changeMode('player')" :class="[translateStore.currentMode === 'player' ? 'active' : '']">
+              <button class="btn-translate tamkin hover_tamkin  group" @click="changeMode('player')" :class="[translateStore.currentMode === 'player' ? 'active_tamkin' : '']">
                 <div>
                   <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="group-hover:fill-[url(#paint0_linear_6877_84222)]" d="M5.6531 8.36047V9.56977C4.52863 9.56977 3.45021 9.95199 2.65509 10.6324C1.85997 11.3127 1.41327 12.2355 1.41327 13.1977H0C0 11.9148 0.595592 10.6844 1.65575 9.77725C2.71591 8.8701 4.1538 8.36047 5.6531 8.36047ZM5.6531 7.75581C3.31059 7.75581 1.41327 6.13233 1.41327 4.12791C1.41327 2.12349 3.31059 0.5 5.6531 0.5C7.9956 0.5 9.89292 2.12349 9.89292 4.12791C9.89292 6.13233 7.9956 7.75581 5.6531 7.75581ZM5.6531 6.54651C7.21476 6.54651 8.47964 5.46419 8.47964 4.12791C8.47964 2.79163 7.21476 1.7093 5.6531 1.7093C4.09143 1.7093 2.82655 2.79163 2.82655 4.12791C2.82655 5.46419 4.09143 6.54651 5.6531 6.54651ZM7.48682 11.2694C7.39707 10.947 7.39707 10.6111 7.48682 10.2887L6.78583 9.94223L7.49247 8.89498L8.19346 9.24144C8.47488 9.01349 8.81496 8.84531 9.18628 8.75047V8.05814H10.5996V8.75047C10.9755 8.846 11.3147 9.01651 11.5924 9.24144L12.2934 8.89498L13 9.94223L12.2997 10.2887C12.3895 10.6111 12.3895 10.947 12.2997 11.2694L13 11.6159L12.2934 12.6632L11.5924 12.3167C11.311 12.5447 10.9709 12.7128 10.5996 12.8077V13.5H9.18628V12.8077C8.81496 12.7128 8.47488 12.5447 8.19346 12.3167L7.49247 12.6632L6.78583 11.6159L7.48682 11.2694ZM9.89292 11.686C10.174 11.686 10.4436 11.5905 10.6424 11.4204C10.8412 11.2503 10.9529 11.0196 10.9529 10.7791C10.9529 10.5385 10.8412 10.3078 10.6424 10.1377C10.4436 9.96765 10.174 9.87209 9.89292 9.87209C9.6118 9.87209 9.3422 9.96765 9.14342 10.1377C8.94464 10.3078 8.83296 10.5385 8.83296 10.7791C8.83296 11.0196 8.94464 11.2503 9.14342 11.4204C9.3422 11.5905 9.6118 11.686 9.89292 11.686Z" :class="[translateStore.currentMode === 'player' ? 'fill-[url(#paint0_linear_6877_84222)]' : 'fill-current']" />
+                    <path class="group-hover:fill-white"
+                     d="M5.6531 8.36047V9.56977C4.52863 9.56977 3.45021 9.95199 2.65509 10.6324C1.85997 11.3127
+                      1.41327 12.2355 1.41327 13.1977H0C0 11.9148 0.595592 10.6844 1.65575 
+                      9.77725C2.71591 8.8701 4.1538 8.36047 5.6531 8.36047ZM5.6531 7.75581C3.31059 7.75581 
+                      1.41327 6.13233 1.41327 4.12791C1.41327 2.12349 3.31059 0.5 5.6531 0.5C7.9956 0.5 9.89292
+                       2.12349 9.89292 4.12791C9.89292 6.13233 7.9956 7.75581 5.6531 7.75581ZM5.6531 6.54651C7.21476
+                        6.54651 8.47964 5.46419 8.47964 4.12791C8.47964 2.79163 7.21476 1.7093 5.6531 1.7093C4.09143
+                         1.7093 2.82655 2.79163 2.82655 4.12791C2.82655 5.46419 4.09143 6.54651 5.6531 6.54651ZM7.48682
+                          11.2694C7.39707 10.947 7.39707 10.6111 7.48682 10.2887L6.78583 9.94223L7.49247 8.89498L8.19346 
+                          9.24144C8.47488 9.01349 8.81496 8.84531 9.18628 8.75047V8.05814H10.5996V8.75047C10.9755 8.846 
+                          11.3147 9.01651 11.5924 9.24144L12.2934 8.89498L13 9.94223L12.2997 10.2887C12.3895 10.6111 
+                          12.3895 10.947 12.2997 11.2694L13 11.6159L12.2934 12.6632L11.5924 12.3167C11.311 12.5447 
+                          10.9709 12.7128 10.5996 12.8077V13.5H9.18628V12.8077C8.81496 12.7128 8.47488 12.5447 8.19346
+                           12.3167L7.49247 12.6632L6.78583 11.6159L7.48682 11.2694ZM9.89292 11.686C10.174 11.686 10.4436 
+                           11.5905 10.6424 11.4204C10.8412 11.2503 10.9529 11.0196 10.9529 10.7791C10.9529 10.5385 10.8412 
+                           10.3078 10.6424 10.1377C10.4436 9.96765 10.174 9.87209 9.89292 9.87209C9.6118 9.87209 9.3422 
+                           9.96765 9.14342 10.1377C8.94464 10.3078 8.83296 10.5385 8.83296 10.7791C8.83296 11.0196 8.94464
+                            11.2503 9.14342 11.4204C9.3422 11.5905 9.6118 11.686 9.89292 11.686Z" 
+                            :class="[translateStore.currentMode === 'player' ? 'fill-white' : 'fill-current']" />
                     <defs>
-                      <linearGradient id="paint0_linear_6877_84222" x1="6.5" y1="0.5" x2="6.5" y2="13.5" gradientUnits="userSpaceOnUse">
+                      <linearGradient id="paint0_linear_6877_84222" 
+                      x1="6.5" y1="0.5" x2="6.5" y2="13.5" gradientUnits="userSpaceOnUse">
                         <stop stop-color="#2DADA3" />
                         <stop offset="1" stop-color="#71DAD2" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
-                <div class="text"> {{ $t('Player') }} </div>
+                <div class="text_normal_hover"> {{ $t('Player') }} </div>
               </button>
             </div>
           </div>
           <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
             <div class="relative w-full">
 
-              <!-- <VTamkinPlayer 
+              <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
-              :videoUrl="videoUrl" 
-              
+              :mediaUrl="videoUrl"
+              :isVideo="true"
+              :captionOptions="[
+                { src: '/subtitles.vtt', lang: 'en', label: 'English', default: true },
+              ]"
               :class="[
                 'max-w-full h-full',
-                playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
+                translateStore.player.playerPosition  === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
                 bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]'
               ]"
-            /> -->
+            />
             
 
     <!-- <VTamkinPlayer :videoUrl="videoUrl" :height="270" /> -->
               <!-- <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']"> -->
-              <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if="playerPosition === 'inVideo' && currentMode === 'player'">
+              <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if=" translateStore.player.playerPosition  === 'inVideo' && currentMode === 'player'">
                 <img src="/assets/imgs/translatevideo/player_inside.png" alt="" class="w-[89px] h-[125px]">
               </div>
             </div>
             <div v-if="currentMode === 'player'" class="flex flex-col items-center justify-start lg:w-[60%] 2xl:w-[40%] transition-all ease-in-out" :class="[playerPosition === 'OutVideo' ? 'block' : 'hidden']">
-              <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[240px] transition-all ease-in-out">
-              <button @click="playerPosition = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
+              <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[237px] transition-all ease-in-out">
+              <button @click=" translateStore.player.playerPosition  = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
                 {{ $t('Close Player') }}
               </button>
             </div>

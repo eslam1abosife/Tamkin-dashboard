@@ -52,7 +52,7 @@ setTimeout(()=>{
                 {{ $t('Translation') }} 
             </div>
         </div>
-        <div class="w-full" v-if="!processVideo">
+        <div class="w-full" >
             <div class="text-[11px] leading-[22px] font-[500] text-darkGrey mt-[12px]">
                 {{ $t('What sign language do you want to translate into?') }} 
             </div>
@@ -68,37 +68,22 @@ setTimeout(()=>{
             @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
             :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
     
-            <button class="btn-default mt-[16px]" @click="processVideo = true">
+            <button class="btn-default mt-[16px]" @click="translateStore.showProcessingFooter = true">
                 <span class="text">{{$t('Generate Sign Language')}}</span>
             </button>
         </div>
 
-        <div class="flex flex-col items-center justify-center w-full space-y-[10px] mt-[32px]" v-if="processVideo && !doneVideo">
-            <div>
-                <img src="/assets/imgs/translatevideo/loading.svg" alt="">
-            </div>
-            <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
+ 
 
-                {{$t('Processing')}}...
-            </div>
+        <Processingfooter :show-footer="translateStore.showProcessingFooter" :done="doneVideo" @close-footer="()=>{
+            translateStore.showProcessingFooter = false
+            doneVideo = false
+        }"  @cancel_action="()=>{
+            translateStore.showProcessingFooter = false
+            doneVideo = false
 
-            <div class="text-[12px] font-[500] text-[#878787] leading-[17px]"> 
-                {{$t('Please wait while we complete the process')}}
-            </div>
-        </div>
+        }"/>
 
-        <div class="flex flex-col items-center justify-center w-full space-y-[10px] mt-[32px]" v-if="doneVideo">
-  
-  
-      <Vue3Lottie :animationData="SuccessAnimation" :height="150" :width="150"/>
-  
-            <div class="text-[16px] font-[600] text-darkGrey leading-[24px]"> 
-
-                {{$t('Done')}}
-            </div>
-
-          
-        </div>
        </div>
 
 </template>

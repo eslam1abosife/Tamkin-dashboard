@@ -29,7 +29,7 @@ const changeTab = (tab: any) => {
     class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
     @click="changeTab('pdf')"
   >
-  {{ $t('Pdf Documents') }} (12)
+  {{ $t('PDF Documents') }} (12)
   </div>
   <div
     :class="[

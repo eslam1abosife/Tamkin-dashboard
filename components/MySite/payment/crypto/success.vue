@@ -126,8 +126,15 @@ const percentageOff = computed(() => {
      dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
 
       closeModal('crypto_mysite_success')
-        mySiteStore.selectedPaymentMethod = '' 
-        mySiteStore.selectedCrypto = ''
+              mySiteStore.selectedPaymentMethod = '' 
+              mySiteStore.selectedCrypto = ''
+              if(isLinkActive('/my-site')){
+                getApps()
+              }
+              if(isLinkActive('/subscriptions')){
+                emit('updateData');
+
+              }
      }">
       <svg
         class="w-[12px] h-[12px]"

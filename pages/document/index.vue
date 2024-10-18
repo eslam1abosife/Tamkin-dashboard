@@ -57,7 +57,7 @@ function leaveNotification(el, done) {
 
 <template>
   <div class="w-full h-full relative">
-    <TranslateModalsUpgrade/>
+    <TranslateModalsUpgrade header="Upgrade to upload more Documents" text="Sorry, you do not have enough words and characters available to translate the Documents Please upgrade to continue the translation process without interruption"/>
   
   
 
@@ -71,14 +71,7 @@ function leaveNotification(el, done) {
       >
       {{ $t('Documents Services') }}      </h1>
 
-      <div class="bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] rtl:space-x-reverse space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-        <div>
-          <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
-        </div>
-        <div class="text-[12px] font-[500] text-darkGrey">
-          Tamkin.App
-        </div>
-      </div>
+    
       </div>
 
       <h2
@@ -95,7 +88,7 @@ function leaveNotification(el, done) {
     <img src="/assets/imgs/translatedocs/doc_header.svg" alt="">
 </div>
 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-    {{ $t('Total  DOCX') }}
+    {{ $t('Total DOCX') }}
 </div>
 <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
    4
@@ -106,7 +99,7 @@ function leaveNotification(el, done) {
                 <img src="/assets/imgs/translatedocs/pdf_header.svg" alt="">
             </div>
             <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                {{ $t('Total  PDF') }}
+                {{ $t('Total PDF') }}
             </div>
             <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
                4

@@ -9,7 +9,7 @@ export default function() {
     const subsStore = useSubsStore()
     const messageData = ref('')
 const codeStatus = ref(0)
-const renewAllCardorPaypal = async (card, type, code = null, hash = null, amount = null) => {
+const renewAllCardorPaypal = async (card, type, hash = null, amount = null,code = null) => {
     try {
       const payload = {
         payment_type: type,

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
-
+const localePath =useLocalePath()
 const {
   isOpen,
   currentView,
@@ -19,38 +19,44 @@ const currentPlan = ref("freetrial");
 const changePlan = (plan: string) => {
   currentPlan.value = plan;
 };
+const translateStore = useTranslateStore()
+const {showProcessingFooter} = storeToRefs(translateStore)
+
+const processingDone =ref(false)
 
 
-function beforeEnterNotification(el) {
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
+
+const cancelFooterproccess = ()=>{
+  translateStore.showProcessingFooter = false
+  processingDone.value = false
 }
 
-function enterNotification(el, done) {
-  // Set the initial position and opacity
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
 
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
+watch(showProcessingFooter,(ov,nv)=>{
+  if(showProcessingFooter.value === true){
+setTimeout(()=>{
 
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
-    done();
-  }, 0);
+  processingDone.value = true
+},2000)
+  }
+})
+const showFooter = computed(()=>{
+  const translateStyle =
+    translateStore.hasChanges &&
+    translateStore.subMode === "style" &&
+    translateStore.currentMode === "subtitles";
+  const translatePlayer =
+
+    translateStore.hasChangesPlayer &&
+    translateStore.currentMode === "player";
+
+
+  return translateStyle || translatePlayer
+})
+const cancelFooter = () => {
+  translateStore.cancelChanges()
 }
 
-function leaveNotification(el, done) {
-  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
-}
 </script>
 
 <template>
@@ -65,30 +71,28 @@ function leaveNotification(el, done) {
         {{ $t('Translate video') }}
       </h1>
 
-      <div  style="box-shadow: 0px 4px 4px 0px #0000000F;
-" class="bg-[#F7F7F7] h-[41px]  flex space-x-[8px]  items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-        <div>
-          <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
-        </div>
-        <div class="text-[12px] font-[500] text-darkGrey">
-          Tamkin.App
-        </div>
       </div>
-      </div>
-      <h2 @click="$router.push('/translate')"
+      <h2 @click="$router.push(localePath('/translate'))"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
       {{ $t('Media services') }}
       </h2>
     </div>
+    <transition name="slide-up">
+      <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
-<TranslateProjectProjectsettings/>
+    </transition>
+<TranslateProjectProjectsettings :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
     <TranslateStats
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
     <TranslatePlanCard
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
-    <TranslateTable />
+    <TranslateTable type="Translate video"/>
+    <transition name="slide-up">
+      <SavefooterTranslate :showFooter="showFooter"  @cancel_action="cancelFooter"/>
+
+    </transition>
   </div>
 </template>
