@@ -190,8 +190,8 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <div
-        class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
-        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
+        class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
+        v-if="customizeStore.loadingData"
       >
         <div
           class="h-[55px] w-full rounded-md bg-gray-200"
