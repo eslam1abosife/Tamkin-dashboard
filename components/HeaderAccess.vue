@@ -119,7 +119,7 @@ const isLinkActive = (path) => {
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
-                  {{ app.title }}
+                  {{ $t(app.title) }}
                 </h2>
               </div>
               <div v-if="app && app.type !== 'Internal Services'">

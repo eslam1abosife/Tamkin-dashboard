@@ -95,7 +95,7 @@ const border_style = computed(() => {
 });
 
 const imgStyle = computed(() => {
-  const minSize = 26; // Min size of inner icon
+  const minSize = 22; // Min size of inner icon
   const maxSize = 80; // Max size of inner icon
   const size =
     minSize + ((maxSize - minSize) * (buttonSizeSlider.value - 2)) / (98 - 2); // Scaled size
@@ -241,7 +241,7 @@ const shouldShowFooter = computed(() => {
   const hasColorChanges =
     currentColor.value !== customizeStore.initcurrentColor;
   const hasGradiant1 = gradient1.value !== initgradient1.value;
-  const hasGradiant2 = gradient1.value !== initgradient2.value;
+  const hasGradiant2 = gradient2.value !== initgradient2.value;
   const hasStoreChanges = customizeStore.hasChanges();
   const isCustomizeLinkActive =
     hasColorChanges || hasStoreChanges || hasGradiant1 || hasGradiant2;
@@ -852,23 +852,34 @@ onBeforeRouteLeave((to, from, next) => {
                 buttonIcons
               "
             >
-              <div>
+              <div v-if="customizeStore.buttonShapeObj.active == 1">
                 <h1
                   class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
                 >
-                  {{ $t("Button Shape") }}
+                  {{
+                    $t(
+                      customizeStore.buttonShapeObj.label
+                        ? customizeStore.buttonShapeObj.label
+                        : ""
+                    )
+                  }}
                 </h1>
                 <p
                   class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
                 >
                   {{
                     $t(
-                      "Choose the button Shape you prefer to appear in the widget"
+                      customizeStore.buttonShapeObj.description
+                        ? customizeStore.buttonShapeObj.description
+                        : ""
                     )
                   }}
                 </p>
               </div>
-              <div class="flex items-center justify-between mt-[40px]">
+              <div
+                v-if="customizeStore.buttonShapeObj.active == 1"
+                class="flex items-center justify-between mt-[40px]"
+              >
                 <div
                   v-for="icon in buttonIcons"
                   :key="icon.value"
@@ -894,27 +905,43 @@ onBeforeRouteLeave((to, from, next) => {
                     >
                       <img
                         :src="`https://tamkin.app/${icon.icon}`"
-                        class="w-[26px] h-[26px]"
+                        class="w-[22px] h-[22px]"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="my-[30px]">
+              <div
+                class="my-[30px]"
+                v-if="customizeStore.buttonSizeObj.active == 1"
+              >
                 <h1
                   class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
                 >
-                  {{ $t("Button Size") }}
+                  {{
+                    $t(
+                      customizeStore.buttonSizeObj.label
+                        ? customizeStore.buttonSizeObj.label
+                        : ""
+                    )
+                  }}
                 </h1>
                 <p
                   class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
                 >
-                  {{ $t("Pull the button to select the right size for you") }}
+                  {{
+                    $t(
+                      customizeStore.buttonSizeObj.description
+                        ? customizeStore.buttonSizeObj.description
+                        : ""
+                    )
+                  }}
                 </p>
               </div>
               <div
-                class="w-full flex flex-col items-center space-y-4 px-[15px]"
+                v-if="customizeStore.buttonSizeObj.active == 1"
+                class="w-full flex flex-col items-center space-y-4"
               >
                 <div class="relative w-full mb-[34px]">
                   <input
@@ -947,7 +974,7 @@ onBeforeRouteLeave((to, from, next) => {
                     >
                       <img
                         :src="`https://tamkin.app/${selectedIcon}`"
-                        :style="imgStyle"
+                        class="w-[26px] h-[26px]"
                       />
                     </div>
                   </div>

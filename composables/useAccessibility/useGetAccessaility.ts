@@ -42,24 +42,24 @@ export default function () {
       const colorMode = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
-          (el) => el.name === "acc-customize-button-color-button-color"
+          (el: any) => el.name === "acc-customize-button-color-button-color"
         )
         .value.split(",");
 
       const buttonSolidColor = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
-          (el) => el.name === "acc-customize-button-color-button-color"
+          (el: any) => el.name === "acc-customize-button-color-button-color"
         )
-        .tamkin_option_item_values.find((el) => el.title == "Solid");
+        .tamkin_option_item_values.find((el: any) => el.title == "Solid");
       const buttonGridColor = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
-          (el) => el.name === "acc-customize-button-color-button-color"
+          (el: any) => el.name === "acc-customize-button-color-button-color"
         )
-        .tamkin_option_item_values.find((el) => el.title == "Gradient");
+        .tamkin_option_item_values.find((el: any) => el.title == "Gradient");
       if (buttonSolidColor.active) {
-        customizeStore.isButtonColorSolidActive = false;
+        customizeStore.isButtonColorSolidActive = true;
       }
       if (buttonGridColor.active) {
         customizeStore.isButtonColorGridActive = true;
@@ -93,6 +93,7 @@ export default function () {
         .features.find(
           (el) => el.name === "acc-customize-button-type-button-shape"
         );
+      customizeStore.buttonShapeObj = buttonshape;
       customizeStore.$state.buttonIcons = buttonshape.tamkin_option_item_values;
 
       if (buttonshape.active == 1) {
@@ -114,6 +115,7 @@ export default function () {
         .features.find(
           (el) => el.name === "acc-customize-button-type-button-size"
         );
+      customizeStore.buttonSizeObj = buttonsize;
       if (buttonsize.active == 1) {
         customizeStore.$state.buttonSizeSlider = buttonsize.value;
         customizeStore.$state.initbuttonSizeSlider = buttonsize.value;
@@ -216,6 +218,7 @@ export default function () {
 
       if (checkEnabledButtonTransAbove.active == 1) {
         customizeStore.isButtonAboveActive = true;
+        customizeStore.buttonAboveLabel = checkEnabledButtonTransAbove.label;
         if (checkEnabledButtonTransAbove.is_selected == 1) {
           customizeStore.selectLiveTranslationButtonLocation("above");
           customizeStore.initselectLiveTranslationButtonLocation("above");
@@ -247,6 +250,8 @@ export default function () {
       }
 
       if (checkEnabledButtonTransDefault.active == 1) {
+        customizeStore.buttonDefaultLabel =
+          checkEnabledButtonTransDefault.label;
         customizeStore.isButtonDefaultActive = true;
         if (checkEnabledButtonTransDefault.is_selected == 1) {
           customizeStore.selectLiveTranslationButtonLocation("default");
