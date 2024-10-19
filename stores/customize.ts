@@ -13,6 +13,15 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    buttonShapeObj: {},
+    buttonSizeObj: {},
+    buttonDefaultLabel: "",
+    buttonAboveLabel: "",
+    widgetCustomizationItems: [],
+    moveHideFeature: [],
+    widgetTypes: [],
+    isButtonColorSolidActive: false,
+    isButtonColorGridActive: false,
     isMainMenuActive: false,
     isProfilesCardsctive: false,
     isLanguagective: false,
@@ -26,6 +35,10 @@ export const useCustomizeStore = defineStore("customize", {
     isAccessibilitySettingsActive: false,
     isAccessibilityResetActive: false,
     isAccessibilityLiecenceTransferActive: false,
+    isButtonAboveActive: false,
+    isButtonDefaultActive: false,
+    isButtonDesktopPositionActive: false,
+    isButtonMobilePositionActive: false,
     features: [],
     loadingData: false,
     currentColor: "#2dada3",
@@ -224,11 +237,11 @@ export const useCustomizeStore = defineStore("customize", {
       return (
         JSON.stringify(this.checkboxes) !==
           JSON.stringify(this.initialCheckboxes) ||
+        this.buttonSizeSlider !== this.initbuttonSizeSlider ||
         this.buttonPositionDesktop !== this.initialPositionDesktop ||
         this.buttonPositionMobile !== this.initialPositionMobile ||
         this.buttonShapeSelector !== this.initbuttonShapeSelector ||
         this.widgetType !== this.initwidgetType ||
-        this.colorMode !== this.initcolorMode ||
         this.force_change_MainMenuCard ||
         this.force_change_profileCards ||
         this.initliveTranlsationButtonLocation !==
@@ -365,24 +378,24 @@ export const useCustomizeStore = defineStore("customize", {
       }
       return true;
     },
-    cancelAll() {
-      this.force_change_MainMenuCard = false;
-      this.force_change_profileCards = false;
-      this.forceChange_buttonShape = false;
-      this.currentColor = "#2DADA3";
-      this.gradient1 = "";
-      this.gradient2 = "";
-      this.colorMode = "solid";
-      this.buttonPositionDesktop = this.initialPositionDesktop;
+    // cancelAll() {
+    //   this.force_change_MainMenuCard = false;
+    //   this.force_change_profileCards = false;
+    //   this.forceChange_buttonShape = false;
+    //   this.currentColor = "#2DADA3";
+    //   this.gradient1 = "";
+    //   this.gradient2 = "";
+    //   this.colorMode = "solid";
+    //   this.buttonPositionDesktop = this.initialPositionDesktop;
 
-      this.buttonPositionMobile = "top_left_mobile";
-      this.buttonSizeSlider = "2";
-      this.buttonShapeSelector = "type1";
-      this.widgetType = "full-widget";
-      this.currentColor = "#2dada3";
-      this.gradient1 = "#2dada3";
-      this.gradient2 = "#2dada3";
-    },
+    //   this.buttonPositionMobile = "top_left_mobile";
+    //   this.buttonSizeSlider = "2";
+    //   this.buttonShapeSelector = "type1";
+    //   this.widgetType = "full-widget";
+    //   this.currentColor = "#2dada3";
+    //   this.gradient1 = "#2dada3";
+    //   this.gradient2 = "#2dada3";
+    // },
     changebuttonPositionDesktop(position: string) {
       this.buttonPositionDesktop = position;
     },

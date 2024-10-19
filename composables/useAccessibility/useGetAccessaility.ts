@@ -42,10 +42,28 @@ export default function () {
       const colorMode = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
-          (el) => el.name === "acc-customize-button-color-button-color"
+          (el: any) => el.name === "acc-customize-button-color-button-color"
         )
         .value.split(",");
 
+      const buttonSolidColor = features
+        .find((feature: any) => feature.name === "acc-customize-button-color")
+        .features.find(
+          (el: any) => el.name === "acc-customize-button-color-button-color"
+        )
+        .tamkin_option_item_values.find((el: any) => el.title == "Solid");
+      const buttonGridColor = features
+        .find((feature: any) => feature.name === "acc-customize-button-color")
+        .features.find(
+          (el: any) => el.name === "acc-customize-button-color-button-color"
+        )
+        .tamkin_option_item_values.find((el: any) => el.title == "Gradient");
+      if (buttonSolidColor.active) {
+        customizeStore.isButtonColorSolidActive = true;
+      }
+      if (buttonGridColor.active) {
+        customizeStore.isButtonColorGridActive = true;
+      }
       if (colorMode.length > 1) {
         customizeStore.$state.colorMode = "gradient";
         customizeStore.$state.initcolorMode = "gradient";
@@ -75,6 +93,7 @@ export default function () {
         .features.find(
           (el) => el.name === "acc-customize-button-type-button-shape"
         );
+      customizeStore.buttonShapeObj = buttonshape;
       customizeStore.$state.buttonIcons = buttonshape.tamkin_option_item_values;
 
       if (buttonshape.active == 1) {
@@ -96,6 +115,7 @@ export default function () {
         .features.find(
           (el) => el.name === "acc-customize-button-type-button-size"
         );
+      customizeStore.buttonSizeObj = buttonsize;
       if (buttonsize.active == 1) {
         customizeStore.$state.buttonSizeSlider = buttonsize.value;
         customizeStore.$state.initbuttonSizeSlider = buttonsize.value;
@@ -118,6 +138,7 @@ export default function () {
             el.name === "acc-customize-button-location-button-location-desktop"
         );
       if (buttonDesktopPosition.active == 1) {
+        customizeStore.isButtonDesktopPositionActive = true;
         customizeStore.$state.initialPositionDesktop =
           buttonDesktopPosition.value;
         customizeStore.$state.buttonPositionDesktop =
@@ -132,6 +153,7 @@ export default function () {
             el.name === "acc-customize-button-location-button-location-mobile"
         );
       if (buttonMobilePosition.active == 1) {
+        customizeStore.isButtonMobilePositionActive = true;
         customizeStore.$state.initialPositionMobile =
           buttonMobilePosition.value;
         customizeStore.$state.buttonPositionMobile = buttonMobilePosition.value;
@@ -180,28 +202,26 @@ export default function () {
             "acc-customize-translations-button-position-translation-button-above"
         );
 
-      if (
-        checkEnabledButtonTransAbove.active == 1 &&
-        checkEnabledButtonTransAbove.is_selected == "1"
-      ) {
-        customizeStore.selectLiveTranslationButtonLocation("above");
-        customizeStore.initselectLiveTranslationButtonLocation("above");
+      if (checkEnabledButtonTransAbove.value == "option1") {
+        customizeStore.changeAboveButtonShape("option1");
+        customizeStore.initchangeAboveButtonShape("option1");
+        customizeStore.$state.initcurrentAboveShapeLiveTranslation = "option1";
+      } else if (checkEnabledButtonTransAbove.value == "option2") {
+        customizeStore.changeAboveButtonShape("option2");
+        customizeStore.initchangeAboveButtonShape("option2");
+        customizeStore.$state.initcurrentAboveShapeLiveTranslation = "option2";
+      } else {
+        customizeStore.changeAboveButtonShape("option3");
+        customizeStore.initchangeAboveButtonShape("option3");
+        customizeStore.$state.initcurrentAboveShapeLiveTranslation = "option3";
+      }
 
-        if (checkEnabledButtonTransAbove.value == "option1") {
-          customizeStore.changeAboveButtonShape("option1");
-          customizeStore.initchangeAboveButtonShape("option1");
-          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
-            "option1";
-        } else if (checkEnabledButtonTransAbove.value == "option2") {
-          customizeStore.changeAboveButtonShape("option2");
-          customizeStore.initchangeAboveButtonShape("option2");
-          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
-            "option2";
-        } else {
-          customizeStore.changeAboveButtonShape("option3");
-          customizeStore.initchangeAboveButtonShape("option3");
-          customizeStore.$state.initcurrentAboveShapeLiveTranslation =
-            "option3";
+      if (checkEnabledButtonTransAbove.active == 1) {
+        customizeStore.isButtonAboveActive = true;
+        customizeStore.buttonAboveLabel = checkEnabledButtonTransAbove.label;
+        if (checkEnabledButtonTransAbove.is_selected == 1) {
+          customizeStore.selectLiveTranslationButtonLocation("above");
+          customizeStore.initselectLiveTranslationButtonLocation("above");
         }
       }
 
@@ -215,24 +235,27 @@ export default function () {
             "acc-customize-translations-button-translation-button-as-default-button"
         );
 
-      if (
-        checkEnabledButtonTransDefault.active == 1 &&
-        checkEnabledButtonTransDefault.is_selected == "1"
-      ) {
-        customizeStore.selectLiveTranslationButtonLocation("default");
-        customizeStore.initselectLiveTranslationButtonLocation("default");
-        if (checkEnabledButtonTransDefault.value == "option1") {
-          customizeStore.changeDefaultButtonShape("option1"); // gb
-          customizeStore.initchangeDefaultButtonShape("option1");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option1";
-        } else if (checkEnabledButtonTransDefault.value == "option2") {
-          customizeStore.changeDefaultButtonShape("option2"); // en
-          customizeStore.initchangeDefaultButtonShape("option2");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option2";
-        } else {
-          customizeStore.changeDefaultButtonShape("option3"); // langs
-          customizeStore.initchangeDefaultButtonShape("option3");
-          customizeStore.$state.initcurrentShapeLiveTranslation = "option3";
+      if (checkEnabledButtonTransDefault.value == "option1") {
+        customizeStore.changeDefaultButtonShape("option1"); // gb
+        customizeStore.initchangeDefaultButtonShape("option1");
+        customizeStore.$state.initcurrentShapeLiveTranslation = "option1";
+      } else if (checkEnabledButtonTransDefault.value == "option2") {
+        customizeStore.changeDefaultButtonShape("option2"); // en
+        customizeStore.initchangeDefaultButtonShape("option2");
+        customizeStore.$state.initcurrentShapeLiveTranslation = "option2";
+      } else {
+        customizeStore.changeDefaultButtonShape("option3"); // langs
+        customizeStore.initchangeDefaultButtonShape("option3");
+        customizeStore.$state.initcurrentShapeLiveTranslation = "option3";
+      }
+
+      if (checkEnabledButtonTransDefault.active == 1) {
+        customizeStore.buttonDefaultLabel =
+          checkEnabledButtonTransDefault.label;
+        customizeStore.isButtonDefaultActive = true;
+        if (checkEnabledButtonTransDefault.is_selected == 1) {
+          customizeStore.selectLiveTranslationButtonLocation("default");
+          customizeStore.initselectLiveTranslationButtonLocation("default");
         }
       }
 
@@ -241,6 +264,8 @@ export default function () {
       );
 
       if (isWidgetCustomizationActive.active == 1) {
+        customizeStore.widgetCustomizationItems =
+          isWidgetCustomizationActive.features;
         customizeStore.isWidgetCustomizationActive = true;
       } else {
         customizeStore.isWidgetCustomizationActive = false;
@@ -326,6 +351,7 @@ export default function () {
         );
 
       if (isAccModeActive.active == 1) {
+        customizeStore.moveHideFeature = isAccModeActive;
         customizeStore.toggleCheckbox(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
@@ -414,6 +440,7 @@ export default function () {
           (el) => el.name === "acc-customize-widget-type-widget-style"
         );
       if (AccWidgetType.active == 1) {
+        customizeStore.widgetTypes = AccWidgetType.tamkin_option_item_values;
         customizeStore.selectWidgetType(AccWidgetType.value);
       }
 
@@ -447,16 +474,12 @@ export default function () {
           language_code: "auto detect language",
         };
       } else {
-        customizeStore.selectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
-        customizeStore.initselectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
+        const selectedLanguage = res.data.data.languages.filter((el: any) => {
+          return el.language_code == selectLang.value;
+        })[0];
+
+        customizeStore.selectedLang = selectedLanguage;
+        customizeStore.initselectedLang = selectedLanguage;
       }
 
       // acc enableLangHighlight

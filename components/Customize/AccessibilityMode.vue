@@ -6,7 +6,10 @@ const { isChecked, toggleCheckbox } = customizeStore;
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center mt-[32px] px-[15px]">
+  <div
+    class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
+    v-if="customizeStore.moveHideFeature.active"
+  >
     <div
       class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
     >
@@ -21,7 +24,13 @@ const { isChecked, toggleCheckbox } = customizeStore;
           <div
             class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
           >
-            <span>{{ $t("Move / hide accessibility") }}</span>
+            <span>{{
+              $t(
+                customizeStore.moveHideFeature.label
+                  ? customizeStore.moveHideFeature.label
+                  : ""
+              )
+            }}</span>
           </div>
           <div
             class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
@@ -29,7 +38,9 @@ const { isChecked, toggleCheckbox } = customizeStore;
             <span>
               {{
                 $t(
-                  "Reposition or conceal accessibility features to simplify the interface"
+                  customizeStore.moveHideFeature.description
+                    ? customizeStore.moveHideFeature.description
+                    : ""
                 )
               }}
             </span>

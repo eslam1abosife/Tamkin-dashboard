@@ -26,7 +26,7 @@ import { useApi } from "@/composables/useApi";
 
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
-
+const { t } = useI18n();
 const { getInvestor, loading: lod } = useGetInvestor();
 const { getCurrentTeam, currTeam } = useGetCurrentTeam();
 const profileStore = useProfileStore();
@@ -200,7 +200,7 @@ const shouldShowFooter = computed(() => {
     isCustomizeLinkActive ||
     isSettingsLinkActive ||
     isStatsActive ||
-    isMarketChanges 
+    isMarketChanges
     // translateStyle ||
     // translatePlayer ||
     // (translateStore.changesOnSubTitles && isLinkActive("/translate/video"))
@@ -247,6 +247,10 @@ const cancelAc = () => {
     custmizeStore.accessibilityMode = custmizeStore.initaccessibilityMode;
     custmizeStore.liveTranlsationButtonLocation =
       custmizeStore.initliveTranlsationButtonLocation;
+    custmizeStore.AdjustMainMenuCardsCustomize =
+      custmizeStore.initialCardsOrderCustomize;
+    custmizeStore.manageProfileCardsCustomize =
+      custmizeStore.initialManageProfileCardsCustomize;
     custmizeStore.force_change_MainMenuCard = false;
     custmizeStore.force_change_profileCards = false;
   }
@@ -536,8 +540,10 @@ const handleSave = async (type: any) => {
   } else {
     loadingSavetoAll.value = true;
   }
-
-  const menu = custmizeStore.AdjustMainMenuCardsCustomize.map((item1: any) => {
+  const menuItems = JSON.parse(
+    JSON.stringify(custmizeStore.AdjustMainMenuCardsCustomize)
+  );
+  const menu = menuItems.map((item1: any) => {
     item1.name = item1.checkboxId;
     const matchingItem = custmizeStore.checkboxes.find(
       (item2: any) => item2.name === item1.checkboxId
@@ -549,22 +555,22 @@ const handleSave = async (type: any) => {
 
     return newItem;
   });
-
-  const profiles = custmizeStore.manageProfileCardsCustomize.map(
-    (item1: any) => {
-      const matchingItem = custmizeStore.checkboxes.find(
-        (item2: any) => item2.name === item1.checkboxId
-      );
-
-      item1.name = item1.checkboxId;
-
-      let newItem = {};
-      if (matchingItem) {
-        newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
-      }
-      return newItem;
-    }
+  const profileItems = JSON.parse(
+    JSON.stringify(custmizeStore.manageProfileCardsCustomize)
   );
+  const profiles = profileItems.map((item1: any) => {
+    const matchingItem = custmizeStore.checkboxes.find(
+      (item2: any) => item2.name === item1.checkboxId
+    );
+
+    item1.name = item1.checkboxId;
+
+    let newItem = {};
+    if (matchingItem) {
+      newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
+    }
+    return newItem;
+  });
 
   interface Payload {
     AppName: string;
@@ -682,7 +688,10 @@ const handleSave = async (type: any) => {
     ];
     payload.Options = settigsOptions;
   } else if (isLinkActive("/addons")) {
-    const addonsmenu = checkboxStore.AdjustMainMenuCards.map((item1: any) => {
+    const menuItems = JSON.parse(
+      JSON.stringify(checkboxStore.AdjustMainMenuCards)
+    );
+    const addonsmenu = menuItems.map((item1: any) => {
       const matchingItem = checkboxStore.checkboxes.find(
         (item2: any) => item2.name === item1.checkboxId
       );
@@ -695,20 +704,21 @@ const handleSave = async (type: any) => {
       return newItem;
     });
 
-    const addonsprofiles = checkboxStore.manageProfileCards.map(
-      (item1: any) => {
-        const matchingItem = checkboxStore.checkboxes.find(
-          (item2: any) => item2.name === item1.checkboxId
-        );
-        item1.name = item1.checkboxId;
-
-        let newItem = {};
-        if (matchingItem) {
-          newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
-        }
-        return newItem;
-      }
+    const profileItems = JSON.parse(
+      JSON.stringify(checkboxStore.manageProfileCards)
     );
+    const addonsprofiles = profileItems.map((item1: any) => {
+      const matchingItem = checkboxStore.checkboxes.find(
+        (item2: any) => item2.name === item1.checkboxId
+      );
+      item1.name = item1.checkboxId;
+
+      let newItem = {};
+      if (matchingItem) {
+        newItem = { ...item1, value: matchingItem.value ? "1" : "0" };
+      }
+      return newItem;
+    });
 
     const addonsOptions = [...addonsmenu, ...addonsprofiles];
     payload.Options = addonsOptions;
@@ -720,7 +730,7 @@ const handleSave = async (type: any) => {
     loadingSavetoAll.value = false;
     updateNewValues();
 
-    $toast("Successfully Updated !", { hideIn: 3000, type: "success" });
+    $toast(t("Updated Successfully!"), { hideIn: 3000, type: "success" });
   } catch (error) {
     loadingSave.value = false;
     loadingSavetoAll.value = false;
@@ -929,8 +939,8 @@ const loadf = ref(true);
       <ModalsConfirm
         :show-modal="true"
         v-if="isOpen('deleteApp')"
-        title="Delete That App"
-        sub-title="Are you sure you want to delete that app ?"
+        :title="$t('Delete That App')"
+        :sub-title="$t('Are you sure you want to delete that app ?')"
         confirm-btn-type="delete"
         @control-delete="emitEvent('deleteApp')"
         @control-cancel="closeModal('deleteApp')"
@@ -939,9 +949,9 @@ const loadf = ref(true);
       <ModalsConfirm
         :show-modal="true"
         v-if="isOpen('restoreApp')"
-        title="Restore That App"
+        :title="$t('Restore That App')"
         :for-delete="false"
-        sub-title="Are you sure you want to restore that app ?"
+        :sub-title="$t('Are you sure you want to restore that app ?')"
         confirm-btn-type="other"
         @control-other="emitEvent('restoreApp')"
         @control-cancel="closeModal('restoreApp')"
@@ -967,8 +977,12 @@ const loadf = ref(true);
         -->
       <ModalsConfirm
         :showModal="isOpen('resetModal')"
-        title="Rest All Accessibility Settings"
-        sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+        :title="$t('Rest All Accessibility Settings')"
+        :sub-title="
+          $t(
+            'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'
+          )
+        "
         confirm-btn-type="confirm"
         @control-confirm="closeModal('resetModal')"
         @control-cancel="closeModal('resetModal')"
@@ -1154,10 +1168,12 @@ const loadf = ref(true);
               :showModal="
                 custmizeStore.routeLeaveModal ||
                 checkboxStore.routeLeaveModal ||
-                settingsStore.routeLeaveModal 
+                settingsStore.routeLeaveModal
               "
-              title="Save  your changes"
-              sub-title="Do you want to save the changes before moving on?"
+              :title="$t('Save your changes')"
+              :sub-title="
+                $t('Do you want to save the changes before moving on?')
+              "
               confirm-btn-type="other"
               @control-other="handleSaveAndMove"
               @controlsaveAllSites="handleSaveToAllAndMove"

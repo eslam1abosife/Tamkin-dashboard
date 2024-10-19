@@ -74,21 +74,25 @@ const isLinkActive = (path) => {
 <template>
   <div class="space-y-[10px]">
     <h1
+      v-if="Object.keys(app).length > 0"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
     >
       {{ sectionTitle }}
     </h1>
+    <div v-else class="h-[20px] bg-gray-200 w-[150px]"></div>
 
     <h2
+      v-if="Object.keys(app).length > 0"
       class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
     >
       {{ sectionSubTitle }}
     </h2>
+    <div v-else class="h-[20px] bg-gray-200 w-[300px]"></div>
   </div>
 
   <div
     v-if="Object.keys(app).length > 0"
-    class="relative mt-[-10px] lg:mt-[5px] pb-[40px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+    class="relative mt-[-10px] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
   >
     <div
       class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
@@ -119,7 +123,7 @@ const isLinkActive = (path) => {
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
-                  {{ app.title }}
+                  {{ $t(app.title) }}
                 </h2>
               </div>
               <div v-if="app && app.type !== 'Internal Services'">
@@ -183,7 +187,7 @@ const isLinkActive = (path) => {
   </div>
   <div
     v-else
-    class="flex items-center gap-2"
+    class="flex items-center gap-2 mt-[-10px] lg:mt-[15px] pb-[80px] flex lg:space-y-0 space-y-[16px]"
     :class="
       loadApp &&
       (isLinkActive('/overview') ||

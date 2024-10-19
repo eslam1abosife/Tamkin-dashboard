@@ -1219,7 +1219,10 @@ const cancelSubscriptionInternal = async () => {
                           </div>
 
                           <div
-                            v-if="app.package[0].status === 'draft' && app.package[0].type !== 'Investors'"
+                            v-if="
+                              app.package[0].status === 'draft' &&
+                              app.package[0].type !== 'Investors'
+                            "
                             class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                           >
                             {{ $t(`${app.package[0].status}`) }}
@@ -1462,14 +1465,14 @@ const cancelSubscriptionInternal = async () => {
                               </div>
                             </a>
                             <!-- <div
-            v-if="defaultApp.name === app.name"
-            class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
-            style="
-              background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
-            "
-          >
-            {{ $t("Default") }}
-          </div> -->
+                                  v-if="defaultApp.name === app.name"
+                                  class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
+                                  style="
+                                    background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                                  "
+                                >
+                                  {{ $t("Default") }}
+                                </div> -->
                           </div>
                         </td>
                         <td

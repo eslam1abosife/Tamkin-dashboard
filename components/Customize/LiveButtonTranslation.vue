@@ -327,6 +327,7 @@ const backgroundImageStyle = computed(() => {
         ]"
       >
         <div
+          v-if="customizeStore.isButtonDefaultActive"
           @click="customizeStore.selectLiveTranslationButtonLocation('default')"
           :class="[
             liveTranlsationButtonLocation === 'default'
@@ -338,7 +339,7 @@ const backgroundImageStyle = computed(() => {
               ? 'blur-[2px] !cursor-not-allowed'
               : '',
           ]"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -364,10 +365,11 @@ const backgroundImageStyle = computed(() => {
           <div
             class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
           >
-            {{ $t("Use translation button as default button") }}
+            {{ $t(customizeStore.buttonDefaultLabel) }}
           </div>
         </div>
         <div
+          v-if="customizeStore.isButtonAboveActive"
           :class="[
             liveTranlsationButtonLocation === 'above'
               ? 'custom-border'
@@ -380,7 +382,7 @@ const backgroundImageStyle = computed(() => {
               : '',
           ]"
           @click="customizeStore.selectLiveTranslationButtonLocation('above')"
-          class="mx-[15px] ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
+          class="ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[4px] w-full h-[34px] rounded-[10px] mt-[20px] px-[15px] cursor-pointer"
         >
           <div class=" ">
             <input
@@ -411,14 +413,17 @@ const backgroundImageStyle = computed(() => {
           <div
             class="text-[10px] lg:text-[14px] lg:leading-[32px] font-[400] text-darkGrey dark:text-whiteTamkin"
           >
-            {{ $t("Position translation button above") }}
+            {{ $t(customizeStore.buttonAboveLabel) }}
           </div>
         </div>
       </div>
 
       <div
         class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
-        v-if="customizeStore.liveTranlsationButtonLocation === 'default'"
+        v-if="
+          customizeStore.liveTranlsationButtonLocation === 'default' &&
+          customizeStore.isButtonDefaultActive
+        "
       >
         <div
           @click="customizeStore.changeDefaultButtonShape('option1')"
@@ -577,7 +582,10 @@ const backgroundImageStyle = computed(() => {
 
       <div
         class="flex items-center justify-between lg:space-x-0 space-x-[10px] mt-[24px] lg:mt-[33px]"
-        v-if="liveTranlsationButtonLocation === 'above'"
+        v-if="
+          liveTranlsationButtonLocation === 'above' &&
+          customizeStore.isButtonAboveActive
+        "
       >
         <div
           @click="customizeStore.changeAboveButtonShape('option1')"

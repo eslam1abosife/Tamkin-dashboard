@@ -19,19 +19,35 @@ watch(search, (ov, nv) => {
     ? (isSearchfilled.value = true)
     : (isSearchfilled.value = false);
 });
+
+const filteredApps = computed(() =>
+  settingsStore.apps.filter((el: any) =>
+    // el.type !== "Internal Services" &&
+    el.title.toLowerCase().includes(search.value.toLowerCase())
+  )
+);
+
 const clearInput = () => {
   search.value = "";
 };
 const getImageUrl = computed(() => {
   return `/assets/imgs/icons/mysite.svg`;
 });
+const formatToUrl = (domain: any) => {
+  // Check if the domain starts with "http://" or "https://"
+  if (!/^https?:\/\//i.test(domain)) {
+    // If not, prepend "https://"
+    domain = "https://" + domain;
+  }
+  return domain;
+};
 </script>
 
 <template>
   <div
     v-if="isOpen('transferstep1')"
-    class="fixed z-[9999] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[80vh]"
-    style="left: 50%; transform: translate(-50%, 0)"
+    class="fixed z-[9999] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] p-[30px] lg:w-[640px] w-10/12 max-h-[85vh]"
+    style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
   >
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
@@ -60,10 +76,27 @@ const getImageUrl = computed(() => {
       </h1>
 
       <p
-        class="mt-[16px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]"
+        class="mt-[8px] rtl:text-right ltr:text-left font-[500] text-darkGrey dark:text-whiteTamkin text-[14px] leading-[24px]"
       >
         {{ $t("Are you sure you want to transfer your license from") }}
-        <span class="font-bold text-[#2dada3]">Tamkin.App</span>
+
+        <a
+          :href="
+            settingsStore.defaultappobj?.title === 'Internal Service'
+              ? '#'
+              : settingsStore.defaultappobj
+              ? formatToUrl(settingsStore.defaultappobj.app_domain)
+              : ''
+          "
+          :target="
+            settingsStore.defaultappobj?.title === 'Internal Service'
+              ? ''
+              : '_blank'
+          "
+          class="font-bold text-[#2dada3]"
+        >
+          {{ settingsStore.defaultappobj.title }}
+        </a>
 
         {{
           $t(
@@ -88,98 +121,120 @@ const getImageUrl = computed(() => {
           <div
             v-if="isSearchfilled"
             @click="clearInput"
-            class="absolute top-[12px] lg:top-[16px] right-0 p-[16px] cursor-pointer"
+            class="absolute top-[12px] lg:top-[16px] ltr:right-[10px] rtl:left-[10px] p-[16px] cursor-pointer"
           >
             <img src="/assets/imgs/icons/clear_search.svg" />
           </div>
         </div>
       </div>
 
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-light">
-        <thead>
-          <tr>
-            <th
-              class="py-3 rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
-            >
-              {{ $t("Website") }}
-            </th>
-            <th
-              class="py-3 rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
-            >
-              {{ $t("Select") }}
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          v-if="settingsStore.apps.length > 0"
-          class="divide-y divide-gray-200"
+      <div v-if="filteredApps.length > 0">
+        <div
+          class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[200px] overflow-y-auto"
         >
-          <tr v-for="app in settingsStore.apps" :key="app.name">
-            <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
-              <img
-                :src="
-                  app.type !== 'Internal Services' && app.favicon
-                    ? app.favicon
-                    : getImageUrl
-                "
-                class="w-6 h-6"
-              />
-              <span
-                class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin"
-              >
-                {{ app.title }}
-              </span>
-            </td>
-            <td class="py-4 rtl:text-left ltr:text-right">
-              <div>
-                <input
-                  type="checkbox"
-                  @click="settingsStore.selectedApp = app"
-                  :checked="checked === `checkbox_` + app.name"
-                  :id="`checkbox_` + app.name"
-                  :value="app.name"
-                  class="peer sr-only rtl:mr-auto ltr:ml-auto"
-                  number
-                />
-                <label
-                  :for="`checkbox_` + app.name"
-                  class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-transparent rounded-[4px] peer-checked:bg-gradient-checked"
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-light">
+            <thead>
+              <tr>
+                <th
+                  class="py-3 rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
                 >
-                  <svg
-                    class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  {{ $t("Website") }}
+                </th>
+                <th
+                  class="py-3 rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider"
+                >
+                  {{ $t("Select") }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <template v-for="app in filteredApps" :key="app.name">
+                <tr>
+                  <td
+                    class="py-4 flex items-center rtl:space-x-reverse space-x-4"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                </label>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div
-        class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto mt-[40px]"
-      >
-        <button
-          class="btn_bordered_dashboard normal_hover text-center w-1/6"
-          @click="closeModal('transferstep1')"
+                    <img
+                      :src="
+                        app.type !== 'Internal Services' && app.favicon
+                          ? app.favicon
+                          : getImageUrl
+                      "
+                      class="w-6 h-6"
+                    />
+                    <span
+                      class="text-[13px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin"
+                    >
+                      {{ app.title }}
+                    </span>
+                  </td>
+                  <td class="py-4 rtl:text-left ltr:text-right">
+                    <div>
+                      <input
+                        type="checkbox"
+                        @click="settingsStore.selectedApp = app"
+                        :checked="checked === `checkbox_` + app.name"
+                        :id="`checkbox_` + app.name"
+                        :value="app.name"
+                        class="peer sr-only rtl:mr-auto ltr:ml-auto"
+                        number
+                      />
+                      <label
+                        :for="`checkbox_` + app.name"
+                        class="cursor-pointer relative block border-[1px] rtl:mr-auto ltr:ml-auto w-[18px] h-[18px] border-lightGrey peer-checked:border-0 bg-whiteTamkin dark:bg-transparent rounded-[4px] peer-checked:bg-gradient-checked"
+                      >
+                        <svg
+                          class="peer-checked:block absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex items-center justify-center gap-2 mt-[20px]">
+          <button
+            class="btn_bordered_dashboard normal_hover text-center w-1/6"
+            @click="closeModal('transferstep1')"
+          >
+            {{ $t("Cancel") }}
+          </button>
+          <button
+            :disabled="!settingsStore.selectedApp"
+            class="btn-dashboard hover_tamkin text-center w-1/6"
+            @click="navigateTo('transferstep1', 'settings', 'transferstep2')"
+          >
+            {{ $t("Continue") }}
+          </button>
+        </div>
+      </div>
+      <div v-else>
+        <NoData />
+        <!-- <div
+          class="flex flex-col items-center justify-center p-[10px] space-y-[16px]"
         >
-          {{ $t("Cancel") }}
-        </button>
-        <button
-          :disabled="!settingsStore.selectedApp"
-          class="btn-dashboard hover_tamkin text-center w-1/6"
-          @click="navigateTo('transferstep1', 'settings', 'transferstep2')"
-        >
-          {{ $t("Continue") }}
-        </button>
+          <div>
+            <img
+              src="/assets/imgs/no-data-found.svg"
+              class="w-[75px] h-[65px]"
+              alt=""
+            />
+          </div>
+          <div class="text-[16px] leading-[24px] text-darkGrey font-[400]">
+            {{ $t("There are no sites available to transfer the license to") }}
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
