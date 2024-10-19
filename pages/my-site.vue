@@ -1537,7 +1537,6 @@ const cancelSubscriptionInternal = async () => {
                               {{ $t(`${pack.status}`) }}
                             </div>
                             <div
-<<<<<<< HEAD
                             v-if="pack.status === 'Active' || (pack.type === 'Investors' && pack.investor_status === 'Active')"
                             class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
@@ -1546,13 +1545,6 @@ const cancelSubscriptionInternal = async () => {
                                  $t(`${pack.status}`)
                             }}
                           </div>
-=======
-                              v-if="pack.status === 'Active'"
-                              class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                            >
-                              {{ $t(`${pack.status}`) }}
-                            </div>
->>>>>>> f059f5f7f5e20e1084ebed73adfd77b1cf6157cb
                             <div
                               v-if="pack.status === 'Pending'"
                               class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
