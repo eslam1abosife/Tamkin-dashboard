@@ -104,11 +104,14 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
     <div
       class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
-      v-if="
-        isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
-      "
+      :class="[
+        !isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
+          ? 'blur-[2px] !cursor-not-allowed'
+          : '',
+      ]"
     >
       <div
+        v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
         class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[
           customizeStore.accessibilityMode === 'left'
@@ -125,6 +128,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         </div>
       </div>
       <div
+        v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
         class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="customizeStore.moveHideWidget('right')"
         :class="[
@@ -142,6 +146,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         <div class="text-[14px] w-full">{{ $t("Right Side") }}</div>
       </div>
       <div
+        v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
         class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="customizeStore.moveHideWidget('hide')"
         :class="[

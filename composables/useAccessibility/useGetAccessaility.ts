@@ -71,6 +71,8 @@ export default function () {
         customizeStore.$state.initgradient1 = colorMode[0];
         customizeStore.$state.gradient2 = colorMode[1];
         customizeStore.$state.initgradient2 = colorMode[1];
+        customizeStore.$state.currentColor = colorMode[0];
+        customizeStore.$state.initcurrentColor = colorMode[0];
       } else {
         customizeStore.$state.colorMode = "solid";
         customizeStore.$state.initcolorMode = "solid";
@@ -137,6 +139,8 @@ export default function () {
           (el) =>
             el.name === "acc-customize-button-location-button-location-desktop"
         );
+      customizeStore.buttonDesktopPositions =
+        buttonDesktopPosition.tamkin_option_item_values;
       if (buttonDesktopPosition.active == 1) {
         customizeStore.isButtonDesktopPositionActive = true;
         customizeStore.$state.initialPositionDesktop =
@@ -152,6 +156,8 @@ export default function () {
           (el) =>
             el.name === "acc-customize-button-location-button-location-mobile"
         );
+      customizeStore.buttonMobilePositions =
+        buttonMobilePosition.tamkin_option_item_values;
       if (buttonMobilePosition.active == 1) {
         customizeStore.isButtonMobilePositionActive = true;
         customizeStore.$state.initialPositionMobile =
@@ -180,16 +186,16 @@ export default function () {
             "acc-customize-translations-button-enable-live-site-translations-button"
         );
 
-      if (
-        checkEnabledButtonTrans.value == 1 &&
-        checkEnabledButtonTrans.active == 1
-      ) {
-        customizeStore.toggleCheckbox(
-          "acc-customize-translations-button-enable-live-site-translations-button"
-        );
-        customizeStore.toggleInitialCheckbox(
-          "acc-customize-translations-button-enable-live-site-translations-button"
-        );
+      customizeStore.isEnableLiveTrans = checkEnabledButtonTrans;
+      if (checkEnabledButtonTrans.active == 1) {
+        if (checkEnabledButtonTrans.value == 1) {
+          customizeStore.toggleCheckbox(
+            "acc-customize-translations-button-enable-live-site-translations-button"
+          );
+          customizeStore.toggleInitialCheckbox(
+            "acc-customize-translations-button-enable-live-site-translations-button"
+          );
+        }
       }
 
       const checkEnabledButtonTransAbove = features
@@ -202,6 +208,8 @@ export default function () {
             "acc-customize-translations-button-position-translation-button-above"
         );
 
+      customizeStore.buttonTransAboveIcons =
+        checkEnabledButtonTransAbove.tamkin_option_item_values;
       if (checkEnabledButtonTransAbove.value == "option1") {
         customizeStore.changeAboveButtonShape("option1");
         customizeStore.initchangeAboveButtonShape("option1");
@@ -234,6 +242,8 @@ export default function () {
             el.name ===
             "acc-customize-translations-button-translation-button-as-default-button"
         );
+      customizeStore.buttonTransDefaultIcons =
+        checkEnabledButtonTransDefault.tamkin_option_item_values;
 
       if (checkEnabledButtonTransDefault.value == "option1") {
         customizeStore.changeDefaultButtonShape("option1"); // gb
@@ -352,6 +362,8 @@ export default function () {
 
       if (isAccModeActive.active == 1) {
         customizeStore.moveHideFeature = isAccModeActive;
+        customizeStore.accessibilityModeItems =
+          isAccModeActive.tamkin_option_item_values;
         customizeStore.toggleCheckbox(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
@@ -370,19 +382,23 @@ export default function () {
       if (mainMenu.active == 1) {
         customizeStore.isMainMenuActive = true;
         customizeStore.initializeCardsMenu(
-          mainMenu.features.filter((el: any) => el.active == 1),
+          mainMenu.features
+            .filter((el: any) => el.active == 1)
+            .sort((a: any, b: any) => a.sort - b.sort),
           "AdjustMainMenuCardsCustomize",
           "initialCardsOrderCustomize"
         );
 
         checkboxStore.initializeCardsMenu(
-          mainMenu.features.filter((el: any) => el.active == 1),
+          mainMenu.features
+            .filter((el: any) => el.active == 1)
+            .sort((a: any, b: any) => a.sort - b.sort),
           "AdjustMainMenuCards",
           "initialCardsOrder"
         );
 
         mainMenu.features.forEach((element: any) => {
-          if (element.active == 1 && element.value == 1) {
+          if (element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
@@ -401,19 +417,23 @@ export default function () {
       if (profileItems.active == 1) {
         customizeStore.isProfilesCardsctive = true;
         customizeStore.initializeCardsMenu(
-          profileItems.features.filter((el: any) => el.active == 1),
+          profileItems.features
+            .filter((el: any) => el.active == 1)
+            .sort((a: any, b: any) => a.sort - b.sort),
           "manageProfileCardsCustomize",
           "initialManageProfileCardsCustomize"
         );
 
         checkboxStore.initializeCardsMenu(
-          profileItems.features.filter((el: any) => el.active == 1),
+          profileItems.features
+            .filter((el: any) => el.active == 1)
+            .sort((a: any, b: any) => a.sort - b.sort),
           "manageProfileCards",
           "initialManageProfileCards"
         );
 
         profileItems.features.forEach((element: any) => {
-          if (element.active == 1 && element.value == 1) {
+          if (element.value == 1) {
             customizeStore.toggleCheckbox(element.name);
             customizeStore.toggleInitialCheckbox(element.name);
             checkboxStore.toggleCheckbox(element.name);
@@ -463,6 +483,9 @@ export default function () {
         .features.find(
           (el: any) => el.name === "acc-customize-language-list-of-languages"
         );
+      if (selectLang.active == 1) {
+        customizeStore.isLangListActive = true;
+      }
 
       if (selectLang.value === "auto detect language") {
         customizeStore.selectedLang = {
@@ -490,7 +513,8 @@ export default function () {
             el.name ===
             "acc-customize-language-show-language-selector-on-the-widget"
         );
-      if (enableLangHighlight.active == 1 && enableLangHighlight.value == 1) {
+      customizeStore.accessibilityLanguage = enableLangHighlight;
+      if (enableLangHighlight.value == 1) {
         customizeStore.toggleCheckbox(
           "acc-customize-language-show-language-selector-on-the-widget"
         );
@@ -503,6 +527,8 @@ export default function () {
       const isAccessibilitySettingsActive = features.find(
         (feature: any) => feature.name === "acc-setting-general-settings"
       );
+
+      customizeStore.settingsItems = isAccessibilitySettingsActive.features;
       if (isAccessibilitySettingsActive.active == 1) {
         customizeStore.isAccessibilitySettingsActive = true;
       } else {
@@ -567,6 +593,8 @@ export default function () {
       const isAccessibilityLiecenceTransferActive = features.find(
         (feature: any) => feature.name === "acc-setting-license-settings"
       );
+      customizeStore.transferLicenceItems =
+        isAccessibilityLiecenceTransferActive.features;
       if (isAccessibilityLiecenceTransferActive.active == 1) {
         customizeStore.isAccessibilityLiecenceTransferActive = true;
       } else {

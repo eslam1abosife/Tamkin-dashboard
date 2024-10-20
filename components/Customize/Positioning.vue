@@ -81,7 +81,10 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
       >
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion1').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionDesktop('postion1')"
             id="postion1"
@@ -107,7 +110,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion2').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionDesktop('postion2')"
             id="postion2"
@@ -134,7 +140,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion3').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionDesktop('postion3')"
             id="postion3"
@@ -165,7 +174,10 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
       >
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion6').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionDesktop('postion6')"
             id="postion6"
@@ -192,7 +204,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion7').active == 1"
+        >
           <input
             id="postion7"
             type="radio"
@@ -219,7 +234,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion8').active == 1"
+        >
           <input
             id="postion8"
             type="radio"
@@ -250,7 +268,10 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute top-0 left-0 right-[15px] bottom-0 flex flex-col items-center justify-between py-5 z-[41]"
       >
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion4').active == 1"
+        >
           <input
             id="postion4"
             type="radio"
@@ -277,7 +298,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion5').active == 1"
+        >
           <input
             id="postion5"
             type="radio"
@@ -311,28 +335,28 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute"
         :class="[
-          buttonPositionDesktop === 'postion1'
+          buttonPositionDesktop === 'postion1' && customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion1').active == 1
             ? 'top-[30px] ipad-max:left-[60px] left-[70px]'
             : '',
-          buttonPositionDesktop === 'postion2'
+          buttonPositionDesktop === 'postion2'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion2').active == 1
             ? 'ipad-max:top-[60px] top-[80px] ipad-max:left-[60px] left-[70px]'
             : '',
-          buttonPositionDesktop === 'postion3'
+          buttonPositionDesktop === 'postion3'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion3').active == 1
             ? 'ipad-max:top-[120px] top-[110px] ipad-max:left-[60px] left-[70px]'
             : '',
-          buttonPositionDesktop === 'postion4'
+          buttonPositionDesktop === 'postion4'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion4').active == 1
             ? 'ipad-max:top-[20px] top-[30px] left-[48%]'
             : '',
-          buttonPositionDesktop === 'postion5'
+          buttonPositionDesktop === 'postion5'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion5').active == 1
             ? 'ipad-max:top-[120px] top-[110px] left-[48%]'
             : '',
-          buttonPositionDesktop === 'postion6'
+          buttonPositionDesktop === 'postion6'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion6').active == 1
             ? 'top-[30px] ipad-max:right-[60px] right-[70px]'
             : '',
-          buttonPositionDesktop === 'postion7'
+          buttonPositionDesktop === 'postion7'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion7').active == 1
             ? 'top-[80px] ipad-max:right-[60px] right-[70px]'
             : '',
-          buttonPositionDesktop === 'postion8'
+          buttonPositionDesktop === 'postion8'&& customizeStore.buttonDesktopPositions.find((el:any)=> el.value === 'postion8').active == 1
             ? 'ipad-max:top-[120px] top-[110px] ipad-max:right-[60px] right-[70px]'
             : '',
         ]"
@@ -369,7 +393,10 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
       >
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionMobile('postion1')"
             id="postion1"
@@ -395,7 +422,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion2').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionMobile('postion2')"
             id="postion2"
@@ -422,7 +452,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion3').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionMobile('postion3')"
             id="postion3"
@@ -453,7 +486,10 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute top-0 right-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[40]"
       >
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion4').active == 1"
+        >
           <input
             @click="customizeStore.changebuttonPositionMobile('postion4')"
             id="postion4"
@@ -480,7 +516,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion5').active == 1"
+        >
           <input
             id="postion5"
             type="radio"
@@ -507,7 +546,10 @@ watch([currentColor], () => {}, { immediate: true });
             </div>
           </label>
         </div>
-        <div class="w-[28px] h-[28px]">
+        <div
+          class="w-[28px] h-[28px]"
+          v-if="customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion6').active == 1"
+        >
           <input
             id="postion6"
             type="radio"
@@ -541,23 +583,23 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute"
         :class="[
-          buttonPositionMobile === 'postion1'
+          buttonPositionMobile === 'postion1' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1
             ? 'top-[30px]  ltr:lg:left-[50px] rtl:lg:right-[120px]  position1'
             : '',
-          buttonPositionMobile === 'postion2'
+          buttonPositionMobile === 'postion2' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion2').active == 1
             ? 'top-[80px] ltr:lg:left-[50px] rtl:lg:right-[120px] position2'
             : '',
-          buttonPositionMobile === 'postion3'
+          buttonPositionMobile === 'postion3' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion3').active == 1
             ? 'top-[150px] lg:top-[140px] md:left-[10px] left-[0] rtl:lg:right-[120px]  ltr:lg:left-[50px] position3'
             : '',
 
-          buttonPositionMobile === 'postion4'
+          buttonPositionMobile === 'postion4'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion4').active == 1
             ? 'top-[30px] ltr:lg:left-[120px] rtl:lg:left-[250px]  position4'
             : '',
-          buttonPositionMobile === 'postion5'
+          buttonPositionMobile === 'postion5'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion5').active == 1
             ? 'top-[80px]  ltr:lg:left-[120px] rtl:lg:left-[250px] position5'
             : '',
-          buttonPositionMobile === 'postion6'
+          buttonPositionMobile === 'postion6'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion6').active == 1
             ? 'top-[150px] lg:top-[140px] md:left-[75px] left-[65px] rtl:lg:right-[270px] lg:left-[120px] position6'
             : '',
         ]"
@@ -576,23 +618,23 @@ watch([currentColor], () => {}, { immediate: true });
       <div
         class="absolute"
         :class="[
-          buttonPositionMobile === 'postion1'
+          buttonPositionMobile === 'postion1'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion1').active == 1
             ? 'position1 ipad-max:top-[50px] top-[50px] lg:top-[30px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
-          buttonPositionMobile === 'postion2'
+          buttonPositionMobile === 'postion2'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion2').active == 1
             ? 'position2 top-[80px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
-          buttonPositionMobile === 'postion3'
+          buttonPositionMobile === 'postion3' && customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion3').active == 1
             ? 'position3 top-[130px] lg:top-[140px] ltr:lg:left-[270px] rtl:lg:right-[270px]'
             : '',
 
-          buttonPositionMobile === 'postion4'
+          buttonPositionMobile === 'postion4'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion4').active == 1
             ? 'position4 top-[50px] ipad-max:top-[50px] lg:top-[30px] right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
-          buttonPositionMobile === 'postion5'
+          buttonPositionMobile === 'postion5'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion5').active == 1
             ? 'position5 top-[90px] lg:top-[80px]   right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
-          buttonPositionMobile === 'postion6'
+          buttonPositionMobile === 'postion6'&& customizeStore.buttonMobilePositions.find((el:any)=> el.value === 'postion6').active == 1
             ? 'position6 top-[130px] lg:top-[140px] ipad-max:top-[130px]  right-[5px] md:right-[20px] ipad-max:right-[20px] lg:right-[56px]'
             : '',
         ]"

@@ -1153,7 +1153,7 @@ const loadf = ref(true);
               />
             </div>
 
-            <transition name="slide-up">
+            <transition name="slide-up" v-if="!custmizeStore.loadingData">
               <DashboardAddonsSaveFooter
                 :show-footer="shouldShowFooter"
                 :loadingSave="loadingSave"

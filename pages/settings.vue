@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import VCodeBlock from "@wdns/vue-code-block";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useSettingsStore } from "@/stores/settings";
@@ -127,6 +126,7 @@ const resetAccessiility = async () => {
     const res = await api.post("/Apps/ResetSettingDefaultApp");
     closeModal("resetModal");
 
+    getAccessability();
     $toast(t("All accessibility settings have been reset"), {
       hideIn: 3000,
       type: "success",
@@ -150,13 +150,14 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+const componentKey = ref(0);
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
-      :title="$t('Rest All Accessibility Settings')"
+      :title="$t('Reset All Accessibility Settings')"
       :sub-title="
         $t(
           'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'
@@ -183,6 +184,7 @@ onBeforeRouteLeave((to, from, next) => {
 
     <div class="w-full h-full relative">
       <HeaderAccess
+        :key="componentKey"
         :section-title="$t('Settings')"
         :section-sub-title="
           $t('Settings let you customize your preferences and configurations')
@@ -378,246 +380,70 @@ onBeforeRouteLeave((to, from, next) => {
               class="flex flex-col items-start justify-center mt-[18px] divide-y"
               v-if="!collapseStore.collapses.includes('general_settings_card')"
             >
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+              <template
+                v-for="setting in customizeStore.settingsItems"
+                :key="setting.name"
               >
                 <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
+                  v-if="setting.active == 1"
+                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
                 >
                   <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked(
-                        'acc-setting-general-settings-widget-enabled-on-this-site'
-                      )
-                        ? 'opacity-60'
-                        : '',
-                    ]"
+                    class="flex items-center justify-start space-x-[13px] w-full"
                   >
                     <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                      class="flex flex-col items-start justify-center w-full"
+                      :class="[!isChecked(setting.name) ? 'opacity-60' : '']"
                     >
-                      <span>{{ $t("Widget enabled on this site") }}</span>
+                      <div
+                        class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                      >
+                        <span>{{
+                          $t(setting.label ? setting.label : "")
+                        }}</span>
+                      </div>
+                    </div>
+                    <div class="ml-auto">
+                      <label
+                        for="toggle_Widget_enabled_on_this_site"
+                        class="toggle_wrap"
+                      >
+                        <input
+                          type="checkbox"
+                          id="toggle_Widget_enabled_on_this_site"
+                          class="sr-only"
+                          :checked="isChecked(setting.name)"
+                          @change="toggleCheckbox(setting.name)"
+                        />
+                        <div
+                          class="toggle_parent"
+                          :class="[
+                            isChecked(setting.name) ? 'active' : 'in_active',
+                          ]"
+                        >
+                          <div
+                            class="toggle_inner"
+                            :class="{
+                              active: isChecked(setting.name),
+                            }"
+                          >
+                            <img
+                              v-if="isChecked(setting.name)"
+                              src="/assets/imgs/addons/active_toggle.svg"
+                              class="w-[28px] h-[28px]"
+                            />
+                            <img
+                              v-else
+                              src="/assets/imgs/addons/toggle.svg"
+                              class="w-[28px] h-[28px]"
+                            />
+                          </div>
+                        </div>
+                      </label>
                     </div>
                   </div>
-                  <div class="ml-auto">
-                    <label
-                      for="toggle_Widget_enabled_on_this_site"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="toggle_Widget_enabled_on_this_site"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'acc-setting-general-settings-widget-enabled-on-this-site'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'acc-setting-general-settings-widget-enabled-on-this-site'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'acc-setting-general-settings-widget-enabled-on-this-site'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'acc-setting-general-settings-widget-enabled-on-this-site'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'acc-setting-general-settings-widget-enabled-on-this-site'
-                              )
-                            "
-                            src="/assets/imgs/addons/active_toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/addons/toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
                 </div>
-              </div>
-
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
-              >
-                <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
-                >
-                  <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked(
-                        'acc-setting-general-settings-widget-enabled-on-mobile'
-                      )
-                        ? 'opacity-60'
-                        : '',
-                    ]"
-                  >
-                    <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                    >
-                      <span>{{ $t("Widget enabled on mobile") }}</span>
-                    </div>
-                  </div>
-                  <div class="ml-auto">
-                    <label
-                      for="toggle_acc-setting-general-settings-widget-enabled-on-mobile"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="toggle_acc-setting-general-settings-widget-enabled-on-mobile"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'acc-setting-general-settings-widget-enabled-on-mobile'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'acc-setting-general-settings-widget-enabled-on-mobile'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'acc-setting-general-settings-widget-enabled-on-mobile'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'acc-setting-general-settings-widget-enabled-on-mobile'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'acc-setting-general-settings-widget-enabled-on-mobile'
-                              )
-                            "
-                            src="/assets/imgs/addons/active_toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/addons/toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
-              >
-                <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
-                >
-                  <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked('acc-setting-general-settings-sound-effects')
-                        ? 'opacity-60'
-                        : '',
-                    ]"
-                  >
-                    <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                    >
-                      <span>{{ $t("Sound effects") }}</span>
-                    </div>
-                  </div>
-                  <div class="ml-auto">
-                    <label
-                      for="toggle_acc-setting-general-settings-sound-effects"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="toggle_acc-setting-general-settings-sound-effects"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'acc-setting-general-settings-sound-effects'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'acc-setting-general-settings-sound-effects'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'acc-setting-general-settings-sound-effects'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'acc-setting-general-settings-sound-effects'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'acc-setting-general-settings-sound-effects'
-                              )
-                            "
-                            src="/assets/imgs/addons/active_toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/addons/toggle.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
+              </template>
             </div>
           </div>
 
@@ -1044,6 +870,7 @@ onBeforeRouteLeave((to, from, next) => {
               v-if="!collapseStore.collapses.includes('license_settings_card')"
             >
               <div
+                v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-transfer-license-to-another-website-transfer-license' ).active == 1"
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
               >
                 <div
@@ -1056,7 +883,17 @@ onBeforeRouteLeave((to, from, next) => {
                       <span>
                         {{
                           $t(
-                            "Transfer License to Another Website Transfer License"
+                            customizeStore.transferLicenceItems.find(
+                              (el: any) =>
+                                el.name ===
+                                "acc-setting-license-settings-transfer-license-to-another-website-transfer-license"
+                            ).label
+                              ? customizeStore.transferLicenceItems.find(
+                                  (el: any) =>
+                                    el.name ===
+                                    "acc-setting-license-settings-transfer-license-to-another-website-transfer-license"
+                                ).label
+                              : ""
                           )
                         }}
                       </span>
@@ -1074,6 +911,7 @@ onBeforeRouteLeave((to, from, next) => {
               </div>
 
               <div
+                v-if="customizeStore.transferLicenceItems.find((el:any)=> el.name === 'acc-setting-license-settings-delete-site-permanently-removes-your-profile-and-data-from-the-system' ).active == 1"
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
               >
                 <div class="flex items-center justify-start w-full">
@@ -1081,10 +919,20 @@ onBeforeRouteLeave((to, from, next) => {
                     <div
                       class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
                     >
-                      <span
-                        >{{
+                      <span>
+                        {{
                           $t(
-                            "Delete site permanently removes your profile and data from the system"
+                            customizeStore.transferLicenceItems.find(
+                              (el: any) =>
+                                el.name ===
+                                "acc-setting-license-settings-delete-site-permanently-removes-your-profile-and-data-from-the-system"
+                            ).label
+                              ? customizeStore.transferLicenceItems.find(
+                                  (el: any) =>
+                                    el.name ===
+                                    "acc-setting-license-settings-delete-site-permanently-removes-your-profile-and-data-from-the-system"
+                                ).label
+                              : ""
                           )
                         }}
                       </span>

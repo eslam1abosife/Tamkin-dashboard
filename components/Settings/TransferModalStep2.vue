@@ -16,6 +16,9 @@ const props = defineProps({
 
 const SuccessStep2Transfer = ref(false);
 const loadingTransfer = ref(false);
+const showSuccess = ref(false);
+const isshowError = ref(false);
+const showErrorMess = ref("");
 const confirmTransfer = async () => {
   loadingTransfer.value = true;
   try {
@@ -25,9 +28,20 @@ const confirmTransfer = async () => {
     });
     if (res) {
       SuccessStep2Transfer.value = true;
+      console.log("res", res.data);
+
+      if (res.data?.statusCode == 200) {
+        showSuccess.value = true;
+      }
+      if (res.data?.statusCode == 400) {
+        isshowError.value = true;
+        showErrorMess.value = res.data?.message;
+      }
     }
     loadingTransfer.value = false;
   } catch (error) {
+    console.log("error", error);
+
     loadingTransfer.value = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
@@ -56,7 +70,10 @@ const manageSites = () => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('transferstep2')"
+      @click="
+        closeModal('transferstep2');
+        SuccessStep2Transfer = false;
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
@@ -145,14 +162,15 @@ const manageSites = () => {
           {{ $t("Cancel") }}
         </button>
         <button
-          class="btn-dashboard text-center p-[0]"
+          class="btn-dashboard hover_tamkin text-center p-[0]"
           :class="loadingTransfer ? 'w-1/3' : 'w-1/4'"
           @click="confirmTransfer"
+          :disabled="loadingTransfer"
         >
           <span class="mx-2">{{ $t("Confirm Transfer") }}</span>
           <svg
             v-if="loadingTransfer"
-            class="animate-spin h-5 w-5 text-[#fff]"
+            class="animate-spin h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -175,34 +193,55 @@ const manageSites = () => {
       </div>
     </div>
     <div class="container mx-auto" v-else>
-      <h1
-        class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]"
-      >
-        {{ $t("Successfully Transferred") }}
-      </h1>
-
-      <Vue3Lottie
-        :animationData="SuccessAnimation"
-        :height="150"
-        :width="150"
-        class="  "
-      />
-      <p
-        class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]"
-      >
-        {{
-          $t(
-            "The license has been successfully transferred to the new site. You can now utilize the license at the new location."
-          )
-        }}
-      </p>
-
-      <button
-        class="btn-dashboard hover_tamkin text-center w-3/4 p-[0] mx-auto mt-[30px]"
-        @click="manageSites"
-      >
-        {{ $t("Manage Your Site") }}
-      </button>
+      <div v-if="showSuccess">
+        <h1
+          class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]"
+        >
+          {{ $t("Successfully Transferred") }}
+        </h1>
+        <Vue3Lottie
+          :animationData="SuccessAnimation"
+          :height="150"
+          :width="150"
+          class="  "
+        />
+        <p
+          class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]"
+        >
+          {{
+            $t(
+              "The license has been successfully transferred to the new site. You can now utilize the license at the new location."
+            )
+          }}
+        </p>
+        <button
+          class="btn-dashboard hover_tamkin text-center w-3/4 p-[0] mx-auto mt-[30px]"
+          @click="manageSites"
+        >
+          {{ $t("Manage Your Site") }}
+        </button>
+      </div>
+      <div v-if="isshowError">
+        <h1
+          class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]"
+        >
+          {{ $t("Faild to Transfer") }}
+        </h1>
+        <div class="flex justify-center items-center">
+          <img width="100" src="/public/imgs/error.png" alt="" />
+        </div>
+        <p
+          class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]"
+        >
+          {{ $t(showErrorMess) }}
+        </p>
+        <button
+          class="btn-dashboard hover_tamkin text-center w-3/4 p-[0] mx-auto mt-[30px]"
+          @click="manageSites"
+        >
+          {{ $t("Manage Your Site") }}
+        </button>
+      </div>
     </div>
   </div>
 </template>

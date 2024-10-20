@@ -79,7 +79,7 @@ const isLinkActive = (path) => {
     >
       {{ sectionTitle }}
     </h1>
-    <div v-else class="h-[20px] bg-gray-200 w-[150px]"></div>
+    <div v-else class="h-[20px] mt-[20px] bg-gray-200 w-[150px]"></div>
 
     <h2
       v-if="Object.keys(app).length > 0"
@@ -187,14 +187,14 @@ const isLinkActive = (path) => {
   </div>
   <div
     v-else
-    class="flex items-center gap-2 mt-[-10px] lg:mt-[15px] pb-[80px] flex lg:space-y-0 space-y-[16px]"
+    class="flex items-center gap-2 mt-[-20px] lg:mt-[15px] pb-[65px] flex lg:space-y-0 space-y-[16px]"
     :class="
       loadApp &&
       (isLinkActive('/overview') ||
         isLinkActive('/sign-language/overview') ||
         isLinkActive('/statistics') ||
         isLinkActive('/sign-language/statistics'))
-        ? 'pb-[94px]'
+        ? 'pb-[65px]'
         : ''
     "
   >
