@@ -244,7 +244,9 @@ const backgroundImageStyle = computed(() => {
     <div
       class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
       v-if="
-        !collapseStore.collapses.includes('live_site_translation_button_card')
+        !collapseStore.collapses.includes(
+          'live_site_translation_button_card'
+        ) && customizeStore.isEnableLiveTrans.active == 1
       "
     >
       <table class="min-w-full leading-normal">
@@ -253,7 +255,13 @@ const backgroundImageStyle = computed(() => {
             <th
               class="w-full border-b-2 border-gray-200 dark:border-darkborder ltr:text-left rtl:text-right text-[13px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
             >
-              {{ $t("Enable Live Site Translations Button") }}
+              {{
+                $t(
+                  customizeStore.isEnableLiveTrans.label
+                    ? customizeStore.isEnableLiveTrans.label
+                    : ""
+                )
+              }}
             </th>
             <th
               class="ml-auto w-full py-3 border-b-2 border-gray-200 dark:border-light text-[14px] font-[400] leading-[18px] text-black dark:text-whiteTamkin"
@@ -317,7 +325,7 @@ const backgroundImageStyle = computed(() => {
       </table>
 
       <div
-        class="flex items-center lg:flex-nowrap flex-wrap justify-between"
+        class="flex items-center gap-2 lg:flex-nowrap flex-wrap justify-between"
         :class="[
           !customizeStore.isChecked(
             'acc-customize-translations-button-enable-live-site-translations-button'
@@ -426,6 +434,7 @@ const backgroundImageStyle = computed(() => {
         "
       >
         <div
+          v-if="customizeStore.buttonTransDefaultIcons.find((el:any)=> el.value === 'option1').active == 1"
           @click="customizeStore.changeDefaultButtonShape('option1')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option1'
@@ -448,6 +457,7 @@ const backgroundImageStyle = computed(() => {
           <img src="/assets/imgs/customize/gb.svg" />
         </div>
         <div
+          v-if="customizeStore.buttonTransDefaultIcons.find((el:any)=> el.value === 'option2').active == 1"
           @click="customizeStore.changeDefaultButtonShape('option2')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option2'
@@ -511,6 +521,7 @@ const backgroundImageStyle = computed(() => {
           </svg>
         </div>
         <div
+          v-if="customizeStore.buttonTransDefaultIcons.find((el:any)=> el.value === 'option3').active == 1"
           @click="customizeStore.changeDefaultButtonShape('option3')"
           :class="[
             customizeStore.currentShapeLiveTranslation === 'option3'
@@ -588,6 +599,7 @@ const backgroundImageStyle = computed(() => {
         "
       >
         <div
+          v-if="customizeStore.buttonTransAboveIcons.find((el:any)=> el.value === 'option1').active == 1"
           @click="customizeStore.changeAboveButtonShape('option1')"
           :class="[
             customizeStore.currentAboveShapeLiveTranslation === 'option1'
@@ -625,6 +637,7 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
+          v-if="customizeStore.buttonTransAboveIcons.find((el:any)=> el.value === 'option2').active == 1"
           @click="customizeStore.changeAboveButtonShape('option2')"
           :class="[
             customizeStore.currentAboveShapeLiveTranslation === 'option2'
@@ -701,6 +714,7 @@ const backgroundImageStyle = computed(() => {
           </div>
         </div>
         <div
+          v-if="customizeStore.buttonTransAboveIcons.find((el:any)=> el.value === 'option3').active == 1"
           @click="customizeStore.changeAboveButtonShape('option3')"
           :class="[
             customizeStore.currentAboveShapeLiveTranslation === 'option3'

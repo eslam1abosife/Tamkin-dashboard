@@ -21,9 +21,10 @@ watch(search, (ov, nv) => {
 });
 
 const filteredApps = computed(() =>
-  settingsStore.apps.filter((el: any) =>
-    // el.type !== "Internal Services" &&
-    el.title.toLowerCase().includes(search.value.toLowerCase())
+  settingsStore.apps.filter(
+    (el: any) =>
+      el.type !== "Internal Services" &&
+      el.title.toLowerCase().includes(search.value.toLowerCase())
   )
 );
 
@@ -206,7 +207,10 @@ const formatToUrl = (domain: any) => {
         <div class="flex items-center justify-center gap-2 mt-[20px]">
           <button
             class="btn_bordered_dashboard normal_hover text-center w-1/6"
-            @click="closeModal('transferstep1')"
+            @click="
+              closeModal('transferstep1');
+              settingsStore.selectedApp = null;
+            "
           >
             {{ $t("Cancel") }}
           </button>
@@ -221,20 +225,6 @@ const formatToUrl = (domain: any) => {
       </div>
       <div v-else>
         <NoData />
-        <!-- <div
-          class="flex flex-col items-center justify-center p-[10px] space-y-[16px]"
-        >
-          <div>
-            <img
-              src="/assets/imgs/no-data-found.svg"
-              class="w-[75px] h-[65px]"
-              alt=""
-            />
-          </div>
-          <div class="text-[16px] leading-[24px] text-darkGrey font-[400]">
-            {{ $t("There are no sites available to transfer the license to") }}
-          </div>
-        </div> -->
       </div>
     </div>
   </div>

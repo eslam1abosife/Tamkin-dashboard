@@ -221,7 +221,10 @@ const filterdLanguages = computed(() => {
         class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
       >
-        <div class="w-full lg:w-[330px] lg:mt-0 mt-[8px]">
+        <div
+          class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
+          v-if="customizeStore.isLangListActive"
+        >
           <div class="relative w-full lg:w-64">
             <button
               @click="toggleDropdown"
@@ -354,6 +357,7 @@ const filterdLanguages = computed(() => {
         </div>
 
         <div
+          v-if="customizeStore.accessibilityLanguage.active == 1"
           class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
         >
           <div
@@ -367,7 +371,13 @@ const filterdLanguages = computed(() => {
               <div
                 class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] lg:leading-[16.39px]"
               >
-                <span>{{ $t("Show  language selector on the widget") }}</span>
+                <span>{{
+                  $t(
+                    customizeStore.accessibilityLanguage.label
+                      ? customizeStore.accessibilityLanguage.label
+                      : ""
+                  )
+                }}</span>
               </div>
             </div>
             <div class="rtl:mr-auto ltr:ml-auto">

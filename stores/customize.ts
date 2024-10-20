@@ -13,6 +13,14 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    transferLicenceItems: [],
+    settingsItems: [],
+    accessibilityLanguage: {},
+    accessibilityModeItems: [],
+    buttonDesktopPositions: [],
+    buttonMobilePositions: [],
+    buttonTransDefaultIcons: [],
+    buttonTransAboveIcons: [],
     buttonShapeObj: {},
     buttonSizeObj: {},
     buttonDefaultLabel: "",
@@ -20,6 +28,8 @@ export const useCustomizeStore = defineStore("customize", {
     widgetCustomizationItems: [],
     moveHideFeature: [],
     widgetTypes: [],
+    isEnableLiveTrans: {},
+    isLangListActive: false,
     isButtonColorSolidActive: false,
     isButtonColorGridActive: false,
     isMainMenuActive: false,
