@@ -5,6 +5,7 @@ import { useWindowSize } from "@vueuse/core";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useOverviewStore } from "@/stores/overview";
 
+const settingsStore = useSettingsStore();
 const collapseStore = useCollapseStore();
 const modalStore = useModalStore();
 const overviewStore = useOverviewStore();
@@ -29,101 +30,106 @@ definePageMeta({
           )
         "
       />
-
-      <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
-      <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
-      <LazyOverviewCurrentPlan
-        :plan-type="'free'"
-        :is-installed="false"
-        v-if="!overviewStore.showUpgradeState"
-      />
-      <LazyOverviewCurrentPlan
-        :plan-type="'pro'"
-        :is-installed="true"
-        v-if="overviewStore.showUpgradeState"
-      />
-      <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
-
-      <OverviewExclusiveInvestorPackage
-        v-if="!overviewStore.showUpgradeState"
+      <LanguageServicesNodata
+        v-if="settingsStore.defaultappobj.type == 'Internal Services'"
       />
 
-      <OverviewAccessibilityDetails v-if="overviewStore.showUpgradeState" />
+      <div v-else>
+        <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
+        <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
+        <LazyOverviewCurrentPlan
+          :plan-type="'free'"
+          :is-installed="false"
+          v-if="!overviewStore.showUpgradeState"
+        />
+        <LazyOverviewCurrentPlan
+          :plan-type="'pro'"
+          :is-installed="true"
+          v-if="overviewStore.showUpgradeState"
+        />
+        <!-- <LazyOverviewTamkintokenbanner v-if="!overviewStore.showUpgradeState"/> -->
 
-      <OverviewLiveTranslation v-if="overviewStore.showUpgradeState" />
+        <OverviewExclusiveInvestorPackage
+          v-if="!overviewStore.showUpgradeState"
+        />
 
-      <OverviewTamkinTokenBanner v-if="overviewStore.showUpgradeState" />
+        <OverviewAccessibilityDetails v-if="overviewStore.showUpgradeState" />
 
-      <div
-        v-if="overviewStore.showUpgradeState"
-        class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
-      >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" />
-        </div>
+        <OverviewLiveTranslation v-if="overviewStore.showUpgradeState" />
+
+        <OverviewTamkinTokenBanner v-if="overviewStore.showUpgradeState" />
+
         <div
-          class="flex flex-col items-center lg:items-start justify-center w-full"
+          v-if="overviewStore.showUpgradeState"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
-          <div
-            class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
-          >
-            <h1>Monthly Plan</h1>
+          <div>
+            <img src="/assets/imgs/overview/plan-calender.svg" />
           </div>
           <div
-            class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
-            @click="showExpired = !showExpired"
+            class="flex flex-col items-center lg:items-start justify-center w-full"
           >
-            <transition name="fade" mode="out-in">
-              <template v-if="!showExpired">
-                <div class="flex items-center" key="not-expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Package Expires in") }}
+            <div
+              class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
+            >
+              <h1>Monthly Plan</h1>
+            </div>
+            <div
+              class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
+              @click="showExpired = !showExpired"
+            >
+              <transition name="fade" mode="out-in">
+                <template v-if="!showExpired">
+                  <div class="flex items-center" key="not-expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    >
+                      {{ $t("Package Expires in") }}
+                    </div>
+                    <div
+                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Aug 20,2024
+                    </div>
                   </div>
-                  <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Aug 20,2024
+                </template>
+                <template v-else>
+                  <div class="flex items-center" key="expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+                    >
+                      {{ $t("Expired") }}
+                    </div>
+                    <div
+                      class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
+                    >
+                      Aug 10,2024
+                    </div>
                   </div>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex items-center" key="expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
-                  >
-                    {{ $t("Expired") }}
-                  </div>
-                  <div
-                    class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
-                  >
-                    Aug 10,2024
-                  </div>
-                </div>
-              </template>
-            </transition>
+                </template>
+              </transition>
+            </div>
           </div>
-        </div>
 
-        <div class="relative">
-          <div
-            v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform rtl:right-[50%] ltr:left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            {{ $t("SAVE") }} 12%
+          <div class="relative">
+            <div
+              v-if="!showExpired"
+              class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform rtl:right-[50%] ltr:left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            >
+              {{ $t("SAVE") }} 12%
+            </div>
+            <button
+              class="rounded-full w-[178px]"
+              :class="[
+                showExpired
+                  ? 'btn-dashboard hover_tamkin'
+                  : 'btn_bordered_dashboard',
+              ]"
+              @click="modalStore.controlShowUpgradeModal"
+            >
+              {{ !showExpired ? $t("Switch To Annual") : $t("Renew") }}
+            </button>
           </div>
-          <button
-            class="rounded-full w-[178px]"
-            :class="[
-              showExpired
-                ? 'btn-dashboard hover_tamkin'
-                : 'btn_bordered_dashboard',
-            ]"
-            @click="modalStore.controlShowUpgradeModal"
-          >
-            {{ !showExpired ? $t("Switch To Annual") : $t("Renew") }}
-          </button>
         </div>
       </div>
     </div>

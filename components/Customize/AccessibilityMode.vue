@@ -8,7 +8,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
 <template>
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
-    v-if="customizeStore.moveHideFeature.active"
+    v-if="customizeStore.moveHideFeature.active == 1"
   >
     <div
       class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
@@ -112,7 +112,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
     >
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
-        class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[
           customizeStore.accessibilityMode === 'left'
             ? 'custom-border padding-2'
@@ -129,7 +129,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
-        class="flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="customizeStore.moveHideWidget('right')"
         :class="[
           customizeStore.accessibilityMode === 'right'
@@ -147,7 +147,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
-        class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[140px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="customizeStore.moveHideWidget('hide')"
         :class="[
           customizeStore.accessibilityMode === 'hide'

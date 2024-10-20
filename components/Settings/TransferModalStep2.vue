@@ -73,6 +73,7 @@ const manageSites = () => {
       @click="
         closeModal('transferstep2');
         SuccessStep2Transfer = false;
+        settingsStore.selectedApp = null;
       "
     >
       <svg
@@ -157,7 +158,11 @@ const manageSites = () => {
       <div class="flex items-center justify-center gap-2 mt-[40px]">
         <button
           class="btn_bordered_dashboard normal_hover text-center w-1/4"
-          @click="closeModal('transferstep2')"
+          @click="
+            closeModal('transferstep2');
+            SuccessStep2Transfer = false;
+            settingsStore.selectedApp = null;
+          "
         >
           {{ $t("Cancel") }}
         </button>
@@ -225,10 +230,10 @@ const manageSites = () => {
         <h1
           class="text-center font-[600] text-darkGrey dark:text-whiteTamkin text-[24px] leading-[36px]"
         >
-          {{ $t("Faild to Transfer") }}
+          {{ $t("Failed to Transfer") }}
         </h1>
-        <div class="flex justify-center items-center">
-          <img width="100" src="/public/imgs/error.png" alt="" />
+        <div class="flex justify-center items-center mt-3">
+          <img width="50" src="/public/imgs/error.png" alt="" />
         </div>
         <p
           class="mt-[16px] text-center font-[400] text-[#A7A7A7] dark:text-whiteTamkin text-[12px] leading-[24px]"

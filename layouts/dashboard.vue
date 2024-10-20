@@ -314,6 +314,8 @@ const updateNewValues = () => {
     checkboxStore.initialCheckboxes = JSON.parse(
       JSON.stringify(checkboxStore.checkboxes)
     );
+    checkboxStore.force_change_profileCards = false;
+    checkboxStore.force_change_menuCards = false;
   }
   if (isSettingsLinkActive) {
     settingsStore.initialCheckboxes = JSON.parse(
@@ -589,7 +591,10 @@ const handleSave = async (type: any) => {
       {
         name: "acc-customize-accessibility-mode-move-/-hide-accessibility",
         value: custmizeStore.accessibilityMode,
-        active: getValue(
+      },
+      {
+        name: "acc-customize-accessibility-mode-move-/-hide-accessibility-button",
+        value: getValue(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         ),
       },

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const statsStore = useStatsStore();
+const settingsStore = useSettingsStore();
 
 definePageMeta({
   layout: "dashboard",
@@ -63,13 +64,18 @@ onBeforeRouteLeave((to, from, next) => {
         "
       />
 
-      <StatisticsChart />
+      <LanguageServicesNodata
+        v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+      />
+      <div v-else>
+        <StatisticsChart />
 
-      <StatisticsUsagebyfunction />
-      <StatisticsUsagebyprofile />
-      <StatisticsEnablegoogleanalytics />
+        <StatisticsUsagebyfunction />
+        <StatisticsUsagebyprofile />
+        <StatisticsEnablegoogleanalytics />
 
-      <StatisticsLivetranslation />
+        <StatisticsLivetranslation />
+      </div>
     </div>
   </div>
 </template>
