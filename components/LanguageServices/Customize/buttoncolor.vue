@@ -187,6 +187,7 @@ const customizeStore = useCustomizeStore();
           class="flex items-center justify-start lg:px-[15px] rtl:space-x-reverse space-x-[29px] w-full"
         >
           <div
+            v-if="customizeStore.isButtonColorSolidActive"
             @click="customizeStore.colorMode = 'solid'"
             :class="[
               customizeStore.colorMode === 'solid'
@@ -199,11 +200,12 @@ const customizeStore = useCustomizeStore();
             <div
               class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
             >
-              Solid
+              {{ $t("Solid") }}
             </div>
           </div>
 
           <div
+            v-if="customizeStore.isButtonColorGridActive"
             :class="[
               customizeStore.colorMode === 'gradient'
                 ? 'custom-border-tamkin padding-override-1'
@@ -221,12 +223,15 @@ const customizeStore = useCustomizeStore();
             <div
               class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
             >
-              Gradient
+              {{ $t("Gradient") }}
             </div>
           </div>
         </div>
         <div
-          v-if="customizeStore.colorMode === 'solid'"
+          v-if="
+            customizeStore.colorMode === 'solid' &&
+            customizeStore.isButtonColorSolidActive
+          "
           :style="{ border: `1px solid ${customizeStore.currentColor}` }"
           class="lg:mx-[15px] rtl:mr-auto ltr:ml-auto flex items-center justify-start rtl:space-x-reverse space-x-[10px] w-full h-[34px] rounded-[10px] px-[15px] cursor-pointer"
         >
@@ -242,7 +247,10 @@ const customizeStore = useCustomizeStore();
         </div>
 
         <div
-          v-if="customizeStore.colorMode === 'gradient'"
+          v-if="
+            customizeStore.colorMode === 'gradient' &&
+            customizeStore.isButtonColorGridActive
+          "
           class="flex items-center justify-start border-[1px] border-tamkin w-full h-[34px] rounded-[10px] lg:mx-[15px] cursor-pointer"
         >
           <div
@@ -276,7 +284,10 @@ const customizeStore = useCustomizeStore();
 
       <div
         class="flex items-center justify-start w-full px-[5px]"
-        v-if="customizeStore.colorMode === 'solid'"
+        v-if="
+          customizeStore.colorMode === 'solid' &&
+          customizeStore.isButtonColorSolidActive
+        "
       >
         <Client-only>
           <Vue3ColorPicker
@@ -296,7 +307,10 @@ const customizeStore = useCustomizeStore();
 
       <div
         class="flex items-center justify-evenly w-full px-[5px]"
-        v-if="customizeStore.colorMode === 'gradient'"
+        v-if="
+          customizeStore.colorMode === 'gradient' &&
+          customizeStore.isButtonColorGridActive
+        "
       >
         <div class="flex items-center justify-start w-full">
           <Client-only>

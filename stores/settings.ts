@@ -7,6 +7,9 @@ interface Checkbox {
 
 export const useSettingsStore = defineStore("settings", {
   state: () => ({
+    transferLicenceItems: [],
+    isDeafResetActive: {},
+    settingsItems: [],
     features: [],
     defaultapp: "",
     defaultappobj: {},
@@ -66,6 +69,14 @@ export const useSettingsStore = defineStore("settings", {
     },
     setCheckboxValue(name: string, value: boolean) {
       const checkbox = this.checkboxes.find(
+        (checkbox) => checkbox.name === name
+      );
+      if (checkbox) {
+        checkbox.value = value;
+      }
+    },
+    setinitCheckboxValue(name: string, value: boolean) {
+      const checkbox = this.initialCheckboxes.find(
         (checkbox) => checkbox.name === name
       );
       if (checkbox) {

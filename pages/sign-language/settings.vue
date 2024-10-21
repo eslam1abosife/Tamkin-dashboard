@@ -106,6 +106,10 @@ const deleteSite = async () => {
     const res = await api.post("/mySite/set/AppStatusCancel", {
       name: settingsStore.defaultapp,
     });
+    $toast(t("Deleted Successfully"), {
+      hideIn: 3000,
+      type: "success",
+    });
     closeModal("deleteModal");
     const router = useRouter(); // Import the router instance
     router.push({
@@ -117,10 +121,18 @@ const deleteSite = async () => {
   }
 };
 
+const { t } = useI18n();
+
 const resetAccessiility = async () => {
   try {
     const res = await api.post("/Apps/ResetSettingDefaultApp");
     closeModal("resetModal");
+    getPlayerData();
+    $toast(t("All Player settings have been reset"), {
+      hideIn: 3000,
+      type: "success",
+    });
+    localStorage.removeItem("playerColorPanal");
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
@@ -286,16 +298,24 @@ const getSettingsValue = (name: any) => {
   <div class="relative h-full w-full">
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
-      title="Rest All Accessibility Settings"
-      sub-title="Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings"
+      :title="$t('Reset All Accessibility Settings')"
+      :sub-title="
+        $t(
+          'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'
+        )
+      "
       confirm-btn-type="confirm"
       @control-confirm="resetAccessiility"
       @control-cancel="closeModal('resetModal')"
     />
     <ModalsConfirm
       :show-modal="isOpen('deleteModal')"
-      title="Delete your site"
-      sub-title="Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features"
+      :title="$t('Delete your site')"
+      :sub-title="
+        $t(
+          'Are you sure you want to delete your site? This action is irreversible and will permanently remove all your data and settings. You will also lose access to many features'
+        )
+      "
       confirm-btn-type="delete"
       @control-delete="deleteSite"
       @control-cancel="closeModal('deleteModal')"
@@ -316,8 +336,8 @@ const getSettingsValue = (name: any) => {
     </transition>
     <ModalsConfirm
       :showModal="settingsStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
+      :title="$t('Save your changes')"
+      :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
       @controlsaveAllSites="handleSaveToAllAndMove"
@@ -327,15 +347,16 @@ const getSettingsValue = (name: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Settings"
-        section-sub-title="Settings let you customize your preferences and configurations"
+        :section-title="$t('Settings')"
+        :section-sub-title="
+          $t('Settings let you customize your preferences and configurations')
+        "
       />
 
-      <div
-        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
-      >
+      <div v-if="customizeStore.loadingData">
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] p-4"
+          :class="!settingsStore.defaultappobj.type ? 'mt-[65px]' : 'mt-[40px]'"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"
@@ -351,6 +372,7 @@ const getSettingsValue = (name: any) => {
         />
         <div v-else>
           <div
+            v-if="settingsStore.settingsItems.active == 1"
             class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('general_settings_card')
@@ -363,13 +385,39 @@ const getSettingsValue = (name: any) => {
                 <h1
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
-                  General Settings
+                  {{
+                    $t(
+                      settingsStore.settingsItems.title
+                        ? settingsStore.settingsItems.title
+                        : ""
+                    )
+                  }}
                 </h1>
                 <h2
                   class="text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Accessibility Settings allow users to customize their website
-                  experience to ensure it is accessible and user-friendly
+                  <span
+                    v-if="
+                      !collapseStore.collapses.includes('general_settings_card')
+                    "
+                  >
+                    {{
+                      $t(
+                        settingsStore.settingsItems.description_on_show
+                          ? settingsStore.settingsItems.description_on_show
+                          : ""
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    {{
+                      $t(
+                        settingsStore.settingsItems.description_on_hide
+                          ? settingsStore.settingsItems.description_on_hide
+                          : ""
+                      )
+                    }}
+                  </span>
                 </h2>
               </div>
 
@@ -496,254 +544,72 @@ const getSettingsValue = (name: any) => {
               class="flex flex-col items-start justify-center mt-[18px] divide-y"
               v-if="!collapseStore.collapses.includes('general_settings_card')"
             >
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
+              <template
+                v-for="item in settingsStore.settingsItems.features"
+                :key="item.name"
               >
                 <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
+                  v-if="item.active == 1"
+                  class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
                 >
                   <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked(
-                        'deaf-setting-general-settings-player-enabled-on-this-site'
-                      )
-                        ? 'opacity-60'
-                        : '',
-                    ]"
+                    class="flex items-center justify-start space-x-[13px] w-full"
                   >
                     <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                      class="flex flex-col items-start justify-center w-full"
+                      :class="[!isChecked(item.name) ? 'opacity-60' : '']"
                     >
-                      <span>Sign language enabled on this site </span>
+                      <div
+                        class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
+                      >
+                        <span>{{ item.label }}</span>
+                      </div>
+                    </div>
+                    <div class="ml-auto">
+                      <label :for="item.name" class="toggle_wrap">
+                        <input
+                          type="checkbox"
+                          :id="item.name"
+                          class="sr-only"
+                          :checked="isChecked(item.name)"
+                          @change="toggleCheckbox(item.name)"
+                        />
+                        <div
+                          class="toggle_parent"
+                          :class="[
+                            isChecked(item.name) ? 'active' : 'in_active',
+                          ]"
+                        >
+                          <div
+                            class="toggle_inner"
+                            :class="{
+                              active: isChecked(item.name),
+                            }"
+                          >
+                            <img
+                              v-if="isChecked(item.name)"
+                              src="/assets/imgs/translatevideo/sign_active.svg"
+                              class="w-[28px] h-[28px]"
+                            />
+                            <img
+                              v-else
+                              src="/assets/imgs/translatevideo/sign_inactive.svg"
+                              class="w-[28px] h-[28px]"
+                            />
+                          </div>
+                        </div>
+                      </label>
                     </div>
                   </div>
-                  <div class="ml-auto">
-                    <label
-                      for="deaf-setting-general-settings-player-enabled-on-this-site"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="deaf-setting-general-settings-player-enabled-on-this-site"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'deaf-setting-general-settings-player-enabled-on-this-site'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'deaf-setting-general-settings-player-enabled-on-this-site'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'deaf-setting-general-settings-player-enabled-on-this-site'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'deaf-setting-general-settings-player-enabled-on-this-site'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'deaf-setting-general-settings-player-enabled-on-this-site'
-                              )
-                            "
-                            src="/assets/imgs/translatevideo/sign_active.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/translatevideo/sign_inactive.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
                 </div>
-              </div>
-
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
-              >
-                <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
-                >
-                  <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked(
-                        'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                      )
-                        ? 'opacity-60'
-                        : '',
-                    ]"
-                  >
-                    <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                    >
-                      <span>Sign language enabled on mobile</span>
-                    </div>
-                  </div>
-                  <div class="ml-auto">
-                    <label
-                      for="deaf-setting-general-settings-player-enabled-on-this-mobile"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="deaf-setting-general-settings-player-enabled-on-this-mobile"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'deaf-setting-general-settings-player-enabled-on-this-mobile'
-                              )
-                            "
-                            src="/assets/imgs/translatevideo/sign_active.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/translatevideo/sign_inactive.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
-              >
-                <div
-                  class="flex items-center justify-start space-x-[13px] w-full"
-                >
-                  <div
-                    class="flex flex-col items-start justify-center w-full"
-                    :class="[
-                      !isChecked(
-                        'deaf-setting-general-settings-player-sound-effects'
-                      )
-                        ? 'opacity-60'
-                        : '',
-                    ]"
-                  >
-                    <div
-                      class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
-                    >
-                      <span> Sound effects</span>
-                    </div>
-                  </div>
-                  <div class="ml-auto">
-                    <label
-                      for="deaf-setting-general-settings-player-sound-effects"
-                      class="toggle_wrap"
-                    >
-                      <input
-                        type="checkbox"
-                        id="deaf-setting-general-settings-player-sound-effects"
-                        class="sr-only"
-                        :checked="
-                          isChecked(
-                            'deaf-setting-general-settings-player-sound-effects'
-                          )
-                        "
-                        @change="
-                          toggleCheckbox(
-                            'deaf-setting-general-settings-player-sound-effects'
-                          )
-                        "
-                      />
-                      <div
-                        class="toggle_parent"
-                        :class="[
-                          isChecked(
-                            'deaf-setting-general-settings-player-sound-effects'
-                          )
-                            ? 'active'
-                            : 'in_active',
-                        ]"
-                      >
-                        <div
-                          class="toggle_inner"
-                          :class="{
-                            active: isChecked(
-                              'deaf-setting-general-settings-player-sound-effects'
-                            ),
-                          }"
-                        >
-                          <img
-                            v-if="
-                              isChecked(
-                                'deaf-setting-general-settings-player-sound-effects'
-                              )
-                            "
-                            src="/assets/imgs/translatevideo/sign_active.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                          <img
-                            v-else
-                            src="/assets/imgs/translatevideo/sign_inactive.svg"
-                            class="w-[28px] h-[28px]"
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
+              </template>
             </div>
           </div>
 
           <OverviewWidgetembdedcode />
 
           <div
+            v-if="settingsStore.isDeafResetActive.active == 1"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('reset_all_settings_card')
@@ -756,15 +622,42 @@ const getSettingsValue = (name: any) => {
                 <h1
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] pt-[24px] dark:text-whiteTamkin"
                 >
-                  Rest All Accessibility Settings
+                  {{
+                    $t(
+                      settingsStore.isDeafResetActive.title
+                        ? settingsStore.isDeafResetActive.title
+                        : ""
+                    )
+                  }}
                 </h1>
 
                 <p
                   class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
                 >
-                  Reset all accessibility settings to their default
-                  configurations, restoring original preferences and ensuring a
-                  standard user experience for all users
+                  <span
+                    v-if="
+                      !collapseStore.collapses.includes(
+                        'reset_all_settings_card'
+                      )
+                    "
+                  >
+                    {{
+                      $t(
+                        settingsStore.isDeafResetActive.description_on_show
+                          ? settingsStore.isDeafResetActive.description_on_show
+                          : ""
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    {{
+                      $t(
+                        settingsStore.isDeafResetActive.description_on_hide
+                          ? settingsStore.isDeafResetActive.description_on_hide
+                          : ""
+                      )
+                    }}
+                  </span>
                 </p>
               </div>
 
@@ -941,6 +834,7 @@ const getSettingsValue = (name: any) => {
           </div>
 
           <div
+            v-if="settingsStore.transferLicenceItems.active == 1"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] mb-[80px] shadow-md -shadow-y-[1px] px-[15px] relative"
             :class="[
               collapseStore.collapses.includes('license_settings_card')
@@ -953,15 +847,42 @@ const getSettingsValue = (name: any) => {
                 <h1
                   class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
                 >
-                  License Settings
+                  {{
+                    $t(
+                      settingsStore.transferLicenceItems.title
+                        ? settingsStore.transferLicenceItems.title
+                        : ""
+                    )
+                  }}
                 </h1>
 
                 <p
                   class="text-[12px] lg:text-[13px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin mt-[10px] w-3/4"
                 >
-                  Transfer License to Another Website allows you to move your
-                  existing accessibility widget license to a different site,
-                  ensuring continued accessibility compliance
+                  <span
+                    v-if="
+                      !collapseStore.collapses.includes('license_settings_card')
+                    "
+                  >
+                    {{
+                      $t(
+                        settingsStore.transferLicenceItems.description_on_show
+                          ? settingsStore.transferLicenceItems
+                              .description_on_show
+                          : ""
+                      )
+                    }}
+                  </span>
+                  <span v-else>
+                    {{
+                      $t(
+                        settingsStore.transferLicenceItems.description_on_hide
+                          ? settingsStore.transferLicenceItems
+                              .description_on_hide
+                          : ""
+                      )
+                    }}
+                  </span>
                 </p>
               </div>
 
@@ -1090,6 +1011,7 @@ const getSettingsValue = (name: any) => {
               v-if="!collapseStore.collapses.includes('license_settings_card')"
             >
               <div
+                v-if="settingsStore.transferLicenceItems.features.find((el:any)=> el.name === 'deaf-setting-license-settings-sign-language-transfer-license-to-another-website-transfer-license-sign-language' ).active == 1"
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"
               >
                 <div
@@ -1099,7 +1021,23 @@ const getSettingsValue = (name: any) => {
                     <div
                       class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] w-full"
                     >
-                      <span>Widget enabled on this site </span>
+                      <span>
+                        {{
+                          $t(
+                            settingsStore.transferLicenceItems.features.find(
+                              (el: any) =>
+                                el.name ===
+                                "deaf-setting-license-settings-sign-language-transfer-license-to-another-website-transfer-license-sign-language"
+                            ).label
+                              ? settingsStore.transferLicenceItems.features.find(
+                                  (el: any) =>
+                                    el.name ===
+                                    "deaf-setting-license-settings-sign-language-transfer-license-to-another-website-transfer-license-sign-language"
+                                ).label
+                              : ""
+                          )
+                        }}
+                      </span>
                     </div>
                   </div>
                   <div class="ml-auto w-full">
@@ -1107,13 +1045,14 @@ const getSettingsValue = (name: any) => {
                       class="btn_bordered_dashboard ml-auto ipad-max:w-auto !p-[5px] lg:w-1/4 text-[13px] !h-[40px] font-[500] leading-[22.5px]"
                       @click="openModal('transferstep1', 'settings')"
                     >
-                      Transfer License
+                      {{ $t("Transfer License") }}
                     </button>
                   </div>
                 </div>
               </div>
 
               <div
+                v-if="settingsStore.transferLicenceItems.features.find((el:any)=> el.name === 'deaf-setting-license-settings-sign-language-delete-site-permanently-removes-your-profile-and-data-from-the-system-sign-language' ).active == 1"
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[4px] px-[15px]"
               >
                 <div class="flex items-center justify-start w-full">
@@ -1121,9 +1060,22 @@ const getSettingsValue = (name: any) => {
                     <div
                       class="!text-[#585B5B] dark:!text-whiteTamkin font-[500] text-[13px] lg:leading-[24px] lg:w-full w-40 truncate"
                     >
-                      <span
-                        >Delete site permanently removes your profile and data
-                        from the system
+                      <span>
+                        {{
+                          $t(
+                            settingsStore.transferLicenceItems.features.find(
+                              (el: any) =>
+                                el.name ===
+                                "deaf-setting-license-settings-sign-language-delete-site-permanently-removes-your-profile-and-data-from-the-system-sign-language"
+                            ).label
+                              ? settingsStore.transferLicenceItems.features.find(
+                                  (el: any) =>
+                                    el.name ===
+                                    "deaf-setting-license-settings-sign-language-delete-site-permanently-removes-your-profile-and-data-from-the-system-sign-language"
+                                ).label
+                              : ""
+                          )
+                        }}
                       </span>
                     </div>
                   </div>
@@ -1132,7 +1084,7 @@ const getSettingsValue = (name: any) => {
                       class="btn_bordered_dashboard error ml-auto ipad-max:w-auto lg:w-1/4 !h-[40px] text-[13px] font-[500] leading-[22.5px]"
                       @click="openModal('deleteModal', 'settings')"
                     >
-                      Delete Site
+                      {{ $t("Delete Site") }}
                     </button>
                   </div>
                 </div>
