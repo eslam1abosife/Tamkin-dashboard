@@ -204,7 +204,7 @@ onBeforeUnmount(()=>{
   :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
   <TranslateNoresult v-if="getProjectsByTab.length === 0 && search"/> 
 
-  <div class="mx-auto mt-[36px]" v-if="!allLoaded && getProjectsByTab.length" >
+  <div class="mx-auto mt-[36px]" v-if="!allLoaded && getProjectsByTab.length > 5" >
     <button @click="loadMoreProjects(currentTab, user.agency)" :disabled="loadMoreProjectsLoading"
     class="btn-dashboard w-[150px] hover_tamkin mx-auto"
   >

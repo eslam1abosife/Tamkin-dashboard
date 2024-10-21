@@ -164,7 +164,7 @@ const getPlayerPosition = (p: any) => {
           </div>
           <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
             <div class="relative w-full">
-
+              <!-- :subtitleTextTransform="translateStore.styles." -->
               <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
               :mediaUrl="videoUrl"
@@ -172,6 +172,17 @@ const getPlayerPosition = (p: any) => {
               :captionOptions="[
                 { src: '/subtitles.vtt', lang: 'en', label: 'English', default: true },
               ]"
+              :subtitle-under-line="translateStore.styles.underline"
+              :subtitleTextTransform="translateStore.styles.fontCap"
+              :subtitleColor="translateStore.colorStyle"
+              :line-count="translateStore.styles.lines"
+              :subtitleFontSize="translateStore.styles.size"
+              :subtitleFontWeight="translateStore.styles.fontWeight"
+              :subtitleFontStyle="translateStore.styles.fontStyle"
+              :subtitleLineHeight="`${translateStore.styles.lineHeight}px`"
+              :subtitleLetterSpacing="`${translateStore.styles.letterSpacing}px`"
+              :subtitleAlignment="translateStore.styles.textAlign"
+              :subtitle-font-family="translateStore.styles.fontName"
               :class="[
                 'max-w-full h-full',
                 translateStore.player.playerPosition  === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',

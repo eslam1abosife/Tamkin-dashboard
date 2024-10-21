@@ -80,11 +80,11 @@ const triggerData = ()=>{
         
         :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
         class="h-[160px] flex flex-col items-start justify-start space-y-[10px] rounded-[7px] 
-        shadow-lg group border-[1px] border-transparent relative hover:border-tamkin 
+        shadow-lg group border-[1px] tounfrf-[10px] border-transparent relative hover:border-tamkin 
     cursor-pointer mb-2">
 
         <div class="relative w-full ">
-            <!-- <div 
+            <div 
             :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
             v-if="video.status === 'pending'" 
             class="flex flex-col items-center justify-center absolute h-[160px] inset-0 w-full border-[1px] border-transparent
@@ -102,7 +102,7 @@ const triggerData = ()=>{
                 {{ $t('In progress...') }}
               </div>
             
-          </div> -->
+          </div>
             <div @click="changeDropMenu(video)"
             :class="[currentMenuDrop !== video ? '' : '!flex']"
             class="hidden group-hover:flex items-center justify-center

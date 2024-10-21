@@ -89,7 +89,7 @@ async getPackages(){
       }
 ,
 persist: {
-  storage: sessionStorage,
+  storage: localStorage,
   paths:['currentPackage','packagePayload']
 },
 

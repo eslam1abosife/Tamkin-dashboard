@@ -7,6 +7,59 @@ const translateStore = useTranslateStore()
 import { Vue3ColorPicker } from '@cyhnkckali/vue3-color-picker';
 import '@cyhnkckali/vue3-color-picker/dist/style.css'
 import { vOnClickOutside } from '@vueuse/components'
+const sizes  = [
+    {
+        id:1,
+        name:'14px'
+    },
+    {
+        id:2,
+        name:'16px'
+    },
+    {
+        id:3,
+        name:'32px'
+    },
+    {
+        id:4,
+        name:'48px'
+    },
+
+]
+const linesarr  = [
+    {
+        id:1,
+        name:"1"
+    },
+    {
+        id:2,
+        name:"2"
+    },
+    {
+        id:3,
+        name:"3"
+    },
+  
+
+]
+const fonts  = [
+    {
+        id:1,
+        name:'Poppins'
+    },
+    {
+        id:2,
+        name:'Almarai'
+    },
+    {
+        id:3,
+        name:'Roboto'
+    },
+    {
+        id:4,
+        name:'Arima'
+    }
+]
 const languagesArr = [
     {
         id: 1,
@@ -45,10 +98,23 @@ const value = ref(50);
 const currentColor = ref('#3333')
 const handleSelectedItemProjectName = (item: any) => {
     // console.log(item)
-    translateStore.styles.size = item
-    translateStore.styles.fontName = item
-    translateStore.styles.lines = item
+    translateStore.styles.size = item.name
+    // translateStore.styles.fontName = item
+    // translateStore.styles.lines = item
 }
+const selectLines = (item: any) => {
+    // console.log(item)
+    translateStore.styles.lines = item.name
+    // translateStore.styles.fontName = item
+    // translateStore.styles.lines = item
+}
+const selectFont = (item: any) => {
+    // console.log(item)
+    translateStore.styles.fontName = item.name
+    // translateStore.styles.fontName = item
+    // translateStore.styles.lines = item
+}
+
 const processVideo = ref(false)
 const doneVideo = ref(false)
 const translationMode = inject('currentMode')
@@ -104,17 +170,19 @@ onBeforeMount(()=>{
         </div>
         <div class="w-full px-1">
 
-            <TranslateSelectInput class="mt-[16px]  " @getCurrentSelectedItem="handleSelectedItemProjectName"
-                :enableSearch="false"  placeholderinput="Popins" :list="languagesArr" nameKey="name"
+            <TranslateSelectInput class="mt-[16px]  " @getCurrentSelectedItem="selectFont"
+                :enableSearch="false"  placeholderinput="Font" :list="fonts" nameKey="name"
+                 :current-list-value="translateStore.styles.fontName"
                 idField="id" />
    
 
             <div class="flex items-center justify-between rtl:space-x-reverse space-x-[24px] mt-[16px] ">
 
                 <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false"
-                    :placeholderinput="$t('Size')" :list="languagesArr" nameKey="name" idField="id" />
-                <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="false"
-                    :placeholderinput="$t('Lines')" :list="languagesArr" nameKey="name" idField="id" />
+                    :placeholderinput="$t('Size')"  :current-list-value="translateStore.styles.size" :list="sizes" nameKey="name" idField="id" />
+                <TranslateSelectInput @getCurrentSelectedItem="selectLines" :enableSearch="false"
+                    :placeholderinput="$t('Lines')" :list="linesarr" 
+                    :current-list-value="translateStore.styles.lines" nameKey="name" idField="id" />
 
                 <div @click="()=>{showColorPicker = !showColorPicker}"
                     class="h-[40px] border-[1px] border-lightGrey rounded-[10px] w-full flex items-center justify-between relative cursor-pointer">
@@ -135,7 +203,7 @@ onBeforeMount(()=>{
                         class="rtl:rounded-r-[10px] ltr:rounded-l-[10px] bg-white w-2/4 text-center text-[12px] font-[500] leading-[32px] text-darkGrey">
                         {{ $t('color') }}
                     </div>
-                    <div class="bg-[#F7F7F7] w-2/4 h-full rtl:rounded-l-[10px] ltr:rounded-r-[10px] flex items-center justify-center ">
+                    <div :style="{background: translateStore.colorStyle}" class=" w-2/4 h-full rtl:rounded-l-[10px] ltr:rounded-r-[10px] flex items-center justify-center ">
                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5.155 13.1491L0.85 8.83333C0.733333 8.71637 0.645833 8.58772 0.5875 8.44737C0.529167 8.30702 0.5 8.16082 0.5 8.00877C0.5 7.85673 0.529167 7.71053 0.5875 7.57018C0.645833 7.42982 0.733333 7.30117 0.85 7.18421L4.875 3.16667L3.5625 1.85088C3.41083 1.69883 3.3322 1.51754 3.3266 1.30702C3.321 1.09649 3.3938 0.909357 3.545 0.745614C3.6962 0.581871 3.88287 0.5 4.105 0.5C4.32713 0.5 4.51963 0.581871 4.6825 0.745614L11.105 7.18421C11.2217 7.30117 11.3064 7.42982 11.3591 7.57018C11.4118 7.71053 11.438 7.85673 11.4375 8.00877C11.437 8.16082 11.4109 8.30702 11.3591 8.44737C11.3073 8.58772 11.2226 8.71637 11.105 8.83333L6.8 13.1491C6.68333 13.2661 6.555 13.3538 6.415 13.4123C6.275 13.4708 6.12917 13.5 5.9775 13.5C5.82583 13.5 5.68 13.4708 5.54 13.4123C5.4 13.3538 5.27167 13.2661 5.155 13.1491ZM5.9775 4.27193L2.2325 8.02632H9.7225L5.9775 4.27193ZM12.96 13.5C12.54 13.5 12.1842 13.3508 11.8925 13.0523C11.6008 12.7538 11.455 12.3884 11.455 11.9561C11.455 11.6403 11.5339 11.3421 11.6916 11.0614C11.8493 10.7807 12.0271 10.5058 12.225 10.2368L12.5575 9.81579C12.6625 9.68713 12.7997 9.62 12.9691 9.61439C13.1385 9.60877 13.2755 9.67006 13.38 9.79824L13.73 10.2368C13.9167 10.5058 14.0917 10.7807 14.255 11.0614C14.4183 11.3421 14.5 11.6403 14.5 11.9561C14.5 12.3889 14.3483 12.7545 14.045 13.053C13.7417 13.3515 13.38 13.5005 12.96 13.5Z"
@@ -157,23 +225,32 @@ onBeforeMount(()=>{
         <div
             class="border-[1px] border-lightGrey rounded-[10px]  bg-[#F7F7F7] flex items-center justify-between w-[100%] h-[40px] p-4 mt-[16px]">
             <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
-                <button
-                :class="[translateStore.styles.fontStyle === 'bold' ? '!bg-[#EAEAEA]' : '!bg-white']"
-                class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]" @click="translateStore.styles.fontStyle = 'bold'">
-                    B
-                </button>
-                <button 
-                  :class="[translateStore.styles.fontStyle === 'italic' ? '!bg-[#EAEAEA]' : '!bg-white']"
-                class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]" @click="translateStore.styles.fontStyle = 'italic'">
-                    <img src="/assets/imgs/translatevideo/italic.svg" class="w-[10px] h-[10px]" alt="">
-                </button>
-                <button 
-                :class="[translateStore.styles.fontStyle === 'U' ? '!bg-[#EAEAEA]' : '!bg-white']"
+           <!-- Bold Button -->
+<!-- Bold Button -->
+<button
+  :class="[translateStore.styles.fontWeight === 'bold' ? '!bg-[#EAEAEA]' : '!bg-white']"
+  class="btn-default font-[700] text-darkGrey h-[30px] w-[30px] !p-[7px]"
+  @click="translateStore.styles.fontWeight = translateStore.styles.fontWeight === 'bold' ? 'normal' : 'bold'">
+  B
+</button>
 
-                class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]"
-                 @click="translateStore.styles.fontStyle = 'U'">
-                    U
-                </button>
+<!-- Italic Button -->
+<button 
+  :class="[translateStore.styles.fontStyle === 'italic' ? '!bg-[#EAEAEA]' : '!bg-white']"
+  class="btn-default font-[700] text-darkGrey h-[30px] w-[30px] !p-[7px]" 
+  @click="translateStore.styles.fontStyle = translateStore.styles.fontStyle === 'italic' ? 'normal' : 'italic'; translateStore.styles.underline = 'none';">
+  <img src="/assets/imgs/translatevideo/italic.svg" class="w-[10px] h-[10px]" alt="">
+</button>
+
+<!-- Underline Button -->
+<button 
+  :class="[translateStore.styles.underline === 'underline' ? '!bg-[#EAEAEA]' : '!bg-white']"
+  class="btn-default font-[700] text-darkGrey h-[30px] w-[30px] !p-[7px]"
+  @click="translateStore.styles.underline = translateStore.styles.underline === 'underline' ? 'none' : 'underline'; translateStore.styles.fontStyle = 'normal';">
+  U
+</button>
+
+
             </div>
             <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
 
@@ -236,41 +313,43 @@ onBeforeMount(()=>{
      w-[100%] h-[40px] p-4 mt-[16px]">
             <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
                 <button 
-                :class="[translateStore.styles.fontCap === '-' ? '!bg-[#EAEAEA]' : '!bg-white']"
+                :class="[translateStore.styles.fontCap === 'none' ? '!bg-[#EAEAEA]' : '!bg-white']"
 
                
-                @click="translateStore.styles.fontCap = '-'"
+                @click="translateStore.styles.fontCap = 'none'"
                 class="btn-default font-[600] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
                     -
                 </button>
                 <button 
-                :class="[translateStore.styles.fontCap === 'Cap' ? '!bg-[#EAEAEA]' : '!bg-white']"
+                :class="[translateStore.styles.fontCap === 'uppercase' ? '!bg-[#EAEAEA]' : '!bg-white']"
 
                
-                @click="translateStore.styles.fontCap = 'Cap'"
+                @click="translateStore.styles.fontCap = 'uppercase'"
                 class="btn-default font-[600] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
                     AB
                 </button>
                 <button 
-                :class="[translateStore.styles.fontCap === 'camel' ? '!bg-[#EAEAEA]' : '!bg-white']"
+                :class="[translateStore.styles.fontCap === 'capitalize' ? '!bg-[#EAEAEA]' : '!bg-white']"
 
                
-                @click="translateStore.styles.fontCap = 'camel'"
+                @click="translateStore.styles.fontCap = 'capitalize'"
                 class="btn-default font-[600] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
                     Ab
                 </button>
                 <button 
-                :class="[translateStore.styles.fontCap === 'small' ? '!bg-[#EAEAEA]' : '!bg-white']"
+                :class="[translateStore.styles.fontCap === 'lowercase' ? '!bg-[#EAEAEA]' : '!bg-white']"
 
                
-                @click="translateStore.styles.fontCap = 'small'"
+                @click="translateStore.styles.fontCap = 'lowercase'"
                 class="btn-default font-[600] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
                     ab
                 </button>
             </div>
             <div class="flex items-center rtl:space-x-reverse space-x-[24px] relative">
 
-                <button @click="()=>{
+                <button 
+               
+                @click="()=>{
                   
                   
                     openSpacingMenu = !openSpacingMenu
@@ -285,7 +364,7 @@ onBeforeMount(()=>{
 
                   
                 </button>
-                <div id="menu_spacing" class="bg-white border-[1px] flex flex-col items-start  border-tamkin  rounded-[10px]  
+                <div   v-on-click-outside="() => { openSpacingMenu = !openSpacingMenu }" id="menu_spacing" class="bg-white border-[1px] flex flex-col items-start  border-tamkin  rounded-[10px]  
                 h-auto absolute z-[100] rtl:right-[-180px] ltr:left-[-180px] top-10 p-[10px]" v-if="openSpacingMenu" >
                       <div class="font-[500] text-darkGrey text-[12px] text-left ">
                           {{$t('Spacing')}}

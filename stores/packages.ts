@@ -362,7 +362,7 @@ getTabDetails: (state) => (tab, highlightText, page) => {
 },
 
 persist: {
-  storage: sessionStorage,
+  storage: localStorage,
   pick:['packages','currentPackage','packagePayload','currentWebsite']
 },
 

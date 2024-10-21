@@ -369,7 +369,7 @@ const conintuePay = () => {
     apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
     payDateType: selectedPackage.value,
     locale: locale.value,
-    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : totalCost.value.toFixed(0),
+    total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : calculateEstimatedPrice.value.toFixed(0),
     packageExtraType: packageTypeToSend.value ,
     packageTrie: packagesStore.currentType.title !== 'Sign language'  ? packagesStore.traffic_level: null,
   };
@@ -382,7 +382,9 @@ const totalCost = computed(() => {
   const price = calculateEstimatedPrice.value || 0;
   if (packagesStore.currentPackage.package_type === "Package") {
     return price * (urlCount + webCount);
-  } else {
+  } 
+  
+  else {
     // alert(packagesStore.currentPackage.package_price_role[0].cost_month )
     return (
       packagesStore.currentPackage.package_price_role[0].cost_month 
@@ -630,6 +632,7 @@ if(packagesStore.currentType.title === 'Accessibility'){
 onMounted(async ()=>{
 //  loadingPriceTraffic.value = true
 // packagesStore.urls = []
+packagesStore.packagePayload = {}
 
 if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || packagesStore.urls.length)){
   await geteFilterInfo()
@@ -1623,15 +1626,18 @@ const formattedEstimatedPrice = computed(()=> {
                 </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="packagesStore.currentPackage.package_type === 'Package' && packagesStore.currentType.title !== 'Accessibility'"
+                  v-if="packagesStore.currentPackage.package_type === 'Package'
+                   && packagesStore.currentType.title !== 'Accessibility'"
                 >
                 ${{
                   
 
                   packagesStore.currentPackage.trial_days > 0  && selectedPackage === 0
   ? "0"
-  : getCategory !== 0 ? calculateEstimatedPrice.toFixed(0) :(
-    (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length))
+  : getCategory !== 0 ? calculateEstimatedPrice.toFixed(0) .toString()
+  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") :(
+    (calculateEstimatedPrice.toFixed(0) * (webs.length + packagesStore.urls.length)) .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   )
   .toString()
   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")

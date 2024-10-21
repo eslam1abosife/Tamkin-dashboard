@@ -61,6 +61,7 @@ const error_message=ref({error:''})
 const profileStore = useProfileStore()
 const savePermission = async () => {
   try {  
+    errMsg.value = '';
 
     updatePermissonsLoading.value = true
     const user = JSON.parse(localStorage.getItem('user'));
@@ -95,8 +96,9 @@ const savePermission = async () => {
 
 
   } catch (err:any) {
-    console.log('theres error man',err)
     errMsg.value = err;
+    updatePermissonsLoading.value = false
+
     // console.error(err);
     // closeModal('userpermissions');
     // openModal('invitemember');
@@ -236,10 +238,15 @@ const savePermission = async () => {
         <NoData v-else />
       </div>
 
-      <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[10px] !mb-[30px]"> {{ errMsg }} </h6>
+    <div class="flex flex-col items-center justify-center w-full  "   :class="[errMsg ? '!mt-[20px] !space-y-[10px]' : '']">
+      <div class=" " v-if="errMsg" >
+        <h6 class="text-center text-[red] font-light text-[14px]"> {{ errMsg }} </h6>
+      </div>
 
 
-      <div class="flex items-center justify-center   rtl:space-x-reverse space-x-[30px] mx-auto mt-[41px]">
+      <div class="flex items-center justify-center   rtl:space-x-reverse space-x-[30px] mx-auto w-full"
+      
+      :class="[!errMsg ? '!mt-[51px]' : '!mt-[30px]']">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/6" @click="closeModal('userpermissions')">
           {{$t('Cancel')}}
         </button>
@@ -258,6 +265,7 @@ const savePermission = async () => {
         </button>
 
       </div>
+    </div>
     </div>
   </div>
 </template>

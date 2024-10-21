@@ -543,7 +543,7 @@ const finalAmount = computed(() => {
                 <tr v-for="rr in subsStore.totalRenews " :key="rr.name"
                 class="text-[16px] leading-[24px] h-[50px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
                 <td class="py-2 px-5 w-1/6   border-b dark:border-light dark:text-whiteTamkin 
-                rtl:text-right ltr:text-left text-[14px] font-[400] ">
+                rtl:text-right ltr:text-left text-[14px] font-[400] whitespace-nowrap">
                   {{ rr.app_type === 'Internal Services' ? $t('Internal Service') : rr.app_domain }}
                 </td>
                 <td class="py-2 px-5 w-1/6 text-[14px]  border-b dark:border-light dark:text-whiteTamkin text-center font-[400]">

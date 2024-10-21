@@ -18,15 +18,18 @@ const renameItem = ref({
 }) 
 const currentTab = ref('')
   const styles = reactive({
-    textAlign: '',
-    color: '',
-    fontStyle: '',
-    fontCap: '',
-    lineHeight: 20,
-    letterSpacing: 20,
-    fontName: '',
-    size: '',
-    lines: '',
+    textAlign: 'center',
+    color: '#ffff',
+    fontStyle: 'normal',
+    fontCap: 'none',
+    lineHeight: 25,
+    letterSpacing: 3,
+    fontName: 'Poppins',
+    size: '14px',
+    lines: '2',
+    underline:'normal',
+    fontWeight:'normal',
+
     autoHighlight: {
       fontStyle: '',
       color: '',
@@ -36,15 +39,18 @@ const currentTab = ref('')
 
   // Initial state for resetting later
   const initialStyles = reactive({
-    textAlign: '',
-    color: '',
-    fontStyle: '',
-    fontCap: '',
-    lineHeight: 20,
-    letterSpacing: 20,
-    fontName: '',
-    size: '',
-    lines: '',
+    textAlign: 'center',
+    color: '#ffff',
+    fontStyle: 'normal',
+    fontCap: 'none',
+    lineHeight: 25,
+    letterSpacing: 3,
+    fontName: 'Poppins',
+    size: '14px',
+    lines: '2',
+    underline:'normal',
+    fontWeight:'normal',
+
     autoHighlight: {
       fontStyle: '',
       color: '',
@@ -76,15 +82,18 @@ const currentTab = ref('')
   // Function to reset styles to their initial state
   const resetStyles = () => {
     Object.assign(styles, {
-      textAlign: '',
-      color: '',
-      fontStyle: '',
-      fontCap: '',
-      lineHeight: 20,
-      letterSpacing: 20,
-      fontName: '',
-      size: '',
-      lines: '',
+      textAlign: 'center',
+      color: '#ffff',
+      fontStyle: 'normal',
+      fontCap: 'none',
+      lineHeight: 25,
+      letterSpacing: 3,
+      fontName: 'Poppins',
+      size: '14px',
+      lines: '2',
+      underline:'normal',
+      fontWeight:'normal',
+
       autoHighlight: {
         fontStyle: '',
         color: '',

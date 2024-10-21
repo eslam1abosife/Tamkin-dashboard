@@ -8,7 +8,7 @@ const packagesStore = usePackgesStore()
 const mysiteStore = useMySiteStore()
 const addSiteStore = useAddSiteStore()
 const setDefaultQuery = (tryagain) => {
- if(tryagain){
+ if(tryagain !== 'close' && tryagain === true){
   router.push({
     path: route.path, 
     query: {
@@ -45,7 +45,19 @@ if(currentView('success_pay_package') === 'mysite'){
     
 return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
 }
- }else {
+ } if(tryagain === 'close'){
+  router.push({
+    path: route.path, 
+    query: {
+      paid: undefined, 
+      status: undefined
+    }
+  })
+  closeModal('success_pay_package')
+
+ }
+ 
+ else {
   router.push({
     path: localePath('/my-site'), 
     query: {
@@ -75,7 +87,7 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
   <div
     style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
     class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[10px]"
-    @click="setDefaultQuery(false)"
+    @click="setDefaultQuery('close')"
   >
     <svg
       class="w-[12px] h-[12px]"
