@@ -290,6 +290,7 @@ export default function () {
           icon: `${isSetBackground.name}.png`,
           description: isSetBackground.description,
           checkboxId: isSetBackground.name,
+          active: isSetBackground.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetBackground.name,
@@ -297,6 +298,7 @@ export default function () {
           description: isSetBackground.description,
           checkboxId: isSetBackground.name,
           label: isSetBackground.label,
+          active: isSetBackground.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-background-sign-language-background"
@@ -331,6 +333,7 @@ export default function () {
           icon: `${isSetContrast.name}.png`,
           description: isSetContrast.description,
           checkboxId: isSetContrast.name,
+          active: isSetContrast.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetContrast.name,
@@ -338,6 +341,7 @@ export default function () {
           description: isSetContrast.description,
           checkboxId: isSetContrast.name,
           label: isSetContrast.label,
+          active: isSetContrast.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
@@ -372,6 +376,7 @@ export default function () {
           description: isSetKeyboard.description,
           checkboxId: isSetKeyboard.name,
           label: isSetKeyboard.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetKeyboard.name,
@@ -379,6 +384,7 @@ export default function () {
           description: isSetKeyboard.description,
           checkboxId: isSetKeyboard.name,
           label: isSetKeyboard.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
@@ -405,6 +411,7 @@ export default function () {
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetMode.name,
@@ -412,6 +419,7 @@ export default function () {
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
@@ -450,12 +458,11 @@ export default function () {
           feature.name === "deaf-setting-license-settings-sign-language"
       );
       settingsStore.transferLicenceItems = deafLiecenceTrans;
-      // if (deafLiecenceTrans.active == 1) {
-      //   customizeStore.deafLiecenceTrans = true;
-      // } else {
-      //   customizeStore.deafLiecenceTrans = false;
-      // }
 
+      const webPlugins = features.find(
+        (feature: any) => feature.name === "deaf-addons-web-plugins"
+      );
+      signLangStore.addonsPlugin = webPlugins;
       customizeStore.loadingData = false;
     } catch (error) {
       customizeStore.loadingData = false;
