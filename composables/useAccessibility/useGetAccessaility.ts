@@ -5,6 +5,7 @@ export default function () {
   const { useApiInstance } = useApi();
   const { api, loading } = useApiInstance();
   const { $toast } = useNuxtApp();
+  const { t } = useI18n();
 
   const customizeStore = useCustomizeStore();
   const settingsStore = useSettingsStore();
@@ -60,24 +61,24 @@ export default function () {
         .tamkin_option_item_values.find((el: any) => el.title == "Gradient");
       if (buttonSolidColor.active) {
         customizeStore.isButtonColorSolidActive = true;
+        const color = buttonSolidColor.value;
+        customizeStore.$state.currentColor = color;
+        customizeStore.$state.initcurrentColor = color;
       }
       if (buttonGridColor.active) {
         customizeStore.isButtonColorGridActive = true;
+        const colors = buttonGridColor.value.split(",");
+        customizeStore.$state.gradient1 = colors[0];
+        customizeStore.$state.initgradient1 = colors[0];
+        customizeStore.$state.gradient2 = colors[1];
+        customizeStore.$state.initgradient2 = colors[1];
       }
       if (colorMode.length > 1) {
         customizeStore.$state.colorMode = "gradient";
         customizeStore.$state.initcolorMode = "gradient";
-        customizeStore.$state.gradient1 = colorMode[0];
-        customizeStore.$state.initgradient1 = colorMode[0];
-        customizeStore.$state.gradient2 = colorMode[1];
-        customizeStore.$state.initgradient2 = colorMode[1];
-        customizeStore.$state.currentColor = colorMode[0];
-        customizeStore.$state.initcurrentColor = colorMode[0];
       } else {
         customizeStore.$state.colorMode = "solid";
         customizeStore.$state.initcolorMode = "solid";
-        customizeStore.$state.currentColor = colorMode[0];
-        customizeStore.$state.initcurrentColor = colorMode[0];
       }
 
       // button type shape
@@ -359,19 +360,31 @@ export default function () {
             el.name ===
             "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
-
+      customizeStore.accessibilityModeItems =
+        isAccModeActive.tamkin_option_item_values;
       if (isAccModeActive.active == 1) {
-        customizeStore.moveHideFeature = isAccModeActive;
-        customizeStore.accessibilityModeItems =
-          isAccModeActive.tamkin_option_item_values;
+        customizeStore.$state.accessibilityMode = isAccModeActive.value;
+        customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
+      }
+
+      const isAccModeValTrue = features
+        .find(
+          (feature: any) => feature.name === "acc-customize-accessibility-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "acc-customize-accessibility-mode-move-/-hide-accessibility-button"
+        );
+      customizeStore.moveHideFeature = isAccModeValTrue;
+
+      if (isAccModeValTrue.active == 1 && isAccModeValTrue.value == 1) {
         customizeStore.toggleCheckbox(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
         customizeStore.toggleInitialCheckbox(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
-        customizeStore.$state.accessibilityMode = isAccModeActive.value;
-        customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
       }
 
       // accessbility main menu
@@ -465,6 +478,10 @@ export default function () {
       }
 
       // set languages
+      customizeStore.$state.languages.push({
+        language_name: t("Auto detect Language"),
+        language_code: "auto detect language",
+      });
       res.data.data.languages.forEach((el: any) => {
         customizeStore.$state.languages.push(el);
       });
@@ -489,11 +506,11 @@ export default function () {
 
       if (selectLang.value === "auto detect language") {
         customizeStore.selectedLang = {
-          language_name: "Auto detect Language",
+          language_name: t("Auto detect Language"),
           language_code: "auto detect language",
         };
         customizeStore.initselectedLang = {
-          language_name: "Auto detect Language",
+          language_name: t("Auto detect Language"),
           language_code: "auto detect language",
         };
       } else {
@@ -540,12 +557,24 @@ export default function () {
         .features.find(
           (el) => el.name === "acc-setting-general-settings-sound-effects"
         );
+
       if (isEnableSoundEffect.active == 1 && isEnableSoundEffect.value == 1) {
-        settingsStore.toggleCheckbox(
-          "acc-setting-general-settings-sound-effects"
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-sound-effects",
+          true
         );
-        settingsStore.toggleinitialCheckbox(
-          "acc-setting-general-settings-sound-effects"
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-sound-effects",
+          true
+        );
+      } else {
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-sound-effects",
+          false
+        );
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-sound-effects",
+          false
         );
       }
 
@@ -557,11 +586,22 @@ export default function () {
             el.name === "acc-setting-general-settings-widget-enabled-on-mobile"
         );
       if (isEnableOnMobile.active == 1 && isEnableOnMobile.value == 1) {
-        settingsStore.toggleCheckbox(
-          "acc-setting-general-settings-widget-enabled-on-mobile"
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile",
+          true
         );
-        settingsStore.toggleinitialCheckbox(
-          "acc-setting-general-settings-widget-enabled-on-mobile"
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile",
+          true
+        );
+      } else {
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile",
+          false
+        );
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-mobile",
+          false
         );
       }
       // acc isEnableOnThisSite
@@ -572,12 +612,24 @@ export default function () {
             el.name ===
             "acc-setting-general-settings-widget-enabled-on-this-site"
         );
+
       if (isEnableOnThisSite.active == 1 && isEnableOnThisSite.value == 1) {
-        settingsStore.toggleCheckbox(
-          "acc-setting-general-settings-widget-enabled-on-this-site"
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site",
+          true
         );
-        settingsStore.toggleinitialCheckbox(
-          "acc-setting-general-settings-widget-enabled-on-this-site"
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site",
+          true
+        );
+      } else {
+        settingsStore.setCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site",
+          false
+        );
+        settingsStore.setinitCheckboxValue(
+          "acc-setting-general-settings-widget-enabled-on-this-site",
+          false
         );
       }
       // reset settings

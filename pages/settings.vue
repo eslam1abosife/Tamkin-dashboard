@@ -404,13 +404,10 @@ const componentKey = ref(0);
                       </div>
                     </div>
                     <div class="ml-auto">
-                      <label
-                        for="toggle_Widget_enabled_on_this_site"
-                        class="toggle_wrap"
-                      >
+                      <label :for="setting.name" class="toggle_wrap">
                         <input
                           type="checkbox"
-                          id="toggle_Widget_enabled_on_this_site"
+                          :id="setting.name"
                           class="sr-only"
                           :checked="isChecked(setting.name)"
                           @change="toggleCheckbox(setting.name)"

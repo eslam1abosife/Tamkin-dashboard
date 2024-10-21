@@ -91,12 +91,7 @@ export const useCustomizeStore = defineStore("customize", {
     routeLeaveModal: false,
     accessibilityMode: "right",
     initaccessibilityMode: "right",
-    languages: [
-      {
-        language_name: "Auto detect Language",
-        language_code: "auto detect language",
-      },
-    ],
+    languages: [],
     selectedLang: {},
     initselectedLang: {},
     background: "",

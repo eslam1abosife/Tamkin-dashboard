@@ -10,9 +10,20 @@ const { isChecked, toggleCheckbox } = customizeStore;
 const isOpen = ref(false);
 const search = ref("");
 const { languages, selectedLang } = storeToRefs(customizeStore);
+import { nextTick } from "vue";
 
 // const selectedLang = ref();
+const handleClickOutside = (e: any) => {
+  nextTick(() => {
+    const dropElement = document.getElementById("drop");
+    console.log("eeeee", e.target);
+    console.log("llllll", dropElement);
 
+    if (e.target !== dropElement) {
+      isOpen.value = false; // Update ref value
+    }
+  });
+};
 // selectedLang.value = selectedLang.value;
 
 const toggleDropdown = () => {
@@ -227,6 +238,7 @@ const filterdLanguages = computed(() => {
         >
           <div class="relative w-full lg:w-64">
             <button
+              id="drop"
               @click="toggleDropdown"
               class="input_search_country !rounded-[10px] !h-[45px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
               :class="[isOpen ? 'rounded-b-none' : '']"
@@ -283,11 +295,7 @@ const filterdLanguages = computed(() => {
             </button>
             <div
               v-if="isOpen"
-              v-on-click-outside="
-                () => {
-                  isOpen = false;
-                }
-              "
+              v-on-click-outside="handleClickOutside"
               class="absolute z-10 top-[52px] w-full lg:w-[330px] max-h-[260px] bg-white dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">

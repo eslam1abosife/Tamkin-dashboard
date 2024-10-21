@@ -24,6 +24,7 @@ const filteredApps = computed(() =>
   settingsStore.apps.filter(
     (el: any) =>
       el.type !== "Internal Services" &&
+      el.status !== "deleted" &&
       el.title.toLowerCase().includes(search.value.toLowerCase())
   )
 );
@@ -53,7 +54,10 @@ const formatToUrl = (domain: any) => {
     <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn"
-      @click="closeModal('transferstep1')"
+      @click="
+        closeModal('transferstep1');
+        settingsStore.selectedApp = null;
+      "
     >
       <svg
         class="w-[12px] h-[12px]"
