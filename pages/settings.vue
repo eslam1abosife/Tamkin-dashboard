@@ -131,6 +131,7 @@ const resetAccessiility = async () => {
       hideIn: 3000,
       type: "success",
     });
+    localStorage.removeItem("colorPanal");
   } catch (error) {
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";

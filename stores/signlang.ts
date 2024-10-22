@@ -15,6 +15,7 @@ interface Card {
 
 export const useSignLangStore = defineStore("signLanguage", {
   state: () => ({
+    addonsPlugin: {},
     checkboxes: [] as Checkbox[],
     initialCheckboxes: [] as Checkbox[], // Store the initial state
     WebpluginsCards: [] as Card[],

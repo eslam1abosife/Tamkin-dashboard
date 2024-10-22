@@ -268,7 +268,6 @@ export const useCustomizeStore = defineStore("customize", {
         this.buttonPositionMobile !== this.initialPositionMobile ||
         this.buttonShapeSelector !== this.initbuttonShapeSelector ||
         this.widgetType !== this.initwidgetType ||
-        this.colorMode !== this.initcolorMode ||
         this.force_change_MainMenuCard ||
         this.force_change_profileCards ||
         this.initliveTranlsationButtonLocation !==

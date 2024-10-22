@@ -292,32 +292,35 @@ watch(currentColor, (ov, nv) => {
         </p>
       </div>
       <div class="flex items-center justify-between mt-[40px]">
-        <div
-          v-for="icon in buttonIcons"
-          :key="icon.value"
-          class="cursor-pointer w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative"
-          :class="[buttonShapeSelector === icon.value ? 'bg-tamkinLight' : '']"
-          @click="customizeStore.changeButtonShape(icon.value, icon.icon)"
-        >
-          <div v-if="buttonShapeSelector === icon.value">
-            <img
-              src="/assets/imgs/customize/tick.svg"
-              class="absolute top-[-10px] right-0"
-            />
-          </div>
-          <div class="">
-            <div
-              class="w-[36px] h-[36px] rounded-full flex items-center justify-center"
-              :class="gradientClasses"
-              :style="backgroundImageStyle"
-            >
+        <template v-for="icon in buttonIcons" :key="icon.value">
+          <div
+            v-if="icon.active == 1"
+            class="cursor-pointer w-[75px] h-[64px] rounded-[24px] flex items-center justify-center relative"
+            :class="[
+              buttonShapeSelector === icon.value ? 'bg-tamkinLight' : '',
+            ]"
+            @click="customizeStore.changeButtonShape(icon.value, icon.icon)"
+          >
+            <div v-if="buttonShapeSelector === icon.value">
               <img
-                :src="`https://tamkin.app/${icon.icon}`"
-                class="w-[26px] h-[26px]"
+                src="/assets/imgs/customize/tick.svg"
+                class="absolute top-[-10px] right-0"
               />
             </div>
+            <div class="">
+              <div
+                class="w-[36px] h-[36px] rounded-full flex items-center justify-center"
+                :class="gradientClasses"
+                :style="backgroundImageStyle"
+              >
+                <img
+                  :src="`https://tamkin.app/${icon.icon}`"
+                  class="w-[26px] h-[26px]"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </template>
       </div>
 
       <div class="my-[30px]">
@@ -330,12 +333,12 @@ watch(currentColor, (ov, nv) => {
           {{ $t("Pull the button to select the right size for you") }}
         </p>
       </div>
-      <div class="w-full flex flex-col items-center space-y-4 px-[15px]">
+      <div class="w-full flex flex-col items-center space-y-4">
         <div class="relative w-full mb-[34px]">
           <input
             type="range"
-            min="2"
-            max="98"
+            min="3"
+            max="96"
             @input="handleRangeChange"
             class="range_tamkin_customize w-full h-[20px] rounded-full shadow appearance-none bg-tamkinLight cursor-pointer"
           />

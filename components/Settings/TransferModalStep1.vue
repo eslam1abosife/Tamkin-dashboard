@@ -176,7 +176,11 @@ const formatToUrl = (domain: any) => {
                     <div>
                       <input
                         type="checkbox"
-                        @click="settingsStore.selectedApp = app"
+                        @click="
+                          !settingsStore.selectedApp
+                            ? (settingsStore.selectedApp = app)
+                            : (settingsStore.selectedApp = null)
+                        "
                         :checked="checked === `checkbox_` + app.name"
                         :id="`checkbox_` + app.name"
                         :value="app.name"
@@ -208,9 +212,10 @@ const formatToUrl = (domain: any) => {
             </tbody>
           </table>
         </div>
+
         <div class="flex items-center justify-center gap-2 mt-[20px]">
           <button
-            class="btn_bordered_dashboard normal_hover text-center w-1/6"
+            class="btn_bordered_dashboard normal_hover text-center w-1/4"
             @click="
               closeModal('transferstep1');
               settingsStore.selectedApp = null;
@@ -220,7 +225,7 @@ const formatToUrl = (domain: any) => {
           </button>
           <button
             :disabled="!settingsStore.selectedApp"
-            class="btn-dashboard hover_tamkin text-center w-1/6"
+            class="btn-dashboard hover_tamkin text-center w-1/4"
             @click="navigateTo('transferstep1', 'settings', 'transferstep2')"
           >
             {{ $t("Continue") }}

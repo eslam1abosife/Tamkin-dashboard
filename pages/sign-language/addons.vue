@@ -223,7 +223,8 @@ const getSettingsValue = (name: any) => {
         v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
       >
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] p-4"
+          :class="!settingsStore.defaultappobj.type ? 'mt-[65px]' : 'mt-[40px]'"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"
@@ -237,7 +238,9 @@ const getSettingsValue = (name: any) => {
         <LanguageServicesNodata
           v-if="settingsStore.defaultappobj.type == 'Internal Services'"
         />
-        <LanguageServicesAddons v-else />
+        <div v-else>
+          <LanguageServicesAddons v-if="signLangStore.addonsPlugin" />
+        </div>
       </div>
     </div>
   </div>

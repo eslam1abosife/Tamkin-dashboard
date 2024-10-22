@@ -537,6 +537,15 @@ const langloader = ref(true);
 const loadingSave = ref(false);
 const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
+  if (custmizeStore.colorMode === "solid") {
+    localStorage.setItem(
+      "colorPanal",
+      `${custmizeStore.gradient1},${custmizeStore.gradient2}`
+    );
+  } else {
+    localStorage.setItem("colorPanal", custmizeStore.currentColor);
+  }
+
   if (type === "default") {
     loadingSave.value = true;
   } else {

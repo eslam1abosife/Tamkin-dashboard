@@ -61,24 +61,52 @@ export default function () {
         .tamkin_option_item_values.find((el: any) => el.title == "Gradient");
       if (buttonSolidColor.active) {
         customizeStore.isButtonColorSolidActive = true;
-        const color = buttonSolidColor.value;
-        customizeStore.$state.currentColor = color;
-        customizeStore.$state.initcurrentColor = color;
       }
       if (buttonGridColor.active) {
         customizeStore.isButtonColorGridActive = true;
-        const colors = buttonGridColor.value.split(",");
-        customizeStore.$state.gradient1 = colors[0];
-        customizeStore.$state.initgradient1 = colors[0];
-        customizeStore.$state.gradient2 = colors[1];
-        customizeStore.$state.initgradient2 = colors[1];
       }
+
       if (colorMode.length > 1) {
         customizeStore.$state.colorMode = "gradient";
         customizeStore.$state.initcolorMode = "gradient";
+        customizeStore.$state.gradient1 = colorMode[0];
+        customizeStore.$state.initgradient1 = colorMode[0];
+        customizeStore.$state.gradient2 = colorMode[1];
+        customizeStore.$state.initgradient2 = colorMode[1];
+        if (localStorage.getItem("colorPanal")) {
+          customizeStore.$state.currentColor =
+            localStorage.getItem("colorPanal");
+          customizeStore.$state.initcurrentColor =
+            localStorage.getItem("colorPanal");
+        } else {
+          customizeStore.$state.currentColor = colorMode[0];
+          customizeStore.$state.initcurrentColor = colorMode[0];
+        }
       } else {
         customizeStore.$state.colorMode = "solid";
         customizeStore.$state.initcolorMode = "solid";
+        customizeStore.$state.currentColor = colorMode[0];
+        customizeStore.$state.initcurrentColor = colorMode[0];
+
+        if (localStorage.getItem("colorPanal")) {
+          customizeStore.$state.gradient1 = localStorage
+            .getItem("colorPanal")
+            .split(",")[0];
+          customizeStore.$state.initgradient1 = localStorage
+            .getItem("colorPanal")
+            .split(",")[0];
+          customizeStore.$state.gradient2 = localStorage
+            .getItem("colorPanal")
+            .split(",")[1];
+          customizeStore.$state.initgradient2 = localStorage
+            .getItem("colorPanal")
+            .split(",")[1];
+        } else {
+          customizeStore.$state.gradient1 = colorMode[0];
+          customizeStore.$state.initgradient1 = colorMode[0];
+          customizeStore.$state.gradient2 = colorMode[0];
+          customizeStore.$state.initgradient2 = colorMode[0];
+        }
       }
 
       // button type shape

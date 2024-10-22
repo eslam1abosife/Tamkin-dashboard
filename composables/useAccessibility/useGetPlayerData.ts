@@ -27,6 +27,36 @@ export default function () {
       customizeStore.features = getnamesFeature;
 
       // button color
+      const isBtnColorActive = features.find(
+        (feature: any) => feature.name === "deaf-customize-button-color"
+      );
+      if (isBtnColorActive.active == 1) {
+        customizeStore.isBtnColorActive = true;
+      } else {
+        customizeStore.isBtnColorActive = false;
+      }
+      const buttonSolidColor = features
+        .find((feature: any) => feature.name === "deaf-customize-button-color")
+        .features.find(
+          (el: any) =>
+            el.name === "deaf-customize-button-color-sign-language-button-color"
+        )
+        .tamkin_option_item_values.find((el: any) => el.title == "Solid");
+      const buttonGridColor = features
+        .find((feature: any) => feature.name === "deaf-customize-button-color")
+        .features.find(
+          (el: any) =>
+            el.name === "deaf-customize-button-color-sign-language-button-color"
+        )
+        .tamkin_option_item_values.find((el: any) => el.title == "Gradient");
+
+      if (buttonSolidColor.active) {
+        customizeStore.isButtonColorSolidActive = true;
+      }
+      if (buttonGridColor.active) {
+        customizeStore.isButtonColorGridActive = true;
+      }
+
       const colorMode = features
         .find((feature: any) => feature.name === "deaf-customize-button-color")
         .features.find(
@@ -42,11 +72,40 @@ export default function () {
         customizeStore.$state.initgradient1 = colorMode[0];
         customizeStore.$state.gradient2 = colorMode[1];
         customizeStore.$state.initgradient2 = colorMode[1];
+        if (localStorage.getItem("playerColorPanal")) {
+          customizeStore.$state.currentColor =
+            localStorage.getItem("playerColorPanal");
+          customizeStore.$state.initcurrentColor =
+            localStorage.getItem("playerColorPanal");
+        } else {
+          customizeStore.$state.currentColor = colorMode[0];
+          customizeStore.$state.initcurrentColor = colorMode[0];
+        }
       } else {
         customizeStore.$state.colorMode = "solid";
         customizeStore.$state.initcolorMode = "solid";
         customizeStore.$state.currentColor = colorMode[0];
         customizeStore.$state.initcurrentColor = colorMode[0];
+
+        if (localStorage.getItem("playerColorPanal")) {
+          customizeStore.$state.gradient1 = localStorage
+            .getItem("playerColorPanal")
+            .split(",")[0];
+          customizeStore.$state.initgradient1 = localStorage
+            .getItem("playerColorPanal")
+            .split(",")[0];
+          customizeStore.$state.gradient2 = localStorage
+            .getItem("playerColorPanal")
+            .split(",")[1];
+          customizeStore.$state.initgradient2 = localStorage
+            .getItem("playerColorPanal")
+            .split(",")[1];
+        } else {
+          customizeStore.$state.gradient1 = colorMode[0];
+          customizeStore.$state.initgradient1 = colorMode[0];
+          customizeStore.$state.gradient2 = colorMode[0];
+          customizeStore.$state.initgradient2 = colorMode[0];
+        }
       }
 
       // button type shape
@@ -231,6 +290,7 @@ export default function () {
           icon: `${isSetBackground.name}.png`,
           description: isSetBackground.description,
           checkboxId: isSetBackground.name,
+          active: isSetBackground.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetBackground.name,
@@ -238,6 +298,7 @@ export default function () {
           description: isSetBackground.description,
           checkboxId: isSetBackground.name,
           label: isSetBackground.label,
+          active: isSetBackground.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-background-sign-language-background"
@@ -272,6 +333,7 @@ export default function () {
           icon: `${isSetContrast.name}.png`,
           description: isSetContrast.description,
           checkboxId: isSetContrast.name,
+          active: isSetContrast.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetContrast.name,
@@ -279,6 +341,7 @@ export default function () {
           description: isSetContrast.description,
           checkboxId: isSetContrast.name,
           label: isSetContrast.label,
+          active: isSetContrast.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
@@ -313,6 +376,7 @@ export default function () {
           description: isSetKeyboard.description,
           checkboxId: isSetKeyboard.name,
           label: isSetKeyboard.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetKeyboard.name,
@@ -320,6 +384,7 @@ export default function () {
           description: isSetKeyboard.description,
           checkboxId: isSetKeyboard.name,
           label: isSetKeyboard.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
@@ -346,6 +411,7 @@ export default function () {
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.WebpluginsCards.push({
           name: isSetMode.name,
@@ -353,6 +419,7 @@ export default function () {
           description: isSetMode.description,
           checkboxId: isSetMode.name,
           label: isSetMode.label,
+          active: isSetKeyboard.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
@@ -362,61 +429,40 @@ export default function () {
         );
       }
 
-      // acc isEnableSoundEffect
-      const isEnableSoundEffect = features
-        .find(
-          (feature: any) => feature.name === "deaf-setting-general-settings"
-        )
-        .features.find(
-          (el) =>
-            el.name === "deaf-setting-general-settings-player-sound-effects"
-        );
-      if (isEnableSoundEffect.active == 1 && isEnableSoundEffect.value == 1) {
-        settingsStore.toggleCheckbox(
-          "deaf-setting-general-settings-player-sound-effects"
-        );
-        settingsStore.toggleinitialCheckbox(
-          "deaf-setting-general-settings-player-sound-effects"
-        );
-      }
+      const playerSettings = features.find(
+        (feature: any) => feature.name === "deaf-setting-general-settings"
+      );
 
-      // acc isEnableOnMobile
-      const isEnableOnMobile = features
-        .find(
-          (feature: any) => feature.name === "deaf-setting-general-settings"
-        )
-        .features.find(
-          (el) =>
-            el.name ===
-            "deaf-setting-general-settings-player-enabled-on-this-mobile"
-        );
-      if (isEnableOnMobile.active == 1 && isEnableOnMobile.value == 1) {
-        settingsStore.toggleCheckbox(
-          "deaf-setting-general-settings-player-enabled-on-this-mobile"
-        );
-        settingsStore.toggleinitialCheckbox(
-          "deaf-setting-general-settings-player-enabled-on-this-mobile"
-        );
-      }
-      // acc isEnableOnThisSite
-      const isEnableOnThisSite = features
-        .find(
-          (feature: any) => feature.name === "deaf-setting-general-settings"
-        )
-        .features.find(
-          (el) =>
-            el.name ===
-            "deaf-setting-general-settings-player-enabled-on-this-site"
-        );
-      if (isEnableOnThisSite.active == 1 && isEnableOnThisSite.value == 1) {
-        settingsStore.toggleCheckbox(
-          "deaf-setting-general-settings-player-enabled-on-this-site"
-        );
-        settingsStore.toggleinitialCheckbox(
-          "deaf-setting-general-settings-player-enabled-on-this-site"
-        );
-      }
+      settingsStore.settingsItems = playerSettings;
 
+      playerSettings.features.forEach((el: any) => {
+        if (el.value == 1) {
+          settingsStore.setCheckboxValue(el.name, true);
+          settingsStore.setinitCheckboxValue(el.name, true);
+        } else {
+          settingsStore.setCheckboxValue(el.name, false);
+          settingsStore.setinitCheckboxValue(el.name, false);
+        }
+      });
+
+      // reset settings
+      const DeafReset = features.find(
+        (feature: any) =>
+          feature.name === "deaf-setting-reset-all-sign-language-settings"
+      );
+
+      settingsStore.isDeafResetActive = DeafReset;
+
+      const deafLiecenceTrans = features.find(
+        (feature: any) =>
+          feature.name === "deaf-setting-license-settings-sign-language"
+      );
+      settingsStore.transferLicenceItems = deafLiecenceTrans;
+
+      const webPlugins = features.find(
+        (feature: any) => feature.name === "deaf-addons-web-plugins"
+      );
+      signLangStore.addonsPlugin = webPlugins;
       customizeStore.loadingData = false;
     } catch (error) {
       customizeStore.loadingData = false;

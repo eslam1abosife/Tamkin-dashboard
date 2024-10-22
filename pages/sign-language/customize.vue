@@ -189,6 +189,15 @@ const updateNewValues = () => {
 const loadingSave = ref(false);
 const loadingSavetoAll = ref(false);
 const handleSave = async (type: any) => {
+  if (customizeStore.colorMode === "solid") {
+    localStorage.setItem(
+      "playerColorPanal",
+      `${customizeStore.gradient1},${customizeStore.gradient2}`
+    );
+  } else {
+    localStorage.setItem("playerColorPanal", customizeStore.currentColor);
+  }
+
   if (type === "default") {
     loadingSave.value = true;
   } else {
@@ -313,8 +322,8 @@ const getValue = (name: any) => {
     </transition>
     <LazyModalsConfirm
       :showModal="customizeStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
+      :title="$t('Save your changes')"
+      :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
       @controlsaveAllSites="handleSaveToAllAndMove"
@@ -324,14 +333,15 @@ const getValue = (name: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Customize"
-        section-sub-title="Customization empowers users to shape their digital environment"
+        :section-title="$t('Customize')"
+        :section-sub-title="
+          $t('Customization empowers users to shape their digital environment')
+        "
       />
-      <div
-        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
-      >
+      <div v-if="customizeStore.loadingData">
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[120px] p-4"
+          class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
+          :class="!settingsStore.defaultappobj.type ? 'mt-[65px]' : 'mt-[40px]'"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"
@@ -356,7 +366,9 @@ const getValue = (name: any) => {
         />
 
         <div v-else>
-          <LanguageServicesCustomizeButtoncolor />
+          <LanguageServicesCustomizeButtoncolor
+            v-if="customizeStore.isBtnColorActive"
+          />
 
           <LanguageServicesCustomizeButtontype />
 
@@ -378,8 +390,8 @@ const getValue = (name: any) => {
 
           <!-- <LanguageServicesAddons /> -->
 
-          <LazyLanguageServicesCustomizeAdjustMain />
-          <LanguageServicesCustomizeCustomtrigger />
+          <!-- <LazyLanguageServicesCustomizeAdjustMain /> -->
+          <!-- <LanguageServicesCustomizeCustomtrigger /> -->
         </div>
       </div>
     </div>

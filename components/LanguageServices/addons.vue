@@ -27,15 +27,30 @@ const getImagePath = (icon) => {
         <h1
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Web Plugins
+          {{
+            signLangStore.addonsPlugin.title
+              ? signLangStore.addonsPlugin.title
+              : ""
+          }}
         </h1>
 
         <h2
           class="text-left text-[12px] lg:text-[14px] font-[400] leading-[28.5px] text-darkGrey lg:w-auto ipad-max:max-w-full w-[290px] dark:text-whiteTamkin/90"
         >
-          Widget Embed Code allows you to easily integrate accessibility
-          features into your website by adding a simple script to your site's
-          HTML
+          <span v-if="!collapseStore.collapses.includes('webPlugins')">
+            {{
+              signLangStore.addonsPlugin.description_on_show
+                ? signLangStore.addonsPlugin.description_on_show
+                : ""
+            }}
+          </span>
+          <span v-else>
+            {{
+              signLangStore.addonsPlugin.description_on_hide
+                ? signLangStore.addonsPlugin.description_on_hide
+                : ""
+            }}
+          </span>
         </h2>
       </div>
 
@@ -86,7 +101,7 @@ const getImagePath = (icon) => {
                 />
               </svg>
             </div>
-            <div class="text_mini">Switch To Annual</div>
+            <div class="text_mini">{{ $t("Switch To Annual") }}</div>
           </div>
           <div
             class="mini_wrap"
@@ -188,6 +203,7 @@ const getImagePath = (icon) => {
       >
         <template #item="{ element }">
           <div
+            v-if="element.active == 1"
             class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkSecondary"
           >
             <div
@@ -217,13 +233,13 @@ const getImagePath = (icon) => {
                 <div
                   class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
                 >
-                  <span>{{ element.label }}</span>
+                  <span>{{ $t(element.label) }}</span>
                 </div>
                 <div
                   class="text-[#585B5B] truncate md:overflow-visible md:text-ellipsis lg:overflow-visible lg:whitespace-normal lg:text-ellipsis w-20 lg:w-full dark:text-whiteTamkin/80 font-[500] text-[10px] lg:text-[12px] leading-[8px] lg:leading-[13.66px] mt-[8px]"
                 >
                   <span>
-                    {{ element.description }}
+                    {{ $t(element.description) }}
                   </span>
                 </div>
               </div>
