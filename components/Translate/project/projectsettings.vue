@@ -183,6 +183,7 @@ const getPlayerPosition = (p: any) => {
               :subtitleLetterSpacing="`${translateStore.styles.letterSpacing}px`"
               :subtitleAlignment="translateStore.styles.textAlign"
               :subtitle-font-family="translateStore.styles.fontName"
+              :subtitleBackground="translateStore.styles.bg"
               :class="[
                 'max-w-full h-full',
                 translateStore.player.playerPosition  === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',

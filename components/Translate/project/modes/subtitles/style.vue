@@ -404,84 +404,51 @@ onBeforeMount(()=>{
             </div>
 
         </div>
-        <div :class="[translateStore.styles.autoHighlight.enabled ? 'custom-border-tamkin padding-override-1  h-auto p-[10px]' : 'border-lightGrey h-[40px]']"
+        <div 
             class="border-[1px]  rounded-[10px]  bg-white flex flex-col items-center justify-center w-[100%]
-       p-4 mt-[16px]">
-            <div class="flex items-center justify-between w-full">
-                <div class="text-[11px] font-[500] text-darkGrey">
-                    {{ $t('Auto Highlight') }}
+       h-[40px]  mt-[16px]">
+            <div class="flex items-center justify-between w-full" v-on-click-outside="() => { showColorPickerHightlight =false }">
+                <div class="text-[11px] font-[500] text-darkGrey p-4">
+                    {{ $t('Captions Background Color') }}
                 </div>
-                <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
+           
+           
+                     
+                            <div v-if="showColorPickerHightlight"
+                         
+                            class="bg-white absolute z-[50] bottom-[-10px] h-auto padding-override-1  
+                            !shadow-none custom-border-tamkin !right-[50px]">
+                            <Vue3ColorPicker mode="solid" @click.stop class="lg:!w-[200px] 2xl:!w-[300px] !shadow-none"
+                                v-model="translateStore.styles.bg" :showColorList="false" :showEyeDrop="true" :showAlpha="true" type="HEX"
+                                :showInputMenu="false" :showInputSet="true" :showPickerMode="false" />
+        
+    
+                        </div>
+        
+                        <div    
+                        
+                        class="bg-[#F7F7F7] border-[1px] w-[50px] h-[40px] !px-0 rtl:rounded-l-[10px] ltr:rounded-r-[10px] 
+                        flex items-center justify-center cursor-pointer"
+                            @click="showColorPickerHightlight = !showColorPickerHightlight">
+                            <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M5.155 13.1491L0.85 8.83333C0.733333 8.71637 0.645833 8.58772 0.5875 8.44737C0.529167 8.30702 0.5 8.16082 0.5 8.00877C0.5 7.85673 0.529167 7.71053 0.5875 7.57018C0.645833 7.42982 0.733333 7.30117 0.85 7.18421L4.875 3.16667L3.5625 1.85088C3.41083 1.69883 3.3322 1.51754 3.3266 1.30702C3.321 1.09649 3.3938 0.909357 3.545 0.745614C3.6962 0.581871 3.88287 0.5 4.105 0.5C4.32713 0.5 4.51963 0.581871 4.6825 0.745614L11.105 7.18421C11.2217 7.30117 11.3064 7.42982 11.3591 7.57018C11.4118 7.71053 11.438 7.85673 11.4375 8.00877C11.437 8.16082 11.4109 8.30702 11.3591 8.44737C11.3073 8.58772 11.2226 8.71637 11.105 8.83333L6.8 13.1491C6.68333 13.2661 6.555 13.3538 6.415 13.4123C6.275 13.4708 6.12917 13.5 5.9775 13.5C5.82583 13.5 5.68 13.4708 5.54 13.4123C5.4 13.3538 5.27167 13.2661 5.155 13.1491ZM5.9775 4.27193L2.2325 8.02632H9.7225L5.9775 4.27193ZM12.96 13.5C12.54 13.5 12.1842 13.3508 11.8925 13.0523C11.6008 12.7538 11.455 12.3884 11.455 11.9561C11.455 11.6403 11.5339 11.3421 11.6916 11.0614C11.8493 10.7807 12.0271 10.5058 12.225 10.2368L12.5575 9.81579C12.6625 9.68713 12.7997 9.62 12.9691 9.61439C13.1385 9.60877 13.2755 9.67006 13.38 9.79824L13.73 10.2368C13.9167 10.5058 14.0917 10.7807 14.255 11.0614C14.4183 11.3421 14.5 11.6403 14.5 11.9561C14.5 12.3889 14.3483 12.7545 14.045 13.053C13.7417 13.3515 13.38 13.5005 12.96 13.5Z"
+                                  :class="[showColorPickerHightlight ? 'fill-[url(#paint0_linear_7012_87399)] ' :'fill-[#C5C5C5]']" />
+                                <defs>
+                                    <linearGradient id="paint0_linear_7012_87399" x1="7.5" y1="0.5" x2="7.5" y2="13.5"
+                                        gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#2DADA3" />
+                                        <stop offset="1" stop-color="#71DAD2" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
 
-                    <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
-                        <label for="toggle_google_a" class="toggle_wrap">
-                            <input type="checkbox" id="toggle_google_a" class="sr-only" v-model="translateStore.styles.autoHighlight.enabled" />
-                            <div class="toggle_parent" :class="[translateStore.styles.autoHighlight.enabled ? 'active' : 'in_active']">
-                                <div class="toggle_inner" :class="{ active: translateStore.styles.autoHighlight.enabled }">
-                                    <img v-if="translateStore.styles.autoHighlight.enabled" src="/assets/imgs/translatevideo/sign_active.svg"
-                                        class="w-[28px] h-[28px]" />
-                                    <img v-else src="/assets/imgs/translatevideo/sign_inactive.svg"
-                                        class="w-[28px] h-[28px]" />
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-
-
-                </div>
+                    
+                         
+              
             </div>
-            <div id="hightlight_menu" v-if="translateStore.styles.autoHighlight.enabled" class="custom-border-tamkin  padding-override-1 rounded-[10px] 
-     bg-white flex items-center relative justify-between w-[100%] h-[40px]  mt-[10px]">
-
-                <div class="flex items-center rtl:space-x-reverse space-x-[24px] text-[11px] font-[500] text-darkGrey p-4">
-
-                    {{ $t('Highlight color') }}
-                </div>
-                <div class="flex items-center rtl:space-x-reverse space-x-[24px]">
-                    <button 
-                    :class="[translateStore.styles.autoHighlight.fontStyle === 'bold'? '!bg-[#EAEAEA]' : '!bg-[#F7F7F7]']"
-
-               
-                    @click="translateStore.styles.autoHighlight.fontStyle = 'bold'"
-                    class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
-                        B
-                    </button>
-                    <button 
-                    :class="[translateStore.styles.autoHighlight.fontStyle ==='italic' ? '!bg-[#EAEAEA]' : '!bg-[#F7F7F7]']"
-
-               
-                    @click="translateStore.styles.autoHighlight.fontStyle = 'italic'"
-                    class="btn-default font-[700] text-darkGrey  h-[30px] w-[30px] !p-[7px]">
-                        <img src="/assets/imgs/translatevideo/italic.svg" class="w-[10px] h-[10px]" alt="">
-                    </button>
-
-                </div>
-                <div v-if="showColorPickerHightlight"
-                    v-on-click-outside="() => { showColorPickerHightlight = !showColorPickerHightlight }"
-                    class="bg-white absolute z-[50] bottom-[-10px] h-auto padding-override-1  !shadow-none custom-border-tamkin !right-[50px]">
-                    <Vue3ColorPicker mode="solid" @click.stop class="lg:!w-[200px] 2xl:!w-[300px] !shadow-none"
-                        v-model="currentColor" :showColorList="false" :showEyeDrop="true" :showAlpha="true" type="HEX"
-                        :showInputMenu="false" :showInputSet="true" :showPickerMode="false" />
-
-
-                </div>
-
-                <div class="bg-[#F7F7F7] w-[50px] h-full rounded-r-[10px] flex items-center justify-center cursor-pointer"
-                    @click="showColorPickerHightlight = !showColorPickerHightlight">
-                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.155 13.1491L0.85 8.83333C0.733333 8.71637 0.645833 8.58772 0.5875 8.44737C0.529167 8.30702 0.5 8.16082 0.5 8.00877C0.5 7.85673 0.529167 7.71053 0.5875 7.57018C0.645833 7.42982 0.733333 7.30117 0.85 7.18421L4.875 3.16667L3.5625 1.85088C3.41083 1.69883 3.3322 1.51754 3.3266 1.30702C3.321 1.09649 3.3938 0.909357 3.545 0.745614C3.6962 0.581871 3.88287 0.5 4.105 0.5C4.32713 0.5 4.51963 0.581871 4.6825 0.745614L11.105 7.18421C11.2217 7.30117 11.3064 7.42982 11.3591 7.57018C11.4118 7.71053 11.438 7.85673 11.4375 8.00877C11.437 8.16082 11.4109 8.30702 11.3591 8.44737C11.3073 8.58772 11.2226 8.71637 11.105 8.83333L6.8 13.1491C6.68333 13.2661 6.555 13.3538 6.415 13.4123C6.275 13.4708 6.12917 13.5 5.9775 13.5C5.82583 13.5 5.68 13.4708 5.54 13.4123C5.4 13.3538 5.27167 13.2661 5.155 13.1491ZM5.9775 4.27193L2.2325 8.02632H9.7225L5.9775 4.27193ZM12.96 13.5C12.54 13.5 12.1842 13.3508 11.8925 13.0523C11.6008 12.7538 11.455 12.3884 11.455 11.9561C11.455 11.6403 11.5339 11.3421 11.6916 11.0614C11.8493 10.7807 12.0271 10.5058 12.225 10.2368L12.5575 9.81579C12.6625 9.68713 12.7997 9.62 12.9691 9.61439C13.1385 9.60877 13.2755 9.67006 13.38 9.79824L13.73 10.2368C13.9167 10.5058 14.0917 10.7807 14.255 11.0614C14.4183 11.3421 14.5 11.6403 14.5 11.9561C14.5 12.3889 14.3483 12.7545 14.045 13.053C13.7417 13.3515 13.38 13.5005 12.96 13.5Z"
-                          :class="[showColorPickerHightlight ? 'fill-[url(#paint0_linear_7012_87399)] ' :'fill-[#C5C5C5]']" />
-                        <defs>
-                            <linearGradient id="paint0_linear_7012_87399" x1="7.5" y1="0.5" x2="7.5" y2="13.5"
-                                gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#2DADA3" />
-                                <stop offset="1" stop-color="#71DAD2" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
-            </div>
+          
         </div>
     </div>
 

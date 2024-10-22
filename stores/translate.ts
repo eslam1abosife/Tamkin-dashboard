@@ -29,7 +29,7 @@ const currentTab = ref('')
     lines: '2',
     underline:'normal',
     fontWeight:'normal',
-
+    bg:'#00000',
     autoHighlight: {
       fontStyle: '',
       color: '',
@@ -50,7 +50,7 @@ const currentTab = ref('')
     lines: '2',
     underline:'normal',
     fontWeight:'normal',
-
+    bg:'#00000',
     autoHighlight: {
       fontStyle: '',
       color: '',
@@ -93,7 +93,7 @@ const currentTab = ref('')
       lines: '2',
       underline:'normal',
       fontWeight:'normal',
-
+      bg:'#00000',
       autoHighlight: {
         fontStyle: '',
         color: '',
