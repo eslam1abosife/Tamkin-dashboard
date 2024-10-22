@@ -100,3 +100,9 @@ function controlPlayerLoad() {
     </div>
   </div>
 </template>
+<style lang="scss">
+#buttons{
+
+  @apply mt-[20px] #{!important};
+}
+</style>

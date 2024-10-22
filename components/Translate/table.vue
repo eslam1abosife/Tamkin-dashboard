@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {useGetProjects} from '@/composables/useInternal'
-const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading,hasNext} = useGetProjects();
+const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
 
 const props = defineProps({
   type: String
@@ -32,7 +32,7 @@ const refreshData = async ()=>{
 }
 const currentTab = ref("Translate video");
 const getProjectsByTab = computed(() => {
-  return projects.value
+  return translateStore.projectsAr
     .filter((t) => t.type === currentTab.value) 
     .filter((t) => {
       if (!isSearchfilled.value) return true; 
@@ -73,7 +73,14 @@ const localePath = useLocalePath()
 
   return currentPath === pattern;
 };
+watch(()=>currentTab.value ,async ()=> {
+  // alert('gg')
+  const user = JSON.parse(localStorage.getItem("user"));
 
+  if (user) {
+ await getProjects(currentTab.value,user.agency,true)
+  }
+})
 onBeforeUnmount(()=>{
   projects.value = []
   translateStore.projectsAr = []
@@ -81,7 +88,7 @@ onBeforeUnmount(()=>{
 </script>
 
 <template>
-  <div v-if="!loading" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
+  <div v-if="!translateStore.loadingProjects" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
     <div v-if="!isLinkActive('/translate/video')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
@@ -92,7 +99,7 @@ onBeforeUnmount(()=>{
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('Translate video')"
       >
-        {{ $t('Translate Video')}} ({{projects.filter(t=>t.type === 'Translate video').length}})
+        {{ $t('Translate Video')}} ({{  translateStore.videoCount}})
       </div>
       <div
         :class="[
@@ -103,7 +110,7 @@ onBeforeUnmount(()=>{
         class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('Translate Audio')"
       >
-        {{ $t('Translate Audio') }}  ({{projects.filter(t=>t.type === 'Translate Audio').length}})
+        {{ $t('Translate Audio') }}  ({{  translateStore.audioCount}})
       </div>
       <div
         :class="[
@@ -114,7 +121,7 @@ onBeforeUnmount(()=>{
         class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('Translate Live Video')"
       >
-        {{ $t('Translate Live Video') }} ({{projects.filter(t=>t.type === 'Translate Live Video').length}})
+        {{ $t('Translate Live Video') }} ({{  translateStore.liveCount}})
       </div>
       <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
         <input
@@ -149,7 +156,7 @@ onBeforeUnmount(()=>{
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('Translate video')"
       >
-        {{ $t('All Videos')}} ({{projects.filter(t=>t.type === 'Translate video').length}})
+        {{ $t('All Videos')}} ({{  translateStore.videoCount}})
       </div>
       <div
       v-if="isLinkActive('/translate/audio')"
@@ -162,7 +169,7 @@ onBeforeUnmount(()=>{
         class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
         @click="changeTab('Translate Audio')"
       >
-        {{ $t('Translate Audio') }}  ({{projects.filter(t=>t.type === 'Translate Audio').length}})
+        {{ $t('Translate Audio') }}  ({{  translateStore.audioCount}})
       </div>
       <!-- <div
         :class="[
@@ -198,13 +205,13 @@ onBeforeUnmount(()=>{
     </div>
 
 
-  <LazyTranslateVideoVideos  v-if="currentTab === 'Translate video'" :videos="getProjectsByTab" />
+  <LazyTranslateVideoVideos   :videos="getProjectsByTab" />
   <!-- <TranslateAudioAudios v-if="currentTab === 'translateaudio'" /> -->
   <TranslateVideoNovids v-if="getProjectsByTab.length === 0 && !search" 
   :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
   <TranslateNoresult v-if="getProjectsByTab.length === 0 && search"/> 
 
-  <div class="mx-auto mt-[36px]" v-if="!allLoaded && getProjectsByTab.length > 5" >
+  <div class="mx-auto mt-[36px]" v-if="!allLoaded " >
     <button @click="loadMoreProjects(currentTab, user.agency)" :disabled="loadMoreProjectsLoading"
     class="btn-dashboard w-[150px] hover_tamkin mx-auto"
   >
@@ -228,7 +235,7 @@ onBeforeUnmount(()=>{
    
   </div>
   <!-- Loader Layout with Pulse Animation -->
-<div v-if="loading" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px] animate-pulse">
+<div v-if="translateStore.loadingProjects" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px] animate-pulse">
   <div class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
     <!-- Placeholder for tab buttons -->
     <div class="bg-gray-300 dark:bg-gray-600 h-[22px] w-[150px] rounded-md"></div>

@@ -199,9 +199,30 @@ const submitInviteApp = async () => {
           </thead>
           <tbody class="divide-y divide-gray-200">
             <tr v-for="permission in filteredPermissions" :key="permission.name">
+              
               <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
-                <img v-if="permission.image" :src="permission.image" alt="Logo" class="w-6 h-6" />
-                <img v-else src="/assets/imgs/app.svg" alt="Logo" class="w-6 h-6" />
+
+                <img
+                src="/assets/imgs/icons/mysite_select.svg"
+                class="w-[40px] h-[40px]"
+                v-if="
+                permission?.title === 'Internal Service' &&
+                  !getAppsLoading
+                "
+              />
+
+              <div
+                v-if="
+                  !getAppsLoading&&
+                  !permission?.favicon &&
+                  permission?.title !== 'Internal Service'
+                "
+                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+              >
+                {{
+                  permission?.title ? getAvatarLetters(permission?.title) : ""
+                }}
+              </div>
                 <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">
                   {{ $t(permission.title) }}
                 </span>

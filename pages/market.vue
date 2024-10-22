@@ -3,6 +3,18 @@ import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+
+const getApps = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getInviteApps({ agency: user.agency });
+};
 const { locale} = useI18n()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 definePageMeta({
@@ -32,7 +44,7 @@ const checkPaymentStatus = async () => {
 
 onMounted(()=>{
   checkPaymentStatus()
-
+  getApps()
 })
 
 const localePath = useLocalePath()
@@ -305,11 +317,27 @@ function leaveNotification(el, done) {
 <!-- <MarketModalPaymentCard2 v-if="true"/> -->
 
     <div class="w-full h-full relative">
-      <h1
-        class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
-      >
-        {{ $t('Market') }}
-      </h1>
+  <div class="flex items-center justify-between w-full">
+    <h1
+    class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
+  >
+    {{ $t('Market') }}
+  </h1>
+  <div v-if="defaultApp" class="mb-[10px] bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] 
+  space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
+    <div>
+      <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
+    </div>
+    <div class="text-[12px] font-[500] text-darkGrey">
+     {{defaultApp.title}}
+    </div>
+  </div>
+
+  <div v-if="!defaultApp " class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]">
+
+  </div>
+  </div>
+
       <div
         class="bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 rounded-[10px] w-full flex items-end justify-center relative"
         :class="{

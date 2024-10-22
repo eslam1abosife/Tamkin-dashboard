@@ -381,19 +381,31 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
     } finally {
       widthVideoProcessing.value = 100;
       const user = JSON.parse(localStorage.getItem("user"));
-    // translateStore.projectsAr = []
-    await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate audio', user.agency,true);
-      
+
+      if (user) {
+  // translateStore.loadingProjects = true; 
+        
+const data =     await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate Audio', user.agency,true);
+
+  // translateStore.projectsAr = data.data
+}
+     
+translateStore.loadingProjects = false; 
+
   }
 
        closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
+
+       translateStore.loadingProjects = false; 
+
+
   }, 500);
 };
 
 const runconfig = useRuntimeConfig()
 onMounted(async ()=>{
 const languages = await getLanguages()
-languagesArr.value = languages
+languagesArr.value = languages.media
 })
 </script>
 

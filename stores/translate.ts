@@ -16,6 +16,7 @@ const renameItem = ref({
   name: '',
   value:''
 }) 
+const loadingProjects = ref(true)
 const currentTab = ref('')
   const styles = reactive({
     textAlign: 'center',
@@ -129,7 +130,9 @@ const currentTab = ref('')
   };
 const projectsAr = ref([])
 const allLoaded = ref(null)
-  // Return the state and functions
+const videoCount = ref()
+const audioCount = ref()
+const liveCount = ref()
   return {
     signLanguageChecked,
     changesOnSubTitles,
@@ -152,7 +155,11 @@ const allLoaded = ref(null)
     cancelChanges ,renameItem,
     currentTab,
     projectsAr,
-    allLoaded
+    allLoaded,
+    loadingProjects,
+    videoCount,
+audioCount,
+liveCount
 
   };
 });

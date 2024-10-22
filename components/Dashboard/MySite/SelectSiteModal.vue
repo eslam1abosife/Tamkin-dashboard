@@ -118,8 +118,37 @@ const submit = async () => {
           </div>
         </div>
       </div>
-
-      <div  v-loading="inviteAppLoading"    
+      <div v-if="inviteAppLoading" class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-auto">
+        <!-- Table Skeleton -->
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-light">
+          <thead>
+            <tr>
+              <th class="py-3 rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">
+                Website
+              </th>
+              <th class="py-3 rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">
+                Select
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 dark:divide-light w-full">
+            <!-- Skeleton Row -->
+            <tr v-for="n in 2" :key="n">
+              <td class="py-4 flex items-center rtl:space-x-reverse space-x-4 animate-pulse">
+                <!-- Circle Skeleton for Image -->
+                <div class="w-[40px] h-[40px] bg-gray-200 dark:bg-light rounded-full"></div>
+                <!-- Rectangle Skeleton for Text -->
+                <div class="w-[150px] h-[21px] bg-gray-200 dark:bg-light rounded-md"></div>
+              </td>
+              <td class="py-4  animate-pulse ">
+                <!-- Square Skeleton for Checkbox -->
+                <div class="w-[18px] h-[18px] bg-gray-200 dark:bg-light rounded rtl:mr-auto ltr:ml-auto"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div  v-if="!inviteAppLoading"    
          class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-auto">
 
         <table v-if="filteredApps.length > 0" class="min-w-full divide-y divide-gray-200  dark:divide-light">

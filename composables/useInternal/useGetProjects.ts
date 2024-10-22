@@ -19,11 +19,16 @@ export default function() {
     // Fetch projects function
     const getProjects = async (type, agency, reset = false) => {
         try {
+            // Reset pagination if reset is true
+            if (reset) {
+                currentPage.value = 1; // Reset to first page
+                translateStore.projectsAr = []; // Clear the projects array
+                allLoaded.value = false; // Reset allLoaded flag
+            }
+
             if (!loadMoreProjectsLoading.value) {
                 loading.value = true; // Start global loading
             }
-
-      
 
             const res = await api.post('/SignLanguage/GetPrjectList', {
                 "where": {
@@ -38,6 +43,7 @@ export default function() {
                 const responseData = res.data.data; 
                 const newRecords = responseData.data; 
                 const hasNextPage = responseData.hasNextPage;
+                const pagesCount = responseData.pagesCount;
 
                 // Check if new records are returned
                 if (newRecords.length > 0) {
@@ -45,11 +51,12 @@ export default function() {
                     translateStore.projectsAr = translateStore.projectsAr.concat(newRecords);
                     projects.value = translateStore.projectsAr; // Update local projects array
 
-                    // Increment the current page for the next request
-                    currentPage.value += 1;
-
-                    // Set `allLoaded` based on the `hasNextPage` flag from the API
-                    allLoaded.value = !hasNextPage;
+                    // Increment the current page for the next request only if there are more pages
+                    if (currentPage.value < pagesCount) {
+                        currentPage.value += 1;
+                    } else {
+                        allLoaded.value = true; // No more pages to load
+                    }
                 } else {
                     allLoaded.value = true; // No records were returned, set this to true
                 }
@@ -63,7 +70,10 @@ export default function() {
             if (currentPage.value === 1 && (!res.data.data || res.data.data.data.length === 0)) {
                 allLoaded.value = true; // Set this to true if initial load returns zero records
             }
-
+            translateStore.videoCount = res.data.data.videoCount
+            translateStore.liveCount = res.data.data.liveCount
+            translateStore.audioCount = res.data.data.aduioCount
+            translateStore.loadingProjects= false
             return translateStore.projectsAr; // Return the updated projects array
         } catch (error) {
             console.error("Error fetching projects:", error);
@@ -97,5 +107,5 @@ export default function() {
         messageData,
         allLoaded,
         loadMoreProjectsLoading
-    };
+    }; 
 }

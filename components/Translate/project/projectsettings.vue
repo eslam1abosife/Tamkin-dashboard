@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-              import { VTamkinPlayer } from 'tamkin-video-player';
+              import { VTamkinPlayer } from '@/tamkin-player/tamkin-video-player.mjs';
+              import '@/tamkin-player/style.css'
               const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
@@ -184,11 +185,7 @@ const getPlayerPosition = (p: any) => {
               :subtitleAlignment="translateStore.styles.textAlign"
               :subtitle-font-family="translateStore.styles.fontName"
               :subtitleBackground="translateStore.styles.bg"
-              :class="[
-                'max-w-full h-full',
-                translateStore.player.playerPosition  === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]',
-                bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]'
-              ]"
+       
             />
             
 
