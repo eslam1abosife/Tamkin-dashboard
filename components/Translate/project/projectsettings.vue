@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-              import { VTamkinPlayer } from '@/tamkin-player/tamkin-video-player.mjs';
-              import '@/tamkin-player/style.css'
+              import { VTamkinPlayer } from 'tamkin-video-player';
+              //      import { VTamkinPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
+              // import '../../../tamkin-player/style.css'
               const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
+const {locale} = useI18n()
 
 const translateStore = useTranslateStore()
 const {
@@ -16,12 +18,12 @@ const {
 } = useModalManager();
 const {currentMode} = storeToRefs(translateStore)
 const bigpicMode = ref(false)
-const playerPosition = ref('')
+const playerPosition = ref('inVideo')
 const changeMode = (mode: any) => {
     translateStore.currentMode = mode
 }
 const getPlayerPosition = (p: any) => {
-    playerPosition.value = p
+  translateStore.player.playerPosition = p
 }
 
 // provide('currentMode', currentMode)
@@ -163,8 +165,6 @@ const getPlayerPosition = (p: any) => {
               </button>
             </div>
           </div>
-          <div class="flex items-start justify-start w-full rtl:space-x-reverse space-x-[20px] mt-[10px] transition-all ease-in-out duration-600">
-            <div class="relative w-full">
               <!-- :subtitleTextTransform="translateStore.styles." -->
               <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
@@ -185,23 +185,17 @@ const getPlayerPosition = (p: any) => {
               :subtitleAlignment="translateStore.styles.textAlign"
               :subtitle-font-family="translateStore.styles.fontName"
               :subtitleBackground="translateStore.styles.bg"
-       
+          :player-position="translateStore.player.playerPosition"
+          @close-player="translateStore.player.playerPosition = 'inVideo'"
+        :background-player-contrast="'white'"
+        :isPlayerVisible="translateStore.player.visibility"
+        :player-positioning="translateStore.player.position"
+        :current-locale="locale"
             />
             
 
-    <!-- <VTamkinPlayer :videoUrl="videoUrl" :height="270" /> -->
-              <!-- <img src="/assets/imgs/translatevideo/play_box.png" @click="bigpicMode = !bigpicMode" alt="" class="transition-all ease-in-out h-[270px]" :class="[playerPosition === 'OutVideo' ? 'w-[98%] 2xl:w-[99%] h-[270px]' : 'w-full h-[270px]', bigpicMode ? 'w-full h-[270px]' : 'w-[99.5%]']"> -->
-              <div class="absolute bottom-0 right-0 transition-all ease-in-out duration-600" v-if=" translateStore.player.playerPosition  === 'inVideo' && currentMode === 'player'">
-                <img src="/assets/imgs/translatevideo/player_inside.png" alt="" class="w-[89px] h-[125px]">
-              </div>
-            </div>
-            <div v-if="currentMode === 'player'" class="flex flex-col items-center justify-start lg:w-[60%] 2xl:w-[40%] transition-all ease-in-out" :class="[playerPosition === 'OutVideo' ? 'block' : 'hidden']">
-              <img src="/assets/imgs/translatevideo/man_player.png" alt="" class="w-[119px] h-[237px] transition-all ease-in-out">
-              <button @click=" translateStore.player.playerPosition  = ''" class="bg-selected h-[30px] flex items-center justify-center text-[12px] font-[500] text-darkGrey border-[1px] border-lightGrey rounded-[8px] w-full mt-2">
-                {{ $t('Close Player') }}
-              </button>
-            </div>
-          </div>
+
+       
         </div>
       </div>
     </div>

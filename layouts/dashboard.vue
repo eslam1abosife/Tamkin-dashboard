@@ -145,9 +145,7 @@ watchEffect(() => {
   }
 });
 
-const clearInput = () => {
-  search.value = "";
-};
+
 // const closeResetAllModal = ()=>{
 
 // }
@@ -1080,28 +1078,7 @@ const loadf = ref(true);
                 </svg>
               </div>
 
-              <div
-                class="py-[17px] search_input w-full rtl:!mr-[40px] ltr:!ml-[40px]"
-              >
-                <input
-                  type="text"
-                  class="input_dashboard_search w-full"
-                  v-model="search"
-                  :placeholder="`${$t('Search')} ...`"
-                />
-                <div
-                  class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[16px] lg:p-[16px]"
-                >
-                  <img src="/assets/imgs/icons/search.svg" />
-                </div>
-                <div
-                  v-if="isSearchfilled"
-                  @click="clearInput"
-                  class="absolute top-[40%] rtl:left-0 cursor-pointer ltr:right-0 lg:top-[16px] lg:p-[16px]"
-                >
-                  <img src="/assets/imgs/icons/clear_search.svg" />
-                </div>
-              </div>
+             <Searchbar/>
 
               <div
                 class="flex items-center justify-end rtl:space-x-reverse lg:space-x-[20px] w-full"

@@ -57,11 +57,19 @@ const changeMode = () => {
  translateStore.currentMode = 'subtitles'
  translateStore.subMode = ''
 }
+const changeplayerback = ()=>{
+    if(!translateStore.player.contrast){
+        window.changeBackgroundColor('rgba(255, 255, 255, 0.4)')
 
+    } else if(translateStore.player.contrast){
+        window.changeBackgroundColor('')
+    }
+}
 </script>
 
 <template>
-    <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div rtl:pl-[20px] ltr:pr-[20px] h-[310px] transition-all ease-in-out ">
+    <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div rtl:pl-[20px] ltr:pr-[20px] h-[310px] 
+    transition-all ease-in-out relative z-[60]">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]" >
             <svg @click="changeMode" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +77,7 @@ const changeMode = () => {
                     fill="#585B5B" />
             </svg>
             <div>
-                {{ $t('Player') }}
+     {{ $t('Player') }}
             </div>
         </div>
         <div
@@ -80,7 +88,7 @@ const changeMode = () => {
         <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
             <div class="ml-auto flex items-center ">
                 <label for="toggle_google_a" class="toggle_wrap">
-                    <input type="checkbox" id="toggle_google_a" class="sr-only"
+                    <input type="checkbox" id="toggle_google_a" class="sr-only" @click="changeplayerback"
                         v-model="translateStore.player.contrast" />
                     <div class="toggle_parent translate" :class="[translateStore.player.contrast ? 'active' : 'in_active']">
                         <div class="toggle_inner" :class="{ active: translateStore.player.contrast}">
@@ -121,20 +129,20 @@ const changeMode = () => {
             </div>
             <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[16px]">
                 <button class="btn-default !p-1  w-[44px] !h-[30px]"
-                    :class="[translateStore.player.position === 'right' ? '!bg-tamkinLight' : '']" @click="changePosition('right')">
+                    :class="[translateStore.player.position === 'left' ? '!bg-tamkinLight' : '']" @click="changePosition('left')">
                     <div>
-                        <img src="/assets/imgs/translatevideo/right-post.svg" alt="" v-if="translateStore.player.position !== 'right'">
+                        <img src="/assets/imgs/translatevideo/right-post.svg" alt="" v-if="translateStore.player.position !== 'left'">
                         <img src="/assets/imgs/translatevideo/right-post-active.svg" alt=""
-                            v-if="translateStore.player.position === 'right'">
+                            v-if="translateStore.player.position === 'left'">
                     </div>
                 </button>
 
                 <button class="btn-default !p-1   w-[44px] !h-[30px]"
-                    :class="[translateStore.player.position === 'left' ? '!bg-tamkinLight' : '']" @click="changePosition('left')">
-                    <div v-if="translateStore.player.position !== 'left'">
+                    :class="[translateStore.player.position === 'right' ? '!bg-tamkinLight' : '']" @click="changePosition('right')">
+                    <div v-if="translateStore.player.position !== 'right'">
                         <img src="/assets/imgs/translatevideo/left-post.svg" alt="">
                     </div>
-                    <div v-if="translateStore.player.position === 'left'">
+                    <div v-if="translateStore.player.position === 'right'">
                         <img src="/assets/imgs/translatevideo/left-post-active.svg" alt="">
 
                     </div>

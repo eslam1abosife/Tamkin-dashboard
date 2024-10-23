@@ -67,17 +67,17 @@ const currentTab = ref('')
   const initialPlayer = reactive({
     contrast: false,
     background: null,
-    position: '',
-    visibility: null,
-    playerPosition: ''
+    position: 'right',
+    visibility: true,
+    playerPosition: 'inVideo'
   });
 
   const player = reactive({
     contrast: false,
     background: null,
-    position: '',
-    visibility: null,
-    playerPosition: ''
+    position: 'right',
+    visibility: true,
+    playerPosition: 'inVideo'
   });
 
   // Function to reset styles to their initial state
@@ -108,9 +108,9 @@ const currentTab = ref('')
     Object.assign(player, {
       contrast: false,
       background: null,
-      position: '',
-      visibility: null,
-      playerPosition: ''
+      position: 'right',
+      visibility: true,
+      playerPosition: 'inVideo'
     });
   };
 

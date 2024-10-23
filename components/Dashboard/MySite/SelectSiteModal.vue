@@ -149,7 +149,7 @@ const submit = async () => {
         </table>
       </div>
       <div  v-if="!inviteAppLoading"    
-         class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-auto">
+         class="relative 2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-auto  scrollbar-thin">
 
         <table v-if="filteredApps.length > 0" class="min-w-full divide-y divide-gray-200  dark:divide-light">
           <thead>
@@ -233,4 +233,31 @@ const submit = async () => {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" >
+/* Add this to your global CSS file (e.g., styles.css) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px; /* Width of the vertical scrollbar */
+  height: 8px; /* Height of the horizontal scrollbar */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #A7A7A7; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #A7A7A7; /* Darker color on hover */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #edf2f7; /* Background color of the scrollbar track */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* For Firefox */
+.scrollbar-thin {
+  scrollbar-width: thin; /* Use a thin scrollbar */
+  scrollbar-color: #A7A7A7 #edf2f7; /* Thumb color and track color */
+}
+
+</style>

@@ -29,7 +29,7 @@ const filterdLanguages = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full mt-[40px]">
+  <div class="flex flex-col items-center justify-center w-full mt-[40px] mb-[100px]">
     <div
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative"
       :class="[
@@ -361,7 +361,7 @@ const filterdLanguages = computed(() => {
               <div
                 class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] lg:leading-[16.39px]"
               >
-                <span>{{ $t("Show  language selector on the widget") }}</span>
+                <span>{{ $t("Show language selector on the widget") }}</span>
               </div>
             </div>
             <div class="rtl:mr-auto ltr:ml-auto">
