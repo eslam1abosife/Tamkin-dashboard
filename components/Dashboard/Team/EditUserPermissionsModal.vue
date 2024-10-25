@@ -2,10 +2,11 @@
 import { useDropzone } from "vue3-dropzone";
 import { useModalManager } from '@/composables/useModalManager';
 import {  useGetPermissions, useUpdateUserPermission, useGetUserPermissions } from '@/composables/usePermissions';
-import { useInviteMember, useGetAllMembers } from '@/composables/useTeam';
+import { useInviteMember, useGetAllMembers ,useGetCapacity } from '@/composables/useTeam';
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 const {t} = useI18n()
 const { getAvatarLetters } = useGetAvatarLetters();
+const {getCapacity} = useGetCapacity()
 
 
 const {
@@ -21,7 +22,7 @@ const {
 const updatePermissonsLoading = ref(false)
 const { getPermissions, permissions, loading: getAllPermissionsLoading } = useGetPermissions();
 const { userPermissions, getUserPermissions, loading: getUserPermissionsLoading } = useGetUserPermissions();
-
+const teamStore = useTeamStore()
 onMounted(async () => {
   await nextTick();
   const state = getData();
@@ -72,6 +73,7 @@ const savePermission = async () => {
     if(state.from_edit === true){
 // alert('here')
     await updateUserPermission(state);
+    teamStore.maxlimit = await getCapacity()
     $toast(t( 'User Updated successfully!'),{hideIn:3000});
 
     }
@@ -240,7 +242,7 @@ const savePermission = async () => {
 
     <div class="flex flex-col items-center justify-center w-full  "   :class="[errMsg ? '!mt-[20px] !space-y-[10px]' : '']">
       <div class=" " v-if="errMsg" >
-        <h6 class="text-center text-[red] font-light text-[14px]"> {{ errMsg }} </h6>
+        <h6 class="text-center text-[red] font-light text-[14px]"> {{ $t(errMsg) }} </h6>
       </div>
 
 

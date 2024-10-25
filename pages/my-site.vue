@@ -350,14 +350,19 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
         package_price_role: packagemodal.price_roles,
         billing_duration: app.package.find((k) => k.name === pack)
           .billing_duration,
+          type: app.package.find((k) => k.name === pack).type,
         status:
-          new Date() >
+        app.package.find((k) => k.name === pack).type !== 'Investors'&& new Date() >
           new Date(app.package.find((k) => k.name === pack).endpackage)
             ? "Expired"
-            : app.package.find((k) => k.name === pack).status,
+            : app.package.find((k) => k.name === pack).type === 'Investors' ? app.package.find((k) => k.name === pack).investor_status: app.package.find((k) => k.name === pack).status,
       });
 
-      navigateTo(null, "mysite", "upgrade_mysite_package");
+      if(   app.package.find((k) => k.name === pack).type !== 'Investors'){
+        navigateTo(null, "mysite", "upgrade_mysite_package");
+      }else if (   app.package.find((k) => k.name === pack).type === 'Investors'){
+        openInvestor(app,app.package.find((k) => k.name === pack))
+      }
       loadingBlock.value.splice({ app: app, pack: pack });
     } else {
       // if(app.title === 'Internal Service'){
@@ -456,10 +461,24 @@ const cancelSubscriptionInternal = async () => {
     closeModal("cancel_subscription_internal");
   }
 };
+const refreshData = async () => {
+   await getApps();
+
+
+};
+const openInvestor = (app,pack)=>{
+  mysiteStore.currentWebsite = {
+    ...app,
+    package :pack
+  }
+  openModal('join_to_investor') 
+}
 </script>
 
 <template>
   <div class="w-full">
+    <PackagesPaymentModalsJoinInvestorStep1 @update-data="refreshData" v-if="isOpen('join_to_investor')" />
+
     <ModalsConfirm
       :show-modal="true"
       v-if="isOpen('cancel_subscription_internal')"
@@ -1231,7 +1250,7 @@ const cancelSubscriptionInternal = async () => {
                               app.package[0].investor_status &&
                               app.package[0].investor_status === 'Active'
                             "
-                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
                             {{ $t(app.package[0].investor_status) }}
                           </div>
@@ -1247,7 +1266,7 @@ const cancelSubscriptionInternal = async () => {
                           </div>
                           <div
                             v-if="app.package[0].status === 'Active'"
-                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
                             {{ $t(`${app.package[0].status}`) }}
                           </div>
@@ -1540,7 +1559,7 @@ const cancelSubscriptionInternal = async () => {
                             </div>
                             <div
                             v-if="pack.status === 'Active' || (pack.type === 'Investors' && pack.investor_status === 'Active')"
-                            class="bg-gradient-to-r from-green-600 to-green-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
                             {{
                              

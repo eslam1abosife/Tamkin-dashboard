@@ -227,7 +227,9 @@ watch(
 <template>
   <div
     class="flex-col items-start justify-start lg:flex mx-auto   fixed rtl:lg:right-auto 
-    rtl:right-0 ltr:left-0 px-6 h-screen z-[140]  transition-all duration-75 ease-in-out transform-gpu"
+    rtl:right-0 ltr:left-0 px-6 h-screen 
+    z-[140]  transition-all duration-75 ease-in-out transform-gpu bg-white border-l-0 border-t-0 border-b-0 
+    rtl:border-l ltr:border-r border-[1px] border-lightGrey"
     :class="[sideBarOpen ? ' w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
     style="box-sizing: border-box !important"
   >
@@ -388,7 +390,7 @@ watch(
     </button>
 
     <div class="flex flex-col items-center justify-center mt-[14.5px] w-full transform-gpu transition-all ease-in-out">
-      <TamkinSideBarLink
+      <!-- <TamkinSideBarLink
         class="dashboard-nav-link "
         :to="goToLink('/overview')"
         :class="[!sideBarOpen ? 'closed_sidebar !w-[55px]' : 'w-full ']"
@@ -483,7 +485,7 @@ watch(
           </svg>
         </div>
         <span v-if="sideBarOpen">{{$t('Dashboard')}}</span>
-      </TamkinSideBarLink>
+      </TamkinSideBarLink> -->
       <TamkinSideBarLink
         class="dashboard-nav-link"
         :to="goToLink('/embed-code')"
@@ -1680,7 +1682,7 @@ watch(
         </div>
         <span v-if="sideBarOpen">{{$t('Packages')}}</span>
       </div>
-
+   
       <div
         v-if="!sideBarOpen"
         class="cursor-pointer mt-[14px]"
@@ -1692,38 +1694,40 @@ watch(
         </div>
       </div>
       <div
-        v-if="sideBarOpen"
-        class="w-full absolute ipad-max:-bottom-[28vh] -bottom-[20vh]  h-[135px] lg:-bottom-[38vh] 2xl:-bottom-[30vh] 
-        3xl:-bottom-[54vh] 
-        4xl:top-[63vh] bg-cover bg-center rounded-[18px]  dark:border-[1px] dark:border-darkborder 
-        dark:from-darkSecondary bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+      v-if="sideBarOpen"
+:class="[showSubMenu.some(t=>t!== false) || showChildMenu.some(t=>t!== false) ? 'mt-36' : '']"
+      class="absolute  lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] w-[260px]  h-[135px] 
+      z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px]
+     dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
+  
+    >
+      <div
+        class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
       >
-        <div
-          class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
-        >
-          <div>
-            <img
-              src="/assets/pngs/support_h.png"
-              alt="Sales Team"
-              class="w-[35px] h-[35px]"
-            />
-          </div>
-          <div>
-            <h2 class="text-[14px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">{{$t('Need Help?')}}</h2>
-          </div>
-          <div>
-            <h2 class="text-[11px] font-[400] text-[#64938f] dark:text-[#75B1A9]">{{$t('Contact Our Sales Team')}}</h2>
-          </div>
-          <div class="w-full mx-auto">
-            <button
-              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
-              @click="$router.push({path:localePath('/contact')})"
-            >
-              {{$t('Contact Sales')}}
-            </button>
-          </div>
+        <div>
+          <img
+            src="/assets/pngs/support_h.png"
+            alt="Sales Team"
+            class="w-[35px] h-[35px]"
+          />
+        </div>
+        <div>
+          <h2 class="text-[13px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">{{$t('Need Help?')}}</h2>
+        </div>
+        <div>
+          <h2 class="text-[10px] font-[400] text-[#64938f] dark:text-[#75B1A9]">{{$t('Contact Our Sales Team')}}</h2>
+        </div>
+        <div class="w-full mx-auto">
+          <button
+            class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
+            @click="$router.push({path:localePath('/contact')})"
+          >
+            {{$t('Contact Sales')}}
+          </button>
         </div>
       </div>
     </div>
+    </div>
+  
   </div>
 </template>

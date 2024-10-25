@@ -95,7 +95,9 @@ export default {
           "linear-gradient(180deg, rgba(171, 176, 176, var(--tw-bg-opacity)) 0%, rgba(171, 176, 176, var(--tw-bg-opacity)) 100%)",
         "accessNavbarbg":'linear-gradient( 180deg, #fefefe 0%, #eef5ff 47.07%, #f6f3fc 72.04%, #fef5f6 100% )',
         "tamkin-white": "   linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);",
-        'tamkin-accessibility-navbar':'linear-gradient(180deg, #303E56 0%, #303E56 100%)'
+        'tamkin-accessibility-navbar':'linear-gradient(180deg, #303E56 0%, #303E56 100%)',
+        'gradient-services': 'linear-gradient(90deg, rgba(212, 177, 248, 0.66) 3%, rgba(161, 206, 203, 0.66) 26.17%, rgba(245, 201, 197, 0.66) 52.17%, rgba(113, 218, 210, 0.66) 78.17%, rgba(165, 214, 242, 0.66) 100%)',
+
       },
 
       // backgroundImage: {

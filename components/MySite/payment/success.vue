@@ -7,7 +7,11 @@ const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
 const mysiteStore = useMySiteStore()
 const addSiteStore = useAddSiteStore()
+const translateStore = useTranslateStore()
+import {useGetPackages,useGetStats} from '@/composables/useInternal'
 
+const {getPackages} = useGetPackages()
+const {getStats} = useGetStats()
 
 import { useGetAppInvites,useUpdateDefaultApp } from "@/composables/useTeam";
 
@@ -45,7 +49,13 @@ const setDefaultQuery = async (tryagain) => {
     //   mysiteStore.loadingBlock = [];
 
     //   await getApps(); // Fetch apps asynchronously
-      return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite'); // Navigate after fetching apps
+      if(isLinkActive('/my-site')){
+        return navigateTo('success_pay_mysite', 'mysite', 'payment_methods_mysite');
+      }
+      if(isLinkActive('/translate')){
+        return navigateTo('success_pay_mysite', 'internalserviceMedia', 'payment_methods_mysite');
+      }
+      // Navigate after fetching apps
     // } else {
       // closeModal('success_pay_mysite'); // Close modal if not 'mysite'
     // }
@@ -62,6 +72,18 @@ const setDefaultQuery = async (tryagain) => {
      mysiteStore.loadingApps  = false
 
   }
+  if (isLinkActive('/translate')) {
+    emit('updateData');
+
+//     const result = await getPackages()
+//       const result2 = await getStats()
+//       if(result){
+//         currentAPP.value = result
+// translateStore.internalPackages = result.package
+// translateStore.statsPackage = result2
+//       }
+
+}
   if (isLinkActive('/subscriptions')) {
 emit('updateData');
 

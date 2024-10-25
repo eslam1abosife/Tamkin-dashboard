@@ -199,6 +199,9 @@ const submitForm = async () => {
     $toast(t('Request Sent Successfully'), { hideIn: 3000 });
     if(isLinkActive('/subscriptions')){
 emit('updateData')
+    }else  if(isLinkActive('/my-site')){
+      emit('updateData')
+
     }
     loadingReq.value = false;
 
@@ -434,6 +437,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
       <button class="btn_bordered_dashboard error w-[150px]" @click="lockedWebsite = false" v-if="lockedWebsite && state.website_new">{{$t('Remove site')}}</button>
     </div>
    </div>
+   <!-- {{ mySiteStore.currentWebsite.package }} -->
     <div class="w-full mt-[14px]">
       <TranslateSelectInput
       @getCurrentSelectedItem="selectPackage"
@@ -443,7 +447,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
       nameKey="title"
       idField="name"
       class=""
-     :current-list-value="mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_title : ''"
+     :current-list-value="mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_title || mySiteStore.currentWebsite.package.title : ''"
     />
      </div>
 

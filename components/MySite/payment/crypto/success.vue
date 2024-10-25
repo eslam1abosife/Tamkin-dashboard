@@ -210,6 +210,10 @@ const percentageOff = computed(() => {
                 emit('updateData');
 
               }
+              if(isLinkActive('/translate')){
+                emit('updateData');
+
+              }
             }">
                 {{ $t('Done') }}
             </button>

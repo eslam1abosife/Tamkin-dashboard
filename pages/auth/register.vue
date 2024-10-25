@@ -102,7 +102,7 @@ const clearFieldError = (condition) => {
 
           <div class="space-y-[23px] w-full mt-[10px]">
             <div class="w-full relative">
-              <input type="text" name="fullname" placeholder="{{$t('full name')}}" class="input_floating_label peer"
+              <input type="text" id="fullname" placeholder="" class="input_floating_label peer"
                 v-model="v$.full_name.$model" :class="{
             input_error:
               (v$.full_name.$error && v$.full_name.required.$invalid),

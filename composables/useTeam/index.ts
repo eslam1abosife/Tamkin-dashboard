@@ -13,6 +13,7 @@ import useDeleteTeamImg from "./useDeleteTeamImg";
 import useUpdateDefaultApp from "./useUpdateDefaultApp";
 import useEditMember from "./useEditMember";
 import useCheckUserTeam from "./useCheckUserTeam";
+import useGetCapacity from "./useGetCapacity";
 
 export {
     useInviteMember,
@@ -29,5 +30,6 @@ export {
     useDeleteTeamImg,
     useUpdateDefaultApp,
     useEditMember,
-    useCheckUserTeam
+    useCheckUserTeam,
+    useGetCapacity
 }

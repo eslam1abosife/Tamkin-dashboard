@@ -59,7 +59,7 @@ await profileStore.fetchMember()
     // wait profileStore.fetchMember()
     // await profileStore.getCurrentTeam()
     showToast.value = true
-    router.push({path:localePath("/overview")});
+    router.push({path:localePath("/team")});
   } catch (error) {
     loginSuccessfully.value = false;
 

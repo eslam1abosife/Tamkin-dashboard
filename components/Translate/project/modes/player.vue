@@ -59,7 +59,7 @@ const changeMode = () => {
 }
 const changeplayerback = ()=>{
     if(!translateStore.player.contrast){
-        window.changeBackgroundColor('rgba(255, 255, 255, 0.4)')
+        window.changeBackgroundColor('rgba(255, 255, 255, 0.5)')
 
     } else if(translateStore.player.contrast){
         window.changeBackgroundColor('')
@@ -69,7 +69,7 @@ const changeplayerback = ()=>{
 
 <template>
     <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div rtl:pl-[20px] ltr:pr-[20px] h-[310px] 
-    transition-all ease-in-out relative z-[60]">
+    transition-all ease-in-out relative">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]" >
             <svg @click="changeMode" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg">

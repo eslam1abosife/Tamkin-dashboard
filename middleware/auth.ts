@@ -26,7 +26,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   // Redirect logged-in users trying to access auth pages to the overview page
   if (isLoggedIn && (to.path.startsWith(`/${currentLocale}/auth`) || to.path.startsWith(`/auth`))) {
-    const overviewPath = localePath('/overview');
+    const overviewPath = localePath('/team');
     if (to.fullPath !== overviewPath) {
       return navigateTo(overviewPath);
     }

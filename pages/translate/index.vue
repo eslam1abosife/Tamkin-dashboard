@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
+import {useGetPackages,useGetStats} from '@/composables/useInternal'
 
+const {getPackages} = useGetPackages()
+const {getStats} = useGetStats()
+const {locale} = useI18n()
 const {
   isOpen,
   currentView,
@@ -10,47 +14,50 @@ const {
   navigateTo,
 } = useModalManager();
 definePageMeta({
-  layout: "dashboard",
-middleware:['auth','permissions'],
-
+layout: "dashboard",
+// middleware:['auth'],
+// ,'permissions'
 });
 
 const currentPlan = ref("tryit");
 const changePlan = (plan: string) => {
   currentPlan.value = plan;
 };
+const route = useRoute()
+const router = useRouter()
+const checkPaymentStatus = async () => {
+  if (route.query && route.query.paid && route.query.locale) {
+    if (route.query.locale === "ar") {
+      await router.push({
+        name: route.name,
+        query: { paid: route.query.paid, locale: "ar" },
+      });
+
+      await nextTick();
+      openModal("success_pay_mysite", "internalMediaservices");
+    } else {
+      openModal("success_pay_mysite", "internalMediaservices");
+    }
+  }
+};
 
 
-function beforeEnterNotification(el) {
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
-}
+onMounted(()=>{
+  checkPaymentStatus()
+})
+const translateStore = useTranslateStore()
+const refreshData = async () => {
+  const result = await getPackages()
+      const result2 = await getStats()
+      if(result){
+        translateStore.currentApp = result
+translateStore.internalPackages = result.package
+translateStore.statsPackage = result2
 
-function enterNotification(el, done) {
-  // Set the initial position and opacity
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
+      }
 
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
 
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
-    done();
-  }, 0);
-}
-
-function leaveNotification(el, done) {
-  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
-}
+};
 </script>
 
 <template>
@@ -60,6 +67,76 @@ function leaveNotification(el, done) {
       <TranslateModalsTranslate v-if="isOpen('translate_video')" translate-type="video" key="video_modal" />
       <TranslateModalsTranslate v-if="isOpen('translate_audio')" translate-type="audio" />
       <TranslateModalsTranslate v-if="isOpen('translate_live_video')" translate-type="live video" />
+
+      <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in" >
+      <MySitePaymentSuccess v-if="isOpen('success_pay_mysite')" @update-data="refreshData"/>
+    </transition>
+      <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
+
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <div class="mb-[16px]" id="package" >
       <div class="flex items-center justify-between w-full">
         <h1

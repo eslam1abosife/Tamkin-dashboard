@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {useRouter} from "#vue-router";
 const router = useRouter();
-
+const localePath = useLocalePath()
 onMounted(() => {
-  router.push('/my-site')
+  router.push(localePath('/team'))
 })
 </script>
 <template>

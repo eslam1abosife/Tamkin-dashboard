@@ -40,7 +40,7 @@ const isLinkActive = (path) => {
     return false;
   };
 const redirectTo = computed(()=>{
-return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '/subscriptions' :'/my-site'
+return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '/subscriptions' :isLinkActive('/translate') ? '/translate':'/my-site'
 })
 const continueCheckOut = async () => {
   loadingPayment.value = true;

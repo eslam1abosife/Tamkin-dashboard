@@ -8,6 +8,7 @@ import useRenameProject from "./useRenameProject";
 import useDeleteProject from "./useDeleteProject";
 import useGetLiveInfo from "./useGetLiveInfo";
 import useGetStats from "./useGetStats";
+import useGetPackages from "./useGetPackages";
 
 export {
 
@@ -19,6 +20,7 @@ export {
     useRenameProject,
     useDeleteProject,
     useGetLiveInfo,
-    useGetStats
+    useGetStats,
+    useGetPackages
 }
 

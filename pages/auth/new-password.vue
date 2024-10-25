@@ -241,7 +241,7 @@ onMounted(() => {
 
             <div class="flex items-center justify-center">
               <div class="ltr:mr-4 rtl:ml-4">
-               {{$t("Update Password")}}
+               {{route.query.agency ? $t("Create Password") : $t("Update Password")}}
               </div>
 
                <svg  v-if="loadingPass" class="animate-spin  h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

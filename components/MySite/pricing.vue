@@ -204,7 +204,8 @@ function convertUsdToCrypto(usdTotal, rates) {
             @click="openModalToUpgrade(pak)"
             :disabled="
               (pak.cost_month !== 0 && pak.cost_yearly !== 0) || 
-              pak.title === 'Free' 
+              pak.title === 'Free'  || 
+              (mySiteStore.currentPackage.type === 'Investors' && mySiteStore.currentPackage.name === pak.name)
          
             "
             class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
@@ -218,7 +219,7 @@ function convertUsdToCrypto(usdTotal, rates) {
                             mySiteStore.currentWebsite.status !== 'Rejected' && 
                             mySiteStore.currentPackage.status !== 'Cancelled' && 
                             pak.title !== 'Free'"> 
-              {{ $t('Renew') }} 
+              {{mySiteStore.currentPackage.type !== 'Investors'? $t('Renew'):$t('Current Package') }} 
             </span>
             
             <!-- Try Again Case -->

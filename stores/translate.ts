@@ -63,7 +63,7 @@ const currentTab = ref('')
   const translationSubtitles = reactive({
     language: ''
   });
-
+const internalPackages = ref([])
   const initialPlayer = reactive({
     contrast: false,
     background: null,
@@ -133,6 +133,8 @@ const allLoaded = ref(null)
 const videoCount = ref()
 const audioCount = ref()
 const liveCount = ref()
+const statsPackage = ref()
+const currentApp = ref()
   return {
     signLanguageChecked,
     changesOnSubTitles,
@@ -159,7 +161,10 @@ const liveCount = ref()
     loadingProjects,
     videoCount,
 audioCount,
-liveCount
+liveCount,
+internalPackages,
+statsPackage,
+currentApp
 
   };
 });

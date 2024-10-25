@@ -4,6 +4,9 @@ import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
 const {
   getInviteApps,
   defaultApp,
@@ -323,11 +326,41 @@ function leaveNotification(el, done) {
   >
     {{ $t('Market') }}
   </h1>
-  <div v-if="defaultApp" class="mb-[10px] bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE] 
+  <div v-if="defaultApp" class="mb-[10px] 
   space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-    <div>
-      <img src="/assets/imgs/icons/tamkin_small.svg" alt="">
-    </div>
+  <div>
+    <img
+    src="/assets/imgs/icons/mysite_select.svg"
+    class="w-[20px] h-[20px]"
+    v-if="
+    defaultApp?.title === 'Internal Service' 
+    "
+  />
+
+  <div
+    v-if="
+      !defaultApp?.favicon &&
+      defaultApp?.title !== 'Internal Service'
+    "
+    class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+  >
+    {{
+      defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
+    }}
+  </div>
+  <div
+    v-if="
+    defaultApp?.favicon &&
+    defaultApp?.title !== 'Internal Service'
+    "
+  >
+    <img
+      v-if="defaultApp.favicon"
+      :src="defaultApp.favicon"
+      class="w-[20px] h-[20px] rounded-full ipad-max:hidden lg:block hidden"
+    />
+  </div>
+ </div>
     <div class="text-[12px] font-[500] text-darkGrey">
      {{defaultApp.title}}
     </div>

@@ -2,9 +2,10 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from "@/composables/useModalManager";
-import { useInviteMember, useGetAllMembers,useCheckUserTeam } from "@/composables/useTeam";
+import { useInviteMember, useGetAllMembers,useCheckUserTeam ,useGetCapacity} from "@/composables/useTeam";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
 
+const {getCapacity} = useGetCapacity()
 const { isIncludeWord } = useIncludeWord();
 const {checkuserInTeam} = useCheckUserTeam()
 const {

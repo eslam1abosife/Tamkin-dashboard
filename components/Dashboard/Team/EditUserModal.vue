@@ -243,7 +243,7 @@ const submitInviteApp = async () => {
         <NoData class="!my-0 !py-0" v-else />
       </div>
     
-      <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ errMsg }} </h6>
+      <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ $t(errMsg) }} </h6>
     
       <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] " :class="[filteredPermissions.length === 0 ? 'mt-[30px] ':'mt-[108px]']">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('editusermodal')">

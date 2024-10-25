@@ -156,7 +156,7 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
         
       >
       
-    <div 
+    <div  v-if="mySiteStore.currentPackage.type !== 'Investors'"
     class="flex items-center justify-between rounded-full bg-tamkinLight h-[42px]  w-auto
     dark:bg-transparent dark:border-darkGrey absolute rtl:left-[20px] ltr:right-[20px] top-[235px] p-[4px] border border-gray-300"
   >
@@ -223,8 +223,8 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
       {{$t(mySiteStore.currentPackage.title)}}  {{mySiteStore.currentPackage.title === 'Free' ? ' - ' +$t(`${mySiteStore.currentPackage.category}` ):'' }} - {{ mySiteStore.currentPackage.type !== null ? $t(mySiteStore.currentPackage.type) : $t('Internal Service') }} 
     
             </div>
-          
               </div>
+              
               <div
               v-if="mySiteStore.currentPackage.status === 'Expired'"
             
@@ -233,6 +233,15 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             >
               {{ $t(`Expired`) }}
             </div>
+              
+            <div
+            v-if="mySiteStore.currentPackage.status === 'Active'"
+          
+            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px]  flex items-center justify-center 
+                  h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
+          >
+            {{ $t(`Active`) }}
+          </div>
             <div
             v-if="mySiteStore.currentWebsite.status  === 'Rejected' || mySiteStore.currentPackage.status === 'Rejected' || mySiteStore.currentPackage.status === 'Cancelled'"
           

@@ -65,10 +65,11 @@ const clearInput = () => {
       <img src="/assets/imgs/icons/clear_search.svg" />
     </div>
     
-    <div v-if="isSearchfilled" class="bg-white divide-y w-full h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex 
+    <div v-if="isSearchfilled" class="bg-white w-full h-auto overflow-y-auto absolute rounded-[10px] border-[1px] drop-shadow-xl top-16 flex 
     flex-col items-start justify-start p-4">
    <div v-if="!loading" class="w-full"> 
-    <div v-for="site in searchData" class="flex items-center justify-between p-3 h-[50px] rounded-[10px] cursor-pointer w-full  hover:bg-gray-50"> 
+    <div v-for="site in searchData" class="flex items-center divide-y justify-between p-3 h-[50px] rounded-[10px]
+     cursor-pointer w-full  hover:bg-gray-50"> 
 <div class="flex items-center justify-start space-x-4">
     <div>
         <img

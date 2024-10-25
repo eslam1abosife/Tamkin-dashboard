@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, watch, onMounted } from "vue";
 import { useModalManager } from "@/composables/useModalManager";
+
 import {
   useGetAllMembers,
   useGetTeamCountMembers,
@@ -9,14 +10,14 @@ import {
   useGetCurrentTeam,
   useDeleteMember,
   useEditMember,
+  useGetCapacity
 } from "@/composables/useTeam";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
+const {getCapacity,loading:capacityLoader} = useGetCapacity()
 const { getAvatarLetters } = useGetAvatarLetters();
 
-import banner from "/assets/imgs/gradient_embded.png";
 
 const state = reactive({
   teamName: "",
@@ -39,10 +40,9 @@ const getTeamMembersAndThirCount = () => {
   user.value = JSON.parse(localStorage.getItem("user") || "{}");
   getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
 };
+const currentLimitForTeam = ref()
 
-onMounted(async () => {
-  await getTeamMembersAndThirCount();
-});
+
 
 const {
   isOpen,
@@ -157,9 +157,17 @@ const getCurrTeam = async () => {
   await getCurrentTeam(user.sid);
   state.teamName = currTeam.value.team_name;
 };
+const teamstore = useTeamStore()
+let myUser = ref({});
 
 onMounted(async () => {
+myUser.value = JSON.parse(localStorage.getItem("user"));
+  await getTeamMembersAndThirCount();
+
+
   await getCurrTeam();
+  teamstore.maxlimit =  await getCapacity();
+
   loadingTeam.value = false
 
 });
@@ -260,12 +268,8 @@ const isOwner = computed(() => {
   };
 });
 
-let myUser = ref({});
-onMounted(async () => {
-  myUser.value = JSON.parse(localStorage.getItem("user"));
-  // await profileStore.getCurrentTeam()
-  // await profileStore.fetchMember()
-});
+
+
 </script>
 
 <template>
@@ -581,12 +585,12 @@ onMounted(async () => {
   
     </div>
 
-    <section class="mx-auto mt-[24px]" v-loading="getAllMembersLoading">
+    <section class="mx-auto mt-[24px]" v-loading="getAllMembersLoading && capacityLoader">
       <div
         class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-        <div v-if="!getCurrTeamLoading" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+        <div v-if="!getCurrTeamLoading && !capacityLoader" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
           <div class="p-[16px]">
             <div
               class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
@@ -621,7 +625,7 @@ onMounted(async () => {
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
-              <button :disabled="!profileStore.isOwner"
+              <button :disabled="!profileStore.isOwner || teamstore.maxlimit === paginatedFilteredTeamMembers.length || teamstore.maxlimit === 0"
                 class="btn-dashboard hover_tamkin"
                 @click="()=>{
                   if(profileStore.isOwner){
@@ -634,7 +638,7 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <div v-if="getCurrTeamLoading" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+        <div v-if="getCurrTeamLoading || capacityLoader" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
           <div class="p-[16px]">
             <div class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin" style="line-height: 30px">
               <div class="w-[150px] h-[24px] bg-gray-200 rounded"></div>
@@ -656,7 +660,7 @@ onMounted(async () => {
           </div>
         </div>
         
-        <template v-if="paginatedFilteredTeamMembers.length > 0 && !getCurrTeamLoading">
+        <template v-if="paginatedFilteredTeamMembers.length > 0 && !getCurrTeamLoading && !capacityLoader">
           <table
             class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
           >
@@ -889,7 +893,7 @@ onMounted(async () => {
           </table>
         </template>
       
-        <div v-if="getCurrTeamLoading" class="relative overflow-x-auto w-full">
+        <div v-if="getCurrTeamLoading || capacityLoader" class="relative overflow-x-auto w-full">
           <table class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
             <thead>
               <tr>
@@ -931,7 +935,7 @@ onMounted(async () => {
         </div>
         
 
-        <NoData v-if="paginatedFilteredTeamMembers.length ===  0 && !getCurrTeamLoading" />
+        <NoData v-if="paginatedFilteredTeamMembers.length ===  0 && !getCurrTeamLoading && !capacityLoader" />
       </div>
 
       <div
