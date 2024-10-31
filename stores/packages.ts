@@ -290,14 +290,12 @@ getTabDetails: (state) => (tab, highlightText, page) => {
         pkg.package_type === packageType
       );
     
-      // If there is a currentTab, further filter by category
       if (state.currentTab) {
         filteredPackages = filteredPackages.filter(pkg => 
           pkg.category && pkg.category === state.currentTab.name
         );
       }
     
-      // Remove duplicates by checking both 'name' and 'package_type' fields
       filteredPackages = filteredPackages.filter((pkg, index, self) => 
         index === self.findIndex(p => p.name === pkg.name && p.package_type === pkg.package_type)
       );

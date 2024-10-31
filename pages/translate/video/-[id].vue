@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
+import {useGetProject} from '@/composables/useInternal'
+const {getProject} = useGetProject()
+
 const localePath =useLocalePath()
 const {
   isOpen,
@@ -56,7 +59,20 @@ const showFooter = computed(()=>{
 const cancelFooter = () => {
   translateStore.cancelChanges()
 }
-
+const route = useRoute()
+const getProjectByName = async ()=>{
+  const projectName = route.params.id
+  const d = await getProject(projectName)
+  translateStore.videoProject = {
+    ...d.project,
+    stats:d.project_statistic
+  }
+  translateStore.loadingProject = false
+  
+}
+onBeforeMount(async ()=>{
+   await getProjectByName()
+})
 </script>
 
 <template>
@@ -82,7 +98,7 @@ const cancelFooter = () => {
       <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
-<TranslateProjectProjectsettings :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
+<TranslateProjectProjectsettings v-if=" !translateStore.loadingProject" :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
     <TranslateStats
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />

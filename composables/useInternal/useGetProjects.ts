@@ -73,8 +73,11 @@ export default function() {
             translateStore.videoCount = res.data.data.videoCount
             translateStore.liveCount = res.data.data.liveCount
             translateStore.audioCount = res.data.data.aduioCount
+            translateStore.pdfCount = res.data.data.pdfCount
+            translateStore.docxCount = res.data.data.docxCount
+            translateStore.photoscount = res.data.data.imagesCount
             translateStore.loadingProjects= false
-            return translateStore.projectsAr; // Return the updated projects array
+            return translateStore.projectsAr; 
         } catch (error) {
             console.error("Error fetching projects:", error);
             throw new Error(typeof error === 'string' ? error : 'Something went wrong.');

@@ -23,6 +23,7 @@ import {
   useGetTraffic,
   useGetPriceByTraffic,
 } from "@/composables/usePackages";
+import { useGetPackage } from "~/composables/useMySite";
 const { locale } = useI18n();
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
@@ -355,6 +356,15 @@ const packageTypeToSend = computed(() => {
   return null; // Default return if no conditions are met
 });
 
+const appsrosend = computed(() => {
+  if (webs.value.length) {
+    return webs.value.map((website: any) => website.name);
+  } else if ((packagesStore.currentType.title === 'Sign language' || packagesStore.currentType.name === 'Sign language') && getCategory.value !== 0) {
+    return apps.value.filter(t => t.title === 'Internal Service').map(m => m.name);
+  } else {
+    return [];
+  }
+});
 
 /**
  * Sets the package payload and navigates to the payment methods page.
@@ -366,7 +376,7 @@ const conintuePay = () => {
     urls: packagesStore.urls.length
       ? packagesStore.urls.filter((website: any) => website.url !== null)
       : [].map((website: any) => website.url),
-    apps: webs.value.length ? webs.value.map((website: any) => website.name) :packagesStore.currentType.title === 'Sign language' && getCategory.value !==0 ? apps.value.filter(t=>t.title === 'Internal Service').map(m=>m.name) : [],
+    apps: appsrosend.value,
     payDateType: selectedPackage.value,
     locale: locale.value,
     total: packagesStore.currentType.title === 'Accessibility' ? calculateTotalPrice() : calculateEstimatedPrice.value.toFixed(0),
@@ -395,7 +405,7 @@ const totalCost = computed(() => {
 const getCategory = computed(() => {
   if (
     packagesStore.currentType &&
-    packagesStore.currentType.title === "Sign language" &&
+    (packagesStore.currentType.title === "Sign language"  || packagesStore.currentType.name === "Sign language" )&&
     packagesStore.categories.length
   ) {
     const categoryItem = packagesStore.categories.find(
@@ -643,6 +653,10 @@ if(packagesStore.currentType.title ==='Accessibility' && (webs.value.length || p
 const user = JSON.parse(localStorage.getItem('user'))
 await getInviteApps({ agency: user.agency })
 
+// if(){
+
+// }
+
 //  loadingPriceTraffic.value = false
 
 // levelof.value = addSiteStore.currentLevel.name
@@ -710,14 +724,44 @@ const formattedEstimatedPrice = computed(()=> {
     
   
   }
+
+  const formattedTotal = computed(() => {
+  const formatNumber = (num) =>
+    num
+      .toFixed(0)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const getPackagePrice = () => {
+    if (selectedPackage.value === 1) {
+      return packagesStore.currentPackage.package_price_role[0].cost_month;
+    } else if (selectedPackage.value === 3) {
+      return packagesStore.currentPackage.package_price_role[0].cost_3_month;
+    } else {
+      return packagesStore.currentPackage.package_price_role[0].cost_yearly;
+    }
+  };
+
+  const packagePrice = getPackagePrice();
+
+  const totalForWebs = packagePrice * webs.value.length;
+  const totalForUrls = packagePrice * packagesStore.urls.length;
+
+  if(getCategory.value !== 0 && packagesStore.currentType.title === 'Sign language'){
+    return packagePrice * 1;
+  }else {
+    return formatNumber(totalForWebs + totalForUrls);
+
+  }
+});
 </script>
 
 <template>
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-  
-    <div
+{{getCategory}}
+  <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       @click="closeModalPackage"
@@ -1669,38 +1713,10 @@ const formattedEstimatedPrice = computed(()=> {
               </td>
                 <td
                   class="py-2 border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="!packagesStore.openedCurrentSite && packagesStore.currentPackage.package_type === 'Addons'"
+                  v-if="packagesStore.currentPackage.package_type === 'Addons'"
                 >
                   ${{
-                    (() => {
-                      // Helper function to format numbers with commas
-                      const formatNumber = (num) =>
-                        num
-                          .toFixed(0)
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-                      const getPackagePrice = () => {
-                        if (selectedPackage === 1) {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_month;
-                        } else if (selectedPackage === 3) {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_3_month;
-                        } else {
-                          return packagesStore.currentPackage.package_price_role[0]
-                            .cost_yearly;
-                        }
-                      };
-
-                      const packagePrice = getPackagePrice();
-
-                      const totalForWebs = packagePrice * webs.length;
-
-                      const totalForUrls = packagePrice * packagesStore.urls.length;
-
-                      return formatNumber(totalForWebs + totalForUrls);
-                    })()
+                    formattedTotal
                   }}
                 </td>
                 <td

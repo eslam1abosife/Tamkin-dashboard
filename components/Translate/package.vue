@@ -17,7 +17,6 @@ const {
 } = useModalManager();
 const { fullUrl } = useFullUrl();
 
-import { ref, watch, computed } from "vue";
 const {getPackages} = useGetPackages()
 const {getStats} = useGetStats()
 const props = defineProps({
@@ -49,6 +48,8 @@ const scrollToSection = (sectionId) =>{
       }
     }
     onBeforeMount(async ()=>{
+      translateStore.loadingPackage = true
+
       const result = await getPackages()
       const result2 = await getStats()
       if(result){
@@ -56,6 +57,9 @@ const scrollToSection = (sectionId) =>{
 translateStore.internalPackages = result.package
 translateStore.statsPackage = result2
       }
+
+      translateStore.loadingPackage = false
+
     })
 
     const getMediaPackage = computed(()=>{
@@ -107,19 +111,37 @@ const upgradeModalPackage = async (app, pack) => {
 };
 const loadingPlaceholder =ref(false)
 const refreshData = async () => {
+  translateStore.loadingPackage = true
+
   loadingPlaceholder.value = true
   const result = await getPackages()
       const result2 = await getStats()
       if(result){
         translateStore.currentApp = result
 translateStore.internalPackages = result.package
+
 translateStore.statsPackage = result2
 loadingPlaceholder.value = false
 
       }
 
+      translateStore.loadingPackage = false
 
 };
+const loadingextra = ref([])
+const openBuyMoreExtra = async (app,pack,id)=>{
+  await loadingextra.value.push({ app: app.name, pack: pack.name,id:id });
+
+  const packagemodal = await getPackage(pack.name);
+  mysiteStore.currentWebsite = {
+    ...app,
+    package: [packagemodal.package],
+  };
+
+   navigateTo(null, "internalMediaservices", "buy_extra__service");
+   loadingextra.value.splice({ app: app.name, pack: pack.name,id:id });
+
+}
 const getPackageAndOpenPaymenModal = async (app, pack) => {
   await loadingBlock.value.push({ app: app.name, pack: pack.name });
 
@@ -150,23 +172,48 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
   navigateTo(null, "internalMediaservices", "add_package_modal_mysite");
   loadingBlock.value.splice({ app: app.name, pack: pack.name });
 };
+
+const userconsume = computed(() => {
+  const { media } = translateStore.usedCredit;
+  const { package: pkg, extre } = translateStore.statsPackage.total.media;
+
+  if (media) {
+    return (
+      translateStore.usedCredit.media.video_word + extre.media_words === pkg.video_words && 
+      translateStore.usedCredit.media.audio_word+ extre.media_words === pkg.audio_words  &&
+      translateStore.usedCredit.media.audio_minutes + extre.media_minutes === pkg.audio_minutes && 
+      translateStore.usedCredit.media.live_transaction_media + extre.media_minutes  === pkg.live_transaction_media && 
+      translateStore.usedCredit.media.video_minutes+ extre.media_minutes  === pkg.video_minutes 
+    );
+  } else {
+    return false;
+  }
+});
+
 </script>
 
 <template>
   <div class="w-full">
     <div
-  v-if="getMediaPackage"
+  v-if="getMediaPackage && !translateStore.loadingPackage "
     :class="[getMediaPackage.title === 'Free' ? 'bg-gradient-to-l from-[#A3D9C6A8] via-[#FAECCCA8] to-[#A5D6F2A8]':'bg-gradient-services']"
       class="w-full  rounded-[10px]
        flex flex-col items-start justify-between h-full p-[15px] relative"
     >
-   
+
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySiteBuyextra v-if="isOpen('buy_extra__service')"/>
+
+    </transition>
+
+
   <transition
   :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
   mode="out-in"
 >
   <MySitePaymentCryptoSuccess @update-data="refreshData"/>
 </transition>
+
       <div class="flex flex-col items-start justify-between h-[160px] w-full">
         <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img class="w-[40px] h-[40px]" :src="fullUrl(getMediaPackage.icon)" alt="" />
@@ -227,11 +274,11 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
           </div>
         </div>
 
-      <div class="flex items-center justify-center space-x-[20px]">
+      <div class="flex items-center justify-center space-x-[20px]" v-if="!userconsume">
         <button v-if="getMediaPackage.title !== 'Free'"
          :disabled="  loadingBlock.find(
           (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-        )"
+        ) || getMediaPackage.status === 'Pending'"
         @click="getPackageAndOpenPaymenModal(currentAPP,getMediaPackage)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
           {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade plan') }}
 
@@ -264,7 +311,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
         <button
         :disabled="  loadingUpgrade.find(
           (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
-        )"
+        ) || getMediaPackage.status === 'Pending'"
         @click="upgradeModalPackage(currentAPP,getMediaPackage)" 
         class="btn-dashboard hover_tamkin mt-[8px] w-auto">
           {{ $t('Upgrade Package') }}
@@ -273,6 +320,78 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
           v-if="
           loadingUpgrade.find(
               (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
+            )
+          "
+          class="animate-spin mx-1 h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-center space-x-[20px]" v-else-if="userconsume">
+        <button 
+         :disabled="  loadingextra.find(
+          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
+        )"
+        @click="openBuyMoreExtra(currentAPP,getMediaPackage,1)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
+
+                    {{ $t('Buy more Minutes') }}
+
+
+          <svg
+          v-if="
+          loadingextra.find(
+              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
+            )
+          "
+          class="animate-spin mx-1 h-5 w-5 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        </button>
+        <button
+        :disabled="  loadingextra.find(
+          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 2
+        )"
+        @click="openBuyMoreExtra(currentAPP,getMediaPackage,2)" 
+        class="btn-dashboard hover_tamkin mt-[8px] w-auto">
+          {{ $t('Buy more words') }}
+
+          <svg
+          v-if="
+          loadingextra.find(
+              (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 2
             )
           "
           class="animate-spin mx-1 h-5 w-5 text-white"
@@ -313,7 +432,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       </div>
     </div>
 
-    <div v-else-if="!getMediaPackage || loadingPlaceholder" class="w-full h-[190px] rounded-[10px] bg-gray-200 animate-pulse"></div>
+    <div v-if=" translateStore.loadingPackage" class="w-full h-[190px] rounded-[10px] bg-gray-200 animate-pulse"></div>
 
     <!-- <div
       v-if="currentPlan === 'freetrial'"

@@ -41,14 +41,7 @@ const props = defineProps({
 });
 const modalStore = useModalStore();
 const acceptedFilesRef = ref<File[]>([]);
-const projectNameArr = [
-  { id: 1, name: 'Project 1' },
-  { id: 2, name: 'Project 54' },
-  { id: 3, name: 'Project 4' },
-  { id: 6, name: 'Project 2' },
-  { id: 4, name: 'Project 166' },
-  { id: 7, name: 'Project 5' }
-];
+
 const languagesArr =ref([])
 const ogLang = ref('')
 const translateTo = ref('')
@@ -70,8 +63,12 @@ const state = reactive({
   projectName:  "",
 });
 const allowedSocialMediaUrl = (value) => {
+if(acceptedFilesRef.value.length === 0){
   const regex = /^(https?:\/\/)?(www\.)?(fb|facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter)\.(com|watch)\//;
   return regex.test(value);
+}else {
+  return true
+}
 };
 
 const rules = {
@@ -132,21 +129,21 @@ const getInfoOnLiveVide = async () => {
   if(data){
     liveVideoInfo.value = data
     liveVideoLoading.value = false
-    state.projectName = data.title
+    if(liveVideoInfo.value.duration !== 'No duration' && liveVideoInfo.value.video_ext !== 'none'){
+      videoDuration.value = Math.ceil(liveVideoInfo.value.duration)
+    }
+    if(liveVideoInfo.value.duration !== 'No duration' && liveVideoInfo.value.audio_ext !== 'none'){
+      audioDuration.value = Math.ceil(liveVideoInfo.value.duration)
+    }
     acceptedFilesRef.value = []
-
+    
+    
   }else {
     livevideoInfoError.value = true
+    $toast('Could not fetch video info', {type:'error',hideIn:3000})
   }
   }
 }
-watch(() => state.videoLink, () => {
-
-    liveVideoInfo.value = ''
-    getInfoOnLiveVide()
-    
-
-})
 
 const extractVideoDuration = (file) => {
   const fileUrl = URL.createObjectURL(file);
@@ -161,27 +158,37 @@ const extractVideoDuration = (file) => {
     URL.revokeObjectURL(fileUrl);
   });
 };
-
 const extractVideoThumbnail = (fileUrl) => {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video');
     video.src = fileUrl;
 
+    // Set CORS attribute to handle cross-origin videos
+    video.crossOrigin = "anonymous";
+
     video.addEventListener('loadeddata', () => {
-      video.currentTime = video.duration / 2; 
+      video.currentTime = video.duration / 2; // Seek to the middle of the video
     });
 
     video.addEventListener('seeked', () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      // Get original video dimensions
+      const originalWidth = video.videoWidth;
+      const originalHeight = video.videoHeight;
 
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Set canvas to the original dimensions of the video
+      canvas.width = originalWidth;
+      canvas.height = originalHeight;
 
-      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.4); 
+      // Draw the video frame on the canvas at full dimensions
+      ctx.drawImage(video, 0, 0, originalWidth, originalHeight);
 
+      // Generate a JPEG data URL from the canvas
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+      // Resolve the promise with the thumbnail data URL
       resolve(compressedDataUrl);
     });
 
@@ -190,6 +197,9 @@ const extractVideoThumbnail = (fileUrl) => {
     });
   });
 };
+
+
+
 
 
 const extractAudioDuration = (file) => {
@@ -257,11 +267,15 @@ onUpdated(() => {
 function bytesToMB(bytes) {
   return (bytes / 1024 / 1024).toFixed(2);
 }
+const videoDurationCompare = ref(0)
+
 
 function formatDuration(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    const hours = Math.floor(seconds / 3600); // Get total hours
+    const minutes = Math.floor((seconds % 3600) / 60); // Get remaining minutes
+    const remainingSeconds = Math.floor(seconds % 60); // Get remaining seconds
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
 function formatAudioDuration(seconds) {
@@ -270,13 +284,7 @@ function formatAudioDuration(seconds) {
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
-const validatationForUpload = computed(() => {
-//  if(!liveVideoInfo.value  ||  acceptedFilesRef.value.length === 0 ){
-//   return true
-//  }else {
-//   return false
-//  }
-});
+
 
 const rendering = ref(false);
 const failedRender = ref(false);
@@ -296,8 +304,7 @@ const blobToBase64 = blob => {
 const videobase64 = ref('')
 const liveVideoLoading = ref(false)
 const moveForward = () => {
-  failedRender.value = false;
-  rendering.value = true;
+
   
   if (acceptedFilesRef.value.length > 0) {
     blobToBase64(acceptedFilesRef.value[0]).then(res => {
@@ -318,7 +325,11 @@ const moveForward = () => {
 
   setTimeout(async () => {
     try {
-      if (props.translateType === 'video') {
+      if (props.translateType === 'video'  ) {
+        if(compareDurations(translateStore.statsPackage.total.media.package.video_minutes,formatDuration(videoDuration.value))){
+          failedRender.value = false;
+  rendering.value = true;
+
         await translateVideo({
           "bas64": videobase64.value || null,
           "link": state.videoLink || null,
@@ -339,12 +350,18 @@ const moveForward = () => {
 
 $toast(messageData.value,{type:'error',hideIn:3000})
         }
+        }else {
+          $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
+
+        }
+ 
         
       }    
       
       else if (props.translateType === 'live video') {
-        // alert('yea herer')
-        
+        if(compareDurations(translateStore.statsPackage.total.media.package.live_transaction_media,formatDuration(videoDuration.value))){
+          failedRender.value = false;
+        rendering.value = true;
         await translateVideoLive({
           "bas64": videobase64.value || null,
           "link": state.videoLink || null,
@@ -361,11 +378,18 @@ $toast(messageData.value,{type:'error',hideIn:3000})
 
 $toast(messageDataLive.value,{type:'error',hideIn:3000})
         }
+      }else {
+          $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
 
+        }
         
       } 
       
-      else {
+      else if(props.translateType === 'audio' ) {
+        if(compareDurations(translateStore.statsPackage.total.media.package.aduio_minutes,formatDuration(videoDuration.value))){
+
+        failedRender.value = false;
+        rendering.value = true;
         await translateAudio({
           "bas64": videobase64.value || null,
           "link": state.videoLink || null,
@@ -377,8 +401,13 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
           "sign_language": translateStore.signLanguageChecked,
           "sign_original_language": signOGlang.value
         });
-      }
+      }else {
+          $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
+
+        }
+    }
     } finally {
+
       widthVideoProcessing.value = 100;
       const user = JSON.parse(localStorage.getItem("user"));
 
@@ -407,6 +436,99 @@ onMounted(async ()=>{
 const languages = await getLanguages()
 languagesArr.value = languages.media
 })
+
+function minutesToSeconds(minutes) {
+    return minutes * 60;
+}
+
+function parseTimeString(timeString) {
+    const [minutes, seconds] = timeString.split(':').map(Number);
+    return minutes * 60 + (seconds || 0);  // Handle cases where seconds might be undefined
+}
+
+function compareDurations(videoMinutes, timeString) {
+    const videoSeconds = minutesToSeconds(videoMinutes);  // Convert minutes to seconds
+    const timeStringSeconds = parseTimeString(timeString);
+    return videoSeconds > timeStringSeconds;
+}
+
+function returnLeftofPackage(videoMinutes, timeString) {
+    const videoSeconds = minutesToSeconds(videoMinutes);  // Convert minutes to seconds
+    const timeStringSeconds = parseTimeString(timeString);
+
+    const remainingSeconds = videoSeconds - timeStringSeconds;
+    return remainingSeconds / 60; 
+}
+const hasUpload = computed(() => {
+    const noFileAndNoLink = acceptedFilesRef.value.length === 0 && !state.videoLink;
+    const linkButNoInfo = !!state.videoLink && !liveVideoInfo.value;  // Ensure this is a boolean
+    return noFileAndNoLink || linkButNoInfo;
+});
+const leftofmins = computed(() => {
+
+  return returnLeftofPackage(
+        translateStore.statsPackage.total.media.package.video_minutes +translateStore.statsPackage.total.media.extre.media_minutes ,  // Pass in minutes directly
+        formatDuration(videoDuration.value)  
+    );
+})
+const disableSubtitlesAudio = computed(()=>{
+  return translateStore.statsPackage.total.media.package.video_words+ translateStore.statsPackage.total.media.extre.media_words > 0
+})
+const disableSubtitlesVideo= computed(()=>{
+  return translateStore.statsPackage.total.media.package.aduio_words + translateStore.statsPackage.total.media.extre.media_words > 0
+})
+const disableSubtitlesLiveVideo= computed(()=>{
+  return translateStore.statsPackage.total.media.package.live_transaction_media
+   + translateStore.statsPackage.total.media.extre.media_words > 0
+})
+const validatationForUpload = computed(() => {
+    if(acceptedFilesRef.value.length > 0 || liveVideoInfo.value ){
+      let durationValid;
+   if(props.translateType === 'audio'){
+     durationValid = compareDurations(
+        translateStore.statsPackage.total.media.package.aduio_minutes +translateStore.statsPackage.total.media.extre.media_minutes ,  // Pass in minutes directly
+       formatAudioDuration(audioDuration.value) 
+    );
+   }else {
+     durationValid = compareDurations(
+        translateStore.statsPackage.total.media.package.video_minutes +translateStore.statsPackage.total.media.extre.media_minutes ,  // Pass in minutes directly
+     formatDuration(videoDuration.value) 
+    );
+   }
+    return !durationValid;
+    }else {
+      return true
+    }
+});
+watch(
+  () => state.videoLink,
+  async () => {
+    liveVideoInfo.value = ''
+    
+    await getInfoOnLiveVide();
+
+    if (liveVideoInfo.value && liveVideoInfo.value.title) {
+      state.projectName = liveVideoInfo.value.title;
+      if(validatationForUpload.value){
+        $toast('Please Upload a file within the limits of your plan', {type:'error',hideIn:3000})
+      }
+    }
+  }
+);
+watch(
+  () => acceptedFilesRef.value.length, 
+  (newLength) => {
+   if(newLength> 0){
+    if (validatationForUpload.value) {
+      $toast('Please upload a file within the limits of your plan', { type: 'error', hideIn: 3000 });
+    }
+   }
+  }
+);
+
+
+
+
 </script>
 
 <template>
@@ -436,32 +558,36 @@ languagesArr.value = languages.media
    dark:text-whiteTamkin text-[16px] ">
    {{ $t('Translate') }} <span>{{$t(translateType.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))  }}</span>
   </h1>
-
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[15px] h-full
    dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] ipad-max:mt-[4px] ">
     <div class="w-full">
-      <div v-if="(translateType === 'video' && v$.videoLink.$invalid) || (translateType === 'audio'&& v$.videoLink.$invalid) " v-bind="getRootProps()" class="w-full h-auto 
+      <div v-if="(translateType === 'video' && !state.videoLink) || (translateType === 'audio'&& !state.videoLink) " v-bind="getRootProps()" class="w-full h-auto 
        rounded-[10px] border-[1px] border-dashed 
       border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-center
-       justify-center flex-col   p-[10px]">
+       justify-center flex-col  relative p-[10px]">
         <input v-bind="getInputProps()" />
         <div class="flex flex-row items-start md:items-center   justify-between w-full 
         space-y-[10px] md:space-y-0 rtl:space-x-reverse space-x-[16px]" v-if="acceptedFilesRef.length > 0">
           <div v-for="file in acceptedFilesRef" :key="file.name" class="rounded-[10px] w-full md:w-auto">
             <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[14px]">
-              <div class="relative " >
+              <div class="relative w-full h-[81px]" >
                 <!-- <div class="h-[81px] w-[60px] absolute inset-y-0 right-0 backdrop-blur-sm rounded-tr-[7px] rounded-br-[7px] bg-opacity-40" :style="{ width: blurWidth + '%' }"> </div> -->
-                <img v-if="translateType === 'video'" :src="thumbnail" :alt="file.name" class="lg:w-[119px]  w-40 h-[81px] rounded-[7px]" @click.stop />
-                <div v-if="translateType === 'audio'"  class="w-[78px] h-[78px] flex items-center justify-center custom-border bg-[#F7FCFC]">
+                <div class="w-[116px]  h-[81px] rounded-[7px] bg-gray-300 animate-pulse " v-if="translateType === 'video' && !thumbnail"></div>
+                <img v-if="translateType === 'video' && thumbnail" :src="thumbnail" :alt="file.name" 
+                class="w-[116px] h-[81px] object-cover  rounded-[7px]" 
+                 @click.stop />
+                <div v-if="translateType === 'audio' "  class="w-[78px] h-[78px] flex items-center justify-center custom-border bg-[#F7FCFC]">
                   <img src="/assets/imgs/translatevideo/mp3.svg" class="w-[41px] h-[41px] rounded-[7px]" @click.stop />
                  </div>
              
               </div>
-              <div class="flex flex-col items-start justify-between space-y-[8px]">
+              <div class="flex flex-col items-start justify-between space-y-[8px] w-full">
                 <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"> {{ file.name }}</div>
                 <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"> {{ bytesToMB(file.size) }} MB</div>
-                <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"> {{ translateType === 'video' ? formatDuration(videoDuration)  : translateType === 'audio' ? formatAudioDuration(audioDuration):''}}</div>
+  <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"> {{ translateType === 'video' ? formatDuration(videoDuration)  : translateType === 'audio' ? formatAudioDuration(audioDuration):''}}</div>
+
               </div>
+              
             </div>
           </div>
    
@@ -471,7 +597,12 @@ languagesArr.value = languages.media
               <img src="/assets/imgs/icons/bin.svg" alt="">
             </button>
           </div>
+          
+
+
+          
         </div>
+
         <!-- <div class="w-full mx-auto ipad-max:mt-0 lg:mt-1" v-if="acceptedFilesRef.length > 0">
           <div class="relative flex items-center justify-between">
             <div class="overflow-hidden h-2 w-full text-xs flex rounded bg-[#D7DADA]">
@@ -520,9 +651,10 @@ languagesArr.value = languages.media
           
              <div class="flex flex-col items-start justify-start space-y-[48px]">
               <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{liveVideoInfo.title}}</div>
-              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{liveVideoInfo.domain}}</div>
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{formatDuration(videoDuration)}}</div>
          
             </div>
+            
           </div>
         
           <div class="w-full  md:w-auto mb-[40px] ">
@@ -576,7 +708,7 @@ languagesArr.value = languages.media
         <label for="characterName" class="floating_label" :class="[
           (v$.videoLink.$error && v$.videoLink.allowedSocialMediaUrl.$invalid)||(v$.videoLink.$error && v$.videoLink.required.$invalid)  ? '!text-error' : '',
         ]">
-         {{translateType === 'audio' ? $t('Audio Link') : translateType === 'video' ? $t('Facebook, Instagram , YouTube') :$t('Live video link')}}
+         {{translateType === 'audio' ? $t('Audio Link') : translateType === 'video' ? $t('Facebook, Instagram , YouTube, Tiktok ,Rumble ,Reddit') :$t('Live video link')}}
         </label>
         <div class="w-full lg:w-4/6 " v-if="(v$.videoLink.$error && v$.videoLink.required.$invalid) || (v$.videoLink.$error && v$.videoLink.allowedSocialMediaUrl.$invalid)">
           <p class="error_message">
@@ -632,7 +764,8 @@ languagesArr.value = languages.media
         <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_subtitles" class="toggle_wrap">
                 <input type="checkbox" id="toggle_subtitles" class="sr-only"
-                    v-model="translateStore.subtitleCheck" />
+                    v-model="translateStore.subtitleCheck" :disabled="!disableSubtitlesAudio
+|| !disableSubtitlesVideo || !disableSubtitlesLiveVideo"/>
                 <div class="toggle_parent" :class="[translateStore.subtitleCheck ? 'active' : 'in_active']">
                     <div class="toggle_inner" :class="{ active: translateStore.subtitleCheck }">
                         <img v-if="translateStore.subtitleCheck" src="/assets/imgs/translatevideo/sign_active.svg"
@@ -664,13 +797,16 @@ languagesArr.value = languages.media
         </div>
       </div>
 
-      <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
+      <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]"
+       :class="[compareDurations(translateStore.statsPackage.total.media.package.video_words,formatDuration(videoDuration)) ? '':'bg-gray-200 bg-opacity-5 blur-sm']">
         <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
             {{ $t('Sign language') }}
         </div>
         <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
             <label for="toggle_google_a" class="toggle_wrap">
-                <input type="checkbox" id="toggle_google_a" class="sr-only"
+                <input type="checkbox" id="toggle_google_a" class="sr-only"  
+               :disabled="!disableSubtitlesAudio
+|| !disableSubtitlesVideo"
                     v-model="translateStore.signLanguageChecked" />
                 <div class="toggle_parent" :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']">
                     <div class="toggle_inner" :class="{ active: translateStore.signLanguageChecked }">
@@ -688,7 +824,7 @@ languagesArr.value = languages.media
         @getCurrentSelectedItem="selectSignOgLang" :enableSearch="true" iconKey="icon"
         placeholderinput="Original language" :list="languagesArr" nameKey="title" idField="id" />
       <button class="btn-dashboard hover_tamkin w-[217px]  mt-4" 
-      :disabled="validatationForUpload" @click="moveForward">{{$t('Translate')}}</button>
+      :disabled="validatationForUpload || hasUpload" @click="moveForward">{{$t('Translate')}}</button>
     </div>
   </div>
   <div class="flex flex-col items-center justify-center px-[50px] h-[600px] py-[32px] space-y-[20px] dark:bg-tamkinDarkPrimary 

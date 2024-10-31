@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { loadStripe } from "@stripe/stripe-js";
-import { StripeElements, StripeElement } from "vue-stripe-js";
+// import { StripeElements, StripeElement } from "vue-stripe-js";
 import { useNuxtApp } from "#app";
 import { useRouter } from "vue-router";
 import { useAddNewCard } from "~/composables/useBilling";
@@ -62,8 +62,8 @@ const cardOptions = ref({
 
   style: {
   base: {
-    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
-    fontWeight: '400', // Set weight for Arabic and non-Arabic
+    fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif', 
+    fontWeight: '400', 
     colorTextPlaceholder: '#A7A7A7',
 
   },
@@ -124,63 +124,70 @@ const loadingFont =ref(true)
 const elementsReady = ref(true);
 
 onMounted(async () => {
-        stripe.value = await loadStripe(stripeKey.value);
-        elements.value = stripe.value.elements(elementsOptions.value);
-  
-        // Create and mount Card Number Element
-        cardNumberElement.value = elements.value.create('cardNumber', cardOptions.value);
-        cardNumberElement.value.mount('#card-number-element');
-  
-        // Create and mount CVC Element
-        cvcElement.value = elements.value.create('cardCvc', cardCvcOptions.value);
-        cvcElement.value.mount('#card-cvc-element');
-  
-        // Create and mount Expiry Element
-        expiryElement.value = elements.value.create('cardExpiry', expiryoptions.value);
-        expiryElement.value.mount('#card-expiry-element');
-  stripeLoaded.value = true
-        // Handle changes for card number
-        cardNumberElement.value.on('change', (event) => {
-        const errorElement = document.getElementById('card-errors');
-        if(event.complete){
-          cardError.value = 'valid'; // Clear error message
-        }
-        else if (event.error) {
-         cardError.value = t(event.error.message)// Display error message for card number
-        } else {
-          cardError.value = ''; // Clear error message
-        }
-      });
+  try {
+    // Load Stripe instance
+    stripe.value = await loadStripe(stripeKey.value);
+    if (!stripe.value) throw new Error("Failed to load Stripe.");
 
-      // Handle changes for CVC Element
-   // Handle changes for CVC Element
-   cvcElement.value.on('change', (event) => {
-        // Handle CVC errors
-        if(event.complete){
-          cvcError.value = 'valid'; // Clear error message
-        }
-        else if (event.error) {
-          cvcError.value = event.error.message; // Display error message for CVC
-        } else {
-          cvcError.value = ''; // Clear error message
-        }
-      });
+    // Initialize elements
+    elms.value = stripe.value.elements(elementsOptions.value);
 
-      // Handle changes for Expiry Element
-      expiryElement.value.on('change', (event) => {
-        // Handle Expiry errors
-        if(event.complete){
-          expiryError.value = 'valid'; // Clear error message
-        }
-        else if (event.error) {
-          expiryError.value = event.error.message; // Display error message for expiry date
-        } else  {
-          expiryError.value = ''; // Clear error message
-        }
-      });
-  await getCountries()
+    // Create and mount card elements with error handling
+    try {
+      cardNumberElement.value = elms.value.create("cardNumber", cardOptions.value);
+      cardNumberElement.value.mount("#card-number");
 
-      });
+      cvcElement.value = elms.value.create("cardCvc", cardCvcOptions.value);
+      cvcElement.value.mount("#card-cvc");
+
+      expiryElement.value = elms.value.create("cardExpiry", expiryoptions.value);
+      expiryElement.value.mount("#card-expiry");
+
+      stripeLoaded.value = true;
+    } catch (error) {
+      console.error("Error creating or mounting Stripe elements:", error);
+      cardError.value = "There was an error loading the payment form. Please try again.";
+    }
+
+    // Event listeners for card input changes
+    cardNumberElement.value.on("change", (event) => {
+      if (event.complete) {
+        cardError.value = "valid";
+      } else if (event.error) {
+        cardError.value = t(event.error.message);
+      } else {
+        cardError.value = "";
+      }
+    });
+
+    cvcElement.value.on("change", (event) => {
+      if (event.complete) {
+        cvcError.value = "valid";
+      } else if (event.error) {
+        cvcError.value = event.error.message;
+      } else {
+        cvcError.value = "";
+      }
+    });
+
+    expiryElement.value.on("change", (event) => {
+      if (event.complete) {
+        expiryError.value = "valid";
+      } else if (event.error) {
+        expiryError.value = event.error.message;
+      } else {
+        expiryError.value = "";
+      }
+    });
+
+    // Additional setup, e.g., loading countries
+    await getCountries();
+  } catch (error) {
+    console.error("Stripe initialization failed:", error);
+    cardError.value = "Failed to initialize the payment system. Please check your connection and try again.";
+  }
+});
+
 const handleSelectedItemProjectName = (item: any) => {
   // console.log(item)
   state.country = item.id
@@ -504,10 +511,10 @@ const gotomodalview = ()=>{
                 </div>
               </div>
             </div>
-            <div            class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
+            <div       v-if="stripeLoaded"     class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
 
             >
-                <div id="card-number-element" class="w-full input_floating_label " :class="{
+                <div id="card-number" class="w-full input_floating_label " :class="{
                   input_error:
                   cardError!== 'valid' && cardError,
                    input_success: cardError=== 'valid'
@@ -518,7 +525,7 @@ const gotomodalview = ()=>{
               <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
         
                 <div class="w-2/4 relative">
-                  <div id="card-cvc-element" class="w-full input_floating_label " :class="{
+                  <div id="card-cvc" class="w-full input_floating_label " :class="{
                     input_error:
                     cvcError!== 'valid' && cvcError,
                    input_success: cvcError=== 'valid'
@@ -527,7 +534,7 @@ const gotomodalview = ()=>{
                   <div id="cvc-errors" class="error_message ">{{  cvcError!== 'valid' && cvcError ? $t(cvcError):null }}</div>
                 </div>
                 <div class="w-2/4 relative">
-                  <div id="card-expiry-element" class="w-full input_floating_label "   :class="{
+                  <div id="card-expiry" class="w-full input_floating_label "   :class="{
                     input_error:
                     expiryError!== 'valid' && expiryError,
                     input_success: expiryError=== 'valid'

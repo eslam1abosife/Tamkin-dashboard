@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { usePayBycOrPPaypal } from "@/composables/useMySite";
-const {locale } = useI18n()
+const { locale } = useI18n();
 
-const { payaddsite,messageData,codeStatus } = usePayBycOrPPaypal();
+const { payaddsite, messageData, codeStatus } = usePayBycOrPPaypal();
 const mysiteStore = useMySiteStore();
 
 const {
@@ -14,7 +14,7 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const {$toast} = useNuxtApp()
+const { $toast } = useNuxtApp();
 const loadingPayment = ref(false);
 const showMoreMethods = ref(false);
 const chooseOtherPaymentMethod = ref("");
@@ -30,35 +30,44 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
-const route = useRoute()
-const localePath = useLocalePath()
+const route = useRoute();
+const localePath = useLocalePath();
+/**
+ * Determines if the given path is the active route.
+ *
+ * @param {string} path - The path to check against the current route.
+ * @returns {boolean} - Returns true if the given path is the same as the current route path, false otherwise.
+ */
 const isLinkActive = (path) => {
-    if (process.client) {
-      const localizedPath = localePath(path); // Assuming you use i18n
-      return route.path === localizedPath;
-    }
-    return false;
-  };
-const redirectTo = computed(()=>{
-return isLinkActive('/my-site')? '/my-site' : isLinkActive('/subscriptions') ? '/subscriptions' :isLinkActive('/translate') ? '/translate':'/my-site'
-})
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
+const redirectTo = computed(() => {
+  return isLinkActive("/my-site")
+    ? "/my-site"
+    : isLinkActive("/subscriptions")
+    ? "/subscriptions"
+    : isLinkActive("/translate")
+    ? "/translate"
+    : isLinkActive('/document') ? '/document' : "/my-site";
+});
 const continueCheckOut = async () => {
   loadingPayment.value = true;
-const res = await payaddsite(null,'paypal',redirectTo.value);
-// alert(locale.value)
+  const res = await payaddsite(null, "paypal", redirectTo.value);
+  // alert(locale.value)
   if (codeStatus.value === 200) {
     //  console.log(res)
     // redirecct to res.data.data is a url
     window.location.href = res;
 
-  
     loadingPayment.value = false;
-  }else {
-    $toast(messageData.value, { hideIn: 3000, type: 'error' });
+  } else {
+    $toast(messageData.value, { hideIn: 3000, type: "error" });
     loadingPayment.value = false;
-  
   }
-
 };
 const props = defineProps({
   showModal: Boolean,
@@ -76,7 +85,7 @@ const percentageOff = computed(() => {
   return 0;
 });
 const discountAmount = computed(() => {
-  const cartTotal = mysiteStore.packagePayload.total;;
+  const cartTotal = mysiteStore.packagePayload.total;
   const discountPercentage = mysiteStore.currentDiscount;
 
   if (discountPercentage > 0 && cartTotal > 0) {
@@ -86,8 +95,6 @@ const discountAmount = computed(() => {
   }
   return 0;
 });
-
-
 </script>
 
 <template>
@@ -178,7 +185,9 @@ const discountAmount = computed(() => {
                 >
                   <img src="/assets/imgs/promo_valid.svg" />
                   <div class="text-[15px] font-[500] text-darkGrey">
-                    <span class="text-[#021328] font-[700]">{{ mysiteStore.currentDiscount }}%</span>
+                    <span class="text-[#021328] font-[700]"
+                      >{{ mysiteStore.currentDiscount }}%</span
+                    >
                     {{ $t("Discount") }} (-${{ discountAmount.toFixed(0) }})
                   </div>
                   <img src="/assets/imgs/promo_valid_.svg" class="" />
@@ -269,7 +278,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light dark:text-whiteTamkin/80 text-right w-full font-[500]"
                     colspan="2"
                   >
-                    ${{ mysiteStore.packagePayload.total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      mysiteStore.packagePayload.total
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -286,7 +300,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ discountAmount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      discountAmount
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
                 <tr
@@ -302,7 +321,12 @@ const discountAmount = computed(() => {
                     class="py-2 px-5 border-b dark:border-light text-right w-full font-[500] dark:text-whiteTamkin/80"
                     colspan="2"
                   >
-                    ${{ (mysiteStore.packagePayload.total - discountAmount).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                    ${{
+                      (mysiteStore.packagePayload.total - discountAmount)
+                        .toFixed(0)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }}
                   </td>
                 </tr>
               </tbody>

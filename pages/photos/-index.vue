@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useModalManager } from '@/composables/useModalManager';
 import {useGetPackages,useGetStats} from '@/composables/useInternal'
 
 const {getPackages} = useGetPackages()
@@ -22,10 +23,6 @@ const currentPlan = ref("freetrial");
 const changePlan = (plan: string) => {
   currentPlan.value = plan;
 };
-
-const route = useRoute()
-const router = useRouter()
-
 const translateStore = useTranslateStore()
 const refreshData = async () => {
   const result = await getPackages()
@@ -39,7 +36,8 @@ translateStore.statsPackage = result2
 
 
 };
-const localePath = useLocalePath()
+const route = useRoute()
+const router = useRouter()
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
     const targetLocale = route.query.locale === "ar" ? "ar" : "en"
@@ -56,7 +54,7 @@ const checkPaymentStatus = async () => {
 
     await nextTick();
     openModal("success_pay_mysite", "internalMediaservices");
-  }else if(route.query && route.query.paid && route.query.locale === 'en') {
+  } else if(route.query && route.query.paid && route.query.locale === 'en') {
     openModal("success_pay_mysite", "internalMediaservices");
   }
 };
@@ -71,9 +69,12 @@ onMounted(async ()=>{
 
 <template>
   <div class="w-full h-full relative">
-    <TranslateModalsUpgrade header="Upgrade to upload more Documents" text="Sorry, you do not have enough words and characters available to translate the Documents Please upgrade to continue the translation process without interruption"/>
+    <TranslateModalsUpgrade/>
   
   
+
+      <TranslatephotosModalsTranslate v-if="isOpen('translate_images')" />
+
 
       <TranslatedocsModalsTranslate v-if="isOpen('translate_pdf_documents')" translate-type="PDF Documents"/>
       <TranslatedocsModalsTranslate v-if="isOpen('translate_word_documents')" translate-type="Word Documents"/>
@@ -174,60 +175,30 @@ onMounted(async ()=>{
     >
       <MySitePaymentPaypal />
     </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MySiteBuyextra v-if="isOpen('buy_extra__service')"/>
+
+    </transition>
     <div class="space-y-[10px] mb-[16px]">
       <div class="flex items-center justify-between w-full">
         <h1
         class="ltr:text-left rtl:text-right text-[18px] font-[600] dark:text-whiteTamkin"
       >
-      {{ $t('Documents Services') }}      </h1>
+      {{ $t('Photo Services') }}    </h1>
 
-    
+  
       </div>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
       >
-      {{ $t('We make translations easy, convenient, and closer than ever for your enjoyment.') }}      </h2>
+      {{$t('We make translations easy, convenient, and closer than ever for your enjoyment.')}}     </h2>
     </div>
 
 
-    <div v-if="!translateStore.loadingProjects" class="flex items-center justify-start
-     rtl:space-x-reverse space-x-[24px] mb-[16px]" >
-
-        <div  class="flex items-center justify-center  rtl:space-x-reverse space-x-[8px] h-[72px] p-[24px] custom-border bg-white rounded-[10px]">
-<div>
-    <img src="/assets/imgs/translatedocs/doc_header.svg" alt="">
-</div>
-<div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-    {{ $t('Total DOCX') }}
-</div>
-<div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-   {{translateStore.docxCount}}
-</div>
-        </div>
-        <div class="flex items-center justify-center  rtl:space-x-reverse space-x-[8px] h-[72px]  p-[24px] custom-border bg-white rounded-[10px]">
-            <div>
-                <img src="/assets/imgs/translatedocs/pdf_header.svg" alt="">
-            </div>
-            <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-                {{ $t('Total PDF') }}
-            </div>
-            <div class="text-[16px] font-[600] leading-[24px] text-darkGrey">
-               {{ translateStore.pdfCount}}
-            </div>
-                    </div>
-
-          
-    </div>
-
-    <div v-if="translateStore.loadingProjects" class="mb-[16px] flex items-center justify-start rtl:space-x-reverse space-x-[24px] ">
-      <div v-for="s in 2" class="h-[72px] w-[217px] rounded-[10px] animate-pulse bg-gray-200">
-
-      </div>
-     </div>
-
-    <TranslatedocsPackage :type="currentPlan" @change-plan="changePlan" />
-    <TranslatedocsTypes :plan="currentPlan" />
+ 
+    <TranslatephotosPackage :type="currentPlan" @change-plan="changePlan" />
+    <TranslatephotosTypes :plan="currentPlan" />
     <TranslatePlan />
     <TranslateStats
       v-if="currentPlan === 'freetrial_Ex' || currentPlan === 'pro_pack'"
@@ -235,7 +206,6 @@ onMounted(async ()=>{
     <TranslatePlanCard
       v-if="currentPlan === 'freetrial_Ex' || currentPlan === 'pro_pack'"
     />
-    <TranslateTable type="Translate Documents"/>
-
+    <TranslateTable type="Translate Photos"/>
   </div>
 </template>

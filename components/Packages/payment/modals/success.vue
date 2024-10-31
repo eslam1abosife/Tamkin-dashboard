@@ -7,6 +7,13 @@ const payStore = usePaymentStore()
 const packagesStore = usePackgesStore()
 const mysiteStore = useMySiteStore()
 const addSiteStore = useAddSiteStore()
+const isLinkActive = (path) => {
+  if (process.client) {
+    const localizedPath = localePath(path); // Assuming you use i18n
+    return route.path === localizedPath;
+  }
+  return false;
+};
 const setDefaultQuery = (tryagain) => {
  if(tryagain !== 'close' && tryagain === true){
   router.push({
@@ -34,7 +41,7 @@ const setDefaultQuery = (tryagain) => {
   //   packageExtraType:packageTypeToSend.value
   // };
   // }
-if(currentView('success_pay_package') === 'mysite'){
+if(currentView('success_pay_package') === 'mysite' && isLinkActive('/packages')){
   mysiteStore.currentPackage = ''
     mysiteStore.packagePayload = ''
     mysiteStore.tags = []
@@ -56,7 +63,22 @@ return navigateTo('success_pay_package', 'packages', 'payment_methods_packages')
   closeModal('success_pay_package')
 
  }
- 
+ if(isLinkActive('/translate/')){
+  router.push({
+    path: localePath('/translate'), 
+    query: {
+      paid: undefined, 
+      status: undefined
+    }
+  })
+  addSiteStore.currentPackage = ''
+    addSiteStore.packagePayload = ''
+    addSiteStore.tags = []
+    addSiteStore.validatedSites = []
+    addSiteStore.loadingBlock = []
+
+  closeModal('success_pay_package')
+ }
  else {
   router.push({
     path: localePath('/my-site'), 

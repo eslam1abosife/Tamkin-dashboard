@@ -72,8 +72,11 @@ const setDefaultQuery = async (tryagain) => {
      mysiteStore.loadingApps  = false
 
   }
-  if (isLinkActive('/translate')) {
+  if (isLinkActive('/translate') || isLinkActive('/document') || isLinkActive('/photos')) {
+    translateStore.loadingPackage = true
+
     emit('updateData');
+    translateStore.loadingPackage = false
 
 //     const result = await getPackages()
 //       const result2 = await getStats()

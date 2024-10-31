@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
-
+import {useGetProject} from '@/composables/useInternal'
 const translateStore = useTranslateStore()
+const {getProject} = useGetProject()
 const {
   isOpen,
   currentView,
@@ -17,42 +18,9 @@ middleware:['auth','permissions'],
 
 });
 
-const currentPlan = ref("freetrial");
-const changePlan = (plan: string) => {
-  currentPlan.value = plan;
-};
 
 
-function beforeEnterNotification(el) {
-  el.style.transform = "translateX(100%)";
-  el.style.opacity = "0";
-}
 
-function enterNotification(el, done) {
-  // Set the initial position and opacity
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-
-  // Trigger reflow to ensure the initial styles are applied
-  el.offsetHeight;
-
-  // Start the transition
-  setTimeout(() => {
-    el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-    el.style.transform = "translateX(0)";
-    el.style.opacity = "1";
-    done();
-  }, 0);
-}
-
-function leaveNotification(el, done) {
-  el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-  el.style.transform = "translateX(50px)";
-  el.style.opacity = "0";
-  setTimeout(() => {
-    done();
-  }, 500);
-}
 
 const localePath = useLocalePath()
 const route = useRoute()
@@ -84,6 +52,20 @@ setTimeout(()=>{
   processingDone.value = true
 },2000)
   }
+})
+
+const getProjectByName = async ()=>{
+  const projectName = route.params.id
+  const d = await getProject(projectName)
+  translateStore.photoProject = {
+    ...d.project,
+    stats:d.project_statistic
+  }
+  translateStore.loadingProject = false
+  
+}
+onBeforeMount(async ()=>{
+   await getProjectByName()
 })
 </script>
 
@@ -118,13 +100,6 @@ setTimeout(()=>{
     </transition>
   <TranslatephotosProjectProjectsettings/>
 
-  <div class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[24px] rounded-[10px] w-full mb-[16px]">
-    <div class="text-[15px] font-[500] text-darkGrey py-[16px]">
-        {{ $t('All Photos') }} 
-    </div>
-  <TranslatedocsPdfs/>
-
-  <button class="btn-dashboard hover_tamkin w-[158px] mx-auto mt-[28px]">{{$t('Load more')}}</button>
-</div>
+<TranslateTable type="Photo Services"/>
   </div>
 </template>

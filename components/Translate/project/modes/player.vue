@@ -58,18 +58,14 @@ const changeMode = () => {
  translateStore.subMode = ''
 }
 const changeplayerback = ()=>{
-    if(!translateStore.player.contrast){
-        window.changeBackgroundColor('rgba(255, 255, 255, 0.5)')
 
-    } else if(translateStore.player.contrast){
-        window.changeBackgroundColor('')
-    }
+   
 }
 </script>
 
 <template>
     <div  class="w-2/4 flex flex-col items-start justify-start scrollable-div rtl:pl-[20px] ltr:pr-[20px] h-[310px] 
-    transition-all ease-in-out relative">
+    transition-all ease-in-out relative z-[50]">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]" >
             <svg @click="changeMode" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -112,12 +108,12 @@ const changeplayerback = ()=>{
                 0%
             </button>
 
-            <button class="btn-default !p-1 w-[44px] !h-[30px]" :class="[translateStore.player.background === 50 ? '!bg-tamkinLight' : '']"
-                @click="translateStore.player.background = 50">
+            <button class="btn-default !p-1 w-[44px] !h-[30px]" :class="[translateStore.player.background === 0.5 ? '!bg-tamkinLight' : '']"
+                @click="translateStore.player.background = 0.5">
                 50%
             </button>
             <button class="btn-default !p-1 w-[44px] !h-[30px]"
-                :class="[translateStore.player.background === 100 ? '!bg-tamkinLight' : '']" @click="translateStore.player.background =  100">
+                :class="[translateStore.player.background === 1 ? '!bg-tamkinLight' : '']" @click="translateStore.player.background =  1">
                 100%
             </button>
         </div>

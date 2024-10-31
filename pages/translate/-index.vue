@@ -2,6 +2,7 @@
 import { useModalManager } from '@/composables/useModalManager';
 import {useGetPackages,useGetStats} from '@/composables/useInternal'
 
+const packagesStore = usePackgesStore()
 const {getPackages} = useGetPackages()
 const {getStats} = useGetStats()
 const {locale} = useI18n()
@@ -62,12 +63,40 @@ translateStore.statsPackage = result2
 
 <template>
   <div class="w-full h-full relative">
+  
     <TranslateModalsUpgrade/>
   <TranslateModalsShare/>
       <TranslateModalsTranslate v-if="isOpen('translate_video')" translate-type="video" key="video_modal" />
       <TranslateModalsTranslate v-if="isOpen('translate_audio')" translate-type="audio" />
       <TranslateModalsTranslate v-if="isOpen('translate_live_video')" translate-type="live video" />
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <!-- Modal for adding a package -->
+        <PackagesPaymentModalsPackage v-if="isOpen('add_package_modal_packages')" />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsPaymentMethods />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsCard v-if="isOpen('cardModal_packages')" />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsSuccess v-if="isOpen('success_pay_package')" />
+      </transition>
+    
 
+  
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsCryptoStep1 v-if="isOpen('crypto_packages_step1')" />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsCryptoStep2 v-if="isOpen('crypto_packages_step2')" />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsCryptoSuccess />
+      </transition>
+      <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <PackagesPaymentModalsPaypal />
+      </transition>
       <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in" >

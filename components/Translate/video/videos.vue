@@ -61,6 +61,8 @@ const triggerData = ()=>{
     emit('changeD')
     currentMenuDrop.value = ''
 }
+
+const currentTab = inject('currentTab')
 </script>
 <template>
    <div>
@@ -78,15 +80,15 @@ const triggerData = ()=>{
     
         <div v-for="video in videos"
         
-        :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
+        :class="[video.status === 'Pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
         class="h-[160px] flex flex-col items-start justify-start space-y-[10px] rounded-[7px] 
         shadow-lg group border-[1px] tounfrf-[10px] border-transparent relative hover:border-tamkin 
     cursor-pointer mb-2">
 
         <div class="relative w-full ">
             <div 
-            :class="[video.status === 'pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
-            v-if="video.status === 'pending'" 
+            :class="[video.status === 'Pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
+            v-if="video.status === 'Pending'" 
             class="flex flex-col items-center justify-center absolute h-[160px] inset-0 w-full border-[1px] border-transparent
              bg-gray-50 z-[20] bg-opacity-95">
               
@@ -141,13 +143,23 @@ const triggerData = ()=>{
         <div @click="openDeleteModal(video.name)" class="font-[500] text-[10px] leading-[12px]  text-darkGrey dark:text-whiteTamkin hover:bg-tamkinLight dark:hover:bg-tamkinDarkPrimary  rounded-[4px] p-1 w-full h-[18px]">
             {{ $t('Delete') }}
         </div>
+        
             </div>
-            <img :src="runtimec.public.baseImagerUrl+video.thumbnail" class=" object-cover  w-full h-[91px] rounded-[6px] "  alt="">
-        </div>
+            <img v-if="currentTab!== 'Docx Document Service' && currentTab!== 'PDF Document Services' && currentTab!== 'Photo Services'" :src="runtimec.public.baseImagerUrl+video.thumbnail" class=" object-cover  w-full h-[91px] rounded-[6px] "  alt="">
+            <div v-if="currentTab=== 'PDF Document Services'" class="bg-[#EDEDED] h-[90px] rounded-[7px] flex items-center justify-center">
+              <img src="/assets/imgs/translatedocs/pdf.png" class="object-cover w-[60px] h-[60px] rounded-[7px]"  alt="">
+             </div>
+             <div v-if="currentTab=== 'Docx Document Service'" class="bg-[#EDEDED] h-[90px] rounded-[7px] flex items-center justify-center">
+              <img src="/assets/imgs/translatedocs/word.png" class="object-cover w-[60px] h-[60px] rounded-[7px]"  alt="">
+             </div>
+             <img v-if="currentTab=== 'Photo Services' " :src="video.file_link" class=" object-fill  w-full h-[91px] rounded-[6px] "  alt="">
+
+          </div>
         <div class="text-[#141C24] dark:text-whiteTamkin border-tamkin font-[500] text-[12px] leading-[16px]   rtl:text-right ltr:text-left px-[15px]">
             <span class="truncate w-36 block overflow-hidden text-ellipsis whitespace-nowrap">
               {{video.project_name}}
             </span>
+
           </div>
         <div class="text-[#141C24] dark:text-whiteTamkin px-[15px] !mt-[16px]  font-[500] text-[10px] leading-[16px] ">
             {{$t('Uploaded on')}} {{new Date(video.creation).toDateString()}}

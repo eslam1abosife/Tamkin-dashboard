@@ -1,12 +1,62 @@
 <script lang="ts" setup>
 import { useDropzone } from "vue3-dropzone";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import { required, email, sameAs ,requiredIf} from "@vuelidate/validators";
 import USa from "/public/assets/imgs/translatevideo/USA.svg";
 import { useModalManager } from "@/composables/useModalManager";
 import { useTranslateStore } from "~/stores/translate";
 
+import {useGetProjects} from '@/composables/useInternal'
+const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
+import {
+  useTranslateDoc,
+  useTranslateImages,
+  useGetLangs,
+  useTranslateAudio,
+  useTranslateLive,
+} from "@/composables/useInternal";
+import { useDebounceFn } from '@vueuse/core'
+
+
+const { getLanguages } = useGetLangs();
+const { translateImage, codeStatus, messageData } = useTranslateImages();
 const translateStore = useTranslateStore();
+
+
+const languagesArr =ref([])
+const ogLang = ref('')
+const translateTo = ref('')
+const signOGlang = ref('')
+const handleSelectedItemProjectName = (item: any) => {
+  translateTo.value = item.name
+};
+const selectOgLang = (item: any) => {
+  ogLang.value = item.name
+
+};
+const selectSignOgLang = (item: any) => {
+  signOGlang.value = item.name
+
+};
+onMounted(async ()=>{
+const languages = await getLanguages()
+languagesArr.value = languages.Images.map((g)=>{
+  return {
+    id:g.name,
+    title:g.title1,
+    description:g.description
+  }
+})
+})
+
+// const allowedSocialMediaUrl = (value) => {
+//   if (acceptedFilesRef.value.length === 0) {
+//     const regex = /^(https?:\/\/)?(www\.)?(fb|facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter)\.(com|watch)\//;
+//     return regex.test(value);
+//   } else {
+//     return true;
+//   }
+// };
 const {
   isOpen,
   currentView,
@@ -20,60 +70,17 @@ const props = defineProps({
 });
 const modalStore = useModalStore();
 const acceptedFilesRef = ref<File[]>([]);
-const projectNameArr = [
-  {
-    id: 1,
-    name: "Project 1",
-  },
-  {
-    id: 2,
-    name: "Project 54",
-  },
-  {
-    id: 3,
-    name: "Project 4",
-  },
-  {
-    id: 6,
-    name: "Project 2",
-  },
-  {
-    id: 4,
-    name: "Project 166",
-  },
-  {
-    id: 7,
-    name: "Project 5",
-  },
-];
-const languagesArr = [
-  {
-    id: 1,
-    name: "English (USA)",
-    icon: USa,
-  },
-  {
-    id: 2,
-    name: "English (USA)",
-    icon: USa,
-  },
-  {
-    id: 3,
-    name: "English (USA)",
-    icon: USa,
-  },
-];
+
+
 const localePath = useLocalePath()
-const handleSelectedItemProjectName = (item: any) => {
-  console.log(item);
-};
+
 
 const state = reactive({
   documentLink: "",
   projectName: "",
 });
 const rules = {
-  documentLink: { required },
+  documentLink: { requiredIf: requiredIf(() => acceptedFilesRef.value.length === 0) },
   projectName: { required },
 };
 const v$ = useVuelidate(rules, state);
@@ -114,7 +121,8 @@ const fileURL = (file) => {
 };
 const removeFile = (file: any) => {
   acceptedFilesRef.value = acceptedFilesRef.value.filter((f) => f !== file);
-  URL.revokeObjectURL(imgUrl.value); // Clean up the URL
+  state.projectName = ''
+  URL.revokeObjectURL(imgUrl.value);
 };
 onBeforeUnmount(() => {
   acceptedFilesRef.value.forEach((file) => {
@@ -132,31 +140,176 @@ onUpdated(() => {
 });
 
 const validatationForUpload = computed(() => {
-  return acceptedFilesRef.value.length === 0;
+  return acceptedFilesRef.value.length === 0 || v$.value.documentLink.$invalid;
 });
 
 const rendering = ref(false);
 
 const failedRender = ref(false);
 const router = useRouter();
-function bytesToMB(bytes) {
-  return (bytes / 1024 / 1024).toFixed(2);
-}
+
 
 const widthVideoProcessing = ref(10);
 
-const moveForward = () => {
-  failedRender.value = false;
-  rendering.value = true;
-  setInterval(() => {
-    widthVideoProcessing.value = widthVideoProcessing.value + 20;
-  }, 1000);
-  setTimeout(() => {
-    router.push(localePath("/photos/translate"));
-
-    closeModal("translate_images");
-  }, 5000);
+const blobToBase64 = (blob) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  return new Promise((resolve) => {
+    reader.onloadend = () => {
+      const base64String = reader.result.split(",")[1];
+      resolve(base64String);
+    };
+  });
 };
+function bytesToMB(bytes) {
+  return (bytes / 1024 / 1024).toFixed(4);
+}
+const filebase64 = ref()
+const imageUrl = ref('');
+    const imageSize = ref(null);
+const loadingFetch = ref(true)
+
+const {$toast} = useNuxtApp()
+    const fetchImageSize = async () => {
+      try {
+        loadingFetch.value = true
+        const response = await fetch(imageUrl.value, { method: 'HEAD' });
+        const contentLength = response.headers.get('content-length');
+        const name = imageUrl.value.split('/').pop();
+        if (contentLength && state.documentLink) {
+          const sizeInKB = contentLength / 1024;
+          const sizeInMB = sizeInKB / 1024;
+          imageSize.value = { kb: sizeInKB, mb: sizeInMB ,name:name};
+          state.projectName = name;
+          loadingFetch.value = false
+        } else if(state.documentLink && !contentLength){ 
+          imageUrl.value = '';
+      imageSize.value = null; 
+      loadingFetch.value = false;
+      state.projectName = '';
+
+          $toast('Failed to fetch image , Make sure the url is valid', { type: 'error', hideIn: 3000 });
+        }
+      } catch (error) {
+        console.error('Error fetching image size:', error);
+      }
+    };
+    const debouncedFn = useDebounceFn(() => {
+      fetchImageSize()
+}, 1000)
+watch(
+  () => state.documentLink,
+  async (newVal, oldVal) => {
+    if (newVal) {
+      imageUrl.value = state.documentLink;
+      await debouncedFn();
+      state.projectName = imageSize.value?.name || ''; 
+    } else {
+      imageUrl.value = '';
+      imageSize.value = null;  
+      loadingFetch.value = true;
+      state.projectName = '';
+    }
+  },
+  { immediate: true }
+);
+
+    watch(() => acceptedFilesRef.value, async () => {
+  if (acceptedFilesRef.value && acceptedFilesRef.value.length) {
+    state.projectName = acceptedFilesRef.value[0].name.split(".")[0]
+
+    // ;
+  }
+}, { deep: true });
+
+
+    const disableifnowordsAvailable = computed(() => {
+  const { images } = translateStore.usedCredit;
+  const { package: pkg, extre } = translateStore.statsPackage.total.documents;
+
+  if (images) {
+    return (
+false
+      // translateStore.usedCredit.documents.docs_words + extre.documents_words === pkg.docs_words||
+      // translateStore.usedCredit.documents.pdf_words + extre.documents_words === pkg.pdf_words
+ 
+    );
+  } else {
+    return false;
+  }
+});
+  const moveForward = () => {
+    if (acceptedFilesRef.value.length > 0) {
+      blobToBase64(acceptedFilesRef.value[0]).then((res) => {
+        filebase64.value = res;
+      });
+    }
+
+    const onUploadProgress = (progressEvent) => {
+      if (progressEvent.lengthComputable) {
+        const progress = Math.round(progressEvent.progress * 100);
+        widthVideoProcessing.value = progress;
+      }
+      // console.log('Progress event:', progressEvent);
+    };
+
+    setTimeout(async () => {
+      try {
+       
+            failedRender.value = false;
+            rendering.value = true;
+
+            await translateImage(
+              {
+                bas64: filebase64.value || null,
+                link: state.documentLink || null,
+                progect_name: state.projectName || "test",
+                translate: true,
+                "doucment_type": acceptedFilesRef.value[0].name.split(".").pop() || null,
+
+                original_language: ogLang.value,
+                translate_to: translateTo.value,
+                sign_language: translateStore.signLanguageChecked,
+                sign_original_language: signOGlang.value,
+                thumbnailBase64: filebase64.value ||  state.documentLink,
+              },
+              { onUploadProgress }
+            );
+
+            if (codeStatus.value !== 200) {
+              rendering.value = false;
+
+              $toast(messageData.value, { type: "error", hideIn: 3000 });
+            }
+   
+       
+      } finally {
+        widthVideoProcessing.value = 100;
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (user) {
+
+          const data = await getProjects(
+            'Photo Services',
+            user.agency,
+            true
+          );
+
+        }
+
+        translateStore.loadingProjects = false;
+      }
+
+      closeModal(
+        "translate_images"
+      );
+
+      translateStore.loadingProjects = false;
+    }, 500);
+  };
+
+
+
 </script>
 
 <template>
@@ -188,7 +341,6 @@ const moveForward = () => {
     >
     {{ $t('Translate Images') }}
     </h1>
-
     <div
       v-if="!rendering && !failedRender"
       class="flex flex-col items-start justify-center px-[12px] h-full dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px]"
@@ -224,7 +376,7 @@ const moveForward = () => {
                   </div>
                 </div>
                 <div
-                  class="flex flex-col items-start justify-between space-y-[8px] mb-[48px]"
+                  class="flex flex-col items-start justify-between space-y-[48px]"
                 >
                   <div
                     class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]"
@@ -249,21 +401,7 @@ const moveForward = () => {
               </button>
             </div>
           </div>
-          <div class="w-full mx-auto mt-4" v-if="acceptedFilesRef.length > 0">
-            <div class="relative pt-1 flex items-center justify-between">
-              <div class="overflow-hidden h-2 w-full text-xs flex rounded bg-[#D7DADA]">
-                <div
-                  :style="{ width: dynamicWidth + '%' }"
-                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded"
-                ></div>
-              </div>
-              <div class="ml-2">
-                <span class="text-xs font-semibold inline-block text-black"
-                  >{{ progressPercentage }}%</span
-                >
-              </div>
-            </div>
-          </div>
+        
           <div
             class="w-full flex flex-col items-center justify-start space-y-[4px]"
             v-if="acceptedFilesRef.length === 0"
@@ -299,41 +437,65 @@ const moveForward = () => {
             </div>
           </div>
         </div>
+        <div v-if="  imageSize && state.documentLink && !loadingFetch" class="w-full h-auto  rounded-[10px] 
+        border-[1px] p-[10px]   border-dashed 
+        border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start
+         justify-center flex-col space-y-[10px]  ">
+          <div class="flex items-center justify-between w-full  ">
+            <div class="relative flex">
+               <img  :src="imageUrl" 
+               class="lg:w-[119px]  w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]" @click.stop /> 
+            
+              <div class="flex flex-col items-start justify-start space-y-[48px]">
+                <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{imageSize.name}}</div>
+                <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{imageSize.mb.toFixed(4) +' '+ 'MB'}}</div>
+           
+              </div>
+            </div>
+          
+            <div class="w-full  md:w-auto mb-[40px] ">
+              <button class="text-red-500 hover:bg-[#FFF3F2]
+               hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center" 
+               @click.stop="()=>{
+               state.projectName = ''
+
+                v$.documentLink.$model = ''
+               }">
+                <img src="/assets/imgs/icons/bin.svg" alt="">
+              </button>
+            </div>
+          </div>
+          
+        </div>
+        <div v-else-if="!imageSize && state.documentLink && loadingFetch" class="w-full h-auto rounded-[10px] border-[1px] p-[10px] border-dashed 
+    border-[#C8CFEB] dark:border-[#333333] flex items-start justify-center flex-col space-y-[10px] animate-pulse">
+    
+    <div class="flex items-center justify-between w-full">
+      <div class="relative flex">
+        <!-- Placeholder for the video thumbnail -->
+        <div class="bg-gray-300 dark:bg-gray-600 lg:w-[119px] w-40 h-[81px] rounded-[7px] rtl:ml-[14px] ltr:mr-[14px]"></div>
+        
+        <div class="flex flex-col items-start justify-start space-y-[10px]">
+          <!-- Placeholder for the title -->
+          <div class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"></div>
+          <!-- Placeholder for the domain -->
+          <div class="bg-gray-300 dark:bg-gray-600 max-w-xs w-24 lg:w-60 h-[16px] rounded-md"></div>
+        </div>
+      </div>
+      
+      <!-- Placeholder for the button -->
+      <div class="w-full md:w-auto mb-[40px]">
+        <div class="bg-gray-300 dark:bg-gray-600 w-[32px] h-[32px] rounded-lg"></div>
+      </div>
+    </div>
+  </div>
         <div
           v-if="acceptedFilesRef.length === 0"
           class="text-[13px] font-[600] leading-[19px] text-darkGrey text-center mt-[8px]"
         >
           {{ $t('OR') }}
         </div>
-        <div
-          v-if="v$.documentLink.$model"
-          class="w-full h-auto rounded-[10px] border-[1px] p-[10px] border-dashed border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-start justify-center flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between w-full">
-            <div class="relative flex">
-              <img
-                src="/assets/imgs/translatedocs/pdf.png"
-                class="w-full h-[70px] rounded-[7px] mr-[14px]"
-                @click.stop
-              />
-
-              <div>
-                <div class="max-w-xs w-24 lg:w-60 truncate">File name</div>
-                50 MB<br />
-                20:20
-              </div>
-            </div>
-
-            <div class="w-full md:w-auto">
-              <button
-                class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center"
-                @click.stop="v$.documentLink.$model = ''"
-              >
-                <img src="/assets/imgs/icons/bin.svg" alt="" />
-              </button>
-            </div>
-          </div>
-        </div>
+     
 
         <div class="w-full relative mt-[8px]" v-if="acceptedFilesRef.length === 0">
           <input
@@ -343,8 +505,8 @@ const moveForward = () => {
             class="input_floating_label peer w-full"
             v-model="v$.documentLink.$model"
             :class="{
-              input_error: v$.documentLink.$error && v$.documentLink.required.$invalid,
-              error_text: v$.documentLink.$error && v$.documentLink.required.$invalid,
+              input_error: v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
+              error_text: v$.documentLink.$error && v$.documentLink.requiredIf.$invalid,
               input_success: !v$.documentLink.$error && !v$.documentLink.$invalid,
             }"
           />
@@ -352,7 +514,7 @@ const moveForward = () => {
             for="characterName"
             class="floating_label"
             :class="[
-              v$.documentLink.$error && v$.documentLink.required.$invalid
+              v$.documentLink.$error && v$.documentLink.requiredIf.$invalid
                 ? '!text-error'
                 : '',
             ]"
@@ -361,26 +523,26 @@ const moveForward = () => {
           </label>
           <div
             class="w-full lg:w-4/6"
-            v-if="v$.documentLink.$error && v$.documentLink.required.$invalid"
+            v-if="v$.documentLink.$error && v$.documentLink.requiredIf.$invalid"
           >
             <p class="error_message">
-              <span v-if="v$.documentLink.$error && v$.documentLink.required.$invalid">{{
-                $t("Document Link is Required")
+              <span v-if="v$.documentLink.$error && v$.documentLink.requiredIf.$invalid">{{
+                $t("Image Link is Required")
               }}</span>
             </p>
           </div>
         </div>
       </div>
+
+   
       <div class="w-full flex flex-col items-center justify-center !p-0">
         <div
           class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"
         >
           <div
-            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-full"
+            class="flex flex-col items-start justify-start space-y-[10px] mt-[16px] w-full"
           >
-            <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-              {{ $t('Project name') }}
-            </div>
+   
             <div class="w-full relative">
               <input
                 type="projectName"
@@ -417,96 +579,125 @@ const moveForward = () => {
               </div>
             </div>
           </div>
-      
         </div>
         <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
           <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-            {{ $t('Translate') }}
+            {{ $t("Translate") }}
           </div>
-          <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
-              <label for="toggle_google_a_tr" class="toggle_wrap">
-                  <input type="checkbox" id="toggle_google_a_tr" class="sr-only"
-                      v-model="translateStore.translateCheck" />
-                  <div class="toggle_parent" :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']">
-                      <div class="toggle_inner" :class="{ active: translateStore.translateCheck }">
-                          <img v-if="translateStore.translateCheck" src="/assets/imgs/translatevideo/sign_active.svg"
-                              class="w-[28px] h-[28px]" />
-                          <img v-else src="/assets/imgs/translatevideo/sign_inactive.svg" class="w-[28px] h-[28px]" />
-                      </div>
-                  </div>
-              </label>
+          <div class="rtl:mr-auto ltr:ml-auto flex items-center">
+            <label for="toggle_google_a" class="toggle_wrap">
+              <input
+                type="checkbox"
+                id="toggle_google_a"
+                class="sr-only"
+                v-model="translateStore.translateCheck"
+                :disabled="disableifnowordsAvailable"
+              />
+              <div
+                class="toggle_parent"
+                :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']"
+              >
+                <div
+                  class="toggle_inner"
+                  :class="{ active: translateStore.translateCheck }"
+                >
+                  <img
+                    v-if="translateStore.translateCheck"
+                    src="/assets/imgs/translatevideo/sign_active.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                  <img
+                    v-else
+                    src="/assets/imgs/translatevideo/sign_inactive.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                </div>
+              </div>
+            </label>
           </div>
-      </div>
-
+        </div>
         <div
           class="flex items-center justify-evenly w-full lg:rtl:space-x-reverse space-x-[24px] lg:flex-nowrap flex-wrap"
-          :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']" >
+          :class="[!translateStore.translateCheck ? 'blur-[2px]' : '']"
+        >
+        <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
+        :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
+         <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
+           {{ $t('Original language') }}
+         </div> -->
+         <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" 
+         iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="title" idField="id" />
+       </div>
           <div
-            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-2/4"
+            class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap"
           >
-            <!-- <div class="text-darkGrey font-[600] text-[14px] leading-[24px]">
-              {{ $t('Original language') }}
-            </div> -->
-            <TranslateSelectInput
-              @getCurrentSelectedItem="handleSelectedItemProjectName"
-              :enableSearch="true"
-              iconKey="icon"
-              :placeholderinput="$t('Auto-detect Language')"
-              :list="languagesArr"
-              nameKey="name"
-              idField="id"
-            />
+            {{ $t("Translate to") }}
           </div>
-          <div class="text-darkGrey font-[600] text-[14px] leading-[24px]  whitespace-nowrap">
-            {{$t('Translate to')}}
-          </div>
-          <div
-            class="flex flex-col items-start justify-start space-y-[10px] mt-[8px] w-2/4"
-          >
-          
-            <TranslateSelectInput
-              @getCurrentSelectedItem="handleSelectedItemProjectName"
-              :enableSearch="true"
-              iconKey="icon"
-              :placeholderinput="$t('Auto-detect Language')"
-              :list="languagesArr"
-              nameKey="name"
-              idField="id"
-            />
-          </div>
+          <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
+          :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
+        
+           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" 
+           :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" 
+           :list="languagesArr" nameKey="title" idField="id" />
+         </div>
         </div>
+
         <div class="flex items-center justify-between w-full ipad-max:my-[8px] my-[16px]">
           <div class="text-[14px] leading-[24px] text-darkGrey font-[600]">
-              {{$t('Sign language')}}
+            {{ $t("Sign language") }}
           </div>
-          <div class="rtl:mr-auto ltr:ml-auto flex items-center ">
-              <label for="toggle_google_a" class="toggle_wrap">
-                  <input type="checkbox" id="toggle_google_a" class="sr-only"
-                      v-model="translateStore.signLanguageChecked" />
-                  <div class="toggle_parent" :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']">
-                      <div class="toggle_inner" :class="{ active: translateStore.signLanguageChecked }">
-                          <img v-if="translateStore.signLanguageChecked" src="/assets/imgs/translatevideo/sign_active.svg"
-                              class="w-[28px] h-[28px]" />
-                          <img v-else src="/assets/imgs/translatevideo/sign_inactive.svg" class="w-[28px] h-[28px]" />
-                      </div>
-                  </div>
-              </label>
+          <div class="rtl:mr-auto ltr:ml-auto flex items-center">
+            <label for="toggle_google_a2" class="toggle_wrap">
+              <input
+                type="checkbox"
+                id="toggle_google_a2"
+                class="sr-only"
+                v-model="translateStore.signLanguageChecked"
+                :disabled="disableifnowordsAvailable"
+              />
+              <div
+                class="toggle_parent"
+                :class="[translateStore.signLanguageChecked ? 'active' : 'in_active']"
+              >
+                <div
+                  class="toggle_inner"
+                  :class="{ active: translateStore.signLanguageChecked }"
+                >
+                  <img
+                    v-if="translateStore.signLanguageChecked"
+                    src="/assets/imgs/translatevideo/sign_active.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                  <img
+                    v-else
+                    src="/assets/imgs/translatevideo/sign_inactive.svg"
+                    class="w-[28px] h-[28px]"
+                  />
+                </div>
+              </div>
+            </label>
           </div>
-      </div>
-  
-      
-      <TranslateSelectInput class="ipad-max:mt-0 mt-[10px] !w-full " :disabled="!translateStore.signLanguageChecked"
+        </div>
+
+        <TranslateSelectInput
+          class="ipad-max:mt-0 mt-[10px] !w-full"
+          :disabled="!translateStore.signLanguageChecked"
           :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
-          @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
-          :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
-        <TranslateVideoModalsTranslateSign />
+          @getCurrentSelectedItem="selectSignOgLang"
+          :enableSearch="true"
+          iconKey="icon"
+          :placeholderinput="$t('Original language')"
+          :list="languagesArr"
+          nameKey="title"
+          idField="id"
+        />
         <TranslateVideoModalsTranslateSign />
         <button
           class="btn-dashboard hover_tamkin w-[217px] py-[16px] mt-4"
           :disabled="validatationForUpload"
           @click="moveForward"
         >
-          {{ $t('Translate') }}
+          {{ $t("Translate") }}
         </button>
       </div>
     </div>

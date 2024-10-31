@@ -94,7 +94,7 @@ const getPlayerPosition = (p: any) => {
        
        
         <div class="h-[315px]" :class="[bigpicMode ? 'w-full' : 'w-2/4']">
-          <div class="flex items-start w-full justify-between">
+          <div class="flex items-start  justify-between">
             <div class="text-[#3D3D3D] text-[15px] font-[500]">
               {{$t('Sign language')}}
             </div>
@@ -168,10 +168,10 @@ const getPlayerPosition = (p: any) => {
               <!-- :subtitleTextTransform="translateStore.styles." -->
               <VTamkinPlayer 
               @TamkinFullScreen="bigpicMode = !bigpicMode"
-              :mediaUrl="videoUrl"
+              :mediaUrl="translateStore.videoProject.file_link"
               :isVideo="true"
               :captionOptions="[
-                { src: '/subtitles.vtt', lang: 'en', label: 'English', default: true },
+                { src: `${translateStore.videoProject.subtitles_link}`, default: true },
               ]"
               :subtitle-under-line="translateStore.styles.underline"
               :subtitleTextTransform="translateStore.styles.fontCap"
@@ -187,7 +187,8 @@ const getPlayerPosition = (p: any) => {
               :subtitleBackground="translateStore.styles.bg"
           :player-position="translateStore.player.playerPosition"
           @close-player="translateStore.player.playerPosition = 'inVideo'"
-        :background-player-contrast="'white'"
+        :backgroundPlayerContrastOpacity="translateStore.player.background"
+        :backgroundPlayerContrast="translateStore.player.contrast "
         :isPlayerVisible="translateStore.player.visibility"
         :player-positioning="translateStore.player.position"
         :current-locale="locale"
@@ -212,7 +213,6 @@ const getPlayerPosition = (p: any) => {
     opacity: 0;
   }
 .video-js{
-  @apply w-[100%];
 }
   </style>
   

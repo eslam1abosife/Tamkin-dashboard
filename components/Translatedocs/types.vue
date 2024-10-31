@@ -12,11 +12,12 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+const translateStore = useTranslateStore()
 </script>
 
 <template>
 
-        <div class=" rounded-[13px] h-auto flex  justify-start rtl:space-x-reverse space-x-[26px] w-full
+        <div v-if="translateStore.statsPackage" class=" rounded-[13px] h-auto flex  justify-start rtl:space-x-reverse space-x-[26px] w-full
          mt-[16px] ">
 
 
@@ -54,5 +55,30 @@ const {
                     </div>
                      </div>
         </div>
+
+        <div v-else class="rounded-[13px] h-auto flex justify-start rtl:space-x-reverse space-x-[26px] w-full mt-[16px]">
+
+          <!-- PDF Skeleton Loader -->
+          <div class="bg-white rounded-[10px] flex items-center justify-start p-[24px] h-[150px] w-full animate-pulse rtl:space-x-reverse space-x-[16px]">
+            <div class="bg-[#F7F7F7] w-[70px] h-[70px] flex items-center justify-center rounded-[31px]"></div>
+            <div class="flex flex-col items-start justify-center space-y-[4px]">
+              <div class="h-[22px] w-[150px] bg-[#E0E0E0] rounded"></div>
+              <div class="h-[21px] w-[200px] bg-[#E0E0E0] rounded"></div>
+              <div class="mt-[16px] h-[40px] w-5/6 bg-[#E0E0E0] rounded"></div>
+            </div>
+          </div>
+        
+          <!-- DOCX Skeleton Loader -->
+          <div class="bg-white rounded-[10px] flex items-center justify-start p-[24px] h-[150px] w-full animate-pulse rtl:space-x-reverse space-x-[16px]">
+            <div class="bg-[#F7F7F7] w-[70px] h-[70px] flex items-center justify-center rounded-[31px]"></div>
+            <div class="flex flex-col items-start justify-center space-y-[4px]">
+              <div class="h-[22px] w-[150px] bg-[#E0E0E0] rounded"></div>
+              <div class="h-[21px] w-[200px] bg-[#E0E0E0] rounded"></div>
+              <div class="mt-[16px] h-[40px] w-5/6 bg-[#E0E0E0] rounded"></div>
+            </div>
+          </div>
+        
+        </div>
+        
   </template>
   

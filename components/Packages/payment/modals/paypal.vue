@@ -31,11 +31,23 @@ const clearInput = () => {
 const changepaymentMethod = (method: any) => {
   chooseOtherPaymentMethod.value = method;
 };
+const route = useRoute()
+const localePath = useLocalePath()
+const isLinkActive = (path) => {
+    if (process.client) {
+      const localizedPath = localePath(path); 
+      return route.path === localizedPath;
+    }
+    return false;
+  };
 const redirectTo = computed(() => {
   if (packagesStore.currentType.title === "Sign language") {
     return "/packages";
   } else if (packagesStore.currentType.title === "Accessibility") {
     return "/packages/accessibility";
+  }
+  else if (isLinkActive('/translate')) {
+    return "/translate";
   }
 });
 const continueCheckOut = async () => {

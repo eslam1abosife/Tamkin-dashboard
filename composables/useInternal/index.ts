@@ -9,6 +9,9 @@ import useDeleteProject from "./useDeleteProject";
 import useGetLiveInfo from "./useGetLiveInfo";
 import useGetStats from "./useGetStats";
 import useGetPackages from "./useGetPackages";
+import useTranslateDoc from "./useTranslateDoc";
+import useTranslateImages from "./useTranslateImages";
+import useGetProject from "./useGetProject";
 
 export {
 
@@ -21,6 +24,9 @@ export {
     useDeleteProject,
     useGetLiveInfo,
     useGetStats,
-    useGetPackages
+    useGetPackages,
+    useTranslateDoc,
+    useTranslateImages,
+    useGetProject
 }
 

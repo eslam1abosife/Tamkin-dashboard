@@ -66,7 +66,7 @@ const currentTab = ref('')
 const internalPackages = ref([])
   const initialPlayer = reactive({
     contrast: false,
-    background: null,
+    background: 0.5,
     position: 'right',
     visibility: true,
     playerPosition: 'inVideo'
@@ -74,7 +74,7 @@ const internalPackages = ref([])
 
   const player = reactive({
     contrast: false,
-    background: null,
+    background:0.5,
     position: 'right',
     visibility: true,
     playerPosition: 'inVideo'
@@ -107,7 +107,7 @@ const internalPackages = ref([])
   const resetPlayer = () => {
     Object.assign(player, {
       contrast: false,
-      background: null,
+      background: 0.5,
       position: 'right',
       visibility: true,
       playerPosition: 'inVideo'
@@ -133,8 +133,17 @@ const allLoaded = ref(null)
 const videoCount = ref()
 const audioCount = ref()
 const liveCount = ref()
+const pdfCount = ref()
+const docxCount = ref()
 const statsPackage = ref()
 const currentApp = ref()
+const usedCredit = ref({})
+const usedCreditDocs = ref({})
+const loadingPackage = ref(false)
+const photoscount = ref()
+const photoProject = ref()
+const loadingProject = ref(true)
+const videoProject = ref()
   return {
     signLanguageChecked,
     changesOnSubTitles,
@@ -164,7 +173,16 @@ audioCount,
 liveCount,
 internalPackages,
 statsPackage,
-currentApp
+currentApp,
+usedCredit,
+loadingPackage,
+usedCreditDocs,
+pdfCount,
+ docxCount,
+ photoscount,
+ photoProject,
+ loadingProject,
+ videoProject
 
   };
 });

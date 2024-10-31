@@ -1,27 +1,15 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg';
-import { useArrayDifference } from '@vueuse/core'
+
 const translateStore = useTranslateStore();
 
 const languagesArr = [
-  {
-    id: 1,
-    name: 'English (USA)',
-    icon: USa
-  },
-  {
-    id: 2,
-    name: 'English (USA)',
-    icon: USa
-  },
-  {
-    id: 3,
-    name: 'English (USA)',
-    icon: USa
-  },
+  { id: 1, name: 'English (USA)', icon: USa },
+  { id: 2, name: 'English (USA)', icon: USa },
+  { id: 3, name: 'English (USA)', icon: USa },
 ];
 
 const handleSelectedItemProjectName = (item: any) => {
@@ -33,88 +21,67 @@ const doneVideo = ref(false);
 const subMode = ref('main');
 
 const texts = ref([
-  { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
-  { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
-  { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
-  { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
-  { text: 'It is a long established fact that a reader will be', isEditing: false, editButtonShow: false },
+
 ]);
 
 const initialTexts = ref(JSON.parse(JSON.stringify(texts.value)));
-const currentTextToEdit = ref('')
+const currentTextToEdit = ref<number | null>(null);
 
-const startEditing = (index: number) => {
-  showPros.value = false
-  donePros.value = false
-
-  texts.value[index].isEditing = true;
-  texts.value[index].editButtonShow = false;
-  currentTextToEdit.value = index
-  // alert(currentTextToEdit.value)
+const startEditing = (id: number,text:any) => {
+texts.value.push({ id, text: '', isEditing: true });
 };
-const showPros = ref(false)
-const donePros = ref(false)
-const stopEditing = (index: number) => {
-  texts.value[index].isEditing = false;
-  texts.value[index].editButtonShow = false;
-  showPros.value = true
-setTimeout(()=>{
-  donePros.value = true
-},1500)
+
+const stopEditing = (id: number) => {
+  texts.value.find(item => item.id === id).isEditing = false;
+
 };
 
 const changeMode = (mode: any) => {
   translateStore.subMode = mode;
 };
-const deepEqualTexts = (arr1: any[], arr2: any[]): boolean => {
-  if (arr1.length !== arr2.length) return false;
 
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i].text !== arr2[i].text) return false;
-  }
-  return true;
+const deepEqualTexts = (arr1: any[], arr2: any[]): boolean => {
+  return arr1.length === arr2.length && arr1.every((item, i) => item.text === arr2[i].text);
 };
-const hasTextsChanged = () => !deepEqualTexts(initialTexts, texts.value);
+
+const hasTextsChanged = () => !deepEqualTexts(initialTexts.value, texts.value);
 
 watch(
   texts,
-  (newTexts, oldTexts) => {
-    if (hasTextsChanged()) {
-      console.log('The texts array has changed');
-      translateStore.changesOnSubTitles = true
-
-    } else {
-      console.log('The texts array has not changed');
-      translateStore.changesOnSubTitles = false
-
-    }
+  () => {
+    translateStore.changesOnSubTitles = hasTextsChanged();
   },
   { deep: true }
 );
-const handleInput = (index) => {
-  currentTextToEdit.value = index
 
-  donePros.value = false
-  console.log(`Text at index ${index} is being edited: ${texts.value[index].text}`);
-  showPros.value = true
-setTimeout(()=>{
-  donePros.value = true
-currentTextToEdit.value = ''
- 
-},5000)
-
+const handleInput = (id: number) => {
+  const textItem = texts.value.find(item => item.id === id);
+  if (textItem) {
+    currentTextToEdit.value = id;
+    donePros.value = false;
+    showPros.value = true;
+    setTimeout(() => {
+      donePros.value = true;
+      currentTextToEdit.value = null;
+    }, 5000);
+  }
 };
-
 
 const cancelEditing = () => {
-  console.log('gg man',initialTexts.value[currentTextToEdit.value])
-  texts.value[currentTextToEdit.value].text = initialTexts.value[currentTextToEdit.value].text;
-  texts.value[currentTextToEdit.value].isEditing = false;
-  texts.value[currentTextToEdit.value].editButtonShow = false;
-  showPros.value = false
-  donePros.value = false
+  if (currentTextToEdit.value !== null) {
+    const textItem = texts.value.find(item => item.id === currentTextToEdit.value);
+    const initialTextItem = initialTexts.value.find(item => item.id === currentTextToEdit.value);
+    if (textItem && initialTextItem) {
+      textItem.text = initialTextItem.text;
+      textItem.isEditing = false;
+    }
+  }
+  showPros.value = false;
+  donePros.value = false;
+  currentTextToEdit.value = null;
 };
 </script>
+
 
 <template>
   <div class="w-2/4 flex flex-col items-start justify-start h-[315px]">
@@ -157,29 +124,29 @@ const cancelEditing = () => {
     <div class="w-full scrollable-div" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
       <div class="mt-[16px] w-full ">
         <div class="space-y-2 flex flex-col items-start justify-center ">
-          <div v-for="(textItem, index) in texts" :key="index" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
+          <div v-for="(textItem, index) in translateStore.videoProject.value" :key="textItem.idx" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
             <button
-              @click="startEditing(index)"
-              v-if="textItem.editButtonShow && !textItem.isEditing"
+              @click="startEditing(textItem.idx,textItem.text)"
+              v-if="texts.find(it=>it.id === textItem.idx ) && texts.find(it=>it.id === textItem.idx ).isEditing === false"
               class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"
             >
               {{ $t('Edit') }}
             </button>
             <div class="w-2/4">
-              <div v-if="!textItem.isEditing">
+              <div >
                 <p
-                  v-on-click-outside="() => { textItem.editButtonShow = false }"
+                  v-on-click-outside="() => { stopEditing(textItem.idx)}"
                   class="text-darkGrey font-[500] text-[12px] leading-[32px]"
-                  @click="textItem.editButtonShow = !textItem.editButtonShow"
+                  @click.stop="stopEditing(textItem.idx,textItem.text)"
                 >
                   {{ textItem.text }}
                 </p>
               </div>
-              <div v-else-if="textItem.isEditing">
+              <div v-if="texts.find(it=>it.id === textItem.idx) && texts.find(it=>it.id === textItem.idx).isEditing">
                 <textarea
                   v-model="textItem.text"
-                  @input="handleInput(index)"
-                  v-on-click-outside="() => stopEditing(index)"
+                  @input="handleInput(textItem.idx)"
+                  v-on-click-outside="() => currentTextToEdit = 0"
                   class="text-darkGrey font-[500] text-[12px] leading-[32px] w-full focus:ring-0 focus:outline-none border-0"
                 ></textarea>
               </div>
@@ -190,14 +157,14 @@ const cancelEditing = () => {
                   <img src="/assets/imgs/translatevideo/in_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('In') }}</span>
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{textItem.start_time}}</span>
                   </div>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/out_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('Out') }}</span>
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">00:00</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{textItem.end_time}}</span>
                   </div>
                 </div>
               </div>

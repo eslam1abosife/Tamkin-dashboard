@@ -4,6 +4,7 @@ import { useModalManager } from '@/composables/useModalManager';
 const props = defineProps({
   plan:String
 })
+const translateStore = useTranslateStore()
 const {
   isOpen,
   currentView,
@@ -17,7 +18,7 @@ const {
 
 <template>
 
-        <div class="bg-white dark:bg-tamkinDarkPrimary rounded-[13px] h-auto flex p-[16px] justify-evenly w-full
+        <div v-if="!translateStore.loadingPackage" class="bg-white dark:bg-tamkinDarkPrimary rounded-[13px] h-auto flex p-[16px] justify-evenly w-full
          mt-[16px] flex-wrap">
           <div class="flex items-center justify-center lg:justify-evenly w-full lg:flex-nowrap
            ipad-max:flex-wrap  flex-wrap ipad-max:rtl:space-x-reverse lg:rtl:space-x-reverse space-x-[16px] 
@@ -77,5 +78,52 @@ const {
             </div>
           </div>
         </div>
+        <div v-else class="bg-white dark:bg-tamkinDarkPrimary rounded-[13px] h-auto flex p-[16px] justify-evenly w-full mt-[16px] flex-wrap">
+          <div class="flex items-center justify-center lg:justify-evenly w-full lg:flex-nowrap ipad-max:flex-wrap flex-wrap ipad-max:rtl:space-x-reverse lg:rtl:space-x-reverse space-x-[16px] space-y-[14px] lg:space-y-0">
+            
+            <!-- Translate Live Video Skeleton -->
+            <div class="rounded-[10px] border-[1px] bg-[#F6F8FD] dark:bg-[#303E56] h-auto dark:border-[#3333] border-[#E6E8EC] flex-grow px-4 py-2 flex items-center animate-pulse">
+              <div class="flex flex-col lg:flex-row items-center lg:justify-between w-full">
+                <div class="flex flex-col items-start justify-center">
+                  <div class="flex items-center justify-center bg-white dark:bg-darkSecondary rounded-[10px] w-[40px] h-[40px]"></div>
+                  <h2 class="w-[80px] h-[16px] bg-gray-300 dark:bg-gray-600 rounded mt-2"></h2>
+                  <p class="w-[150px] h-[12px] bg-gray-300 dark:bg-gray-600 rounded mt-1"></p>
+                  <div class="w-[80px] h-[30px] bg-gray-300 dark:bg-gray-600 rounded mt-4"></div>
+                </div>
+                <div class="w-[100px] h-[100px] bg-gray-300 dark:bg-gray-600 rounded-lg mt-4 lg:mt-0"></div>
+              </div>
+            </div>
+        
+            <!-- Translate Audio Skeleton -->
+            <div class="rounded-[10px] border-[1px] bg-[#F6F8FD] dark:bg-darkSecondary h-auto dark:border-[#3333] border-[#E6E8EC] flex-grow px-4 py-2 flex items-center animate-pulse ipad-max:!mt-[14px]">
+              <div class="flex flex-col lg:flex-row items-center lg:justify-between w-full">
+                <div class="flex flex-col items-start justify-center">
+                  <div class="flex items-center justify-center bg-white dark:bg-darkSecondary rounded-[10px] w-[40px] h-[40px]"></div>
+                  <h2 class="w-[80px] h-[16px] bg-gray-300 dark:bg-gray-600 rounded mt-2"></h2>
+                  <p class="w-[150px] h-[12px] bg-gray-300 dark:bg-gray-600 rounded mt-1"></p>
+                  <div class="w-[80px] h-[30px] bg-gray-300 dark:bg-gray-600 rounded mt-4"></div>
+                </div>
+                <div class="w-[100px] h-[100px] bg-gray-300 dark:bg-gray-600 rounded-lg mt-4 lg:mt-0"></div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Translate Live Video with Banner Skeleton -->
+          <div class="rounded-[10px] border-[1px] bg-[#F6F8FD] dark:bg-darkSecondary h-auto dark:border-[#3333] border-[#E6E8EC] flex-grow mt-[14px] px-4 py-2 flex items-center animate-pulse">
+            <div class="flex flex-col lg:flex-row items-center lg:justify-between w-full">
+              <div class="flex flex-col items-start justify-start">
+                <div class="flex items-center justify-center bg-white dark:bg-darkSecondary rounded-[10px] w-[40px] h-[40px]"></div>
+                <h2 class="w-[80px] h-[16px] bg-gray-300 dark:bg-gray-600 rounded mt-2"></h2>
+                <p class="w-[150px] h-[12px] bg-gray-300 dark:bg-gray-600 rounded mt-1"></p>
+                <div class="w-[80px] h-[30px] bg-gray-300 dark:bg-gray-600 rounded mt-4"></div>
+              </div>
+              <div class="flex items-center ipad-max:rtl:space-x-reverse space-x-[0] lg:rtl:space-x-reverse space-x-[35px] mt-4 lg:mt-0">
+                <div class="w-full h-[50px] ipad-max:w-11/12 lg:w-full lg:h-[100px] bg-gray-300 dark:bg-gray-600 rounded-lg"></div>
+                <div class="w-[36px] h-[120px] bg-gray-300 dark:bg-gray-600 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
   </template>
   

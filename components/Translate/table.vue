@@ -5,6 +5,8 @@ const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProj
 const props = defineProps({
   type: String
 })
+const route = useRoute()
+const localePath = useLocalePath()
 const isSearchfilled = ref(false);
 const search = ref("");
 watch(search, (ov, nv) => {
@@ -26,11 +28,25 @@ const refreshData = async ()=>{
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user) {
+    translateStore.loadingProjects = true
+
  await getProjects(currentTab.value,user.agency)
-    
+ translateStore.loadingProjects = false
+
   }
 }
-const currentTab = ref("Translate video");
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  const pattern = localePath(path);
+
+  if (pattern.endsWith("/*")) {
+    const basePattern = pattern.replace("/*", "");
+    return currentPath.startsWith(basePattern) && currentPath !== basePattern;
+  }
+
+  return currentPath === pattern;
+};
+const currentTab = ref(isLinkActive('/document') ? 'PDF Document Service' :'Translate video');
 const getProjectsByTab = computed(() => {
   return translateStore.projectsAr
     .filter((t) => t.type === currentTab.value) 
@@ -44,8 +60,11 @@ const getProjectsByTab = computed(() => {
 
 
 const changeTab = (tab: any) => {
+  translateStore.loadingProjects = true
   currentTab.value = tab;
   search.value = "";
+  translateStore.loadingProjects = false
+
 };
 const translateStore = useTranslateStore()
 const user = JSON.parse(localStorage.getItem("user"));
@@ -54,42 +73,85 @@ onMounted(async ()=>{
 
 })
 
-const route = useRoute()
-const localePath = useLocalePath()
+
 /**
  * Checks if a given path is currently active.
  * This function supports wildcard matching.
  * @param {string} path The path to check
  * @returns {boolean} True if the path is currently active, false otherwise
  */
- const isLinkActive = (path) => {
-  const currentPath = localePath(route.path);
-  const pattern = localePath(path);
 
-  if (pattern.endsWith("/*")) {
-    const basePattern = pattern.replace("/*", "");
-    return currentPath.startsWith(basePattern) && currentPath !== basePattern;
-  }
-
-  return currentPath === pattern;
-};
 watch(()=>currentTab.value ,async ()=> {
   // alert('gg')
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user) {
+    translateStore.loadingProjects = true
+
  await getProjects(currentTab.value,user.agency,true)
+ translateStore.loadingProjects = false
+
   }
 })
 onBeforeUnmount(()=>{
   projects.value = []
   translateStore.projectsAr = []
+  
 })
+onBeforeMount(()=>{
+  if(isLinkActive('/document')){
+currentTab.value = 'PDF Document Services'
+  }
+
+  if(isLinkActive('/photos')){
+currentTab.value = 'Photo Services'
+  }
+  if(isLinkActive('/photos/*')){
+currentTab.value = 'Photo Services'
+  }
+})
+provide('currentTab',currentTab)
 </script>
 
 <template>
   <div v-if="!translateStore.loadingProjects" class="bg-white dark:bg-tamkinDarkPrimary h-auto p-[15px] mt-[16px] rounded-[10px] w-full mb-[16px]">
-    <div v-if="!isLinkActive('/translate/video')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    <div v-if="isLinkActive('/translate/*') " 
+    class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+      <div
+        :class="[
+          currentTab === 'Translate video'
+            ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
+            : 'text-[#A7A7A7]',
+        ]"
+        class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
+        @click="changeTab('Translate video')"
+      >
+        {{ $t('Translate Video')}} ({{  translateStore.videoCount}})
+      </div>
+     
+      <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
+        <input
+          type="text"
+          class="input_dashboard_search w-full !h-[40px]"
+          v-model="search"
+          :placeholder="`${$t('Search')} ...`" 
+        />
+        <div
+          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+        >
+          <img src="/assets/imgs/icons/search.svg" />
+        </div>
+        <div
+          v-if="isSearchfilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+        >
+          <img src="/assets/imgs/icons/clear_search.svg" />
+        </div>
+      </div>
+    </div>
+    <div v-if="!isLinkActive('/translate/video/*') && !isLinkActive('/document/') && !isLinkActive('/photos/')&& !isLinkActive('/photos/*')" 
+    class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
           currentTab === 'Translate video'
@@ -144,32 +206,118 @@ onBeforeUnmount(()=>{
         </div>
       </div>
     </div>
-
-    <div v-if="isLinkActive('/translate/*')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    <div v-if="isLinkActive('/document')" class="flex items-center justify-between w-full
+     flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    
+    <div class="flex items-center justify-between w-[25%]">
       <div
-      v-if="isLinkActive('/translate/video')"
+      :class="[
+        currentTab === 'PDF Document Services'
+          ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
+          : 'text-[#A7A7A7]',
+      ]"
+      class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+      @click="changeTab('PDF Document Services')"
+    >
+      {{ $t('PDF Files') }}  ({{  translateStore.pdfCount}})
+    </div>
+    <div
+      :class="[
+        currentTab === 'Docx Document Service'
+          ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
+          : 'text-[#A7A7A7]',
+      ]"
+      class="text-[#A7A7A7] font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+      @click="changeTab('Docx Document Service')"
+    >
+      {{ $t('Docx Files') }} ({{  translateStore.docxCount}})
+    </div>
+    </div>
+      <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
+        <input
+          type="text"
+          class="input_dashboard_search w-full !h-[40px]"
+          v-model="search"
+          :placeholder="`${$t('Search')} ...`" 
+        />
+        <div
+          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+        >
+          <img src="/assets/imgs/icons/search.svg" />
+        </div>
+        <div
+          v-if="isSearchfilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+        >
+          <img src="/assets/imgs/icons/clear_search.svg" />
+        </div>
+      </div>
+    </div>
+    <div v-if="isLinkActive('/photos') || isLinkActive('/photos/*')" class="flex items-center justify-between w-full
+     flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+    
+    <div class="flex items-center justify-between w-[25%]">
+      <div
+      :class="[
+        currentTab === 'Photo Services'
+          ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
+          : 'text-[#A7A7A7]',
+      ]"
+      class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
+      @click="changeTab('Photo Services')"
+    >
+      {{ $t('Photos') }}  ({{  translateStore.photoscount}})
+    </div>
+  
+    </div>
+      <div class="py-[17px] search_input ipad-max:w-1/4 lg:w-2/4 w-full">
+        <input
+          type="text"
+          class="input_dashboard_search w-full !h-[40px]"
+          v-model="search"
+          :placeholder="`${$t('Search')} ...`" 
+        />
+        <div
+          class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+        >
+          <img src="/assets/imgs/icons/search.svg" />
+        </div>
+        <div
+          v-if="isSearchfilled"
+          @click="clearInput"
+          class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+        >
+          <img src="/assets/imgs/icons/clear_search.svg" />
+        </div>
+      </div>
+    </div>
+
+    <div v-if="isLinkActive('/document/*')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
+      <div
+      v-if="isLinkActive('/document/word')"
         :class="[
-          currentTab === 'Translate video'
+          currentTab === 'Docx Document Service'
             ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
-        @click="changeTab('Translate video')"
+        @click="changeTab('Docx Document Service')"
       >
-        {{ $t('All Videos')}} ({{  translateStore.videoCount}})
+        {{ $t('All Docx files')}} ({{  translateStore.docxCount}})
       </div>
       <div
-      v-if="isLinkActive('/translate/audio')"
+      v-if="isLinkActive('/document/pdf')"
       
         :class="[
-          currentTab === 'Translate Audio'
+          currentTab === 'PDF Document Services'
             ? 'text-darkGrey dark:text-whiteTamkin  cursor-pointer border-translate-tab '
             : 'text-[#A7A7A7]',
         ]"
         class="font-[600] ipad-max:text-[13px] lg:text-[14px] lg:leading-[22.5px] ipad-max:leading-[10px] cursor-pointer pb-[10px]"
-        @click="changeTab('Translate Audio')"
+        @click="changeTab('PDF Document Services')"
       >
-        {{ $t('Translate Audio') }}  ({{  translateStore.audioCount}})
+        {{ $t('All PDF files') }}  ({{  translateStore.pdfCount}})
       </div>
       <!-- <div
         :class="[
@@ -204,14 +352,14 @@ onBeforeUnmount(()=>{
       </div>
     </div>
 
-
+  
   <LazyTranslateVideoVideos   :videos="getProjectsByTab" />
   <!-- <TranslateAudioAudios v-if="currentTab === 'translateaudio'" /> -->
   <TranslateVideoNovids v-if="getProjectsByTab.length === 0 && !search" 
-  :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) : $t(`You don't have any Audio Files `)"  />
+  :text="currentTab === 'Translate video' || currentTab === 'Translate Live Video' ? $t(`You don't have any Video Files`) :currentTab === 'Translate Audio' ? $t(`You don't have any Audio Files `) : $t(`There are no Files to display`)"  />
   <TranslateNoresult v-if="getProjectsByTab.length === 0 && search"/> 
 
-  <div class="mx-auto mt-[36px]" v-if="!allLoaded " >
+  <div class="mx-auto mt-[36px]" v-if="!allLoaded && translateStore.projectsAr.length" >
     <button @click="loadMoreProjects(currentTab, user.agency)" :disabled="loadMoreProjectsLoading"
     class="btn-dashboard w-[150px] hover_tamkin mx-auto"
   >

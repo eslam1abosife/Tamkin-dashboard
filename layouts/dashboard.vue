@@ -417,6 +417,7 @@ const openModals = computed(() => {
     isOpen("crypto_subs_step1") ||
     isOpen("crypto_subs_step2") ||
     isOpen("deleteProject") ||
+    isOpen("buy_extra__service") ||
     // marketStore.firstItemNotificationShown ||
     // marketStore.resetModal ||
     // marketStore.requestModal ||
