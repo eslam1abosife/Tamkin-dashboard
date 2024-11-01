@@ -187,7 +187,7 @@ const isLinkActive = (path) => {
   </div>
   <div
     v-else
-    class="flex items-center gap-2 mt-[-20px] lg:mt-[15px] flex lg:space-y-0 space-y-[16px]"
+    class="flex items-center gap-2 pb-[65px] mt-[-20px] flex lg:space-y-0 space-y-[16px]"
     :class="
       loadApp &&
       (isLinkActive('/sign-language/overview') ||
@@ -195,8 +195,8 @@ const isLinkActive = (path) => {
         isLinkActive('/sign-language/customize') ||
         isLinkActive('/sign-language/addons') ||
         isLinkActive('/sign-language/settings'))
-        ? 'pb-[80px]'
-        : 'pb-[65px]'
+        ? 'lg:mt-[35px]'
+        : 'lg:mt-[15px]'
     "
   >
     <div class="h-[55px] w-[55px] bg-gray-200 rounded-full"></div>
