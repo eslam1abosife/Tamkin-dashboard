@@ -19,9 +19,15 @@ const { isChecked, toggleCheckbox } = customizeStore;
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            customizeStore.getAccAttributes(
-              "deaf-customize-sign-language-player-contrast"
-            )?.title
+            $t(
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-player-contrast"
+              )?.title
+                ? customizeStore.getAccAttributes(
+                    "deaf-customize-sign-language-player-contrast"
+                  )?.title
+                : ""
+            )
           }}
         </h1>
 
@@ -30,16 +36,28 @@ const { isChecked, toggleCheckbox } = customizeStore;
         >
           <span v-if="!collapseStore.collapses.includes('sign_constrast_card')">
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-contrast"
-              )?.description_on_show
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-sign-language-player-contrast"
+                )?.description_on_show
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-sign-language-player-contrast"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-contrast"
-              )?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-sign-language-player-contrast"
+                )?.description_on_hide
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-sign-language-player-contrast"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </p>
@@ -180,7 +198,10 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
     <div
       class="px-[15px] mt-[32px]"
-      v-if="!collapseStore.collapses.includes('sign_constrast_card')"
+      v-if="
+        !collapseStore.collapses.includes('sign_constrast_card') &&
+        customizeStore.contrastData.active == 1
+      "
     >
       <div
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
@@ -189,21 +210,38 @@ const { isChecked, toggleCheckbox } = customizeStore;
           class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
         >
           <img
-            src="/assets/imgs/signlanguageservices/contrast_toggle.png"
+            :src="`${
+              customizeStore.contrastData.icon
+                ? 'https://www.tamkin.app' + customizeStore.contrastData.icon
+                : '/assets/imgs/signlanguageservices/contrast_toggle.png'
+            }`"
             class="h-[28px] w-[28px]"
           />
           <div class="flex flex-col items-start justify-center w-full">
             <div
               class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
             >
-              <span>Contrast</span>
+              <span>
+                {{
+                  $t(
+                    customizeStore.contrastData.label
+                      ? customizeStore.contrastData.label
+                      : ""
+                  )
+                }}
+              </span>
             </div>
             <div
               class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
-                Reposition or hide sign language features to simplify the
-                interface
+                {{
+                  $t(
+                    customizeStore.contrastData.description
+                      ? customizeStore.contrastData.description
+                      : ""
+                  )
+                }}
               </span>
             </div>
           </div>

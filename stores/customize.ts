@@ -13,6 +13,19 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    islangListEnabled: false,
+    islangHighlightEnabled: {},
+    islangEnabled: false,
+    keyboardData: {},
+    isKeyboardActive: false,
+    contrastData: {},
+    isContrastActive: false,
+    isBackgroundActive: false,
+    isDeafModeCardActive: false,
+    isbtntype_active: false,
+    playerMoveHideFeature: {},
+    playerBtnSize: {},
+    playerBtnShape: {},
     transferLicenceItems: [],
     settingsItems: [],
     accessibilityLanguage: {},
@@ -96,6 +109,7 @@ export const useCustomizeStore = defineStore("customize", {
     initselectedLang: {},
     background: "",
     initbackground: "",
+    backgroundItems: [],
     pendingNavigation: {},
   }),
   actions: {
@@ -275,8 +289,7 @@ export const useCustomizeStore = defineStore("customize", {
         this.currentShapeLiveTranslation !==
           this.initcurrentShapeLiveTranslation ||
         this.initaccessibilityMode !== this.accessibilityMode ||
-        this.selectedLang.language_code !==
-          this.initselectedLang.language_code ||
+        this.selectedLang.code !== this.initselectedLang.code ||
         this.currentAboveShapeLiveTranslation !==
           this.initcurrentAboveShapeLiveTranslation ||
         this.background !== this.initbackground

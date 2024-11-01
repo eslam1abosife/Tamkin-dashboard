@@ -370,23 +370,38 @@ const getValue = (name: any) => {
             v-if="customizeStore.isBtnColorActive"
           />
 
-          <LanguageServicesCustomizeButtontype />
+          <LanguageServicesCustomizeButtontype
+            v-if="customizeStore.isbtntype_active"
+          />
 
-          <LanguageServicesCustomizeSignlangmode />
+          <LanguageServicesCustomizeSignlangmode
+            v-if="customizeStore.isDeafModeCardActive"
+          />
 
-          <LanguageServicesCustomizeButtonLocation />
+          <LanguageServicesCustomizeButtonLocation
+            v-if="customizeStore.isBtnLocationActive"
+          />
 
-          <LanguageServicesCustomizeSignlanguagebackground />
+          <LanguageServicesCustomizeSignlanguagebackground
+            v-if="customizeStore.isBackgroundActive"
+          />
 
-          <LanguageServicesCustomizeSignlanguagecontrast />
+          <LanguageServicesCustomizeSignlanguagecontrast
+            v-if="customizeStore.isContrastActive"
+          />
 
-          <LanguageServicesCustomizeSignlanguagekeyboard />
+          <LanguageServicesCustomizeSignlanguagekeyboard
+            v-if="customizeStore.isKeyboardActive"
+          />
           <!-- <CustomizeLiveButtonTranslation/> -->
 
           <!-- <CustomizeAdjustMainMenu /> -->
           <!-- <CustomizeAccessibilityProfiles /> -->
           <!-- <CustomizeWidgetType /> -->
-          <LanguageServicesCustomizeLanguage class="!mt-[30px]" />
+          <LanguageServicesCustomizeLanguage
+            class="!mt-[30px]"
+            v-if="customizeStore.islangEnabled"
+          />
 
           <!-- <LanguageServicesAddons /> -->
 

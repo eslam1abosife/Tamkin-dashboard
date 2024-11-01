@@ -21,8 +21,13 @@ const customizeStore = useCustomizeStore();
       <div class="mt-[24px]">
         <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
           {{
-            customizeStore.getAccAttributes("deaf-customize-button-color")
-              ?.title
+            $t(
+              customizeStore.getAccAttributes("deaf-customize-button-color")
+                ?.title
+                ? customizeStore.getAccAttributes("deaf-customize-button-color")
+                    ?.title
+                : ""
+            )
           }}
         </h1>
         <p
@@ -30,14 +35,26 @@ const customizeStore = useCustomizeStore();
         >
           <span v-if="!collapseStore.collapses.includes('button_color_card')">
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-color")
-                ?.description_on_show
+              $t(
+                customizeStore.getAccAttributes("deaf-customize-button-color")
+                  ?.description_on_show
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-color"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-color")
-                ?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes("deaf-customize-button-color")
+                  ?.description_on_hide
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-color"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </p>

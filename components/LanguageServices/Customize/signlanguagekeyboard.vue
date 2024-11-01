@@ -31,9 +31,15 @@ const handleSelectedItemProjectName = (item: any) => {
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            customizeStore.getAccAttributes(
-              "deaf-customize-sign-language-player-keyboard"
-            )?.title
+            $t(
+              customizeStore.getAccAttributes(
+                "deaf-customize-sign-language-player-keyboard"
+              )?.title
+                ? customizeStore.getAccAttributes(
+                    "deaf-customize-sign-language-player-keyboard"
+                  )?.title
+                : ""
+            )
           }}
         </h1>
 
@@ -42,16 +48,28 @@ const handleSelectedItemProjectName = (item: any) => {
         >
           <span v-if="!collapseStore.collapses.includes('sign_keyboard_card')">
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-keyboard"
-              )?.description_on_show
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-sign-language-player-keyboard"
+                )?.description_on_show
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-sign-language-player-keyboard"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-keyboard"
-              )?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-sign-language-player-keyboard"
+                )?.description_on_hide
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-sign-language-player-keyboard"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </p>
@@ -192,7 +210,10 @@ const handleSelectedItemProjectName = (item: any) => {
 
     <div
       class="px-[15px] mt-[32px]"
-      v-if="!collapseStore.collapses.includes('sign_keyboard_card')"
+      v-if="
+        !collapseStore.collapses.includes('sign_keyboard_card') &&
+        customizeStore.keyboardData.active == 1
+      "
     >
       <div
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
@@ -201,21 +222,38 @@ const handleSelectedItemProjectName = (item: any) => {
           class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
         >
           <img
-            src="/assets/imgs/signlanguageservices/keyboard_toggle.png"
+            :src="
+              customizeStore.keyboardData.icon
+                ? 'https://www.tamkin.app' + customizeStore.keyboardData.icon
+                : '/assets/imgs/signlanguageservices/keyboard_toggle.png'
+            "
             class="h-[28px] w-[28px]"
           />
           <div class="flex flex-col items-start justify-center w-full">
             <div
               class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[14px] leading-[16.39px]"
             >
-              <span>Keyboard</span>
+              <span>
+                {{
+                  $t(
+                    customizeStore.keyboardData.label
+                      ? customizeStore.keyboardData.label
+                      : ""
+                  )
+                }}
+              </span>
             </div>
             <div
               class="text-[#585B5B] dark:text-whiteTamkin font-[500] text-[10px] lg:w-full w-40 truncate lg:text-[12px] leading-[13.66px] mt-[8px]"
             >
               <span>
-                Manage your sign language tools and personalize them to enhance
-                your communication experience.
+                {{
+                  $t(
+                    customizeStore.keyboardData.description
+                      ? customizeStore.keyboardData.description
+                      : ""
+                  )
+                }}
               </span>
             </div>
           </div>

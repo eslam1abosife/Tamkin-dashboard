@@ -21,15 +21,15 @@ const selectLanguage = (lang: any) => {
 };
 const filterdLanguages = computed(() => {
   return languages.value.filter((lang: any) =>
-    lang.language_name
-      .toLowerCase()
-      .includes(search.value.toString().toLowerCase())
+    lang.title.toLowerCase().includes(search.value.toString().toLowerCase())
   );
 });
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full mt-[40px] mb-[100px]">
+  <div
+    class="flex flex-col items-center justify-center w-full mt-[40px] mb-[100px]"
+  >
     <div
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative"
       :class="[
@@ -44,9 +44,15 @@ const filterdLanguages = computed(() => {
             class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
           >
             {{
-              customizeStore.getAccAttributes(
-                "deaf-customize-sign-language-player-language"
-              )?.title
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-sign-language-player-language"
+                )?.title
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-sign-language-player-language"
+                    )?.title
+                  : ""
+              )
             }}
           </h1>
 
@@ -59,16 +65,28 @@ const filterdLanguages = computed(() => {
               "
             >
               {{
-                customizeStore.getAccAttributes(
-                  "deaf-customize-sign-language-player-language"
-                )?.description_on_show
+                $t(
+                  customizeStore.getAccAttributes(
+                    "deaf-customize-sign-language-player-language"
+                  )?.description_on_show
+                    ? customizeStore.getAccAttributes(
+                        "deaf-customize-sign-language-player-language"
+                      )?.description_on_show
+                    : ""
+                )
               }}
             </span>
             <span v-else>
               {{
-                customizeStore.getAccAttributes(
-                  "deaf-customize-sign-language-player-language"
-                )?.description_on_hide
+                $t(
+                  customizeStore.getAccAttributes(
+                    "deaf-customize-sign-language-player-language"
+                  )?.description_on_hide
+                    ? customizeStore.getAccAttributes(
+                        "deaf-customize-sign-language-player-language"
+                      )?.description_on_hide
+                    : ""
+                )
               }}
             </span>
           </p>
@@ -215,7 +233,10 @@ const filterdLanguages = computed(() => {
         class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
       >
-        <div class="w-full lg:w-[330px] lg:mt-0 mt-[8px]">
+        <div
+          v-if="customizeStore.islangListEnabled"
+          class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
+        >
           <div class="relative w-full lg:w-64">
             <button
               @click="toggleDropdown"
@@ -225,34 +246,32 @@ const filterdLanguages = computed(() => {
               <div
                 class="floating_language_selector_ov flex flex-row items-center justify-start ! font-[500] !text-[13px] leading-[32px]"
                 :class="[
-                  selectedLang && selectedLang.language_name
+                  selectedLang && selectedLang.title
                     ? '!text-black dark:!text-whiteTamkin'
                     : '!text-darkGrey',
                 ]"
               >
                 <div
-                  v-if="selectedLang && selectedLang.language_code"
+                  v-if="selectedLang && selectedLang.code"
                   class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[6px] ltr:mr-[6px]"
                   :class="[
-                    selectedLang && selectedLang.language_code
+                    selectedLang && selectedLang.code
                       ? 'bg-custom-gradient text-white'
                       : 'bg-[#F2FBF9] dark:bg-tamkinDarkPrimary text-tamkin',
                   ]"
                 >
                   <div class="text-[12px] font-[400] leading-[14px] uppercase">
                     {{
-                      selectedLang && selectedLang.language_code
-                        ? selectedLang.language_code == "auto detect language"
+                      selectedLang && selectedLang.code
+                        ? selectedLang.code == "auto detect language"
                           ? "AD"
-                          : selectedLang.language_code
+                          : selectedLang.code
                         : ""
                     }}
                   </div>
                 </div>
                 {{
-                  selectedLang
-                    ? selectedLang.language_name
-                    : $t("Auto detect Language")
+                  selectedLang ? selectedLang.title : $t("Auto detect Language")
                 }}
               </div>
 
@@ -304,15 +323,14 @@ const filterdLanguages = computed(() => {
               <ul>
                 <li
                   v-for="lang in filterdLanguages"
-                  :key="lang.language_code"
+                  :key="lang.code"
                   class="border-b-[1px] flex items-center px-[20px] py-2 hover:bg-gray-100 dark:hover:bg-darkGrey cursor-pointer"
                   @click="selectLanguage(lang)"
                 >
                   <div
                     class="h-6 w-6 rounded-full flex items-center justify-center rtl:ml-[4px] ltr:mr-[4px]"
                     :class="[
-                      selectedLang &&
-                      selectedLang.language_code === lang.language_code
+                      selectedLang && selectedLang.code === lang.code
                         ? 'bg-custom-gradient text-white'
                         : 'bg-[#F2FBF9] dark:bg-darkGrey text-tamkin',
                     ]"
@@ -321,22 +339,17 @@ const filterdLanguages = computed(() => {
                       class="text-[12px] font-[400] leading-[20px] uppercase dark:text-whiteTamkin"
                     >
                       {{
-                        lang.language_code == "auto detect language"
-                          ? "AD"
-                          : lang.language_code
+                        lang.code == "auto detect language" ? "AD" : lang.code
                       }}
                     </div>
                   </div>
                   <!-- <img  :src="country.flag"  class="w-6 h-4 mr-2" /> -->
                   <span class="text-[14px] dark:text-whiteTamkin">
-                    {{ lang.language_name }}
+                    {{ lang.title }}
                   </span>
                   <div
                     class="rtl:mr-auto ltr:ml-auto"
-                    v-if="
-                      selectedLang &&
-                      selectedLang.language_code === lang.language_code
-                    "
+                    v-if="selectedLang && selectedLang.code === lang.code"
                   >
                     <img src="/assets/imgs/customize/selected_language.svg" />
                   </div>
@@ -348,20 +361,34 @@ const filterdLanguages = computed(() => {
         </div>
 
         <div
+          v-if="customizeStore.islangHighlightEnabled.active == 1"
           class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary dark:border-darkborder p-[6px] flex items-center justify-start w-full mt-[16px] border-b-[2px] border-lightGrey"
         >
           <div
             class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
           >
             <img
-              src="/assets/imgs/customize/lang_selector.svg"
+              :src="`${
+                customizeStore.islangHighlightEnabled.icon
+                  ? 'https://www.tamkin.app' +
+                    customizeStore.islangHighlightEnabled.icon
+                  : '/assets/imgs/customize/lang_selector.svg'
+              }`"
               class="h-[28px] w-[28px]"
             />
             <div class="flex flex-col items-start justify-center w-full">
               <div
                 class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] lg:leading-[16.39px]"
               >
-                <span>{{ $t("Show language selector on the widget") }}</span>
+                <span>
+                  {{
+                    $t(
+                      customizeStore.islangHighlightEnabled.label
+                        ? customizeStore.islangHighlightEnabled.label
+                        : ""
+                    )
+                  }}
+                </span>
               </div>
             </div>
             <div class="rtl:mr-auto ltr:ml-auto">

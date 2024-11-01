@@ -120,7 +120,10 @@ watch(currentColor, (ov, nv) => {
       <div class="pt-[24px]">
         <h1 class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">
           {{
-            customizeStore.getAccAttributes("deaf-customize-button-type")?.title
+            $t(
+              customizeStore.getAccAttributes("deaf-customize-button-type")
+                ?.title
+            )
           }}
         </h1>
         <p
@@ -128,14 +131,26 @@ watch(currentColor, (ov, nv) => {
         >
           <span v-if="!collapseStore.collapses.includes('button_type_card')">
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-type")
-                ?.description_on_show
+              $t(
+                customizeStore.getAccAttributes("deaf-customize-button-type")
+                  ?.description_on_show
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-type"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-type")
-                ?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes("deaf-customize-button-type")
+                  ?.description_on_hide
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-type"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </p>
@@ -281,17 +296,32 @@ watch(currentColor, (ov, nv) => {
         !collapseStore.collapses.includes('button_type_card') && buttonIcons
       "
     >
-      <div>
+      <div v-if="customizeStore.playerBtnShape.active == 1">
         <h1 class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin">
-          {{ $t("Button Shape") }}
+          {{
+            $t(
+              customizeStore.playerBtnShape.label
+                ? customizeStore.playerBtnShape.label
+                : ""
+            )
+          }}
         </h1>
         <p
           class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          {{ $t("Choose the button Shape you prefer to appear in the widget") }}
+          {{
+            $t(
+              customizeStore.playerBtnShape.description
+                ? customizeStore.playerBtnShape.description
+                : ""
+            )
+          }}
         </p>
       </div>
-      <div class="flex items-center justify-between mt-[40px]">
+      <div
+        v-if="customizeStore.playerBtnShape.active == 1"
+        class="flex items-center justify-between mt-[40px]"
+      >
         <template v-for="icon in buttonIcons" :key="icon.value">
           <div
             v-if="icon.active == 1"
@@ -323,17 +353,32 @@ watch(currentColor, (ov, nv) => {
         </template>
       </div>
 
-      <div class="my-[30px]">
+      <div class="my-[30px]" v-if="customizeStore.playerBtnSize.active == 1">
         <h1 class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin">
-          {{ $t("Button Size") }}
+          {{
+            $t(
+              customizeStore.playerBtnSize.label
+                ? customizeStore.playerBtnSize.label
+                : ""
+            )
+          }}
         </h1>
         <p
           class="font-[400] text-[12px] leading-[18.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          {{ $t("Pull the button to select the right size for you") }}
+          {{
+            $t(
+              customizeStore.playerBtnSize.description
+                ? customizeStore.playerBtnSize.description
+                : ""
+            )
+          }}
         </p>
       </div>
-      <div class="w-full flex flex-col items-center space-y-4">
+      <div
+        class="w-full flex flex-col items-center space-y-4"
+        v-if="customizeStore.playerBtnSize.active == 1"
+      >
         <div class="relative w-full mb-[34px]">
           <input
             type="range"

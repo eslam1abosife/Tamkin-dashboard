@@ -24,8 +24,14 @@ const collapseStore = useCollapseStore();
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            customizeStore.getAccAttributes("deaf-customize-button-location")
-              ?.title
+            $t(
+              customizeStore.getAccAttributes("deaf-customize-button-location")
+                ?.title
+                ? customizeStore.getAccAttributes(
+                    "deaf-customize-button-location"
+                  )?.title
+                : ""
+            )
           }}
         </h1>
 
@@ -36,14 +42,28 @@ const collapseStore = useCollapseStore();
             v-if="!collapseStore.collapses.includes('button_location_card')"
           >
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-location")
-                ?.description_on_show
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-button-location"
+                )?.description_on_show
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-location"
+                    )?.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              customizeStore.getAccAttributes("deaf-customize-button-location")
-                ?.description_on_hide
+              $t(
+                customizeStore.getAccAttributes(
+                  "deaf-customize-button-location"
+                )?.description_on_hide
+                  ? customizeStore.getAccAttributes(
+                      "deaf-customize-button-location"
+                    )?.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </p>

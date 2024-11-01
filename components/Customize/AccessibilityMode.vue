@@ -17,7 +17,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
       >
         <img
-          src="/assets/imgs/customize/move_acess.svg"
+          :src="`https://www.tamkin.app${customizeStore.moveHideFeature.icon}`"
           class="h-[28px] w-[28px]"
         />
         <div class="flex flex-col items-start justify-center w-full">
@@ -118,7 +118,17 @@ const { isChecked, toggleCheckbox } = customizeStore;
             ? 'custom-border padding-2'
             : '',
         ]"
-        @click="customizeStore.moveHideWidget('left')"
+        @click="
+          () => {
+            if (
+              isChecked(
+                'acc-customize-accessibility-mode-move-/-hide-accessibility'
+              )
+            ) {
+              customizeStore.moveHideWidget('left');
+            }
+          }
+        "
       >
         <div>
           <img src="/assets/imgs/customize/left_side.svg" class="w-3/4 h-3/4" />
@@ -130,7 +140,17 @@ const { isChecked, toggleCheckbox } = customizeStore;
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
         class="flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-        @click="customizeStore.moveHideWidget('right')"
+        @click="
+          () => {
+            if (
+              isChecked(
+                'acc-customize-accessibility-mode-move-/-hide-accessibility'
+              )
+            ) {
+              customizeStore.moveHideWidget('right');
+            }
+          }
+        "
         :class="[
           customizeStore.accessibilityMode === 'right'
             ? 'custom-border padding-2'
@@ -148,7 +168,17 @@ const { isChecked, toggleCheckbox } = customizeStore;
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
         class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
-        @click="customizeStore.moveHideWidget('hide')"
+        @click="
+          () => {
+            if (
+              isChecked(
+                'acc-customize-accessibility-mode-move-/-hide-accessibility'
+              )
+            ) {
+              customizeStore.moveHideWidget('hide');
+            }
+          }
+        "
         :class="[
           customizeStore.accessibilityMode === 'hide'
             ? 'custom-border padding-2'

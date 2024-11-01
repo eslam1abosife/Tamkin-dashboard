@@ -5,6 +5,7 @@ export default function () {
   const { useApiInstance } = useApi();
   const { api, loading } = useApiInstance();
   const { $toast } = useNuxtApp();
+  const { t } = useI18n();
 
   const customizeStore = useCustomizeStore();
   const settingsStore = useSettingsStore();
@@ -109,12 +110,19 @@ export default function () {
       }
 
       // button type shape
+      const isbtntype_active = features.find(
+        (feature: any) => feature.name === "deaf-customize-button-type"
+      );
+      if (isbtntype_active.active == 1) {
+        customizeStore.isbtntype_active = true;
+      }
       const buttonshape = features
         .find((feature: any) => feature.name === "deaf-customize-button-type")
         .features.find(
           (el) =>
             el.name === "deaf-customize-button-type-sign-language-button-shape"
         );
+      customizeStore.$state.playerBtnShape = buttonshape;
       customizeStore.$state.buttonIcons = buttonshape.tamkin_option_item_values;
 
       if (buttonshape.active == 1) {
@@ -138,12 +146,69 @@ export default function () {
             el.name ===
             "deaf-customize-button-type-sign-language-player-button-size"
         );
+      customizeStore.playerBtnSize = buttonsize;
       if (buttonsize.active == 1) {
         customizeStore.$state.buttonSizeSlider = buttonsize.value;
         customizeStore.$state.initbuttonSizeSlider = buttonsize.value;
       }
 
+      // deaf mode
+      const isDeafModeCardActive = features.find(
+        (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+      );
+      if (isDeafModeCardActive.active == 1) {
+        customizeStore.isDeafModeCardActive = true;
+      } else {
+        customizeStore.isDeafModeCardActive = false;
+      }
+      const isAccModeActive = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+      customizeStore.accessibilityModeItems =
+        isAccModeActive.tamkin_option_item_values;
+
+      if (isAccModeActive.active == 1) {
+        customizeStore.$state.accessibilityMode = isAccModeActive.value;
+        customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
+      }
+
+      const isDeafModeValTrue = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button"
+        );
+
+      customizeStore.playerMoveHideFeature = isDeafModeValTrue;
+
+      if (isDeafModeValTrue.active == 1 && isDeafModeValTrue.value == 1) {
+        customizeStore.toggleCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+        customizeStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+      }
+
       // handle position
+      const isBtnLocationActive = features.find(
+        (feature: any) => feature.name === "deaf-customize-button-location"
+      );
+      if (isBtnLocationActive.active == 1) {
+        customizeStore.isBtnLocationActive = true;
+      } else {
+        customizeStore.isBtnLocationActive = false;
+      }
+
       const buttonDesktopPosition = features
         .find(
           (feature: any) => feature.name === "deaf-customize-button-location"
@@ -153,7 +218,10 @@ export default function () {
             el.name ===
             "deaf-customize-button-location-sign-language-button-location-desktop"
         );
+      customizeStore.buttonDesktopPositions =
+        buttonDesktopPosition.tamkin_option_item_values;
       if (buttonDesktopPosition.active == 1) {
+        customizeStore.isButtonDesktopPositionActive = true;
         customizeStore.$state.initialPositionDesktop =
           buttonDesktopPosition.value;
         customizeStore.$state.buttonPositionDesktop =
@@ -168,36 +236,31 @@ export default function () {
             el.name ===
             "deaf-customize-button-location-sign-language-button-location-mobile"
         );
+      customizeStore.buttonMobilePositions =
+        buttonMobilePosition.tamkin_option_item_values;
       if (buttonMobilePosition.active == 1) {
+        customizeStore.isButtonMobilePositionActive = true;
         customizeStore.$state.initialPositionMobile =
           buttonMobilePosition.value;
         customizeStore.$state.buttonPositionMobile = buttonMobilePosition.value;
       }
 
-      // deaf mode
-      const isAccModeActive = features
-        .find(
-          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
-        )
-        .features.find(
-          (el) =>
-            el.name ===
-            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
-        );
+      // set languages
+      const islangEnabled = features.find(
+        (feature: any) =>
+          feature.name === "deaf-customize-sign-language-player-language"
+      );
 
-      if (isAccModeActive.active == 1) {
-        customizeStore.toggleCheckbox(
-          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
-        );
-        customizeStore.toggleInitialCheckbox(
-          "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
-        );
-        customizeStore.$state.accessibilityMode = isAccModeActive.value;
-        customizeStore.$state.initaccessibilityMode = isAccModeActive.value;
+      if (islangEnabled.active == 1) {
+        customizeStore.islangEnabled = true;
       }
 
-      // set languages
-      res.data.data.languages.forEach((el: any) => {
+      customizeStore.$state.languages.push({
+        title: t("Auto detect Language"),
+        code: "auto detect language",
+        icon: "",
+      });
+      res.data.data.dictionary.forEach((el: any) => {
         customizeStore.$state.languages.push(el);
       });
 
@@ -210,27 +273,27 @@ export default function () {
           (el: any) =>
             el.name === "deaf-customize-sign-language-list-list-sign-language"
         );
+      if (selectLang.active == 1) {
+        customizeStore.islangListEnabled = true;
+      }
 
       if (selectLang.value === "auto detect language") {
         customizeStore.selectedLang = {
-          language_name: "Auto detect Language",
-          language_code: "auto detect language",
+          title: "Auto detect Language",
+          code: "auto detect language",
+          icon: "",
         };
         customizeStore.initselectedLang = {
-          language_name: "Auto detect Language",
-          language_code: "auto detect language",
+          title: "Auto detect Language",
+          code: "auto detect language",
+          icon: "",
         };
       } else {
-        customizeStore.selectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
-        customizeStore.initselectedLang = res.data.data.languages.filter(
-          (el: any) => {
-            el.language_code === selectLang.value.language_code;
-          }
-        )[0];
+        const selectedLanguage = res.data.data.languages.filter((el: any) => {
+          el.code === selectLang.value;
+        })[0];
+        customizeStore.selectedLang = selectedLanguage;
+        customizeStore.initselectedLang = selectedLanguage;
       }
 
       // acc enableLangHighlight
@@ -244,6 +307,9 @@ export default function () {
             el.name ===
             "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
         );
+      if (enableLangHighlight.active == 1) {
+        customizeStore.islangHighlightEnabled = enableLangHighlight;
+      }
       if (enableLangHighlight.active == 1 && enableLangHighlight.value == 1) {
         customizeStore.toggleCheckbox(
           "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget"
@@ -256,6 +322,13 @@ export default function () {
       signLangStore.initialCardsOrder = [];
       signLangStore.WebpluginsCards = [];
       // deaf background
+      const isBackgroundActive = features.find(
+        (feature: any) =>
+          feature.name === "deaf-customize-sign-language-player-background"
+      );
+      if (isBackgroundActive.active == 1) {
+        customizeStore.isBackgroundActive = true;
+      }
       const isSetBackground = features
         .find(
           (feature: any) =>
@@ -266,6 +339,7 @@ export default function () {
             el.name ===
             "deaf-customize-sign-language-background-sign-language-background"
         );
+      customizeStore.backgroundItems = isSetBackground;
       if (isSetBackground.active == 1) {
         if (isSetBackground.value === "option1") {
           customizeStore.background = "0%";
@@ -309,6 +383,13 @@ export default function () {
       }
       // deaf isSetContrast
 
+      const isContrast = features.find(
+        (feature: any) =>
+          feature.name === "deaf-customize-sign-language-player-contrast"
+      );
+      if (isContrast.active == 1) {
+        customizeStore.isContrastActive = true;
+      }
       const isSetContrast = features
         .find(
           (feature: any) =>
@@ -319,6 +400,7 @@ export default function () {
             el.name ===
             "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         );
+      customizeStore.contrastData = isSetContrast;
       if (isSetContrast.active == 1) {
         customizeStore.toggleCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
@@ -352,6 +434,13 @@ export default function () {
       }
 
       // deaf isSetKeyboard
+      const isKeyboard = features.find(
+        (feature: any) =>
+          feature.name === "deaf-customize-sign-language-player-keyboard"
+      );
+      if (isKeyboard.active == 1) {
+        customizeStore.isKeyboardActive = true;
+      }
       const isSetKeyboard = features
         .find(
           (feature: any) =>
@@ -362,6 +451,8 @@ export default function () {
             el.name ===
             "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
         );
+
+      customizeStore.keyboardData = isSetKeyboard;
       if (isSetKeyboard.active == 1) {
         customizeStore.toggleCheckbox(
           "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
