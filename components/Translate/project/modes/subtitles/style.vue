@@ -409,7 +409,7 @@ onBeforeMount(()=>{
        h-[40px]  mt-[16px]">
             <div class="flex items-center justify-between w-full" v-on-click-outside="() => { showColorPickerHightlight =false }">
                 <div class="text-[11px] font-[500] text-darkGrey p-4">
-                    {{ $t('Captions Background Color') }}
+                    {{ $t('Background Color') }}
                 </div>
            
            

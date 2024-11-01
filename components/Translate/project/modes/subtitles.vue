@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-import { ref, watch } from 'vue';
+import { ref, watch, onBeforeMount } from 'vue';
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg';
+import { useUpdateProject } from '@/composables/useInternal';
 
+const { t } = useI18n();
 const translateStore = useTranslateStore();
+const { updateProject } = useUpdateProject();
+const { $toast } = useNuxtApp();
 
 const languagesArr = [
   { id: 1, name: 'English (USA)', icon: USa },
@@ -12,75 +16,102 @@ const languagesArr = [
   { id: 3, name: 'English (USA)', icon: USa },
 ];
 
-const handleSelectedItemProjectName = (item: any) => {
-  console.log(item);
+const texts = ref([]);
+const initialTexts = ref(JSON.parse(JSON.stringify(texts.value)));
+const textEditing = ref<number[]>([]);
+const currentTextToEdit = ref<number | null>(null);
+const showPros = ref(false);
+const donePros = ref(false);
+const loadingUpdate = ref(false);
+
+const showEdit = (id: number) => {
+  if (!textEditing.value.includes(id)) {
+    textEditing.value.push(id);
+  }
 };
 
-const processVideo = ref(false);
-const doneVideo = ref(false);
-const subMode = ref('main');
+const previousTexts = ref<{ id: number; text: string; isEditing: boolean }[]>([]);
 
-const texts = ref([
-
-]);
-
-const initialTexts = ref(JSON.parse(JSON.stringify(texts.value)));
-const currentTextToEdit = ref<number | null>(null);
-
-const startEditing = (id: number,text:any) => {
-texts.value.push({ id, text: '', isEditing: true });
+const startEditing = (id: number, text: string, item) => {
+  const textItem = texts.value.find(item => item.id === id);
+  if (textItem) {
+    textItem.isEditing = true;
+  } else {
+    texts.value.push({ id, text, isEditing: true, ...item });
+  }
 };
 
 const stopEditing = (id: number) => {
-  texts.value.find(item => item.id === id).isEditing = false;
+  const textItem = texts.value.find(item => item.id === id);
+  if (textItem) {
+    textItem.isEditing = false;
+  }
 
+  previousTexts.value = JSON.parse(JSON.stringify(texts.value));
+  currentTextToEdit.value = null;
+};
+
+const handleInput = (id: number, newText: string) => {
+  const textItem = texts.value.find(item => item.id === id);
+  if (textItem) {
+    textItem.text = newText; 
+  }
+
+  currentTextToEdit.value = id;
+  donePros.value = true;
 };
 
 const changeMode = (mode: any) => {
   translateStore.subMode = mode;
 };
 
-const deepEqualTexts = (arr1: any[], arr2: any[]): boolean => {
-  return arr1.length === arr2.length && arr1.every((item, i) => item.text === arr2[i].text);
+const cancelEditing = () => {
+  texts.value = JSON.parse(JSON.stringify(previousTexts.value));
+  donePros.value = false;
 };
 
-const hasTextsChanged = () => !deepEqualTexts(initialTexts.value, texts.value);
+const updateProjectFn = async () => {
+  loadingUpdate.value = true;
+  await updateProject({ ...translateStore.videoProject, value: texts.value });
+  donePros.value = false;
+  $toast(t('Subtitles Updated Successfully'), { hideIn: 3000 });
+  loadingUpdate.value = false;
+};
+
+const deleteSub = (id: number) => {
+  texts.value = texts.value.filter(item => item.id !== id);
+
+  texts.value.forEach((item, index) => {
+    item.idx = index + 1; 
+  });
+
+  donePros.value = true;
+};
+
+onBeforeMount(() => {
+  texts.value = translateStore.videoProject.value.map(t => {
+    return { ...t, id: t.idx, isEditing: false };
+  });
+});
 
 watch(
   texts,
   () => {
-    translateStore.changesOnSubTitles = hasTextsChanged();
+    translateStore.changesOnSubTitles = !deepEqualTexts(initialTexts.value, texts.value);
   },
   { deep: true }
 );
 
-const handleInput = (id: number) => {
-  const textItem = texts.value.find(item => item.id === id);
-  if (textItem) {
-    currentTextToEdit.value = id;
-    donePros.value = false;
-    showPros.value = true;
-    setTimeout(() => {
-      donePros.value = true;
-      currentTextToEdit.value = null;
-    }, 5000);
-  }
+const deepEqualTexts = (arr1: any[], arr2: any[]): boolean => {
+  return arr1.length === arr2.length && arr1.every((item, i) => item.text === arr2[i].text);
 };
 
-const cancelEditing = () => {
-  if (currentTextToEdit.value !== null) {
-    const textItem = texts.value.find(item => item.id === currentTextToEdit.value);
-    const initialTextItem = initialTexts.value.find(item => item.id === currentTextToEdit.value);
-    if (textItem && initialTextItem) {
-      textItem.text = initialTextItem.text;
-      textItem.isEditing = false;
-    }
-  }
-  showPros.value = false;
-  donePros.value = false;
-  currentTextToEdit.value = null;
+const formatTimeString = (timeString) => {
+  const formattedTime = timeString.split(',')[0];
+  return formattedTime;
 };
 </script>
+
 
 
 <template>
@@ -124,51 +155,56 @@ const cancelEditing = () => {
     <div class="w-full scrollable-div" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
       <div class="mt-[16px] w-full ">
         <div class="space-y-2 flex flex-col items-start justify-center ">
-          <div v-for="(textItem, index) in translateStore.videoProject.value" :key="textItem.idx" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
+          <div v-for="(textItem, index) in texts" :key="textItem.idx" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
             <button
-              @click="startEditing(textItem.idx,textItem.text)"
-              v-if="texts.find(it=>it.id === textItem.idx ) && texts.find(it=>it.id === textItem.idx ).isEditing === false"
+               @click.stop="startEditing( textItem.idx, textItem.text,textItem)"
+          v-if="textEditing.includes(textItem.idx)"
               class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] btn-default h-[20px] rounded-[5px] w-[10px] bg-white border-[1px] border-light text-[10px]"
             >
               {{ $t('Edit') }}
             </button>
-            <div class="w-2/4">
-              <div >
+            <div class="w-2/4" v-on-click-outside="() => {
+              textEditing.splice(textEditing.indexOf(textItem.idx), 1)
+              stopEditing(textItem.idx)
+            }">
+              <div v-if="!texts.find(it => it.id === textItem.idx)?.isEditing">
                 <p
-                  v-on-click-outside="() => { stopEditing(textItem.idx)}"
-                  class="text-darkGrey font-[500] text-[12px] leading-[32px]"
-                  @click.stop="stopEditing(textItem.idx,textItem.text)"
+                  class="text-darkGrey font-[500] max-w-44 truncate text-[12px] leading-[32px]"
+                  @click.stop="showEdit(textItem.idx)"
                 >
                   {{ textItem.text }}
                 </p>
               </div>
-              <div v-if="texts.find(it=>it.id === textItem.idx) && texts.find(it=>it.id === textItem.idx).isEditing">
+            
+              <div v-else>
                 <textarea
                   v-model="textItem.text"
-                  @input="handleInput(textItem.idx)"
-                  v-on-click-outside="() => currentTextToEdit = 0"
+                  @input="handleInput(textItem.idx,textItem.text)"
                   class="text-darkGrey font-[500] text-[12px] leading-[32px] w-full focus:ring-0 focus:outline-none border-0"
                 ></textarea>
               </div>
             </div>
+            
+            
             <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[20px] ipad-max:w-[45%] w-[40%] 3xl:w-[30%]">
               <div class="flex flex-col">
                 <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/in_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('In') }}</span>
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{textItem.start_time}}</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{formatTimeString(textItem.start_time)}}</span>
                   </div>
                 </div>
                 <div class="flex items-center rtl:space-x-reverse space-x-4">
                   <img src="/assets/imgs/translatevideo/out_watch.png" class="w-[12px] h-[14px]" alt="">
                   <div class="flex items-center rtl:space-x-reverse space-x-2">
                     <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{ $t('Out') }}</span>
-                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{textItem.end_time}}</span>
+                    <span class="text-[12px] leading-[32px] font-[400] text-[#878787]">{{formatTimeString(textItem.end_time)}}</span>
                   </div>
                 </div>
               </div>
-              <button class="text-red-500 hover:bg-[#FFF3F2] hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
+              <button @click="deleteSub(textItem.idx)" class="text-red-500 hover:bg-[#FFF3F2]
+               hover:border-[#FACECB] w-[32px] h-[32px] border rounded-lg flex items-center justify-center">
                 <img src="/assets/imgs/icons/bin.svg" alt="">
               </button>
             </div>
@@ -178,7 +214,14 @@ const cancelEditing = () => {
     </div>
     <TranslateProjectModesSubtitlesTranslation class="w-full" />
     <TranslateProjectModesSubtitlesStyle class="w-full" />
-    <Processingfooter :show-footer="showPros" :done="donePros" @close-footer="showPros = false"  @cancel_action="cancelEditing"/>
+
+    <transition name="slide-up">
+
+
+      <SaveTranslateFooter  :show-footer="donePros" @save="updateProjectFn" :loading="loadingUpdate" @cancel_action="cancelEditing" />
+
+    </transition>
+    <!-- <Processingfooter :show-footer="showPros" :done="donePros" @close-footer="showPros = false"  @cancel_action="cancelEditing"/> -->
   </div>
 </template>
 

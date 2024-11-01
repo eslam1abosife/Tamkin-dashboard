@@ -2,50 +2,84 @@
 
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
+import {useTranslateVideo,useGetSubTitleLangs,useTranslateAudio,useTranslateLive,useUpdateProject } from '@/composables/useInternal'
+// import {} from '@/composables/useInternal'
+const {t} = useI18n()
+const {$toast} = useNuxtApp()
+const {updateProject,cancelRequest,controller
+    
+} = useUpdateProject()
+
+const {getsubtitlelangs} = useGetSubTitleLangs()
+
 const translateStore = useTranslateStore()
-
-const languagesArr = [
-    {
-        id: 1,
-        name: 'English (USA)',
-        icon: USa
-    },
-    {
-        id: 2,
-        name: 'English (USA)',
-        icon: USa
-
-    },
-    {
-        id: 3,
-        name: 'English (USA)',
-        icon: USa
-
-    },
-
-]
+const oglang = ref()
+const languagesArr = ref([])
 const handleSelectedItemProjectName = (item: any) => {
- translateStore.translationSubtitles.language = item
+    oglang.value= item.id
+}
+const translateto = ref()
+const handleselecttranslateto = (item: any) => {
+    translateto.value = item.id
 }
 const processVideo = ref(false)
 const doneVideo = ref(false)
 // const translationMode = inject('currentMode')
 watch(processVideo,(ov,nv)=>{
    
-setTimeout(()=>{
-    doneVideo.value = true
-},1500)
+
   
 })
+
+
+const updateLanguage = async () => {
+    processVideo.value = true
+await updateProject({...translateStore.videoProject, project_statistic: translateStore.videoProject.stats,   
+      translate_original_language:oglang.value,
+translate_to: translateto.value,used_translate:1})
+$toast(t('Subtitles Translated Successfully'),{hideIn:3000})
+translateto.value = ''  
+oglang.value = ''
+processVideo.value = false
+doneVideo.value = true
+
+};
 const changeMode = (m:any)=>{
 translateStore.currentMode  = m
 translateStore.subMode = ''
 }
+
+function convertToMinutesAndSeconds(timeString) {
+  const [hours, minutes, seconds] = timeString.split(':');
+  const secondsOnly = seconds.split(',')[0]; 
+  const totalSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(secondsOnly);
+  
+  const formattedMinutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+  const formattedSeconds = (totalSeconds % 60).toString().padStart(2, '0');
+  
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
+const cancelAction  = ()=>{
+    processVideo.value = false
+    doneVideo.value = false
+    return cancelRequest()
+}
+
+onMounted(async ()=>{
+    const languages = await getsubtitlelangs()
+languagesArr.value = languages.map((l)=>{
+  return {
+    id: l.name,
+    name: l.language_name,
+  }
+})
+})
 </script>
 
 <template>
 
-    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 flex flex-col items-start justify-start scrollable-div  rtl:pl-[10px] ltr:pr-[20px]">
+    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 px-[10px] flex flex-col items-start justify-start scrollable-div
+  ">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]">
             <svg  @click="changeMode('subtitles')" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.81795 3.5L5 6.22234L4.09103 7L0 3.5L4.09103 1.19209e-07L5 0.777655L1.81795 3.5Z" fill="#585B5B"/>
@@ -54,32 +88,34 @@ translateStore.subMode = ''
                 {{ $t('Translation') }} 
             </div>
         </div>
-        <div class="w-full" >
+        <div class="w-full " >
             <div class="text-[11px] leading-[22px] font-[500] text-darkGrey mt-[12px]">
                {{$t('What sign language do you want to translate into?')}}
             </div>
-            <div class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] px-4 mt-[16px]">
+            <div class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] 
+            h-[40px] px-4 mt-[16px]">
                     <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                        Project 1
+                {{translateStore.videoProject.project_name}}
                     </div>
                     <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                        4:55
+                       {{convertToMinutesAndSeconds(translateStore.videoProject.stats[0].value)}}
                     </div>
             </div>
             <TranslateSelectInput class="mt-[16px]  " 
-            @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
+            @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
             :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
-    
-            <button class="btn-default mt-[16px]" @click="processVideo = true">
-                <span class="text">{{$t('Generate Sign Language')}}</span>
+            <TranslateSelectInput class="mt-[16px]  " 
+            @getCurrentSelectedItem="handleselecttranslateto" :enableSearch="true"
+            :placeholderinput="$t('Translate to')" :list="languagesArr" nameKey="name" idField="id" />
+            <button :disabled="processVideo || !translateto || !oglang" class="btn-default mt-[16px]" @click="updateLanguage">
+                <span class="text">{{$t('Translate')}}</span>
             </button>
         </div>
 
-    
-        <Processingfooter :show-footer="processVideo" :done="doneVideo" @close-footer="()=>{processVideo = false
-        doneVideo = false}"  @cancel_action="()=>{processVideo = false
-        doneVideo = false}"/>
-
+    <transition name="slide-up">
+        <Processingfooter :show-footer="processVideo && controller" :done="doneVideo" @close-footer="()=>{processVideo = false
+        doneVideo = false}"  @cancel_action="cancelAction"/>
+</transition>
        </div>
 
 </template>

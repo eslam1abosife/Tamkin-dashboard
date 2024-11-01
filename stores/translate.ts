@@ -64,21 +64,9 @@ const currentTab = ref('')
     language: ''
   });
 const internalPackages = ref([])
-  const initialPlayer = reactive({
-    contrast: false,
-    background: 0.5,
-    position: 'right',
-    visibility: true,
-    playerPosition: 'inVideo'
-  });
+  const initialPlayer = ref();
 
-  const player = reactive({
-    contrast: false,
-    background:0.5,
-    position: 'right',
-    visibility: true,
-    playerPosition: 'inVideo'
-  });
+  const player = ref();
 
   // Function to reset styles to their initial state
   const resetStyles = () => {
@@ -114,20 +102,27 @@ const internalPackages = ref([])
     });
   };
 
-  // Function to check if there are any unsaved changes to styles or player settings
+  // const 
+  const assignNewPlayer = ()=>{
+    // Object.assign(player, {
+    //   contrast: videoProject.value.player_settings[0].contrast,
+    //   background: Number(videoProject.value.player_settings[0].background),
+    //   position: videoProject.value.player_settings[0].position,
+    //   visibility: videoProject.value.player_settings[0].visibility,
+    //   playerPosition: videoProject.value.player_settings[0].player_appearance_location
+    // })
+  }
   const hasChanges = computed(() => {
     return JSON.stringify(initialStyles) !== JSON.stringify(styles);
   });
 
   const hasChangesPlayer = computed(() => {
-    return JSON.stringify(initialPlayer) !== JSON.stringify(player);
+    return JSON.stringify(initialPlayer.value) !== JSON.stringify(player.value);
   });
 
-  // New function to cancel changes (reset both styles and player to their initial values)
-  const cancelChanges = () => {
-    Object.assign(styles, JSON.parse(JSON.stringify(initialStyles))); // Reset styles to initial state
-    Object.assign(player, JSON.parse(JSON.stringify(initialPlayer))); // Reset player to initial state
-  };
+const cancelChanges = () => {
+  Object.assign(player, JSON.parse(JSON.stringify(initialPlayer))); 
+};
 const projectsAr = ref([])
 const allLoaded = ref(null)
 const videoCount = ref()
@@ -182,7 +177,8 @@ pdfCount,
  photoscount,
  photoProject,
  loadingProject,
- videoProject
+ videoProject,
+ assignNewPlayer
 
   };
 });

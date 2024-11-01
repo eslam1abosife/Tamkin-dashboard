@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
-import {useGetProject} from '@/composables/useInternal'
-const {getProject} = useGetProject()
+import { useGetProject } from '@/composables/useInternal';
+import { usePlayerSettings } from '@/composables/useInternal';
+import { ref, computed, onBeforeMount, watch } from 'vue';
+import { useNuxtApp } from '#app';
+import { useRoute } from 'vue-router';
 
-const localePath =useLocalePath()
+const { setPlayerSettings } = usePlayerSettings();
+const { getProject } = useGetProject();
+const localePath = useLocalePath();
+
 const {
   isOpen,
   currentView,
@@ -12,68 +18,108 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-
+  middleware: ['auth', 'permissions'],
 });
 
 const currentPlan = ref("freetrial");
-const changePlan = (plan: string) => {
-  currentPlan.value = plan;
+const translateStore = useTranslateStore();
+const { showProcessingFooter } = storeToRefs(translateStore);
+const processingDone = ref(false);
+const loadingFooter = ref(false);
+
+const cancelFooterProcess = () => {
+  translateStore.showProcessingFooter = false;
+  processingDone.value = false;
 };
-const translateStore = useTranslateStore()
-const {showProcessingFooter} = storeToRefs(translateStore)
 
-const processingDone =ref(false)
-
-
-
-const cancelFooterproccess = ()=>{
-  translateStore.showProcessingFooter = false
-  processingDone.value = false
-}
-
-
-watch(showProcessingFooter,(ov,nv)=>{
-  if(showProcessingFooter.value === true){
-setTimeout(()=>{
-
-  processingDone.value = true
-},2000)
+watch(showProcessingFooter, (ov, nv) => {
+  if (showProcessingFooter.value) {
+    setTimeout(() => {
+      processingDone.value = true;
+    }, 2000);
   }
-})
-const showFooter = computed(()=>{
-  const translateStyle =
-    translateStore.hasChanges &&
-    translateStore.subMode === "style" &&
-    translateStore.currentMode === "subtitles";
-  const translatePlayer =
+});
 
-    translateStore.hasChangesPlayer &&
-    translateStore.currentMode === "player";
+const showFooter = computed(() => {
+  return translateStore.hasChangesPlayer && translateStore.currentMode === "player";
+});
 
-
-  return translateStyle || translatePlayer
-})
 const cancelFooter = () => {
-  translateStore.cancelChanges()
-}
-const route = useRoute()
-const getProjectByName = async ()=>{
-  const projectName = route.params.id
-  const d = await getProject(projectName)
+  translateStore.cancelChanges();
+};
+
+const route = useRoute();
+
+const getProjectByName = async () => {
+  const projectName = route.params.id;
+  const d = await getProject(projectName);
   translateStore.videoProject = {
     ...d.project,
-    stats:d.project_statistic
+    stats: d.project_statistic,
+  };
+};
+
+onBeforeMount(async () => {
+  await getProjectByName();
+  initializePlayerSettings();
+  translateStore.loadingProject = false;
+});
+
+const initializePlayerSettings = () => {
+  const defaultSettings = {
+    contrast: false,
+    background: 0.5,
+    position: 'right',
+    visibility: true,
+    playerPosition: 'inVideo',
+  };
+
+  if (translateStore.videoProject && translateStore.videoProject.player_settings.length === 0) {
+    translateStore.player = { ...defaultSettings };
+    translateStore.initialPlayer = { ...defaultSettings };
+  } else {
+    const playerSettings = translateStore.videoProject.player_settings[0];
+    translateStore.player = {
+      contrast: playerSettings.contrast,
+      background: Number(playerSettings.background),
+      position: playerSettings.position,
+      visibility: playerSettings.visibility === 0 ? false : true,
+      playerPosition: playerSettings.player_appearance_location,
+    };
+
+    translateStore.initialPlayer = { ...translateStore.player };
   }
-  translateStore.loadingProject = false
-  
-}
-onBeforeMount(async ()=>{
-   await getProjectByName()
-})
+};
+
+const { $toast } = useNuxtApp();
+
+const savePlayer = async () => {
+  loadingFooter.value = true;
+
+  const payload = {
+    project: translateStore.videoProject.name,
+    contrast: translateStore.player.contrast,
+    background: translateStore.player.background,
+    position: translateStore.player.position,
+    visibility: translateStore.player.visibility,
+    player_appearance_location: translateStore.player.playerPosition,
+  };
+
+  await setPlayerSettings(payload);
+  await getProjectByName(); 
+
+  initializePlayerSettings();
+
+  $toast('Player settings saved successfully', { hideIn: 3000 });
+  loadingFooter.value = false;
+};
 </script>
+
+
+
 
 <template>
   <div class="w-full h-full relative">
@@ -98,7 +144,7 @@ onBeforeMount(async ()=>{
       <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
-<TranslateProjectProjectsettings v-if=" !translateStore.loadingProject" :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
+<TranslateProjectProjectsettings v-if="!translateStore.loadingProject && translateStore.videoProject && translateStore.player" :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
     <TranslateStats
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
@@ -107,7 +153,7 @@ onBeforeMount(async ()=>{
     />
     <TranslateTable type="Translate video"/>
     <transition name="slide-up">
-      <SavefooterTranslate :showFooter="showFooter"  @cancel_action="cancelFooter"/>
+ <SaveTranslateFooter :showFooter="showFooter" @save="savePlayer"  :loading="loadingFooter" @cancel_action="cancelFooter"/> 
 
     </transition>
   </div>
