@@ -46,8 +46,12 @@ watch(plan, (ov, nv) => {
     <!-- <LanguageServicesStatsNavbar :selected-tab="selectTab" @select-tabs="getSelectedTab" /> -->
 
     <HeaderAccess
-      section-title="Overview"
-      section-sub-title=" Overview provides system summary with key data and analytics for decision-making"
+      :section-title="$t('Overview')"
+      :section-sub-title="
+        $t(
+          'Overview provides system summary with key data and analytics for decision-making'
+        )
+      "
     />
     <LanguageServicesNavbar />
     <LanguageServicesOverviewNavbar

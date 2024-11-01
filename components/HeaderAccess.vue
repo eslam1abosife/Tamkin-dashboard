@@ -79,7 +79,20 @@ const isLinkActive = (path) => {
     >
       {{ sectionTitle }}
     </h1>
-    <div v-else class="h-[20px] mt-[20px] bg-gray-200 w-[150px]"></div>
+    <div
+      v-else
+      class="h-[20px] bg-gray-200 w-[150px]"
+      :class="
+        loadApp &&
+        (isLinkActive('/sign-language/overview') ||
+          isLinkActive('/sign-language/statistics') ||
+          isLinkActive('/sign-language/customize') ||
+          isLinkActive('/sign-language/addons') ||
+          isLinkActive('/sign-language/settings'))
+          ? 'mt-[0px]'
+          : 'mt-[20px]'
+      "
+    ></div>
 
     <h2
       v-if="Object.keys(app).length > 0"
@@ -118,7 +131,6 @@ const isLinkActive = (path) => {
               />
             </div>
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-              <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
               <div>
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
@@ -166,18 +178,6 @@ const isLinkActive = (path) => {
                     ></path>
                   </svg>
                 </a>
-
-                <!-- <a
-                  :href="app.app_domain"
-                  target="_blank"
-                  class="text-tamkin font-[600] text-[14px] leading-[24px] flex ]"
-                >
-                  Visit Site
-                  <img
-                    src="/assets/imgs/icons/external_link.svg"
-                    class="rtl:mr-[14px] ltr:ml-[14px]"
-                  />
-                </a> -->
               </div>
             </div>
           </div>
@@ -187,15 +187,16 @@ const isLinkActive = (path) => {
   </div>
   <div
     v-else
-    class="flex items-center gap-2 mt-[-20px] lg:mt-[15px] pb-[65px] flex lg:space-y-0 space-y-[16px]"
+    class="flex items-center gap-2 mt-[-20px] lg:mt-[15px] flex lg:space-y-0 space-y-[16px]"
     :class="
       loadApp &&
-      (isLinkActive('/overview') ||
-        isLinkActive('/sign-language/overview') ||
-        isLinkActive('/statistics') ||
-        isLinkActive('/sign-language/statistics'))
-        ? 'pb-[65px]'
-        : ''
+      (isLinkActive('/sign-language/overview') ||
+        isLinkActive('/sign-language/statistics') ||
+        isLinkActive('/sign-language/customize') ||
+        isLinkActive('/sign-language/addons') ||
+        isLinkActive('/sign-language/settings'))
+        ? 'pb-[80px]'
+        : 'pb-[65px]'
     "
   >
     <div class="h-[55px] w-[55px] bg-gray-200 rounded-full"></div>

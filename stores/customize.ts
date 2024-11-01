@@ -289,7 +289,7 @@ export const useCustomizeStore = defineStore("customize", {
         this.currentShapeLiveTranslation !==
           this.initcurrentShapeLiveTranslation ||
         this.initaccessibilityMode !== this.accessibilityMode ||
-        this.selectedLang.code !== this.initselectedLang.code ||
+        this.selectedLang?.code !== this.initselectedLang?.code ||
         this.currentAboveShapeLiveTranslation !==
           this.initcurrentAboveShapeLiveTranslation ||
         this.background !== this.initbackground
