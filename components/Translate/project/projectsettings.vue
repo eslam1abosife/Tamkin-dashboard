@@ -6,7 +6,6 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
 const {locale} = useI18n()
-
 const translateStore = useTranslateStore()
 const {
     isOpen,
@@ -25,6 +24,7 @@ const changeMode = (mode: any) => {
 const getPlayerPosition = (p: any) => {
   translateStore.player.playerPosition = p
 }
+
 
 // provide('currentMode', currentMode)
 </script>

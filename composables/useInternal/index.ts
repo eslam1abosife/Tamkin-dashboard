@@ -12,6 +12,9 @@ import useGetPackages from "./useGetPackages";
 import useTranslateDoc from "./useTranslateDoc";
 import useTranslateImages from "./useTranslateImages";
 import useGetProject from "./useGetProject";
+import usePlayerSettings from "./usePlayerSettings";
+import useUpdateProject from "./useUpdateProject";
+import useGetSubTitleLangs from "./useGetSubTitleLangs";
 
 export {
 
@@ -27,6 +30,9 @@ export {
     useGetPackages,
     useTranslateDoc,
     useTranslateImages,
-    useGetProject
+    useGetProject,
+    usePlayerSettings,
+    useUpdateProject,
+    useGetSubTitleLangs
 }
 
