@@ -1,43 +1,74 @@
 <script lang="ts" setup>
+import {useTranslateVideo,useGetLangs,useTranslateAudio,useTranslateLive,useUpdateProject } from '@/composables/useInternal'
 
-import { useTranslateStore } from "~/stores/translate";
-import USa from '/public/assets/imgs/translatevideo/USA.svg'
 const translateStore = useTranslateStore()
-import { Vue3Lottie } from 'vue3-lottie'
 
-import SuccessAnimation from '/assets/animation/forget_password_success.json'
-const languagesArr = [
-    {
-        id: 1,
-        name: 'English (USA)',
-        icon: USa
-    },
-    {
-        id: 2,
-        name: 'English (USA)',
-        icon: USa
 
-    },
-    {
-        id: 3,
-        name: 'English (USA)',
-        icon: USa
 
-    },
+const {t} = useI18n()
+const {$toast} = useNuxtApp()
+const {updateProject,cancelRequest,controller
+    
+} = useUpdateProject()
 
-]
-const handleSelectedItemProjectName = (item: any) => {
-    console.log(item)
+const updateLanguage = async () => {
+    processVideo.value = true
+    translateStore.processingrq = true
+//     used_sign_language
+// sign_original_language
+const res = await updateProject({...translateStore.videoProject, project_statistic: translateStore.videoProject.stats,   
+    used_sign_language:1,
+    sign_original_language:translateTo.value,})
+if(res){
+    $toast(t('Subtitles Translated Successfully'),{hideIn:3000})
+translateto.value = ''  
+processVideo.value = false
+doneVideo.value = true
+translateStore.processingrq = false
+}else {
+    $toast(t('Something Went wrong , please try again '),{hideIn:3000,type:'error'})
+
 }
+
+};
+const languagesArr =ref([])
+
+const handleSelectedItemProjectName = (item: any) => {
+    translateTo.value = item.id
+}
+const translateTo = ref()
+
 const processVideo = ref(false)
 const doneVideo = ref(false)
 
-watch(processVideo,(ov,nv)=>{
-   
-setTimeout(()=>{
-    doneVideo.value = true
-},1500)
+
+function convertToMinutesAndSeconds(timeString) {
+  const [hours, minutes, seconds] = timeString.split(':');
+  const secondsOnly = seconds.split(',')[0]; 
+  const totalSeconds = parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(secondsOnly);
   
+  const formattedMinutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+  const formattedSeconds = (totalSeconds % 60).toString().padStart(2, '0');
+  
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+const cancelAction  = ()=>{
+    processVideo.value = false
+    doneVideo.value = false
+    translateStore.processingrq = false
+
+    return cancelRequest()
+}
+const { getLanguages} = useGetLangs()
+onMounted(async ()=>{
+    const languages = await getLanguages()
+languagesArr.value = languages.media.map((l)=>{
+  return {
+    id: l.code,
+    name: l.title1,
+  }
+})
 })
 </script>
 
@@ -58,31 +89,29 @@ setTimeout(()=>{
             </div>
             <div class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between w-[100%] h-[40px] px-4 mt-[16px]">
                     <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                        Project 1
+                        {{translateStore.videoProject.project_name}}
+
                     </div>
                     <div class="text-[13px] font-[500] text-darkGrey leading-[32px]">
-                        4:55
+                        {{convertToMinutesAndSeconds(translateStore.videoProject.stats[0].value)}}
                     </div>
             </div>
             <TranslateSelectInput class="mt-[16px]  " 
-            @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" iconKey="icon"
+            @getCurrentSelectedItem="handleSelectedItemProjectName" :enableSearch="true" 
             :placeholderinput="$t('Original language')" :list="languagesArr" nameKey="name" idField="id" />
     
-            <button class="btn-default mt-[16px]" @click="translateStore.showProcessingFooter = true">
+            <button class="btn-default mt-[16px]"  :disabled="processVideo || !translateTo " @click="updateLanguage">
                 <span class="text">{{$t('Generate Sign Language')}}</span>
             </button>
         </div>
 
  
 
-        <Processingfooter :show-footer="translateStore.showProcessingFooter" :done="doneVideo" @close-footer="()=>{
-            translateStore.showProcessingFooter = false
-            doneVideo = false
-        }"  @cancel_action="()=>{
-            translateStore.showProcessingFooter = false
-            doneVideo = false
-
-        }"/>
+        <transition name="slide-up">
+            <Processingfooter :show-footer="processVideo && controller" :done="doneVideo"
+             @close-footer="()=>{processVideo = false
+            doneVideo = false}"  @cancel_action="cancelAction"/>
+    </transition>
 
        </div>
 

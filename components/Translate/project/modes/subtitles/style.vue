@@ -187,12 +187,13 @@ onBeforeMount(()=>{
                 <div @click="()=>{showColorPicker = !showColorPicker}"
                     class="h-[40px] border-[1px] border-lightGrey rounded-[10px] w-full flex items-center justify-between relative cursor-pointer">
 
-                    <div v-if="showColorPicker" v-on-click-outside="() => { showColorPicker = !showColorPicker }"
-                        class="bg-white absolute z-[50] top-14 h-auto  !shadow-none custom-border-tamkin 
+                    <div v-if="showColorPicker" v-on-click-outside="() => { showColorPicker = !showC
+                        olorPicker }"
+                        class="bg-white absolute !z-[100] top-14 h-auto  !shadow-none custom-border-tamkin 
                     rtl:lg:!right-[-70px] rtl:2xl:!right-[-150px]
  ltr:lg:!left-[-70px] ltr:2xl:!left-[-130px]
 ">
-                        <Vue3ColorPicker mode="solid" @click.stop class="lg:!w-[200px] 2xl:!w-[300px] !shadow-none"
+                        <Vue3ColorPicker mode="solid" @click.stop class="!shadow-none"
                             v-model="translateStore.colorStyle" :showColorList="false" :showEyeDrop="true" :showAlpha="true"
                             type="HEX" :showInputMenu="false" :showInputSet="true" :showPickerMode="false" />
 
@@ -203,7 +204,8 @@ onBeforeMount(()=>{
                         class="rtl:rounded-r-[10px] ltr:rounded-l-[10px] bg-white w-2/4 text-center text-[12px] font-[500] leading-[32px] text-darkGrey">
                         {{ $t('color') }}
                     </div>
-                    <div :style="{background: translateStore.colorStyle}" class=" w-2/4 h-full rtl:rounded-l-[10px] ltr:rounded-r-[10px] flex items-center justify-center ">
+                    <div :style="{background: translateStore.colorStyle}" class=" w-2/4 h-full rtl:rounded-l-[10px]
+                     ltr:rounded-r-[10px] flex items-center justify-center ">
                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M5.155 13.1491L0.85 8.83333C0.733333 8.71637 0.645833 8.58772 0.5875 8.44737C0.529167 8.30702 0.5 8.16082 0.5 8.00877C0.5 7.85673 0.529167 7.71053 0.5875 7.57018C0.645833 7.42982 0.733333 7.30117 0.85 7.18421L4.875 3.16667L3.5625 1.85088C3.41083 1.69883 3.3322 1.51754 3.3266 1.30702C3.321 1.09649 3.3938 0.909357 3.545 0.745614C3.6962 0.581871 3.88287 0.5 4.105 0.5C4.32713 0.5 4.51963 0.581871 4.6825 0.745614L11.105 7.18421C11.2217 7.30117 11.3064 7.42982 11.3591 7.57018C11.4118 7.71053 11.438 7.85673 11.4375 8.00877C11.437 8.16082 11.4109 8.30702 11.3591 8.44737C11.3073 8.58772 11.2226 8.71637 11.105 8.83333L6.8 13.1491C6.68333 13.2661 6.555 13.3538 6.415 13.4123C6.275 13.4708 6.12917 13.5 5.9775 13.5C5.82583 13.5 5.68 13.4708 5.54 13.4123C5.4 13.3538 5.27167 13.2661 5.155 13.1491ZM5.9775 4.27193L2.2325 8.02632H9.7225L5.9775 4.27193ZM12.96 13.5C12.54 13.5 12.1842 13.3508 11.8925 13.0523C11.6008 12.7538 11.455 12.3884 11.455 11.9561C11.455 11.6403 11.5339 11.3421 11.6916 11.0614C11.8493 10.7807 12.0271 10.5058 12.225 10.2368L12.5575 9.81579C12.6625 9.68713 12.7997 9.62 12.9691 9.61439C13.1385 9.60877 13.2755 9.67006 13.38 9.79824L13.73 10.2368C13.9167 10.5058 14.0917 10.7807 14.255 11.0614C14.4183 11.3421 14.5 11.6403 14.5 11.9561C14.5 12.3889 14.3483 12.7545 14.045 13.053C13.7417 13.3515 13.38 13.5005 12.96 13.5Z"
@@ -418,7 +420,7 @@ onBeforeMount(()=>{
                          
                             class="bg-white absolute z-[50] bottom-[-10px] h-auto padding-override-1  
                             !shadow-none custom-border-tamkin !right-[50px]">
-                            <Vue3ColorPicker mode="solid" @click.stop class="lg:!w-[200px] 2xl:!w-[300px] !shadow-none"
+                            <Vue3ColorPicker mode="solid" @click.stop class=" !shadow-none"
                                 v-model="translateStore.styles.bg" :showColorList="false" :showEyeDrop="true" :showAlpha="true" type="HEX"
                                 :showInputMenu="false" :showInputSet="true" :showPickerMode="false" />
         
@@ -426,8 +428,8 @@ onBeforeMount(()=>{
                         </div>
         
                         <div    
-                        
-                        class="bg-[#F7F7F7] border-[1px] w-[50px] h-[40px] !px-0 rtl:rounded-l-[10px] ltr:rounded-r-[10px] 
+                        :style="{background: translateStore.styles.bg}"
+                        class=" border-[1px] w-[50px] h-[40px] !px-0 rtl:rounded-l-[10px] ltr:rounded-r-[10px] 
                         flex items-center justify-center cursor-pointer"
                             @click="showColorPickerHightlight = !showColorPickerHightlight">
                             <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -465,7 +467,9 @@ onBeforeMount(()=>{
     bottom: 0px;
     @apply ltr:ml-auto rtl:mr-auto;
 }
-
+.colour-area-point-circle{
+    z-index:40;
+}
 .slider {
     -webkit-appearance: none;
     appearance: none;

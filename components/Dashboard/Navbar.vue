@@ -573,7 +573,7 @@ watch(
 
       <div
         class="relative"
-        @click="openMenuSub(4)"
+        @click.stop="openMenuSub(4)"
         :class="[!sideBarOpen ? '  ' : 'w-full ']"
       >
         <div
@@ -611,7 +611,8 @@ watch(
           </svg>
 
           <div
-            class="w-full  rtl:space-x-reverse  ltr:space-x-[50px] rtl:space-x-[90px] flex items-center rtl:justify-start rtl:space-x-[20px] ltr:justify-evenly"
+            class="w-full  rtl:space-x-reverse  ltr:space-x-[50px] rtl:space-x-[90px] flex items-center
+             rtl:justify-start rtl:space-x-[20px] ltr:justify-evenly"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -654,7 +655,7 @@ watch(
           class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] rounded-t-[10px]  h-full bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] rounded-t-[10px]   bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
               : ' ',
             showSubMenu[4] ? 'block ' : 'hidden',
           ]"
@@ -1307,7 +1308,7 @@ watch(
 
       <div
         class="relative"
-        @click="openMenuSub(3)"
+        @click.stop="openMenuSub(3)"
         :class="[!sideBarOpen ? '  ' : 'w-full ']"
       >
         <div

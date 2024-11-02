@@ -17,7 +17,7 @@ const languagesArr = [
 ];
 
 const texts = ref([]);
-const initialTexts = ref(JSON.parse(JSON.stringify(texts.value)));
+const initialTexts = ref([]);
 const textEditing = ref<number[]>([]);
 const currentTextToEdit = ref<number | null>(null);
 const showPros = ref(false);
@@ -66,7 +66,8 @@ const changeMode = (mode: any) => {
 };
 
 const cancelEditing = () => {
-  texts.value = previousTexts.value;
+  texts.value = initialTexts.value;
+
   donePros.value = false;
 };
 
@@ -89,7 +90,7 @@ const deleteSub = (id: number) => {
 };
 const loadingsubs = ref(true)
 onMounted(() => {
-  previousTexts.value = JSON.parse(JSON.stringify(texts.value));
+// ;
 
 });
 
@@ -109,8 +110,9 @@ watchEffect(() => {
   texts.value = translateStore.videoProject.value.map(t => {
     return { ...t, id: t.idx, isEditing: false };
   });
-
-
+  initialTexts.value =  translateStore.videoProject.value.map(t => {
+    return { ...t, id: t.idx, isEditing: false };
+  });
 
 }
 });

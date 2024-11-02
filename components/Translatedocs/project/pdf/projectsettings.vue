@@ -374,7 +374,7 @@ const getPlayerPosition = (p: any) => {
 }
 
 .scrollable-div::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     /* Width of the scrollbar */
 
 }

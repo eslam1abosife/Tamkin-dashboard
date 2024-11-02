@@ -27,7 +27,7 @@ const closeFooter = () => {
 
 
 <template>
-    <div v-if="showFooter" class="lg:!px-0 fixed z-[50] 
+    <div v-if="showFooter" class="lg:!px-0 fixed z-[40] 
  bottom-0 w-full rtl:right-[50%] ltr:left-[50%] !px-[0] transform rtl:translate-x-[50%] 
     ltr:translate-x-[-50%]" >
         <div class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[20px] " 

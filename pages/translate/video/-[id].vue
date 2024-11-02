@@ -44,11 +44,12 @@ watch(showProcessingFooter, (ov, nv) => {
 });
 
 const showFooter = computed(() => {
-  return translateStore.hasChangesPlayer && translateStore.currentMode === "player";
+  return translateStore.hasChangesPlayer && translateStore.currentMode === "player" && !processingDone.value;
 });
 
 const cancelFooter = () => {
-  translateStore.cancelChanges();
+  translateStore.cancelChanges()
+//  translateStore.player = translateStore.initialPlayer
 };
 
 const route = useRoute();
@@ -65,6 +66,7 @@ const getProjectByName = async () => {
 onBeforeMount(async () => {
   await getProjectByName();
   initializePlayerSettings();
+
   translateStore.loadingProject = false;
 });
 
@@ -145,9 +147,15 @@ const savePlayer = async () => {
       <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
-<TranslateProjectProjectsettings
 
- :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
+<div class="relative ">
+  <TranslateProjectProjectsettings
+
+/>
+<div  v-if="loadingFooter || translateStore.processingrq " class="absolute h-full w-full inset-0 opacity-30 !cursor-not-allowed bg-slate-300 rounded-[10px] pointer-events-none">
+
+</div>
+</div>
 
 
 <TranslateStats

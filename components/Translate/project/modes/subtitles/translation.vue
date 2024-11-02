@@ -78,7 +78,7 @@ languagesArr.value = languages.map((l)=>{
 
 <template>
 
-    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 px-[10px] flex flex-col items-start justify-start scrollable-div
+    <div v-if="translateStore.subMode  === 'TranslationStyle'" class="w-2/4 rtl:pl-[20px] ltr:pr-[20px] flex flex-col items-start justify-start scrollable-div
   ">
         <div class="text-[12px] font-[600] text-darkGrey flex items-center rtl:space-x-reverse space-x-[10px] mt-[6px]">
             <svg  @click="changeMode('subtitles')" class="cursor-pointer rtl:rotate-180" width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">

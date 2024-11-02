@@ -115,14 +115,16 @@ const internalPackages = ref([])
   const hasChanges = computed(() => {
     return JSON.stringify(initialStyles) !== JSON.stringify(styles);
   });
+  // const previoussettings = JSON.parse(JSON.stringify(player.val));
 
   const hasChangesPlayer = computed(() => {
     return JSON.stringify(initialPlayer.value) !== JSON.stringify(player.value);
   });
 
 const cancelChanges = () => {
-  Object.assign(player, JSON.parse(JSON.stringify(initialPlayer))); 
+  Object.assign(player.value, JSON.parse(JSON.stringify(initialPlayer.value))); 
 };
+const processingrq = ref(false)
 const projectsAr = ref([])
 const allLoaded = ref(null)
 const videoCount = ref()
@@ -178,7 +180,8 @@ pdfCount,
  photoProject,
  loadingProject,
  videoProject,
- assignNewPlayer
+ assignNewPlayer,
+ processingrq
 
   };
 });

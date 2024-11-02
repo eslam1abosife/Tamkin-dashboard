@@ -71,7 +71,7 @@ input:-webkit-autofill {
 }
 
 .scrollable-div::-webkit-scrollbar {
-    width: 10px;
+    width: 9px !important;
     /* Width of the scrollbar */
 
 }

@@ -177,7 +177,7 @@ const userconsume = computed(() => {
   const { images } = translateStore.usedCredit || {};
   const { package: pkg, extre } = translateStore.statsPackage.total?.images || {};
 
-    return 20000 ===  pkg.images_words + extre.images_words ;
+    return images.images_words ===  pkg.images_words + extre.images_words ;
 
 });
 

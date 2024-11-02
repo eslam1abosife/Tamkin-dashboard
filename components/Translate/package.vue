@@ -179,9 +179,9 @@ const userconsume = computed(() => {
 
   if (media) {
     return (
-      translateStore.usedCredit.media.video_word + extre.media_words === pkg.video_words && 
-      translateStore.usedCredit.media.audio_word+ extre.media_words === pkg.audio_words  &&
-      translateStore.usedCredit.media.audio_minutes + extre.media_minutes === pkg.audio_minutes && 
+      translateStore.usedCredit.media.video_words + extre.media_words === pkg.video_words && 
+      translateStore.usedCredit.media.audio_words+ extre.media_words === pkg.aduio_words  &&
+      translateStore.usedCredit.media.audio_minutes + extre.media_minutes === pkg.aduio_minutes && 
       translateStore.usedCredit.media.live_transaction_media + extre.media_minutes  === pkg.live_transaction_media && 
       translateStore.usedCredit.media.video_minutes+ extre.media_minutes  === pkg.video_minutes 
     );

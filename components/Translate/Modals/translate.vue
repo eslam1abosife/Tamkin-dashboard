@@ -5,7 +5,11 @@ import { required, requiredIf } from "@vuelidate/validators";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
 import { useModalManager } from '@/composables/useModalManager';
 import { useTranslateStore } from "~/stores/translate";
-import {useTranslateVideo,useGetLangs,useTranslateAudio,useTranslateLive } from '@/composables/useInternal'
+import {useTranslateVideo,useGetLangs,useTranslateAudio,useTranslateLive ,useGetSubTitleLangs} from '@/composables/useInternal'
+const {t} = useI18n()
+const {getsubtitlelangs} = useGetSubTitleLangs()
+
+
 import {useGetLiveInfo} from '@/composables/useInternal'
 import {useGetProjects} from '@/composables/useInternal'
 const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
@@ -18,7 +22,8 @@ const localePath = useLocalePath()
 const translateStore = useTranslateStore()
 const {translateVideo,messageData,codeStatus} = useTranslateVideo()
 const {translateVideoLive,messageDataLive,codeStatusLive} = useTranslateLive()
-const {translateAudio} = useTranslateAudio()
+const {translateAudio,codeAudio,
+  messageDataAudio} = useTranslateAudio()
 const {getLanguages} = useGetLangs()
 const {
   isOpen,
@@ -43,15 +48,16 @@ const modalStore = useModalStore();
 const acceptedFilesRef = ref<File[]>([]);
 
 const languagesArr =ref([])
+const sublangs = ref([])
 const ogLang = ref('')
 const translateTo = ref('')
 const signOGlang = ref('')
 const handleSelectedItemProjectName = (item: any) => {
   // console.log(item)
-  translateTo.value = item.name
+  translateTo.value = item.id
 };
 const selectOgLang = (item: any) => {
-  ogLang.value = item.name
+  ogLang.value = item.id
 
 };
 const selectSignOgLang = (item: any) => {
@@ -64,7 +70,7 @@ const state = reactive({
 });
 const allowedSocialMediaUrl = (value) => {
 if(acceptedFilesRef.value.length === 0){
-  const regex = /^(https?:\/\/)?(www\.)?(fb|facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter)\.(com|watch)\//;
+  const regex = /^(https?:\/\/)?(www\.)?(fb|facebook|instagram|youtube|tiktok|rumble|reddit|x|twitter|soundcloud)\.(com|watch)\//;
   return regex.test(value);
 }else {
   return true
@@ -129,11 +135,11 @@ const getInfoOnLiveVide = async () => {
   if(data){
     liveVideoInfo.value = data
     liveVideoLoading.value = false
-    if(liveVideoInfo.value.duration !== 'No duration' && liveVideoInfo.value.video_ext !== 'none'){
-      videoDuration.value = Math.ceil(liveVideoInfo.value.duration)
+    if(liveVideoInfo.value.video_ext !== 'none'){
+      videoDuration.value = typeof liveVideoInfo.value.duration === 'number' ? Math.ceil(liveVideoInfo.value.duration) : liveVideoInfo.value.duration  
     }
-    if(liveVideoInfo.value.duration !== 'No duration' && liveVideoInfo.value.audio_ext !== 'none'){
-      audioDuration.value = Math.ceil(liveVideoInfo.value.duration)
+    if(liveVideoInfo.value.audio_ext !== 'none'){
+      audioDuration.value = typeof liveVideoInfo.value.duration === 'number' ? Math.ceil(liveVideoInfo.value.duration) : liveVideoInfo.value.duration  
     }
     acceptedFilesRef.value = []
     
@@ -303,6 +309,7 @@ const blobToBase64 = blob => {
 
 const videobase64 = ref('')
 const liveVideoLoading = ref(false)
+
 const moveForward = () => {
 
   
@@ -324,7 +331,6 @@ const moveForward = () => {
 
 
   setTimeout(async () => {
-    try {
       if (props.translateType === 'video'  ) {
         if(compareDurations(translateStore.statsPackage.total.media.package.video_minutes,formatDuration(videoDuration.value))){
           failedRender.value = false;
@@ -349,7 +355,28 @@ const moveForward = () => {
           rendering.value = false;
 
 $toast(messageData.value,{type:'error',hideIn:3000})
-        }
+        }else {
+          widthVideoProcessing.value = 100;
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+  // translateStore.loadingProjects = true; 
+        
+const data =     await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate Audio', user.agency,true);
+
+  // translateStore.projectsAr = data.data
+}
+     
+
+$toast(t('Video Uploaded Successfully'),{type:'success',hideIn:3000})
+translateStore.loadingProjects = false; 
+
+ 
+
+       closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
+
+       translateStore.loadingProjects = false; 
+      }
         }else {
           $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
 
@@ -377,7 +404,28 @@ $toast(messageData.value,{type:'error',hideIn:3000})
           rendering.value = false;
 
 $toast(messageDataLive.value,{type:'error',hideIn:3000})
-        }
+        }else {
+          widthVideoProcessing.value = 100;
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+  // translateStore.loadingProjects = true; 
+        
+const data =     await getProjects(props.translateType === 'live video' ? 'Translate Live Video':props.translateType === 'video' ? 'Translate video':'Translate Audio', user.agency,true);
+
+  // translateStore.projectsAr = data.data
+}
+     
+
+$toast(t('Video Uploaded Successfully'),{type:'success',hideIn:3000})
+translateStore.loadingProjects = false; 
+
+ 
+
+       closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
+
+       translateStore.loadingProjects = false; 
+      }
       }else {
           $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
 
@@ -386,7 +434,7 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
       } 
       
       else if(props.translateType === 'audio' ) {
-        if(compareDurations(translateStore.statsPackage.total.media.package.aduio_minutes,formatDuration(videoDuration.value))){
+        if(compareDurations(translateStore.statsPackage.total.media.package.aduio_minutes,formatDuration(audioDuration.value))){
 
         failedRender.value = false;
         rendering.value = true;
@@ -401,14 +449,12 @@ $toast(messageDataLive.value,{type:'error',hideIn:3000})
           "sign_language": translateStore.signLanguageChecked,
           "sign_original_language": signOGlang.value
         });
-      }else {
-          $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
+        if(codeAudio.value !== 200){
+          rendering.value = false;
 
-        }
-    }
-    } finally {
-
-      widthVideoProcessing.value = 100;
+$toast(messageDataAudio.value,{type:'error',hideIn:3000})
+        }else {
+          widthVideoProcessing.value = 100;
       const user = JSON.parse(localStorage.getItem("user"));
 
       if (user) {
@@ -419,13 +465,25 @@ const data =     await getProjects(props.translateType === 'live video' ? 'Trans
   // translateStore.projectsAr = data.data
 }
      
+
+$toast(t('Audio File Uploaded Successfully'),{type:'success',hideIn:3000})
 translateStore.loadingProjects = false; 
 
-  }
+ 
 
        closeModal('translate_'+(props.translateType === 'live video' ? 'live_video' :props.translateType))
 
        translateStore.loadingProjects = false; 
+      }
+      }else {
+          $toast('Please Upload a file within the limits of your plan',{type:'error',hideIn:3000})
+
+        }
+    }
+    
+
+
+
 
 
   }, 500);
@@ -434,7 +492,14 @@ translateStore.loadingProjects = false;
 const runconfig = useRuntimeConfig()
 onMounted(async ()=>{
 const languages = await getLanguages()
+const sb = await getsubtitlelangs()
 languagesArr.value = languages.media
+sublangs.value = sb.map((l)=>{
+  return {
+    id: l.name,
+    name: l.language_name,
+  }
+})
 })
 
 function minutesToSeconds(minutes) {
@@ -443,27 +508,34 @@ function minutesToSeconds(minutes) {
 
 function parseTimeString(timeString) {
     const [minutes, seconds] = timeString.split(':').map(Number);
-    return minutes * 60 + (seconds || 0);  // Handle cases where seconds might be undefined
+    return minutes * 60 + (seconds || 0); 
 }
+const videomins = computed(()=>{
 
-function compareDurations(videoMinutes, timeString) {
-    const videoSeconds = minutesToSeconds(videoMinutes);  // Convert minutes to seconds
+  return  translateStore.statsPackage.total.media.package.video_minutes +translateStore.statsPackage.total.media.extre.media_minutes
+})
+function compareDurations(videoMinutes, timeString = '20:55') {
+    const videoSeconds = minutesToSeconds(videoMinutes);  
     const timeStringSeconds = parseTimeString(timeString);
     return videoSeconds > timeStringSeconds;
 }
 
 function returnLeftofPackage(videoMinutes, timeString) {
-    const videoSeconds = minutesToSeconds(videoMinutes);  // Convert minutes to seconds
+    const videoSeconds = minutesToSeconds(videoMinutes);  
     const timeStringSeconds = parseTimeString(timeString);
 
     const remainingSeconds = videoSeconds - timeStringSeconds;
     return remainingSeconds / 60; 
 }
 const hasUpload = computed(() => {
-    const noFileAndNoLink = acceptedFilesRef.value.length === 0 && !state.videoLink;
-    const linkButNoInfo = !!state.videoLink && !liveVideoInfo.value;  // Ensure this is a boolean
-    return noFileAndNoLink || linkButNoInfo;
+
+
+  const noFileAndNoLink = acceptedFilesRef.value.length === 0 && !state.videoLink;
+  const linkButNoInfo = acceptedFilesRef.value.length === 0 && !!state.videoLink && !liveVideoInfo.value;
+  
+  return noFileAndNoLink || linkButNoInfo;
 });
+
 const leftofmins = computed(() => {
 
   return returnLeftofPackage(
@@ -482,6 +554,10 @@ const disableSubtitlesLiveVideo= computed(()=>{
    + translateStore.statsPackage.total.media.extre.media_words > 0
 })
 const validatationForUpload = computed(() => {
+
+   if(liveVideoInfo.value && videoDuration.value === 'No duration' || liveVideoInfo.value && videoDuration.value === 'No Duration'){ 
+      return false
+    }
     if(acceptedFilesRef.value.length > 0 || liveVideoInfo.value ){
       let durationValid;
    if(props.translateType === 'audio'){
@@ -491,13 +567,10 @@ const validatationForUpload = computed(() => {
     );
    }else {
      durationValid = compareDurations(
-        translateStore.statsPackage.total.media.package.video_minutes +translateStore.statsPackage.total.media.extre.media_minutes ,  // Pass in minutes directly
-     formatDuration(videoDuration.value) 
+      videomins.value ,     formatDuration(videoDuration.value) 
     );
    }
     return !durationValid;
-    }else {
-      return true
     }
 });
 watch(
@@ -506,13 +579,13 @@ watch(
     liveVideoInfo.value = ''
     
     await getInfoOnLiveVide();
-
-    if (liveVideoInfo.value && liveVideoInfo.value.title) {
       state.projectName = liveVideoInfo.value.title;
-      if(validatationForUpload.value){
-        $toast('Please Upload a file within the limits of your plan', {type:'error',hideIn:3000})
-      }
-    }
+
+    // if (liveVideoInfo.value && liveVideoInfo.value.title) {
+    //   if(validatationForUpload.value){
+    //     $toast('Please Upload a file within the limits of your plan', {type:'error',hideIn:3000})
+    //   }
+    // }
   }
 );
 watch(
@@ -561,7 +634,8 @@ watch(
   <div v-if="!rendering && !failedRender" class="flex flex-col items-start justify-center px-[15px] h-full
    dark:bg-tamkinDarkPrimary w-full mx-auto rounded-[10px] mt-[16px] ipad-max:mt-[4px] ">
     <div class="w-full">
-      <div v-if="(translateType === 'video' && !state.videoLink) || (translateType === 'audio'&& !state.videoLink) " v-bind="getRootProps()" class="w-full h-auto 
+      <div v-if="((translateType === 'video' && !liveVideoInfo &&!liveVideoLoading) || (translateType === 'audio' && !liveVideoInfo&&!liveVideoLoading)) "
+v-bind="getRootProps()" class="w-full h-auto 
        rounded-[10px] border-[1px] border-dashed 
       border-[#C8CFEB] hover:bg-tamkin-primary hover:bg-opacity-10 dark:border-[#333333] flex items-center
        justify-center flex-col  relative p-[10px]">
@@ -614,7 +688,7 @@ watch(
             </div>
           </div>
         </div> -->
-        <div class="w-full flex flex-col items-center justify-start space-y-[4px]" v-if="acceptedFilesRef.length === 0">
+        <div class="w-full flex flex-col items-center justify-start space-y-[4px]" v-if="acceptedFilesRef.length === 0 || v$.videoLink.$invalid">
           <button class="flex items-center justify-center border-[1px]
                  border-[#C8CFEB] rounded-[10px] w-[134px] h-[32px] rtl:space-x-reverse space-x-[6px] mx-auto ">
                 <img src="/assets/imgs/translatevideo/upload.svg" class="w-[19px] h-[19px]" />
@@ -651,8 +725,16 @@ watch(
           
              <div class="flex flex-col items-start justify-start space-y-[48px]">
               <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{liveVideoInfo.title}}</div>
-              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">{{formatDuration(videoDuration)}}</div>
-         
+              <div class="max-w-xs w-24 lg:w-60 truncate text-[#6D6D6D] text-[12px] font-[500] leading-[16px]">
+                {{
+                  (videoDuration !== 'No Duration' && videoDuration !== 'no duration') 
+                    ? formatDuration(videoDuration) 
+                    : (audioDuration !== 'No Duration' && audioDuration !== 'no duration') 
+                    ? formatAudioDuration(audioDuration) 
+                    : $t('Length not available')
+                }}
+              </div>
+                       
             </div>
             
           </div>
@@ -783,17 +865,17 @@ watch(
             {{ $t('Original language') }}
           </div> -->
           <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" 
-          iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="title" idField="id" />
+       placeholderinput="Auto-detect Language" :list="sublangs" nameKey="name" idField="id" />
         </div>
-        <div class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap">
+        <div  :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']" class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap">
           {{ $t('Translate to') }}
         </div>
         <div class="flex flex-col items-start justify-start space-y-[10px]  w-2/4"
          :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
        
           <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" 
-          :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" 
-          :list="languagesArr" nameKey="title" idField="id" />
+          :enableSearch="true" placeholderinput="Auto-detect Language" 
+          :list="sublangs" nameKey="name" idField="id" />
         </div>
       </div>
 

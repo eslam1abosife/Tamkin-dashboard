@@ -72,8 +72,9 @@ onMounted(() => {
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
     <button
       @click.prevent="toggleDropdown"
-      class="input_search_country !rounded-[10px] peer w-full ltr:text-left rtl:text-right"
-      :class="[isListOpen ? 'rounded-b-none' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '', errorField ? 'input_error' : '', successField ? 'input_success' : '']"
+      class="border-[1px] border-lightGrey rounded-[10px] flex items-center justify-between 
+            h-[40px] px-4  peer w-full ltr:text-left rtl:text-right focus:border-tamkin"
+      :class="[isListOpen ? 'border-tamkin' : '', disabled ? 'bg-gray-200 bg-opacity-50 cursor-not-allowed focus:!outline-none focus:!ring-0' : '', errorField ? 'input_error' : '', successField ? 'input_success' : '']"
     >
       <div
         class="floating_country px-[6px]   
@@ -98,7 +99,7 @@ onMounted(() => {
       <img
         src="/assets/imgs/payment_methods/country_arrow.svg"
         :class="[isListOpen ? 'rotate-90 ' : 'rtl:rotate-180']"
-        class="rtl:ml-[0px] ltr:mr-[20px] mb-[0px] rtl:float-left ltr:float-right w-[14px] h-[8px]"
+        class=" rtl:mr-auto ltr:ml-auto w-[14px] h-[8px]"
       />
     </button>
     <div v-if="isListOpen" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">

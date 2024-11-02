@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-              import { VTamkinPlayer } from 'tamkin-video-player';
-              //      import { VTamkinPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
-              // import '../../../tamkin-player/style.css'
+              // import { VTamkinPlayer } from 'tamkin-video-player';
+                   import { VTamkinPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
+              import '../../../tamkin-player/style.css'
               const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 const {locale} = useI18n()
@@ -79,17 +79,18 @@ const getPlayerPosition = (p: any) => {
     <TranslateModalsMoreinfo />
 
     <div class="flex flex-row items-start justify-between gap-4 w-full mt-[42px]">
-        <LazyTranslateProjectModesTranslation
+        
+      <TranslateProjectModesTranslation
         
         
-        v-show="translateStore.currentMode === 'translation' && !bigpicMode" class="transition-all ease-in-out" key="32322"/>
+        v-if="translateStore.currentMode === 'translation' && !bigpicMode && !translateStore.loadingProject" class="transition-all ease-in-out" key="32322"/>
   
 
-      <LazyTranslateProjectModesSubtitles v-if="translateStore.currentMode === 'subtitles' && !bigpicMode" key="23242"/>
+      <TranslateProjectModesSubtitles v-if="translateStore.currentMode === 'subtitles' && !bigpicMode" key="23242"/>
 
       
       
-      <LazyTranslateProjectModesPlayer  key="2113" v-if="!translateStore.loadingProject && translateStore.currentMode === 'player' && !bigpicMode"
+      <TranslateProjectModesPlayer  key="2113" v-if="!translateStore.loadingProject && translateStore.currentMode === 'player' && !bigpicMode"
        @player-position="getPlayerPosition" />
 
 
@@ -168,9 +169,8 @@ const getPlayerPosition = (p: any) => {
           </div>
         </div>
             <!-- :subtitleTextTransform="translateStore.styles." -->
-        <div v-if="!translateStore.loadingProject">
+        <div v-if="!translateStore.loadingProject" class="relative">
           <VTamkinPlayer 
-          :is-player-visible=" !translateStore.loadingProject "
           @TamkinFullScreen="bigpicMode = !bigpicMode"
           :mediaUrl="translateStore.videoProject.file_link"
           :isVideo="true"
@@ -199,7 +199,7 @@ const getPlayerPosition = (p: any) => {
         />
         </div>
           
-        <div class="w-full h-[275px] mt-[10px] bg-gray-300 animate-pulse rounded-[10px]" v-else></div>
+        <div class="w-full h-[275px] mt-[10px] bg-gray-300 animate-pulse rounded-[10px]" v-if="translateStore.loadingProject"></div>
 
 
      
