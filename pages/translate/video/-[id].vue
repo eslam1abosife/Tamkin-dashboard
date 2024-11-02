@@ -92,6 +92,8 @@ const initializePlayerSettings = () => {
 
     translateStore.initialPlayer = { ...translateStore.player };
   }
+
+
 };
 
 const { $toast } = useNuxtApp();
@@ -132,7 +134,6 @@ const savePlayer = async () => {
       >
         {{ $t('Translate video') }}
       </h1>
-
       </div>
       <h2 @click="$router.push(localePath('/translate'))"
         class="cursor-pointer ltr:text-left rtl:text-right text-[14px] font-[400] dark:text-whiteTamkin/90 text-darkGrey"
@@ -144,8 +145,12 @@ const savePlayer = async () => {
       <Processingfooter :done="processingDone" :showFooter="showProcessingFooter" @cancel_action="cancelFooterproccess"/>
 
     </transition>
-<TranslateProjectProjectsettings v-if="!translateStore.loadingProject && translateStore.videoProject && translateStore.player" :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
-    <TranslateStats
+<TranslateProjectProjectsettings
+
+ :class="showProcessingFooter && !processingDone ? 'opacity-30 !cursor-not-allowed  pointer-events-none' : 'opacity-100'"/>
+
+
+<TranslateStats
       v-if="currentPlan === 'freetrial_expired' || currentPlan === 'pro'"
     />
     <TranslatePlanCard

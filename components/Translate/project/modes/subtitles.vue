@@ -66,7 +66,7 @@ const changeMode = (mode: any) => {
 };
 
 const cancelEditing = () => {
-  texts.value = JSON.parse(JSON.stringify(previousTexts.value));
+  texts.value = previousTexts.value;
   donePros.value = false;
 };
 
@@ -87,20 +87,33 @@ const deleteSub = (id: number) => {
 
   donePros.value = true;
 };
+const loadingsubs = ref(true)
+onMounted(() => {
+  previousTexts.value = JSON.parse(JSON.stringify(texts.value));
 
-onBeforeMount(() => {
-  texts.value = translateStore.videoProject.value.map(t => {
-    return { ...t, id: t.idx, isEditing: false };
-  });
 });
 
 watch(
-  texts,
+  translateStore.videoProject,
   () => {
-    translateStore.changesOnSubTitles = !deepEqualTexts(initialTexts.value, texts.value);
+    // translateStore.changesOnSubTitles = !deepEqualTexts(initialTexts.value, texts.value);
+
+
   },
   { deep: true }
 );
+
+watchEffect(() => {
+  if(!translateStore.loadingProject){
+  // alert('yea')
+  texts.value = translateStore.videoProject.value.map(t => {
+    return { ...t, id: t.idx, isEditing: false };
+  });
+
+
+
+}
+});
 
 const deepEqualTexts = (arr1: any[], arr2: any[]): boolean => {
   return arr1.length === arr2.length && arr1.every((item, i) => item.text === arr2[i].text);
@@ -110,13 +123,17 @@ const formatTimeString = (timeString) => {
   const formattedTime = timeString.split(',')[0];
   return formattedTime;
 };
+
+const bigpicMode = inject('bigpicMode')
 </script>
 
 
 
 <template>
-  <div class="w-2/4 flex flex-col items-start justify-start h-[315px]">
-    <div class="flex items-start w-full justify-between rtl:pl-[20px] ltr:pr-[20px]" v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
+
+  <div  v-if="!translateStore.loadingProject "  class="w-2/4 flex flex-col items-start justify-start h-[315px]">
+    <div class="flex items-start w-full justify-between rtl:pl-[20px] ltr:pr-[20px]"
+     v-if="translateStore.currentMode === 'subtitles' && !translateStore.subMode">
       <div class="text-[#3D3D3D] text-[15px] font-[500]">{{$t('Subtitles')}}</div>
       <div class="flex items-start justify-evenly rtl:space-x-reverse space-x-[15px]">
         <button class="btn-translate tamkin hover_tamkin  group"
@@ -218,11 +235,54 @@ const formatTimeString = (timeString) => {
     <transition name="slide-up">
 
 
-      <SaveTranslateFooter  :show-footer="donePros" @save="updateProjectFn" :loading="loadingUpdate" @cancel_action="cancelEditing" />
+      <SaveTranslateFooter  :show-footer="donePros" @save="updateProjectFn" :loading="loadingUpdate" 
+      @cancel_action="cancelEditing" />
 
     </transition>
     <!-- <Processingfooter :show-footer="showPros" :done="donePros" @close-footer="showPros = false"  @cancel_action="cancelEditing"/> -->
   </div>
+ 
+  <div v-else  class="w-2/4 flex flex-col items-start justify-start h-[315px] space-y-4 animate-pulse">
+    <!-- Header placeholder -->
+    <div class="flex items-start w-full justify-between rtl:pl-[20px] ltr:pr-[20px]">
+      <div class="bg-gray-300 h-4 w-20 rounded-md"></div>
+      <div class="flex items-start space-x-[15px] rtl:space-x-reverse">
+        <div class="bg-gray-300 h-8 w-8 rounded-md"></div>
+        <div class="bg-gray-300 h-8 w-8 rounded-md"></div>
+      </div>
+    </div>
+  
+    <!-- List items placeholder -->
+    <div class="w-full h-[275px]">
+      <div v-for="i in 5" :key="i" class="flex items-center justify-between border-b py-2 w-full rtl:pl-[8px] ltr:pr-[8px] relative">
+        <!-- Edit button placeholder -->
+        <div class="absolute top-[-10px] rtl:right-[30%] ltr:left-[30%] bg-gray-300 h-[20px] rounded-[5px] w-[10px]"></div>
+  
+        <!-- Text area placeholder -->
+        <div class="w-2/4">
+          <div class="bg-gray-300 h-6 w-full rounded-md"></div>
+        </div>
+  
+        <!-- Time and delete button placeholder -->
+        <div class="flex items-center justify-evenly rtl:space-x-reverse space-x-[20px] w-[40%]">
+          <div class="flex flex-col space-y-1">
+            <div class="flex items-center rtl:space-x-reverse space-x-2">
+              <div class="bg-gray-300 h-4 w-16 rounded-md"></div>
+              <div class="bg-gray-300 h-4 w-10 rounded-md"></div>
+            </div>
+            <div class="flex items-center rtl:space-x-reverse space-x-2">
+              <div class="bg-gray-300 h-4 w-16 rounded-md"></div>
+              <div class="bg-gray-300 h-4 w-10 rounded-md"></div>
+            </div>
+          </div>
+          <div class="bg-gray-300 h-8 w-8 rounded-md"></div>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+  
 </template>
 
 <style scoped>
