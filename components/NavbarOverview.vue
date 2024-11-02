@@ -141,7 +141,6 @@ const isLinkActive = (path) => {
 .router-link-active.router-link-exact-active {
   @apply bg-accessNavbarbg dark:bg-tamkin-accessibility-navbar transition-all dark:border-0  ease-in w-full lg:w-[96px] h-[31px] cursor-pointer rounded-[22px] 
   border-[1px] border-black flex items-center justify-center text-darkGrey  text-[11px] font-[500] text-center;
-  /* @apply !text-[13px] !font-[500] text-center text-darkGrey dark:text-white border-[1px] border-black; */
 }
 a {
   @apply !text-[13px] font-[500] text-center;
