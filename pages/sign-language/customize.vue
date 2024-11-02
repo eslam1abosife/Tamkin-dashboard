@@ -267,7 +267,7 @@ const handleSave = async (type: any) => {
       },
       {
         name: "deaf-customize-sign-language-list-list-sign-language",
-        value: customizeStore.selectedLang.language_code,
+        value: customizeStore.selectedLang.code,
       },
       {
         name: "deaf-customize-sign-language-player-language-sign-language-show-language-selector-on-the-widget",
@@ -341,7 +341,6 @@ const getValue = (name: any) => {
       <div v-if="customizeStore.loadingData">
         <div
           class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
-          :class="!settingsStore.defaultappobj.type ? 'mt-[65px]' : 'mt-[40px]'"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"

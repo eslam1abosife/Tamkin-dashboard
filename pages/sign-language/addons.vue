@@ -214,17 +214,17 @@ const getSettingsValue = (name: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Addons"
-        section-sub-title="Enable the Accessibility Services Addons to improve usability and enhance your
-              experience."
+        :section-title="$t('Addons')"
+        :section-sub-title="
+          $t(
+            'Enable the Accessibility Services Addons to improve usability and enhance your experience.'
+          )
+        "
       />
 
-      <div
-        v-if="customizeStore.loadingData || !settingsStore.defaultappobj.type"
-      >
+      <div v-if="customizeStore.loadingData">
         <div
-          class="animate-pulse space-y-4 card bg-white rounded-[10px] p-4"
-          :class="!settingsStore.defaultappobj.type ? 'mt-[65px]' : 'mt-[40px]'"
+          class="animate-pulse space-y-4 mt-[40px] card bg-white rounded-[10px] p-4"
         >
           <div
             class="h-[55px] w-full rounded-md bg-gray-200"

@@ -28,9 +28,11 @@ const getImagePath = (icon) => {
           class="text-[14px] xs:text-[12px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
           {{
-            signLangStore.addonsPlugin.title
-              ? signLangStore.addonsPlugin.title
-              : ""
+            $t(
+              signLangStore.addonsPlugin.title
+                ? signLangStore.addonsPlugin.title
+                : ""
+            )
           }}
         </h1>
 
@@ -39,16 +41,20 @@ const getImagePath = (icon) => {
         >
           <span v-if="!collapseStore.collapses.includes('webPlugins')">
             {{
-              signLangStore.addonsPlugin.description_on_show
-                ? signLangStore.addonsPlugin.description_on_show
-                : ""
+              $t(
+                signLangStore.addonsPlugin.description_on_show
+                  ? signLangStore.addonsPlugin.description_on_show
+                  : ""
+              )
             }}
           </span>
           <span v-else>
             {{
-              signLangStore.addonsPlugin.description_on_hide
-                ? signLangStore.addonsPlugin.description_on_hide
-                : ""
+              $t(
+                signLangStore.addonsPlugin.description_on_hide
+                  ? signLangStore.addonsPlugin.description_on_hide
+                  : ""
+              )
             }}
           </span>
         </h2>
