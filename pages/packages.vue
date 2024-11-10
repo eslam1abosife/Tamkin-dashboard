@@ -23,6 +23,9 @@ const isLinkActive = (path) => {
 };
 definePageMeta({
   layout: "dashboard",
+  middleware: ["auth", "permissions"],
+  requiredPermission: "packages",
+
 });
 const typeMap = {
   bundle: "Bundle",

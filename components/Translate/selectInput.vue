@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
+import { ref, computed, watch, onMounted, defineProps, defineEmits } from "vue";
+import { useDebounce } from "@vueuse/core";
 
+const {t} = useI18n()
 const props = defineProps({
   list: Array,
   placeholderinput: String,
@@ -11,7 +14,7 @@ const props = defineProps({
   disabled: Boolean,
   errorField: Boolean,
   successField: Boolean,
-  currentListValue: String,
+  currentListValue: [String, Number], // Allow currentListValue to be either name or id
 });
 
 const emit = defineEmits(["getCurrentSelectedItem"]);
@@ -19,15 +22,22 @@ const isListOpen = ref(false);
 const search = ref("");
 const selectedOption = ref(null);
 
-// Compute the initial selected option based on `currentListValue`
-const selectedListObj = computed(() => {
-  return props.list.find((item) => item[props.nameKey] === props.currentListValue) || null;
-});
-
-// Update `selectedOption` when `currentListValue` changes
-watch(() => props.currentListValue, (newValue) => {
-  selectedOption.value = props.list.find((item) => item[props.nameKey] === newValue) || null;
-});
+// Watch for changes in the currentListValue and update selectedOption accordingly
+watch(
+  () => props.currentListValue,
+  (newValue) => {
+    if (newValue) {
+      selectedOption.value =
+        props.list.find(
+          (item) =>
+            item[props.nameKey] === newValue || item[props.idField] === newValue
+        ) || null;
+    } else {
+      selectedOption.value = null;
+    }
+  },
+  { immediate: true }
+);
 
 // Emit the selected item when it's chosen
 const getSelectedItem = (item) => {
@@ -49,25 +59,61 @@ const closeOnOutSideClick = () => {
 // Select an item from the list
 const selectList = (item) => {
   if (!props.disabled) {
+    // Update the selected item in the state
     selectedOption.value = item;
-    isListOpen.value = false;
+
+    // Emit the selected item
     getSelectedItem(item);
+
+    // Close the dropdown after selecting an item
+    isListOpen.value = false;
   }
 };
+const debouncedSearch = useDebounce(search, 300); // 300 ms debounce
 
-// Filter the list based on search input
 const filteredList = computed(() => {
-  return props.list.filter((listItem) =>
-    listItem[props.nameKey].toLowerCase().includes(search.value.toString().toLowerCase())
-  );
+  if (!debouncedSearch.value) {
+    return props.list;
+  }
+
+  const lowerSearchValue = t(debouncedSearch.value).toLowerCase();
+
+  const matches = props.list
+    .filter((listItem) => {
+      const translatedName = listItem[props.nameKey].toLowerCase();
+      return translatedName.includes(lowerSearchValue);
+    })
+    .sort((a, b) => {
+      const translatedA = a[props.nameKey].toLowerCase();
+      const translatedB = b[props.nameKey].toLowerCase();
+
+      if (translatedA === lowerSearchValue) return -1;
+      if (translatedB === lowerSearchValue) return 1;
+
+      if (translatedA.startsWith(lowerSearchValue) && !translatedB.startsWith(lowerSearchValue)) return -1;
+      if (!translatedA.startsWith(lowerSearchValue) && translatedB.startsWith(lowerSearchValue)) return 1;
+
+      return 0;
+    });
+
+  return matches.length > 0 ? matches : [];
 });
+
+
+
+
 
 onMounted(() => {
-  // Ensure the initial value is set based on `currentListValue`
-  selectedOption.value = selectedListObj.value;
+  if (props.currentListValue) {
+    selectedOption.value =
+      props.list.find(
+        (item) =>
+          item[props.nameKey] === props.currentListValue ||
+          item[props.idField] === props.currentListValue
+      ) || null;
+  }
 });
 </script>
-
 <template>
   <div class="relative w-full" v-on-click-outside="closeOnOutSideClick">
     <button
@@ -79,7 +125,7 @@ onMounted(() => {
       <div
         class="floating_country px-[6px]   
         ipad-max:text-[10px] lg:text-[14px] 2xl:text-[14px]"
-        :class="[selectedOption && selectedOption[nameKey] ? '!text-[#585B5B] font-[400] ' : 'text-light']"
+        :class="[selectedOption && (selectedOption[nameKey] || selectedOption[idField]) ? '!text-[#585B5B] font-[400] ' : 'text-light']"
       >
         <div class="flex items-center justify-start">
           <img
@@ -87,19 +133,17 @@ onMounted(() => {
             :src="selectedOption[iconKey]"
             class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2"
           />
-          <div class=" " :class="[errorField ? '!text-error' : '',  
-          selectedOption && selectedOption[nameKey] && selectedOption[nameKey].length >= 20  ? 'w-64 truncate' : 'w-auto']
-            
-           ">
+          <div
+            :class="[errorField ? '!text-error' : '', selectedOption && selectedOption[nameKey] && selectedOption[nameKey].length >= 20 ? 'w-64 truncate' : 'w-auto']"
+          >
             {{ selectedOption ? $t(selectedOption[nameKey]) : $t(placeholderinput) }}
           </div>
         </div>
-        {{}}
       </div>
       <img
         src="/assets/imgs/payment_methods/country_arrow.svg"
         :class="[isListOpen ? 'rotate-90 ' : 'rtl:rotate-180']"
-        class=" rtl:mr-auto ltr:ml-auto w-[14px] h-[8px]"
+        class="rtl:mr-auto ltr:ml-auto w-[14px] h-[8px]"
       />
     </button>
     <div v-if="isListOpen" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">
@@ -118,23 +162,29 @@ onMounted(() => {
           <img src="/assets/imgs/icons/clear_search.svg" />
         </div>
       </div>
-      <ul class="overflow-y-auto" :class="[filteredList.length > 0 ? 'max-h-[100px]' : 'h-auto']">
+      <ul v-if="isListOpen && filteredList.length > 0" class="max-h-[150px]  overflow-y-scroll absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">
         <li
           v-for="(listItem, i) in filteredList"
           :key="listItem[idField]"
           @click="selectList(listItem)"
-          :class="[i === 0 && !enableSearch ? 'rounded-t-[10px]' : '', i === filteredList.length - 1 ? 'rounded-b-[10px]' : '', selectedOption && selectedOption[idField] === listItem[idField] ? '!bg-tamkinLight' : '']"
-          class="last:rounded-b-[10px] flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight group cursor-pointer"
+          :class="[selectedOption && selectedOption[idField] === listItem[idField] ? '!bg-tamkinLight' : '']"
+          class="flex items-center px-[16px] py-2 text-[12px] hover:bg-tamkinLight cursor-pointer"
         >
           <img :src="listItem[iconKey]" v-if="iconKey" class="w-[25px] h-[25px] rtl:ml-2 ltr:mr-2" />
-          <div class="group-hover:text-tamkin" :class="[selectedOption && selectedOption[idField] === listItem[idField] ? '!text-tamkin' : '']">
-            {{ $t(listItem[nameKey]) }}
-          </div>
+          <div>{{ t(listItem[nameKey]) }}</div>
         </li>
       </ul>
+      
+      <!-- Show a message when no records are found -->
+      <div v-if="isListOpen && filteredList.length === 0" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9] text-center py-2">
+        {{ $t('No countries found.') }}
+      </div>
+      
+
     </div>
   </div>
 </template>
+
 
 <style lang="scss" scoped>
 .floating_country {

@@ -86,18 +86,24 @@ const confirmOrder = async () => {
               <div
                 class="rounded-lg bg-[#F8F8F8] dark:bg-tamkinDarkPrimary w-[97px] h-[101px] flex items-center justify-center border"
               >
-                <img :src="cartItem.image_url" alt="Top" class="w-[63px] h-[67px]" />
+                <img v-if="!cartItem.background_color" :src="cartItem.image_url" alt="Top" class="w-[63px] h-[67px]" />
+                
+                <div v-if="cartItem.background_color" class="w-[78px] h-[78px] rounded-[10px]" :style="{background:cartItem.background_color}">
+
+                </div>
               </div>
               <div>
                 <div
                   class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
                 >
+                
                   <div>
-                    <img
+                    <img 
                       :src="cartItem.category_image"
                       alt="Top"
                       class="w-[26px] h-[26px]"
                     />
+
                   </div>
                   <div class="py-2">
                     <h3

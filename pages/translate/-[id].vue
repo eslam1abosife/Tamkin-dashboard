@@ -5,6 +5,15 @@ import { usePlayerSettings } from '@/composables/useInternal';
 import { ref, computed, onBeforeMount, watch } from 'vue';
 import { useNuxtApp } from '#app';
 import { useRoute } from 'vue-router';
+// useHead({
+//   link: [
+//     { rel: 'stylesheet', href: 'https://cdn.tamkin.app/app.css' },
+//   ],
+//   script: [
+//     { src: 'https://cdn.tamkin.app/runtime.js', defer: true },
+//     { src: 'https://cdn.tamkin.app/app.js', defer: true },
+//   ],
+// });
 
 const { setPlayerSettings } = usePlayerSettings();
 const { getProject } = useGetProject();
@@ -22,6 +31,7 @@ const {
 definePageMeta({
   layout: "dashboard",
   middleware: ['auth', 'permissions'],
+  requiredPermission: "sign-language-media",
 });
 
 const currentPlan = ref("freetrial");
@@ -64,12 +74,13 @@ const getProjectByName = async () => {
 };
 
 onBeforeMount(async () => {
-  await getProjectByName();
   initializePlayerSettings();
 
   translateStore.loadingProject = false;
 });
-
+const { data: projectData, error } = await useAsyncData('projectData', async () => {
+  return await getProjectByName();
+});
 const initializePlayerSettings = () => {
   const defaultSettings = {
     contrast: false,
@@ -149,9 +160,12 @@ const savePlayer = async () => {
     </transition>
 
 <div class="relative ">
+  <KeepAlive>
+
   <TranslateProjectProjectsettings
 
 />
+</KeepAlive>
 <div  v-if="loadingFooter || translateStore.processingrq " class="absolute h-full w-full inset-0 opacity-30 !cursor-not-allowed bg-slate-300 rounded-[10px] pointer-events-none">
 
 </div>

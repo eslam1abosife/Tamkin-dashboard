@@ -16,7 +16,7 @@ const {
 definePageMeta({
   layout: "dashboard",
 middleware:['auth','permissions'],
-
+requiredPermission: "sign-language-photos",
 });
 
 const currentPlan = ref("freetrial");
@@ -69,7 +69,8 @@ onMounted(async ()=>{
 
 <template>
   <div class="w-full h-full relative">
-    <TranslateModalsUpgrade/>
+    <TranslateModalsUpgrade     typeofPackage="Images"
+    />
   
   
 

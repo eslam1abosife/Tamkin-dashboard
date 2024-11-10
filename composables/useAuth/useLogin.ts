@@ -24,7 +24,7 @@ const profileStore = useProfileStore()
             tokenCookie.value = user.value?.sid;
             isLoggedInCookie.value = true;
 
-            userStore.setToken(user.value?.sid);
+            userStore.setToken(user.value?.sid,userStore.rememberMe);
             userStore.setIsLoggedIn(true);
             userStore.setUser(user.value);
             useCookie('user').value = JSON.stringify(user.value);

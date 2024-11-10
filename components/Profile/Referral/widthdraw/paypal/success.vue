@@ -70,7 +70,7 @@ return formattedDate
 <template>
     <div
     v-if="isOpen('success_paypal_withdraw')"
-    class="fixed z-[9999] ipad-max:top-[20px] top-[50px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[30px]  w-full max-w-[600px] sm:max-w-[90%] md:max-w-[600px] lg:max-w-[600px]"
+    class="fixed z-[9999] ipad-max:top-[20px] top-[50px] h-[620px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[30px]  w-full max-w-[600px] sm:max-w-[90%] md:max-w-[600px] lg:max-w-[600px]"
     style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- Close Button -->
@@ -175,7 +175,7 @@ return formattedDate
         </div>
       </div>
   
-      <div class="my-[16px]  rtl:mr-auto ltr:ml-auto">
+      <div class="mt-[22px]  rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           {{ $t('Done') }}
         </button>

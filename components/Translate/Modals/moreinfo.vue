@@ -99,7 +99,7 @@ const props = defineProps({
                         <img src="/assets/imgs/translatevideo/USA.svg" alt="">
                     </div>
 <div class="text-[13px] font-[500] leading-[32px] text-darkGrey">
-    {{$t('English (USA)')}}
+  test
 </div>
                 </div>
             </div>

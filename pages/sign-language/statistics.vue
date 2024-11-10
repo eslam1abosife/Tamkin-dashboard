@@ -15,6 +15,8 @@ const colorMode = useColorMode();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-statistics",
+
 });
 
 const isADHDChecked = ref(false);

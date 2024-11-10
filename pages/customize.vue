@@ -33,6 +33,8 @@ const {
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "accessibility-customize",
+
 });
 
 const changeGradientColor1 = computed(() => {

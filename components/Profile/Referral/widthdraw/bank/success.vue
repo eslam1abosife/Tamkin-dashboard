@@ -94,7 +94,7 @@ const getStatusStyle=(method:number)=> {
     <div
     v-if="isOpen('success_bank_withdraw')"
     class="fixed z-[9999] top-0 2xl:top-[50px] lg:top-[40px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] 
-    p-[30px] h-auto 2xl:h-[600px] lg:w-[640px]
+    p-[30px] h-[620px] lg:w-[640px]
   ipad-max:top-[0] w-full"    style="left: 50%; transform: translate(-50%, 0)"
   >
     <!-- Close Button -->
@@ -228,7 +228,7 @@ const getStatusStyle=(method:number)=> {
         </div>
       </div>
   
-      <div class="my-[16px] rtl:mr-auto ltr:ml-auto">
+      <div class="mt-[22px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           {{$t('Done')}}
         </button>

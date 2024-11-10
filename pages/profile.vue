@@ -108,6 +108,7 @@ const updateProfileImage = async (imgfile) => {
 const getAbout = async (about) => {
   aboutCompany.value = about;
 };
+const packagesStore = usePackgesStore();
 const profileLoader = ref(false);
 
 const updatep = async (companyData) => {
@@ -128,29 +129,40 @@ const updatep = async (companyData) => {
 };
 const loadingInvestor = ref(false)
 provide("currentMode", currentMode);
-
 onBeforeMount(async () => {
-  profileStore.loadingProfile = true
-  loadingInvestor.value = true
+  try {
+    profileStore.loadingProfile = true;
+    loadingInvestor.value = true;
 
-  await profileStore.fetchMember();
-  await getCountries();
-  profileStore.countries = countries.value
+    await Promise.all([
+      profileStore.fetchMember(),
+      getCountries().then(() => {
+        profileStore.countries = countries.value;
+      })
+    ]);
 
-  await profileStore.getCurrentTeam();
-  await getProfileCompleteScore(profileStore.currentTab);
-  loadingInvestor.value = true
-  await getInvestor();
+    await Promise.all([
+      profileStore.getCurrentTeam(),
+      getProfileCompleteScore(profileStore.currentTab)
+    ]);
 
-  profileStore.loadingProfile = false
-  loadingInvestor.value  = false
+    await packagesStore.getInvestorUser();
+  } catch (error) {
+    console.error("Error loading profile data:", error);
+  } finally {
+    loadingInvestor.value = false;
+    profileStore.loadingProfile = false;
+  }
 });
+
 
 const ifuserhaspermissiontoEdit = computed(()=>{
  return  profileStore.member.permission.some(
       (permission) => permission.tamkin_roles === 'company-info'
     )
 })
+
+const runtimeconfig = useRuntimeConfig()
 </script>
 
 <template>
@@ -213,7 +225,7 @@ const ifuserhaspermissiontoEdit = computed(()=>{
 <div
 v-if="
   (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
-  !isEmptyObject(profileStore.investor) &&
+  packagesStore.investorUser &&
   !profileStore.loadingProfile && !loadingInvestor
 "
 class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"
@@ -224,7 +236,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 
 <div class="flex items-center justify-start w-full rtl:space-x-reverse space-x-[16px]">
   <div>
-    <img src="/imgs/investor/AA.svg" class="w-[38px] h-[38px]" alt="" />
+    <img :src="runtimeconfig.public.baseImagerUrl + packagesStore.investorUser.icon" class="w-[38px] h-[38px]" alt="" />
   </div>
   <div
     class="text-[16px] ipad-max:text-[13px] font-[600] leading-[22px] text-[#3D3D3D]"
@@ -240,7 +252,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
     <div
     class="text-[#878787] w-44 ipad-max:w-36 2xl:w-52 dark:text-whiteTamkin/70 text-[12px] leading-[24px]"
   >
-    {{ truncatedString(profileStore.investor.wallet_address) }}
+    {{ truncatedString(packagesStore.investorUser.wallet_address) }}
   </div>
 
   
@@ -249,7 +261,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
   <img
     v-if="isSupported"
     class="rtl:mr-auto ltr:ml-auto cursor-pointer w-[18px] h-[18px]"
-    @click="copy(profileStore.investor.wallet_address)"
+    @click="copy(packagesStore.investorUser.wallet_address)"
     src="/imgs/copy.png"
   />
 </div>
@@ -265,7 +277,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
     </div>
 
     <div class="text-[12px] ipad-max:text-[10px] font-[600] text-[#1E1E1E]">
-      {{ profileStore.investor.tslt_amount }} TSLT
+      {{ packagesStore.investorUser.tslt_amount }} TSLT
     </div>
   </div>
 </div>
@@ -302,7 +314,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 <div
 v-if="
   (profileStore.currentTab === 'personal' || profileStore.currentTab === 'security') &&
-  isEmptyObject(profileStore.investor) &&
+  !packagesStore.investorUser &&
   !profileStore.loadingProfile && !loadingInvestor
 "
 class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-col items-start justify-start p-[15px] ipad-max:w-full w-full relative"

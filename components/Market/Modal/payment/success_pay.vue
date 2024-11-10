@@ -3,7 +3,21 @@ const router = useRouter()
 const route = useRoute()
 const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
 const payStore = usePaymentStore()
-const setDefaultQuery = (tryagain) => {
+import {
+  useGetCategoriesWithSkinItems,
+  useCart,
+  useEditCustomerCharacter,
+} from "@/composables/useMarket";
+const { getCartItems } = useCart();
+const {
+  getFullDataFormated,
+  categoriesWithSkinItems,
+  characters,
+  loading: getInstallationLoading,
+} = useGetCategoriesWithSkinItems();
+
+
+const setDefaultQuery = async (tryagain) => {
  if(tryagain){
   router.push({
     path: route.path, 
@@ -22,7 +36,11 @@ return navigateTo('successPayment_market', 'market', 'paymentMethods_market')
       status: undefined
     }
   })
+   
   closeModal('successPayment_market')
+  await getFullDataFormated();
+
+await getCartItems();
  }
 }
 

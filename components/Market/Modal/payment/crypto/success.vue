@@ -9,6 +9,19 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
+
+import {
+  useGetCategoriesWithSkinItems,
+  useCart,
+  useEditCustomerCharacter,
+} from "@/composables/useMarket";
+const { getCartItems } = useCart();
+const {
+  getFullDataFormated,
+  categoriesWithSkinItems,
+  characters,
+  loading: getInstallationLoading,
+} = useGetCategoriesWithSkinItems();
 const {getCryptoList } = useGetCryptoList()
 
 const cryptostore = useCryptoStore();
@@ -85,8 +98,8 @@ const filteredCryptoMethods = computed(() => {
 
 
 onMounted(async ()=>{
-    await cryptostore.setCryptoList();
-    await cryptostore.getRates();
+    // await cryptostore.setCryptoList();
+    // await cryptostore.getRates();
 // console.log()
 })
 
@@ -179,6 +192,9 @@ const percentageOff = computed(() => {
               closeModal('crypto_market_success')
                marketStore.selectedPaymentMethod = '' 
         marketStore.selectedCrypto = ''
+         getFullDataFormated();
+
+         getCartItems();
             }">
                 {{ $t('Done') }}
             </button>

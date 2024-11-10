@@ -209,7 +209,7 @@ const userconsume = computed(() => {
     <div class="flex flex-col items-start justify-between h-[160px] w-full">
     <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
       <img class="w-[40px] h-[40px]" :src="fullUrl(getMediaPackage.icon)" alt="" />
-      <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px]">
+      <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px] rtl:space-x-reverse">
        <div>
         {{ $t(getMediaPackage.title) }} - {{ $t(getMediaPackage.type) }} - {{ $t(getMediaPackage.package_category) }}
        </div>
@@ -254,25 +254,28 @@ const userconsume = computed(() => {
     <div class="text-[14px] lg:text-[14px] font-[500] text-[#3C3F49] lg:leading-[27px] leading-[20px] w-full lg:w-3/4">
       {{$t(getMediaPackage.sub_title)}}
      </div>
- 
     <div class="flex items-center rtl:space-x-reverse space-x-[50px]">
       <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
         <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">WORDS</span></div>
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">{{ Number(translateStore.statsPackage.total.documents.package.docs_words)  }} <span class="font-[500]">{{$t('Docx Words')}}</span></div>
       </div>
       <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-        <img src="/assets/imgs/translatevideo/min_icon.png" class="w-[25px] h-[25px]" alt="" />
-        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">50 <span class="font-[500]">Minutes</span></div>
+        <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="" />
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">{{Number(translateStore.statsPackage.total.documents.package.docs_words)}} <span class="font-[500]">{{$t('PDF Words')}}</span></div>
+      </div>
+      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
+        <img src="/assets/imgs/translatevideo/words_icon.png" class="w-[25px] h-[25px]" alt="" />
+        <div class="text-[12px] lg:text-[14px] font-[700] text-[#3C3F49]">{{Number(translateStore.statsPackage.total.documents.extre.documents_words)}} <span class="font-[500]">{{$t('Extra Words')}}</span></div>
       </div>
     </div>
 
-  <div class="flex items-center justify-center space-x-[20px]" v-if="!userconsume">
+  <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-if="!userconsume">
     <button v-if="getMediaPackage.title !== 'Free'"
      :disabled="  loadingBlock.find(
       (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
     ) || getMediaPackage.status === 'Pending'"
     @click="getPackageAndOpenPaymenModal(currentAPP,getMediaPackage)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-      {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade plan') }}
+      {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade Plan') }}
 
       <svg
       v-if="
@@ -336,42 +339,8 @@ const userconsume = computed(() => {
     </button>
   </div>
 
-  <div class="flex items-center justify-center space-x-[20px]" v-else-if="userconsume">
-    <button 
-     :disabled="  loadingextra.find(
-      (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
-    )"
-    @click="openBuyMoreExtra(currentAPP,getMediaPackage,1)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-
-                {{ $t('Buy more Minutes') }}
-
-
-      <svg
-      v-if="
-      loadingextra.find(
-          (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1
-        )
-      "
-      class="animate-spin mx-1 h-5 w-5 text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        class="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        stroke-width="4"
-      ></circle>
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
-    </svg>
-    </button>
+  <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-else-if="userconsume">
+ 
     <button
     :disabled="  loadingextra.find(
       (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 2

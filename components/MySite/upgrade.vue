@@ -208,13 +208,13 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
             </div>
             <div
               class="h-[55px]  px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px]
-              flex items-center justify-between  w-auto  rtl:space-x-reverse p-2 mt-[24px]  "
+              flex items-center justify-between    rtl:space-x-reverse p-2 mt-[24px] w-full "
             >
-              <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[8px] ">
+              <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full ">
                 <div>
                <img  
                :src="runtimeConfig.public.baseImagerUrl + (mySiteStore.currentPackage ? mySiteStore.currentPackage.icon : '/')" 
-                class="lg:w-[30px] lg:h-[30px]  " />
+                class="w-[40px] h-[40px] rounded-full " />
                 </div>
                 <div class="text-[10px]   lg:text-[14px] font-[500]
                 ipad-max:text-[12px]

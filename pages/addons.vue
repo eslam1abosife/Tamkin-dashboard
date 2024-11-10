@@ -22,6 +22,8 @@ const { defaultApp, loading: getSitesLoading } = useGetAppInvites();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "accessibility-addons",
+
 });
 const localePath = useLocalePath();
 const route = useRoute();

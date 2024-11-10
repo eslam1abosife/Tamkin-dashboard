@@ -15,6 +15,8 @@ const upgradepackageimages = ref(false);
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-overview",
+
 });
 const currentPlanchange = (p: any) => {
   plan.value = p;

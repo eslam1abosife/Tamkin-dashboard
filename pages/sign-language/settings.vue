@@ -21,6 +21,8 @@ const customizeStore = useCustomizeStore();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-settings",
+
 });
 const code = ref(true);
 const advancedCode = ref(false);

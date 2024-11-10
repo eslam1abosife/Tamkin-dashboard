@@ -36,6 +36,8 @@ const {
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-customize",
+
 });
 const localePath = useLocalePath();
 

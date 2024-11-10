@@ -109,6 +109,15 @@ currentTab.value = 'Photo Services'
   if(isLinkActive('/photos/*')){
 currentTab.value = 'Photo Services'
   }
+  if(isLinkActive('/document/pdf/*')){
+    currentTab.value = 'PDF Document Services'
+
+  }
+
+  if(isLinkActive('/document/word/*')){
+    currentTab.value = 'Docx Document Service'
+
+  }
 })
 provide('currentTab',currentTab)
 </script>
@@ -150,7 +159,7 @@ provide('currentTab',currentTab)
         </div>
       </div>
     </div>
-    <div v-if="!isLinkActive('/translate/video/*') && !isLinkActive('/document/') && !isLinkActive('/photos/')&& !isLinkActive('/photos/*')" 
+    <div v-if="!isLinkActive('/translate/*') &&  !isLinkActive('/document/*') &&!isLinkActive('/document/') && !isLinkActive('/photos/')&& !isLinkActive('/photos/*')" 
     class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
         :class="[
@@ -295,7 +304,7 @@ provide('currentTab',currentTab)
 
     <div v-if="isLinkActive('/document/*')" class="flex items-center justify-between w-full flex-wrap lg:flex-nowrap lg:space-y-0 space-y-[10px]">
       <div
-      v-if="isLinkActive('/document/word')"
+      v-if="isLinkActive('/document/word/*')"
         :class="[
           currentTab === 'Docx Document Service'
             ? 'text-darkGrey dark:text-whiteTamkin cursor-pointer border-translate-tab '
@@ -304,10 +313,10 @@ provide('currentTab',currentTab)
         class="font-[600] ipad-max:text-[13px] lg:text-[14px]  lg:leading-[22.5px] ipad-max:leading-[10px] pb-[10px] cursor-pointer"
         @click="changeTab('Docx Document Service')"
       >
-        {{ $t('All Docx files')}} ({{  translateStore.docxCount}})
+        {{ $t('All Docx Files')}} ({{  translateStore.docxCount}})
       </div>
       <div
-      v-if="isLinkActive('/document/pdf')"
+      v-if="isLinkActive('/document/pdf') || isLinkActive('/document/pdf/*')"
       
         :class="[
           currentTab === 'PDF Document Services'

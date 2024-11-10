@@ -40,6 +40,17 @@ const loginUser = async () => {
     // console.error('Login failed:', error.);
   }
 };
+
+onMounted(()=>{
+  const canview = useCookie('can_view')
+
+  if(!canview.value || canview.value !== 'done'){
+      return showError({
+       statusCode: 404,
+  statusMessage: "Page Not Found"
+      })
+    }
+})
 </script>
 
 <template>
@@ -69,7 +80,12 @@ const loginUser = async () => {
     </div>
 
     <div class="absolute top-[550px] md:top-[550px] lg:top-[570px] xl:top-[570px] space-y-[16px] inset-0  lg:p-0 p-3">
-      <button @click="$router.push(localePath('/auth/login'))" class="btn-grad-action w-full">
+      <button @click="()=>{
+
+        $router.push(localePath('/auth/login'))
+        useCookie('can_view').value = null
+
+      }" class="btn-grad-action w-full">
         {{ $t("Continue") }}
       </button>
     </div>

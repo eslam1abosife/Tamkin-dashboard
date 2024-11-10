@@ -83,6 +83,13 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
         <div class="text-[10px] leading-[20px] font-[500]">{{$t('Applied')}}</div>
       </div>
       <div
+      v-else-if="char.is_pending"
+      class="absolute top-0 left-0 w-[64px] bg-gradient-to-r from-yellow-300 to-yellow-100 h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+    
+    >
+      <div class="text-[10px] font-[500] leading-[10px]">{{$t('Pending')}}</div>
+    </div>
+      <div
         class="absolute top-0 left-0 w-[66px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] dark:text-whiteTamkin justify-center"
         style="
           background: linear-gradient(

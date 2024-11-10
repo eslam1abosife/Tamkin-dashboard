@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
+import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
+
+const { getMembers, members, loading: getMembersLoading } = useGetMembers();
+
 const { locale } = useI18n()
 
 definePageMeta({

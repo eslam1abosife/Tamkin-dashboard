@@ -99,7 +99,7 @@ const handleIframeMessage = (event) => {
      navigateTo('cardModal_market','market','successPayment_market')
      urlPayment.value = ""
      loadingPayment.value = false
-
+marketStore.cartItems = []
   }
    else if(event.data && event.data.event === 'faild'){ 
     usepaystore.stateOfPayment = 'failed'

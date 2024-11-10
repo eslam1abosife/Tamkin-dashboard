@@ -141,7 +141,13 @@ const photoscount = ref()
 const photoProject = ref()
 const loadingProject = ref(true)
 const videoProject = ref()
+const wordProject = ref()
+const pdfProject = ref()
+const texttofill = ref()
   return {
+    texttofill,
+    pdfProject,
+    wordProject,
     signLanguageChecked,
     changesOnSubTitles,
     pdfTextEdit,

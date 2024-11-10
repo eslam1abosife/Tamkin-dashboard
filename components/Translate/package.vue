@@ -217,7 +217,7 @@ const userconsume = computed(() => {
       <div class="flex flex-col items-start justify-between h-[160px] w-full">
         <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
           <img class="w-[40px] h-[40px]" :src="fullUrl(getMediaPackage.icon)" alt="" />
-          <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px]">
+          <div class="text-[16px] lg:text-[18px] font-[600] text-[#3C3F49] leading-[30px] flex items-center justify-start space-x-[20px] rtl:space-x-reverse">
            <div>
             {{ $t(getMediaPackage.title) }} - {{ $t(getMediaPackage.type) }} - {{ $t(getMediaPackage.package_category) }}
            </div>
@@ -274,13 +274,13 @@ const userconsume = computed(() => {
           </div>
         </div>
 
-      <div class="flex items-center justify-center space-x-[20px]" v-if="!userconsume">
+      <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-if="!userconsume">
         <button v-if="getMediaPackage.title !== 'Free'"
          :disabled="  loadingBlock.find(
           (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name
         ) || getMediaPackage.status === 'Pending'"
         @click="getPackageAndOpenPaymenModal(currentAPP,getMediaPackage)" class="btn-dashboard hover_tamkin mt-[8px] w-auto">
-          {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade plan') }}
+          {{ $t(getMediaPackage.endpackage && new Date() > new Date(getMediaPackage.endpackage)  ? 'Renew Plan' : 'Upgrade Plan') }}
 
           <svg
           v-if="
@@ -344,7 +344,7 @@ const userconsume = computed(() => {
         </button>
       </div>
 
-      <div class="flex items-center justify-center space-x-[20px]" v-else-if="userconsume">
+      <div class="flex items-center justify-center space-x-[20px] rtl:space-x-reverse" v-else-if="userconsume">
         <button 
          :disabled="  loadingextra.find(
           (entry) => entry.pack === getMediaPackage.name && entry.app === currentAPP.name && entry.id === 1

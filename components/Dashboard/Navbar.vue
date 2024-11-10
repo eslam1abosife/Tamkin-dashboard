@@ -234,23 +234,23 @@ watch(
     style="box-sizing: border-box !important"
   >
     <div class="flex flex-col items-start justify-start w-full  transition-all duration-100 ease-in-out">
-      <div
+      <nuxt-link
         class="self-start w-full cursor-pointer"
         :class="[sideBarOpen ? '' : 'mx-auto']"
         v-if="sideBarOpen"
-        @click="$router.push(localePath('/dashboard'))"
+       :to="localePath('/team')"
       >
         <img
           src="/assets//imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
         />
-      </div>
-      <div class="mb-[10px] w-[55px] h-[55px] mt-[24px] cursor-pointer "        @click="$router.push(localePath('/dashboard'))" v-else>
+    </nuxt-link>
+      <nuxt-link class="mb-[10px] w-[55px] h-[55px] mt-[24px] cursor-pointer "        :to="localePath('/team')" v-else>
         <img
           src="/assets//imgs/icons/tamkin_small.svg"
           class="w-[28px] h-[28px] "
         />
-      </div>
+      </nuxt-link>
       <div
         class="w-[28px] h-[28px] cursor-pointer  rounded-full overflow-hidden"
         v-if="!sideBarOpen"
@@ -261,7 +261,7 @@ watch(
           <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
         </div>
       </div>
-      <div
+      <nuxt-link
       class="tamkin_team_card"
       @click="()=>{
         if(!loadingTeamCard){
@@ -342,7 +342,7 @@ watch(
           </svg>
         </div>
       </div>
-    </div>
+    </nuxt-link>
     
 
       <hr class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder  my-[28px]" />
@@ -389,7 +389,7 @@ watch(
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </button>
 
-    <div class="flex flex-col items-center justify-center mt-[14.5px] w-full transform-gpu transition-all ease-in-out">
+    <div class="flex flex-col items-center justify-center  w-full transform-gpu transition-all ease-in-out">
       <!-- <TamkinSideBarLink
         class="dashboard-nav-link "
         :to="goToLink('/overview')"
@@ -487,7 +487,7 @@ watch(
         <span v-if="sideBarOpen">{{$t('Dashboard')}}</span>
       </TamkinSideBarLink> -->
       <TamkinSideBarLink
-        class="dashboard-nav-link"
+        class="dashboard-nav-link mt-[10px]"
         :to="goToLink('/embed-code')"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
@@ -571,8 +571,8 @@ watch(
         <span v-if="sideBarOpen">{{$t('My Site')}}</span>
       </TamkinSideBarLink>
 
-      <div
-        class="relative"
+      <nuxt-link
+        class="relative rounded-[10px]"
         @click.stop="openMenuSub(4)"
         :class="[!sideBarOpen ? '  ' : 'w-full ']"
       >
@@ -611,8 +611,8 @@ watch(
           </svg>
 
           <div
-            class="w-full  rtl:space-x-reverse  ltr:space-x-[50px] rtl:space-x-[90px] flex items-center
-             rtl:justify-start rtl:space-x-[20px] ltr:justify-evenly"
+            class="     flex items-center
+             rtl:justify-start ltr:justify-evenly"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -622,11 +622,11 @@ watch(
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
                   : '',
               ]"
-              class="rtl:mr-[2px] ltr:ml-[-2px] whitespace-nowrap"
+              class="whitespace-nowrap"
             >
               {{$t('Sign language')}}
             </div>
-            <div v-if="sideBarOpen">
+            <div v-if="sideBarOpen" class="absolute rtl:left-2 ltr:right-2">
               <svg
                 width="7"
                 height="12"
@@ -652,18 +652,19 @@ watch(
           </div>
         </div>
         <div
-          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary"
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
+          v-show="sideBarOpen && showSubMenu[4] ||   !sideBarOpen && showSubMenu[4]"
           :class="[
             !sideBarOpen && showSubMenu[4]
-              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] rounded-t-[10px]   bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px]   bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
               : ' ',
-            showSubMenu[4] ? 'block ' : 'hidden',
+          
           ]"
           v-on-click-outside="() => closeSubMenuOnClickOutside(4)"
         >
-          <div class="flex flex-col items-start justify-center  w-full mb-[10px]" :class="[!sideBarOpen ? '':'mt-[6px]']">
+          <div class="flex flex-col items-start justify-center  h-full w-full " :class="[!sideBarOpen ? 'mt-[10px]':'']">
             <div
-              class="flex items-center justify-between w-full mt-[10px] px-[15px] "
+              class="flex items-center justify-between w-full px-[15px] h-full "
               @click.stop
             >
               <div
@@ -701,180 +702,100 @@ watch(
                 </svg>
               </div>
             </div>
-            <div class="bg-[#FFFEFE]  dark:!bg-transparent relative w-full" @click.stop>
-              <ul
-                class="space-y-[10px] w-full"
-                :class="[!sideBarOpen ? '' : '']"
-              >
+            <nuxt-link
+            @click.stop="$router.push({path:localePath('/market')})"
+              class="dashboard-nav-link flex items-center "
+              :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]']"
+            >
+              <div>
+                <div
+                class="w-[8px] h-[2px] rounded-[10px] "
+                v-show="sideBarOpen"
+                :class="[
+                  isLinkActive('/market')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                    : 'bg-darkGrey dark:bg-whiteTamkin',
+                ]"
+              ></div>
+              </div>
+              <span class="ltr:pl-[1px]"     :class="[
+                isLinkActive('/market')
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                  : '',
+              ]">{{$t('Market')}}</span>
+            </nuxt-link>
+            <div class="flex flex-col  dark:!bg-transparent relative w-full h-full "
+            
+             @click.stop>
          
-              <li
-               
-           
-               class="rounded-[10px] relative group w-full"
-               :class="[
-                 isLinkActive('/overview') && sideBarOpen ? '' : '',
-                 sideBarOpen ? 'w-full ' : 'mt-[10px]',
-               ]"
-             >
-               <nuxt-link
-             :to="{ path: localePath('/market')}"
-                 :class="[
-                   isLinkActive('/market')
-                     ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                     : '',
-                 ]"
-                 class="relative w-full"
-               >
-                 <div
-                   class="flex items-center justify-center dashboard-nav-link"
-                   :class="[
-                     sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
-                   ]"
-                 >
-                   <div
-                     :class="[
-                       !sideBarOpen
-                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                         : !sideBarOpen
-                         ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                         : '',
-                     ]"
-                     class="flex items-center justify-start w-full"
-                   >
-                     <div
-                       class="max-w-[8px] w-[8px] h-[2px] rounded-[10px] "
-                       v-if="sideBarOpen"
-                       :class="[
-                        isLinkActive('/market')
-
-                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                           : 'bg-darkGrey dark:bg-whiteTamkin',
-                       ]"
-                     ></div>
-                     <div
-                    
-                       :class="[
-                        isLinkActive('/market')
-                       
-                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
-                           : 'text-darkGrey dark:text-white',
-                         sideBarOpen ? 'rtl:pr-[22px] ltr:pl-[22px]' : '',
-                       ]"
-                     >
-                       {{ $t('Market') }}
-                     </div>
-                   </div>
-
-                   
-                 </div>
-               </nuxt-link>
-             </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <li
+                <div
                
                  ref="services"
-                  class="rounded-[10px] relative group w-full"
+                  class="rounded-[10px] relative group w-full flex items-center justify-start"
                   :class="[
                     isLinkActive('/overview') && sideBarOpen ? '' : '',
                     sideBarOpen ? 'w-full ' : '',
                   ]"
                 >
-                  <nuxt-link
-                    @click="openChildMenus(1)"
+                <nuxt-link
+                @click="openChildMenus(1)"
+             
+                  class="dashboard-nav-link flex items-center relative"
+                  :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]',
+                  showChildMenu[1]
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                  : '',]"
+                >
+                  <div>
+                    <div
+                    class="w-[8px] h-[2px] rounded-[10px] "
+                    v-show="sideBarOpen"
                     :class="[
                       showChildMenu[1]
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                        : '',
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
-                    class="relative w-full"
+                  ></div>
+                  </div>
+                  <span class="ltr:pl-[1px]"     :class="[
+                    isLinkActive('/translate')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]">{{$t('Services')}}</span>
+                </nuxt-link>
+                <div class="absolute ltr:right-2 rtl:left-2">
+                  <svg
+                    width="7"
+                    height="12"
+                    :class="[
+                      showChildMenu[1]
+                        ? 'rotate-90 '
+                        : 'rotate-0 rtl:rotate-180 ',
+                    ]"
+                    viewBox="0 0 7 12"
+                    class="w-full h-full"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <div
-                      class="flex items-center justify-center dashboard-nav-link"
-                      :class="[
-                        sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
-                      ]"
-                    >
-                      <div
-                        :class="[
-                          !sideBarOpen
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                            : !sideBarOpen
-                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                            : '',
-                        ]"
-                        class="flex items-center justify-start w-full"
-                      >
-                        <div
-                          class="max-w-[8px] w-[8px] h-[2px] rounded-[10px] "
-                          v-if="sideBarOpen"
-                          :class="[
-                            showChildMenu[1]
-                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                              : 'bg-darkGrey dark:bg-whiteTamkin',
-                          ]"
-                        ></div>
-                        <div
-                       
-                          :class="[
-                            showChildMenu[1] || !sideBarOpen 
-                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
-                              : 'text-darkGrey dark:text-white',
-                            sideBarOpen ? 'rtl:pr-[22px] ltr:pl-[22px]' : '',
-                          ]"
-                        >
-                          {{ $t('Services') }}
-                        </div>
-                      </div>
-
-                      <div class="">
-                        <svg
-                          width="7"
-                          height="12"
-                          :class="[
-                            !showChildMenu[1]
-                              ? 'rotate-90 rtl:rotate-180'
-                              : 'rotate-0 rtl:rotate-90 ',
-                          ]"
-                          viewBox="0 0 7 12"
-                          class="w-full h-full"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                              <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            :class="
-                            showChildMenu[1] || !sideBarOpen
-                                ? 'fill_services '
-                                : 'dark:fill-white fill-[#585B5B]'
-                            "
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </nuxt-link>
-                </li>
-                <ul
+                    <defs>
+                      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      :class="
+                      showChildMenu[1] || !sideBarOpen
+                          ? 'fill_services '
+                          : 'dark:fill-white fill-[#585B5B]'
+                      "
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                    />
+                  </svg>
+                </div>
+                </div>
+                <div
                     @mouseenter="servicesHover = true"
     @mouseleave="servicesHover = false"
                   class=" space-y-[10px] w-full"
@@ -1001,99 +922,76 @@ watch(
                 </div>
               </nuxt-link>
             </li>
-                </ul>
+                </div>
 
-                <li
+                <div
 
                  ref="control"
-                  class="rounded-[10px] relative group w-full"
+                  class="rounded-[10px] relative group w-full flex items-center justify-start"
                   :class="[
                     isLinkActive('/sign-language/overview') && sideBarOpen ? '' : '',
                     sideBarOpen ? 'w-full ' : '',
                   ]"
                 >
-                  <nuxt-link
-                    @click="openChildMenus(2)"
+                <nuxt-link
+                @click="openChildMenus(2)"
+             
+                  class="dashboard-nav-link flex items-center justify-start relative"
+                  :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]',
+                  showChildMenu[2]
+                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                  : '',]"
+                >
+                  <div>
+                    <div
+                    class="w-[8px] h-[2px] rounded-[10px] "
+                    v-show="sideBarOpen"
                     :class="[
                       showChildMenu[2]
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                        : '',
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
                     ]"
-                    class="relative w-full"
+                  ></div>
+                  </div>
+                  <span class="ltr:pl-[1px]"     :class="[
+                    isLinkActive('/translate')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
+                  ]">{{$t('Control')}}</span>
+                </nuxt-link>
+                <div class="absolute ltr:right-2 rtl:left-2">
+                  <svg
+                    width="7"
+                    height="12"
+                    :class="[
+                      showChildMenu[2]
+                        ? 'rotate-90 '
+                        : 'rotate-0 rtl:rotate-180 ',
+                    ]"
+                    viewBox="0 0 7 12"
+                    class="w-full h-full"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <div
-                      class="flex items-center justify-center dashboard-nav-link"
-                      :class="[
-                        sideBarOpen ? 'ltr:px-[10px] rtl:pl-[20px]' : 'px-[14px] w-11/12 mx-auto !space-x-[0] ',
-                      ]"
-                    >
-                      <div
-                        :class="[
-                          !sideBarOpen
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                            : !sideBarOpen
-                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                            : '',
-                        ]"
-                        class="flex items-center justify-start w-full"
-                      >
-                        <div
-                          class="w-[8px] h-[2px] rounded-[10px] "
-                          v-if="sideBarOpen"
-                          :class="[
-                            showChildMenu[2]
-                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                              : 'bg-darkGrey dark:bg-whiteTamkin',
-                          ]"
-                        ></div>
-                        <div
-
-                          :class="[
-                            showChildMenu[2] || !sideBarOpen
-                              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent '
-                              : 'text-darkGrey dark:text-white',
-                            sideBarOpen ? 'rtl:pr-[22px] ltr:pl-[22px]' : '',
-                          ]"
-                        >
-                          {{ $t('Control') }}
-                        </div>
-                      </div>
-
-                      <div class="">
-                        <svg
-                          width="7"
-                          height="12"
-                          :class="[
-                            !showChildMenu[2]
-                            ? 'rotate-90 rtl:rotate-180'
-                            : 'rotate-0 rtl:rotate-90 ',
-                          ]"
-                          viewBox="0 0 7 12"
-                          class="w-full h-full"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                              <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                              <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
-                            </linearGradient>
-                          </defs>
-                          <path
-                            :class="
-                            showChildMenu[2] || !sideBarOpen
-                                ? 'fill_services '
-                                : 'dark:fill-white fill-[#585B5B]'
-                            "
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </nuxt-link>
-                </li>
-                <ul
+                    <defs>
+                      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      :class="
+                      showChildMenu[2] || !sideBarOpen
+                          ? 'fill_services '
+                          : 'dark:fill-white fill-[#585B5B]'
+                      "
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+                    />
+                  </svg>
+                </div>
+                </div>
+                <div
                     @mouseenter="controlHover = true"
     @mouseleave="controlHover = false"
                   class=" space-y-[10px] w-full"
@@ -1299,15 +1197,16 @@ watch(
               </div>
             </nuxt-link>
           </li>
-                </ul>
-              </ul>
+                </div>
+        
             </div>
+            
           </div>
         </div>
-      </div>
+      </nuxt-link>
 
-      <div
-        class="relative"
+      <nuxt-link
+        class="relative rounded-[10px]"
         @click.stop="openMenuSub(3)"
         :class="[!sideBarOpen ? '  ' : 'w-full ']"
       >
@@ -1359,7 +1258,7 @@ watch(
           </div>
 
           <div
-            class="w-full rtl:space-x-reverse ltr:space-x-[65px] rtl:space-x-[58px] flex items-center justify-start ltr:justify-center"
+            class="flex items-center justify-start ltr:justify-center "
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -1373,11 +1272,11 @@ watch(
             >
               {{ $t('Accessibility') }}
             </div>
-            <div v-if="sideBarOpen">
+            <div v-if="sideBarOpen" class="absolute rtl:left-1 ltr:right-1">
               <svg
                 width="7"
                 height="12"
-                :class="[showSubMenu[3] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px] rtl:rotate-180 ']"
+                :class="[showSubMenu[3] ? 'rotate-90 ' : 'rotate-0  rtl:rotate-180 ']"
                 viewBox="0 0 7 12"
                 class="w-full h-full pr-[4px]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1400,20 +1299,20 @@ watch(
           </div>
         </div>
         <div
-          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px] "
           ref="submenuHover"
+          v-show=" showSubMenu[3]"
           :class="[
             !sideBarOpen && showSubMenu[3]
-              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
-              : ' ',
-            showSubMenu[3] ? 'block ' : 'hidden',
+              ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] bg-white p-3 py-[10px]  dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
+              : ' w-full',
           ]"
           v-on-click-outside="() => closeSubMenuOnClickOutside(3)"
         >
           <div
-            class="flex flex-col items-start justify-center mt-[6px] w-full mb-[10px] px-[15px]"
+            class="flex flex-col items-start justify-center  w-full  "
           >
-            <div class="flex items-center justify-between w-full mt-[10px]">
+            <div class="flex items-center justify-between w-full ">
               <div
                 v-if="!sideBarOpen"
                 class="bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent"
@@ -1442,247 +1341,167 @@ watch(
                 </svg>
               </div>
             </div>
-            <div class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary relative w-full" @click.stop>
-              <ul
-                class="space-y-[10px] w-full"
-                :class="[!sideBarOpen ? 'mt-[10px]' : '']"
+            <div class=" dark:bg-tamkinDarkPrimary  w-full" @click.stop>
+
+              <nuxt-link
+              :to="localePath('/overview')"
+                class="dashboard-nav-link   w-11/12"
+                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
               >
-                <li
-                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                <div>
+                  <div
+                  class="w-[8px] h-[2px] rounded-[10px] "
+                  v-if="sideBarOpen"
                   :class="[
-                    isLinkActive('/overview') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-full  ml-[10px]' : '',
+                    isLinkActive('/overview')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
-                >
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/overview')"
-                    :class="[
-                      isLinkActive('/overview')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
-                        : '',
-                    ]"
-                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                  >
-                  
-                    <div
-                    class="w-[8px] h-[2px] rounded-[10px] "
-                    v-if="sideBarOpen"
-                    :class="[
-                      isLinkActive('/overview')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                        : 'bg-darkGrey dark:bg-whiteTamkin',
-                    ]"
-                  ></div>
-                    <div
-                      :class="[
-                        !sideBarOpen && isLinkActive('/overview')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : sideBarOpen
-                          ? ''
-                          : '',
-                      ]"
-                    >
-                      {{$t('Overview')}}
-                    </div>
-                  </nuxt-link>
-                </li>
-                <li
-                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                ></div>
+                </div>
+                <span      :class="[
+                  isLinkActive('/overview')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]">{{$t('Overview')}}</span>
+              </nuxt-link>
+           
+              <nuxt-link
+              :to="localePath('/addons')"
+                class="dashboard-nav-link   w-11/12"
+                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+              >
+                <div>
+                  <div
+                  class="w-[8px] h-[2px] rounded-[10px] "
+                  v-if="sideBarOpen"
                   :class="[
-                    isLinkActive('/addons') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                    isLinkActive('/addons')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
-                >
-                  <nuxt-link
-                    :to="localePath('/addons')"
-                    :class="[
-                      isLinkActive('/addons')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
-                        : '',
-                    ]"
-                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                  >
-                 
-
-                    <div
-                    class="w-[8px] h-[2px] rounded-[10px] "
-                    v-if="sideBarOpen"
-                    :class="[
-                      isLinkActive('/addons')
-
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                        : 'bg-darkGrey dark:bg-whiteTamkin',
-                    ]"
-                  ></div>
-                    <div
-                      :class="[
-                        !sideBarOpen && isLinkActive('/addons')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : sideBarOpen
-                          ? ''
-                          : '',
-                      ]"
-                    >
-                      {{$t('Addons')}}
-                    </div>
-                  </nuxt-link>
-                </li>
-                <li
-                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                  :class="[
-                    isLinkActive('/statistics') && sideBarOpen ? ' ' : '',
-                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                  ]"
-                >
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/statistics')"
-                    :class="[
-                      isLinkActive('/statistics')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
-                        : '',
-                    ]"
-                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                  >
+                ></div>
+                </div>
+                <span      :class="[
+                  isLinkActive('/addons')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]">{{$t('Addons')}}</span>
+              </nuxt-link>
+              <nuxt-link
+              :to="localePath('/statistics')"
+                class="dashboard-nav-link   w-11/12"
+                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+              >
+                <div>
                   <div
                   class="w-[8px] h-[2px] rounded-[10px] "
                   v-if="sideBarOpen"
                   :class="[
                     isLinkActive('/statistics')
-
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                       : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
                 ></div>
-                    <div
-                      :class="[
-                        !sideBarOpen && isLinkActive('/statistics')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : sideBarOpen
-                          ? ''
-                          : '',
-                      ]"
-                    >
-                      {{$t('Statistics')}}
-                    </div>
-                  </nuxt-link>
-                </li>
-                <li
-                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                  :class="[
-                    isLinkActive('/customize') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                  ]"
-                >
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/customize')"
-                    :class="[
-                      isLinkActive('/customize')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
-                        : '',
-                    ]"
-                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                  >
+                </div>
+                <span      :class="[
+                  isLinkActive('/statistics')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]">{{$t('Statistics')}}</span>
+              </nuxt-link>
+
+              <nuxt-link
+             :to="localePath('/customize')"
+                class="dashboard-nav-link   w-11/12"
+                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+              >
+                <div>
                   <div
                   class="w-[8px] h-[2px] rounded-[10px] "
                   v-if="sideBarOpen"
                   :class="[
                     isLinkActive('/customize')
-
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                       : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
                 ></div>
-                    <div
-                      :class="[
-                        !sideBarOpen && isLinkActive('/customize')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : sideBarOpen
-                          ? ''
-                          : '',
-                      ]"
-                    >
-                      {{$t('Customize')}}
-                    </div>
-                  </nuxt-link>
-                </li>
-                <li
-                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                  :class="[
-                    isLinkActive('/settings') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                  ]"
-                >
-                  <nuxt-link
-                    @click.stop
-                    :to="localePath('/settings')"
-                    :class="[
-                      isLinkActive('/settings')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent hover:text-darkGrey'
-                        : '',
-                    ]"
-                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                  >
+                </div>
+                <span      :class="[
+                  isLinkActive('/customize')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]">{{$t('Customize')}}</span>
+              </nuxt-link>
+
+              <nuxt-link
+              :to="localePath('/settings')"
+                class="dashboard-nav-link   w-11/12"
+                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+              >
+                <div>
                   <div
                   class="w-[8px] h-[2px] rounded-[10px] "
                   v-if="sideBarOpen"
                   :class="[
                     isLinkActive('/settings')
-
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
                       : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
                 ></div>
-                    <div
-                      :class="[
-                        !sideBarOpen && isLinkActive('/settings')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : sideBarOpen
-                          ? ''
-                          : '',
-                      ]"
-                    >
-                      {{$t('Settings')}}
-                    </div>
-                  </nuxt-link>
-                </li>
-              </ul>
+                </div>
+                <span      :class="[
+                  isLinkActive('/settings')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]">{{$t('Settings')}}</span>
+              </nuxt-link>
             </div>
           </div>
         </div>
-      </div>
+      </nuxt-link>
   
-      <div
-      @click="$router.push({path:localePath('/packages')})"
+      <nuxt-link
+      :to="localePath('/packages')"
         class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-full h-full"
-          >
-            <g clip-path="url(#clip0_2978_5587)">
-              <path
-                d="M12.5 0C13.9445 0 15.329 0.255549 16.6116 0.722255L15.1779 2.15477C13.0081 1.56477 10.7042 1.70824 8.62443 2.56286C6.54464 3.41748 4.80552 4.93536 3.67749 6.88047C2.54946 8.82558 2.09574 11.0889 2.38689 13.3185C2.67804 15.5481 3.69774 17.619 5.28743 19.2093C6.87712 20.7995 8.9477 21.8199 11.1772 22.1118C13.4067 22.4037 15.6702 21.9507 17.6157 20.8233C19.5612 19.6959 21.0796 17.9573 21.9349 15.8778C22.7903 13.7983 22.9345 11.4945 22.3452 9.32453L23.7777 7.89202C24.2565 9.20867 24.5009 10.599 24.5 12C24.5 18.6275 19.1275 24 12.5 24C5.87252 24 0.5 18.6275 0.5 12C0.5 5.37252 5.87252 0 12.5 0ZM12.5 4.80144C13.1079 4.80103 13.7134 4.87763 14.302 5.02939V6.90942C13.1476 6.50098 11.8885 6.49716 10.7316 6.89858C9.57467 7.29999 8.58857 8.0828 7.93517 9.11851C7.28176 10.1542 6.99988 11.3813 7.13577 12.5983C7.27167 13.8154 7.81728 14.95 8.68304 15.8161C9.5488 16.6822 10.6833 17.2282 11.9003 17.3645C13.1172 17.5009 14.3444 17.2194 15.3804 16.5664C16.4163 15.9134 17.1995 14.9276 17.6013 13.7708C18.0032 12.614 17.9998 11.355 17.5918 10.2004H19.4718C19.8471 11.654 19.7586 13.1886 19.2185 14.5894C18.6785 15.9903 17.714 17.1872 16.46 18.0127C15.206 18.8382 13.7253 19.251 12.2251 19.1932C10.7249 19.1355 9.28026 18.6102 8.0934 17.6908C6.90655 16.7714 6.03685 15.5039 5.60603 14.0657C5.17521 12.6275 5.20482 11.0907 5.69073 9.67016C6.17663 8.24965 7.09451 7.01661 8.31591 6.14361C9.5373 5.2706 11.0011 4.80132 12.5024 4.80144M14.9019 12C14.9018 12.5157 14.7354 13.0177 14.4276 13.4315C14.1198 13.8452 13.6868 14.1488 13.1929 14.2972C12.699 14.4457 12.1704 14.431 11.6855 14.2554C11.2006 14.0798 10.7851 13.7527 10.5007 13.3225C10.2163 12.8922 10.0781 12.3818 10.1065 11.8669C10.135 11.3519 10.3286 10.8599 10.6586 10.4636C10.9887 10.0673 11.4376 9.7879 11.939 9.6668C12.4403 9.5457 12.9672 9.58933 13.4418 9.79124L15.5054 7.72765L15.5018 3.90162C15.502 3.66305 15.5969 3.43433 15.7657 3.26575L18.7651 0.266347C18.891 0.140664 19.0512 0.0550918 19.2257 0.0204375C19.4001 -0.0142168 19.5809 0.00360124 19.7453 0.0716413C19.9096 0.139681 20.0501 0.254891 20.1489 0.40272C20.2478 0.55055 20.3007 0.724367 20.3008 0.902219V4.20156H23.6002C23.778 4.20172 23.9518 4.25457 24.0997 4.35346C24.2475 4.45234 24.3627 4.59282 24.4308 4.75714C24.4988 4.92146 24.5166 5.10226 24.482 5.27671C24.4473 5.45115 24.3617 5.61141 24.2361 5.73725L21.2367 8.73665C21.0681 8.90545 20.8393 9.00039 20.6008 9.0006H16.7735L14.71 11.0642C14.8323 11.3521 14.8995 11.6677 14.8995 12M20.2277 7.20096L21.4274 6.0012H19.3998C19.1612 6.0012 18.9323 5.9064 18.7635 5.73765C18.5948 5.5689 18.5 5.34003 18.5 5.10138V3.07378L17.3014 4.27354V7.13017L17.3722 7.20216L20.2277 7.20096Z"
-                fill="currentColor"
-              />
-            </g>
+          width="25"
+          height="24"
+          viewBox="0 0 25 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full h-full"
+        >
+          <g clip-path="url(#clip0_2978_5587)">
             <defs>
-              <clipPath id="clip0_2978_5587">
-                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
-              </clipPath>
+              <!-- Define the gradient here -->
+              <linearGradient id="grad_fill" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2DADA3" />
+                <stop offset="100%" stop-color="#71DAD2" />
+              </linearGradient>
             </defs>
-          </svg>
+        
+            <path
+              d="M12.5 0C13.9445 0 15.329 0.255549 16.6116 0.722255L15.1779 2.15477C13.0081 1.56477 10.7042 1.70824 8.62443 2.56286C6.54464 3.41748 4.80552 4.93536 3.67749 6.88047C2.54946 8.82558 2.09574 11.0889 2.38689 13.3185C2.67804 15.5481 3.69774 17.619 5.28743 19.2093C6.87712 20.7995 8.9477 21.8199 11.1772 22.1118C13.4067 22.4037 15.6702 21.9507 17.6157 20.8233C19.5612 19.6959 21.0796 17.9573 21.9349 15.8778C22.7903 13.7983 22.9345 11.4945 22.3452 9.32453L23.7777 7.89202C24.2565 9.20867 24.5009 10.599 24.5 12C24.5 18.6275 19.1275 24 12.5 24C5.87252 24 0.5 18.6275 0.5 12C0.5 5.37252 5.87252 0 12.5 0ZM12.5 4.80144C13.1079 4.80103 13.7134 4.87763 14.302 5.02939V6.90942C13.1476 6.50098 11.8885 6.49716 10.7316 6.89858C9.57467 7.29999 8.58857 8.0828 7.93517 9.11851C7.28176 10.1542 6.99988 11.3813 7.13577 12.5983C7.27167 13.8154 7.81728 14.95 8.68304 15.8161C9.5488 16.6822 10.6833 17.2282 11.9003 17.3645C13.1172 17.5009 14.3444 17.2194 15.3804 16.5664C16.4163 15.9134 17.1995 14.9276 17.6013 13.7708C18.0032 12.614 17.9998 11.355 17.5918 10.2004H19.4718C19.8471 11.654 19.7586 13.1886 19.2185 14.5894C18.6785 15.9903 17.714 17.1872 16.46 18.0127C15.206 18.8382 13.7253 19.251 12.2251 19.1932C10.7249 19.1355 9.28026 18.6102 8.0934 17.6908C6.90655 16.7714 6.03685 15.5039 5.60603 14.0657C5.17521 12.6275 5.20482 11.0907 5.69073 9.67016C6.17663 8.24965 7.09451 7.01661 8.31591 6.14361C9.5373 5.2706 11.0011 4.80132 12.5024 4.80144M14.9019 12C14.9018 12.5157 14.7354 13.0177 14.4276 13.4315C14.1198 13.8452 13.6868 14.1488 13.1929 14.2972C12.699 14.4457 12.1704 14.431 11.6855 14.2554C11.2006 14.0798 10.7851 13.7527 10.5007 13.3225C10.2163 12.8922 10.0781 12.3818 10.1065 11.8669C10.135 11.3519 10.3286 10.8599 10.6586 10.4636C10.9887 10.0673 11.4376 9.7879 11.939 9.6668C12.4403 9.5457 12.9672 9.58933 13.4418 9.79124L15.5054 7.72765L15.5018 3.90162C15.502 3.66305 15.5969 3.43433 15.7657 3.26575L18.7651 0.266347C18.891 0.140664 19.0512 0.0550918 19.2257 0.0204375C19.4001 -0.0142168 19.5809 0.00360124 19.7453 0.0716413C19.9096 0.139681 20.0501 0.254891 20.1489 0.40272C20.2478 0.55055 20.3007 0.724367 20.3008 0.902219V4.20156H23.6002C23.778 4.20172 23.9518 4.25457 24.0997 4.35346C24.2475 4.45234 24.3627 4.59282 24.4308 4.75714C24.4988 4.92146 24.5166 5.10226 24.482 5.27671C24.4473 5.45115 24.3617 5.61141 24.2361 5.73725L21.2367 8.73665C21.0681 8.90545 20.8393 9.00039 20.6008 9.0006H16.7735L14.71 11.0642C14.8323 11.3521 14.8995 11.6677 14.8995 12M20.2277 7.20096L21.4274 6.0012H19.3998C19.1612 6.0012 18.9323 5.9064 18.7635 5.73765C18.5948 5.5689 18.5 5.34003 18.5 5.10138V3.07378L17.3014 4.27354V7.13017L17.3722 7.20216L20.2277 7.20096Z"
+            :class="[isLinkActive('/packages') ? 'fill-[url(#grad_fill)]' : 'fill-current']"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_2978_5587">
+              <rect width="24" height="24" fill="white" transform="translate(0.5)" />
+            </clipPath>
+          </defs>
+        </svg>
+        
         </div>
-        <span v-if="sideBarOpen">{{$t('Packages')}}</span>
-      </div>
+        <span  v-if="sideBarOpen"   :class="[
+          isLinkActive('/packages')
+            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+            : '',
+        ]">{{$t('Packages')}}</span>      </nuxt-link>
    
       <div
         v-if="!sideBarOpen"
@@ -1696,8 +1515,8 @@ watch(
       </div>
       <div
       v-if="sideBarOpen"
-:class="[showSubMenu.some(t=>t!== false) || showChildMenu.some(t=>t!== false) ? 'mt-36' : '']"
-      class="absolute  lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] w-[260px]  h-[135px] 
+:class="[showSubMenu.some(t=>t!== false) || showChildMenu.some(t=>t!== false) ? 'top-[80vh]' : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ']"
+      class="lg:absolute w-[260px]  h-[135px] 
       z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px]
      dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
   
@@ -1719,12 +1538,12 @@ watch(
           <h2 class="text-[10px] font-[400] text-[#64938f] dark:text-[#75B1A9]">{{$t('Contact Our Sales Team')}}</h2>
         </div>
         <div class="w-full mx-auto">
-          <button
+          <nuxt-link
             class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
-            @click="$router.push({path:localePath('/contact')})"
+            :to="localePath('/contact')"
           >
             {{$t('Contact Sales')}}
-          </button>
+          </nuxt-link>
         </div>
       </div>
     </div>

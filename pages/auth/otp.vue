@@ -55,8 +55,20 @@ const startCountdown = () => {
 // Call the function when the component is mounted
 onMounted(() => {
   startCountdown();
-});
+  const canview = useCookie('can_view')
+  if(!canview.value){
+      return showError({
+       statusCode: 404,
+  statusMessage: "Page Not Found"
+      })
+  }else {
+    return true
 
+  }
+});
+onBeforeMount(async () => {
+
+})
 // Clear the interval when the component is unmounted
 onUnmounted(() => {
   clearInterval(intervalId);
@@ -134,7 +146,8 @@ const doVerifyCode = async () => {
       // await loginUser();
       // successMsg.value = 'Logged in Successfully!';
       // sentSuccessfully.value = true;
-
+const removecanview = useCookie('can_view')
+removecanview.value = 'done'
 router.push({ path: localePath('/auth/success'), query: { from: 'register' } });
 } else {
       const { checkForgetCode } = useVerifyCode({ email, key: verificationCode.value });
@@ -142,6 +155,8 @@ router.push({ path: localePath('/auth/success'), query: { from: 'register' } });
       await checkForgetCode();
       localStorage.setItem('curr_code', verificationCode.value);
       // router.push(localePath('/auth/new-password'));
+      const removecanview = useCookie('can_view')
+removecanview.value = 'new-password'
       router.push({ path: localePath('/auth/new-password')});
 
     }
@@ -160,9 +175,15 @@ router.push({ path: localePath('/auth/success'), query: { from: 'register' } });
 };
 
 
-// onMounted(() => {
-//   doResendCode();
-// });
+onMounted(() => {
+  const canview = useCookie('can_view')
+  if(canview.value !== 'otp'){
+      return showError({
+       statusCode: 404,
+  statusMessage: "Page Not Found"
+      })
+    }
+});
 
 </script>
 

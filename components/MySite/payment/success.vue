@@ -89,7 +89,14 @@ const setDefaultQuery = async (tryagain) => {
 }
   if (isLinkActive('/subscriptions')) {
 emit('updateData');
-
+router.push({
+      path: route.path,
+      query: {
+        paid: undefined,
+        status: undefined,
+        package: undefined
+      }
+    });
 }
     addSiteStore.currentPackage = '';
     addSiteStore.packagePayload = '';

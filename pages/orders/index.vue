@@ -301,6 +301,7 @@ const setPageSize = (size:number) => {
                           <img src="/imgs/invoice.png" class="h-[16px] w-[16px]" alt="">
                           
                       </div>
+                      
                         <!-- <span class="w-20 truncate">Special Character</span> -->
                         <span class="w-20 truncate">{{ $t(order.orderitems) }}</span>
                       </div>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useGetTeamMemberInviteApps, useInviteApp } from "@/composables/useTeam";
-
+const {t} = useI18n()
 const { apps, getInviteApps, loading: getAppsLoading } = useGetAppInvites();
 const { inviteApp, loading: submitInviteLoading } = useInviteApp();
 const { inviteAppsForMember, getMemberInviteApps } = useGetTeamMemberInviteApps();
@@ -71,8 +71,12 @@ const clearInput = () => {
 
 const filteredPermissions = computed(() => {
   if (!search.value.trim()) return permissions.value;
-  return permissions.value.filter((permission) => permission.title.toString().toLowerCase().includes(search.value.toString().toLowerCase()))
+  return permissions.value.filter((permission) => {
+    const translatedTitle = t(permission.title); 
+    return translatedTitle.toLowerCase().includes(search.value.toLowerCase());
+  });
 });
+
 const errMsg = ref(null);
 
 const submitInviteApp = async () => {
@@ -107,7 +111,7 @@ const submitInviteApp = async () => {
           fill="currentColor" />
       </svg>
     </div>
-    <div class="container mx-auto max-h-[100%] ">
+    <div class="container mx-auto ">
       <h1 class="ltr:text-left rtl:text-right font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] leading-[36px]">
         {{$t('Invite Member')}}
       </h1>
@@ -149,7 +153,7 @@ const submitInviteApp = async () => {
         </div>
       </div>
     
-      <p v-if="!getAppsLoading" class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
+      <p  class="mt-[16px] ltr:text-left rtl:text-right font-[500] text-[#A7A7A7] dark:text-whiteTamkin text-[14px] leading-[24px]">
         {{ $t('Select Website that') }} <span class="font-[700] text-darkGrey dark:text-whiteTamkin/60"> {{ getData().firstName + ' ' + getData().lastName }} </span> {{ $t('can access') }}
       </p>
     
@@ -165,7 +169,7 @@ const submitInviteApp = async () => {
         </div>
       </div>
     
-      <div v-loading="getAppsLoading" class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px]">
+      <div v-loading="getAppsLoading" class="max-h-[200px] overflow-y-scroll">
         <div v-if="getAppsLoading">
           <!-- Placeholder for table rows -->
           <div v-for="n in 4" :key="n" class="flex items-center justify-between py-4 animate-pulse">
@@ -201,7 +205,13 @@ const submitInviteApp = async () => {
             <tr v-for="permission in filteredPermissions" :key="permission.name">
               
               <td class="py-4 flex items-center rtl:space-x-reverse space-x-4">
+                <img v-if="permission.favicon" :src="permission.favicon" alt="Logo" class="w-[40px] h-[40px] rounded-full">
+             
+                <div v-else-if="!permission.favicon && permission.title !== 'Internal Service'" 
+                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
 
+                  {{ getAvatarLetters(permission?.title) }}
+                </div>
                 <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
@@ -211,18 +221,7 @@ const submitInviteApp = async () => {
                 "
               />
 
-              <div
-                v-if="
-                  !getAppsLoading&&
-                  !permission?.favicon &&
-                  permission?.title !== 'Internal Service'
-                "
-                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-              >
-                {{
-                  permission?.title ? getAvatarLetters(permission?.title) : ""
-                }}
-              </div>
+          
                 <span class="text-[14px] leading-[21px] font-[400] text-gray-900 dark:text-whiteTamkin">
                   {{ $t(permission.title) }}
                 </span>
@@ -245,7 +244,8 @@ const submitInviteApp = async () => {
     
       <h6 v-if="errMsg" class="text-center text-[red] font-light text-[14px] mt-[5px] !mb-[5px]"> {{ $t(errMsg) }} </h6>
     
-      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] " :class="[filteredPermissions.length === 0 ? 'mt-[30px] ':'mt-[108px]']">
+      <div class="flex items-center justify-center rtl:space-x-reverse space-x-[30px] mx-auto ipad-max:mt-[10px] " 
+      :class="[filteredPermissions.length === 0 ? 'mt-[30px] ':'mt-[30px]']">
         <button class="btn_bordered_dashboard normal_hover text-center w-1/4" @click="closeModal('editusermodal')">
           {{$t('Cancel')}}
         </button>

@@ -2,58 +2,64 @@
 import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useModalManager } from "@/composables/useModalManager";
-import { useGetCategoriesWithSkinItems, useCart, useEditCustomerCharacter } from "@/composables/useMarket";
+import {
+  useGetCategoriesWithSkinItems,
+  useCart,
+  useEditCustomerCharacter,
+} from "@/composables/useMarket";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
-const {
-  getInviteApps,
-  defaultApp,
-  apps,
-  loading: getSitesLoading,
-} = useGetAppInvites();
+const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
-const { locale} = useI18n()
-const {isOpen, currentView, openModal, closeModal, goBack, navigateTo} = useModalManager();
+const { locale } = useI18n();
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+} = useModalManager();
 definePageMeta({
   layout: "dashboard",
-middleware:['auth','permissions'],
-requiredPermission: 'sign-language-market',
-
+  middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-market",
+  // keepalive: true,
 });
-const router = useRouter()
+const router = useRouter();
 // Function to check query parameters
 const checkPaymentStatus = async () => {
   if (route.query && route.query.paid && route.query.locale) {
-
-    if (route.query.locale === 'ar') {
+    if (route.query.locale === "ar") {
       await router.push(`/ar/market?paid=${route.query.paid}&locale=ar`);
 
-  
       await nextTick();
-        openModal('successPayment_market');
+      openModal("successPayment_market");
     } else {
-      
-      openModal('successPayment_market');
+      openModal("successPayment_market");
     }
   }
 };
 
+onMounted(async () => {
+  await checkPaymentStatus();
+  await getApps();
 
-onMounted(()=>{
-  checkPaymentStatus()
-  getApps()
-})
+  //   skin_items_list
+  // background_color
+  // background_image
+});
 
-const localePath = useLocalePath()
-const route = useRoute()
-const loadingSaveChanges = ref(false)
-const loadingSaveToAllChanges = ref(false)
+const localePath = useLocalePath();
+const route = useRoute();
+const loadingSaveChanges = ref(false);
+const loadingSaveToAllChanges = ref(false);
 const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   const pattern = localePath(path);
@@ -70,82 +76,102 @@ const isLinkActive = (path) => {
 };
 const expandedHeader = ref(false);
 const expandedHeaderStep = ref(0); // Step counter
-const loadingCats = ref(true)
+const loadingCats = ref(true);
 const toggleExpandHeader = () => {
   expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 3;
   expandedHeader.value = expandedHeaderStep.value !== 2;
 };
-const {GetCustomCharacterCost} = useEditCustomerCharacter()
+const { GetCustomCharacterCost } = useEditCustomerCharacter();
 const { getCartItems } = useCart();
-const { getFullDataFormated, categoriesWithSkinItems, characters, loading: getInstallationLoading } = useGetCategoriesWithSkinItems();
+const {
+  getFullDataFormated,
+  categoriesWithSkinItems,
+  characters,
+  loading: getInstallationLoading,
+} = useGetCategoriesWithSkinItems();
 const playerStore = usePlayerStore();
 const stripeKey = ref(
   "pk_test_51PsNOm2M5zlGZwf5AZsxAxBBW65wE8IWHIHQMXGYfV3XbXAgGv1Ca3HMooFq2O9zcEfpQsk9baxN1ki6vnIca0ag00QCvJdwBM"
 );
 // const { data, status, error, refresh, clear } = await useFetch(
 //   'fulldataformattedmarket',
-//   () =>    
+//   () =>
 
 // )
 watch(locale, (newVal, oldVal) => {
-  loadingCats.value = true
+  loadingCats.value = true;
 });
 onBeforeMount(async () => {
-
-  loadingCats.value = true
-await  getFullDataFormated()
-    GetCustomCharacterCost();
-    getCartItems();
-    playerStore.characters = characters.value
-    let activeChar = playerStore.backendActiveChar
-    playerStore.changeCharacter(activeChar, false);
-    loadingCats.value= false
-    // console.log('backendActiveChar', );
- 
-})
-  
-const categoriesWithSkinItemsFiltered = computed(() => {
-  if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return []
-else if(!loadingCats.value){
-  return   marketStore.categoriesWithSkinItems.map((category) => {
-    return {
-      ...category,
-      skin_items_list: category.skin_items_list.filter(function (item) {
-          return playerStore.activeCharacter.allowed_skins_list.map((allowed) => allowed.skin_item).includes(item.name);
-      })
+  loadingCats.value = true;
+  await getFullDataFormated();
+  GetCustomCharacterCost();
+  getCartItems();
+  playerStore.characters = characters.value;
+  let activeChar = playerStore.backendActiveChar;
+  playerStore.changeCharacter(activeChar, false);
+  if (
+    marketStore.categoriesWithSkinItems &&
+    marketStore.categoriesWithSkinItems.length > 0
+  ) {
+    const skins = marketStore.categoriesWithSkinItems
+      .map((item) => item.skin_items_list)
+      .flat();
+    const backgrounds = skins.filter(
+      (item) => item.category === "Background" && item.is_weared === 1
+    );
+    console.log(backgrounds);
+    if (backgrounds.length > 0 && backgrounds[0].background_color === null) {
+      playerStore.currentBackground.isImage = true;
+      playerStore.currentBackground.colorOrUrl =
+        "https://tamkin.app" + backgrounds[0].background_image;
+    } else if (backgrounds.length > 0 && backgrounds[0].background_image === null) {
+      playerStore.currentBackground.isImage = false;
+      playerStore.currentBackground.colorOrUrl = backgrounds[0].background_color;
     }
-  })
-}
-})
-const shouldShowFooter = computed(()=>{
+  }
+  loadingCats.value = false;
+  // console.log('backendActiveChar', );
+});
+
+const categoriesWithSkinItemsFiltered = computed(() => {
+  if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return [];
+  else if (!loadingCats.value) {
+    return marketStore.categoriesWithSkinItems.map((category) => {
+      return {
+        ...category,
+        skin_items_list: category.skin_items_list.filter(function (item) {
+          return playerStore.activeCharacter.allowed_skins_list
+            .map((allowed) => allowed.skin_item)
+            .includes(item.name);
+        }),
+      };
+    });
+  }
+});
+const shouldShowFooter = computed(() => {
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
 
-  return isMarketChanges
-})
+  return isMarketChanges;
+});
 const currentCategoryWithSkinItems = computed(() => {
-  return categoriesWithSkinItemsFiltered.value ? categoriesWithSkinItemsFiltered.value.find((category) => category.name == marketStore.currentTab) : [];
+  return categoriesWithSkinItemsFiltered.value
+    ? categoriesWithSkinItemsFiltered.value.find(
+        (category) => category.name == marketStore.currentTab
+      )
+    : [];
 });
 const handleSave = (AppName) => {
   if (isLinkActive(localePath("/market"))) {
-
     playerStore.saveCharacterOptions(AppName);
-
-  
-
-
   }
-
 };
 const cancelAc = () => {
-
   const isMarketChanges = isLinkActive("/market") && marketStore.showSaveFooter;
-
 
   if (isMarketChanges) {
     marketStore.resetAll();
     playerStore.resetActiveCharacterAndWearSavedClothes();
   }
-
 };
 const marketStore = useMarketStore();
 
@@ -165,8 +191,8 @@ function enter(el, done) {
   el.style.opacity = "1";
 
   // Add a transitionend listener to call done()
-  el.addEventListener('transitionend', function handler() {
-    el.removeEventListener('transitionend', handler);
+  el.addEventListener("transitionend", function handler() {
+    el.removeEventListener("transitionend", handler);
     done();
   });
 }
@@ -175,17 +201,17 @@ function leave(el, done) {
   el.style.transition = "all 0.5s ease";
   el.style.transform = "scale(0)";
   el.style.opacity = "0";
-  
+
   // Add a transitionend listener to call done()
-  el.addEventListener('transitionend', function handler() {
-    el.removeEventListener('transitionend', handler);
+  el.addEventListener("transitionend", function handler() {
+    el.removeEventListener("transitionend", handler);
     done();
   });
 }
 
 // Cart Animation Functions
 function beforeEnterCart(el) {
-  const translateX = locale.value === 'ar' ? "-100%" : "100%";
+  const translateX = locale.value === "ar" ? "-100%" : "100%";
   el.style.transform = `translateX(${translateX})`;
   el.style.opacity = "0";
 }
@@ -200,14 +226,14 @@ function enterCart(el, done) {
   el.style.opacity = "1";
 
   // Add a transitionend listener to call done()
-  el.addEventListener('transitionend', function handler() {
-    el.removeEventListener('transitionend', handler);
+  el.addEventListener("transitionend", function handler() {
+    el.removeEventListener("transitionend", handler);
     done();
   });
 }
 
 function leaveCart(el, done) {
-  const translateX = locale.value === 'ar' ? "-100%" : "100%";
+  const translateX = locale.value === "ar" ? "-100%" : "100%";
 
   // Apply transition styles
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
@@ -215,13 +241,11 @@ function leaveCart(el, done) {
   el.style.opacity = "0";
 
   // Add a transitionend listener to call done()
-  el.addEventListener('transitionend', function handler() {
-    el.removeEventListener('transitionend', handler);
+  el.addEventListener("transitionend", function handler() {
+    el.removeEventListener("transitionend", handler);
     done();
   });
 }
-
-
 
 ///
 
@@ -248,9 +272,17 @@ function enterNotification(el, done) {
   });
 
   // Call done when the transition ends
-  el.addEventListener('transitionend', done, { once: true });
+  el.addEventListener("transitionend", done, { once: true });
 }
 
+/**
+ * Handles the animation for leaving a notification element.
+ * Sets the transition styles to animate the element out of view.
+ * Applies styles for leaving: translateX(50px) and opacity 0.
+ * Calls done when the transition ends.
+ * @param {HTMLElement} el - The notification element to animate.
+ * @param {Function} done - The callback to call when the transition ends.
+ */
 function leaveNotification(el, done) {
   // Set transition styles
   el.style.transition = "transform 0.5s ease, opacity 0.5s ease";
@@ -260,9 +292,8 @@ function leaveNotification(el, done) {
   el.style.opacity = "0";
 
   // Call done when the transition ends
-  el.addEventListener('transitionend', done, { once: true });
+  el.addEventListener("transitionend", done, { once: true });
 }
-
 
 /**
  * todo
@@ -283,18 +314,57 @@ function leaveNotification(el, done) {
  *? default mode button on character: resets character skins to all skins having is_default=1
  *? add description to skin item and character
  */
+const scriptSources = [
+  "https://cdn.tamkin.app/runtime.js",
+  "https://cdn.tamkin.app/app.js",
+];
+
+const injectedScripts = ref([]);
+async function addScripts(sources) {
+  for (const src of sources) {
+    try {
+      const script = document.createElement("script");
+      script.src = `${src}?t=${new Date().getTime()}`; // Cache busting
+      script.async = false; // Ensure sequential loading
+      await new Promise((resolve, reject) => {
+        script.onload = () => {
+          injectedScripts.value.push(script); // Store reference to the injected script
+          resolve();
+        };
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        document.body.appendChild(script);
+      });
+      console.log(`Loaded script: ${src}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+function removeScripts() {
+  injectedScripts.value.forEach((script) => {
+    if (script && script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+  });
+  injectedScripts.length = 0;
+}
+
+onMounted(() => {
+  // addScripts(scriptSources);
+});
+
+onBeforeUnmount(() => {
+  // removeScripts();
+  // console.log("All scripts removed.");
+});
 </script>
 
 <template>
   <div class="relative">
-    
-    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalCart  v-if="isOpen('mycart')" key="cart_mycart"  />
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalCart v-if="isOpen('mycart')" key="cart_mycart" />
     </transition>
-    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-      <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
-    </transition>
-    <MarketModalReset v-if="resetModal" />
     <transition
       @before-enter="beforeEnterNotification"
       @enter="enterNotification"
@@ -303,82 +373,106 @@ function leaveNotification(el, done) {
       <MarketModalCartNotification v-if="marketStore.firstItemNotificationShown" />
     </transition>
 
-    <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
-   <MarketModalPaymentPaymentmethods/>
-  </transition>
-<MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')"/>
-<MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')"/>
-<MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')"/>
-  <MarketModalPaymentCard v-if="isOpen('cardModal_market')"/>
-  
-  <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')"/>
-  <MarketModalPaymentPaypal/>
-  <transition @before-enter="beforeEnterCart" @enter="enterCart" @leave="leaveCart">
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
+    </transition>
+    <MarketModalReset v-if="resetModal" />
 
-  <MarketModalPaymentSuccessPay />
-</transition>
-<!-- <MarketModalPaymentCard2 v-if="true"/> -->
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentPaymentmethods />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentCard v-if="isOpen('cardModal_market')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentPaypal />
+    </transition>
+    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+      <MarketModalPaymentSuccessPay />
+    </transition>
+    <!-- <MarketModalPaymentCard2 v-if="true"/> -->
 
     <div class="w-full h-full relative">
-  <div class="flex items-center justify-between w-full">
-    <h1
-    class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
-  >
-    {{ $t('Market') }}
-  </h1>
-  <div v-if="defaultApp" class="mb-[10px] 
-  space-x-[8px] h-[41px] flex items-center justify-start rounded-[5px] -shadow-y-1 px-[24px]">
-  <div>
-    <img
-    src="/assets/imgs/icons/mysite_select.svg"
-    class="w-[20px] h-[20px]"
-    v-if="
-    defaultApp?.title === 'Internal Service' 
-    "
-  />
+      <div class="flex items-center justify-between w-full">
+        <h1
+          class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] mb-[10px] dark:text-whiteTamkin"
+        >
+          {{ $t("Market") }}
+        </h1>
+        <div
+          v-if="defaultApp"
+          class="mb-[10px] space-x-[8px] h-[41px] flex items-center justify-start rtl:space-x-reverse rounded-[5px] -shadow-y-1"
+        >
+          <div>
+            <img
+              src="/assets/imgs/icons/mysite_select.svg"
+              class="w-[20px] h-[20px]"
+              v-if="defaultApp?.title === 'Internal Service'"
+            />
 
-  <div
-    v-if="
-      !defaultApp?.favicon &&
-      defaultApp?.title !== 'Internal Service'
-    "
-    class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-  >
-    {{
-      defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
-    }}
-  </div>
-  <div
-    v-if="
-    defaultApp?.favicon &&
-    defaultApp?.title !== 'Internal Service'
-    "
-  >
-    <img
-      v-if="defaultApp.favicon"
-      :src="defaultApp.favicon"
-      class="w-[20px] h-[20px] rounded-full ipad-max:hidden lg:block hidden"
-    />
-  </div>
- </div>
-    <div class="text-[12px] font-[500] text-darkGrey">
-     {{defaultApp.title}}
-    </div>
-  </div>
+            <div
+              v-if="!defaultApp?.favicon && defaultApp?.title !== 'Internal Service'"
+              class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+            >
+              {{ defaultApp?.title ? getAvatarLetters(defaultApp?.title) : "" }}
+            </div>
+            <div v-if="defaultApp?.favicon && defaultApp?.title !== 'Internal Service'">
+              <img
+                v-if="defaultApp.favicon"
+                :src="defaultApp.favicon"
+                class="w-[20px] h-[20px] rounded-full ipad-max:hidden lg:block hidden"
+              />
+            </div>
+          </div>
+          <div class="text-[12px] font-[500] text-darkGrey">
+            {{
+              defaultApp.title === "Internal Service"
+                ? $t("Internal Service")
+                : defaultApp.app_domain
+            }}
+          </div>
+        </div>
 
-  <div v-if="!defaultApp " class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]">
-
-  </div>
-  </div>
+        <div
+          v-if="!defaultApp"
+          class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]"
+        ></div>
+      </div>
 
       <div
-        class="bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 rounded-[10px] w-full flex items-end justify-center relative"
+        class="rounded-[10px] w-full flex items-end justify-center relative"
+        :style="{
+          background: playerStore.currentBackground.isImage
+            ? `url(${playerStore.currentBackground.colorOrUrl})`
+            : playerStore.currentBackground.colorOrUrl,
+        }"
         :class="{
           'h-[250px]': expandedHeaderStep === 0,
           'h-[350px]': expandedHeaderStep === 1,
           'h-[550px]': expandedHeaderStep === 2,
+          'bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 ':
+            !playerStore.currentBackground.isImage &&
+            !playerStore.currentBackground.colorOrUrl,
         }"
       >
+        <img
+          v-if="playerStore.currentBackground.isImage"
+          class="absolute inset-0 rounded-[10px]"
+          :src="playerStore.currentBackground.colorOrUrl"
+          alt=""
+        />
         <div
           @click.prevent="openModal('mycart', 'market')"
           class="cursor-pointer w-[35px] dark:border-[#333333] dark:border-[1px] h-[35px] rounded-lg flex items-center justify-center absolute top-[16px] right-[16px] bg-transparent transition-colors duration-500 ease-in-out"
@@ -668,24 +762,29 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
+
         <MarketPlayer />
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter
-            :show-footer="shouldShowFooter"
-            @cancel_action="cancelAc"
-            :disable-loading-save="playerStore.loadingChanges"
-            :disable-loading-to-all="playerStore.savetoallloading"
-            @save="handleSave('default')"
-            @save-to-all-sites="handleSave('all')"
+          :show-footer="shouldShowFooter"
+          @cancel_action="cancelAc"
+          :disable-loading-save="playerStore.loadingChanges"
+          :disable-loading-to-all="playerStore.savetoallloading"
+          @save="handleSave('default')"
+          @save-to-all-sites="handleSave('all')"
         />
       </transition>
-  <MarketNavbar :loading="loadingCats" :categoriesWithSkinItems="categoriesWithSkinItemsFiltered" />
+      <MarketNavbar
+        :loading="loadingCats"
+        :categoriesWithSkinItems="categoriesWithSkinItemsFiltered"
+      />
 
-
-     
       <MarketCharacter v-if="marketStore.currentTab === 'character'" />
-      <MarketSkinItemsListing v-if="currentCategoryWithSkinItems?.skin_items_list?.length" :currentCategoryWithSkinItems="currentCategoryWithSkinItems" />
+      <MarketSkinItemsListing
+        v-if="currentCategoryWithSkinItems?.skin_items_list?.length"
+        :currentCategoryWithSkinItems="currentCategoryWithSkinItems"
+      />
     </div>
   </div>
 </template>

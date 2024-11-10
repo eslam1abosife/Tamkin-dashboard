@@ -63,9 +63,11 @@ const cardOptions = ref({
   style: {
   base: {
     fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif', 
-    fontWeight: '400', 
-    colorTextPlaceholder: '#A7A7A7',
+    '::placeholder': {
+      color: '#A7A7A7', 
+    fontWeight: '500', 
 
+    },
   },
 }
 
@@ -78,21 +80,29 @@ const expiryoptions = ref({
   style: {
   base: {
     fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
-    fontWeight: '400', // Set weight for Arabic and non-Arabic
-    colorTextPlaceholder: '#A7A7A7',
+    '::placeholder': {
+      color: '#A7A7A7', 
+    fontWeight: '500', 
+
+    },
 
   },
 }
 
   
 });
+
+
 const cardCvcOptions = ref({
   placeholder: t('CVC'),
   style: {
   base: {
     fontFamily: locale.value === 'ar' ? 'Almarai, sans-serif' : 'Poppins, sans-serif',  // Ensure fallback fonts are specified
-    fontWeight: '400', // Set weight for Arabic and non-Arabic
-    colorTextPlaceholder: '#a7a7a7',
+    '::placeholder': {
+      color: '#A7A7A7', 
+    fontWeight: '500', 
+
+    },
 
   },
 }
@@ -368,7 +378,9 @@ const gotomodalview = ()=>{
 
     }
 }
-
+const countriesC = computed(()=>{
+  return countries.value.map(m=>{return {title:t(m.name),icon:m.image,id:m.code}})
+})
 </script>
 
 <template>
@@ -809,14 +821,13 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
     </div>
   </div>
   <div class="w-full lg:mt-0 mt-[16px]">
-
     <TranslateSelectInput
         @getCurrentSelectedItem="handleSelectedItemProjectName"
         :enableSearch="true"
         placeholderinput="Country*"
         :errorField="v$.country.$error && v$.country.required.$invalid"
-        :list="countries.map(m=>{return {name:m.country_name,icon:m.image,id:m.code}})"
-        nameKey="name"
+        :list="countriesC"
+        nameKey="title"
         idField="id"
         iconKey="icon"
         :successField="!v$.country.$error && !v$.country.$invalid"

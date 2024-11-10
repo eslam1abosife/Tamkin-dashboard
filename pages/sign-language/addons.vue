@@ -14,6 +14,8 @@ const customizeStore = useCustomizeStore();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "sign-language-addons",
+
 });
 const localePath = useLocalePath();
 const route = useRoute();

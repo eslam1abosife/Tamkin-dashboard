@@ -97,8 +97,12 @@
 
     }
 
-    @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd ;
+   
 
+  }
+
+  .hover_tamkin_default::hover{
+    @apply bg-gradient-to-b from-tamkinStart to-tamkinEnd ;
   }
   
   

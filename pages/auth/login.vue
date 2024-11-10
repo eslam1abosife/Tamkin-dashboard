@@ -7,7 +7,7 @@ import { useRouter } from "#vue-router";
 import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
 const localePath = useLocalePath()
-
+const userStore = useUserStore()
 const { isIncludeWord } = useIncludeWord();
 
 definePageMeta({
@@ -283,7 +283,7 @@ const clearFieldError = (condition) => {
                 <div>
                   <label for="remember_me"
                     class="h-[22px] dark:text-whiteTamkin text-neutral-400 text-[15px] font-medium font-['Poppins']  rtl:!font-[Almarai] leading-snug">
-                    <input type="checkbox"
+                    <input type="checkbox" v-model="userStore.rememberMe"
                       class="border-[1px] w-[18px] h-[18px] border-lightGrey 
                       dark:border-darkborder bg-transparent rounded-[4px] text-tamkin ring-0 focus:ring-0 focus:outline-none "
                       id="remember_me" />

@@ -5,6 +5,8 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api, loading } = useApiInstance();
     const { $toast } = useNuxtApp();
+    const messageError = ref()
+    const codstatus = ref()
     let controller = ref(null);  
 
     const updateProject = async (payload) => {
@@ -19,7 +21,9 @@ export default function() {
 
             });
 
-            if (!res.data.succeeded) throw(res.data.message);
+            messageError.value = res.data.message
+            codstatus.value = res.data.statusCode
+
             return res.data.data;
         } catch (error) {
             if (error.name === 'AbortError') {
@@ -43,6 +47,8 @@ export default function() {
         updateProject,
         cancelRequest,  
         loading,
-        controller
+        controller,
+        messageError,
+codstatus
     };
 }

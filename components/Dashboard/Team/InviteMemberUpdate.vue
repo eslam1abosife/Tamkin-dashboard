@@ -2,7 +2,7 @@
 import { useModalManager } from '@/composables/useModalManager';
 import { useGetAppInvites, useInviteApp, useGetTeamMemberInviteApps } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-
+const {t} = useI18n()
 const { getAvatarLetters } = useGetAvatarLetters();
 
 const { apps, getInviteApps, loading: getAppsLoading } = useGetAppInvites();
@@ -61,8 +61,12 @@ const clearInput = () => {
 const errMsg = ref(null);
 const filteredPermissions = computed(() => {
   if (!search.value.trim()) return permissions.value;
-  return permissions.value.filter((permission) => permission.title.toString().toLowerCase().includes(search.value.toString().toLowerCase()))
+  return permissions.value.filter((permission) => {
+    const translatedTitle = t(permission.title); 
+    return translatedTitle.toLowerCase().includes(search.value.toLowerCase());
+  });
 });
+
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -39,8 +39,39 @@ const getApps = async () => {
 onMounted(async () => {
   getApps();
   checkPaymentStatus();
-});
 
+
+});
+onUpdated(async () => {
+  if (route.query && route.query.ping ) {
+    scrollToTarget();
+  }
+})
+const scrollToTarget = () => {
+  console.log('route.query.ping:', route.query.ping); 
+  const divel = document.getElementById(route.query.ping as string);
+
+  if (divel) {
+    divel.scrollIntoView({ behavior: 'smooth' });
+       
+    divel.classList.add('ping-effect');
+    
+    setTimeout(() => {
+      divel.classList.remove('ping-effect');
+    }, 1000); 
+  } else {
+    console.log('Element not found:', route.query.ping); 
+  }
+};
+
+
+
+watch(
+  () => route.query.ping,
+  (newQuery) => {
+      scrollToTarget();
+  }
+);
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
 import { getApp } from "firebase/app";
@@ -80,24 +111,7 @@ const switchTab = (tab: any) => {
   currentPage.value = 1;
 };
 
-const checked = ref([]);
-const deletedSites = ref([
-  { id: "1", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "2", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "3", name: "Tamkin", image: "https://via.placeholder.com/24" },
-  { id: "4", name: "Tamkin", image: "https://via.placeholder.com/24" },
-]);
 
-const checkAll = computed({
-  get() {
-    return (
-      deletedSites.value && checked.value.length === deletedSites.value.length
-    );
-  },
-  set(value) {
-    checked.value = value ? deletedSites.value.map((lang) => lang.id) : [];
-  },
-});
 const localePath = useLocalePath();
 const isSearchfilled = ref(false);
 const search = ref("");
@@ -113,7 +127,7 @@ const clearInput = () => {
 
 const visiblePages = computed(() => {
   const pages = [];
-  const maxVisiblePages = 5; // Adjust this number for more or fewer visible pages
+  const maxVisiblePages = 5; 
   let startPage = Math.max(
     1,
     currentPage.value - Math.floor(maxVisiblePages / 2)
@@ -132,7 +146,7 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
+const perPageOptions = ref([5, 10, 20]); 
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
 const totalPages = computed(() =>
@@ -141,7 +155,7 @@ const totalPages = computed(() =>
 
 const changePerPage = (option: number) => {
   perPage.value = option;
-  currentPage.value = 1; // Reset to the first page when changing items per page
+  currentPage.value = 1; 
 };
 
 const prevPage = () => {
@@ -191,14 +205,12 @@ watch(eventCounter, async () => {
     const { deleteApp } = useDeleteApp();
 
     if (currAppName.value.isdefault) {
-      // Find the index of the current app in appList
       const currentIndex = appList.value.findIndex(
         (app) => app.title === currAppName.value.title
       );
 
       let nextApp;
 
-      // If current app is the last one or not found, set 'Internal Service' as nextApp
       if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
         nextApp = apps.value.find((app) => app.title === "Internal Service");
       } else {
@@ -236,12 +248,12 @@ watch(eventCounter, async () => {
 
 const deletedAppListLength = computed(() => {
   return apps.value
-    .filter((ele) => ele.status === "deleted")
-    .filter((ele) =>
-      ele.title
-        .toLowerCase()
-        .includes(search.value.toString().toLowerCase().trim())
-    ).length;
+    .filter((ele) => ele.status === "deleted").length
+    // .filter((ele) =>
+    //   ele.title
+    //     .toLowerCase()
+    //     .includes(search.value.toString().toLowerCase().trim())
+    // ).length;
 });
 
 const notDeletedAppListLength = computed(() => {
@@ -261,32 +273,25 @@ const appList = computed(() => {
   if (currentTab.value !== "internal") {
     const translatedSearchValue = search.value.toLowerCase().trim();
     return apps.value.filter((ele) => {
-      // Check if the current tab is "deleted"
       if (currentTab.value === "deleted") {
-        return ele.status === "deleted"; // Return only deleted items
+        return (
+          ele.status === "deleted" &&
+          ele.type !== "Internal Services" &&
+          (ele.title.toLowerCase().includes(translatedSearchValue) ||
+            ele.app_domain.toLowerCase().includes(translatedSearchValue))
+        );
       } else {
-        // Return items that are not deleted and not "Internal Services"
-        // and also match the search value
+    
         return (
           ele.status !== "deleted" &&
           ele.type !== "Internal Services" &&
           (ele.title.toLowerCase().includes(translatedSearchValue) ||
-            ele.app_domain.toLowerCase().includes(translatedSearchValue)) // Adjust properties as needed
+            ele.app_domain.toLowerCase().includes(translatedSearchValue))
         );
       }
     });
 
-    // .filter((ele) => {
-    //   const translatedTitle = ele.title.toLowerCase().trim();
-    //   const titleForSearch =
-    //     currentTab.value === "internal" ? t(ele.title) : translatedTitle;
 
-    //   const translatedSearchValue = search.value.toLowerCase().trim();
-
-    //   return titleForSearch.includes(translatedSearchValue);
-    // })
-
-    // .sort((a, b) => new Date(b.creation) - new Date(a.creation)); // Sort by creation date (newest first)
   } else {
     return apps.value
       .find((t) => t.title === "Internal Service")
@@ -315,9 +320,7 @@ const paginatedFilteredAppList = computed(() => {
 });
 const runtimeConfig = useRuntimeConfig();
 const formatToUrl = (domain) => {
-  // Check if the domain starts with "http://" or "https://"
   if (!/^https?:\/\//i.test(domain)) {
-    // If not, prepend "https://"
     domain = "https://" + domain;
   }
   return domain;
@@ -936,9 +939,15 @@ const openInvestor = (app,pack)=>{
                     </div>
                   </div>
                   <div
-                    class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] cursor-pointer"
-                    @click="switchTab('internal')"
-                  >
+                    class=" px-[1px] cursor-pointer"
+                    @click="()=>{
+                      if(apps.some(t => t.title === 'Internal Service' && t.package && t.package.length)){
+                        switchTab('internal')
+
+                      }
+                    }"
+                    :class="[apps.some(t => t.title === 'Internal Service' && t.package && t.package.length) ? 'hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60' : '!cursor-not-allowed bg-gray-50']"
+                    >
                     <div
                       :class="[
                         currentTab === 'internal'
@@ -949,12 +958,13 @@ const openInvestor = (app,pack)=>{
                       style="line-height: 21px"
                     >
                       {{ $t("Internal Service") }} (
-                      {{
-                        apps.length
-                          ? apps.find((t) => t.title === "Internal Service")
-                              .package.length
-                          : 0
-                      }}
+                        {{
+                          apps.length &&
+                          apps.some((t) => t.title === "Internal Service" && t.package && t.package.length)
+                            ? apps.find((t) => t.title === "Internal Service").package.length
+                            : 0
+                        }}
+                        
                       )
                     </div>
                   </div>
@@ -1105,7 +1115,7 @@ const openInvestor = (app,pack)=>{
                     </th>
                   </tr>
                 </thead>
-                <tbody
+                <tbody 
                   class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
                 >
                   <template
@@ -1113,24 +1123,34 @@ const openInvestor = (app,pack)=>{
                     :key="index"
                   >
                     <tr
+                  :id="app.name"
+
                       class="h-[50px]"
                       :class="[
-                        app.package.length &&
-                        app.package[0].status === 'not_installed' &&
-                        new Date() < new Date(app.package[0].endpackage)
-                          ? 'bg-[#FAEBEB]'
-                          : '',
-                        mysiteStore.selectedApp &&
-                        mysiteStore.selectedApp.name === app.name
+                        (
+                          app.package && 
+                          app.package[0] &&
+                          (
+                            (app.package[0].status === 'not_installed' && 
+                             new Date() < new Date(app.package[0].endpackage) && 
+                             app.package[0].type !== 'Investors') ||
+                            (app.package[0].type === 'Investors' && app.package[0].status === 'not_installed')
+                          )
+                        ) 
+                        ? 'bg-[#FAEBEB]' 
+                        : '',
+                        
+                        mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
                           ? 'border-[1px] drop-shadow-md !border-tamkinStart'
-                          : 'border-[1px] ',
+                          : 'border-[1px]'
                       ]"
+                      
                     >
                       <td class="w-[25%]">
                         <div
                           class="relative h-[50px] flex items-center justify-start rtl:space-x-reverse space-x-[4px] ipad-max:space-x-[10px] lg:space-x-[16px] ipad-max:ltr:pl-[0px] ltr:pl-[18px] lg:ltr:pl-[18px] rtl:pr-[18px] lg:mt-0 mt-[20px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                         >
-                          <a
+                          <div
                             href="#"
                             class="gap-3 h-[50px] flex items-center justify-start"
                           >
@@ -1151,7 +1171,7 @@ const openInvestor = (app,pack)=>{
                             </div>
 
                             <div class="order-1">{{ app.app_domain }}</div>
-                          </a>
+                          </div>
                           <div
                             v-if="defaultApp.name === app.name"
                             class="order-1 flex items-center justify-center text-white text-[10px] font-[500] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
@@ -1247,12 +1267,12 @@ const openInvestor = (app,pack)=>{
                           </div>
                           <div
                             v-if="
-                              app.package[0].investor_status &&
-                              app.package[0].investor_status === 'Active'
+                              app.package[0].status &&
+                              app.package[0].status === 'Active'
                             "
                             class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
                           >
-                            {{ $t(app.package[0].investor_status) }}
+                            {{ $t(app.package[0].status) }}
                           </div>
                           <div
                             v-if="app.package[0].status === 'Pending'"
@@ -1264,19 +1284,12 @@ const openInvestor = (app,pack)=>{
                                 : $t(`${app.package[0].status}`)
                             }}
                           </div>
-                          <div
-                            v-if="app.package[0].status === 'Active'"
-                            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                          >
-                            {{ $t(`${app.package[0].status}`) }}
-                          </div>
+                        
                           <div
                             @click="$router.push(localePath('/embed-code'))"
                             v-if="
-                              app.package &&
-                              app.package.length > 0 &&
-                              app.package[0].status === 'not_installed' &&
-                              new Date() < new Date(app.package[0].endpackage)
+                             
+                              app.package[0].status === 'not_installed' 
                             "
                             class="cursor-pointer text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
                           >
@@ -1580,8 +1593,7 @@ const openInvestor = (app,pack)=>{
                               @click="$router.push(localePath('/embed-code'))"
                               v-if="
                                 pack &&
-                                pack.status === 'not_installed' &&
-                                new Date() < new Date(pack.endpackage)
+                                pack.status === 'not_installed'
                               "
                               class="cursor-pointer text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
                             >
@@ -1897,7 +1909,7 @@ const openInvestor = (app,pack)=>{
                       <img
                         v-if="app.favicon"
                         :src="app.favicon"
-                        class="size-8 object-cover ipad-max:hidden lg:block hidden"
+                        class="size-8 object-cover rounded-full ipad-max:hidden lg:block hidden"
                       />
                       <div
                         v-else
@@ -1929,7 +1941,7 @@ const openInvestor = (app,pack)=>{
 
               <table
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'internal' && !mysiteStore.loadingApps"
+                v-if="currentTab === 'internal' && !mysiteStore.loadingApps && apps.find(t=>t.title === 'Internal Service')?.package.length > 0"
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -2494,4 +2506,19 @@ const openInvestor = (app,pack)=>{
   transform: translateX(20px);
   opacity: 0;
 }
+
+.ping-effect {
+  animation: ping-animation 1s ease-out;
+  background-color: rgb(230, 230, 138);
+}
+
+@keyframes ping-animation {
+  0% {
+    background-color: rgb(230, 230, 138);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
 </style>

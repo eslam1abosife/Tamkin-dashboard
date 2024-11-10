@@ -361,9 +361,10 @@ const isCurrentRateEmpty = computed(() => {
             </div>
             <button
               class="btn-dashboard hover_tamkin w-[170px]"
-              :disabled="isInputDisabled || disabledIfPendingRecords"
+             
               @click="openModal('withdraw_paymentmethods', 'referral')"
             >
+            <!-- :disabled="isInputDisabled || disabledIfPendingRecords" -->
               {{$t('Withdraw')}}
             </button>
 
@@ -686,11 +687,11 @@ const isCurrentRateEmpty = computed(() => {
                   >
                     <span
                       class="h-2 w-2 rounded-full"
-                      :class="getStatusStyle(referral.status)"
+                      :class="getStatusStyle(referral.status.charAt(0).toUpperCase() + referral.status.slice(1))"
                     ></span>
                     <span
-                      class="text-[14px] leading-[19px] text-[#021328] font-[600]  whitespace-nowrap capitalize"
-                      >{{ $t(referral.status) }}</span
+                      class="text-[14px] leading-[19px] text-[#021328] font-[600]  whitespace-nowrap "
+                      >{{ $t(referral.status.charAt(0).toUpperCase() + referral.status.slice(1)) }}</span
                     >
                   </td>
                 </tr>

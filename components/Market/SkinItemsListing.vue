@@ -27,7 +27,12 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
       >
       <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
         <div class="h-[120px] flex items-center justify-center">
-          <img :src="fullUrl(skin_item.image)" class="w-[78px] h-[78px]" :alt="skin_item.text" />
+          <img :src="fullUrl(skin_item.image)"  v-if="skin_item.category !== 'Background'" class="w-[78px] h-[78px]" :alt="skin_item.text" />
+        <div v-if="skin_item.category === 'Background' && skin_item.background_color !== null" class="w-[78px] h-[78px] rounded-[10px]" :style="{background:skin_item.background_color}">
+
+        </div>
+        <img :src="fullUrl(skin_item.background_image)" v-if="skin_item.category === 'Background' && skin_item.background_image !== null" class="w-[78px] h-[78px]" :alt="skin_item.text" />
+        
         </div>
         <div
           class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
@@ -59,6 +64,13 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         >
           <div class="text-[10px] font-[500] leading-[10px]">{{$t('Purchased')}}</div>
         </div>
+        <div
+        v-else-if="skin_item.is_pending"
+        class="absolute top-0 left-0 w-[64px] bg-gradient-to-r from-yellow-300 to-yellow-100 h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+      
+      >
+        <div class="text-[10px] font-[500] leading-[10px]">{{$t('Pending')}}</div>
+      </div>
         <div
           class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           v-else-if="skin_item.is_package">

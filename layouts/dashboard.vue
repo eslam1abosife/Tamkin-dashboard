@@ -870,15 +870,16 @@ const loadf = ref(true);
   />
 
   <Html
-    class="dark:bg-p bg_dashboard"
+    class="min-h-screen h-full"
     :lang="htmlAttrs.lang"
     :dir="htmlAttrs.dir"
-    :class="[
+:class="[
       openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden',
-    ]"
+    ]" 
   >
+
     <div
-      class="relative min-h-screen dark:!bg-p"
+      class="relative  dark:bg-p bg_dashboard  min-h-screen  w-full "
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
       <div class="vl-parent">
@@ -892,10 +893,10 @@ const loadf = ref(true);
             <div class="flex items-center justify-center flex-col space-y-2">
               <!-- Your custom loader icon or content -->
               <img
-                src="/assets/imgs/logo.png"
-                alt="Loading..."
-                class="w-full h-24"
-              />
+              src="/assets/imgs/logo.png"
+              alt="Loading..."
+              class="w-full max-w-[200px] h-[96px] object-contain block"
+            />
 
               <div role="status">
                 <svg
@@ -964,6 +965,7 @@ const loadf = ref(true);
         v-if="isOpen('restoreApp')"
         :title="$t('Restore That App')"
         :for-delete="false"
+        svbtn-name="Restore"
         :sub-title="$t('Are you sure you want to restore that app ?')"
         confirm-btn-type="other"
         @control-other="emitEvent('restoreApp')"
@@ -1002,17 +1004,18 @@ const loadf = ref(true);
       />
 
       <div
-        class="lg:relative flex items-center justify-start flex-col bg-[#FFFEFE] dark:bg-tamkinDarkPrimary 
-        z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
+        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary 
+        z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey
+         dark:border-darkborder w-full"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
-            : 'ipad-max:hidden  lg:flex',
-          sideBarOpen ? 'max-w-[280px] ' : 'max-w-[75px]',
+            : 'ipad-max:hidden  lg:flex hidden',
+          sideBarOpen ? 'max-w-[280px] h-full' : 'max-w-[75px]',
         ]"
       >
         <div
-          class="h-full w-full relative"
+          class="h-screen w-full relative"
           :class="[sideBarOpen ? 'mt-[8px]' : 'mt-[0]']"
         >
           <div

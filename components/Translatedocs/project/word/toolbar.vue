@@ -1,9 +1,11 @@
 <template>
   <div class="flex justify-between bg-[#DFDFDF] toolbar-container">
     <div class="flex items-center rtl:space-x-reverse  space-x-2">
-      <div class="toolbar-item">{{ $t('Page') }} {{ currentPage }} {{ $t('of') }} {{ totalPages }}</div>
-      <div class="toolbar-item">{{ wordCount }} {{$t('words')}}</div>
-      <div class="toolbar-item">English (United States)</div>
+      <div class="toolbar-item" >{{ $t('Page') }} {{ currentPage }} {{ $t('of') }} {{ totalPages }}</div>
+      <div class="toolbar-item">{{ Math.abs(Number(translateStore.pdfProject.translated_words) )+  Math.abs(Number(translateStore.pdfProject.untranslated_words))
+         }} {{$t('words')}}</div>
+      <div class="toolbar-item">{{
+$t(translateStore.pdfProject.translate_to_name ? translateStore.pdfProject.translate_to_name : translateStore.pdfProject.translate_original_name)}}</div>
     </div>
     
     <div class="flex items-center rtl:space-x-reverse  space-x-2">
@@ -28,7 +30,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['zoom-change']);
-
+const translateStore = useTranslateStore();
 const zoomLevel = ref(props.initialZoomLevel || 100);
 
 const emitZoomChange = () => {
@@ -59,10 +61,11 @@ const zoomOut = () => {
   width: 100%;
   border-top: 1px solid #ccc;
   padding: 5px 10px;
+  @apply rtl:flex-row-reverse;
 }
 
 .toolbar-item {
-  @apply ipad-max:text-[10px] text-[14px] mx-1 font-[500] text-[#444444];
+  @apply ipad-max:text-[10px] text-[14px] mx-1   font-[500] text-[#444444];
 }
 
 .zoom-controls {

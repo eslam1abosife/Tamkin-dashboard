@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-              // import { VTamkinPlayer } from 'tamkin-video-player';
-                   import { VTamkinPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
-              import '../../../tamkin-player/style.css'
+              import { VTamkinPlayer } from 'tamkin-video-player';
+              //      import { VTamkinPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
+              // import '../../../tamkin-player/style.css'
               const videoUrl = ref('/video.mp4'); 
 import { useModalManager } from '@/composables/useModalManager';
 const {locale} = useI18n()
@@ -30,7 +30,8 @@ const getPlayerPosition = (p: any) => {
 
 <template>
 
-  <div   class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] h-auto flex p-[15px] justify-start w-full mt-[24px]">
+  <div   class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px]
+   h-full flex p-[15px] justify-start w-full mt-[24px]">
     <div class="flex items-center justify-between w-full">
       <div class="text-darkGrey text-[18px] leading-[27px] font-[500] text-left">
         {{$t('Project Settings')}}
@@ -96,7 +97,7 @@ const getPlayerPosition = (p: any) => {
 
 
      
-      <div class="h-[315px]" :class="[bigpicMode ? 'w-full' : 'w-2/4']">
+      <div class="!relative !h-[275px]" :class="[bigpicMode ? 'w-full' : 'w-2/4']">
         <div class="flex items-start  justify-between">
           <div class="text-[#3D3D3D] text-[15px] font-[500]">
             {{$t('Sign language')}}
@@ -169,36 +170,39 @@ const getPlayerPosition = (p: any) => {
           </div>
         </div>
             <!-- :subtitleTextTransform="translateStore.styles." -->
-        <div v-if="!translateStore.loadingProject" class="relative">
-          <VTamkinPlayer 
-          @TamkinFullScreen="bigpicMode = !bigpicMode"
-          :mediaUrl="translateStore.videoProject.file_link"
-          :isVideo="true"
-          :captionOptions="[
-            { src: `${translateStore.videoProject.subtitles_link}`, default: true },
-          ]"
-          :subtitle-under-line="translateStore.styles.underline"
-          :subtitleTextTransform="translateStore.styles.fontCap"
-          :subtitleColor="translateStore.colorStyle"
-          :line-count="translateStore.styles.lines"
-          :subtitleFontSize="translateStore.styles.size"
-          :subtitleFontWeight="translateStore.styles.fontWeight"
-          :subtitleFontStyle="translateStore.styles.fontStyle"
-          :subtitleLineHeight="`${translateStore.styles.lineHeight}px`"
-          :subtitleLetterSpacing="`${translateStore.styles.letterSpacing}px`"
-          :subtitleAlignment="translateStore.styles.textAlign"
-          :subtitle-font-family="translateStore.styles.fontName"
-          :subtitleBackground="translateStore.styles.bg"
-      :player-position="translateStore.player.playerPosition"
-      @close-player="translateStore.player.playerPosition = 'inVideo'"
-    :backgroundPlayerContrastOpacity="translateStore.player.background"
-    :backgroundPlayerContrast="translateStore.player.contrast "
-    :isPlayerVisible="translateStore.player.visibility"
-    :player-positioning="translateStore.player.position"
-    :current-locale="locale"
-        />
+        <div class="relative" v-show="!translateStore.loadingProject">
+
+<ClientOnly>
+  <VTamkinPlayer 
+  @TamkinFullScreen="bigpicMode = !bigpicMode"
+  :mediaUrl="translateStore.videoProject.file_link"
+  :isVideo="true"
+  :captionOptions="[
+    { src: `/subs.vtt`, default: true , kind: 'captions', srclang: 'ar' },
+  ]"
+  :subtitle-under-line="translateStore.styles.underline"
+  :subtitleTextTransform="translateStore.styles.fontCap"
+  :subtitleColor="translateStore.colorStyle"
+  :line-count="translateStore.styles.lines"
+  :subtitleFontSize="translateStore.styles.size"
+  :subtitleFontWeight="translateStore.styles.fontWeight"
+  :subtitleFontStyle="translateStore.styles.fontStyle"
+  :subtitleLineHeight="`${translateStore.styles.lineHeight}px`"
+  :subtitleLetterSpacing="`${translateStore.styles.letterSpacing}px`"
+  :subtitleAlignment="translateStore.styles.textAlign"
+  :subtitle-font-family="translateStore.styles.fontName"
+  :subtitleBackground="translateStore.styles.bg"
+:player-position="translateStore.player.playerPosition"
+@close-player="translateStore.player.playerPosition = 'inVideo'"
+:backgroundPlayerContrastOpacity="translateStore.player.background"
+:backgroundPlayerContrast="translateStore.player.contrast "
+:isPlayerVisible="translateStore.player.visibility"
+:player-positioning="translateStore.player.position"
+:current-locale="locale"
+/>
+</ClientOnly>
         </div>
-          
+        <!-- ${translateStore.videoProject.subtitles_link} -->
         <div class="w-full h-[275px] mt-[10px] bg-gray-300 animate-pulse rounded-[10px]" v-if="translateStore.loadingProject"></div>
 
 

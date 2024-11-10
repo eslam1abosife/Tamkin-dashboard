@@ -15,6 +15,7 @@ const {
 definePageMeta({
   layout: "dashboard",
 middleware:['auth','permissions'],
+requiredPermission: "sign-language-photos",
 
 });
 

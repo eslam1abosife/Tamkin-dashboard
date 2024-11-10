@@ -3,6 +3,33 @@
 import { useModalManager } from '@/composables/useModalManager';
 import Circularprogressbar from '~/components/Circularprogressbar.vue';
 import { useTranslateStore } from "~/stores/translate";
+import { Player } from 'tamkin-video-player';
+import {useGetProject} from '@/composables/useInternal'
+const route = useRoute()
+const {getProject} = useGetProject()
+const getProjectByName = async ()=>{
+  const projectName = route.params.id
+  const d = await getProject(projectName)
+  translateStore.pdfProject = {
+    ...d.project,
+    stats:d.project_statistic
+  }
+  if(translateStore.pdfProject){
+    if(translateStore.pdfProject.value[0].text){
+      
+translateStore.texttofill = translateStore.pdfProject.value[0].text
+    }
+   }
+  translateStore.loadingProject = false
+  
+}
+
+import {useTranslateVideo,useGetSubTitleLangs,useTranslateAudio,useTranslateLive,useUpdateProject } from '@/composables/useInternal'
+const {t} = useI18n()
+const {updateProject,cancelRequest,controller
+    ,messageError,
+    codstatus
+} = useUpdateProject()
 
 const translateStore = useTranslateStore()
 const {
@@ -23,13 +50,86 @@ const changeMode = (mode: any) => {
 const getPlayerPosition = (p: any) => {
     playerPosition.value = p
 }
+/**
+ * Downloads a file from the given url.
+ * @param {string} fileurl - The URL of the file to download.
+ */
+function downloadFile() {
 
-// provide('currentMode', currentMode)
+  const link = document.createElement('a');
+      link.href = translateStore.pdfProject.file_link;
+      link.target = '_blank';
+      link.download = translateStore.pdfProject.project_name+'.pdf'; 
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+}
+const loadingUpdate =ref(false)
+const changeinfile = ref(false)
+
+const {$toast} = useNuxtApp()
+
+const intitext= ref()
+const updateProjectFn = async () => {
+  const keysToRemove = ["stats", "project_statistic"];
+
+const updatedProject = Object.keys(translateStore.pdfProject).reduce((acc, key) => {
+  if (!keysToRemove.includes(key) || !Array.isArray(translateStore.pdfProject[key])) {
+    acc[key] = translateStore.pdfProject[key];
+  }
+  return acc;
+}, {});
+          loadingUpdate.value = true;
+          await updateProject({ ...updatedProject,
+            "used_translate": 0,
+
+"used_sign_language": 0
+
+            ,value:[{...translateStore.pdfProject.value[0],text:intitext.value}]});
+          $toast(t('Project Updated Successfully'), { hideIn: 3000 });
+   await getProjectByName()
+
+          loadingUpdate.value = false;
+  changeinfile.value = false
+
+        };
+        const ogtext = ref()
+
+
+
+const editorRef = ref(null);
+   watch(intitext,(nv,ov) => {
+  if (translateStore.pdfProject?.value?.[0]?.text != null && translateStore.texttofill != null) {
+  // console.log('current text' , translateStore.pdfProject.value[0].text)
+    changeinfile.value = intitext.value !== translateStore.pdfProject.value[0].text;
+  } else {
+    changeinfile.value = false;
+  }
+});
+const getpdftext = (text: any) => {
+  intitext.value = text;
+}
+
+const cancelEditing =async  () => {
+    editorRef.value.undo();
+ 
+
+  intitext.value = translateStore.pdfProject.value[0].text
+  translateStore.texttofill = translateStore.pdfProject.value[0].text
+  changeinfile.value = false
+
+}
+const loadedpl =ref(false)
+const getStateOfPlayer = (st) =>{
+  loadedpl.value = st === 1 ? true : false
+}
+
 </script>
 
 <template>
 
-    <div class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] h-full flex p-[15px] justify-start w-full
+    <div v-if="!translateStore.loadingProject" class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] h-full flex p-[15px] justify-start w-full
          mt-[24px] ">
 
         <div class="flex items-center justify-between w-full">
@@ -38,7 +138,7 @@ const getPlayerPosition = (p: any) => {
             </div>
 
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <button class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2"
+                <button class="btn-translate 5px] group !w-[38px] !h-[30px] !p-2" @click="downloadFile"
                >
                <svg
                width="20"
@@ -122,7 +222,7 @@ const getPlayerPosition = (p: any) => {
         <div class=" flex items-start w-full justify-between mt-[30px]">
        
             <div class="flex items-start justify-evenly  rtl:space-x-reverse space-x-[15px] ">
-              <button class="btn-translate tamkin hover_tamkin  group" 
+              <button :disabled="!loadedpl" class="btn-translate tamkin hover_tamkin  group" 
               
               @click="bigpicMode = !bigpicMode" :class="[!bigpicMode ? 'active_tamkin' : '']">
                 <div>
@@ -157,7 +257,7 @@ const getPlayerPosition = (p: any) => {
                 </div>
                 <div class="text_normal_hover"> {{ $t('Player') }} </div>
               </button>
-                <button class="btn-translate tamkin hover_tamkin group" @click="changeMode('translation')"
+                <button :disabled="!loadedpl" class="btn-translate tamkin hover_tamkin group" @click="changeMode('translation')"
                     :class="[translateStore.currentMode === 'translation' ? 'active_tamkin' : '']">
                     <div>
                         <svg width="21" height="19" class="w-[18px] h-[18px]" viewBox="0 0 21 19" fill="none"
@@ -177,7 +277,7 @@ const getPlayerPosition = (p: any) => {
                     </div>
                     <div class="text_normal_hover">{{$t('Translation')}}</div>
                 </button>
-                <button class="btn-translate tamkin hover_tamkin group" @click="changeMode('signlang')"
+                <button :disabled="!loadedpl" class="btn-translate tamkin hover_tamkin group" @click="changeMode('signlang')"
                     :class="[translateStore.currentMode === 'signlang' ? 'active_tamkin' : '']">
                     <div>
                         <svg width="15" class="w-[13px] h-[13px]" height="16" viewBox="0 0 15 16" fill="none"
@@ -202,6 +302,14 @@ const getPlayerPosition = (p: any) => {
         <TranslateModalsShare />
         <TranslateModalsMoreinfo />
 
+            <transition name="slide-up">
+        
+        
+              <SaveTranslateFooter  :show-footer="changeinfile" @save="updateProjectFn" :loading="loadingUpdate" 
+              @cancel_action="cancelEditing" />
+        
+            </transition>
+
 
 
         <ClientOnly>
@@ -211,6 +319,9 @@ const getPlayerPosition = (p: any) => {
          
       
               <TranslatedocsProjectPdfEditor
+              :isloaded-player="loadedpl"
+              ref="editorRef"
+              @getupdatedtext="getpdftext"
               class="h-full"
               :is-menus-open=" (translateStore.currentMode === 'signlang' && !bigpicMode) ||
                               (translateStore.currentMode === 'translation' && !bigpicMode)"
@@ -219,32 +330,39 @@ const getPlayerPosition = (p: any) => {
                 ]"
               />
       
-              <div class="h-full col-span-4 ipad-max:col-span-5" v-if="!bigpicMode">
-                <LazyTranslatedocsProjectModesSignlang
+              <div class="h-full col-span-4 ipad-max:col-span-5" v-show="!bigpicMode">
+                <TranslatedocsProjectModesSignlang
                   class="w-full !overflow-y-hidden"
                   v-if="translateStore.currentMode === 'signlang' && !bigpicMode"
                 />
-                <LazyTranslatedocsProjectModesTranslation
+                <TranslatedocsProjectModesTranslation
                   class="w-full !overflow-y-hidden"
                   v-if="translateStore.currentMode === 'translation' && !bigpicMode"
                 />
       
                 <div
-                  class="flex flex-col space-y-[24px] items-start justify-center w-full  "
+                  class="flex flex-col  items-start justify-center w-full  "
                   :class="[
                     (translateStore.currentMode === 'signlang' && !bigpicMode) ||
                     (translateStore.currentMode === 'translation' && !bigpicMode)
                       ? ' ipad-max:mt-[-60px] mt-[-100px]'
-                      : 'mt-0',
+                      : 'space-y-[16px]',
                   ]"
                 >
                   <div class="relative w-full">
-                    <img
+                    <!-- <img
                       src="/assets/imgs/translatedocs/player.png"
                       alt=""
-                      @click="bigpicMode = !bigpicMode"
                       class="transition-all ease-in-out  w-full h-full lg:h-[400px]" 
-                    />
+                    /> -->
+               
+                    <ClientOnly>
+                      
+                      <Player
+                     @loaded-player="getStateOfPlayer"
+                      @click="bigpicMode = !bigpicMode" :visible-player="!bigpicMode"
+                      class="transition-all ease-in-out  w-full h-[401px] " />
+                     </ClientOnly>
                   </div>
       
                   <!-- 
@@ -270,7 +388,13 @@ const getPlayerPosition = (p: any) => {
       
                               <div v-if="    (translateStore.currentMode === 'signlang' && !bigpicMode) ||
                               (translateStore.currentMode === 'translation' && !bigpicMode)"
-                                      class="h-[54px] relative w-full bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
+                              :class="[
+                                (translateStore.currentMode === 'signlang' && !bigpicMode) ||
+                                (translateStore.currentMode === 'translation' && !bigpicMode)
+                                  ? ' mt-[13px]'
+                                  : '',
+                              ]"
+                                      class="h-[54px] relative w-full  bg-gradient-to-r from-[#F6E6E7] to-[#D0F3F0] 
                                       flex flex-col items-center justify-center rounded-[10px]"
                                     >
                                     
@@ -283,7 +407,7 @@ const getPlayerPosition = (p: any) => {
                                       </div>
                                       
                                         <div class="flex items-center justify-center w-[50px] ">
-                                          <Circularprogressbar :initialPercentage="85" class="w-full small_circle text-[12px]" />
+                                          <Circularprogressbar :initialPercentage="Number(translateStore.pdfProject.accuracy)" class="w-full small_circle text-[12px]" />
                                         
                                         </div>
                 
@@ -308,7 +432,7 @@ const getPlayerPosition = (p: any) => {
                               </div>
                               <div class="flex items-center justify-evenly w-full rtl:space-x-reverse space-x-[10px] ">
                                 <div class="flex flex-col items-center justify-center w-[120px]">
-                                  <Circularprogressbar :initialPercentage="85" class="w-full" />
+                                  <Circularprogressbar :initialPercentage="Number(translateStore.pdfProject.accuracy)" class="w-full" />
                                   <div
                                     class="mt-[12px] text-[12px] text-center whitespace-nowrap font-[500] text-[#021328]"
                                   >
@@ -329,7 +453,7 @@ const getPlayerPosition = (p: any) => {
                                     </div>
                 
                                     <div class="text-[11px] text-center font-[500] text-[#021328]">
-                                      {{ $t('Translated Words') }} 1,250
+                                      {{ $t('Translated Words') }} {{Number(translateStore.pdfProject.translated_words)}}
                                     </div>
                                   </div>
                                   <div
@@ -344,7 +468,7 @@ const getPlayerPosition = (p: any) => {
                                     </div>
                 
                                     <div class="text-[11px] text-center font-[500] text-[#021328]">
-                                      {{ $t('Untranslated Words') }} 1,250
+                                      {{ $t('Untranslated Words') }} {{Number(translateStore.pdfProject.untranslated_words)}}
                                     </div>
                                   </div>
                                 </div>
@@ -357,7 +481,40 @@ const getPlayerPosition = (p: any) => {
             </div>
           </ClientOnly>
     </div>
-
+    <div v-else
+    class="bg-white dark:bg-tamkinDarkPrimary flex-col items-start rounded-[13px] 
+    h-full flex p-[15px] justify-start w-full mt-[24px] animate-pulse"
+  >
+    <!-- Header Skeleton -->
+    <div class="flex items-center justify-between w-full">
+      <div class="bg-darkGrey h-[27px] w-[150px] rounded"></div>
+      <div class="flex items-center space-x-[16px]">
+        <div class="w-[38px] h-[30px] bg-gray-300 rounded"></div>
+        <div class="w-[38px] h-[30px] bg-gray-300 rounded"></div>
+      </div>
+    </div>
+  
+    <div class="flex items-start w-full justify-between mt-[30px]">
+      <div class="flex items-start space-x-[15px]">
+        <div class="bg-gray-300 h-[30px] w-[90px] rounded"></div>
+        <div class="bg-gray-300 h-[30px] w-[90px] rounded"></div>
+        <div class="bg-gray-300 h-[30px] w-[110px] rounded"></div>
+      </div>
+    </div>
+  
+    <!-- Project Editor Skeleton -->
+    <div class="grid grid-cols-12 mt-[24px] gap-4 h-full w-full">
+      <div class="col-span-6 ipad-max:col-span-7 bg-gray-200 h-full rounded"></div>
+      <div class="col-span-4 ipad-max:col-span-5 bg-gray-200 h-full rounded"></div>
+    </div>
+  
+    <!-- Image and Accuracy Progress Skeleton -->
+    <div class="flex  space-x-[16px] items-start justify-center w-full">
+    <div class="relative w-full h-[200px] bg-gray-200 rounded"></div>
+  
+      <div class="relative w-full bg-gray-200 h-[200px] rounded "></div>
+    </div>
+  </div>
 
 
 

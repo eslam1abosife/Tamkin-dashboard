@@ -4,6 +4,7 @@ import {useDeleteProject} from '@/composables/useInternal'
 const{t} = useI18n()
 const translateStore = useTranslateStore()
 const {deleteProject} = useDeleteProject()
+const localePath = useLocalePath()
 const props = defineProps({
     videos:Array
 })
@@ -63,6 +64,15 @@ const triggerData = ()=>{
 }
 
 const currentTab = inject('currentTab')
+function getLocalePath(video) {
+  return video.type === 'Translate video' || video.type === 'Translate Audio' || video.type === 'Translate Live Video'
+    ? localePath(`/translate/${video.name}`)
+    : video.type === 'Photo Services'
+    ? localePath(`/photos/translate/${video.name}`)
+    : video.type === 'PDF Document Services'
+    ? localePath(`/document/pdf/${video.name}`)
+    :localePath( `/document/word/${video.name}`);
+}
 </script>
 <template>
    <div>
@@ -79,7 +89,7 @@ const currentTab = inject('currentTab')
     <div class="grid grid-cols-1 gap-2 lg:grid-cols-5 ipad-max:grid-cols-3  ">
     
         <div v-for="video in videos"
-        
+        @click="$router.push(getLocalePath(video))"
         :class="[video.status === 'Pending' ? 'cursor-not-allowed pointer-events-none select-none':'']"
         class="h-[160px] flex flex-col items-start justify-start space-y-[10px] rounded-[7px] 
         shadow-lg group border-[1px] tounfrf-[10px] border-transparent relative hover:border-tamkin 
@@ -161,7 +171,7 @@ const currentTab = inject('currentTab')
             </span>
 
           </div>
-        <div class="text-[#141C24] dark:text-whiteTamkin px-[15px] !mt-[16px]  font-[500] text-[10px] leading-[16px] ">
+        <div class="text-[#141C24] dark:text-whiteTamkin px-[15px] ٍ  font-[500] text-[10px] leading-[16px] ">
             {{$t('Uploaded on')}} {{new Date(video.creation).toDateString()}}
         </div>
         </div>

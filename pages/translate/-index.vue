@@ -16,6 +16,9 @@ const {
 } = useModalManager();
 definePageMeta({
 layout: "dashboard",
+middleware: ['auth','permissions'],
+requiredPermission: "sign-language-media",
+
 // middleware:['auth'],
 // ,'permissions'
 });
@@ -64,7 +67,8 @@ translateStore.statsPackage = result2
 <template>
   <div class="w-full h-full relative">
   
-    <TranslateModalsUpgrade/>
+    <TranslateModalsUpgrade     typeofPackage="Media"
+    />
   <TranslateModalsShare/>
       <TranslateModalsTranslate v-if="isOpen('translate_video')" translate-type="video" key="video_modal" />
       <TranslateModalsTranslate v-if="isOpen('translate_audio')" translate-type="audio" />

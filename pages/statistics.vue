@@ -5,6 +5,8 @@ const settingsStore = useSettingsStore();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "accessibility-statistics",
+
 });
 
 const localePath = useLocalePath();

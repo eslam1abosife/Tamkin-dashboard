@@ -4,6 +4,14 @@ import { required, email, sameAs } from "@vuelidate/validators";
 import { useModalManager } from '@/composables/useModalManager';
 import { Vue3Lottie } from 'vue3-lottie';
 import upgradeAnimation from '/assets/animation/upgrade.json';
+import {useGetPackages,useGetStats} from '@/composables/useInternal'
+const {getPackages} = useGetPackages()
+const {getStats} = useGetStats()
+import {
+  useDeleteApp,
+  useRestoreApp,
+  useGetPackage,
+} from "@/composables/useMySite";
 const {
   isOpen,
   currentView,
@@ -12,18 +20,104 @@ const {
   goBack,
   navigateTo,
 } = useModalManager();
-const state = reactive({
-  email: "",
-  password: "",
-});
-const rules = {
-  email: { required, email },
-  password: { required },
+const { getPackage, messageStatus, codeStatus } = useGetPackage();
+const translateStore = useTranslateStore()
+const mysiteStore = useMySiteStore();
+
+const { loadingBlock } = storeToRefs(mysiteStore);
+
+const loadingUpgrade = ref([]);
+
+const getPackageAndOpenPaymenModal = async (app, pack) => {
+  await loadingBlock.value.push({ app: app.name, pack: pack.name });
+
+  mysiteStore.updatePayment = true;
+
+  const packagemodal = await getPackage(pack.name);
+  mysiteStore.currentWebsite = {
+    ...app,
+    package: [packagemodal.package],
+  };
+
+  await mysiteStore.setCurrentPackage({
+    ...packagemodal.package,
+    package_price_role: packagemodal.price_roles,
+    billing_duration:
+      pack.month_difference > 0
+        ? Number(pack.month_difference) === 3 && pack.remarks !== 'Free Trial'
+          ? "3 months"
+          : Number(pack.month_difference) === 12&& pack.remarks !== 'Free Trial'
+          ? "yearly"
+          : Number(pack.month_difference) === 1&& pack.remarks !== 'Free Trial'
+          ? "monthly"
+          : "none"
+        : "none",
+    status: new Date() > new Date(pack.to_date) ? "Expired" : pack.status,
+  });
+
+  navigateTo('upgradeTranslatePackage', "internalMediaservices", "add_package_modal_mysite");
+  loadingBlock.value.splice({ app: app.name, pack: pack.name });
 };
-const v$ = useVuelidate(rules, state);
+
+const getMediaPackage = computed(()=>{
+    if(translateStore.internalPackages.length){
+     return  translateStore.internalPackages.find(p=>p.package_category === props.typeofPackage) 
+     }
+    })
+
+    const refreshData = async () => {
+  translateStore.loadingPackage = true
+
+  const result = await getPackages()
+      const result2 = await getStats()
+      if(result){
+        translateStore.currentApp = result
+translateStore.internalPackages = result.package
+
+translateStore.statsPackage = result2
+
+      }
+
+      translateStore.loadingPackage = false
+
+};
+    onMounted(async ()=>{
+     await refreshData()
+    })
+
+    const upgradeModalPackage = async (app, pack) => {
+  await loadingUpgrade.value.push({ app: app.name, pack: pack.name });
+
+  mysiteStore.updatePayment = true;
+
+  const packagemodal = await getPackage(pack.name);
+  mysiteStore.currentWebsite = {
+    ...app,
+    package: [packagemodal.package],
+  };
+  await mysiteStore.setCurrentPackage({
+    ...packagemodal.package,
+    package_price_role: packagemodal.price_roles,
+    billing_duration:
+      pack.month_difference > 0
+        ? Number(pack.month_difference) === 3
+          ? "3 months"
+          : Number(pack.month_difference) === 12
+          ? "yearly"
+          : Number(pack.month_difference) === 1
+          ? "monthly"
+          : "none"
+        : "none",
+    status: new Date() > new Date(pack.to_date) ? "Expired" : pack.status,
+  });
+
+  navigateTo('upgradeTranslatePackage', "internalMediaservices", "upgrade_mysite_package");
+  loadingUpgrade.value.splice({ app: app.name, pack: pack.package_name });
+};
 const props = defineProps({
   header: String,
-  text:String
+  text:String,
+  typeofPackage:String
 });
 </script>
 
@@ -59,12 +153,76 @@ const props = defineProps({
     
 
     <div class="text-[16px] font-[500]  text-darkGrey leading-[30px]">
-       {{ text? $t(text) : $t(' Sorry, you do not have enough words and minutes available to translate the video Please upgrade to continue the translation process without interruption') }}
+       {{ text? $t(text) : $t(' Sorry, you do not have enough words and minutes available to translate .Please upgrade to continue the translation process without interruption') }}
     </div>
 
     <div class="w-[190px] mx-auto">
-      <button class="btn-dashboard hover_tamkin mt-[40px] ">
+      <button class="btn-dashboard hover_tamkin mt-[40px]  " 
+      :disabled="  loadingUpgrade.find(
+        (entry) => entry.pack === getMediaPackage.name && entry.app === translateStore.currentApp.name
+      ) || getMediaPackage.status === 'Pending'"
+      v-if="getMediaPackage.title !== 'Free'" 
+      
+      @click="getPackageAndOpenPaymenModal(  translateStore.currentApp,getMediaPackage)">
         {{ $t('Upgrade Now') }}
+        <svg
+        v-if="
+        loadingUpgrade.find(
+            (entry) => entry.pack === getMediaPackage.name && entry.app === translateStore.currentApp.name 
+          )
+        "
+        class="animate-spin mx-1 h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      </button>
+      <button class="btn-dashboard hover_tamkin mt-[40px]  "
+      :disabled="  loadingUpgrade.find(
+        (entry) => entry.pack === getMediaPackage.name && entry.app === translateStore.currentApp.name
+      ) || getMediaPackage.status === 'Pending'"
+      v-if="getMediaPackage.title === 'Free'" @click="upgradeModalPackage(  translateStore.currentApp,getMediaPackage)">
+        {{ $t('Upgrade Now') }}
+
+        <svg
+        v-if="
+        loadingUpgrade.find(
+            (entry) => entry.pack === getMediaPackage.name && entry.app === translateStore.currentApp.name 
+          )
+        "
+        class="animate-spin mx-1 h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
       </button>
     </div>
   </div>

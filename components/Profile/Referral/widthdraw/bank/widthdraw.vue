@@ -218,7 +218,7 @@ const closeAndreset = () => {
         {{ $t('Available balance') }} <span class="!font-[500]">${{withdrawStore.currentAmount}}</span>
       </div>
 
-      <div class="lg:mt-[120px] 2xl:mt-[188px] rtl:mr-auto ltr:ml-auto">
+      <div class="lg:mt-[120px] 2xl:mt-[178px] rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="completeWithDraw" :disabled="isWithdrawDisabled || withdrawloading">
           <div class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]">
             <div :class="withdrawloading ? 'rtl:ml-2 ltr:mr-2':''">

@@ -37,8 +37,8 @@ const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked(
 definePageMeta({
   layout: "dashboard",
   middleware: ['auth', 'permissions'],
-
-});
+  requiredPermission: "add-site",
+}); 
 
 const addSiteStore = useAddSiteStore()
 const breakpoints = {
@@ -292,8 +292,8 @@ const sortedPlans = computed(() => {
           {{ $t('Select Your package') }}
         </h2>
       </div>
-      <div class="flex items-center rtl:space-x-reverse space-x-[10px]">
-        <div>
+      <div class="cursor-pointer flex items-center rtl:space-x-reverse space-x-[10px]" @click="collapsed = !collapsed">
+        <div  > 
           <h2 class="underline text-[14px] font-[400] leading-[24px] text-[#151515] dark:text-whiteTamkin">
             {{ $t('What’s included?') }}
           </h2>

@@ -13,6 +13,22 @@ const {
   navigateTo,
 } = useModalManager();
 const translateStore = useTranslateStore()
+
+const userconsume = computed(() => {
+  const { documents } = translateStore.usedCredit;
+  const { package: pkg, extre } = translateStore.statsPackage.total.documents;
+
+  if (documents) {
+    return (
+
+      translateStore.usedCredit.documents.docs_words + extre.documents_words === pkg.docs_words && 
+      translateStore.usedCredit.documents.pdf_words + extre.documents_words === pkg.pdf_words
+ 
+    );
+  } else {
+    return false;
+  }
+});
 </script>
 
 <template>
@@ -33,7 +49,9 @@ const translateStore = useTranslateStore()
               <div class="text-[14px] font-[500] text-[#6D6D6D] leading-[21px] ">
                 {{ $t('Upload Pdf Documents and we’ll translate it') }}
               </div>
-              <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_pdf_documents', 'docs')}">{{$t('Translate Now')}}</button>
+              <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]"
+              
+              @click="()=>{userconsume ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_pdf_documents', 'docs')}">{{$t('Translate Now')}}</button>
             </div>
           </div>
          <div class="bg-white  rounded-[10px] flex items-center justify-start px-[24px] p-[24px] h-[150px] w-full rtl:space-x-reverse space-x-[16px]">
@@ -50,7 +68,8 @@ const translateStore = useTranslateStore()
                 <div class="text-[14px] font-[500] text-[#6D6D6D] ">
                     {{$t('Upload Docx Documents and we’ll translate it')}}
                 </div>
-                <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]" @click="()=>{plan === 'freetrial_Ex' || plan === 'pro_used' ? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_word_documents', 'docs')}">{{$t('Translate Now')}}</button>
+                <button class="!mt-[16px] btn-action-translate w-5/6 ipad-max:w-full lg:w-[65%]"
+                 @click="()=>{userconsume? openModal('upgradeTranslatePackage', 'docs') : openModal('translate_word_documents', 'docs')}">{{$t('Translate Now')}}</button>
             
                     </div>
                      </div>

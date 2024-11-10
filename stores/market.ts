@@ -28,7 +28,7 @@ export const useMarketStore = defineStore('market', {
     selectedCrypto:'',
     loadingPromo:false,
     selectedPaymentMethod:'',
-    categoriesWithSkinItems:''
+    categoriesWithSkinItems:[]
   }),
 
   actions: {
@@ -109,6 +109,7 @@ export const useMarketStore = defineStore('market', {
     resetAll(){
         this.selectedForPreview = []
         this.showSaveFooter = false
+        
     },
     closeCartNotification() {
       this.cartNotification = !this.cartNotification;
@@ -197,7 +198,7 @@ export const useMarketStore = defineStore('market', {
         return item.is_purchased || item.is_package;
     },
     cartable(item: any){
-        return !this.owned(item)
+        return !this.owned(item) && !item.is_pending
     },
     async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
 

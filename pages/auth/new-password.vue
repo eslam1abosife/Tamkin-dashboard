@@ -2,9 +2,7 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { useSetPasswordToNewMember,useConfirmForgetPassword } from "@/composables/useAuth";
-import DashboardToastSuccess from "~/components/Dashboard/Toast/Success.vue";
 import { useIncludeWord } from "@/composables/useSharedFunctions";
-import { useRoute } from 'vue-router';
 
 const { isIncludeWord } = useIncludeWord();
 const route             = useRoute();
@@ -99,6 +97,13 @@ onMounted(() => {
   // console.log(route.query.email)
   state.email = route.query.email;
   state.agency = route.query.agency;
+const canview = useCookie('can_view')
+  if(canview.value !== 'new-password' && !route.query.email && !route.query.agency) {
+      return showError({
+       statusCode: 404,
+  statusMessage: "Page Not Found"
+      })
+    }
 });
 </script>
 
@@ -106,10 +111,10 @@ onMounted(() => {
   <div class="max-w-[600px] relative h-[600px]">
     <div class="flex items-center justify-center w-full mt-[16px]">
       <div class="flex items-start justify-between flex-col w-full lg:p-0 p-3">
-        <div class="flex-1 lg:mx-[-5px] mx-auto">
-          <img @click="$router.push(localePath('/'))" src="/assets/imgs/logo.png" alt="Tamkin logo"
+        <nuxt-link :to="localePath('/auth/login')" class="flex-1 lg:mx-[-5px] mx-auto">
+          <img  src="/assets/imgs/logo.png" alt="Tamkin logo"
             class="cursor-pointer w-[160px] h-[81.28px]" />
-        </div>
+        </nuxt-link>
 
         <div class="mx-auto text-center xl:w-auto ipad-max:w-full">
           <h1 class="dark:text-whiteTamkin text-[20px] lg:text-[32px] mb-[3px]" style="line-height: 48px">
@@ -121,7 +126,7 @@ onMounted(() => {
             {{ $t("Set the new password for your account so you can login and access all features.") }}
           </h3>
 
-          <div class="space-y-[23px] w-full">
+         
 
             <div class="space-y-[23px] w-full flex flex-col items-center">
               <div class="w-full relative">
@@ -176,7 +181,7 @@ onMounted(() => {
               </div>
 
               <div class="w-full relative">
-                <input :type="ConfirmpasswordFieldType" placeholder="" id="password_confirm"
+                <input :type="ConfirmpasswordFieldType" id="password_confirm" placeholder="{{$t('password')}}"
                   class="input_floating_label peer" v-model="v$.password_confirm.$model" :class="{
             input_error:
               (v$.password_confirm.$error &&
@@ -226,7 +231,7 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-          </div>
+        
         </div>
       </div>
     </div>

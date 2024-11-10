@@ -15,6 +15,7 @@ const {
 definePageMeta({
   layout: "dashboard",
 middleware:['auth','permissions'],
+requiredPermission: "sign-language-documents",
 
 });
 
@@ -71,7 +72,9 @@ onMounted(async ()=>{
 
 <template>
   <div class="w-full h-full relative">
-    <TranslateModalsUpgrade header="Upgrade to upload more Documents" text="Sorry, you do not have enough words and characters available to translate the Documents Please upgrade to continue the translation process without interruption"/>
+    <TranslateModalsUpgrade 
+    typeofPackage="Documents"
+    header="Upgrade to upload more Documents" text="Sorry, you do not have enough words and characters available to translate the Documents Please upgrade to continue the translation process without interruption"/>
   
   
 

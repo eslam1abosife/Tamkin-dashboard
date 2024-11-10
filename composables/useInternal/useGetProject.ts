@@ -17,10 +17,10 @@ const getProject = async (id) => {
             "name":id
 
         }); 
-        if(res.data.data.project === null){
+        if(res.data.data.project === null || res.data.statusCode === 404){
             return showError({
-                statusCode: 404,
-                statusMessage: "Project not found"
+                statusCode: 500,
+                statusMessage: "Error retreiving project"
               })
         }
         return res.data.data;

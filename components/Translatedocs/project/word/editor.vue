@@ -18,9 +18,12 @@
                   class="wrap_ck"
                 />
               </div>
-              <div v-if="popupVisible && selectedText" :style="popupStyle" class="popup">
+              <button v-if="popupVisible && selectedText" :style="popupStyle"  
+              @click.stop.prevent="restoreSelectionAndPlaySignLanguage"  @mousedown="saveSelection" 
+              :disabled="stateAnimation === 'Running'"
+           class="btn-dashboard hover_tamkin h-[40px] w-[143px] ltr:!font-[Poppins] rtl:!font-[Almarai]">
                 {{ $t('Sign language') }}
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -51,10 +54,66 @@ import '@/ck-vue/ckeditor'
 import '@/ck-vue/translations/ar';
 
 const EditorDec = window['DecoupledEditor']
+
+const stateAnimation = ref(undefined);
+const loadingAnimation=  ref(false)
+function updateStateAnimation() {
+  if (window.state_animation !== stateAnimation.value) {
+    stateAnimation.value = window.state_animation;
+    loadingAnimation.value = stateAnimation.value === 'Running' ? true : false;
+  }
+}
+
+let interval;
+onMounted(() => {
+  interval = setInterval(() => {
+    updateStateAnimation();
+  }, 100);
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
+});
+// watch(stateAnimation, (newState) => {
+//   if (window.state_animation === 'Running') {
+//     loadingAnimation.value = true;
+//   }
+//   if (window.state_animation === 'Idle' || window.state_animation === 'idle') {
+//     loadingAnimation.value = false;
+//   }
+//   if (window.state_animation === 'Finished') {
+//     loadingAnimation.value = false;
+//   }
   
- 
+// })
+const getSelectedText = () => {
+  const { from, to } = editor.state.selection;
+  return editor.state.doc.textBetween(from, to, ' ');
+};
+
+let savedSelection = null;
+
+const saveSelection = () => {
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount > 0) {
+    savedSelection = selection.getRangeAt(0);
+  }
+};
+
+const restoreSelectionAndPlaySignLanguage = () => {
+  if (savedSelection) {
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedSelection);
+    savedSelection = null;
+  }
+  playsignlanguage();
+};
+
+const playsignlanguage = () => {
+  window.getAdAnimate(selectedText.value);
+};
 import 'ckeditor5/ckeditor5.css';
-// import ResizableHeight from '@pikulinpw/ckeditor5-resizableheight';
 const props = defineProps({
   isMenusOpen:Boolean
 })
@@ -72,7 +131,7 @@ const instance = ref(null);
 
 const selectedText = ref('');
 const popupVisible = ref(false);
-const popupStyle = ref({ top: '0px', left: '0px' });
+const popupStyle = ref({ top: '0px', left: '0px'});
 
 const PAGE_HEIGHT = 1122; 
 
@@ -205,7 +264,7 @@ const onReady = (editorInstance) => {
   breakContentIntoPages(editorInstance);
 
 };
-
+const selectedtext = ref()
 
 const updatePageCount = (editorInstance) => {
   const editorContent = document.querySelector('.editor-container__editor .ck-content');
@@ -437,7 +496,7 @@ onMounted(() => {
       ]
     },
     initialData:
-      '<h2>Congratulations on setting up CKEditor 5! 🎉</h2>\n<p>\n    You\'ve successfully created a CKEditor 5 project. This powerful text editor will enhance your application, enabling rich text editing\n    capabilities that are customizable and easy to use.\n</p>\n<h3>What\'s next?</h3>\n<ol>\n    <li>\n        <strong>Integrate into your app</strong>: time to bring the editing into your application. Take the code you created and add to your\n        application.\n    </li>\n    <li>\n        <strong>Explore features:</strong> Experiment with different plugins and toolbar options to discover what works best for your needs.\n    </li>\n    <li>\n        <strong>Customize your editor:</strong> Tailor the editor\'s configuration to match your application\'s style and requirements. Or even\n        write your plugin!\n    </li>\n</ol>\n<p>\n    Keep experimenting, and don\'t hesitate to push the boundaries of what you can achieve with CKEditor 5. Your feedback is invaluable to us\n    as we strive to improve and evolve. Happy editing!\n</p>\n<h3>Helpful resources</h3>\n<ul>\n    <li>📝 <a href="https://orders.ckeditor.com/trial/premium-features">Trial sign up</a>,</li>\n    <li>📕 <a href="https://ckeditor.com/docs/ckeditor5/latest/installation/index.html">Documentation</a>,</li>\n    <li>⭐️ <a href="https://github.com/ckeditor/ckeditor5">GitHub</a> (star us if you can!),</li>\n    <li>🏠 <a href="https://ckeditor.com">CKEditor Homepage</a>,</li>\n    <li>🧑‍💻 <a href="https://ckeditor.com/ckeditor-5/demo/">CKEditor 5 Demos</a>,</li>\n</ul>\n<h3>Need help?</h3>\n<p>\n    See this text, but the editor is not starting up? Check the browser\'s console for clues and guidance. It may be related to an incorrect\n    license key if you use premium features or another feature-related requirement. If you cannot make it work, file a GitHub issue, and we\n    will help as soon as possible!\n</p>\n',
+      `${translateStore.pdfProject.value[0].text}` || '',
     link: {
       addTargetToExternalLinks: true,
       defaultProtocol: 'https://',
@@ -541,7 +600,7 @@ onMounted(() => {
 
 .editor-container_document-editor .editor-container__editor .ck.ck-editor__editable {
   box-sizing: border-box;
-  min-height: 100%;
+  min-height: 800px !important;
   height: fit-content;
   width: auto;
   border: 1px hsl(0, 0%, 82.7%) solid;

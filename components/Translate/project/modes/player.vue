@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useTranslateStore } from "~/stores/translate";
 import USa from '/public/assets/imgs/translatevideo/USA.svg'
+const {locale} = useI18n()
 const props = defineProps({
     mode:String,
     

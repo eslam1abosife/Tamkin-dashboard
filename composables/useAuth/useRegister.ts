@@ -23,7 +23,8 @@ const localePath = useLocalePath()
             const res = await api.post('/Account/Register', {...state});
             if(!res.data.succeeded) throw(res.data.message);
 
-
+            localStorage.setItem('registerd_email', state.email);
+            useCookie('can_view').value = 'otp';
             router.push({ path: localePath('/auth/otp'), query: { from: 'register' } });
 
             if(onSuccess) {

@@ -6,13 +6,19 @@ import USa from "/public/assets/imgs/translatevideo/USA.svg";
 import { useModalManager } from "@/composables/useModalManager";
 import { useTranslateStore } from "~/stores/translate";
 import {useGetProjects} from '@/composables/useInternal'
+
+// import {useTranslateVideo,useGetLangs,useTranslateAudio,useTranslateLive ,useGetSubTitleLangs} from '@/composables/useInternal'
+const {t} = useI18n()
+const {$toast} = useNuxtApp()
 const { getProjects,loadMoreProjects, projects, allLoaded, loading ,loadMoreProjectsLoading} = useGetProjects();
 import {
   useTranslateDoc,
   useGetLangs,
   useTranslateAudio,
   useTranslateLive,
+  useGetSubTitleLangs
 } from "@/composables/useInternal";
+const {getsubtitlelangs} = useGetSubTitleLangs()
 
 const { getLanguages } = useGetLangs();
 const { translateDoc, codeStatus, messageData } = useTranslateDoc();
@@ -25,19 +31,21 @@ const ogLang = ref('')
 const translateTo = ref('')
 const signOGlang = ref('')
 const handleSelectedItemProjectName = (item: any) => {
-  translateTo.value = item.name
+  translateTo.value = item.id
 };
 const selectOgLang = (item: any) => {
-  ogLang.value = item.name
+  ogLang.value = item.id
 
 };
 const selectSignOgLang = (item: any) => {
   signOGlang.value = item.name
 
 };
-
+const sublangs = ref([])
 onMounted(async ()=>{
 const languages = await getLanguages()
+const sb = await getsubtitlelangs()
+
 languagesArr.value = languages.documents.map((g)=>{
   return {
     id:g.name,
@@ -45,7 +53,15 @@ languagesArr.value = languages.documents.map((g)=>{
     description:g.description
   }
 })
+// languagesArr.value = languages.media
+sublangs.value = sb.map((l)=>{
+  return {
+    id: l.name,
+    name: l.language_name,
+  }
 })
+})
+
 
 const {
   isOpen,
@@ -153,6 +169,11 @@ onBeforeUnmount(() => {
     URL.revokeObjectURL(file);
   });
 });
+onBeforeMount(() => {
+  if(disableifnowordsAvailable.value){
+    translateStore.translateCheck = false
+  }
+})
 onUpdated(() => {
   const intervalId = setInterval(() => {
     if (progressPercentage.value >= 100) {
@@ -181,6 +202,8 @@ const blobToBase64 = (blob) => {
     };
   });
 };
+
+
 const rendering = ref(false);
 
 const failedRender = ref(false);
@@ -608,7 +631,7 @@ const compareplan = (type) => {
            {{ $t('Original language') }}
          </div> -->
          <TranslateSelectInput    @getCurrentSelectedItem="selectOgLang" :enableSearch="true" 
-         iconKey="icon" placeholderinput="Auto-detect Language" :list="languagesArr" nameKey="title" idField="id" />
+       placeholderinput="Auto-detect Language" :list="sublangs" nameKey="name" idField="id" />
        </div>
           <div
             class="text-darkGrey font-[600] text-[14px] leading-[24px] whitespace-nowrap"
@@ -619,8 +642,8 @@ const compareplan = (type) => {
           :class="[!translateStore.subtitleCheck ? 'blur-[2px] pointer-events-none' : '']">
         
            <TranslateSelectInput @getCurrentSelectedItem="handleSelectedItemProjectName" 
-           :enableSearch="true" iconKey="icon" placeholderinput="Auto-detect Language" 
-           :list="languagesArr" nameKey="title" idField="id" />
+           :enableSearch="true"  placeholderinput="Auto-detect Language" 
+           :list="sublangs" nameKey="name" idField="id" />
          </div>
         </div>
 
@@ -665,7 +688,7 @@ const compareplan = (type) => {
           class="ipad-max:mt-0 mt-[10px] !w-full"
           :disabled="!translateStore.signLanguageChecked"
           :class="[!translateStore.signLanguageChecked ? 'blur-[2px]' : '']"
-          @getCurrentSelectedItem="handleSelectedItemProjectName"
+          @getCurrentSelectedItem="selectSignOgLang"
           :enableSearch="true"
           iconKey="icon"
           :placeholderinput="$t('Original language')"

@@ -19,6 +19,8 @@ const { getAccessability } = useGetAccessaility();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
+  requiredPermission: "accessibility-settings",
+
 });
 const code = ref(true);
 const advancedCode = ref(false);

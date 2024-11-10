@@ -15,6 +15,7 @@ const renewAllCardorPaypal = async (card, type, hash = null, amount = null,code 
         payment_type: type,
         card: card,
         "locale":"/subscriptions?locale="+useNuxtApp().$i18n.locale.value,
+        promo_code:    subsStore.validPromo ? subsStore.promo : null
 
       };
   

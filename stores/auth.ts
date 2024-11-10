@@ -6,7 +6,8 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: useCookie('token').value || null,
     isLoggedIn: useCookie('isLoggedIn').value === 'true' || false,
-    user: {}
+    user: {},
+    rememberMe:false
   }),
   actions: {
     checkIfLoggedIn() {
@@ -15,13 +16,20 @@ export const useUserStore = defineStore('user', {
 
       return this.token && this.isLoggedIn;
     },
-    setToken(token) {
+    setToken(token, rememberMe = false) {
       this.token = token;
-      useCookie('token').value = token;
+      const tokenCookie = useCookie('token',{
+        maxAge : rememberMe ? 60 * 60 * 24 * 7 : 60 * 60 * 24 
+      });
+      tokenCookie.value = token;
+      // tokenCookie.
+
     },
     setIsLoggedIn(isLoggedIn) {
       this.isLoggedIn = isLoggedIn;
-      useCookie('isLoggedIn').value = isLoggedIn.toString();
+      useCookie('isLoggedIn',{
+        maxAge : this.rememberMe ? 60 * 60 * 24 * 7 : 60 * 60 * 24 
+      }).value = isLoggedIn.toString();
     },
     setUser(user) {
       this.user = user;

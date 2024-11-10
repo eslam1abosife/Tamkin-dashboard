@@ -291,9 +291,8 @@ provide("prop_player", state);
     </div>
     <TranslateModalsShare />
     <TranslateModalsMoreinfo />
-
     <ClientOnly>
-      <div         class="grid grid-cols-12 mt-[24px] gap-4 h-full"
+      <div class="grid grid-cols-12 mt-[24px] gap-4 h-full"
       >
         <TranslatephotosProjectEditor 
 :is-menus-open="    (translateStore.currentMode === 'signlang' && !state.removePlayer) ||
@@ -304,13 +303,13 @@ provide("prop_player", state);
         />
 
         <div class="h-full col-span-4 ipad-max:col-span-5" v-show="!state.removePlayer">
-          <LazyTranslatedocsProjectModesSignlang
-            class="w-full !overflow-y-hidden h-auto"
+          <TranslatephotosProjectModesSignlang
+            class="w-full !overflow-y-hidden h-auto mb-[18px]"
             v-show="translateStore.currentMode === 'signlang'"
           />
-          <LazyTranslatedocsProjectModesTranslation
-            class="w-full !overflow-y-hidden h-auto"
-            v-show="translateStore.currentMode === 'translation'"
+          <TranslatephotosProjectModesTranslation
+          class="w-full !overflow-y-hidden h-auto mb-[18px]"
+          v-show="translateStore.currentMode === 'translation'"
           />
 
           <div

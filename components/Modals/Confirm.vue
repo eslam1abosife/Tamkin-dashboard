@@ -12,6 +12,7 @@ const props = defineProps({
   savetoAllSitesBtn: Boolean,
   cancelButtonName: String,
   deleteButtonName: String,
+  svbtnName:String
 });
 
 const emit = defineEmits([
@@ -187,7 +188,7 @@ const controlSaveSite = () => {
         >
           <div class="flex items-center justify-center">
             <div :class="saveLoading ? 'rtl:ml-2 ltr:mr-2' : ''">
-              {{ $t("Save") }}
+              {{ svbtnName ? $t(svbtnName):$t("Save") }}
             </div>
 
             <svg

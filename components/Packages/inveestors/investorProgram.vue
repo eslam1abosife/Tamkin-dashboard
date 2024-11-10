@@ -1,4 +1,14 @@
 <script lang="ts" setup>
+import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+import { useGetAppInvites } from "~/composables/useTeam";
+
+const { apps, defaultApp, getInviteApps } = useGetAppInvites();
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
+const { getMembers, members, loading: getMembersLoading } = useGetMembers();
+
 const localePath = useLocalePath();
 const pakcagesStore = usePackgesStore();
 onMounted(async () => {
@@ -22,6 +32,14 @@ const  formatNumberWithCommas = (value)=> {
 
   return decimalPart ? `${formattedIntegerPart}.${decimalPart}` : formattedIntegerPart;
 }
+
+onMounted(async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getInviteApps({ agency: user.agency });
+  getMembers({ appName: defaultApp?.value?.name });
+
+
+})
 </script>
 
 <template>
@@ -117,34 +135,19 @@ const  formatNumberWithCommas = (value)=> {
         <div
           class="flex items-center justify-center rtl:space-x-reverse space-x-[-10px] mt-[10px]"
         >
-          <div>
-            <img
-              src="/imgs/team_member.png"
-              class="w-[25px] h-[25px] rounded-full object-fit object-center"
-              alt=""
-            />
+      
+        <template v-if="!getMembersLoading && members.length > 0">
+          <div v-for="(member, index) in members" :key="index">
+            <img draggable="false" v-if="member.image" :src="`https://tamkin.app/${member.image}`"
+              class="w-[25px] h-[25px] object-top object-cover rounded-full" />
+            <div v-else
+              class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center
+               select-none w-[25px] h-[25px]">
+              <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
+            </div>
           </div>
-          <div>
-            <img
-              src="/imgs/team_member2.png"
-              class="w-[25px] h-[25px] rounded-full object-fit object-center"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/imgs/team_member.png"
-              class="w-[25px] h-[25px] rounded-full object-fit object-center"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="/imgs/team_member.png"
-              class="w-[25px] h-[25px] rounded-full object-fit object-center"
-              alt=""
-            />
-          </div>
+        </template>
+        <img v-else-if="getMembersLoading" src="/assets/imgs/loading-green.svg" />
         </div>
 
         <button

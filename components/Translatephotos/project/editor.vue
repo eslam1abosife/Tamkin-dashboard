@@ -31,14 +31,12 @@ export default defineComponent({
     const zoomLevel = ref(100);
     const currentPage = ref(1);
     const totalPages = ref(1);
-    const PAGE_HEIGHT = 1122; // Example height for an A4 page in pixels
-    const WORD_LIMIT = 250; // Example word limit per page
+    const PAGE_HEIGHT = 1122;
+    const WORD_LIMIT = 250; 
     const translateStore = useTranslateStore();
       const texttowatch = ref('')
-    // Ref for editor
     const editor = ref(null);
     
-    // Create the editor instance on the client side
     onMounted(() => {
       editor.value = new Editor({
         editable: false,

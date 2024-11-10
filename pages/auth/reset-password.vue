@@ -29,11 +29,15 @@ const errorMsg = ref(null);
 const doForgetPassword = async () => {
     errorMsg.value = null;
     localStorage.setItem('registerd_email', state.email);
+    useCookie('can_view').value = 'otp';
+
     try {
         await forgetPassword();
     } catch (error) {
         console.log('errrrrrrrror', error)
         errorMsg.value = error;
+        useCookie('can_view').value =  false;
+
     }
 }
 </script>
