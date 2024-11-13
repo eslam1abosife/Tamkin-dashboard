@@ -7,6 +7,7 @@ import { useCustomizeStore } from "@/stores/customize.js";
 const customizeStore = useCustomizeStore();
 
 const collapseStore = useCollapseStore();
+const settingsStore = useSettingsStore();
 </script>
 
 <template>
@@ -189,6 +190,8 @@ const collapseStore = useCollapseStore();
 
     <CustomizePositioning
       v-if="!collapseStore.collapses.includes('button_location_card')"
+      class="relative"
     />
+   
   </div>
 </template>

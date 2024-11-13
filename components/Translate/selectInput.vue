@@ -146,7 +146,7 @@ onMounted(() => {
         class="rtl:mr-auto ltr:ml-auto w-[14px] h-[8px]"
       />
     </button>
-    <div v-if="isListOpen" class="absolute z-[10] top-[52px] w-full rounded-[10px] bg-white border border-[#D9D9D9]">
+    <div v-if="isListOpen" class="absolute z-[10] top-[0] w-full rounded-[10px] bg-white  border-[#D9D9D9]">
       <div class="search_input w-full rounded-t-[10px]" v-if="enableSearch">
         <input
           type="text"

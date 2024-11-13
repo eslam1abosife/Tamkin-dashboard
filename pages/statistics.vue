@@ -74,7 +74,7 @@ onBeforeRouteLeave((to, from, next) => {
 
         <StatisticsUsagebyfunction />
         <StatisticsUsagebyprofile />
-        <StatisticsEnablegoogleanalytics />
+        <!-- <StatisticsEnablegoogleanalytics /> -->
 
         <StatisticsLivetranslation />
       </div>

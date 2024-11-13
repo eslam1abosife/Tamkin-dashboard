@@ -51,7 +51,7 @@ export const usePlayerStore = defineStore('player', {
           this.userSelectedClothes[character_name][category] = []
         this.userSelectedClothes[character_name][category].push(skin_item_name);      
       },
-      wearSavedClothes(){
+      wearSavedClothes(){``
         // get the clothes of the active character and set it to the top character
         if (this.characterLoaded) {
           this.unwearAllSkins()
@@ -155,9 +155,12 @@ export const usePlayerStore = defineStore('player', {
         }
       },
       async changeCharacter(character: any, preview = true) {
-        this.activeCharacter = character;
+
+          this.activeCharacter = character;
         
         window.changeCharacter(character.name);
+
+     
         // check if the character has loaded before
         if (!window.loadedByName(character.name)){
           this.characterLoaded = false;
@@ -174,8 +177,8 @@ export const usePlayerStore = defineStore('player', {
           marketStore.resetAll();
     this.currentBackground.isImage = false
     this.currentBackground.colorOrUrl = ''
-    window.changeBackgroundColor('');
-    window.changeBackgroundImage('');
+    // window.changeBackgroundColor('');
+    // window.changeBackgroundImage('');
         }
       },
       async resetCharacterSkinsToDefault(AppName = 'default') {

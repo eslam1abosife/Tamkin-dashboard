@@ -175,7 +175,7 @@ return formattedDate
         </div>
       </div>
   
-      <div class="mt-[22px]  rtl:mr-auto ltr:ml-auto">
+      <div class="mt-[91px]  rtl:mr-auto ltr:ml-auto">
         <button class="btn-dashboard hover_tamkin" @click="closeModalAndReset">
           {{ $t('Done') }}
         </button>

@@ -16,6 +16,7 @@ import useCancelSubscription from "./useCancelSubscription"
 import useGetTotalAmountPacks from "./useGetTotalAmountPacks"
 import useRenewAll from "./useRenewAll"
 import useGetRenewdetails from "./useGetRenewdetails"
+import useGetPendingPackages from "./useGetPendingPackages"
 
 export {
     useGetPackagesTypes,
@@ -35,5 +36,6 @@ export {
     useCancelSubscription,
     useGetTotalAmountPacks,
     useRenewAll,
-    useGetRenewdetails
+    useGetRenewdetails,
+    useGetPendingPackages
 }

@@ -71,27 +71,33 @@ export default defineNuxtConfig({
   app: {
     head: {
       meta: [
-        // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        // { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
+        // Define your meta tags here
       ],
       link: [
         {
           rel: "stylesheet",
-          href: `https://cdn.tamkin.app/app.css` // Add a static version or timestamp here
+          href: `https://cdn.tamkin.app/app.css?v=${new Date().getTime()}` // Use a timestamp to bypass caching
         }
       ],
       script: [
-        {
-          src: "https://cdn.tamkin.app/runtime.js",
-          async: true,
-          defer:true
-        },
-        {
-          src: `https://cdn.tamkin.app/app.js`, // Add a static version or timestamp here
-          async: true,
-          defer:true
-        }
+        // {
+        //   src: 'https://cdn.tamkin.app/widget.js',
+        //   defer: true,
+        //   'data-tamkin-account': '8bo30ucpue',
+        // }
       ]
+    //   script: [
+    //     {
+    //       src: "https://cdn.tamkin.app/runtime.js",
+    //       // async: true,
+    //       defer: true
+    //     },
+    //     {
+    //       src: `https://cdn.tamkin.app/app.js?v=${new Date().getTime()}`, // Use a timestamp to bypass caching
+    //       // async: true,
+    //       defer: true
+    //     }
+    //   ]
     }
   },
 

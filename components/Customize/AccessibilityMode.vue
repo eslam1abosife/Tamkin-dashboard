@@ -3,17 +3,23 @@ import { useCustomizeStore } from "@/stores/customize.js";
 
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
+const settingsStore = useSettingsStore();
+
 </script>
 
 <template>
   <div
-    class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
+    class="flex flex-col items-center justify-center mt-[32px] px-[15px] relative"
+    :class="[!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode') ? 'h-[200px]' :'']"
     v-if="customizeStore.moveHideFeature.active == 1"
   >
+  <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode')"/>
+
     <div
-      class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
+      class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder relative"
     >
-      <div
+
+    <div
         class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
       >
         <img
@@ -112,7 +118,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
     >
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'left').active == 1"
-        class="flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-center h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         :class="[
           customizeStore.accessibilityMode === 'left'
             ? 'custom-border padding-2'
@@ -131,7 +137,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         "
       >
         <div>
-          <img src="/assets/imgs/customize/left_side.svg" class="w-3/4 h-3/4" />
+          <img src="/assets/imgs/customize/left_side.svg"  class="w-[25px] h-[25px]"/>
         </div>
         <div class="text-[14px]">
           {{ $t("Left Side") }}
@@ -139,7 +145,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
-        class="flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-center h-[45px]  px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="
           () => {
             if (
@@ -159,15 +165,14 @@ const { isChecked, toggleCheckbox } = customizeStore;
       >
         <div>
           <img
-            src="/assets/imgs/customize/right_side.svg"
-            class="w-3/4 h-3/4"
+            src="/assets/imgs/customize/right_side.svg" class="w-[25px] h-[25px]"
           />
         </div>
-        <div class="text-[14px] w-full">{{ $t("Right Side") }}</div>
+        <div class="text-[14px] ">{{ $t("Right Side") }}</div>
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
-        class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] w-[170px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="rtl:mr-auto ltr:ml-auto flex items-center justify-start h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="
           () => {
             if (
@@ -186,7 +191,7 @@ const { isChecked, toggleCheckbox } = customizeStore;
         ]"
       >
         <div>
-          <img src="/assets/imgs/customize/hide.svg" class="w-3/4 h-3/4" />
+          <img src="/assets/imgs/customize/hide.svg" class="w-[25px] h-auto object-cover"/>
         </div>
         <div class="text-[14px]">{{ $t("Hide") }}</div>
       </div>

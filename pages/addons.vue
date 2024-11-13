@@ -1,13 +1,42 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
-import { useGetAppInvites } from "@/composables/useTeam";
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 import {
   useGetAccessaility,
   useSetOptions,
 } from "@/composables/useAccessibility";
+import {
+  useDeleteApp,
+  useRestoreApp,
+  useGetPackage,
+} from "@/composables/useMySite";
+const {locale} = useI18n()
+const { getPackage, messageStatus, codeStatus } = useGetPackage();
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  lastEventCall,
+  eventCounter,
+  setData,
+} = useModalManager();
 import { useFullUrl } from "@/composables/useSharedFunctions";
-
+const packagesStore = usePackgesStore();
+const livePackages= computed(()=>{
+  return packagesStore.getPackagesByTypeTitle('Package','Live Translation')
+})
 const { getAccessability } = useGetAccessaility();
+const navStore = useNavbarStore();
 
 const { fullUrl } = useFullUrl();
 const { setOptions } = useSetOptions();
@@ -17,8 +46,11 @@ const collapseStore = useCollapseStore();
 const settingsStore = useSettingsStore();
 const { collapseMenu, collapseCard } = collapseStore;
 const { menus } = storeToRefs(collapseStore);
-const { defaultApp, loading: getSitesLoading } = useGetAppInvites();
 
+// const getApps = async () => {
+//   const user = JSON.parse(localStorage.getItem('user'));
+//   await getInviteApps({ agency: user.agency });
+// }
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
@@ -54,7 +86,10 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 };
 
 const { $toast } = useNuxtApp();
-onMounted(() => {});
+onMounted(async () => {
+  await packagesStore.getDataPackage();
+
+});
 onBeforeMount(async () => {
   getAccessability();
   [
@@ -143,10 +178,127 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+const mysiteStore = useMySiteStore()
+const { loadingBlock } = storeToRefs(mysiteStore);
+const getApps = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getInviteApps({ agency: user.agency });
+  settingsStore.appHeader = defaultApp.value
+
+}
+const getPackageAndOpenPaymenModal = async (app, pack) => {
+
+    await loadingBlock.value.push( pack.name );
+
+      // if(app.title === 'Internal Service'){
+      //   mysiteStore.updatePayment = false
+      // }
+      // if(app.title !== 'Internal Service') {
+      mysiteStore.updatePayment = true;
+      // }
+      // alert(mysiteStore.updatePayment)
+
+      // console.log('here apps',app.package.find(k=>k.name === pack).name)
+      const packagemodal = await getPackage(
+       pack.name
+      );
+
+      await mysiteStore.setCurrentPackage({
+        ...packagemodal.package,
+        package_price_role: packagemodal.price_roles,
+        billing_duration:pack
+          .billing_duration,
+      });
+
+      // mysiteStore.currentPackage = app.package ? :null
+      mysiteStore.currentWebsite = app;
+      mysiteStore.openedCurrentSite = true;
+      // mysiteStore.selectedApp = ""
+
+      navigateTo(null, "mysite", "add_package_modal_mysite");
+      loadingBlock.value.splice( pack.name );
+ 
+};
+
+const runtimec = useRuntimeConfig()
 </script>
 
 <template>
   <div class="relative h-full w-full">
+    <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySiteNopackagebuy
+      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+      v-if="isOpen('upgrade_no_package')"
+    />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySiteUpgrade
+      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+      v-if="isOpen('upgrade_mysite_package')"
+    />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <!-- Modal for adding a package -->
+    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentPaymentmethods />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentSuccess @updateData="getApps" v-if="isOpen('success_pay_mysite')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+  </transition>
+
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoSuccess />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentPaypal />
+  </transition>
     <div class="w-full h-full relative">
       <HeaderAccess
         :section-title="$t('Addons')"
@@ -414,160 +566,111 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap lg:px-[25px] mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-10 md:flex-nowrap ipad-max:space-x-10 lg:space-x-24 2xl:space-x-44 md:px-[25px]"
+              class="f
+               lg:px-[25px] mt-[64px] md:px-[25px]"
               v-if="
                 horizontalView &&
-                !collapseStore.collapses.includes('LiveTranslationAddonsCard')
+                !collapseStore.collapses.includes('LiveTranslationAddonsCard') 
               "
             >
-              <div
-                class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
-              >
-                <div
-                  class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
-                >
-                  ${{ annual_prices ? 1200 : "100.00" }}
-                  <span class="text-[13px]"
-                    >/{{ annual_prices ? $t("year") : $t("mo") }}</span
-                  >
-                </div>
-                <div
-                  class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-                >
-                  {{ $t("For 1 million characters") }}
-                </div>
-                <div
-                  class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-                >
-                  {{ $t("Almost 50 Page") }}
-                </div>
-                <div
-                  class="w-full custom-border padding-override-1 mt-[4px]"
-                ></div>
-                <div
-                  class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
-                >
-                  <div>
-                    <img
-                      src="/assets/imgs/addons/live_icon.svg"
-                      class="w-[23px] h-[23px]"
-                    />
-                  </div>
-                  <div
-                    class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
-                  >
-                    {{ $t("Live translation") }}
-                  </div>
-                </div>
-                <button
-                  class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
-                ></button>
-                <div
-                  class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
-                >
-                  <img src="/assets/imgs/addons/live_icon.svg" />
-                </div>
-              </div>
+            <!-- -->
 
+           <div class=" flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap
+w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14 
+               md:flex-nowrap  " v-if="navStore.defaultappobj">
+            <div
+            v-for="pak in  livePackages " :key="pak.name"
+            :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name ? 'bg-selected':'']" 
+              class="w-full  flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+            >
+            
               <div
-                class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+                class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
               >
-                <div
-                  class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+                ${{ annual_prices ? pak.package_price_role[0].cost_before_yearly :pak.package_price_role[0].cost_before_month }}
+                <span class="text-[13px]"
+                  >/{{ annual_prices ? $t("year") : $t("mo") }}</span
                 >
-                  ${{ annual_prices ? 2400 : "200.00" }}
-                  <span class="text-[13px]"
-                    >/{{ annual_prices ? "year" : "mo" }}</span
-                  >
+              </div>
+              <div
+                class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
+              >
+                {{ $t(pak.title) }}
+              </div>
+              <div
+                class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
+              >
+                {{ $t(pak.sub_title) }}
+              </div>
+              <div
+                class="w-full custom-border padding-override-1 mt-[4px]"
+              ></div>
+              <div
+                class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
+              >
+                <div>
+                  <img
+                    :src="runtimec.public.baseImagerUrl+pak.icon"
+                    class="w-[23px] h-[23px]"
+                  />
                 </div>
                 <div
-                  class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
+                  class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
                 >
-                  {{ $t("For 1 million characters") }}
-                </div>
-                <div
-                  class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-                >
-                  {{ $t("Almost 50 Page") }}
-                </div>
-                <div
-                  class="w-full custom-border padding-override-1 mt-[4px]"
-                ></div>
-                <div
-                  class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
-                >
-                  <div>
-                    <img
-                      src="/assets/imgs/addons/live_icon.svg"
-                      class="w-[23px] h-[23px]"
-                    />
-                  </div>
-                  <div
-                    class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
-                  >
-                    {{ $t("Live translation") }}
-                  </div>
-                </div>
-                <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">
-                  {{ $t("Active") }}
-                </button>
-                <div
-                  class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
-                >
-                  <img src="/assets/imgs/addons/live_icon.svg" />
+                  {{ $t(pak.type) }}
                 </div>
               </div>
+              <button @click="getPackageAndOpenPaymenModal(navStore.defaultappobj,pak)"
+              :disabled=" loadingBlock.find(
+                a=>a === pak.name
+                 
+              )"
+              :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name  ?
+              'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
+                class=" mt-[24px] "
+              >{{ 
+                navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name === pak.name 
+                  ? $t('Current Package') 
+                 
+                    : $t('Get Started') 
+              }}
 
+              <svg
+              v-if=" 
+                loadingBlock.find(
+                  a=>a === pak.name
+                   
+                )
+              "
+              class="animate-spin h-5 w-5 mx-1 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+              </button>
               <div
-                class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+                class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
               >
-                <div
-                  class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
-                >
-                  ${{ annual_prices ? 3600 : "300.00" }}
-                  <span class="text-[13px]"
-                    >/{{ annual_prices ? "year" : "mo" }}</span
-                  >
-                </div>
-                <div
-                  class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-                >
-                  {{ $t("For 2 million characters") }}
-                </div>
-                <div
-                  class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-                >
-                  {{ $t("Almost 500 Page") }}
-                </div>
-                <div
-                  class="w-full custom-border padding-override-1 mt-[4px]"
-                ></div>
-                <div
-                  class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
-                >
-                  <div>
-                    <img
-                      src="/assets/imgs/addons/live_icon.svg"
-                      class="w-[23px] h-[23px]"
-                    />
-                  </div>
-                  <div
-                    class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
-                  >
-                    {{ $t("Live translation") }}
-                  </div>
-                </div>
-                <button
-                  class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
-                >
-                  {{ $t("Upgrade Now") }}
-                </button>
-                <div
-                  class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
-                >
-                  <img src="/assets/imgs/addons/live_icon.svg" />
-                </div>
+                <img                     :src="runtimec.public.baseImagerUrl+pak.icon"
+                />
               </div>
+            </div>
+           </div>
+
             </div>
 
             <div
@@ -577,71 +680,11 @@ onBeforeRouteLeave((to, from, next) => {
                 !collapseStore.collapses.includes('LiveTranslationAddonsCard')
               "
             >
-              <div
-                class="flex items-center justify-start h-[77px] bg-selected dark:bg-p_secondary w-full relative custom-border rounded-big rounded-[19px]"
-              >
-                <div class="ltr:ml-[15px] rtl:mr-[15px]">
-                  <img src="/assets/imgs/addons/live_vertical.svg" />
-                </div>
-
-                <div
-                  class="flex flex-col items-start justify-center py-[14px] mx-[15px]"
-                >
-                  <div
-                    class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
-                  >
-                    ${{ annual_prices ? 1200 : "100.00"
-                    }}<span class="text-[13px]"
-                      >/{{ annual_prices ? "year" : "mo" }}</span
-                    >
-                  </div>
-                  <div
-                    class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
-                  >
-                    {{ $t("For 1 million characters") }}
-                  </div>
-                </div>
-
-                <button
-                  class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4 hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
-                >
-                  {{ $t("Upgrade Now") }}
-                </button>
-              </div>
+       
 
               <div
-                class="flex items-center justify-start h-[77px] w-full bg-selected dark:bg-p_secondary relative custom-border rounded-big rounded-[19px]"
-              >
-                <div class="ltr:ml-[15px] rtl:mr-[15px]">
-                  <img src="/assets/imgs/addons/live_vertical.svg" />
-                </div>
+              v-for="pak in  livePackages " :key="pak.name"
 
-                <div
-                  class="flex flex-col items-start justify-center py-[14px] mx-[15px]"
-                >
-                  <div
-                    class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
-                  >
-                    ${{ annual_prices ? 2400 : "200.00"
-                    }}<span class="text-[13px]"
-                      >/{{ annual_prices ? "year" : "mo" }}</span
-                    >
-                  </div>
-                  <div
-                    class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
-                  >
-                    {{ $t(" For 1 million characters") }}
-                  </div>
-                </div>
-
-                <button
-                  class="rtl:mr-auto ltr:ml-auto btn-dashboard hover_tamkin lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4 mt-[24px] my-[19px] rtl:ml-[15px] ltr:mr-[15px]"
-                >
-                  {{ $t("Active") }}
-                </button>
-              </div>
-
-              <div
                 class="flex items-center justify-start h-[77px] w-full bg-selected dark:bg-p_secondary relative custom-border rounded-big rounded-[19px]"
               >
                 <div class="ltr:ml-[15px] rtl:mr-[15px]">
@@ -654,7 +697,7 @@ onBeforeRouteLeave((to, from, next) => {
                   <div
                     class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
                   >
-                    ${{ annual_prices ? 3600 : "300.00"
+                    ${{ annual_prices ?  pak.package_price_role[0].cost_before_yearly :pak.package_price_role[0].cost_before_month
                     }}<span class="text-[13px]"
                       >/{{ annual_prices ? "year" : "mo" }}</span
                     >
@@ -662,20 +705,58 @@ onBeforeRouteLeave((to, from, next) => {
                   <div
                     class="text-[12px] lg:text-[14px] whitespace-nowrap font-[500] text-[#585B5B] dark:text-whiteTamkin/90"
                   >
-                    {{ $t("For 2 million characters") }}
+                    {{ $t(pak.title) }}
                   </div>
                 </div>
-                <div class="absolute top-[2px] right-[0]">
+                <div class="absolute top-[2px] right-[0]" v-if="pak.type_deal !== 'None'">
                   <img
                     src="/assets/imgs/addons/start.svg"
                     class="w-full h-full"
                   />
                 </div>
-                <button
-                  class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4 hover:!text-white my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
-                >
-                  {{ $t("Upgrade Now") }}
+                <button @click="getPackageAndOpenPaymenModal(navStore.defaultappobj,pak)"
+                :disabled=" loadingBlock.find(
+                  a=>a === pak.name
+                   
+                )"
+                :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name  ?'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
+                class="rtl:mr-auto ltr:ml-auto  lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4  my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
+
+                >{{ 
+                  navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name === pak.name 
+                    ? $t('Current Package') 
+                   
+                      : $t('Get Started') 
+                }}
+  
+                <svg
+                v-if=" 
+                  loadingBlock.find(
+                    a=>a === pak.name
+                     
+                  )
+                "
+                class="animate-spin h-5 w-5 mx-1 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
                 </button>
+        
               </div>
             </div>
           </div>

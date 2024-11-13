@@ -339,7 +339,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
   </div>
 
 
-  <div class="w-full" >
+  <div class="w-full overflow-x-hidden overflow-y-auto  max-h-[500px]" >
 
     <div class="w-full mt-[14px] relative" >
       <TranslateSelectInput
@@ -380,13 +380,13 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
      </div>
      <div class="mx-auto text-center text-[14px] mt-[7px]" v-if="!mySiteStore.currentWebsite">{{$t('OR')}}</div>
    <div class="flex items-center justify-center  w-full mt-[7px] gap-4" v-if="!mySiteStore.currentWebsite">
-    <div class="w-3/4 relative ">
+    <div class="w-full relative ">
 
       <input
       :disabled="currentWebSite !== '' || lockedWebsite"
       @input="onInputWebsite"
         type="text"
-        placeholder=""
+        placeholder="website"
         id="website_new"
         class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
         v-model="v$.website_new.$model"
@@ -412,7 +412,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         {{ $t("Website*") }}
       </label>
       <div
-        class="w-full lg:w-4/6 "
+        class="w-full  "
         v-if="(v$.website_new.$error && v$.walletAddress.required.$invalid) || blockedError || websiteExists ||
          (v$.website_new.$error && v$.website_new.isDomain.$invalid)"
       >
@@ -430,7 +430,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         </p>
       </div>
     </div>
-    <div class="w-auto">
+    <div class="w-[150px]">
       <button class="btn-dashboard hover_tamkin w-[150px]"
       :disabled="blockedError || websiteExists || currentWebSite !== '' || v$.website_new.$invalid "
       @click="lockedWebsite = true" v-if="!lockedWebsite || currentWebSite || state.website_new === ''">{{$t('Add site')}}</button>
@@ -456,7 +456,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         type="text"
         placeholder=""
         id="email"
-        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
         v-model="v$.walletAddress.$model"
         :class="{
           input_error: v$.walletAddress.$error && v$.walletAddress.required.$invalid,
@@ -476,7 +476,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         {{ $t("Wallet Address*") }}
       </label>
       <div
-        class="w-full lg:w-4/6 mt-2"
+        class="w-full  mt-2"
         v-if="v$.walletAddress.$error && v$.walletAddress.required.$invalid"
       >
         <p class="error_message">
@@ -491,7 +491,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         type="number"
         placeholder=""
         id="amount"
-        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
         v-model="v$.amount.$model"
         :class="{
           input_error: v$.amount.$error && v$.amount.required.$invalid,
@@ -511,7 +511,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         {{ $t("Amount*") }}
       </label>
       <div
-        class="w-full lg:w-4/6 mt-2"
+        class="w-full  mt-2"
         v-if="v$.amount.$error && v$.amount.required.$invalid"
       >
         <p class="error_message">
@@ -523,7 +523,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
     </div>
 
 
-    <div class="flex items-center justify-between w-full mt-[14px]">
+    <div class="flex items-center justify-between w-full mt-[14px] ">
       <div class="text-darkGrey font-[600] text-[14px] leading-[24x]">{{$t('Add Hash')}}</div>
 
       <div @click="addHashAddress"
@@ -549,7 +549,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         type="text"
         placeholder=""
         id="firstHash"
-        class="input_floating_label peer text-darkGrey dark:text-whiteTamkin"
+        class="input_floating_label peer w-full text-darkGrey dark:text-whiteTamkin"
         v-model="v$.firstHash.$model"
         :class="{
           input_error: v$.firstHash.$error && v$.firstHash.required.$invalid,
@@ -569,7 +569,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         {{ $t("Hash*") }}
       </label>
       <div
-        class="w-full lg:w-4/6 "
+        class="w-full  "
         v-if="v$.firstHash.$error && v$.firstHash.required.$invalid"
       >
         <p class="error_message">
@@ -579,7 +579,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         </p>
       </div>
     </div>
-  <div class="flex flex-col w-full overflow-auto overflow-x-hidden max-h-[100px]  ">
+  <div class="flex flex-col items-center w-full   ">
          
     <div v-for="(hashAddress, index) in state.hashAddresses" :key="index" class="w-full relative mt-[14px]">
       <button 
@@ -593,19 +593,19 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
         </button>
         <input
           type="text"
-          placeholder=""
-          id="email"
+          placeholder="Hash"
+          :id="'hash_'+hashAddress.hash"
 
-          class="input_floating_label peer  text-darkGrey dark:text-whiteTamkin"
+          class="input_floating_label peer  w-full text-darkGrey dark:text-whiteTamkin"
           v-model="hashAddress.hash"
           :class="{
             input_error:v$.hashAddresses.$model[index].hash.$error ,
-            error_text: v$.hashAddresses.$model[index].hash.$error,
-            '!w-[99%]' : state.hashAddresses.length > 1
+            error_text: v$.hashAddresses.$model[index].hash.$error
           }"
         />
         <label
-          for="email"
+        :for="'hash_'+hashAddress.hash"
+
           class="floating_label"
           :class="[
             v$.hashAddresses.$model[index].hash.$error ? '!text-error' : '',
@@ -614,7 +614,7 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
           {{ $t("Hash*") }} {{ index + 2 }}
         </label>
         <div
-          class="w-full lg:w-4/6 mt-2"
+          class="w-full mt-2"
           v-if="v$.hashAddresses.$model[index].hash.$error"
         >
           <p class="error_message">

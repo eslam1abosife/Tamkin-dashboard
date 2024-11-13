@@ -19,6 +19,8 @@ export const useSettingsStore = defineStore("settings", {
     initialCheckboxes: [] as Checkbox[],
     routeLeaveModal: false,
     pendingNavigation: {},
+    appHeader:'',
+    manageAccessibility:[]
   }),
   actions: {
     getAccAttributes(name: any) {

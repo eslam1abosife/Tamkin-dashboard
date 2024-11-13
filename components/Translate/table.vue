@@ -28,10 +28,8 @@ const refreshData = async ()=>{
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user) {
-    translateStore.loadingProjects = true
 
  await getProjects(currentTab.value,user.agency)
- translateStore.loadingProjects = false
 
   }
 }
@@ -69,7 +67,9 @@ const changeTab = (tab: any) => {
 const translateStore = useTranslateStore()
 const user = JSON.parse(localStorage.getItem("user"));
 onMounted(async ()=>{
-  await refreshData(); 
+  translateStore.projectsAr = []
+  projects.value = []
+  // await refreshData(); 
 
 })
 
@@ -94,8 +94,8 @@ watch(()=>currentTab.value ,async ()=> {
   }
 })
 onBeforeUnmount(()=>{
-  projects.value = []
   translateStore.projectsAr = []
+  projects.value = []
   
 })
 onBeforeMount(()=>{

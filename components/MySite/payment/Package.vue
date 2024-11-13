@@ -593,30 +593,20 @@ const closeModalPackage = () => {
         
 
         >
-       
+        <div class="flex items-center justify-center gap-4 w-full">
+          <!-- Free Trial -->
           <div
-          v-if="mysiteStore.currentPackage.trial_days >0  
-      &&         mysiteStore.currentPackage.billing_duration  !== 'Free Trial'&&
-      (mysiteStore.currentPackage.trial_days >0  
-      &&         mysiteStore.currentPackage.billing_duration  !== 'none')
-
-        "
-    
-         class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+            v-if="mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none'"
+            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
-            :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border ']"
+            :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border']"
           >
             <div class="flex items-center justify-center w-full">
               <div class="order-2 w-full h-full">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("Free Trial") }}
-                </h1>
+                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Free Trial") }}</h1>
                 <h2 class="font-[500] text-[10px]">
-                  {{ $t("Free trial for") }}
-                  {{
-                    +" " +
-                    mysiteStore.currentPackage.trial_days +
-                    " " +
+                  {{ $t("Free trial for") }} {{
+                    mysiteStore.currentPackage.trial_days + " " +
                     $t(getDayLabel(mysiteStore.currentPackage.trial_days))
                   }}
                 </h2>
@@ -636,43 +626,24 @@ const closeModalPackage = () => {
               </div>
             </div>
           </div>
+        
+          <!-- Monthly Plan -->
           <div
-          v-if="mysiteStore.currentPackage.trial_days === 0 
-          || (mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none') 
-          || (mysiteStore.currentPackage.billing_duration !== 'none' && mysiteStore.currentWebsite?.package?.length > 0)"
-    
-                class="flex items-center relative justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 ltr:pl-2 h-[87px] !rounded-[10px] mt-[35px]"
+            v-if="mysiteStore.currentPackage.billing_duration !== 'none'"
+            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
             style="padding: 16px, 10px, 16px, 10px"
-            :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border ']"
+            :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border']"
           >
-    
-            <div class="flex items-center justify-center w-full relative">
-              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package "
-          
-              class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px]  font-[400] w-[80px] 
-              rounded-[10px] h-[22px] flex items-center justify-center  px-[0.5px] top-[-30px] left-[calc(50%-40px)] text-white"
-            >
-              <span>{{ $t("Renew") }}</span>
-            </div>
+            <div class="flex items-center justify-center w-full">
+              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package"
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-40px)] text-white">
+                <span>{{ $t("Renew") }}</span>
+              </div>
               <div class="order-2 w-full h-full">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("Monthly Plan") }}
-                </h1>
-                <h2
-                  class="font-[500] text-[10px]"
-                  v-if="
-                    mysiteStore.currentPackage.package_price_role[0]
-                      .discount_month !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
-                    >{{
-                      mysiteStore.currentPackage.package_price_role[0].discount_month
-                    }}%
-                  </span>
-                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{
-                    $t("Discount on the Monthly Plan")
-                  }}</span>
+                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Monthly Plan") }}</h1>
+                <h2 class="font-[500] text-[10px]" v-if="mysiteStore.currentPackage.package_price_role[0].discount_month !== 0">
+                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">{{ mysiteStore.currentPackage.package_price_role[0].discount_month }}%</span>
+                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{ $t("Discount on the Monthly Plan") }}</span>
                 </h2>
               </div>
               <div class="order-1 mx-[4px]">
@@ -690,6 +661,8 @@ const closeModalPackage = () => {
               </div>
             </div>
           </div>
+        </div>
+        
           <div
        
             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] 
@@ -1005,7 +978,7 @@ const closeModalPackage = () => {
                   </div>
                 </td>
                 <td
-                v-if=" mysiteStore.currentPackage.type === 'Sign language' "
+                v-if=" mysiteStore.currentPackage.type === 'Sign language'  || mysiteStore.currentPackage.type === 'Live Translation'"
                 class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
               >
                

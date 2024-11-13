@@ -2,7 +2,10 @@
 import {useRouter} from "#vue-router";
 const router = useRouter();
 const localePath = useLocalePath()
-onMounted(() => {
+definePageMeta({
+  middleware:['auth']
+})
+onBeforeMount(() => {
   router.push(localePath('/team'))
 })
 </script>

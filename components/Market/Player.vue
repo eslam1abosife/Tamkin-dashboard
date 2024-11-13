@@ -2,6 +2,7 @@
 import playerLoader from '~/assets/animation/handload.json'
 import { Vue3Lottie } from 'vue3-lottie'
 import { MarketPlayer } from 'tamkin-video-player';
+
             //  import { MarketPlayer } from '../../../tamkin-player/tamkin-video-player.mjs';
             //   import '../../../tamkin-player/style.css'
 import { usePlayerStore } from "@/stores/player";
@@ -61,7 +62,7 @@ function doPlayerStuff() {
 //     removeScript(script2Url);
 //     addScript(script2Url);
 // }
-
+const showComponent = ref(false)
 function controlPlayerLoad() {
   window.characterLoadStarted = () => {
     playerStore.characterLoaded = false
@@ -70,7 +71,7 @@ function controlPlayerLoad() {
     // for the first time when character loads
     // and the watcher takes over the subsequent changes in active character
     setTimeout(() => {
-      playerStore.wearSavedClothes()
+      // playerStore.wearSavedClothes()
     }, 100);
 
     setTimeout(() => {
@@ -81,22 +82,25 @@ function controlPlayerLoad() {
   // on animation start
   window.onRunning = () => {
     console.log('onRunning');
+
   }
   // on animation end
   window.onFinished = () => {
     console.log('onFinished');
   }
 }
+// const currentChar = ref()
 </script>
 
 <template>
   <div class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1] mt-[-20px]" id="SDKPlayerContainer">
-
     <div class="h-full w-full rounded-[10px]" >
-
-      <MarketPlayer    
- 
-                 />
+      <tamkin-sdk-web-character
+      charWidth="512"
+      charHeight="365"
+      class="centered-div"
+    ></tamkin-sdk-web-character>
+      <!-- <MarketPlayer   :current-character="playerStore.activeCharacter" /> -->
     </div>
  
   </div>

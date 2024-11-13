@@ -65,12 +65,15 @@ const setDefaultQuery = async (tryagain) => {
     //  router.push(localePath('/my-site'));
      closeModal('success_pay_mysite');
      mysiteStore.selectedApp = ''
-    if (isLinkActive('/my-site')) {
+    if (isLinkActive('/my-site') ) {
 
      mysiteStore.loadingApps  = true
      await getApps(); // Fetch apps asynchronously
      mysiteStore.loadingApps  = false
 
+  }
+  if(isLinkActive('/addons')){
+emit('updateData')
   }
   if (isLinkActive('/translate') || isLinkActive('/document') || isLinkActive('/photos')) {
     translateStore.loadingPackage = true
@@ -87,7 +90,7 @@ const setDefaultQuery = async (tryagain) => {
 //       }
 
 }
-  if (isLinkActive('/subscriptions')) {
+  if (isLinkActive('/subscriptions') ) {
 emit('updateData');
 router.push({
       path: route.path,

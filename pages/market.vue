@@ -47,14 +47,6 @@ const checkPaymentStatus = async () => {
   }
 };
 
-onMounted(async () => {
-  await checkPaymentStatus();
-  await getApps();
-
-  //   skin_items_list
-  // background_color
-  // background_image
-});
 
 const localePath = useLocalePath();
 const route = useRoute();
@@ -81,6 +73,7 @@ const toggleExpandHeader = () => {
   expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 3;
   expandedHeader.value = expandedHeaderStep.value !== 2;
 };
+
 const { GetCustomCharacterCost } = useEditCustomerCharacter();
 const { getCartItems } = useCart();
 const {
@@ -101,11 +94,57 @@ const stripeKey = ref(
 watch(locale, (newVal, oldVal) => {
   loadingCats.value = true;
 });
-onBeforeMount(async () => {
+const scriptSources = [
+  "https://cdn.tamkin.app/app.js",
+  
+  "https://cdn.tamkin.app/runtime.js",
+];
+
+const injectedScripts = ref([]);
+async function addScripts(sources) {
+  for (const src of sources) {
+    try {
+      const script = document.createElement("script");
+      script.src = `${src}?t=${new Date().getTime()}`; // Cache busting
+      script.async = false; // Ensure sequential loading
+      await new Promise((resolve, reject) => {
+        script.onload = () => {
+          injectedScripts.value.push(script); // Store reference to the injected script
+          resolve();
+        };
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        document.body.appendChild(script);
+      });
+      console.log(`Loaded script: ${src}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+function removeScripts() {
+  injectedScripts.value.forEach((script) => {
+    if (script && script.parentNode) {
+      script.parentNode.removeChild(script);
+    }
+  });
+  injectedScripts.length = 0;
+}
+onMounted(async ()=>{
+  await checkPaymentStatus();
+  await getApps();
+})
+onMounted(async () => {
+
   loadingCats.value = true;
+
+ 
+
   await getFullDataFormated();
   GetCustomCharacterCost();
   getCartItems();
+  await addScripts(scriptSources)
+  // await window.mountAll()
   playerStore.characters = characters.value;
   let activeChar = playerStore.backendActiveChar;
   playerStore.changeCharacter(activeChar, false);
@@ -119,7 +158,7 @@ onBeforeMount(async () => {
     const backgrounds = skins.filter(
       (item) => item.category === "Background" && item.is_weared === 1
     );
-    console.log(backgrounds);
+    // console.log(backgrounds);
     if (backgrounds.length > 0 && backgrounds[0].background_color === null) {
       playerStore.currentBackground.isImage = true;
       playerStore.currentBackground.colorOrUrl =
@@ -128,14 +167,17 @@ onBeforeMount(async () => {
       playerStore.currentBackground.isImage = false;
       playerStore.currentBackground.colorOrUrl = backgrounds[0].background_color;
     }
-  }
-  loadingCats.value = false;
-  // console.log('backendActiveChar', );
+}
+loadingCats.value = false;
+
 });
 
+onBeforeUnmount(()=>{
+  removeScripts()
+})
 const categoriesWithSkinItemsFiltered = computed(() => {
   if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return [];
-  else if (!loadingCats.value) {
+  else if (!loadingCats.value ) {
     return marketStore.categoriesWithSkinItems.map((category) => {
       return {
         ...category,
@@ -314,50 +356,25 @@ function leaveNotification(el, done) {
  *? default mode button on character: resets character skins to all skins having is_default=1
  *? add description to skin item and character
  */
-const scriptSources = [
-  "https://cdn.tamkin.app/runtime.js",
-  "https://cdn.tamkin.app/app.js",
-];
+ const handleScriptLoad = async () => {
 
-const injectedScripts = ref([]);
-async function addScripts(sources) {
-  for (const src of sources) {
-    try {
-      const script = document.createElement("script");
-      script.src = `${src}?t=${new Date().getTime()}`; // Cache busting
-      script.async = false; // Ensure sequential loading
-      await new Promise((resolve, reject) => {
-        script.onload = () => {
-          injectedScripts.value.push(script); // Store reference to the injected script
-          resolve();
-        };
-        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
-        document.body.appendChild(script);
-      });
-      console.log(`Loaded script: ${src}`);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
+ 
+};
 
-function removeScripts() {
-  injectedScripts.value.forEach((script) => {
-    if (script && script.parentNode) {
-      script.parentNode.removeChild(script);
-    }
-  });
-  injectedScripts.length = 0;
-}
-
-onMounted(() => {
-  // addScripts(scriptSources);
-});
-
-onBeforeUnmount(() => {
-  // removeScripts();
-  // console.log("All scripts removed.");
-});
+//  useHead({
+//   script: [
+//     {
+//           src: `https://cdn.tamkin.app/app.js`, 
+//           defer: false,
+     
+//         },
+//         {
+//           src: `https://cdn.tamkin.app/runtime.js`,
+//           defer: false
+//         },
+        
+//       ]
+// })
 </script>
 
 <template>
@@ -762,8 +779,10 @@ onBeforeUnmount(() => {
             </template>
           </div>
         </div>
+<ClientOnly>
+  <MarketPlayer />
 
-        <MarketPlayer />
+</ClientOnly>
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter

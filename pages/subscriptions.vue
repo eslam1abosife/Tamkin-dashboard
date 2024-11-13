@@ -14,9 +14,7 @@ const { getTotalAmountPackages } = useGetTotalAmountPacks();
 const { $toast } = useNuxtApp();
 const { getAvatarLetters } = useGetAvatarLetters();
 import { useDeleteApp, useRestoreApp, useGetPackage } from "@/composables/useMySite";
-
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
-
 const { getSubs } = useGetSubscriptions();
 const loadingSubs = ref(false);
 const localePath = useLocalePath();
@@ -31,17 +29,18 @@ const subs = ref([]);
 onBeforeMount(()=>{
 
 })
+const isPageRefreshed = ref(false);
+
 onMounted(async () => {
   checkPaymentStatus();
 
   loadingSubs.value = true;
   const res = await getSubs();
-  // const t = await getTotalAmountPackages();
   const renewdetails  = await detailsRenew()
  subsStore.totalRenews = renewdetails
-  // totalAmount.value = t;
   subs.value = res;
   loadingSubs.value = false;
+
 });
 
 const {
@@ -147,10 +146,16 @@ const checkPaymentStatus = async () => {
         query: { paid: route.query.paid, locale: "ar" },
       });
 
-      await nextTick();
       openModal("success_pay_mysite", "mysite");
+    if(isOpen('success_pay_mysite')){
+      await router.replace({ query: {} });
+    }
     } else {
       openModal("success_pay_mysite", "mysite");
+      await router.replace({ query: {} });
+      if(isOpen('success_pay_mysite')){
+      await router.replace({ query: {} });
+    }
     }
   }
 };

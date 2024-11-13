@@ -10,6 +10,13 @@ const {
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
 const mySiteStore = useMySiteStore();
+const props = defineProps({
+  currentPackage:{
+    type:Object,
+    default:null
+  }
+})
+const currentPackage = computed(() => props.currentPackage || mySiteStore.currentPackage);
 
 function getDayLabel(number) {
   return number === 1 ? "day" : "days";
@@ -43,9 +50,9 @@ const openModalToUpgrade = async (pack)=>{
 
 const cryptoStroe = useCryptoStore()
 
-onMounted(async () => {
-  await cryptoStroe.getRates()
-});
+// onMounted(async () => {
+//   await cryptoStroe.getRates()
+// });
 function convertUsdToCrypto(usdTotal, rates) {
   const rate = rates['tamkin'];
   if (rate) {
@@ -74,7 +81,7 @@ function convertUsdToCrypto(usdTotal, rates) {
         class="flex items-center flex-col custom-border mx-auto justify-start 
         !rounded-t-[10px] relative  !rounded-b-none mt-[48px] group
          bg-white hover:bg-selected dark:hover:bg-p dark:hover:bg-p w-full"
-      :class="[mySiteStore.currentPackage.name === pak.name ? 'bg-selected':'']"
+      :class="[currentPackage.name === pak.name ? 'bg-selected':'']"
       >
         <div
           v-if="pak.type_deal !== 'None'"
@@ -205,7 +212,7 @@ function convertUsdToCrypto(usdTotal, rates) {
             :disabled="
               (pak.cost_month !== 0 && pak.cost_yearly !== 0) || 
               pak.title === 'Free'  || 
-              (mySiteStore.currentPackage.type === 'Investors' && mySiteStore.currentPackage.name === pak.name)
+              (currentPackage.type === 'Investors' && currentPackage.name === pak.name)
          
             "
             class="btn-dashboard hover_tamkin w-full !rounded-[19px] mx-auto"
@@ -214,18 +221,18 @@ function convertUsdToCrypto(usdTotal, rates) {
             <span v-if="pak.is_contact_us"> {{ $t('Contact us') }} </span>
             
             <!-- Renew Case -->
-            <span v-else-if="mySiteStore.currentPackage.name === pak.name && 
-                            mySiteStore.currentPackage.status !== 'Rejected' && 
+            <span v-else-if="currentPackage.name === pak.name && 
+                            currentPackage.status !== 'Rejected' && 
                             mySiteStore.currentWebsite.status !== 'Rejected' && 
-                            mySiteStore.currentPackage.status !== 'Cancelled' && 
+                            currentPackage.status !== 'Cancelled' && 
                             pak.title !== 'Free'"> 
-              {{mySiteStore.currentPackage.type !== 'Investors'? $t('Renew'):$t('Current Package') }} 
+              {{currentPackage.type !== 'Investors'? $t('Renew'):$t('Current Package') }} 
             </span>
             
             <!-- Try Again Case -->
-            <span v-else-if="mySiteStore.currentPackage.name === pak.name && 
-                            (mySiteStore.currentPackage.status === 'Rejected' || 
-                             mySiteStore.currentPackage.status === 'Cancelled')"> 
+            <span v-else-if="currentPackage.name === pak.name && 
+                            (currentPackage.status === 'Rejected' || 
+                            currentPackage.status === 'Cancelled')"> 
               {{ $t('Try Again') }} 
             </span>
             

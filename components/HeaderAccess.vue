@@ -1,4 +1,12 @@
 <script lang="ts" setup>
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 const settingsStore = useSettingsStore();
 const props = defineProps({
   sectionTitle: {
@@ -42,17 +50,20 @@ const navStore = useNavbarStore();
 
 const app = ref({});
 const loadApp = ref(false);
-
 const getApps = async () => {
   loadApp.value = true;
   try {
-    const res = await api.post("/Apps/GetApps");
-    settingsStore.apps = res.data.data.filter((el: any) => el.isdefault != 1);
+    // const res = await api.post("/Apps/GetApps");
+    // settingsStore.apps = res.data.data.filter((el: any) => el.isdefault != 1);
 
-    app.value = res.data.data.find((el: any) => el.isdefault == 1);
-    settingsStore.defaultapp = app.value.name;
-    settingsStore.defaultappobj = app.value;
-    navStore.defaultappobj = app.value;
+    // app.value = res.data.data.find((el: any) => el.isdefault == 1);
+  const user = JSON.parse(localStorage.getItem('user'));
+  await getInviteApps({ agency: user.agency });
+
+  settingsStore.apps = apps.value
+   settingsStore.appHeader = defaultApp.value
+    settingsStore.defaultapp = settingsStore.appHeader.name;
+    navStore.defaultappobj = settingsStore.appHeader ;
     loadApp.value = false;
   } catch (error) {
     loadApp.value = false;
@@ -61,6 +72,9 @@ const getApps = async () => {
   }
 };
 
+// watchEffect(()=>{
+//   updatetheappstuff()
+// })
 onBeforeMount(() => {
   getApps();
 });
@@ -74,7 +88,7 @@ const isLinkActive = (path) => {
 <template>
   <div class="space-y-[10px]">
     <h1
-      v-if="Object.keys(app).length > 0"
+      v-if="Object.keys(settingsStore.appHeader).length > 0"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
     >
       {{ sectionTitle }}
@@ -95,7 +109,7 @@ const isLinkActive = (path) => {
     ></div>
 
     <h2
-      v-if="Object.keys(app).length > 0"
+      v-if="Object.keys(   settingsStore.appHeader ).length > 0"
       class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
     >
       {{ sectionSubTitle }}
@@ -104,7 +118,7 @@ const isLinkActive = (path) => {
   </div>
 
   <div
-    v-if="Object.keys(app).length > 0"
+    v-if="Object.keys(   settingsStore.appHeader ).length > 0"
     class="relative mt-[-10px] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
   >
     <div
@@ -123,8 +137,8 @@ const isLinkActive = (path) => {
             >
               <img
                 :src="
-                  app.type !== 'Internal Services' && app.favicon
-                    ? app.favicon
+                settingsStore.appHeader.type !== 'Internal Services' &&    settingsStore.appHeader .favicon
+                    ?    settingsStore.appHeader .favicon
                     : getImageUrl
                 "
                 class="h-[30px] w-[30px]"
@@ -135,24 +149,24 @@ const isLinkActive = (path) => {
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
-                  {{ $t(app.title) }}
+                  {{ $t(   settingsStore.appHeader .title) }}
                 </h2>
               </div>
-              <div v-if="app && app.type !== 'Internal Services'">
+              <div v-if="   settingsStore.appHeader  &&    settingsStore.appHeader .type !== 'Internal Services'">
                 <a
                   :class="[
-                    app?.title === 'Internal Service'
+                    settingsStore.appHeader ?.title === 'Internal Service'
                       ? '!text-darkGrey/40 cursor-not-allowed'
                       : '',
                   ]"
                   :href="
-                    app?.title === 'Internal Service'
+                  settingsStore.appHeader ?.title === 'Internal Service'
                       ? '#'
                       : app
-                      ? formatToUrl(app.app_domain)
+                      ? formatToUrl(   settingsStore.appHeader .app_domain)
                       : ''
                   "
-                  :target="app?.title === 'Internal Service' ? '' : '_blank'"
+                  :target="   settingsStore.appHeader ?.title === 'Internal Service' ? '' : '_blank'"
                   class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                 >
                   {{ $t("Visit Site") }}
@@ -162,7 +176,7 @@ const isLinkActive = (path) => {
                     fill="none"
                     stroke-width="1.5"
                     :class="[
-                      app?.title === 'Internal Service'
+                      settingsStore.appHeader ?.title === 'Internal Service'
                         ? '!text-darkGrey/40 cursor-not-allowed'
                         : '!text-tamkinStart',
                     ]"

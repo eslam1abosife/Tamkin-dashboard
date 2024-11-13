@@ -360,11 +360,18 @@ const isCurrentRateEmpty = computed(() => {
               {{ $t('available') }}
             </div>
             <button
+            :disabled="isInputDisabled || disabledIfPendingRecords" 
               class="btn-dashboard hover_tamkin w-[170px]"
              
-              @click="openModal('withdraw_paymentmethods', 'referral')"
+              @click="()=>{
+                if(isInputDisabled || disabledIfPendingRecords){
+return
+                }else {
+                  openModal('withdraw_paymentmethods', 'referral')
+                }
+              }"
             >
-            <!-- :disabled="isInputDisabled || disabledIfPendingRecords" -->
+            <!-- -->
               {{$t('Withdraw')}}
             </button>
 

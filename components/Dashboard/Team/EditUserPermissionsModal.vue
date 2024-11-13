@@ -196,32 +196,37 @@ const savePermission = async () => {
       </template>
 
       <div v-else-if="!getAllPermissionsLoading || !getUserPermissionsLoading"
-       class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-scroll">
+       class="2xl:max-h-[250px] ipad-max:max-h-[200px] lg:max-h-[250px] overflow-y-scroll w-full">
         <table v-if="permissions && permissions.length > 0"
           class="min-w-full divide-y divide-gray-200 dark:border-light mt-[40px] ">
           <thead>
-            <tr>
-              <th class="py-3   text-right text-[15px]  leading-[22.5px] font-[500] text-darkGrey
-             flex items-center justify-start  rtl:space-x-reverse space-x-[10px] ">
-                <div>
-                  <input type="checkbox" id="checkbox" class="peer sr-only   m-auto" v-model="checkAll" />
-                  <label for="checkbox"
-                    class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
-                    <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </label>
-                </div>
+            <tr class="h-[50px]">
+              <th class="rtl:text-right ltr:text-left   text-[15px]  leading-[22.5px] font-[500] text-darkGrey
+              w-full  ">
+          
                 <div class="text-[14px] leading-[22px] text-darkGrey dark:text-whiteTamkin">{{$t('ALL Permissions')}}</div>
+             
+              </th>
 
+              <th class="">
+                <input type="checkbox" id="checkbox" class="peer sr-only   " v-model="checkAll" />
+                <label for="checkbox"
+                  class="relative block border-[1px]  w-[18px] h-[18px] border-tamkin bg-whiteTamkin dark:bg-tamkinDarkPrimary rounded-[4px] peer-checked:bg-gradient-checked">
+                  <svg class="peer-checked:block  absolute inset-0 m-auto w-4 h-4 text-white dark:text-darkTamkin"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </label>
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 dark:divide-light h-[250px] overflow-y-scroll">
-            <tr v-for="permission in permissions " :key="permission.name">
-              <td class="py-4  flex items-center  rtl:space-x-reverse space-x-4">
-                <div>
+            <tr v-for="permission in permissions " :key="permission.name" class="h-[50px]">
+                <td>
+                  <span class="text-[14px] leading-[21px] font-[400] text-darkGrey ">{{ $t(permission.title) }}</span>
+  
+                </td>
+                <td class=""> 
                   <input type="checkbox" v-model="checked" :id="`checkbox_` + permission.name" :value="permission.name"
                     class="peer sr-only ltr:ml-auto rtl:mr-auto  " number />
                   <label :for="`checkbox_` + permission.name"
@@ -231,9 +236,9 @@ const savePermission = async () => {
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </label>
-                </div>
-                <span class="text-[14px] leading-[21px] font-[400] text-darkGrey ">{{ $t(permission.title) }}</span>
-              </td>
+                </td>
+  
+           
             </tr>
           </tbody>
         </table>

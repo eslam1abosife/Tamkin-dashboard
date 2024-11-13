@@ -4,7 +4,7 @@ const collapseStore = useCollapseStore();
 
 <template>
 
-    <!-- <div
+    <div
     class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
      px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
     
@@ -1605,6 +1605,6 @@ const collapseStore = useCollapseStore();
         </tbody>
       </table>
     </div>
-  </div> -->
+  </div>
 
 </template>

@@ -22,9 +22,11 @@ import {
   useCheckifSiteblocked,
   useGetTraffic,
   useGetPriceByTraffic,
+  useGetPendingPackages
 } from "@/composables/usePackages";
 import { useGetPackage } from "~/composables/useMySite";
 const { locale } = useI18n();
+const {getPendingPacks} =useGetPendingPackages()
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
 const packagesStore = usePackgesStore();
@@ -34,19 +36,28 @@ function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
 const { getTraffic } = useGetTraffic();
-
+const pdappsarr = ref([])
+onBeforeMount(async ()=>{
+  const pdapps = await getPendingPacks()
+  pdappsarr.value = pdapps
+})
 const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})$/;
 const listOfApps = computed(() => {
   const category = getCategory.value;
   const currentTypeTitle = packagesStore.currentType.title;
-
   // Pre-filter apps by removing deleted ones
   const validApps = apps.value.filter((app) => app.status !== "deleted");
 
   // Optimize logic based on conditions
   if (category === 0 && currentTypeTitle === "Sign language") {
     // Return apps with non-null domains
-    return validApps.filter((app) => app.app_domain !== null);
+    // return validApps.filter((app) => app.app_domain !== null && pdappsarr.value.filter(a=>a.app_name !== app.name).length);
+    return validApps.filter(
+    (app) => 
+    app.app_domain !== null && 
+    app.package && app.package.length > 0 &&
+        !pdappsarr.value.some((a) => a.app_name === app.name && a.package_type === app.package[0].type)
+);
   }
 
   if (category && category !== 0) {
@@ -56,10 +67,18 @@ const listOfApps = computed(() => {
 
   if (!category && currentTypeTitle !== "Sign language") {
     // Return apps with non-null domains for non-'Sign language' types
-    return validApps.filter((app) => app.app_domain !== null);
+    // return validApps.filter((app) => app.app_domain !== null);
+    return apps.value.filter(
+    (app) => 
+        app.app_domain !== null && 
+        app.package && app.package.length > 0 &&
+        !pdappsarr.value.some((t) => t.app_name === app.name && t.package_type === currentTypeTitle)
+
+);
+
   }
 
-  // Default case: return an empty array if no condition is met
+ 
   return [];
 });
 
@@ -103,8 +122,8 @@ const levelof = ref(packagesStore.traffic_level);
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
   return url
-    .replace(/^(https?:\/\/)?(www\.)?/, "") // Remove protocol and www
-    .replace(/\/$/, ""); // Remove trailing slash
+    .replace(/^(https?:\/\/)?(www\.)?/, "") 
+    .replace(/\/$/, ""); 
 };
 
 const canAddWebsite = async (website) => {
@@ -112,19 +131,15 @@ const canAddWebsite = async (website) => {
   let isWebsiteInApps = false;
   let isWebsiteInUrls = false;
 
-  // Check if the website exists in apps if urls or apps arrays are available
   if (Array.isArray(packagesStore.urls) && packagesStore.urls.length || Array.isArray(apps.value) && apps.value.length) {
     isWebsiteInApps = apps.value.some((ap) => ap.app_domain === cleanedWebsiteUrl);
 
-    // Check if the website already exists in packagesStore.urls
     isWebsiteInUrls = packagesStore.urls.length && packagesStore.urls.some((website) => website.url === cleanedWebsiteUrl);
   }
 
-  // Check if the website is blocked
-  const res = await checkifBlockedSite(cleanedWebsiteUrl); // Call the blocking check function
+  const res = await checkifBlockedSite(cleanedWebsiteUrl); 
   const isBlocked = res.length > 0;
 
-  // Return true if the website can be added
   return !isWebsiteInApps && codeStatus.value === 200 && !isBlocked && !isWebsiteInUrls;
 };
 
@@ -760,7 +775,6 @@ const formattedEstimatedPrice = computed(()=> {
   <div
     class="mysite_bg_modal dark:bg-p fixed z-[9999] !top-[-2px] lg:inset-auto inset-0 rtl:lg:left-0 ltr:lg:right-0 rounded-[10px] lg:p-[30px] lg:w-[600px] w-full h-screen overflow-y-auto lg:overflow-x-hidden"
   >
-{{getCategory}}
   <div
       style="box-shadow: 1px 0px 20.5px 0px #71dad2bd"
       class="close_btn_payment !cursor-pointer z-[999] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"

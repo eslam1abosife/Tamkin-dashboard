@@ -35,12 +35,16 @@ const backgroundImageStyle = computed(() => {
 });
 
 watch([currentColor], () => {}, { immediate: true });
+const settingsStore = useSettingsStore();
+
 </script>
 
 <template>
   <div
     class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
   >
+  <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_location')"/>
+
     <div
       v-if="customizeStore.isButtonDesktopPositionActive"
       class="pb-[12px] text-[10px] lg:text-[13px] lg:leading-[32px] text-darkGrey dark:text-whiteTamkin cursor-pointer"

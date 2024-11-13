@@ -224,7 +224,14 @@ const switchBetweenMonthlyAndAnnual = (v: any) => {
     
             </div>
               </div>
-              
+              <div
+              v-if="mySiteStore.currentPackage.status  === 'not_installed'"
+            
+              class="bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-[17px]  flex items-center justify-center 
+                    h-[25px] w-full max-w-[100px] text-white text-[12px] leading-[18px]"
+            >
+              {{ $t(`Not Installed`) }}
+            </div>
               <div
               v-if="mySiteStore.currentPackage.status === 'Expired'"
             

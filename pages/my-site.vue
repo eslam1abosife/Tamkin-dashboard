@@ -1630,6 +1630,8 @@ const openInvestor = (app,pack)=>{
                             class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
                           >
                             <button
+                            :disabled=" mysiteStore.selectedApp.package.length &&
+                            pack.status === 'Pending'"
                               class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
                               @click="
                                 getPackageAndOpenPaymenModal(
@@ -1679,8 +1681,12 @@ const openInvestor = (app,pack)=>{
                             </button>
 
                             <button
+                            :disabled="pack.status === 'Pending'"
+                            class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
+
                               @click="openDeleteMember(mysiteStore.selectedApp)"
                             >
+                            <!-- her eman-->
                               <svg
                                 width="18"
                                 height="17"

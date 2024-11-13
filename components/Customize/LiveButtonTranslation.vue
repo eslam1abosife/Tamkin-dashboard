@@ -4,6 +4,7 @@ import { useCustomizeStore } from "@/stores/customize.js";
 import { vOnClickOutside } from "@vueuse/components";
 
 const customizeStore = useCustomizeStore();
+const settingsStore = useSettingsStore()
 const {
   colorMode,
   gradient1,
@@ -242,13 +243,16 @@ const backgroundImageStyle = computed(() => {
       </div>
     </div>
     <div
-      class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
+      class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden relative"
+      :class="[!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_3manage_live_site_translations_button') ? 'h-[400px]' :'']"
       v-if="
         !collapseStore.collapses.includes(
           'live_site_translation_button_card'
         ) && customizeStore.isEnableLiveTrans.active == 1
       "
     >
+    <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_3manage_live_site_translations_button')"/>
+
       <table class="min-w-full leading-normal">
         <thead class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">
           <tr class="">

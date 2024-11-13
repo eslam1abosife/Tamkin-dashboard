@@ -297,7 +297,7 @@ onBeforeRouteLeave((to, from, next) => {
         />
         <div v-else>
           <div
-            v-if="customizeStore.isBtnColorActive"
+            v-if="customizeStore.isBtnColorActive "
             class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('button_color_card')
@@ -482,9 +482,11 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden"
-              v-if="!collapseStore.collapses.includes('button_color_card')"
+              class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
+              v-if="!collapseStore.collapses.includes('button_color_card') "
             >
+            <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_color')"/>
+            
               <div
                 class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
               >
@@ -659,6 +661,7 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
               </div>
             </div>
+
           </div>
 
           <div
@@ -846,12 +849,14 @@ onBeforeRouteLeave((to, from, next) => {
             </div>
 
             <div
-              class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
+              class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden relative"
               v-if="
                 !collapseStore.collapses.includes('button_type_card') &&
                 buttonIcons
               "
             >
+            <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_type')"/>
+
               <div v-if="customizeStore.buttonShapeObj.active == 1">
                 <h1
                   class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
@@ -1364,6 +1369,7 @@ onBeforeRouteLeave((to, from, next) => {
               v-if="!collapseStore.collapses.includes('access_mode_card')"
             />
           </div>
+<CustomizeWidgetType class="!mb-[40px]" />
 
           <CustomizeAdjustMainMenu v-if="customizeStore.isMainMenuActive" />
           <CustomizeAccessibilityProfiles
@@ -1371,8 +1377,12 @@ onBeforeRouteLeave((to, from, next) => {
           />
           <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
           <CustomizeLanguage v-if="customizeStore.isLanguagective" />
+
+
           <!-- <CustomizeCustomTrigger /> -->
         </div>
+
+ 
       </div>
     </div>
   </div>

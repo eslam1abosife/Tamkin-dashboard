@@ -179,17 +179,22 @@ watch(copyDone, (newValue) => {
   }
 });
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
+  loadingBlock.value = true
+
+ await getSummaryDetailedCode();
+
   currentCode.value = summaryCode || `const foo = 'bar';`;
   code.value = true;
+  setTimeout(()=>{
+    loadingBlock.value = false
+  },2000)
+
 });
 
 onMounted(async () => {
-  loadingBlock.value = true
 
   copyCodeP = copied.value
- await getSummaryDetailedCode();
-  loadingBlock.value = false
 });
 
 function showAdvancedCode() {
