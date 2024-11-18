@@ -1,7 +1,22 @@
 <script lang="ts" setup>
 const collapseStore = useCollapseStore();
+const navStore = useNavbarStore()
 
+const statsStore = useStatsStore();
 
+const runtimeob = useRuntimeConfig()
+function formatNumber(value) {
+  if (value >= 1_000_000) {
+    return (value / 1_000_000).toFixed(1) + "M"; 
+  } else if (value >= 1_000) {
+    return (value / 1_000).toFixed(1) + "k"; 
+  } else {
+    return value.toString();
+  }
+}
+function calculatePercentage(total, usage) {
+  return ((usage / total) * 100).toFixed(0) 
+}
 </script>
 
 <template>
@@ -9,6 +24,7 @@ const collapseStore = useCollapseStore();
     <div
         class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[32px] 
         pt-[48px] mb-[40px] relative shadow-md -shadow-y-[1px] px-[15px]"
+        :class="[navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0 ? 'h-[400px]':'']"
         
       >
         <div class="flex flex-col items-start  justify-start  w-full">
@@ -74,7 +90,7 @@ const collapseStore = useCollapseStore();
                 style="box-shadow: 0px 2px 6px 0px #00000040"
                 class="mini_SizeMenu divide-y"
               >
-              <div
+              <!-- <div
               class="mini_wrap"
             >
               <div>
@@ -94,7 +110,7 @@ const collapseStore = useCollapseStore();
               <div class="text_mini">
                 {{ $t('Switch To Annual') }}
               </div>
-            </div>
+            </div> -->
                 <div
                   class="mini_wrap"
                   @click="collapseStore.collapseCard('live_translation_stats_card')"
@@ -158,13 +174,14 @@ const collapseStore = useCollapseStore();
          
           </div>
           <div
-          v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
+             
+          v-if="!collapseStore.collapses.includes('live_translation_stats_card') && !statsStore.loadingStats &&  navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"
           class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] 
           custom-border  bg-tamkin-main-bg dark:bg-p"
       
         >
           <div
-            class="circular-progress big bg-white dark:bg-transparent rounded-full rtl:mr-[10px] ltr:ml-[10px]"
+            class="circular-progress big bg-white dark:bg-transparent rounded-full mx-[24px]"
           >
             <svg viewBox="0 0 36 36" class=" " width="60" height="60">
               <defs>
@@ -179,42 +196,109 @@ const collapseStore = useCollapseStore();
                 cx="18"
                 cy="18"
                 r="15.91549431"
-                style="stroke-dasharray: 80, 100"
+                :style="`stroke-dasharray: ${calculatePercentage(statsStore.liveTranslationStats.header.totla,statsStore.liveTranslationStats.header.usage)},100`"
+
               ></circle>
             </svg>
             <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
               <div class="flex flex-col items-center justify-center">
-                <div>5%</div>
-                <div>1 M</div>
+                <div>{{calculatePercentage(statsStore.liveTranslationStats.header.totla,statsStore.liveTranslationStats.header.usage)}}%</div>
+                <div>{{formatNumber(statsStore.liveTranslationStats.header.totla)}}</div>
               </div>
             </div>
           </div>
   
           <div
-            class=" flex flex-col items-center justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
+            class=" flex flex-col items-start justify-center w-full space-y-[8px] px-[24px] dark:text-whiteTamkin"
           >
             <div class="flex items-center justify-between w-full">
               <div class="text-[13px] font-[400] leading-[19px]">{{$t('Used')}}</div>
-              <div class="text-[13px] font-[600] leading-[19px]">5.78%</div>
+              <div class="text-[13px] font-[600] leading-[19px]">{{statsStore.liveTranslationStats.header.usage.toFixed(0)}}%</div>
             </div>
   
             <div class="flex items-center justify-between w-full">
               <div class="text-[13px] font-[400] leading-[19px]">{{$t('User Assistance')}}</div>
-              <div class="text-[13px] font-[600] leading-[19px]">20</div>
+              <div class="text-[13px] font-[600] leading-[19px]">{{statsStore.liveTranslationStats.header.user}}</div>
             </div>
             <div class="flex items-center justify-between w-full">
               <div class="text-[13px] font-[400] leading-[19px]">
                 {{ $t('Pages Translated') }}
               </div>
-              <div class="text-[13px] font-[600] leading-[19px]">5</div>
+              <div class="text-[13px] font-[600] leading-[19px]">{{statsStore.liveTranslationStats.header.page}}</div>
             </div>
           </div>
         </div>
+        <div  v-else-if="statsStore.loadingStats&& navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"    class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] 
+        bg-gray-200 animate-pulse">
+
         </div>
-     
+        </div>
         <div
+
+        class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
+        v-if="statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"
+      >
+        <!-- Title Skeleton -->
+        <div class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"></div>
+      
+        <!-- Table Skeleton -->
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"></th>
+              <th class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-[56px]" v-for="i in 5" :key="i">
+              <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+                <div class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]">
+                  <div class="w-[36px] h-[36px] bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                  <div class="w-1/2 h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                </div>
+              </td>
+              <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <!-- Pages Translated Title Skeleton -->
+        <div class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"></div>
+      
+        <!-- Second Table Skeleton -->
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/2"></th>
+              <th class="py-3 bg-gray-200 dark:bg-gray-700 rounded h-6 w-1/4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-[56px]" v-for="i in 5" :key="i">
+              <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+                <div class="flex items-start flex-col justify-center">
+                  <div class="w-3/4 h-4 bg-gray-200 dark:bg-gray-700 rounded mb-1"></div>
+                  <div class="w-1/2 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                </div>
+              </td>
+              <td class="border-b border-gray-200 dark:border-darkborder text-sm">
+                <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                  <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
+        <div 
           class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
-          v-if="!collapseStore.collapses.includes('live_translation_stats_card')"
+          v-if="!collapseStore.collapses.includes('live_translation_stats_card') && !statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"
         >
           <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[26px] mb-[24px] dark:text-whiteTamkin">
             {{ $t('Translated languages') }}
@@ -237,20 +321,21 @@ const collapseStore = useCollapseStore();
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]">
+              <tr class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]" 
+              v-for="lang in statsStore.liveTranslationStats.translate_langs.sort((a, b) => b.sort - a.sort) " :key="lang.name">
                 <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div
                     class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
                   >
                     <div>
                       <img 
-                        src="/assets/imgs/arabic.svg"
+                        :src="runtimeob.public.baseImagerUrl + lang.image"
                         class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
                         
                       />
                     </div>
                     <div class="">
-                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">{{$t('Arabic')}}</p>
+                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">{{$t(`${lang.language_name}`)}}</p>
                     </div>
                   </div>
                 </td>
@@ -276,64 +361,18 @@ const collapseStore = useCollapseStore();
                         cx="18"
                         cy="18"
                         r="15.91549431"
-                        style="stroke-dasharray: 80, 100"
+                        :style="`stroke-dasharray: ${lang.usage.toFixed(0)},100`"
+
                       ></circle>
                     </svg>
                     <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
-                      80%
+                     {{lang.usage.toFixed(0)}}%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-white h-[56px] dark:bg-tamkinDarkPrimary dark:border-darkborder ">
-                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-                  <div
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-                  >
-                    <div>
-                      <img 
-                        src="/assets/imgs/english.svg"
-                        class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                        
-                      />
-                    </div>
-                    <div class="">
-                      <p class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin">English</p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                    <svg viewBox="0 0 36 36">
-                      <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop
-                            offset="0%"
-                            style="stop-color: #bb67ff; stop-opacity: 1"
-                          />
-                          <stop
-                            offset="100%"
-                            style="stop-color: #ff5a7b; stop-opacity: 1"
-                          />
-                        </linearGradient>
-                      </defs>
-                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
-                      <circle
-                        class="progress-circle"
-                        cx="18"
-                        cy="18"
-                        r="15.91549431"
-                        style="stroke-dasharray: 80, 100"
-                      ></circle>
-                    </svg>
-                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
-                      80%
-                    </div>
-                  </div>
-                </td>
-              </tr>
+        
             </tbody>
           </table>
 
@@ -358,15 +397,15 @@ const collapseStore = useCollapseStore();
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white h-[56px] dark:bg-tamkinDarkPrimary ">
+              <tr class="bg-white h-[56px] dark:bg-tamkinDarkPrimary " v-for="pageTr in statsStore.liveTranslationStats.pages.sort((a, b) => b.sort - a.sort)"> 
                 <td class="border-b border-gray-200 text-sm dark:border-darkborder">
                   <div class="flex items-start flex-col justify-center">
                     <div class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black">
-                      /Page
+                      /{{pageTr.page}}
                     </div>
                     <div class="">
                       <p class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin">
-                        Translated by 10 user
+                        Translated by {{pageTr.user_count}} user
                       </p>
                     </div>
                   </div>
@@ -393,60 +432,18 @@ const collapseStore = useCollapseStore();
                         cx="18"
                         cy="18"
                         r="15.91549431"
-                        style="stroke-dasharray: 80, 100"
+                        :style="`stroke-dasharray: ${pageTr.usage.toFixed(0)},100`"
+
                       ></circle>
                     </svg>
                     <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
-                      80%
+                      {{pageTr.usage.toFixed(0)}}%
                     </div>
                   </div>
                 </td>
               </tr>
 
-              <tr class="bg-white dark:bg-tamkinDarkPrimary  h-[56px]">
-                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-                  <div class="flex items-start flex-col justify-center">
-                    <div class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin text-black">
-                      /Page
-                    </div>
-                    <div class="">
-                      <p class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin">
-                        Translated by 10 user
-                      </p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-                  <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                    <svg viewBox="0 0 36 36">
-                      <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop
-                            offset="0%"
-                            style="stop-color: #bb67ff; stop-opacity: 1"
-                          />
-                          <stop
-                            offset="100%"
-                            style="stop-color: #ff5a7b; stop-opacity: 1"
-                          />
-                        </linearGradient>
-                      </defs>
-                      <circle class="bg-circle" cx="18" cy="18" r="15.91549431"></circle>
-                      <circle
-                        class="progress-circle"
-                        cx="18"
-                        cy="18"
-                        r="15.91549431"
-                        style="stroke-dasharray: 10, 100"
-                      ></circle>
-                    </svg>
-                    <div class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin">
-                      10%
-                    </div>
-                  </div>
-                </td>
-              </tr>
+         
             </tbody>
           </table>
         </div>

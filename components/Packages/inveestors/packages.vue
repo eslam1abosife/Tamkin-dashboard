@@ -3,10 +3,13 @@ const localePath = useLocalePath();
 const pricingType = inject("pricingType");
 const packagesStore = usePackgesStore();
 const cryptoStroe = useCryptoStore()
+const props = defineProps({
+  currentType: String,
+})
 function getDayLabel(number) {
   return number === 1 ? "day" : "days";
 }
-onMounted(async () => {
+onBeforeMount(async () => {
   await cryptoStroe.getRates()
 });
 function convertUsdToCrypto(usdTotal, rates) {
@@ -21,7 +24,7 @@ const filteredPackages = computed(() => {
   return packagesStore.packages
     .filter(
       (pkg) =>
-        pkg.type === packagesStore.currentType.name &&
+         pkg.type === 'Investors' &&
         pkg.package_type === "Package" &&
         pkg.package_price_role.some(
           (item) => item.title === packagesStore.views_level
@@ -31,7 +34,7 @@ const filteredPackages = computed(() => {
       const priceRole = pkg.package_price_role.find(
         (item) => item.title === packagesStore.views_level
       );
-
+console.log('yea man')
       return {
         ...pkg,
         cost_before_month: priceRole.cost_before_month,
@@ -107,7 +110,14 @@ const filteredPackages = computed(() => {
             <h2
               class="font-[500] my-[16px] text-[14px] leading-[15px] text-[#536174] dark:text-whiteTamkin"
             >
-              {{ $t(pack.description) +' '}} <span class="font-[700]">{{ convertUsdToCrypto(pack.cost_investor, cryptoStroe.rates).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} TSLT</span> 
+              {{ $t(pack.description) +' '}} <span class="font-[700]">{{ 
+                cryptoStroe.rates 
+                  ? (convertUsdToCrypto(pack.cost_investor, cryptoStroe.rates) || 0)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") 
+                  : 'loading' 
+              }}
+               TSLT</span> 
             </h2>
 
       

@@ -86,9 +86,17 @@ const liveTransaltionSwitchToVerticalOrHorizontal = (directionVOrH: any) => {
 };
 
 const { $toast } = useNuxtApp();
+
 onMounted(async () => {
   await packagesStore.getDataPackage();
-
+  const targetId = route.query.package;
+  
+  if (targetId) {
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 });
 onBeforeMount(async () => {
   getAccessability();
@@ -332,13 +340,13 @@ const runtimec = useRuntimeConfig()
 
       <div v-else>
         <LanguageServicesNodata
-          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+          v-if="navStore.defaultappobj?.type  == 'Internal Services'"
         />
         <div v-else>
           <AddonsAdjustmain v-if="customizeStore.isMainMenuActive" />
           <AddonsProfilecards v-if="customizeStore.isProfilesCardsctive" />
 
-          <div
+          <div id="live"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
           >
             <div
@@ -580,7 +588,12 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                md:flex-nowrap  " v-if="navStore.defaultappobj">
             <div
             v-for="pak in  livePackages " :key="pak.name"
-            :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name ? 'bg-selected':'']" 
+            :class="[
+              navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name 
+                ? 'bg-selected' 
+                : ''
+            ]"
+            
               class="w-full  flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
             >
             
@@ -625,15 +638,19 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                 a=>a === pak.name
                  
               )"
-              :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name  ?
-              'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
+              :class="[
+  navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name
+    ? 'btn-dashboard w-auto hover_tamkin'
+    : 'btn_bordered_dashboard dark:!text-whiteTamkin hover:!text-white'
+]"
+
                 class=" mt-[24px] "
               >{{ 
-                navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name === pak.name 
+                navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name 
                   ? $t('Current Package') 
-                 
-                    : $t('Get Started') 
+                  : $t('Get Started') 
               }}
+              
 
               <svg
               v-if=" 
@@ -699,7 +716,7 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                   >
                     ${{ annual_prices ?  pak.package_price_role[0].cost_before_yearly :pak.package_price_role[0].cost_before_month
                     }}<span class="text-[13px]"
-                      >/{{ annual_prices ? "year" : "mo" }}</span
+                      >/{{ annual_prices ? $t("year" ): $t("mo") }}</span
                     >
                   </div>
                   <div
@@ -719,11 +736,11 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                   a=>a === pak.name
                    
                 )"
-                :class="[navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name  === pak.name  ?'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
+                :class="[navStore.defaultappobj?.package?.find(t=>t.type === 'Live Translation')?.name  === pak.name  ?'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
                 class="rtl:mr-auto ltr:ml-auto  lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4  my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
 
                 >{{ 
-                  navStore.defaultappobj.package.find(t=>t.type === 'Live Translation').name === pak.name 
+                  navStore.defaultappobj?.package?.find(t=>t.type === 'Live Translation')?.name === pak.name 
                     ? $t('Current Package') 
                    
                       : $t('Get Started') 

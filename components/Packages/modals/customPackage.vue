@@ -13,7 +13,7 @@ const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
 });
 const { sendCustomPackage,codeStatus,messageStatus} = useCustomPackage();
-const packagesStore = useGetPackages()
+const packagesStore = usePackgesStore()
 const {
   isOpen,
   currentView,
@@ -45,16 +45,16 @@ const props = defineProps({
   showModal: Boolean,
 });
 
-onMounted(async () => {
-  await nextTick();
-  const state = getData();
+// onMounted(async () => {
+//   await nextTick();
+//   const state = getData();
 
-  if (!defaultApp.value) {
-    await getInviteApps({
-      agency: state.currTeamId
-    });
-  }
-})
+//   if (!defaultApp.value) {
+//     await getInviteApps({
+//       agency: state.currTeamId
+//     });
+//   }
+// })
 const { shareEmbedCode, loading } = useShareEmbedCode();
 const emit = defineEmits(['onSuccess']);
 const {$toast}= useNuxtApp()
@@ -77,26 +77,39 @@ const submit = async () => {
 
       return; 
     }
-   const res =  await sendCustomPackage({...state,package:getData().pcktitle})
 
- if(codeStatus.value === 200){
+ if(packagesStore.bundleSelectedPackage ){
 
-    $toast(t(`Request Sent successfully`),{hideIn:3000})
-    closeModal('custom_package')
-    packagesStore.bundleSelectedPackage = ''
+  const res =  await sendCustomPackage({...state,
+    package:packagesStore.bundleSelectedPackage?.title
+    })
 
-    state.company_name = ''
-    state.website = ''
-    state.number_of_sites = ''
-    state.services = ''
-    state.phone_number = ''
-    loadingPackage.value = false
-    v$.value.$reset()
+  if(codeStatus.value === 200){
+
+$toast(t(`Request Sent successfully`),{hideIn:3000})
+closeModal('custom_package')
+packagesStore.bundleSelectedPackage = ''
+
+state.company_name = ''
+state.website = ''
+state.number_of_sites = ''
+state.services = ''
+state.phone_number = ''
+loadingPackage.value = false
+v$.value.$reset()
+}else {
+$toast(messageStatus.value,{hideIn:3000})
+loadingPackage.value = false
+
+}
  }else {
-    $toast(messageStatus.value,{hideIn:3000})
-    loadingPackage.value = false
+
+  $toast('Something went wrong!',{hideIn:3000,type:'error'})
+loadingPackage.value = false
 
  }
+
+
 
 }}
 </script>
@@ -116,7 +129,6 @@ const submit = async () => {
     <h1 class="rtl:text-right ltr:text-left font-[600] text-darkGrey dark:text-whiteTamkin text-[18px] ">
       {{$t('Custom Package')}}
     </h1>
-{{ packagesStore.bundleSelectedPackage }}
     <p
     class="mt-[14px]  rtl:text-right ltr:text-left font-[500] text-black dark:text-whiteTamkin  text-[12px] leading-[24px]">
     {{$t('Custom Package allows users to tailor a set of services or products to meet specific needs, offering flexibility and personalized options for a unique experience')}}</p>

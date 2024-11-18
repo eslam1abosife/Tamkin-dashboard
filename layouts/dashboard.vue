@@ -1005,7 +1005,7 @@ const loadf = ref(true);
 
       <div
         class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary 
-        z-[100] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey
+        z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey
          dark:border-darkborder w-full"
         :class="[
           sideBarOpenMobile
@@ -1061,7 +1061,7 @@ const loadf = ref(true);
         <div class="relative top-0 w-full">
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
-            class="sticky top-0 flex z-[60] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
+            class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
           >
             <div
               class="flex items-center lg:space-x-0 space-x-[10px] rtl:space-x-reverse w-full"
@@ -1113,12 +1113,13 @@ const loadf = ref(true);
               isLinkActive('/packages/*') ||
               isLinkActive('/ar/packages/*') ||
               isLinkActive('/how-to-join')
+              
                 ? ''
                 : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'
             "
           >
             <div
-              class="absolute left-0 right-0 w-full h-[200px] z-[-1] top-0"
+              class="absolute left-0 right-0 w-full h-[200px] z-[40] top-0"
               style="
                 box-shadow: 0px 4px 24px 8px #51459f1a;
                 background: linear-gradient(

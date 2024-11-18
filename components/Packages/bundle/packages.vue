@@ -11,15 +11,11 @@ const {
   getData,
   setData
 } = useModalManager();
-const openModalCustom = (pk)=>{
-  packagesStore.bundleSelectedPackage = pk
+const openModalCustom = async (pk)=>{
+await packagesStore.setcustomPackage({...pk})
+     openModal('custom_package') 
+ 
 
-  if(packagesStore.bundleSelectedPackage && packagesStore.bundleSelectedPackage.name){
-    openModal('custom_package') 
-    setData({
-      package:pk.title
-    })
-  }
 }
 </script>
 

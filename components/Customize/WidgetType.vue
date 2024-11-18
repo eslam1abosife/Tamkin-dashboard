@@ -86,7 +86,7 @@ const { widgetType } = storeToRefs(customizeStore);
             v-if="collapseStore.menus.includes('widget_type')"
             class="mini_SizeMenu divide-y"
           >
-            <div class="mini_wrap">
+            <!-- <div class="mini_wrap">
               <div>
                 <svg
                   width="24"
@@ -104,7 +104,7 @@ const { widgetType } = storeToRefs(customizeStore);
               <div class="text_mini">
                 {{ $t("Switch To Annual") }}
               </div>
-            </div>
+            </div> -->
             <div
               class="mini_wrap"
               @click="collapseStore.collapseCard('widget_type_card')"

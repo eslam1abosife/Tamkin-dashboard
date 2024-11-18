@@ -329,6 +329,8 @@ export const useCustomizeStore = defineStore("customize", {
         icon: `${card.name}.svg`,
         checkboxId: card.name,
         sort: card.sort,
+        is_enabled:card.is_available
+
       }));
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },

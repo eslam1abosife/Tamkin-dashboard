@@ -124,10 +124,10 @@ const submit = async () => {
           <thead>
             <tr>
               <th class="py-3 rtl:text-right ltr:text-left leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">
-                Website
+                {{ $t('Website') }}
               </th>
               <th class="py-3 rtl:text-left ltr:text-right leading-[24px] text-[14px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin tracking-wider">
-                Select
+                {{ $t('Select') }}
               </th>
             </tr>
           </thead>

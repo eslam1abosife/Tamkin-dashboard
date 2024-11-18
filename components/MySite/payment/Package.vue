@@ -275,12 +275,13 @@ const calculateTotalPrice = () => {
           ? priceItem.cost_month // Sum monthly cost if selectedPackage is 1
           : 0 // Default case
       );
-    }, 0); // Start summing from 0
+    }, 0); 
 
     return totalCost; // Return the total sum
   }
 
-  return 0; // Default return if no conditions are met
+ return 0
+   
 };
 const packageTypeToSend = computed(() => {
   const {  currentPackage } = mysiteStore;
@@ -322,7 +323,7 @@ const totalCost = computed(() => {
 
 
 const geteFilterInfo = async () => {
-  if (mysiteStore.currentPackage.type === 'Accessibility') {
+  if (mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package') {
     loadingPriceTraffic.value = true;
     const res = await getPriceByTraffic(
      [],
@@ -597,12 +598,12 @@ const closeModalPackage = () => {
           <!-- Free Trial -->
           <div
             v-if="mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none'"
-            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
-            style="padding: 16px, 10px, 16px, 10px"
+          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
             :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border']"
           >
             <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-full h-full">
+              <div class="order-2 w-3/4 h-full">
                 <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Free Trial") }}</h1>
                 <h2 class="font-[500] text-[10px]">
                   {{ $t("Free trial for") }} {{
@@ -611,7 +612,7 @@ const closeModalPackage = () => {
                   }}
                 </h2>
               </div>
-              <div class="order-1 mx-[4px]">
+              <div class="order-1 w-1/4">
                 <input
                   id="free_trial"
                   type="radio"
@@ -629,24 +630,25 @@ const closeModalPackage = () => {
         
           <!-- Monthly Plan -->
           <div
-            v-if="mysiteStore.currentPackage.billing_duration !== 'none'"
-            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
-            style="padding: 16px, 10px, 16px, 10px"
+            v-if="mysiteStore.currentPackage.billing_duration !== 'none' || mysiteStore.currentPackage.trial_days === 0"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
             :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border']"
           >
             <div class="flex items-center justify-center w-full">
               <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package"
-                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-40px)] text-white">
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] 
+                rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-45px)] text-white">
                 <span>{{ $t("Renew") }}</span>
               </div>
-              <div class="order-2 w-full h-full">
+              <div class="order-2 w-3/4 h-full">
                 <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Monthly Plan") }}</h1>
                 <h2 class="font-[500] text-[10px]" v-if="mysiteStore.currentPackage.package_price_role[0].discount_month !== 0">
                   <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">{{ mysiteStore.currentPackage.package_price_role[0].discount_month }}%</span>
                   <span class="text-[#536174] dark:text-whiteTamkin/80">{{ $t("Discount on the Monthly Plan") }}</span>
                 </h2>
               </div>
-              <div class="order-1 mx-[4px]">
+              <div class="order-1 w-1/4">
                 <input
                   id="month"
                   type="radio"
@@ -665,13 +667,13 @@ const closeModalPackage = () => {
         
           <div
        
-            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] 
-            w-full pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
          
             :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
           >
             <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-full h-full">
+              <div class="order-2 w-3/4 h-full">
                 <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'&& !mysiteStore.currentPackage.cancel_package"
              
                 class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
@@ -705,7 +707,7 @@ const closeModalPackage = () => {
                   }}</span>
                 </h2>
               </div>
-              <div class="order-1 mx-[4px]">
+              <div class="order-1 w-1/4">
                 <input
                   id="3month"
                   type="radio"
@@ -722,15 +724,14 @@ const closeModalPackage = () => {
           </div>
           <div
    
-            class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full
-             relative pt-2.5 rtl:pl-2.5 ltr:pr-2.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
-            style="padding: 16px, 10px, 16px, 10px"
+             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
             :class="[
               selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
             ]"
           >
             <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-full h-full">
+              <div class="order-2 w-3/4 h-full">
                 <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'&& !mysiteStore.currentPackage.cancel_package"
           
                 class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
@@ -738,7 +739,8 @@ const closeModalPackage = () => {
                 <span>{{ $t("Renew") }}</span>
               </div>
                 <div v-else
-                  class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                  class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] 
+                  w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
                 >
                   <span>{{ $t("Best Value") }}</span>
                 </div>
@@ -763,7 +765,7 @@ const closeModalPackage = () => {
                   }}</span>
                 </h2>
               </div>
-              <div class="order-1 mx-[4px]">
+              <div class="order-1 w-1/4">
                 <input
                   id="annual"
                   type="radio"
@@ -938,7 +940,7 @@ const closeModalPackage = () => {
                 </td>
 
                 <td
-                  v-if=" mysiteStore.currentPackage.type === 'Accessibility' "
+                  v-if=" mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package' "
                   class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                  
@@ -977,6 +979,30 @@ const closeModalPackage = () => {
                     </svg>
                   </div>
                 </td>
+                <td
+                v-if=" mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type !== 'Package' "
+                class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+              >
+               
+
+                <div class="flex items-center justify-center">
+                  <div v-if="!loadingPriceTraffic">
+                 
+                    ${{
+             
+                      selectedPackage === 3 ? mysiteStore.currentPackage.package_price_role[0].cost_3_month : 
+                      selectedPackage === 12 ?
+                       mysiteStore.currentPackage.package_price_role[0].cost_year : mysiteStore.currentPackage.package_price_role[0].cost_month
+                      
+                                
+                                          
+                                    
+                                  }}
+                  </div>
+            
+       
+                </div>
+              </td>
                 <td
                 v-if=" mysiteStore.currentPackage.type === 'Sign language'  || mysiteStore.currentPackage.type === 'Live Translation'"
                 class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
@@ -1030,7 +1056,7 @@ const closeModalPackage = () => {
                 </td>
                 <td
                   class="h-[45px]  border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="mysiteStore.currentPackage.type === 'Accessibility' && !loadingPriceTraffic"
+                  v-if="mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package'&& !loadingPriceTraffic"
                 >
               ${{
                 mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
@@ -1045,6 +1071,23 @@ const closeModalPackage = () => {
                 
                 
                 </td>
+                <td
+                class="h-[45px]  border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                v-if="mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type !== 'Package'"
+              >
+            ${{
+             
+selectedPackage === 3 ? mysiteStore.currentPackage.package_price_role[0].cost_3_month : 
+selectedPackage === 12 ?
+ mysiteStore.currentPackage.package_price_role[0].cost_year : mysiteStore.currentPackage.package_price_role[0].cost_month
+
+          
+                    
+              
+            }}
+              
+              
+              </td>
                 <td
                 class=" h-[45px] border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
                 v-if="mysiteStore.currentPackage.type !== 'Accessibility' "

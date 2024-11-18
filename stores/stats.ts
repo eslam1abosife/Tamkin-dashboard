@@ -18,7 +18,13 @@ export const useStatsStore = defineStore('stats', {
     force_change_profileCards : false,
     force_change_menuCards : false,
     routeLeaveModal:false,
-    google_enabled:false
+    google_enabled:false,
+    chartsData:[],
+    functionStats:[],
+    profileStats:[],
+    liveTranslationStats:'',
+    loadingStats:false,
+    overviewStats:''
   }),
   actions: {
     showSaveBeforeLeaveModal(){

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useCustomizeStore } from "@/stores/customize.js";
+const navStore = useNavbarStore()
 
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
@@ -9,6 +10,9 @@ const { isChecked, toggleCheckbox } = customizeStore;
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
   >
+
+  <MessagesLockedFeature  v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
     <template
       v-for="item in customizeStore.widgetCustomizationItems"
       :key="item.name"
@@ -38,27 +42,31 @@ const { isChecked, toggleCheckbox } = customizeStore;
               </span>
             </div>
           </div>
+
           <div class="ml-auto">
             <label :for="item.name" class="toggle_wrap">
               <input
                 type="checkbox"
                 :id="item.name"
                 class="sr-only"
-                :checked="isChecked(item.name)"
-                @change="toggleCheckbox(item.name)"
+                :checked="item.is_available ? isChecked(item.name) : false"
+                :disabled="!item.is_available"
+                @change="()=>{
+                  item.is_available ? toggleCheckbox(item.name) : false
+                }"
               />
               <div
                 class="toggle_parent"
-                :class="[isChecked(item.name) ? 'active' : 'in_active']"
+                :class="[isChecked(item.name) && item.is_available ? 'active' : 'in_active']"
               >
                 <div
                   class="toggle_inner"
                   :class="{
-                    active: isChecked(item.name),
+                    active: isChecked(item.name) && item.is_available,
                   }"
                 >
                   <img
-                    v-if="isChecked(item.name)"
+                    v-if="isChecked(item.name) && item.is_available"
                     src="/assets/imgs/addons/active_toggle.svg"
                     class="w-[28px] h-[28px]"
                   />

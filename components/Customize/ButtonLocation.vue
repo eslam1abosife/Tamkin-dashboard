@@ -64,7 +64,7 @@ const settingsStore = useSettingsStore();
             ? 'active_notification !text-darkGrey'
             : '',
         ]"
-        class="menu_button_control"
+        class="menu_button_control !z-[60]"
       >
         <svg
           width="18"
@@ -88,7 +88,7 @@ const settingsStore = useSettingsStore();
           v-if="collapseStore.menus.includes('button_location')"
           class="mini_SizeMenu"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -104,7 +104,7 @@ const settingsStore = useSettingsStore();
               </svg>
             </div>
             <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('button_location_card')"

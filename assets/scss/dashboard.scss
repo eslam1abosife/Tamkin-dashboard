@@ -682,14 +682,14 @@ html {
 }
 
 .close_btn_payment {
-    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[20px] bg-white
-    rounded-full flex justify-center items-center w-[30px] h-[30px];
-
+    @apply absolute top-[34px] rtl:left-[30px] ltr:right-[20px] bg-white rounded-full flex justify-center items-center w-[30px] h-[30px];
+  
     &:hover {
-        @apply text-white;
-        background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+      @apply text-white;
+      background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
     }
-}
+  }
+  
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

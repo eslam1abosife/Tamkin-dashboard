@@ -13,7 +13,6 @@ const settingsStore = useSettingsStore();
     :class="[!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode') ? 'h-[200px]' :'']"
     v-if="customizeStore.moveHideFeature.active == 1"
   >
-  <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode')"/>
 
     <div
       class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder relative"

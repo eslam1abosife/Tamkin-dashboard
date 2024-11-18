@@ -12,6 +12,10 @@ const getImagePath = (icon) => {
   return new URL(`/public/assets/imgs/addons/${icon}`, import.meta.url).href;
 };
 onMounted(() => {});
+const getCards = computed(()=>{
+  return checkboxStore.AdjustMainMenuCards
+})
+const navStore = useNavbarStore()  
 </script>
 
 <template>
@@ -19,6 +23,8 @@ onMounted(() => {});
     v-if="!customizeStore.loadingData"
     class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] xs:px-0 px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
+  <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
     <div class="flex items-center justify-start pt-[24px] xs:px-[15px]">
       <div>
         <h1
@@ -88,7 +94,7 @@ onMounted(() => {});
           v-if="menus.includes('adjustMenu')"
           class="mini_SizeMenu shadow divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -104,7 +110,7 @@ onMounted(() => {});
               </svg>
             </div>
             <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('adjustMenu')"
@@ -187,13 +193,12 @@ onMounted(() => {});
         </div>
       </div>
     </div>
-
     <div
       class="flex flex-col items-start justify-center mt-[18px] divide-y pb-[16px]"
       v-if="!collapseStore.collapses.includes('adjustMenu')"
     >
       <draggable
-        v-model="checkboxStore.AdjustMainMenuCards"
+        v-model="getCards"
         @change="
           checkboxStore.onDragChange('AdjustMainMenuCards', 'initialCardsOrder')
         "
@@ -206,16 +211,19 @@ onMounted(() => {});
         handle=".handle"
       >
         <template #item="{ element }">
+          
           <div
             class="h-[55px] bg-[#FAFCFE] p-[6px] flex items-center justify-start w-full mt-[4px] dark:bg-darkSecondary"
           >
+      
+
             <div
               class="flex items-center justify-start rtl:space-x-reverse xs:space-x-[4px] space-x-[13px] w-full"
             >
               <img
                 src="/assets/imgs/addons/left_item.svg"
                 :class="[
-                  !checkboxStore.isChecked(element.checkboxId)
+                  !checkboxStore.isChecked(element.checkboxId) || !element.is_enabled
                     ? 'opacity-60'
                     : '',
                 ]"
@@ -226,7 +234,7 @@ onMounted(() => {});
                 :src="getImagePath(element.icon)"
                 class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
                 :class="[
-                  !checkboxStore.isChecked(element.checkboxId)
+                  !checkboxStore.isChecked(element.checkboxId) || !element.is_enabled
                     ? 'opacity-60'
                     : '',
                 ]"
@@ -234,7 +242,7 @@ onMounted(() => {});
               <div
                 class="flex flex-col items-start justify-center w-full"
                 :class="[
-                  !checkboxStore.isChecked(element.checkboxId)
+                  !checkboxStore.isChecked(element.checkboxId)  || !element.is_enabled
                     ? 'opacity-60'
                     : '',
                 ]"
@@ -252,31 +260,39 @@ onMounted(() => {});
                   </span>
                 </div>
               </div>
-              <div class="ml-auto">
+
+              <div class="ml-auto ">
                 <label :for="element.checkboxId" class="toggle_wrap">
                   <input
                     type="checkbox"
                     :id="element.checkboxId"
-                    class="sr-only"
-                    :checked="checkboxStore.isChecked(element.checkboxId)"
-                    @change="checkboxStore.toggleCheckbox(element.checkboxId)"
+                    class="sr-only group"
+                    :checked="checkboxStore.isChecked(element.checkboxId) && element.is_enabled"
+                    :disabled="!element.is_enabled"
+                    @change="()=>{
+                      if(element.is_enabled){
+                          checkboxStore.toggleCheckbox(element.checkboxId)
+                      }else {
+                        $toast($t('The Feature you are trying to use is not in your package'),{type:'warning',hideIn:3000})
+                      }
+                    }"
                   />
                   <div
-                    class="toggle_parent"
+                    class="toggle_parent "
                     :class="[
-                      checkboxStore.isChecked(element.checkboxId)
+                      checkboxStore.isChecked(element.checkboxId) && element.is_enabled
                         ? 'active'
                         : 'in_active',
                     ]"
                   >
                     <div
-                      class="toggle_inner"
+                      class="toggle_inner "
                       :class="{
-                        active: checkboxStore.isChecked(element.checkboxId),
+                        active: checkboxStore.isChecked(element.checkboxId) && element.is_enabled,
                       }"
                     >
                       <img
-                        v-if="checkboxStore.isChecked(element.checkboxId)"
+                        v-if="checkboxStore.isChecked(element.checkboxId) && element.is_enabled"
                         src="/assets/imgs/addons/active_toggle.svg"
                         class="w-[28px] h-[28px]"
                       />

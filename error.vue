@@ -8,6 +8,7 @@ const layoutStore = useLayoutStore()
 const route = useRoute()
 const router = useRouter()
 const localePath = useLocalePath()
+
 const isLinkActive = (path) => {
   const currentPath = localePath(route.path);
   

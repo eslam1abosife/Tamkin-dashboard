@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+
+const { getAvatarLetters } = useGetAvatarLetters();
+
 
 const {
   getInviteApps,
@@ -41,10 +45,6 @@ const formatToUrl = (domain: any) => {
   return domain;
 };
 
-import { useApi } from "@/composables/useApi";
-const { useApiInstance } = useApi();
-const { api, loading } = useApiInstance();
-import { useNavbarStore } from "@/stores/navbar";
 
 const navStore = useNavbarStore();
 
@@ -53,17 +53,13 @@ const loadApp = ref(false);
 const getApps = async () => {
   loadApp.value = true;
   try {
-    // const res = await api.post("/Apps/GetApps");
-    // settingsStore.apps = res.data.data.filter((el: any) => el.isdefault != 1);
 
-    // app.value = res.data.data.find((el: any) => el.isdefault == 1);
   const user = JSON.parse(localStorage.getItem('user'));
   await getInviteApps({ agency: user.agency });
-
   settingsStore.apps = apps.value
    settingsStore.appHeader = defaultApp.value
-    settingsStore.defaultapp = settingsStore.appHeader.name;
-    navStore.defaultappobj = settingsStore.appHeader ;
+    settingsStore.defaultapp = settingsStore.appHeader;
+    navStore.defaultappobj = defaultApp.value;
     loadApp.value = false;
   } catch (error) {
     loadApp.value = false;
@@ -72,10 +68,8 @@ const getApps = async () => {
   }
 };
 
-// watchEffect(()=>{
-//   updatetheappstuff()
-// })
-onBeforeMount(() => {
+
+onMounted(() => {
   getApps();
 });
 const localePath = useLocalePath();
@@ -86,7 +80,7 @@ const isLinkActive = (path) => {
 </script>
 
 <template>
-  <div class="space-y-[10px]">
+  <div class="space-y-[10px] relative !z-[50]">
     <h1
       v-if="Object.keys(settingsStore.appHeader).length > 0"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
@@ -119,7 +113,7 @@ const isLinkActive = (path) => {
 
   <div
     v-if="Object.keys(   settingsStore.appHeader ).length > 0"
-    class="relative mt-[-10px] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
+    class="relative mt-[-10px] z-[50] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
   >
     <div
       class="flex items-center lg:flex-row flex-col justify-start py-[16px] w-full rounded-[10px]"
@@ -132,17 +126,17 @@ const isLinkActive = (path) => {
             class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
           >
             <div
-              class="flex items-center justify-center bg-white dark:bg-tamkinDarkPrimary w-[50px] h-[50px] custom-border-tamkin custom-border-tamkin-rounded rounded-full"
-              style="box-shadow: 0px 4px 24px 8px rgba(81, 69, 159, 0.1)"
+              class="flex items-center justify-center  w-[50px] h-[50px] rounded-full"
             >
-              <img
-                :src="
-                settingsStore.appHeader.type !== 'Internal Services' &&    settingsStore.appHeader .favicon
-                    ?    settingsStore.appHeader .favicon
-                    : getImageUrl
-                "
-                class="h-[30px] w-[30px]"
-              />
+            <img v-if="  settingsStore.appHeader.favicon" :src="settingsStore.appHeader.favicon" alt="Logo" class="w-[40px] h-[40px] rounded-full">
+             
+            <div v-else-if="!settingsStore.appHeader.favicon && settingsStore.appHeader.title !== 'Internal Service'" 
+            class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
+
+              {{ getAvatarLetters(settingsStore.appHeader?.title) }}
+            </div>
+            <img src="/assets/imgs/icons/mysite_select.svg" 
+            class="w-[40px] h-[40px]"  v-if="settingsStore.appHeader?.title === 'Internal Service' "/>
             </div>
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
               <div>

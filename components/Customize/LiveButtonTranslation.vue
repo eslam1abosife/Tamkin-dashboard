@@ -58,6 +58,8 @@ const backgroundImageStyle = computed(() => {
         : 'pb-[10px]',
     ]"
   >
+  <MessagesLockedFeature  :isTranslatePackage="true" v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_live_site_translations_button')"/>
+
     <div class="flex items-center justify-start px-[15px]">
       <div class="mt-[24px]">
         <h1
@@ -137,7 +139,7 @@ const backgroundImageStyle = computed(() => {
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -155,7 +157,7 @@ const backgroundImageStyle = computed(() => {
             <div class="text_mini">
               {{ $t("Switch To Annual") }}
             </div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="
@@ -244,14 +246,12 @@ const backgroundImageStyle = computed(() => {
     </div>
     <div
       class="w-full px-[16px] mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden relative"
-      :class="[!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_3manage_live_site_translations_button') ? 'h-[400px]' :'']"
       v-if="
         !collapseStore.collapses.includes(
           'live_site_translation_button_card'
         ) && customizeStore.isEnableLiveTrans.active == 1
       "
     >
-    <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_3manage_live_site_translations_button')"/>
 
       <table class="min-w-full leading-normal">
         <thead class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary">

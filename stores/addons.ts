@@ -50,12 +50,10 @@ export const useAddonStore = defineStore("addon", {
 
       this.initialCheckboxes = JSON.parse(JSON.stringify(this.checkboxes));
     },
-    isChecked(name: string) {
-      const checkbox = this.checkboxes.find(
-        (checkbox) => checkbox.name === name
-      );
-      return checkbox ? checkbox.value : false;
-    },
+    isChecked(name: string): boolean {
+      const checkbox = this.checkboxes.find((checkbox) => checkbox.name === name);
+      return checkbox && checkbox.value ? checkbox.value : false;
+  },
 
     addCheckbox(name: string) {
       if (!this.checkboxes.some((checkbox) => checkbox.name === name)) {
@@ -129,6 +127,7 @@ export const useAddonStore = defineStore("addon", {
         icon: `${card.name}.svg`,
         checkboxId: card.name,
         sort: card.sort,
+        is_enabled:card.is_available
       }));
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },

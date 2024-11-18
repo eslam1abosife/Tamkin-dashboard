@@ -33,7 +33,7 @@ export const usePackgesStore = defineStore('packages', {
     currentPackage:'',
     packagePayload:'',
     selectedPaymentMethod:'',
-    bundleSelectedPackage:'',
+    bundleSelectedPackage:{},
     urls:[],
     promo : '',
 currentDiscount:0,
@@ -49,6 +49,9 @@ openedCurrentSite:false
 
 
   actions: {
+    async setcustomPackage(payload){
+        this.bundleSelectedPackage = payload
+    },
     async getInvestorUser(){
       const {isInestorUser} = useJoinInvestor()
 const res = await isInestorUser()

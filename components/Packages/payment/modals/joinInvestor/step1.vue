@@ -101,7 +101,7 @@ const mySiteStore = useMySiteStore()
 
 const profileStore = useProfileStore()
  const pcks = ref([])
- const selectedpcks = ref(mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_name : '')
+ const selectedpcks = ref(mySiteStore.currentWebsite?.package?.package_name || '');
  const selectPackage = (pck)=>{
   selectedpcks.value = pck.name
  }
@@ -447,8 +447,8 @@ const lockedWebsite = ref(mySiteStore.currentWebsite ? true : false)
       nameKey="title"
       idField="name"
       class=""
-     :current-list-value="mySiteStore.currentWebsite ? mySiteStore.currentWebsite.package.package_title || mySiteStore.currentWebsite.package.title : ''"
-    />
+      :current-list-value="mySiteStore.currentWebsite?.package?.package_title || mySiteStore.currentWebsite?.package?.title || ''"
+      />
      </div>
 
     <div class="w-full relative mt-[14px]">

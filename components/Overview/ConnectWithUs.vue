@@ -4,8 +4,27 @@ import banner from "/assets/imgs/gradient_embded.png";
 import { useCollapseStore } from "@/stores/collapse.js";
 
 import { vOnClickOutside } from "@vueuse/components";
+import { useGetInstallationGuide, useGetMembers ,useSummaryDetailedCode} from "@/composables/useEmbedCode";
+import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
+const { getAvatarLetters } = useGetAvatarLetters();
+
+const { getMembers, members, loading: getMembersLoading } = useGetMembers();
+
+     const navStore = useNavbarStore();
 const collapseStore = useCollapseStore();
+onBeforeMount(async ()=>{
+  await getMembers({ appName: navStore.defaultappobj.name });
+
+})
+
+const tgl = ()=>{
+  if(process.client && window.$chatwoot){
+    window.$chatwoot.toggleBubbleVisibility("show");
+    window.$chatwoot.toggle()
+  }
+}
+
 </script>
 
 
@@ -16,7 +35,7 @@ const collapseStore = useCollapseStore();
             <h1 class="text-[14px] lg:text-[18px] font-[500] lg:leading-[30px] dark:text-whiteTamkin">{{$t('Connect with us')}}</h1>
   
             <p class="text-[12px] lg:text-[14px] lg:w-auto w-[290px] lg:leading-[24px] font-[400] text-[#585B5B]  dark:text-whiteTamkin/90  mt-[10px]">
-             {{ $t(' Connect with us to stay updated and receive support for all your accessibility needs') }}
+             {{ $t('Connect with us to stay updated and receive support for all your accessibility needs') }}
             </p>
           </div>
   
@@ -141,7 +160,7 @@ const collapseStore = useCollapseStore();
                 flex items-center justify-center px-[12px] whitespace-nowrap"
               
               >
-                <div class="">{{$t('Sign up to keep up with the latest news from us')}}</div>
+                <div  @click.prevent="tgl">{{$t('Sign up to keep up with the latest news from us')}}</div>
                 <div>
                   <img  src="/assets/imgs/icons/nicemove.svg" class="w-[30px] h-[30px]"  />
                 </div>
@@ -166,17 +185,26 @@ const collapseStore = useCollapseStore();
           <div
             class="lg:h-[60px] w-full bg-white dark:bg-tamkinDarkPrimary/20 flex p-[10px] rounded-[10px] items-center lg:flex-row flex-col justify-center lg:justify-between"
           >
-            <div class="flex items-center rtl:space-x-reverse space-x-[-12px] flex-1">
-              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
-              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
-              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
-              <img  src="/assets/imgs/icons/avatr1.svg"  class="w-10 h-10" />
-            </div>
+          <div class="flex items-center rtl:space-x-reverse space-x-[-16px] flex-1">
+            <template v-if="!getMembersLoading && members.length > 0">
+              <div v-for="(member, index) in members" :key="index">
+                <img draggable="false" v-if="member.image" :src="`https://tamkin.app/${member.image}`"
+                  class="w-10 h-10 object-top object-cover rounded-full" />
+                <div v-else
+                  class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center
+                   select-none w-[40px] h-[40px]">
+                  <span> {{ getAvatarLetters(member.first_name + ' ' + member.last_name) }} </span>
+                </div>
+              </div>
+            </template>
+            <img v-else-if="getMembersLoading" src="/assets/imgs/loading-green.svg" />
+
+          </div>
             <div class="">
               <a
-                href=""
-                class="text-tamkin leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline"
-                >{{$t('Schedule ameeting Withnour support team')}}</a
+               @click.prevent="tgl"
+                class="text-tamkin cursor-pointer leading-[10px] text-[12px] lg:leading-[21px] lg:text-[14px] lg:text-right text-center font-[500] underline"
+                >{{$t('Schedule a meeting With our support team')}}</a
               >
             </div>
           </div>

@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 const collapseStore = useCollapseStore();
+const statsStore = useStatsStore();
+const navStore = useNavbarStore()
+const runtimeob = useRuntimeConfig()
 </script>
 <template>
   <div
@@ -59,7 +62,7 @@ const collapseStore = useCollapseStore();
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -77,7 +80,7 @@ const collapseStore = useCollapseStore();
             <div class="text_mini">
               {{ $t("Switch To Annual") }}
             </div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('usage_stats_profile_card')"
@@ -163,7 +166,12 @@ const collapseStore = useCollapseStore();
     <div
       class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
       v-if="!collapseStore.collapses.includes('usage_stats_profile_card')"
+      :class="[navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0 ? 'h-[400px]':'']"
+
     >
+
+    <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
       <table class="min-w-full leading-normal">
         <thead>
           <tr>
@@ -184,575 +192,87 @@ const collapseStore = useCollapseStore();
             </th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/monitor_im.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    Motor impaired
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 80, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  80%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/color_blind.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    Color blind
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 80, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  80%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/vis_impaired.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Visually-impaired") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 10, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/seizure.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Seizure & Epileptic") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 10, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/blind.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Blind") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 30, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/df.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Dyslexia") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 30, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/congitive.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("Congitive & Learning") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 30, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="bg-[#FAFCFE] h-[56px] dark:bg-tamkinDarkPrimary">
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div
-                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
-              >
-                <div>
-                  <img
-                    src="/assets/imgs/addons/adhd.svg"
-                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
-                  />
-                </div>
-                <div class="">
-                  <p
-                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-                  >
-                    {{ $t("ADHD") }}
-                  </p>
-                </div>
-              </div>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <p
-                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
-              >
-                13
-              </p>
-            </td>
-            <td class="border-b border-gray-200 text-sm dark:border-darkborder">
-              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
-                <svg viewBox="0 0 36 36">
-                  <defs>
-                    <linearGradient
-                      id="gradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #bb67ff; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #ff5a7b; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <circle
-                    class="bg-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                  ></circle>
-                  <circle
-                    class="progress-circle"
-                    cx="18"
-                    cy="18"
-                    r="15.91549431"
-                    style="stroke-dasharray: 30, 100"
-                  ></circle>
-                </svg>
-                <div
-                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
-                >
-                  10%
-                </div>
-              </div>
-            </td>
+        <tbody v-if="statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0">
+          <tr class="h-[56px] bg-gray-200 w-full animate-pulse" v-for="i in 6" :key="i">
+            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
+            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
+            <td class="border-b border-gray-300 text-sm dark:border-[#333333]"></td>
           </tr>
         </tbody>
+        <tbody v-else-if="!statsStore.loadingStats && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0">
+          <tr class="bg-[#FAFCFE] dark:bg-tamkinDarkPrimary h-[56px]" v-for="statitem in  statsStore.profileStats.sort((a, b) => a.sort - b.sort)" :key="statitem.name">
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <div
+                class="flex items-center justify-start rtl:space-x-reverse space-x-[9px]"
+              >
+                <div>
+                  <img
+                    :src="runtimeob.public.baseImagerUrl + statitem.icon"
+                    class="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px]"
+                  />
+                </div>
+                <div class="">
+                  <p
+                    class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+                  >
+                  {{statitem.label}}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <p
+                class="text-[10px] lg:text-[13px] leading-[19px] font-[400] dark:text-whiteTamkin"
+              >
+                {{statitem.time_enabled}}
+              </p>
+            </td>
+            <td class="border-b border-gray-200 text-sm dark:border-[#333333]">
+              <div class="circular-progress rtl:mr-auto ltr:ml-auto">
+                <svg viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient
+                      id="gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        style="stop-color: #bb67ff; stop-opacity: 1"
+                      />
+                      <stop
+                        offset="100%"
+                        style="stop-color: #ff5a7b; stop-opacity: 1"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <circle
+                    class="bg-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                  ></circle>
+                  <circle
+                    class="progress-circle"
+                    cx="18"
+                    cy="18"
+                    r="15.91549431"
+                   :style="`stroke-dasharray: ${statitem.percentage.toFixed(0)},100`"
+                  ></circle>
+                </svg>
+                <div
+                  class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
+                >
+                 {{ statitem.percentage.toFixed(0)}}%
+                </div>
+              </div>
+            </td>
+          </tr>
+   
+        </tbody>
+   
       </table>
     </div>
   </div>

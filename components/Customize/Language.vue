@@ -4,7 +4,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 const collapseStore = useCollapseStore();
 import { useCustomizeStore } from "@/stores/customize.js";
-
+const settingsStore  = useSettingsStore()
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 const isOpen = ref(false);
@@ -53,6 +53,9 @@ const filterdLanguages = computed(() => {
           : 'pb-[10px]',
       ]"
     >
+
+    <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_live_site_translations_button')"/>
+
       <div class="flex items-center justify-start pt-[16px]">
         <div>
           <h1
@@ -126,7 +129,7 @@ const filterdLanguages = computed(() => {
             style="box-shadow: 0px 2px 6px 0px #00000040"
             class="mini_SizeMenu divide-y"
           >
-            <div class="mini_wrap">
+            <!-- <div class="mini_wrap">
               <div>
                 <svg
                   width="24"
@@ -144,7 +147,7 @@ const filterdLanguages = computed(() => {
               <div class="text_mini">
                 {{ $t("Switch To Annual") }}
               </div>
-            </div>
+            </div> -->
             <div
               class="mini_wrap"
               @click="collapseStore.collapseCard('language_customize_card')"

@@ -125,7 +125,9 @@ const { $toast } = useNuxtApp();
 const { t } = useI18n();
 const resetAccessiility = async () => {
   try {
-    const res = await api.post("/Apps/ResetSettingDefaultApp");
+    const res = await api.post("/Apps/ResetSettingDefaultApp",{
+      "type":"Accessibility" //Accessibility|Sign language
+    });
     closeModal("resetModal");
 
     getAccessability();
@@ -153,7 +155,10 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+const navStore = useNavbarStore()
 const componentKey = ref(0);
+
+
 </script>
 
 <template>
@@ -206,7 +211,7 @@ const componentKey = ref(0);
       </div>
       <div v-else>
         <LanguageServicesNodata
-          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+          v-if="navStore.defaultappobj.type  === 'Internal Services'"
         />
 
         <div v-else>
@@ -219,6 +224,8 @@ const componentKey = ref(0);
                 : 'pb-[20px]',
             ]"
           >
+          <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
             <div class="flex items-center justify-start">
               <div class="pt-[24px]">
                 <h1
@@ -456,8 +463,11 @@ const componentKey = ref(0);
               collapseStore.collapses.includes('reset_all_settings_card')
                 ? 'pb-[24px]'
                 : 'pb-[20px]',
+                navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0 ? 'h-[400px]':''
             ]"
           >
+          <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
             <div class="flex items-start justify-start">
               <div class="">
                 <h1
@@ -638,6 +648,7 @@ const componentKey = ref(0);
                 !collapseStore.collapses.includes('reset_all_settings_card')
               "
             >
+
               <button
                 class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
                 @click="openModal('resetModal', 'settings')"
@@ -691,6 +702,8 @@ const componentKey = ref(0);
                 : 'pb-[20px]',
             ]"
           >
+          <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
             <div class="flex items-start justify-start pt-[24px]">
               <div class="">
                 <h1

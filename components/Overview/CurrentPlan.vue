@@ -25,12 +25,14 @@ const navStore  = useNavbarStore()
 const runtimeConfig = useRuntimeConfig()
 const mySiteStore = useMySiteStore()
 const loadingPacks = ref(true)
-onBeforeMount(async ()=>{
-  await packagesStore.getDataPackage()
 
-  loadingPacks.value = false
-})
-onMounted(() => {
+onBeforeMount(async () => {
+  navStore.loadingPacks = false
+
+await packagesStore.getDataPackage()
+
+navStore.loadingPacks = false
+loadingPacks.value = false
   mySiteStore.currentWebsite = navStore.defaultappobj;
   
   if (mySiteStore.currentWebsite && Array.isArray(mySiteStore.currentWebsite.package)) {
@@ -40,13 +42,29 @@ onMounted(() => {
       type:'Accessibility'
     }; // Optionally set to null if no valid package is found
   }
+
+
 });
 
-
+const uniqueValues = (items) => {
+        const seen = new Set();
+      
+        const uniqueItems = items.filter((item) => {
+          if (seen.has(item.name)) {
+            return false;
+          }
+          seen.add(item.name);
+          return true;
+        });
+      
+        return uniqueItems;
+      };
 const switchBetweenMonthlyAndAnnual = (v: any) => {
   packagesStore.discountType = v;
 };
-
+const geteFilterInfo = (level: any) => {
+  packagesStore.traffic_level = level.name;
+};
 const currentIndex = ref(0);
 
 const back = ref(false);
@@ -139,7 +157,7 @@ const getCurrentAccessPackage = computed(() => {
               {{ $t('Your current plan provides comprehensive features tailored to meet your needs.') }}
             </h3>
           </div>
-          <div
+          <div v-if="navStore.defaultappobj?.package?.length && navStore.defaultappobj.package.find(p => p.type === 'Accessibility')"
             class="h-[55px]  px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px]
             flex items-center justify-between    rtl:space-x-reverse p-2 mt-[24px] w-full "
           >
@@ -158,14 +176,16 @@ const getCurrentAccessPackage = computed(() => {
           </div>
             </div>
                
-            <div
-            v-if="getCurrentAccessPackage.status === 'not_installed'"
-          
-            class="bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-[17px]  flex items-center justify-center 
-                  h-[25px] w-full max-w-[100px] text-white text-[12px] leading-[18px]"
+            <nuxt-link
+            :to="localePath('/embed-code')"
+            v-if="
+             
+            getCurrentAccessPackage.status === 'not_installed' 
+            "
+            class="cursor-pointer text-[#DE4134] w-[150px]  ml-auto text-[14px] font-[500] leading-[21px] underline"
           >
-            {{ $t(`Not Installed`) }}
-          </div>
+            {{ $t("Not installed") }}
+          </nuxt-link>
             <div
             v-if="getCurrentAccessPackage.status === 'Expired'"
           
@@ -202,6 +222,25 @@ const getCurrentAccessPackage = computed(() => {
   
      
           </div>
+          <div v-else
+          class="h-[55px]  px-[20px] bg-white dark:bg-tamkinDarkPrimary bg-opacity-75 rounded-[41px] space-x-[42px]
+          flex items-center justify-between    rtl:space-x-reverse p-2 mt-[24px] w-full "
+        >
+          <div class=" flex items-center justify-start rtl:space-x-reverse space-x-[8px] w-full ">
+            <div>
+  
+            </div>
+            <div class="text-[10px]   lg:text-[14px] font-[500]
+            ipad-max:text-[12px]
+ipad-max:leading-[10px] whitespace-nowrap
+            lg:leading-[22.5px] text-darkGrey dark:text-whiteTamkin">
+            {{ $t('No Current Package') }}
+        </div>
+          </div>
+    
+
+   
+        </div>
         </div>
   
         <div class="rtl:mr-auto rtl:scale-x-[-1]  ltr:ml-auto h-full w-full lg:block hidden">
@@ -212,8 +251,26 @@ const getCurrentAccessPackage = computed(() => {
           />
         </div>
       </div>
-  
-    <MySitePricing v-if="!loadingPacks" :current-package="getCurrentAccessPackage"/>
+      
+         <!-- <div  
+            class="flex items-center justify-start w-full absolute z-[999]  rtl:right-[3.3%] left-[3.3%] top-[90px] p-[4px] rtl:space-x-reverse space-x-[14px]"
+          >
+            <div class="text-black dark:text-whiteTamkin font-[600] text-[14px]">
+              {{ $t('Choose Traffic level') }} :
+            </div>
+            <TranslateSelectInput
+              @getCurrentSelectedItem="geteFilterInfo"
+              :enableSearch="false"
+              placeholderinput="Traffic level"
+              :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
+              nameKey="name"
+              idField="id"
+              class="!w-1/4 !bg-white "
+              :currentListValue="packagesStore.traffic_level"
+            />
+          </div> -->
+    <MySitePricing v-if="!loadingPacks" :current-package="getCurrentAccessPackage ? getCurrentAccessPackage : {}" 
+     :current-pack-id="getCurrentAccessPackage?.name"/>
      
     </div> 
 

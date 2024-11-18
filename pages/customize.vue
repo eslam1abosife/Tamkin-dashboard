@@ -258,6 +258,7 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+const navStore = useNavbarStore()
 </script>
 
 <template>
@@ -293,7 +294,7 @@ onBeforeRouteLeave((to, from, next) => {
 
       <div v-else>
         <LanguageServicesNodata
-          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+          v-if="navStore.defaultappobj.type === 'Internal Services'"
         />
         <div v-else>
           <div
@@ -305,6 +306,8 @@ onBeforeRouteLeave((to, from, next) => {
                 : 'pb-[0]',
             ]"
           >
+          <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_color')"/>
+
             <div class="flex items-center justify-start px-[15px]">
               <div class="mt-[24px]">
                 <h1
@@ -381,7 +384,7 @@ onBeforeRouteLeave((to, from, next) => {
                   style="box-shadow: 0px 2px 6px 0px #00000040"
                   class="mini_SizeMenu divide-y"
                 >
-                  <div class="mini_wrap">
+                  <!-- <div class="mini_wrap">
                     <div>
                       <svg
                         width="24"
@@ -397,7 +400,7 @@ onBeforeRouteLeave((to, from, next) => {
                       </svg>
                     </div>
                     <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-                  </div>
+                  </div> -->
                   <div
                     class="mini_wrap"
                     @click="collapseStore.collapseCard('button_color_card')"
@@ -485,7 +488,6 @@ onBeforeRouteLeave((to, from, next) => {
               class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
               v-if="!collapseStore.collapses.includes('button_color_card') "
             >
-            <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_color')"/>
             
               <div
                 class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
@@ -673,6 +675,8 @@ onBeforeRouteLeave((to, from, next) => {
                 : 'pb-[10px]',
             ]"
           >
+          <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_type')"/>
+
             <div class="flex items-center justify-start">
               <div class="pt-[24px]">
                 <h1
@@ -747,7 +751,7 @@ onBeforeRouteLeave((to, from, next) => {
                   style="box-shadow: 0px 2px 6px 0px #00000040"
                   class="mini_SizeMenu divide-y"
                 >
-                  <div class="mini_wrap">
+                  <!-- <div class="mini_wrap">
                     <div>
                       <svg
                         width="24"
@@ -764,7 +768,7 @@ onBeforeRouteLeave((to, from, next) => {
                     </div>
 
                     <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-                  </div>
+                  </div> -->
                   <div
                     class="mini_wrap"
                     @click="collapseStore.collapseCard('button_type_card')"
@@ -855,7 +859,6 @@ onBeforeRouteLeave((to, from, next) => {
                 buttonIcons
               "
             >
-            <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_type')"/>
 
               <div v-if="customizeStore.buttonShapeObj.active == 1">
                 <h1
@@ -1079,7 +1082,7 @@ onBeforeRouteLeave((to, from, next) => {
                   style="box-shadow: 0px 2px 6px 0px #00000040"
                   class="mini_SizeMenu divide-y"
                 >
-                  <div class="mini_wrap">
+                  <!-- <div class="mini_wrap">
                     <div>
                       <svg
                         width="24"
@@ -1095,7 +1098,7 @@ onBeforeRouteLeave((to, from, next) => {
                       </svg>
                     </div>
                     <div class="text_mini">Switch To Annual</div>
-                  </div>
+                  </div> -->
                   <div
                     class="mini_wrap"
                     @click="collapseStore.collapseCard('widget_custom_card')"
@@ -1188,6 +1191,8 @@ onBeforeRouteLeave((to, from, next) => {
             v-if="customizeStore.isAccessibilityModeCardActive"
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
+  <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode')"/>
+
             <div
               class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
             >
@@ -1265,7 +1270,7 @@ onBeforeRouteLeave((to, from, next) => {
                   style="box-shadow: 0px 2px 6px 0px #00000040"
                   class="mini_SizeMenu divide-y"
                 >
-                  <div class="mini_wrap">
+                  <!-- <div class="mini_wrap">
                     <div>
                       <svg
                         width="24"
@@ -1281,7 +1286,7 @@ onBeforeRouteLeave((to, from, next) => {
                       </svg>
                     </div>
                     <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-                  </div>
+                  </div> -->
                   <div
                     class="mini_wrap"
                     @click="collapseStore.collapseCard('access_mode_card')"

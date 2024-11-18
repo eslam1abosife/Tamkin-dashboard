@@ -5,14 +5,14 @@ export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-const profileStore = useProfileStore()
-const codeStatus = ref('')
+    const usestore = useUserStore();
+    const codeStatus = ref('')
 const messageStatus = ref('')
     const sendCustomPackage = async (state) => {
         try {
             const res = await api.post('/Tamkin Custom Package/Add',{
               ...state,
-              agency:profileStore.company.name
+        agency:usestore.user.agency
             });
             codeStatus.value = res.data.statusCode
             messageStatus.value = res.data.message

@@ -168,7 +168,7 @@ const copyCode = () => {
           v-if="collapseStore.menus.includes('custom_trigger')"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -184,7 +184,7 @@ const copyCode = () => {
               </svg>
             </div>
             <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('custom_trigger_card')"

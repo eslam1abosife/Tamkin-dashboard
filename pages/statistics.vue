@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import {useGetStats} from '@/composables/useAccessibility'
+const {getStatsAccessibility} = useGetStats()
 const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();
 
@@ -34,14 +36,23 @@ const handleCancelLeave = () => {
   statsStore.routeLeaveModal = false; // Close the modal
 };
 
-onBeforeRouteLeave((to, from, next) => {
-  if (detectUnsavedChanges()) {
-    statsStore.showSaveBeforeLeaveModal();
-    pendingNavigation = { next, to };
-  } else {
-    next(); // No unsaved changes, proceed normally
-  }
-});
+onBeforeMount(async ()=>{
+  statsStore.loadingStats = true
+ await getStatsAccessibility()
+ statsStore.loadingStats = false
+
+})
+const navStore = useNavbarStore()
+
+
+// onBeforeRouteLeave((to, from, next) => {
+//   if (detectUnsavedChanges()) {
+//     statsStore.showSaveBeforeLeaveModal();
+//     pendingNavigation = { next, to };
+//   } else {
+//     next(); // No unsaved changes, proceed normally
+//   }
+// });
 </script>
 
 <template>
@@ -67,7 +78,7 @@ onBeforeRouteLeave((to, from, next) => {
       />
 
       <LanguageServicesNodata
-        v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+        v-if="navStore.defaultappobj.type  === 'Internal Services'"
       />
       <div v-else>
         <StatisticsChart />

@@ -1223,7 +1223,7 @@ const openInvestor = (app,pack)=>{
 
                           <!-- Title Container -->
                           <div
-                            class="inline-block align-middle rtl:mr-2 ltr:ml-2"
+                            class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24  truncate"
                           >
                             {{
                               app.package[0] && app.package[0].title
@@ -1285,16 +1285,16 @@ const openInvestor = (app,pack)=>{
                             }}
                           </div>
                         
-                          <div
-                            @click="$router.push(localePath('/embed-code'))"
+                          <nuxt-link
+                            :to="localePath('/embed-code')"
                             v-if="
                              
                               app.package[0].status === 'not_installed' 
                             "
-                            class="cursor-pointer text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
+                            class="cursor-pointer text-[#DE4134] block ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
                           >
                             {{ $t("Not installed") }}
-                          </div>
+                          </nuxt-link>
                         </div>
                         <div class="rtl:text-right ltr:text-left" v-else>-</div>
                       </td>
@@ -1535,7 +1535,7 @@ const openInvestor = (app,pack)=>{
 
                             <!-- Title Container -->
                             <div
-                              class="inline-block align-middle rtl:mr-2 ltr:ml-2"
+                              class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24 truncate"
                             >
                               {{
                                 pack && pack.title
@@ -1589,16 +1589,16 @@ const openInvestor = (app,pack)=>{
                                   : $t(`${pack.status}`)
                               }}
                             </div>
-                            <div
-                              @click="$router.push(localePath('/embed-code'))"
+                            <nuxt-link
+                              :to="localePath('/embed-code')"
                               v-if="
                                 pack &&
                                 pack.status === 'not_installed'
                               "
-                              class="cursor-pointer text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
-                            >
+                              class="cursor-pointer text-[#DE4134] block ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
+                              >
                               {{ $t("Not installed") }}
-                            </div>
+                            </nuxt-link>
                           </div>
                           <div class="text-center" v-else>-</div>
                         </td>

@@ -4,9 +4,14 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { Line } from "vue-chartjs";
 import { useWindowSize } from "@vueuse/core";
+import {useDownloadCSV} from '@/composables/useAccessibility'
+import { ar } from 'date-fns/locale';
+
+const {locale} = useI18n()
 const navStore = useNavbarStore();
 const langStore = useLangSwitch();
-
+const statsStore = useStatsStore();
+const {downloadChartCsv} = useDownloadCSV()
 const { width, height } = useWindowSize();
 const { sideBarOpen } = storeToRefs(navStore);
 const chart12 = ref("");
@@ -76,32 +81,11 @@ watch(
   }
 );
 const isOpen = ref(false);
-const percentageChange = ref(3.6);
-const chartData = ref({
-  labels: [
-    "2024-10-01",
-    "2024-10-02",
-    "2024-10-03",
-    "2024-10-04",
-    "2024-10-05",
-    "2024-10-06",
-    "2024-10-07",
-    "2024-10-08",
-    "2024-10-09",
-  ],
-  datasets: [
-    {
-      label: "My Dataset",
-      data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: false,
-      tension: 0.1,
-    },
-  ],
-});
+// const percentageChange = ref(3.6);
+const chartDataload = ref();
 const colors = ["red", "blue", "yellow", "green"];
-
+const selectedInterval = ref("");
+const chartDataOpens = ref()
 const options = ref({
   responsive: false,
   maintainAspectRatio: true,
@@ -127,8 +111,7 @@ const options = ref({
         },
       },
       ticks: {
-        autoSkip: true,
-        maxTicksLimit: 10,
+        autoSkip: false,
         color: (c) => {
           return colorMode.preference === "dark" ? "white" : "black";
         },
@@ -140,6 +123,7 @@ const options = ref({
       },
     },
     y: {
+      
       grid: {
         display: false,
       },
@@ -170,6 +154,50 @@ const updateChartOptions = async (isDarkMode) => {
     chart2.value.chart.update();
   }
 };
+// Function to get date range from interval
+const getDateRangeFromInterval = (interval) => {
+  const endDate = new Date();
+  let startDate = new Date();
+
+  switch (interval) {
+    case "7 Days":
+      startDate.setDate(endDate.getDate() - 7);
+      break;
+    case "14 Days":
+      startDate.setDate(endDate.getDate() - 14);
+      break;
+    case "1 Month":
+      startDate.setMonth(endDate.getMonth() - 1);
+      break;
+    case "2 Months":
+      startDate.setMonth(endDate.getMonth() - 2);
+      break;
+    case "3 Months":
+      startDate.setMonth(endDate.getMonth() - 3);
+      break;
+    default:
+      return null; // No date range if interval is unrecognized
+  }
+
+  return [startDate, endDate];
+};
+
+const filterChartData = (loadscount, dateRange = null, interval = null) => {
+  let [startDate, endDate] = Array.isArray(dateRange) && dateRange.length === 2
+    ? dateRange.map(date => new Date(date))
+    : getDateRangeFromInterval(interval) || [];
+
+  if (!startDate || !endDate) return loadscount;
+
+  return loadscount.filter(item => {
+    const itemDate = new Date(item.date);
+    return itemDate >= startDate && itemDate <= endDate;
+  });
+};
+
+
+
+
 
 onMounted(async () => {
   // Initial check for dark mode
@@ -177,8 +205,199 @@ onMounted(async () => {
 
   // Watch for color mode changes
   await nextTick();
+
   updateChartOptions(colorMode.preference);
 });
+// Computed properties for summary calculations
+const loadscountSummary = computed(() => 
+  getLoadsCountSummary(statsStore.chartsData.loadscount, statsStore.chartsData.opencount, dateF.value, selectedInterval.value).loadscountSummary
+);
+
+const opencountSummary = computed(() =>
+  getLoadsCountSummary(statsStore.chartsData.loadscount, statsStore.chartsData.opencount, dateF.value, selectedInterval.value).opencountSummary
+);
+
+// WatchEffect to update chart data only when needed
+watchEffect(() => {
+  if (statsStore.chartsData &&statsStore.chartsData?.loadscount?.length > 0) {
+    const filteredData = filterChartData(statsStore.chartsData.loadscount, dateF.value, selectedInterval.value);
+    const sortedData = filteredData.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    chartDataload.value = {
+      labels: sortedData.map(t => t.date),
+      datasets: [
+        {
+          label: "Widget Load",
+          data: sortedData.map(t => t.count),
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    };
+  } else {
+    chartDataload.value = null;
+  }
+
+  if (statsStore.chartsData && statsStore.chartsData?.opencount?.length > 0) {
+    const filteredData = filterChartData(statsStore.chartsData.opencount, dateF.value, selectedInterval.value);
+    const sortedData = filteredData.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    chartDataOpens.value = {
+      labels: sortedData.map(t => t.date),
+      datasets: [
+        {
+          label: "Widget Opens",
+          data: sortedData.map(t => t.count),
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    };
+  } else {
+    chartDataOpens.value = null;
+  }
+});
+
+const percentageuporDown = ref()
+// function getLoadsCountSummary(loadsCount, dateRange = null, interval = "7 Days") {
+//   let startDate;
+//   const today = new Date();
+
+//   // Use the date range if provided
+//   if (Array.isArray(dateRange) && dateRange.length === 2) {
+//     startDate = new Date(dateRange[0]);
+//   } else {
+//     // Determine the start date based on the interval
+//     startDate = new Date();
+//     switch (interval) {
+//       case "7 Days":
+//         startDate.setDate(today.getDate() - 7);
+//         break;
+//       case "14 Days":
+//         startDate.setDate(today.getDate() - 14);
+//         break;
+//       case "1 Month":
+//         startDate.setMonth(today.getMonth() - 1);
+//         break;
+//       case "2 Months":
+//         startDate.setMonth(today.getMonth() - 2);
+//         break;
+//       case "3 Months":
+//         startDate.setMonth(today.getMonth() - 3);
+//         break;
+//       default:
+//         startDate.setDate(today.getDate() - 7); // Default to 7 days if interval is unrecognized
+//     }
+//   }
+
+//   // Filter and calculate total loads within the specified range
+//   const totalLoads = loadsCount
+//     .filter(load => new Date(load.date) >= startDate && new Date(load.date) <= today)
+//     .reduce((sum, load) => sum + load.count, 0);
+
+//   // Return the summary string based on the period
+//   const period = dateRange 
+//     ? `${startDate.toLocaleDateString()} - ${today.toLocaleDateString()}`
+//     : interval;
+    
+//   return `${totalLoads} Times during ${period}`;
+// }
+
+
+
+
+
+// console.log(getLoadsCountSummary()); // Output: "4 Times during 7 days"
+const percentageChange = ref({
+  loadscountPercentageChange: 0,
+  opencountPercentageChange: 0,
+});
+
+function getLoadsCountSummary(loadscount = [], opencount = [], dateRange = null, interval = "7 Days") {
+  let startDate, previousStartDate;
+  const today = new Date();
+
+  // Determine the start date and previous start date based on dateRange or interval
+  if (Array.isArray(dateRange) && dateRange.length === 2) {
+    startDate = new Date(dateRange[0]);
+    previousStartDate = new Date(dateRange[0]);
+    previousStartDate.setDate(previousStartDate.getDate() - (today - startDate) / (1000 * 60 * 60 * 24));
+  } else {
+    startDate = new Date();
+    previousStartDate = new Date();
+
+    switch (interval) {
+      case "7 Days":
+        startDate.setDate(today.getDate() - 7);
+        previousStartDate.setDate(today.getDate() - 14);
+        break;
+      case "14 Days":
+        startDate.setDate(today.getDate() - 14);
+        previousStartDate.setDate(today.getDate() - 28);
+        break;
+      case "1 Month":
+        startDate.setMonth(today.getMonth() - 1);
+        previousStartDate.setMonth(today.getMonth() - 2);
+        break;
+      case "2 Months":
+        startDate.setMonth(today.getMonth() - 2);
+        previousStartDate.setMonth(today.getMonth() - 4);
+        break;
+      case "3 Months":
+        startDate.setMonth(today.getMonth() - 3);
+        previousStartDate.setMonth(today.getMonth() - 6);
+        break;
+      default:
+        startDate.setDate(today.getDate() - 7);
+        previousStartDate.setDate(today.getDate() - 14);
+    }
+  }
+
+  // Function to calculate total and percentage change for a dataset
+  const calculateTotalsAndPercentage = (data = []) => {
+    if (!Array.isArray(data)) return { currentTotal: 0, percentageChange: 0 };
+
+    const currentTotal = data
+      .filter(item => new Date(item.date) >= startDate && new Date(item.date) <= today)
+      .reduce((sum, item) => sum + item.count, 0);
+
+    const previousTotal = data
+      .filter(item => new Date(item.date) >= previousStartDate && new Date(item.date) < startDate)
+      .reduce((sum, item) => sum + item.count, 0);
+
+    const percentageChange = previousTotal > 0 
+      ? ((currentTotal - previousTotal) / previousTotal * 100).toFixed(2)
+      : (currentTotal > 0 ? 100 : 0);
+
+    return { currentTotal, percentageChange };
+  };
+
+  // Calculate for `loadscount` and `opencount`
+  const loadscountResult = calculateTotalsAndPercentage(loadscount);
+  const opencountResult = calculateTotalsAndPercentage(opencount);
+
+  // Update the percentageChange ref
+  percentageChange.value = {
+    loadscountPercentageChange: loadscountResult.percentageChange,
+    opencountPercentageChange: opencountResult.percentageChange,
+  };
+
+  // Return summary string
+  const period = dateRange 
+    ? `${startDate.toLocaleDateString()} - ${today.toLocaleDateString()}`
+    : interval;
+  
+  return {
+    loadscountSummary: `${loadscountResult.currentTotal} Times during ${period}`,
+    opencountSummary: `${opencountResult.currentTotal} Times during ${period}`
+  };
+}
+
+
 watch(
   () => colorMode.preference,
   async (newVal) => {
@@ -190,7 +409,6 @@ watch(
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
-const selectedInterval = ref("");
 const selectOption = (option) => {
   selectedInterval.value = option;
   isOpen.value = false;
@@ -220,12 +438,45 @@ const myStyles = computed(() => {
 const closeMenu = () => {
   isOpen.value = false;
 };
+const loadingDownload = ref(false)
+const downloadCSV = async () => {
+  loadingDownload.value = true;
+  
+  const base64Data = await downloadChartCsv();
+
+  const blob = base64ToBlob(base64Data, "text/csv");
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "chart_data_accessibility.csv"; 
+
+  document.body.appendChild(link); 
+  link.click(); 
+  document.body.removeChild(link); 
+
+  loadingDownload.value = false;
+};
+
+function base64ToBlob(base64, contentType = "", sliceSize = 512) {
+  const byteCharacters = atob(base64);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length).fill().map((_, i) => slice.charCodeAt(i));
+    byteArrays.push(new Uint8Array(byteNumbers));
+  }
+
+  return new Blob(byteArrays, { type: contentType });
+}
+
 </script>
 
 <template>
   <div
     class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
   >
+
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
         <h1
@@ -254,6 +505,7 @@ const closeMenu = () => {
         ]"
         class="menu_button_control"
       >
+
         <svg
           width="18"
           height="5"
@@ -276,7 +528,7 @@ const closeMenu = () => {
           v-if="collapseStore.menus.includes('select_date_range')"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -294,7 +546,7 @@ const closeMenu = () => {
             <div class="text_mini">
               {{ $t("Switch To Annual") }}
             </div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('select_date_range_card')"
@@ -379,33 +631,37 @@ const closeMenu = () => {
     </div>
 
     <div
-      v-if="!collapseStore.collapses.includes('select_date_range_card')"
-      class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full"
+      v-if="!collapseStore.collapses.includes('select_date_range_card') && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"
+      class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full "
     >
+
       <div
         class="flex items-center justify-between lg:space-y-0 space-y-4 lg:flex-nowrap flex-wrap w-full"
       >
         <div
           class="flex items-center justify-start lg:flex-nowrap flex-wrap rtl:space-x-reverse lg:space-y-0 space-y-4 lg:space-x-[24px] w-full"
         >
-          <div class="w-full ipad-max:w-full lg:w-1/4">
+          <div class="w-full ipad-max:w-full lg:w-1/4 rtl:!font-[Almarai]">
             <VueDatePicker
               :enable-time-picker="false"
               @blur="dateOpen = false"
               @focus="dateOpen = true"
-              class="relative"
+              class="relative rtl:!font-[Almarai]" 
               :clearable="false"
               disable-year-select
               month-name-format="long"
               :input-class-name="
                 dateOpen && dateF
-                  ? 'bg_interval_open tamkin'
-                  : 'tamkin_date_input'
+                  ? 'bg_interval_open tamkin '
+                  : 'tamkin_date_input rtl:!font-[Almarai]'
               "
               :dark="colorMode.preference === 'dark'"
               :placeholder="$t('Select Period')"
               v-model="dateF"
               :format="format"
+              :locale="locale"
+              :format-locale="locale === 'ar' ? ar : ''" 
+              format="E"
               :position="langStore.direction === 'rtl' ? 'right' : 'left'"
               :auto-position="false"
               range
@@ -416,15 +672,27 @@ const closeMenu = () => {
                 <div
                   class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
                 >
+                <button
+                @click="()=>{
+                  closePicker()
+                  dateF = ''
+                }"
+                :disabled="!dateF"
+
+                class="btn_bordered_dashboard  rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
+              >
+          
+                <div>{{ $t("Clear") }}</div>
+              </button>
                   <button
                     @click="closePicker"
-                    class="btn_bordered_dashboard flex items-center h-[19px] justify-center"
+                    class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center"
                   >
                     <div>{{ $t("Cancel") }}</div>
                   </button>
                   <button
                     @click="selectDate"
-                    class="btn-dashboard hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
+                    class="btn-dashboard hover_tamkin rtl:!font-[Almarai] flex items-center h-[19px] w-2/6 justify-center group"
                   >
                     <div>
                       <svg
@@ -444,6 +712,7 @@ const closeMenu = () => {
                     </div>
                     <div>{{ $t("Done") }}</div>
                   </button>
+             
                 </div>
               </template>
               <template #input-icon>
@@ -586,19 +855,45 @@ const closeMenu = () => {
           </div>
         </div>
         <div class="lg:mr-[-15px] lg:px-[15px]">
-          <button
-            class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[130px]"
+          <div v-if="statsStore.loadingStats" class="bg-gray-200 animate-pulse w-[160px] h-[32px] rounded-[13px]">
+
+          </div>
+          <button v-else @click="downloadCSV" :disabled="loadingDownload || !chartDataOpens && !chartDataload"
+            class="btn-dashboard hover_tamkin flex items-center
+             h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px] "
           >
-            <div>{{ $t("Download CSV") }}</div>
+            <div class="flex items-center justify-center">
+              <div :class="loadingDownload ? 'rtl:ml-2 ltr:mr-2' : ''">
+                <div>{{ $t("Download CSV") }}</div>
+
+              </div>
+
+              <svg v-if="loadingDownload" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+            </div>
           </button>
         </div>
       </div>
     </div>
     <div
-      class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap"
+      class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap relative"
       v-if="!collapseStore.collapses.includes('select_date_range_card')"
     >
-      <div
+  <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+
+      <!-- Skeleton Loader -->
+  <div v-if="statsStore.loadingStats" class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full">
+    <!-- Title Placeholder -->
+
+  
+  </div>
+
+      <div v-else
         class="container_chart mt-[30px] h-[255px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
       >
         <div class="custom-legend">
@@ -606,38 +901,46 @@ const closeMenu = () => {
             class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]"
           >
             <h3>{{ $t("Widget Loads") }}</h3>
-            <p class="font-[400]">{{ $t("5 Times during 7 days") }}</p>
+            <p class="font-[400]" v-if="dateF || selectedInterval"> {{ $t(`${loadscountSummary}`) }}</p>
           </div>
-          <div
+          <div  v-if="chartDataload"
             class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
           >
             <div
               class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
               :class="{
-                positive: percentageChange >= 0,
-                negative: percentageChange < 0,
+                positive: percentageChange.loadscountPercentageChange >= 0,
+                negative: percentageChange.loadscountPercentageChange < 0,
               }"
             >
               <img
-                src="/assets/imgs/overview/up.svg"
-                :class="[percentageChange >= 0 ? 'rotate-0' : 'rotate-90']"
+                :src="percentageChange.loadscountPercentageChange < 0 ? '/assets/imgs/overview/down.svg' : '/assets/imgs/overview/up.svg'"
+                :class="[percentageChange.loadscountPercentageChange >= 0 ? 'rotate-0' : 'rotate-90']"
                 class="w-[19px] h-[19px]"
               />
-              <div>+{{ percentageChange }}%</div>
+              <div>+{{ percentageChange.loadscountPercentageChange }}%</div>
             </div>
           </div>
         </div>
 
-        <Line
+        <Line v-if="chartDataload"
           ref="chart12"
-          :data="chartData"
+          :data="chartDataload"
           :options="options"
           :style="myStyles"
           :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
         />
-      </div>
 
-      <div
+        <div v-else class="flex items-center justify-center h-full w-full">
+         <h1 class="text-center ">{{$t('No data available yet')}}</h1>
+        </div>
+      </div>
+      <div v-if="statsStore.loadingStats" class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full">
+        <!-- Title Placeholder -->
+    
+      
+      </div>
+      <div v-else
         class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
       >
         <div class="custom-legend">
@@ -645,34 +948,54 @@ const closeMenu = () => {
             class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin"
           >
             <h3>{{ $t("Widget Opens") }}</h3>
-            <p class="font-[400]">{{ $t("5 Times during 7 days") }}</p>
+            <p class="font-[400]"  v-if="dateF || selectedInterval">{{ $t(`${loadscountSummary}`) }}</p>
+
           </div>
-          <div
+          <div  v-if="chartDataOpens"
             class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
           >
-            <div
-              class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-              :class="{
-                positive: percentageChange >= 0,
-                negative: percentageChange < 0,
-              }"
-            >
-              <img
-                src="/assets/imgs/overview/down.svg"
-                class="w-[19px] h-[19px]"
-              />
-              <div>-{{ percentageChange }}%</div>
-            </div>
+          <div
+          class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+          :class="{
+            positive: percentageChange.opencountPercentageChange >= 0,
+            negative: percentageChange.opencountPercentageChange < 0,
+          }"
+        >
+          <img
+          :src="percentageChange.opencountPercentageChange < 0 ? '/assets/imgs/overview/down.svg' : '/assets/imgs/overview/up.svg'"
+            class="w-[19px] h-[19px]"
+          />
+          <div>{{ percentageChange.opencountPercentageChange }}%</div>
+        </div>
           </div>
         </div>
-        <Line
+        <Line v-if="chartDataOpens"
           ref="chart2"
-          :data="chartData"
+          :data="chartDataOpens"
           :options="options"
           :style="myStyles"
           :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
         />
+
+        
+        <div v-else class="flex items-center justify-center h-full w-full">
+          <h1 class="text-center ">No data available yet</h1>
+         </div>
       </div>
     </div>
   </div>
 </template>
+
+
+<style lang="scss">
+.dp__calendar_header_item{
+  @apply text-[12px] #{!important};
+}
+:root[dir="rtl"] {
+  --dp-font-family: 'Almarai', sans-serif !important;
+}
+
+.dp__pointer::placeholder {
+  @apply rtl:font-[Almarai] #{!important};
+}
+</style>
