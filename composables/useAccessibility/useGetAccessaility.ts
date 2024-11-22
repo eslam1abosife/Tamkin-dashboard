@@ -516,7 +516,8 @@ export default function () {
       const isLang = features.find(
         (feature: any) => feature.name === "acc-customize-language"
       );
-settingsStore.manageAccessibility = res.data.data.manage_feature_accessibility
+      settingsStore.manageAccessibility =
+        res.data.data.manage_feature_accessibility;
       if (isLang.active == 1) {
         customizeStore.isLanguagective = true;
       } else {

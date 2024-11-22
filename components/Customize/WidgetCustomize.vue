@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useCustomizeStore } from "@/stores/customize.js";
-const navStore = useNavbarStore()
+const navStore = useNavbarStore();
 
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
@@ -10,8 +10,13 @@ const { isChecked, toggleCheckbox } = customizeStore;
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
   >
-
-  <MessagesLockedFeature  v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+    <MessagesLockedFeature
+      v-if="
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Accessibility'
+        ).length === 0
+      "
+    />
 
     <template
       v-for="item in customizeStore.widgetCustomizationItems"
@@ -51,13 +56,19 @@ const { isChecked, toggleCheckbox } = customizeStore;
                 class="sr-only"
                 :checked="item.is_available ? isChecked(item.name) : false"
                 :disabled="!item.is_available"
-                @change="()=>{
-                  item.is_available ? toggleCheckbox(item.name) : false
-                }"
+                @change="
+                  () => {
+                    item.is_available ? toggleCheckbox(item.name) : false;
+                  }
+                "
               />
               <div
                 class="toggle_parent"
-                :class="[isChecked(item.name) && item.is_available ? 'active' : 'in_active']"
+                :class="[
+                  isChecked(item.name) && item.is_available
+                    ? 'active'
+                    : 'in_active',
+                ]"
               >
                 <div
                   class="toggle_inner"

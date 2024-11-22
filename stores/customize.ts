@@ -329,8 +329,7 @@ export const useCustomizeStore = defineStore("customize", {
         icon: `${card.name}.svg`,
         checkboxId: card.name,
         sort: card.sort,
-        is_enabled:card.is_available
-
+        is_enabled: card.is_available,
       }));
       this[initialOrderKey] = JSON.parse(JSON.stringify(this[customArrayKey])); // Deep copy the initial state
     },
@@ -417,15 +416,78 @@ export const useCustomizeStore = defineStore("customize", {
     // },
     changebuttonPositionDesktop(position: string) {
       this.buttonPositionDesktop = position;
+      if (
+        position === "postion1" ||
+        position === "postion2" ||
+        position === "postion3"
+      ) {
+        this.moveHideWidget("left");
+      } else if (
+        position === "postion6" ||
+        position === "postion7" ||
+        position === "postion8"
+      ) {
+        this.moveHideWidget("right");
+      }
     },
     changebuttonPositionMobile(position: string) {
       this.buttonPositionMobile = position;
+      if (
+        position === "postion1" ||
+        position === "postion2" ||
+        position === "postion3"
+      ) {
+        this.moveHideWidget("left");
+      } else if (
+        position === "postion4" ||
+        position === "postion5" ||
+        position === "postion6"
+      ) {
+        this.moveHideWidget("right");
+      }
     },
     changeButtonMobileOrDesktop(v: string) {
       this.switchButtonLocation = v;
     },
     moveHideWidget(v: string) {
       this.accessibilityMode = v;
+      if (this.switchButtonLocation === "desktop" && v === "left") {
+        if (this.buttonPositionDesktop === "postion6") {
+          this.changebuttonPositionDesktop("postion1");
+        } else if (this.buttonPositionDesktop === "postion7") {
+          this.changebuttonPositionDesktop("postion2");
+        } else if (this.buttonPositionDesktop === "postion8") {
+          this.changebuttonPositionDesktop("postion3");
+        }
+      }
+      if (this.switchButtonLocation === "mobile" && v === "left") {
+        if (this.buttonPositionMobile === "postion4") {
+          this.changebuttonPositionMobile("postion1");
+        } else if (this.buttonPositionMobile === "postion5") {
+          this.changebuttonPositionMobile("postion2");
+        } else if (this.buttonPositionMobile === "postion6") {
+          this.changebuttonPositionMobile("postion3");
+        }
+      }
+
+      if (this.switchButtonLocation === "desktop" && v === "right") {
+        if (this.buttonPositionDesktop === "postion1") {
+          this.changebuttonPositionDesktop("postion6");
+        } else if (this.buttonPositionDesktop === "postion2") {
+          this.changebuttonPositionDesktop("postion7");
+        } else if (this.buttonPositionDesktop === "postion3") {
+          this.changebuttonPositionDesktop("postion8");
+        }
+      }
+      if (this.switchButtonLocation === "mobile" && v === "right") {
+        if (this.buttonPositionMobile === "postion1") {
+          this.changebuttonPositionMobile("postion4");
+        } else if (this.buttonPositionMobile === "postion2") {
+          this.changebuttonPositionMobile("postion5");
+        } else if (this.buttonPositionMobile === "postion3") {
+          this.changebuttonPositionMobile("postion6");
+        }
+      }
     },
     toggleInitialCheckbox(name: string) {
       const checkbox = this.initialCheckboxes.find(

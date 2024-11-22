@@ -34,7 +34,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "accessibility-customize",
-
 });
 
 const changeGradientColor1 = computed(() => {
@@ -258,7 +257,7 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
-const navStore = useNavbarStore()
+const navStore = useNavbarStore();
 </script>
 
 <template>
@@ -298,7 +297,7 @@ const navStore = useNavbarStore()
         />
         <div v-else>
           <div
-            v-if="customizeStore.isBtnColorActive "
+            v-if="customizeStore.isBtnColorActive"
             class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px] relative"
             :class="[
               collapseStore.collapses.includes('button_color_card')
@@ -306,7 +305,14 @@ const navStore = useNavbarStore()
                 : 'pb-[0]',
             ]"
           >
-          <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_color')"/>
+            <MessagesLockedFeature
+              v-if="
+                !settingsStore.manageAccessibility.find(
+                  (t) =>
+                    t.feature === 'tamkin_accessibility_acc_manage_button_color'
+                )
+              "
+            />
 
             <div class="flex items-center justify-start px-[15px]">
               <div class="mt-[24px]">
@@ -486,9 +492,8 @@ const navStore = useNavbarStore()
 
             <div
               class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
-              v-if="!collapseStore.collapses.includes('button_color_card') "
+              v-if="!collapseStore.collapses.includes('button_color_card')"
             >
-            
               <div
                 class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
               >
@@ -663,7 +668,6 @@ const navStore = useNavbarStore()
                 </div>
               </div>
             </div>
-
           </div>
 
           <div
@@ -675,7 +679,14 @@ const navStore = useNavbarStore()
                 : 'pb-[10px]',
             ]"
           >
-          <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_button_type')"/>
+            <MessagesLockedFeature
+              v-if="
+                !settingsStore.manageAccessibility.find(
+                  (t) =>
+                    t.feature === 'tamkin_accessibility_acc_manage_button_type'
+                )
+              "
+            />
 
             <div class="flex items-center justify-start">
               <div class="pt-[24px]">
@@ -859,7 +870,6 @@ const navStore = useNavbarStore()
                 buttonIcons
               "
             >
-
               <div v-if="customizeStore.buttonShapeObj.active == 1">
                 <h1
                   class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
@@ -1191,7 +1201,15 @@ const navStore = useNavbarStore()
             v-if="customizeStore.isAccessibilityModeCardActive"
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
-  <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode')"/>
+            <MessagesLockedFeature
+              v-if="
+                !settingsStore.manageAccessibility.find(
+                  (t) =>
+                    t.feature ===
+                    'tamkin_accessibility_acc_manage_accessibility_mode'
+                )
+              "
+            />
 
             <div
               class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
@@ -1374,7 +1392,7 @@ const navStore = useNavbarStore()
               v-if="!collapseStore.collapses.includes('access_mode_card')"
             />
           </div>
-<CustomizeWidgetType class="!mb-[40px]" />
+          <!-- <CustomizeWidgetType class="!mb-[40px]" /> -->
 
           <CustomizeAdjustMainMenu v-if="customizeStore.isMainMenuActive" />
           <CustomizeAccessibilityProfiles
@@ -1383,11 +1401,8 @@ const navStore = useNavbarStore()
           <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
           <CustomizeLanguage v-if="customizeStore.isLanguagective" />
 
-
           <!-- <CustomizeCustomTrigger /> -->
         </div>
-
- 
       </div>
     </div>
   </div>
