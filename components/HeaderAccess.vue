@@ -112,7 +112,7 @@ const isLinkActive = (path) => {
   </div>
 
   <div
-    v-if="Object.keys(   settingsStore.appHeader ).length > 0"
+    v-if="Object.keys(settingsStore.appHeader).length > 0"
     class="relative mt-[-10px] z-[50] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
   >
     <div

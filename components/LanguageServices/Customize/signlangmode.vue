@@ -208,13 +208,14 @@ const backgroundWidgetValues = (v: string) => {
     </div>
 
     <div
-      v-if="
-        !collapseStore.collapses.includes('access_mode_card') &&
-        customizeStore.playerMoveHideFeature.active == 1
-      "
+      v-if="!collapseStore.collapses.includes('access_mode_card')"
       class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
     >
       <div
+        v-if="
+          customizeStore.playerMoveHideFeature.active == 1 &&
+          customizeStore.playerMoveHideFeature.value == 1
+        "
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
         <div
@@ -309,6 +310,7 @@ const backgroundWidgetValues = (v: string) => {
       </div>
 
       <div
+        v-if="customizeStore.isAccessbilityModeIconsActive"
         class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
         :class="[
           !isChecked(
@@ -341,7 +343,7 @@ const backgroundWidgetValues = (v: string) => {
           <div>
             <img
               src="/assets/imgs/customize/left_side.svg"
-              class="w-3/4 h-3/4"
+              class="w-[25px] h-[25px]"
             />
           </div>
           <div class="text-[14px]">{{ $t("Left Side") }}</div>
@@ -369,10 +371,10 @@ const backgroundWidgetValues = (v: string) => {
           <div>
             <img
               src="/assets/imgs/customize/right_side.svg"
-              class="w-3/4 h-3/4"
+              class="w-[25px] h-[25px]"
             />
           </div>
-          <div class="text-[14px] w-full">{{ $t("Right Side") }}</div>
+          <div class="text-[14px]">{{ $t("Right Side") }}</div>
         </div>
         <div
           v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
@@ -395,7 +397,10 @@ const backgroundWidgetValues = (v: string) => {
           ]"
         >
           <div>
-            <img src="/assets/imgs/customize/hide.svg" class="w-3/4 h-3/4" />
+            <img
+              src="/assets/imgs/customize/hide.svg"
+              class="w-[25px] h-auto object-cover"
+            />
           </div>
           <div class="text-[14px]">{{ $t("Hide") }}</div>
         </div>

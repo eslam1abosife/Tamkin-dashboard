@@ -40,6 +40,18 @@ export default function () {
       } else {
         customizeStore.isBtnColorActive = false;
       }
+
+      const isColorFeatureEnabled = features
+        .find((feature: any) => feature.name === "acc-customize-button-color")
+        .features.find(
+          (el: any) => el.name === "acc-customize-button-color-button-color"
+        );
+      if (isColorFeatureEnabled.active == 1) {
+        customizeStore.isColorFeatureEnabled = true;
+      } else {
+        customizeStore.isColorFeatureEnabled = false;
+      }
+
       const colorMode = features
         .find((feature: any) => feature.name === "acc-customize-button-color")
         .features.find(
@@ -413,6 +425,20 @@ export default function () {
         customizeStore.toggleInitialCheckbox(
           "acc-customize-accessibility-mode-move-/-hide-accessibility"
         );
+      }
+
+      const isAccessbilityModeIconsActive = features
+        .find(
+          (feature: any) => feature.name === "acc-customize-accessibility-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "acc-customize-accessibility-mode-move-/-hide-accessibility"
+        );
+
+      if (isAccessbilityModeIconsActive.active == 1) {
+        customizeStore.isAccessbilityModeIconsActive = true;
       }
 
       // accessbility main menu

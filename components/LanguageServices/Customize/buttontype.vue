@@ -410,7 +410,7 @@ watch(currentColor, (ov, nv) => {
             >
               <img
                 :src="`https://tamkin.app/${selectedIcon}`"
-                :style="imgStyle"
+                 class="w-[26px] h-[26px]"
               />
             </div>
           </div>

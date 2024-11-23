@@ -40,7 +40,7 @@ const settingsStore = useSettingsStore();
 
 <template>
   <div
-    class="flex items-center justify-start mt-[32px] px-[15px] rtl:space-x-reverse space-x-[18px]"
+    class="flex items-center justify-start mt-[32px] rtl:space-x-reverse space-x-[18px]"
   >
     <MessagesLockedFeature
       v-if="
@@ -85,7 +85,7 @@ const settingsStore = useSettingsStore();
     "
   >
     <div
-      class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+      class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative h-[173px] mt-[16px] border-[1px]"
     >
       <div
         class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"
@@ -397,7 +397,7 @@ const settingsStore = useSettingsStore();
     "
   >
     <div
-      class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative mx-[15px] h-[173px] mt-[16px] border-[1px]"
+      class="bg-[#F2FBF9] dark:bg-tamkinDarkPrimary rounded-lg p-10 w-full lg:w-2/6 relative h-[173px] mt-[16px] border-[1px]"
     >
       <div
         class="absolute top-0 left-[15px] bottom-0 flex flex-col justify-around items-center py-2 z-[42]"

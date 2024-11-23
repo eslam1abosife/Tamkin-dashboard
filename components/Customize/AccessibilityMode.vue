@@ -4,21 +4,28 @@ import { useCustomizeStore } from "@/stores/customize.js";
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 const settingsStore = useSettingsStore();
-
 </script>
 
 <template>
   <div
     class="flex flex-col items-center justify-center mt-[32px] px-[15px] relative"
-    :class="[!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode') ? 'h-[200px]' :'']"
-    v-if="customizeStore.moveHideFeature.active == 1"
+    :class="[
+      !settingsStore.manageAccessibility.find(
+        (t) =>
+          t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode'
+      )
+        ? 'h-[200px]'
+        : '',
+    ]"
   >
-
     <div
+      v-if="
+        customizeStore.moveHideFeature.active == 1 &&
+        customizeStore.moveHideFeature.value == 1
+      "
       class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder relative"
     >
-
-    <div
+      <div
         class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
       >
         <img
@@ -108,6 +115,7 @@ const settingsStore = useSettingsStore();
     </div>
 
     <div
+      v-if="customizeStore.isAccessbilityModeIconsActive"
       class="flex items-center lg:flex-nowrap flex-wrap justify-center lg:justify-between mt-[24px] w-full rtl:space-x-reverse lg:space-x-[60px] dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
       :class="[
         !isChecked('acc-customize-accessibility-mode-move-/-hide-accessibility')
@@ -136,7 +144,10 @@ const settingsStore = useSettingsStore();
         "
       >
         <div>
-          <img src="/assets/imgs/customize/left_side.svg"  class="w-[25px] h-[25px]"/>
+          <img
+            src="/assets/imgs/customize/left_side.svg"
+            class="w-[25px] h-[25px]"
+          />
         </div>
         <div class="text-[14px]">
           {{ $t("Left Side") }}
@@ -144,7 +155,7 @@ const settingsStore = useSettingsStore();
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'right').active == 1"
-        class="flex items-center justify-center h-[45px]  px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+        class="flex items-center justify-center h-[45px] px-[15px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
         @click="
           () => {
             if (
@@ -164,10 +175,11 @@ const settingsStore = useSettingsStore();
       >
         <div>
           <img
-            src="/assets/imgs/customize/right_side.svg" class="w-[25px] h-[25px]"
+            src="/assets/imgs/customize/right_side.svg"
+            class="w-[25px] h-[25px]"
           />
         </div>
-        <div class="text-[14px] ">{{ $t("Right Side") }}</div>
+        <div class="text-[14px]">{{ $t("Right Side") }}</div>
       </div>
       <div
         v-if="customizeStore.accessibilityModeItems.find((el:any)=> el.value == 'hide').active == 1"
@@ -190,7 +202,10 @@ const settingsStore = useSettingsStore();
         ]"
       >
         <div>
-          <img src="/assets/imgs/customize/hide.svg" class="w-[25px] h-auto object-cover"/>
+          <img
+            src="/assets/imgs/customize/hide.svg"
+            class="w-[25px] h-auto object-cover"
+          />
         </div>
         <div class="text-[14px]">{{ $t("Hide") }}</div>
       </div>

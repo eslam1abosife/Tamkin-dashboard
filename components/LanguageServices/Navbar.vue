@@ -93,8 +93,9 @@ const getNavLinkIndex = (path) => {
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute top-[160px] lg:overflow-x-hidden overflow-x-auto left-0 w-full lg:mx-auto h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center lg:space-x-0 space-x-[20px] lg:justify-between px-[4px]"
-  >
+    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white
+     dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
+    >
     <transition name="slider-transition">
       <div
         v-show="sliderVisible"

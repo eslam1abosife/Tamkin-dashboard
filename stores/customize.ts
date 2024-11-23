@@ -13,6 +13,8 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    isAccessbilityModeIconsActive: false,
+    isColorFeatureEnabled: false,
     islangListEnabled: false,
     islangHighlightEnabled: {},
     islangEnabled: false,

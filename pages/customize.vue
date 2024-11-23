@@ -258,9 +258,6 @@ onBeforeRouteLeave((to, from, next) => {
   }
 });
 
-const handleLogic = (e: any) => {
-  console.log("ee", e);
-};
 const navStore = useNavbarStore();
 </script>
 
@@ -318,7 +315,12 @@ const navStore = useNavbarStore();
               "
             />
 
-            <div class="flex items-center justify-start px-[15px]">
+            <div
+              class="flex items-center justify-start px-[15px]"
+              :class="[
+                !customizeStore.isColorFeatureEnabled ? 'pb-[24px]' : 'pb-[0]',
+              ]"
+            >
               <div class="mt-[24px]">
                 <h1
                   class="text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
@@ -496,7 +498,10 @@ const navStore = useNavbarStore();
 
             <div
               class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
-              v-if="!collapseStore.collapses.includes('button_color_card')"
+              v-if="
+                !collapseStore.collapses.includes('button_color_card') &&
+                customizeStore.isColorFeatureEnabled
+              "
             >
               <div
                 class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
@@ -619,7 +624,6 @@ const navStore = useNavbarStore();
                   <Vue3ColorPicker
                     v-model="customizeStore.currentColor"
                     mode="solid"
-                    onInput="handleLogic"
                     :showColorList="false"
                     :showEyeDrop="false"
                     :showAlpha="false"

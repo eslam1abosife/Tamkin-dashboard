@@ -415,6 +415,19 @@ const getValue = (name: any) => {
 </template>
 
 <style>
+html[dir="rtl"] .picker-hue-range-slider {
+  background: linear-gradient(
+    to left,
+    #ff0000 0%,
+    #ffff00 17%,
+    #00ff00 33%,
+    #00ffff 50%,
+    #0000ff 67%,
+    #ff00ff 83%,
+    #ff0000 100%
+  ) !important;
+}
+
 .toggle {
   background: linear-gradient(
     180deg,

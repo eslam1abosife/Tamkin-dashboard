@@ -22,7 +22,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "sign-language-settings",
-
 });
 const code = ref(true);
 const advancedCode = ref(false);
@@ -279,7 +278,9 @@ const updateNewValues = () => {
   const isSettingsLinkActive = isLinkActive("/sign-language/settings");
 
   if (isSettingsLinkActive) {
-    settingsStore.initialCheckboxes = settingsStore.checkboxes;
+    settingsStore.initialCheckboxes = JSON.parse(
+      JSON.stringify(settingsStore.checkboxes)
+    );
   }
 };
 

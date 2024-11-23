@@ -36,6 +36,19 @@ export default function () {
       } else {
         customizeStore.isBtnColorActive = false;
       }
+
+      const isColorFeatureEnabled = features
+        .find((feature: any) => feature.name === "deaf-customize-button-color")
+        .features.find(
+          (el: any) =>
+            el.name === "deaf-customize-button-color-sign-language-button-color"
+        );
+      if (isColorFeatureEnabled.active == 1) {
+        customizeStore.isColorFeatureEnabled = true;
+      } else {
+        customizeStore.isColorFeatureEnabled = false;
+      }
+
       const buttonSolidColor = features
         .find((feature: any) => feature.name === "deaf-customize-button-color")
         .features.find(
@@ -197,6 +210,20 @@ export default function () {
         customizeStore.toggleInitialCheckbox(
           "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
         );
+      }
+
+      const isAccessbilityModeIconsActive = features
+        .find(
+          (feature: any) => feature.name === "deaf-customize-sign-language-mode"
+        )
+        .features.find(
+          (el) =>
+            el.name ===
+            "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
+        );
+
+      if (isAccessbilityModeIconsActive.active == 1) {
+        customizeStore.isAccessbilityModeIconsActive = true;
       }
 
       // handle position
