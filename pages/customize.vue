@@ -257,6 +257,10 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
+
+const handleLogic = (e: any) => {
+  console.log("ee", e);
+};
 const navStore = useNavbarStore();
 </script>
 
@@ -615,6 +619,7 @@ const navStore = useNavbarStore();
                   <Vue3ColorPicker
                     v-model="customizeStore.currentColor"
                     mode="solid"
+                    onInput="handleLogic"
                     :showColorList="false"
                     :showEyeDrop="false"
                     :showAlpha="false"
@@ -1393,12 +1398,13 @@ const navStore = useNavbarStore();
             />
           </div>
           <!-- <CustomizeWidgetType class="!mb-[40px]" /> -->
+          <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
 
           <CustomizeAdjustMainMenu v-if="customizeStore.isMainMenuActive" />
           <CustomizeAccessibilityProfiles
             v-if="customizeStore.isProfilesCardsctive"
           />
-          <CustomizeWidgetType v-if="customizeStore.isAccWidgetTypeActive" />
+
           <CustomizeLanguage v-if="customizeStore.isLanguagective" />
 
           <!-- <CustomizeCustomTrigger /> -->
@@ -1409,6 +1415,19 @@ const navStore = useNavbarStore();
 </template>
 
 <style>
+html[dir="rtl"] .picker-hue-range-slider {
+  background: linear-gradient(
+    to left,
+    #ff0000 0%,
+    #ffff00 17%,
+    #00ff00 33%,
+    #00ffff 50%,
+    #0000ff 67%,
+    #ff00ff 83%,
+    #ff0000 100%
+  ) !important;
+}
+
 .toggle {
   background: linear-gradient(
     180deg,
