@@ -202,12 +202,10 @@ const background = ref("");
 
     <div
       class="px-[15px] mt-[32px]"
-      v-if="
-        !collapseStore.collapses.includes('sign_background_card') &&
-        customizeStore.backgroundItems.active == 1
-      "
+      v-if="!collapseStore.collapses.includes('sign_background_card')"
     >
       <div
+        v-if="customizeStore.isBackgroundfeatureActive.active == 1"
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
         <div
@@ -215,8 +213,9 @@ const background = ref("");
         >
           <img
             :src="`${
-              customizeStore.backgroundItems.icon
-                ? 'https://www.tamkin.app' + customizeStore.backgroundItems.icon
+              customizeStore.isBackgroundfeatureActive.icon
+                ? 'https://www.tamkin.app' +
+                  customizeStore.isBackgroundfeatureActive.icon
                 : '/assets/imgs/signlanguageservices/background.png'
             }`"
             class="h-[28px] w-[28px]"
@@ -228,8 +227,8 @@ const background = ref("");
               <span>
                 {{
                   $t(
-                    customizeStore.backgroundItems.label
-                      ? customizeStore.backgroundItems.label
+                    customizeStore.isBackgroundfeatureActive.label
+                      ? customizeStore.isBackgroundfeatureActive.label
                       : ""
                   )
                 }}
@@ -241,8 +240,8 @@ const background = ref("");
               <span>
                 {{
                   $t(
-                    customizeStore.backgroundItems.description
-                      ? customizeStore.backgroundItems.description
+                    customizeStore.isBackgroundfeatureActive.description
+                      ? customizeStore.isBackgroundfeatureActive.description
                       : ""
                   )
                 }}
@@ -306,6 +305,7 @@ const background = ref("");
       </div>
 
       <div
+        v-if="customizeStore.backgroundItems.active == 1"
         class="flex items-center justify-between mt-[24px] px-[15px] w-full rtl:space-x-reverse dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
         :class="[
           !isChecked(

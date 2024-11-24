@@ -37,7 +37,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "sign-language-customize",
-
 });
 const localePath = useLocalePath();
 
@@ -149,6 +148,7 @@ const cancelAc = () => {
     customizeStore.selectedIcon = customizeStore.initselectedIcon;
     customizeStore.selectedLang = customizeStore.initselectedLang;
     customizeStore.background = customizeStore.initbackground;
+    customizeStore.contrast = customizeStore.initcontrast;
 
     customizeStore.accessibilityMode = customizeStore.initaccessibilityMode;
     customizeStore.liveTranlsationButtonLocation =
@@ -164,6 +164,7 @@ const updateNewValues = () => {
 
   if (isCustomizeLinkActive) {
     customizeStore.initbackground = customizeStore.background;
+    customizeStore.initcontrast = customizeStore.contrast;
     customizeStore.initialCheckboxes = JSON.parse(
       JSON.stringify(customizeStore.checkboxes)
     );
@@ -234,11 +235,14 @@ const handleSave = async (type: any) => {
         value: customizeStore.buttonShapeSelector,
       },
       {
-        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
-        value: customizeStore.accessibilityMode,
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button",
         active: getValue(
           "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
         ),
+      },
+      {
+        name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player",
+        value: customizeStore.accessibilityMode,
       },
       {
         name: "deaf-customize-button-location-sign-language-button-location-mobile",
@@ -253,6 +257,9 @@ const handleSave = async (type: any) => {
         active: getValue(
           "deaf-customize-sign-language-background-sign-language-background"
         ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-background-sign-language-background-options",
         value: customizeStore.background,
       },
       {
@@ -260,6 +267,10 @@ const handleSave = async (type: any) => {
         value: getValue(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         ),
+      },
+      {
+        name: "deaf-customize-sign-language-player-contrast-sign-language-contrast-option",
+        value: customizeStore.contrast,
       },
       {
         name: "deaf-customize-sign-language-player-keyboard-sign-language-keyboard",

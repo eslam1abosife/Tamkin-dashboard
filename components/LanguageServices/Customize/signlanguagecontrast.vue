@@ -198,12 +198,10 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
     <div
       class="px-[15px] mt-[32px]"
-      v-if="
-        !collapseStore.collapses.includes('sign_constrast_card') &&
-        customizeStore.contrastData.active == 1
-      "
+      v-if="!collapseStore.collapses.includes('sign_constrast_card')"
     >
       <div
+        v-if="customizeStore.isContrastFeatureActive.active == 1"
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
         <div
@@ -211,8 +209,9 @@ const { isChecked, toggleCheckbox } = customizeStore;
         >
           <img
             :src="`${
-              customizeStore.contrastData.icon
-                ? 'https://www.tamkin.app' + customizeStore.contrastData.icon
+              customizeStore.isContrastFeatureActive.icon
+                ? 'https://www.tamkin.app' +
+                  customizeStore.isContrastFeatureActive.icon
                 : '/assets/imgs/signlanguageservices/contrast_toggle.png'
             }`"
             class="h-[28px] w-[28px]"
@@ -224,8 +223,8 @@ const { isChecked, toggleCheckbox } = customizeStore;
               <span>
                 {{
                   $t(
-                    customizeStore.contrastData.label
-                      ? customizeStore.contrastData.label
+                    customizeStore.isContrastFeatureActive.label
+                      ? customizeStore.isContrastFeatureActive.label
                       : ""
                   )
                 }}
@@ -237,8 +236,8 @@ const { isChecked, toggleCheckbox } = customizeStore;
               <span>
                 {{
                   $t(
-                    customizeStore.contrastData.description
-                      ? customizeStore.contrastData.description
+                    customizeStore.isContrastFeatureActive.description
+                      ? customizeStore.isContrastFeatureActive.description
                       : ""
                   )
                 }}
@@ -298,6 +297,71 @@ const { isChecked, toggleCheckbox } = customizeStore;
               </div>
             </label>
           </div>
+        </div>
+      </div>
+
+      <div
+        v-if="customizeStore.contrastData.active == 1"
+        class="flex items-center justify-between mt-[24px] px-[15px] w-full rtl:space-x-reverse dark:bg-tamkinDarkPrimary dark:text-whiteTamkin"
+        :class="[
+          !isChecked(
+            'deaf-customize-sign-language-player-contrast-sign-language-contrast'
+          )
+            ? 'blur-[2px] !cursor-not-allowed'
+            : '',
+        ]"
+      >
+        <div
+          v-if="
+            customizeStore.contrastData.tamkin_option_item_values.find(
+              (el:any) => el.value == 'light'
+            ).active == 1
+          "
+          class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          :class="[
+            customizeStore.contrast == 'light'
+              ? 'custom-border border-transparent'
+              : 'border-[1px] border-[#D9D9D9]',
+          ]"
+          @click="
+            () => {
+              if (
+                isChecked(
+                  'deaf-customize-sign-language-player-contrast-sign-language-contrast'
+                )
+              ) {
+                customizeStore.contrastWidgetValues('light');
+              }
+            }
+          "
+        >
+          <div class="text-[14px]">Light</div>
+        </div>
+        <div
+          v-if="
+            customizeStore.contrastData.tamkin_option_item_values.find(
+              (el:any) => el.value == 'dark'
+            ).active == 1
+          "
+          class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
+          @click="
+            () => {
+              if (
+                isChecked(
+                  'deaf-customize-sign-language-player-contrast-sign-language-contrast'
+                )
+              ) {
+                customizeStore.contrastWidgetValues('dark');
+              }
+            }
+          "
+          :class="[
+            customizeStore.contrast == 'dark'
+              ? 'custom-border border-transparent'
+              : 'border-[1px] border-[#D9D9D9]',
+          ]"
+        >
+          <div class="text-[14px]">Dark</div>
         </div>
       </div>
     </div>

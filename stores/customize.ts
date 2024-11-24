@@ -13,6 +13,8 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    isContrastFeatureActive: {},
+    isBackgroundfeatureActive: {},
     isAccessbilityModeIconsActive: false,
     isColorFeatureEnabled: false,
     islangListEnabled: false,
@@ -113,8 +115,13 @@ export const useCustomizeStore = defineStore("customize", {
     initbackground: "",
     backgroundItems: [],
     pendingNavigation: {},
+    contrast: "",
+    initcontrast: "",
   }),
   actions: {
+    contrastWidgetValues(v: string) {
+      this.contrast = v;
+    },
     backgroundWidgetValues(v: string) {
       this.background = v;
     },
@@ -294,7 +301,8 @@ export const useCustomizeStore = defineStore("customize", {
         this.selectedLang?.code !== this.initselectedLang?.code ||
         this.currentAboveShapeLiveTranslation !==
           this.initcurrentAboveShapeLiveTranslation ||
-        this.background !== this.initbackground
+        this.background !== this.initbackground ||
+        this.contrast !== this.initcontrast
       );
     },
 

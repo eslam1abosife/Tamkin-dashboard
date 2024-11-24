@@ -364,7 +364,7 @@ export default function () {
         .features.find(
           (el: any) =>
             el.name ===
-            "deaf-customize-sign-language-background-sign-language-background"
+            "deaf-customize-sign-language-player-background-sign-language-background-options"
         );
       customizeStore.backgroundItems = isSetBackground;
       if (isSetBackground.active == 1) {
@@ -378,29 +378,46 @@ export default function () {
           customizeStore.background = "100%";
           customizeStore.initbackground = "100%";
         }
+      }
+      const isBackgroundfeatureActive = features
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-background"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-background-sign-language-background"
+        );
+
+      signLangStore.initialCardsOrder.push({
+        name: isBackgroundfeatureActive.name,
+        label: isBackgroundfeatureActive.label,
+        icon: `${isBackgroundfeatureActive.name}.png`,
+        description: isBackgroundfeatureActive.description,
+        checkboxId: isBackgroundfeatureActive.name,
+        active: isBackgroundfeatureActive.active,
+      });
+
+      signLangStore.WebpluginsCards.push({
+        name: isBackgroundfeatureActive.name,
+        icon: `${isBackgroundfeatureActive.name}.png`,
+        description: isBackgroundfeatureActive.description,
+        checkboxId: isBackgroundfeatureActive.name,
+        label: isBackgroundfeatureActive.label,
+        active: isBackgroundfeatureActive.active,
+      });
+      customizeStore.isBackgroundfeatureActive = isBackgroundfeatureActive;
+      if (
+        isBackgroundfeatureActive.active == 1 &&
+        isBackgroundfeatureActive.value == 1
+      ) {
         customizeStore.toggleCheckbox(
           "deaf-customize-sign-language-background-sign-language-background"
         );
         customizeStore.toggleInitialCheckbox(
           "deaf-customize-sign-language-background-sign-language-background"
         );
-
-        signLangStore.initialCardsOrder.push({
-          name: isSetBackground.name,
-          label: isSetBackground.label,
-          icon: `${isSetBackground.name}.png`,
-          description: isSetBackground.description,
-          checkboxId: isSetBackground.name,
-          active: isSetBackground.active,
-        });
-        signLangStore.WebpluginsCards.push({
-          name: isSetBackground.name,
-          icon: `${isSetBackground.name}.png`,
-          description: isSetBackground.description,
-          checkboxId: isSetBackground.name,
-          label: isSetBackground.label,
-          active: isSetBackground.active,
-        });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-background-sign-language-background"
         );
@@ -408,6 +425,7 @@ export default function () {
           "deaf-customize-sign-language-background-sign-language-background"
         );
       }
+
       // deaf isSetContrast
 
       const isContrast = features.find(
@@ -417,7 +435,29 @@ export default function () {
       if (isContrast.active == 1) {
         customizeStore.isContrastActive = true;
       }
+
       const isSetContrast = features
+        .find(
+          (feature: any) =>
+            feature.name === "deaf-customize-sign-language-player-contrast"
+        )
+        .features.find(
+          (el: any) =>
+            el.name ===
+            "deaf-customize-sign-language-player-contrast-sign-language-contrast-option"
+        );
+      customizeStore.contrastData = isSetContrast;
+      if (isSetContrast.active == 1) {
+        if (isSetContrast.value === "light") {
+          customizeStore.contrast = "light";
+          customizeStore.initcontrast = "light";
+        } else if (isSetContrast.value === "dark") {
+          customizeStore.contrast = "dark";
+          customizeStore.initcontrast = "dark";
+        }
+      }
+
+      const isContrastFeatureActive = features
         .find(
           (feature: any) =>
             feature.name === "deaf-customize-sign-language-player-contrast"
@@ -427,8 +467,11 @@ export default function () {
             el.name ===
             "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         );
-      customizeStore.contrastData = isSetContrast;
-      if (isSetContrast.active == 1) {
+      customizeStore.isContrastFeatureActive = isContrastFeatureActive;
+      if (
+        isContrastFeatureActive.active == 1 &&
+        isContrastFeatureActive.value == 1
+      ) {
         customizeStore.toggleCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         );
@@ -437,20 +480,20 @@ export default function () {
         );
 
         signLangStore.initialCardsOrder.push({
-          name: isSetContrast.name,
-          label: isSetContrast.label,
-          icon: `${isSetContrast.name}.png`,
-          description: isSetContrast.description,
-          checkboxId: isSetContrast.name,
-          active: isSetContrast.active,
+          name: isContrastFeatureActive.name,
+          label: isContrastFeatureActive.label,
+          icon: `${isContrastFeatureActive.name}.png`,
+          description: isContrastFeatureActive.description,
+          checkboxId: isContrastFeatureActive.name,
+          active: isContrastFeatureActive.active,
         });
         signLangStore.WebpluginsCards.push({
-          name: isSetContrast.name,
-          icon: `${isSetContrast.name}.png`,
-          description: isSetContrast.description,
-          checkboxId: isSetContrast.name,
-          label: isSetContrast.label,
-          active: isSetContrast.active,
+          name: isContrastFeatureActive.name,
+          icon: `${isContrastFeatureActive.name}.png`,
+          description: isContrastFeatureActive.description,
+          checkboxId: isContrastFeatureActive.name,
+          label: isContrastFeatureActive.label,
+          active: isContrastFeatureActive.active,
         });
         signLangStore.toggleCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
