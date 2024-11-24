@@ -40,8 +40,15 @@ watch([currentColor], () => {}, { immediate: true });
 
 <template>
   <div
-    class="flex items-center justify-start mt-[32px] rtl:space-x-reverse space-x-[18px]"
+    class="relative flex items-center justify-start mt-[32px] rtl:space-x-reverse space-x-[18px]"
   >
+    <!-- <MessagesLockedFeature
+      v-if="
+        !customizeStore.managePlayerPackages.find(
+          (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+        )
+      "
+    /> -->
     <div
       v-if="customizeStore.isButtonDesktopPositionActive"
       class="pb-[12px] text-[10px] lg:text-[13px] lg:leading-[32px] text-darkGrey dark:text-whiteTamkin cursor-pointer"

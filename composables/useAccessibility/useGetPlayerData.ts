@@ -16,6 +16,8 @@ export default function () {
     try {
       const res = await api.post("/Widget/GetAccessibility/default");
       const features = res.data.data.features;
+
+      customizeStore.managePlayerPackages = res.data.data.manage_feature;
       const getnamesFeature = res.data.data.features.map((el: any) => {
         return {
           name: el.name,

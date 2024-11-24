@@ -291,11 +291,19 @@ watch(currentColor, (ov, nv) => {
     </div>
 
     <div
-      class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
+      class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden"
       v-if="
         !collapseStore.collapses.includes('button_type_card') && buttonIcons
       "
     >
+      <MessagesLockedFeature
+        v-if="
+          !customizeStore.managePlayerPackages.find(
+            (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_button_type'
+          )
+        "
+      />
+
       <div v-if="customizeStore.playerBtnShape.active == 1">
         <h1 class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin">
           {{
@@ -410,7 +418,7 @@ watch(currentColor, (ov, nv) => {
             >
               <img
                 :src="`https://tamkin.app/${selectedIcon}`"
-                 class="w-[26px] h-[26px]"
+                class="w-[26px] h-[26px]"
               />
             </div>
           </div>

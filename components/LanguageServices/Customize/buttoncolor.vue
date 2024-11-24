@@ -197,12 +197,19 @@ const customizeStore = useCustomizeStore();
     </div>
 
     <div
-      class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden"
+      class="relative flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden"
       v-if="
         !collapseStore.collapses.includes('button_color_card') &&
         customizeStore.isColorFeatureEnabled
       "
     >
+      <MessagesLockedFeature
+        v-if="
+          !customizeStore.managePlayerPackages.find(
+            (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_button_color'
+          )
+        "
+      />
       <div
         class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
       >

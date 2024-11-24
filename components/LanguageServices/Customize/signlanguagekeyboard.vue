@@ -209,12 +209,21 @@ const handleSelectedItemProjectName = (item: any) => {
     </div>
 
     <div
-      class="px-[15px] mt-[32px]"
+      class="relative px-[15px] mt-[32px]"
       v-if="
         !collapseStore.collapses.includes('sign_keyboard_card') &&
         customizeStore.keyboardData.active == 1
       "
     >
+      <MessagesLockedFeature
+        v-if="
+          !customizeStore.managePlayerPackages.find(
+            (t) =>
+              t.feature ===
+              'tamkin_deaf_dumb_deaf_manage_sign_language_player_keyboard'
+          )
+        "
+      />
       <div
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >

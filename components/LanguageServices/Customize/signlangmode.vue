@@ -209,8 +209,16 @@ const backgroundWidgetValues = (v: string) => {
 
     <div
       v-if="!collapseStore.collapses.includes('access_mode_card')"
-      class="flex flex-col items-center justify-center mt-[32px] px-[15px]"
+      class="relative flex flex-col items-center justify-center mt-[32px] px-[15px]"
     >
+      <MessagesLockedFeature
+        v-if="
+          !customizeStore.managePlayerPackages.find(
+            (t) =>
+              t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+          )
+        "
+      />
       <div
         v-if="
           customizeStore.playerMoveHideFeature.active == 1 &&

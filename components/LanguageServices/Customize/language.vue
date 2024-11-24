@@ -230,9 +230,18 @@ const filterdLanguages = computed(() => {
       </div>
 
       <div
-        class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
+        class="relative flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
       >
+        <MessagesLockedFeature
+          v-if="
+            !customizeStore.managePlayerPackages.find(
+              (t) =>
+                t.feature ===
+                'tamkin_deaf_dumb_deaf_manage_sign_language_player_language'
+            )
+          "
+        />
         <div
           v-if="customizeStore.islangListEnabled"
           class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
