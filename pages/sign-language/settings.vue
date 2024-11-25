@@ -126,7 +126,9 @@ const { t } = useI18n();
 
 const resetAccessiility = async () => {
   try {
-    const res = await api.post("/Apps/ResetSettingDefaultApp");
+    const res = await api.post("/Apps/ResetSettingDefaultApp", {
+      type: "Sign language", //Accessibility|Sign language
+    });
     closeModal("resetModal");
     getPlayerData();
     $toast(t("All Player settings have been reset"), {
