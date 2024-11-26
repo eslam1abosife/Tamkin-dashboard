@@ -332,7 +332,7 @@ const background = ref("");
           "
           class="rounded-[8px] flex items-center justify-center h-[50px] w-[50px] rtl:space-x-reverse space-x-[10px] cursor-pointer"
           :class="[
-            customizeStore.background == '0%'
+            customizeStore.background == 'option1'
               ? 'custom-border border-transparent'
               : 'border-[1px] border-[#D9D9D9]',
           ]"
@@ -343,7 +343,7 @@ const background = ref("");
                   'deaf-customize-sign-language-background-sign-language-background'
                 )
               ) {
-                customizeStore.backgroundWidgetValues('0%');
+                customizeStore.backgroundWidgetValues('option1');
               }
             }
           "
@@ -364,12 +364,12 @@ const background = ref("");
                   'deaf-customize-sign-language-background-sign-language-background'
                 )
               ) {
-                customizeStore.backgroundWidgetValues('50%');
+                customizeStore.backgroundWidgetValues('option2');
               }
             }
           "
           :class="[
-            customizeStore.background == '50%'
+            customizeStore.background == 'option2'
               ? 'custom-border border-transparent'
               : 'border-[1px] border-[#D9D9D9]',
           ]"
@@ -390,12 +390,12 @@ const background = ref("");
                   'deaf-customize-sign-language-background-sign-language-background'
                 )
               ) {
-                customizeStore.backgroundWidgetValues('100%');
+                customizeStore.backgroundWidgetValues('option3');
               }
             }
           "
           :class="[
-            customizeStore.background == '100%'
+            customizeStore.background == 'option3'
               ? 'custom-border border-transparent'
               : 'border-[1px] border-[#D9D9D9]',
           ]"

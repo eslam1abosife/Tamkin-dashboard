@@ -371,14 +371,14 @@ export default function () {
       customizeStore.backgroundItems = isSetBackground;
       if (isSetBackground.active == 1) {
         if (isSetBackground.value === "option1") {
-          customizeStore.background = "0%";
-          customizeStore.initbackground = "0%";
+          customizeStore.background = "option1";
+          customizeStore.initbackground = "option1";
         } else if (isSetBackground.value === "option2") {
-          customizeStore.background = "50%";
-          customizeStore.initbackground = "50%";
+          customizeStore.background = "option2";
+          customizeStore.initbackground = "option2";
         } else if (isSetBackground.value === "option3") {
-          customizeStore.background = "100%";
-          customizeStore.initbackground = "100%";
+          customizeStore.background = "option3";
+          customizeStore.initbackground = "option3";
         }
       }
       const isBackgroundfeatureActive = features
