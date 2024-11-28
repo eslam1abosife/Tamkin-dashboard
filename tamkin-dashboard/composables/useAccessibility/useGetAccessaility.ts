@@ -708,6 +708,21 @@ export default function () {
         customizeStore.isAccessibilityLiecenceTransferActive = false;
       }
 
+      const isLogoActive = features.find(
+        (feature: any) => feature.name === "acc-customize-menu-customization"
+      );
+      if (isLogoActive.active == 1) {
+        customizeStore.isLogoSupportActive = true;
+      }
+      customizeStore.logoSupportItems = isLogoActive.features;
+
+      customizeStore.logoSupportItems.map((el: any) => {
+        if (el.active == 1 && el.value == 1) {
+          customizeStore.toggleCheckbox(el.name);
+          customizeStore.toggleInitialCheckbox(el.name);
+        }
+      });
+
       checkboxStore.loadingData = false;
       customizeStore.loadingData = false;
     } catch (error) {

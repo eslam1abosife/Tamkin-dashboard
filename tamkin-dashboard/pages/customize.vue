@@ -110,6 +110,8 @@ const imgStyle = computed(() => {
 onBeforeMount(() => {
   getAccessability();
   [
+    "acc-customize-menu-customization-hide-support",
+    "acc-customize-menu-customization-hide-logo",
     "acc-customize-language-show-language-selector-on-the-widget",
     "acc-customize-translations-button-enable-live-site-translations-button",
     "acc-customize-widget-customization--oversized-widget",
@@ -153,6 +155,8 @@ onBeforeMount(() => {
     customizeStore.addCheckbox(name);
   });
   customizeStore.initializeCheckboxes([
+    "acc-customize-menu-customization-hide-support",
+    "acc-customize-menu-customization-hide-logo",
     "acc-customize-language-show-language-selector-on-the-widget",
     "acc-customize-translations-button-enable-live-site-translations-button",
     "acc-customize-widget-customization--oversized-widget",
@@ -1409,6 +1413,7 @@ const navStore = useNavbarStore();
             v-if="customizeStore.isProfilesCardsctive"
           />
 
+          <CustomizeLogoAndSupport v-if="customizeStore.isLogoSupportActive" />
           <CustomizeLanguage v-if="customizeStore.isLanguagective" />
 
           <!-- <CustomizeCustomTrigger /> -->

@@ -145,7 +145,6 @@ watchEffect(() => {
   }
 });
 
-
 // const closeResetAllModal = ()=>{
 
 // }
@@ -607,6 +606,14 @@ const handleSave = async (type: any) => {
         ),
       },
       {
+        name: "acc-customize-menu-customization-hide-support",
+        value: getValue("acc-customize-menu-customization-hide-support"),
+      },
+      {
+        name: "acc-customize-menu-customization-hide-logo",
+        value: getValue("acc-customize-menu-customization-hide-logo"),
+      },
+      {
         name: "acc-customize-button-color-button-color",
         value:
           custmizeStore.colorMode === "solid"
@@ -873,13 +880,12 @@ const loadf = ref(true);
     class="min-h-screen h-full"
     :lang="htmlAttrs.lang"
     :dir="htmlAttrs.dir"
-:class="[
+    :class="[
       openModals ? '!overflow-hidden' : 'overflow-auto overflow-x-hidden',
-    ]" 
+    ]"
   >
-
     <div
-      class="relative  dark:bg-p bg_dashboard  min-h-screen  w-full "
+      class="relative dark:bg-p bg_dashboard min-h-screen w-full"
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
       <div class="vl-parent">
@@ -893,10 +899,10 @@ const loadf = ref(true);
             <div class="flex items-center justify-center flex-col space-y-2">
               <!-- Your custom loader icon or content -->
               <img
-              src="/assets/imgs/logo.png"
-              alt="Loading..."
-              class="w-full max-w-[200px] h-[96px] object-contain block"
-            />
+                src="/assets/imgs/logo.png"
+                alt="Loading..."
+                class="w-full max-w-[200px] h-[96px] object-contain block"
+              />
 
               <div role="status">
                 <svg
@@ -1004,9 +1010,7 @@ const loadf = ref(true);
       />
 
       <div
-        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary 
-        z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey
-         dark:border-darkborder w-full"
+        class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
           sideBarOpenMobile
             ? 'fixed inset-0 z-[9999] w-full h-screen '
@@ -1025,7 +1029,7 @@ const loadf = ref(true);
                 ? '  ltr:rotate-180  lg:!top-[133px] rtl:lg:right-[62px] ltr:lg:left-[62px]'
                 : 'top-[154px] rtl:rotate-180 ltr:lg:left-[268px] rtl:lg:right-[268px]',
             ]"
-            class="!overflow-visible  cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden"
+            class="!overflow-visible cursor-pointer close_sidebar_btn fixed items-center justify-center bg-white dark:bg-tamkinDarkPrimary border-[1px] dark:shadow-sm dark:shadow-blur-2 dark:-shadow-y-[0.2px] dark:shadow-whiteTamkin border-linecolor dark:border-[#C5C5C5] rounded-full w-[24px] h-[24px] group z-[150] lg:flex hidden"
           >
             <svg
               width="9"
@@ -1047,11 +1051,7 @@ const loadf = ref(true);
             @toggleSidebarMobile="toggleSidebarMobile"
             @toggleSidebar="toggleSidebar"
           />
-         
-      
         </div>
-     
-     
       </div>
 
       <div
@@ -1087,7 +1087,7 @@ const loadf = ref(true);
                 </svg>
               </div>
 
-             <Searchbar/>
+              <Searchbar />
 
               <div
                 class="flex items-center justify-end rtl:space-x-reverse lg:space-x-[20px] w-full"
@@ -1113,7 +1113,6 @@ const loadf = ref(true);
               isLinkActive('/packages/*') ||
               isLinkActive('/ar/packages/*') ||
               isLinkActive('/how-to-join')
-              
                 ? ''
                 : 'pt-[20px] px-[20px] ipad-max:px-[20px] lg:px-[40px]'
             "

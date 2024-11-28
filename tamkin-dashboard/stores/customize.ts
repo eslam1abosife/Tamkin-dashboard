@@ -13,6 +13,8 @@ interface Card {
 
 export const useCustomizeStore = defineStore("customize", {
   state: () => ({
+    logoSupportItems: [],
+    isLogoSupportActive: false,
     managePlayerPackages: [],
     isContrastFeatureActive: {},
     isBackgroundfeatureActive: {},
