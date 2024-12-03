@@ -4,14 +4,14 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { Line } from "vue-chartjs";
 import { useWindowSize } from "@vueuse/core";
-import {useDownloadCSV} from '@/composables/useAccessibility'
-import { ar } from 'date-fns/locale';
+import { useDownloadCSV } from "@/composables/useAccessibility";
+import { ar } from "date-fns/locale";
 
-const {locale} = useI18n()
+const { locale } = useI18n();
 const navStore = useNavbarStore();
 const langStore = useLangSwitch();
 const statsStore = useStatsStore();
-const {downloadChartCsv} = useDownloadCSV()
+const { downloadChartCsv } = useDownloadCSV();
 const { width, height } = useWindowSize();
 const { sideBarOpen } = storeToRefs(navStore);
 const chart12 = ref("");
@@ -85,7 +85,7 @@ const isOpen = ref(false);
 const chartDataload = ref();
 const colors = ["red", "blue", "yellow", "green"];
 const selectedInterval = ref("");
-const chartDataOpens = ref()
+const chartDataOpens = ref();
 const options = ref({
   responsive: false,
   maintainAspectRatio: true,
@@ -123,7 +123,6 @@ const options = ref({
       },
     },
     y: {
-      
       grid: {
         display: false,
       },
@@ -183,21 +182,18 @@ const getDateRangeFromInterval = (interval) => {
 };
 
 const filterChartData = (loadscount, dateRange = null, interval = null) => {
-  let [startDate, endDate] = Array.isArray(dateRange) && dateRange.length === 2
-    ? dateRange.map(date => new Date(date))
-    : getDateRangeFromInterval(interval) || [];
+  let [startDate, endDate] =
+    Array.isArray(dateRange) && dateRange.length === 2
+      ? dateRange.map((date) => new Date(date))
+      : getDateRangeFromInterval(interval) || [];
 
   if (!startDate || !endDate) return loadscount;
 
-  return loadscount.filter(item => {
+  return loadscount.filter((item) => {
     const itemDate = new Date(item.date);
     return itemDate >= startDate && itemDate <= endDate;
   });
 };
-
-
-
-
 
 onMounted(async () => {
   // Initial check for dark mode
@@ -209,26 +205,44 @@ onMounted(async () => {
   updateChartOptions(colorMode.preference);
 });
 // Computed properties for summary calculations
-const loadscountSummary = computed(() => 
-  getLoadsCountSummary(statsStore.chartsData.loadscount, statsStore.chartsData.opencount, dateF.value, selectedInterval.value).loadscountSummary
+const loadscountSummary = computed(
+  () =>
+    getLoadsCountSummary(
+      statsStore.chartsData.loadscount,
+      statsStore.chartsData.opencount,
+      dateF.value,
+      selectedInterval.value
+    ).loadscountSummary
 );
 
-const opencountSummary = computed(() =>
-  getLoadsCountSummary(statsStore.chartsData.loadscount, statsStore.chartsData.opencount, dateF.value, selectedInterval.value).opencountSummary
+const opencountSummary = computed(
+  () =>
+    getLoadsCountSummary(
+      statsStore.chartsData.loadscount,
+      statsStore.chartsData.opencount,
+      dateF.value,
+      selectedInterval.value
+    ).opencountSummary
 );
 
 // WatchEffect to update chart data only when needed
 watchEffect(() => {
-  if (statsStore.chartsData &&statsStore.chartsData?.loadscount?.length > 0) {
-    const filteredData = filterChartData(statsStore.chartsData.loadscount, dateF.value, selectedInterval.value);
-    const sortedData = filteredData.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+  if (statsStore.chartsData && statsStore.chartsData?.loadscount?.length > 0) {
+    const filteredData = filterChartData(
+      statsStore.chartsData.loadscount,
+      dateF.value,
+      selectedInterval.value
+    );
+    const sortedData = filteredData
+      .slice()
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     chartDataload.value = {
-      labels: sortedData.map(t => t.date),
+      labels: sortedData.map((t) => t.date),
       datasets: [
         {
           label: "Widget Load",
-          data: sortedData.map(t => t.count),
+          data: sortedData.map((t) => t.count),
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: false,
@@ -241,15 +255,21 @@ watchEffect(() => {
   }
 
   if (statsStore.chartsData && statsStore.chartsData?.opencount?.length > 0) {
-    const filteredData = filterChartData(statsStore.chartsData.opencount, dateF.value, selectedInterval.value);
-    const sortedData = filteredData.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    const filteredData = filterChartData(
+      statsStore.chartsData.opencount,
+      dateF.value,
+      selectedInterval.value
+    );
+    const sortedData = filteredData
+      .slice()
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     chartDataOpens.value = {
-      labels: sortedData.map(t => t.date),
+      labels: sortedData.map((t) => t.date),
       datasets: [
         {
           label: "Widget Opens",
-          data: sortedData.map(t => t.count),
+          data: sortedData.map((t) => t.count),
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: false,
@@ -262,7 +282,7 @@ watchEffect(() => {
   }
 });
 
-const percentageuporDown = ref()
+const percentageuporDown = ref();
 // function getLoadsCountSummary(loadsCount, dateRange = null, interval = "7 Days") {
 //   let startDate;
 //   const today = new Date();
@@ -300,16 +320,12 @@ const percentageuporDown = ref()
 //     .reduce((sum, load) => sum + load.count, 0);
 
 //   // Return the summary string based on the period
-//   const period = dateRange 
+//   const period = dateRange
 //     ? `${startDate.toLocaleDateString()} - ${today.toLocaleDateString()}`
 //     : interval;
-    
+
 //   return `${totalLoads} Times during ${period}`;
 // }
-
-
-
-
 
 // console.log(getLoadsCountSummary()); // Output: "4 Times during 7 days"
 const percentageChange = ref({
@@ -317,7 +333,12 @@ const percentageChange = ref({
   opencountPercentageChange: 0,
 });
 
-function getLoadsCountSummary(loadscount = [], opencount = [], dateRange = null, interval = "7 Days") {
+function getLoadsCountSummary(
+  loadscount = [],
+  opencount = [],
+  dateRange = null,
+  interval = "7 Days"
+) {
   let startDate, previousStartDate;
   const today = new Date();
 
@@ -325,7 +346,9 @@ function getLoadsCountSummary(loadscount = [], opencount = [], dateRange = null,
   if (Array.isArray(dateRange) && dateRange.length === 2) {
     startDate = new Date(dateRange[0]);
     previousStartDate = new Date(dateRange[0]);
-    previousStartDate.setDate(previousStartDate.getDate() - (today - startDate) / (1000 * 60 * 60 * 24));
+    previousStartDate.setDate(
+      previousStartDate.getDate() - (today - startDate) / (1000 * 60 * 60 * 24)
+    );
   } else {
     startDate = new Date();
     previousStartDate = new Date();
@@ -362,16 +385,26 @@ function getLoadsCountSummary(loadscount = [], opencount = [], dateRange = null,
     if (!Array.isArray(data)) return { currentTotal: 0, percentageChange: 0 };
 
     const currentTotal = data
-      .filter(item => new Date(item.date) >= startDate && new Date(item.date) <= today)
+      .filter(
+        (item) =>
+          new Date(item.date) >= startDate && new Date(item.date) <= today
+      )
       .reduce((sum, item) => sum + item.count, 0);
 
     const previousTotal = data
-      .filter(item => new Date(item.date) >= previousStartDate && new Date(item.date) < startDate)
+      .filter(
+        (item) =>
+          new Date(item.date) >= previousStartDate &&
+          new Date(item.date) < startDate
+      )
       .reduce((sum, item) => sum + item.count, 0);
 
-    const percentageChange = previousTotal > 0 
-      ? ((currentTotal - previousTotal) / previousTotal * 100).toFixed(2)
-      : (currentTotal > 0 ? 100 : 0);
+    const percentageChange =
+      previousTotal > 0
+        ? (((currentTotal - previousTotal) / previousTotal) * 100).toFixed(2)
+        : currentTotal > 0
+        ? 100
+        : 0;
 
     return { currentTotal, percentageChange };
   };
@@ -387,16 +420,15 @@ function getLoadsCountSummary(loadscount = [], opencount = [], dateRange = null,
   };
 
   // Return summary string
-  const period = dateRange 
+  const period = dateRange
     ? `${startDate.toLocaleDateString()} - ${today.toLocaleDateString()}`
     : interval;
-  
+
   return {
     loadscountSummary: `${loadscountResult.currentTotal} Times during ${period}`,
-    opencountSummary: `${opencountResult.currentTotal} Times during ${period}`
+    opencountSummary: `${opencountResult.currentTotal} Times during ${period}`,
   };
 }
-
 
 watch(
   () => colorMode.preference,
@@ -438,21 +470,21 @@ const myStyles = computed(() => {
 const closeMenu = () => {
   isOpen.value = false;
 };
-const loadingDownload = ref(false)
+const loadingDownload = ref(false);
 const downloadCSV = async () => {
   loadingDownload.value = true;
-  
+
   const base64Data = await downloadChartCsv();
 
   const blob = base64ToBlob(base64Data, "text/csv");
 
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "chart_data_accessibility.csv"; 
+  link.download = "chart_data_accessibility.csv";
 
-  document.body.appendChild(link); 
-  link.click(); 
-  document.body.removeChild(link); 
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 
   loadingDownload.value = false;
 };
@@ -463,20 +495,20 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
 
   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
     const slice = byteCharacters.slice(offset, offset + sliceSize);
-    const byteNumbers = new Array(slice.length).fill().map((_, i) => slice.charCodeAt(i));
+    const byteNumbers = new Array(slice.length)
+      .fill()
+      .map((_, i) => slice.charCodeAt(i));
     byteArrays.push(new Uint8Array(byteNumbers));
   }
 
   return new Blob(byteArrays, { type: contentType });
 }
-
 </script>
 
 <template>
   <div
     class="mt-[44px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] shadow-md -shadow-y-[1px] px-[15px] relative"
   >
-
     <div class="flex items-center justify-start">
       <div class="pt-[24px]">
         <h1
@@ -505,7 +537,6 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
         ]"
         class="menu_button_control"
       >
-
         <svg
           width="18"
           height="5"
@@ -631,10 +662,14 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
     </div>
 
     <div
-      v-if="!collapseStore.collapses.includes('select_date_range_card') && navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length > 0"
-      class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full "
+      v-if="
+        !collapseStore.collapses.includes('select_date_range_card') &&
+        navStore.defaultappobj?.package?.filter(
+          (p) => p.type === 'Accessibility'
+        ).length > 0
+      "
+      class="flex flex-col items-start justify-center mt-[18px] lg:pb-[16px] w-full"
     >
-
       <div
         class="flex items-center justify-between lg:space-y-0 space-y-4 lg:flex-nowrap flex-wrap w-full"
       >
@@ -646,7 +681,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
               :enable-time-picker="false"
               @blur="dateOpen = false"
               @focus="dateOpen = true"
-              class="relative rtl:!font-[Almarai]" 
+              class="relative rtl:!font-[Almarai]"
               :clearable="false"
               disable-year-select
               month-name-format="long"
@@ -660,7 +695,7 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
               v-model="dateF"
               :format="format"
               :locale="locale"
-              :format-locale="locale === 'ar' ? ar : ''" 
+              :format-locale="locale === 'ar' ? ar : ''"
               format="E"
               :position="langStore.direction === 'rtl' ? 'right' : 'left'"
               :auto-position="false"
@@ -672,18 +707,18 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                 <div
                   class="flex items-center justify-end rtl:space-x-reverse space-x-[16px] w-full"
                 >
-                <button
-                @click="()=>{
-                  closePicker()
-                  dateF = ''
-                }"
-                :disabled="!dateF"
-
-                class="btn_bordered_dashboard  rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
-              >
-          
-                <div>{{ $t("Clear") }}</div>
-              </button>
+                  <button
+                    @click="
+                      () => {
+                        closePicker();
+                        dateF = '';
+                      }
+                    "
+                    :disabled="!dateF"
+                    class="btn_bordered_dashboard rtl:!font-[Almarai] error hover_tamkin flex items-center h-[19px] w-2/6 justify-center group"
+                  >
+                    <div>{{ $t("Clear") }}</div>
+                  </button>
                   <button
                     @click="closePicker"
                     class="btn_bordered_dashboard rtl:!font-[Almarai] flex items-center h-[19px] justify-center"
@@ -712,7 +747,6 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
                     </div>
                     <div>{{ $t("Done") }}</div>
                   </button>
-             
                 </div>
               </template>
               <template #input-icon>
@@ -855,25 +889,41 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           </div>
         </div>
         <div class="lg:mr-[-15px] lg:px-[15px]">
-          <div v-if="statsStore.loadingStats" class="bg-gray-200 animate-pulse w-[160px] h-[32px] rounded-[13px]">
-
-          </div>
-          <button v-else @click="downloadCSV" :disabled="loadingDownload || !chartDataOpens && !chartDataload"
-            class="btn-dashboard hover_tamkin flex items-center
-             h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px] "
+          <div
+            v-if="statsStore.loadingStats"
+            class="bg-gray-200 animate-pulse w-[160px] h-[32px] rounded-[13px]"
+          ></div>
+          <button
+            v-else
+            @click="downloadCSV"
+            :disabled="loadingDownload || (!chartDataOpens && !chartDataload)"
+            class="btn-dashboard hover_tamkin flex items-center h-[30px] lg:h-[19px] !rounded-[13px] !text-[13px] !leading-[10px] justify-center w-[160px]"
           >
             <div class="flex items-center justify-center">
               <div :class="loadingDownload ? 'rtl:ml-2 ltr:mr-2' : ''">
                 <div>{{ $t("Download CSV") }}</div>
-
               </div>
 
-              <svg v-if="loadingDownload" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
+              <svg
+                v-if="loadingDownload"
+                class="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
             </div>
           </button>
@@ -884,16 +934,24 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
       class="flex items-center justify-start lg:space-x-[48px] rtl:space-x-reverse lg:flex-nowrap flex-wrap relative"
       v-if="!collapseStore.collapses.includes('select_date_range_card')"
     >
-  <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
+      <MessagesLockedFeature
+        v-if="
+          navStore.defaultappobj?.package?.filter(
+            (p) => p.type === 'Accessibility'
+          ).length === 0
+        "
+      />
 
       <!-- Skeleton Loader -->
-  <div v-if="statsStore.loadingStats" class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full">
-    <!-- Title Placeholder -->
+      <div
+        v-if="statsStore.loadingStats"
+        class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+      >
+        <!-- Title Placeholder -->
+      </div>
 
-  
-  </div>
-
-      <div v-else
+      <div
+        v-else
         class="container_chart mt-[30px] h-[255px] w-full p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
       >
         <div class="custom-legend">
@@ -901,9 +959,12 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
             class="text-[11px] leading-[15px] text-[#616161] dark:text-whiteTamkin font-[600]"
           >
             <h3>{{ $t("Widget Loads") }}</h3>
-            <p class="font-[400]" v-if="dateF || selectedInterval"> {{ $t(`${loadscountSummary}`) }}</p>
+            <p class="font-[400]" v-if="dateF || selectedInterval">
+              {{ $t(`${loadscountSummary}`) }}
+            </p>
           </div>
-          <div  v-if="chartDataload"
+          <div
+            v-if="chartDataload"
             class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
           >
             <div
@@ -914,8 +975,16 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
               }"
             >
               <img
-                :src="percentageChange.loadscountPercentageChange < 0 ? '/assets/imgs/overview/down.svg' : '/assets/imgs/overview/up.svg'"
-                :class="[percentageChange.loadscountPercentageChange >= 0 ? 'rotate-0' : 'rotate-90']"
+                :src="
+                  percentageChange.loadscountPercentageChange < 0
+                    ? '/assets/imgs/overview/down.svg'
+                    : '/assets/imgs/overview/up.svg'
+                "
+                :class="[
+                  percentageChange.loadscountPercentageChange >= 0
+                    ? 'rotate-0'
+                    : 'rotate-90',
+                ]"
                 class="w-[19px] h-[19px]"
               />
               <div>+{{ percentageChange.loadscountPercentageChange }}%</div>
@@ -923,7 +992,8 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           </div>
         </div>
 
-        <Line v-if="chartDataload"
+        <Line
+          v-if="chartDataload"
           ref="chart12"
           :data="chartDataload"
           :options="options"
@@ -932,15 +1002,17 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
         />
 
         <div v-else class="flex items-center justify-center h-full w-full">
-         <h1 class="text-center ">{{$t('No data available yet')}}</h1>
+          <h1 class="text-center">{{ $t("No data available yet") }}</h1>
         </div>
       </div>
-      <div v-if="statsStore.loadingStats" class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full">
+      <div
+        v-if="statsStore.loadingStats"
+        class="animate-pulse mt-[30px] bg-gray-300 rounded-[10px] h-[255px] w-full"
+      >
         <!-- Title Placeholder -->
-    
-      
       </div>
-      <div v-else
+      <div
+        v-else
         class="container_chart mt-[30px] w-full h-[255px] p-[8px] relative custom-border-tamkin padding-override-1 rounded-[8px] shadow-sm"
       >
         <div class="custom-legend">
@@ -948,28 +1020,35 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
             class="text-[11px] leading-[15px] text-[#616161] font-[600] dark:text-whiteTamkin"
           >
             <h3>{{ $t("Widget Opens") }}</h3>
-            <p class="font-[400]"  v-if="dateF || selectedInterval">{{ $t(`${loadscountSummary}`) }}</p>
-
+            <p class="font-[400]" v-if="dateF || selectedInterval">
+              {{ $t(`${loadscountSummary}`) }}
+            </p>
           </div>
-          <div  v-if="chartDataOpens"
+          <div
+            v-if="chartDataOpens"
             class="text-[20px] leading-[27px] font-[600] dark:text-whiteTamkin"
           >
-          <div
-          class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
-          :class="{
-            positive: percentageChange.opencountPercentageChange >= 0,
-            negative: percentageChange.opencountPercentageChange < 0,
-          }"
-        >
-          <img
-          :src="percentageChange.opencountPercentageChange < 0 ? '/assets/imgs/overview/down.svg' : '/assets/imgs/overview/up.svg'"
-            class="w-[19px] h-[19px]"
-          />
-          <div>{{ percentageChange.opencountPercentageChange }}%</div>
-        </div>
+            <div
+              class="flex items-center justify-center rtl:space-x-reverse space-x-[6px]"
+              :class="{
+                positive: percentageChange.opencountPercentageChange >= 0,
+                negative: percentageChange.opencountPercentageChange < 0,
+              }"
+            >
+              <img
+                :src="
+                  percentageChange.opencountPercentageChange < 0
+                    ? '/assets/imgs/overview/down.svg'
+                    : '/assets/imgs/overview/up.svg'
+                "
+                class="w-[19px] h-[19px]"
+              />
+              <div>{{ percentageChange.opencountPercentageChange }}%</div>
+            </div>
           </div>
         </div>
-        <Line v-if="chartDataOpens"
+        <Line
+          v-if="chartDataOpens"
           ref="chart2"
           :data="chartDataOpens"
           :options="options"
@@ -977,22 +1056,20 @@ function base64ToBlob(base64, contentType = "", sliceSize = 512) {
           :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
         />
 
-        
         <div v-else class="flex items-center justify-center h-full w-full">
-          <h1 class="text-center ">No data available yet</h1>
-         </div>
+          <h1 class="text-center">No data available yet</h1>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <style lang="scss">
-.dp__calendar_header_item{
+.dp__calendar_header_item {
   @apply text-[12px] #{!important};
 }
 :root[dir="rtl"] {
-  --dp-font-family: 'Almarai', sans-serif !important;
+  --dp-font-family: "Almarai", sans-serif !important;
 }
 
 .dp__pointer::placeholder {

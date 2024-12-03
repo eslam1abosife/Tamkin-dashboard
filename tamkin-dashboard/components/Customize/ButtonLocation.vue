@@ -12,7 +12,7 @@ const settingsStore = useSettingsStore();
 
 <template>
   <div
-    class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] mb-[40px] shadow-md -shadow-y-[1px] relative"
+    class="relative mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] mb-[40px] shadow-md -shadow-y-[1px]"
     :class="[
       collapseStore.collapses.includes('button_location_card')
         ? 'pb-[24px]'
@@ -190,8 +190,6 @@ const settingsStore = useSettingsStore();
 
     <CustomizePositioning
       v-if="!collapseStore.collapses.includes('button_location_card')"
-      class="relative"
     />
-   
   </div>
 </template>

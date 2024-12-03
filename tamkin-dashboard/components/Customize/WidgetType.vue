@@ -2,6 +2,7 @@
 import { vOnClickOutside } from "@vueuse/components";
 import { useCustomizeStore } from "@/stores/customize.js";
 const customizeStore = useCustomizeStore();
+const settingsStore = useSettingsStore();
 
 import { useCollapseStore } from "@/stores/collapse.js";
 const collapseStore = useCollapseStore();
@@ -189,9 +190,16 @@ const { widgetType } = storeToRefs(customizeStore);
       </div>
 
       <div
-        class="flex flex-col items-start justify-center mt-[18px] divide-y pb-[16px]"
+        class="relative flex flex-col items-start justify-center mt-[18px] divide-y pb-[16px]"
         v-if="!collapseStore.collapses.includes('widget_type_card')"
       >
+        <MessagesLockedFeature
+          v-if="
+            !settingsStore.manageAccessibility.find(
+              (t) => t.feature === 'tamkin_accessibility_acc_manage_widget_type'
+            )
+          "
+        />
         <div
           class="flex md:items-center md:space-x-10 rtl:space-x-reverse lg:space-x-0 items-start lg:flex-col flex-col md:flex-row justify-center w-full mx-auto"
         >

@@ -214,6 +214,13 @@ const handleSelectedItemProjectName = (item: any) => {
         !collapseStore.collapses.includes('sign_keyboard_card') &&
         customizeStore.keyboardData.active == 1
       "
+      :class="
+        !customizeStore.managePlayerPackages.find(
+          (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+        )
+          ? 'pb-[140px]'
+          : ''
+      "
     >
       <MessagesLockedFeature
         v-if="

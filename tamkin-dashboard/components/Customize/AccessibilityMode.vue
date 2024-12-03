@@ -18,6 +18,14 @@ const settingsStore = useSettingsStore();
         : '',
     ]"
   >
+    <MessagesLockedFeature
+      v-if="
+        !settingsStore.manageAccessibility.find(
+          (t) =>
+            t.feature === 'tamkin_accessibility_acc_manage_accessibility_mode'
+        )
+      "
+    />
     <div
       v-if="
         customizeStore.moveHideFeature.active == 1 &&

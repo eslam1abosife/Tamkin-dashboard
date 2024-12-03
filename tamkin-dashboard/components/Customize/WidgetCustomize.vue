@@ -8,7 +8,13 @@ const { isChecked, toggleCheckbox } = customizeStore;
 
 <template>
   <div
-    class="flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
+    class="relative flex flex-col items-center justify-center mt-[32px] px-[15px] divide-y dark:divide-darkborder"
+    :class="[
+      navStore.defaultappobj?.package?.filter((p) => p.type === 'Accessibility')
+        .length === 0
+        ? 'pb-[54px]'
+        : '',
+    ]"
   >
     <MessagesLockedFeature
       v-if="

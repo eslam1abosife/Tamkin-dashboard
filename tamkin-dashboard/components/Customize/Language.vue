@@ -4,7 +4,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 const collapseStore = useCollapseStore();
 import { useCustomizeStore } from "@/stores/customize.js";
-const settingsStore  = useSettingsStore()
+const settingsStore = useSettingsStore();
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 const isOpen = ref(false);
@@ -53,9 +53,6 @@ const filterdLanguages = computed(() => {
           : 'pb-[10px]',
       ]"
     >
-
-    <MessagesLockedFeature v-if="!settingsStore.manageAccessibility.find(t=>t.feature === 'tamkin_accessibility_acc_manage_live_site_translations_button')"/>
-
       <div class="flex items-center justify-start pt-[16px]">
         <div>
           <h1
@@ -232,9 +229,27 @@ const filterdLanguages = computed(() => {
       </div>
 
       <div
-        class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
+        class="relative flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
+        :class="
+          !settingsStore.manageAccessibility.find(
+            (t) =>
+              t.feature ===
+              'tamkin_accessibility_acc_manage_live_site_translations_button'
+          )
+            ? 'pb-[90px]'
+            : ''
+        "
       >
+        <MessagesLockedFeature
+          v-if="
+            !settingsStore.manageAccessibility.find(
+              (t) =>
+                t.feature ===
+                'tamkin_accessibility_acc_manage_live_site_translations_button'
+            )
+          "
+        />
         <div
           class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
           v-if="customizeStore.isLangListActive"

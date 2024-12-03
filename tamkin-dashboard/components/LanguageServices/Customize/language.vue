@@ -232,10 +232,18 @@ const filterdLanguages = computed(() => {
       <div
         class="relative flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('language_customize_card')"
+        :class="
+          customizeStore.managePlayerPackages.find(
+            (t) =>
+              t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+          )
+            ? 'pb-[179px]'
+            : ''
+        "
       >
         <MessagesLockedFeature
           v-if="
-            !customizeStore.managePlayerPackages.find(
+            customizeStore.managePlayerPackages.find(
               (t) =>
                 t.feature ===
                 'tamkin_deaf_dumb_deaf_manage_sign_language_player_language'

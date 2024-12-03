@@ -5,6 +5,7 @@ import { useCollapseStore } from "@/stores/collapse.js";
 const customizeStore = useCustomizeStore();
 const { isChecked, toggleCheckbox } = customizeStore;
 const collapseStore = useCollapseStore();
+const settingsStore = useSettingsStore();
 </script>
 <template>
   <div class="flex flex-col items-center justify-center w-full mt-[40px]">
@@ -175,9 +176,26 @@ const collapseStore = useCollapseStore();
       </div>
 
       <div
-        class="flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
+        class="relative flex flex-col items-start justify-center ltr:mr-[15px] rtl:ml-[15px] mt-[18px] pb-[16px]"
         v-if="!collapseStore.collapses.includes('logo_support_customize_card')"
+        :class="
+          !settingsStore.manageAccessibility.find(
+            (t) =>
+              t.feature === 'tamkin_accessibility_acc_manage_menu_customization'
+          )
+            ? 'pb-[90px]'
+            : ''
+        "
       >
+        <MessagesLockedFeature
+          v-if="
+            !settingsStore.manageAccessibility.find(
+              (t) =>
+                t.feature ===
+                'tamkin_accessibility_acc_manage_menu_customization'
+            )
+          "
+        />
         <template
           v-for="(item, index) in customizeStore.logoSupportItems"
           :key="index"

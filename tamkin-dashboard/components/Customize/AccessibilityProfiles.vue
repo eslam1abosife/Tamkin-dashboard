@@ -70,15 +70,13 @@ const getImagePath = (icon) => {
 <template>
   <div class="flex flex-col items-center justify-center w-full mt-[40px]">
     <div
-      class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px] relative"
+      class="relative bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] shadow-md -shadow-y-[1px]"
       :class="[
         collapseStore.collapses.includes('manage_access_profiles_card')
           ? 'pb-[24px]'
           : 'pb-[10px]',
       ]"
     >
-    <MessagesLockedFeature v-if="navStore.defaultappobj?.package?.filter(p => p.type === 'Accessibility').length === 0"/>
-
       <div class="flex items-center justify-start pt-[24px] w-full">
         <div>
           <h1
@@ -266,9 +264,16 @@ const getImagePath = (icon) => {
       </div>
 
       <div
-        class="flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
+        class="relative flex flex-col items-start justify-center pb-[16px] mt-[18px] divide-y"
         v-if="!collapseStore.collapses.includes('manage_access_profiles_card')"
       >
+        <MessagesLockedFeature
+          v-if="
+            navStore.defaultappobj?.package?.filter(
+              (p) => p.type === 'Accessibility'
+            ).length === 0
+          "
+        />
         <draggable
           v-model="customizeStore.manageProfileCardsCustomize"
           @change="
@@ -299,18 +304,30 @@ const getImagePath = (icon) => {
               >
                 <img
                   src="/assets/imgs/addons/left_item.svg"
-                  :class="[!isChecked(element.checkboxId) || !element.is_enabled  ? 'opacity-60' : '']"
+                  :class="[
+                    !isChecked(element.checkboxId) || !element.is_enabled
+                      ? 'opacity-60'
+                      : '',
+                  ]"
                   class="cursor-pointer handle w-[8px] h-[20px] lg:w-[11px] lg:h-[25px]"
                 />
 
                 <img
                   :src="getImagePath(element.icon)"
                   class="lg:w-[45px] lg:h-[46px] w-[30px] h-[30px]"
-                  :class="[!isChecked(element.checkboxId) || !element.is_enabled  ? 'opacity-60' : '']"
+                  :class="[
+                    !isChecked(element.checkboxId) || !element.is_enabled
+                      ? 'opacity-60'
+                      : '',
+                  ]"
                 />
                 <div
                   class="flex flex-col items-start justify-center w-full"
-                  :class="[!isChecked(element.checkboxId) || !element.is_enabled ? 'opacity-60' : '']"
+                  :class="[
+                    !isChecked(element.checkboxId) || !element.is_enabled
+                      ? 'opacity-60'
+                      : '',
+                  ]"
                 >
                   <div
                     class="text-[#23262F] dark:text-whiteTamkin font-[500] text-[12px] lg:text-[14px] leading-[8px] lg:leading-[16.39px]"
@@ -328,31 +345,47 @@ const getImagePath = (icon) => {
                 <div class="ml-auto">
                   <label :for="element.checkboxId" class="toggle_wrap">
                     <input
-                    type="checkbox"
-                    :id="element.checkboxId"
-                    class="sr-only group"
-                    :checked="isChecked(element.checkboxId) && element.is_enabled"
-                    :disabled="!element.is_enabled"
-                    @change="()=>{
-                      if(element.is_enabled){
-                         toggleCheckbox(element.checkboxId)
-                      }else {
-                        $toast($t('The Feature you are trying to use is not in your package'),{type:'warning',hideIn:3000})
-                      }
-                    }"
-                  />
+                      type="checkbox"
+                      :id="element.checkboxId"
+                      class="sr-only group"
+                      :checked="
+                        isChecked(element.checkboxId) && element.is_enabled
+                      "
+                      :disabled="!element.is_enabled"
+                      @change="
+                        () => {
+                          if (element.is_enabled) {
+                            toggleCheckbox(element.checkboxId);
+                          } else {
+                            $toast(
+                              $t(
+                                'The Feature you are trying to use is not in your package'
+                              ),
+                              { type: 'warning', hideIn: 3000 }
+                            );
+                          }
+                        }
+                      "
+                    />
                     <div
                       class="toggle_parent"
                       :class="[
-                        isChecked(element.checkboxId)  && element.is_enabled ? 'active' : 'in_active',
+                        isChecked(element.checkboxId) && element.is_enabled
+                          ? 'active'
+                          : 'in_active',
                       ]"
                     >
                       <div
                         class="toggle_inner"
-                        :class="{ active: isChecked(element.checkboxId) && element.is_enabled }"
+                        :class="{
+                          active:
+                            isChecked(element.checkboxId) && element.is_enabled,
+                        }"
                       >
                         <img
-                          v-if="isChecked(element.checkboxId) && element.is_enabled"
+                          v-if="
+                            isChecked(element.checkboxId) && element.is_enabled
+                          "
                           src="/assets/imgs/addons/active_toggle.svg"
                           class="w-[28px] h-[28px]"
                         />

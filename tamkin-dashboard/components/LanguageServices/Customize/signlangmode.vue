@@ -210,15 +210,14 @@ const backgroundWidgetValues = (v: string) => {
     <div
       v-if="!collapseStore.collapses.includes('access_mode_card')"
       class="relative flex flex-col items-center justify-center mt-[32px] px-[15px]"
+      :class="
+        !customizeStore.managePlayerPackages.find(
+          (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+        )
+          ? 'pb-[90px]'
+          : ''
+      "
     >
-      <MessagesLockedFeature
-        v-if="
-          !customizeStore.managePlayerPackages.find(
-            (t) =>
-              t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
-          )
-        "
-      />
       <div
         v-if="
           customizeStore.playerMoveHideFeature.active == 1 &&
@@ -226,6 +225,14 @@ const backgroundWidgetValues = (v: string) => {
         "
         class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary p-[6px] flex items-center justify-start w-full mt-[4px] border-b dark:border-darkborder"
       >
+        <MessagesLockedFeature
+          v-if="
+            !customizeStore.managePlayerPackages.find(
+              (t) =>
+                t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+            )
+          "
+        />
         <div
           class="flex items-center justify-start rtl:space-x-reverse space-x-[13px] w-full"
         >

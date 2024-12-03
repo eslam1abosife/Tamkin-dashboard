@@ -199,6 +199,13 @@ const { isChecked, toggleCheckbox } = customizeStore;
     <div
       class="relative px-[15px] mt-[32px]"
       v-if="!collapseStore.collapses.includes('sign_constrast_card')"
+      :class="
+        !customizeStore.managePlayerPackages.find(
+          (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_sign_language_mode'
+        )
+          ? 'pb-[90px]'
+          : ''
+      "
     >
       <MessagesLockedFeature
         v-if="

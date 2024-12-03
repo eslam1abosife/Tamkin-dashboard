@@ -310,15 +310,6 @@ const navStore = useNavbarStore();
                 : 'pb-[0]',
             ]"
           >
-            <MessagesLockedFeature
-              v-if="
-                !settingsStore.manageAccessibility.find(
-                  (t) =>
-                    t.feature === 'tamkin_accessibility_acc_manage_button_color'
-                )
-              "
-            />
-
             <div
               class="flex items-center justify-start px-[15px]"
               :class="[
@@ -501,12 +492,21 @@ const navStore = useNavbarStore();
             </div>
 
             <div
-              class="flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
+              class="relative flex flex-col items-start justify-center mt-[18px] pb-[16px] overflow-hidden relative h-full"
               v-if="
                 !collapseStore.collapses.includes('button_color_card') &&
                 customizeStore.isColorFeatureEnabled
               "
             >
+              <MessagesLockedFeature
+                v-if="
+                  !settingsStore.manageAccessibility.find(
+                    (t) =>
+                      t.feature ===
+                      'tamkin_accessibility_acc_manage_button_color'
+                  )
+                "
+              />
               <div
                 class="flex items-center justify-center lg:justify-between w-full lg:flex-nowrap flex-wrap lg:px-0 px-[15px] lg:space-y-0 space-y-[10px]"
               >
@@ -692,15 +692,6 @@ const navStore = useNavbarStore();
                 : 'pb-[10px]',
             ]"
           >
-            <MessagesLockedFeature
-              v-if="
-                !settingsStore.manageAccessibility.find(
-                  (t) =>
-                    t.feature === 'tamkin_accessibility_acc_manage_button_type'
-                )
-              "
-            />
-
             <div class="flex items-center justify-start">
               <div class="pt-[24px]">
                 <h1
@@ -877,12 +868,18 @@ const navStore = useNavbarStore();
             </div>
 
             <div
-              class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden relative"
-              v-if="
-                !collapseStore.collapses.includes('button_type_card') &&
-                buttonIcons
-              "
+              class="relative w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg overflow-hidden relative"
+              v-if="!collapseStore.collapses.includes('button_type_card')"
             >
+              <MessagesLockedFeature
+                v-if="
+                  !settingsStore.manageAccessibility.find(
+                    (t) =>
+                      t.feature ===
+                      'tamkin_accessibility_acc_manage_button_type'
+                  )
+                "
+              />
               <div v-if="customizeStore.buttonShapeObj.active == 1">
                 <h1
                   class="text-[14px] font-[500] leading-[24px] dark:text-whiteTamkin"
@@ -1214,16 +1211,6 @@ const navStore = useNavbarStore();
             v-if="customizeStore.isAccessibilityModeCardActive"
             class="mt-[34px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[40px] shadow-md -shadow-y-[1px] relative"
           >
-            <MessagesLockedFeature
-              v-if="
-                !settingsStore.manageAccessibility.find(
-                  (t) =>
-                    t.feature ===
-                    'tamkin_accessibility_acc_manage_accessibility_mode'
-                )
-              "
-            />
-
             <div
               class="flex items-center justify-start ltr:ml-[15px] rtl:mr-[15px] pt-[24px]"
             >

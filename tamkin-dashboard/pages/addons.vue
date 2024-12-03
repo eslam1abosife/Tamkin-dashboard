@@ -17,7 +17,7 @@ import {
   useRestoreApp,
   useGetPackage,
 } from "@/composables/useMySite";
-const {locale} = useI18n()
+const { locale } = useI18n();
 const { getPackage, messageStatus, codeStatus } = useGetPackage();
 const {
   isOpen,
@@ -32,9 +32,9 @@ const {
 } = useModalManager();
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const packagesStore = usePackgesStore();
-const livePackages= computed(()=>{
-  return packagesStore.getPackagesByTypeTitle('Package','Live Translation')
-})
+const livePackages = computed(() => {
+  return packagesStore.getPackagesByTypeTitle("Package", "Live Translation");
+});
 const { getAccessability } = useGetAccessaility();
 const navStore = useNavbarStore();
 
@@ -55,7 +55,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "accessibility-addons",
-
 });
 const localePath = useLocalePath();
 const route = useRoute();
@@ -90,7 +89,7 @@ const { $toast } = useNuxtApp();
 onMounted(async () => {
   await packagesStore.getDataPackage();
   const targetId = route.query.package;
-  
+
   if (targetId) {
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
@@ -186,127 +185,124 @@ onBeforeRouteLeave((to, from, next) => {
     next(); // No unsaved changes, proceed normally
   }
 });
-const mysiteStore = useMySiteStore()
+const mysiteStore = useMySiteStore();
 const { loadingBlock } = storeToRefs(mysiteStore);
 const getApps = async () => {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
-  settingsStore.appHeader = defaultApp.value
-
-}
+  settingsStore.appHeader = defaultApp.value;
+};
 const getPackageAndOpenPaymenModal = async (app, pack) => {
+  await loadingBlock.value.push(pack.name);
 
-    await loadingBlock.value.push( pack.name );
+  // if(app.title === 'Internal Service'){
+  //   mysiteStore.updatePayment = false
+  // }
+  // if(app.title !== 'Internal Service') {
+  mysiteStore.updatePayment = true;
+  // }
+  // alert(mysiteStore.updatePayment)
 
-      // if(app.title === 'Internal Service'){
-      //   mysiteStore.updatePayment = false
-      // }
-      // if(app.title !== 'Internal Service') {
-      mysiteStore.updatePayment = true;
-      // }
-      // alert(mysiteStore.updatePayment)
+  // console.log('here apps',app.package.find(k=>k.name === pack).name)
+  const packagemodal = await getPackage(pack.name);
 
-      // console.log('here apps',app.package.find(k=>k.name === pack).name)
-      const packagemodal = await getPackage(
-       pack.name
-      );
+  await mysiteStore.setCurrentPackage({
+    ...packagemodal.package,
+    package_price_role: packagemodal.price_roles,
+    billing_duration: pack.billing_duration,
+  });
 
-      await mysiteStore.setCurrentPackage({
-        ...packagemodal.package,
-        package_price_role: packagemodal.price_roles,
-        billing_duration:pack
-          .billing_duration,
-      });
+  // mysiteStore.currentPackage = app.package ? :null
+  mysiteStore.currentWebsite = app;
+  mysiteStore.openedCurrentSite = true;
+  // mysiteStore.selectedApp = ""
 
-      // mysiteStore.currentPackage = app.package ? :null
-      mysiteStore.currentWebsite = app;
-      mysiteStore.openedCurrentSite = true;
-      // mysiteStore.selectedApp = ""
-
-      navigateTo(null, "mysite", "add_package_modal_mysite");
-      loadingBlock.value.splice( pack.name );
- 
+  navigateTo(null, "mysite", "add_package_modal_mysite");
+  loadingBlock.value.splice(pack.name);
 };
 
-const runtimec = useRuntimeConfig()
+const runtimec = useRuntimeConfig();
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteNopackagebuy
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_no_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySiteUpgrade
-      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
-      v-if="isOpen('upgrade_mysite_package')"
-    />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <!-- Modal for adding a package -->
-    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaymentmethods />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentSuccess @updateData="getApps" v-if="isOpen('success_pay_mysite')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
-  </transition>
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteNopackagebuy
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_no_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySiteUpgrade
+        :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+        v-if="isOpen('upgrade_mysite_package')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <!-- Modal for adding a package -->
+      <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaymentmethods />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentSuccess
+        @updateData="getApps"
+        v-if="isOpen('success_pay_mysite')"
+      />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
+    </transition>
 
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentCryptoSuccess />
-  </transition>
-  <transition
-    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-    mode="out-in"
-  >
-    <MySitePaymentPaypal />
-  </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentCryptoSuccess />
+    </transition>
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MySitePaymentPaypal />
+    </transition>
     <div class="w-full h-full relative">
       <HeaderAccess
         :section-title="$t('Addons')"
@@ -340,13 +336,14 @@ const runtimec = useRuntimeConfig()
 
       <div v-else>
         <LanguageServicesNodata
-          v-if="navStore.defaultappobj?.type  == 'Internal Services'"
+          v-if="navStore.defaultappobj?.type == 'Internal Services'"
         />
         <div v-else>
           <AddonsAdjustmain v-if="customizeStore.isMainMenuActive" />
           <AddonsProfilecards v-if="customizeStore.isProfilesCardsctive" />
 
-          <div id="live"
+          <div
+            id="live"
             class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] pb-[24px] mb-[80px] shadow-md -shadow-y-[1px] relative"
           >
             <div
@@ -574,120 +571,121 @@ const runtimec = useRuntimeConfig()
             </div>
 
             <div
-              class="f
-               lg:px-[25px] mt-[64px] md:px-[25px]"
+              class="f lg:px-[25px] mt-[64px] md:px-[25px]"
               v-if="
                 horizontalView &&
-                !collapseStore.collapses.includes('LiveTranslationAddonsCard') 
+                !collapseStore.collapses.includes('LiveTranslationAddonsCard')
               "
             >
-            <!-- -->
+              <!-- -->
 
-           <div class=" flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap
-w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14 
-               md:flex-nowrap  " v-if="navStore.defaultappobj">
-            <div
-            v-for="pak in  livePackages " :key="pak.name"
-            :class="[
-              navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name 
-                ? 'bg-selected' 
-                : ''
-            ]"
-            
-              class="w-full  flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
-            >
-            
               <div
-                class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+                class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14 md:flex-nowrap"
+                v-if="navStore.defaultappobj"
               >
-                ${{ annual_prices ? pak.package_price_role[0].cost_before_yearly :pak.package_price_role[0].cost_before_month }}
-                <span class="text-[13px]"
-                  >/{{ annual_prices ? $t("year") : $t("mo") }}</span
-                >
-              </div>
-              <div
-                class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-              >
-                {{ $t(pak.title) }}
-              </div>
-              <div
-                class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-              >
-                {{ $t(pak.sub_title) }}
-              </div>
-              <div
-                class="w-full custom-border padding-override-1 mt-[4px]"
-              ></div>
-              <div
-                class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
-              >
-                <div>
-                  <img
-                    :src="runtimec.public.baseImagerUrl+pak.icon"
-                    class="w-[23px] h-[23px]"
-                  />
-                </div>
                 <div
-                  class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+                  v-for="pak in livePackages"
+                  :key="pak.name"
+                  :class="[
+                    navStore.defaultappobj?.package?.find(
+                      (t) => t.type === 'Live Translation'
+                    )?.name === pak.name
+                      ? 'bg-selected'
+                      : '',
+                  ]"
+                  class="w-full flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
                 >
-                  {{ $t(pak.type) }}
+                  <div
+                    class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+                  >
+                    ${{
+                      annual_prices
+                        ? pak.package_price_role[0].cost_before_yearly
+                        : pak.package_price_role[0].cost_before_month
+                    }}
+                    <span class="text-[13px]"
+                      >/{{ annual_prices ? $t("year") : $t("mo") }}</span
+                    >
+                  </div>
+                  <div
+                    class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
+                  >
+                    {{ $t(pak.title) }}
+                  </div>
+                  <div
+                    class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
+                  >
+                    {{ $t(pak.sub_title) }}
+                  </div>
+                  <div
+                    class="w-full custom-border padding-override-1 mt-[4px]"
+                  ></div>
+                  <div
+                    class="flex items-center justify-evenly mt-[12px] rtl:space-x-reverse space-x-[6px]"
+                  >
+                    <div>
+                      <img
+                        :src="runtimec.public.baseImagerUrl + pak.icon"
+                        class="w-[23px] h-[23px]"
+                      />
+                    </div>
+                    <div
+                      class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+                    >
+                      {{ $t(pak.type) }}
+                    </div>
+                  </div>
+                  <button
+                    @click="
+                      getPackageAndOpenPaymenModal(navStore.defaultappobj, pak)
+                    "
+                    :disabled="loadingBlock.find((a) => a === pak.name)"
+                    :class="[
+                      navStore.defaultappobj?.package?.find(
+                        (t) => t.type === 'Live Translation'
+                      )?.name === pak.name
+                        ? 'btn-dashboard w-auto hover_tamkin'
+                        : 'btn_bordered_dashboard dark:!text-whiteTamkin hover:!text-white',
+                    ]"
+                    class="mt-[24px]"
+                  >
+                    {{
+                      navStore.defaultappobj?.package?.find(
+                        (t) => t.type === "Live Translation"
+                      )?.name === pak.name
+                        ? $t("Current Package")
+                        : $t("Get Started")
+                    }}
+
+                    <svg
+                      v-if="loadingBlock.find((a) => a === pak.name)"
+                      class="animate-spin h-5 w-5 mx-1 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <div
+                    class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+                  >
+                    <img :src="runtimec.public.baseImagerUrl + pak.icon" />
+                  </div>
                 </div>
               </div>
-              <button @click="getPackageAndOpenPaymenModal(navStore.defaultappobj,pak)"
-              :disabled=" loadingBlock.find(
-                a=>a === pak.name
-                 
-              )"
-              :class="[
-  navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name
-    ? 'btn-dashboard w-auto hover_tamkin'
-    : 'btn_bordered_dashboard dark:!text-whiteTamkin hover:!text-white'
-]"
-
-                class=" mt-[24px] "
-              >{{ 
-                navStore.defaultappobj?.package?.find(t => t.type === 'Live Translation')?.name === pak.name 
-                  ? $t('Current Package') 
-                  : $t('Get Started') 
-              }}
-              
-
-              <svg
-              v-if=" 
-                loadingBlock.find(
-                  a=>a === pak.name
-                   
-                )
-              "
-              class="animate-spin h-5 w-5 mx-1 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-              </button>
-              <div
-                class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
-              >
-                <img                     :src="runtimec.public.baseImagerUrl+pak.icon"
-                />
-              </div>
-            </div>
-           </div>
-
             </div>
 
             <div
@@ -697,11 +695,9 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                 !collapseStore.collapses.includes('LiveTranslationAddonsCard')
               "
             >
-       
-
               <div
-              v-for="pak in  livePackages " :key="pak.name"
-
+                v-for="pak in livePackages"
+                :key="pak.name"
                 class="flex items-center justify-start h-[77px] w-full bg-selected dark:bg-p_secondary relative custom-border rounded-big rounded-[19px]"
               >
                 <div class="ltr:ml-[15px] rtl:mr-[15px]">
@@ -714,9 +710,12 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                   <div
                     class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin"
                   >
-                    ${{ annual_prices ?  pak.package_price_role[0].cost_before_yearly :pak.package_price_role[0].cost_before_month
+                    ${{
+                      annual_prices
+                        ? pak.package_price_role[0].cost_before_yearly
+                        : pak.package_price_role[0].cost_before_month
                     }}<span class="text-[13px]"
-                      >/{{ annual_prices ? $t("year" ): $t("mo") }}</span
+                      >/{{ annual_prices ? $t("year") : $t("mo") }}</span
                     >
                   </div>
                   <div
@@ -725,55 +724,59 @@ w-full lg:space-y-0 space-y-10 md:space-y-0 rtl:space-x-reverse md:space-x-14
                     {{ $t(pak.title) }}
                   </div>
                 </div>
-                <div class="absolute top-[2px] right-[0]" v-if="pak.type_deal !== 'None'">
+                <div
+                  class="absolute top-[2px] right-[0]"
+                  v-if="pak.type_deal !== 'None'"
+                >
                   <img
                     src="/assets/imgs/addons/start.svg"
                     class="w-full h-full"
                   />
                 </div>
-                <button @click="getPackageAndOpenPaymenModal(navStore.defaultappobj,pak)"
-                :disabled=" loadingBlock.find(
-                  a=>a === pak.name
-                   
-                )"
-                :class="[navStore.defaultappobj?.package?.find(t=>t.type === 'Live Translation')?.name  === pak.name  ?'btn-dashboard w-auto hover_tamkin':'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white' ]"
-                class="rtl:mr-auto ltr:ml-auto  lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4  my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
+                <button
+                  @click="
+                    getPackageAndOpenPaymenModal(navStore.defaultappobj, pak)
+                  "
+                  :disabled="loadingBlock.find((a) => a === pak.name)"
+                  :class="[
+                    navStore.defaultappobj?.package?.find(
+                      (t) => t.type === 'Live Translation'
+                    )?.name === pak.name
+                      ? 'btn-dashboard w-auto hover_tamkin'
+                      : 'btn_bordered_dashboard  dark:!text-whiteTamkin hover:!text-white',
+                  ]"
+                  class="rtl:mr-auto ltr:ml-auto lg:w-1/6 ipad-max:w-1/4 mt-[24px] md:w-1/4 w-2/4 my-[19px] rtl:ml-[15px] ltr:mr-[15px] !p-1"
+                >
+                  {{
+                    navStore.defaultappobj?.package?.find(
+                      (t) => t.type === "Live Translation"
+                    )?.name === pak.name
+                      ? $t("Current Package")
+                      : $t("Get Started")
+                  }}
 
-                >{{ 
-                  navStore.defaultappobj?.package?.find(t=>t.type === 'Live Translation')?.name === pak.name 
-                    ? $t('Current Package') 
-                   
-                      : $t('Get Started') 
-                }}
-  
-                <svg
-                v-if=" 
-                  loadingBlock.find(
-                    a=>a === pak.name
-                     
-                  )
-                "
-                class="animate-spin h-5 w-5 mx-1 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+                  <svg
+                    v-if="loadingBlock.find((a) => a === pak.name)"
+                    class="animate-spin h-5 w-5 mx-1 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                 </button>
-        
               </div>
             </div>
           </div>
