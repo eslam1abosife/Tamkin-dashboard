@@ -23,7 +23,7 @@ const { getAccessability } = useGetAccessaility();
 const translateStore = useTranslateStore();
 import { useGetCurrentTeam, useGetInvestor } from "@/composables/useProfile";
 import { useApi } from "@/composables/useApi";
-
+const { locale } = useI18n();
 const { useApiInstance } = useApi();
 const { api, loading } = useApiInstance();
 const { t } = useI18n();
@@ -32,6 +32,7 @@ const { getCurrentTeam, currTeam } = useGetCurrentTeam();
 const profileStore = useProfileStore();
 
 const { getAvatarLetters } = useGetAvatarLetters();
+
 // const { data: member, pending, error:of } = await useAsyncData('member_t', async () => {
 
 // // console.log(res,'here res')
@@ -1059,6 +1060,85 @@ const loadf = ref(true);
       >
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySiteNopackagebuy
+              :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+              v-if="isOpen('upgrade_no_package')"
+            />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySiteUpgrade
+              :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+              v-if="isOpen('upgrade_mysite_package')"
+            />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <!-- Modal for adding a package -->
+            <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentPaymentmethods />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentSuccess
+              @updateData="getApps"
+              v-if="isOpen('success_pay_mysite')"
+            />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <ProfileBillingModalsAddnewCard
+              v-if="isOpen('add_new_card_billing')"
+            />
+          </transition>
+
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentCryptoSuccess />
+          </transition>
+          <transition
+            :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+            mode="out-in"
+          >
+            <MySitePaymentPaypal />
+          </transition>
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
             class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"

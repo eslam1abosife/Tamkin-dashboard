@@ -1,7 +1,14 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   darkMode: "class",
-  content: [],
+  content: [
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
+  ],
   theme: {
     extend: {
       animation: {
@@ -28,7 +35,6 @@ export default {
           '100%': { transform: 'translateX(100%)' },
         },
       },
-    
       boxShadow: {
         'custom-light': '1px 1px 11.5px 0px #A3F6F0',
       },
@@ -41,9 +47,7 @@ export default {
       },
       screens: {
         xs: { min: "300px", max: "350px" },
-
         "ipad-min": "768px",
-
         "ipad-max": { min: "1023px", max: "1024px" },
         "ret-max": { min: "1381px", max: "1382px" },
         "3xl": { min: "1900px" ,max:"1900px"},
@@ -97,12 +101,7 @@ export default {
         "tamkin-white": "   linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);",
         'tamkin-accessibility-navbar':'linear-gradient(180deg, #303E56 0%, #303E56 100%)',
         'gradient-services': 'linear-gradient(90deg, rgba(212, 177, 248, 0.66) 3%, rgba(161, 206, 203, 0.66) 26.17%, rgba(245, 201, 197, 0.66) 52.17%, rgba(113, 218, 210, 0.66) 78.17%, rgba(165, 214, 242, 0.66) 100%)',
-
       },
-
-      // backgroundImage: {
-      //   'tamkin-gradient-btn': 'linear-gradient(180deg, #2DADA3 0%, #71DAD2 100%)',
-      // },
       backgroundColor: {
         "light-grey": "#D9D9D9", // Define the bg-light-grey class
       },
@@ -117,7 +116,6 @@ export default {
     require("@tailwindcss/forms"),
     require("tailwind-extended-shadows"),
     // require('tailwind-scrollbar'),
-
     function ({ addVariant, e }) {
       addVariant("disabled:hover", ({ modifySelectors, separator }) => {
         modifySelectors(({ className }) => {

@@ -20,6 +20,7 @@
     "@document-kits/viewer": "^0.9.7",
     "sass": "^1.80.3",
     "terser": "^5.36.0",
+    "video.js": "^8.10.0",
     "videojs-responsive-layout": "^1.1.1",
     "videojs-wavesurfer": "^3.10.0",
     "vue": "^3.5.11",

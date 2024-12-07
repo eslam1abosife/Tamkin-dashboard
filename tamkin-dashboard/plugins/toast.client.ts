@@ -1,5 +1,5 @@
 import { createApp, h } from 'vue';
-import Toast from '@/components/Dashboard/Toast/Success.vue';
+import Toast from '~/components/Dashboard/Toast/Success.vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide('toast', (message, options = {}) => {

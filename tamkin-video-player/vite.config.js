@@ -11,10 +11,11 @@ export default defineConfig({
       formats: ["es", "umd"], // Remove "cjs" if not explicitly needed
     },
     rollupOptions: {
-      external: ['vue','vue3-lottie'],
+      external: ['vue', 'vue3-lottie', 'video.js'],
       output: {
         globals: {
           vue: 'Vue',
+          'video.js': 'videojs'
         },
         exports: 'named', 
       },
