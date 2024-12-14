@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { vOnClickOutside } from "@vueuse/components";
 import { useElementHover } from "@vueuse/core";
-import {useGetCurrentTeam, useGetAllMembers } from "~/composables/useTeam";
+import { useGetCurrentTeam, useGetAllMembers } from "~/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 // import banner from 'assets/imgs/gradient_embded.png'
@@ -14,27 +14,26 @@ const signLanguageHover = ref();
 const isHovered = useElementHover(accessMenuHover);
 const isSubmenuHovered = useElementHover(submenuHover);
 const isSignLanguageHoverd = useElementHover(signLanguageHover);
-const servicesHover =  useElementHover(services);
-const loadingTeamCard = ref(true)
+const servicesHover = useElementHover(services);
+const loadingTeamCard = ref(true);
 
 const { getAvatarLetters } = useGetAvatarLetters();
 
-const controlHover =  useElementHover(control);
+const controlHover = useElementHover(control);
 const props = defineProps({
   sideBarOpen: Boolean,
   mobileSidebar: Boolean,
 });
 
-const { currTeam, getCurrentTeam} = useGetCurrentTeam();
+const { currTeam, getCurrentTeam } = useGetCurrentTeam();
 const { teamMembers, getAllTeamMember } = useGetAllMembers();
 
 onMounted(async () => {
-  
   await getCurrentTeam();
-  const user = JSON.parse(localStorage.getItem('user'));
-  await  getAllTeamMember(user.agency);
-  loadingTeamCard.value = false
-})
+  const user = JSON.parse(localStorage.getItem("user"));
+  await getAllTeamMember(user.agency);
+  loadingTeamCard.value = false;
+});
 
 const emit = defineEmits(["toggleSidebar", "toggleSidebarMobile"]);
 let closeTimeout = null;
@@ -56,7 +55,9 @@ const openChildMenus = (id) => {
 
   // Toggle the clicked child menu
   const isCurrentlyOpen = showChildMenu.value[id];
-  showChildMenu.value = showChildMenu.value.map((_, index) => index === id ? !isCurrentlyOpen : false);
+  showChildMenu.value = showChildMenu.value.map((_, index) =>
+    index === id ? !isCurrentlyOpen : false
+  );
   showOnClickChild.value = !isCurrentlyOpen; // Ensure the state reflects the clicked action
 
   console.log(`child menu ${id} visibility:`, showChildMenu.value[id]);
@@ -67,7 +68,9 @@ const openMenuSub = (id) => {
 
   // Toggle the clicked submenu
   const isCurrentlyOpen = showSubMenu.value[id];
-  showSubMenu.value = showSubMenu.value.map((_, index) => index === id ? !isCurrentlyOpen : false);
+  showSubMenu.value = showSubMenu.value.map((_, index) =>
+    index === id ? !isCurrentlyOpen : false
+  );
   showOnClick.value = !isCurrentlyOpen; // Ensure the state reflects the clicked action
 
   // Reset child menu state to close any open child menus
@@ -78,9 +81,6 @@ const openMenuSub = (id) => {
 
   // console.log(`Submenu ${id} visibility:`, showSubMenu.value[id]);
 };
-
-
-
 
 const localePath = useLocalePath();
 const route = useRoute();
@@ -102,9 +102,8 @@ const activeAccessLinks = computed(() => {
 });
 
 const activeSignLanguageLinks = computed(() => {
-  return  isLinkActive("/market");
+  return isLinkActive("/market");
 });
-
 
 const closeSubMenuOnClickOutside = (index: any) => {
   if (!props.sideBarOpen && showSubMenu.value[index] === true) {
@@ -125,10 +124,7 @@ const closeSubmenuWithDelay = (id) => {
 };
 const closeChildmenuWithDelay = (id) => {
   closeTimeoutChild = setTimeout(() => {
-    if (
-    !servicesHover.value &&
-      !showOnClickChild.value
-    ) {
+    if (!servicesHover.value && !showOnClickChild.value) {
       showChildMenu.value[id] = false;
     }
   }, 200); // Delay in milliseconds
@@ -168,7 +164,6 @@ watch(servicesHover, (isHovered) => {
     if (isHovered) {
       showChildMenu.value[1] = true;
       showChildMenu.value[2] = false;
-
     } else if (!showOnClickChild.value) {
       closeChildmenuWithDelay(1);
       // closeChildmenuWithDelay(2);
@@ -226,129 +221,152 @@ watch(
 
 <template>
   <div
-    class="flex-col items-start justify-start lg:flex mx-auto   fixed rtl:lg:right-auto 
-    rtl:right-0 ltr:left-0 px-6 h-screen 
-    z-[140]  transition-all duration-75 ease-in-out transform-gpu bg-white border-l-0 border-t-0 border-b-0 
-    rtl:border-l ltr:border-r border-[1px] border-lightGrey"
-    :class="[sideBarOpen ? ' w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',mobileSidebar ? 'block' :'hidden']"
+    class="flex-col items-start justify-start lg:flex mx-auto fixed rtl:lg:right-auto rtl:right-0 ltr:left-0 px-6 h-screen z-[140] transition-all duration-75 ease-in-out transform-gpu bg-white border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey"
+    :class="[
+      sideBarOpen ? ' w-[280px] overflow-y-auto no-scrollbar' : 'w-[75px]',
+      mobileSidebar ? 'block' : 'hidden',
+    ]"
     style="box-sizing: border-box !important"
   >
-    <div class="flex flex-col items-start justify-start w-full  transition-all duration-100 ease-in-out">
+    <div
+      class="flex flex-col items-start justify-start w-full transition-all duration-100 ease-in-out"
+    >
       <nuxt-link
         class="self-start w-full cursor-pointer"
         :class="[sideBarOpen ? '' : 'mx-auto']"
         v-if="sideBarOpen"
-       :to="localePath('/team')"
+        :to="localePath('/team')"
       >
         <img
           src="/assets//imgs/logo.png"
           class="min-h-[50px] w-[100px] rtl:mr-[4px] ltr:ml-[-4px]"
         />
-    </nuxt-link>
-      <nuxt-link class="mb-[10px] w-[55px] h-[55px] mt-[24px] cursor-pointer "        :to="localePath('/team')" v-else>
+      </nuxt-link>
+      <nuxt-link
+        class="mb-[10px] w-[55px] h-[55px] mt-[24px] cursor-pointer"
+        :to="localePath('/team')"
+        v-else
+      >
         <img
           src="/assets//imgs/icons/tamkin_small.svg"
-          class="w-[28px] h-[28px] "
+          class="w-[28px] h-[28px]"
         />
       </nuxt-link>
       <div
-        class="w-[28px] h-[28px] cursor-pointer  rounded-full overflow-hidden"
+        class="w-[28px] h-[28px] cursor-pointer rounded-full overflow-hidden"
         v-if="!sideBarOpen"
         @click="$router.push(localePath('/team'))"
       >
-        <img v-if="currTeam?.team_image" :src="`https://tamkin.app/${currTeam?.team_image}`"  />
-        <div v-else class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[28px] h-[28px]">
-          <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
+        <img
+          v-if="currTeam?.team_image"
+          :src="`https://tamkin.app/${currTeam?.team_image}`"
+        />
+        <div
+          v-else
+          class="avatar_img rounded-full bg-[#2dada3] text-[#fff] grid place-content-center select-none w-[28px] h-[28px]"
+        >
+          <span> {{ getAvatarLetters(currTeam?.team_name || "") }} </span>
         </div>
       </div>
       <nuxt-link
-      class="tamkin_team_card"
-      @click="()=>{
-        if(!loadingTeamCard){
-          $router.push(localePath('/team'))
-        }
-      }"
-      :class="[
-        !sideBarOpen ? 'border-none bg-transparent hidden' : '',
-        isLinkActive('/team') ? 'bg-tamkinLight' : '',
-        loadingTeamCard ? '!bg-gray-50 !cursor-not-allowed !border-[1px] !border-gray-200':''
-      ]"
-    >
-      <div class="relative flex items-center justify-center w-1/4">
-        <img
-          v-if="!loadingTeamCard && currTeam?.team_image "
-          :src="`https://tamkin.app/${currTeam?.team_image}`"
-          class="rounded-full object-cover transition-all"
-          :class="[sideBarOpen ? 'h-[35px] w-[35px]' : 'h-[24px] w-[24px]']"
+        class="tamkin_team_card"
+        @click="
+          () => {
+            if (!loadingTeamCard) {
+              $router.push(localePath('/team'));
+            }
+          }
+        "
+        :class="[
+          !sideBarOpen ? 'border-none bg-transparent hidden' : '',
+          isLinkActive('/team') ? 'bg-tamkinLight' : '',
+          loadingTeamCard
+            ? '!bg-gray-50 !cursor-not-allowed !border-[1px] !border-gray-200'
+            : '',
+        ]"
+      >
+        <div class="relative flex items-center justify-center w-1/4">
+          <img
+            v-if="!loadingTeamCard && currTeam?.team_image"
+            :src="`https://tamkin.app/${currTeam?.team_image}`"
+            class="rounded-full object-cover transition-all"
+            :class="[sideBarOpen ? 'h-[35px] w-[35px]' : 'h-[24px] w-[24px]']"
+          />
 
-        />
-    
-        <!-- Skeleton Loader -->
-        <div
-          v-if="loadingTeamCard "
-          class="h-[35px] w-[35px] bg-gray-300 animate-pulse rounded-full"
-       
-        ></div>
-    
-        <!-- Placeholder Avatar -->
-        <div
-          v-if="!loadingTeamCard && !currTeam?.team_image "
-          :class="[sideBarOpen ? 'h-[35px] w-[35px] leading-[35px]' : 'h-[24px] w-[24px] leading-[24px]']"
-          class="avatar_img bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full"
-        >
-          <span> {{ getAvatarLetters(currTeam?.team_name || '') }} </span>
-        </div>
-      </div>
-    
-      <div class="flex items-center rtl:space-x-reverse w-full">
-        <div
-          class="order-2 ltr:ml-[12px] rtl:mr-[12px] w-full"
-          :class="[!sideBarOpen ? 'hidden' : 'block']"
-        >
-        <div class="h-[14px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse" v-if="loadingTeamCard">
+          <!-- Skeleton Loader -->
+          <div
+            v-if="loadingTeamCard"
+            class="h-[35px] w-[35px] bg-gray-300 animate-pulse rounded-full"
+          ></div>
 
-        </div>
-          <h2 class="font-[400] text-[14px]" style="line-height: 20px" v-else>
-            {{ currTeam?.team_name }}
-          </h2>
-
-        
-          <div class="h-[14px] mt-[8px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse" v-if="loadingTeamCard">
-
-          </div>
-          <h3 class="font-[400] text-[12px]" style="line-height: 20px" v-else>
-            {{ teamMembers.length }} {{ $t("Team Members") }}
-          </h3>
-
-          
-        </div>
-
-        <div class="h-[14px] w-[12px] rounded-[5px] bg-gray-200 animate-pulse order-3" v-if="loadingTeamCard">
-
-        </div>
-        <div v-else class="order-3 rtl:rotate-180" :class="[!sideBarOpen ? 'hidden' : 'block']">
-          <svg
-            class="arrow_svg"
-            width="7"
-            height="12"
-            viewBox="0 0 7 12"
-            xmlns="http://www.w3.org/2000/svg"
+          <!-- Placeholder Avatar -->
+          <div
+            v-if="!loadingTeamCard && !currTeam?.team_image"
+            :class="[
+              sideBarOpen
+                ? 'h-[35px] w-[35px] leading-[35px]'
+                : 'h-[24px] w-[24px] leading-[24px]',
+            ]"
+            class="avatar_img bg-[#2dada3] text-[#fff] grid place-content-center select-none rounded-full"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
-            />
-          </svg>
+            <span> {{ getAvatarLetters(currTeam?.team_name || "") }} </span>
+          </div>
         </div>
-      </div>
-    </nuxt-link>
-    
 
-      <hr class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder  my-[28px]" />
+        <div class="flex items-center rtl:space-x-reverse w-full">
+          <div
+            class="order-2 ltr:ml-[12px] rtl:mr-[12px] w-full"
+            :class="[!sideBarOpen ? 'hidden' : 'block']"
+          >
+            <div
+              class="h-[14px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse"
+              v-if="loadingTeamCard"
+            ></div>
+            <h2 class="font-[400] text-[14px]" style="line-height: 20px" v-else>
+              {{ currTeam?.team_name }}
+            </h2>
+
+            <div
+              class="h-[14px] mt-[8px] w-3/4 rounded-[5px] bg-gray-200 animate-pulse"
+              v-if="loadingTeamCard"
+            ></div>
+            <h3 class="font-[400] text-[12px]" style="line-height: 20px" v-else>
+              {{ teamMembers.length }} {{ $t("Team Members") }}
+            </h3>
+          </div>
+
+          <div
+            class="h-[14px] w-[12px] rounded-[5px] bg-gray-200 animate-pulse order-3"
+            v-if="loadingTeamCard"
+          ></div>
+          <div
+            v-else
+            class="order-3 rtl:rotate-180"
+            :class="[!sideBarOpen ? 'hidden' : 'block']"
+          >
+            <svg
+              class="arrow_svg"
+              width="7"
+              height="12"
+              viewBox="0 0 7 12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
+              />
+            </svg>
+          </div>
+        </div>
+      </nuxt-link>
+
+      <hr
+        class="block w-full mx-auto h-[1px] border-lightGrey dark:border-darkborder my-[28px]"
+      />
       <button
         @click="$router.push(localePath('/add-site'))"
-        class="btn-dashboard  hover_tamkin  relative w-full transition-all duration-75 ease-in-out"
+        class="btn-dashboard hover_tamkin relative w-full transition-all duration-75 ease-in-out"
         v-if="sideBarOpen"
       >
         <div class="absolute rtl:right-0 ltr:left-0 px-[12px]">
@@ -374,7 +392,7 @@ watch(
             />
           </svg>
         </div>
-        <div class="order-2">{{$t('Add Site')}}</div>
+        <div class="order-2">{{ $t("Add Site") }}</div>
       </button>
 
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
@@ -389,7 +407,9 @@ watch(
       <!-- <i class="fa-regular fa-circle-plus"></i> -->
     </button>
 
-    <div class="flex flex-col items-center justify-center  w-full transform-gpu transition-all ease-in-out">
+    <div
+      class="flex flex-col items-center justify-center w-full transform-gpu transition-all ease-in-out"
+    >
       <!-- <TamkinSideBarLink
         class="dashboard-nav-link "
         :to="goToLink('/overview')"
@@ -524,7 +544,7 @@ watch(
             />
           </svg>
         </div>
-        <span v-if="sideBarOpen">{{$t('Embed Code')}}</span>
+        <span v-if="sideBarOpen">{{ $t("Embed Code") }}</span>
       </TamkinSideBarLink>
       <TamkinSideBarLink
         class="dashboard-nav-link"
@@ -563,12 +583,17 @@ watch(
                 <stop offset="1" stop-color="#71DAD2" />
               </linearGradient>
               <clipPath id="clip0_2978_23987">
-                <rect width="24" height="24" fill="white" transform="translate(0.5)" />
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(0.5)"
+                />
               </clipPath>
             </defs>
           </svg>
         </div>
-        <span v-if="sideBarOpen">{{$t('My Site')}}</span>
+        <span v-if="sideBarOpen">{{ $t("My Site") }}</span>
       </TamkinSideBarLink>
 
       <nuxt-link
@@ -590,12 +615,14 @@ watch(
             class="w-[24px] h-[24px]"
           >
             <path
-
-            :class="[ showSubMenu[4] ? 'sign-gradient' : 'fill-[#585B5B] dark:fill-white']"
+              :class="[
+                showSubMenu[4]
+                  ? 'sign-gradient'
+                  : 'fill-[#585B5B] dark:fill-white',
+              ]"
               d="M13.7514 7.08983L7.23314 2.35596C7.08597 2.24635 6.99943 2.11523 6.97351 1.96259C6.94759 1.80995 6.99107 1.66177 7.10395 1.51806C7.21683 1.37435 7.35563 1.2887 7.52035 1.26109C7.68507 1.23349 7.84185 1.27449 7.99069 1.3841L14.5077 6.12406L13.7514 7.08983ZM8.92885 6.28847L8.54757 6.64166C8.44305 6.72772 8.35191 6.81094 8.27414 6.89132C8.19638 6.97251 8.12364 7.06588 8.05591 7.17143L6.14823 5.79889C6.00023 5.69009 5.91327 5.55491 5.88735 5.39334C5.86226 5.23258 5.90574 5.08034 6.01779 4.93663C6.13067 4.79374 6.26989 4.7097 6.43545 4.68453C6.601 4.65936 6.75778 4.70158 6.90578 4.81119L8.92885 6.28847ZM19.8243 7.26034L11.3056 1.0979C11.1576 0.989101 11.0736 0.857977 11.0535 0.704525C11.0334 0.551073 11.0794 0.402898 11.1915 0.260001C11.3035 0.117104 11.4386 0.0326647 11.5966 0.00668345C11.7538 -0.017674 11.9064 0.0245456 12.0544 0.133342L18.8523 5.04746L19.3038 1.77504C19.3498 1.5071 19.4598 1.27449 19.6337 1.07719C19.8076 0.879898 20.0304 0.764606 20.3022 0.731318L21.1701 0.642413L23.8517 9.44276C24.003 9.91368 24.0385 10.3785 23.9583 10.8372C23.878 11.296 23.6844 11.7198 23.3776 12.1087L21.7007 14.2838C21.6589 14.0467 21.5932 13.821 21.5037 13.6067C21.4151 13.3915 21.3047 13.1824 21.1726 12.9795L22.383 11.3962C22.5728 11.1559 22.694 10.8977 22.7467 10.6217C22.8002 10.3456 22.7818 10.0692 22.6915 9.79229L20.464 2.53377L19.8243 7.26034ZM6.75277 10.4171L6.0968 9.9494C5.9463 9.84629 5.85766 9.71273 5.83091 9.54872C5.80415 9.38471 5.84721 9.23085 5.96009 9.08714C6.07297 8.94344 6.21219 8.86306 6.37775 8.84601C6.54331 8.82896 6.70009 8.87524 6.84809 8.98484L7.48273 9.43546C7.47436 9.59784 7.48189 9.76185 7.5053 9.92748C7.52872 10.0915 7.57052 10.2547 7.63072 10.4171H6.75277ZM0.627114 17.2542C0.449014 17.2542 0.300179 17.1957 0.180609 17.0788C0.060203 16.9619 0 16.817 0 16.644C0 16.4711 0.060203 16.3266 0.180609 16.2105C0.301015 16.0944 0.44985 16.0363 0.627114 16.0363H8.7796V17.2542H0.627114ZM1.88134 20.6265C1.70324 20.6265 1.55441 20.568 1.43484 20.4511C1.31527 20.3342 1.25506 20.1893 1.25423 20.0163C1.25339 19.8434 1.3136 19.6989 1.43484 19.5828C1.55608 19.4667 1.70491 19.4086 1.88134 19.4086H8.7796V20.6265H1.88134ZM4.3898 24C4.2117 24 4.06286 23.9411 3.94329 23.8234C3.82372 23.7057 3.76352 23.5616 3.76269 23.3911C3.76185 23.2206 3.82205 23.076 3.94329 22.9575C4.06454 22.839 4.21337 22.7805 4.3898 22.7821H16.4505C16.9664 22.7821 17.4087 22.6031 17.7774 22.245C18.1462 21.887 18.331 21.4571 18.3318 20.9553V15.7099C18.3318 15.4128 18.2695 15.1363 18.1449 14.8806C18.0212 14.6248 17.8355 14.4125 17.588 14.2436L11.3457 9.70948L13.7489 13.8831H3.13557C2.95747 13.8831 2.80864 13.8247 2.68907 13.7078C2.56866 13.59 2.50846 13.4443 2.50846 13.2705C2.50846 13.0968 2.56866 12.9523 2.68907 12.837C2.80947 12.7217 2.95831 12.6636 3.13557 12.6628H11.6066L9.93725 9.78255C9.79929 9.54385 9.74034 9.29134 9.7604 9.02503C9.78047 8.75873 9.89586 8.5391 10.1066 8.36616L10.7676 7.79376L18.3218 13.2778C18.7223 13.5758 19.0329 13.9314 19.2537 14.3447C19.4752 14.7588 19.586 15.2135 19.586 15.7087V20.9541C19.586 21.8001 19.2808 22.5191 18.6704 23.111C18.0609 23.7037 17.3209 24 16.4505 24H4.3898Z"
-           
             />
-            <defs >
+            <defs>
               <linearGradient
                 id="grad_sign_lang"
                 x1="12"
@@ -611,8 +638,7 @@ watch(
           </svg>
 
           <div
-            class="     flex items-center
-             rtl:justify-start ltr:justify-evenly"
+            class="flex items-center rtl:justify-start ltr:justify-evenly"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -624,26 +650,38 @@ watch(
               ]"
               class="whitespace-nowrap"
             >
-              {{$t('Sign language')}}
+              {{ $t("Sign language") }}
             </div>
             <div v-if="sideBarOpen" class="absolute rtl:left-2 ltr:right-2">
               <svg
                 width="7"
                 height="12"
-                :class="[showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 rtl:rotate-180 ']"
+                :class="[
+                  showSubMenu[4] ? 'rotate-90  ' : 'rotate-0 rtl:rotate-180 ',
+                ]"
                 viewBox="0 0 7 12"
                 class="w-full h-full ]"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
-                  <linearGradient id="grad34311" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <linearGradient
+                    id="grad34311"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
                     <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
                     <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
                   </linearGradient>
                 </defs>
                 <path
-                :class="[ showSubMenu[4] ? 'sign-gradient' : 'fill-[#585B5B] dark:fill-[white]']"
-                fill-rule="evenodd"
+                  :class="[
+                    showSubMenu[4]
+                      ? 'sign-gradient'
+                      : 'fill-[#585B5B] dark:fill-[white]',
+                  ]"
+                  fill-rule="evenodd"
                   clip-rule="evenodd"
                   d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
                 />
@@ -653,18 +691,22 @@ watch(
         </div>
         <div
           class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
-          v-show="sideBarOpen && showSubMenu[4] ||   !sideBarOpen && showSubMenu[4]"
+          v-show="
+            (sideBarOpen && showSubMenu[4]) || (!sideBarOpen && showSubMenu[4])
+          "
           :class="[
             !sideBarOpen && showSubMenu[4]
               ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px]   bg-white dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
               : ' ',
-          
           ]"
           v-on-click-outside="() => closeSubMenuOnClickOutside(4)"
         >
-          <div class="flex flex-col items-start justify-center  h-full w-full " :class="[!sideBarOpen ? 'mt-[10px]':'']">
+          <div
+            class="flex flex-col items-start justify-center h-full w-full"
+            :class="[!sideBarOpen ? 'mt-[10px]' : '']"
+          >
             <div
-              class="flex items-center justify-between w-full px-[15px] h-full "
+              class="flex items-center justify-between w-full px-[15px] h-full"
               @click.stop
             >
               <div
@@ -676,21 +718,33 @@ watch(
                     : '',
                 ]"
               >
-                {{ $t('Sign language') }}
+                {{ $t("Sign language") }}
               </div>
               <div v-if="!sideBarOpen">
                 <svg
                   width="7"
                   height="12"
-                  :class="[showSubMenu[4] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px]']"
+                  :class="[
+                    showSubMenu[4] ? 'rotate-90 p-[8px]' : 'rotate-0 p-[8px]',
+                  ]"
                   viewBox="0 0 7 12"
                   class="w-full h-full pr-[8px]"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <linearGradient id="grad_s" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="grad_s"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                      <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      <stop
+                        offset="100%"
+                        stop-color="#71DAD2"
+                        stop-opacity="1"
+                      />
                     </linearGradient>
                   </defs>
                   <path
@@ -703,65 +757,258 @@ watch(
               </div>
             </div>
             <nuxt-link
-            @click.stop="$router.push({path:localePath('/market')})"
-              class="dashboard-nav-link flex items-center "
-              :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]']"
+              @click.stop="$router.push({ path: localePath('/market') })"
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
             >
               <div>
                 <div
-                class="w-[8px] h-[2px] rounded-[10px] "
-                v-show="sideBarOpen"
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
+                  :class="[
+                    isLinkActive('/market')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
+              </div>
+              <span
+                class="ltr:pl-[1px]"
                 :class="[
                   isLinkActive('/market')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                    : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
                 ]"
-              ></div>
-              </div>
-              <span class="ltr:pl-[1px]"     :class="[
-                isLinkActive('/market')
-                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                  : '',
-              ]">{{$t('Market')}}</span>
+              >
+                {{ $t("Market") }}
+              </span>
             </nuxt-link>
-            <div class="flex flex-col  dark:!bg-transparent relative w-full h-full "
-            
-             @click.stop>
-         
+            <nuxt-link
+              @click.stop="
+                $router.push({ path: localePath('/sign-language/overview') })
+              "
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
+              :to="localePath('/sign-language/overview')"
+            >
+              <div>
                 <div
-               
-                 ref="services"
-                  class="rounded-[10px] relative group w-full flex items-center justify-start"
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
                   :class="[
-                    isLinkActive('/overview') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-full ' : '',
+                    isLinkActive('/sign-language/overview')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
                   ]"
-                >
+                ></div>
+              </div>
+
+              <div
+                class="ltr:pl-[1px]"
+                :class="[
+                  isLinkActive('/sign-language/overview')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]"
+              >
+                {{ $t("Overview") }}
+              </div>
+            </nuxt-link>
+
+            <nuxt-link
+              @click.stop="
+                $router.push({ path: localePath('/sign-language/addons') })
+              "
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
+              :to="localePath('/sign-language/addons')"
+            >
+              <div>
+                <div
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
+                  :class="[
+                    isLinkActive('/sign-language/addons')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
+              </div>
+
+              <div
+                class="ltr:pl-[1px]"
+                :class="[
+                  isLinkActive('/sign-language/addons')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]"
+              >
+                {{ $t("Addons") }}
+              </div>
+            </nuxt-link>
+            <nuxt-link
+              @click.stop="
+                $router.push({ path: localePath('/sign-language/statistics') })
+              "
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
+              :to="localePath('/sign-language/statistics')"
+            >
+              <div>
+                <div
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
+                  :class="[
+                    isLinkActive('/sign-language/statistics')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
+              </div>
+
+              <div
+                class="ltr:pl-[1px]"
+                :class="[
+                  isLinkActive('/sign-language/statistics')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]"
+              >
+                {{ $t("Statistics") }}
+              </div>
+            </nuxt-link>
+            <nuxt-link
+              @click.stop="
+                $router.push({ path: localePath('/sign-language/customize') })
+              "
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
+              :to="localePath('/sign-language/customize')"
+            >
+              <div>
+                <div
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
+                  :class="[
+                    isLinkActive('/sign-language/customize')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
+              </div>
+
+              <div
+                class="ltr:pl-[1px]"
+                :class="[
+                  isLinkActive('/sign-language/customize')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]"
+              >
+                {{ $t("Customize") }}
+              </div>
+            </nuxt-link>
+            <nuxt-link
+              @click.stop="
+                $router.push({ path: localePath('/sign-language/settings') })
+              "
+              class="dashboard-nav-link flex items-center"
+              :class="[
+                sideBarOpen
+                  ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                  : 'w-11/12 !mx-[11px]',
+              ]"
+              :to="localePath('/sign-language/settings')"
+            >
+              <div>
+                <div
+                  class="w-[8px] h-[2px] rounded-[10px]"
+                  v-show="sideBarOpen"
+                  :class="[
+                    isLinkActive('/sign-language/settings')
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                  ]"
+                ></div>
+              </div>
+
+              <div
+                class="ltr:pl-[1px]"
+                :class="[
+                  isLinkActive('/sign-language/settings')
+                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                    : '',
+                ]"
+              >
+                {{ $t("Settings") }}
+              </div>
+            </nuxt-link>
+
+            <div
+              class="flex flex-col dark:!bg-transparent relative w-full h-full"
+              @click.stop
+            >
+              <!-- <div
+                ref="services"
+                class="rounded-[10px] relative group w-full flex items-center justify-start"
+                :class="[
+                  isLinkActive('/overview') && sideBarOpen ? '' : '',
+                  sideBarOpen ? 'w-full ' : '',
+                ]"
+              >
                 <nuxt-link
-                @click="openChildMenus(1)"
-             
+                  @click="openChildMenus(1)"
                   class="dashboard-nav-link flex items-center relative"
-                  :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]',
-                  showChildMenu[1]
-                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                  : '',]"
+                  :class="[
+                    sideBarOpen
+                      ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                      : 'w-11/12 !mx-[11px]',
+                    showChildMenu[1]
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                      : '',
+                  ]"
                 >
                   <div>
                     <div
-                    class="w-[8px] h-[2px] rounded-[10px] "
-                    v-show="sideBarOpen"
-                    :class="[
-                      showChildMenu[1]
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                        : 'bg-darkGrey dark:bg-whiteTamkin',
-                    ]"
-                  ></div>
+                      class="w-[8px] h-[2px] rounded-[10px]"
+                      v-show="sideBarOpen"
+                      :class="[
+                        showChildMenu[1]
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                          : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ]"
+                    ></div>
                   </div>
-                  <span class="ltr:pl-[1px]"     :class="[
-                    isLinkActive('/translate')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                      : '',
-                  ]">{{$t('Services')}}</span>
+                  <span
+                    class="ltr:pl-[1px]"
+                    :class="[
+                      isLinkActive('/translate')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                        : '',
+                    ]"
+                  >
+                    {{ $t("Services") }}
+                  </span>
                 </nuxt-link>
                 <div class="absolute ltr:right-2 rtl:left-2">
                   <svg
@@ -777,14 +1024,28 @@ watch(
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <defs>
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                        <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      <linearGradient
+                        id="grad1"
+                        x1="0%"
+                        y1="0%"
+                        x2="0%"
+                        y2="100%"
+                      >
+                        <stop
+                          offset="0%"
+                          stop-color="#2DADA3"
+                          stop-opacity="1"
+                        />
+                        <stop
+                          offset="100%"
+                          stop-color="#71DAD2"
+                          stop-opacity="1"
+                        />
                       </linearGradient>
                     </defs>
                     <path
                       :class="
-                      showChildMenu[1] || !sideBarOpen
+                        showChildMenu[1] || !sideBarOpen
                           ? 'fill_services '
                           : 'dark:fill-white fill-[#585B5B]'
                       "
@@ -794,16 +1055,20 @@ watch(
                     />
                   </svg>
                 </div>
-                </div>
-                <div
-                    @mouseenter="servicesHover = true"
-    @mouseleave="servicesHover = false"
-                  class=" space-y-[10px] w-full"
-                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] rounded-b-[10px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none ' : 'rtl:mr-[20px] ltr:ml-[20px]']"
-                  v-if="showChildMenu[1]"
-                >
-                
-                  <li
+              </div> -->
+
+              <!-- <div
+                @mouseenter="servicesHover = true"
+                @mouseleave="servicesHover = false"
+                class="space-y-[10px] w-full"
+                :class="[
+                  !sideBarOpen
+                    ? 'mt-[10px] px-[15px] rounded-b-[10px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[0] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none '
+                    : 'rtl:mr-[20px] ltr:ml-[20px]',
+                ]"
+                v-if="showChildMenu[1]"
+              >
+                <li
                   class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
                     isLinkActive('/market') && sideBarOpen ? '' : '',
@@ -821,12 +1086,12 @@ watch(
                     class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
                     <div
-                      class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
                       v-if="sideBarOpen"
                       :class="[
                         isLinkActive('/translate')
                           ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
                       ]"
                     ></div>
                     <div
@@ -838,126 +1103,134 @@ watch(
                           : '',
                       ]"
                     >
-                 {{$t('Media')}}
+                      {{ $t("Media") }}
                     </div>
                   </nuxt-link>
                 </li>
 
                 <li
-                class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                :class="[
-                  isLinkActive('/documentq') && sideBarOpen ? '' : '',
-                  sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                ]"
-              >
-                <nuxt-link
-                  @click.stop
-                  :to="localePath('/document')"
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
-                    isLinkActive('/document')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                      : '',
+                    isLinkActive('/documentq') && sideBarOpen ? '' : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
                   ]"
-                  class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                 >
-                  <div
-                    class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                    v-if="sideBarOpen"
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/document')"
                     :class="[
                       isLinkActive('/document')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                        : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
-                    ]"
-                  ></div>
-                  <div
-                    :class="[
-                      !sideBarOpen && isLinkActive('/document')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                        : sideBarOpen
-                        ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
                         : '',
                     ]"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
-               {{$t('Documents')}}
-                  </div>
-                </nuxt-link>
-              </li>
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/document')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen && isLinkActive('/document')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      {{ $t("Documents") }}
+                    </div>
+                  </nuxt-link>
+                </li>
 
-              <li
-              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-              :class="[
-                isLinkActive('/photos') && sideBarOpen ? '' : '',
-                sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-              ]"
-            >
-              <nuxt-link
-                @click.stop
-                :to="localePath('/photos')"
-                :class="[
-                  isLinkActive('/photos')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                    : '',
-                ]"
-                class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-              >
-                <div
-                  class="group-hover:bg-darkGrey  dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                  v-if="sideBarOpen"
+                <li
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
-                    isLinkActive('/photos')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                      : 'border-[1px] border-darkGrey dark:border-whiteTamkin' ,
+                    isLinkActive('/photos') && sideBarOpen ? '' : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
                   ]"
-                ></div>
-                <div
+                >
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/photos')"
+                    :class="[
+                      isLinkActive('/photos')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : '',
+                    ]"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
+                  >
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/photos')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen && isLinkActive('/photos')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      {{ $t("Photos") }}
+                    </div>
+                  </nuxt-link>
+                </li>
+              </div> -->
+
+              <!-- <div
+                ref="control"
+                class="rounded-[10px] relative group w-full flex items-center justify-start"
+                :class="[
+                  isLinkActive('/sign-language/overview') && sideBarOpen
+                    ? ''
+                    : '',
+                  sideBarOpen ? 'w-full ' : '',
+                ]"
+              >
+                <nuxt-link
+                  @click="openChildMenus(2)"
+                  class="dashboard-nav-link flex items-center justify-start relative"
                   :class="[
-                    !sideBarOpen && isLinkActive('/photos')
+                    sideBarOpen
+                      ? 'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3'
+                      : 'w-11/12 !mx-[11px]',
+                    showChildMenu[2]
                       ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                      : sideBarOpen
-                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
                       : '',
                   ]"
-                >
-             {{$t('Photos')}}
-                </div>
-              </nuxt-link>
-            </li>
-                </div>
-
-                <div
-
-                 ref="control"
-                  class="rounded-[10px] relative group w-full flex items-center justify-start"
-                  :class="[
-                    isLinkActive('/sign-language/overview') && sideBarOpen ? '' : '',
-                    sideBarOpen ? 'w-full ' : '',
-                  ]"
-                >
-                <nuxt-link
-                @click="openChildMenus(2)"
-             
-                  class="dashboard-nav-link flex items-center justify-start relative"
-                  :class="[sideBarOpen?'space-x-[20px] rtl:space-x-reverse justify-start w-full !p-3':'w-11/12 !mx-[11px]',
-                  showChildMenu[2]
-                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                  : '',]"
                 >
                   <div>
                     <div
-                    class="w-[8px] h-[2px] rounded-[10px] "
-                    v-show="sideBarOpen"
-                    :class="[
-                      showChildMenu[2]
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                        : 'bg-darkGrey dark:bg-whiteTamkin',
-                    ]"
-                  ></div>
+                      class="w-[8px] h-[2px] rounded-[10px]"
+                      v-show="sideBarOpen"
+                      :class="[
+                        showChildMenu[2]
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                          : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ]"
+                    ></div>
                   </div>
-                  <span class="ltr:pl-[1px]"     :class="[
-                    isLinkActive('/translate')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                      : '',
-                  ]">{{$t('Control')}}</span>
+                  <span
+                    class="ltr:pl-[1px]"
+                    :class="[
+                      isLinkActive('/translate')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                        : '',
+                    ]"
+                    >{{ $t("Control") }}</span
+                  >
                 </nuxt-link>
                 <div class="absolute ltr:right-2 rtl:left-2">
                   <svg
@@ -973,14 +1246,28 @@ watch(
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <defs>
-                      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                        <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      <linearGradient
+                        id="grad1"
+                        x1="0%"
+                        y1="0%"
+                        x2="0%"
+                        y2="100%"
+                      >
+                        <stop
+                          offset="0%"
+                          stop-color="#2DADA3"
+                          stop-opacity="1"
+                        />
+                        <stop
+                          offset="100%"
+                          stop-color="#71DAD2"
+                          stop-opacity="1"
+                        />
                       </linearGradient>
                     </defs>
                     <path
                       :class="
-                      showChildMenu[2] || !sideBarOpen
+                        showChildMenu[2] || !sideBarOpen
                           ? 'fill_services '
                           : 'dark:fill-white fill-[#585B5B]'
                       "
@@ -990,58 +1277,34 @@ watch(
                     />
                   </svg>
                 </div>
-                </div>
-                <div
-                    @mouseenter="controlHover = true"
-    @mouseleave="controlHover = false"
-                  class=" space-y-[10px] w-full"
-                  :class="[!sideBarOpen ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[50px] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none ' : 'rtl:mr-[20px] ltr:ml-[20px]']"
-                  v-if="showChildMenu[2]"
-                >
-                  <li
-                    class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                    :class="[
-                      isLinkActive('/sign-language/overview') && sideBarOpen ? '' : '',
-                      sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                    ]"
-                  >
-                    <nuxt-link
-                      @click.stop
-                      :to="localePath('/sign-language/overview')"
-                      :class="[
-                        isLinkActive('/sign-language/overview')
-                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                          : '',
-                      ]"
-                      class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-                    >
-                      <div
-                        class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                        v-if="sideBarOpen"
-                        :class="[
-                          isLinkActive('/sign-language/overview')
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                            : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                        ]"
-                      ></div>
-                      <div
-                        :class="[
-                          !sideBarOpen && isLinkActive('/sign-language/overview')
-                            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                            : sideBarOpen
-                            ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                            : '',
-                        ]"
-                      >
-                        {{$t('Overview')}}
-                      </div>
-                    </nuxt-link>
-                  </li>
-
-                  <li
+              </div> -->
+              <!-- <div
+                @mouseenter="controlHover = true"
+                @mouseleave="controlHover = false"
+                class="space-y-[10px] w-full"
+                :class="[
+                  !sideBarOpen
+                    ? 'mt-[10px] px-[15px] shadow-xl bg-white dark:bg-tamkinDarkPrimary p-3 absolute top-[50px] rtl:right-[270px] ltr:left-[270px]  rounded-[10px] rounded-tl-none '
+                    : 'rtl:mr-[20px] ltr:ml-[20px]',
+                ]"
+                v-if="showChildMenu[2]"
+              >
+                <li
                   class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
-                    isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
+                    isLinkActive('/sign-language/overview') && sideBarOpen
+                      ? ''
+                      : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                  ]"
+                ></li>
+
+                <li
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                  :class="[
+                    isLinkActive('/sign-language/addons') && sideBarOpen
+                      ? ''
+                      : '',
                     sideBarOpen ? 'w-3/4 ml-[10px]' : '',
                   ]"
                 >
@@ -1073,134 +1336,139 @@ watch(
                           : '',
                       ]"
                     >
-                      {{ $t('Addons') }}
+                      {{ $t("Addons") }}
                     </div>
                   </nuxt-link>
                 </li>
 
                 <li
-                class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-                :class="[
-                  isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
-                  sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-                ]"
-              >
-                <nuxt-link
-                  @click.stop
-                  :to="localePath('/sign-language/statistics')"
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
-                    isLinkActive('/sign-language/statistics')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                    isLinkActive('/sign-language/addons') && sideBarOpen
+                      ? ''
                       : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
                   ]"
-                  class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                 >
-                  <div
-                    class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                    v-if="sideBarOpen"
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/sign-language/statistics')"
                     :class="[
                       isLinkActive('/sign-language/statistics')
-                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                        : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                    ]"
-                  ></div>
-                  <div
-                    :class="[
-                      !sideBarOpen && isLinkActive('/sign-language/statistics')
                         ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                        : sideBarOpen
-                        ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
                         : '',
                     ]"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
                   >
-                  {{$t('Statistics')}}
-                  </div>
-                </nuxt-link>
-              </li>
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/sign-language/statistics')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen &&
+                        isLinkActive('/sign-language/statistics')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      {{ $t("Statistics") }}
+                    </div>
+                  </nuxt-link>
+                </li>
 
-              <li
-              class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-              :class="[
-                isLinkActive('/sign-language/addons') && sideBarOpen ? '' : '',
-                sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-              ]"
-            >
-              <nuxt-link
-                @click.stop
-                :to="localePath('/sign-language/customize')"
-                :class="[
-                  isLinkActive('/sign-language/customize')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                    : '',
-                ]"
-                class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-              >
-                <div
-                  class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                  v-if="sideBarOpen"
+                <li
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
                   :class="[
-                    isLinkActive('/sign-language/customize')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                      : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                  ]"
-                ></div>
-                <div
-                  :class="[
-                    !sideBarOpen && isLinkActive('/sign-language/customize')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                      : sideBarOpen
-                      ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                    isLinkActive('/sign-language/addons') && sideBarOpen
+                      ? ''
                       : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
                   ]"
                 >
-                {{ $t('Customize') }}
-                </div>
-              </nuxt-link>
-            </li>
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/sign-language/customize')"
+                    :class="[
+                      isLinkActive('/sign-language/customize')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : '',
+                    ]"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
+                  >
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/sign-language/customize')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen && isLinkActive('/sign-language/customize')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      {{ $t("Customize") }}
+                    </div>
+                  </nuxt-link>
+                </li>
 
-            <li
-            class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
-            :class="[
-              isLinkActive('/sign-language/settings') && sideBarOpen ? '' : '',
-              sideBarOpen ? 'w-3/4 ml-[10px]' : '',
-            ]"
-          >
-            <nuxt-link
-              @click.stop
-              :to="localePath('/sign-language/settings')"
-              :class="[
-                isLinkActive('/sign-language/settings')
-                  ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                  : '',
-              ]"
-              class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
-            >
-              <div
-                class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
-                v-if="sideBarOpen"
-                :class="[
-                  isLinkActive('/sign-language/settings')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                    : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
-                ]"
-              ></div>
-              <div
-                :class="[
-                  !sideBarOpen && isLinkActive('/sign-language/settings')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
-                    : sideBarOpen
-                    ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
-                    : '',
-                ]"
-              >
-              {{ $t('Settings') }}
-              </div>
-            </nuxt-link>
-          </li>
-                </div>
-        
+                <li
+                  class="rounded-[10px] relative dashboard-nav-link_sub_menu group !p-3"
+                  :class="[
+                    isLinkActive('/sign-language/settings') && sideBarOpen
+                      ? ''
+                      : '',
+                    sideBarOpen ? 'w-3/4 ml-[10px]' : '',
+                  ]"
+                >
+                  <nuxt-link
+                    @click.stop
+                    :to="localePath('/sign-language/settings')"
+                    :class="[
+                      isLinkActive('/sign-language/settings')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                        : '',
+                    ]"
+                    class="relative flex items-center justify-start space-x-[10px] rtl:space-x-reverse mr-auto w-full"
+                  >
+                    <div
+                      class="group-hover:bg-darkGrey dark:group-hover:bg-whiteTamkin w-[7px] h-[7px] rounded-[10px]"
+                      v-if="sideBarOpen"
+                      :class="[
+                        isLinkActive('/sign-language/settings')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
+                          : 'border-[1px] border-darkGrey dark:border-whiteTamkin',
+                      ]"
+                    ></div>
+                    <div
+                      :class="[
+                        !sideBarOpen && isLinkActive('/sign-language/settings')
+                          ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent'
+                          : sideBarOpen
+                          ? 'hover:bg-gradient-to-b hover:from-tamkinStart hover:to-tamkinEnd bg-clip-text hover:text-transparent'
+                          : '',
+                      ]"
+                    >
+                      {{ $t("Settings") }}
+                    </div>
+                  </nuxt-link>
+                </li>
+              </div> -->
             </div>
-            
           </div>
         </div>
       </nuxt-link>
@@ -1226,16 +1494,28 @@ watch(
             >
               <g>
                 <path
-                  :class="[showSubMenu[3] ? 'stroke_access' : 'stroke-current dark:stroke-white']"
+                  :class="[
+                    showSubMenu[3]
+                      ? 'stroke_access'
+                      : 'stroke-current dark:stroke-white',
+                  ]"
                   d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
                   stroke-width="1.5"
                 />
                 <path
-                :class="[showSubMenu[3] ? 'stroke_access' : 'stroke-current dark:stroke-white']"
-                d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
+                  :class="[
+                    showSubMenu[3]
+                      ? 'stroke_access'
+                      : 'stroke-current dark:stroke-white',
+                  ]"
+                  d="M15.3996 7.0001C15.3996 7.63662 15.1468 8.24707 14.6967 8.69715C14.2466 9.14724 13.6361 9.4001 12.9996 9.4001C12.3631 9.4001 11.7526 9.14724 11.3026 8.69715C10.8525 8.24707 10.5996 7.63662 10.5996 7.0001C10.5996 6.36358 10.8525 5.75313 11.3026 5.30304C11.7526 4.85295 12.3631 4.6001 12.9996 4.6001C13.6361 4.6001 14.2466 4.85295 14.6967 5.30304C15.1468 5.75313 15.3996 6.36358 15.3996 7.0001Z"
                 />
                 <path
-                  :class="[showSubMenu[3] ? 'stroke_access' : 'stroke-current dark:stroke-white']"
+                  :class="[
+                    showSubMenu[3]
+                      ? 'stroke_access'
+                      : 'stroke-current dark:stroke-white',
+                  ]"
                   d="M20.2008 10.6001C20.2008 10.6001 15.9564 12.4001 13.0008 12.4001C10.0452 12.4001 5.80078 10.6001 5.80078 10.6001M13.0008 13.0001V14.7425M13.0008 14.7425C13.0004 15.433 13.1987 16.1091 13.572 16.6901L16.6008 21.4001M13.0008 14.7425C13.0011 15.433 12.8028 16.1091 12.4296 16.6901L9.40078 21.4001"
                   stroke-width="1.5"
                   stroke-linecap="round"
@@ -1258,7 +1538,7 @@ watch(
           </div>
 
           <div
-            class="flex items-center justify-start ltr:justify-center "
+            class="flex items-center justify-start ltr:justify-center"
             :class="[!sideBarOpen ? 'hidden' : '']"
           >
             <div
@@ -1270,26 +1550,37 @@ watch(
                   : '',
               ]"
             >
-              {{ $t('Accessibility') }}
+              {{ $t("Accessibility") }}
             </div>
             <div v-if="sideBarOpen" class="absolute rtl:left-1 ltr:right-1">
               <svg
                 width="7"
                 height="12"
-                :class="[showSubMenu[3] ? 'rotate-90 ' : 'rotate-0  rtl:rotate-180 ']"
+                :class="[
+                  showSubMenu[3] ? 'rotate-90 ' : 'rotate-0  rtl:rotate-180 ',
+                ]"
                 viewBox="0 0 7 12"
                 class="w-full h-full pr-[4px]"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
-                  <linearGradient id="grad_ni" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <linearGradient
+                    id="grad_ni"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
                     <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
                     <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
                   </linearGradient>
                 </defs>
                 <path
-                  :class="[showSubMenu[3] ? 'fill_access' : 'fill-[#585B5B] dark:fill-white']"
-
+                  :class="[
+                    showSubMenu[3]
+                      ? 'fill_access'
+                      : 'fill-[#585B5B] dark:fill-white',
+                  ]"
                   fill-rule="evenodd"
                   clip-rule="evenodd"
                   d="M0.000213623 10.9998C0.000256062 11.1975 0.0589275 11.3908 0.168812 11.5552C0.278696 11.7197 0.43486 11.8478 0.617559 11.9235C0.800259 11.9991 1.00129 12.0189 1.19524 11.9804C1.3892 11.9418 1.56736 11.8466 1.70721 11.7068L6.70721 6.70679C6.89468 6.51926 7 6.26495 7 5.99979C7 5.73462 6.89468 5.48031 6.70721 5.29279L1.70721 0.292787C1.56736 0.152978 1.3892 0.057771 1.19524 0.0192034C1.00129 -0.0193641 0.800259 0.000439122 0.617559 0.0761092C0.43486 0.151779 0.278696 0.279919 0.168812 0.444329C0.0589275 0.608738 0.000256062 0.802037 0.000213623 0.999787L0.000213623 10.9998Z"
@@ -1299,9 +1590,9 @@ watch(
           </div>
         </div>
         <div
-          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px] "
+          class="bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rounded-[10px]"
           ref="submenuHover"
-          v-show=" showSubMenu[3]"
+          v-show="showSubMenu[3]"
           :class="[
             !sideBarOpen && showSubMenu[3]
               ? 'absolute top-0 rtl:right-[65px] ltr:left-[65px] bg-white p-3 py-[10px]  dark:bg-tamkinDarkPrimary !z-[140] w-[270px] drop-shadow-2xl'
@@ -1309,15 +1600,13 @@ watch(
           ]"
           v-on-click-outside="() => closeSubMenuOnClickOutside(3)"
         >
-          <div
-            class="flex flex-col items-start justify-center  w-full  "
-          >
-            <div class="flex items-center justify-between w-full ">
+          <div class="flex flex-col items-start justify-center w-full">
+            <div class="flex items-center justify-between w-full">
               <div
                 v-if="!sideBarOpen"
                 class="bg-gradient-to-b from-tamkinStart to-tamkinEnd bg-clip-text text-transparent"
               >
-                {{$t('Accessibility')}}
+                {{ $t("Accessibility") }}
               </div>
               <div v-if="!sideBarOpen">
                 <svg
@@ -1329,9 +1618,19 @@ watch(
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <linearGradient id="grad13" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient
+                      id="grad13"
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
                       <stop offset="0%" stop-color="#2DADA3" stop-opacity="1" />
-                      <stop offset="100%" stop-color="#71DAD2" stop-opacity="1" />
+                      <stop
+                        offset="100%"
+                        stop-color="#71DAD2"
+                        stop-opacity="1"
+                      />
                     </linearGradient>
                   </defs>
                   <path
@@ -1341,172 +1640,205 @@ watch(
                 </svg>
               </div>
             </div>
-            <div class=" dark:bg-tamkinDarkPrimary  w-full" @click.stop>
-
+            <div class="dark:bg-tamkinDarkPrimary w-full" @click.stop>
               <nuxt-link
-              :to="localePath('/overview')"
-                class="dashboard-nav-link   w-11/12"
-                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+                :to="localePath('/overview')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
                 <div>
                   <div
-                  class="w-[8px] h-[2px] rounded-[10px] "
-                  v-if="sideBarOpen"
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/overview')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
                   :class="[
                     isLinkActive('/overview')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
                   ]"
-                ></div>
-                </div>
-                <span      :class="[
-                  isLinkActive('/overview')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                    : '',
-                ]">{{$t('Overview')}}</span>
+                  >{{ $t("Overview") }}</span
+                >
               </nuxt-link>
-           
+
               <nuxt-link
-              :to="localePath('/addons')"
-                class="dashboard-nav-link   w-11/12"
-                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+                :to="localePath('/addons')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
                 <div>
                   <div
-                  class="w-[8px] h-[2px] rounded-[10px] "
-                  v-if="sideBarOpen"
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/addons')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
                   :class="[
                     isLinkActive('/addons')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
                   ]"
-                ></div>
-                </div>
-                <span      :class="[
-                  isLinkActive('/addons')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                    : '',
-                ]">{{$t('Addons')}}</span>
+                  >{{ $t("Addons") }}</span
+                >
               </nuxt-link>
               <nuxt-link
-              :to="localePath('/statistics')"
-                class="dashboard-nav-link   w-11/12"
-                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+                :to="localePath('/statistics')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
                 <div>
                   <div
-                  class="w-[8px] h-[2px] rounded-[10px] "
-                  v-if="sideBarOpen"
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/statistics')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
                   :class="[
                     isLinkActive('/statistics')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
                   ]"
-                ></div>
-                </div>
-                <span      :class="[
-                  isLinkActive('/statistics')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                    : '',
-                ]">{{$t('Statistics')}}</span>
+                  >{{ $t("Statistics") }}</span
+                >
               </nuxt-link>
 
               <nuxt-link
-             :to="localePath('/customize')"
-                class="dashboard-nav-link   w-11/12"
-                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+                :to="localePath('/customize')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
                 <div>
                   <div
-                  class="w-[8px] h-[2px] rounded-[10px] "
-                  v-if="sideBarOpen"
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/customize')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
                   :class="[
                     isLinkActive('/customize')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
                   ]"
-                ></div>
-                </div>
-                <span      :class="[
-                  isLinkActive('/customize')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                    : '',
-                ]">{{$t('Customize')}}</span>
+                  >{{ $t("Customize") }}</span
+                >
               </nuxt-link>
 
               <nuxt-link
-              :to="localePath('/settings')"
-                class="dashboard-nav-link   w-11/12"
-                :class="[sideBarOpen?'mx-[20px] ':' !mx-[11px]']"
+                :to="localePath('/settings')"
+                class="dashboard-nav-link w-11/12"
+                :class="[sideBarOpen ? 'mx-[20px] ' : ' !mx-[11px]']"
               >
                 <div>
                   <div
-                  class="w-[8px] h-[2px] rounded-[10px] "
-                  v-if="sideBarOpen"
+                    class="w-[8px] h-[2px] rounded-[10px]"
+                    v-if="sideBarOpen"
+                    :class="[
+                      isLinkActive('/settings')
+                        ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
+                        : 'bg-darkGrey dark:bg-whiteTamkin',
+                    ]"
+                  ></div>
+                </div>
+                <span
                   :class="[
                     isLinkActive('/settings')
-                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd '
-                      : 'bg-darkGrey dark:bg-whiteTamkin',
+                      ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+                      : '',
                   ]"
-                ></div>
-                </div>
-                <span      :class="[
-                  isLinkActive('/settings')
-                    ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-                    : '',
-                ]">{{$t('Settings')}}</span>
+                  >{{ $t("Settings") }}</span
+                >
               </nuxt-link>
             </div>
           </div>
         </div>
       </nuxt-link>
-  
+
       <nuxt-link
-      :to="localePath('/packages')"
+        :to="localePath('/packages')"
         class="dashboard-nav-link"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div>
           <svg
-          width="25"
-          height="24"
-          viewBox="0 0 25 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-full h-full"
-        >
-          <g clip-path="url(#clip0_2978_5587)">
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-full h-full"
+          >
+            <g clip-path="url(#clip0_2978_5587)">
+              <defs>
+                <!-- Define the gradient here -->
+                <linearGradient
+                  id="grad_fill"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop offset="0%" stop-color="#2DADA3" />
+                  <stop offset="100%" stop-color="#71DAD2" />
+                </linearGradient>
+              </defs>
+
+              <path
+                d="M12.5 0C13.9445 0 15.329 0.255549 16.6116 0.722255L15.1779 2.15477C13.0081 1.56477 10.7042 1.70824 8.62443 2.56286C6.54464 3.41748 4.80552 4.93536 3.67749 6.88047C2.54946 8.82558 2.09574 11.0889 2.38689 13.3185C2.67804 15.5481 3.69774 17.619 5.28743 19.2093C6.87712 20.7995 8.9477 21.8199 11.1772 22.1118C13.4067 22.4037 15.6702 21.9507 17.6157 20.8233C19.5612 19.6959 21.0796 17.9573 21.9349 15.8778C22.7903 13.7983 22.9345 11.4945 22.3452 9.32453L23.7777 7.89202C24.2565 9.20867 24.5009 10.599 24.5 12C24.5 18.6275 19.1275 24 12.5 24C5.87252 24 0.5 18.6275 0.5 12C0.5 5.37252 5.87252 0 12.5 0ZM12.5 4.80144C13.1079 4.80103 13.7134 4.87763 14.302 5.02939V6.90942C13.1476 6.50098 11.8885 6.49716 10.7316 6.89858C9.57467 7.29999 8.58857 8.0828 7.93517 9.11851C7.28176 10.1542 6.99988 11.3813 7.13577 12.5983C7.27167 13.8154 7.81728 14.95 8.68304 15.8161C9.5488 16.6822 10.6833 17.2282 11.9003 17.3645C13.1172 17.5009 14.3444 17.2194 15.3804 16.5664C16.4163 15.9134 17.1995 14.9276 17.6013 13.7708C18.0032 12.614 17.9998 11.355 17.5918 10.2004H19.4718C19.8471 11.654 19.7586 13.1886 19.2185 14.5894C18.6785 15.9903 17.714 17.1872 16.46 18.0127C15.206 18.8382 13.7253 19.251 12.2251 19.1932C10.7249 19.1355 9.28026 18.6102 8.0934 17.6908C6.90655 16.7714 6.03685 15.5039 5.60603 14.0657C5.17521 12.6275 5.20482 11.0907 5.69073 9.67016C6.17663 8.24965 7.09451 7.01661 8.31591 6.14361C9.5373 5.2706 11.0011 4.80132 12.5024 4.80144M14.9019 12C14.9018 12.5157 14.7354 13.0177 14.4276 13.4315C14.1198 13.8452 13.6868 14.1488 13.1929 14.2972C12.699 14.4457 12.1704 14.431 11.6855 14.2554C11.2006 14.0798 10.7851 13.7527 10.5007 13.3225C10.2163 12.8922 10.0781 12.3818 10.1065 11.8669C10.135 11.3519 10.3286 10.8599 10.6586 10.4636C10.9887 10.0673 11.4376 9.7879 11.939 9.6668C12.4403 9.5457 12.9672 9.58933 13.4418 9.79124L15.5054 7.72765L15.5018 3.90162C15.502 3.66305 15.5969 3.43433 15.7657 3.26575L18.7651 0.266347C18.891 0.140664 19.0512 0.0550918 19.2257 0.0204375C19.4001 -0.0142168 19.5809 0.00360124 19.7453 0.0716413C19.9096 0.139681 20.0501 0.254891 20.1489 0.40272C20.2478 0.55055 20.3007 0.724367 20.3008 0.902219V4.20156H23.6002C23.778 4.20172 23.9518 4.25457 24.0997 4.35346C24.2475 4.45234 24.3627 4.59282 24.4308 4.75714C24.4988 4.92146 24.5166 5.10226 24.482 5.27671C24.4473 5.45115 24.3617 5.61141 24.2361 5.73725L21.2367 8.73665C21.0681 8.90545 20.8393 9.00039 20.6008 9.0006H16.7735L14.71 11.0642C14.8323 11.3521 14.8995 11.6677 14.8995 12M20.2277 7.20096L21.4274 6.0012H19.3998C19.1612 6.0012 18.9323 5.9064 18.7635 5.73765C18.5948 5.5689 18.5 5.34003 18.5 5.10138V3.07378L17.3014 4.27354V7.13017L17.3722 7.20216L20.2277 7.20096Z"
+                :class="[
+                  isLinkActive('/packages')
+                    ? 'fill-[url(#grad_fill)]'
+                    : 'fill-current',
+                ]"
+              />
+            </g>
             <defs>
-              <!-- Define the gradient here -->
-              <linearGradient id="grad_fill" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#2DADA3" />
-                <stop offset="100%" stop-color="#71DAD2" />
-              </linearGradient>
+              <clipPath id="clip0_2978_5587">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(0.5)"
+                />
+              </clipPath>
             </defs>
-        
-            <path
-              d="M12.5 0C13.9445 0 15.329 0.255549 16.6116 0.722255L15.1779 2.15477C13.0081 1.56477 10.7042 1.70824 8.62443 2.56286C6.54464 3.41748 4.80552 4.93536 3.67749 6.88047C2.54946 8.82558 2.09574 11.0889 2.38689 13.3185C2.67804 15.5481 3.69774 17.619 5.28743 19.2093C6.87712 20.7995 8.9477 21.8199 11.1772 22.1118C13.4067 22.4037 15.6702 21.9507 17.6157 20.8233C19.5612 19.6959 21.0796 17.9573 21.9349 15.8778C22.7903 13.7983 22.9345 11.4945 22.3452 9.32453L23.7777 7.89202C24.2565 9.20867 24.5009 10.599 24.5 12C24.5 18.6275 19.1275 24 12.5 24C5.87252 24 0.5 18.6275 0.5 12C0.5 5.37252 5.87252 0 12.5 0ZM12.5 4.80144C13.1079 4.80103 13.7134 4.87763 14.302 5.02939V6.90942C13.1476 6.50098 11.8885 6.49716 10.7316 6.89858C9.57467 7.29999 8.58857 8.0828 7.93517 9.11851C7.28176 10.1542 6.99988 11.3813 7.13577 12.5983C7.27167 13.8154 7.81728 14.95 8.68304 15.8161C9.5488 16.6822 10.6833 17.2282 11.9003 17.3645C13.1172 17.5009 14.3444 17.2194 15.3804 16.5664C16.4163 15.9134 17.1995 14.9276 17.6013 13.7708C18.0032 12.614 17.9998 11.355 17.5918 10.2004H19.4718C19.8471 11.654 19.7586 13.1886 19.2185 14.5894C18.6785 15.9903 17.714 17.1872 16.46 18.0127C15.206 18.8382 13.7253 19.251 12.2251 19.1932C10.7249 19.1355 9.28026 18.6102 8.0934 17.6908C6.90655 16.7714 6.03685 15.5039 5.60603 14.0657C5.17521 12.6275 5.20482 11.0907 5.69073 9.67016C6.17663 8.24965 7.09451 7.01661 8.31591 6.14361C9.5373 5.2706 11.0011 4.80132 12.5024 4.80144M14.9019 12C14.9018 12.5157 14.7354 13.0177 14.4276 13.4315C14.1198 13.8452 13.6868 14.1488 13.1929 14.2972C12.699 14.4457 12.1704 14.431 11.6855 14.2554C11.2006 14.0798 10.7851 13.7527 10.5007 13.3225C10.2163 12.8922 10.0781 12.3818 10.1065 11.8669C10.135 11.3519 10.3286 10.8599 10.6586 10.4636C10.9887 10.0673 11.4376 9.7879 11.939 9.6668C12.4403 9.5457 12.9672 9.58933 13.4418 9.79124L15.5054 7.72765L15.5018 3.90162C15.502 3.66305 15.5969 3.43433 15.7657 3.26575L18.7651 0.266347C18.891 0.140664 19.0512 0.0550918 19.2257 0.0204375C19.4001 -0.0142168 19.5809 0.00360124 19.7453 0.0716413C19.9096 0.139681 20.0501 0.254891 20.1489 0.40272C20.2478 0.55055 20.3007 0.724367 20.3008 0.902219V4.20156H23.6002C23.778 4.20172 23.9518 4.25457 24.0997 4.35346C24.2475 4.45234 24.3627 4.59282 24.4308 4.75714C24.4988 4.92146 24.5166 5.10226 24.482 5.27671C24.4473 5.45115 24.3617 5.61141 24.2361 5.73725L21.2367 8.73665C21.0681 8.90545 20.8393 9.00039 20.6008 9.0006H16.7735L14.71 11.0642C14.8323 11.3521 14.8995 11.6677 14.8995 12M20.2277 7.20096L21.4274 6.0012H19.3998C19.1612 6.0012 18.9323 5.9064 18.7635 5.73765C18.5948 5.5689 18.5 5.34003 18.5 5.10138V3.07378L17.3014 4.27354V7.13017L17.3722 7.20216L20.2277 7.20096Z"
-            :class="[isLinkActive('/packages') ? 'fill-[url(#grad_fill)]' : 'fill-current']"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_2978_5587">
-              <rect width="24" height="24" fill="white" transform="translate(0.5)" />
-            </clipPath>
-          </defs>
-        </svg>
-        
+          </svg>
         </div>
-        <span  v-if="sideBarOpen"   :class="[
-          isLinkActive('/packages')
-            ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
-            : '',
-        ]">{{$t('Packages')}}</span>      </nuxt-link>
-   
+        <span
+          v-if="sideBarOpen"
+          :class="[
+            isLinkActive('/packages')
+              ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd  text-transparent bg-clip-text'
+              : '',
+          ]"
+          >{{ $t("Packages") }}</span
+        >
+      </nuxt-link>
+
       <div
         v-if="!sideBarOpen"
         class="cursor-pointer mt-[14px]"
-        @click="$router.push({path:localePath('/contact')})"
+        @click="$router.push({ path: localePath('/contact') })"
         :class="[!sideBarOpen ? 'closed_sidebar' : 'w-full ']"
       >
         <div class="w-[34px] h-[34px]">
@@ -1514,40 +1846,49 @@ watch(
         </div>
       </div>
       <div
-      v-if="sideBarOpen"
-:class="[showSubMenu.some(t=>t!== false) || showChildMenu.some(t=>t!== false) ? 'top-[80vh]' : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ']"
-      class="lg:absolute w-[260px]  h-[135px] 
-      z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px]
-     dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
-  
-    >
-      <div
-        class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
+        v-if="sideBarOpen"
+        :class="[
+          showSubMenu.some((t) => t !== false) ||
+          showChildMenu.some((t) => t !== false)
+            ? 'top-[80vh]'
+            : ' lg:top-[50vh] 2xl:top-[46vh] 3xl:top-[64vh] 4xl:top-[64vh] ',
+        ]"
+        class="lg:absolute w-[260px] h-[135px] z-[9900] bg-cover bg-center rounded-[18px] dark:border-[1px] dark:border-darkborder bg-gradient-to-br from-[#E0F8F8] via-[#F9E8FF] to-[#FFE9EE]"
       >
-        <div>
-          <img
-            src="/assets/pngs/support_h.png"
-            alt="Sales Team"
-            class="w-[35px] h-[35px]"
-          />
-        </div>
-        <div>
-          <h2 class="text-[13px] font-[600] text-[#0D5C56] dark:text-[#239F8E]">{{$t('Need Help?')}}</h2>
-        </div>
-        <div>
-          <h2 class="text-[10px] font-[400] text-[#64938f] dark:text-[#75B1A9]">{{$t('Contact Our Sales Team')}}</h2>
-        </div>
-        <div class="w-full mx-auto">
-          <nuxt-link
-            class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
-            :to="localePath('/contact')"
-          >
-            {{$t('Contact Sales')}}
-          </nuxt-link>
+        <div
+          class="flex flex-col space-y-[5px] py-[10px] items-center justify-center rounded-lg"
+        >
+          <div>
+            <img
+              src="/assets/pngs/support_h.png"
+              alt="Sales Team"
+              class="w-[35px] h-[35px]"
+            />
+          </div>
+          <div>
+            <h2
+              class="text-[13px] font-[600] text-[#0D5C56] dark:text-[#239F8E]"
+            >
+              {{ $t("Need Help?") }}
+            </h2>
+          </div>
+          <div>
+            <h2
+              class="text-[10px] font-[400] text-[#64938f] dark:text-[#75B1A9]"
+            >
+              {{ $t("Contact Our Sales Team") }}
+            </h2>
+          </div>
+          <div class="w-full mx-auto">
+            <nuxt-link
+              class="btn-dashboard hover_tamkin !h-[14px] ltr:!p-[13px] ltr:w-2/4 rtl:w-4/6 !text-[12px] mx-auto"
+              :to="localePath('/contact')"
+            >
+              {{ $t("Contact Sales") }}
+            </nuxt-link>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-  
   </div>
 </template>

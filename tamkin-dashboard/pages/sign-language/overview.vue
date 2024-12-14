@@ -16,7 +16,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "sign-language-overview",
-
 });
 const currentPlanchange = (p: any) => {
   plan.value = p;
@@ -56,16 +55,13 @@ watch(plan, (ov, nv) => {
       "
     />
     <LanguageServicesNavbar />
-    <LanguageServicesOverviewNavbar
+    <!-- <LanguageServicesOverviewNavbar
       :selected-tab="selectTab"
       @select-tabs="getSelectedTab"
-    />
+    /> -->
 
     <div v-if="selectTab === 'webplugins'">
-      <OverviewWidgetEmbdedCode
-        v-if="!overviewStore.showUpgradeState"
-        class="!mt-[120px]"
-      />
+      <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
       <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
       <LanguageServicesOverviewCurrentPlan
         :plan-type="'free'"
