@@ -16,7 +16,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "sign-language-statistics",
-
 });
 
 const isADHDChecked = ref(false);
@@ -96,9 +95,12 @@ const getSelectedTab = (tab: any) => {
     />
     <div class="w-full h-full relative">
       <HeaderAccess
-        section-title="Statistics"
-        section-sub-title="Statistics involves collecting, analyzing, and interpreting data to provide
-          useful insights."
+        :section-title="$t('Statistics')"
+        :section-sub-title="
+          $t(
+            'Statistics involves collecting, analyzing, and interpreting data to provide useful insights'
+          )
+        "
       />
 
       <div v-if="selectTab === 'webplugins'">
@@ -120,13 +122,16 @@ const getSelectedTab = (tab: any) => {
               <h1
                 class="text-[12px] lg:text-[16px] leading-[22px] font-[500] text-[#23262F] dark:text-whiteTamkin"
               >
-                Google Analytics
+                {{ $t("Google Analytics") }}
               </h1>
               <p
                 class="text-[10px] lg:text-[14px] truncate w-32 lg:leading-[19px] text-[#585B5B] dark:text-whiteTamkin font-[400] mt-[8px]"
               >
-                Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam
-                suscipit nesciunt esse sint aperiam aliquid
+                {{
+                  $t(
+                    "Voluptate ullam minima assumenda nesciunt delectus sequi. Veniam"
+                  )
+                }}
               </p>
             </div>
           </div>
