@@ -11,21 +11,20 @@ import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
-const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 
 const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
 const { locale } = useI18n();
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
@@ -46,7 +45,6 @@ const checkPaymentStatus = async () => {
     }
   }
 };
-
 
 const localePath = useLocalePath();
 const route = useRoute();
@@ -96,7 +94,7 @@ watch(locale, (newVal, oldVal) => {
 });
 const scriptSources = [
   "https://cdn.tamkin.app/app.js",
-  
+
   "https://cdn.tamkin.app/runtime.js",
 ];
 
@@ -112,7 +110,8 @@ async function addScripts(sources) {
           injectedScripts.value.push(script); // Store reference to the injected script
           resolve();
         };
-        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        script.onerror = () =>
+          reject(new Error(`Failed to load script: ${src}`));
         document.body.appendChild(script);
       });
       console.log(`Loaded script: ${src}`);
@@ -130,20 +129,17 @@ function removeScripts() {
   });
   injectedScripts.length = 0;
 }
-onMounted(async ()=>{
+onMounted(async () => {
   await checkPaymentStatus();
   await getApps();
-})
+});
 onMounted(async () => {
-
   loadingCats.value = true;
-
- 
 
   await getFullDataFormated();
   GetCustomCharacterCost();
   getCartItems();
-  await addScripts(scriptSources)
+  await addScripts(scriptSources);
   // await window.mountAll()
   playerStore.characters = characters.value;
   let activeChar = playerStore.backendActiveChar;
@@ -163,21 +159,25 @@ onMounted(async () => {
       playerStore.currentBackground.isImage = true;
       playerStore.currentBackground.colorOrUrl =
         "https://tamkin.app" + backgrounds[0].background_image;
-    } else if (backgrounds.length > 0 && backgrounds[0].background_image === null) {
+    } else if (
+      backgrounds.length > 0 &&
+      backgrounds[0].background_image === null
+    ) {
       playerStore.currentBackground.isImage = false;
-      playerStore.currentBackground.colorOrUrl = backgrounds[0].background_color;
+      playerStore.currentBackground.colorOrUrl =
+        backgrounds[0].background_color;
     }
-}
-loadingCats.value = false;
-
+  }
+  loadingCats.value = false;
 });
 
-onBeforeUnmount(()=>{
-  removeScripts()
-})
+onBeforeUnmount(() => {
+  removeScripts();
+});
 const categoriesWithSkinItemsFiltered = computed(() => {
-  if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value) return [];
-  else if (!loadingCats.value ) {
+  if (!playerStore.activeCharacter?.allowed_skins_list && loadingCats.value)
+    return [];
+  else if (!loadingCats.value) {
     return marketStore.categoriesWithSkinItems.map((category) => {
       return {
         ...category,
@@ -356,30 +356,30 @@ function leaveNotification(el, done) {
  *? default mode button on character: resets character skins to all skins having is_default=1
  *? add description to skin item and character
  */
- const handleScriptLoad = async () => {
-
- 
-};
+const handleScriptLoad = async () => {};
 
 //  useHead({
 //   script: [
 //     {
-//           src: `https://cdn.tamkin.app/app.js`, 
+//           src: `https://cdn.tamkin.app/app.js`,
 //           defer: false,
-     
+
 //         },
 //         {
 //           src: `https://cdn.tamkin.app/runtime.js`,
 //           defer: false
 //         },
-        
+
 //       ]
 // })
 </script>
 
 <template>
   <div class="relative">
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalCart v-if="isOpen('mycart')" key="cart_mycart" />
     </transition>
     <transition
@@ -387,36 +387,68 @@ function leaveNotification(el, done) {
       @enter="enterNotification"
       @leave="leaveNotification"
     >
-      <MarketModalCartNotification v-if="marketStore.firstItemNotificationShown" />
+      <MarketModalCartNotification
+        v-if="marketStore.firstItemNotificationShown"
+      />
     </transition>
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
-      <MarketModalRequest v-if="isOpen('requestmodal')" key="request_modal_popup" />
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
+      <MarketModalRequest
+        v-if="isOpen('requestmodal')"
+        key="request_modal_popup"
+      />
     </transition>
     <MarketModalReset v-if="resetModal" />
 
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentPaymentmethods />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentCryptoStep1 v-if="isOpen('crypto_market_step1')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentCryptoStep2 v-if="isOpen('crypto_market_step2')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentCryptoSuccess v-if="isOpen('crypto_market_success')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentCard v-if="isOpen('cardModal_market')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <ProfileBillingModalsAddnewCard v-if="isOpen('add_new_card_billing')" />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentPaypal />
     </transition>
-    <transition :name="locale === 'ar' ? 'slide-left' : 'slide-right'" mode="out-in">
+    <transition
+      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+      mode="out-in"
+    >
       <MarketModalPaymentSuccessPay />
     </transition>
     <!-- <MarketModalPaymentCard2 v-if="true"/> -->
@@ -440,12 +472,18 @@ function leaveNotification(el, done) {
             />
 
             <div
-              v-if="!defaultApp?.favicon && defaultApp?.title !== 'Internal Service'"
+              v-if="
+                !defaultApp?.favicon && defaultApp?.title !== 'Internal Service'
+              "
               class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
             >
               {{ defaultApp?.title ? getAvatarLetters(defaultApp?.title) : "" }}
             </div>
-            <div v-if="defaultApp?.favicon && defaultApp?.title !== 'Internal Service'">
+            <div
+              v-if="
+                defaultApp?.favicon && defaultApp?.title !== 'Internal Service'
+              "
+            >
               <img
                 v-if="defaultApp.favicon"
                 :src="defaultApp.favicon"
@@ -469,7 +507,7 @@ function leaveNotification(el, done) {
       </div>
 
       <div
-        class="rounded-[10px] w-full flex items-end justify-center relative"
+        class="rounded-[10px] w-full flex items-end justify-center relative overflow-hidden"
         :style="{
           background: playerStore.currentBackground.isImage
             ? `url(${playerStore.currentBackground.colorOrUrl})`
@@ -516,7 +554,9 @@ function leaveNotification(el, done) {
 
           <svg
             :class="[
-              marketStore.firstItemNotificationShown ? 'text-white ' : 'text-tamkin',
+              marketStore.firstItemNotificationShown
+                ? 'text-white '
+                : 'text-tamkin',
             ]"
             class="group-hover:text-white animate_cart"
             width="25"
@@ -615,7 +655,9 @@ function leaveNotification(el, done) {
             @click="toggleExpandHeader"
             class="cursor-pointer w-[35px] h-[35px] bg-white dark:bg-tamkinDarkPrimary dark:border-[#333333] dark:border-[1px] rounded-lg group flex items-center justify-center"
           >
-            <template v-if="expandedHeaderStep === 1 || expandedHeaderStep === 0">
+            <template
+              v-if="expandedHeaderStep === 1 || expandedHeaderStep === 0"
+            >
               <svg
                 width="17"
                 height="17"
@@ -779,17 +821,28 @@ function leaveNotification(el, done) {
             </template>
           </div>
         </div>
-<ClientOnly>
-  <MarketPlayer />
-
-</ClientOnly>
+        <ClientOnly>
+          <MarketPlayer
+            :widthChar="
+              expandedHeaderStep == 1
+                ? '250px'
+                : expandedHeaderStep == 2
+                ? '350px'
+                : expandedHeaderStep == 3
+                ? '550px'
+                : '250px'
+            "
+          />
+        </ClientOnly>
       </div>
       <transition name="slide-up">
         <DashboardAddonsSaveFooter
           :show-footer="shouldShowFooter"
           @cancel_action="cancelAc"
           :disable-loading-save="playerStore.loadingChanges"
+          :loadingSave="playerStore.loadingChanges"
           :disable-loading-to-all="playerStore.savetoallloading"
+          :loadingSavetoAll="playerStore.savetoallloading"
           @save="handleSave('default')"
           @save-to-all-sites="handleSave('all')"
         />

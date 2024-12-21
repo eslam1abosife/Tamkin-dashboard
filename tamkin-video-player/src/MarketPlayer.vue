@@ -1,50 +1,60 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref, onActivated, onBeforeMount, watchEffect } from 'vue';
-import { Vue3Lottie } from 'vue3-lottie';
-import playerLoader from './lottie/loader.json';
+import {
+  onMounted,
+  onUnmounted,
+  watch,
+  ref,
+  onActivated,
+  onBeforeMount,
+  watchEffect,
+} from "vue";
+import { Vue3Lottie } from "vue3-lottie";
+import playerLoader from "./lottie/loader.json";
 
-const emit = defineEmits(['loadedPlayer']);
+const emit = defineEmits(["loadedPlayer"]);
 const props = defineProps({
   visiblePlayer: {
     type: Boolean,
-    default: true
+    default: true,
   },
   currentCharacter: {
     type: Object,
-    default:null
-  }
+    default: null,
+  },
 });
 
 function makeCuesDraggable() {
-  const cueElements = document.querySelectorAll('.vjs-text-track-display .vjs-text-track-cue div');
+  const cueElements = document.querySelectorAll(
+    ".vjs-text-track-display .vjs-text-track-cue div"
+  );
   if (cueElements.length === 0) {
-    console.warn('No cue elements found. Retrying in 100ms...');
+    console.warn("No cue elements found. Retrying in 100ms...");
     setTimeout(makeCuesDraggable, 100);
     return;
   }
-  cueElements.forEach(cue => {
+  cueElements.forEach((cue) => {
     let offsetY;
-    cue.addEventListener('mousedown', (e) => {
+    cue.addEventListener("mousedown", (e) => {
       offsetY = e.clientY - cue.getBoundingClientRect().top;
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
     });
     const mouseMoveHandler = (e) => {
-      cue.style.position = 'absolute'; 
-      cue.style.top = `${e.clientY - offsetY}px`; 
+      cue.style.position = "absolute";
+      cue.style.top = `${e.clientY - offsetY}px`;
     };
     const mouseUpHandler = () => {
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
     };
   });
 }
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `${src}?t=${new Date().getTime()}`;
-    script.defer = true; 
+    script.defer = true;
     script.async = false;
     script.onload = () => resolve(script);
     script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
@@ -54,11 +64,12 @@ function loadScript(src) {
 
 function loadCSS(href) {
   return new Promise((resolve, reject) => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
     link.href = href;
     link.onload = () => resolve(link);
-    link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
+    link.onerror = () =>
+      reject(new Error(`Failed to load stylesheet: ${href}`));
     document.head.appendChild(link);
   });
 }
@@ -66,12 +77,12 @@ function loadCSS(href) {
 async function loadAssets() {
   try {
     const assets = await Promise.all([
-      loadScript('https://cdn.tamkin.app/runtime.js'),
-      loadScript('https://cdn.tamkin.app/app.js'),
-      loadCSS('https://cdn.tamkin.app/app.css'),
+      loadScript("https://cdn.tamkin.app/runtime.js"),
+      loadScript("https://cdn.tamkin.app/app.js"),
+      loadCSS("https://cdn.tamkin.app/app.css"),
     ]);
     loadedAssets.value = assets;
-    console.log('All assets loaded successfully');
+    console.log("All assets loaded successfully");
   } catch (error) {
     console.error(error);
   }
@@ -79,9 +90,9 @@ async function loadAssets() {
 
 function unloadAssets() {
   loadedAssets.value.forEach((asset) => {
-    if (asset.tagName === 'SCRIPT' && asset.parentNode === document.body) {
+    if (asset.tagName === "SCRIPT" && asset.parentNode === document.body) {
       document.body.removeChild(asset);
-    } else if (asset.tagName === 'LINK' && asset.parentNode === document.head) {
+    } else if (asset.tagName === "LINK" && asset.parentNode === document.head) {
       document.head.removeChild(asset);
     }
   });
@@ -95,7 +106,7 @@ const loaChar = ref(window.loaChar);
 
 const updateLoaChar = () => {
   loaChar.value = window.loaChar;
-  emit('loadedPlayer', loaChar.value);
+  emit("loadedPlayer", loaChar.value);
 };
 
 let interval;
@@ -110,15 +121,15 @@ onMounted(async () => {
     if (loaChar.value !== window.loaChar) {
       updateLoaChar();
       window.adjustCameraBasedOnCharacter(2);
-
     }
   }, 100);
-   interval2 = setInterval(checkLoadedByNameInput, 0);
+  console.log("props.currentCharacter.name", props);
+
+  interval2 = setInterval(checkLoadedByNameInput, 0);
 
   watch(loaCharProxy, (newVal) => {
     if (newVal === 1) {
       loadedplayer.value = true;
-
     }
   });
 });
@@ -126,26 +137,27 @@ onMounted(async () => {
 onUnmounted(() => {
   clearInterval(interval);
   clearInterval(interval2);
-  loaChar.value = undefined
-  window.loaChar = undefined
+  loaChar.value = undefined;
+  window.loaChar = undefined;
   // unloadAssets();
 });
 
-watch(() => props.visiblePlayer, (newVal) => {
-  if (newVal) {
-    updateLoaChar();
-    window.changeCharacter(props.currentCharacter.name)
-
+watch(
+  () => props.visiblePlayer,
+  (newVal) => {
+    if (newVal) {
+      updateLoaChar();
+      window.changeCharacter(props.currentCharacter.name);
+    }
   }
-});
+);
 
 watch(isLoadedByNameInput, (newValue, oldValue) => {
   if (newValue !== oldValue) {
+    isLoadedByNameInput.value = newValue;
 
-    isLoadedByNameInput.value = newValue
-   
-  window.changeCharacter(props.currentCharacter.name)
-  
+    window.changeCharacter(props.currentCharacter.name);
+
     console.log('loadedByName("Input") changed to:', newValue);
   }
 });
@@ -153,15 +165,21 @@ watch(isLoadedByNameInput, (newValue, oldValue) => {
 
 <template>
   <div class="h-[600px] rounded-lg relative">
-    {{currentCharacter ? currentCharacter.name : 'loading'}}
+    {{ currentCharacter ? currentCharacter.name : "loading" }}
     <tamkin-sdk-web-character
-      v-show="isLoadedByNameInput"
-      charWidth="512"
+      charWidth="250"
       charHeight="365"
       class="centered-div"
     ></tamkin-sdk-web-character>
-    <div v-if="!isLoadedByNameInput">
-      <Vue3Lottie :animationData="playerLoader" :loop="true" :autoplay="true" :height="300" :width="300" :no-margin="true" />
+    <div v-show="!isLoadedByNameInput">
+      <Vue3Lottie
+        :animationData="playerLoader"
+        :loop="true"
+        :autoplay="true"
+        :height="300"
+        :width="300"
+        :no-margin="true"
+      />
     </div>
   </div>
 </template>

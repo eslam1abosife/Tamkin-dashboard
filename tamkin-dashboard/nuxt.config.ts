@@ -2,26 +2,25 @@
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  ssr:false,
+  ssr: false,
   // sourcemap: false,
 
   runtimeConfig: {
     public: {
-     baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
-    //  baseURL:  'https://localhost:7096/v1/api/',
-      baseImagerUrl: 'https://tamkin.app/'
-    }
+      baseURL: process.env.BASE_URL || "https://tamkin.gdforce.com/v1/api/",
+      //  baseURL:  'https://localhost:7096/v1/api/',
+      baseImagerUrl: "https://tamkin.app/",
+    },
   },
 
   optimizeDeps: {
-    include: ['@/ck-vue'],
+    include: ["@/ck-vue"],
   },
   build: {
     commonjsOptions: {
-      include: ['@/ck-vue'],
+      include: ["@/ck-vue"],
     },
-      // transpile: ['@tiptap/vue-3', '@tiptap/starter-kit', '@tiptap/extension-*'],
- 
+    // transpile: ['@tiptap/vue-3', '@tiptap/starter-kit', '@tiptap/extension-*'],
   },
 
   // vite: {
@@ -41,7 +40,6 @@ export default defineNuxtConfig({
     // Set prerender to true to configure it to be prerendered
     // "/packages/*": { prerender: false },
     // "/ar/packages/*": { prerender: false },
-
   },
   vite: {
     // build: {
@@ -52,15 +50,16 @@ export default defineNuxtConfig({
 
     server: {
       proxy: {
-        '/api': {
-          target: 'https://chat.tamkin.app',
+        "/api": {
+          target: "https://chat.tamkin.app",
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ""),
           configure: (proxy, options) => {
-            proxy.on('proxyRes', (proxyRes, req, res) => {
-              proxyRes.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
-              proxyRes.headers['Access-Control-Allow-Credentials'] = 'true';
+            proxy.on("proxyRes", (proxyRes, req, res) => {
+              proxyRes.headers["Access-Control-Allow-Origin"] =
+                "http://localhost:3000";
+              proxyRes.headers["Access-Control-Allow-Credentials"] = "true";
             });
           },
         },
@@ -76,8 +75,8 @@ export default defineNuxtConfig({
       link: [
         {
           rel: "stylesheet",
-          href: `https://cdn.tamkin.app/app.css?v=${new Date().getTime()}` // Use a timestamp to bypass caching
-        }
+          href: `https://cdn.tamkin.app/app.css?v=${new Date().getTime()}`, // Use a timestamp to bypass caching
+        },
       ],
       script: [
         // {
@@ -85,85 +84,82 @@ export default defineNuxtConfig({
         //   defer: true,
         //   'data-tamkin-account': '8bo30ucpue',
         // }
-      ]
-    //   script: [
-    //     {
-    //       src: "https://cdn.tamkin.app/runtime.js",
-    //       // async: true,
-    //       defer: true
-    //     },
-    //     {
-    //       src: `https://cdn.tamkin.app/app.js?v=${new Date().getTime()}`, // Use a timestamp to bypass caching
-    //       // async: true,
-    //       defer: true
-    //     }
-    //   ]
-    }
+      ],
+      //   script: [
+      //     {
+      //       src: "https://cdn.tamkin.app/runtime.js",
+      //       // async: true,
+      //       defer: true
+      //     },
+      //     {
+      //       src: `https://cdn.tamkin.app/app.js?v=${new Date().getTime()}`, // Use a timestamp to bypass caching
+      //       // async: true,
+      //       defer: true
+      //     }
+      //   ]
+    },
   },
 
-  modules:
-[
+  modules: [
+    // "nuxt-security",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/google-fonts",
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/i18n",
+    "@vueuse/nuxt",
+    "@nuxtjs/device",
+    "@vueuse/motion/nuxt",
+    "@nuxtjs/color-mode",
 
-  // "nuxt-security",
-  '@nuxtjs/tailwindcss',
-  '@nuxtjs/google-fonts',
-  '@pinia/nuxt',
-'@pinia-plugin-persistedstate/nuxt',
-  '@nuxtjs/i18n',
-  '@vueuse/nuxt',
-  '@nuxtjs/device',
-  '@vueuse/motion/nuxt',
-  '@nuxtjs/color-mode',
+    // '@productdevbook/chatwoot'
 
-  // '@productdevbook/chatwoot'
+    // '@element-plus/nuxt'
+    // "@nuxt/image",
+    // "nuxt-svgo"
+  ],
 
-  // '@element-plus/nuxt'
-  // "@nuxt/image",
-  // "nuxt-svgo"
-],
+  // chatwoot: {
 
+  //   init: {
+  //     websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
+  //     baseUrl:'https://chat.tamkin.app'
+  //   },
+  //   settings: {
+  //     hideMessageBubble: false,
 
-// chatwoot: {
-  
-//   init: {
-//     websiteToken: 'qM3zrPHquyCKhrRs5Nj6XYVR',
-//     baseUrl:'https://chat.tamkin.app'
-//   },
-//   settings: {
-//     hideMessageBubble: false,
+  //     locale: 'en',
+  //     position: 'right',
+  //     type: "expanded_bubble",
+  //     launcherTitle: "Chat with us",
+  //     showPopoutButton: true,
 
-//     locale: 'en',
-//     position: 'right',
-//     type: "expanded_bubble",
-//     launcherTitle: "Chat with us",
-//     showPopoutButton: true,
+  //     // ... and more settings
+  //   },
+  //   // If this is loaded you can make it true, https://github.com/nuxt-modules/partytown
+  //   partytown: false,
+  // },
+  // security: {
+  //   // options
+  //   corsHandler: {
 
-//     // ... and more settings
-//   },
-//   // If this is loaded you can make it true, https://github.com/nuxt-modules/partytown
-//   partytown: false,
-// },
-// security: {
-//   // options
-//   corsHandler: {
+  //   credentials:true
 
-//   credentials:true
- 
-// },
-// },
+  // },
+  // },
   // elementPlus: {
   //   icon: 'ElIcon',
   //   importStyle: 'scss',
   //   components: ['ElLoading']
   // },
-colorMode: {
-  preference: 'light', // default value of $colorMode.preference
-  fallback: 'light', // fallback value if not system preference found
+  colorMode: {
+    preference: "light", // default value of $colorMode.preference
+    fallback: "light", // fallback value if not system preference found
 
-  classSuffix: '',
+    classSuffix: "",
 
-  storageKey: 'tamkin-color-mode'
-},
+    storageKey: "tamkin-color-mode",
+  },
   // image: {
   //   // inject: true,
   //   formats: {
@@ -186,18 +182,18 @@ colorMode: {
   //   ]
   // },
   nitro: {
-    compressPublicAssets:true,
+    compressPublicAssets: true,
 
     // prerender: {
     //   crawlLinks: true,
-    //   failOnError: false, 
+    //   failOnError: false,
     // },
   },
   watchers: {
     webpack: {
       aggregateTimeout: 300,
-      poll: 1000
-    }
+      poll: 1000,
+    },
   },
 
   // render: {
@@ -209,14 +205,13 @@ colorMode: {
   //   }
   // },
   device: {
-    refreshOnResize: true
+    refreshOnResize: true,
   },
 
   // webpack:{
   //   extractCSS: true
   // },
   // build: {
-
 
   //     splitChunks: {
   //       layouts: true,
@@ -228,48 +223,47 @@ colorMode: {
 
   i18n: {
     fallbackWarn: false,
-missingWarn: false,
-    defaultLocale: 'en',
+    missingWarn: false,
+    defaultLocale: "en",
     lazy: true,
-    langDir: 'locales/',
-    strategy: 'prefix_and_default',
+    langDir: "locales/",
+    strategy: "prefix_and_default",
     detectBrowserLanguage: false,
     locales: [
       {
-        code: 'en',
-        iso: 'en-US',
-        name: 'English',
-        file: 'en.ts',
-        dir: 'ltr'
+        code: "en",
+        iso: "en-US",
+        name: "English",
+        file: "en.ts",
+        dir: "ltr",
       },
       {
-        code: 'ar',
-        iso: 'ar-SA',
-        name: 'Arabic',
-        file: 'ar.ts',
-        dir: 'rtl'
-      }
+        code: "ar",
+        iso: "ar-SA",
+        name: "Arabic",
+        file: "ar.ts",
+        dir: "rtl",
+      },
     ],
-      fallbackLocale: 'en', // Ensure no fallback
-
+    fallbackLocale: "en", // Ensure no fallback
   },
 
-  plugins: ['~/plugins/i18n.js'],
+  plugins: ["~/plugins/i18n.js"],
 
   googleFonts: {
-    preload:true,
+    preload: true,
     families: {
       Poppins: {
-        wght: [100,200,300,400,500,600,700],
-          ital: [100,200,300,400,500,600,700],
+        wght: [100, 200, 300, 400, 500, 600, 700],
+        ital: [100, 200, 300, 400, 500, 600, 700],
       },
-      Inter:['100','200','300','400','500','600','700'],
-      Lato:[100,200,300,400,500,600,700],
-      Manrope:[100,200,300,400,500,600,700],
-      Mali:true,
-      Almarai:[100,200,300,400,500,600,700,800]
-    }
+      Inter: ["100", "200", "300", "400", "500", "600", "700"],
+      Lato: [100, 200, 300, 400, 500, 600, 700],
+      Manrope: [100, 200, 300, 400, 500, 600, 700],
+      Mali: true,
+      Almarai: [100, 200, 300, 400, 500, 600, 700, 800],
     },
+  },
 
   css: [
     // '/assets/scss/fontawesome.css'
@@ -278,17 +272,20 @@ missingWarn: false,
   // plugins: [
   //   { src: '@/plugins/fontawsome.ts' },
   // ],
-  plugins: [{ src: '~/plugins/ckeditor.ts', mode: 'client' }, { src: '~/plugins/vue-tel-input.ts', mode: 'client' }],
+  plugins: [
+    { src: "~/plugins/ckeditor.ts", mode: "client" },
+    { src: "~/plugins/vue-tel-input.ts", mode: "client" },
+  ],
 
   tailwindcss: {
-    cssPath: ['~/assets/scss/main.scss', { injectPosition: "first" }],
-    configPath: 'tailwind.config',
+    cssPath: ["~/assets/scss/main.scss", { injectPosition: "first" }],
+    configPath: "tailwind.config",
     exposeConfig: {
-      level: 2
+      level: 2,
     },
     config: {},
     viewer: false,
   },
 
-  compatibilityDate: '2024-07-17'
-})
+  compatibilityDate: "2024-07-17",
+});
