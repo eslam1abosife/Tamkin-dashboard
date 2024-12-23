@@ -16,6 +16,7 @@ const getImagePath = (icon) => {
     import.meta.url
   ).href;
 };
+const customizeStore = useCustomizeStore();
 </script>
 
 <template>
@@ -193,9 +194,22 @@ const getImagePath = (icon) => {
     </div>
 
     <div
-      class="flex flex-col items-start justify-center mt-[18px] pb-[16px]"
+      class="relative flex flex-col items-start justify-center mt-[18px] pb-[16px]"
       v-if="!collapseStore.collapses.includes('webPlugins')"
+      :class="{
+        'pb-[179px]': !customizeStore.managePlayerPackages.find(
+          (t) => t.feature === 'tamkin_deaf_dumb_deaf_manage_web_plugins_addons'
+        ),
+      }"
     >
+      <MessagesLockedFeature
+        v-if="
+          !customizeStore.managePlayerPackages.find(
+            (t) =>
+              t.feature === 'tamkin_deaf_dumb_deaf_manage_web_plugins_addons'
+          )
+        "
+      />
       <draggable
         v-model="signLangStore.WebpluginsCards"
         @change="
@@ -292,12 +306,12 @@ const getImagePath = (icon) => {
       </draggable>
     </div>
 
-    <div
+    <!-- <div
       v-else
       class="text-[14px] leading-[24px] font-[400] text-[#585B5B] pt-[6px] dark:text-whiteTamkin"
     >
       Temporibus rerum vel laudantium. Earum velit qui quis quia autem iusto est
       veritatis dolore. Exercitationem et omnis ea quidem
-    </div>
+    </div> -->
   </div>
 </template>

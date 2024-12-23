@@ -200,6 +200,9 @@ function calculatePercentage(total, usage) {
           </div>
         </div>
       </div>
+
+      <!-- start code collabse -->
+
       <div
         v-if="
           !collapseStore.collapses.includes('live_translation_stats_card') &&
@@ -288,30 +291,19 @@ function calculatePercentage(total, usage) {
         </div>
       </div>
       <div
-        v-else-if="
-          statsStore.loadingStats &&
-          navStore.defaultappobj?.package?.filter(
-            (p) => p.type === 'Accessibility'
-          ).length > 0
-        "
+        v-else-if="statsStore.loadingStats"
         class="flex items-center justify-start rtl:mr-auto rtl:ml-[15px] ltr:ml-auto ltr:mr-[15px] h-[105px] rounded-[10px] w-full ipad-max:w-full lg:w-[369px] bg-gray-200 animate-pulse"
       ></div>
     </div>
+
     <div
       class="w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary animate-pulse"
-      v-if="
-        statsStore.loadingStats &&
-        navStore.defaultappobj?.package?.filter(
-          (p) => p.type === 'Accessibility'
-        ).length > 0
-      "
+      v-if="statsStore.loadingStats"
     >
-      <!-- Title Skeleton -->
       <div
         class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded mb-[24px]"
       ></div>
 
-      <!-- Table Skeleton -->
       <table class="min-w-full leading-normal">
         <thead>
           <tr>
@@ -348,12 +340,10 @@ function calculatePercentage(total, usage) {
         </tbody>
       </table>
 
-      <!-- Pages Translated Title Skeleton -->
       <div
         class="h-[26px] w-1/3 bg-gray-200 dark:bg-gray-700 rounded my-[24px]"
       ></div>
 
-      <!-- Second Table Skeleton -->
       <table class="min-w-full leading-normal">
         <thead>
           <tr>
@@ -393,10 +383,7 @@ function calculatePercentage(total, usage) {
       class="relative w-full px-[16px] mt-[24px] mx-auto bg-white rounded-lg overflow-hidden dark:bg-tamkinDarkPrimary"
       v-if="
         !collapseStore.collapses.includes('live_translation_stats_card') &&
-        !statsStore.loadingStats &&
-        navStore.defaultappobj?.package?.filter(
-          (p) => p.type === 'Accessibility'
-        ).length > 0
+        !statsStore.loadingStats
       "
     >
       <MessagesLockedFeature
@@ -428,7 +415,13 @@ function calculatePercentage(total, usage) {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          v-if="
+            statsStore.liveTranslationStats &&
+            statsStore.liveTranslationStats.translate_langs &&
+            statsStore.liveTranslationStats.translate_langs.length > 0
+          "
+        >
           <tr
             class="bg-white dark:bg-tamkinDarkPrimary dark:border-darkborder h-[56px]"
             v-for="lang in statsStore.liveTranslationStats.translate_langs.sort(
@@ -524,7 +517,14 @@ function calculatePercentage(total, usage) {
             </th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody
+          v-if="
+            statsStore.liveTranslationStats &&
+            statsStore.liveTranslationStats.pages &&
+            statsStore.liveTranslationStats.pages.length > 0
+          "
+        >
           <tr
             class="bg-white h-[56px] dark:bg-tamkinDarkPrimary"
             v-for="pageTr in statsStore.liveTranslationStats.pages.sort(
@@ -542,7 +542,8 @@ function calculatePercentage(total, usage) {
                   <p
                     class="text-[10px] leading-[13px] font-[400] text-[#979897] dark:text-whiteTamkin"
                   >
-                    Translated by {{ pageTr.user_count }} user
+                    {{ $t("Translated by") }} {{ pageTr.user_count }}
+                    {{ $t("user") }}
                   </p>
                 </div>
               </div>
@@ -580,13 +581,15 @@ function calculatePercentage(total, usage) {
                     cx="18"
                     cy="18"
                     r="15.91549431"
-                    :style="`stroke-dasharray: ${pageTr.usage.toFixed(0)},100`"
+                    :style="`stroke-dasharray: ${
+                      !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0
+                    },100`"
                   ></circle>
                 </svg>
                 <div
                   class="progress-text text-[8px] lg:text-[10px] leading-[13px] font-[500] dark:text-whiteTamkin"
                 >
-                  {{ pageTr.usage.toFixed(0) }}%
+                  {{ !isNaN(pageTr.usage) ? pageTr.usage.toFixed(0) : 0 }}%
                 </div>
               </div>
             </td>

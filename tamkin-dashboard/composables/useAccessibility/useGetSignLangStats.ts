@@ -7,19 +7,17 @@ export default function () {
   const { $toast } = useNuxtApp();
   const statsStore = useStatsStore();
 
-  const getStatsAccessibility = async () => {
+  const getStatsSignLanguage = async () => {
     try {
-      const res = await api.post("/Statistic/GetAccessabilityStatistic");
+      const res = await api.post("/Statistic/GetSignLangugaeStatistic");
 
       statsStore.chartsData = res.data.data.loadsandopen;
-      statsStore.liveTranslationStats = {
-        pages: res.data.data.pages,
-        translate_langs: res.data.data.translated_languages,
-        header: res.data.data.live_translation,
-        // total: res.data.data.total,
-      };
-      statsStore.functionStats = res.data.data.function.function;
-      statsStore.profileStats = res.data.data.function.profiles;
+      statsStore.translation_quality = res.data.data.translation_quality;
+      statsStore.signLangFunctions = res.data.data.function;
+      statsStore.sign_languageStats = res.data.data.sign_language;
+      statsStore.languages = res.data.data.languages;
+      statsStore.pagesTranslated = res.data.data.pages;
+
       // profileStats
       return res.data.data;
     } catch (error) {
@@ -29,7 +27,7 @@ export default function () {
   };
 
   return {
-    getStatsAccessibility,
+    getStatsSignLanguage,
     loading,
   };
 }

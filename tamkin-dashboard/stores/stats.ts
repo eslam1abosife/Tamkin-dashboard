@@ -1,4 +1,4 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore, acceptHMRUpdate } from "pinia";
 
 interface Checkbox {
   name: string;
@@ -12,34 +12,34 @@ interface Card {
   checkboxId: string;
 }
 
-export const useStatsStore = defineStore('stats', {
+export const useStatsStore = defineStore("stats", {
   state: () => ({
-
-    force_change_profileCards : false,
-    force_change_menuCards : false,
-    routeLeaveModal:false,
-    google_enabled:false,
-    chartsData:[],
-    functionStats:[],
-    profileStats:[],
-    liveTranslationStats:'',
-    loadingStats:false,
-    overviewStats:''
+    force_change_profileCards: false,
+    force_change_menuCards: false,
+    routeLeaveModal: false,
+    google_enabled: false,
+    chartsData: [],
+    functionStats: [],
+    profileStats: [],
+    liveTranslationStats: {},
+    loadingStats: false,
+    overviewStats: "",
+    translation_quality: {},
+    signLangFunctions: [],
+    sign_languageStats: {},
+    languages: [],
+    pagesTranslated: [],
   }),
   actions: {
-    showSaveBeforeLeaveModal(){
-
-      this.routeLeaveModal = !this.routeLeaveModal
+    showSaveBeforeLeaveModal() {
+      this.routeLeaveModal = !this.routeLeaveModal;
     },
 
-    saveAndMove(){
-      this.routeLeaveModal = false
-      this.google_enabled = false
+    saveAndMove() {
+      this.routeLeaveModal = false;
+      this.google_enabled = false;
     },
- 
-
-  
-  }
+  },
 });
 
 if (import.meta.hot) {

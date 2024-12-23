@@ -17,14 +17,24 @@
         stroke="url(#gradient)"
         stroke-dasharray="659.73"
       />
-      <circle class="circle-dotted" cx="125" cy="125" r="85" stroke="url(#gradient)" />
+      <circle
+        class="circle-dotted"
+        cx="125"
+        cy="125"
+        r="85"
+        stroke="url(#gradient)"
+      />
     </svg>
-    <div class="content flex  flex-col space-y-2">
-      <div class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin">
+    <div class="content flex flex-col space-y-2">
+      <div
+        class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
+      >
         {{ initialPercentage }}%
       </div>
-      <div class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin">
-        {{total}}
+      <div
+        class="text-[32px] leading-[26px] font-[600] text-darkGrey dark:text-whiteTamkin"
+      >
+        {{ total }}
       </div>
     </div>
   </div>
@@ -39,8 +49,8 @@ const props = defineProps({
     default: 10,
   },
   total: {
-    type: String
-  }
+    type: String,
+  },
 });
 
 const percentage = ref(props.initialPercentage);
@@ -53,7 +63,7 @@ const offset = computed(() => {
   return circumference - (percentage.value / 100) * circumference;
 });
 
-watch(
+watchEffect(
   () => props.initialPercentage,
   (newVal) => {
     percentage.value = newVal;

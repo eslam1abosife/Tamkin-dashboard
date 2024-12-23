@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { useNavbarStore } from "@/stores/navbar";
 import { storeToRefs } from "pinia";
-import { vOnClickOutside } from "@vueuse/components";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { useStatsStore } from "@/stores/stats.js";
-const langStore = useLangSwitch();
-const collapseStore = useCollapseStore();
+import { useGetSignLangStats } from "@/composables/useAccessibility";
+const { getStatsSignLanguage } = useGetSignLangStats();
 const statsStore = useStatsStore();
 const navStore = useNavbarStore();
 const { sideBarOpen } = storeToRefs(navStore);
@@ -68,15 +67,21 @@ const selectTab = ref("webplugins");
 const getSelectedTab = (tab: any) => {
   selectTab.value = tab;
 };
+
+onBeforeMount(async () => {
+  statsStore.loadingStats = true;
+  await getStatsSignLanguage();
+  statsStore.loadingStats = false;
+});
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <LanguageServicesNavbar />
-    <LazyLanguageServicesStatsNavbar
+    <!-- <LazyLanguageServicesStatsNavbar
       :selected-tab="selectTab"
       @select-tabs="getSelectedTab"
-    />
+    /> -->
     <!-- <transition name="slide-up">
       <DashboardAddonsSavefooter
         :show-footer="shouldShowFooter"
@@ -85,11 +90,11 @@ const getSelectedTab = (tab: any) => {
     </transition> -->
     <LazyModalsConfirm
       :showModal="statsStore.routeLeaveModal"
-      title="Save  your changes"
-      sub-title="Do you want to save the changes before moving on?"
+      :title="$t('Save your changes')"
+      :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
-      cancelButtonName="Discard"
+      :cancelButtonName="$t('Discard')"
       :savetoAllSitesBtn="true"
       @control-cancel="handleSaveAndMove"
     />
@@ -104,11 +109,12 @@ const getSelectedTab = (tab: any) => {
       />
 
       <div v-if="selectTab === 'webplugins'">
-        <LanguageServicesStatsDaterange class="!mt-[120px]" />
+        <LanguageServicesStatsDaterange />
         <LanguageServicesStatsTranslationq />
 
         <LanguageServicesStatsUsage />
-        <div
+
+        <!-- <div
           class="shadow-md mt-[30px] -shadow-y-[1px] flex items-center justify-center rtl:space-x-reverse space-x-[13px] dark:bg-tamkinDarkPrimary bg-white w-full h-[114px] px-[18px] border-[1px] border-lightGrey dark:border-darkborder rounded-[10px]"
         >
           <div class="flex items-center justify-start flex-1">
@@ -165,9 +171,9 @@ const getSelectedTab = (tab: any) => {
               </div>
             </label>
           </div>
-        </div>
+        </div> -->
 
-        <LanguageServicesStatsUsagereport />
+        <!-- <LanguageServicesStatsUsagereport /> -->
 
         <LanguageServicesStatsSignlanguageUsage />
       </div>

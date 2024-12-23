@@ -17,7 +17,7 @@ const settingsStore = useSettingsStore();
 const { isChecked, toggleCheckbox } = settingsStore;
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
-
+const navStore = useNavbarStore();
 definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
@@ -546,9 +546,23 @@ const getSettingsValue = (name: any) => {
             </div>
 
             <div
-              class="flex flex-col items-start justify-center mt-[18px] divide-y"
+              class="relative flex flex-col items-start justify-center mt-[18px] divide-y"
               v-if="!collapseStore.collapses.includes('general_settings_card')"
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length == 0
+                  ? 'pb-[160px]'
+                  : ''
+              "
             >
+              <MessagesLockedFeature
+                v-if="
+                  navStore.defaultappobj?.package?.filter(
+                    (p) => p.type === 'Sign language'
+                  ).length == 0
+                "
+              />
               <template
                 v-for="item in settingsStore.settingsItems.features"
                 :key="item.name"
@@ -789,11 +803,25 @@ const getSettingsValue = (name: any) => {
             </div>
 
             <div
-              class="flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] lg:space-y-0 lg:space-x-[100px]"
+              class="relative flex items-center lg:flex-row flex-col justify-center lg:justify-start mt-[16px] divide-y dark:divide-light space-y-[42px] lg:space-y-0 lg:space-x-[100px]"
               v-if="
                 !collapseStore.collapses.includes('reset_all_settings_card')
               "
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length == 0
+                  ? 'pb-[180px]'
+                  : ''
+              "
             >
+              <MessagesLockedFeature
+                v-if="
+                  navStore.defaultappobj?.package?.filter(
+                    (p) => p.type === 'Sign language'
+                  ).length == 0
+                "
+              />
               <button
                 class="w-full btn_bordered_dashboard hover_tamkin flex items-center justify-center group"
                 @click="openModal('resetModal', 'settings')"
@@ -1012,9 +1040,23 @@ const getSettingsValue = (name: any) => {
             </div>
 
             <div
-              class="flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0"
+              class="relative flex items-center flex-col justify-center divide-y dark:divide-light lg:space-y-0"
               v-if="!collapseStore.collapses.includes('license_settings_card')"
+              :class="
+                navStore.defaultappobj?.package?.filter(
+                  (p) => p.type === 'Sign language'
+                ).length == 0
+                  ? 'pb-[180px]'
+                  : ''
+              "
             >
+              <MessagesLockedFeature
+                v-if="
+                  navStore.defaultappobj?.package?.filter(
+                    (p) => p.type === 'Sign language'
+                  ).length == 0
+                "
+              />
               <div
                 v-if="settingsStore.transferLicenceItems.features.find((el:any)=> el.name === 'deaf-setting-license-settings-sign-language-transfer-license-to-another-website-transfer-license-sign-language' ).active == 1"
                 class="h-[55px] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary flex items-center justify-start w-full mt-[22px] px-[15px]"

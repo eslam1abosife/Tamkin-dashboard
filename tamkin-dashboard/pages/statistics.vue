@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {useGetStats} from '@/composables/useAccessibility'
-const {getStatsAccessibility} = useGetStats()
+import { useGetStats } from "@/composables/useAccessibility";
+const { getStatsAccessibility } = useGetStats();
 const statsStore = useStatsStore();
 const settingsStore = useSettingsStore();
 
@@ -8,7 +8,6 @@ definePageMeta({
   layout: "dashboard",
   middleware: ["auth", "permissions"],
   requiredPermission: "accessibility-statistics",
-
 });
 
 const localePath = useLocalePath();
@@ -36,14 +35,12 @@ const handleCancelLeave = () => {
   statsStore.routeLeaveModal = false; // Close the modal
 };
 
-onBeforeMount(async ()=>{
-  statsStore.loadingStats = true
- await getStatsAccessibility()
- statsStore.loadingStats = false
-
-})
-const navStore = useNavbarStore()
-
+onBeforeMount(async () => {
+  statsStore.loadingStats = true;
+  await getStatsAccessibility();
+  statsStore.loadingStats = false;
+});
+const navStore = useNavbarStore();
 
 // onBeforeRouteLeave((to, from, next) => {
 //   if (detectUnsavedChanges()) {
@@ -59,7 +56,7 @@ const navStore = useNavbarStore()
   <div class="relative h-full w-full">
     <LazyModalsConfirm
       :showModal="statsStore.routeLeaveModal"
-      :title="$t('Save  your changes')"
+      :title="$t('Save your changes')"
       :sub-title="$t('Do you want to save the changes before moving on?')"
       confirm-btn-type="other"
       @control-other="handleSaveAndMove"
@@ -78,7 +75,7 @@ const navStore = useNavbarStore()
       />
 
       <LanguageServicesNodata
-        v-if="navStore.defaultappobj.type  === 'Internal Services'"
+        v-if="navStore.defaultappobj.type === 'Internal Services'"
       />
       <div v-else>
         <StatisticsChart />

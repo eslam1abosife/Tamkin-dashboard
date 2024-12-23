@@ -39,37 +39,33 @@ const getApps = async () => {
 onMounted(async () => {
   getApps();
   checkPaymentStatus();
-
-
 });
 onUpdated(async () => {
-  if (route.query && route.query.ping ) {
+  if (route.query && route.query.ping) {
     scrollToTarget();
   }
-})
+});
 const scrollToTarget = () => {
-  console.log('route.query.ping:', route.query.ping); 
+  console.log("route.query.ping:", route.query.ping);
   const divel = document.getElementById(route.query.ping as string);
 
   if (divel) {
-    divel.scrollIntoView({ behavior: 'smooth' });
-       
-    divel.classList.add('ping-effect');
-    
+    divel.scrollIntoView({ behavior: "smooth" });
+
+    divel.classList.add("ping-effect");
+
     setTimeout(() => {
-      divel.classList.remove('ping-effect');
-    }, 1000); 
+      divel.classList.remove("ping-effect");
+    }, 1000);
   } else {
-    console.log('Element not found:', route.query.ping); 
+    console.log("Element not found:", route.query.ping);
   }
 };
-
-
 
 watch(
   () => route.query.ping,
   (newQuery) => {
-      scrollToTarget();
+    scrollToTarget();
   }
 );
 import { required, email, sameAs } from "@vuelidate/validators";
@@ -111,7 +107,6 @@ const switchTab = (tab: any) => {
   currentPage.value = 1;
 };
 
-
 const localePath = useLocalePath();
 const isSearchfilled = ref(false);
 const search = ref("");
@@ -127,7 +122,7 @@ const clearInput = () => {
 
 const visiblePages = computed(() => {
   const pages = [];
-  const maxVisiblePages = 5; 
+  const maxVisiblePages = 5;
   let startPage = Math.max(
     1,
     currentPage.value - Math.floor(maxVisiblePages / 2)
@@ -146,7 +141,7 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-const perPageOptions = ref([5, 10, 20]); 
+const perPageOptions = ref([5, 10, 20]);
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
 const totalPages = computed(() =>
@@ -155,7 +150,7 @@ const totalPages = computed(() =>
 
 const changePerPage = (option: number) => {
   perPage.value = option;
-  currentPage.value = 1; 
+  currentPage.value = 1;
 };
 
 const prevPage = () => {
@@ -247,13 +242,12 @@ watch(eventCounter, async () => {
 });
 
 const deletedAppListLength = computed(() => {
-  return apps.value
-    .filter((ele) => ele.status === "deleted").length
-    // .filter((ele) =>
-    //   ele.title
-    //     .toLowerCase()
-    //     .includes(search.value.toString().toLowerCase().trim())
-    // ).length;
+  return apps.value.filter((ele) => ele.status === "deleted").length;
+  // .filter((ele) =>
+  //   ele.title
+  //     .toLowerCase()
+  //     .includes(search.value.toString().toLowerCase().trim())
+  // ).length;
 });
 
 const notDeletedAppListLength = computed(() => {
@@ -281,7 +275,6 @@ const appList = computed(() => {
             ele.app_domain.toLowerCase().includes(translatedSearchValue))
         );
       } else {
-    
         return (
           ele.status !== "deleted" &&
           ele.type !== "Internal Services" &&
@@ -290,8 +283,6 @@ const appList = computed(() => {
         );
       }
     });
-
-
   } else {
     return apps.value
       .find((t) => t.title === "Internal Service")
@@ -353,18 +344,26 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
         package_price_role: packagemodal.price_roles,
         billing_duration: app.package.find((k) => k.name === pack)
           .billing_duration,
-          type: app.package.find((k) => k.name === pack).type,
+        type: app.package.find((k) => k.name === pack).type,
         status:
-        app.package.find((k) => k.name === pack).type !== 'Investors'&& new Date() >
-          new Date(app.package.find((k) => k.name === pack).endpackage)
+          app.package.find((k) => k.name === pack).type !== "Investors" &&
+          new Date() >
+            new Date(app.package.find((k) => k.name === pack).endpackage)
             ? "Expired"
-            : app.package.find((k) => k.name === pack).type === 'Investors' ? app.package.find((k) => k.name === pack).investor_status: app.package.find((k) => k.name === pack).status,
+            : app.package.find((k) => k.name === pack).type === "Investors"
+            ? app.package.find((k) => k.name === pack).investor_status
+            : app.package.find((k) => k.name === pack).status,
       });
 
-      if(   app.package.find((k) => k.name === pack).type !== 'Investors'){
+      if (app.package.find((k) => k.name === pack).type !== "Investors") {
         navigateTo(null, "mysite", "upgrade_mysite_package");
-      }else if (   app.package.find((k) => k.name === pack).type === 'Investors'){
-        openInvestor(app,app.package.find((k) => k.name === pack))
+      } else if (
+        app.package.find((k) => k.name === pack).type === "Investors"
+      ) {
+        openInvestor(
+          app,
+          app.package.find((k) => k.name === pack)
+        );
       }
       loadingBlock.value.splice({ app: app, pack: pack });
     } else {
@@ -465,22 +464,23 @@ const cancelSubscriptionInternal = async () => {
   }
 };
 const refreshData = async () => {
-   await getApps();
-
-
+  await getApps();
 };
-const openInvestor = (app,pack)=>{
+const openInvestor = (app, pack) => {
   mysiteStore.currentWebsite = {
     ...app,
-    package :pack
-  }
-  openModal('join_to_investor') 
-}
+    package: pack,
+  };
+  openModal("join_to_investor");
+};
 </script>
 
 <template>
   <div class="w-full">
-    <PackagesPaymentModalsJoinInvestorStep1 @update-data="refreshData" v-if="isOpen('join_to_investor')" />
+    <PackagesPaymentModalsJoinInvestorStep1
+      @update-data="refreshData"
+      v-if="isOpen('join_to_investor')"
+    />
 
     <ModalsConfirm
       :show-modal="true"
@@ -939,15 +939,32 @@ const openInvestor = (app,pack)=>{
                     </div>
                   </div>
                   <div
-                    class=" px-[1px] cursor-pointer"
-                    @click="()=>{
-                      if(apps.some(t => t.title === 'Internal Service' && t.package && t.package.length)){
-                        switchTab('internal')
-
+                    class="px-[1px] cursor-pointer"
+                    @click="
+                      () => {
+                        if (
+                          apps.some(
+                            (t) =>
+                              t.title === 'Internal Service' &&
+                              t.package &&
+                              t.package.length
+                          )
+                        ) {
+                          switchTab('internal');
+                        }
                       }
-                    }"
-                    :class="[apps.some(t => t.title === 'Internal Service' && t.package && t.package.length) ? 'hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60' : '!cursor-not-allowed bg-gray-50']"
-                    >
+                    "
+                    :class="[
+                      apps.some(
+                        (t) =>
+                          t.title === 'Internal Service' &&
+                          t.package &&
+                          t.package.length
+                      )
+                        ? 'hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60'
+                        : '!cursor-not-allowed bg-gray-50',
+                    ]"
+                  >
                     <div
                       :class="[
                         currentTab === 'internal'
@@ -958,13 +975,19 @@ const openInvestor = (app,pack)=>{
                       style="line-height: 21px"
                     >
                       {{ $t("Internal Service") }} (
-                        {{
-                          apps.length &&
-                          apps.some((t) => t.title === "Internal Service" && t.package && t.package.length)
-                            ? apps.find((t) => t.title === "Internal Service").package.length
-                            : 0
-                        }}
-                        
+                      {{
+                        apps.length &&
+                        apps.some(
+                          (t) =>
+                            t.title === "Internal Service" &&
+                            t.package &&
+                            t.package.length
+                        )
+                          ? apps.find((t) => t.title === "Internal Service")
+                              .package.length
+                          : 0
+                      }}
+
                       )
                     </div>
                   </div>
@@ -1115,7 +1138,7 @@ const openInvestor = (app,pack)=>{
                     </th>
                   </tr>
                 </thead>
-                <tbody 
+                <tbody
                   class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200"
                 >
                   <template
@@ -1123,28 +1146,24 @@ const openInvestor = (app,pack)=>{
                     :key="index"
                   >
                     <tr
-                  :id="app.name"
-
+                      :id="app.name"
                       class="h-[50px]"
                       :class="[
-                        (
-                          app.package && 
-                          app.package[0] &&
-                          (
-                            (app.package[0].status === 'not_installed' && 
-                             new Date() < new Date(app.package[0].endpackage) && 
-                             app.package[0].type !== 'Investors') ||
-                            (app.package[0].type === 'Investors' && app.package[0].status === 'not_installed')
-                          )
-                        ) 
-                        ? 'bg-[#FAEBEB]' 
-                        : '',
-                        
-                        mysiteStore.selectedApp && mysiteStore.selectedApp.name === app.name
+                        app.package &&
+                        app.package[0] &&
+                        ((app.package[0].status === 'not_installed' &&
+                          new Date() < new Date(app.package[0].endpackage) &&
+                          app.package[0].type !== 'Investors') ||
+                          (app.package[0].type === 'Investors' &&
+                            app.package[0].status === 'not_installed'))
+                          ? 'bg-[#FAEBEB]'
+                          : '',
+
+                        mysiteStore.selectedApp &&
+                        mysiteStore.selectedApp.name === app.name
                           ? 'border-[1px] drop-shadow-md !border-tamkinStart'
-                          : 'border-[1px]'
+                          : 'border-[1px]',
                       ]"
-                      
                     >
                       <td class="w-[25%]">
                         <div
@@ -1223,7 +1242,7 @@ const openInvestor = (app,pack)=>{
 
                           <!-- Title Container -->
                           <div
-                            class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24  truncate"
+                            class="inline-block align-middle rtl:mr-2 ltr:ml-2 w-24 truncate"
                           >
                             {{
                               app.package[0] && app.package[0].title
@@ -1284,13 +1303,10 @@ const openInvestor = (app,pack)=>{
                                 : $t(`${app.package[0].status}`)
                             }}
                           </div>
-                        
+
                           <nuxt-link
                             :to="localePath('/embed-code')"
-                            v-if="
-                             
-                              app.package[0].status === 'not_installed' 
-                            "
+                            v-if="app.package[0].status === 'not_installed'"
                             class="cursor-pointer text-[#DE4134] block ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
                           >
                             {{ $t("Not installed") }}
@@ -1571,14 +1587,15 @@ const openInvestor = (app,pack)=>{
                               {{ $t(`${pack.status}`) }}
                             </div>
                             <div
-                            v-if="pack.status === 'Active' || (pack.type === 'Investors' && pack.investor_status === 'Active')"
-                            class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
-                          >
-                            {{
-                             
-                                 $t(`${pack.status}`)
-                            }}
-                          </div>
+                              v-if="
+                                pack.status === 'Active' ||
+                                (pack.type === 'Investors' &&
+                                  pack.investor_status === 'Active')
+                              "
+                              class="bg-gradient-to-r from-tamkinStart to-tamkinEnd rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
+                            >
+                              {{ $t(`${pack.status}`) }}
+                            </div>
                             <div
                               v-if="pack.status === 'Pending'"
                               class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-[17px] flex items-center justify-center h-[25px] max-w-[150px] w-[100px] text-white text-[12px] leading-[18px]"
@@ -1591,12 +1608,9 @@ const openInvestor = (app,pack)=>{
                             </div>
                             <nuxt-link
                               :to="localePath('/embed-code')"
-                              v-if="
-                                pack &&
-                                pack.status === 'not_installed'
-                              "
+                              v-if="pack && pack.status === 'not_installed'"
                               class="cursor-pointer text-[#DE4134] block ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px] underline"
-                              >
+                            >
                               {{ $t("Not installed") }}
                             </nuxt-link>
                           </div>
@@ -1630,8 +1644,10 @@ const openInvestor = (app,pack)=>{
                             class="flex items-center justify-center rtl:space-x-reverse space-x-[16px] relative"
                           >
                             <button
-                            :disabled=" mysiteStore.selectedApp.package.length &&
-                            pack.status === 'Pending'"
+                              :disabled="
+                                mysiteStore.selectedApp.package.length &&
+                                pack.status === 'Pending'
+                              "
                               class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
                               @click="
                                 getPackageAndOpenPaymenModal(
@@ -1681,12 +1697,11 @@ const openInvestor = (app,pack)=>{
                             </button>
 
                             <button
-                            :disabled="pack.status === 'Pending'"
-                            class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
-
+                              :disabled="pack.status === 'Pending'"
+                              class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
                               @click="openDeleteMember(mysiteStore.selectedApp)"
                             >
-                            <!-- her eman-->
+                              <!-- her eman-->
                               <svg
                                 width="18"
                                 height="17"
@@ -1947,7 +1962,12 @@ const openInvestor = (app,pack)=>{
 
               <table
                 class="table-auto divide-y divide-gray-200 dark:divide-darkborder"
-                v-if="currentTab === 'internal' && !mysiteStore.loadingApps && apps.find(t=>t.title === 'Internal Service')?.package.length > 0"
+                v-if="
+                  currentTab === 'internal' &&
+                  !mysiteStore.loadingApps &&
+                  apps.find((t) => t.title === 'Internal Service')?.package
+                    .length > 0
+                "
               >
                 <thead>
                   <tr class="h-[50px]">
@@ -2526,5 +2546,4 @@ const openInvestor = (app,pack)=>{
     background-color: transparent;
   }
 }
-
 </style>
