@@ -20,6 +20,8 @@ const showSuccess = ref(false);
 const isshowError = ref(false);
 const showErrorMess = ref("");
 const confirmTransfer = async () => {
+  showSuccess.value = true;
+  isshowError.value = true;
   loadingTransfer.value = true;
   try {
     const res = await api.post("/Apps/TransferLicense", {

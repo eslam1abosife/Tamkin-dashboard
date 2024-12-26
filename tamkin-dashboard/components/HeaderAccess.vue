@@ -4,7 +4,6 @@ import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
 
-
 const {
   getInviteApps,
   defaultApp,
@@ -45,7 +44,6 @@ const formatToUrl = (domain: any) => {
   return domain;
 };
 
-
 const navStore = useNavbarStore();
 
 const app = ref({});
@@ -53,12 +51,12 @@ const loadApp = ref(false);
 const getApps = async () => {
   loadApp.value = true;
   try {
-
-  const user = JSON.parse(localStorage.getItem('user'));
-  await getInviteApps({ agency: user.agency });
-  settingsStore.apps = apps.value
-   settingsStore.appHeader = defaultApp.value
+    const user = JSON.parse(localStorage.getItem("user"));
+    await getInviteApps({ agency: user.agency });
+    settingsStore.apps = apps.value;
+    settingsStore.appHeader = defaultApp.value;
     settingsStore.defaultapp = settingsStore.appHeader;
+    settingsStore.defaultappobj = defaultApp.value;
     navStore.defaultappobj = defaultApp.value;
     loadApp.value = false;
   } catch (error) {
@@ -67,7 +65,6 @@ const getApps = async () => {
     throw typeof error === "string" ? error : "There is something wrong";
   }
 };
-
 
 onMounted(() => {
   getApps();
@@ -103,7 +100,7 @@ const isLinkActive = (path) => {
     ></div>
 
     <h2
-      v-if="Object.keys(   settingsStore.appHeader ).length > 0"
+      v-if="Object.keys(settingsStore.appHeader).length > 0"
       class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
     >
       {{ sectionSubTitle }}
@@ -126,41 +123,62 @@ const isLinkActive = (path) => {
             class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
           >
             <div
-              class="flex items-center justify-center  w-[50px] h-[50px] rounded-full"
+              class="flex items-center justify-center w-[50px] h-[50px] rounded-full"
             >
-            <img v-if="  settingsStore.appHeader.favicon" :src="settingsStore.appHeader.favicon" alt="Logo" class="w-[40px] h-[40px] rounded-full">
-             
-            <div v-else-if="!settingsStore.appHeader.favicon && settingsStore.appHeader.title !== 'Internal Service'" 
-            class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"> 
+              <img
+                v-if="settingsStore.appHeader.favicon"
+                :src="settingsStore.appHeader.favicon"
+                alt="Logo"
+                class="w-[40px] h-[40px] rounded-full"
+              />
 
-              {{ getAvatarLetters(settingsStore.appHeader?.title) }}
-            </div>
-            <img src="/assets/imgs/icons/mysite_select.svg" 
-            class="w-[40px] h-[40px]"  v-if="settingsStore.appHeader?.title === 'Internal Service' "/>
+              <div
+                v-else-if="
+                  !settingsStore.appHeader.favicon &&
+                  settingsStore.appHeader.title !== 'Internal Service'
+                "
+                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+              >
+                {{ getAvatarLetters(settingsStore.appHeader?.title) }}
+              </div>
+              <img
+                src="/assets/imgs/icons/mysite_select.svg"
+                class="w-[40px] h-[40px]"
+                v-if="settingsStore.appHeader?.title === 'Internal Service'"
+              />
             </div>
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
               <div>
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
-                  {{ $t(   settingsStore.appHeader .title) }}
+                  {{ $t(settingsStore.appHeader.title) }}
                 </h2>
               </div>
-              <div v-if="   settingsStore.appHeader  &&    settingsStore.appHeader .type !== 'Internal Services'">
+              <div
+                v-if="
+                  settingsStore.appHeader &&
+                  settingsStore.appHeader.type !== 'Internal Services'
+                "
+              >
                 <a
                   :class="[
-                    settingsStore.appHeader ?.title === 'Internal Service'
+                    settingsStore.appHeader?.title === 'Internal Service'
                       ? '!text-darkGrey/40 cursor-not-allowed'
                       : '',
                   ]"
                   :href="
-                  settingsStore.appHeader ?.title === 'Internal Service'
+                    settingsStore.appHeader?.title === 'Internal Service'
                       ? '#'
                       : app
-                      ? formatToUrl(   settingsStore.appHeader .app_domain)
+                      ? formatToUrl(settingsStore.appHeader.app_domain)
                       : ''
                   "
-                  :target="   settingsStore.appHeader ?.title === 'Internal Service' ? '' : '_blank'"
+                  :target="
+                    settingsStore.appHeader?.title === 'Internal Service'
+                      ? ''
+                      : '_blank'
+                  "
                   class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
                 >
                   {{ $t("Visit Site") }}
@@ -170,7 +188,7 @@ const isLinkActive = (path) => {
                     fill="none"
                     stroke-width="1.5"
                     :class="[
-                      settingsStore.appHeader ?.title === 'Internal Service'
+                      settingsStore.appHeader?.title === 'Internal Service'
                         ? '!text-darkGrey/40 cursor-not-allowed'
                         : '!text-tamkinStart',
                     ]"

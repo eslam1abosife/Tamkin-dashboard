@@ -22,8 +22,8 @@ const props = defineProps({
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          Translation Accuracy: Ensuring precise and reliable translations to maintain
-          high-quality communication and understanding
+          Translation Accuracy: Ensuring precise and reliable translations to
+          maintain high-quality communication and understanding
         </p>
       </div>
       <div
@@ -59,7 +59,7 @@ const props = defineProps({
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -75,8 +75,11 @@ const props = defineProps({
               </svg>
             </div>
             <div class="text_mini">Switch To Annual</div>
-          </div>
-          <div class="mini_wrap" @click="collapseStore.collapseCard('balance_card')">
+          </div> -->
+          <div
+            class="mini_wrap"
+            @click="collapseStore.collapseCard('balance_card')"
+          >
             <div>
               <svg
                 width="25"
@@ -113,7 +116,9 @@ const props = defineProps({
             </div>
             <div class="text_mini">
               {{
-                !collapseStore.collapses.includes("balance_card") ? $t("Minisize") : $t("Maxsize")
+                !collapseStore.collapses.includes("balance_card")
+                  ? $t("Minisize")
+                  : $t("Maxsize")
               }}
             </div>
           </div>
@@ -128,7 +133,13 @@ const props = defineProps({
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <filter id="shadow-sm" x="0" y="-20%" width="140%" height="140%">
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
                   <feDropShadow
                     dx="1"
                     dy="1"
@@ -163,14 +174,17 @@ const props = defineProps({
           >
             <div class="flex items-center justify-between space-x-[6px]">
               <span
-                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                style="
+                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                "
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
               <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
                 >Your total minutes
               </span>
             </div>
-            <span class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
+            <span
+              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
               >20</span
             >
           </div>
@@ -181,9 +195,12 @@ const props = defineProps({
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin">Used </span>
+              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
+                >Used
+              </span>
             </div>
-            <span class="block text-[14px]font-semibold dark:text-whiteTamkin/90"
+            <span
+              class="block text-[14px]font-semibold dark:text-whiteTamkin/90"
               >20</span
             >
           </div>
@@ -198,7 +215,8 @@ const props = defineProps({
                 >Remaining</span
               >
             </div>
-            <span class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
+            <span
+              class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
               >20</span
             >
           </div>
@@ -206,7 +224,10 @@ const props = defineProps({
       </div>
       <div class="flex items-center justify-between w-full">
         <div class="ml-[-10px]">
-          <CircularProgressBar :showText="false" svg-class="w-[120px] h-[120px]" />
+          <CircularProgressBar
+            :showText="false"
+            svg-class="w-[120px] h-[120px]"
+          />
         </div>
 
         <div class="flex items-start w-full justify-evenly pt-[16px]">
@@ -215,14 +236,17 @@ const props = defineProps({
           >
             <div class="flex items-center justify-between space-x-[6px]">
               <span
-                style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                style="
+                  background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                "
                 class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
               <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
                 >Your total minutes
               </span>
             </div>
-            <span class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
+            <span
+              class="block text-[14px] font-semibold dark:text-whiteTamkin/90"
               >20</span
             >
           </div>
@@ -233,9 +257,12 @@ const props = defineProps({
               <span
                 class="block w-3 h-3 bg-[#FFBA6B] dark:bg-whiteTamkin rounded-full mx-auto"
               ></span>
-              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin">Used </span>
+              <span class="text-gray-500 text-[14px] dark:text-whiteTamkin"
+                >Used
+              </span>
             </div>
-            <span class="block text-[14px]font-semibold dark:text-whiteTamkin/90"
+            <span
+              class="block text-[14px]font-semibold dark:text-whiteTamkin/90"
               >20</span
             >
           </div>
@@ -250,7 +277,8 @@ const props = defineProps({
                 >Remaining</span
               >
             </div>
-            <span class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
+            <span
+              class="block font-semibold text-[14px] dark:text-whiteTamkin/90"
               >20</span
             >
           </div>

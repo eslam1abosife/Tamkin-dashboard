@@ -24,6 +24,7 @@ const filteredApps = computed(() =>
   settingsStore.apps.filter(
     (el: any) =>
       el.type !== "Internal Services" &&
+      el.isdefault !== 1 &&
       el.status !== "deleted" &&
       el.title.toLowerCase().includes(search.value.toLowerCase())
   )
@@ -42,6 +43,13 @@ const formatToUrl = (domain: any) => {
     domain = "https://" + domain;
   }
   return domain;
+};
+const selectApp = (app: any) => {
+  if (settingsStore.selectedApp == app) {
+    settingsStore.selectedApp = null;
+  } else {
+    settingsStore.selectedApp = app;
+  }
 };
 </script>
 
@@ -176,12 +184,8 @@ const formatToUrl = (domain: any) => {
                     <div>
                       <input
                         type="checkbox"
-                        @click="
-                          !settingsStore.selectedApp
-                            ? (settingsStore.selectedApp = app)
-                            : (settingsStore.selectedApp = null)
-                        "
-                        :checked="checked === `checkbox_` + app.name"
+                        @click="selectApp(app)"
+                        :checked="settingsStore.selectedApp?.name == app.name"
                         :id="`checkbox_` + app.name"
                         :value="app.name"
                         class="peer sr-only rtl:mr-auto ltr:ml-auto"

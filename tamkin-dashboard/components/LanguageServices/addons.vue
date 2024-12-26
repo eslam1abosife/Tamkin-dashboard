@@ -93,7 +93,7 @@ const customizeStore = useCustomizeStore();
           v-if="menus.includes('webPlugins')"
           class="mini_SizeMenu shadow divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -109,7 +109,7 @@ const customizeStore = useCustomizeStore();
               </svg>
             </div>
             <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('webPlugins')"

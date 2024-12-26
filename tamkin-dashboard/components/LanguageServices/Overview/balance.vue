@@ -4,29 +4,30 @@ import { vOnClickOutside } from "@vueuse/components";
 const collapseStore = useCollapseStore();
 
 const props = defineProps({
-    typeOfBalance:String
-})
+  typeOfBalance: String,
+});
 </script>
 
-
 <template>
-
-    <div
-    class="mt-[30px] bg-white  dark:bg-tamkinDarkPrimary rounded-[10px]
-     px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
-    
+  <div
+    class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
-    <div class="flex items-center justify-start ">
+    <div class="flex items-center justify-start">
       <div class="pt-[24px]">
-        <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Your balance</h1>
-        <p class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]">
-            Track your word and minute balance to manage your usage effectively
+        <h1
+          class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+        >
+          Your balance
+        </h1>
+        <p
+          class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+        >
+          Track your word and minute balance to manage your usage effectively
         </p>
       </div>
       <div
         @click.stop="collapseStore.collapseMenu('balance_all')"
         v-on-click-outside="() => collapseStore.removeMenu('balance_all')"
-
         :class="[
           collapseStore.menus.includes('balance_all')
             ? 'active_notification !text-darkGrey'
@@ -42,7 +43,8 @@ const props = defineProps({
           xmlns="http://www.w3.org/2000/svg"
           :class="[
             collapseStore.menus.includes('balance_all')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ? 'stroke-current !text-white !fill-white'
+              : 'dark:text-white',
           ]"
         >
           <path
@@ -54,45 +56,62 @@ const props = defineProps({
         <div
           v-if="collapseStore.menus.includes('balance_all')"
           style="box-shadow: 0px 2px 6px 0px #00000040"
-          class="mini_SizeMenu "
+          class="mini_SizeMenu"
         >
-        <div
-        class="mini_wrap"
-      >
-        <div>
-          <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          Switch To Annual
-        </div>
-      </div>
+          <!-- <div class="mini_wrap">
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                  class="fill-[#585B5B] dark:fill-whiteTamkin"
+                />
+              </svg>
+            </div>
+            <div class="text_mini">Switch To Annual</div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('balance_card')"
           >
             <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
+              <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
-
+                <path
+                  d="M13.7754 10.937L18.4995 7"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7207 7H18.5V10.1496"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M11.2241 13.063L6.5 17"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.2793 17.0002H6.5V13.8506"
+                  class="dark:!stroke-white stroke-darkGrey"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
             <div class="text_mini">
               {{
@@ -104,36 +123,36 @@ const props = defineProps({
           </div>
 
           <div class="arrow">
-                            <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
-            <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-tamkinDarkPrimary"
-              filter="url(#shadow-sm)"
-            />
-          </svg>
+            <svg
+              width="16"
+              class=""
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <filter
+                  id="shadow-sm"
+                  x="0"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="1"
+                    dy="1"
+                    stdDeviation="1"
+                    flood-color="rgba(0, 0, 0, 0.3)"
+                  />
+                </filter>
+              </defs>
+              <path
+                d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                class="fill-white dark:!fill-tamkinDarkPrimary"
+                filter="url(#shadow-sm)"
+              />
+            </svg>
           </div>
         </div>
       </div>
@@ -143,128 +162,31 @@ const props = defineProps({
       class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
       v-if="!collapseStore.collapses.includes('balance_card')"
     >
-   
-
- <div class="flex items-center justify-start gap-4">
-    <div class="w-full  bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center " style="box-shadow: 0px 2px 4px 0px #D9D9D978;
-    ">
-    
-    <div class="text-[13px] font-[500]  text-[#021328]">
-        Words  Balance
-    
-    </div>
-    <div
-    class="flex items-start  w-full justify-between pt-[16px] "
-    >
-    <div
-      class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-    >
-      <div class="flex items-center justify-between space-x-[6px]">
-        <span
-    
-          class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#FFBA6B]"
-        ></span>
-        <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Total</span>
-      </div>
-      <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-    </div>
-    
-    <div
-      class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-    >
-      <div class="flex items-center justify-between space-x-[6px]">
-        <span
-          class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#D6BEF4]"
-        ></span>
-        <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Used</span>
-      </div>
-      <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-    </div>
-    <div
-      class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-    >
-      <div class="flex items-center justify-between space-x-[6px]">
-        <span
-          class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#90E2DB]"
-        ></span>
-        <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Remaining </span>
-      </div>
-      <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-    </div>
-    </div> 
-         
-        </div>
-        <div class="w-full  bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center " style="box-shadow: 0px 2px 4px 0px #D9D9D978;
-        ">
-        
-        <div class="text-[13px] font-[500]  text-[#021328]">
-            Words  Balance
-        
-        </div>
+      <div class="flex items-center justify-start gap-4">
         <div
-        class="flex items-start  w-full justify-between pt-[16px] "
+          class="w-full bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center"
+          style="box-shadow: 0px 2px 4px 0px #d9d9d978"
         >
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between space-x-[6px]">
-            <span
-        
-              class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#FFBA6B]"
-            ></span>
-            <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Total</span>
-          </div>
-          <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-        </div>
-        
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between space-x-[6px]">
-            <span
-              class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#D6BEF4]"
-            ></span>
-            <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Used</span>
-          </div>
-          <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-        </div>
-        <div
-          class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
-        >
-          <div class="flex items-center justify-between space-x-[6px]">
-            <span
-              class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#90E2DB]"
-            ></span>
-            <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Remaining </span>
-          </div>
-          <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
-        </div>
-        </div> 
-             
-            </div>
-            <div class="w-full bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center " style="box-shadow: 0px 2px 4px 0px #D9D9D978;
-            ">
-            
-            <div class="text-[13px] font-[500]  text-[#021328]">
-                Words  Balance
-            
-            </div>
-            <div
-            class="flex items-start  w-full justify-between pt-[16px] "
-            >
+          <div class="text-[13px] font-[500] text-[#021328]">Words Balance</div>
+          <div class="flex items-start w-full justify-between pt-[16px]">
             <div
               class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
             >
               <div class="flex items-center justify-between space-x-[6px]">
                 <span
-            
                   class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#FFBA6B]"
                 ></span>
-                <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Total</span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Total</span
+                >
               </div>
-              <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
             </div>
-            
+
             <div
               class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
             >
@@ -272,9 +194,15 @@ const props = defineProps({
                 <span
                   class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#D6BEF4]"
                 ></span>
-                <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Used</span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Used</span
+                >
               </div>
-              <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
             </div>
             <div
               class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
@@ -283,15 +211,139 @@ const props = defineProps({
                 <span
                   class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#90E2DB]"
                 ></span>
-                <span class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin">Remaining </span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Remaining
+                </span>
               </div>
-              <span class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90">20</span>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
             </div>
-            </div> 
-                 
-                </div>
- </div>
+          </div>
+        </div>
+        <div
+          class="w-full bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center"
+          style="box-shadow: 0px 2px 4px 0px #d9d9d978"
+        >
+          <div class="text-[13px] font-[500] text-[#021328]">Words Balance</div>
+          <div class="flex items-start w-full justify-between pt-[16px]">
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#FFBA6B]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Total</span
+                >
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#D6BEF4]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Used</span
+                >
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#90E2DB]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Remaining
+                </span>
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-full bg-[#F6FAFF] p-[12px] rounded-[15px] flex flex-col items-start justify-center"
+          style="box-shadow: 0px 2px 4px 0px #d9d9d978"
+        >
+          <div class="text-[13px] font-[500] text-[#021328]">Words Balance</div>
+          <div class="flex items-start w-full justify-between pt-[16px]">
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#FFBA6B]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Total</span
+                >
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#D6BEF4]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Used</span
+                >
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+            <div
+              class="text-center flex items-center justify-evenly flex-col space-y-[10px]"
+            >
+              <div class="flex items-center justify-between space-x-[6px]">
+                <span
+                  class="block w-3 h-3 dark:bg-whiteTamkin rounded-full mx-auto bg-[#90E2DB]"
+                ></span>
+                <span
+                  class="text-[#787486] text-[10px] font-[400] dark:text-whiteTamkin"
+                  >Remaining
+                </span>
+              </div>
+              <span
+                class="block text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin/90"
+                >20</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
 </template>

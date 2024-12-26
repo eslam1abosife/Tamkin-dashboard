@@ -3,9 +3,8 @@ import { Line } from "vue-chartjs";
 import { ref, onMounted, nextTick, computed, watch } from "vue";
 import { useNavbarStore } from "@/stores/navbar";
 import { useCollapseStore } from "@/stores/collapse.js";
-import { useCustomizeStore } from "@/stores/customize.js"
+import { useCustomizeStore } from "@/stores/customize.js";
 import { vOnClickOutside } from "@vueuse/components";
-;
 import {
   Chart as ChartJS,
   Title,
@@ -45,7 +44,6 @@ const chartData = ref({
       backgroundColor: "rgba(75, 192, 192, 0.2)",
       fill: false,
       tension: 0.5,
-   
     },
     {
       label: "Dataset 2",
@@ -59,7 +57,7 @@ const chartData = ref({
       label: "Dataset 3",
       data: [35, 10, 25, 55, 50, 25, 20, 20, 65],
       borderColor: "rgba(255, 99, 132, 1)",
-  
+
       fill: false,
       tension: 0.5,
     },
@@ -78,22 +76,21 @@ ChartJS.register(
 );
 const { width, height } = useWindowSize();
 
-
 const options = ref({
   responsive: false,
   maintainAspectRatio: true,
   plugins: {
     tooltip: {
-      enabled: false,  // Disable the default tooltip
-      external: function(context) {
+      enabled: false, // Disable the default tooltip
+      external: function (context) {
         // Tooltip Element
-        let tooltipEl = document.getElementById('chartjs-tooltip');
+        let tooltipEl = document.getElementById("chartjs-tooltip");
 
         // Create element on first render
         if (!tooltipEl) {
-          tooltipEl = document.createElement('div');
-          tooltipEl.id = 'chartjs-tooltip';
-          tooltipEl.innerHTML = '<table></table>';
+          tooltipEl = document.createElement("div");
+          tooltipEl.id = "chartjs-tooltip";
+          tooltipEl.innerHTML = "<table></table>";
           document.body.appendChild(tooltipEl);
         }
 
@@ -105,11 +102,11 @@ const options = ref({
         }
 
         // Set caret position
-        tooltipEl.classList.remove('above', 'below', 'no-transform');
+        tooltipEl.classList.remove("above", "below", "no-transform");
         if (tooltipModel.yAlign) {
           tooltipEl.classList.add(tooltipModel.yAlign);
         } else {
-          tooltipEl.classList.add('no-transform');
+          tooltipEl.classList.add("no-transform");
         }
 
         function getBody(bodyItem) {
@@ -121,21 +118,21 @@ const options = ref({
           const titleLines = tooltipModel.title || [];
           const bodyLines = tooltipModel.body.map(getBody);
 
-          let innerHtml = '<thead>';
+          let innerHtml = "<thead>";
 
-          titleLines.forEach(function(title) {
-            innerHtml += '<tr><th>' + title + '</th></tr>';
+          titleLines.forEach(function (title) {
+            innerHtml += "<tr><th>" + title + "</th></tr>";
           });
 
-          innerHtml += '</thead><tbody>';
+          innerHtml += "</thead><tbody>";
 
-          bodyLines.forEach(function(body, i) {
-            innerHtml += '<tr><td>' + body + '</td></tr>';
+          bodyLines.forEach(function (body, i) {
+            innerHtml += "<tr><td>" + body + "</td></tr>";
           });
 
-          innerHtml += '</tbody>';
+          innerHtml += "</tbody>";
 
-          let tableRoot = tooltipEl.querySelector('table');
+          let tableRoot = tooltipEl.querySelector("table");
           tableRoot.innerHTML = innerHtml;
         }
 
@@ -143,23 +140,26 @@ const options = ref({
         const position = context.chart.canvas.getBoundingClientRect();
 
         tooltipEl.style.opacity = 1;
-        tooltipEl.style.position = 'absolute';
-        tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-        tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
+        tooltipEl.style.position = "absolute";
+        tooltipEl.style.left =
+          position.left + window.pageXOffset + tooltipModel.caretX + "px";
+        tooltipEl.style.top =
+          position.top + window.pageYOffset + tooltipModel.caretY + "px";
         tooltipEl.style.fontFamily = tooltipModel.options.bodyFont.family;
-        tooltipEl.style.fontSize = tooltipModel.options.bodyFont.size + 'px';
+        tooltipEl.style.fontSize = tooltipModel.options.bodyFont.size + "px";
         tooltipEl.style.fontStyle = tooltipModel.options.bodyFont.style;
-        tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
-        tooltipEl.style.pointerEvents = 'none';
+        tooltipEl.style.padding =
+          tooltipModel.padding + "px " + tooltipModel.padding + "px";
+        tooltipEl.style.pointerEvents = "none";
 
         // Apply custom styles for the tooltip
-        tooltipEl.style.backgroundColor = 'white'; // Background color
-        tooltipEl.style.color = '#333'; // Text color
-        tooltipEl.style.borderRadius = '10px'; // Rounded corners
-        tooltipEl.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.1)'; // Drop shadow
-        tooltipEl.style.textAlign = 'center'; // Center-align text
-        tooltipEl.style.padding = '15px'; // Add padding
-      }
+        tooltipEl.style.backgroundColor = "white"; // Background color
+        tooltipEl.style.color = "#333"; // Text color
+        tooltipEl.style.borderRadius = "10px"; // Rounded corners
+        tooltipEl.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.1)"; // Drop shadow
+        tooltipEl.style.textAlign = "center"; // Center-align text
+        tooltipEl.style.padding = "15px"; // Add padding
+      },
     },
     legend: {
       display: false,
@@ -170,7 +170,7 @@ const options = ref({
       border: {
         display: true,
       },
-      
+
       grid: {
         display: false,
       },
@@ -186,8 +186,8 @@ const options = ref({
         autoSkip: true,
         maxTicksLimit: 10,
         color: (c) => {
-            return colorMode.preference === 'dark' ?'white' :'black'
-          },
+          return colorMode.preference === "dark" ? "white" : "black";
+        },
         callback: function (value) {
           const date = new Date(value);
           const options = { month: "short", day: "numeric" };
@@ -198,7 +198,6 @@ const options = ref({
     y: {
       grid: {
         display: true,
-        
       },
       ticks: {
         display: true,
@@ -210,29 +209,31 @@ const options = ref({
   },
 });
 const resizeCharts = () => {
-  const containerWidth = document.querySelector('.container_chart')?.offsetWidth || width.value;
+  const containerWidth =
+    document.querySelector(".container_chart")?.offsetWidth || width.value;
 
-  if (chart12.value ) {
+  if (chart12.value) {
     chart12.value.chart.resize(containerWidth, 100);
   }
 };
 
-
-
-watch(() => width   , () => {
-  resizeCharts();
-});
+watch(
+  () => width,
+  () => {
+    resizeCharts();
+  }
+);
 // Ensure to clean up the tooltip element on destroy
 onUnmounted(() => {
-  const tooltipEl = document.getElementById('chartjs-tooltip');
+  const tooltipEl = document.getElementById("chartjs-tooltip");
   if (tooltipEl) {
     tooltipEl.remove();
   }
 });
 
-
 const updateChartOptions = async (isDarkMode) => {
-  options.value.scales.x.ticks.color = isDarkMode === "dark" ? "#ffffff" : "#000000";
+  options.value.scales.x.ticks.color =
+    isDarkMode === "dark" ? "#ffffff" : "#000000";
 
   await nextTick();
   if (chart12.value) {
@@ -240,188 +241,228 @@ const updateChartOptions = async (isDarkMode) => {
   }
 };
 watch(
-      () => colorMode.preference,
-      async (newVal) => {
-        await nextTick();
+  () => colorMode.preference,
+  async (newVal) => {
+    await nextTick();
 
-        updateChartOptions(newVal);
-      }
-    );
+    updateChartOptions(newVal);
+  }
+);
 onMounted(async () => {
   await nextTick();
   updateChartOptions(colorMode.preference);
 });
 
-watch(() => colorMode.preference, async (newVal) => {
-  await nextTick();
-  updateChartOptions(newVal);
-});
+watch(
+  () => colorMode.preference,
+  async (newVal) => {
+    await nextTick();
+    updateChartOptions(newVal);
+  }
+);
 
 const myStyles = computed(() => ({
   height: "100%",
   width: "100%",
   position: "relative",
 }));
-
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full my-[30px] ">
-    <div 
-      class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full  shadow-md relative px-[15px]" 
-      :class="[collapseStore.collapses.includes('media_used_chart_card') ? 'pb-[24px]' : 'pb-[10px]']">
-      <div class="flex items-center justify-start ">
+  <div class="flex flex-col items-center justify-center w-full my-[30px]">
+    <div
+      class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full shadow-md relative px-[15px]"
+      :class="[
+        collapseStore.collapses.includes('media_used_chart_card')
+          ? 'pb-[24px]'
+          : 'pb-[10px]',
+      ]"
+    >
+      <div class="flex items-center justify-start">
         <div class="pt-[24px]">
-          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Media services Used</h1>
-          <p class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]">
+          <h1
+            class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
+          >
+            Media services Used
+          </h1>
+          <p
+            class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
+          >
             The last date these services were used
           </p>
         </div>
-       
-        <div
-        @click.stop="collapseStore.collapseMenu('media_used_chart')"
-        v-on-click-outside="() => collapseStore.removeMenu('media_used_chart')"
 
-        :class="[
-          collapseStore.menus.includes('media_used_chart')
-            ? 'active_notification !text-darkGrey'
-            : '',
-        ]"
-        class="menu_button_control divide-y"
-      >
-        <svg
-          width="18"
-          height="5"
-          viewBox="0 0 18 5"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          @click.stop="collapseStore.collapseMenu('media_used_chart')"
+          v-on-click-outside="
+            () => collapseStore.removeMenu('media_used_chart')
+          "
           :class="[
             collapseStore.menus.includes('media_used_chart')
-? 'stroke-current !text-white !fill-white' : 'dark:text-white',
+              ? 'active_notification !text-darkGrey'
+              : '',
           ]"
+          class="menu_button_control divide-y"
         >
-          <path
-            d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
-            fill="currentColor"
-          />
-        </svg>
-
-        <div
-          v-if="collapseStore.menus.includes('media_used_chart')"
-          style="box-shadow: 0px 2px 6px 0px #00000040"
-          class="mini_SizeMenu "
-        >
-        <div
-        class="mini_wrap"
-      >
-        <div>
           <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
-            class="fill-[#585B5B] dark:fill-whiteTamkin"
-          />
-        </svg>
-        </div>
-        <div class="text_mini">
-          Switch To Annual
-        </div>
-      </div>
-          <div
-            class="mini_wrap"
-            @click="collapseStore.collapseCard('media_used_chart_card')"
-          >
-            <div>
-              <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
-              >
-                <path d="M13.7754 10.937L18.4995 7"   class="dark:!stroke-white stroke-darkGrey"
-                stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14.7207 7H18.5V10.1496" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.2241 13.063L6.5 17" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.2793 17.0002H6.5V13.8506" class="dark:!stroke-white stroke-darkGrey" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-
-
-            </div>
-            <div class="text_mini">
-              {{
-                !collapseStore.collapses.includes("media_used_chart_card")
-                  ? $t("Minisize")
-                  : $t("Maxsize")
-              }}
-            </div>
-          </div>
-
-          <div class="arrow">
-                            <svg
-            width="16"
-            class=""
-            height="16"
-            viewBox="0 0 16 16"
+            width="18"
+            height="5"
+            viewBox="0 0 18 5"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            :class="[
+              collapseStore.menus.includes('media_used_chart')
+                ? 'stroke-current !text-white !fill-white'
+                : 'dark:text-white',
+            ]"
           >
-            <defs>
-              <filter
-                id="shadow-sm"
-                x="0"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="1"
-                  dy="1"
-                  stdDeviation="1"
-                  flood-color="rgba(0, 0, 0, 0.3)"
-                />
-              </filter>
-            </defs>
             <path
-              d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
-              class="fill-white dark:!fill-tamkinDarkPrimary"
-              filter="url(#shadow-sm)"
+              d="M14 2.5C14 1.96957 14.2107 1.46086 14.5858 1.08579C14.9609 0.710714 15.4696 0.5 16 0.5C16.5304 0.5 17.0391 0.710714 17.4142 1.08579C17.7893 1.46086 18 1.96957 18 2.5C18 3.03043 17.7893 3.53914 17.4142 3.91421C17.0391 4.28929 16.5304 4.5 16 4.5C15.4696 4.5 14.9609 4.28929 14.5858 3.91421C14.2107 3.53914 14 3.03043 14 2.5ZM7 2.5C7 1.96957 7.21071 1.46086 7.58579 1.08579C7.96086 0.710714 8.46957 0.5 9 0.5C9.53043 0.5 10.0391 0.710714 10.4142 1.08579C10.7893 1.46086 11 1.96957 11 2.5C11 3.03043 10.7893 3.53914 10.4142 3.91421C10.0391 4.28929 9.53043 4.5 9 4.5C8.46957 4.5 7.96086 4.28929 7.58579 3.91421C7.21071 3.53914 7 3.03043 7 2.5ZM0 2.5C0 1.96957 0.210714 1.46086 0.585786 1.08579C0.960859 0.710714 1.46957 0.5 2 0.5C2.53043 0.5 3.03914 0.710714 3.41421 1.08579C3.78929 1.46086 4 1.96957 4 2.5C4 3.03043 3.78929 3.53914 3.41421 3.91421C3.03914 4.28929 2.53043 4.5 2 4.5C1.46957 4.5 0.960859 4.28929 0.585786 3.91421C0.210714 3.53914 0 3.03043 0 2.5Z"
+              fill="currentColor"
             />
           </svg>
+
+          <div
+            v-if="collapseStore.menus.includes('media_used_chart')"
+            style="box-shadow: 0px 2px 6px 0px #00000040"
+            class="mini_SizeMenu"
+          >
+            <!-- <div class="mini_wrap">
+              <div>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 5.5L5.5 9.9256V12.9824L12 8.55677L18.5 12.9824V9.9256L12 5.5ZM12 9.17966L7.75108 12.1087V14.7032L12 11.7742L16.2489 14.7032V12.1087L12 9.17966ZM12 12.3983L9.55195 14.0859V16.0286L12 14.3618L14.4481 16.0286V14.0859L12 12.3983ZM12 14.9834L9.55195 16.6502V18.5L12 16.8332L14.4481 18.5V16.6502L12 14.9834Z"
+                    class="fill-[#585B5B] dark:fill-whiteTamkin"
+                  />
+                </svg>
+              </div>
+              <div class="text_mini">Switch To Annual</div>
+            </div> -->
+            <div
+              class="mini_wrap"
+              @click="collapseStore.collapseCard('media_used_chart_card')"
+            >
+              <div>
+                <svg
+                  width="25"
+                  height="24"
+                  viewBox="0 0 25 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.7754 10.937L18.4995 7"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.7207 7H18.5V10.1496"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M11.2241 13.063L6.5 17"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.2793 17.0002H6.5V13.8506"
+                    class="dark:!stroke-white stroke-darkGrey"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <div class="text_mini">
+                {{
+                  !collapseStore.collapses.includes("media_used_chart_card")
+                    ? $t("Minisize")
+                    : $t("Maxsize")
+                }}
+              </div>
+            </div>
+
+            <div class="arrow">
+              <svg
+                width="16"
+                class=""
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <filter
+                    id="shadow-sm"
+                    x="0"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="1"
+                      dy="1"
+                      stdDeviation="1"
+                      flood-color="rgba(0, 0, 0, 0.3)"
+                    />
+                  </filter>
+                </defs>
+                <path
+                  d="M15.2266 7.80851C15.2266 10.0216 0.841317 15.4755 0.841317 15.4755V0.142578C0.841317 0.142578 15.2266 5.5954 15.2266 7.80851Z"
+                  class="fill-white dark:!fill-tamkinDarkPrimary"
+                  filter="url(#shadow-sm)"
+                />
+              </svg>
+            </div>
           </div>
+        </div>
+
+        <div class="absolute right-[60px] top-[20px]">
+          <button class="btn_bordered_dashboard !rounded-[20px]">
+            View all
+          </button>
         </div>
       </div>
 
-     <div class="absolute right-[60px] top-[20px]">
-        <button class="btn_bordered_dashboard !rounded-[20px]">View all</button>
-     </div>
-       </div>
-
-      <div v-if="!collapseStore.collapses.includes('media_used_chart_card')"
-        class="container_chart mt-[30px] h-[300px] w-full relative  ">
-        <Line ref="chart12" :data="chartData" :options="options" :style="myStyles" />
+      <div
+        v-if="!collapseStore.collapses.includes('media_used_chart_card')"
+        class="container_chart mt-[30px] h-[300px] w-full relative"
+      >
+        <Line
+          ref="chart12"
+          :data="chartData"
+          :options="options"
+          :style="myStyles"
+        />
       </div>
     </div>
   </div>
 </template>
 <style>
-
 #chartjs-tooltip {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  
-  #chartjs-tooltip:before {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px;
-    border-style: solid;
-    border-color: white transparent transparent transparent;
-  }
-  </style>
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#chartjs-tooltip:before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+</style>

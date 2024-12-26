@@ -938,7 +938,7 @@ const openInvestor = (app, pack) => {
                       {{ $t("Deleted Sites") }} ( {{ deletedAppListLength }} )
                     </div>
                   </div>
-                  <div
+                  <!-- <div
                     class="px-[1px] cursor-pointer"
                     @click="
                       () => {
@@ -990,7 +990,7 @@ const openInvestor = (app, pack) => {
 
                       )
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="flex items-center justify-end w-2/4 pr-[17px]">
                   <div class="flex items-center justify-between w-full">

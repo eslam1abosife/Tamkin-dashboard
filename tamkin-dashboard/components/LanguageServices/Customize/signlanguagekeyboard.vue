@@ -108,7 +108,7 @@ const handleSelectedItemProjectName = (item: any) => {
           style="box-shadow: 0px 2px 6px 0px #00000040"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -124,7 +124,7 @@ const handleSelectedItemProjectName = (item: any) => {
               </svg>
             </div>
             <div class="text_mini">Switch To Annual</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('sign_keyboard_card')"

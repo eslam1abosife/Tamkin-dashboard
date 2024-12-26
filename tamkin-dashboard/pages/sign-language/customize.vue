@@ -236,7 +236,7 @@ const handleSave = async (type: any) => {
       },
       {
         name: "deaf-customize-sign-language-mode-move-/-hide-sign-language-player-button",
-        active: getValue(
+        value: getValue(
           "deaf-customize-sign-language-mode-move-/-hide-sign-language-player"
         ),
       },
@@ -254,7 +254,7 @@ const handleSave = async (type: any) => {
       },
       {
         name: "deaf-customize-sign-language-background-sign-language-background",
-        active: getValue(
+        value: getValue(
           "deaf-customize-sign-language-background-sign-language-background"
         ),
       },

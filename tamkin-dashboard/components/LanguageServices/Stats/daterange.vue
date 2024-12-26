@@ -511,7 +511,7 @@ const loadscountSummary = computed(
           v-if="collapseStore.menus.includes('select_date_range')"
           class="mini_SizeMenu divide-y"
         >
-          <div class="mini_wrap">
+          <!-- <div class="mini_wrap">
             <div>
               <svg
                 width="24"
@@ -527,7 +527,7 @@ const loadscountSummary = computed(
               </svg>
             </div>
             <div class="text_mini">{{ $t("Switch To Annual") }}</div>
-          </div>
+          </div> -->
           <div
             class="mini_wrap"
             @click="collapseStore.collapseCard('select_date_range_card')"

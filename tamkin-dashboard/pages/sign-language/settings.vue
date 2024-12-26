@@ -303,10 +303,10 @@ const getSettingsValue = (name: any) => {
   <div class="relative h-full w-full">
     <ModalsConfirm
       :showModal="isOpen('resetModal')"
-      :title="$t('Reset All Accessibility Settings')"
+      :title="$t('Reset All Sign Language Settings')"
       :sub-title="
         $t(
-          'Are you sure you want to reset all accessibility settings to their default values? This action cannot be undone and will overwrite any customized settings'
+          'Are you sure you want to reset all sign language settings to their default values? This action cannot be undone and will overwrite any customized settings'
         )
       "
       confirm-btn-type="confirm"
@@ -860,7 +860,7 @@ const getSettingsValue = (name: any) => {
                 <div
                   class="bg-gradient-to-b from-[#2DADA3] to-[#71DAD2] bg-clip-text"
                 >
-                  Rest All Accessibility Settings
+                  {{ `${$t("Reset All Sign Language Settings")}` }}
                 </div>
               </button>
             </div>

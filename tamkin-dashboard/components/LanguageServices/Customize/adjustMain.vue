@@ -86,7 +86,7 @@ const getImagePath = (icon) => {
             "
             class="mini_SizeMenu divide-y"
           >
-            <div class="mini_wrap">
+            <!-- <div class="mini_wrap">
               <div>
                 <svg
                   width="24"
@@ -102,7 +102,7 @@ const getImagePath = (icon) => {
                 </svg>
               </div>
               <div class="text_mini">Switch To Annual</div>
-            </div>
+            </div> -->
             <div
               class="mini_wrap"
               @click="

@@ -480,6 +480,12 @@ export default function () {
         customizeStore.toggleInitialCheckbox(
           "deaf-customize-sign-language-player-contrast-sign-language-contrast"
         );
+        signLangStore.toggleCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
+        signLangStore.toggleInitialCheckbox(
+          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
+        );
 
         signLangStore.initialCardsOrder.push({
           name: isContrastFeatureActive.name,
@@ -497,12 +503,6 @@ export default function () {
           label: isContrastFeatureActive.label,
           active: isContrastFeatureActive.active,
         });
-        signLangStore.toggleCheckbox(
-          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
-        );
-        signLangStore.toggleInitialCheckbox(
-          "deaf-customize-sign-language-player-contrast-sign-language-contrast"
-        );
       }
 
       // deaf isSetKeyboard
@@ -526,12 +526,20 @@ export default function () {
 
       customizeStore.keyboardData = isSetKeyboard;
       if (isSetKeyboard.active == 1) {
-        customizeStore.toggleCheckbox(
-          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
-        );
-        customizeStore.toggleInitialCheckbox(
-          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
-        );
+        if (isSetKeyboard.value == 1) {
+          customizeStore.toggleCheckbox(
+            "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+          );
+          customizeStore.toggleInitialCheckbox(
+            "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+          );
+          signLangStore.toggleCheckbox(
+            "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+          );
+          signLangStore.toggleInitialCheckbox(
+            "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
+          );
+        }
 
         signLangStore.initialCardsOrder.push({
           name: isSetKeyboard.name,
@@ -549,12 +557,6 @@ export default function () {
           label: isSetKeyboard.label,
           active: isSetKeyboard.active,
         });
-        signLangStore.toggleCheckbox(
-          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
-        );
-        signLangStore.toggleInitialCheckbox(
-          "deaf-customize-sign-language-player-keyboard-sign-language-keyboard"
-        );
       }
 
       // deaf isSetMode
