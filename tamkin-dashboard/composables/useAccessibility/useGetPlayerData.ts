@@ -283,6 +283,7 @@ export default function () {
       if (islangEnabled.active == 1) {
         customizeStore.islangEnabled = true;
       }
+      customizeStore.$state.languages = [];
 
       customizeStore.$state.languages.push({
         title: t("Auto detect Language"),
