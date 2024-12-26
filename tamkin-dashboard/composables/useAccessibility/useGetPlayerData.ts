@@ -299,6 +299,7 @@ export default function () {
           (feature: any) =>
             feature.name === "deaf-customize-sign-language-player-language"
         )
+
         .features.find(
           (el: any) =>
             el.name === "deaf-customize-sign-language-list-list-sign-language"
