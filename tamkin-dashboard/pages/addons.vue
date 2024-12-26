@@ -236,7 +236,7 @@ const runtimec = useRuntimeConfig();
         "
       />
 
-      <div v-if="customizeStore.loadingData">
+      <div v-if="customizeStore.loadingData  || navStore.loadingdefaultappobj">
         <div
           class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
         >
@@ -259,7 +259,7 @@ const runtimec = useRuntimeConfig();
 
       <div v-else>
         <LanguageServicesNodata
-          v-if="navStore.defaultappobj?.type == 'Internal Services'"
+             v-if="!navStore.defaultappobj"
         />
         <div v-else>
           <AddonsAdjustmain v-if="customizeStore.isMainMenuActive" />

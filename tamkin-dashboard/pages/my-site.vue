@@ -686,6 +686,11 @@ const openInvestor = (app, pack) => {
                       defaultApp ? '_blank' : ''
                     "
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
+                    :class="[
+                        !defaultApp
+                          ? '!text-darkGrey/40 cursor-not-allowed'
+                          : '!text-tamkinStart',
+                      ]"
                     >
                     {{ $t("Visit Site") }}
                     <svg

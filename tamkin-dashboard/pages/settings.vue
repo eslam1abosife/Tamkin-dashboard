@@ -198,7 +198,7 @@ const componentKey = ref(0);
 
       <div
         class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
-        v-if="customizeStore.loadingData"
+        v-if="customizeStore.loadingData  || navStore.loadingdefaultappobj"
       >
         <div
           class="h-[55px] w-full rounded-md bg-gray-200"
@@ -208,7 +208,7 @@ const componentKey = ref(0);
       </div>
       <div v-else>
         <LanguageServicesNodata
-          v-if="navStore.defaultappobj.type === 'Internal Services'"
+             v-if="!navStore.defaultappobj"
         />
 
         <div v-else>

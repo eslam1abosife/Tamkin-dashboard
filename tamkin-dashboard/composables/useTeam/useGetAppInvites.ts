@@ -3,12 +3,13 @@ import { useNuxtApp } from '#app';
 
 const apps = ref([]);
 const defaultApp = ref(null);
+const loadDefaultApp = ref(false)
 
 export default function() {
     const { useApiInstance } = useApi();
     const { api , loading } = useApiInstance();
     const { $toast } = useNuxtApp();
-
+    
     const getInviteApps = async (state,type = null) => {
         if(!state.agency) {
             console.log("state", state);
@@ -30,14 +31,16 @@ export default function() {
         const data = type === null ?withOutType : withType
         
         try {
+            loadDefaultApp.value = true
             const res = await api.post('/mySite/GetAgencyApps', {
                 ...data
             });
             if(!res.data.succeeded) throw(res.data.message);
             apps.value = res.data.data;
+            loadDefaultApp.value = false
             defaultApp.value = res.data.data.find(ele => ele.isdefault) || res.data.data?.[0]
         } catch (error) {
-            
+            loadDefaultApp.value = false
             throw typeof(error) === 'string' ? error : 'There is something wrong';
         }
     };
@@ -46,6 +49,7 @@ export default function() {
         apps,
         defaultApp,
         getInviteApps,
-        loading
+        loading,
+        loadDefaultApp
     }
 }

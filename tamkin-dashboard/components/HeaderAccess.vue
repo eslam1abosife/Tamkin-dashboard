@@ -50,6 +50,8 @@ const app = ref({});
 const loadApp = ref(false);
 const getApps = async () => {
   loadApp.value = true;
+  navStore.loadingdefaultappobj = true;
+  settingsStore.loadingdefaultappobj = true;
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     await getInviteApps({ agency: user.agency });
@@ -59,8 +61,12 @@ const getApps = async () => {
     settingsStore.defaultappobj = defaultApp.value;
     navStore.defaultappobj = defaultApp.value;
     loadApp.value = false;
+    navStore.loadingdefaultappobj = false;
+    settingsStore.loadingdefaultappobj = false;
   } catch (error) {
     loadApp.value = false;
+    navStore.loadingdefaultappobj = false;
+    settingsStore.loadingdefaultappobj = false;
     console.error(error); // Better error handling
     throw typeof error === "string" ? error : "There is something wrong";
   }
@@ -79,7 +85,7 @@ const isLinkActive = (path) => {
 <template>
   <div class="space-y-[10px] relative !z-[50]">
     <h1
-      v-if="Object.keys(settingsStore.appHeader).length > 0"
+      v-if="!loadApp"
       class="rtl:text-right ltr:text-left text-[20px] leading-[36px] font-[600] dark:text-whiteTamkin"
     >
       {{ sectionTitle }}
@@ -100,7 +106,7 @@ const isLinkActive = (path) => {
     ></div>
 
     <h2
-      v-if="Object.keys(settingsStore.appHeader).length > 0"
+      v-if="!loadApp"
       class="text-right ltr:text-left text-[13px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
     >
       {{ sectionSubTitle }}
@@ -109,7 +115,7 @@ const isLinkActive = (path) => {
   </div>
 
   <div
-    v-if="Object.keys(settingsStore.appHeader).length > 0"
+    v-if="!loadApp"
     class="relative mt-[-10px] z-[50] lg:mt-[5px] pb-[50px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row flex-col w-full justify-center lg:justify-start"
   >
     <div
@@ -125,57 +131,49 @@ const isLinkActive = (path) => {
             <div
               class="flex items-center justify-center w-[50px] h-[50px] rounded-full"
             >
-              <img
-                v-if="settingsStore.appHeader.favicon"
-                :src="settingsStore.appHeader.favicon"
-                alt="Logo"
-                class="w-[40px] h-[40px] rounded-full"
-              />
-
-              <div
-                v-else-if="
-                  !settingsStore.appHeader.favicon &&
-                  settingsStore.appHeader.title !== 'Internal Service'
-                "
-                class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
-              >
-                {{ getAvatarLetters(settingsStore.appHeader?.title) }}
-              </div>
+              <span v-if="settingsStore.appHeader">
+                  <img
+                    v-if="settingsStore.appHeader && settingsStore.appHeader?.favicon"
+                    :src="settingsStore.appHeader.favicon"
+                    alt="Logo"
+                    class="w-[40px] h-[40px] rounded-full"
+                  />
+                  <div
+                    v-else-if="!settingsStore.appHeader?.favicon"
+                    class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
+                  >
+                    {{ getAvatarLetters(settingsStore.appHeader?.title) }}
+                  </div>
+              </span>
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
-                v-if="settingsStore.appHeader?.title === 'Internal Service'"
+                v-else
               />
             </div>
+
             <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
               <div>
                 <h2
                   class="font-[600] text-[14px] leading-[24px] text-darkGrey dark:text-whiteTamkin/90"
                 >
+                <span v-if="settingsStore.appHeader">
                   {{ $t(settingsStore.appHeader.title) }}
+                </span>
+                <span v-else>
+                  {{ $t('No Site Selected!') }}
+                </span>
                 </h2>
               </div>
-              <div
-                v-if="
-                  settingsStore.appHeader &&
-                  settingsStore.appHeader.type !== 'Internal Services'
-                "
-              >
+              <div v-if="settingsStore.appHeader">
                 <a
-                  :class="[
-                    settingsStore.appHeader?.title === 'Internal Service'
-                      ? '!text-darkGrey/40 cursor-not-allowed'
-                      : '',
-                  ]"
                   :href="
-                    settingsStore.appHeader?.title === 'Internal Service'
-                      ? '#'
-                      : app
+                    settingsStore.appHeader
                       ? formatToUrl(settingsStore.appHeader.app_domain)
-                      : ''
+                      : '#'
                   "
                   :target="
-                    settingsStore.appHeader?.title === 'Internal Service'
+                    !settingsStore.appHeader
                       ? ''
                       : '_blank'
                   "
@@ -187,11 +185,6 @@ const isLinkActive = (path) => {
                     class="size-6 ltr:ml-[14px] rtl:mr-[14px]"
                     fill="none"
                     stroke-width="1.5"
-                    :class="[
-                      settingsStore.appHeader?.title === 'Internal Service'
-                        ? '!text-darkGrey/40 cursor-not-allowed'
-                        : '!text-tamkinStart',
-                    ]"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"

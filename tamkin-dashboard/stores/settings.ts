@@ -13,6 +13,7 @@ export const useSettingsStore = defineStore("settings", {
     features: [],
     defaultapp: "",
     defaultappobj: {},
+    loadingdefaultappobj: false,
     apps: [],
     selectedApp: null,
     checkboxes: [] as Checkbox[],

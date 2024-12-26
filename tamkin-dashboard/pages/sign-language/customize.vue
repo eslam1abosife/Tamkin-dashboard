@@ -351,7 +351,7 @@ const getValue = (name: any) => {
           $t('Customization empowers users to shape their digital environment')
         "
       />
-      <div v-if="customizeStore.loadingData">
+      <div v-if="customizeStore.loadingData || settingsStore.loadingdefaultappobj">
         <div
           class="animate-pulse space-y-4 card bg-white rounded-[10px] mt-[40px] p-4"
         >
@@ -374,7 +374,7 @@ const getValue = (name: any) => {
 
       <div v-else>
         <LanguageServicesNodata
-          v-if="settingsStore.defaultappobj.type == 'Internal Services'"
+          v-if="!settingsStore.defaultappobj"
         />
 
         <div v-else>

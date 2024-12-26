@@ -75,7 +75,7 @@ const navStore = useNavbarStore();
       />
 
       <LanguageServicesNodata
-        v-if="navStore.defaultappobj.type === 'Internal Services'"
+           v-if="!navStore.defaultappobj"
       />
       <div v-else>
         <StatisticsChart />

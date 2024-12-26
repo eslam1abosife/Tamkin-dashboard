@@ -40,6 +40,8 @@ watch(plan, (ov, nv) => {
     upgradePackagedocs.value = !upgradePackagedocs.value;
   }
 });
+
+const settingsStore = useSettingsStore();
 </script>
 
 <template>
@@ -59,416 +61,428 @@ watch(plan, (ov, nv) => {
       :selected-tab="selectTab"
       @select-tabs="getSelectedTab"
     /> -->
-
-    <div v-if="selectTab === 'webplugins'">
-      <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
-      <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
-      <LanguageServicesOverviewCurrentPlan
-        :plan-type="'free'"
-        :is-installed="false"
-        v-if="!overviewStore.showUpgradeState"
-        class="!mt-[30px]"
-      />
-      <OverviewCurrentPlan
-        class="!mt-[120px]"
-        :plan-type="'pro'"
-        :is-installed="true"
-        v-if="overviewStore.showUpgradeState"
-      />
-      <OverviewTamkinTokenBanner
-        class="!mt-[30px]"
-        v-if="!overviewStore.showUpgradeState"
-      />
-
-      <OverviewExclusiveInvestorPackage
-        v-if="!overviewStore.showUpgradeState"
-      />
-
-      <LanguageServicesOverviewWebplugins
-        v-if="overviewStore.showUpgradeState"
-      />
-      <LanguageServicesOverviewTranslationaccuracy
-        v-if="overviewStore.showUpgradeState"
-      />
-
+    <LanguageServicesNodata v-if="!settingsStore.defaultappobj" />
+    <div v-else-if="settingsStore.loadingdefaultappobj">
       <div
-        v-if="overviewStore.showUpgradeState"
-        class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
-      >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" />
-        </div>
+          class="h-[200px] w-full mt-[44px] rounded-md bg-gray-200"
+          ></div> 
+      <div
+          class="h-[200px] w-full mt-[20px] rounded-md bg-gray-200"
+            v-for="s in 3"
+            :key="s"
+          ></div> 
+    </div>
+    <div v-else>
+      <div v-if="selectTab === 'webplugins'">
+        <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
+        <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
+        <LanguageServicesOverviewCurrentPlan
+          :plan-type="'free'"
+          :is-installed="false"
+          v-if="!overviewStore.showUpgradeState"
+          class="!mt-[30px]"
+        />
+        <OverviewCurrentPlan
+          class="!mt-[120px]"
+          :plan-type="'pro'"
+          :is-installed="true"
+          v-if="overviewStore.showUpgradeState"
+        />
+        <OverviewTamkinTokenBanner
+          class="!mt-[30px]"
+          v-if="!overviewStore.showUpgradeState"
+        />
+
+        <OverviewExclusiveInvestorPackage
+          v-if="!overviewStore.showUpgradeState"
+        />
+
+        <LanguageServicesOverviewWebplugins
+          v-if="overviewStore.showUpgradeState"
+        />
+        <LanguageServicesOverviewTranslationaccuracy
+          v-if="overviewStore.showUpgradeState"
+        />
+
         <div
-          class="flex flex-col items-center lg:items-start justify-center w-full"
+          v-if="overviewStore.showUpgradeState"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
-          <div
-            class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
-          >
-            <h1>Monthly Plan</h1>
+          <div>
+            <img src="/assets/imgs/overview/plan-calender.svg" />
           </div>
           <div
-            class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
-            @click="showExpired = !showExpired"
+            class="flex flex-col items-center lg:items-start justify-center w-full"
           >
-            <transition name="fade" mode="out-in">
-              <template v-if="!showExpired">
-                <div class="flex items-center" key="not-expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Package Expires in
+            <div
+              class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
+            >
+              <h1>Monthly Plan</h1>
+            </div>
+            <div
+              class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
+              @click="showExpired = !showExpired"
+            >
+              <transition name="fade" mode="out-in">
+                <template v-if="!showExpired">
+                  <div class="flex items-center" key="not-expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Package Expires in
+                    </div>
+                    <div
+                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Aug 20,2024
+                    </div>
                   </div>
-                  <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Aug 20,2024
+                </template>
+                <template v-else>
+                  <div class="flex items-center" key="expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+                    >
+                      Expired
+                    </div>
+                    <div
+                      class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
+                    >
+                      Aug 10,2024
+                    </div>
                   </div>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex items-center" key="expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
-                  >
-                    Expired
-                  </div>
-                  <div
-                    class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
-                  >
-                    Aug 10,2024
-                  </div>
-                </div>
-              </template>
-            </transition>
+                </template>
+              </transition>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div
+              v-if="!showExpired"
+              class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            >
+              SAVE 12%
+            </div>
+            <button
+              class="rounded-full w-[178px]"
+              :class="[
+                showExpired
+                  ? 'btn-dashboard hover_tamkin'
+                  : 'btn_bordered_dashboard',
+              ]"
+              @click="modalStore.controlShowUpgradeModal"
+            >
+              {{ !showExpired ? "Switch To Annual" : "Renew" }}
+            </button>
           </div>
         </div>
 
-        <div class="relative">
-          <div
-            v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            SAVE 12%
+        <OverviewTamkinTokenBanner v-if="overviewStore.showUpgradeState" />
+        <OverviewExclusiveInvestorPackage v-if="overviewStore.showUpgradeState" />
+      </div>
+      <div v-if="selectTab === 'Media'">
+        <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
+
+        <LanguageServicesOverviewPlan
+          @change-plan="currentPlanchange"
+          v-if="upgradePackage"
+          type="pro"
+          media-type="media"
+        />
+        <LanguageServicesOverviewCurrentPlanMedia
+          v-if="!upgradePackage"
+          :plan-type="plan"
+          media-type="photos"
+          :is-installed="false"
+          @changePlan="currentPlanchange"
+        />
+        <LanguageServicesOverviewUsagereports v-if="upgradePackage" />
+        <LanguageServicesOverviewMediachart v-if="upgradePackage" />
+        <div
+          v-if="upgradePackage"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
+        >
+          <div>
+            <img src="/assets/imgs/overview/plan-calender.svg" />
           </div>
-          <button
-            class="rounded-full w-[178px]"
-            :class="[
-              showExpired
-                ? 'btn-dashboard hover_tamkin'
-                : 'btn_bordered_dashboard',
-            ]"
-            @click="modalStore.controlShowUpgradeModal"
+          <div
+            class="flex flex-col items-center lg:items-start justify-center w-full"
           >
-            {{ !showExpired ? "Switch To Annual" : "Renew" }}
-          </button>
+            <div
+              class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
+            >
+              <h1>Monthly Plan</h1>
+            </div>
+            <div
+              class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
+              @click="showExpired = !showExpired"
+            >
+              <transition name="fade" mode="out-in">
+                <template v-if="!showExpired">
+                  <div class="flex items-center" key="not-expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Package Expires in
+                    </div>
+                    <div
+                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Aug 20,2024
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="flex items-center" key="expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+                    >
+                      Expired
+                    </div>
+                    <div
+                      class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
+                    >
+                      Aug 10,2024
+                    </div>
+                  </div>
+                </template>
+              </transition>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div
+              v-if="!showExpired"
+              class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            >
+              SAVE 12%
+            </div>
+            <button
+              class="rounded-full w-[178px]"
+              :class="[
+                showExpired
+                  ? 'btn-dashboard hover_tamkin'
+                  : 'btn_bordered_dashboard',
+              ]"
+              @click="modalStore.controlShowUpgradeModal"
+            >
+              {{ !showExpired ? "Switch To Annual" : "Renew" }}
+            </button>
+          </div>
         </div>
+        <OverviewTamkinTokenBanner
+          :class="[upgradePackage ? '' : '!mt-[30px]']"
+        />
+        <OverviewExclusiveInvestorPackage v-if="upgradePackage" />
+
+        <OverviewExclusiveInvestorPackage v-if="!upgradePackage" />
       </div>
 
-      <OverviewTamkinTokenBanner v-if="overviewStore.showUpgradeState" />
-      <OverviewExclusiveInvestorPackage v-if="overviewStore.showUpgradeState" />
-    </div>
-    <div v-if="selectTab === 'Media'">
-      <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
+      <div v-if="selectTab === 'Documents'">
+        <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
+        <LanguageServicesOverviewCurrentPlanMedia
+          v-if="!upgradePackagedocs"
+          :plan-type="plan"
+          media-type="docs"
+          :is-installed="false"
+          @changePlan="currentPlanchange"
+        />
+        <LanguageServicesOverviewPlan
+          @change-plan="currentPlanchange"
+          v-else-if="upgradePackagedocs"
+          type="pro"
+          media-type="docs"
+        />
 
-      <LanguageServicesOverviewPlan
-        @change-plan="currentPlanchange"
-        v-if="upgradePackage"
-        type="pro"
-        media-type="media"
-      />
-      <LanguageServicesOverviewCurrentPlanMedia
-        v-if="!upgradePackage"
-        :plan-type="plan"
-        media-type="photos"
-        :is-installed="false"
-        @changePlan="currentPlanchange"
-      />
-      <LanguageServicesOverviewUsagereports v-if="upgradePackage" />
-      <LanguageServicesOverviewMediachart v-if="upgradePackage" />
-      <div
-        v-if="upgradePackage"
-        class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
-      >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" />
-        </div>
+        <LanguageServicesOverviewUsagereports v-if="upgradePackagedocs" />
+        <LanguageServicesOverviewMediachart v-if="upgradePackagedocs" />
         <div
-          class="flex flex-col items-center lg:items-start justify-center w-full"
+          v-if="upgradePackagedocs"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
-          <div
-            class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
-          >
-            <h1>Monthly Plan</h1>
+          <div>
+            <img src="/assets/imgs/overview/plan-calender.svg" />
           </div>
           <div
-            class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
-            @click="showExpired = !showExpired"
+            class="flex flex-col items-center lg:items-start justify-center w-full"
           >
-            <transition name="fade" mode="out-in">
-              <template v-if="!showExpired">
-                <div class="flex items-center" key="not-expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Package Expires in
+            <div
+              class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
+            >
+              <h1>Monthly Plan</h1>
+            </div>
+            <div
+              class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
+              @click="showExpired = !showExpired"
+            >
+              <transition name="fade" mode="out-in">
+                <template v-if="!showExpired">
+                  <div class="flex items-center" key="not-expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Package Expires in
+                    </div>
+                    <div
+                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Aug 20,2024
+                    </div>
                   </div>
-                  <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Aug 20,2024
+                </template>
+                <template v-else>
+                  <div class="flex items-center" key="expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+                    >
+                      Expired
+                    </div>
+                    <div
+                      class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
+                    >
+                      Aug 10,2024
+                    </div>
                   </div>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex items-center" key="expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
-                  >
-                    Expired
-                  </div>
-                  <div
-                    class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
-                  >
-                    Aug 10,2024
-                  </div>
-                </div>
-              </template>
-            </transition>
+                </template>
+              </transition>
+            </div>
           </div>
-        </div>
 
-        <div class="relative">
-          <div
-            v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            SAVE 12%
+          <div class="relative">
+            <div
+              v-if="!showExpired"
+              class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            >
+              SAVE 12%
+            </div>
+            <button
+              class="rounded-full w-[178px]"
+              :class="[
+                showExpired
+                  ? 'btn-dashboard hover_tamkin'
+                  : 'btn_bordered_dashboard',
+              ]"
+              @click="modalStore.controlShowUpgradeModal"
+            >
+              {{ !showExpired ? "Switch To Annual" : "Renew" }}
+            </button>
           </div>
-          <button
-            class="rounded-full w-[178px]"
-            :class="[
-              showExpired
-                ? 'btn-dashboard hover_tamkin'
-                : 'btn_bordered_dashboard',
-            ]"
-            @click="modalStore.controlShowUpgradeModal"
-          >
-            {{ !showExpired ? "Switch To Annual" : "Renew" }}
-          </button>
         </div>
+        <OverviewTamkinTokenBanner
+          :class="[upgradePackagedocs ? '' : '!mt-[30px]']"
+        />
+        <OverviewExclusiveInvestorPackage v-if="upgradePackagedocs" />
+
+        <OverviewExclusiveInvestorPackage v-if="!upgradePackagedocs" />
       </div>
-      <OverviewTamkinTokenBanner
-        :class="[upgradePackage ? '' : '!mt-[30px]']"
-      />
-      <OverviewExclusiveInvestorPackage v-if="upgradePackage" />
+      <div v-if="selectTab === 'Images'">
+        <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
+        <LanguageServicesOverviewCurrentPlanMedia
+          v-if="!upgradepackageimages"
+          :plan-type="plan"
+          media-type="photos"
+          :is-installed="false"
+          @changePlan="currentPlanchange"
+        />
+        <LanguageServicesOverviewPlan
+          @change-plan="currentPlanchange"
+          v-else-if="upgradepackageimages"
+          type="pro"
+          media-type="photos"
+        />
 
-      <OverviewExclusiveInvestorPackage v-if="!upgradePackage" />
-    </div>
-
-    <div v-if="selectTab === 'Documents'">
-      <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
-      <LanguageServicesOverviewCurrentPlanMedia
-        v-if="!upgradePackagedocs"
-        :plan-type="plan"
-        media-type="docs"
-        :is-installed="false"
-        @changePlan="currentPlanchange"
-      />
-      <LanguageServicesOverviewPlan
-        @change-plan="currentPlanchange"
-        v-else-if="upgradePackagedocs"
-        type="pro"
-        media-type="docs"
-      />
-
-      <LanguageServicesOverviewUsagereports v-if="upgradePackagedocs" />
-      <LanguageServicesOverviewMediachart v-if="upgradePackagedocs" />
-      <div
-        v-if="upgradePackagedocs"
-        class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
-      >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" />
-        </div>
+        <LanguageServicesOverviewUsagereports v-if="upgradepackageimages" />
+        <LanguageServicesOverviewMediachart v-if="upgradepackageimages" />
         <div
-          class="flex flex-col items-center lg:items-start justify-center w-full"
+          v-if="upgradepackageimages"
+          class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
         >
-          <div
-            class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
-          >
-            <h1>Monthly Plan</h1>
+          <div>
+            <img src="/assets/imgs/overview/plan-calender.svg" />
           </div>
           <div
-            class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
-            @click="showExpired = !showExpired"
+            class="flex flex-col items-center lg:items-start justify-center w-full"
           >
-            <transition name="fade" mode="out-in">
-              <template v-if="!showExpired">
-                <div class="flex items-center" key="not-expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Package Expires in
+            <div
+              class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
+            >
+              <h1>Monthly Plan</h1>
+            </div>
+            <div
+              class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
+              @click="showExpired = !showExpired"
+            >
+              <transition name="fade" mode="out-in">
+                <template v-if="!showExpired">
+                  <div class="flex items-center" key="not-expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Package Expires in
+                    </div>
+                    <div
+                      class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
+                    >
+                      Aug 20,2024
+                    </div>
                   </div>
-                  <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Aug 20,2024
+                </template>
+                <template v-else>
+                  <div class="flex items-center" key="expired">
+                    <div
+                      class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
+                    >
+                      Expired
+                    </div>
+                    <div
+                      class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
+                    >
+                      Aug 10,2024
+                    </div>
                   </div>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex items-center" key="expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
-                  >
-                    Expired
-                  </div>
-                  <div
-                    class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
-                  >
-                    Aug 10,2024
-                  </div>
-                </div>
-              </template>
-            </transition>
+                </template>
+              </transition>
+            </div>
           </div>
-        </div>
 
-        <div class="relative">
-          <div
-            v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            SAVE 12%
+          <div class="relative">
+            <div
+              v-if="!showExpired"
+              class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
+            >
+              SAVE 12%
+            </div>
+            <button
+              class="rounded-full w-[178px]"
+              :class="[
+                showExpired
+                  ? 'btn-dashboard hover_tamkin'
+                  : 'btn_bordered_dashboard',
+              ]"
+              @click="modalStore.controlShowUpgradeModal"
+            >
+              {{ !showExpired ? "Switch To Annual" : "Renew" }}
+            </button>
           </div>
-          <button
-            class="rounded-full w-[178px]"
-            :class="[
-              showExpired
-                ? 'btn-dashboard hover_tamkin'
-                : 'btn_bordered_dashboard',
-            ]"
-            @click="modalStore.controlShowUpgradeModal"
-          >
-            {{ !showExpired ? "Switch To Annual" : "Renew" }}
-          </button>
         </div>
+        <OverviewTamkinTokenBanner />
+        <OverviewExclusiveInvestorPackage v-if="upgradepackageimages" />
+
+        <OverviewExclusiveInvestorPackage v-if="!upgradepackageimages" />
       </div>
-      <OverviewTamkinTokenBanner
-        :class="[upgradePackagedocs ? '' : '!mt-[30px]']"
-      />
-      <OverviewExclusiveInvestorPackage v-if="upgradePackagedocs" />
+      <div v-if="selectTab === 'all'">
+        <LanguageServicesOverviewPlan
+          @change-plan="currentPlanchange"
+          type="plat"
+        />
+        <LanguageServicesOverviewBalance />
+        <LanguageServicesOverviewUploadedfiles />
+        <LanguageServicesOverviewTranslationaccuracytable />
 
-      <OverviewExclusiveInvestorPackage v-if="!upgradePackagedocs" />
-    </div>
-    <div v-if="selectTab === 'Images'">
-      <OverviewConnectWithUs class="!mt-[120px]" v-if="!upgradePackage" />
-      <LanguageServicesOverviewCurrentPlanMedia
-        v-if="!upgradepackageimages"
-        :plan-type="plan"
-        media-type="photos"
-        :is-installed="false"
-        @changePlan="currentPlanchange"
-      />
-      <LanguageServicesOverviewPlan
-        @change-plan="currentPlanchange"
-        v-else-if="upgradepackageimages"
-        type="pro"
-        media-type="photos"
-      />
+        <OverviewTamkinTokenBanner class="!mt-[30px]" />
 
-      <LanguageServicesOverviewUsagereports v-if="upgradepackageimages" />
-      <LanguageServicesOverviewMediachart v-if="upgradepackageimages" />
-      <div
-        v-if="upgradepackageimages"
-        class="bg-white dark:bg-tamkinDarkPrimary custom-border-tamkin padding-override-1 w-full rtl:space-x-reverse lg:space-x-[16px] rounded-[10px] h-auto lg:h-[119px] mt-[32px] px-[15px] flex items-center justify-center lg:justify-start lg:space-y-0 lg:py-0 py-[14px] space-y-[24px] lg:mx-0 mb-[32px] lg:flex-nowrap flex-wrap"
-      >
-        <div>
-          <img src="/assets/imgs/overview/plan-calender.svg" />
-        </div>
-        <div
-          class="flex flex-col items-center lg:items-start justify-center w-full"
-        >
-          <div
-            class="font-[500] text-[18px] leading-[27px] text-darkGrey dark:text-whiteTamkin"
-          >
-            <h1>Monthly Plan</h1>
-          </div>
-          <div
-            class="flex items-center justify-center lg:justify-start w-full rtl:space-x-reverse space-x-[6px] cursor-pointer h-[30px]"
-            @click="showExpired = !showExpired"
-          >
-            <transition name="fade" mode="out-in">
-              <template v-if="!showExpired">
-                <div class="flex items-center" key="not-expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Package Expires in
-                  </div>
-                  <div
-                    class="flex items-center justify-center custom-border-tamkin padding-override-1 h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px] dark:text-whiteTamkin"
-                  >
-                    Aug 20,2024
-                  </div>
-                </div>
-              </template>
-              <template v-else>
-                <div class="flex items-center" key="expired">
-                  <div
-                    class="text-[13px] leading-[24px] font-[400] text-[#EA4335] w-[130px]"
-                  >
-                    Expired
-                  </div>
-                  <div
-                    class="flex items-center justify-center border-[1px] rounded-[10px] text-[#EA4335] border-[#EA4335] h-[23px] p-[12px] text-[13px] leading-[24px] font-[500] w-[130px]"
-                  >
-                    Aug 10,2024
-                  </div>
-                </div>
-              </template>
-            </transition>
-          </div>
-        </div>
-
-        <div class="relative">
-          <div
-            v-if="!showExpired"
-            class="flex items-center justify-center absolute top-[-8px] lg:top-[-10px] transform left-[50%] h-[14px] lg:h-[19px] bg-[#B36B8A] text-white w-[69px] text-[10px] lg:text-[12px] leading-[18px] font-[500] rounded-[10px]"
-          >
-            SAVE 12%
-          </div>
-          <button
-            class="rounded-full w-[178px]"
-            :class="[
-              showExpired
-                ? 'btn-dashboard hover_tamkin'
-                : 'btn_bordered_dashboard',
-            ]"
-            @click="modalStore.controlShowUpgradeModal"
-          >
-            {{ !showExpired ? "Switch To Annual" : "Renew" }}
-          </button>
-        </div>
+        <OverviewExclusiveInvestorPackage />
       </div>
-      <OverviewTamkinTokenBanner />
-      <OverviewExclusiveInvestorPackage v-if="upgradepackageimages" />
-
-      <OverviewExclusiveInvestorPackage v-if="!upgradepackageimages" />
-    </div>
-    <div v-if="selectTab === 'all'">
-      <LanguageServicesOverviewPlan
-        @change-plan="currentPlanchange"
-        type="plat"
-      />
-      <LanguageServicesOverviewBalance />
-      <LanguageServicesOverviewUploadedfiles />
-      <LanguageServicesOverviewTranslationaccuracytable />
-
-      <OverviewTamkinTokenBanner class="!mt-[30px]" />
-
-      <OverviewExclusiveInvestorPackage />
     </div>
   </div>
 </template>

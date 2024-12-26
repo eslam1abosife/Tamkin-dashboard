@@ -7,7 +7,7 @@ import {
   useCart,
   useEditCustomerCharacter,
 } from "@/composables/useMarket";
-import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+import { useGetAppInvites, useUpdateDefaultApp  } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
@@ -15,6 +15,7 @@ const {
   getInviteApps,
   defaultApp,
   apps,
+  loadDefaultApp,
   loading: getSitesLoading,
 } = useGetAppInvites();
 
@@ -372,6 +373,7 @@ const handleScriptLoad = async () => {};
 
 //       ]
 // })
+const settingStore = useSettingsStore();
 </script>
 
 <template>
@@ -460,28 +462,34 @@ const handleScriptLoad = async () => {};
         >
           {{ $t("Market") }}
         </h1>
+        
         <div
-          v-if="defaultApp"
+          v-if="loadDefaultApp"
+          class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]"
+        ></div>
+        <div
+          v-else
           class="mb-[10px] space-x-[8px] h-[41px] flex items-center justify-start rtl:space-x-reverse rounded-[5px] -shadow-y-1"
         >
           <div>
-            <img
-              src="/assets/imgs/icons/mysite_select.svg"
-              class="w-[20px] h-[20px]"
-              v-if="defaultApp?.title === 'Internal Service'"
-            />
-
             <div
               v-if="
-                !defaultApp?.favicon && defaultApp?.title !== 'Internal Service'
+                !defaultApp?.favicon
               "
               class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
             >
-              {{ defaultApp?.title ? getAvatarLetters(defaultApp?.title) : "" }}
+            <span v-if="defaultApp">
+              {{ defaultApp ? getAvatarLetters(defaultApp?.title) : "" }}
+            </span>
+              <img
+                src="/assets/imgs/icons/mysite_select.svg"
+                class="w-[40px] h-[40px]"
+                v-else
+              />
             </div>
             <div
               v-if="
-                defaultApp?.favicon && defaultApp?.title !== 'Internal Service'
+                defaultApp?.favicon 
               "
             >
               <img
@@ -493,17 +501,12 @@ const handleScriptLoad = async () => {};
           </div>
           <div class="text-[12px] font-[500] text-darkGrey">
             {{
-              defaultApp.title === "Internal Service"
-                ? $t("Internal Service")
-                : defaultApp.app_domain
+              defaultApp
+                ? defaultApp.app_domain
+                : $t("No Site Selected!")
             }}
           </div>
         </div>
-
-        <div
-          v-if="!defaultApp"
-          class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]"
-        ></div>
       </div>
 
       <div

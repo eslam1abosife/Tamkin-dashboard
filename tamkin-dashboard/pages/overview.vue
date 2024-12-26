@@ -126,9 +126,18 @@ const runtimec = useRuntimeConfig()
       />
       <!-- {{}} -->
       <LanguageServicesNodata
-        v-if="navStore.defaultappobj.type == 'Internal Services'"
+           v-if="!navStore.defaultappobj"
       />
-
+      <div v-else-if="settingsStore.loadingdefaultappobj">
+        <div
+            class="h-[200px] w-full mt-[44px] rounded-md bg-gray-200"
+            ></div> 
+        <div
+            class="h-[200px] w-full mt-[20px] rounded-md bg-gray-200"
+              v-for="s in 3"
+              :key="s"
+            ></div> 
+      </div>
       <div v-else>
         <OverviewWidgetEmbdedCode v-if="!overviewStore.showUpgradeState" />
         <OverviewConnectWithUs v-if="!overviewStore.showUpgradeState" />
