@@ -628,32 +628,32 @@ const openInvestor = (app, pack) => {
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              <img
-                src="/assets/imgs/icons/mysite_select.svg"
-                class="w-[40px] h-[40px]"
-                v-if="
-                  defaultApp?.title === 'Internal Service' &&
-                  !mysiteStore.loadingApps
-                "
-              />
-
+              
               <div
                 v-if="
                   !mysiteStore.loadingApps &&
-                  !defaultApp?.favicon &&
-                  defaultApp?.title !== 'Internal Service'
+                  !defaultApp?.favicon 
                 "
                 class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
               >
+              <span v-if="!apps.length">
+                <img
+                src="/assets/imgs/icons/mysite_select.svg"
+                class="w-[40px] h-[40px]"
+              
+              />
+              </span>
+               <span v-else>
                 {{
                   defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
+               </span>
+                
               </div>
               <div
                 v-if="
                   !mysiteStore.loadingApps &&
-                  defaultApp?.favicon &&
-                  defaultApp?.title !== 'Internal Service'
+                  defaultApp?.favicon 
                 "
               >
                 <img
@@ -663,40 +663,38 @@ const openInvestor = (app, pack) => {
                 />
               </div>
               <div class="flex items-center rtl:space-x-reverse space-x-[16px]">
-                <!-- <h2 class="font-[600] text-[16px] leading-[24px] text-[#C5C5C5]">Select Site</h2> -->
                 <div>
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
+                  <span v-if="defaultApp?.app_domain">
                     {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
+                  </span>
+                  <span v-else>
+                    {{ $t('No Site Selected!') }}
+                  </span>
                   </h2>
                 </div>
                 <div>
                   <a
-                    :class="[
-                      defaultApp?.title === 'Internal Service'
-                        ? '!text-darkGrey/40 cursor-not-allowed'
-                        : '',
-                    ]"
                     :href="
-                      defaultApp?.title === 'Internal Service'
-                        ? '#'
-                        : defaultApp
+                       defaultApp
                         ? formatToUrl(defaultApp.app_domain)
-                        : ''
+                        : '#'
                     "
                     :target="
-                      defaultApp?.title === 'Internal Service' ? '' : '_blank'
+                      defaultApp ? '_blank' : ''
                     "
                     class="text-tamkin font-[500] text-[14px] leading-[24px] flex"
-                    >{{ $t("Visit Site") }}
+                    >
+                    {{ $t("Visit Site") }}
                     <svg
                       data-slot="icon"
                       class="size-6 ltr:ml-[14px] rtl:mr-[14px]"
                       fill="none"
                       stroke-width="1.5"
                       :class="[
-                        defaultApp?.title === 'Internal Service'
+                        !defaultApp
                           ? '!text-darkGrey/40 cursor-not-allowed'
                           : '!text-tamkinStart',
                       ]"
@@ -715,8 +713,10 @@ const openInvestor = (app, pack) => {
                 </div>
               </div>
             </div>
+           
             <div>
               <button
+                :disabled="mysiteStore.loadingApps || !apps.length"
                 @click="openModal('selectSite', 'my-site')"
                 class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
               >
