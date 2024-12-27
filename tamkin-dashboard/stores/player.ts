@@ -12,7 +12,7 @@ export const usePlayerStore = defineStore("player", {
     // player
     characterLoaded: false,
     isFullscreen: false,
-    cameraPosition: 1,
+    cameraPosition: 2,
     userSelectedClothes: {},
     skinCategoryItems: {},
     characters: [],
@@ -112,7 +112,6 @@ export const usePlayerStore = defineStore("player", {
       this.userSelectedClothes[character_name][category].push(skin_item_name);
     },
     wearSavedClothes() {
-      ``;
       // get the clothes of the active character and set it to the top character
       if (this.characterLoaded) {
         this.unwearAllSkins();
@@ -122,10 +121,7 @@ export const usePlayerStore = defineStore("player", {
             skin_item.is_weared = skin_item.is_default;
           });
         }
-        console.log(
-          "this.activeCharBackendWearedSkins",
-          this.activeCharBackendWearedSkins
-        );
+
         this.activeCharBackendWearedSkins.forEach((skin_item) => {
           this.showClothes(skin_item);
         });
@@ -430,7 +426,7 @@ export const usePlayerStore = defineStore("player", {
     },
     toggleCamera() {
       this.cameraPosition = this.cameraPosition == 1 ? 2 : 1;
-      window.adjustCameraBasedOnCharacter(this.cameraPosition);
+      window.adjustCameraBasedOnCharacter(this.cameraPosition, 250, 500);
     },
     toggleFullscreen() {
       // Toggle the full screen state

@@ -117,8 +117,8 @@ function controlPlayerLoad() {
 
       <tamkin-sdk-web-character
         v-show="playerStore.characterLoaded"
-        :charWidth="'450'"
-        charHeight="365"
+        charWidth="250"
+        charHeight="500"
         class="centered-div"
       ></tamkin-sdk-web-character>
 
