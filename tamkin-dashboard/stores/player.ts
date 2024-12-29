@@ -129,7 +129,6 @@ export const usePlayerStore = defineStore("player", {
     },
     resetActiveCharacterAndWearSavedClothes() {
       this.changeCharacter(this.backendActiveChar);
-      // this.wearSavedClothes();
 
       const marketStore = useMarketStore();
       marketStore.switchTabs("character");
@@ -241,27 +240,31 @@ export const usePlayerStore = defineStore("player", {
     },
     async changeCharacter(character: any, preview = true) {
       this.activeCharacter = character;
-
-      window.changeCharacter(character.name);
+      try {
+        window.changeCharacter(character.name);
+      } catch (error) {
+        console.log("error", error);
+      }
 
       // check if the character has loaded before
-      if (!window.loadedByName(character.name)) {
-        this.characterLoaded = false;
-        // this.wearSavedClothes() is handled in this case in Player.vue: window.characterLoadFinished = ()
-      } else {
-        // character is loaded
-        this.wearSavedClothes();
-      }
+      // if (!window.loadedByName(character.name)) {
+      //   this.characterLoaded = false;
+      // } else {
+      //   // character is loaded
+      //   this.wearSavedClothes();
+      // }
       const marketStore = useMarketStore();
       // check if this is not the backend active character
+      console.log("character.name", character.name);
+      console.log("this.backendActiveChar?.name", this.backendActiveChar?.name);
+
       if (character.name != this.backendActiveChar?.name && preview) {
         marketStore.selectItemforPreview(character);
+        console.log("not resetall");
       } else {
         marketStore.resetAll();
         this.currentBackground.isImage = false;
         this.currentBackground.colorOrUrl = "";
-        // window.changeBackgroundColor('');
-        // window.changeBackgroundImage('');
       }
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
@@ -425,7 +428,7 @@ export const usePlayerStore = defineStore("player", {
       return true;
     },
     toggleCamera() {
-      this.cameraPosition = this.cameraPosition == 1 ? 2 : 1;
+      // this.cameraPosition = this.cameraPosition == 1 ? 2 : 1;
       window.adjustCameraBasedOnCharacter(this.cameraPosition, 250, 500);
     },
     toggleFullscreen() {

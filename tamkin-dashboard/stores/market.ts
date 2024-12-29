@@ -1,34 +1,32 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore, acceptHMRUpdate } from "pinia";
 // import { v4 as uuidv4 } from 'uuid';
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useCart, useEditCustomerCharacter } from "@/composables/useMarket";
-import { rand } from '@vueuse/core';
+import { rand } from "@vueuse/core";
 
 const { fullUrl } = useFullUrl();
-import {useCouponCode} from "@/composables/useMarket";
+import { useCouponCode } from "@/composables/useMarket";
 
-
-
-export const useMarketStore = defineStore('market', {
+export const useMarketStore = defineStore("market", {
   state: () => ({
-    currentTab:'character',
-    selectedForPreview:[],
-    cartItems:[],
-    cartNotification:false,
+    currentTab: "character",
+    selectedForPreview: [],
+    cartItems: [],
+    cartNotification: false,
     firstItemNotificationShown: false, // Add this flag
-    showCart:false,
-    requestModal:false,
-    resetModal:false,
-    showSaveFooter:false,
-    promo:'',
-    noDiscount:false,
-    validPromo:false,
-    currentDiscount:0,
-    isPromoFilled:'',
-    selectedCrypto:'',
-    loadingPromo:false,
-    selectedPaymentMethod:'',
-    categoriesWithSkinItems:[]
+    showCart: false,
+    requestModal: false,
+    resetModal: false,
+    showSaveFooter: false,
+    promo: "",
+    noDiscount: false,
+    validPromo: false,
+    currentDiscount: 0,
+    isPromoFilled: "",
+    selectedCrypto: "",
+    loadingPromo: false,
+    selectedPaymentMethod: "",
+    categoriesWithSkinItems: [],
   }),
 
   actions: {
@@ -36,14 +34,18 @@ export const useMarketStore = defineStore('market', {
      * Apply promo code to the current cart items and update the currentDiscount state
      * @returns {Promise<void>}
      */
-    removeMultipleFromCart(cartItemsToRemove: any[], type: string = 'skin_Item', is_cart_item: boolean = true): void {
-      const { removeItemFromCart ,getCartItems} = useCart();
-    
+    removeMultipleFromCart(
+      cartItemsToRemove: any[],
+      type: string = "skin_Item",
+      is_cart_item: boolean = true
+    ): void {
+      const { removeItemFromCart, getCartItems } = useCart();
+
       // Iterate through each item in cartItemsToRemove array
       cartItemsToRemove.forEach((cartItem) => {
-        let name_to_delete = cartItem.name; 
-        let item_name_to_check_in_cart = cartItem.item_name; 
-    
+        let name_to_delete = cartItem.name;
+        let item_name_to_check_in_cart = cartItem.item_name;
+
         if (!is_cart_item) {
           item_name_to_check_in_cart = cartItem.name;
           this.cartItems.forEach((it) => {
@@ -52,10 +54,12 @@ export const useMarketStore = defineStore('market', {
             }
           });
         }
-    
+
         // Check if the item is in the cart
         if (this.isInCart(item_name_to_check_in_cart)) {
-          const index = this.cartItems.findIndex((it) => it.name === name_to_delete);
+          const index = this.cartItems.findIndex(
+            (it) => it.name === name_to_delete
+          );
           if (index > -1) {
             // Remove the item
             this.cartItems.splice(index, 1);
@@ -65,79 +69,72 @@ export const useMarketStore = defineStore('market', {
         } else {
           console.warn(`Item ${item_name_to_check_in_cart} not found in cart`);
         }
-
-        
       });
-      getCartItems()
-    
+      getCartItems();
+
       // Reset the flag if the cart is empty
       if (this.cartItems.length === 0) {
         this.firstItemNotificationShown = false;
       }
     },
-    
-    async addPromoCode(){
-      this.loadingPromo = true
-      const {ApplyCoupon,noCodeFound} = useCouponCode()
-      const res = await ApplyCoupon(this.promo)
-      if(res){
-    
-       if(res.isValid){
-        this.validPromo = res.isValid
-        this.currentDiscount = Number(res.discount)
-        this.noDiscount = false
-        this.loadingPromo = false
 
-       }else {
-        this.noDiscount = !res.isValid
-        this.loadingPromo = false
-
-       }
+    async addPromoCode() {
+      this.loadingPromo = true;
+      const { ApplyCoupon, noCodeFound } = useCouponCode();
+      const res = await ApplyCoupon(this.promo);
+      if (res) {
+        if (res.isValid) {
+          this.validPromo = res.isValid;
+          this.currentDiscount = Number(res.discount);
+          this.noDiscount = false;
+          this.loadingPromo = false;
+        } else {
+          this.noDiscount = !res.isValid;
+          this.loadingPromo = false;
+        }
       }
-
     },
-    
-     removePromoCode (){
-       if(this.promo){
-        this.validPromo = false
-        this.promo =""
-        this.noDiscount =false
-        this.currentDiscount = 0
 
-       }
+    removePromoCode() {
+      if (this.promo) {
+        this.validPromo = false;
+        this.promo = "";
+        this.noDiscount = false;
+        this.currentDiscount = 0;
+      }
     },
-    resetAll(){
-        this.selectedForPreview = []
-        this.showSaveFooter = false
-        
+    resetAll() {
+      console.log("resetAll");
+
+      this.selectedForPreview = [];
+      this.showSaveFooter = false;
     },
     closeCartNotification() {
       this.cartNotification = !this.cartNotification;
       this.firstItemNotificationShown = !this.firstItemNotificationShown;
     },
     selectItemforPreview(item) {
-        const existingItemIndex = this.selectedForPreview.findIndex(it => it.category_title === item.category_title);
-      
-        if (existingItemIndex !== -1) {
-          if (this.selectedForPreview[existingItemIndex].name === item.name) {
-            // If the same item is clicked again, remove it
-            this.selectedForPreview.splice(existingItemIndex, 1);
-            this.showSaveFooter = false;
+      const existingItemIndex = this.selectedForPreview.findIndex(
+        (it) => it.category_title === item.category_title
+      );
 
-          } else {
-            // If an item of the same type is already selected but it's a different item, replace it with the new item
-            this.selectedForPreview.splice(existingItemIndex, 1, item);
-            this.showSaveFooter = true;
-
-          }
-
+      if (existingItemIndex !== -1) {
+        if (this.selectedForPreview[existingItemIndex].name === item.name) {
+          // If the same item is clicked again, remove it
+          this.selectedForPreview.splice(existingItemIndex, 1);
+          this.showSaveFooter = false;
         } else {
-          // Otherwise, add the new item
-          this.selectedForPreview.push(item);
+          // If an item of the same type is already selected but it's a different item, replace it with the new item
+          this.selectedForPreview.splice(existingItemIndex, 1, item);
           this.showSaveFooter = true;
         }
+      } else {
+        // Otherwise, add the new item
+        this.selectedForPreview.push(item);
+        this.showSaveFooter = true;
+      }
     },
-      
+
     openResetModal() {
       this.resetModal = !this.resetModal;
     },
@@ -150,68 +147,81 @@ export const useMarketStore = defineStore('market', {
     switchTabs(tab: string) {
       this.currentTab = tab;
     },
-    setCartItems(items: any) {      
+    setCartItems(items: any) {
       items.forEach((item: any) => {
-        
-        if (item.type == 'custom_character') {
-          item.category_title = 'Custom Character'
-          item.category_image = '/assets/pngs/market/character-grey.svg';
+        if (item.type == "custom_character") {
+          item.category_title = "Custom Character";
+          item.category_image = "/assets/pngs/market/character-grey.svg";
           // note that if overriding item.image, this will override the custom character image array
-          item.image_url = '/assets/pngs/market/special_character.png';
-        }else{
-          item.type = (item.type == 'skin_Item' ||item.skin_item || item.item_doc == 'Skin Item') ? 'skin_Item' : 'character';
+          item.image_url = "/assets/pngs/market/special_character.png";
+        } else {
+          item.type =
+            item.type == "skin_Item" ||
+            item.skin_item ||
+            item.item_doc == "Skin Item"
+              ? "skin_Item"
+              : "character";
           item.image_url = fullUrl(item.image);
           item.category_image = fullUrl(item.category_image);
-          if (item.type == 'character'){
-            item.category_image = '/assets/pngs/market/character-grey.svg';
+          if (item.type == "character") {
+            item.category_image = "/assets/pngs/market/character-grey.svg";
           }
         }
-      })
+      });
       this.cartItems = items;
     },
     convertFromItemToCartItem(item, type, category_title, category_image) {
-      
-      let new_item = { ...item }
+      let new_item = { ...item };
       new_item.item_name = new_item.name; // for coloring item addToCart icon in market listing
       new_item.category_title = category_title; // for showing in cart
       new_item.type = type; // for use in setCartItems
-      if (type == 'custom_character'){
+      if (type == "custom_character") {
         const { customCharacterCost } = useEditCustomerCharacter();
-        new_item.cost = customCharacterCost.value
-        new_item.gender = new_item.gender ? 'Male' : 'Female';
+        new_item.cost = customCharacterCost.value;
+        new_item.gender = new_item.gender ? "Male" : "Female";
         new_item.image = new_item.images;
-        new_item.item_title = new_item.name
-        new_item.category_image = '/assets/pngs/market/character-grey.svg';
-        new_item.image_url = '/assets/pngs/market/special_character.png';
-      }else{
-        new_item.cost = new_item.offer_cost > 0 ? new_item.offer_cost : new_item.cost; // for calculating total
+        new_item.item_title = new_item.name;
+        new_item.category_image = "/assets/pngs/market/character-grey.svg";
+        new_item.image_url = "/assets/pngs/market/special_character.png";
+      } else {
+        new_item.cost =
+          new_item.offer_cost > 0 ? new_item.offer_cost : new_item.cost; // for calculating total
         new_item.category_image = fullUrl(category_image); // for showing in cart
         new_item.image_url = fullUrl(new_item.image); // for showing in cart
-        new_item.item_title = new_item.text
-        if (type == 'character'){
-          new_item.category_image = '/assets/pngs/market/character-grey.svg';
+        new_item.item_title = new_item.text;
+        if (type == "character") {
+          new_item.category_image = "/assets/pngs/market/character-grey.svg";
         }
       }
       return new_item;
     },
-    owned(item: any){
-        return item.is_purchased || item.is_package;
+    owned(item: any) {
+      return item.is_purchased || item.is_package;
     },
-    cartable(item: any){
-        return !this.owned(item) && !item.is_pending
+    cartable(item: any) {
+      return !this.owned(item) && !item.is_pending;
     },
-    async addToCart(item: any, type = 'skin_Item', category_title = 'Character', category_image = '') {
-
+    async addToCart(
+      item: any,
+      type = "skin_Item",
+      category_title = "Character",
+      category_image = ""
+    ) {
       const { $toast } = useNuxtApp();
-      const { addItemToCart} = useCart();
-      
+      const { addItemToCart } = useCart();
+
       if (!this.isInCart(item.name)) {
         // Add item until the request finishes
-        let cartItem = this.convertFromItemToCartItem(item, type, category_title, category_image);
+        let cartItem = this.convertFromItemToCartItem(
+          item,
+          type,
+          category_title,
+          category_image
+        );
         let cartItemsCount = this.cartItems.push(cartItem);
-    
+
         // Show notification if it's the first item and the notification hasn't been shown yet
-        if (type !== 'custom_character') {
+        if (type !== "custom_character") {
           if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
             this.showFirstItemNotification();
             this.firstItemNotificationShown = true;
@@ -219,37 +229,37 @@ export const useMarketStore = defineStore('market', {
           this.animateCartIcon();
         }
         // alert(cartItemsCount)
-    
+
         var cartItemName;
-        if (type === 'custom_character') {
+        if (type === "custom_character") {
           cartItemName = await addItemToCart(item.name, type, item);
-          
+
           // Handle first item case separately for custom_character
           if (cartItemsCount === 1) {
             this.showFirstItemNotification();
             this.firstItemNotificationShown = true;
             this.animateCartIcon();
-          } else if(cartItemsCount > 1) {
+          } else if (cartItemsCount > 1) {
             // Only show toast if it's not the first item
-            $toast(useNuxtApp().$i18n.t("Request Created Successfully"), { hideIn: 3000 });
+            $toast(useNuxtApp().$i18n.t("Request Created Successfully"), {
+              hideIn: 3000,
+            });
           }
-    
         } else {
           cartItemName = await addItemToCart(item.name, type);
         }
-    
+
         this.cartItems[cartItemsCount - 1].name = cartItemName; // To be used when deleting the item
-    
       } else {
         this.removeFromCart(item, type, false);
       }
-    }
-,    
-    
-    
-    
+    },
     // @param {boolean} [is_cart_item=true] - Whether the cart item is being deleted: from the cart or from the items listing.
-    removeFromCart(cartItem: any, type: string = 'skin_Item', is_cart_item: boolean = true): void {
+    removeFromCart(
+      cartItem: any,
+      type: string = "skin_Item",
+      is_cart_item: boolean = true
+    ): void {
       const { removeItemFromCart } = useCart();
       let name_to_delete = cartItem.name; // 4e5fde354f
       let item_name_to_check_in_cart = cartItem.item_name; // Fares, sara_clothes_orignal_hijab_blueblack_0027
@@ -259,11 +269,13 @@ export const useMarketStore = defineStore('market', {
           if (it.item_name == item_name_to_check_in_cart) {
             name_to_delete = it.name;
           }
-        })
+        });
       }
       if (this.isInCart(item_name_to_check_in_cart)) {
         // let item_to_delete = this.cartItems.find((it) => it.name == name_to_delete);
-        const index = this.cartItems.findIndex((it) => it.name === name_to_delete);
+        const index = this.cartItems.findIndex(
+          (it) => it.name === name_to_delete
+        );
         if (index > -1) {
           this.cartItems.splice(index, 1);
         }
@@ -274,31 +286,34 @@ export const useMarketStore = defineStore('market', {
           this.firstItemNotificationShown = false;
         }
       } else {
-        alert('Item not found in cart');
+        alert("Item not found in cart");
       }
     },
     animateCartIcon() {
       if (process.client) {
-        const cartIcon = document.querySelector('.animate_cart');
-        cartIcon.classList.remove('animate-scale');
+        const cartIcon = document.querySelector(".animate_cart");
+        cartIcon.classList.remove("animate-scale");
         void cartIcon.offsetWidth; // Trigger reflow
-        cartIcon.classList.add('animate-scale');
+        cartIcon.classList.add("animate-scale");
       }
     },
     showFirstItemNotification() {
       // Your notification logic here
-    //   alert('First item added to the cart!');
+      //   alert('First item added to the cart!');
     },
     isInCart(item_name) {
       return this.cartItemsNames.includes(item_name);
-    }
+    },
   },
-  
+
   getters: {
     // the item_name like 'Fares', 'sara_clothes_orignal_hijab_blueblack_0027', 'ahmed mohsen custom char'
     cartItemsNames: (state) => state.cartItems.map((item) => item.item_name),
     cartSubtotal(state) {
-      return state.cartItems.reduce((sum, item) => sum + parseFloat(item.cost), 0);
+      return state.cartItems.reduce(
+        (sum, item) => sum + parseFloat(item.cost),
+        0
+      );
     },
     cartDiscount(state) {
       return 0;

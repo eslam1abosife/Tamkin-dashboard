@@ -7,7 +7,7 @@ import {
   useCart,
   useEditCustomerCharacter,
 } from "@/composables/useMarket";
-import { useGetAppInvites, useUpdateDefaultApp  } from "@/composables/useTeam";
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
 
 const { getAvatarLetters } = useGetAvatarLetters();
@@ -69,8 +69,8 @@ const expandedHeader = ref(false);
 const expandedHeaderStep = ref(0); // Step counter
 const loadingCats = ref(true);
 const toggleExpandHeader = () => {
-  expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 3;
-  expandedHeader.value = expandedHeaderStep.value !== 2;
+  expandedHeaderStep.value = (expandedHeaderStep.value + 1) % 2;
+  expandedHeader.value = expandedHeaderStep.value !== 1;
 };
 
 const { GetCustomCharacterCost } = useEditCustomerCharacter();
@@ -144,7 +144,8 @@ onMounted(async () => {
   // await window.mountAll()
   playerStore.characters = characters.value;
   let activeChar = playerStore.backendActiveChar;
-  playerStore.changeCharacter(activeChar, false);
+  playerStore.activeCharacter = activeChar;
+  // playerStore.changeCharacter(activeChar, true);
   if (
     marketStore.categoriesWithSkinItems &&
     marketStore.categoriesWithSkinItems.length > 0
@@ -462,7 +463,7 @@ const settingStore = useSettingsStore();
         >
           {{ $t("Market") }}
         </h1>
-        
+
         <div
           v-if="loadDefaultApp"
           class="mb-[10px] h-[41px] w-[174px] bg-gray-300 animate-pulse rounded-[5px]"
@@ -473,25 +474,19 @@ const settingStore = useSettingsStore();
         >
           <div>
             <div
-              v-if="
-                !defaultApp?.favicon
-              "
+              v-if="!defaultApp?.favicon"
               class="w-[20px] h-[20px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
             >
-            <span v-if="defaultApp">
-              {{ defaultApp ? getAvatarLetters(defaultApp?.title) : "" }}
-            </span>
+              <span v-if="defaultApp">
+                {{ defaultApp ? getAvatarLetters(defaultApp?.title) : "" }}
+              </span>
               <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
                 v-else
               />
             </div>
-            <div
-              v-if="
-                defaultApp?.favicon 
-              "
-            >
+            <div v-if="defaultApp?.favicon">
               <img
                 v-if="defaultApp.favicon"
                 :src="defaultApp.favicon"
@@ -500,11 +495,7 @@ const settingStore = useSettingsStore();
             </div>
           </div>
           <div class="text-[12px] font-[500] text-darkGrey">
-            {{
-              defaultApp
-                ? defaultApp.app_domain
-                : $t("No Site Selected!")
-            }}
+            {{ defaultApp ? defaultApp.app_domain : $t("No Site Selected!") }}
           </div>
         </div>
       </div>
@@ -518,8 +509,7 @@ const settingStore = useSettingsStore();
         }"
         :class="{
           'h-[250px]': expandedHeaderStep === 0,
-          'h-[350px]': expandedHeaderStep === 1,
-          'h-[550px]': expandedHeaderStep === 2,
+          'h-[550px]': expandedHeaderStep === 1,
           'bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 ':
             !playerStore.currentBackground.isImage &&
             !playerStore.currentBackground.colorOrUrl,
@@ -825,17 +815,7 @@ const settingStore = useSettingsStore();
           </div>
         </div>
         <ClientOnly>
-          <MarketPlayer
-            :widthChar="
-              expandedHeaderStep == 1
-                ? '250px'
-                : expandedHeaderStep == 2
-                ? '350px'
-                : expandedHeaderStep == 3
-                ? '550px'
-                : '250px'
-            "
-          />
+          <MarketPlayer />
         </ClientOnly>
       </div>
       <transition name="slide-up">
