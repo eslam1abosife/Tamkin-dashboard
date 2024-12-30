@@ -146,6 +146,7 @@ export const usePlayerStore = defineStore("player", {
       return skin_item;
     },
     wearClothes(skin_item) {
+
       // for framing around the skin item
       this.lastClickedSkinItemName = skin_item.name;
 
@@ -169,6 +170,7 @@ export const usePlayerStore = defineStore("player", {
       this.userSelectedClothes[this.activeCharacter.name] = {};
     },
     showClothes(skin_item) {
+      console.log("skin_item", skin_item);
       let category = skin_item.category;
       let outfit_skins = skin_item.outfit_skins_list;
 
@@ -180,9 +182,9 @@ export const usePlayerStore = defineStore("player", {
         });
       } else {
         // hide skin if he is wearing it already if it can be unweared (get unweared if clicked twice)
-
         let weared_skins_of_same_category =
           this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
+
         if (
           weared_skins_of_same_category &&
           weared_skins_of_same_category.includes(skin_item.name)
@@ -240,27 +242,23 @@ export const usePlayerStore = defineStore("player", {
     },
     async changeCharacter(character: any, preview = true) {
       this.activeCharacter = character;
-      try {
+      this.characterLoaded = false;
+      setTimeout(() => {
         window.changeCharacter(character.name);
-      } catch (error) {
-        console.log("error", error);
-      }
+      }, 2000);
 
       // check if the character has loaded before
-      // if (!window.loadedByName(character.name)) {
-      //   this.characterLoaded = false;
-      // } else {
-      //   // character is loaded
-      //   this.wearSavedClothes();
-      // }
+      if (!window.loadedByName(character.name)) {
+        this.characterLoaded = false;
+      } else {
+        // character is loaded
+        this.wearSavedClothes();
+      }
       const marketStore = useMarketStore();
       // check if this is not the backend active character
-      console.log("character.name", character.name);
-      console.log("this.backendActiveChar?.name", this.backendActiveChar?.name);
 
       if (character.name != this.backendActiveChar?.name && preview) {
         marketStore.selectItemforPreview(character);
-        console.log("not resetall");
       } else {
         marketStore.resetAll();
         this.currentBackground.isImage = false;
@@ -416,16 +414,23 @@ export const usePlayerStore = defineStore("player", {
       const { getFullDataFormated } = useGetCategoriesWithSkinItems();
       getFullDataFormated();
     },
-    arraysHaveSameItems(arr1, arr2) {
-      if (arr1.length !== arr2.length) return false;
-      // Sort arrays
-      const sortedArr1 = arr1.slice().sort();
-      const sortedArr2 = arr2.slice().sort();
-      // Compare sorted arrays
-      for (let i = 0; i < sortedArr1.length; i++) {
-        if (sortedArr1[i] !== sortedArr2[i]) return false;
+    arraysHaveSameItems(arr1: any[], arr2: any[]) {
+      const hasCommonElement = arr1.some(element => arr2.includes(element));
+
+      if (hasCommonElement) {
+          return true;
+      } else {
+          return false;
       }
-      return true;
+      // if (arr1.length !== arr2.length) return false;
+      // // Sort arrays
+      // const sortedArr1 = arr1.slice().sort();
+      // const sortedArr2 = arr2.slice().sort();
+      // // Compare sorted arrays
+      // for (let i = 0; i < sortedArr1.length; i++) {
+      //   if (sortedArr1[i] !== sortedArr2[i]) return false;
+      // }
+      // return true;
     },
     toggleCamera() {
       // this.cameraPosition = this.cameraPosition == 1 ? 2 : 1;

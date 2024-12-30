@@ -23,7 +23,7 @@ function controlPlayerLoad() {
     playerStore.characterLoaded = false;
   };
   window.characterLoadFinished = () => {
-    window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 250, 500);
+    window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 280, 550);
     setTimeout(() => {
       playerStore.characterLoaded = true;
     }, 2000);

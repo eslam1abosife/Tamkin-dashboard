@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useGetAppInvites } from "@/composables/useTeam";
+const { defaultApp } = useGetAppInvites();
 const props = defineProps({
   showFooter: Boolean,
   loadingSave: Boolean,
@@ -55,7 +57,7 @@ const saveFn = () => {
           </button>
           <button
             class="btn_bordered_dashboard w-auto"
-            :disabled="loadingSavetoAll || loadingSave"
+            :disabled="loadingSavetoAll || loadingSave || !defaultApp"
             @click="saveToAllSites"
           >
             <div class="flex items-center justify-center">
@@ -88,7 +90,7 @@ const saveFn = () => {
           </button>
           <button
             class="btn-dashboard hover_tamkin w-[90px]"
-            :disabled="loadingSave || loadingSavetoAll"
+            :disabled="loadingSave || loadingSavetoAll || !defaultApp"
             @click="saveFn"
           >
             <div class="flex items-center justify-center">

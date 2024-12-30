@@ -130,6 +130,7 @@ function removeScripts() {
   });
   injectedScripts.length = 0;
 }
+
 onMounted(async () => {
   await checkPaymentStatus();
   await getApps();
