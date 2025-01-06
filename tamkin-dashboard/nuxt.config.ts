@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   // sourcemap: false,
-
   runtimeConfig: {
     public: {
       //baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
@@ -15,12 +14,12 @@ export default defineNuxtConfig({
   },
 
   optimizeDeps: {
-    include: ["@/ck-vue"],
+    // include: ["@/ck-vue"],
   },
   build: {
-    commonjsOptions: {
-      include: ["@/ck-vue"],
-    },
+    // commonjsOptions: {
+    //   include: ["@/ck-vue"],
+    // },
     // transpile: ['@tiptap/vue-3', '@tiptap/starter-kit', '@tiptap/extension-*'],
   },
 
@@ -49,23 +48,23 @@ export default defineNuxtConfig({
     //   },
     // },
 
-    server: {
-      proxy: {
-        "/api": {
-          target: "https://chat.tamkin.app",
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-          configure: (proxy, options) => {
-            proxy.on("proxyRes", (proxyRes, req, res) => {
-              proxyRes.headers["Access-Control-Allow-Origin"] =
-                "http://localhost:3000";
-              proxyRes.headers["Access-Control-Allow-Credentials"] = "true";
-            });
-          },
-        },
-      },
-    },
+    // server: {
+    //   proxy: {
+    //     "/api": {
+    //       target: "https://chat.tamkin.app",
+    //       changeOrigin: true,
+    //       secure: false,
+    //       rewrite: (path) => path.replace(/^\/api/, ""),
+    //       configure: (proxy, options) => {
+    //         proxy.on("proxyRes", (proxyRes, req, res) => {
+    //           proxyRes.headers["Access-Control-Allow-Origin"] =
+    //             "http://localhost:3000";
+    //           proxyRes.headers["Access-Control-Allow-Credentials"] = "true";
+    //         });
+    //       },
+    //     },
+    //   },
+    // },
   },
 
   app: {

@@ -53,8 +53,10 @@ watch(
   async () => {
     if (route.path.includes("accessibility")) {
       const trafficLevels = packagesStore.getTraffiPrices("Package");
+if(!packagesStore.traffic_level){
+  packagesStore.setTrafficLevel(trafficLevels[0].name);
 
-      packagesStore.setTrafficLevel(trafficLevels[0].name);
+}
     }
 
     //

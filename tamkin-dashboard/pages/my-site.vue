@@ -196,36 +196,53 @@ const toastMsg = ref(null);
 watch(eventCounter, async () => {
   toastAppear.value = false;
   toastMsg.value = null;
+  
   if (lastEventCall.value === "deleteApp") {
     const { deleteApp } = useDeleteApp();
 
-    if (currAppName.value.isdefault) {
+    // Log the current app and default app names
+    console.log("Current App Name:", currAppName.value);
+    console.log("Default App Name:", defaultApp.value.name);
+
+    // Check if the current app being deleted is the default app
+    if (currAppName.value.name === defaultApp.value.name) {
       const currentIndex = appList.value.findIndex(
         (app) => app.title === currAppName.value.title
       );
 
-      let nextApp;
+      let nextApp = null;  // Set the next app to null (empty)
 
+      // Log the current index and app list
+      console.log("Current Index:", currentIndex);
+      console.log("App List:", appList.value);
+
+      // Check if the app being deleted is the last one in the list
       if (currentIndex === -1 || currentIndex === appList.value.length - 1) {
-        nextApp = apps.value.find((app) => app.title === "Internal Service");
+        // No need to find a specific app, just set it to null
+        nextApp = '';
       } else {
         // Otherwise, set the next app in the list as nextApp
         nextApp = appList.value[currentIndex + 1];
       }
 
-      // Fallback to the first app if no 'Internal Service' found or nextApp is undefined
-      if (!nextApp) {
-        nextApp = appList.value[0];
-      }
-
-      // If nextApp exists, update it
+      // Log next app and update the default app if valid
+      console.log("Next App Before Updating Default:", nextApp);
+      
+      // If nextApp is valid, set it as default. Otherwise, set it to null (empty).
       if (nextApp) {
+        console.log("Calling updateDefaultApp with:", nextApp.name);
         await updateDefaultApp(nextApp.name);
+      } else {
+        console.log("No valid next app found. Setting default to empty.");
+        await updateDefaultApp('');  // Set the default app to empty
       }
     }
 
-    // console.log('yes',currAppName.value)
+    // Delete the app
     await deleteApp(currAppName.value.name);
+    console.log("App deleted, proceeding to update default app.");
+
+    // Close modal and update UI
     closeModal("deleteApp");
     currentTab.value = "deleted";
     $toast(t("deleted successfully!"), { hideIn: 3000 });
@@ -236,10 +253,18 @@ watch(eventCounter, async () => {
     currentTab.value = "saved";
     toastMsg.value = "restored successfully!";
   }
+  
+  // Reset current page and show the toast
   currentPage.value = 1;
   toastAppear.value = true;
+
+  // Refresh app list
   getApps();
 });
+
+
+
+
 
 const deletedAppListLength = computed(() => {
   return apps.value.filter((ele) => ele.status === "deleted").length;
@@ -628,7 +653,6 @@ const openInvestor = (app, pack) => {
             <div
               class="flex items-center justify-start rtl:space-x-reverse space-x-[8px]"
             >
-              
               <div
                 v-if="
                   !mysiteStore.loadingApps &&
@@ -645,7 +669,7 @@ const openInvestor = (app, pack) => {
               </span>
                <span v-else>
                 {{
-                  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
+                  defaultApp&&  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
                </span>
                 
@@ -653,11 +677,11 @@ const openInvestor = (app, pack) => {
               <div
                 v-if="
                   !mysiteStore.loadingApps &&
-                  defaultApp?.favicon 
+                  defaultApp&&  defaultApp?.favicon 
                 "
               >
                 <img
-                  v-if="defaultApp.favicon"
+                  v-if="defaultApp && defaultApp.favicon"
                   :src="defaultApp.favicon"
                   class="w-[40px] h-[40px] rounded-full ipad-max:hidden lg:block hidden"
                 />
@@ -667,7 +691,7 @@ const openInvestor = (app, pack) => {
                   <h2
                     class="font-[500] text-[14px] leading-[14px] dark:text-whiteTamkin text-darkGrey underline"
                   >
-                  <span v-if="defaultApp?.app_domain">
+                  <span v-if="defaultApp && defaultApp?.app_domain">
                     {{ defaultApp?.app_domain || $t(`${defaultApp?.title}`) }}
                   </span>
                   <span v-else>
@@ -1197,7 +1221,7 @@ const openInvestor = (app, pack) => {
                             <div class="order-1">{{ app.app_domain }}</div>
                           </div>
                           <div
-                            v-if="defaultApp.name === app.name"
+                            v-if="defaultApp && defaultApp.name === app.name"
                             class="order-1 flex items-center justify-center text-white text-[10px] font-[500] lg:w-[47px] h-[23px] rounded-[17px] p-[10px]"
                             style="
                               background: linear-gradient(

@@ -60,7 +60,7 @@ const v$ = useVuelidate(rules, state);
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
 
- mysiteStore.currentWebsite.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
+ mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
 );
 
 

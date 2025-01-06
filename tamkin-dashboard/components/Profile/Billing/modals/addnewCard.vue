@@ -6,6 +6,7 @@ import { useNuxtApp } from "#app";
 import { useRouter } from "vue-router";
 import { useAddNewCard } from "~/composables/useBilling";
 import { useVuelidate } from "@vuelidate/core";
+
 import {
   useGetCards,
   useDeleteCard,
@@ -14,8 +15,6 @@ import {
 } from "@/composables/useBilling";
 const {t,locale} = useI18n()
 const { getCards } = useGetCards();
-
- 
 import {
   required,
   email,
@@ -91,8 +90,6 @@ const expiryoptions = ref({
 
   
 });
-
-
 const cardCvcOptions = ref({
   placeholder: t('CVC'),
   style: {
@@ -151,6 +148,7 @@ onMounted(async () => {
       cardNumberElement.value = elms.value.create("cardNumber", cardOptions.value);
       cardNumberElement.value.mount(cardNumberInp.value);
 
+      // cardNumberElement.value.mount(cardNumberRef.value);
       cvcElement.value = elms.value.create("cardCvc", cardCvcOptions.value);
       cvcElement.value.mount(cardCvc.value);
 
@@ -213,7 +211,6 @@ const stripeElementReadyEV = () => {
       stripeLoaded.value = true;
 
 };
-
 // Completed Stripe Event
 const completedStripe = (event: any) => {
   if (event.error) {
@@ -241,25 +238,22 @@ const profileStore = useProfileStore()
 const cvvErrors = ref([])
 const stripe = ref(null);
 const cardError = ref(null)
-      const elements = ref(null);
-      const cvcElement = ref(null);
-      const expiryElement = ref(null);
-      const cvcError = ref('');
-      const expiryError = ref('');
+const elements = ref(null);
+ const cvcElement = ref(null);
+ const expiryElement = ref(null);
+  const cvcError = ref('');
+const expiryError = ref('');
  
 // Handle Save Card
 const handleSave = async () => {
   loadingAddCard.value  = true
-  // if (!elms.value) return;
-
+  // if (!elms.value) return
   const { error, paymentMethod } = await stripe.value.createPaymentMethod({
     type: 'card',
     card: cardNumberElement.value, 
-
     billing_details: {
     name: state.firstName +' '+ state.lastName,         // Customer's name
     email: profileStore.member.member_email,  // Customer's email
-
     // phone: '+123456789',      // Customer's phone number (optional)
     address: {
       line1: state.address,   // Street address
@@ -280,7 +274,7 @@ const handleSave = async () => {
   const paymentMethodId = paymentMethod.id;
   await sendPaymentMethodIdToApi(paymentMethodId);
   if(response.value.data.succeeded === false){
-      loadingAddCard.value  = false
+   loadingAddCard.value  = false
 cardError.value = t('Card is already added or its not valid')
     }else {
    
@@ -352,17 +346,12 @@ const addNew = async () => {
 };
 const isButtonDisabled = computed(() => {
   // Temporarily remove card number completion check for debugging
-
-
-
  return cardError.value !== 'valid' || expiryError.value !== 'valid' || cvcError.value !=='valid'
 });
 
 const gotomodalview = ()=>{
   if(currentView('add_new_card_billing') === 'Market'){
   return navigateTo('add_new_card_billing', 'market', 'cardModal_market')
-
-
     } else if(currentView('add_new_card_billing') === 'packages'){
       // navigateTo('add_new_card_billing','packages','cardModal_packages')
   return navigateTo('add_new_card_billing', 'packages', 'cardModal_packages')
@@ -527,7 +516,7 @@ const countriesC = computed(()=>{
                 </div>
               </div>
             </div>
-            <div       v-if="stripeLoaded"     class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
+            <div     v-if="stripeLoaded"     class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
 
             >
                 <div ref="cardNumberInp" class="w-full input_floating_label " :class="{
@@ -537,6 +526,7 @@ const countriesC = computed(()=>{
                 }"></div>
                 <div id="card-errors" class="error_message !bottom-[55px] z-[40]" >{{cardError!== 'valid' && cardError ? cardError : ''}}</div>
            
+        
           
               <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
         
@@ -560,99 +550,7 @@ const countriesC = computed(()=>{
                 </div>
               </div>
             </div>
-          <!-- <StripeElements
-            class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
-            
-            v-slot="{ elements, instance }"
-            ref="elms"
-            @ready="stripeElementReadyEV"
-            :stripe-key="stripeKey"
-            :elements-options="elementsOptions"
-            v-if="stripeLoaded && elementsReady"
-            
-          >
-    
-            <StripeElement
-
-              ref="cardNumberElement"
-              type="cardNumber"
-            @change="completedStripe"
-              :class="{
-                input_error:
-                 cardErrors && cardErrors.length > 0,
-              }"
-              :options="cardOptions"
-              :elements="elements"
-              class="w-full input_floating_label "
-            />
-            <div
-            class="w-full lg:w-4/6 absolute rtl:left-[17px] ltr:right-[17px]"
-            v-if="cardErrors && cardErrors.length > 0"
-          >
-            <p class="error_message">
-              <span
-               
-                >{{ cardErrors[0] }}</span
-              >
-            </p>
-          </div>
-        
-            <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
-         <div class="relative w-2/4">
-          <StripeElement
-          ref="card_cvc"
-          type="cardCvc"
-
-          :class="{
-            input_error:
-           cvvErrors.length > 0
-          }"
-          :options="cardCvcOptions"
-        @change="handleChangeCVV"
-          :elements="elements"
-          class=" input_floating_label w-full"
-          />
-      
-        <div
-        class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[17px] ltr:right-[10px]"
-        v-if=" cvvErrors.length > 0"
-      >
-        <p class="error_message">
-         {{ $t('CVV is not valid')}}
-          
-        </p>
-      </div>
-         </div>
-      <div class="relative w-2/4">
-        <StripeElement
-        ref="card"
-
-        type="cardExpiry"
-        
-        :options="cardOptions"
-        @change="handleExpiryChange"
-        :class="{
-          input_error:
-          expiryErrors && expiryErrors.length > 0,
-        }"
-        :elements="elements"
-        class=" input_floating_label w-full "
-      />
-
-      <div
-      class="w-full lg:w-4/6 absolute bottom-0 rtl:left-[17px] ltr:right-[10px]"
-      v-if="expiryErrors && expiryErrors.length > 0"
-    >
-      <p class="error_message">
-        <span
          
-          >{{ $t('Date is not valid') }}</span
-        >
-      </p>
-    </div>
-      </div>
-            </div>
-          </StripeElements> -->
 </div>
        
 <h1
@@ -826,6 +724,7 @@ class="flex flex-col items-start justify-center !px-[20px] mt-[21px] w-full"
   </div>
   <div class="w-full lg:mt-0 mt-[16px]">
     <TranslateSelectInput
+
         @getCurrentSelectedItem="handleSelectedItemProjectName"
         :enableSearch="true"
         placeholderinput="Country*"
