@@ -416,13 +416,17 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
 
           <ProfilePortfolio
             v-if="
-              !profileStore.loadingProfile &&
-             
-              profileStore.currentTab === 'personal'
+              !profileStore.loadingProfile
+              &&
+              (
+                profileStore.currentTab === 'personal'
+                ||
+                profileStore.currentTab === 'company'
+              )
             "
           />
 
-          <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
+          <!-- <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" /> -->
         </div>
 
         <div

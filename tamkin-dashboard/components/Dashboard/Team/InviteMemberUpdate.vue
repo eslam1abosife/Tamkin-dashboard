@@ -59,9 +59,14 @@ const clearInput = () => {
   search.value = "";
 };
 const errMsg = ref(null);
+
+const activePermissions = computed(() => {
+  return permissions.value.filter(permission => permission.status !== 'deleted');
+});
+
 const filteredPermissions = computed(() => {
-  if (!search.value.trim()) return permissions.value;
-  return permissions.value.filter((permission) => {
+  if (!search.value.trim()) return activePermissions.value;
+  return activePermissions.value.filter((permission) => {
     const translatedTitle = t(permission.title); 
     return translatedTitle.toLowerCase().includes(search.value.toLowerCase());
   });
