@@ -132,6 +132,10 @@ const expiryChange = ref(true)
 const cvvChange = ref(true)
 const loadingFont =ref(true)
 const elementsReady = ref(true);
+// Refs Select Element
+const cardNumberInp = ref(null);
+const cardCvc = ref(null);
+const cardExpiry = ref(null);
 
 onMounted(async () => {
   try {
@@ -145,13 +149,13 @@ onMounted(async () => {
     // Create and mount card elements with error handling
     try {
       cardNumberElement.value = elms.value.create("cardNumber", cardOptions.value);
-      cardNumberElement.value.mount("#card-number");
+      cardNumberElement.value.mount(cardNumberInp.value);
 
       cvcElement.value = elms.value.create("cardCvc", cardCvcOptions.value);
-      cvcElement.value.mount("#card-cvc");
+      cvcElement.value.mount(cardCvc.value);
 
       expiryElement.value = elms.value.create("cardExpiry", expiryoptions.value);
-      expiryElement.value.mount("#card-expiry");
+      expiryElement.value.mount(cardExpiry.value);
 
       stripeLoaded.value = true;
     } catch (error) {
@@ -526,7 +530,7 @@ const countriesC = computed(()=>{
             <div       v-if="stripeLoaded"     class="w-full relative rtl:!font-[Almarai] ltr:!font-[Poppins]"
 
             >
-                <div id="card-number" class="w-full input_floating_label " :class="{
+                <div ref="cardNumberInp" class="w-full input_floating_label " :class="{
                   input_error:
                   cardError!== 'valid' && cardError,
                    input_success: cardError=== 'valid'
@@ -537,7 +541,7 @@ const countriesC = computed(()=>{
               <div class="flex items-center justify-center mt-[14px] w-full  space-x-[20px] rtl:space-x-reverse">
         
                 <div class="w-2/4 relative">
-                  <div id="card-cvc" class="w-full input_floating_label " :class="{
+                  <div ref="cardCvc" class="w-full input_floating_label " :class="{
                     input_error:
                     cvcError!== 'valid' && cvcError,
                    input_success: cvcError=== 'valid'
@@ -546,7 +550,7 @@ const countriesC = computed(()=>{
                   <div id="cvc-errors" class="error_message ">{{  cvcError!== 'valid' && cvcError ? $t(cvcError):null }}</div>
                 </div>
                 <div class="w-2/4 relative">
-                  <div id="card-expiry" class="w-full input_floating_label "   :class="{
+                  <div ref="cardExpiry" class="w-full input_floating_label "   :class="{
                     input_error:
                     expiryError!== 'valid' && expiryError,
                     input_success: expiryError=== 'valid'
