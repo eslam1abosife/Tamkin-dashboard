@@ -426,7 +426,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
             "
           />
 
-          <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" />
+          <!-- <ProfilePortfoliocompany v-if="profileStore.currentTab === 'company'" /> -->
         </div>
 
         <div

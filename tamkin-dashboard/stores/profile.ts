@@ -157,19 +157,19 @@ this.permissions = member.value.permission
       let socialPersonal ;
 
       if (this.currentTab === 'company') {
-        if(this.company.social_accounts.length === 0){
-          socialPersonal = this.social_platforms.map(val => {
-           return {
-             link: val.link,
-             type: val.title
-           }
+        if(this.company.social_accounts && this.company.social_accounts?.length !== 0){
+           socialPersonal = this.company.social_accounts.map(val => {
+            return {
+              link: val.link,
+              type: val.social_platform
+            }
          })
         }else {
-          socialPersonal = this.company.social_accounts.map(val => {
-           return {
-             link: val.link,
-             type: val.social_platform
-           }
+          socialPersonal = this.social_platforms.map(val => {
+            return {
+              link: val.link,
+              type: val.title
+            }
          })
         }
         await addSocialAccount(socialPersonal,'company');

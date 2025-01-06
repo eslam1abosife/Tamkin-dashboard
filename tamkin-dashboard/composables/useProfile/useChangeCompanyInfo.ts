@@ -12,7 +12,7 @@ export default function() {
   const changeCompanyInfo = async (data: Object) => {
 
     try {
-
+      console.log(data);
       const res = await api.post('/Profile/ChangeinfoCompany', {
         data: data
       },
