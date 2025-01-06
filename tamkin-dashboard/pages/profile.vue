@@ -111,12 +111,15 @@ const getAbout = async (about) => {
 const packagesStore = usePackgesStore();
 const profileLoader = ref(false);
 
-const updatep = async (companyData) => {
+const updatep = async (typeUpdate) => {
   profileLoader.value = true;
   // console.log(profileStore.updatedCompanyPayload)
-  await changeCompanyInfo({ ...profileStore.updatedCompanyPayload, about: aboutCompany.value });
+  if(typeUpdate === 'personal') {
+    await changeMemberInfo(profileStore.updateProfilePayload);
+  } else {
+    await changeCompanyInfo({ ...profileStore.updatedCompanyPayload, about: aboutCompany.value });
+  }
 
-  await changeMemberInfo(profileStore.updateProfilePayload);
 
   await profileStore.updateSocialPlatforms(), (currentMode.value = "normal");
   profileStore.currentTab = "personal";
@@ -490,7 +493,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
           <keep-alive>
             <ProfileEditpersonal
               :loading-personal="profileLoader"
-              @update-personal-info="updatep"
+              @update-personal-info="updatep('personal')"
               @cancelupdate="changeMode('normal')"
               v-if="currentMode === 'editing' && profileStore.currentTab === 'personal'"
             />
@@ -501,7 +504,7 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
           <keep-alive>
             <ProfileEditcompany
               :loadingUpdate="profileLoader"
-              @update-profile="updatep"
+              @update-profile="updatep('company')"
               @cancelupdate="changeMode('normal')"
               v-if="currentMode === 'editing' && profileStore.currentTab === 'company' && ifuserhaspermissiontoEdit"
             />
