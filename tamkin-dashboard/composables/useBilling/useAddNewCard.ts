@@ -19,7 +19,7 @@ export default function() {
 
             console.log('add New Card',res.data);
             response.value = res.data
-            billingStore.addCardRes = res.data; // Update state with the fetched data
+            billingStore.addCardRes = res.data; 
 
 
         } catch (error) {

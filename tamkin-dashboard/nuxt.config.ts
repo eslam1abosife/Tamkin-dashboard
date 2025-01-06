@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   // sourcemap: false,
-
   runtimeConfig: {
     public: {
       //baseURL: process.env.BASE_URL || 'https://api.tamkin.app/v1/api/',
