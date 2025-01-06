@@ -26,7 +26,7 @@ const closeModalPackage = () => {
 const runtimeConfig = useRuntimeConfig()
 const mySiteStore = useMySiteStore()
 const loadingPacks = ref(true)
-onBeforeMount(async ()=>{
+onMounted(async ()=>{
 
   await packagesStore.getDataPackage()
   loadingPacks.value = false

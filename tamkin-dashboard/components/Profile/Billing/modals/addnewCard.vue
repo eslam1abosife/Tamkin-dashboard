@@ -148,7 +148,7 @@ onMounted(async () => {
       cardNumberElement.value = elms.value.create("cardNumber", cardOptions.value);
       cardNumberElement.value.mount(cardNumberInp.value);
 
-      cardNumberElement.value.mount(cardNumberRef.value);
+      // cardNumberElement.value.mount(cardNumberRef.value);
       cvcElement.value = elms.value.create("cardCvc", cardCvcOptions.value);
       cvcElement.value.mount(cardCvc.value);
 

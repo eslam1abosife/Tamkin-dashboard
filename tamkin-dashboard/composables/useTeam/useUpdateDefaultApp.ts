@@ -9,9 +9,9 @@ export default function() {
     const updateDefaultApp = async (appName) => {
         try {
             const res = await api.post('/mySite/set/defaultApps', {
-                data: {
-                    apps: [appName]
-                }
+         
+                    Apps:appName
+                
             });
             if(!res.data.succeeded) throw(res.data.message);
 

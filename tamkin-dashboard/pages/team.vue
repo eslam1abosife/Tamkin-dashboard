@@ -625,7 +625,7 @@ const isOwner = computed(() => {
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
-              <button :disabled="!profileStore.isOwner || teamstore.maxlimit === paginatedFilteredTeamMembers.length || teamstore.maxlimit === 0"
+              <button :disabled="!profileStore.isOwner || teamstore.maxlimit <= paginatedFilteredTeamMembers.length || teamstore.maxlimit === 0"
                 class="btn-dashboard hover_tamkin"
                 @click="()=>{
                   if(profileStore.isOwner){

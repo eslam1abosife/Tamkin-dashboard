@@ -77,7 +77,7 @@ function convertUsdToCrypto(usdTotal, rates) {
       <div
         v-for="pak in packagesStore.getPackagesByTypeTitle(
           'Package',
-          currentPackage?.type || isLinkActive('/overview') ? 'Accessibility' :'',
+          currentPackage?.type ? currentPackage?.type: isLinkActive('/overview') ? 'Accessibility' :'',
           (currentPackage?.title === 'Free' ? currentPackage?.category : currentPackage?.category) ||null
         )"
         :key="pak.name"

@@ -148,13 +148,13 @@ const checkPaymentStatus = async () => {
 
       openModal("success_pay_mysite", "mysite");
     if(isOpen('success_pay_mysite')){
-      await router.replace({ query: {} });
+      // await router.replace({ query: {} });
     }
     } else {
       openModal("success_pay_mysite", "mysite");
-      await router.replace({ query: {} });
+      // await router.replace({ query: {} });
       if(isOpen('success_pay_mysite')){
-      await router.replace({ query: {} });
+      // await router.replace({ query: {} });
     }
     }
   }

@@ -38,7 +38,7 @@ export default function() {
             if(!res.data.succeeded) throw(res.data.message);
             apps.value = res.data.data;
             loadDefaultApp.value = false
-            defaultApp.value = res.data.data.find(ele => ele.isdefault) || res.data.data?.[0]
+            defaultApp.value = res.data.data.find(ele => ele.isdefault === 1) || null
         } catch (error) {
             loadDefaultApp.value = false
             throw typeof(error) === 'string' ? error : 'There is something wrong';
