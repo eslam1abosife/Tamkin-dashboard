@@ -59,15 +59,13 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
-
  mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
 );
 
 
 const selectPackage = async (plan: any) => {
   selectedPackage.value = plan;
-await geteFilterInfo()
-
+  await geteFilterInfo()
 };
 const selectPackageWeb = (plan: any) => {
   selectedPackage.value = plan;
@@ -617,9 +615,9 @@ const closeModalPackage = () => {
                   id="free_trial"
                   type="radio"
                   name="packages_radio"
-                  class="hidden"
+                  class="radio-tamkin absolute opacity-0"
                   :checked="selectedPackage === 0"
-                  @click.stop="selectPackage(0)"
+                  @change="selectPackage(0)"
                 />
                 <label for="free_trial" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin"></span>
@@ -653,9 +651,9 @@ const closeModalPackage = () => {
                   id="month"
                   type="radio"
                   name="packages_radio"
-                  class="hidden"
+                  class="radio-tamkin absolute opacity-0"
                   :checked="selectedPackage === 1"
-                  @click.stop="selectPackage(1)"
+                  @change="selectPackage(1)"
                 />
                 <label for="month" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin"></span>
@@ -712,9 +710,9 @@ const closeModalPackage = () => {
                   id="3month"
                   type="radio"
                   name="packages_radio"
-                  class="hidden"
+                  class="radio-tamkin absolute opacity-0"
                   :checked="selectedPackage === 3"
-                  @click.stop="selectPackage(3)"
+                  @change="selectPackage(3)"
                 />
                 <label for="3month" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin"></span>
@@ -770,9 +768,9 @@ const closeModalPackage = () => {
                   id="annual"
                   type="radio"
                   name="packages_radio"
-                  class="hidden"
+                  class="radio-tamkin absolute opacity-0"
                   :checked="selectedPackage === 12"
-                  @click.stop="selectPackage(12)"
+                  @change="selectPackage(12)"
                 />
                 <label for="annual" class="flex items-center cursor-pointer">
                   <span class="radio-tamkin"></span>
