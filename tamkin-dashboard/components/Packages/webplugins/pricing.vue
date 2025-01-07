@@ -21,7 +21,7 @@ const openBuyModal = (pck)=>{
 
 }
 </script>
-
+-
 <template>
   <div class="flex flex-col items-center justify-center w-full">
     <div

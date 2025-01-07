@@ -360,6 +360,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
       loadingBlock.value.push({ app: app, pack: pack });
 
       mysiteStore.currentWebsite = app;
+
       const packagemodal = await getPackage(
         app.package.find((k) => k.name === pack).name
       );
@@ -424,7 +425,6 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
     loadingBlock.value.push({ app: app });
     mysiteStore.updatePayment = false;
     mysiteStore.currentType = "Sign language";
-
     mysiteStore.currentWebsite = app;
     navigateTo(null, "mysite", "upgrade_no_package");
     loadingBlock.value.splice({ app: app });

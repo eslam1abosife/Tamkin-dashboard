@@ -2,22 +2,22 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, sameAs } from "@vuelidate/validators";
 import { helpers } from "@vuelidate/validators";
-import Multiselect from "vue-multiselect";
+// import Multiselect from "vue-multiselect";
 import { useGetAppInvites } from "@/composables/useTeam";
-import {useGetTrafficByType} from '@/composables/useAddSite'
-const localePath = useLocalePath()
-const {getTrafficType} = useGetTrafficByType()
-const route = useRoute()
-onBeforeMount(async ()=>{
-    if(mysiteStore.urls.length ===0){
-        mysiteStore.urls.push(mysiteStore.currentWebsite)
-    }
-  await geteFilterInfo()
+import { useGetTrafficByType } from "@/composables/useAddSite";
+const localePath = useLocalePath();
+const { getTrafficType } = useGetTrafficByType();
+const route = useRoute();
+// onBeforeMount(async () => {
+//   if (mysiteStore.urls.length === 0) {
+//     mysiteStore.urls.push(mysiteStore.currentWebsite);
+//   }
+//   await geteFilterInfo();
 
-   await getTrafficType(mysiteStore.currentPackage.name)
-    mysiteStore.currentLevel = mysiteStore.levelsTraffic[0]
-// levelof.value = mysiteStore.currentLevel.name
-})
+//   await getTrafficType(mysiteStore.currentPackage.name);
+//   mysiteStore.currentLevel = mysiteStore.levelsTraffic[0];
+//   // levelof.value = mysiteStore.currentLevel.name
+// });
 const isLinkActive = (path) => {
   if (process.client) {
     const localizedPath = localePath(path); // Assuming you use i18n
@@ -33,7 +33,7 @@ import {
 const { locale } = useI18n();
 const { getInviteApps, defaultApp, apps, loading: getSitesLoading } = useGetAppInvites();
 const { checkifBlockedSite, messageStatus, codeStatus } = useCheckifSiteblocked();
-const mysiteStore = useMySiteStore()
+const mysiteStore = useMySiteStore();
 const { getPriceByTraffic } = useGetPriceByTraffic();
 const loadingPriceTraffic = ref(false);
 function getDayLabel(number) {
@@ -43,12 +43,11 @@ const { getTraffic } = useGetTraffic();
 
 const domainRegex = /^(?:(?:https?:\/\/)?(?:www\.)?(?!www\.)[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,})(?:\/.*)?$/;
 
-
 const isDomain = helpers.withParams({ type: "isDomain" }, (value) => {
   return domainRegex.test(value);
 });
 const state = reactive({
-  newWebsite: "",
+  newWebsite: ""
 });
 const rules = {
   newWebsite: { required, isDomain },
@@ -59,16 +58,22 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
-
- mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
+    mysiteStore.currentPackage.billing_duration === "3 months"
+    ? 12
+    : 3
 );
 
+const newpack = ref()
 
 const selectPackage = async (plan: any) => {
   selectedPackage.value = plan;
-await geteFilterInfo()
-
+  newpack.value = plan
+  // await geteFilterInfo();
 };
+/**
+ * Set the selected package to the given plan.
+ * @param {Object} plan the plan you want to select
+ */
 const selectPackageWeb = (plan: any) => {
   selectedPackage.value = plan;
 };
@@ -85,7 +90,7 @@ const {
   navigateTo,
 } = useModalManager();
 const openedCurrentSite = ref("");
-const levelof = ref( );
+const levelof = ref();
 
 const websiteExist = ref(false);
 const cleanWebsiteUrl = (url: string) => {
@@ -159,35 +164,29 @@ const calculateEstimatedPrice = computed(() => {
       ? mysiteStore.currentPackage.package_price_role[0].cost_3_month
       : mysiteStore.currentPackage.package_price_role[0].cost_month;
   }
-  if (mysiteStore.currentPackage.type  === "Accessibility") {
+  if (mysiteStore.currentPackage.type === "Accessibility") {
     if (levelof.value !== "Over 1M page views/mo") {
       // Handle the case for traffic below 1M
       return selectedPackage.value === 12
-        ? mysiteStore.currentPackage.package_price_role[0].cost_yearly 
+        ? mysiteStore.currentPackage.package_price_role[0].cost_yearly
         : selectedPackage.value === 3
-        ? mysiteStore.currentPackage.package_price_role[0].cost_3_month 
+        ? mysiteStore.currentPackage.package_price_role[0].cost_3_month
         : selectedPackage.value === 1
-        ? mysiteStore.currentPackage.package_price_role[0].cost_month 
+        ? mysiteStore.currentPackage.package_price_role[0].cost_month
         : mysiteStore.currentPackage.package_price_role[0].trial_days > 0
         ? 0
         : 0;
-    } else if (
-   
-      pricebytraffic.value.length > 0
-    ) {
+    } else if (pricebytraffic.value.length > 0) {
       // Handle the case for traffic over 1M
       // Find the matching website in webs or mysiteStore.urls
-      const openedCurrentSite =
-        mysiteStore.urls.find((item: any) =>
-          pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
-        );
+      const openedCurrentSite = mysiteStore.urls.find((item: any) =>
+        pricebytraffic.value.some((priceItem: any) => priceItem.website === item.url)
+      );
 
       if (openedCurrentSite) {
         // Find the corresponding price entry in pricebytraffic for the current website
         const priceInfo = pricebytraffic.value.find(
-          (priceItem: any) =>
-          
-            priceItem.website === openedCurrentSite.url
+          (priceItem: any) => priceItem.website === openedCurrentSite.url
         );
 
         if (priceInfo) {
@@ -205,36 +204,35 @@ const calculateEstimatedPrice = computed(() => {
   }
 });
 const calculatePrice = (website) => {
-  const isAccessibility = mysiteStore.currentPackage && mysiteStore.currentPackage.type === "Accessibility";
+  const isAccessibility =
+    mysiteStore.currentPackage && mysiteStore.currentPackage.type === "Accessibility";
 
   if (!isAccessibility) {
     // Handle non-Accessibility types
     return selectedPackage.value === 12
-      ? mysiteStore.currentPackage.package_price_role[0].cost_yearly 
+      ? mysiteStore.currentPackage.package_price_role[0].cost_yearly
       : selectedPackage.value === 3
-      ? mysiteStore.currentPackage.package_price_role[0].cost_3_month 
+      ? mysiteStore.currentPackage.package_price_role[0].cost_3_month
       : mysiteStore.currentPackage.package_price_role[0].cost_month;
-  } 
+  }
 
-//   // Handle Accessibility type
-//   if (levelof.value !== "Over 1M page views/mo") {
-//     // Traffic below 1M
-//     return selectedPackage.value === 12
-//       ? mysiteStore.currentPackage.cost_yearly  
-//       : selectedPackage.value === 3
-//       ? mysiteStore.currentPackage.cost_3_month 
-//       : selectedPackage.value === 1
-//       ? mysiteStore.currentPackage.cost_month 
-//       : mysiteStore.currentPackage.trial_days > 0 
-//       ? 0
-//       : 0;
-//   } 
+  //   // Handle Accessibility type
+  //   if (levelof.value !== "Over 1M page views/mo") {
+  //     // Traffic below 1M
+  //     return selectedPackage.value === 12
+  //       ? mysiteStore.currentPackage.cost_yearly
+  //       : selectedPackage.value === 3
+  //       ? mysiteStore.currentPackage.cost_3_month
+  //       : selectedPackage.value === 1
+  //       ? mysiteStore.currentPackage.cost_month
+  //       : mysiteStore.currentPackage.trial_days > 0
+  //       ? 0
+  //       : 0;
+  //   }
 
   // Traffic over 1M
-  if ( pricebytraffic.value.length > 0) {
-    const currentWebsite = 
-                           mysiteStore.urls.find((item) => item.url === website);
-
+  if (pricebytraffic.value.length > 0) {
+    const currentWebsite = mysiteStore.urls.find((item) => item.url === website);
 
     if (currentWebsite) {
       const priceInfo = pricebytraffic.value.find(
@@ -242,8 +240,7 @@ const calculatePrice = (website) => {
           priceItem.website === currentWebsite.app_domain ||
           priceItem.website === currentWebsite.url
       );
-      console.log('pricehree',priceInfo);
-   
+      console.log("pricehree", priceInfo);
 
       if (priceInfo) {
         return selectedPackage.value === 12
@@ -260,43 +257,40 @@ const calculatePrice = (website) => {
   return 0; // Default return if no conditions are met
 };
 
-
 const calculateTotalPrice = () => {
-  
-  if ( pricebytraffic.value.length > 0) {
+  if (pricebytraffic.value.length > 0) {
     // Sum the prices based on the selected package
     const totalCost = pricebytraffic.value.reduce((sum, priceItem) => {
-      return sum + (
-        selectedPackage.value === 12
+      return (
+        sum +
+        (selectedPackage.value === 12
           ? priceItem.cost_year // Sum yearly cost if selectedPackage is 12
           : selectedPackage.value === 3
           ? priceItem.cost_3_month // Sum 3-month cost if selectedPackage is 3
           : selectedPackage.value === 1
           ? priceItem.cost_month // Sum monthly cost if selectedPackage is 1
-          : 0 // Default case
+          : 0) // Default case
       );
-    }, 0); 
+    }, 0);
 
     return totalCost; // Return the total sum
   }
 
- return 0
-   
+  return 0;
 };
 const packageTypeToSend = computed(() => {
-  const {  currentPackage } = mysiteStore;
+  const { currentPackage } = mysiteStore;
 
-
-// if(currentPackage.type !== 'Accessibility'){
-// return currentPackage.type ;
-// }
+  // if(currentPackage.type !== 'Accessibility'){
+  // return currentPackage.type ;
+  // }
 });
 
 /**
  * Sets the package payload and navigates to the payment methods page.
  * @returns {Promise<void>}
  */
- const packagesStore = usePackgesStore()
+const packagesStore = usePackgesStore();
 
 const conintuePay = () => {
   mysiteStore.packagePayload = {
@@ -306,8 +300,13 @@ const conintuePay = () => {
     payDateType: selectedPackage.value,
     locale: locale.value,
     total: totalCost.value,
-    packageExtraType: mysiteStore.currentPackage.category ? mysiteStore.currentPackage.category : null,
-    packageTrie:    mysiteStore.currentPackage.type ==='Accessibility' ? packagesStore.traffic_level : mysiteStore.currentPackage.category,
+    packageExtraType: mysiteStore.currentPackage.category
+      ? mysiteStore.currentPackage.category
+      : null,
+    packageTrie:
+      mysiteStore.currentPackage.type === "Accessibility"
+        ? packagesStore.traffic_level
+        : mysiteStore.currentPackage.category,
   };
   return navigateTo("add_package_modal_mysite", "mysite", "payment_methods_mysite");
 };
@@ -316,23 +315,21 @@ const totalCost = computed(() => {
   const urlCount = mysiteStore.urls.length || 0;
   const webCount = webs.value.length || 0;
   const price = calculateEstimatedPrice.value || 0;
-    return price * urlCount ;
-
+  return price * urlCount;
 });
 
-
-
 const geteFilterInfo = async () => {
-  if (mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package') {
+  if (
+    mysiteStore.currentPackage.type === "Accessibility" &&
+    mysiteStore.currentPackage.package_type === "Package"
+  ) {
     loadingPriceTraffic.value = true;
-    const res = await getPriceByTraffic(
-     [],
-      mysiteStore.currentPackage.name,
-      [...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.name) : [])]
-    );
+    const res = await getPriceByTraffic([], mysiteStore.currentPackage.name, [
+      ...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.name) : []),
+    ]);
     pricebytraffic.value = res;
-  levelof.value =res[0].title
-  loadingPriceTraffic.value = false;
+    levelof.value = res[0].title;
+    loadingPriceTraffic.value = false;
   }
 };
 
@@ -375,7 +372,7 @@ const getPackageById = (id) => {
       pkg.package_type === "Package" &&
       pkg.package_price_role.some((item) => item.title === levelof.value)
   );
-// console.log(id)
+  // console.log(id)
   if (packageg) {
     const priceRole = packageg.package_price_role.find(
       (item) => item.title === levelof.value
@@ -401,72 +398,71 @@ const getPackageById = (id) => {
 
   return undefined; // Return undefined if not found
 };
-watch(
-  () => levelof.value,
-  () => {
-    // mysiteStore.currentPackage = getPackageById(mysiteStore.currentPackage.name);
-  }
-);
+// watch(
+//   () => levelof.value,
+//   () => {
+//     // mysiteStore.currentPackage = getPackageById(mysiteStore.currentPackage.name);
+//   }
+// );
 
-watchEffect(() => {
-  if (
-    mysiteStore.currentPackage.type === "Accessibility" &&
-    mysiteStore.currentPackage.package_type === "Package"
-  ) {
-    // Determine the traffic limit based on the selected level
-    const trafficLimit =
-      levelof.value === "Up to 100K page views/mo"
-        ? 100000
-        : levelof.value === "Up to 1M page views/mo"
-        ? 1000000
-        : 0;
+// watchEffect(() => {
+//   if (
+//     mysiteStore.currentPackage.type === "Accessibility" &&
+//     mysiteStore.currentPackage.package_type === "Package"
+//   ) {
+//     // Determine the traffic limit based on the selected level
+//     const trafficLimit =
+//       levelof.value === "Up to 100K page views/mo"
+//         ? 100000
+//         : levelof.value === "Up to 1M page views/mo"
+//         ? 1000000
+//         : 0;
 
-    const newAffectedItemsInUrls = mysiteStore.urls?.filter((item: any) => {
-      const trafficValue =
-        item.traffic === "Small"
-          ? 100000
-          : item.traffic === "Medium"
-          ? 1000000
-          : 10000000; // For 'Large'
-      return trafficValue > trafficLimit;
-    });
+//     const newAffectedItemsInUrls = mysiteStore.urls?.filter((item: any) => {
+//       const trafficValue =
+//         item.traffic === "Small"
+//           ? 100000
+//           : item.traffic === "Medium"
+//           ? 1000000
+//           : 10000000; // For 'Large'
+//       return trafficValue > trafficLimit;
+//     });
 
-    if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
-      trafficTooHighUrls.value = [
-        ...trafficTooHighUrls.value,
-        ...newAffectedItemsInUrls.map((item) => ({
-          title: item.title,
-          url: item.url,
-          traffic:
-            item.traffic <= 100000
-              ? "Small"
-              : item.traffic > 100000 && item.traffic <= 1000000
-              ? "Medium"
-              : "Large",
-        })),
-      ];
-    }
+//     if (newAffectedItemsInUrls && newAffectedItemsInUrls.length > 0) {
+//       trafficTooHighUrls.value = [
+//         ...trafficTooHighUrls.value,
+//         ...newAffectedItemsInUrls.map((item) => ({
+//           title: item.title,
+//           url: item.url,
+//           traffic:
+//             item.traffic <= 100000
+//               ? "Small"
+//               : item.traffic > 100000 && item.traffic <= 1000000
+//               ? "Medium"
+//               : "Large",
+//         })),
+//       ];
+//     }
 
-    // If level is 'Over 1M page views/mo', remove recently added items
-    if (levelof.value === "Over 1M page views/mo") {
- 
-      trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
-        (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
-      );
-    }
-  }
-});
+//     // If level is 'Over 1M page views/mo', remove recently added items
+//     if (levelof.value === "Over 1M page views/mo") {
+//       trafficTooHighUrls.value = trafficTooHighUrls.value.filter(
+//         (item: any) => !newAffectedItemsInUrls.some((newItem) => newItem.url === item.url)
+//       );
+//     }
+//   }
+// });
 
-watch(mysiteStore.urls, async () => {
-  if (levelof.value && levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.url) : [])],
-      mysiteStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-});
+// watch(mysiteStore.urls, async () => {
+//   if (levelof.value && levelof.value === "Over 1M page views/mo") {
+//     const res = await getPriceByTraffic(
+//       [...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.url) : [])],
+//       mysiteStore.currentPackage.name,
+//       [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+//     );
+//     pricebytraffic.value = res;
+//   }
+// });
 // watch(webs, async () => {
 //   if (levelof.value === "Over 1M page views/mo") {
 //     const res = await getPriceByTraffic(
@@ -479,26 +475,21 @@ watch(mysiteStore.urls, async () => {
 // });
 
 onMounted(async () => {
-//   if (mysiteStore.openedCurrentSite) {
-//     webs.value.push(mysiteStore.currentWebsite);
-//   }
-
-// if(mysiteStore.openedCurrentSite &&mysiteStore.currentPackage.type === 'Accessibility'){
-//   const typeg = mysiteStore.types.find(t=>t.title === 'Accessibility')
-// mysiteStore.currentType = typeg
-// }
-  
-//   if (!mysiteStore.traffic_level) {
-//     const trafficLevels = mysiteStore.getTraffiPrices("Package",'Accessibility');
-//     // alert(trafficLevels[0].name)
-//     mysiteStore.setTrafficLevel(trafficLevels[0].name);
-
-//   }
-//  if(mysiteStore.currentType.title === 'Accessibility'){
-//   await geteFilterInfo(levelof.value || mysiteStore.traffic_level)
-//  }
-
- 
+  //   if (mysiteStore.openedCurrentSite) {
+  //     webs.value.push(mysiteStore.currentWebsite);
+  //   }
+  // if(mysiteStore.openedCurrentSite &&mysiteStore.currentPackage.type === 'Accessibility'){
+  //   const typeg = mysiteStore.types.find(t=>t.title === 'Accessibility')
+  // mysiteStore.currentType = typeg
+  // }
+  //   if (!mysiteStore.traffic_level) {
+  //     const trafficLevels = mysiteStore.getTraffiPrices("Package",'Accessibility');
+  //     // alert(trafficLevels[0].name)
+  //     mysiteStore.setTrafficLevel(trafficLevels[0].name);
+  //   }
+  //  if(mysiteStore.currentType.title === 'Accessibility'){
+  //   await geteFilterInfo(levelof.value || mysiteStore.traffic_level)
+  //  }
 });
 /**
  * Function to check if a given website already exists in our database.
@@ -517,16 +508,19 @@ const checkforexistingwebsite = () => {
     websiteExist.value = false;
   }
 };
-watch(()=>selectPackage,async ()=>{
-  if (levelof.value && levelof.value === "Over 1M page views/mo") {
-    const res = await getPriceByTraffic(
-      [...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.url) : [])],
-      mysiteStore.currentPackage.name,
-      [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
-    );
-    pricebytraffic.value = res;
-  }
-})
+// watch(
+//   () => selectPackage,
+//   async (ov,nv) => {
+//     if (levelof.value && levelof.value === "Over 1M page views/mo") {
+//       const res = await getPriceByTraffic(
+//         [...(mysiteStore.urls.length ? mysiteStore.urls.map((we) => we.url) : [])],
+//         mysiteStore.currentPackage.name,
+//         [...(webs.value.length ? webs.value.map((we) => we.name) : [])]
+//       );
+//       pricebytraffic.value = res;
+//     }
+//   }
+// );
 const closeModalPackage = () => {
   closeModal("add_package_modal_mysite");
   webs.value = [];
@@ -557,6 +551,7 @@ const closeModalPackage = () => {
         />
       </svg>
     </div>
+
     <div class="w-full h-screen">
       <div class="flex flex-col items-start justify-center w-full lg:overflow-x-hidden">
         <h1
@@ -568,234 +563,262 @@ const closeModalPackage = () => {
           class="flex flex-col items-start justify-start lg:overflow-x-hidden bg-white dark:bg-tamkinDarkPrimary w-full min-h-[70vh] px-[20px] rounded-[10px] mt-[33px]"
           style="box-shadow: 0px 4px 24px 8px #51459f14"
         >
-         <div class="flex items-center justify-between w-full pt-[24px] ">
-          <div
-          class="flex items-center justify-start rtl:space-x-reverse space-x-[18px] "
-        >
-          <div>
-            <img
-              :src="`https://tamkin.app/${mysiteStore.currentPackage.icon}`"
-              class="w-[32px] h-[32px]"
-              alt=""
-            />
+          <div class="flex items-center justify-between w-full pt-[24px]">
+            <div
+              class="flex items-center justify-start rtl:space-x-reverse space-x-[18px]"
+            >
+              <div>
+                <img
+                  :src="`https://tamkin.app/${mysiteStore.currentPackage.icon}`"
+                  class="w-[32px] h-[32px]"
+                  alt=""
+                />
+              </div>
+              <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
+                {{ $t(mysiteStore.currentPackage.title) }}
+              </div>
+            </div>
+            <div class="font-[400] text-[16px] leading-[30px] text-black text-center">
+              {{ $t(mysiteStore.currentPackage.type) }}
+            </div>
           </div>
-          <div class="font-[600] text-[16px] leading-[30px] text-black text-center">
-            {{ $t(mysiteStore.currentPackage.title) }}
-          </div>
-       
-        </div>
-        <div class="font-[400] text-[16px] leading-[30px] text-black text-center ">
-          {{ $t(mysiteStore.currentPackage.type) }}
-        </div>
-         </div>
-       
-          <div
-          class="flex items-center justify-center gap-4 w-full"
-        
 
-        >
-        <div class="flex items-center justify-center gap-4 w-full">
-          <!-- Free Trial -->
-          <div
-            v-if="mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none'"
-          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border']"
-          >
-            <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-3/4 h-full">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Free Trial") }}</h1>
-                <h2 class="font-[500] text-[10px]">
-                  {{ $t("Free trial for") }} {{
-                    mysiteStore.currentPackage.trial_days + " " +
-                    $t(getDayLabel(mysiteStore.currentPackage.trial_days))
-                  }}
-                </h2>
-              </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="free_trial"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 0"
-                  @click.stop="selectPackage(0)"
-                />
-                <label for="free_trial" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        
-          <!-- Monthly Plan -->
-          <div
-            v-if="mysiteStore.currentPackage.billing_duration !== 'none' || mysiteStore.currentPackage.trial_days === 0"
-              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border']"
-          >
-            <div class="flex items-center justify-center w-full">
-              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package"
-                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] 
-                rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-45px)] text-white">
-                <span>{{ $t("Renew") }}</span>
-              </div>
-              <div class="order-2 w-3/4 h-full">
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Monthly Plan") }}</h1>
-                <h2 class="font-[500] text-[10px]" v-if="mysiteStore.currentPackage.package_price_role[0].discount_month !== 0">
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">{{ mysiteStore.currentPackage.package_price_role[0].discount_month }}%</span>
-                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{ $t("Discount on the Monthly Plan") }}</span>
-                </h2>
-              </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="month"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 1"
-                  @click.stop="selectPackage(1)"
-                />
-                <label for="month" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-          <div
-       
-              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-         
-            :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
-          >
-            <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-3/4 h-full">
-                <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'&& !mysiteStore.currentPackage.cancel_package"
-             
-                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+          <div class="flex items-center justify-center gap-4 w-full">
+            <div class="flex items-center justify-center gap-4 w-full">
+              <!-- Free Trial -->
+              <div
+                v-if="
+                  mysiteStore.currentPackage.trial_days > 0 &&
+                  mysiteStore.currentPackage.billing_duration === 'none'
+                "
+                class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+                :class="[
+                  selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border',
+                ]"
               >
-                <span>{{ $t("Renew") }}</span>
-              </div>
-                <div v-else
-                  style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
-                  class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
-                >
-                  <span>{{ $t("Popular") }}</span>
+                <div class="flex items-center justify-center w-full">
+                  <div class="order-2 w-3/4 h-full">
+                    <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                      {{ $t("Free Trial") }}
+                    </h1>
+                    <h2 class="font-[500] text-[10px]">
+                      {{ $t("Free trial for") }}
+                      {{
+                        mysiteStore.currentPackage.trial_days +
+                        " " +
+                        $t(getDayLabel(mysiteStore.currentPackage.trial_days))
+                      }}
+                    </h2>
+                  </div>
+                  <div class="order-1 w-1/4">
+                    <input
+                      id="free_trial"
+                      type="radio"
+                      name="packages_radio"
+                      class="hidden"
+                      :checked="selectedPackage === 0"
+                      @click.stop="selectPackage(0)"
+                    />
+                    <label for="free_trial" class="flex items-center cursor-pointer">
+                      <span class="radio-tamkin"></span>
+                    </label>
+                  </div>
                 </div>
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("3 Months Plan") }}
-                </h1>
-                <h2
-                  class="font-[500] text-[10px]"
-                  v-if="
-                    mysiteStore.currentPackage.package_price_role[0]
-                      .discount_3_month !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
-                    >{{
-                      mysiteStore.currentPackage.package_price_role[0]
-                        .discount_3_month
-                    }}%
-                  </span>
-                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{
-                    $t("Discount on the 3 Months Plan")
-                  }}</span>
-                </h2>
               </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="3month"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 3"
-                  @click.stop="selectPackage(3)"
-                />
-                <label for="3month" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div
-   
-             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
-               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
-            :class="[
-              selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
-            ]"
-          >
-            <div class="flex items-center justify-center w-full">
-              <div class="order-2 w-3/4 h-full">
-                <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'&& !mysiteStore.currentPackage.cancel_package"
-          
-                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
-              >
-                <span>{{ $t("Renew") }}</span>
-              </div>
-                <div v-else
-                  class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] 
-                  w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
-                >
-                  <span>{{ $t("Best Value") }}</span>
-                </div>
-                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
-                  {{ $t("Annual Plan") }}
-                </h1>
-                <h2
-                  class="font-[500] text-[10px]"
-                  v-if="
-                    mysiteStore.currentPackage.package_price_role[0]
-                      .discount_yearly !== 0
-                  "
-                >
-                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
-                    >{{
-                      mysiteStore.currentPackage.package_price_role[0]
-                        .discount_yearly
-                    }}%
-                  </span>
-                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{
-                    $t("Discount on the Annual Plan")
-                  }}</span>
-                </h2>
-              </div>
-              <div class="order-1 w-1/4">
-                <input
-                  id="annual"
-                  type="radio"
-                  name="packages_radio"
-                  class="hidden"
-                  :checked="selectedPackage === 12"
-                  @click.stop="selectPackage(12)"
-                />
-                <label for="annual" class="flex items-center cursor-pointer">
-                  <span class="radio-tamkin"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-          <div
 
+              <!-- Monthly Plan -->
+              <div
+                v-if="
+                  mysiteStore.currentPackage.billing_duration !== 'none' ||
+                  mysiteStore.currentPackage.trial_days === 0
+                "
+                class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+                :class="[
+                  selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border',
+                ]"
+              >
+                <div class="flex items-center justify-center w-full">
+                  <div
+                    v-if="
+                      mysiteStore.currentPackage.billing_duration === 'monthly' &&
+                      !mysiteStore.currentPackage.cancel_package
+                    "
+                    class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-45px)] text-white"
+                  >
+                    <span>{{ $t("Renew") }}</span>
+                  </div>
+                  <div class="order-2 w-3/4 h-full">
+                    <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                      {{ $t("Monthly Plan") }}
+                    </h1>
+                    <h2
+                      class="font-[500] text-[10px]"
+                      v-if="
+                        mysiteStore.currentPackage.package_price_role[0]
+                          .discount_month !== 0
+                      "
+                    >
+                      <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                        >{{
+                          mysiteStore.currentPackage.package_price_role[0].discount_month
+                        }}%</span
+                      >
+                      <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                        $t("Discount on the Monthly Plan")
+                      }}</span>
+                    </h2>
+                  </div>
+                  
+                  <div class="order-1 w-1/4">
+                    <input
+                      id="sddddddd"
+                      type="radio"
+                      name="packages_radio"
+                     
+                      :checked="selectedPackage === 1"
+                      @click.prevent="selectPackage(1)"
+                    />
+                    <label for="sddddddd" class="flex items-center cursor-pointer">
+                      <span class="radio-tamkin"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
+            >
+              <div class="flex items-center justify-center w-full">
+                <div class="order-2 w-3/4 h-full">
+                  <div
+                    v-if="
+                      mysiteStore.currentPackage.billing_duration === '3 months' &&
+                      !mysiteStore.currentPackage.cancel_package
+                    "
+                    class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                  >
+                    <span>{{ $t("Renew") }}</span>
+                  </div>
+                  <div
+                    v-else
+                    style="background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%)"
+                    class="absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                  >
+                    <span>{{ $t("Popular") }}</span>
+                  </div>
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("3 Months Plan") }}
+                  </h1>
+                  <h2
+                    class="font-[500] text-[10px]"
+                    v-if="
+                      mysiteStore.currentPackage.package_price_role[0]
+                        .discount_3_month !== 0
+                    "
+                  >
+                    <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                      >{{
+                        mysiteStore.currentPackage.package_price_role[0].discount_3_month
+                      }}%
+                    </span>
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the 3 Months Plan")
+                    }}</span>
+                  </h2>
+                </div>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="3months"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 3"
+                    @click.stop="selectPackage(3)"
+                  />
+                  <label for="3months" class="flex items-center cursor-pointer">
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5 px-1.5 pb-2.5 h-[87px] !rounded-[10px] mt-[35px]"
+              :class="[
+                selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
+              ]"
+            >
+              <div class="flex items-center justify-center w-full">
+                <div class="order-2 w-3/4 h-full">
+                  <div
+                    v-if="
+                      mysiteStore.currentPackage.billing_duration === 'yearly' &&
+                      !mysiteStore.currentPackage.cancel_package
+                    "
+                    class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+                  >
+                    <span>{{ $t("Renew") }}</span>
+                  </div>
+                  <div
+                    v-else
+                    class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
+                  >
+                    <span>{{ $t("Best Value") }}</span>
+                  </div>
+                  <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                    {{ $t("Annual Plan") }}
+                  </h1>
+                  <h2
+                    class="font-[500] text-[10px]"
+                    v-if="
+                      mysiteStore.currentPackage.package_price_role[0].discount_yearly !==
+                      0
+                    "
+                  >
+                    <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                      >{{
+                        mysiteStore.currentPackage.package_price_role[0].discount_yearly
+                      }}%
+                    </span>
+                    <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                      $t("Discount on the Annual Plan")
+                    }}</span>
+                  </h2>
+                </div>
+                <div class="order-1 w-1/4">
+                  <input
+                    id="annual"
+                    type="radio"
+                    name="packages_radio"
+                    class="hidden"
+                    :checked="selectedPackage === 12"
+                    @click.stop="selectPackage(12)"
+                  />
+                  <label for="annual" class="flex items-center cursor-pointer">
+                    <span class="radio-tamkin"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             class="flex items-center lg:flex-row flex-col justify-center lg:justify-between w-full gap-4 mt-[24px]"
           >
             <div class="w-full !relative">
               <input
-              :disabled="true"
+                :disabled="true"
                 type="text"
                 placeholder=""
                 id="newWebsite"
                 class="input_floating_label peer focus:outline-0 text-darkGrey w-full !h-[40px]"
-              :value="mysiteStore.currentWebsite.title !== 'Internal Service' ? mysiteStore.currentWebsite.app_domain : $t(`${mysiteStore.currentWebsite.title}`)"
-               
+                :value="
+                  mysiteStore.currentWebsite.title !== 'Internal Service'
+                    ? mysiteStore.currentWebsite.app_domain
+                    : $t(`${mysiteStore.currentWebsite.title}`)
+                "
               />
-             
+
               <div
                 class="w-full lg:w-4/6"
                 v-if="
@@ -819,9 +842,8 @@ const closeModalPackage = () => {
                 </p>
               </div>
             </div>
-
           </div>
-<!-- 
+          <!-- 
           <div
             class="w-full mt-[24px]"
             v-if="
@@ -874,27 +896,28 @@ const closeModalPackage = () => {
                 :key="index"
                 class="h-[45px]"
                 :class="
-                  false && trafficTooHighUrls.some((w) => w.title === website.title) &&
-                  (levelof &&  levelof !== 'Over 1M page views/mo')
+                  false &&
+                  trafficTooHighUrls.some((w) => w.title === website.title) &&
+                  levelof &&
+                  levelof !== 'Over 1M page views/mo'
                     ? 'bg-red-50'
                     : ''
                 "
               >
                 <td
-                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px]  font-[400] 
-                  text-darkGrey dark:text-whiteTamkin flex items-center justify-start 
-                  rtl:space-x-reverse space-x-[33px]"
+                  class="py-2 border-b ltr:text-left rtl:text-right text-[16px] leading-[24px] font-[400] text-darkGrey dark:text-whiteTamkin flex items-center justify-start rtl:space-x-reverse space-x-[33px]"
                 >
                   <div class="w-[150px] flex items-center h-[46px]">
                     <div
-                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] 
-                      font-[500] whitespace-nowrap"
+                      class="flex items-center justify-between text-[14px] leading-[12px] text-[#18181B] font-[500] whitespace-nowrap"
                     >
-                      <div>{{ $t(`${website.title}`)}}</div>
+                      <div>{{ $t(`${website.title}`) }}</div>
                       <span
-                        v-if=" false && 
+                        v-if="
+                          false &&
                           trafficTooHighUrls.some((w) => w.title === website.title) &&
-                         (levelof &&  levelof !== 'Over 1M page views/mo')
+                          levelof &&
+                          levelof !== 'Over 1M page views/mo'
                         "
                         class="tooltip packages"
                         :data-tamkin="
@@ -919,43 +942,42 @@ const closeModalPackage = () => {
                       </span>
                     </div>
                   </div>
-           
                 </td>
                 <td
-                  class="h- border-b ltr:text-left rtl:text-right text-[16px]
-                 font-[400] text-darkGrey dark:text-whiteTamkin "
+                  class="h- border-b ltr:text-left rtl:text-right text-[16px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-
                   {{
-                     mysiteStore.currentPackage.type === "Accessibility"
-                      ?              $t(
-                        website.traffic <= 100000
-                          ? "Small"
-                          : website.traffic <= 1000000
-                          ? "Medium"
-                          : "Large"
-                      )
+                    mysiteStore.currentPackage.type === "Accessibility"
+                      ? $t(
+                          website.traffic <= 100000
+                            ? "Small"
+                            : website.traffic <= 1000000
+                            ? "Medium"
+                            : "Large"
+                        )
                       : $t("Not applicable")
                   }}
                 </td>
 
                 <td
-                  v-if=" mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package' "
+                  v-if="
+                    mysiteStore.currentPackage.type === 'Accessibility' &&
+                    mysiteStore.currentPackage.package_type === 'Package'
+                  "
                   class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                 
-
                   <div class="flex items-center justify-center">
                     <div v-if="!loadingPriceTraffic">
-                   
-                      ${{ mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0 ? "0" :
-                      calculatePrice(website.url)
-                        .toFixed(0)
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
+                      ${{
+                        mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
+                          ? "0"
+                          : calculatePrice(website.url)
+                              .toFixed(0)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
                     </div>
-              
+
                     <svg
                       v-if="loadingPriceTraffic"
                       class="animate-spin h-5 w-5 text-tamkin"
@@ -980,48 +1002,129 @@ const closeModalPackage = () => {
                   </div>
                 </td>
                 <td
-                v-if=" mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type !== 'Package' "
-                class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-               
-
-                <div class="flex items-center justify-center">
-                  <div v-if="!loadingPriceTraffic">
-                 
-                    ${{
-             
-                      selectedPackage === 3 ? mysiteStore.currentPackage.package_price_role[0].cost_3_month : 
-                      selectedPackage === 12 ?
-                       mysiteStore.currentPackage.package_price_role[0].cost_year : mysiteStore.currentPackage.package_price_role[0].cost_month
-                      
-                                
-                                          
-                                    
-                                  }}
+                  v-if="
+                    mysiteStore.currentPackage.type === 'Accessibility' &&
+                    mysiteStore.currentPackage.package_type !== 'Package'
+                  "
+                  class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingPriceTraffic">
+                      ${{
+                        selectedPackage === 3
+                          ? mysiteStore.currentPackage.package_price_role[0].cost_3_month
+                          : selectedPackage === 12
+                          ? mysiteStore.currentPackage.package_price_role[0].cost_year
+                          : mysiteStore.currentPackage.package_price_role[0].cost_month
+                      }}
+                    </div>
                   </div>
-            
-       
-                </div>
-              </td>
+                </td>
                 <td
-                v-if=" mysiteStore.currentPackage.type === 'Sign language'  || mysiteStore.currentPackage.type === 'Live Translation'"
-                class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
-              >
-               
+                  v-if="
+                    mysiteStore.currentPackage.type === 'Sign language' ||
+                    mysiteStore.currentPackage.type === 'Live Translation'
+                  "
+                  class="h-[45px] border-b text-center text-[16px] leading-[24px] w-1/6 font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div class="flex items-center justify-center">
+                    <div v-if="!loadingPriceTraffic">
+                      ${{
+                        mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
+                          ? "0"
+                          : calculateEstimatedPrice
+                              .toFixed(0)
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }}
+                    </div>
 
-                <div class="flex items-center justify-center">
-                  <div v-if="!loadingPriceTraffic">
-                 
-                    ${{ mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0 ? "0" :
-                    calculateEstimatedPrice
-                      .toFixed(0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
+                    <svg
+                      v-if="loadingPriceTraffic"
+                      class="animate-spin h-5 w-5 text-tamkin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
                   </div>
-            
+                </td>
+              </tr>
+
+              <tr
+                class="text-[16px] leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
+              >
+                <td
+                  class="border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
+                  colspan="2"
+                >
+                  {{ $t("Total") }}
+                </td>
+                <td
+                  class="h-[45px] border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="
+                    mysiteStore.currentPackage.type === 'Accessibility' &&
+                    mysiteStore.currentPackage.package_type === 'Package' &&
+                    !loadingPriceTraffic
+                  "
+                >
+                  ${{
+                    mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
+                      ? "0"
+                      : selectedPackage !== 0
+                      ? calculateTotalPrice()
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : 0
+                  }}
+                </td>
+                <td
+                  class="h-[45px] border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="
+                    mysiteStore.currentPackage.type === 'Accessibility' &&
+                    mysiteStore.currentPackage.package_type !== 'Package'
+                  "
+                >
+                  ${{
+                    selectedPackage === 3
+                      ? mysiteStore.currentPackage.package_price_role[0].cost_3_month
+                      : selectedPackage === 12
+                      ? mysiteStore.currentPackage.package_price_role[0].cost_year
+                      : mysiteStore.currentPackage.package_price_role[0].cost_month
+                  }}
+                </td>
+                <td
+                  class="h-[45px] border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="mysiteStore.currentPackage.type !== 'Accessibility'"
+                >
+                  ${{
+                    mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
+                      ? "0"
+                      : selectedPackage !== 0
+                      ? (calculateEstimatedPrice.toFixed(0) * mysiteStore.urls.length)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      : 0
+                  }}
+                </td>
+                <td
+                  class="h-[45px] border-b text-center flex items-center justify-center font-[600] text-darkGrey dark:text-whiteTamkin"
+                  v-if="loadingPriceTraffic"
+                >
                   <svg
-                    v-if="loadingPriceTraffic"
                     class="animate-spin h-5 w-5 text-tamkin"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -1041,100 +1144,7 @@ const closeModalPackage = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                </div>
-              </td>
-              </tr>
-            
-              <tr
-                class="text-[16px]  leading-[24px] font-[600] bg-[#FAFCFE] dark:bg-tamkinDarkPrimary"
-              >
-                <td
-                  class="  border-b rtl:text-left ltr:text-right px-8 font-[500] dark:text-whiteTamkin"
-                  colspan="2"
-                >
-                  {{ $t("Total") }}
                 </td>
-                <td
-                  class="h-[45px]  border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                  v-if="mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type === 'Package'&& !loadingPriceTraffic"
-                >
-              ${{
-                mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
-                      ? "0" :
-                      selectedPackage !==0 ? 
-                      calculateTotalPrice()
-                       .toString()
-                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                       :0
-                
-              }}
-                
-                
-                </td>
-                <td
-                class="h-[45px]  border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                v-if="mysiteStore.currentPackage.type === 'Accessibility' && mysiteStore.currentPackage.package_type !== 'Package'"
-              >
-            ${{
-             
-selectedPackage === 3 ? mysiteStore.currentPackage.package_price_role[0].cost_3_month : 
-selectedPackage === 12 ?
- mysiteStore.currentPackage.package_price_role[0].cost_year : mysiteStore.currentPackage.package_price_role[0].cost_month
-
-          
-                    
-              
-            }}
-              
-              
-              </td>
-                <td
-                class=" h-[45px] border-b text-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                v-if="mysiteStore.currentPackage.type !== 'Accessibility' "
-              >
-            ${{
-              mysiteStore.currentPackage.trial_days > 0 && selectedPackage === 0
-                    ? "0" :
-                    selectedPackage !==0 ? 
-                 (
-                 
-                 calculateEstimatedPrice.toFixed(0) * mysiteStore.urls.length
-                   )
-                     .toString()
-                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                     :0
-              
-            }}
-              
-              
-              </td>
-                <td                   class="h-[45px] border-b text-center flex items-center justify-center font-[600] text-darkGrey dark:text-whiteTamkin"
-                v-if="loadingPriceTraffic"> 
-                  <svg
-                 
-                  class="animate-spin h-5 w-5 text-tamkin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                </td>
-              
-       
-          
               </tr>
             </tbody>
           </table>
@@ -1144,10 +1154,11 @@ selectedPackage === 12 ?
               class="btn-dashboard hover_tamkin"
               @click="conintuePay"
               :disabled="
-                (mysiteStore.urls.length === 0) ||
+                mysiteStore.urls.length === 0 ||
                 (trafficTooHighApps.length && false) ||
                 (trafficTooHighUrls.length && false) ||
-                websiteExist || loadingPriceTraffic
+                websiteExist ||
+                loadingPriceTraffic
               "
             >
               {{ $t("Continue to Payment") }}

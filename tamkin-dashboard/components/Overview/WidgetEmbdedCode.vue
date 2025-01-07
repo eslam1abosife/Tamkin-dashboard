@@ -148,7 +148,7 @@ const localePath = useLocalePath();
           </h2>
         </div>
         <div
-          v-if="!isLinkActive('/my-site')"
+          v-if="!isLinkActive('/my-site') &&  !isLinkActive('/subscriptions')"
           @click.stop="collapseStore.collapseMenu('widget_embded_code')"
           v-on-click-outside="
             () => collapseStore.removeMenu('widget_embded_code')

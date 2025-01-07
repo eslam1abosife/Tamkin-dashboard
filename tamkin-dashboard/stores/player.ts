@@ -245,7 +245,7 @@ export const usePlayerStore = defineStore("player", {
       this.characterLoaded = false;
       setTimeout(() => {
         window.changeCharacter(character.name);
-      }, 2000);
+      }, 50);
 
       // check if the character has loaded before
       if (!window.loadedByName(character.name)) {
