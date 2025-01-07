@@ -30,7 +30,11 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
   >
     <div
       class="market_card_char !justify-center order-1"
-      @click="openModalAndHideChat(), setData(null)"
+      @click="()=>{
+        if(defaultApp){
+          openModalAndHideChat(), setData(null)
+        }
+      }"
     >
       <div>
         <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
@@ -166,7 +170,8 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
                 </div>
               </div>
             </div>
-            <div
+            <button
+            :disabled="!defaultApp"
               v-if="marketStore.cartable(char)"
               @click.stop="()=>{
                 if(defaultApp){
@@ -178,9 +183,9 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : !defaultApp ? 'bg-opacity-40 !cursor-not-allowed ':'',
               ]"
-              class="relative cursor-pointer group w-[35px] mt-[4px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0
-               bg-white dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg
-                flex items-center justify-center dark:border-darkborder border"
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
+              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
+              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
             <div
             class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
@@ -190,7 +195,9 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
             {{ $t("You have to set A default website to use the market") }}
           </div>
               <svg
-                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin']"
+                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin',
+                !defaultApp ? '!text-tamkin' : ''
+                ]"
                 class="group-hover:text-white"
                 width="25"
                 height="25"
@@ -229,7 +236,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
           <!-- item without a discount -->
           <div
@@ -245,17 +252,21 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
             >
               ${{ char.cost }}
             </div>
-            <div
+            <button
+            :disabled="!defaultApp"
               @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
                 marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white dark:bg-tamkinDarkPrimary hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border dark:border-darkborder"
-            >
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
+              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
+              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"            >
               <svg
-                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin']"
+                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin',
+                !defaultApp ? '!text-tamkin' : ''
+                ]"
                 class="group-hover:text-white"
                 width="25"
                 height="25"
@@ -294,7 +305,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
         </div>
 
