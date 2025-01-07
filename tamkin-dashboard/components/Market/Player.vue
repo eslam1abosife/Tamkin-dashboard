@@ -12,7 +12,7 @@ const showLoader = ref(true); // New flag to control loader visibility
 // Add event listener to update `loaChar` when the custom event is dispatched
 const updateLoaChar = (event) => {
   loaChar.value = event.detail;
-  window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 400, 550);
+  window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
 };
 
 // Watch `playerStore.activeCharacter.text` for changes
@@ -79,6 +79,12 @@ function controlPlayerLoad() {
 
 // Modify the `window.loaChar` setter to emit the custom event
 Object.defineProperty(window, "loaChar", {
+/**
+ * Retrieves the current value of the `loaChar` reference.
+ * 
+ * @returns {*} The current value of `loaChar`.
+ */
+
   get() {
     return loaChar.value;
   },
@@ -92,7 +98,7 @@ Object.defineProperty(window, "loaChar", {
 
 <template>
   <div
-    class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1] mt-[-20px]"
+    class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1] mt-[-24px]"
     id="SDKPlayerContainer"
   >
     <div class="h-full w-full rounded-[10px]">

@@ -509,8 +509,8 @@ const settingStore = useSettingsStore();
             : playerStore.currentBackground.colorOrUrl,
         }"
         :class="{
-          'h-[250px]': expandedHeaderStep === 0,
-          'h-[550px]': expandedHeaderStep === 1,
+          'h-[290px]': expandedHeaderStep === 0,
+          'h-[600px]': expandedHeaderStep === 1,
           'bg-[#EEF1F3] dark:bg-tamkinDarkPrimary/60 ':
             !playerStore.currentBackground.isImage &&
             !playerStore.currentBackground.colorOrUrl,

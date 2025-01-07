@@ -35,7 +35,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
       <div>
         <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
       </div>
-      <div>
+      <div class="group relative">
         <button 
           class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2 "
           :disabled="!defaultApp"
@@ -47,6 +47,13 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
         >
           {{ $t("Specific Character") }}
         </button>
+        <div
+        class="absolute top-[44px] inset-x-auto w-[150px] bg-[#747171]
+         text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
+         transition-opacity duration-200"
+      >
+        {{ $t("You have to set A default website to use the market") }}
+      </div>
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
@@ -176,8 +183,8 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
                 flex items-center justify-center dark:border-darkborder border"
             >
             <div
-            class="absolute bottom-[-25px] rtl:left-[20%] ltr:right-[20%] w-[100px] bg-[#747171]
-             text-white text-[10px] px-[4px] leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
+            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
+             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
              transition-opacity duration-200"
           >
             {{ $t("You have to set A default website to use the market") }}
