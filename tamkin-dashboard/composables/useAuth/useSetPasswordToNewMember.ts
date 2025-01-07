@@ -20,7 +20,7 @@ export default function(state) {
             if(!res.data.succeeded) throw(res.data.message);
 
                   const removecanview = useCookie('can_view')
-removecanview.value = 'done'
+                    removecanview.value = 'done'
             router.push({ path: localePath('/auth/success') });
 
 

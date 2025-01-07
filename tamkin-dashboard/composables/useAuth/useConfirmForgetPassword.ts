@@ -20,6 +20,8 @@ const localePath = useLocalePath()
             if(!res.data.succeeded) throw(res.data.message);
 
             // redirect to homepage if user is authenticated
+            const removecanview = useCookie('can_view')
+            removecanview.value = 'done'
             router.push({ path: localePath('/auth/success') });
 
 
