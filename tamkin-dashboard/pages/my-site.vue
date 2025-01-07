@@ -946,7 +946,7 @@ const openInvestor = (app, pack) => {
                     >
                       {{ $t("My Sites") }} (
                       {{
-                        apps.filter((ap) => ap.title !== "Internal Service")
+                        apps.filter((ap) => ap.title !== "Internal Service" && ap.status !== "deleted")
                           .length
                       }}
                       )
