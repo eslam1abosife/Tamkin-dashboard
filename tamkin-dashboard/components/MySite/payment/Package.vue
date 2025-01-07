@@ -58,17 +58,25 @@ const v$ = useVuelidate(rules, state);
 
 const loadingAddWebsite = ref(false);
 const selectedPackage = ref(
+<<<<<<< HEAD
     mysiteStore.currentPackage.billing_duration === "3 months"
     ? 12
     : 3
+=======
+ mysiteStore.currentPackage.billing_duration === '3-monthly' || mysiteStore.currentPackage.billing_duration === '3 months'  ? 12 : 3
+>>>>>>> 124be408fbafef51ed80c461fdb4a1265f569ced
 );
 
 const newpack = ref()
 
 const selectPackage = async (plan: any) => {
   selectedPackage.value = plan;
+<<<<<<< HEAD
   newpack.value = plan
   // await geteFilterInfo();
+=======
+  await geteFilterInfo()
+>>>>>>> 124be408fbafef51ed80c461fdb4a1265f569ced
 };
 /**
  * Set the selected package to the given plan.
@@ -583,6 +591,7 @@ const closeModalPackage = () => {
             </div>
           </div>
 
+<<<<<<< HEAD
           <div class="flex items-center justify-center gap-4 w-full">
             <div class="flex items-center justify-center gap-4 w-full">
               <!-- Free Trial -->
@@ -595,6 +604,92 @@ const closeModalPackage = () => {
                 :class="[
                   selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border',
                 ]"
+=======
+        >
+        <div class="flex items-center justify-center gap-4 w-full">
+          <!-- Free Trial -->
+          <div
+            v-if="mysiteStore.currentPackage.trial_days > 0 && mysiteStore.currentPackage.billing_duration === 'none'"
+          class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+            :class="[selectedPackage === 0 ? 'custom-border-tamkin' : 'custom-border']"
+          >
+            <div class="flex items-center justify-center w-full">
+              <div class="order-2 w-3/4 h-full">
+                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Free Trial") }}</h1>
+                <h2 class="font-[500] text-[10px]">
+                  {{ $t("Free trial for") }} {{
+                    mysiteStore.currentPackage.trial_days + " " +
+                    $t(getDayLabel(mysiteStore.currentPackage.trial_days))
+                  }}
+                </h2>
+              </div>
+              <div class="order-1 w-1/4">
+                <input
+                  id="free_trial"
+                  type="radio"
+                  name="packages_radio"
+                  class="radio-tamkin absolute opacity-0"
+                  :checked="selectedPackage === 0"
+                  @change="selectPackage(0)"
+                />
+                <label for="free_trial" class="flex items-center cursor-pointer">
+                  <span class="radio-tamkin"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Monthly Plan -->
+          <div
+            v-if="mysiteStore.currentPackage.billing_duration !== 'none' || mysiteStore.currentPackage.trial_days === 0"
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+            :class="[selectedPackage === 1 ? 'custom-border-tamkin' : 'custom-border']"
+          >
+            <div class="flex items-center justify-center w-full">
+              <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package"
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] 
+                rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white">
+                <span>{{ $t("Renew") }}</span>
+              </div>
+              <div class="order-2 w-3/4 h-full">
+                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">{{ $t("Monthly Plan") }}</h1>
+                <h2 class="font-[500] text-[10px]" v-if="mysiteStore.currentPackage.package_price_role[0].discount_month !== 0">
+                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80">{{ mysiteStore.currentPackage.package_price_role[0].discount_month }}%</span>
+                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{ $t("Discount on the Monthly Plan") }}</span>
+                </h2>
+              </div>
+              <div class="order-1 w-1/4">
+                <input
+                  id="month"
+                  type="radio"
+                  name="packages_radio"
+                  class="radio-tamkin absolute opacity-0"
+                  :checked="selectedPackage === 1"
+                  @change="selectPackage(1)"
+                />
+                <label for="month" class="flex items-center cursor-pointer">
+                  <span class="radio-tamkin"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+          <div
+       
+              class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+         
+            :class="[selectedPackage === 3 ? 'custom-border-tamkin' : 'custom-border ']"
+          >
+            <div class="flex items-center justify-center w-full">
+              <div class="order-2 w-3/4 h-full">
+                <div v-if="mysiteStore.currentPackage.billing_duration === '3 months'&& !mysiteStore.currentPackage.cancel_package"
+             
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+>>>>>>> 124be408fbafef51ed80c461fdb4a1265f569ced
               >
                 <div class="flex items-center justify-center w-full">
                   <div class="order-2 w-3/4 h-full">
@@ -625,6 +720,84 @@ const closeModalPackage = () => {
                   </div>
                 </div>
               </div>
+<<<<<<< HEAD
+=======
+              <div class="order-1 w-1/4">
+                <input
+                  id="3month"
+                  type="radio"
+                  name="packages_radio"
+                  class="radio-tamkin absolute opacity-0"
+                  :checked="selectedPackage === 3"
+                  @change="selectPackage(3)"
+                />
+                <label for="3month" class="flex items-center cursor-pointer">
+                  <span class="radio-tamkin"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+   
+             class="flex items-center justify-start bg-selected dark:bg-p rtl:space-x-reverse space-x-[16px] w-full pt-2.5
+               px-1.5 pb-2.5  h-[87px] !rounded-[10px] mt-[35px]"
+            :class="[
+              selectedPackage === 12 ? 'custom-border-tamkin' : 'custom-border ',
+            ]"
+          >
+            <div class="flex items-center justify-center w-full">
+              <div class="order-2 w-3/4 h-full">
+                <div v-if="mysiteStore.currentPackage.billing_duration === 'yearly'&& !mysiteStore.currentPackage.cancel_package"
+          
+                class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] leading-[17.76px] font-[400] w-[80px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-40px)] text-white"
+              >
+                <span>{{ $t("Renew") }}</span>
+              </div>
+                <div v-else
+                  class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] 
+                  w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
+                >
+                  <span>{{ $t("Best Value") }}</span>
+                </div>
+                <h1 class="font-[500] text-[12px] dark:text-whiteTamkin">
+                  {{ $t("Annual Plan") }}
+                </h1>
+                <h2
+                  class="font-[500] text-[10px]"
+                  v-if="
+                    mysiteStore.currentPackage.package_price_role[0]
+                      .discount_yearly !== 0
+                  "
+                >
+                  <span class="!text-[#021328] font-[700] dark:!text-whiteTamkin/80"
+                    >{{
+                      mysiteStore.currentPackage.package_price_role[0]
+                        .discount_yearly
+                    }}%
+                  </span>
+                  <span class="text-[#536174] dark:text-whiteTamkin/80">{{
+                    $t("Discount on the Annual Plan")
+                  }}</span>
+                </h2>
+              </div>
+              <div class="order-1 w-1/4">
+                <input
+                  id="annual"
+                  type="radio"
+                  name="packages_radio"
+                  class="radio-tamkin absolute opacity-0"
+                  :checked="selectedPackage === 12"
+                  @change="selectPackage(12)"
+                />
+                <label for="annual" class="flex items-center cursor-pointer">
+                  <span class="radio-tamkin"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div
+>>>>>>> 124be408fbafef51ed80c461fdb4a1265f569ced
 
               <!-- Monthly Plan -->
               <div
