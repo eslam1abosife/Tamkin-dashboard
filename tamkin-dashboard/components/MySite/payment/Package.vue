@@ -636,7 +636,7 @@ const closeModalPackage = () => {
             <div class="flex items-center justify-center w-full">
               <div v-if="mysiteStore.currentPackage.billing_duration === 'monthly' && !mysiteStore.currentPackage.cancel_package"
                 class="bg-gradient-to-br from-yellow-600 to-yellow-300 absolute text-[13px] font-[400] w-[80px] 
-                rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-30px] left-[calc(50%-45px)] text-white">
+                rounded-[10px] h-[22px] flex items-center justify-center px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white">
                 <span>{{ $t("Renew") }}</span>
               </div>
               <div class="order-2 w-3/4 h-full">
