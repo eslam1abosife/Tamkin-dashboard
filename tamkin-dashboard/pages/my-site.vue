@@ -660,18 +660,19 @@ const openInvestor = (app, pack) => {
                 "
                 class="w-[40px] h-[40px] bg-[#2DADA3] rounded-full text-white flex items-center justify-center"
               >
-              <span v-if="!apps.length">
+              <!-- <span v-if="!apps.length"> -->
+              <span>
                 <img
                 src="/assets/imgs/icons/mysite_select.svg"
                 class="w-[40px] h-[40px]"
               
               />
               </span>
-               <span v-else>
+               <!-- <span v-else>
                 {{
                   defaultApp&&  defaultApp?.title ? getAvatarLetters(defaultApp?.title) : ""
                 }}
-               </span>
+               </span> -->
                 
               </div>
               <div
@@ -945,7 +946,7 @@ const openInvestor = (app, pack) => {
                     >
                       {{ $t("My Sites") }} (
                       {{
-                        apps.filter((ap) => ap.title !== "Internal Service")
+                        apps.filter((ap) => ap.title !== "Internal Service" && ap.status !== "deleted")
                           .length
                       }}
                       )
