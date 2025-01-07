@@ -445,6 +445,11 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
                 profileStore.currentTab === 'personal'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
+
+                  currentMode === 'editing'
+                  ? 'pointer-events-none'
+                  :''
+                  
               ]"
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('personal')"
@@ -461,6 +466,10 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
                 profileStore.currentTab === 'company'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
+                  
+                  currentMode === 'editing'
+                  ? 'pointer-events-none'
+                  :''
               ]"
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('company')"
@@ -477,6 +486,10 @@ class="bg-white/60 rounded-[10px] backdrop-blur-md shadow-sm h-auto flex flex-co
                 profileStore.currentTab === 'security'
                   ? 'border-b-tamkin text-black'
                   : 'text-[#878787]',
+                  
+                  currentMode === 'editing'
+                  ? 'pointer-events-none'
+                  :''
               ]"
               class="text-[14px] font-[500] leading-[24px] border-b-[3px] border-transparent pb-[6px] cursor-pointer"
               @click="changeTab('security')"
