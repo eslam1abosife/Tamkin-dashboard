@@ -4,15 +4,11 @@ import { Vue3Lottie } from "vue3-lottie";
 
 import { usePlayerStore } from "@/stores/player";
 const playerStore = usePlayerStore();
-// const loadedchar = ref()
-
-
 watch(
   () => playerStore.activeCharacter,
   (newVal, oldVal) => {
     setTimeout(() => {
-      window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 400, 550);
-
+      playerStore.changeCharacter(playerStore.activeCharacter, false);
     }, 2000);
   },
   { once: true }
@@ -20,32 +16,14 @@ watch(
 
 onMounted(() => {
   controlPlayerLoad();
+});
 
-})
-const loaCharProxy = ref(0);
-
-const loadedplayer = ref(false);
-const loaChar = ref(window.loaChar);
-let interval;
-let interval2;
-const updateLoaChar = () => {
-  loaChar.value = window.loaChar;
-  // emit("loadedPlayer", loaChar.value);
-};
 function controlPlayerLoad() {
-  interval = setInterval(() => {
-    if (loaChar.value !== window.loaChar) {
-      updateLoaChar();
-    }
-  }, 100);
-
-  // interval2 = setInterval(checkLoadedByNameInput, 0);
-
-
   window.characterLoadStarted = () => {
     playerStore.characterLoaded = false;
   };
-  window.characterLoadFinished = () => {
+  window.loaChar = () => {
+    window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 280, 550);
     setTimeout(() => {
       playerStore.characterLoaded = true;
     }, 2000);
@@ -59,18 +37,7 @@ function controlPlayerLoad() {
   window.onFinished = () => {
     console.log("onFinished");
   };
-  playerStore.changeCharacter(playerStore.activeCharacter, false);
-
-  
 }
-
-watch(loaCharProxy, (newVal) => {
-    if (newVal === 1) {
-      loadedplayer.value = true;
-      // alert('new value')
-
-    }
-  });
 </script>
 
 <template>
@@ -78,10 +45,8 @@ watch(loaCharProxy, (newVal) => {
     class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1] mt-[-20px]"
     id="SDKPlayerContainer"
   >
-
     <div class="h-full w-full rounded-[10px]">
-      <div v-show="!loaChar">
-
+      <div v-show="!playerStore.characterLoaded">
         <Vue3Lottie
           :animationData="playerLoader"
           :loop="true"
@@ -93,7 +58,7 @@ watch(loaCharProxy, (newVal) => {
       </div>
 
       <tamkin-sdk-web-character
-        v-show="loaChar && playerStore.activeCharacter"
+        v-show="playerStore.characterLoaded && playerStore.activeCharacter"
         charWidth="250"
         charHeight="500"
         class="centered-div"
