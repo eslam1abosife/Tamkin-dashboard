@@ -7,11 +7,12 @@ const playerStore = usePlayerStore();
 
 const loaChar = ref(window.loaChar);
 const loadedplayer = ref(false);
-const showLoader = ref(false); // New flag to control loader visibility
+const showLoader = ref(true); // New flag to control loader visibility
 
 // Add event listener to update `loaChar` when the custom event is dispatched
 const updateLoaChar = (event) => {
   loaChar.value = event.detail;
+  window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 400, 550);
 };
 
 // Watch `playerStore.activeCharacter.text` for changes
@@ -24,12 +25,15 @@ watch(
 
       // Call `window.loadedByName` to check the status
       const isLoaded = await window.loadedByName(playerStore.activeCharacter.text);
+
       console.log("Character Loaded Status:", isLoaded);
 
-      // Reset loader after a short delay
-      setTimeout(() => {
-        showLoader.value = false;
-      }, 2000);
+      if (isLoaded) {
+        // Simulate additional delay for character full loading
+        setTimeout(() => {
+          showLoader.value = false;
+        }, 2000); // Adjust the delay as needed
+      }
     }
   }
 );
@@ -51,12 +55,14 @@ function controlPlayerLoad() {
   // Set up character load handlers
   window.characterLoadStarted = () => {
     playerStore.characterLoaded = false;
+    showLoader.value = true; // Ensure loader is active while character is loading
   };
 
   window.characterLoadFinished = () => {
     setTimeout(() => {
       playerStore.characterLoaded = true;
-    }, 2000);
+      showLoader.value = false; // Hide loader after loading is complete
+    }, 2000); // Adjust delay to match loading time
   };
 
   window.onRunning = () => {
@@ -104,7 +110,7 @@ Object.defineProperty(window, "loaChar", {
 
       <!-- Show character once loaded -->
       <tamkin-sdk-web-character
-        v-show="loaChar && !showLoader && playerStore.activeCharacter"
+        v-show="loaChar && playerStore.activeCharacter && !showLoader"
         charWidth="250"
         charHeight="500"
         class="centered-div"
