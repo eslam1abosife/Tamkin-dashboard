@@ -2,6 +2,10 @@
 import { useMarketStore } from "@/stores/market";
 import { usePlayerStore } from "@/stores/player";
 import { useFullUrl } from "@/composables/useSharedFunctions";
+import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
+
+const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
+
 const { fullUrl } = useFullUrl();
 
 const marketStore = useMarketStore();
@@ -116,22 +120,41 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                 </div>
               </div>
             </div>
-            <div
-              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file, )"
+            <button
+            :disabled="!defaultApp"
+              @click.stop="()=>{
+                if(defaultApp){
+                  marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file, )
+
+                }
+              }"
               :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
+              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
+              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+       
             >
+              <div
+            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
+             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
+             transition-opacity duration-200"
+          >
+            {{ $t("You have to set A default website to use the market") }}
+          </div>
               <svg
                 :class="[
                   marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
+                    !defaultApp ? '!text-tamkin' : ''
                 ]"
-                class="group-hover:text-white"
+                class="group-hover:text-white "
+                
+
                 width="25"
                 height="25"
                 viewBox="0 0 23 23"
@@ -169,7 +192,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
           <div
             class="flex items-end justify-between w-full "
@@ -180,20 +203,38 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             >
               ${{ skin_item.cost }}
             </div>
-            <div
-              @click.stop="marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)"
+            <button
+            :disabled="!defaultApp"
+              @click.stop="()=>{
+
+                if(defaultApp){
+                  marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)
+                }
+              }"
               :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
+
               ]"
-              class="cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
-            >
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
+              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
+              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+           >
+            <div
+            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
+             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
+             transition-opacity duration-200"
+          >
+            {{ $t("You have to set A default website to use the market") }}
+          </div>
               <svg
                 :class="[
                   marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
+                  !defaultApp ? '!text-tamkin' : ''
+
                 ]"
                 class="group-hover:text-white"
                 width="25"
@@ -233,7 +274,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
         </div>
       </div>
