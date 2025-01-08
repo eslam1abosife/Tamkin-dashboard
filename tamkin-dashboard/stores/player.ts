@@ -321,8 +321,7 @@ export const usePlayerStore = defineStore("player", {
             // }
         window.changeBackgroundImage("");
         this.currentBackground.isImage = false;
-        this.currentBackground.colorOrUrl = document.querySelector('html').classList.contains('dark') ? '#3a4a60' : '#f2efef';
-
+        this.currentBackground.colorOrUrl = '';
       } else {
         window.hideClothesVisibility(skin_item.name);
       }
