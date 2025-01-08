@@ -182,31 +182,31 @@ export const usePlayerStore = defineStore("player", {
         });
       } else {
         // hide skin if he is wearing it already if it can be unweared (get unweared if clicked twice)
-        let weared_skins_of_same_category =
-          this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
-
+        let weared_skins_of_same_category = this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
         if (
           weared_skins_of_same_category &&
           weared_skins_of_same_category.includes(skin_item.name)
         ) {
-          if (skin_item.can_be_unweared) {
+          console.log(skin_item.category === 'Background')
+          if (skin_item.can_be_unweared || skin_item.category === 'Background') {
             this.activeCharCurrentlyWearedSkinsCategories[category].splice(
               this.activeCharCurrentlyWearedSkinsCategories[category].indexOf(
                 skin_item.name
               ),
               1
             );
+            // if(skin_item.category === 'Background') {
+
+            // }
             this.unwear(skin_item);
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
         } else {
-          console.log(3)
           // if wearing skin of the same category, other than the weared one, unwear it first unless it can be weared with its category skins
           // get the already weared skin from categoriesWithSkinItems by code to check its can_be_weared_with_its_category_skins
           //! if the new skin is unfriendly
           if (!skin_item.can_be_weared_with_its_category_skins) {
             var $this = this;
-console.log(5)
             // 1. character has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
             if (
               weared_skins_of_same_category &&
@@ -314,11 +314,15 @@ console.log(5)
     },
     unwear(skin_item: any) {
       if (skin_item.category == "Background") {
-        if (skin_item.background_color) {
-          window.changeBackgroundColor("");
-        } else if (skin_item.background_image) {
-          window.changeBackgroundImage("");
-        }
+        // if (skin_item.background_color) {
+          //   window.changeBackgroundColor("");
+          // } else if (skin_item.background_image) {
+            //   window.changeBackgroundImage("");
+            // }
+        window.changeBackgroundImage("");
+        this.currentBackground.isImage = false;
+        this.currentBackground.colorOrUrl = document.querySelector('html').classList.contains('dark') ? '#3a4a60' : '#f2efef';
+
       } else {
         window.hideClothesVisibility(skin_item.name);
       }
