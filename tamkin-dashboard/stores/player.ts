@@ -255,8 +255,21 @@ export const usePlayerStore = defineStore("player", {
       }
     },
     async changeCharacter(character: any, preview = true) {
-      this.activeCharacter = character;
       this.characterLoaded = false;
+      
+      const marketStore = useMarketStore();
+      // check if this is not the backend active character
+      if (character.name != this.activeCharacter?.name && preview) {
+        marketStore.selectItemforPreview(character);
+      } 
+      else {
+        marketStore.resetAll();
+        this.currentBackground.isImage = false;
+        this.currentBackground.colorOrUrl = "";
+      }
+
+      this.activeCharacter = character;
+
       setTimeout(() => {
         window.changeCharacter(character.name);
       }, 2000);
@@ -268,16 +281,6 @@ export const usePlayerStore = defineStore("player", {
         // character is loaded
         this.wearSavedClothes();
       }
-      const marketStore = useMarketStore();
-      // check if this is not the backend active character
-
-      // if (character.name != this.backendActiveChar?.name && preview) {
-        marketStore.selectItemforPreview(character);
-      // } else {
-      //   marketStore.resetAll();
-      //   this.currentBackground.isImage = false;
-      //   this.currentBackground.colorOrUrl = "";
-      // }
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
       var $this = this;

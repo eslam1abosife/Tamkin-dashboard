@@ -2,12 +2,20 @@
 import playerLoader from "~/assets/animation/handload.json";
 import { Vue3Lottie } from "vue3-lottie";
 import { usePlayerStore } from "@/stores/player";
+import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
+const {
+  getFullDataFormated,
+  characters,
+} = useGetCategoriesWithSkinItems();
 
 const playerStore = usePlayerStore();
 
 const loaChar = ref(window.loaChar);
 const loadedplayer = ref(false);
 const showLoader = ref(true); // New flag to control loader visibility
+
+const activeChar = ref("");
+
 
 // Add event listener to update `loaChar` when the custom event is dispatched
 const updateLoaChar = (event) => {
@@ -38,7 +46,10 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  // Fetch characters
+  await getFullDataFormated();
+  activeChar.value = characters.value.find((character) => character.is_used);
   // Add event listener for `loaCharChanged`
   window.addEventListener("loaCharChanged", updateLoaChar);
 
@@ -74,7 +85,8 @@ function controlPlayerLoad() {
   };
 
   // Trigger initial character change
-  playerStore.changeCharacter(playerStore.activeCharacter, false);
+  // playerStore.changeCharacter(playerStore.activeCharacter, false);
+  playerStore.changeCharacter(activeChar.value, false);
 }
 
 // Modify the `window.loaChar` setter to emit the custom event
