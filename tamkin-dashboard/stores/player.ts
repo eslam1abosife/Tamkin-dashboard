@@ -157,12 +157,17 @@ export const usePlayerStore = defineStore("player", {
       }
       this.showClothes(skin_item);
 
-      if (this.isClothesChanged) {
-        // marketStore.selectItemforPreview(skin_item);
+      // if (this.isClothesChanged) {
+      //   // marketStore.selectItemforPreview(skin_item);
+      //   marketStore.showSaveFooter = true;
+      // } else {
+      //   marketStore.showSaveFooter = false;
+      //   // marketStore.resetAll();
+      // }
+      if (skin_item.is_package || skin_item.is_purchased) {
         marketStore.showSaveFooter = true;
       } else {
         marketStore.showSaveFooter = false;
-        // marketStore.resetAll();
       }
     },
     unwearAllSkins() {
@@ -266,13 +271,13 @@ export const usePlayerStore = defineStore("player", {
       const marketStore = useMarketStore();
       // check if this is not the backend active character
 
-      if (character.name != this.backendActiveChar?.name && preview) {
+      // if (character.name != this.backendActiveChar?.name && preview) {
         marketStore.selectItemforPreview(character);
-      } else {
-        marketStore.resetAll();
-        this.currentBackground.isImage = false;
-        this.currentBackground.colorOrUrl = "";
-      }
+      // } else {
+      //   marketStore.resetAll();
+      //   this.currentBackground.isImage = false;
+      //   this.currentBackground.colorOrUrl = "";
+      // }
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
       var $this = this;
