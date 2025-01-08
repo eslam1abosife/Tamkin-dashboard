@@ -200,12 +200,13 @@ export const usePlayerStore = defineStore("player", {
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
         } else {
+          console.log(3)
           // if wearing skin of the same category, other than the weared one, unwear it first unless it can be weared with its category skins
           // get the already weared skin from categoriesWithSkinItems by code to check its can_be_weared_with_its_category_skins
           //! if the new skin is unfriendly
           if (!skin_item.can_be_weared_with_its_category_skins) {
             var $this = this;
-
+console.log(5)
             // 1. character has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
             if (
               weared_skins_of_same_category &&
@@ -215,6 +216,7 @@ export const usePlayerStore = defineStore("player", {
                     .can_be_weared_with_its_category_skins
               )
             ) {
+              console.log(6)
               weared_skins_of_same_category
                 .filter(function (skin) {
                   return !$this.getOriginalSkinItem(
@@ -235,6 +237,13 @@ export const usePlayerStore = defineStore("player", {
                 });
             }
           }
+          
+          if (this.activeCharCurrentlyWearedSkinsCategories[skin_item.category]) {
+            this.activeCharCurrentlyWearedSkinsCategories[skin_item.category].push(skin_item.name);
+          } else {
+            this.activeCharCurrentlyWearedSkinsCategories[skin_item.category] = [skin_item.name];
+          }
+          
           this.addToWearedClothes(category, skin_item.name);
           this.wear(skin_item);
         }
@@ -245,7 +254,7 @@ export const usePlayerStore = defineStore("player", {
       this.characterLoaded = false;
       setTimeout(() => {
         window.changeCharacter(character.name);
-      }, 50);
+      }, 2000);
 
       // check if the character has loaded before
       if (!window.loadedByName(character.name)) {
@@ -485,8 +494,24 @@ export const usePlayerStore = defineStore("player", {
     activeCharBackendWearedSkinsNames: (state) =>
       state.activeCharBackendWearedSkins.map((skin_item) => skin_item.name),
 
-    activeCharCurrentlyWearedSkinsCategories: (state) =>
-      state.userSelectedClothes[state.activeCharacter.name],
+activeCharCurrentlyWearedSkinsCategories: (state) => {
+  const activeClothes = {};
+
+  state.activeCharacter?.allowed_skins_list.forEach((item) => {
+    if(item.is_weared) {
+      if (activeClothes[item.category]) {
+        activeClothes[item.category].push(item.name);
+      } else {
+        activeClothes[item.category] = [item.name];
+      }
+    }
+  });
+
+  return activeClothes;
+},
+
+    // activeCharCurrentlyWearedSkinsCategories: (state) =>
+    //   state.userSelectedClothes[state.activeCharacter.name],
     activeCharCurrentlyWearedSkinsNames: (state) =>
       Object.values(state.activeCharCurrentlyWearedSkinsCategories).flat(),
     isClothesChanged: function (state) {
