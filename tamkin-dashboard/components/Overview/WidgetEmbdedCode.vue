@@ -3,6 +3,7 @@ import VCodeBlock from "@wdns/vue-code-block";
 import { useCollapseStore } from "@/stores/collapse.js";
 import { vOnClickOutside } from "@vueuse/components";
 import { useModalManager } from "@/composables/useModalManager";
+const {locale} = useI18n()
 
 const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
   useModalManager();
@@ -70,11 +71,29 @@ watch(copyDone, (newValue) => {
   }
 });
 const route = useRoute();
-const isLinkActive = (path) => {
-  return localePath(route.path) === localePath(path);
-};
+// const isLinkActive = (path) => {
+//   return localePath(route.path) === localePath(path);
+// };
 
 const localePath = useLocalePath();
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  
+  let pattern = path.startsWith(`/${locale.value}`) ? path : localePath(path);
+
+  if (!pattern.startsWith('/')) {
+    pattern = '/' + pattern;
+  }
+
+  if (!pattern.includes('*')) {
+    return currentPath === pattern;
+  }
+
+  const regexPattern = '^' + pattern.replace(/\*/g, '.*') + '$';
+  const regex = new RegExp(regexPattern);
+
+  return regex.test(currentPath);
+};
 </script>
 
 <template>
@@ -93,8 +112,8 @@ const localePath = useLocalePath();
         isLinkActive('/sign-language/overview') ||
         isLinkActive('/my-site')
       " -->
-      <div
-        class="mt-[-6px] flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
+      <div :class="[ !isLinkActive('/sign-language/') ? 'mt-[-6px]':'']"
+        class=" flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
       >
         <div
           :class="[
@@ -123,7 +142,7 @@ const localePath = useLocalePath();
       </div>
     </div>
     <div
-    :class="[isLinkActive('/subscriptions') || isLinkActive('/my-site') ? '!mt-[24px]' : 'mt-[30px]']"
+    :class="[isLinkActive('/subscriptions') || isLinkActive('/my-site') || isLinkActive('/sign-language/*') ? '!mt-[24px]' : 'mt-[30px]']"
       class=" bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] relative shadow-md -shadow-y-[2px]"
     >
       <DashboardToastSuccess
@@ -150,7 +169,7 @@ const localePath = useLocalePath();
           </h2>
         </div>
         <div
-          v-if="!isLinkActive('/my-site') &&  !isLinkActive('/subscriptions')"
+          v-if="!isLinkActive('/my-site') &&  !isLinkActive('/subscriptions')  && !isLinkActive('/sign-language/*')"
           @click.stop="collapseStore.collapseMenu('widget_embded_code')"
           v-on-click-outside="
             () => collapseStore.removeMenu('widget_embded_code')

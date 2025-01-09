@@ -12,8 +12,9 @@ const search = ref("");
 const { languages, selectedLang } = storeToRefs(customizeStore);
 
 const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
+  isOpen.value = isOpen.value === true ? null : true;
 };
+
 
 const selectLanguage = (lang: any) => {
   selectedLang.value = lang;
@@ -24,6 +25,9 @@ const filterdLanguages = computed(() => {
     lang.title.toLowerCase().includes(search.value.toString().toLowerCase())
   );
 });
+const closeDropdown = () => {
+      isOpen.value = false;
+    };
 </script>
 
 <template>
@@ -254,8 +258,10 @@ const filterdLanguages = computed(() => {
           v-if="customizeStore.islangListEnabled"
           class="w-full lg:w-[330px] lg:mt-0 mt-[8px]"
         >
-          <div class="relative w-full lg:w-64">
+            
+            <div class="relative w-full lg:w-64"  v-on-click-outside="closeDropdown">
             <button
+
               @click="toggleDropdown"
               class="input_search_country !rounded-[10px] !h-[45px] peer w-full lg:w-[330px] rtl:text-right ltr:text-left"
               :class="[isOpen ? 'rounded-b-none' : '']"
@@ -300,7 +306,7 @@ const filterdLanguages = computed(() => {
                 xmlns="http://www.w3.org/2000/svg"
                 :class="[isOpen ? 'rtl:!rotate-90 ltr:rotate-90' : '']"
                 class="stroke-current rtl:rotate-180 fill-darkGrey dark:fill-whiteTamkin my-[4px] rtl:float-left ltr:float-right w-[20px] h-[10px] rtl:ml-[-15px] ltr:mr-[15px]"
-                @click.stop="toggleDropdown"
+               
               >
                 <path
                   d="M11.027 8.61302C11.2715 8.81307 11.2715 9.18693 11.027 9.38698L1.31662 17.3319C0.990153 17.599 0.5 17.3667 0.5 16.9449L0.500001 1.05512C0.500001 0.633308 0.990154 0.401035 1.31662 0.668143L11.027 8.61302Z"
@@ -310,11 +316,7 @@ const filterdLanguages = computed(() => {
             </button>
             <div
               v-if="isOpen"
-              v-on-click-outside="
-                () => {
-                  isOpen = false;
-                }
-              "
+
               class="absolute z-10 top-[52px] w-full lg:w-[330px] max-h-[260px] bg-white dark:bg-tamkinDarkPrimary border rounded shadow overflow-y-scroll"
             >
               <div class="py-[21px] search_input mx-auto w-full px-[20px]">

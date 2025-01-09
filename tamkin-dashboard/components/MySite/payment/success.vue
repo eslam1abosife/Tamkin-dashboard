@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const {locale} = useI18n()
 const localePath = useLocalePath()
 const router = useRouter()
 const route = useRoute()
@@ -20,12 +21,30 @@ const getApps = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getInviteApps({ agency: user.agency });
 };
+// const isLinkActive = (path) => {
+//   if (process.client) {
+//     const localizedPath = localePath(path); // Assuming you use i18n
+//     return route.path === localizedPath;
+//   }
+//   return false;
+// };
 const isLinkActive = (path) => {
-  if (process.client) {
-    const localizedPath = localePath(path); // Assuming you use i18n
-    return route.path === localizedPath;
+  const currentPath = localePath(route.path);
+  
+  let pattern = path.startsWith(`/${locale.value}`) ? path : localePath(path);
+
+  if (!pattern.startsWith('/')) {
+    pattern = '/' + pattern;
   }
-  return false;
+
+  if (!pattern.includes('*')) {
+    return currentPath === pattern;
+  }
+
+  const regexPattern = '^' + pattern.replace(/\*/g, '.*') + '$';
+  const regex = new RegExp(regexPattern);
+
+  return regex.test(currentPath);
 };
 const emit = defineEmits(['updateData']);
 const setDefaultQuery = async (tryagain) => {
@@ -74,6 +93,17 @@ const setDefaultQuery = async (tryagain) => {
   }
   if(isLinkActive('/addons')){
 emit('updateData')
+  }
+  if(isLinkActive('/sign-language/*')){
+    router.push({
+      path: localePath('/my-site'),
+      query: {
+        paid: undefined,
+        status: undefined,
+        package:undefined
+      }
+    });
+
   }
   if (isLinkActive('/translate') || isLinkActive('/document') || isLinkActive('/photos')) {
     translateStore.loadingPackage = true

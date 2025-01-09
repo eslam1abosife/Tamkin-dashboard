@@ -26,7 +26,7 @@ const saveFn = () => {
 <template>
   <div
     v-if="showFooter"
-    class="lg:!px-0 fixed z-[50] bottom-0 w-full rtl:right-[50%] ltr:left-[50%] !px-[0] transform rtl:translate-x-[50%] ltr:translate-x-[-50%]"
+    class="lg:!px-0 fixed z-[140] bottom-0 w-full rtl:right-[50%] ltr:left-[50%] !px-[0] transform rtl:translate-x-[50%] ltr:translate-x-[-50%]"
   >
     <div
       class="bg-whiteTamkin dark:bg-tamkinDarkPrimary h-[100px] lg:h-[75px] rounded-t-[10px] lg:p-0 px-[20px]"
@@ -52,11 +52,13 @@ const saveFn = () => {
         <div
           class="flex items-center lg:justify-start justify-center xs:space-x-[4px] space-x-[20px] rtl:space-x-reverse lg:space-x-[32px] lg:mt-0 mt-4"
         >
-          <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn">
+          <button class="btn_bordered_dashboard hover_tamkin" @click="cancelfn"             :disabled="loadingSave || loadingSavetoAll"
+          >
             {{ $t("Discard") }}
           </button>
           <button
             class="btn_bordered_dashboard w-auto"
+
             :disabled="loadingSavetoAll || loadingSave || !defaultApp"
             @click="saveToAllSites"
           >

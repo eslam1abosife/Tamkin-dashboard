@@ -2,6 +2,11 @@
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
+const {locale} = useI18n()
+
+const route = useRoute();
+
+const localePath = useLocalePath();
 
 const { getAvatarLetters } = useGetAvatarLetters();
 const formatToUrl = (domain) => {
@@ -12,7 +17,6 @@ const formatToUrl = (domain) => {
   }
   return domain;
 };
-const { locale } = useI18n();
 const addSiterStore = useAddSiteStore();
 const selectedPlan = ref("");
 const collapsed = ref(false);
@@ -61,6 +65,24 @@ const sortedPlans = computed(() => {
 
 //   return navigateTo("upgrade_no_package", "mysite", "add_package_modal_mysite");
 // };
+const isLinkActive = (path) => {
+  const currentPath = localePath(route.path);
+  
+  let pattern = path.startsWith(`/${locale.value}`) ? path : localePath(path);
+
+  if (!pattern.startsWith('/')) {
+    pattern = '/' + pattern;
+  }
+
+  if (!pattern.includes('*')) {
+    return currentPath === pattern;
+  }
+
+  const regexPattern = '^' + pattern.replace(/\*/g, '.*') + '$';
+  const regex = new RegExp(regexPattern);
+
+  return regex.test(currentPath);
+};
 </script>
 
 <template>
@@ -239,7 +261,8 @@ const sortedPlans = computed(() => {
 
         <div
           v-else
-          class="flex flex-col items-center justify-center w-full mt-[42px] pb-[24px] animate-pulse"
+          :class="[isLinkActive('/sign-language/*') ? '' : ' pb-[24px] ']"
+          class="flex flex-col items-center justify-center w-full mt-[42px]animate-pulse"
         >
           <div
             class="flex items-center lg:flex-row flex-col ipad-max:flex-wrap justify-center lg:justify-evenly rtl:space-x-reverse h-full w-full space-x-[10px] mt-[32px]"

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-
+const localePath = useLocalePath();
 </script>
 
 
@@ -61,9 +61,9 @@
     <!-- Big number and buttons -->
     <div class="flex items-center justify-end w-full relative z-[50]">
       <div class="flex lg:space-x-4 rtl:space-x-reverse lg:flex-nowrap flex-wrap lg:space-y-0 space-y-[10px] w-2/4">
-        <button class="btn-dashboard rounded-full h-[40px] hover_tamkin w-3/4">{{$t('Buy Tamkin')}}</button>
-        <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px] ">{{$t('Investor Program')}}</button>
-        <button class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px]">{{$t('Investor Package')}}</button>
+        <a class="btn-dashboard rounded-full h-[40px] hover_tamkin w-3/4" href="https://www.lbank.com/trade/tslt_usdt" target="_blank">{{$t('Buy Tamkin')}}</a>
+        <nuxt-link class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px] " :to="localePath('/how-to-join')" >{{$t('Investor Program')}}</nuxt-link>
+        <nuxt-link class="btn_bordered_dashboard rounded-full w-3/4 bg-white  h-[40px] !p-[0px]" :to="localePath('/packages/investors')">{{$t('Investor Package')}}</nuxt-link>
       </div>
     </div>
   </div>

@@ -180,7 +180,7 @@ const uniqueValues = (items) => {
         :list="uniqueValues(packagesStore.getTraffiPrices('Package'))"
         nameKey="name"
         idField="id"
-        class="w-full"
+        class="w-full bg-white rounded-[10px]"
         :currentListValue="packagesStore.views_level"
       />
     </div>
@@ -212,7 +212,7 @@ const uniqueValues = (items) => {
       <!-- END SHOW MORE DETAILS-->
      </div>
      <PackagesInveestorsPackagePaid class="mt-[20px]"/>
-<PackagesInveestorsInvestorpackage v-if="!packagesStore.investorUser"/>
+<PackagesInveestorsInvestorPackage v-if="!packagesStore.investorUser"/>
      <PackagesInveestorsInvestorprogram/>
 
   
