@@ -6,6 +6,39 @@ import "@cyhnkckali/vue3-color-picker/dist/style.css";
 
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
+const inputGradient = ref(customizeStore.gradient1);
+const inputGradient2 = ref(customizeStore.gradient2);
+    const colorPickerGradient = ref(customizeStore.gradient1);
+    const colorPickerGradient2 = ref(customizeStore.gradient2);
+
+    const updateGradient = () => {
+      customizeStore.gradient1 = inputGradient.value;
+      colorPickerGradient.value = inputGradient.value;
+    };
+    const updategradient2 = ()=>{
+      customizeStore.gradient2 = inputGradient2.value;
+      colorPickerGradient.value = inputGradient.value;
+    }
+
+    watch(colorPickerGradient, (newVal) => {
+      customizeStore.gradient1 = newVal;
+      inputGradient.value = newVal;
+    });
+    watch(colorPickerGradient2, (newVal) => {
+      customizeStore.gradient2 = newVal;
+      inputGradient2.value = newVal;
+    });
+
+    const colorcurrentpicker = ref(customizeStore.currentColor);
+    const inputcurrentcolor = ref(customizeStore.currentColor);
+    const updatecurrentcolor = ()=>{
+      customizeStore.currentColor = inputcurrentcolor.value;
+      colorcurrentpicker.value = inputcurrentcolor.value;
+    }
+    watch(colorcurrentpicker, (newVal) => {
+      customizeStore.currentColor = newVal;
+      inputcurrentcolor.value = newVal;
+    });
 </script>
 
 <template>
@@ -272,7 +305,10 @@ const customizeStore = useCustomizeStore();
           <div
             class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
           >
-            {{ customizeStore.currentColor }}
+          <input type="text" 
+          class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
+          v-model="inputcurrentcolor"
+@input="updatecurrentcolor">
           </div>
         </div>
 
@@ -293,7 +329,10 @@ const customizeStore = useCustomizeStore();
             <div
               class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
             >
-              {{ customizeStore.gradient1 }}
+              <input type="text" 
+              class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
+              v-model="inputGradient"
+    @input="updateGradient">
             </div>
           </div>
           <div
@@ -306,7 +345,10 @@ const customizeStore = useCustomizeStore();
             <div
               class="text-[14px] leading-[21px] font-[400] text-[#585B5B] dark:text-whiteTamkin"
             >
-              {{ customizeStore.gradient2 }}
+            <input type="text" 
+            class="h-[34px] focus:ring-0 border-tamkin border-l-0 border-r-0 focus:outline-none focus:border-tamkin" 
+            v-model="inputGradient2"
+  @input="updategradient2">
             </div>
           </div>
         </div>
@@ -321,8 +363,8 @@ const customizeStore = useCustomizeStore();
       >
         <Client-only>
           <Vue3ColorPicker
-            v-model="customizeStore.currentColor"
-            mode="solid"
+          v-model="colorcurrentpicker"
+          mode="solid"
             :showColorList="false"
             :showEyeDrop="false"
             :showAlpha="false"
@@ -345,15 +387,16 @@ const customizeStore = useCustomizeStore();
         <div class="flex items-center justify-start w-full">
           <Client-only>
             <Vue3ColorPicker
-              v-model="customizeStore.gradient1"
+              v-model="colorPickerGradient"
               mode="solid"
               :showColorList="false"
-              :showEyeDrop="false"
+              :showEyeDrop="false" 
               :showAlpha="false"
               type="HEX"
               class="!h-[201px] !w-full !shadow-none !bg-transparent"
               :showInputMenu="false"
               :showInputSet="false"
+              :show-buttons="false"
               :showPickerMode="false"
             />
           </Client-only>
@@ -361,7 +404,7 @@ const customizeStore = useCustomizeStore();
         <div class="flex items-center justify-start w-full">
           <Client-only>
             <Vue3ColorPicker
-              v-model="customizeStore.gradient2"
+              v-model="colorPickerGradient2"
               mode="solid"
               :showColorList="false"
               :showEyeDrop="false"

@@ -351,7 +351,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
         new Date() ||
       app.package.find((k) => k.name === pack).status === "Cancelled" ||
       app.package.find((k) => k.name === pack).status === "Rejected" ||
-      app.package.find((k) => k.name === pack).status === "Expried" ||
+      app.package.find((k) => k.name === pack).status === "Expired" ||
       app.package.find((k) => k.name === pack).title === "Free" ||
       app.package.find((k) => k.name === pack).cancel_package
     ) {
@@ -1284,7 +1284,7 @@ const openInvestor = (app, pack) => {
                           <div
                             v-if="
                               app.package[0] &&
-                             app.package[0].status === 'Expried' &&
+                             app.package[0].status === 'Expired' &&
                               app.package[0].type !== 'Investors'
                             "
                             class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
@@ -1597,7 +1597,7 @@ const openInvestor = (app, pack) => {
                             <div
                               v-if="
                            
-                              pack.status === 'Expried' &&
+                              pack.status === 'Expired' &&
                               pack.type !== 'Investors'
                               "
                               class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
@@ -2096,7 +2096,7 @@ const openInvestor = (app, pack) => {
                       </div>
 
                       <div
-                        v-if="pk.status === 'Expried'"
+                        v-if="pk.status === 'Expired'"
                         class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                       >
                         {{ $t(`Expired`) }}

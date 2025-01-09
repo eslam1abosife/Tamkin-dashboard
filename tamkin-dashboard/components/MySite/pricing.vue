@@ -77,9 +77,9 @@ function convertUsdToCrypto(usdTotal, rates) {
       <div
         v-for="pak in packagesStore.getPackagesByTypeTitle(
           'Package',
-          currentPackage?.type ? currentPackage?.type: isLinkActive('/overview') ? 'Accessibility' :'',
+          currentPackage?.type ? currentPackage?.type: isLinkActive('/overview') ? 'Accessibility' :isLinkActive('/sign-language/overview') ? 'Sign language':'',
           (currentPackage?.title === 'Free' ? currentPackage?.category : currentPackage?.category) ||null
-        )"
+        ).filter((p) => p.site_type === 'website')"
         :key="pak.name"
         class="flex items-center flex-col custom-border mx-auto justify-start 
         !rounded-t-[10px] relative !rounded-b-none mt-[48px] group

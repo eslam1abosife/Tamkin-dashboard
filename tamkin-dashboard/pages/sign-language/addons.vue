@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useGetPlayerData } from "@/composables/useAccessibility";
 import { useApi } from "@/composables/useApi";
+const { locale } = useI18n();
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 const { $toast } = useNuxtApp();
 
 const { useApiInstance } = useApi();
@@ -191,6 +194,84 @@ const getSettingsValue = (name: any) => {
 
 <template>
   <div class="relative h-full w-full">
+    <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySiteNopackagebuy
+      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+      v-if="isOpen('upgrade_no_package')"
+    />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySiteUpgrade
+      :class="isOpen('shareModal') ? 'z-[99]' : 'z-[9999]'"
+      v-if="isOpen('upgrade_mysite_package')"
+    />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <!-- Modal for adding a package -->
+    <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentPaymentmethods />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentSuccess
+      v-if="isOpen('success_pay_mysite')"
+    />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <ProfileBillingModalsAddnewCard
+      v-if="isOpen('add_new_card_billing')"
+    />
+  </transition>
+
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
+  </transition>
+ <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
+  </transition>
+  <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentCryptoSuccess />
+  </transition> 
+   <transition
+    :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
+    mode="out-in"
+  >
+    <MySitePaymentPaypal />
+  </transition> 
     <LanguageServicesNavbar />
     <transition name="slide-up">
       <DashboardAddonsSaveFooter
