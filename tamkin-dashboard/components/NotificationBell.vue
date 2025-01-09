@@ -12,7 +12,6 @@ const { markNotification } = useMarkNotification();
 const isMenuOpen = ref(false);
 const clickedOutside = ref(false);
 
-
 const openLangSwitchMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
   // if(isMenuOpen.value){
@@ -21,26 +20,19 @@ const openLangSwitchMenu = () => {
   //       isMenuOpen.value =true
   //   }
 };
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-} = useModalManager();
-
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo } =
+  useModalManager();
 
 const closeMenu = async () => {
- if(isOpen('notificationsModal')){
-  closeModal('notificationsModal')
-  // await markNotification("all");
+  if (isOpen("notificationsModal")) {
+    closeModal("notificationsModal");
+    // await markNotification("all");
 
-  await getNotification();
- }
+    await getNotification();
+  }
 };
 const sentNotificationsCount = computed(() => {
-  let count =  notificationBellStore.notifications.filter(
+  let count = notificationBellStore.notifications.filter(
     (notification) => notification.status === "Sent"
   ).length;
   return count > 0 ? count : null;
@@ -49,27 +41,28 @@ const sentNotificationsCount = computed(() => {
 
 <template>
   <div
-    class="h-[40px] w-[40px] rounded-full  flex items-center justify-center relative cursor-pointer "
-    :class="[isOpen('notificationsModal') ? 'active_notification' : 'bg-[#EFF1F6]']"
-    @click.prevent="openModal('notificationsModal')"ء
-
+    class="h-[40px] w-[40px] dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin rounded-full flex items-center justify-center relative cursor-pointer"
+    :class="[
+      isOpen('notificationsModal') ? 'active_notification' : 'bg-[#EFF1F6]',
+    ]"
+    @click.prevent="openModal('notificationsModal')"
+    ء
   >
-    <div class="cursor-pointer relative">
-      <div 
-      v-show="sentNotificationsCount" 
-      :class="[sentNotificationsCount >99 ? 'max-w-[26px]' : 'max-w-[16px]' ]"
-      class="h-[16px] w-full !text-whiteTamkin bg-[#FB726D]
-      rounded-full flex items-center justify-center text-[9px] font-[500] absolute right-[-2px] bottom-[10px]"
-    >
-      <div class="flex items-center justify-center">
-        <h3 class="text-center">
-          {{ sentNotificationsCount >99 ? '99' : sentNotificationsCount }}
-        </h3>
+    <div class="cursor-pointer relative dark:text-whiteTamkin">
+      <div
+        v-show="sentNotificationsCount"
+        :class="[sentNotificationsCount > 99 ? 'max-w-[26px]' : 'max-w-[16px]']"
+        class="h-[16px] w-full dark:text-whiteTamkin !text-whiteTamkin bg-[#FB726D] rounded-full flex items-center justify-center text-[9px] font-[500] absolute right-[-2px] bottom-[10px]"
+      >
+        <div class="flex items-center justify-center">
+          <h3 class="text-center">
+            {{ sentNotificationsCount > 99 ? "99" : sentNotificationsCount }}
+          </h3>
+        </div>
       </div>
 
-    </div>
-    
       <svg
+        class="dark:text-whiteTamkin"
         width="18"
         height="20"
         viewBox="0 0 18 20"
@@ -78,22 +71,24 @@ const sentNotificationsCount = computed(() => {
       >
         <path
           d="M14.1585 6.44016C14.1585 5.04422 13.604 3.70545 12.6169 2.71837C11.6298 1.73129 10.291 1.17676 8.8951 1.17676C7.49916 1.17676 6.1604 1.73129 5.17332 2.71837C4.18624 3.70545 3.6317 5.04422 3.6317 6.44016C3.6317 12.5808 1 14.3353 1 14.3353H16.7902C16.7902 14.3353 14.1585 12.5808 14.1585 6.44016Z"
-          :class="[isOpen('notificationsModal') ? 'stroke-white' : 'stroke-darkGrey']"
+          :class="[
+            isOpen('notificationsModal') ? 'stroke-white' : 'stroke-darkGrey',
+          ]"
           stroke-width="1.8"
           stroke-linecap="round"
           stroke-linejoin="round"
         />
         <path
           d="M10.4141 17.8438C10.2599 18.1096 10.0385 18.3303 9.7722 18.4837C9.50586 18.6371 9.20388 18.7179 8.89652 18.7179C8.58916 18.7179 8.28719 18.6371 8.02084 18.4837C7.7545 18.3303 7.53313 18.1096 7.37891 17.8438"
-          :class="[isOpen('notificationsModal') ? 'stroke-white' : 'stroke-darkGrey']"
+          :class="[
+            isOpen('notificationsModal') ? 'stroke-white' : 'stroke-darkGrey',
+          ]"
           stroke-width="1.8"
           stroke-linecap="round"
           stroke-linejoin="round"
         />
       </svg>
     </div>
-
-
   </div>
 </template>
 <style>

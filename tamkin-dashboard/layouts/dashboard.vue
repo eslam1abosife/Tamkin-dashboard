@@ -1060,7 +1060,6 @@ const loadf = ref(true);
       >
         <!-- upper nav and content -->
         <div class="relative top-0 w-full">
-   
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
             class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"
