@@ -39,6 +39,7 @@ watch(
       if (isLoaded) {
         // Simulate additional delay for character full loading
         setTimeout(() => {
+          console.log(5)
           showLoader.value = false;
         }, 2000); // Adjust the delay as needed
       }
@@ -70,7 +71,12 @@ function controlPlayerLoad() {
   };
 
   window.characterLoadFinished = () => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      if(!loadedplayer.value) {
+        loadedplayer.value = true;
+        console.log(`Chart: ${activeChar.value.name}`)
+        await window.changeCharacter(activeChar.value.name);
+      }
       playerStore.characterLoaded = true;
       showLoader.value = false; // Hide loader after loading is complete
     }, 2000); // Adjust delay to match loading time
