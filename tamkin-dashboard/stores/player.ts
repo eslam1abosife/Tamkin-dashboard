@@ -164,18 +164,38 @@ export const usePlayerStore = defineStore("player", {
       //   marketStore.showSaveFooter = false;
       //   // marketStore.resetAll();
       // }
-      if (skin_item.is_package || skin_item.is_purchased) {
-        marketStore.showSaveFooter = true;
-      } else {
-        marketStore.showSaveFooter = false;
-      }
+        if (skin_item.is_package || skin_item.is_purchased) {
+          marketStore.showSaveFooter = true;
+        } else {
+          marketStore.showSaveFooter = false;
+        }
+    },
+    WearAllisWearedSkins() {
+      this.hideAllClothes();
+      this.activeCharacter.allowed_skins_list.forEach(item => {
+        if(item.is_weared) {
+          if (item.category == "Background") {
+            if (item.background_color) {
+              window.changeBackgroundColor(item.background_color);
+              this.currentBackground.isImage = false;
+              this.currentBackground.colorOrUrl = item.background_color;
+            } else if (item.background_image) {
+              window.changeBackgroundImage(fullUrl(item.background_image));
+              this.currentBackground.isImage = true;
+              this.currentBackground.colorOrUrl =
+                "https://tamkin.app" + item.background_image;
+            }
+          } else {
+            window.showClothesVisibility(item.name);
+          }
+        }
+      });
     },
     unwearAllSkins() {
       this.hideAllClothes();
       this.userSelectedClothes[this.activeCharacter.name] = {};
     },
     showClothes(skin_item) {
-      console.log("skin_item", skin_item);
       let category = skin_item.category;
       let outfit_skins = skin_item.outfit_skins_list;
 
@@ -192,7 +212,6 @@ export const usePlayerStore = defineStore("player", {
           weared_skins_of_same_category &&
           weared_skins_of_same_category.includes(skin_item.name)
         ) {
-          console.log(skin_item.category === 'Background')
           if (skin_item.can_be_unweared || skin_item.category === 'Background') {
             this.activeCharCurrentlyWearedSkinsCategories[category].splice(
               this.activeCharCurrentlyWearedSkinsCategories[category].indexOf(
@@ -200,9 +219,6 @@ export const usePlayerStore = defineStore("player", {
               ),
               1
             );
-            // if(skin_item.category === 'Background') {
-
-            // }
             this.unwear(skin_item);
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
@@ -221,7 +237,6 @@ export const usePlayerStore = defineStore("player", {
                     .can_be_weared_with_its_category_skins
               )
             ) {
-              console.log(6)
               weared_skins_of_same_category
                 .filter(function (skin) {
                   return !$this.getOriginalSkinItem(

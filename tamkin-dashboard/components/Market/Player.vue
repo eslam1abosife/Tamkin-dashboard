@@ -39,7 +39,6 @@ watch(
       if (isLoaded) {
         // Simulate additional delay for character full loading
         setTimeout(() => {
-          console.log(5)
           showLoader.value = false;
         }, 2000); // Adjust the delay as needed
       }
@@ -69,13 +68,12 @@ function controlPlayerLoad() {
     playerStore.characterLoaded = false;
     showLoader.value = true; // Ensure loader is active while character is loading
   };
-const ss = computed(()=>window.loadedByName('Fares'))
   window.characterLoadFinished = () => {
     setTimeout(async () => {
-      console.log(window.loadedByName('Fares'));
       if(!loadedplayer.value && loaChar.value) {
         loadedplayer.value = true;
         await window.changeCharacter(activeChar.value.name);
+        playerStore.WearAllisWearedSkins();
       }
       if(loaChar.value) {
         playerStore.characterLoaded = true;
@@ -123,7 +121,6 @@ Object.defineProperty(window, "loaChar", {
   >
   <div class="h-full w-full rounded-[10px]">
     <!-- Show loading animation -->
-    {{ ss }}
       <div v-show="!loaChar || showLoader">
         <Vue3Lottie
           :animationData="playerLoader"
