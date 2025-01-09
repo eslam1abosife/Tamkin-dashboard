@@ -139,6 +139,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
        
             >
               <div
+               v-if="!defaultApp"
             class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
              text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
              transition-opacity duration-200"
@@ -222,6 +223,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
            >
             <div
+             v-if="!defaultApp"
             class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
              text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
              transition-opacity duration-200"

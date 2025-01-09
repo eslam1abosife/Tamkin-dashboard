@@ -190,7 +190,6 @@ const finalAmount = computed(() => {
     <div class="w-full h-full">
       <div
         class="flex flex-col items-start justify-center w-full"
-        v-if="isModalOpen('crypto_mysite_step1')"
       >
         <div class="flex items-center justify-center">
           <div

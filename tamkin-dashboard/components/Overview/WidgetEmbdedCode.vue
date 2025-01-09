@@ -86,14 +86,15 @@ const localePath = useLocalePath();
           : ''
       "
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] shadow-md -shadow-y-[1px]"
-      v-if="
+ 
+    >
+         <!-- v-if="
         isLinkActive('/overview') ||
         isLinkActive('/sign-language/overview') ||
         isLinkActive('/my-site')
-      "
-    >
+      " -->
       <div
-        class="flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
+        class="mt-[-6px] flex flex-col items-start justify-center ltr:ml-[15px] rtl:mr-[15px] divide-y"
       >
         <div
           :class="[
@@ -122,7 +123,8 @@ const localePath = useLocalePath();
       </div>
     </div>
     <div
-      class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] relative shadow-md -shadow-y-[2px]"
+    :class="[isLinkActive('/subscriptions') || isLinkActive('/my-site') ? '!mt-[24px]' : 'mt-[30px]']"
+      class=" bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full px-[15px] relative shadow-md -shadow-y-[2px]"
     >
       <DashboardToastSuccess
         v-if="copyDone"

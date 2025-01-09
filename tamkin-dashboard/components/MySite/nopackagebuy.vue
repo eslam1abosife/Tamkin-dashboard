@@ -41,6 +41,7 @@ const sortedPlans = computed(() => {
 
   const specificTypePackages = addSiterStore.packages
     .filter((pkg) => pkg.type === desiredType)
+    
     .slice(0, 3);
 
   const otherPackages = addSiterStore.packages
@@ -274,9 +275,8 @@ const sortedPlans = computed(() => {
               <div
                 class="flex flex-col items-start justify-center w-full space-y-[10px] p-4"
               >
-                <div class="bg-gray-300 h-[20px] w-[200px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[150px] rounded"></div>
-                <div class="bg-gray-300 h-[20px] w-[100px] rounded"></div>
+                <div class="bg-gray-300 h-[20px] w-[200px] rounded" v-for="n in 6"></div>
+             
                 <div
                   class="bg-gray-200 w-full h-[40px] rounded-[19px] mt-[20px]"
                 ></div>
