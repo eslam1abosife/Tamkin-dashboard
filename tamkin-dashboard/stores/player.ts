@@ -284,6 +284,7 @@ export const usePlayerStore = defineStore("player", {
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
       var $this = this;
+      await this.changeCharacter(this.characters[0]);
       this.unwearAllSkins();
       this.activeCharacter.allowed_skins_list.forEach(function (skin_item) {
         console.log(skin_item.is_default);
