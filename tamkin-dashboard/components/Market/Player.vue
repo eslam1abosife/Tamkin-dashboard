@@ -18,8 +18,13 @@ const activeChar = ref("");
 
 
 // Add event listener to update `loaChar` when the custom event is dispatched
-const updateLoaChar = (event) => {
+const updateLoaChar = async(event) => {
   loaChar.value = event.detail;
+  if(!loadedplayer.value) {
+        loadedplayer.value = true;
+        console.log(`Chart: ${activeChar.value.name}`)
+        await window.changeCharacter(activeChar.value.name);
+      }
   window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
 };
 
@@ -71,12 +76,7 @@ function controlPlayerLoad() {
   };
 
   window.characterLoadFinished = () => {
-    setTimeout(async () => {
-      if(!loadedplayer.value) {
-        loadedplayer.value = true;
-        console.log(`Chart: ${activeChar.value.name}`)
-        await window.changeCharacter(activeChar.value.name);
-      }
+    setTimeout( () => {
       playerStore.characterLoaded = true;
       showLoader.value = false; // Hide loader after loading is complete
     }, 2000); // Adjust delay to match loading time
