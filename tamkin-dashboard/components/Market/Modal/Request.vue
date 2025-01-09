@@ -364,13 +364,13 @@ watchEffect(() => {
         </div>
         <div class="!text-error" v-if="noUpload"> {{$t('please Upload atleast one image')}} </div>
 
-       <div class="flex flex-col gap-3">
-        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[160px] h-[40px] bg-[#EFF6FF]
+       <div class="flex flex-col gap-2">
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse min-w-full space-x-[20px] rtl:mr-auto ltr:ml-auto w-fit px-2 justify-between h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
           <div class="text-[16px] font-[600] text-[#EC5A4E] line-through">{{ price.cost }} $</div>
         </div>
-        <div class="custom-border flex items-center justify-center rtl:space-x-reverse space-x-[20px] rtl:mr-auto ltr:ml-auto w-[160px] h-[40px] bg-[#EFF6FF]
+        <div class="custom-border flex items-center justify-center rtl:space-x-reverse min-w-full space-x-[20px] rtl:mr-auto ltr:ml-auto w-fit px-2 justify-between h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Final Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price.offer_cost }} $</div>
