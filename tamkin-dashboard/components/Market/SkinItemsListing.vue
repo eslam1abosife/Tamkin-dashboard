@@ -35,7 +35,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
         <div v-if="skin_item.category === 'Background' && skin_item.background_color !== null" class="w-[78px] h-[78px] rounded-[10px]" :style="{background:skin_item.background_color}">
 
         </div>
-        <img :src="fullUrl(skin_item.background_image)" v-if="skin_item.category === 'Background' && skin_item.background_image !== null" class="w-[78px] h-[78px]" :alt="skin_item.text" />
+        <img :src="fullUrl(skin_item.background_image)" v-if="skin_item.category === 'Background' && skin_item.background_image !== null" class="w-[78px] h-[78px] rounded-[10px]" :alt="skin_item.text" />
         
         </div>
         <div

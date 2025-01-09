@@ -114,24 +114,28 @@ export const useMarketStore = defineStore("market", {
       this.firstItemNotificationShown = !this.firstItemNotificationShown;
     },
     selectItemforPreview(item) {
+      if (item.is_package || item.is_purchased) {
+        this.showSaveFooter = true;
+      } else {
+        this.showSaveFooter = false;
+      }
       const existingItemIndex = this.selectedForPreview.findIndex(
         (it) => it.category_title === item.category_title
       );
-
       if (existingItemIndex !== -1) {
         if (this.selectedForPreview[existingItemIndex].name === item.name) {
           // If the same item is clicked again, remove it
           this.selectedForPreview.splice(existingItemIndex, 1);
-          this.showSaveFooter = false;
+          // this.showSaveFooter = false;
         } else {
           // If an item of the same type is already selected but it's a different item, replace it with the new item
           this.selectedForPreview.splice(existingItemIndex, 1, item);
-          this.showSaveFooter = true;
+          // this.showSaveFooter = true;
         }
       } else {
         // Otherwise, add the new item
         this.selectedForPreview.push(item);
-        this.showSaveFooter = true;
+        // this.showSaveFooter = true;
       }
     },
 

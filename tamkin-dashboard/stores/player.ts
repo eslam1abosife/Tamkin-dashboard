@@ -157,12 +157,17 @@ export const usePlayerStore = defineStore("player", {
       }
       this.showClothes(skin_item);
 
-      if (this.isClothesChanged) {
-        // marketStore.selectItemforPreview(skin_item);
+      // if (this.isClothesChanged) {
+      //   // marketStore.selectItemforPreview(skin_item);
+      //   marketStore.showSaveFooter = true;
+      // } else {
+      //   marketStore.showSaveFooter = false;
+      //   // marketStore.resetAll();
+      // }
+      if (skin_item.is_package || skin_item.is_purchased) {
         marketStore.showSaveFooter = true;
       } else {
         marketStore.showSaveFooter = false;
-        // marketStore.resetAll();
       }
     },
     unwearAllSkins() {
@@ -182,20 +187,22 @@ export const usePlayerStore = defineStore("player", {
         });
       } else {
         // hide skin if he is wearing it already if it can be unweared (get unweared if clicked twice)
-        let weared_skins_of_same_category =
-          this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
-
+        let weared_skins_of_same_category = this.activeCharCurrentlyWearedSkinsCategories?.[category] || [];
         if (
           weared_skins_of_same_category &&
           weared_skins_of_same_category.includes(skin_item.name)
         ) {
-          if (skin_item.can_be_unweared) {
+          console.log(skin_item.category === 'Background')
+          if (skin_item.can_be_unweared || skin_item.category === 'Background') {
             this.activeCharCurrentlyWearedSkinsCategories[category].splice(
               this.activeCharCurrentlyWearedSkinsCategories[category].indexOf(
                 skin_item.name
               ),
               1
             );
+            // if(skin_item.category === 'Background') {
+
+            // }
             this.unwear(skin_item);
           }
           // else: do nothing if it is weared and can't be unweared and got clicked
@@ -205,7 +212,6 @@ export const usePlayerStore = defineStore("player", {
           //! if the new skin is unfriendly
           if (!skin_item.can_be_weared_with_its_category_skins) {
             var $this = this;
-
             // 1. character has any unfriendly skin(s) -> remove the unfriendly skin(s) and add the new skin
             if (
               weared_skins_of_same_category &&
@@ -215,6 +221,7 @@ export const usePlayerStore = defineStore("player", {
                     .can_be_weared_with_its_category_skins
               )
             ) {
+              console.log(6)
               weared_skins_of_same_category
                 .filter(function (skin) {
                   return !$this.getOriginalSkinItem(
@@ -235,17 +242,37 @@ export const usePlayerStore = defineStore("player", {
                 });
             }
           }
+          
+          if (this.activeCharCurrentlyWearedSkinsCategories[skin_item.category]) {
+            this.activeCharCurrentlyWearedSkinsCategories[skin_item.category].push(skin_item.name);
+          } else {
+            this.activeCharCurrentlyWearedSkinsCategories[skin_item.category] = [skin_item.name];
+          }
+          
           this.addToWearedClothes(category, skin_item.name);
           this.wear(skin_item);
         }
       }
     },
     async changeCharacter(character: any, preview = true) {
-      this.activeCharacter = character;
       this.characterLoaded = false;
+      
+      const marketStore = useMarketStore();
+      // check if this is not the backend active character
+      if (character.name != this.activeCharacter?.name && preview) {
+        marketStore.selectItemforPreview(character);
+      } 
+      else {
+        marketStore.resetAll();
+        this.currentBackground.isImage = false;
+        this.currentBackground.colorOrUrl = "";
+      }
+
+      this.activeCharacter = character;
+
       setTimeout(() => {
         window.changeCharacter(character.name);
-      }, 50);
+      }, 2000);
 
       // check if the character has loaded before
       if (!window.loadedByName(character.name)) {
@@ -253,16 +280,6 @@ export const usePlayerStore = defineStore("player", {
       } else {
         // character is loaded
         this.wearSavedClothes();
-      }
-      const marketStore = useMarketStore();
-      // check if this is not the backend active character
-
-      if (character.name != this.backendActiveChar?.name && preview) {
-        marketStore.selectItemforPreview(character);
-      } else {
-        marketStore.resetAll();
-        this.currentBackground.isImage = false;
-        this.currentBackground.colorOrUrl = "";
       }
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
@@ -305,11 +322,14 @@ export const usePlayerStore = defineStore("player", {
     },
     unwear(skin_item: any) {
       if (skin_item.category == "Background") {
-        if (skin_item.background_color) {
-          window.changeBackgroundColor("");
-        } else if (skin_item.background_image) {
-          window.changeBackgroundImage("");
-        }
+        // if (skin_item.background_color) {
+          //   window.changeBackgroundColor("");
+          // } else if (skin_item.background_image) {
+            //   window.changeBackgroundImage("");
+            // }
+        window.changeBackgroundImage("");
+        this.currentBackground.isImage = false;
+        this.currentBackground.colorOrUrl = '';
       } else {
         window.hideClothesVisibility(skin_item.name);
       }
@@ -485,8 +505,24 @@ export const usePlayerStore = defineStore("player", {
     activeCharBackendWearedSkinsNames: (state) =>
       state.activeCharBackendWearedSkins.map((skin_item) => skin_item.name),
 
-    activeCharCurrentlyWearedSkinsCategories: (state) =>
-      state.userSelectedClothes[state.activeCharacter.name],
+activeCharCurrentlyWearedSkinsCategories: (state) => {
+  const activeClothes = {};
+
+  state.activeCharacter?.allowed_skins_list.forEach((item) => {
+    if(item.is_weared) {
+      if (activeClothes[item.category]) {
+        activeClothes[item.category].push(item.name);
+      } else {
+        activeClothes[item.category] = [item.name];
+      }
+    }
+  });
+
+  return activeClothes;
+},
+
+    // activeCharCurrentlyWearedSkinsCategories: (state) =>
+    //   state.userSelectedClothes[state.activeCharacter.name],
     activeCharCurrentlyWearedSkinsNames: (state) =>
       Object.values(state.activeCharCurrentlyWearedSkinsCategories).flat(),
     isClothesChanged: function (state) {
