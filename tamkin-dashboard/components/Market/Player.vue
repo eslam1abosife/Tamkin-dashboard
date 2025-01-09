@@ -20,11 +20,6 @@ const activeChar = ref("");
 // Add event listener to update `loaChar` when the custom event is dispatched
 const updateLoaChar = async(event) => {
   loaChar.value = event.detail;
-  if(!loadedplayer.value) {
-        loadedplayer.value = true;
-        console.log(`Chart: ${activeChar.value.name}`)
-        await window.changeCharacter(activeChar.value.name);
-      }
   window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
 };
 
@@ -74,11 +69,18 @@ function controlPlayerLoad() {
     playerStore.characterLoaded = false;
     showLoader.value = true; // Ensure loader is active while character is loading
   };
-
+const ss = computed(()=>window.loadedByName('Fares'))
   window.characterLoadFinished = () => {
-    setTimeout( () => {
-      playerStore.characterLoaded = true;
-      showLoader.value = false; // Hide loader after loading is complete
+    setTimeout(async () => {
+      console.log(window.loadedByName('Fares'));
+      if(!loadedplayer.value && loaChar.value) {
+        loadedplayer.value = true;
+        await window.changeCharacter(activeChar.value.name);
+      }
+      if(loaChar.value) {
+        playerStore.characterLoaded = true;
+        showLoader.value = false; // Hide loader after loading is complete
+      }
     }, 2000); // Adjust delay to match loading time
   };
 
@@ -92,7 +94,7 @@ function controlPlayerLoad() {
 
   // Trigger initial character change
   // playerStore.changeCharacter(playerStore.activeCharacter, false);
-  playerStore.changeCharacter(activeChar.value, false);
+  // playerStore.changeCharacter(activeChar.value, false);
 }
 
 // Modify the `window.loaChar` setter to emit the custom event
@@ -119,8 +121,9 @@ Object.defineProperty(window, "loaChar", {
     class="absolute top-0 left-1/2 transform -translate-x-1/2 z-[1] mt-[-24px]"
     id="SDKPlayerContainer"
   >
-    <div class="h-full w-full rounded-[10px]">
-      <!-- Show loading animation -->
+  <div class="h-full w-full rounded-[10px]">
+    <!-- Show loading animation -->
+    {{ ss }}
       <div v-show="!loaChar || showLoader">
         <Vue3Lottie
           :animationData="playerLoader"
