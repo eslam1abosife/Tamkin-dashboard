@@ -8,7 +8,7 @@ const changeColorMode = (mode: any) => {
 
 <template>
   <div
-    class="bg-[#EFF1F6] h-[40px] w-[40px] rounded-full flex items-center justify-center"
+    class="bg-[#EFF1F6] h-[40px] w-[40px] rounded-full flex items-center justify-center dark:bg-tamkinDarkPrimary border-[1px] dark:border-darkborder dark:text-whiteTamkin"
   >
     <div
       class=""

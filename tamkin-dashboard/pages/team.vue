@@ -10,14 +10,13 @@ import {
   useGetCurrentTeam,
   useDeleteMember,
   useEditMember,
-  useGetCapacity
+  useGetCapacity,
 } from "@/composables/useTeam";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useGetAvatarLetters } from "@/composables/useSharedFunctions";
-const {getCapacity,loading:capacityLoader} = useGetCapacity()
+const { getCapacity, loading: capacityLoader } = useGetCapacity();
 const { getAvatarLetters } = useGetAvatarLetters();
-
 
 const state = reactive({
   teamName: "",
@@ -33,16 +32,14 @@ const {
   getAllTeamMember,
   loading: getAllMembersLoading,
 } = useGetAllMembers();
-const userStore = useUserStore()
+const userStore = useUserStore();
 const user = ref(null);
 
 const getTeamMembersAndThirCount = () => {
   user.value = JSON.parse(localStorage.getItem("user") || "{}");
   getAllTeamMember(user.value.agency, currentPage.value, perPage.value);
 };
-const currentLimitForTeam = ref()
-
-
+const currentLimitForTeam = ref();
 
 const {
   isOpen,
@@ -82,7 +79,9 @@ const removeAfter29Sec = (emailToRemove) => {
       countdown.value--;
     } else {
       clearInterval(intervalId);
-      invitedUsers.value = invitedUsers.value.filter((email) => email !== emailToRemove);
+      invitedUsers.value = invitedUsers.value.filter(
+        (email) => email !== emailToRemove
+      );
     }
   }, 1000);
 };
@@ -113,13 +112,16 @@ watch(reInvite, (newValue) => {
     }, 2000);
   }
 });
-const userRole = ref(useCookie('user').value.role_profile_name )
+const userRole = ref(useCookie("user").value.role_profile_name);
 const perPageOptions = ref([5, 10, 20]); // Modify perPageOptions to include 5 items per page
 const perPage = ref(perPageOptions.value[0]);
 const currentPage = ref(1);
-watch(() => useCookie('user').value.role_profile_name, (newRole) => {
-  roleProfileName.value = newRole;
-});
+watch(
+  () => useCookie("user").value.role_profile_name,
+  (newRole) => {
+    roleProfileName.value = newRole;
+  }
+);
 const changePerPage = (option: number) => {
   perPage.value = option;
   currentPage.value = 1; // Reset to the first page when changing items per page
@@ -145,31 +147,32 @@ const editDonePicture = ref(false);
 
 definePageMeta({
   layout: "dashboard",
-  middleware:['auth','permissions'],
-  requiredPermission: 'team',
-
+  middleware: ["auth", "permissions"],
+  requiredPermission: "team",
 });
-const {user:userinStore} = storeToRefs(userStore) 
-const { currTeam, getCurrentTeam, loading: getCurrTeamLoading } = useGetCurrentTeam();
-const loadingTeam = ref(true)
+const { user: userinStore } = storeToRefs(userStore);
+const {
+  currTeam,
+  getCurrentTeam,
+  loading: getCurrTeamLoading,
+} = useGetCurrentTeam();
+const loadingTeam = ref(true);
 const getCurrTeam = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   await getCurrentTeam(user.sid);
   state.teamName = currTeam.value.team_name;
 };
-const teamstore = useTeamStore()
+const teamstore = useTeamStore();
 let myUser = ref({});
 
 onMounted(async () => {
-myUser.value = JSON.parse(localStorage.getItem("user"));
+  myUser.value = JSON.parse(localStorage.getItem("user"));
   await getTeamMembersAndThirCount();
 
-
   await getCurrTeam();
-  teamstore.maxlimit =  await getCapacity();
+  teamstore.maxlimit = await getCapacity();
 
-  loadingTeam.value = false
-
+  loadingTeam.value = false;
 });
 
 const { renameTeam, loading } = useRenameTeam();
@@ -199,16 +202,16 @@ const openDeleteMember = (memberEmail) => {
 
 const memberDeletedSuccessfully = ref(false);
 
-const deleteMember =async ()=>{
+const deleteMember = async () => {
   const { deleteMember } = useDeleteMember();
-      await deleteMember(currMemberEmail.value);
-      await getTeamMembersAndThirCount();
-      memberDeletedSuccessfully.value = true;
-      setTimeout(() => {
-        memberDeletedSuccessfully.value = false;
-      }, 2000);
-      closeModal("deleteTeamMember");
-}
+  await deleteMember(currMemberEmail.value);
+  await getTeamMembersAndThirCount();
+  memberDeletedSuccessfully.value = true;
+  setTimeout(() => {
+    memberDeletedSuccessfully.value = false;
+  }, 2000);
+  closeModal("deleteTeamMember");
+};
 
 const filteredTeamMembers = computed(() => {
   if (teamMembers.value) {
@@ -216,7 +219,9 @@ const filteredTeamMembers = computed(() => {
       teamMembers.value.filter((ele) => {
         const name = ele.first_name + " " + ele.last_name;
         return (
-          name.toLowerCase().includes(search.value.toString().toLowerCase().trim()) ||
+          name
+            .toLowerCase()
+            .includes(search.value.toString().toLowerCase().trim()) ||
           ele.member_email
             .toLowerCase()
             .includes(search.value.toString().toLowerCase().trim())
@@ -249,7 +254,7 @@ const openEditUserModal = (member) => {
   });
   openModal("editusermodal", "team");
 };
-const profileStore = useProfileStore()
+const profileStore = useProfileStore();
 const openPermissions = (member) => {
   const user = JSON.parse(localStorage.getItem("user"));
   setData({
@@ -264,12 +269,11 @@ const openPermissions = (member) => {
 };
 const isOwner = computed(() => {
   return (member) => {
-    return (member.email || member.member_email) === currTeam.value?.owner_of_agency;
+    return (
+      (member.email || member.member_email) === currTeam.value?.owner_of_agency
+    );
   };
 });
-
-
-
 </script>
 
 <template>
@@ -291,319 +295,394 @@ const isOwner = computed(() => {
       :message="$t('Member Deleted Successfully')"
     />
 
-
-    <ModalsConfirm :show-modal="true" v-if="isOpen('deleteTeamMember')" title="Delete That Member"
-    sub-title="Are you sure you want to delete that team member ?" confirm-btn-type="delete"
-    @control-delete="deleteMember" @control-cancel="closeModal('deleteTeamMember')"/>
+    <ModalsConfirm
+      :show-modal="true"
+      v-if="isOpen('deleteTeamMember')"
+      title="Delete That Member"
+      sub-title="Are you sure you want to delete that team member ?"
+      confirm-btn-type="delete"
+      @control-delete="deleteMember"
+      @control-cancel="closeModal('deleteTeamMember')"
+    />
     <div class="space-y-[10px]">
       <h1
         class="ltr:text-left rtl:text-right text-[18px] leading-[36px] font-[600] dark:text-whiteTamkin"
       >
-        {{ $t('Team Management') }}
+        {{ $t("Team Management") }}
       </h1>
 
       <h2
         class="ltr:text-left rtl:text-right text-[14px] font-[400] leading-[22.5px] text-darkGrey dark:text-whiteTamkin/90"
       >
-        {{ $t('Manage your team and their account permissions here') }}
+        {{ $t("Manage your team and their account permissions here") }}
       </h2>
     </div>
 
     <div
-      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start  rtl:space-x-reverse space-x-[16px]"
+      class="mt-[44px] flex lg:space-y-0 space-y-[16px] items-center lg:flex-row md:flex-row md:space-y-0 flex-col justify-center lg:justify-start rtl:space-x-reverse space-x-[16px]"
     >
-    <div
-    v-if="!getCurrTeamLoading"
-    class="flex items-center justify-between flex-row  rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
-  >
-
-    <div
-      class="flex items-center justify-start  rtl:space-x-reverse space-x-[20px] w-full"
-    >
-      <div @click="()=>{
-        if(profileStore.isOwner){
-          openModal('editteampic', 'team')
-        }
-      }" v-if="!currTeam?.team_image" >
+      <div
+        v-if="!getCurrTeamLoading"
+        class="flex items-center justify-between flex-row rtl:space-x-reverse space-x-[24px] px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+      >
         <div
-        :class="[profileStore.isOwner ? 'cursor-pointer bg-tamkin' : 'cursor-not-allowed bg-light']"
-          class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] 
-          lg:h-[65px]  rounded-full flex items-center justify-center "
+          class="flex items-center justify-start rtl:space-x-reverse space-x-[20px] w-full"
         >
-          <svg
-            width="27"
-            height="24"
-            viewBox="0 0 27 24"
-            class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px] ipad-max:w-[15px] ipad-max:h-[15px]"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            @click="
+              () => {
+                if (profileStore.isOwner) {
+                  openModal('editteampic', 'team');
+                }
+              }
+            "
+            v-if="!currTeam?.team_image"
           >
-            <path
-              d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z"
-              fill="white"
-            />
-          </svg>
-        </div>
-      </div>
-      <div @click="()=>{
-        if(profileStore.isOwner){
-          openModal('editteampic', 'team')
-        }
-      }" class="" v-else>
-        <div
-          class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
-        >
-          <div class=" ">
-            <img
-              class="rounded-full w-[55px] h-[55px] object-cover border-[1px] border-[#2CA9A0]"
-              :src="`https://tamkin.app/${currTeam.team_image}`"
-            />
             <div
-              class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
+              :class="[
+                profileStore.isOwner
+                  ? 'cursor-pointer bg-tamkin'
+                  : 'cursor-not-allowed bg-light',
+              ]"
+              class="w-[30px] h-[30px] ipad-max:w-[30px] ipad-max:h-[30px] lg:w-[65px] lg:h-[65px] rounded-full flex items-center justify-center"
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                width="27"
+                height="24"
+                viewBox="0 0 27 24"
+                class="lg:w-[32px] lg:h-[32px] w-[15px] h-[15px] ipad-max:w-[15px] ipad-max:h-[15px]"
                 fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-[10px] h-[10px] text-[#021328] dark:text-whiteTamkin"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                  d="M23.5 3.5H20.035L18.3312 0.945C18.24 0.80819 18.1164 0.696004 17.9714 0.618382C17.8264 0.54076 17.6645 0.500099 17.5 0.5H9.5C9.33554 0.500099 9.17363 0.54076 9.02864 0.618382C8.88364 0.696004 8.76003 0.80819 8.66875 0.945L6.96375 3.5H3.5C2.70435 3.5 1.94129 3.81607 1.37868 4.37868C0.816071 4.94129 0.5 5.70435 0.5 6.5V20.5C0.5 21.2956 0.816071 22.0587 1.37868 22.6213C1.94129 23.1839 2.70435 23.5 3.5 23.5H23.5C24.2956 23.5 25.0587 23.1839 25.6213 22.6213C26.1839 22.0587 26.5 21.2956 26.5 20.5V6.5C26.5 5.70435 26.1839 4.94129 25.6213 4.37868C25.0587 3.81607 24.2956 3.5 23.5 3.5ZM24.5 20.5C24.5 20.7652 24.3946 21.0196 24.2071 21.2071C24.0196 21.3946 23.7652 21.5 23.5 21.5H3.5C3.23478 21.5 2.98043 21.3946 2.79289 21.2071C2.60536 21.0196 2.5 20.7652 2.5 20.5V6.5C2.5 6.23478 2.60536 5.98043 2.79289 5.79289C2.98043 5.60536 3.23478 5.5 3.5 5.5H7.5C7.66468 5.50011 7.82683 5.45954 7.97206 5.38191C8.11729 5.30428 8.2411 5.19199 8.3325 5.055L10.035 2.5H16.9638L18.6675 5.055C18.7589 5.19199 18.8827 5.30428 19.0279 5.38191C19.1732 5.45954 19.3353 5.50011 19.5 5.5H23.5C23.7652 5.5 24.0196 5.60536 24.2071 5.79289C24.3946 5.98043 24.5 6.23478 24.5 6.5V20.5ZM13.5 7.5C12.4122 7.5 11.3488 7.82257 10.4444 8.42692C9.53989 9.03127 8.83494 9.89025 8.41866 10.8952C8.00238 11.9002 7.89346 13.0061 8.10568 14.073C8.3179 15.1399 8.84172 16.1199 9.61091 16.8891C10.3801 17.6583 11.3601 18.1821 12.427 18.3943C13.4939 18.6065 14.5998 18.4976 15.6048 18.0813C16.6098 17.6651 17.4687 16.9601 18.0731 16.0556C18.6774 15.1512 19 14.0878 19 13C18.9983 11.5418 18.4184 10.1438 17.3873 9.11274C16.3562 8.08165 14.9582 7.50165 13.5 7.5ZM13.5 16.5C12.8078 16.5 12.1311 16.2947 11.5555 15.9101C10.9799 15.5256 10.5313 14.9789 10.2664 14.3394C10.0015 13.6999 9.9322 12.9961 10.0673 12.3172C10.2023 11.6383 10.5356 11.0146 11.0251 10.5251C11.5146 10.0356 12.1383 9.7023 12.8172 9.56725C13.4961 9.4322 14.1999 9.50151 14.8394 9.76642C15.4789 10.0313 16.0256 10.4799 16.4101 11.0555C16.7947 11.6311 17 12.3078 17 13C17 13.9283 16.6313 14.8185 15.9749 15.4749C15.3185 16.1313 14.4283 16.5 13.5 16.5Z"
+                  fill="white"
                 />
               </svg>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div v-if="!editTeamNameMode" class="w-full">
-        <h1
-          class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin"
-        >
-          {{$t('Your team name')}} <br />
-          <span class="font-bold" v-if="currTeam">
-            {{ currTeam.team_name }}
-          </span>
-        </h1>
-      </div>
-      <div v-else class="w-full">
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="{{$t('Your team name')}}"
-            id="teamName"
-            class="input_floating_label peer w-full"
-            v-model="v$.teamName.$model"
-            :class="{
-              input_error: v$.teamName.$error && v$.teamName.required.$invalid,
-              input_success: !v$.teamName.$error && !v$.teamName.$invalid,
-            }"
-          />
-          <label
-            for="teamName"
-            class="floating_label"
-            :class="[
-              v$.teamName.$error && v$.teamName.required.$invalid
-                ? '!text-error'
-                : '',
-            ]"
-          >
-            {{ $t("Your team name") }}*
-          </label>
           <div
-            class="w-full lg:w-4/6"
-            v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+            @click="
+              () => {
+                if (profileStore.isOwner) {
+                  openModal('editteampic', 'team');
+                }
+              }
+            "
+            class=""
+            v-else
           >
-            <div class="error_message">
-              <span v-if="v$.teamName.$error && v$.teamName.required.$invalid">{{
-                $t("Team name is required")
-              }}</span>
+            <div
+              class="w-[55px] h-[55px] bg-tamkin rounded-full flex items-center justify-center cursor-pointer relative rounded-full"
+            >
+              <div class=" ">
+                <img
+                  class="rounded-full w-[55px] h-[55px] object-cover border-[1px] border-[#2CA9A0]"
+                  :src="`https://tamkin.app/${currTeam.team_image}`"
+                />
+                <div
+                  class="cursor-pointer absolute bottom-0 right-0 w-[20px] h-[20px] bg-white dark:bg-tamkinDarkPrimary rounded-full border-[1px] border-[#2CA9A0] flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-[10px] h-[10px] text-[#021328] dark:text-whiteTamkin"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="!editTeamNameMode" class="w-full">
+            <h1
+              class="font-[500] text-[13px] leading-[19.5px] text-darkGrey dark:text-whiteTamkin"
+            >
+              {{ $t("Your team name") }} <br />
+              <span class="font-bold" v-if="currTeam">
+                {{ currTeam.team_name }}
+              </span>
+            </h1>
+          </div>
+          <div v-else class="w-full">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="{{$t('Your team name')}}"
+                id="teamName"
+                class="input_floating_label peer w-full"
+                v-model="v$.teamName.$model"
+                :class="{
+                  input_error:
+                    v$.teamName.$error && v$.teamName.required.$invalid,
+                  input_success: !v$.teamName.$error && !v$.teamName.$invalid,
+                }"
+              />
+              <label
+                for="teamName"
+                class="floating_label"
+                :class="[
+                  v$.teamName.$error && v$.teamName.required.$invalid
+                    ? '!text-error'
+                    : '',
+                ]"
+              >
+                {{ $t("Your team name") }}*
+              </label>
+              <div
+                class="w-full lg:w-4/6"
+                v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+              >
+                <div class="error_message">
+                  <span
+                    v-if="v$.teamName.$error && v$.teamName.required.$invalid"
+                    >{{ $t("Team name is required") }}</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="flex items-center justify-center flex-shrink-0">
-      <div v-if="!editTeamNameMode">
-        <button
-        :disabled="!profileStore.isOwner"
-          @click="() => {
-
-            if(profileStore.isOwner){
-              (editTeamNameMode = !editTeamNameMode)
-            }
-          }"
-          class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
-        >
-          {{ $t('Edit Team') }}
-        </button>
-      </div>
-      <div v-else class="">
-        <button
-          @click="doRenameTeam"
-          :disabled="v$.teamName.$invalid || loading"
-          class="btn_bordered_dashboard ml-auto"
-        >
-          <div class="flex items-center justify-center">
-            <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''">{{$t('Save')}}</div>
-
-            <svg
-              v-if="loading"
-              class="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
+        <div class="flex items-center justify-center flex-shrink-0">
+          <div v-if="!editTeamNameMode">
+            <button
+              :disabled="!profileStore.isOwner"
+              @click="
+                () => {
+                  if (profileStore.isOwner) {
+                    editTeamNameMode = !editTeamNameMode;
+                  }
+                }
+              "
+              class="btn_bordered_dashboard font-[500] text-[13px] leading-[22.5px]"
             >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+              {{ $t("Edit Team") }}
+            </button>
           </div>
-        </button>
+          <div v-else class="">
+            <button
+              @click="doRenameTeam"
+              :disabled="v$.teamName.$invalid || loading"
+              class="btn_bordered_dashboard ml-auto"
+            >
+              <div class="flex items-center justify-center">
+                <div :class="loading ? 'rtl:ml-2 ltr:mr-2' : ''">
+                  {{ $t("Save") }}
+                </div>
+
+                <svg
+                  v-if="loading"
+                  class="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-    
- <!-- Skeleton Loader -->
- <div v-if="getCurrTeamLoading"       
-   class="flex items-center justify-between flex-row  space-x-reverse  px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
- >
-  <!-- Avatar Skeleton -->
-  <div class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"></div>
 
-  <!-- Details Skeleton -->
-  <div class="flex flex-col justify-center w-4/6">
-    <div class="h-[19px] w-3/4 bg-gray-300 rounded-full mb-[8px] animate-pulse"></div>
-    <div class="h-[19px] w-2/4 bg-gray-300 rounded-full animate-pulse"></div>
-  </div>
+      <!-- Skeleton Loader -->
+      <div
+        v-if="getCurrTeamLoading"
+        class="flex items-center justify-between flex-row space-x-reverse px-[16px] py-[23px] w-full dark:bg-tamkinDarkPrimary bg-white h-[108px] rounded-[10px] border-[1px] border-lightGrey dark:border-darkborder overflow-hidden"
+      >
+        <!-- Avatar Skeleton -->
+        <div
+          class="w-[65px] h-[65px] bg-gray-300 rounded-full animate-pulse"
+        ></div>
 
-  <!-- Edit Button Skeleton -->
-  <div class="w-[100px] h-[30px] bg-gray-300 rounded-full animate-pulse"></div>
-</div>
-      <div v-if="!getCurrTeamLoading"
-        class="flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px]"
+        <!-- Details Skeleton -->
+        <div class="flex flex-col justify-center w-4/6">
+          <div
+            class="h-[19px] w-3/4 bg-gray-300 rounded-full mb-[8px] animate-pulse"
+          ></div>
+          <div
+            class="h-[19px] w-2/4 bg-gray-300 rounded-full animate-pulse"
+          ></div>
+        </div>
+
+        <!-- Edit Button Skeleton -->
+        <div
+          class="w-[100px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+        ></div>
+      </div>
+      <div
+        v-if="!getCurrTeamLoading"
+        class="flex items-start p-[16px] justify-between w-full h-[108px] dark:text-whiteTamkin border-lightGrey from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] dark:bg-tamkinDarkPrimary dark:border-darkborder border-[1px]"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-      <div class="flex flex-col items-start justify-start">
-        <div class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]">
-          <div>
-            <img src="/imgs/total_members.png" class="w-[16px] h-[21px]" alt="" />
+        <div class="flex flex-col items-start justify-start">
+          <div
+            class="text-[#021328] text-[16px] font-[600] leading-[22px] flex rtl:space-x-reverse space-x-[8px]"
+          >
+            <div>
+              <img
+                src="/imgs/total_members.png"
+                class="w-[16px] h-[21px]"
+                alt=""
+              />
+            </div>
+            <div class="flex items-center justify-between w-full">
+              <div
+                class="flex-grow ipad-max:text-[12px] lg:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+              >
+                {{ $t("Total Member") }}
+              </div>
+              <div
+                class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right"
+              >
+                {{ teamMembers.length }}
+              </div>
+            </div>
           </div>
-          <div class="flex items-center justify-between w-full">
-            <div class="flex-grow ipad-max:text-[12px] lg:text-[14px] 2xl:text-[16px] 2xl:leading-[22px] lg:leading-[12px] lg:whitespace-nowrap ipad-max:leading-[10px] ipad-max:whitespace-nowrap">{{$t('Total Member')}}</div>
-            <div class="ipad-max:ml-[10px] ltr:ml-[50px] rtl:mr-[50px] text-right">
-              {{ teamMembers.length }}
+          <div class="flex items-center justify-between mt-[8px] w-full">
+            <div class="flex items-center">
+              <div
+                class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"
+              ></div>
+              <div
+                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+              >
+                {{ $t("Active") }}
+              </div>
+            </div>
+            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+              {{ teamMembers.filter((ele) => ele.is_active).length }}
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-[8px] w-full">
+            <div class="flex items-center">
+              <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
+              <div
+                class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap"
+              >
+                {{ $t("Pending") }}
+              </div>
+            </div>
+            <div class="ltr:ml-[50px] rtl:mr-[50px] text-right">
+              {{ teamMembers.filter((ele) => !ele.is_active).length }}
             </div>
           </div>
         </div>
-        <div class="flex items-center justify-between mt-[8px] w-full">
-          <div class="flex items-center">
-            <div class="w-[10px] h-[10px] bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-full"></div>
-            <div class="rtl:mr-[12px] ltr:ml-[11px] flex-grow  ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap">
-              {{$t('Active')}}
-            </div>
-          </div>
-          <div class="ltr:ml-[50px] rtl:mr-[50px] text-right"> 
-            {{ teamMembers.filter((ele) => ele.is_active).length }}
-          </div>
-        </div>
-        <div class="flex items-center justify-between mt-[8px] w-full">
-          <div class="flex items-center">
-            <div class="w-[10px] h-[10px] bg-[#F64545] rounded-full"></div>
-            <div class="rtl:mr-[12px] ltr:ml-[11px] flex-grow ipad-max:text-[12px] ipad-max:leading-[10px] ipad-max:whitespace-nowrap">
-              {{$t('Pending')}}
-            </div>
-          </div>
-          <div class="ltr:ml-[50px] rtl:mr-[50px] text-right"> 
-            {{ teamMembers.filter((ele) => !ele.is_active).length }}
-          </div>
-        </div>
-      </div>
-      
-      
+
         <div class="-mt-[45px]">
-          <img src="/imgs/total_members_hero.png" class="w-[203px] h-[151px]" alt="" />
+          <img
+            src="/imgs/total_members_hero.png"
+            class="w-[203px] h-[151px]"
+            alt=""
+          />
         </div>
       </div>
-      <div v-if="getCurrTeamLoading" class="relative flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse">
+      <div
+        v-if="getCurrTeamLoading"
+        class="relative flex items-start p-[16px] justify-between w-full h-[108px] bg-gradient-to-r from-[#F2F8FE] to-[#FDF9FB] rounded-[10px] animate-pulse"
+      >
         <!-- Placeholder for the text and stats -->
-        <div class="flex flex-col items-start justify-start space-y-[8px] w-full">
+        <div
+          class="flex flex-col items-start justify-start space-y-[8px] w-full"
+        >
           <!-- Placeholder for the total members row -->
           <div class="flex rtl:space-x-reverse space-x-[8px]">
             <div class="w-[16px] h-[21px] bg-gray-300 rounded"></div>
-            <div class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]">
+            <div
+              class="flex items-center justify-center rtl:space-x-reverse space-x-[20px]"
+            >
               <div class="w-[100px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
           </div>
-      
+
           <!-- Placeholder for the active status row -->
-          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]">
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]"
+          >
             <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
-            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]">
+            <div
+              class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]"
+            >
               <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
           </div>
-      
+
           <!-- Placeholder for the pending status row -->
-          <div class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]">
+          <div
+            class="flex items-center justify-center rtl:space-x-reverse space-x-[14px]"
+          >
             <div class="w-[10px] h-[10px] bg-gray-300 rounded-full"></div>
-            <div class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]">
+            <div
+              class="flex text-[14px] leading-[21px] text-darkGrey font-[500] rtl:space-x-reverse space-x-[74px]"
+            >
               <div class="w-[50px] h-[16px] bg-gray-300 rounded"></div>
               <div class="w-[30px] h-[16px] bg-gray-300 rounded"></div>
             </div>
           </div>
         </div>
-      
+
         <!-- Placeholder for the image -->
         <div class="pl-[20px]">
-          <div class="w-[203px] h-[70px] bg-gray-300 rounded animate-pulse"></div>
+          <div
+            class="w-[203px] h-[70px] bg-gray-300 rounded animate-pulse"
+          ></div>
         </div>
       </div>
-      
-  
     </div>
 
-    <section class="mx-auto mt-[24px]" v-loading="getAllMembersLoading && capacityLoader">
+    <section
+      class="mx-auto mt-[24px]"
+      v-loading="getAllMembersLoading && capacityLoader"
+    >
       <div
         class="flex flex-col items-start justify-center rounded-[10px] pb-[42px] bg-white dark:bg-tamkinDarkPrimary overflow-auto"
         style="box-shadow: 0px 4px 24px 8px #51459f1a"
       >
-        <div v-if="!getCurrTeamLoading && !capacityLoader" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+        <div
+          v-if="!getCurrTeamLoading && !capacityLoader"
+          class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full"
+        >
           <div class="p-[16px]">
             <div
               class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
               style="line-height: 30px"
             >
-              {{ $t('All Members') }}
+              {{ $t("All Members") }}
             </div>
           </div>
 
           <div
             class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]"
           >
-            <div class="py-[17px] search_input ">
+            <div class="py-[17px] search_input">
               <input
                 type="text"
                 class="input_dashboard_search w-full !h-[40px]"
@@ -611,8 +690,7 @@ const isOwner = computed(() => {
                 :placeholder="`${$t('Search')}...`"
               />
               <div
-                class="absolute top-[40%] 
-                rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
+                class="absolute top-[40%] rtl:lg:right-0 rtl:right-[10px] ltr:lg:left-0 ltr:left-[10px] lg:top-[13px] lg:p-[16px]"
               >
                 <img src="/assets/imgs/icons/search.svg" />
               </div>
@@ -625,42 +703,73 @@ const isOwner = computed(() => {
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
-              <button :disabled="!profileStore.isOwner || teamstore.maxlimit <= paginatedFilteredTeamMembers.length || teamstore.maxlimit === 0"
+              <button
+                :disabled="
+                  !profileStore.isOwner ||
+                  teamstore.maxlimit <= paginatedFilteredTeamMembers.length ||
+                  teamstore.maxlimit === 0
+                "
                 class="btn-dashboard hover_tamkin"
-                @click="()=>{
-                  if(profileStore.isOwner){
-                    openModal('invitemember')
+                @click="
+                  () => {
+                    if (profileStore.isOwner) {
+                      openModal('invitemember');
+                    }
                   }
-                }"
+                "
               >
-                {{ $t('Invite Member') }}
+                {{ $t("Invite Member") }}
               </button>
             </div>
           </div>
         </div>
-        <div v-if="getCurrTeamLoading || capacityLoader" class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full">
+        <div
+          v-if="getCurrTeamLoading || capacityLoader"
+          class="flex items-center justify-between lg:flex-nowrap flex-wrap w-full"
+        >
           <div class="p-[16px]">
-            <div class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin" style="line-height: 30px">
+            <div
+              class="text-[16px] font-[600] py-[24px] text-[#021328] dark:text-whiteTamkin"
+              style="line-height: 30px"
+            >
               <div class="w-[150px] h-[24px] bg-gray-200 rounded"></div>
             </div>
           </div>
-        
-          <div class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]">
+
+          <div
+            class="flex items-center justify-between lg:justify-evenly px-[16px] rtl:space-x-reverse space-x-[10px]"
+          >
             <div class="py-[17px] search_input relative">
-              <div class="w-full h-[40px] bg-gray-200 rounded  animate-pulse flex items-center pl-[40px]">
-                <div class="w-[24px] h-[24px] bg-gray-200 rounded-full absolute left-[10px]"></div>
+              <div
+                class="w-full h-[40px] bg-gray-200 rounded animate-pulse flex items-center pl-[40px]"
+              >
+                <div
+                  class="w-[24px] h-[24px] bg-gray-200 rounded-full absolute left-[10px]"
+                ></div>
               </div>
-              <div  class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer">
-                <div class="w-[24px] h-[24px] bg-gray-200 animate-pulse  rounded-full"></div>
+              <div
+                class="absolute top-[12px] lg:top-[12px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
+              >
+                <div
+                  class="w-[24px] h-[24px] bg-gray-200 animate-pulse rounded-full"
+                ></div>
               </div>
             </div>
             <div class="lg:w-[250px] w-2/4">
-                <div class="w-[120px]  bg-gray-200 rounded animate-pulse   h-[40px]"></div>
+              <div
+                class="w-[120px] bg-gray-200 rounded animate-pulse h-[40px]"
+              ></div>
             </div>
           </div>
         </div>
-        
-        <template v-if="paginatedFilteredTeamMembers.length > 0 && !getCurrTeamLoading && !capacityLoader">
+
+        <template
+          v-if="
+            paginatedFilteredTeamMembers.length > 0 &&
+            !getCurrTeamLoading &&
+            !capacityLoader
+          "
+        >
           <table
             class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
           >
@@ -669,22 +778,22 @@ const isOwner = computed(() => {
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] dark:text-whiteTamkin ltr:lg:pl-[16px] text-darkGrey"
                 >
-                  {{$t('Name')}}
+                  {{ $t("Name") }}
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{ $t('Email') }}
+                  {{ $t("Email") }}
                 </th>
                 <th
                   class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{$t('Permissions')}}
+                  {{ $t("Permissions") }}
                 </th>
                 <th
                   class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
                 >
-                  {{$t('Action')}}
+                  {{ $t("Action") }}
                 </th>
               </tr>
             </thead>
@@ -697,11 +806,10 @@ const isOwner = computed(() => {
                 :key="index"
               >
                 <td
-                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] 
-                  text-darkGrey dark:text-whiteTamkin"
+                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
                   <div
-                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]  space-x-[16px]"
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px] space-x-[16px]"
                   >
                     <div class="inline">
                       <img
@@ -712,7 +820,8 @@ const isOwner = computed(() => {
 
                       <img
                         v-else-if="
-                          myUser.photoURL && member.member_email === myUser?.email
+                          myUser.photoURL &&
+                          member.member_email === myUser?.email
                         "
                         :src="myUser.photoURL"
                         class="h-[30px] hidden lg:block w-[30px] rounded-full"
@@ -724,29 +833,31 @@ const isOwner = computed(() => {
                       >
                         <span>
                           {{
-                            getAvatarLetters(member.first_name + " " + member.last_name)
+                            getAvatarLetters(
+                              member.first_name + " " + member.last_name
+                            )
                           }}
                         </span>
                       </div>
                     </div>
 
                     <div
-                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap max-w-44 truncate" 
-                     
-                      
+                      class="lg:order-1 order-2 lg:py-0 whitespace-nowrap max-w-44 truncate"
                     >
-                    
                       {{ member.first_name + " " + member.last_name }}
                     </div>
                     <div
                       v-if="isOwner(member)"
-                      class="order-1 flex items-center justify-center text-white text-[10px]
-                       font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
+                      class="order-1 flex items-center justify-center text-white text-[10px] font-[500] leading-[15px] h-[23px] rounded-[17px] p-[10px]"
                       style="
-                        background: linear-gradient(180deg, #2dada3 0%, #71dad2 100%);
+                        background: linear-gradient(
+                          180deg,
+                          #2dada3 0%,
+                          #71dad2 100%
+                        );
                       "
                     >
-                      {{ $t('Owner') }}
+                      {{ $t("Owner") }}
                     </div>
                   </div>
                 </td>
@@ -758,55 +869,66 @@ const isOwner = computed(() => {
                 <td
                   class="py-4 text-center text-[14px] lg:pr-0 pr-[100px] whitespace-nowrap font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                
-                  <div class="flex items-center justify-start" 
-                  v-if="(profileStore.isOwner)&& !isOwner(member)">
+                  <div
+                    class="flex items-center justify-start"
+                    v-if="profileStore.isOwner && !isOwner(member)"
+                  >
                     <button
                       :disabled="isOwner(member)"
-                      @click="()=>{
-                       if(profileStore.isOwner){
-                        openPermissions(member)
-                       } 
-                      }"
-                      :class="!profileStore.isOwner ?  ' cursor-not-allowed opacity-40' : 'opacity-100'"
-                      class="flex items-center  rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
+                      @click="
+                        () => {
+                          if (profileStore.isOwner) {
+                            openPermissions(member);
+                          }
+                        }
+                      "
+                      :class="
+                        !profileStore.isOwner
+                          ? ' cursor-not-allowed opacity-40'
+                          : 'opacity-100'
+                      "
+                      class="flex items-center rtl:space-x-reverse space-x-[10px] bg-transparent underline focus:outline-none"
                     >
-                      <div>{{$t('Permissions')}}</div>
+                      <div>{{ $t("Permissions") }}</div>
                       <img src="/assets/imgs/icons/arow_down.svg" />
                     </button>
                   </div>
-                  <div class="flex items-center justify-start"  v-else>
-                    -
-                  </div>
+                  <div class="flex items-center justify-start" v-else>-</div>
                 </td>
 
-                <td class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                  <div v-if="(profileStore.isOwner) && !isOwner(member)"
-            
-                    class="flex items-evenly justify-center  rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                <td
+                  class="text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    v-if="profileStore.isOwner && !isOwner(member)"
+                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
                   >
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="
-                      member.is_active ||
-                      (!profileStore.isOwner ) ||
-                      (reInviteLoading && currEmail === member.member_email) ||
-                      invitedUsers.includes(member.member_email)
-                    "
-                    
+                        member.is_active ||
+                        !profileStore.isOwner ||
+                        (reInviteLoading &&
+                          currEmail === member.member_email) ||
+                        invitedUsers.includes(member.member_email)
+                      "
                       :class="[
                         member.is_active ||
                         (!profileStore.isOwner && isOwner(member)) ||
-                        (reInviteLoading && currEmail === member.member_email) ||
+                        (reInviteLoading &&
+                          currEmail === member.member_email) ||
                         invitedUsers.includes(member.member_email)
-                        
                           ? `opacity-40`
                           : 'opacity-100',
                       ]"
                       @click="reinviteUser(member.member_email)"
                     >
                       <svg
-                        v-if="!(reInviteLoading && currEmail === member.member_email)"
+                        v-if="
+                          !(
+                            reInviteLoading && currEmail === member.member_email
+                          )
+                        "
                         width="22"
                         height="20"
                         class="text-[#8C8C8C] cursor-pointer group-disabled:cursor-not-allowed"
@@ -838,16 +960,28 @@ const isOwner = computed(() => {
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="isOwner(member)"
-                      :class="!profileStore.isOwner ? `cursor-not-allowed opacity-40` : 'opacity-100'"
+                      :class="
+                        !profileStore.isOwner
+                          ? `cursor-not-allowed opacity-40`
+                          : 'opacity-100'
+                      "
                     >
                       <svg
                         width="16"
                         height="20"
                         viewBox="0 0 16 20"
                         fill="none"
-                        class="text-[#8C8C8C]  group-disabled:cursor-not-allowed"
-                        :class="profileStore.isOwner ?  `cursor-pointer hover:text-[#2DADA3]` : 'cursor-not-allowed'"
-                        @click=" profileStore.isOwner ? openEditUserModal(member) : null"
+                        class="text-[#8C8C8C] group-disabled:cursor-not-allowed"
+                        :class="
+                          profileStore.isOwner
+                            ? `cursor-pointer hover:text-[#2DADA3]`
+                            : 'cursor-not-allowed'
+                        "
+                        @click="
+                          profileStore.isOwner
+                            ? openEditUserModal(member)
+                            : null
+                        "
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
@@ -861,9 +995,15 @@ const isOwner = computed(() => {
                     <button
                       class="flex justify-center w-[40px] !p-0 !m-0 group"
                       :disabled="isOwner(member)"
-                      :class="!profileStore.isOwner || isOwner(member)? `cursor-not-allowed opacity-40 ` : 'opacity-100'"
+                      :class="
+                        !profileStore.isOwner || isOwner(member)
+                          ? `cursor-not-allowed opacity-40 `
+                          : 'opacity-100'
+                      "
                       @click="
-                         profileStore.isOwner ? openDeleteMember(member.member_email) : null
+                        profileStore.isOwner
+                          ? openDeleteMember(member.member_email)
+                          : null
                       "
                     >
                       <svg
@@ -871,9 +1011,12 @@ const isOwner = computed(() => {
                         height="20"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        class="text-[#8C8C8C]   group-disabled:cursor-not-allowed"
-                        :class=" profileStore.isOwner  &&  !isOwner(member) ?
-                          `cursor-pointer  hover:text-[#E80902]` :'!cursor-not-allowed'"
+                        class="text-[#8C8C8C] group-disabled:cursor-not-allowed"
+                        :class="
+                          profileStore.isOwner && !isOwner(member)
+                            ? `cursor-pointer  hover:text-[#E80902]`
+                            : '!cursor-not-allowed'
+                        "
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
@@ -883,8 +1026,10 @@ const isOwner = computed(() => {
                       </svg>
                     </button>
                   </div>
-                  <div                     class="flex items-evenly justify-center  rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
-                  v-else>
+                  <div
+                    class="flex items-evenly justify-center rtl:space-x-reverse space-x-[16px] rtl:pr-[32px] lt:pl-[32px]"
+                    v-else
+                  >
                     -
                   </div>
                 </td>
@@ -892,63 +1037,112 @@ const isOwner = computed(() => {
             </tbody>
           </table>
         </template>
-      
-        <div v-if="getCurrTeamLoading || capacityLoader" class="relative overflow-x-auto w-full">
-          <table class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder">
+
+        <div
+          v-if="getCurrTeamLoading || capacityLoader"
+          class="relative overflow-x-auto w-full"
+        >
+          <table
+            class="table-auto divide-y last:border-b dark:last:border-b-darkborder w-full divide-gray-200 dark:divide-darkborder"
+          >
             <thead>
               <tr>
-                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]">
-                  <div class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pr-[8px] ltr:pl-[8px] rtl:lg:pr-[16px] ltr:lg:pl-[16px]"
+                >
+                  <div
+                    class="w-[100px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
-                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
-                <th class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <th
+                  class="py-3.5 ltr:text-left rtl:text-right text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
-                <th class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <th
+                  class="py-3.5 pr-[8px] text-center text-[14px] font-[600] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-3/4 h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full">
+            <tbody
+              class="bg-white dark:bg-tamkinDarkPrimary divide-y divide-gray-200 dark:divide-darkborder w-full"
+            >
               <tr v-for="index in 2" :key="index">
-                <td                   class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                <td
+                  class="lg:pr-0 pr-[100px] rtl:lg:pr-[16px] ltr:lg:pl-[16px] text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
                 >
-                  <div class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]">
-                    <div class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse" ></div>
-                    <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                  <div
+                    class="flex items-center justify-start rtl:space-x-reverse space-x-[10px]"
+                  >
+                    <div
+                      class="w-[30px] h-[30px] bg-gray-300 rounded-full animate-pulse"
+                    ></div>
+                    <div
+                      class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                    ></div>
                   </div>
                 </td>
-                <td class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse "></div>
+                <td
+                  class="py-4 ltr:text-left rtl:text-right text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-[200px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
-                <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <td
+                  class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-[150px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
-                <td class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin">
-                  <div class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"></div>
+                <td
+                  class="py-4 text-center text-[14px] font-[400] text-darkGrey dark:text-whiteTamkin"
+                >
+                  <div
+                    class="w-[90px] h-[20px] bg-gray-300 rounded animate-pulse"
+                  ></div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        
 
-        <NoData v-if="paginatedFilteredTeamMembers.length ===  0 && !getCurrTeamLoading && !capacityLoader" />
+        <NoData
+          v-if="
+            paginatedFilteredTeamMembers.length === 0 &&
+            !getCurrTeamLoading &&
+            !capacityLoader
+          "
+        />
       </div>
 
       <div
         class="flex flex-col lg:flex-row md:flex-row justify-between items-center py-[16px]"
         v-if="paginatedFilteredTeamMembers.length > 0"
       >
-        <div class="flex items-center  rtl:space-x-reverse space-x-2 mb-4 lg:mb-0">
+        <div
+          class="flex items-center rtl:space-x-reverse space-x-2 mb-4 lg:mb-0"
+        >
           <span
             class="dark:text-whiteTamkin text-darkGrey text-[13px] leading-[21px] font-[400]"
           >
-            {{ $t('Per Page') }}
+            {{ $t("Per Page") }}
           </span>
-          <div class="flex rtl:space-x-reverse space-x-2  ">
+          <div class="flex rtl:space-x-reverse space-x-2">
             <button
               v-for="option in perPageOptions"
               :key="option"
@@ -967,11 +1161,11 @@ const isOwner = computed(() => {
             </button>
           </div>
         </div>
-        <div class="flex items-center  rtl:space-x-reverse space-x-2">
+        <div class="flex items-center rtl:space-x-reverse space-x-2">
           <span
             class="text-darkGrey dark:text-whiteTamkin text-[13px] leading-[21px] font-[400]"
           >
-            {{ $t('Page') }}
+            {{ $t("Page") }}
           </span>
           <button
             @click="prevPage"
@@ -983,7 +1177,6 @@ const isOwner = computed(() => {
               height="20"
               viewBox="0 0 20 20"
               class="rtl:rotate-180"
-
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -995,7 +1188,7 @@ const isOwner = computed(() => {
               />
             </svg>
           </button>
-          <div v-if="teamMembers" class="flex rtl:space-x-reverse space-x-2  ">
+          <div v-if="teamMembers" class="flex rtl:space-x-reverse space-x-2">
             <button
               v-for="i in totalPages"
               :key="i"
