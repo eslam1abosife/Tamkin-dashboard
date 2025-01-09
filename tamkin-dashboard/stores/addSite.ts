@@ -68,10 +68,14 @@ export const useAddSiteStore = defineStore("addsite", {
 
       const specificTypePackages = state.packages
         .filter((pkg) => pkg.type === desiredType)
+        .sort((a, b) => a.sort - b.sort)
+
         .slice(0, 3);
 
       const otherPackages = state.packages
         .filter((pkg) => pkg.type !== desiredType)
+        .sort((a, b) => a.sort - b.sort)
+
         .slice(0, 3);
 
       if (

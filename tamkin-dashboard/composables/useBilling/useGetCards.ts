@@ -18,7 +18,7 @@ export default function() {
             //     // savedCards.value = res.data.data; // Update savedCards with the fetched data
             //     billingStore.cards = res.data.data; // Update savedCards with the fetched data
             // }
-            console.log('savedCards.value', savedCards.value); // Corrected logging
+            // console.log('savedCards.value', savedCards.value); // Corrected logging
         } catch (error) {
             console.error(error); // Better error handling
             throw typeof error === 'string' ? error : 'There is something wrong';

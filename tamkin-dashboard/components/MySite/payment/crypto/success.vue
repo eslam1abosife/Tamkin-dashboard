@@ -120,7 +120,7 @@ const percentageOff = computed(() => {
 </script>
 
 <template>
-    <div v-if="isModalOpen('crypto_mysite_success')"  class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
+    <div  v-if="isModalOpen('crypto_mysite_success')" class="bg-selected dark:bg-p fixed z-[9999] top-[0] rtl:lg:left-0 ltr:right-0 rounded-[10px] p-[20px] lg:w-[600px] w-full h-full lg:h-screen lg:overflow-x-hidden">
 
     <div style="box-shadow: 1px 0px 20.5px 0px #71dad2bd" class="close_btn_payment !cursor-pointer z-[999]
      dark:bg-tamkinDarkPrimary dark:text-whiteTamkin !top-[23px]" @click="()=>{
@@ -151,7 +151,7 @@ const percentageOff = computed(() => {
       </svg>
     </div>
       <div class="w-full h-full">
-  <div class="flex flex-col items-start justify-center w-full" v-if="isModalOpen('crypto_mysite_success')">
+  <div class="flex flex-col items-start justify-center w-full" >
   
  
  

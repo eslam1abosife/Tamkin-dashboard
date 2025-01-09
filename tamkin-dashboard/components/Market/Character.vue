@@ -29,17 +29,25 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
     class="grid grid-cols-1 ipad-max:grid-cols-3 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 bg-white dark:bg-[#344153] pt-4 !pb-4 px-[15px] rounded-b-[10px] gap-4 lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
   >
     <div
-      class="market_card_char !justify-center order-1"
+      class="group market_card_char !justify-center order-1 relative"
       @click="()=>{
         if(defaultApp){
           openModalAndHideChat(), setData(null)
         }
       }"
     >
+    <div
+    v-if="!defaultApp"
+    class="absolute bottom-[0] inset-x-auto w-[150px] bg-[#747171]
+     text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
+     transition-opacity duration-200"
+  >
+    {{ $t("You have to set A default website to use the market") }}
+  </div>
       <div>
         <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
       </div>
-      <div class="group relative">
+      <div class=" relative">
         <button 
           class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2 "
           :disabled="!defaultApp"
@@ -51,13 +59,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
         >
           {{ $t("Specific Character") }}
         </button>
-        <div
-        class="absolute top-[44px] inset-x-auto w-[150px] bg-[#747171]
-         text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
-         transition-opacity duration-200"
-      >
-        {{ $t("You have to set A default website to use the market") }}
-      </div>
+     
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
@@ -187,7 +189,7 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
               relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
               ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
-            <div
+            <div v-if="!defaultApp"
             class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
              text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
              transition-opacity duration-200"

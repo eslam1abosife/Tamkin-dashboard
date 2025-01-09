@@ -1091,13 +1091,13 @@ const loadf = ref(true);
           >
             <MySitePaymentPaymentmethods />
           </transition>
-          <transition
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <MySitePaymentCard v-if="isOpen('cardModal_mysite')" />
-          </transition>
-          <transition
+          </transition> -->
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
@@ -1105,40 +1105,40 @@ const loadf = ref(true);
               @updateData="getApps"
               v-if="isOpen('success_pay_mysite')"
             />
-          </transition>
-          <transition
+          </transition> -->
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <ProfileBillingModalsAddnewCard
               v-if="isOpen('add_new_card_billing')"
             />
-          </transition>
-
+          </transition> -->
+<!-- 
           <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <MySitePaymentCryptoStep1 v-if="isOpen('crypto_mysite_step1')" />
-          </transition>
-          <transition
+          </transition> -->
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
-          </transition>
-          <transition
+          </transition> -->
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <MySitePaymentCryptoSuccess />
-          </transition>
-          <transition
+          </transition> -->
+          <!-- <transition
             :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
             mode="out-in"
           >
             <MySitePaymentPaypal />
-          </transition>
+          </transition> -->
           <nav
             style="box-shadow: 0px 4px 24px 8px #51459f14"
             class="sticky top-0 flex z-[998] items-center justify-between w-full bg-[#FFFEFE] dark:bg-tamkinDarkPrimary rtl:space-x-reverse rtl:flex-row-reverse h-[70px]"

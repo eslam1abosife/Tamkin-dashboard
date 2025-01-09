@@ -86,7 +86,7 @@ const destroySplide = () =>{
  
 
   
-<div class="mt-[64px]">
+<div class="mt-[64px] pb-[24px]">
     
     <Splide ref="splide" @splide:move="moveSplide" @splide:destroy="destroySplide"
     :options="{ destroy:false,rewind: false,perPage: 3,  gap: 10,arrows:false ,direction:`${locale === 'ar' ? 'rtl' : 'ltr'}`      }">

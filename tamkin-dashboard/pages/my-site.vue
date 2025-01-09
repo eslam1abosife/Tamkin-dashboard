@@ -70,7 +70,6 @@ watch(
 );
 import { required, email, sameAs } from "@vuelidate/validators";
 import { watch, computed, ref } from "vue";
-import { getApp } from "firebase/app";
 
 definePageMeta({
   layout: "dashboard",
@@ -352,6 +351,7 @@ const getPackageAndOpenPaymenModal = async (app, pack) => {
         new Date() ||
       app.package.find((k) => k.name === pack).status === "Cancelled" ||
       app.package.find((k) => k.name === pack).status === "Rejected" ||
+      app.package.find((k) => k.name === pack).status === "Expried" ||
       app.package.find((k) => k.name === pack).title === "Free" ||
       app.package.find((k) => k.name === pack).cancel_package
     ) {
@@ -535,13 +535,12 @@ const openInvestor = (app, pack) => {
         v-if="isOpen('upgrade_mysite_package')"
       />
     </transition>
-    <transition
+    <!-- <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
     >
-      <!-- Modal for adding a package -->
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-    </transition>
+    </transition> -->
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
@@ -579,12 +578,7 @@ const openInvestor = (app, pack) => {
     >
       <MySitePaymentCryptoStep2 v-if="isOpen('crypto_mysite_step2')" />
     </transition>
-    <transition
-      :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
-      mode="out-in"
-    >
-      <MySitePaymentCryptoSuccess />
-    </transition>
+
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
@@ -615,14 +609,14 @@ const openInvestor = (app, pack) => {
       <div>
         <button
           class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
-          @click="$router.push(localePath('/add-site'))"
+          @click.stop="$router.push(localePath('/add-site'))"
         >
           {{ $t("Add New Site") }}
         </button>
       </div>
       <div>
         <button
-          @click="$router.push(localePath('/packages'))"
+          @click.stop="$router.push(localePath('/packages'))"
           class="btn_bordered_dashboard normal_hover bg-white text-[14px] leading-[24px] font-[500]"
         >
           {{ $t("Upgrade Plans") }}
@@ -747,7 +741,7 @@ const openInvestor = (app, pack) => {
             <div>
               <button
                 :disabled="mysiteStore.loadingApps || !apps.length"
-                @click="openModal('selectSite', 'my-site')"
+                @click.stop="openModal('selectSite', 'my-site')"
                 class="btn_bordered_dashboard text-[14px] leading-[22.5px] font-[500]"
               >
                 {{ $t("Select Site") }}
@@ -935,7 +929,7 @@ const openInvestor = (app, pack) => {
                     class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] p cursor-pointer"
                   >
                     <div
-                      @click="switchTab('saved')"
+                      @click.stop="switchTab('saved')"
                       :class="[
                         currentTab === 'saved'
                           ? 'border-b-[3px] border-tamkin  font-[600] '
@@ -954,7 +948,7 @@ const openInvestor = (app, pack) => {
                   </div>
                   <div
                     class="hover:bg-tamkinLight dark:hover:bg-tamkinEnd/60 px-[1px] cursor-pointer"
-                    @click="switchTab('deleted')"
+                    @click.stop="switchTab('deleted')"
                   >
                     <div
                       :class="[
@@ -970,7 +964,7 @@ const openInvestor = (app, pack) => {
                   </div>
                   <!-- <div
                     class="px-[1px] cursor-pointer"
-                    @click="
+                    @click.stop="
                       () => {
                         if (
                           apps.some(
@@ -1040,7 +1034,7 @@ const openInvestor = (app, pack) => {
                       </div>
                       <div
                         v-if="isSearchfilled"
-                        @click="clearInput"
+                        @click.stop="clearInput"
                         class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                       >
                         <img src="/assets/imgs/icons/clear_search.svg" />
@@ -1290,8 +1284,7 @@ const openInvestor = (app, pack) => {
                           <div
                             v-if="
                               app.package[0] &&
-                              new Date() >
-                                new Date(app.package[0].endpackage) &&
+                             app.package[0].status === 'Expried' &&
                               app.package[0].type !== 'Investors'
                             "
                             class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
@@ -1377,7 +1370,7 @@ const openInvestor = (app, pack) => {
                               app.package[0].status === 'Pending'
                             "
                             class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
-                            @click="
+                            @click.stop="
                               getPackageAndOpenPaymenModal(
                                 app,
                                 app.package.length ? app.package[0].name : null
@@ -1431,7 +1424,7 @@ const openInvestor = (app, pack) => {
                               app.package.length &&
                               app.package[0].status === 'Pending'
                             "
-                            @click="openDeleteMember(app)"
+                            @click.stop="openDeleteMember(app)"
                             class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
                           >
                             <svg
@@ -1603,8 +1596,9 @@ const openInvestor = (app, pack) => {
                           >
                             <div
                               v-if="
-                                pack.endpackage &&
-                                new Date() > new Date(pack.endpackage)
+                           
+                              pack.status === 'Expried' &&
+                              pack.type !== 'Investors'
                               "
                               class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                             >
@@ -1679,7 +1673,7 @@ const openInvestor = (app, pack) => {
                                 pack.status === 'Pending'
                               "
                               class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 w-6 h-6"
-                              @click="
+                              @click.stop="
                                 getPackageAndOpenPaymenModal(
                                   mysiteStore.selectedApp,
                                   pack ? pack.name : null
@@ -1729,7 +1723,7 @@ const openInvestor = (app, pack) => {
                             <button
                               :disabled="pack.status === 'Pending'"
                               class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
-                              @click="openDeleteMember(mysiteStore.selectedApp)"
+                              @click.stop="openDeleteMember(mysiteStore.selectedApp)"
                             >
                               <!-- her eman-->
                               <svg
@@ -1849,7 +1843,7 @@ const openInvestor = (app, pack) => {
       {{ pack.status === 'Pending'? $t('Under Review') : $t(`${pack.status}`) }}
     </div>
     <div
-    @click="$router.push(localePath('/embed-code'))"
+    @click.stop="$router.push(localePath('/embed-code'))"
     v-if="pack.status ==='not_installed' && new Date() < new Date(pack.endpackage)"
     class="cursor-pointer  text-[#DE4134] ltr:text-left rtl:text-right text-[14px] font-[500] leading-[21px]  underline"
   >
@@ -1881,7 +1875,7 @@ const openInvestor = (app, pack) => {
         pack.status === 'Pending' || 
           loadingBlock.find(a=>a.pack === pack.name && a.app === mysiteStore.selectedApp) || pack.billing_duration === 'yearly'"
           class="disabled:opacity-40  disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
-           @click="getPackageAndOpenPaymenModal(app,pack.name)">
+           @click.stop="getPackageAndOpenPaymenModal(app,pack.name)">
            <img src="/assets/imgs/installed.svg" v-if="!loadingBlock.find(a=>a.pack === pack.name && a.app === app)"/>
            
    <svg v-if="loadingBlock.find(a=>a.pack === pack.name && a.app === app)" class="animate-spin h-5 w-5 text-tamkin" xmlns="http://www.w3.org/2000/svg"
@@ -1894,7 +1888,7 @@ const openInvestor = (app, pack) => {
               </button>
               
                          
-           <button @click="openDeleteMember(app)">
+           <button @click.stop="openDeleteMember(app)">
              <svg
                width="18"
                height="17"
@@ -1980,7 +1974,7 @@ const openInvestor = (app, pack) => {
                       class="text-[14px] ltr:pr-[16px] rtl:pl-[16px] font-[400] dark:text-whiteTamkin text-darkGrey"
                     >
                       <button
-                        @click="openRestoreApp(app)"
+                        @click.stop="openRestoreApp(app)"
                         class="rtl:mr-auto ltr:ml-auto btn_bordered_dashboard normal_hover w-[108px] h-[31px] flex items-center justify-center"
                       >
                         {{ $t("Restore") }}
@@ -2102,7 +2096,7 @@ const openInvestor = (app, pack) => {
                       </div>
 
                       <div
-                        v-if="new Date() > new Date(pk.endpackage)"
+                        v-if="pk.status === 'Expried'"
                         class="bg-gradient-to-r from-red-600 to-red-400 rounded-[17px] flex items-center justify-center h-[25px] lg:w-[88px] text-white text-[12px] leading-[18px]"
                       >
                         {{ $t(`Expired`) }}
@@ -2154,7 +2148,7 @@ const openInvestor = (app, pack) => {
                             ) || pk.status === 'Pending'
                           "
                           class="disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center hover:opacity-50 h-6 w-6"
-                          @click="
+                          @click.stop="
                             getPackageAndOpenPaymenModal(
                               internalServiceApp,
                               pk ? pk.name : null
@@ -2201,7 +2195,7 @@ const openInvestor = (app, pack) => {
                             pk.status === 'Pending' ||
                             pk.cancel_package
                           "
-                          @click="
+                          @click.stop="
                             () => {
                               mysiteStore.currentInvoice = pk.invoice_name;
                               mysiteStore.currentWebsite = apps.find(
@@ -2263,7 +2257,7 @@ const openInvestor = (app, pack) => {
                 text="You don't have any sites now"
               >
                 <button
-                  @click="$router.push({ path: localePath('/add-site') })"
+                  @click.stop="$router.push({ path: localePath('/add-site') })"
                   class="btn-dashboard-normal normal_hover text-[14px] leading-[24px] font-[500]"
                 >
                   {{ $t("Add New Site") }}
@@ -2376,7 +2370,7 @@ const openInvestor = (app, pack) => {
                 >
                   <div class="hover:bg-tamkinLight px-[1px] cursor-pointer">
                     <div
-                      @click="switchTab('saved')"
+                      @click.stop="switchTab('saved')"
                       class="text-[14px] border-b-[3px] border-tamkin px-[4px] font-[600] pb-[16px] text-[#021328]"
                       style="line-height: 21px"
                     >
@@ -2403,7 +2397,7 @@ const openInvestor = (app, pack) => {
                     </div>
                     <div
                       v-if="isSearchfilled"
-                      @click="clearInput"
+                      @click.stop="clearInput"
                       class="absolute top-[12px] lg:top-[16px] rtl:left-0 ltr:right-[0] p-[16px] cursor-pointer"
                     >
                       <img src="/assets/imgs/icons/clear_search.svg" />
@@ -2429,7 +2423,7 @@ const openInvestor = (app, pack) => {
                       </h2>
                       <div class="w-[140px] mt-[40px] mx-auto">
                         <button
-                          @click="
+                          @click.stop="
                             $router.push({ path: localePath('/add-site') })
                           "
                           class="btn-dashboard hover_tamkin text-[16px] mx-auto leading-[24px] font-[500]"
@@ -2471,7 +2465,7 @@ const openInvestor = (app, pack) => {
                 'px-3 py-1 rounded-md text-white focus:outline-none !text-[13px]',
                 perPage === option ? '' : 'bg-[#A7A7A7] hover:bg-lightGrey',
               ]"
-              @click="changePerPage(option)"
+              @click.stop="changePerPage(option)"
             >
               {{ option }}
             </button>
@@ -2484,7 +2478,7 @@ const openInvestor = (app, pack) => {
             {{ $t("Page") }}
           </span>
           <button
-            @click="prevPage"
+            @click.stop="prevPage"
             class="p-[4px] rounded-md bg-transparent !text-[13px] dark:text-whiteTamkin text-darkGrey hover:bg-light-grey"
             :disabled="currentPage === 1"
           >
@@ -2517,13 +2511,13 @@ const openInvestor = (app, pack) => {
                 'px-3 py-1 rounded-md w-[28px] h-[28px] bg-transparent text-darkGrey dark:text-whiteTamkin focus:outline-none flex items-center justify-center',
                 currentPage === page ? 'text-white' : 'hover:bg-light-grey',
               ]"
-              @click="goToPage(page)"
+              @click.stop="goToPage(page)"
             >
               {{ page }}
             </button>
           </div>
           <button
-            @click="nextPage"
+            @click.stop="nextPage"
             class="p-[4px] rounded-md bg-transparent text-darkGrey dark:text-whiteTamkin hover:bg-light-grey"
             :disabled="currentPage === totalPages"
           >
