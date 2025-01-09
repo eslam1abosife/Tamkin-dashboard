@@ -286,6 +286,7 @@ export const usePlayerStore = defineStore("player", {
       var $this = this;
       this.unwearAllSkins();
       this.activeCharacter.allowed_skins_list.forEach(function (skin_item) {
+        console.log(skin_item.is_default);
         skin_item.is_weared = skin_item.is_default;
         if (skin_item.is_weared) {
           $this.addToWearedClothes(skin_item.category, skin_item.name);
@@ -321,6 +322,7 @@ export const usePlayerStore = defineStore("player", {
       }
     },
     unwear(skin_item: any) {
+      console.log(`Unwear: ${skin_item}`)
       if (skin_item.category == "Background") {
         // if (skin_item.background_color) {
           //   window.changeBackgroundColor("");
