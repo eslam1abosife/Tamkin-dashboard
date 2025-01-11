@@ -4,7 +4,13 @@ import { usePlayerStore } from "@/stores/player";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 
-const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loadDefaultApp,
+  loading: getSitesLoading,
+} = useGetAppInvites();
 
 const { fullUrl } = useFullUrl();
 
@@ -15,12 +21,14 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
 
 <template>
   <div
-    class="grid grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]">
+    class="grid dark:bg-tamkinDarkPrimary grid-cols-12 lg:grid-cols-5 md:grid-cols-4 overflow-x-hidden 2xl:grid-cols-5 ipad-max:grid-cols-5 bg-white pt-4 !pb-4 px-[15px] rounded-b-[10px] lg:gap-2 2xl:gap-2 ipad-max:gap-8 relative z-[10]"
+  >
     <!-- @click.stop="marketStore.selectItemforPreview(skin_item)" -->
     <div
       v-if="currentCategoryWithSkinItems.skin_items_list.length > 0"
       class="market_card_char order-1 cursor-pointer"
-      @click="playerStore.wearClothes(skin_item)" :role="marketStore.owned(skin_item) ? 'button' : ''"
+      @click="playerStore.wearClothes(skin_item)"
+      :role="marketStore.owned(skin_item) ? 'button' : ''"
       v-for="skin_item in currentCategoryWithSkinItems.skin_items_list"
       :key="skin_item.name"
       :class="[
@@ -28,15 +36,34 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
           ? '!bg-selected custom-border-tamkin padding-override-1'
           : '',
       ]"
+    >
+      <div
+        class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative"
       >
-      <div class="w-full bg-[#f2efef] flex items-center justify-center rounded-[10px] relative">
         <div class="h-[120px] flex items-center justify-center">
-          <img :src="fullUrl(skin_item.image)"  v-if="skin_item.category !== 'Background'" class="w-[78px] h-[78px]" :alt="skin_item.text" />
-        <div v-if="skin_item.category === 'Background' && skin_item.background_color !== null" class="w-[78px] h-[78px] rounded-[10px]" :style="{background:skin_item.background_color}">
-
-        </div>
-        <img :src="fullUrl(skin_item.background_image)" v-if="skin_item.category === 'Background' && skin_item.background_image !== null" class="w-[78px] h-[78px] rounded-[10px]" :alt="skin_item.text" />
-        
+          <img
+            :src="fullUrl(skin_item.image)"
+            v-if="skin_item.category !== 'Background'"
+            class="w-[78px] h-[78px]"
+            :alt="skin_item.text"
+          />
+          <div
+            v-if="
+              skin_item.category === 'Background' &&
+              skin_item.background_color !== null
+            "
+            class="w-[78px] h-[78px] rounded-[10px]"
+            :style="{ background: skin_item.background_color }"
+          ></div>
+          <img
+            :src="fullUrl(skin_item.background_image)"
+            v-if="
+              skin_item.category === 'Background' &&
+              skin_item.background_image !== null
+            "
+            class="w-[78px] h-[78px] rounded-[10px]"
+            :alt="skin_item.text"
+          />
         </div>
         <div
           class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
@@ -51,7 +78,9 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             );
           "
         >
-          <div class="text-[9px] leading-[10px] font-[500]">{{$t('Applied')}}</div>
+          <div class="text-[9px] leading-[10px] font-[500]">
+            {{ $t("Applied") }}
+          </div>
         </div>
         <div
           v-else-if="skin_item.is_purchased"
@@ -66,51 +95,84 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             );
           "
         >
-          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Purchased')}}</div>
+          <div class="text-[10px] font-[500] leading-[10px]">
+            {{ $t("Purchased") }}
+          </div>
         </div>
         <div
-        v-else-if="skin_item.is_pending"
-        class="absolute top-0 left-0 w-[64px] bg-gradient-to-r from-yellow-300 to-yellow-100 h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-      
-      >
-        <div class="text-[10px] font-[500] leading-[10px]">{{$t('Pending')}}</div>
-      </div>
+          v-else-if="skin_item.is_pending"
+          class="absolute top-0 left-0 w-[64px] bg-gradient-to-r from-yellow-300 to-yellow-100 h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
+        >
+          <div class="text-[10px] font-[500] leading-[10px]">
+            {{ $t("Pending") }}
+          </div>
+        </div>
         <div
           class="absolute top-0 left-0 w-[64px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
-          v-else-if="skin_item.is_package">
-          <div class="text-[10px] font-[500] leading-[10px]">{{$t('Package')}}</div>
+          v-else-if="skin_item.is_package"
+        >
+          <div class="text-[10px] font-[500] leading-[10px]">
+            {{ $t("Package") }}
+          </div>
         </div>
         <div
           class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
           v-else-if="skin_item.is_special_offer"
         >
-          <div class="text-[9px] leading-[10px]">{{$t('Special Offer')}}</div>
+          <div class="text-[9px] leading-[10px]">{{ $t("Special Offer") }}</div>
         </div>
       </div>
-      <div class="flex flex-col justify-center items-evenly w-full space-y-[10px] p-1">
-        <h1 class="text-[11px] font-[500] w-full text-darkGrey leading-[17px] mt-2">
+      <div
+        class="flex flex-col justify-center items-evenly w-full space-y-[10px] p-1"
+      >
+        <h1
+          :class="[
+            playerStore.lastClickedSkinItemName == skin_item.name
+              ? 'text-darkGrey'
+              : 'dark:text-whiteTamkin ',
+          ]"
+          class="text-[11px] font-[500] w-full text-darkGrey leading-[17px] mt-2"
+        >
           {{ $t(skin_item.text) }}
         </h1>
         <p
-        class="text-[10px] font-[300]  text-darkGrey dark:text-whiteTamkin leading-[17px] max-w-2/4 truncate "
-      >
-        {{ $t(`${skin_item.description}`)}} 
-      </p>
+          :class="[
+            playerStore.lastClickedSkinItemName == skin_item.name
+              ? 'text-darkGrey'
+              : 'dark:text-whiteTamkin ',
+          ]"
+          class="text-[10px] font-[300] leading-[17px] max-w-2/4 truncate"
+        >
+          {{ $t(`${skin_item.description}`) }}
+        </p>
         <!-- <div v-if="skin_item.specialOffer || skin_item.discount || skin_item.package" class="flex flex-col"> -->
         <div class="flex flex-col !mt-[16px]">
           <div
             v-if="marketStore.cartable(skin_item) && skin_item.offer_cost > 0"
             class="flex items-center justify-between w-full"
+          >
+            <div
+              class="flex items-start flex-col justify-evenly space-y-[10px]"
             >
-            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
               <div
                 class="w-[80px] h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[11px] flex items-center justify-center"
                 class2="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
-                >
-                <div>%{{ (((skin_item.cost - skin_item.offer_cost) / skin_item.cost) * 100).toFixed(2) }} {{$t('OFF')}}</div>
+              >
+                <div>
+                  %{{
+                    (
+                      ((skin_item.cost - skin_item.offer_cost) /
+                        skin_item.cost) *
+                      100
+                    ).toFixed(2)
+                  }}
+                  {{ $t("OFF") }}
+                </div>
               </div>
               <div class="flex items-center justify-center">
-                <div class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]">
+                <div
+                  class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
+                >
                   ${{ skin_item.offer_cost }}
                 </div>
                 <div
@@ -121,41 +183,40 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               </div>
             </div>
             <button
-            :disabled="!defaultApp"
-              @click.stop="()=>{
-                if(defaultApp){
-                  marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file, )
-
+              :disabled="!defaultApp"
+              @click.stop="
+                () => {
+                  if (defaultApp) {
+                    marketStore.addToCart(
+                      skin_item,
+                      'skin_Item',
+                      currentCategoryWithSkinItems.text,
+                      currentCategoryWithSkinItems.file
+                    );
+                  }
                 }
-              }"
+              "
               :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
-              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
-              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
-       
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
               <div
-               v-if="!defaultApp"
-            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
-             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
-             transition-opacity duration-200"
-          >
-            {{ $t("You have to set A default website to use the market") }}
-          </div>
+                v-if="!defaultApp"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+              >
+                {{ $t("You have to set A default website to use the market") }}
+              </div>
               <svg
                 :class="[
                   marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
-                    !defaultApp ? '!text-tamkin' : ''
+                  !defaultApp ? '!text-tamkin' : '',
                 ]"
-                class="group-hover:text-white "
-                
-
+                class="group-hover:text-white"
                 width="25"
                 height="25"
                 viewBox="0 0 23 23"
@@ -196,8 +257,12 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
             </button>
           </div>
           <div
-            class="flex items-end justify-between w-full "
-            v-if="marketStore.cartable(skin_item) && skin_item.cost && (!skin_item.offer_cost || skin_item.offer_cost == 0)"
+            class="flex items-end justify-between w-full"
+            v-if="
+              marketStore.cartable(skin_item) &&
+              skin_item.cost &&
+              (!skin_item.offer_cost || skin_item.offer_cost == 0)
+            "
           >
             <div
               class="text-[13px] font-[600] text-darkGrey rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
@@ -205,38 +270,38 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               ${{ skin_item.cost }}
             </div>
             <button
-            :disabled="!defaultApp"
-              @click.stop="()=>{
-
-                if(defaultApp){
-                  marketStore.addToCart(skin_item, 'skin_Item', currentCategoryWithSkinItems.text, currentCategoryWithSkinItems.file)
+              :disabled="!defaultApp"
+              @click.stop="
+                () => {
+                  if (defaultApp) {
+                    marketStore.addToCart(
+                      skin_item,
+                      'skin_Item',
+                      currentCategoryWithSkinItems.text,
+                      currentCategoryWithSkinItems.file
+                    );
+                  }
                 }
-              }"
+              "
               :class="[
                 marketStore.isInCart(skin_item.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
-
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
-              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
-              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
-           >
-            <div
-             v-if="!defaultApp"
-            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
-             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
-             transition-opacity duration-200"
-          >
-            {{ $t("You have to set A default website to use the market") }}
-          </div>
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+            >
+              <div
+                v-if="!defaultApp"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+              >
+                {{ $t("You have to set A default website to use the market") }}
+              </div>
               <svg
                 :class="[
                   marketStore.isInCart(skin_item.name)
                     ? 'text-white'
                     : 'text-tamkin',
-                  !defaultApp ? '!text-tamkin' : ''
-
+                  !defaultApp ? '!text-tamkin' : '',
                 ]"
                 class="group-hover:text-white"
                 width="25"
