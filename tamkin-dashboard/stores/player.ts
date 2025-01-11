@@ -164,11 +164,11 @@ export const usePlayerStore = defineStore("player", {
       //   marketStore.showSaveFooter = false;
       //   // marketStore.resetAll();
       // }
-        if (skin_item.is_package || skin_item.is_purchased) {
-          marketStore.showSaveFooter = true;
-        } else {
-          marketStore.showSaveFooter = false;
-        }
+      if((skin_item.is_package || skin_item.is_purchased) && !skin_item.is_weared) {
+        marketStore.showSaveFooter = true;
+      } else {
+        marketStore.showSaveFooter = false;
+      }
     },
     WearAllisWearedSkins() {
       this.hideAllClothes();

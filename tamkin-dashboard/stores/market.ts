@@ -114,7 +114,7 @@ export const useMarketStore = defineStore("market", {
       this.firstItemNotificationShown = !this.firstItemNotificationShown;
     },
     selectItemforPreview(item) {
-      if (item.is_package || item.is_purchased) {
+      if ((item.is_package || item.is_purchased) && !item.is_used) {
         this.showSaveFooter = true;
       } else {
         this.showSaveFooter = false;
