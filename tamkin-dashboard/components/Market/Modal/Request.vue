@@ -364,7 +364,7 @@ watchEffect(() => {
         </div>
         <div class="!text-error" v-if="noUpload"> {{$t('please Upload atleast one image')}} </div>
 
-       <div class="flex flex-col gap-2">
+       <!-- <div class="flex flex-col gap-2">
         <div class="custom-border flex items-center justify-center rtl:space-x-reverse min-w-full space-x-[20px] rtl:mr-auto ltr:ml-auto w-fit px-2 justify-between h-[40px] bg-[#EFF6FF]
          rounded-[10px] ">
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Price')}}</div>
@@ -375,7 +375,7 @@ watchEffect(() => {
           <div class="text-darkGrey text-[16px] font-[500]">{{$t('Final Price')}}</div>
           <div class="text-[16px] font-[600]">{{ price.offer_cost }} $</div>
         </div>
-       </div>
+       </div> -->
         <div class="mt-8 flex justify-end  space-x-[20px] rtl:mr-auto ltr:ml-auto rtl:flex-row-reverse  py-3">
           <button class="btn_bordered_dashboard" @click="closeAndShowChat">{{$t('Cancel')}}</button>
           <button class="btn-dashboard hover_tamkin max-w-[200px]" @click="updateData" :disabled="loadingUpdate || v$.$invalid || acceptedFilesRef.length === 0">
