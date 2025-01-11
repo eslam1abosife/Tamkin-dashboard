@@ -1119,17 +1119,8 @@ const loadf = ref(true);
             "
           >
             <div
-              class="absolute left-0 right-0 w-full h-[200px] z-[40] top-0"
-              style="
-                box-shadow: 0px 4px 24px 8px #51459f1a;
-                background: linear-gradient(
-                  180deg,
-                  #fefefe 0%,
-                  #eef5ff 47.07%,
-                  #f6f3fc 72.04%,
-                  #fef5f6 100%
-                );
-              "
+              style="box-shadow: 0px 4px 24px 8px #51459f1a"
+              class="absolute left-0 right-0 w-full h-[200px] z-[40] dark:bg-gradient-to-t top-0 dark:bg-tamkinDarkPrimary kjer dark:border-darkborder dark:text-whiteTamkin"
               v-if="
                 (isLinkActive('/addons') ||
                   isLinkActive('/statistics') ||
@@ -1237,7 +1228,15 @@ const loadf = ref(true);
   height: 40px;
   animation: spin 2s linear infinite;
 }
-
+.kjer {
+  background: linear-gradient(
+    180deg,
+    #fefefe 0%,
+    #eef5ff 47.07%,
+    #f6f3fc 72.04%,
+    #fef5f6 100%
+  );
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);

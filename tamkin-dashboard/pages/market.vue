@@ -495,7 +495,9 @@ const settingStore = useSettingsStore();
               />
             </div>
           </div>
-          <div class="text-[12px] font-[500] text-darkGrey">
+          <div
+            class="text-[12px] font-[500] text-darkGrey dark:text-whiteTamkin"
+          >
             {{ defaultApp ? defaultApp.app_domain : $t("No Site Selected!") }}
           </div>
         </div>
