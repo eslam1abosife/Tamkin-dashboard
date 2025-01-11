@@ -281,12 +281,12 @@ export const useMarketStore = defineStore("market", {
       }
       if (this.isInCart(item_name_to_check_in_cart)) {
         // let item_to_delete = this.cartItems.find((it) => it.name == name_to_delete);
-        // const index = this.cartItems.findIndex(
-        //   (it) => it.name === name_to_delete
-        // );
-        // if (index > -1) {
-        //   this.cartItems.splice(index, 1);
-        // }
+        const index = this.cartItems.findIndex(
+          (it) => it.name === name_to_delete
+        );
+        if (index > -1) {
+          this.cartItems.splice(index, 1);
+        }
         await removeItemFromCart(name_to_delete, type);
         // await getCartItems();
         // Reset the flag if the cart is empty
