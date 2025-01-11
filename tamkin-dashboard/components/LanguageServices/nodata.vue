@@ -14,7 +14,9 @@
           alt=""
         />
       </div>
-      <div class="text-[16px] leading-[24px] text-darkGrey font-[400]">
+      <div
+        class="text-[16px] leading-[24px] text-darkGrey font-[400] dark:text-whiteTamkin"
+      >
         {{ $t("No data available for this section") }}
       </div>
     </div>
