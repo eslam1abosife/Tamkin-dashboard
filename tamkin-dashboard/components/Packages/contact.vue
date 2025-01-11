@@ -13,7 +13,7 @@ const tgl = () => {
   >
     <!-- Gradient Overlay -->
     <div
-      class="absolute z-20 w-[95%] h-[170px] top-[50%] rtl:left-[44.9%] ltr:left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
+      class="absolute z-20 w-[95%] h-[170px] dark:bg-p top-[50%] rtl:left-[44.9%] ltr:left-[50%] transform -translate-x-[47.3%] -translate-y-[50%] rtl:bg-gradient-to-r ltr:bg-gradient-to-l from-[#D5F6F4] via-[#D5F6F4]/[30%] to-white"
     ></div>
 
     <!-- Image -->

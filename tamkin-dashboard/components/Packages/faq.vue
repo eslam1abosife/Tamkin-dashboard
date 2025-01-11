@@ -47,18 +47,20 @@ const isLinkActive = (path) => {
               ? 'bg-[#E8F2FF]'
               : 'bg-white/[80%]',
           ]"
-          class="h-[45px] w-[40vw] ipad-max:w-[35vw] py-[15px] cursor-pointer rtl:space-x-reverse space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
+          class="h-[45px] w-[40vw] ipad-max:w-[35vw] border-[1px] dark:opacity-90 dark:border-darkborder dark:bg-p_secondary dark:text-whiteTamkin py-[15px] cursor-pointer rtl:space-x-reverse space-x-[9px] px-[10px] flex items-center justify-start relative z-[50]"
           style="box-shadow: 0px 0px 0.62px 0.62px #00000026"
         >
           <div
-            class="w-[15px] h-[15px] rounded-full"
+            class="w-[15px] h-[15px] rounded-full dark:text-whiteTamkin"
             :class="[
               packagesStore.selectedQuestion.name === faq.name
                 ? '!bg-[#5D5FEF]'
                 : 'bg-[#A5A6F6]',
             ]"
           ></div>
-          <div class="text-[12px] font-[400] leading-[14px] text-black">
+          <div
+            class="text-[12px] font-[400] leading-[14px] text-black dark:text-whiteTamkin"
+          >
             {{ $t(faq.question) }}
           </div>
           <div class="rtl:!mr-auto ltr:!ml-auto !mr-[7px]">
