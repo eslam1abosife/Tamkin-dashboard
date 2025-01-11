@@ -1,7 +1,6 @@
 <script setup>
 import { useGetAppInvites, useUpdateDefaultApp } from "@/composables/useTeam";
 
-
 import { useMarketStore } from "@/stores/market";
 const marketStore = useMarketStore();
 import { usePlayerStore } from "@/stores/player";
@@ -10,17 +9,30 @@ import { useModalManager } from "@/composables/useModalManager";
 import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
-const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
-const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
-  useModalManager();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loadDefaultApp,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  setData,
+} = useModalManager();
 
 const openModalAndHideChat = () => {
-    if (process.client && !isOpen('requestmodal')) {
-        // window.$chatwoot.toggleBubbleVisibility('hide')
-        openModal('requestmodal', 'market')
-    }
-}
-const { characters,loadingChars } = useGetCategoriesWithSkinItems();
+  if (process.client && !isOpen("requestmodal")) {
+    // window.$chatwoot.toggleBubbleVisibility('hide')
+    openModal("requestmodal", "market");
+  }
+};
+const { characters, loadingChars } = useGetCategoriesWithSkinItems();
 </script>
 
 <template>
@@ -30,57 +42,67 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
   >
     <div
       class="group market_card_char !justify-center order-1 relative"
-      @click="()=>{
-        if(defaultApp){
-          openModalAndHideChat(), setData(null)
+      @click="
+        () => {
+          if (defaultApp) {
+            openModalAndHideChat(), setData(null);
+          }
         }
-      }"
+      "
     >
-    <div
-    v-if="!defaultApp"
-    class="absolute bottom-[0] inset-x-auto w-[150px] bg-[#747171]
-     text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
-     transition-opacity duration-200"
-  >
-    {{ $t("You have to set A default website to use the market") }}
-  </div>
-      <div>
-        <img src="/assets/pngs/market/add_char.png" class="w-[94px] h-[106px]" alt="" />
+      <div
+        v-if="!defaultApp"
+        class="absolute bottom-[0] inset-x-auto w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+      >
+        {{ $t("You have to set A default website to use the market") }}
       </div>
-      <div class=" relative">
-        <button 
-          class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2 "
+      <div>
+        <img
+          src="/assets/pngs/market/add_char.png"
+          class="w-[94px] h-[106px]"
+          alt=""
+        />
+      </div>
+      <div class="relative">
+        <button
+          class="btn-dashboard hover_tamkin !rounded-full !h-[40px] !text-[14px] !p-2"
           :disabled="!defaultApp"
-          @click="()=>{
-            if(defaultApp){
-              openModalAndHideChat(), setData(null)
+          @click="
+            () => {
+              if (defaultApp) {
+                openModalAndHideChat(), setData(null);
+              }
             }
-          }"
+          "
         >
           {{ $t("Specific Character") }}
         </button>
-     
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
     <div
-      class="market_card_char order-1 cursor-pointer"
+      class="market_card_char order-1 cursor-pointer dark:bg-tamkinDarkPrimary"
       @click="playerStore.changeCharacter(char)"
       :role="marketStore.owned(char) ? 'button' : ''"
       v-for="char in playerStore.characters"
       :key="char.name"
       :class="[
         playerStore.activeCharacter?.name == char.name
-          ? '!bg-selected custom-border-tamkin padding-override-1'
+          ? ' !bg-selected   custom-border-tamkin padding-override-1  '
           : '',
       ]"
+      style="background-image: none; color: black"
     >
       <div
         class="w-full bg-[#f2efef] dark:bg-[#3a4a60] flex items-center justify-center rounded-[10px] relative"
         :style="'background-color: ' + char.background_color + '!important;'"
       >
         <div class="h-[120px] flex items-end justify-center">
-          <img :src="fullUrl(char.image)" :alt="char.text" class="w-[94px] h-[120px]" />
+          <img
+            :src="fullUrl(char.image)"
+            :alt="char.text"
+            class="w-[94px] h-[120px]"
+          />
         </div>
         <div
           class="absolute top-0 left-0 w-[51px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
@@ -95,16 +117,20 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
             );
           "
         >
-          <div class="text-[10px] leading-[20px] font-[500]">{{ $t("Applied") }}</div>
+          <div class="text-[10px] leading-[20px] font-[500]">
+            {{ $t("Applied") }}
+          </div>
         </div>
         <div
           v-else-if="char.is_pending"
           class="absolute top-0 left-0 w-[64px] bg-gradient-to-r from-yellow-300 to-yellow-100 h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
         >
-          <div class="text-[10px] font-[500] leading-[10px]">{{ $t("Pending") }}</div>
+          <div class="text-[10px] font-[500] leading-[10px]">
+            {{ $t("Pending") }}
+          </div>
         </div>
         <div
-          class="absolute top-0 left-0 w-[66px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] dark:text-whiteTamkin justify-center"
+          class="absolute top-0 left-0 w-[66px] h-[17px] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           style="
             background: linear-gradient(
               270deg,
@@ -116,29 +142,45 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
           "
           v-else-if="char.is_purchased"
         >
-          <div class="text-[10px] font-[500] leading-[20px]">{{ $t("Purchased") }}</div>
+          <div class="text-[10px] font-[500] leading-[20px]">
+            {{ $t("Purchased") }}
+          </div>
         </div>
         <div
           class="absolute top-0 left-0 w-[56px] h-[17px] bg-gradient-to-r from-[#FED2B6] via-[#FED8D3] to-[#FEF4DD] rounded-tl-[10px] flex items-center text-[#021328] justify-center"
           v-else-if="char.is_package"
         >
-          <div class="text-[10px] font-[500] leading-[20px]">{{ $t("Package") }}</div>
+          <div class="text-[10px] font-[500] leading-[20px]">
+            {{ $t("Package") }}
+          </div>
         </div>
         <div
           v-else-if="char.is_special_offer"
-          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center text-white justify-center"
+          class="absolute top-0 left-0 w-[64px] h-[17px] bg-[#F36363] rounded-[3px] flex items-center justify-center"
         >
           <div class="text-[9px] leading-[20px]">{{ $t("Special Offer") }}</div>
         </div>
       </div>
-      <div class="flex flex-col justify-center w-full items-evenly space-y-[4px] p-1">
+      <div
+        class="flex flex-col justify-center w-full items-evenly space-y-[4px] p-1"
+      >
         <h1
-          class="text-[11px] font-[500] w-full text-darkGrey dark:text-whiteTamkin leading-[17px] mt-2"
+          :class="[
+            playerStore.activeCharacter?.name == char.name
+              ? 'text-darkGrey'
+              : 'dark:text-whiteTamkin ',
+          ]"
+          class="text-[11px] font-[500] w-full leading-[17px] mt-2"
         >
           {{ $t(char.text) }}
         </h1>
         <p
-          class="text-[10px] font-[300] text-darkGrey dark:text-whiteTamkin leading-[17px] max-w-2/4 truncate"
+          :class="[
+            playerStore.activeCharacter?.name == char.name
+              ? 'text-darkGrey'
+              : 'dark:text-whiteTamkin ',
+          ]"
+          class="text-[10px] font-[300] leading-[17px] max-w-2/4 truncate"
         >
           {{ $t(char.description) }}
         </p>
@@ -150,18 +192,29 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
             v-if="marketStore.cartable(char) && char.offer_cost > 0"
             class="flex items-center justify-between w-full"
           >
-            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
+            <div
+              class="flex items-start flex-col justify-evenly space-y-[10px]"
+            >
               <div
                 class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
               >
                 <div>
-                  %{{ (((char.cost - char.offer_cost) / char.cost) * 100).toFixed(2) }}
+                  %{{
+                    (((char.cost - char.offer_cost) / char.cost) * 100).toFixed(
+                      2
+                    )
+                  }}
                   {{ $t("OFF") }}
                 </div>
               </div>
               <div class="flex items-center justify-center">
                 <div
-                  class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
+                  :class="[
+                    playerStore.activeCharacter?.name == char.name
+                      ? 'text-darkGrey'
+                      : 'dark:text-whiteTamkin ',
+                  ]"
+                  class="text-[13px] font-[600] rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
                 >
                   ${{ char.offer_cost }}
                 </div>
@@ -173,32 +226,36 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
               </div>
             </div>
             <button
-            :disabled="!defaultApp"
+              :disabled="!defaultApp"
               v-if="marketStore.cartable(char)"
-              @click.stop="()=>{
-                if(defaultApp){
-                  marketStore.addToCart(char, 'character')
+              @click.stop="
+                () => {
+                  if (defaultApp) {
+                    marketStore.addToCart(char, 'character');
+                  }
                 }
-              }"
+              "
               :class="[
                 marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
-                  : !defaultApp ? 'bg-opacity-40 !cursor-not-allowed ':'',
+                  : !defaultApp
+                  ? 'bg-opacity-40 !cursor-not-allowed '
+                  : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
-              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
-              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
             >
-            <div v-if="!defaultApp"
-            class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171]
-             text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 
-             transition-opacity duration-200"
-          >
-            {{ $t("You have to set A default website to use the market") }}
-          </div>
+              <div
+                v-if="!defaultApp"
+                class="absolute bottom-[44px] ltr:right-[20%] rtl:left-[20%] w-[150px] bg-[#747171] text-white text-[10px] text-center leading-[15px] font-[500] rounded-md py-1 hidden group-hover:block !opacity-100 transition-opacity duration-200"
+              >
+                {{ $t("You have to set A default website to use the market") }}
+              </div>
               <svg
-                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : ''
+                :class="[
+                  marketStore.isInCart(char.name)
+                    ? 'text-white'
+                    : 'text-tamkin',
+                  !defaultApp ? '!text-tamkin' : '',
                 ]"
                 class="group-hover:text-white"
                 width="25"
@@ -255,19 +312,21 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
               ${{ char.cost }}
             </div>
             <button
-            :disabled="!defaultApp"
+              :disabled="!defaultApp"
               @click.stop="marketStore.addToCart(char, 'character')"
               :class="[
                 marketStore.isInCart(char.name)
                   ? 'bg-gradient-to-b from-tamkinStart to-tamkinEnd'
                   : '',
               ]"
-              class="disabled:bg-gray-200 hover:disabled:bg-gray-200  disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed
-              relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto
-              ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"            >
+              class="disabled:bg-gray-200 hover:disabled:bg-gray-200 disabled:hover:border-0 disabled:hover:bg-none disabled:cursor-not-allowed relative mt-[10px] cursor-pointer group w-[35px] h-[35px] rtl:mr-auto ltr:ml-auto hover:border-0 bg-white hover:bg-gradient-to-b from-tamkinStart to-tamkinEnd rounded-lg flex items-center justify-center border"
+            >
               <svg
-                :class="[marketStore.isInCart(char.name) ? 'text-white' : 'text-tamkin',
-                !defaultApp ? '!text-tamkin' : ''
+                :class="[
+                  marketStore.isInCart(char.name)
+                    ? 'text-white'
+                    : 'text-tamkin',
+                  !defaultApp ? '!text-tamkin' : '',
                 ]"
                 class="group-hover:text-white"
                 width="25"
@@ -329,12 +388,20 @@ const { characters,loadingChars } = useGetCategoriesWithSkinItems();
       >
         <div class="h-[120px] flex items-end justify-center"></div>
       </div>
-      <div class="flex flex-col justify-center w-full items-evenly space-y-[10px] p-1">
-        <div class="h-[14px] w-[60%] bg-gray-300 dark:bg-gray-700 rounded mt-2"></div>
+      <div
+        class="flex flex-col justify-center w-full items-evenly space-y-[10px] p-1"
+      >
+        <div
+          class="h-[14px] w-[60%] bg-gray-300 dark:bg-gray-700 rounded mt-2"
+        ></div>
         <div class="flex flex-col !mt-[30px] space-y-[5px]">
           <div class="flex items-center justify-between w-full mt-[24px]">
-            <div class="bg-gray-300 dark:bg-gray-700 h-[20px] w-[35%] rounded"></div>
-            <div class="w-[35px] h-[35px] bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+            <div
+              class="bg-gray-300 dark:bg-gray-700 h-[20px] w-[35%] rounded"
+            ></div>
+            <div
+              class="w-[35px] h-[35px] bg-gray-300 dark:bg-gray-700 rounded-lg"
+            ></div>
           </div>
         </div>
       </div>
