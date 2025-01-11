@@ -215,7 +215,7 @@ export const useMarketStore = defineStore("market", {
       category_image = ""
     ) {
       const { $toast } = useNuxtApp();
-      const { addItemToCart } = useCart();
+      const { addItemToCart, getCartItems } = useCart();
 
       if (!this.isInCart(item.name)) {
         // Add item until the request finishes
@@ -226,9 +226,9 @@ export const useMarketStore = defineStore("market", {
           category_image
         );
         let cartItemsCount = this.cartItems.push(cartItem);
-
         // Show notification if it's the first item and the notification hasn't been shown yet
         if (type !== "custom_character") {
+          await getCartItems();
           if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
             this.showFirstItemNotification();
             this.firstItemNotificationShown = true;
@@ -240,7 +240,7 @@ export const useMarketStore = defineStore("market", {
         var cartItemName;
         if (type === "custom_character") {
           cartItemName = await addItemToCart(item.name, type, item);
-
+          await getCartItems();
           // Handle first item case separately for custom_character
           if (cartItemsCount === 1) {
             this.showFirstItemNotification();
@@ -254,6 +254,7 @@ export const useMarketStore = defineStore("market", {
           }
         } else {
           cartItemName = await addItemToCart(item.name, type);
+          await getCartItems();
         }
 
         this.cartItems[cartItemsCount - 1].name = cartItemName; // To be used when deleting the item
@@ -262,12 +263,12 @@ export const useMarketStore = defineStore("market", {
       }
     },
     // @param {boolean} [is_cart_item=true] - Whether the cart item is being deleted: from the cart or from the items listing.
-    removeFromCart(
+    async removeFromCart (
       cartItem: any,
       type: string = "skin_Item",
       is_cart_item: boolean = true
     ): void {
-      const { removeItemFromCart } = useCart();
+      const { removeItemFromCart, getCartItems} = useCart();
       let name_to_delete = cartItem.name; // 4e5fde354f
       let item_name_to_check_in_cart = cartItem.item_name; // Fares, sara_clothes_orignal_hijab_blueblack_0027
       if (!is_cart_item) {
@@ -280,14 +281,14 @@ export const useMarketStore = defineStore("market", {
       }
       if (this.isInCart(item_name_to_check_in_cart)) {
         // let item_to_delete = this.cartItems.find((it) => it.name == name_to_delete);
-        const index = this.cartItems.findIndex(
-          (it) => it.name === name_to_delete
-        );
-        if (index > -1) {
-          this.cartItems.splice(index, 1);
-        }
-        removeItemFromCart(name_to_delete, type);
-
+        // const index = this.cartItems.findIndex(
+        //   (it) => it.name === name_to_delete
+        // );
+        // if (index > -1) {
+        //   this.cartItems.splice(index, 1);
+        // }
+        await removeItemFromCart(name_to_delete, type);
+        // await getCartItems();
         // Reset the flag if the cart is empty
         if (this.cartItems.length === 0) {
           this.firstItemNotificationShown = false;

@@ -43,6 +43,8 @@ const codeStatus = ref(0)
                 }
             });
             if(!data.succeeded) throw(data.message);
+            cartItems.value = data.data.items;
+            marketStore.setCartItems(cartItems.value);
             // getCartItems();
         } catch (error) {
             
