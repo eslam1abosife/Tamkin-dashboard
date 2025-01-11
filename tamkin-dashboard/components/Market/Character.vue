@@ -10,10 +10,23 @@ import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 import { useEditCustomerCharacter } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
-const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
-const  customCharacterCost = useEditCustomerCharacter().customCharacterCost;
-const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
-  useModalManager();
+const {
+  getInviteApps,
+  defaultApp,
+  apps,
+  loadDefaultApp,
+  loading: getSitesLoading,
+} = useGetAppInvites();
+const customCharacterCost = useEditCustomerCharacter().customCharacterCost;
+const {
+  isOpen,
+  currentView,
+  openModal,
+  closeModal,
+  goBack,
+  navigateTo,
+  setData,
+} = useModalManager();
 
 const openModalAndHideChat = () => {
   if (process.client && !isOpen("requestmodal")) {
@@ -72,12 +85,21 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             v-if="customCharacterCost.offer_cost > 0"
             class="flex items-center justify-between w-full"
           >
-            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
+            <div
+              class="flex items-start flex-col justify-evenly space-y-[10px]"
+            >
               <div
                 class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
               >
                 <div>
-                  %{{ (((customCharacterCost.cost - customCharacterCost.offer_cost) / customCharacterCost.cost) * 100).toFixed(2) }}
+                  %{{
+                    (
+                      ((customCharacterCost.cost -
+                        customCharacterCost.offer_cost) /
+                        customCharacterCost.cost) *
+                      100
+                    ).toFixed(2)
+                  }}
                   {{ $t("OFF") }}
                 </div>
               </div>
@@ -100,7 +122,8 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             class="flex items-end justify-between w-full mt-[5px]"
             v-if="
               customCharacterCost.cost &&
-              (!customCharacterCost.offer_cost || customCharacterCost.offer_cost == 0)
+              (!customCharacterCost.offer_cost ||
+                customCharacterCost.offer_cost == 0)
             "
           >
             <div
@@ -110,7 +133,6 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
