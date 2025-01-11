@@ -21,7 +21,7 @@ const changeColorMode = (mode: any) => {
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-6 cursor-pointer dark:text-whiteTamkin text-darkGrey"
+        class="size-6 cursor-pointer dark:fill-whiteTamkin text-darkGrey"
       >
         <path
           stroke-linecap="round"
