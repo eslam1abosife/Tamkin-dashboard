@@ -114,7 +114,7 @@ const updateData = async()=>{
   if (!requestData.value?.name) {
     // if creating
     await marketStore.addToCart(FormData, 'custom_character', 'Custom Character')
-    getCartItems();
+    // await getCartItems();
     // msg = t("Request Created Successfully")
   }else{
     // elseif updating
