@@ -7,24 +7,13 @@ import { usePlayerStore } from "@/stores/player";
 const playerStore = usePlayerStore();
 import { useModalManager } from "@/composables/useModalManager";
 import { useGetCategoriesWithSkinItems } from "@/composables/useMarket";
+import { useEditCustomerCharacter } from "@/composables/useMarket";
 import { useFullUrl } from "@/composables/useSharedFunctions";
 const { fullUrl } = useFullUrl();
-const {
-  getInviteApps,
-  defaultApp,
-  apps,
-  loadDefaultApp,
-  loading: getSitesLoading,
-} = useGetAppInvites();
-const {
-  isOpen,
-  currentView,
-  openModal,
-  closeModal,
-  goBack,
-  navigateTo,
-  setData,
-} = useModalManager();
+const {getInviteApps,defaultApp,apps,loadDefaultApp,loading: getSitesLoading} = useGetAppInvites();
+const  customCharacterCost = useEditCustomerCharacter().customCharacterCost;
+const { isOpen, currentView, openModal, closeModal, goBack, navigateTo, setData } =
+  useModalManager();
 
 const openModalAndHideChat = () => {
   if (process.client && !isOpen("requestmodal")) {
@@ -77,6 +66,51 @@ const { characters, loadingChars } = useGetCategoriesWithSkinItems();
         >
           {{ $t("Specific Character") }}
         </button>
+        <div class="flex flex-col !mt-[16px]">
+          <!-- item with discount -->
+          <div
+            v-if="customCharacterCost.offer_cost > 0"
+            class="flex items-center justify-between w-full"
+          >
+            <div class="flex items-start flex-col justify-evenly space-y-[10px]">
+              <div
+                class="w-auto h-[20px] bg-gradient-to-r from-[#FFD97E] via-[#FEE772] to-[#FFF1AD] rounded-[3px] font-[500] text-darkGrey text-[10px] flex items-center justify-start px-1"
+              >
+                <div>
+                  %{{ (((customCharacterCost.cost - customCharacterCost.offer_cost) / customCharacterCost.cost) * 100).toFixed(2) }}
+                  {{ $t("OFF") }}
+                </div>
+              </div>
+              <div class="flex items-center justify-center">
+                <div
+                  class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin rtl:pl-[10px] ltr:pr-[10px] leading-[10px]"
+                >
+                  ${{ customCharacterCost.offer_cost }}
+                </div>
+                <div
+                  class="text-[13px] font-[400] text-[#EC5A4E] line-through decoration-[1px] leading-[10px]"
+                >
+                  ${{ customCharacterCost.cost }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- item without a discount -->
+          <div
+            class="flex items-end justify-between w-full mt-[5px]"
+            v-if="
+              customCharacterCost.cost &&
+              (!customCharacterCost.offer_cost || customCharacterCost.offer_cost == 0)
+            "
+          >
+            <div
+              class="text-[13px] font-[600] text-darkGrey dark:text-whiteTamkin pr-[10px] leading-[10px]"
+            >
+              ${{ customCharacterCost.cost }}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <!-- @click.stop="marketStore.selectItemforPreview(char)" -->
