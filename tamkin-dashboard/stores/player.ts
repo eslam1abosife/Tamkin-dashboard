@@ -285,8 +285,9 @@ export const usePlayerStore = defineStore("player", {
 
       this.activeCharacter = character;
 
-      setTimeout(() => {
-        window.changeCharacter(character.name);
+      setTimeout(async () => {
+        await window.changeCharacter(character.name);
+        await window.adjustCameraBasedOnCharacter(this.cameraPosition, 290, 600)
       }, 2000);
 
       // check if the character has loaded before

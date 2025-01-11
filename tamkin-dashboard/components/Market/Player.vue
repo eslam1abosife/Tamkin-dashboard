@@ -20,7 +20,6 @@ const activeChar = ref("");
 // Add event listener to update `loaChar` when the custom event is dispatched
 const updateLoaChar = async(event) => {
   loaChar.value = event.detail;
-  window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
 };
 
 // Watch `playerStore.activeCharacter.text` for changes
@@ -73,6 +72,7 @@ function controlPlayerLoad() {
       if(!loadedplayer.value && loaChar.value) {
         loadedplayer.value = true;
         await window.changeCharacter(activeChar.value.name);
+        await window.adjustCameraBasedOnCharacter(playerStore.cameraPosition, 290, 600);
         playerStore.WearAllisWearedSkins();
       }
       if(loaChar.value) {
