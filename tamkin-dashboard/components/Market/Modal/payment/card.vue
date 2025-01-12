@@ -151,15 +151,10 @@ const continueCheckOut = async () => {
   loadingPayment.value = true;
   const res = await createOrder('Card', currentCard.value,locale.value);
   // return navigateTo('cardModal','add-site','crypto')
-  console.log(0);
   if (codeStatus.value === 200) {
-    console.log(1);
     await getFullDataFormated();
-    console.log(2);
     getCartItems();
-    console.log(3);
     playerStore.characters = characters.value;
-    console.log(3);
     urlPayment.value = res
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
 
