@@ -96,22 +96,26 @@ function controlPlayerLoad() {
 }
 
 // Modify the `window.loaChar` setter to emit the custom event
-Object.defineProperty(window, "loaChar", {
-/**
- * Retrieves the current value of the `loaChar` reference.
- * 
- * @returns {*} The current value of `loaChar`.
- */
+if (!Object.getOwnPropertyDescriptor(window, "loaChar")) {
+  Object.defineProperty(window, "loaChar", {
+  /**
+   * Retrieves the current value of the `loaChar` reference.
+   * 
+   * @returns {*} The current value of `loaChar`.
+   */
+  
+    get() {
+      return loaChar.value;
+    },
+    set(newValue) {
+      loaChar.value = newValue;
+      const event = new CustomEvent("loaCharChanged", { detail: newValue });
+      window.dispatchEvent(event);
+    },
+  });
+}
 
-  get() {
-    return loaChar.value;
-  },
-  set(newValue) {
-    loaChar.value = newValue;
-    const event = new CustomEvent("loaCharChanged", { detail: newValue });
-    window.dispatchEvent(event);
-  },
-});
+
 </script>
 
 <template>
