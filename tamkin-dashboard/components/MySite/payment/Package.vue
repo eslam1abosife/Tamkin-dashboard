@@ -738,7 +738,7 @@ const closeModalPackage = () => {
               </div>
                 <div v-else
                   class="absolute text-[13px] bg-[#C16487] leading-[17.76px] font-[400] 
-                  w-[90px] rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
+                  w-[90px]  rounded-[10px] h-[22px] flex items-center justify-center py-[4.5] px-[0.5px] top-[-10px] left-[calc(50%-45px)] text-white"
                 >
                   <span>{{ $t("Best Value") }}</span>
                 </div>

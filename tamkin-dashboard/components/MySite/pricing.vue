@@ -89,8 +89,8 @@ function convertUsdToCrypto(usdTotal, rates) {
           )
           .filter((p) => p.site_type === 'website')"
         :key="pak.name"
-        class="flex dark:bg-tamkinDarkPrimary items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group hover:bg-selected w-full"
-        :class="[currentPackId === pak.name ? 'bg-selected' : '']"
+        class="flex dark:bg-tamkinDarkPrimary items-center flex-col custom-border mx-auto justify-start !rounded-t-[10px] relative !rounded-b-none mt-[48px] group hover:bg-selected dark:hover:bg-p w-full"
+        :class="[currentPackId === pak.name ? 'dark:bg-p bg-selected' : '']"
       >
         <div
           v-if="pak.type_deal !== 'None'"
