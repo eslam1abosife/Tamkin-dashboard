@@ -692,7 +692,7 @@ const openInvestor = (app,pack)=>{
                         </button>
 
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending'  || sb.type === 'Investors'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click.stop="getPackageAndOpenPaymenModal(sub, sb)"
                         >
@@ -766,7 +766,7 @@ const openInvestor = (app,pack)=>{
                           </div>
                         </button>
                         <button
-                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'"
+                          :disabled="sb.package_type === 'Extra' || sb.status === 'Pending' || sb.type === 'Investors'  || sb.status === 'Expired' || sb.status === 'expire'"
                           class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer relative group"
                           @click="
                             () => {

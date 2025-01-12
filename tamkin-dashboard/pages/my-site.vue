@@ -535,12 +535,12 @@ const openInvestor = (app, pack) => {
         v-if="isOpen('upgrade_mysite_package')"
       />
     </transition>
-    <!-- <transition
+    <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
     >
       <MySitePaymentPackage v-if="isOpen('add_package_modal_mysite')" />
-    </transition> -->
+    </transition>
     <transition
       :name="locale === 'ar' ? 'slide-left' : 'slide-right'"
       mode="out-in"
@@ -1422,7 +1422,7 @@ const openInvestor = (app, pack) => {
                           <button
                             :disabled="
                               app.package.length &&
-                              app.package[0].status === 'Pending'
+                              app.package[0].status === 'Pending' || app.package.length && app.package[0].status === 'Expired'
                             "
                             @click.stop="openDeleteMember(app)"
                             class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
@@ -1721,7 +1721,7 @@ const openInvestor = (app, pack) => {
                             </button>
 
                             <button
-                              :disabled="pack.status === 'Pending'"
+                              :disabled="pack.status === 'Pending' || pack.status === 'Expired'"
                               class="disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer group"
                               @click.stop="openDeleteMember(mysiteStore.selectedApp)"
                             >
