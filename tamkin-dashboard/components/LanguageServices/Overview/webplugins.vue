@@ -262,7 +262,7 @@ const myStyles = computed(() => ({
 import { useGetSignLangStats } from "@/composables/useAccessibility";
 
 const { getStatsSignLanguage } = useGetSignLangStats();
-onActivated(async () => {
+onBeforeMount(async () => {
   
   await getStatsSignLanguage();
   await nextTick();
