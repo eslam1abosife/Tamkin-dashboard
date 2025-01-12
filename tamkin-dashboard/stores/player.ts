@@ -300,6 +300,8 @@ export const usePlayerStore = defineStore("player", {
     },
     async resetCharacterSkinsToDefault(AppName = "default") {
       var $this = this;
+      const marketStore = useMarketStore();
+      marketStore.showSaveFooter = false;
       await this.changeCharacter(this.characters[0]);
       this.unwearAllSkins();
       this.activeCharacter.allowed_skins_list.forEach(function (skin_item) {
@@ -316,7 +318,6 @@ export const usePlayerStore = defineStore("player", {
         { hideIn: 3000, type: "success" }
       );
 
-      const marketStore = useMarketStore();
       marketStore.resetModal = false;
       // todo
       // call api endpoint to set each skin_item.is_weared = skin_item.is_default
