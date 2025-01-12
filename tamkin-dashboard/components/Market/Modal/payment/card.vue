@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 import { useModalManager } from "@/composables/useModalManager";
 import { useFullUrl } from "@/composables/useSharedFunctions";
-import { useCart } from "@/composables/useMarket";
+import { useCart, useGetCategoriesWithSkinItems } from "@/composables/useMarket";
 import { useCouponCode } from "@/composables/useMarket";
 const {locale } = useI18n()
 
-const { createOrder, messageData ,codeStatus} = useCart();
+const {
+  getFullDataFormated,
+  characters,
+} = useGetCategoriesWithSkinItems();
+const { createOrder, messageData ,codeStatus, getCartItems} = useCart();
 const { ApplyCoupon } = useCouponCode();
+
+const playerStore = usePlayerStore();
 const billingStore = useBillingStore();
 const marketStore = useMarketStore();
 import {
@@ -145,9 +151,16 @@ const continueCheckOut = async () => {
   loadingPayment.value = true;
   const res = await createOrder('Card', currentCard.value,locale.value);
   // return navigateTo('cardModal','add-site','crypto')
+  console.log(0);
   if (codeStatus.value === 200) {
+    console.log(1);
+    await getFullDataFormated();
+    console.log(2);
+    getCartItems();
+    console.log(3);
+    playerStore.characters = characters.value;
+    console.log(3);
     urlPayment.value = res
-
     // marketStore.removeMultipleFromCart(marketStore.cartItems);
 
   } else {
@@ -495,11 +508,7 @@ onBeforeUnmount(() => {
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-if="chooseOtherPaymentMethod !== ''">
             <button class="btn-dashboard hover_tamkin w-full" @click="gotoPaymentMethod" 
               >
-              
                   {{ $t("Switch Payment Method") }}
-           
-             
-          
             </button>
           </div>
           <div class="mt-[39px] w-full mx-auto mb-[34px] px-[20px]" v-else-if="!urlPayment && !chooseOtherPaymentMethod">
@@ -510,7 +519,6 @@ onBeforeUnmount(() => {
                 <div :class="loadingPayment ? 'rtl:ml-2 ltr:mr-2' : ''">
                   {{ $t("Confirm Payment") }}
                 </div>
-
                 <svg v-if="loadingPayment" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                   fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
