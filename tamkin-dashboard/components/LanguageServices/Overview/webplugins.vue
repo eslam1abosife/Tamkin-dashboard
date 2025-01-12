@@ -24,45 +24,50 @@ const colorMode = useColorMode();
 const statsStore = useStatsStore();
 const chart12 = ref("");
 const chartData = ref({
-  labels: [
-    "2024-10-01",
-    "2024-10-02",
-    "2024-10-03",
-    "2024-10-04",
-    "2024-10-05",
-    "2024-10-06",
-    "2024-10-07",
-    "2024-10-08",
-    "2024-10-09",
-  ],
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: false,
-      tension: 0.5,
-   
-    },
-    {
-      label: "Dataset 2",
-      data: [15, 10, 25, 15, 20, 25, 30, 20, 15],
-      borderColor: "rgba(255, 99, 132, 0)",
-      backgroundColor: "rgba(255, 99, 132, 0.1)",
-      fill: true,
-      tension: 0.5,
-    },
-    {
-      label: "Dataset 3",
-      data: [35, 10, 25, 55, 50, 25, 20, 20, 65],
-      borderColor: "rgba(255, 99, 132, 1)",
-  
-      fill: false,
-      tension: 0.5,
-    },
-  ],
+  labels: [],
+  datasets: []
 });
+
+// const chartData = ref({
+//   labels: [
+//     "2024-10-01",
+//     "2024-10-02",
+//     "2024-10-03",
+//     "2024-10-04",
+//     "2024-10-05",
+//     "2024-10-06",
+//     "2024-10-07",
+//     "2024-10-08",
+//     "2024-10-09",
+//   ],
+//   datasets: [
+//     {
+//       label: "Dataset 1",
+//       data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
+//       borderColor: "rgba(75, 192, 192, 1)",
+//       backgroundColor: "rgba(75, 192, 192, 0.2)",
+//       fill: false,
+//       tension: 0.5,
+   
+//     },
+//     {
+//       label: "Dataset 2",
+//       data: [15, 10, 25, 15, 20, 25, 30, 20, 15],
+//       borderColor: "rgba(255, 99, 132, 0)",
+//       backgroundColor: "rgba(255, 99, 132, 0.1)",
+//       fill: true,
+//       tension: 0.5,
+//     },
+//     {
+//       label: "Dataset 3",
+//       data: [35, 10, 25, 55, 50, 25, 20, 20, 65],
+//       borderColor: "rgba(255, 99, 132, 1)",
+  
+//       fill: false,
+//       tension: 0.5,
+//     },
+//   ],
+// });
 
 ChartJS.register(
   Title,
@@ -76,6 +81,28 @@ ChartJS.register(
 );
 const { width, height } = useWindowSize();
 
+
+
+const resizeCharts = () => {
+  const containerWidth = document.querySelector('.container_chart')?.offsetWidth || width.value;
+
+  if (chart12.value ) {
+    chart12.value.chart.resize(containerWidth, 100);
+  }
+};
+
+
+
+watch(() => width   , () => {
+  resizeCharts();
+});
+// Ensure to clean up the tooltip element on destroy
+onUnmounted(() => {
+  const tooltipEl = document.getElementById('chartjs-tooltip');
+  if (tooltipEl) {
+    tooltipEl.remove();
+  }
+});
 
 const options = ref({
   responsive: false,
@@ -207,28 +234,6 @@ const options = ref({
     },
   },
 });
-const resizeCharts = () => {
-  const containerWidth = document.querySelector('.container_chart')?.offsetWidth || width.value;
-
-  if (chart12.value ) {
-    chart12.value.chart.resize(containerWidth, 100);
-  }
-};
-
-
-
-watch(() => width   , () => {
-  resizeCharts();
-});
-// Ensure to clean up the tooltip element on destroy
-onUnmounted(() => {
-  const tooltipEl = document.getElementById('chartjs-tooltip');
-  if (tooltipEl) {
-    tooltipEl.remove();
-  }
-});
-
-
 const updateChartOptions = async (isDarkMode) => {
   options.value.scales.x.ticks.color = isDarkMode === "dark" ? "#ffffff" : "#000000";
 
@@ -262,34 +267,99 @@ const myStyles = computed(() => ({
 import { useGetSignLangStats } from "@/composables/useAccessibility";
 
 const { getStatsSignLanguage } = useGetSignLangStats();
-onBeforeMount(async () => {
+const loadingStts = ref(true)
+onMounted(async () => {
   
   await getStatsSignLanguage();
   await nextTick();
   updateChartOptions(colorMode.preference);
+  loadingStts.value = false
+  statsStore.loadingStatsIntranlsation = false
 })
+
+watchEffect(() => {
+  if (statsStore.chartsData && statsStore.chartsData?.opencount?.length > 0 && statsStore.chartsData?.loadscount?.length > 0) {
+    
+    const sortedOpenData = statsStore.chartsData?.opencount
+      .slice()
+      .sort((a: any, b: any) => new Date(a.date) - new Date(b.date));  // Sort opencount by date
+    
+    const sortedLoadData = statsStore.chartsData?.loadscount
+      .slice()
+      .sort((a: any, b: any) => new Date(a.date) - new Date(b.date));  // Sort loadscount by date
+
+    // Combine both datasets into a single chartData object
+    chartData.value = {
+      labels: sortedOpenData.map((t: any) => t.date),  // Using opencount's date as common labels
+      datasets: [
+        {
+          label: "Widget Opens",  // Dataset for opencount
+          data: sortedOpenData.map((t: any) => t.count),
+           borderColor: "rgba(75, 192, 192, 1)",
+      backgroundColor: "rgba(75, 192, 192, 0.2)",
+      fill: false,
+      tension: 0.5,
+        },
+        {
+          label: "Widget Load",  // Dataset for loadscount
+          data: sortedLoadData.map((t: any) => t.count),
+       borderColor: "rgba(255, 99, 132, 0)",
+      backgroundColor: "rgba(255, 99, 132, 0.1)",
+      fill: true,
+      tension: 0.5,
+        },
+      ],
+    };
+  } 
+});
+
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full my-[30px] ">
+  <div v-if="!loadingStts" class="flex flex-col items-center justify-center w-full my-[30px] ">
     <div 
       class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full  shadow-md relative px-[15px]" 
       :class="[collapseStore.collapses.includes('webplugins_chart_card') ? 'pb-[24px]' : 'pb-[10px]']">
       <div class="flex items-center justify-start pt-[16px]">
         <div>
-          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Web Plugins')}}</h1>
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Web Plugins</h1>
           <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
-            {{ $t('Analyze the uses of Web Plugins and the number of times Plugins are used') }}
           </p>
         </div>
-        {{ statsStore.chartsData }}
       </div>
       <div v-if="!collapseStore.collapses.includes('webplugins_chart_card')"
         class="container_chart mt-[30px] h-[300px] w-full relative  ">
         <Line ref="chart12" :data="chartData" :options="options" :style="myStyles" />
       </div>
+    </div> 
+
+</div>
+<div v-else class="flex flex-col items-center justify-center w-full my-[30px]">
+  <div 
+    class="bg-white dark:bg-tamkinDarkPrimary rounded-[10px] w-full shadow-md relative px-[15px]"
+    :class="[collapseStore.collapses.includes('webplugins_chart_card') ? 'pb-[24px]' : 'pb-[10px]']">
+    
+    <!-- Skeleton loader for the header -->
+    <div class="flex items-center justify-start pt-[16px] animate-pulse">
+  
+        <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+
+     
+
+      <div class="space-y-2">
+        <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+        <div class="h-3 bg-gray-200 rounded w-1/4"></div>
+      </div>
+    </div>
+    
+    <!-- Skeleton loader for the chart -->
+    <div v-if="!collapseStore.collapses.includes('webplugins_chart_card')" class="container_chart mt-[30px] h-[300px] w-full relative">
+      <div class="bg-gray-300 animate-pulse h-full w-full rounded-md"></div>
     </div>
   </div>
+</div>
+
+  
 </template>
 <style>
 

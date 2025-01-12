@@ -29,6 +29,7 @@ export const useStatsStore = defineStore("stats", {
     sign_languageStats: {},
     languages: [],
     pagesTranslated: [],
+    loadingStatsIntranlsation:true
   }),
   actions: {
     showSaveBeforeLeaveModal() {

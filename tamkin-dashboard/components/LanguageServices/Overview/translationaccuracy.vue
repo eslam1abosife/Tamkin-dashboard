@@ -5,44 +5,78 @@ import { vOnClickOutside } from "@vueuse/components";
 import shadowPlugin from "@/chartjs/plugins/shadowPlugin.js"; // Adjust the path if necessary
 
 import { Chart as ChartJS, registerables } from "chart.js";
+import CircularProgressBar from "~/components/CircularProgressBar.vue";
 
 ChartJS.register(...registerables, shadowPlugin);
-
+const statsStore = useStatsStore();
 const chart13 = ref("");
 const chart14 = ref("");
 const { width, height } = useWindowSize();
 
 watch(width, (newWidth) => {
-  //   console.log(newWidth);
-  chart13.value.chart.resize(50, 50);
-  chart14.value.chart.resize(50, 50);
+  if (chart13.value?.chart) {
+    chart13.value.chart.resize(50, 50);
+  }
+  if (chart14.value?.chart) {
+    chart14.value.chart.resize(50, 50);
+  }
 });
+
 const collapseStore = useCollapseStore();
 
 const chartData = ref({
-  labels: [
-    "2024-10-01",
-    "2024-10-02",
-    "2024-10-03",
-    "2024-10-04",
-    "2024-10-05",
-    "2024-10-06",
-    "2024-10-07",
-    "2024-10-08",
-    "2024-10-09",
-  ],
-  datasets: [
-    {
-      label: "My Dataset",
-      data: [10, 5, 15, 20, 10, 15, 25, 10, 5],
-      borderColor: "rgba(75, 192, 192, 1)",
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      fill: false,
-      tension: 0.1,
-    },
-  ],
+  labels: [],
+  datasets: []
+});
+const chartData2 = ref({
+  labels: [],
+  datasets: []
 });
 
+watchEffect( () => {
+//   translated_chart
+// untranslated_chart
+if (statsStore.translation_quality) {
+  const sortedtranslated = statsStore.translation_quality.translated_chart ?.slice()
+  .sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sorteduntranslated = statsStore.translation_quality.untranslated_chart
+    ?.slice()
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  if (sortedtranslated?.length) {
+    chartData.value = {
+      labels: sortedtranslated.map((t) => t.date),
+      datasets: [
+        {
+          label: "Translated Words",
+          data: sortedtranslated.map((t) => t.count),
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    };
+  } 
+  
+  if (sorteduntranslated?.length) {
+    chartData2.value = {
+      labels: sorteduntranslated.map((t) => t.date),
+      datasets: [
+        {
+          label: "Untranslated Words",
+          data: sorteduntranslated.map((t) => t.count),
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    };
+  }
+}
+
+});
 const options = ref({
   responsive: true,
   maintainAspectRatio: true,
@@ -93,7 +127,7 @@ const options = ref({
 </script>
 
 <template>
-  <div
+  <div v-if="!statsStore.loadingStatsIntranlsation"
     class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative"
   >
     <div class="flex items-center justify-start">
@@ -101,13 +135,12 @@ const options = ref({
         <h1
           class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin"
         >
-          Translation Accuracy
+          {{ $t('Translation Accuracy') }}
         </h1>
         <p
           class="font-[400] text-[12px] lg:text-[14px] leading-[22.95px] text-darkGrey dark:text-whiteTamkin mt-[10px]"
         >
-          Translation Accuracy: Ensuring precise and reliable translations to
-          maintain high-quality communication and understanding
+          {{ $t('Translation Accuracy: Ensuring precise and reliable translations to maintain high-quality communication and understanding') }}
         </p>
       </div>
       <div
@@ -254,11 +287,11 @@ const options = ref({
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#71DAD2] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
-              Total
+              {{ $t('Total') }}
             </div>
           </div>
           <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
-            1000
+          {{ statsStore.sign_languageStats.total }}
           </div>
         </div>
 
@@ -268,11 +301,12 @@ const options = ref({
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#FFBA6B] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
-              Used
+              {{$t('Used')}}
             </div>
           </div>
           <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
-            1000
+            {{ statsStore.sign_languageStats.used }}
+
           </div>
         </div>
 
@@ -282,11 +316,12 @@ const options = ref({
           <div class="flex items-center justify-start space-x-[4px]">
             <div class="bg-[#A35EFE] w-2 h-2 rounded-full"></div>
             <div class="text-[12px] font-[400] text-[#787486] leading-[18px]">
-              Remaining
+              {{$t('Remaining')}}
             </div>
           </div>
           <div class="text-[24px] leading-[16px] font-[600] text-darkGrey">
-            1000
+            {{ Number(statsStore.sign_languageStats.total) - (statsStore.sign_languageStats.used) }}
+
           </div>
         </div>
       </div>
@@ -303,10 +338,11 @@ const options = ref({
                 <h2
                   class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Translated content
+                  {{ $t('Translated content') }}
                 </h2>
                 <h1 class="text-[20px] font-[600] text-black leading-[30px]">
-                  2254 words
+                             {{ statsStore.translation_quality.translated_content }}
+                {{ $t('words') }}
                 </h1>
               </div>
               <div class="h-[80px] left-1/2 right-0 absolute">
@@ -329,18 +365,19 @@ const options = ref({
                 <h2
                   class="text-[14px] leading-[20px] font-[500] text-darkGrey dark:text-whiteTamkin"
                 >
-                  Untranslated content
+                  {{ $t('Untranslated content') }}
                 </h2>
                 <h1 class="text-[20px] font-[600] text-black leading-[30px]">
-                  2254 words
+                  {{ statsStore.translation_quality.untranslated_content }}
+                  {{ $t('words') }}
                 </h1>
               </div>
               <div class="h-[80px] left-1/2 right-0 absolute">
                 <Line
                   ref="chart14"
-                  :data="chartData"
+                  :data="chartData2"
                   :options="options"
-                  class="h-[80px]"
+                  class="h-[40px]"
                 />
               </div>
             </div>
@@ -348,23 +385,93 @@ const options = ref({
         </div>
 
         <div class="flex flex-col items-center justify-start">
-          <div>
-            <Circularprogressbar svg-class="w-[250px] h-[250px] mt-[-60px]" />
-          </div>
+         
+          <div class="  mt-[-50px] ipad-max:mx-auto w-1/4 flex justify-center">
+            <CircularProgressBar :initial-percentage="45"
+             :total="'2004'"/>
+                  </div>
           <div class="text-[18px] font-[500] text-black">
-            Translation accuracy
+            {{ $t('Translation accuracy') }}
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else
+  class="mt-[30px] bg-white dark:bg-tamkinDarkPrimary rounded-[10px] px-[15px] pb-[24px] shadow-md -shadow-y-[1px] relative animate-pulse"
+>
+  <div class="flex items-center justify-start">
+    <div class="pt-[24px] w-full">
+      <div class="h-[20px] bg-gray-300 dark:bg-gray-700 rounded-md w-2/3 mb-4"></div>
+      <div class="h-[14px] bg-gray-300 dark:bg-gray-700 rounded-md w-full"></div>
+    </div>
+  </div>
+
+  <div
+    class="w-full mt-[24px] mx-auto bg-white dark:bg-tamkinDarkPrimary rounded-lg lg:overflow-x-hidden overflow-x-auto"
+  >
+    <div class="flex items-center justify-between space-x-[40px]">
+      <div
+        class="h-[92px] w-full rounded-[23px] bg-gray-300 dark:bg-gray-700 flex flex-col items-center justify-center space-y-[10px]"
+      >
+        <div class="h-[10px] bg-gray-400 dark:bg-gray-600 rounded-full w-1/4"></div>
+        <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+      </div>
+      <div
+        class="h-[92px] w-full rounded-[23px] bg-gray-300 dark:bg-gray-700 flex flex-col items-center justify-center space-y-[10px]"
+      >
+        <div class="h-[10px] bg-gray-400 dark:bg-gray-600 rounded-full w-1/4"></div>
+        <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+      </div>
+      <div
+        class="h-[92px] w-full rounded-[23px] bg-gray-300 dark:bg-gray-700 flex flex-col items-center justify-center space-y-[10px]"
+      >
+        <div class="h-[10px] bg-gray-400 dark:bg-gray-600 rounded-full w-1/4"></div>
+        <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between w-full mt-[66px]">
+      <div class="grid grid-cols-12 w-full">
+        <div
+          class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
+        >
+          <div
+            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+          >
+            <div class="space-y-[16px]">
+              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rounded-[10px] col-span-12 lg:w-[89%] ipad-max:w-full 2xl:w-[85%]"
+        >
+          <div
+            class="flex justify-between bg-gray-300 dark:bg-gray-700 rounded-[10px] items-center mb-4 relative h-[108px] px-[15px]"
+          >
+            <div class="space-y-[16px]">
+              <div class="h-[14px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3"></div>
+              <div class="h-[24px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-start">
+        <div class="w-1/4 flex justify-center">
+          <div
+            class="rounded-full bg-gray-300 dark:bg-gray-700 h-[80px] w-[80px]"
+          ></div>
+        </div>
+        <div class="h-[18px] bg-gray-400 dark:bg-gray-600 rounded-md w-1/3 mt-[10px]"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </template>
 <style scoped>
-:deep(.percentage-text) {
-  @apply !text-[30px];
-}
 
-:deep(.content) {
-  @apply !top-[-40px];
-}
 </style>
