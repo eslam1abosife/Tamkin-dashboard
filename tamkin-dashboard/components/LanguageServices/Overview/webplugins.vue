@@ -21,7 +21,7 @@ const navStore = useNavbarStore();
 const collapseStore = useCollapseStore();
 const customizeStore = useCustomizeStore();
 const colorMode = useColorMode();
-
+const statsStore = useStatsStore();
 const chart12 = ref("");
 const chartData = ref({
   labels: [
@@ -246,8 +246,7 @@ watch(
       }
     );
 onMounted(async () => {
-  await nextTick();
-  updateChartOptions(colorMode.preference);
+
 });
 
 watch(() => colorMode.preference, async (newVal) => {
@@ -260,7 +259,15 @@ const myStyles = computed(() => ({
   width: "100%",
   position: "relative",
 }));
+import { useGetSignLangStats } from "@/composables/useAccessibility";
 
+const { getStatsSignLanguage } = useGetSignLangStats();
+onBeforeMount(async () => {
+  
+  await getStatsSignLanguage();
+  await nextTick();
+  updateChartOptions(colorMode.preference);
+})
 </script>
 
 <template>
@@ -270,11 +277,12 @@ const myStyles = computed(() => ({
       :class="[collapseStore.collapses.includes('webplugins_chart_card') ? 'pb-[24px]' : 'pb-[10px]']">
       <div class="flex items-center justify-start pt-[16px]">
         <div>
-          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">Web Plugins</h1>
+          <h1 class="text-[14px] lg:text-[18px] font-[500] leading-[30px] dark:text-whiteTamkin">{{$t('Web Plugins')}}</h1>
           <p class="text-[12px] lg:text-[14px] leading-[24px] font-[400] text-[#585B5B] dark:text-whiteTamkin pt-[6px]">
-            Analyze the uses of Web Plugins and the number of times Plugins are used
+            {{ $t('Analyze the uses of Web Plugins and the number of times Plugins are used') }}
           </p>
         </div>
+        {{ statsStore.chartsData }}
       </div>
       <div v-if="!collapseStore.collapses.includes('webplugins_chart_card')"
         class="container_chart mt-[30px] h-[300px] w-full relative  ">

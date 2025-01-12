@@ -30,10 +30,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const isLanguageLoading = ref(false);
 
   // Hook into the language switch event
-  nuxtApp.$i18n.onBeforeLanguageSwitch = () => {
-    isLanguageLoading.value = true; // Show the loader
- 
-  };
+
   const updateChatwootOnLanguageChange = () => {
     // Ensure the widget is closed and hidden
     // if (window.$chatwoot) {
@@ -52,16 +49,21 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   
   
   };
-  nuxtApp.$i18n.onLanguageSwitched = () => {
-
-    updateChatwootOnLanguageChange()
-
-    isLanguageLoading.value = false; // Hide the loader after switching
-
-
+  nuxtApp.$i18n.onBeforeLanguageSwitch = (oldLocale, newLocale) => {
+    console.log("Before switching:", oldLocale, "->", newLocale);
+    isLanguageLoading.value = true; // Show loader
+    console.log("isLanguageLoading (before):", isLanguageLoading.value);
   };
+  
+  nuxtApp.$i18n.onLanguageSwitched = async (oldLocale, newLocale) => {
+    isLanguageLoading.value = false; 
 
-  // Provide the loading state so it can be used globally
+    // console.log("Switched from:", oldLocale, "to:", newLocale);
+    // await updateChatwootOnLanguageChange();
+    // alert('flag updated ')
+    // console.log("isLanguageLoading (after):", isLanguageLoading.value);
+  };
+  
   nuxtApp.provide('langloader', isLanguageLoading);
 
 

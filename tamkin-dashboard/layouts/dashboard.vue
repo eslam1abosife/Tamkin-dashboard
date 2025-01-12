@@ -320,8 +320,13 @@ const updateNewValues = () => {
       JSON.stringify(settingsStore.checkboxes)
     );
   }
-};
-
+}; 
+const {$langloader}  = useNuxtApp();
+// const isLanguageLoading = nuxtApp.$langloader;
+const languageLoadernew = ref($langloader)
+watch($langloader, (newValue) => {
+  console.log('Language loading state:', newValue); // Ensure this logs changes
+});
 const openModals = computed(() => {
   return (
     isOpen("shareModal") ||
@@ -889,9 +894,10 @@ const loadf = ref(true);
       class="relative dark:bg-p bg_dashboard min-h-screen w-full"
       :class="[!navStoreRef.sideBarOpen ? 'flex' : 'flex']"
     >
-      <div class="vl-parent">
+
+    <div class="vl-parent">
         <Loading
-          v-model:active="$langloader"
+          v-model:active="languageLoadernew"
           :can-cancel="false"
           :is-full-page="true"
           opacity="0.95"
@@ -1009,7 +1015,7 @@ const loadf = ref(true);
         @control-confirm="closeModal('resetModal')"
         @control-cancel="closeModal('resetModal')"
       />
-
+   
       <div
         class="lg:relative flex items-center justify-start flex-col overflow-y-auto bg-[#FFFEFE] dark:bg-tamkinDarkPrimary z-[999] border-l-0 border-t-0 border-b-0 rtl:border-l ltr:border-r border-[1px] border-lightGrey dark:border-darkborder w-full"
         :class="[
