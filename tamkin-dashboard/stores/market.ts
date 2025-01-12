@@ -266,14 +266,7 @@ export const useMarketStore = defineStore("market", {
       category_image = ""
     ) {
       const playerStore = usePlayerStore();
-      const ifOwn = playerStore.charactersIOwn.some((char) => {
-        console.log(char.name)
-        console.log(item)
-        console.log(char.name === item.parent)
-        char.name === item.parent
-      });
-      
-      if(ifOwn) {
+      if(playerStore.activeCharacter.is_package || playerStore.activeCharacter.is_purchased) {
         this.addToCart(item, type, category_title, category_image)
       } else {
         useNuxtApp().$toast(useNuxtApp().$i18n.t("Buy the character first"), {
