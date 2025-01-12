@@ -183,7 +183,6 @@ export const useMarketStore = defineStore("market", {
         const { customCharacterCost } = useEditCustomerCharacter();
         new_item.cost = customCharacterCost.value.offer_cost;
         new_item.item_offer_cost = customCharacterCost.value.offer_cost;
-        new_item.cost = customCharacterCost.value.offer_cost;
         new_item.item_cost = customCharacterCost.value.cost;
         new_item.gender = new_item.gender ? "Male" : "Female";
         new_item.image = new_item.images;
