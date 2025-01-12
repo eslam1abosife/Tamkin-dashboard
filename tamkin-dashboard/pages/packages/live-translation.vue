@@ -5,7 +5,7 @@ definePageMeta({
 });
 const moreDetails = ref(false);
 const pricingType = ref("monthly");
-const packagesStore = usePackgesStore()
+const packagesStore = usePackgesStore();
 const switchBetweenMonthlyAndAnnual = (v: any) => {
   pricingType.value = v;
 };
@@ -19,191 +19,228 @@ const boxShadowStyle = computed(() => {
 });
 const annual_prices = ref(false);
 
-
 provide("pricingType", pricingType);
 </script>
 
 <template>
   <div class="w-full relative px-[40px]">
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
-      <div class="text-[18px] font-[700] leading-[35px]  whitespace-nowrap" >
-        <div v-html="packagesStore.getPackageDetails('Live Translation','Package','bundle').color_title"></div>   
-
+      <div class="text-[18px] font-[700] leading-[35px] whitespace-nowrap">
+        <div
+          v-html="
+            packagesStore.getPackageDetails(
+              'Live Translation',
+              'Package',
+              'bundle'
+            ).color_title
+          "
+        ></div>
       </div>
 
-   
       <div
-        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12"
+        class="text-[14px] font-[400] leading-[20px] text-[#18181B] text-center w-7/12 dark:text-whiteTamkin"
       >
-      {{packagesStore.getPackageDetails('Accessibility','Web Plugins Package').description}}  
-
+        {{
+          packagesStore.getPackageDetails(
+            "Accessibility",
+            "Web Plugins Package"
+          ).description
+        }}
       </div>
     </div>
     <div
-    class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[100px] p-[4px] border border-gray-300"
-  >
-    <button
-      @click="switchBetweenMonthlyAndAnnual('monthly')"
-      :class="[pricingType === 'monthly' ? 'bg-white dark:bg-light rounded-full' : '']"
-      class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+      class="flex items-center justify-between rounded-full bg-tamkinLight h-[32px] dark:bg-transparent dark:border-darkGrey absolute right-[3.3%] top-[100px] p-[4px] border border-gray-300"
     >
-      Monthly
-    </button>
-    <button
-      :class="[pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '']"
-      @click="switchBetweenMonthlyAndAnnual('annual')"
-      class="h-[22px] p-1 transition-all ease-in-out flex items-center justify-center"
+      <button
+        @click="switchBetweenMonthlyAndAnnual('monthly')"
+        :class="[
+          pricingType === 'monthly'
+            ? 'bg-white dark:bg-light rounded-full'
+            : '',
+        ]"
+        class="w-[68px] transition-all h-[22px] flex items-center justify-center ease-in-out text-darkGrey dark:text-whiteTamkin font-[500] text-[10px] leading-[22.5px]"
+      >
+        Monthly
+      </button>
+      <button
+        :class="[
+          pricingType === 'annual' ? 'bg-white dark:bg-light rounded-full' : '',
+        ]"
+        @click="switchBetweenMonthlyAndAnnual('annual')"
+        class="h-[22px] p-1 transition-all ease-in-out flex items-center justify-center"
+      >
+        <div class="text-darkGrey dark:text-whiteTamkin font-[500] text-[10px]">
+          Annual
+        </div>
+        <div
+          class="ml-1 !text-black dark:!text-whiteTamkin/80 !text-[10px] !font-[600]"
+        >
+          SAVE 12%
+        </div>
+      </button>
+    </div>
+
+    <div
+      class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[68px]"
     >
-      <div class="text-darkGrey dark:text-whiteTamkin font-[500] text-[10px]">
-        Annual
-      </div>
-      <div class="ml-1 !text-black dark:!text-whiteTamkin/80 !text-[10px] !font-[600]">
-        SAVE 12%
-      </div>
-    </button>
-  </div>
-
-
-    <div class="flex flex-col items-center justify-center bg-white rounded-[10px] mt-[68px] ">
       <div class="flex items-center justify-center flex-col w-full px-[18px]">
         <div
-        class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap  
-        mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 md:rtl:space-x-reverse space-x-10 md:flex-nowrap ipad-max:rtl:space-x-reverse space-x-10
-         lg:rtl:space-x-reverse space-x-24 2xl:rtl:space-x-reverse space-x-44 "
-    
-      >
-        <div
-          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
+          class="flex items-center justify-center lg:justify-between lg:flex-nowrap flex-wrap mt-[64px] w-full lg:space-y-0 space-y-10 md:space-y-0 md:rtl:space-x-reverse space-x-10 md:flex-nowrap ipad-max:rtl:space-x-reverse space-x-10 lg:rtl:space-x-reverse space-x-24 2xl:rtl:space-x-reverse space-x-44"
         >
           <div
-            class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
           >
-            ${{ annual_prices ? 1200 : "100.00" }}
-            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
-          </div>
-          <div
-            class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-          >
-            For 1 million characters
-          </div>
-          <div
-            class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-          >
-            Almost 50 Page
-          </div>
-          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
-          <div
-            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
-          >
-            <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+            <div
+              class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+            >
+              ${{ annual_prices ? 1200 : "100.00" }}
+              <span class="text-[13px]"
+                >/{{ annual_prices ? "year" : "mo" }}</span
+              >
             </div>
             <div
-              class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
             >
-              Live translation
-            </div>
-          </div>
-          <button
-            class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
-          >
-            Upgrade Now
-          </button>
-          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" />
-          </div>
-        </div>
-    
-        <div
-          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
-        >
-          <div
-            class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
-          >
-            ${{ annual_prices ? 2400 : "200.00" }}
-            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
-          </div>
-          <div
-            class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-          >
-            For 1 million characters
-          </div>
-          <div
-            class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-          >
-            Almost 100 Page
-          </div>
-          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
-          <div
-            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
-          >
-            <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+              For 1 million characters
             </div>
             <div
-              class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
             >
-              Live translation
+              Almost 50 Page
+            </div>
+            <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+            <div
+              class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
+            >
+              <div>
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
+              </div>
+              <div
+                class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              >
+                Live translation
+              </div>
+            </div>
+            <button
+              class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
+            >
+              Upgrade Now
+            </button>
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+            >
+              <img src="/assets/imgs/addons/live_icon.svg" />
             </div>
           </div>
-          <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">Active</button>
-          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" />
-          </div>
-        </div>
-    
-        <div
-          class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
-        >
+
           <div
-            class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
           >
-            ${{ annual_prices ? 3600 : "300.00" }}
-            <span class="text-[13px]">/{{ annual_prices ? "year" : "mo" }}</span>
-          </div>
-          <div
-            class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
-          >
-            For 2 million characters
-          </div>
-          <div
-            class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
-          >
-            Almost 500 Page
-          </div>
-          <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
-          <div
-            class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
-          >
-            <div>
-              <img src="/assets/imgs/addons/live_icon.svg" class="w-[23px] h-[23px]" />
+            <div
+              class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+            >
+              ${{ annual_prices ? 2400 : "200.00" }}
+              <span class="text-[13px]"
+                >/{{ annual_prices ? "year" : "mo" }}</span
+              >
             </div>
             <div
-              class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
             >
-              Live translation
+              For 1 million characters
+            </div>
+            <div
+              class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
+            >
+              Almost 100 Page
+            </div>
+            <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+            <div
+              class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
+            >
+              <div>
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
+              </div>
+              <div
+                class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              >
+                Live translation
+              </div>
+            </div>
+            <button class="btn-dashboard hover_tamkin mt-[24px] w-[140px]">
+              Active
+            </button>
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+            >
+              <img src="/assets/imgs/addons/live_icon.svg" />
             </div>
           </div>
-          <button
-            class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
+
+          <div
+            class="w-full max-w-[270px] flex flex-col items-center justify-start h-[267px] relative custom-border rounded-big rounded-[19px] hover:bg-selected dark:hover:bg-p"
           >
-            Upgrade Now
-          </button>
-          <div class="absolute top-[-35px] left-1/2 transform -translate-x-1/2">
-            <img src="/assets/imgs/addons/live_icon.svg" />
+            <div
+              class="text-[14px] lg:text-[20px] font-[600] text-[#021328] dark:text-whiteTamkin mt-[48px]"
+            >
+              ${{ annual_prices ? 3600 : "300.00" }}
+              <span class="text-[13px]"
+                >/{{ annual_prices ? "year" : "mo" }}</span
+              >
+            </div>
+            <div
+              class="text-[14px] font-[500] text-[#021328] dark:text-whiteTamkin mt-[12px]"
+            >
+              For 2 million characters
+            </div>
+            <div
+              class="text-[13px] font-[500] text-[#A7A7A7] dark:text-whiteTamkin mt-[12px]"
+            >
+              Almost 500 Page
+            </div>
+            <div class="w-full custom-border padding-override-1 mt-[4px]"></div>
+            <div
+              class="flex items-center justify-evenly mt-[12px] rtl:rtl:space-x-reverse space-x-reverse rtl:space-x-reverse space-x-[6px]"
+            >
+              <div>
+                <img
+                  src="/assets/imgs/addons/live_icon.svg"
+                  class="w-[23px] h-[23px]"
+                />
+              </div>
+              <div
+                class="text-[12px] leading-[14.16px] font-[500] text-black dark:text-whiteTamkin"
+              >
+                Live translation
+              </div>
+            </div>
+            <button
+              class="btn_bordered_dashboard mt-[24px] !text-darkGrey dark:!text-whiteTamkin hover:!text-white"
+            >
+              Upgrade Now
+            </button>
+            <div
+              class="absolute top-[-35px] left-1/2 transform -translate-x-1/2"
+            >
+              <img src="/assets/imgs/addons/live_icon.svg" />
+            </div>
           </div>
         </div>
-      </div>
         <!-- PACKAGES-->
-    
+
         <!-- SHOW MORE DETAILS-->
-    
+
         <div
           @click="openMoreDetails"
           :style="boxShadowStyle"
           :class="[moreDetails ? 'bg-[#35C0B4] !text-white  ' : 'bg-white  ']"
-          class="hover:bg-[#35C0B4] hover:text-white group w-full mx-auto my-[29px]  h-[37px] 
-          rounded-b-[10px] rtl:space-x-reverse space-x-[20px] cursor-pointer flex items-center justify-center"
+          class="hover:bg-[#35C0B4] hover:text-white group w-full mx-auto my-[29px] h-[37px] rounded-b-[10px] rtl:space-x-reverse space-x-[20px] cursor-pointer flex items-center justify-center"
         >
           <div
             class="text-[14px] font-[500] leading-[21px] group-hover:text-white"
@@ -228,9 +265,9 @@ provide("pricingType", pricingType);
             </svg>
           </div>
         </div>
-    
+
         <div
-          class="overflow-x-auto w-full mx-auto rounded-[8px] mb-[32px] "
+          class="overflow-x-auto w-full mx-auto rounded-[8px] mb-[32px]"
           v-if="moreDetails"
         >
           <table class="min-w-full bg-white">
@@ -260,7 +297,9 @@ provide("pricingType", pricingType);
             </thead>
             <tbody class="divide-y divide-gray-200">
               <tr>
-                <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
+                <td
+                  class="px-6 py-4 text-sm font-medium text-gray-900 text-left"
+                >
                   <div
                     class="flex items-center justify-start text-[12px] leading-[12px] text-darkGrey dark:text-whiteTamkin relative"
                   >
@@ -306,9 +345,11 @@ provide("pricingType", pricingType);
                   />
                 </td>
               </tr>
-    
+
               <tr>
-                <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
+                <td
+                  class="px-6 py-4 text-sm font-medium text-gray-900 text-left"
+                >
                   Live Translations - addons
                   <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i>
                 </td>
@@ -325,7 +366,9 @@ provide("pricingType", pricingType);
                 </td>
               </tr>
               <tr>
-                <td class="px-6 py-4 text-sm font-medium text-gray-900 text-left">
+                <td
+                  class="px-6 py-4 text-sm font-medium text-gray-900 text-left"
+                >
                   Live Translations - addons
                   <i class="ml-1 text-sm text-gray-400 fas fa-info-circle"></i>
                 </td>
@@ -345,24 +388,21 @@ provide("pricingType", pricingType);
           </table>
         </div>
       </div>
-    
-        <!-- END SHOW MORE DETAILS-->
-    
-        <!-- Additional addons start-->
-    
-     <PackagesLivetranslateAddons />
-    
-        <!-- ADDTIONAL ADDONS END-->
-    
-        <!-- FAQ START-->
-    
-        <PackagesFaq/>
 
-    
-        <!-- FAQ END-->
+      <!-- END SHOW MORE DETAILS-->
 
+      <!-- Additional addons start-->
+
+      <PackagesLivetranslateAddons />
+
+      <!-- ADDTIONAL ADDONS END-->
+
+      <!-- FAQ START-->
+
+      <PackagesFaq />
+
+      <!-- FAQ END-->
     </div>
-
   </div>
 </template>
 

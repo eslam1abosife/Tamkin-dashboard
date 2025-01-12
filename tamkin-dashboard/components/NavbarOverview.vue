@@ -3,7 +3,7 @@ import { ref, onMounted, nextTick, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useWindowSize } from "@vueuse/core";
 import { useNavbarStore } from "@/stores/navbar";
-const {width} = useWindowSize()
+const { width } = useWindowSize();
 const navStore = useNavbarStore();
 const route = useRoute();
 const currentRoute = ref(route.path);
@@ -58,14 +58,14 @@ watch(
   () => width.value,
   () => {
     moveSlider(currentRoute.value);
-  })
+  }
+);
 </script>
 
 <template>
   <div
     ref="navContainer"
-    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white
-     dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
+    class="shadow-sm absolute z-[80] top-[160px] left-0 w-full h-[43px] rounded-[22px] bg-white dark:bg-tamkinDarkPrimary flex items-center justify-between px-[4px]"
   >
     <!-- Slider -->
     <div
@@ -75,39 +75,37 @@ watch(
 
     <!-- Links -->
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/overview')"
     >
       {{ $t("Overview") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/addons')"
     >
       {{ $t("Addons") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/statistics')"
     >
       {{ $t("Statistics") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/customize')"
     >
       {{ $t("Customize") }}
     </nuxt-link>
     <nuxt-link
-      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center"
+      class="relative z-[20] w-[96px] h-[31px] flex items-center justify-center dark:text-whiteTamkin"
       :to="localePath('/settings')"
     >
       {{ $t("Settings") }}
     </nuxt-link>
   </div>
 </template>
-
-
 
 <style scoped>
 /*
@@ -136,7 +134,4 @@ a {
 a:hover {
   text-decoration: none;
 }
-
-
-
 </style>
