@@ -944,7 +944,9 @@ const loadscountSummary = computed(
             :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
           />
           <div v-else class="flex items-center justify-center h-full w-full">
-            <h1 class="text-center">{{ $t("No data available yet") }}</h1>
+            <h1 class="text-center dark:text-whiteTamkin">
+              {{ $t("No data available yet") }}
+            </h1>
           </div>
         </div>
 
@@ -998,7 +1000,9 @@ const loadscountSummary = computed(
             :class="[navStore.sideBarOpen ? '' : 'mx-auto']"
           />
           <div v-else class="flex items-center justify-center h-full w-full">
-            <h1 class="text-center">{{ $t("No data available yet") }}</h1>
+            <h1 class="text-center dark:text-whiteTamkin">
+              {{ $t("No data available yet") }}
+            </h1>
           </div>
         </div>
       </div>

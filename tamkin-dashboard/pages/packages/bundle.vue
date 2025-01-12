@@ -131,7 +131,7 @@ onUpdated(() => {});
   >
     <div class="flex flex-col items-center justify-center w-full mt-[26px]">
       <div
-        class="text-[18px] font-[700] leading-[35px] dark:text-whiteTamkin text-black w-full flex items-center justify-center"
+        class="text-[18px] font-[700] leading-[35px] dark:text-whiteTamkin  text-black w-full flex items-center justify-center"
       >
         <div
           v-html="`${$t(packagesStore.getPackageDetails().color_title)}`"

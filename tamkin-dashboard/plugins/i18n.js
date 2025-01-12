@@ -60,7 +60,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
     // console.log("Switched from:", oldLocale, "to:", newLocale);
     // await updateChatwootOnLanguageChange();
-    alert('flag updated ')
+    // alert('flag updated ')
     // console.log("isLanguageLoading (after):", isLanguageLoading.value);
   };
   
