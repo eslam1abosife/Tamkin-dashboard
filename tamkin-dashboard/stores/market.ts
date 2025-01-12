@@ -227,14 +227,12 @@ export const useMarketStore = defineStore("market", {
         let cartItemsCount = this.cartItems.push(cartItem);
         // Show notification if it's the first item and the notification hasn't been shown yet
         if (type !== "custom_character") {
-          await getCartItems();
           if (cartItemsCount === 1 && !this.firstItemNotificationShown) {
             this.showFirstItemNotification();
             this.firstItemNotificationShown = true;
           }
           this.animateCartIcon();
         }
-        // alert(cartItemsCount)
 
         var cartItemName;
         if (type === "custom_character") {
@@ -259,6 +257,29 @@ export const useMarketStore = defineStore("market", {
         this.cartItems[cartItemsCount - 1].name = cartItemName; // To be used when deleting the item
       } else {
         this.removeFromCart(item, type, false);
+      }
+    },
+    async addSkinToCart(
+      item: any,
+      type = "skin_Item",
+      category_title = "Character",
+      category_image = ""
+    ) {
+      const playerStore = usePlayerStore();
+      const ifOwn = playerStore.charactersIOwn.some((char) => {
+        console.log(char.name)
+        console.log(item)
+        console.log(char.name === item.parent)
+        char.name === item.parent
+      });
+      
+      if(ifOwn) {
+        this.addToCart(item, type, category_title, category_image)
+      } else {
+        useNuxtApp().$toast(useNuxtApp().$i18n.t("Buy the character first"), {
+          hideIn: 3000,
+          type: 'error'
+        });
       }
     },
     // @param {boolean} [is_cart_item=true] - Whether the cart item is being deleted: from the cart or from the items listing.

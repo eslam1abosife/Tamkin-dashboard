@@ -192,7 +192,7 @@ const props = defineProps(["currentCategoryWithSkinItems"]);
               @click.stop="
                 () => {
                   if (defaultApp) {
-                    marketStore.addToCart(
+                    marketStore.addSkinToCart(
                       skin_item,
                       'skin_Item',
                       currentCategoryWithSkinItems.text,

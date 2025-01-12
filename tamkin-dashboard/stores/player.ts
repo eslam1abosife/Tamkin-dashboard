@@ -564,6 +564,9 @@ activeCharCurrentlyWearedSkinsCategories: (state) => {
         state.characters[0]
       );
     },
+    charactersIOwn (state) {
+      return state.characters.filter( (char: any) => char.is_package || char.is_purchased);
+    }
   },
 });
 
